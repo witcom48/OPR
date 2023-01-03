@@ -37,6 +37,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+yarn.lock
 
 # Compiled files
 layout.css
