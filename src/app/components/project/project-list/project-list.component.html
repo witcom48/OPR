@@ -1,0 +1,178 @@
+<table class="table_head" style="width: 100%;">
+    <tr>
+        <td align="left">
+            <h4>Project management</h4>
+            <br>
+            <a>Manage</a>
+            |
+            <a>Link</a>
+        </td>
+        <td align="right">
+            
+            <div class="flex">
+                <p style="width: 80px; text-align: left;">
+                    <b>2</b>
+                    <br>
+                    <small>จำนวนโครงการ</small>
+                </p>
+                <p-divider layout="vertical" ></p-divider>        
+                <p style="width: 80px; text-align: left;">
+                    <b>4</b>
+                    <br>
+                    <small>จำนวนพนักงาน</small>
+                </p>
+                <p-divider layout="vertical" ></p-divider>        
+                <p style="width: 80px; text-align: left;">
+                    <b style="color: orange;">2</b>
+                    <br>
+                    <small>โครงการใหม่</small>
+                </p>
+                <p-divider layout="vertical" ></p-divider>        
+                <p style="width: 150px; text-align: left; margin-right: 10px;">
+                    <b>5,850,000.00</b>
+                    <br>
+                    <small>ต้นทุน</small>
+                </p>
+            </div>
+            
+
+        </td>
+    </tr>
+</table>
+
+<p-menubar [model]="items"></p-menubar >
+
+    <div class="grid">
+        <div class="col-12 md:col-9">
+            <p-table #dt2  [value]="project_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProject" (onRowSelect)="onRowSelectProject($event)" dataKey="project_code"
+            
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [globalFilterFields]="['project_code','project_name_th','project_name_short','project_business','project_type','project_start','project_end']"
+            >
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                    </span>
+                </div>
+            </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>		                        
+                        <th style="width:9%">โครงการ</th>
+                        <th style="width:12%">ชื่อโครงการ</th>
+                        <!-- <th style="width:8%">ชื่อย่อ</th> -->
+                        <th>ประเภทธุรกิจ</th>
+                        <th>ประเภทงาน</th>
+                        <th>จากวันที่</th>
+                        <th>ถึงวันที่</th>
+                        <th>จำนวนพนักงาน</th>
+                        <th>ต้นทุน</th>
+                        <th>สถานะ</th>
+                        <th>วันที่อนุมัติ</th>
+                        <th>ผู้ทำรายการ</th>
+                        <th>วันที่ทำรายการ</th>                                                
+                    </tr>	
+                    <tr>
+                        <th>
+                            <p-columnFilter type="text" field="project_code"></p-columnFilter>
+                        </th>
+                        <th>
+                            <p-columnFilter type="text" field="project_name_th"></p-columnFilter>
+                        </th>
+                        <!-- <th>
+                            <p-columnFilter type="text" field="project_name_short"></p-columnFilter>
+                        </th> -->
+                        <th>
+                            <p-columnFilter field="project_business" matchMode="equals" [showMenu]="false">
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-dropdown [ngModel]="value" [options]="pbusiness_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="pbusiness_name_th">
+                                        <ng-template let-option pTemplate="item">
+                                            <span >{{option.pbusiness_name_th}}</span>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
+                        <th>
+                            <p-columnFilter field="project_type" matchMode="equals" [showMenu]="false">
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-dropdown [ngModel]="value" [options]="ptype_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="ptype_name_th">
+                                        <ng-template let-option pTemplate="item">
+                                            <span >{{option.ptype_name_th}}</span>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th> 
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-project>
+                    <tr [pSelectableRow]="project">        
+                        <td>{{project.project_code}}</td>                                
+                        <td>{{project.project_name_th}}</td>
+                        <!-- <td>{{project.project_name_short}}</td> -->
+                        <td>{{project.project_business}}</td>
+                        <td>{{project.project_type}}</td>
+                        <td>{{project.project_start | date:'dd/MM/yyyy '}}</td>  
+                        <td>{{project.project_end | date:'dd/MM/yyyy '}}</td>  
+                        <td style="text-align: center;">{{project.project_emp}}</td>
+                        <td style="text-align: right; padding-right: 30px;">{{project.project_cost | number:'1.2-2'}}</td>                                           
+                        <td>{{project.project_status}}</td>      
+                        <td>{{project.approve_date | date:'dd/MM/yyyy HH:mm'}}</td>  
+                        <td>{{project.modified_by}}</td>      
+                        <td>{{project.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    </tr>
+                </ng-template>      
+              
+
+            </p-table>
+        </div>
+        <div class="col-12 md:col-3">
+            <div class="formgrid grid" *ngIf="edit_project">
+                <span class="spn_title_edit">Project</span>
+                <div class="field col-12 ">
+                    <label for="ppos_code">รหัส</label>    
+                    <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                </div>	
+               
+                <div class="field col-12 ">
+                    <label for="ppos_name_th">ชื่อไทย</label>                        
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProject.project_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                </div>
+                <div class="field col-12 ">
+                    <label for="ppos_name_en">ชื่ออังกฤษ</label>                        
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProject.project_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                </div>
+                
+                <div class="field col-12">
+                    <label for="lastname2">ประเภทธุรกิจ :</label><br>
+                    <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                </div>
+
+                <div class="field col-12">
+                    <label for="lastname2">ประเภทงาน :</label><br>
+                    <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                </div>
+
+                <div class="field col-12">
+                    <p-button label="บันทึก" icon="pi pi-save" ></p-button>
+                    &nbsp;
+                    <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectProject()" class="p-button-secondary"></button>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,210 @@
+<p-menubar [model]="toolbar_menu"></p-menubar>
+<p-card header="Company" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+    <div class="grid">
+        <div class="col-12 md:col-9">
+            <p-tabView >
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">
+                        <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                        <span>ข้อมูลพื้นฐาน</span>
+                    </ng-template>
+
+                    <div class="formgrid grid align-items-end">
+
+                        <div class="field col-12 md:col-3">
+                            <p-image src="../../../../assets/images/bpc.jpg" alt="Image" width="100" height="100"></p-image>
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <p-button label="Upload Logo"></p-button>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label for="lastname2">รหัสบริษัท</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <label for="lastname2">ชื่อย่อ</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="lastname2">ชื่อไทย</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="lastname2">ชื่ออังกฤษ</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div> 
+
+                        <div class="field col-12">
+                            <p-accordion >
+                                <p-accordionTab header="ที่อยู่" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="false" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th style="width:9%">ประเภท</th>                       
+                                                <th style="width:10%">เลขที่</th>
+                                                <th style="width:10%">ถนน</th>
+                                                <th>อำเภอ</th>   
+                                                <th>ตำบล</th>
+                                                <th>จังหวัด</th>   
+                                                <th>รหัสไปรษณีย์</th>
+                                                <th>เบอร์โทรศัพท์</th>
+                                                <th>อีเมล์</th>     
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                             
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                    </div>
+
+                </p-tabPanel>
+
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">
+                        <i class="pi pi-file-edit"></i>&nbsp;&nbsp;
+                        <span>ข้อมูลทั่วไป</span>
+                    </ng-template>
+
+                    <div class="formgrid grid">
+                        
+                        <div class="field col-4">
+                            <label for="lastname2">ชั่วโมงการทำงาน</label>
+                            <br>
+                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
+                            </p-inputNumber>
+                        </div> 
+                        <div class="field col-12 md:col-4">
+                            <label for="lastname2">ประกันสังคมส่วนพนักงาน</label>
+                            <br>
+                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
+                            </p-inputNumber>
+                        </div> 
+                        <div class="field col-12 md:col-4">
+                            <label for="lastname2">ประกันสังคมส่วนบริษัท</label>
+                            <br>
+                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
+                            </p-inputNumber>
+                        </div> 
+
+                        <div class="field col-4">
+                            <label for="lastname2">อายุพนักงานมากสุด</label>
+                            <br>
+                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
+                            </p-inputNumber>
+                        </div> 
+                        <div class="field col-12 md:col-4">
+                            <label for="lastname2">ค่าจ้างตํ่าสุด</label>
+                            <br>
+                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
+                            </p-inputNumber>
+                        </div> 
+                        <div class="field col-12 md:col-4">
+                            <label for="lastname2">ค่าจ้างสูงสุด</label>
+                            <br>
+                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
+                            </p-inputNumber>
+                        </div> 
+
+                        
+                        <div class="field col-12 md:col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ข้อมูลบัตร" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt3  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="false" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt3.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภทบัตร</th>                       
+                                                <th>รหัสบัตร</th>
+                                                <th>วันที่เปิดบัตร</th>
+                                                <th>วันที่หมดอายุ</th>
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ข้อมูลธนาคาร" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt4  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="false" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt4.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ธนาคาร</th>                       
+                                                <th>เลขที่บัญชี</th>
+                                                <th>ชื่อบัญชี</th>
+                                                <th>ธนาคาร(%)</th>
+                                                <th>เงินสด(%)</th>
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>    
+                         
+                    </div>
+
+                </p-tabPanel>
+
+                
+
+            </p-tabView>
+        </div>
+        <div class="col-12 md:col-3">
+            
+        </div>
+    </div>
+</p-card>

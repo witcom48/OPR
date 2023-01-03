@@ -1,0 +1,82 @@
+<span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>View Time</small>
+<hr>
+
+<div class="formgrid grid align-items-end">
+
+    <div class="field col-12 md:col-6">
+        
+        <table style="width: 600px;">
+            <tr>
+                <td>
+                    <i class="pi pi-angle-left" style="font-size: 2rem"></i>
+                </td>
+                <td>
+                    <input id="lastname2" type="text" value="2022120001" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                </td>
+                <td>
+                    <i class="pi pi-angle-right" style="font-size: 2rem"></i>
+                </td>
+                <td>
+                    <i class="pi pi-search" ></i>
+                </td>
+                <td style="width: 300px;">
+                    <input id="lastname2" type="text" value="นายศรัณย์ ศรีห่วง" style="width: 300px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                </td>
+            </tr>
+        </table>
+        
+    </div>
+
+    <div class="field col-12">
+        <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '180rem'}" [scrollable]="true" scrollHeight="600px" [virtualScroll]="true" selectionMode="single"
+        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>  
+                    <th>วันที่</th>                       
+                    <th>กะการทำงาน</th>
+                    <th>เวลาเข้า</th>
+                    <th>เวลาออก</th>
+                    <th>ประเภทวัน</th>
+                   
+                    <th>CH1</th> 
+                    <th>CH2</th> 
+                    <th>CH3</th> 
+                    <th>CH4</th> 
+                    <th>CH5</th> 
+                    <th>CH6</th> 
+                    <th>CH7</th> 
+                    <th>CH8</th> 
+                    <th>CH9</th>   
+                    <th>CH10</th>     
+                    <th>เวลาทำงาน</th>   
+                    <th>เวลาทำงาน (อนุมัติ)</th>
+                    <th>ล่วงเวลา</th>   
+                    <th>ล่วงเวลา (อนุมัติ)</th>
+                    <th>สาย</th>   
+                    <th>สาย (อนุมัติ)</th>
+                    <th>ลางาน</th>   
+                    <th>ลางาน (อนุมัติ)</th>
+                    <th>ผู้ทำรายการ</th>
+                    <th>วันที่ทำรายการ</th>                                                                 
+                </tr>	
+                
+            </ng-template>
+        </p-table>
+
+
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,7 @@
+{
+    "/BpcOpr.svc": {
+      "target": "http://localhost:32207",
+      "secure": false,
+      "logLevel": "debug"
+    }
+  }

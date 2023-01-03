@@ -1,0 +1,755 @@
+<p-menubar [model]="toolbar_menu"></p-menubar>
+<p-card header="Employee management" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+    <div class="grid">
+        <div class="col-12 md:col-9">
+            <p-tabView >
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">
+                        <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                        <span>ข้อมูลทั่วไป</span>
+                    </ng-template>
+
+                    <div class="formgrid grid align-items-end">
+
+                        <div class="field col-12 md:col-3">
+                            <p-image src="../../../../assets/images/people.png" alt="Image" width="150" height="150"></p-image>
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <p-button label="Upload Images"></p-button>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label for="firstname2">รหัสพนักงาน</label>
+                            <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>		
+                        <div class="field col-12 md:col-4">
+                            <label for="lastname2">รหัสบัตร</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>		
+                        <div class="field col-12 md:col-5"></div>
+
+                        <div class="field col-12 md:col-3">
+                            <label for="lastname2">คำนำหน้า :</label><br>
+                            <p-dropdown placeholder="นาย" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label for="lastname2">ชื่อ</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+                        <div class="field col-12 md:col-5">
+                            <label for="lastname2">นามสกุล</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div> 
+
+                        <div class="field col-12 md:col-3">
+                            <label for="lastname2">Initial :</label><br>
+                            <p-dropdown placeholder="Mr." optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label for="lastname2">Firstname</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+                        <div class="field col-12 md:col-5">
+                            <label for="lastname2">Lastname</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div> 
+                        
+                        <div class="field col-12"><hr></div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">ประเภทพนักงาน :</label><br>
+                            <p-dropdown placeholder="รายเดือน" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">สถานะพนักงาน :</label><br>
+                            <p-dropdown placeholder="ประจำ" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">วันเกิด :</label><br>
+                            <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">วันที่เริ่มงาน :</label><br>
+                            <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">ชั่วโมงการทำงาน</label>
+                            <br>
+                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
+                            </p-inputNumber>
+                            
+                        </div> 
+                        <div class="field col-6">
+                            <label for="lastname2">จำนวนวันทดลองงาน</label>
+                            <br>
+                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
+                            </p-inputNumber>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">วันที่เริ่มทดลองงาน :</label><br>
+                            <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">วันที่สิ้นสุดทดลองงาน :</label><br>
+                            <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-12"><hr></div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">วันที่ลาออก :</label><br>
+                            <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">วันที่มีผล :</label><br>
+                            <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">เหตุผลการลาออก :</label><br>
+                            <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+                                                
+                               
+
+                    </div>
+
+                </p-tabPanel>
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">
+                        <i class="pi pi-user"></i>&nbsp;&nbsp;
+                        <span>ข้อมูลส่วนตัว</span>
+                    </ng-template>
+
+                    <div class="formgrid grid">
+                        <div class="field col-6">
+                            <label for="lastname2">ศาสนา :</label><br>
+                            <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">กรุ๊ปเลือด :</label><br>
+                            <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="firstname2">ส่วนสูง</label>
+                            <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="firstname2">นํ้าหนัก</label>
+                            <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ที่อยู่" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th style="width:9%">ประเภท</th>                       
+                                                <th style="width:10%">เลขที่</th>
+                                                <th style="width:10%">ถนน</th>
+                                                <th>อำเภอ</th>   
+                                                <th>ตำบล</th>
+                                                <th>จังหวัด</th>   
+                                                <th>รหัสไปรษณีย์</th>
+                                                <th>เบอร์โทรศัพท์</th>
+                                                <th>อีเมล์</th>     
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                             
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ข้อมูลบัตร" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt3  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt3.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภทบัตร</th>                       
+                                                <th>รหัสบัตร</th>
+                                                <th>วันที่เปิดบัตร</th>
+                                                <th>วันที่หมดอายุ</th>
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ข้อมูลธนาคาร" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt4  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt4.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ธนาคาร</th>                       
+                                                <th>เลขที่บัญชี</th>
+                                                <th>ชื่อบัญชี</th>
+                                                <th>ธนาคาร(%)</th>
+                                                <th>เงินสด(%)</th>
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>       
+                        
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ข้อมูลครอบครัว" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt5  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt5.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภท</th>                       
+                                                <th>เลขที่บัตรประชาชน</th>
+                                                <th>คำนำ</th>
+                                                <th>ชื่อ</th>
+                                                <th>นามสกุล</th>
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>  
+                        
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ข้อมูลโรงพยาบาล" >
+                                   
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>  
+                        
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ข้อมูลพนักงานต่างด้าว" ></p-accordionTab>
+                            </p-accordion>
+                        </div>   
+                    </div>
+
+                </p-tabPanel>
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">
+                        <i class="pi pi-history"></i>&nbsp;&nbsp;
+                        <span>ข้อมูลประวัติ</span>
+                    </ng-template>
+
+                    <div class="formgrid grid">
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="สังกัด" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt8  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt8.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>                       
+                                                <th>ระดับ 1</th>
+                                                <th>ระดับ 2</th>
+                                                <th>ระดับ 3</th>
+                                                <th>ระดับ 4</th>                                               
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ตำแหน่ง" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt9  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt9.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>                       
+                                                <th>ตำแหน่ง</th>
+                                                <th>เหตุผล</th>
+                                                <th>ระดับ</th>                                                                                          
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ประวัติการศึกษา" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt10  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt10.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>สถานศึกษา</th>                       
+                                                <th>วันที่เริ่ม</th>
+                                                <th>วันที่จบ</th>
+                                                <th>คณะ</th>  
+                                                <th>วิชาเอก</th>  
+                                                <th>วิชาโท</th>    
+                                                <th>วุฒิการศึกษา</th>  
+                                                <th>เกรดเฉลี่ย</th>                                                                                         
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ประวัติการอบรม" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt10  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt10.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>สถาบัน/สถานที่</th>     
+                                                <th>หลักสูตร</th>  
+                                                <th>ครั้งที่</th>                   
+                                                <th>จากวันที่</th>
+                                                <th>ถึงวันที่</th>                                                 
+                                                <th>ผลการอมรบ</th>                                                       
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ประวัติการประเมิน" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt11  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt11.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>สถานที่</th>   
+                                                <th>หัวข้อ</th>                      
+                                                <th>จากวันที่</th>
+                                                <th>ถึงวันที่</th>                                               
+                                                <th>ครั้งที่</th>  
+                                                <th>ผลการประเมิน</th>                                                       
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ประวัติการตรวจสอบอาชญากรรม" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt12  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt12.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>สถานที่</th>                                                                
+                                                <th>จากวันที่</th>
+                                                <th>ถึงวันที่</th>                                               
+                                                <th>ครั้งที่</th>  
+                                                <th>ผลการตรวจสอบ</th>                                                       
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        
+
+                    </div>
+
+                    
+                </p-tabPanel>
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">
+                        <i class="pi pi-money-bill"></i>&nbsp;&nbsp;
+                        <span>การเงิน</span>
+                    </ng-template>
+
+                    <div class="formgrid grid">
+
+                        <div class="field col-6">
+                            <label for="lastname2">การคำนวณภาษี :</label><br>
+                            <p-dropdown placeholder="พนักงานจ่ายเอง" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+                        <div class="field col-6">
+
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="เงินเดือน/ค่าจ้าง" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt13  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt13.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>                                                                
+                                                <th>เงินเดือน/ค่าจ้าง</th>
+                                                <th>ประเภท</th>                                               
+                                                <th>เหตุผล</th>                                                                                                       
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="สวัสดิการ" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt14  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt14.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>                                                                
+                                                <th>ชื่อเงินได้/เงินหัก</th>
+                                                <th>จำนวนเงิน</th>                                               
+                                                <th>เงื่อนไขการจ่าย</th>       
+                                                <th>เหตุผล</th>                                                                                                       
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="กองทุนสำรองเลี้ยงชีพ" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt15  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt15.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>                                                                
+                                                <th>แผนกองทุนฯ</th>
+                                                <th>สะสม %</th>                                               
+                                                <th>สมทบ %</th>                                                                                                                                                         
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="ค่าลดหย่อน" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt16  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt16.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภทค่าลดหย่อน</th>                                                                
+                                                <th>จำนวนเงิน</th>
+                                                <th>จำนวน %</th>                                                                                                                                    
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="รายได้สะสม/ภาษีสะสม" >
+                                    <p-menubar [model]="items"></p-menubar>
+                                    <p-table #dt17  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '150rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text" (input)="dt17.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่จ่าย</th>                                                                
+                                                <th>เงินได้คำนวณภาษี</th>
+                                                <th>เงินได้ไม่คำนวณภาษี</th>
+                                                <th>เงินหักคำนวณภาษี</th>
+                                                <th>เงินหักไม่คำนวณภาษี</th>
+                                                <th>40(1)</th>
+                                                <th>40(1) ร้อยละ 3</th>
+                                                <th>40(1)(2)</th>
+                                                <th>40(2)</th>
+                                                <th>ภาษี 40(1)</th>
+                                                <th>ภาษี 40(1) ร้อยละ 3</th>
+                                                <th>ภาษี 40(1)(2)</th>
+                                                <th>ภาษี 40(2)</th>                                              
+                                                <th>ประกันสังคมสะสม</th>   
+                                                <th>ประกันสังคมสมทบ</th>   
+                                                <th>กองทุนฯสะสม</th> 
+                                                <th>กองทุนฯสมทบ</th>                                                                                                                                    
+                                                <th>ผู้ทำรายการ</th>   
+                                                <th>วันที่ทำรายการ</th>                                                                                          
+                                            </tr>	
+                                            
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
+                    
+                </p-tabPanel>
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">
+                        
+                        <span>ประวัติการโอนย้ายหน่วยงาน</span>
+                    </ng-template>
+                    <p-menubar [model]="items"></p-menubar>
+                    <p-table #dt17  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                    >
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <span class="p-input-icon-left ml-auto">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text" (input)="dt17.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>หน่วยงาน</th>  
+                                <th>ประเภทงาน</th>                                                                
+                                <th>จากวันที่</th>
+                                <th>ถึงวันที่</th>   
+                                <th>เงินเดือน/ค่าจ้าง</th>  
+                                <th>ค่าล่วงเวลา</th>  
+                                <th>อื่นๆ</th>                                                                                                                                   
+                                <th>ผู้ทำรายการ</th>   
+                                <th>วันที่ทำรายการ</th>                                                                                          
+                            </tr>	
+                            
+                        </ng-template>
+                    </p-table>
+                    
+                </p-tabPanel>
+            </p-tabView>
+
+        </div>
+        <div class="col-12 md:col-3">
+            
+        </div>
+    </div>
+
+</p-card>

@@ -1,0 +1,70 @@
+<table class="table_head" style="width: 100%;">
+    <tr>
+        <td align="left">
+            <h4>Recruitment</h4>
+            <br>
+            <a>Request</a>
+            |
+            <a>Link</a>
+        </td>
+        <td align="right">
+            
+            <div class="flex">
+                <p style="width: 80px; text-align: left;">
+                    <b>2</b>
+                    <br>
+                    <small>จำนวนร้องขอ</small>
+                </p>
+                <p-divider layout="vertical" ></p-divider>        
+                <p style="width: 80px; text-align: left;">
+                    <b>1</b>
+                    <br>
+                    <small>สมัครงาน</small>
+                </p>
+                <p-divider layout="vertical" ></p-divider>        
+                <p style="width: 80px; text-align: left;">
+                    <b style="color: orange;">0</b>
+                    <br>
+                    <small>ว่าจ้าง</small>
+                </p>
+                
+            </div>
+            
+
+        </td>
+    </tr>
+</table>
+
+<p-menubar [model]="items"></p-menubar >
+    <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="350px" [virtualScroll]="true" selectionMode="single"
+    [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[20,50,100]" 
+    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>                
+                <th>วันที่ร้องขอ</th>   
+                <th>หน่วยงาน</th>
+                <th>งาน</th>   
+                <th>ประเภทงาน</th>
+                <th>ประเภทพนักงาน</th>
+                <th>จำนวน</th>
+                <th>ความเร่งด่วน</th>
+                <th>อัตราค่าจ้าง</th>  
+                <th>ค่าล่วงเวลา</th>  
+                <th>อื่นๆ</th>     
+                <th>การอนุมัติ</th>   
+                <th>วันที่อนุมัติ</th>
+                <th>ผู้ทำรายการ</th>   
+                <th>วันที่ทำรายการ</th>                                             
+            </tr>	
+            
+        </ng-template>
+    </p-table>

@@ -1,0 +1,148 @@
+<span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Import</small>
+<hr>
+
+<div class="grid">
+
+    <div class="col-12 md:col-9">
+        <p-tabView >
+            <p-tabPanel  [selected]="true">
+                <ng-template pTemplate = "header">
+                    <i class="pi pi-file-import"></i>&nbsp;&nbsp;
+                    <span>Import</span>
+                </ng-template>
+
+                <p-fileUpload name="myfile[]" ></p-fileUpload>
+
+                <p-table #dt3  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single"
+                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
+                >
+                    <ng-template pTemplate="header">
+                        <tr>                                                  
+                            <th>รหัสบัตร</th>
+                            <th>วันที่</th>
+                            <th>เวลา</th>
+                            <th>ฟังก์ชั่น</th>   
+                            <th>รหัสเครื่อง</th>                                                                                          
+                        </tr>	
+                        
+                    </ng-template>
+                </p-table>
+
+            </p-tabPanel>
+            <p-tabPanel >
+                <ng-template pTemplate = "header">
+                    <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                    <span>Setting</span>
+                </ng-template>
+                <div class="formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label for="lastname2">รูปแบบวันที่ :</label><br>
+                        <p-dropdown placeholder="dd/MM/yyyy" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6"></div>
+                    
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">[รหัสบัตร] จาก</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ถึง</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ตัวอย่าง</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">[วันที่] จาก</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ถึง</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ตัวอย่าง</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">[เวลา] จาก</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ถึง</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ตัวอย่าง</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">[ฟังก์ชั่น] จาก</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ถึง</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ตัวอย่าง</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">[รหัสเครื่อง] จาก</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ถึง</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ตัวอย่าง</label>
+                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                    </div>
+
+                </div>
+
+                
+            </p-tabPanel>
+
+            <p-tabPanel >
+                <ng-template pTemplate = "header">
+                    <i class="pi pi-history"></i>&nbsp;&nbsp;
+                    <span>History</span>
+                </ng-template>
+            </p-tabPanel>
+
+        </p-tabView>
+
+    </div>
+    <div class="col-12 md:col-3">
+        
+    </div>
+</div>

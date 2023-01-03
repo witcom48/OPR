@@ -1,0 +1,96 @@
+<span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Approve</small>
+<hr>
+
+<table class="table_summary_">
+    <tr>
+        <td>
+            <div class="main_div">
+                <span class="spn_value">2</span>
+                <div class="sub_div">
+                    <span class="spn_title">Project</span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="main_div">
+                <span class="spn_value">20</span>
+                <div class="sub_div">
+                    <span class="spn_title">Transfer Emp.</span>
+                </div>
+            </div>
+        </td>        
+        <td>
+            <div class="main_div">
+                <span class="spn_value">5</span>
+                <div class="sub_div">
+                    <span class="spn_title">Cost</span>
+                </div>
+            </div>
+        </td>
+                                              
+    </tr>
+</table>  
+
+<p></p> 
+<p-accordion>
+    <p-accordionTab header="Project" >        
+        <p-table  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="220px" [virtualScroll]="true" selectionMode="single" >
+            <ng-template pTemplate="header">
+                <tr>		                        
+                    <th style="width:8%">โครงการ</th>
+                    <th style="width:12%">ชื่อโครงการ</th>                    
+                    <th>ประเภทธุรกิจ</th>
+                    <th>ประเภทงาน</th>
+                    <th>จากวันที่</th>
+                    <th>ถึงวันที่</th>
+                    <th>จำนวนพนักงาน</th>
+                    <th>ต้นทุน</th>                    
+                    <th>ผู้ทำรายการ</th>
+                    <th>วันที่ทำรายการ</th>                                                
+                </tr>	
+            </ng-template>
+        </p-table>
+    </p-accordionTab>
+</p-accordion>
+<p></p> 
+<p-accordion>
+    <p-accordionTab header="Transfer Emp." >        
+        <p-table  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="220px" [virtualScroll]="true" selectionMode="single" >
+            <ng-template pTemplate="header">
+                <tr>		                        
+                    <th style="width:8%">โครงการ</th>
+                    <th style="width:12%">ชื่อโครงการ</th>                    
+                    <th>รหัสพนักงาน</th>
+                    <th>ชื่อ-นามสกุล</th>
+                    <th>จากวันที่</th>
+                    <th>ถึงวันที่</th>                             
+                    <th>ผู้ทำรายการ</th>
+                    <th>วันที่ทำรายการ</th>                                                
+                </tr>	
+            </ng-template>
+        </p-table>
+    </p-accordionTab>
+</p-accordion>
+<p></p>
+<p-accordion>
+    <p-accordionTab header="Cost" >        
+        <p-table  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="220px" [virtualScroll]="true" selectionMode="single" >
+            <ng-template pTemplate="header">
+                <tr>		                        
+                    <th style="width:8%">โครงการ</th>
+                    <th style="width:12%">ชื่อโครงการ</th>                    
+                    <th>รหัสต้นทุน</th>
+                    <th>ชื่อต้นทุน</th>
+                    <th>จากวันที่</th>
+                    <th>ถึงวันที่</th>    
+                    <th>ตำแหน่ง</th> 
+                    <th>ชื่อตำแหน่ง</th>    
+                    <th>จำนวนเงิน</th>      
+                    <th>ประเภทการจ่าย</th>                          
+                    <th>ผู้ทำรายการ</th>
+                    <th>วันที่ทำรายการ</th>                                                
+                </tr>	
+            </ng-template>
+        </p-table>
+    </p-accordionTab>
+</p-accordion>
