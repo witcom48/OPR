@@ -43,6 +43,14 @@ import { SystemCompanyComponent } from './system-company/system-company.componen
 import { SystemSecurityComponent } from './system-security/system-security.component';
 import { SystemNotificationComponent } from './system-notification/system-notification.component';
 import { BankComponent } from './bank/bank.component';
+import { ReasonComponent } from './system-policy/reason/reason.component';
+import { EmpIDComponent } from './system-policy/emp-id/emp-id.component';
+import { SystemOrganizationLevelComponent } from './system-policy/system-organization-level/system-organization-level.component';
+import { SystemCardTypeComponent } from './system-policy/system-card-type/system-card-type.component';
+import { SystemFamilyTypeComponent } from './system-policy/system-family-type/system-family-type.component';
+import { SystemAddressTypeComponent } from './system-policy/system-address-type/system-address-type.component';
+import { SystemProvinceComponent } from './system-policy/system-province/system-province.component';
+import { SystemReligionComponent } from './system-policy/system-religion/system-religion.component';
 
 
 @NgModule({
@@ -82,20 +90,29 @@ import { BankComponent } from './bank/bank.component';
 		ImageModule,
 		ToastModule,
 		ConfirmDialogModule,
-		DialogModule
+		DialogModule,
 
 
 
-		
+
+
 	],
 	declarations: [
-   
-  
-    SystemPolicyComponent,
+
+
+           SystemPolicyComponent,
            SystemCompanyComponent,
            SystemSecurityComponent,
            SystemNotificationComponent,
-           BankComponent
+           BankComponent,
+           ReasonComponent,
+           EmpIDComponent,
+           SystemOrganizationLevelComponent,
+           SystemCardTypeComponent,
+           SystemFamilyTypeComponent,
+           SystemAddressTypeComponent,
+           SystemProvinceComponent,
+           SystemReligionComponent,
   ]
 })
 export class SystemModule { }

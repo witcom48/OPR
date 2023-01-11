@@ -20,7 +20,7 @@ import { BankService } from '../../../services/system/bank.service';
 })
 export class BankComponent implements OnInit {
 
- 
+
 
   items: MenuItem[] = [];
   edit_data: boolean = false;
@@ -29,32 +29,32 @@ export class BankComponent implements OnInit {
   bank_list: BankModel[] = [];
   selectedBank: BankModel = new BankModel();
 
-  constructor(private bankService: BankService, 
-    private router:Router, 
+  constructor(private bankService: BankService,
+    private router:Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe
     ) { }
 
   ngOnInit(): void {
-    
+
     this.doGetInitialCurrent()
-    
+
     setTimeout(() => {
       this.doLoadLanguage()
       this.doLoadMenu()
       this.doLoadBank()
     }, 500);
 
-    
+
   }
 
-  public initial_current:InitialCurrent = new InitialCurrent();  
-  doGetInitialCurrent(){    
+  public initial_current:InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent(){
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('');
-    }       
+    }
   }
 
   title_page:string = "Bank";
@@ -114,13 +114,13 @@ export class BankComponent implements OnInit {
       this.title_confirm_yes = "ใช่";
       this.title_confirm_no = "ยกเลิก";
       this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-      
+
     }
   }
 
   doLoadMenu(){
-     
-    this.items = [   
+
+    this.items = [
       {
         label:this.title_new,
         icon:'pi pi-fw pi-plus',
@@ -128,32 +128,32 @@ export class BankComponent implements OnInit {
           this.selectedBank = new BankModel();
           this.new_data= true;
           this.edit_data= false;
-        }     
+        }
       }
-      ,    
+      ,
       {
           label:this.title_import,
-          icon:'pi pi-fw pi-file-import',       
+          icon:'pi pi-fw pi-file-import',
           command: (event) => {
             this.showUpload()
-           
-          }        
+
+          }
       }
-      ,    
+      ,
       {
           label:this.title_export,
-          icon:'pi pi-fw pi-file-export',  
+          icon:'pi pi-fw pi-file-export',
           command: (event) => {
             this.exportAsExcel()
-           
-          }                
-      }      
+
+          }
+      }
     ];
   }
 
   doLoadBank(){
     this.bankService.bank_get().then((res) => {
-     this.bank_list = res;     
+     this.bank_list = res;
     });
   }
 
@@ -225,8 +225,8 @@ export class BankComponent implements OnInit {
   }
 
 
-  
-  fileToUpload: File | any = null;  
+
+  fileToUpload: File | any = null;
   handleFileInput(file: FileList) {
     this.fileToUpload=file.item(0);
   }
