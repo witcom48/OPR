@@ -5,6 +5,7 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeManageComponent } from './employee-manage/employee-manage.component';
 import { EmployeePolicyComponent } from './employee-policy/employee-policy.component';
 import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.component';
+import { LocationComponent } from './location/location.component';
 
 @NgModule({
     imports: [RouterModule.forChild([ 
@@ -13,6 +14,7 @@ import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.co
         { path: 'policy', component: EmployeePolicyComponent },
         { path: 'monitor', component: EmployeeMonitorComponent },
 
+        { path: 'location', component: LocationComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }

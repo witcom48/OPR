@@ -34,11 +34,15 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
 import {ChartModule} from 'primeng/chart';
 import {ImageModule} from 'primeng/image';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeManageComponent } from './employee-manage/employee-manage.component';
 import { EmployeePolicyComponent } from './employee-policy/employee-policy.component';
 import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.component';
+import { LocationComponent } from './location/location.component';
 
 
 @NgModule({
@@ -75,7 +79,10 @@ import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.co
 		ScrollPanelModule,
 		ChipModule,
 		ChartModule,
-		ImageModule
+		ImageModule,
+		ToastModule,
+		ConfirmDialogModule,
+		DialogModule
 
 
 		
@@ -84,7 +91,8 @@ import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.co
     EmployeeListComponent,
     EmployeeManageComponent,
     EmployeePolicyComponent,
-    EmployeeMonitorComponent
+    EmployeeMonitorComponent,
+    LocationComponent
   ]
 })
 export class EmployeeModule { }
