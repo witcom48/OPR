@@ -155,6 +155,7 @@ export class BankComponent implements OnInit {
     this.bankService.bank_get().then((res) => {
      this.bank_list = res;
     });
+    console.log(this.bankService);
   }
 
   confirmRecord() {

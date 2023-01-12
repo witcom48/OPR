@@ -1,17 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
-import { Table } from 'primeng/table';
-import { MegaMenuItem,MenuItem } from 'primeng/api';
+
+import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-
 import { DatePipe } from '@angular/common';
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import * as XLSX from 'xlsx';
-
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { BankModel } from '../../../../models/system/bank';
-import { BankService } from '../../../../services/system/bank.service';
+import { ResonsModel } from 'src/app/models/system/reasons';
+import { ReasonsService } from 'src/app/services/system/reasons.service';
 @Component({
   selector: 'app-reason',
   templateUrl: './reason.component.html',
@@ -25,10 +22,10 @@ export class ReasonComponent implements OnInit {
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    bank_list: BankModel[] = [];
-    selectedBank: BankModel = new BankModel();
+    reason_list: ResonsModel[] = [];
+    selectedReason: ResonsModel = new ResonsModel();
 
-    constructor(private bankService: BankService,
+    constructor(private reasonsService: ReasonsService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -42,7 +39,7 @@ export class ReasonComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadBank()
+        this.doLoadReason()
       }, 500);
 
 
@@ -124,7 +121,7 @@ export class ReasonComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedBank = new BankModel();
+            this.selectedReason = new ResonsModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -150,9 +147,9 @@ export class ReasonComponent implements OnInit {
       ];
     }
 
-    doLoadBank(){
-      this.bankService.bank_get().then((res) => {
-       this.bank_list = res;
+    doLoadReason(){
+      this.reasonsService.reason_get().then((res) => {
+       this.reason_list = res;
       });
     }
 
@@ -162,7 +159,7 @@ export class ReasonComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordBank()
+            this.doRecordReason()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -170,14 +167,14 @@ export class ReasonComponent implements OnInit {
       });
     }
 
-    doRecordBank(){
-      this.bankService.bank_record(this.selectedBank).then((res) => {
+    doRecordReason(){
+      this.reasonsService.reason_record(this.selectedReason).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank()
+        this.doLoadReason()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -192,7 +189,7 @@ export class ReasonComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteBank()
+            this.doDeleteReason()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -200,14 +197,14 @@ export class ReasonComponent implements OnInit {
       });
     }
 
-    doDeleteBank(){
-      this.bankService.bank_delete(this.selectedBank).then((res) => {
+    doDeleteReason(){
+      this.reasonsService.reason_delete(this.selectedReason).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadReason();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -218,7 +215,7 @@ export class ReasonComponent implements OnInit {
       });
     }
 
-    onRowSelectBank(event: Event) {
+    onRowSelectReason(event: Event) {
       this.edit_data= true;
       this.new_data= false;
     }
@@ -230,21 +227,21 @@ export class ReasonComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadBank(){
+    doUploadReason(){
 
       this.displayUpload = false;
 
-      const filename = "BANK_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+      const filename = "REASON_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
 
 
-      this.bankService.bank_import(this.fileToUpload, filename, filetype).then((res) => {
+      this.reasonsService.reason_import(this.fileToUpload, filename, filetype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadReason();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -269,7 +266,7 @@ export class ReasonComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_bank.xlsx');
+      XLSX.writeFile(wb, 'Export_reason.xlsx');
 
     }
 
