@@ -44,6 +44,10 @@ import { AttendanceProcessComponent } from './attendance-process/attendance-proc
 import { AttendanceCalculateComponent } from './attendance-calculate/attendance-calculate.component';
 import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
 import { AttendanceTimecardComponent } from './attendance-timecard/attendance-timecard.component';
+import { YearperiodComponent } from './attendance-policy/yearperiod/yearperiod.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -82,7 +86,10 @@ import { AttendanceTimecardComponent } from './attendance-timecard/attendance-ti
 		ChartModule,
 		ImageModule,
 		FileUploadModule,
-		PickListModule
+		PickListModule,
+		ToastModule,
+		ConfirmDialogModule,
+		DialogModule
 
 
 		
@@ -96,7 +103,8 @@ import { AttendanceTimecardComponent } from './attendance-timecard/attendance-ti
            AttendanceProcessComponent,
            AttendanceCalculateComponent,
            AttendanceViewComponent,
-           AttendanceTimecardComponent
+           AttendanceTimecardComponent,
+           YearperiodComponent
   ]
 })
 export class AttendanceModule { }
