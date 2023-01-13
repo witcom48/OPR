@@ -27,10 +27,10 @@
             <ng-template pTemplate="caption">
                 <div class="searchtable">
                     <div>
-                        <!-- Dropdown Select Year -->
+                        <!-- Dropdown Select Type -->
                         <p-dropdown class="selecttype" [options]="TypeList" [(ngModel)]="selectedType" (onChange)="selectType()"
                             optionLabel="name"></p-dropdown>
-                        <!-- ------------------END Dropdown Select Year------------------------- -->
+                        <!-- ------------------END Dropdown Select Type------------------------- -->
                     </div>
 
                     <span class="p-input-icon-left">
@@ -78,19 +78,6 @@
 
         <label>Description (Thai)</label>
         <textarea [(ngModel)]="reasons.reason_name_th" pInputTextarea [autoResize]="true"></textarea>
-        <!-- 
-        <label>FromDate</label>
-        <p-calendar [(ngModel)]="timeperiods.period_from" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
-
-        <label>ToDate</label>
-        <p-calendar [(ngModel)]="timeperiods.period_to" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
-
-        <label>Payment</label>
-        <p-calendar [(ngModel)]="timeperiods.period_payment" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
-        <div>
-            <input type="checkbox" value="1" [(ngModel)]="timeperiods.period_dayonperiod">
-              <label>Days on Period</label>
-        </div> -->
 
         <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
