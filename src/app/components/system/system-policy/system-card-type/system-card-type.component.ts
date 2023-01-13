@@ -5,13 +5,13 @@ import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { BankModel } from '../../../../models/system/bank';
-import { BankService } from '../../../../services/system/bank.service';
+import { CardtypeModel } from 'src/app/models/system/cardtype';
+import { CardtypeService } from 'src/app/services/system/cardtype.service';
 @Component({
   selector: 'app-system-card-type',
   templateUrl: './system-card-type.component.html',
@@ -24,10 +24,10 @@ export class SystemCardTypeComponent implements OnInit {
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    bank_list: BankModel[] = [];
-    selectedBank: BankModel = new BankModel();
+    cardtype_list: CardtypeModel[] = [];
+    selectedCardtype: CardtypeModel = new CardtypeModel();
 
-    constructor(private bankService: BankService,
+    constructor(private cardtypeService: CardtypeService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -41,7 +41,7 @@ export class SystemCardTypeComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadBank()
+        this.doLoadCardType()
       }, 500);
 
 
@@ -55,7 +55,7 @@ export class SystemCardTypeComponent implements OnInit {
       }
     }
 
-    title_page:string = "Reason";
+    title_page:string = "Cardtype";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
@@ -123,7 +123,7 @@ export class SystemCardTypeComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedBank = new BankModel();
+            this.selectedCardtype = new CardtypeModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -149,9 +149,9 @@ export class SystemCardTypeComponent implements OnInit {
       ];
     }
 
-    doLoadBank(){
-      this.bankService.bank_get().then((res) => {
-       this.bank_list = res;
+    doLoadCardType(){
+      this.cardtypeService.cardtype_get().then((res) => {
+       this.cardtype_list = res;
       });
     }
 
@@ -161,7 +161,7 @@ export class SystemCardTypeComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordBank()
+            this.doRecordCardType()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -169,14 +169,14 @@ export class SystemCardTypeComponent implements OnInit {
       });
     }
 
-    doRecordBank(){
-      this.bankService.bank_record(this.selectedBank).then((res) => {
+    doRecordCardType(){
+      this.cardtypeService.cardtype_record(this.selectedCardtype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank()
+        this.doLoadCardType()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -191,7 +191,7 @@ export class SystemCardTypeComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteBank()
+            this.doDeleteCardtype()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -199,14 +199,14 @@ export class SystemCardTypeComponent implements OnInit {
       });
     }
 
-    doDeleteBank(){
-      this.bankService.bank_delete(this.selectedBank).then((res) => {
+    doDeleteCardtype(){
+      this.cardtypeService.cardtype_delete(this.selectedCardtype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadCardType();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -217,7 +217,7 @@ export class SystemCardTypeComponent implements OnInit {
       });
     }
 
-    onRowSelectBank(event: Event) {
+    onRowSelectCardType(event: Event) {
       this.edit_data= true;
       this.new_data= false;
     }
@@ -229,21 +229,21 @@ export class SystemCardTypeComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadBank(){
+    doUploadCardType(){
 
       this.displayUpload = false;
 
-      const filename = "BANK_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+      const filename = "CARDTYPE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
 
 
-      this.bankService.bank_import(this.fileToUpload, filename, filetype).then((res) => {
+      this.cardtypeService.cardtype_import(this.fileToUpload, filename, filetype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadCardType();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -268,7 +268,7 @@ export class SystemCardTypeComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_bank.xlsx');
+      XLSX.writeFile(wb, 'Export_cardtype.xlsx');
 
     }
 
