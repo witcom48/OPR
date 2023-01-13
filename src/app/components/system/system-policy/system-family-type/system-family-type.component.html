@@ -11,18 +11,18 @@
         <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
     </p>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadBank()" label="{{title_upload}}" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-upload" (click)="doUploadFamily()" label="{{title_upload}}" styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
 
 <p-menubar [model]="items"></p-menubar >
 <div class="grid">
     <div class="col-12 md:col-9" #TABLE>
-        <p-table #dt2  [value]="bank_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedBank" (onRowSelect)="onRowSelectBank($event)" dataKey="bank_code"
+        <p-table #dt2  [value]="family_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedFamily" (onRowSelect)="onRowSelectFamily($event)" dataKey="family_code"
 
             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
             [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['bank_code','bank_name_th','bank_name_en']"
+            [globalFilterFields]="['family_code','family_name_th','family_name_en']"
             >
             <ng-template pTemplate="caption">
                 <div class="flex">
@@ -57,9 +57,9 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
                     <tr [pSelectableRow]="data">
-                        <td>{{data.bank_code}}</td>
-                        <td>{{data.bank_name_th}}</td>
-                        <td>{{data.bank_name_en}}</td>
+                        <td>{{data.family_code}}</td>
+                        <td>{{data.family_name_th}}</td>
+                        <td>{{data.family_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     </tr>
@@ -75,18 +75,18 @@
             <span class="spn_title_edit"></span>
             <div class="field col-12 ">
                 <label for="ppos_code">{{title_code}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedBank.bank_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [readonly]="edit_data">
+                <input type="text" id="ppos_code" [(ngModel)]="selectedFamily.family_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [readonly]="edit_data">
             </div>
 
             <div class="field col-12 ">
                 <label for="ppos_name_th">{{title_name_th}}</label>
                 <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedBank.bank_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedFamily.family_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
             <div class="field col-12 ">
                 <label for="ppos_name_en">{{title_name_en}}</label>
                 <br>
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedBank.bank_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedFamily.family_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
             <div class="field col-12">
                 <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>

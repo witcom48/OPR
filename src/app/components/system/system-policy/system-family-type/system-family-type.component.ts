@@ -12,6 +12,8 @@ import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { BankModel } from '../../../../models/system/bank';
 import { BankService } from '../../../../services/system/bank.service';
+import { FamilyModel } from 'src/app/models/system/family';
+import { FamilyService } from 'src/app/services/system/family.service';
 @Component({
   selector: 'app-system-family-type',
   templateUrl: './system-family-type.component.html',
@@ -24,10 +26,10 @@ export class SystemFamilyTypeComponent implements OnInit {
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    bank_list: BankModel[] = [];
-    selectedBank: BankModel = new BankModel();
+    family_list: FamilyModel[] = [];
+    selectedFamily: FamilyModel = new FamilyModel();
 
-    constructor(private bankService: BankService,
+    constructor(private familyService: FamilyService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -41,7 +43,7 @@ export class SystemFamilyTypeComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadBank()
+        this.doLoadFamily()
       }, 500);
 
 
@@ -55,7 +57,7 @@ export class SystemFamilyTypeComponent implements OnInit {
       }
     }
 
-    title_page:string = "Reason";
+    title_page:string = "Fmily";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
@@ -123,7 +125,7 @@ export class SystemFamilyTypeComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedBank = new BankModel();
+            this.selectedFamily = new FamilyModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -149,9 +151,9 @@ export class SystemFamilyTypeComponent implements OnInit {
       ];
     }
 
-    doLoadBank(){
-      this.bankService.bank_get().then((res) => {
-       this.bank_list = res;
+    doLoadFamily(){
+      this.familyService.family_get().then((res) => {
+       this.family_list = res;
       });
     }
 
@@ -161,7 +163,7 @@ export class SystemFamilyTypeComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordBank()
+            this.doRecordFamily()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -169,14 +171,14 @@ export class SystemFamilyTypeComponent implements OnInit {
       });
     }
 
-    doRecordBank(){
-      this.bankService.bank_record(this.selectedBank).then((res) => {
+    doRecordFamily(){
+      this.familyService.family_record(this.selectedFamily).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank()
+        this.doLoadFamily()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -191,7 +193,7 @@ export class SystemFamilyTypeComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteBank()
+            this.doDeleteFamily()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -199,14 +201,14 @@ export class SystemFamilyTypeComponent implements OnInit {
       });
     }
 
-    doDeleteBank(){
-      this.bankService.bank_delete(this.selectedBank).then((res) => {
+    doDeleteFamily(){
+      this.familyService.family_delete(this.selectedFamily).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadFamily();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -217,7 +219,7 @@ export class SystemFamilyTypeComponent implements OnInit {
       });
     }
 
-    onRowSelectBank(event: Event) {
+    onRowSelectFamily(event: Event) {
       this.edit_data= true;
       this.new_data= false;
     }
@@ -229,21 +231,21 @@ export class SystemFamilyTypeComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadBank(){
+    doUploadFamily(){
 
       this.displayUpload = false;
 
-      const filename = "BANK_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+      const filename = "FAMILY_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
 
 
-      this.bankService.bank_import(this.fileToUpload, filename, filetype).then((res) => {
+      this.familyService.family_import(this.fileToUpload, filename, filetype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadFamily();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -268,7 +270,7 @@ export class SystemFamilyTypeComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_bank.xlsx');
+      XLSX.writeFile(wb, 'Export_family.xlsx');
 
     }
 
