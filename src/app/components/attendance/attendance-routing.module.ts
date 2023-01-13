@@ -11,6 +11,7 @@ import { YearperiodComponent } from './attendance-policy/yearperiod/yearperiod.c
 import { AttendanceTimecardComponent } from './attendance-timecard/attendance-timecard.component';
 import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
 import { ReasonComponent } from './attendance-policy/reason/reason.component';
+import { LocationComponent } from './attendance-policy/location/location.component';
 
 
 
@@ -26,6 +27,7 @@ import { ReasonComponent } from './attendance-policy/reason/reason.component';
         { path: 'policy/yearperiod', component: YearperiodComponent },
         { path: 'policy/timeperiod', component: TimeperiodComponent },
         { path: 'policy/reason', component: ReasonComponent },
+        { path: 'policy/location', component: LocationComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
