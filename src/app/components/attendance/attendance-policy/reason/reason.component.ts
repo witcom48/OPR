@@ -1,14 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { ReasonModels } from 'src/app/models/attendance/reason';
 import * as XLSX from 'xlsx';
+interface Type {
+  name: string,
+  code: string
+}
 @Component({
-  selector: 'app-yearperiod',
-  templateUrl: './yearperiod.component.html',
-  styleUrls: ['./yearperiod.component.scss']
+  selector: 'app-reason',
+  templateUrl: './reason.component.html',
+  styleUrls: ['./reason.component.scss']
 })
-export class YearperiodComponent implements OnInit {
+export class ReasonComponent implements OnInit {
   @ViewChild('TABLE') table: ElementRef | any = null;
+  TypeList: Type[] = [];
+  selectedType!: Type;
   new_data: boolean = false
   edit_data: boolean = false
   fileToUpload: File | any = null;
@@ -16,20 +22,30 @@ export class YearperiodComponent implements OnInit {
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,) { }
   items: MenuItem[] = [];
-  yearperiods_list: YearPeriodModels[] = [];
-  yearperiods: YearPeriodModels = new YearPeriodModels()
-
+  reason_list: ReasonModels[] = [];
+  reasons: ReasonModels = new ReasonModels()
   ngOnInit(): void {
     this.doLoadMenu()
-    this.yearperiods_list = [{ company_code: "PSG", year_id: "1", year_code: "2022", year_name_th: "ปีภาษี", year_name_en: "TAX", year_fromdate: new Date("2022-01-01"), year_todate: new Date("2022-12-31"), year_group: "TAX", created_by: "Admin01", modied_by: "admin01", created_date: "2022-01-01", modied_date: "2022-01-02", flag: "" },
-    { company_code: "PSG", year_id: "2", year_code: "2023", year_name_th: "ปีการลา", year_name_en: "Leave Calendar", year_fromdate: new Date("2022-01-01"), year_todate: new Date("2022-12-31"), year_group: "Leave", created_by: "Admin", modied_by: "admin", created_date: "2022-01-02", modied_date: "2022-01-03", flag: "" },]
+    this.TypeList = [
+      { name: 'Leave', code: 'Leave' },
+      { name: 'OT', code: 'OT' },
+    ];
+    this.reason_list = [
+      {
+        company_code: "PSG",
+        reason_id: "1",
+        reason_code: "00",
+        reason_name_th: "ป่วย",
+        reason_name_en: "Sick",
+        reason_group: "LEAVE",
+        created_by: "Admin",
+        created_date: "2022-01-13",
+        modied_by: "admin",
+        modied_date: "2022-01-14",
+        flag: "0"
+      }
+    ]
   }
-
-  handleFileInput(file: FileList) {
-    this.fileToUpload = file.item(0);
-  }
-
-
   doLoadMenu() {
 
     this.items = [
@@ -37,7 +53,7 @@ export class YearperiodComponent implements OnInit {
         label: "New",
         icon: 'pi-plus',
         command: (event) => {
-          this.yearperiods = new YearPeriodModels();
+          this.reasons = new ReasonModels();
           this.new_data = true;
           this.edit_data = false;
         }
@@ -62,9 +78,17 @@ export class YearperiodComponent implements OnInit {
       }
     ];
   }
+  close(){
+    this.new_data=false
+    this.reasons = new ReasonModels()
+  }
   showUpload() {
     this.displayUpload = true;
   }
+  handleFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+  }
+
   Uploadfile() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
@@ -81,16 +105,15 @@ export class YearperiodComponent implements OnInit {
           this.displayUpload = false;
         }
       });
-    }else{
+    } else {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
   }
-  close(){
-    this.new_data=false
-    this.yearperiods = new YearPeriodModels()
-  }
   Save() {
-    console.log(this.yearperiods)
+    console.log(this.reasons)
+  }
+  selectType() {
+    console.log(this.selectedType)
   }
   onRowSelect(event: any) {
     this.new_data = true
@@ -105,4 +128,5 @@ export class YearperiodComponent implements OnInit {
     XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
 
   }
+
 }

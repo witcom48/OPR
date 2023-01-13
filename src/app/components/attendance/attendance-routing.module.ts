@@ -9,6 +9,8 @@ import { AttendanceCalculateComponent } from './attendance-calculate/attendance-
 import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
 import { YearperiodComponent } from './attendance-policy/yearperiod/yearperiod.component';
 import { AttendanceTimecardComponent } from './attendance-timecard/attendance-timecard.component';
+import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
+import { ReasonComponent } from './attendance-policy/reason/reason.component';
 
 
 
@@ -22,6 +24,8 @@ import { AttendanceTimecardComponent } from './attendance-timecard/attendance-ti
         { path: 'calculate', component: AttendanceCalculateComponent },
         { path: 'view', component: AttendanceViewComponent },
         { path: 'policy/yearperiod', component: YearperiodComponent },
+        { path: 'policy/timeperiod', component: TimeperiodComponent },
+        { path: 'policy/reason', component: ReasonComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

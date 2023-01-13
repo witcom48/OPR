@@ -33,17 +33,26 @@ th {
 
 .searchtable {
     display: flex;
-    justify-content: flex-end;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+
+    div {
+        display: flex;
+        align-items: center;
+    }
 }
 
-.tableyear {
+
+.tabletime {
     display: grid;
-    grid-template-columns: 1fr 0.0fr;
+    grid-template-columns: 1fr 0fr;
     flex-wrap: wrap;
 }
 
 @media(max-width: 744px) {
-    .tableyear {
+    .tabletime {
         display: grid;
         grid-template-columns: 1fr;
         flex-wrap: wrap;
@@ -51,14 +60,13 @@ th {
 
 }
 
-
 .formatt {
     display: flex;
     flex-direction: column;
     gap: 6px;
     padding: 1vw;
-    max-width: 25vw;
     min-width: 350px;
+    max-width: 25vw;
 
     i:before {
         content: "\e90b";
@@ -72,7 +80,8 @@ th {
     div {
         display: flex;
     }
-    p{
+
+    p {
         display: flex;
         flex-direction: row-reverse;
     }

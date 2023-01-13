@@ -48,6 +48,8 @@ import { YearperiodComponent } from './attendance-policy/yearperiod/yearperiod.c
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
+import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
+import { ReasonComponent } from './attendance-policy/reason/reason.component';
 
 
 @NgModule({
@@ -104,7 +106,9 @@ import { ToastModule } from 'primeng/toast';
            AttendanceCalculateComponent,
            AttendanceViewComponent,
            AttendanceTimecardComponent,
-           YearperiodComponent
+           YearperiodComponent,
+           TimeperiodComponent,
+           ReasonComponent
   ]
 })
 export class AttendanceModule { }
