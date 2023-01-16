@@ -51,6 +51,7 @@ import { ToastModule } from 'primeng/toast';
 import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
 import { ReasonComponent } from './attendance-policy/reason/reason.component';
 import { LocationComponent } from './attendance-policy/location/location.component';
+import { HolidayComponent } from './attendance-policy/holiday/holiday.component';
 
 
 @NgModule({
@@ -110,7 +111,8 @@ import { LocationComponent } from './attendance-policy/location/location.compone
            YearperiodComponent,
            TimeperiodComponent,
            ReasonComponent,
-           LocationComponent
+           LocationComponent,
+           HolidayComponent
   ]
 })
 export class AttendanceModule { }

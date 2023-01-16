@@ -12,6 +12,7 @@ import { AttendanceTimecardComponent } from './attendance-timecard/attendance-ti
 import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
 import { ReasonComponent } from './attendance-policy/reason/reason.component';
 import { LocationComponent } from './attendance-policy/location/location.component';
+import { HolidayComponent } from './attendance-policy/holiday/holiday.component';
 
 
 
@@ -28,6 +29,7 @@ import { LocationComponent } from './attendance-policy/location/location.compone
         { path: 'policy/timeperiod', component: TimeperiodComponent },
         { path: 'policy/reason', component: ReasonComponent },
         { path: 'policy/location', component: LocationComponent },
+        { path: 'policy/holiday', component: HolidayComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
