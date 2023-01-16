@@ -8,7 +8,7 @@ export class AppConfig {
     ApiMainModule: string = this.UrlApi+"/BpcOpr.svc/BpcOpr";    
     ApiSystemModule: string = this.UrlApi+"/Module_System/ModuleSystem.svc/System";    
     ApiAttendanceModule: string = this.UrlApi+"/Module_Attendance/ModuleAttendance.svc/Attendance";  
-    ApiEmployeeModule : string = this.UrlApi+"/Module_Employee/ModuleEmployee.svc/Employee"  
+    ApiEmployeeModule : string = this.UrlApi+"/Module_Employee/ModuleEmployee.svc/Employee";
 
     
     static SESSIONInitial: string = "SESSIONInitial";
