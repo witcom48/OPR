@@ -51,6 +51,12 @@ import { SystemFamilyTypeComponent } from './system-policy/system-family-type/sy
 import { SystemAddressTypeComponent } from './system-policy/system-address-type/system-address-type.component';
 import { SystemProvinceComponent } from './system-policy/system-province/system-province.component';
 import { SystemReligionComponent } from './system-policy/system-religion/system-religion.component';
+import { SystemEthnicityComponent } from './system-policy/system-ethnicity/system-ethnicity.component';
+import { BloodtypeComponent } from './system-policy/bloodtype/bloodtype.component';
+import { SystemBloodtypeComponent } from './system-policy/system-bloodtype/system-bloodtype.component';
+import { SystemHospitalComponent } from './system-policy/system-hospital/system-hospital.component';
+import { SystemLocationComponent } from './system-policy/system-location/system-location.component';
+import { SystemReduceComponent } from './system-policy/system-reduce/system-reduce.component';
 
 
 @NgModule({
@@ -113,6 +119,12 @@ import { SystemReligionComponent } from './system-policy/system-religion/system-
            SystemAddressTypeComponent,
            SystemProvinceComponent,
            SystemReligionComponent,
+           SystemEthnicityComponent,
+           BloodtypeComponent,
+           SystemBloodtypeComponent,
+           SystemHospitalComponent,
+           SystemLocationComponent,
+           SystemReduceComponent,
   ]
 })
 export class SystemModule { }

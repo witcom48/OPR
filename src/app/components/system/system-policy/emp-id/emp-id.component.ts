@@ -3,15 +3,13 @@ import { NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-
 import { DatePipe } from '@angular/common';
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 import * as XLSX from 'xlsx';
-
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { BankModel } from '../../../../models/system/bank';
-import { BankService } from '../../../../services/system/bank.service';
+import { EmpIDModel } from 'src/app/models/system/empid';
+import { EmpidService } from 'src/app/services/system/empid.service';
 @Component({
   selector: 'app-emp-id',
   templateUrl: './emp-id.component.html',
@@ -24,10 +22,10 @@ export class EmpIDComponent implements OnInit {
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    bank_list: BankModel[] = [];
-    selectedBank: BankModel = new BankModel();
+    empid_list: EmpIDModel[] = [];
+    selectedEmpid: EmpIDModel = new EmpIDModel();
 
-    constructor(private bankService: BankService,
+    constructor(private empidService: EmpidService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -41,7 +39,7 @@ export class EmpIDComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadBank()
+        this.doLoadEmpid()
       }, 500);
 
 
@@ -55,16 +53,16 @@ export class EmpIDComponent implements OnInit {
       }
     }
 
-    title_page:string = "Reason";
+    title_page:string = "EmpID Structure";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
     title_import:string = "Import";
     title_export:string = "Export";
     title_save:string = "Save";
-    title_code:string = "Code";
-    title_name_th:string = "Name (Thai)";
-    title_name_en:string = "Name (Eng.)";
+    title_code:string = "ID";
+    title_name_th:string = "EmpID (Thai)";
+    title_name_en:string = "EmpID (Eng.)";
     title_modified_by:string = "Edit by";
     title_modified_date:string = "Edit date";
     title_search:string = "Search";
@@ -85,7 +83,7 @@ export class EmpIDComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
-        this.title_page = "เหตุผล";
+        this.title_page = "โครงสร้างรหัสพนักงาน";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
@@ -123,7 +121,7 @@ export class EmpIDComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedBank = new BankModel();
+            this.selectedEmpid = new EmpIDModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -149,9 +147,9 @@ export class EmpIDComponent implements OnInit {
       ];
     }
 
-    doLoadBank(){
-      this.bankService.bank_get().then((res) => {
-       this.bank_list = res;
+    doLoadEmpid(){
+      this.empidService.empid_get().then((res) => {
+       this.empid_list = res;
       });
     }
 
@@ -161,7 +159,7 @@ export class EmpIDComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordBank()
+            this.doRecordEmpid()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -169,14 +167,14 @@ export class EmpIDComponent implements OnInit {
       });
     }
 
-    doRecordBank(){
-      this.bankService.bank_record(this.selectedBank).then((res) => {
+    doRecordEmpid(){
+      this.empidService.empid_record(this.selectedEmpid).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank()
+        this.doLoadEmpid()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -191,7 +189,7 @@ export class EmpIDComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteBank()
+            this.doDeleteEmpid()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -199,14 +197,14 @@ export class EmpIDComponent implements OnInit {
       });
     }
 
-    doDeleteBank(){
-      this.bankService.bank_delete(this.selectedBank).then((res) => {
+    doDeleteEmpid(){
+      this.empidService.empid_delete(this.selectedEmpid).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadEmpid();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -217,7 +215,7 @@ export class EmpIDComponent implements OnInit {
       });
     }
 
-    onRowSelectBank(event: Event) {
+    onRowSelectEmpid(event: Event) {
       this.edit_data= true;
       this.new_data= false;
     }
@@ -229,21 +227,21 @@ export class EmpIDComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadBank(){
+    doUploadEmpid(){
 
       this.displayUpload = false;
 
-      const filename = "BANK_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+      const filename = "EMPID_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
 
 
-      this.bankService.bank_import(this.fileToUpload, filename, filetype).then((res) => {
+      this.empidService.empid_import(this.fileToUpload, filename, filetype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadEmpid();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -268,7 +266,7 @@ export class EmpIDComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_bank.xlsx');
+      XLSX.writeFile(wb, 'Export_empid.xlsx');
 
     }
 

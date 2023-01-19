@@ -3,15 +3,13 @@ import { NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-
 import { DatePipe } from '@angular/common';
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 import * as XLSX from 'xlsx';
-
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { BankModel } from '../../../../models/system/bank';
-import { BankService } from '../../../../services/system/bank.service';
+import { ProvinceModel } from 'src/app/models/system/province';
+import { ProvinceService } from 'src/app/services/system/province.service';
 @Component({
   selector: 'app-system-province',
   templateUrl: './system-province.component.html',
@@ -23,10 +21,10 @@ export class SystemProvinceComponent implements OnInit {
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    bank_list: BankModel[] = [];
-    selectedBank: BankModel = new BankModel();
+    province_list: ProvinceModel[] = [];
+    selectedProvince: ProvinceModel = new ProvinceModel();
 
-    constructor(private bankService: BankService,
+    constructor(private provinceService: ProvinceService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -40,7 +38,7 @@ export class SystemProvinceComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadBank()
+        this.doLoadProvince()
       }, 500);
 
 
@@ -54,7 +52,7 @@ export class SystemProvinceComponent implements OnInit {
       }
     }
 
-    title_page:string = "Reason";
+    title_page:string = "Province";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
@@ -84,7 +82,7 @@ export class SystemProvinceComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
-        this.title_page = "เหตุผล";
+        this.title_page = "ข้อมูลจังหวัด";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
@@ -122,7 +120,7 @@ export class SystemProvinceComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedBank = new BankModel();
+            this.selectedProvince = new ProvinceModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -148,9 +146,9 @@ export class SystemProvinceComponent implements OnInit {
       ];
     }
 
-    doLoadBank(){
-      this.bankService.bank_get().then((res) => {
-       this.bank_list = res;
+    doLoadProvince(){
+      this.provinceService.province_get().then((res) => {
+       this.province_list = res;
       });
     }
 
@@ -160,7 +158,7 @@ export class SystemProvinceComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordBank()
+            this.doRecordProvince()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -168,14 +166,14 @@ export class SystemProvinceComponent implements OnInit {
       });
     }
 
-    doRecordBank(){
-      this.bankService.bank_record(this.selectedBank).then((res) => {
+    doRecordProvince(){
+      this.provinceService.province_record(this.selectedProvince).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank()
+        this.doLoadProvince()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -190,7 +188,7 @@ export class SystemProvinceComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteBank()
+            this.doDeleteProvince()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -198,14 +196,14 @@ export class SystemProvinceComponent implements OnInit {
       });
     }
 
-    doDeleteBank(){
-      this.bankService.bank_delete(this.selectedBank).then((res) => {
+    doDeleteProvince(){
+      this.provinceService.province_delete(this.selectedProvince).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadProvince();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -216,7 +214,7 @@ export class SystemProvinceComponent implements OnInit {
       });
     }
 
-    onRowSelectBank(event: Event) {
+    onRowSelectProvince(event: Event) {
       this.edit_data= true;
       this.new_data= false;
     }
@@ -228,21 +226,21 @@ export class SystemProvinceComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadBank(){
+    doUploadProvince(){
 
       this.displayUpload = false;
 
-      const filename = "BANK_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+      const filename = "Province_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
 
 
-      this.bankService.bank_import(this.fileToUpload, filename, filetype).then((res) => {
+      this.provinceService.province_import(this.fileToUpload, filename, filetype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadProvince();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -267,7 +265,7 @@ export class SystemProvinceComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_bank.xlsx');
+      XLSX.writeFile(wb, 'Export_province.xlsx');
 
     }
 

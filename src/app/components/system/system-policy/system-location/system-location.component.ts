@@ -5,30 +5,30 @@ import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-
-import { ReligionService } from 'src/app/services/system/religion.service';
-import { ReligionModel } from 'src/app/models/system/religion';
+import { LocationModel } from 'src/app/models/system/location';
+import { LocationService } from 'src/app/services/system/location.service';
 @Component({
-  selector: 'app-system-religion',
-  templateUrl: './system-religion.component.html',
-  styleUrls: ['./system-religion.component.scss']
+  selector: 'app-system-location',
+  templateUrl: './system-location.component.html',
+  styleUrls: ['./system-location.component.scss']
 })
-export class SystemReligionComponent implements OnInit {
+export class SystemLocationComponent implements OnInit {
+
 
 
     items: MenuItem[] = [];
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    religion_list: ReligionModel[] = [];
-    selectedReligion: ReligionModel = new ReligionModel();
+    location_list: LocationModel[] = [];
+    selectedLocation: LocationModel = new LocationModel();
 
-    constructor(private religionService: ReligionService,
+    constructor(private locationService: LocationService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -42,7 +42,7 @@ export class SystemReligionComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadReligion()
+        this.doLoadLocation()
       }, 500);
 
 
@@ -56,7 +56,7 @@ export class SystemReligionComponent implements OnInit {
       }
     }
 
-    title_page:string = "Religion";
+    title_page:string = "Location";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
@@ -66,6 +66,7 @@ export class SystemReligionComponent implements OnInit {
     title_code:string = "Code";
     title_name_th:string = "Name (Thai)";
     title_name_en:string = "Name (Eng.)";
+    title_detail:string = "Detail";
     title_modified_by:string = "Edit by";
     title_modified_date:string = "Edit date";
     title_search:string = "Search";
@@ -86,7 +87,7 @@ export class SystemReligionComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
-        this.title_page = "ข้อมูลศาสนา";
+        this.title_page = "ข้อมูลสถานที่ปฎิบัติงาน";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
@@ -124,7 +125,7 @@ export class SystemReligionComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedReligion = new ReligionModel();
+            this.selectedLocation = new LocationModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -150,9 +151,9 @@ export class SystemReligionComponent implements OnInit {
       ];
     }
 
-    doLoadReligion(){
-      this.religionService.religion_get().then((res) => {
-       this.religion_list = res;
+    doLoadLocation(){
+      this.locationService.location_get().then((res) => {
+       this.location_list = res;
       });
     }
 
@@ -162,7 +163,7 @@ export class SystemReligionComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordReligion()
+            this.doRecordlocation()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -170,14 +171,14 @@ export class SystemReligionComponent implements OnInit {
       });
     }
 
-    doRecordReligion(){
-      this.religionService.religion_record(this.selectedReligion).then((res) => {
+    doRecordlocation(){
+      this.locationService.Location_record(this.selectedLocation).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadReligion()
+        this.doLoadLocation()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -192,7 +193,7 @@ export class SystemReligionComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteReligion()
+            this.doDeleteLocation()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -200,14 +201,14 @@ export class SystemReligionComponent implements OnInit {
       });
     }
 
-    doDeleteReligion(){
-      this.religionService.religion_delete(this.selectedReligion).then((res) => {
+    doDeleteLocation(){
+      this.locationService.location_delete(this.selectedLocation).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadReligion();
+        this.doLoadLocation();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -218,7 +219,7 @@ export class SystemReligionComponent implements OnInit {
       });
     }
 
-    onRowSelectReligion(event: Event) {
+    onRowSelectLocation(event: Event) {
       this.edit_data= true;
       this.new_data= false;
     }
@@ -230,21 +231,21 @@ export class SystemReligionComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadReligion(){
+    doUploadLocation(){
 
       this.displayUpload = false;
 
-      const filename = "RELIGION_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+      const filename = "LOCATION_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
 
 
-      this.religionService.religion_import(this.fileToUpload, filename, filetype).then((res) => {
+      this.locationService.location_import(this.fileToUpload, filename, filetype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadReligion();
+        this.doLoadLocation();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -269,7 +270,7 @@ export class SystemReligionComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_religion.xlsx');
+      XLSX.writeFile(wb, 'Export_location.xlsx');
 
     }
 

@@ -11,18 +11,18 @@
         <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
     </p>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadProvince()" label="{{title_upload}}" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-upload" (click)="doUploadReduce()" label="{{title_upload}}" styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
 
 <p-menubar [model]="items"></p-menubar >
 <div class="grid">
     <div class="col-12 md:col-9" #TABLE>
-        <p-table #dt2  [value]="province_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProvince" (onRowSelect)="onRowSelectProvince($event)" dataKey="province_code"
+        <p-table #dt2  [value]="reduce_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReduce" (onRowSelect)="onRowSelectReduce($event)" dataKey="reduce_code"
 
             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
             [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['province_code','province_name_th','province_name_en']"
+            [globalFilterFields]="['reduce_code','reduce_name_th','reduce_name_en','reduce_amount', 'reduce_percent', 'reduce_percent_max']"
             >
             <ng-template pTemplate="caption">
                 <div class="flex">
@@ -38,6 +38,11 @@
                         <th>{{title_code}}</th>
                         <th>{{title_name_th}}</th>
                         <th>{{title_name_en}}</th>
+
+                        <th>{{title_amount}}</th>
+                        <th>{{title_percent}}</th>
+                        <th>{{title_percent_max}}</th>
+
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
                     </tr>
@@ -45,9 +50,13 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
                     <tr [pSelectableRow]="data">
-                        <td>{{data.province_code}}</td>
-                        <td>{{data.province_name_th}}</td>
-                        <td>{{data.province_name_en}}</td>
+                        <td>{{data.reduce_code}}</td>
+                        <td>{{data.reduce_name_th}}</td>
+                        <td>{{data.reduce_name_en}}</td>
+                        <td>{{data.reduce_amount}}</td>
+                        <td>{{data.reduce_percent}}</td>
+                        <td>{{data.reduce_percent_max}}</td>
+
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     </tr>
@@ -63,19 +72,36 @@
             <span class="spn_title_edit"></span>
             <div class="field col-12 ">
                 <label for="ppos_code">{{title_code}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedProvince.province_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [readonly]="edit_data">
+                <input type="text" id="ppos_code" [(ngModel)]="selectedReduce.reduce_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [readonly]="edit_data">
             </div>
 
             <div class="field col-12 ">
                 <label for="ppos_name_th">{{title_name_th}}</label>
                 <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProvince.province_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedReduce.reduce_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
             <div class="field col-12 ">
                 <label for="ppos_name_en">{{title_name_en}}</label>
                 <br>
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProvince.province_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedReduce.reduce_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
+
+            <div class="field col-12 ">
+                <label for="ppos_company_code">{{title_amount}}</label>
+                <br>
+                <textarea [rows]="2" id="ppos_company_code" [(ngModel)]="selectedReduce.reduce_amount" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12 ">
+                <label for="ppos_company_code">{{title_percent}}</label>
+                <br>
+                <textarea [rows]="2" id="ppos_company_code" [(ngModel)]="selectedReduce.reduce_percent" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12 ">
+                <label for="ppos_company_code">{{title_percent_max}}</label>
+                <br>
+                <textarea [rows]="2" id="ppos_company_code" [(ngModel)]="selectedReduce.reduce_percent_max" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+
             <div class="field col-12">
                 <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp;

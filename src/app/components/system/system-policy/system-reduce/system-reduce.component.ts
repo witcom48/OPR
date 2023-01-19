@@ -5,30 +5,31 @@ import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-
-import { ReligionService } from 'src/app/services/system/religion.service';
-import { ReligionModel } from 'src/app/models/system/religion';
+import { LevelModel } from 'src/app/models/system/level';
+import { LevelService } from 'src/app/services/system/level.service';
+import { ReducesModel } from 'src/app/models/system/reduces';
+import { ReduceService } from 'src/app/services/system/reduce.service';
 @Component({
-  selector: 'app-system-religion',
-  templateUrl: './system-religion.component.html',
-  styleUrls: ['./system-religion.component.scss']
+  selector: 'app-system-reduce',
+  templateUrl: './system-reduce.component.html',
+  styleUrls: ['./system-reduce.component.scss']
 })
-export class SystemReligionComponent implements OnInit {
+export class SystemReduceComponent implements OnInit {
 
 
     items: MenuItem[] = [];
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    religion_list: ReligionModel[] = [];
-    selectedReligion: ReligionModel = new ReligionModel();
+    reduce_list: ReducesModel[] = [];
+    selectedReduce: ReducesModel = new ReducesModel();
 
-    constructor(private religionService: ReligionService,
+    constructor(private reduceService: ReduceService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -42,7 +43,7 @@ export class SystemReligionComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadReligion()
+        this.doLoadReduce()
       }, 500);
 
 
@@ -56,7 +57,7 @@ export class SystemReligionComponent implements OnInit {
       }
     }
 
-    title_page:string = "Religion";
+    title_page:string = "Reduce";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
@@ -66,6 +67,9 @@ export class SystemReligionComponent implements OnInit {
     title_code:string = "Code";
     title_name_th:string = "Name (Thai)";
     title_name_en:string = "Name (Eng.)";
+    title_amount:string = "amount";
+    title_percent:string = "percent";
+    title_percent_max:string = "percent max";
     title_modified_by:string = "Edit by";
     title_modified_date:string = "Edit date";
     title_search:string = "Search";
@@ -86,7 +90,7 @@ export class SystemReligionComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
-        this.title_page = "ข้อมูลศาสนา";
+        this.title_page = "ประเภทค่าลดหย่อน";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
@@ -124,7 +128,7 @@ export class SystemReligionComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedReligion = new ReligionModel();
+            this.selectedReduce = new ReducesModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -150,9 +154,9 @@ export class SystemReligionComponent implements OnInit {
       ];
     }
 
-    doLoadReligion(){
-      this.religionService.religion_get().then((res) => {
-       this.religion_list = res;
+    doLoadReduce(){
+      this.reduceService.reduce_get().then((res) => {
+       this.reduce_list = res;
       });
     }
 
@@ -162,7 +166,7 @@ export class SystemReligionComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordReligion()
+            this.doRecordreduce()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -170,14 +174,14 @@ export class SystemReligionComponent implements OnInit {
       });
     }
 
-    doRecordReligion(){
-      this.religionService.religion_record(this.selectedReligion).then((res) => {
+    doRecordreduce(){
+      this.reduceService.reduce_record(this.selectedReduce).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadReligion()
+        this.doLoadReduce()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -192,7 +196,7 @@ export class SystemReligionComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteReligion()
+            this.doDeleteReduce()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -200,14 +204,14 @@ export class SystemReligionComponent implements OnInit {
       });
     }
 
-    doDeleteReligion(){
-      this.religionService.religion_delete(this.selectedReligion).then((res) => {
+    doDeleteReduce(){
+      this.reduceService.reduce_delete(this.selectedReduce).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadReligion();
+        this.doLoadReduce();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -218,7 +222,7 @@ export class SystemReligionComponent implements OnInit {
       });
     }
 
-    onRowSelectReligion(event: Event) {
+    onRowSelectReduce(event: Event) {
       this.edit_data= true;
       this.new_data= false;
     }
@@ -230,21 +234,21 @@ export class SystemReligionComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadReligion(){
+    doUploadReduce(){
 
       this.displayUpload = false;
 
-      const filename = "RELIGION_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+      const filename = "REDUCE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
 
 
-      this.religionService.religion_import(this.fileToUpload, filename, filetype).then((res) => {
+      this.reduceService.reduce_import(this.fileToUpload, filename, filetype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadReligion();
+        this.doLoadReduce();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -269,7 +273,7 @@ export class SystemReligionComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_religion.xlsx');
+      XLSX.writeFile(wb, 'Export_reduce.xlsx');
 
     }
 

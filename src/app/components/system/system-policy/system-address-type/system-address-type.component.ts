@@ -3,16 +3,13 @@ import { NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-
 import { DatePipe } from '@angular/common';
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 import * as XLSX from 'xlsx';
-
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { BankModel } from '../../../../models/system/bank';
-import { BankService } from '../../../../services/system/bank.service';
-
+import { AddresstypeModel } from 'src/app/models/system/addresstype';
+import { AddresstypeService } from 'src/app/services/system/addresstype.service';
 @Component({
   selector: 'app-system-address-type',
   templateUrl: './system-address-type.component.html',
@@ -21,14 +18,15 @@ import { BankService } from '../../../../services/system/bank.service';
 export class SystemAddressTypeComponent implements OnInit {
 
 
+
     items: MenuItem[] = [];
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    bank_list: BankModel[] = [];
-    selectedBank: BankModel = new BankModel();
+    addresstype_list: AddresstypeModel[] = [];
+    selectedAddresstype: AddresstypeModel = new AddresstypeModel();
 
-    constructor(private bankService: BankService,
+    constructor(private addresstypeService:AddresstypeService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -42,7 +40,7 @@ export class SystemAddressTypeComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadBank()
+        this.doLoadAddresstype()
       }, 500);
 
 
@@ -56,7 +54,7 @@ export class SystemAddressTypeComponent implements OnInit {
       }
     }
 
-    title_page:string = "Reason";
+    title_page:string = "Addresstype";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
@@ -64,8 +62,8 @@ export class SystemAddressTypeComponent implements OnInit {
     title_export:string = "Export";
     title_save:string = "Save";
     title_code:string = "Code";
-    title_name_th:string = "Name (Thai)";
-    title_name_en:string = "Name (Eng.)";
+    title_name_th:string = "Addresstype (Thai)";
+    title_name_en:string = "Addresstype (Eng.)";
     title_modified_by:string = "Edit by";
     title_modified_date:string = "Edit date";
     title_search:string = "Search";
@@ -86,7 +84,7 @@ export class SystemAddressTypeComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
-        this.title_page = "เหตุผล";
+        this.title_page = "ประเภทที่อยู่";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
@@ -124,7 +122,7 @@ export class SystemAddressTypeComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedBank = new BankModel();
+            this.selectedAddresstype = new AddresstypeModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -150,9 +148,9 @@ export class SystemAddressTypeComponent implements OnInit {
       ];
     }
 
-    doLoadBank(){
-      this.bankService.bank_get().then((res) => {
-       this.bank_list = res;
+    doLoadAddresstype(){
+      this.addresstypeService.addresstype_get().then((res) => {
+       this.addresstype_list = res;
       });
     }
 
@@ -162,7 +160,7 @@ export class SystemAddressTypeComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordBank()
+            this.doRecordAddresstype()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -170,14 +168,14 @@ export class SystemAddressTypeComponent implements OnInit {
       });
     }
 
-    doRecordBank(){
-      this.bankService.bank_record(this.selectedBank).then((res) => {
+    doRecordAddresstype(){
+      this.addresstypeService.addresstype_record(this.selectedAddresstype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank()
+        this.doLoadAddresstype()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -192,7 +190,7 @@ export class SystemAddressTypeComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteBank()
+            this.doDeleteAddresstype()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -200,14 +198,14 @@ export class SystemAddressTypeComponent implements OnInit {
       });
     }
 
-    doDeleteBank(){
-      this.bankService.bank_delete(this.selectedBank).then((res) => {
+    doDeleteAddresstype(){
+      this.addresstypeService.addresstype_delete(this.selectedAddresstype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadAddresstype();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -218,7 +216,7 @@ export class SystemAddressTypeComponent implements OnInit {
       });
     }
 
-    onRowSelectBank(event: Event) {
+    onRowSelectaddresstype(event: Event) {
       this.edit_data= true;
       this.new_data= false;
     }
@@ -230,21 +228,21 @@ export class SystemAddressTypeComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadBank(){
+    doUploadAddresstype(){
 
       this.displayUpload = false;
 
-      const filename = "BANK_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+      const filename = "Addresstype_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
 
 
-      this.bankService.bank_import(this.fileToUpload, filename, filetype).then((res) => {
+      this.addresstypeService.addresstype_import(this.fileToUpload, filename, filetype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadBank();
+        this.doLoadAddresstype();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -269,7 +267,7 @@ export class SystemAddressTypeComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_bank.xlsx');
+      XLSX.writeFile(wb, 'Export_addresstype.xlsx');
 
     }
 

@@ -5,30 +5,33 @@ import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-
-import { ReligionService } from 'src/app/services/system/religion.service';
-import { ReligionModel } from 'src/app/models/system/religion';
+import { CardtypeModel } from 'src/app/models/system/cardtype';
+import { CardtypeService } from 'src/app/services/system/cardtype.service';
+import { BloodtypeModel } from 'src/app/models/system/bloodtype';
+import { BloodtypeService } from 'src/app/services/system/bloodtype.service';
 @Component({
-  selector: 'app-system-religion',
-  templateUrl: './system-religion.component.html',
-  styleUrls: ['./system-religion.component.scss']
+  selector: 'app-system-bloodtype',
+  templateUrl: './system-bloodtype.component.html',
+  styleUrls: ['./system-bloodtype.component.scss']
 })
-export class SystemReligionComponent implements OnInit {
+export class SystemBloodtypeComponent implements OnInit {
+
+
 
 
     items: MenuItem[] = [];
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    religion_list: ReligionModel[] = [];
-    selectedReligion: ReligionModel = new ReligionModel();
+    bloodtype_list: BloodtypeModel[] = [];
+    selectedBloodtype: BloodtypeModel = new BloodtypeModel();
 
-    constructor(private religionService: ReligionService,
+    constructor(private bloodtypeService: BloodtypeService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -42,7 +45,7 @@ export class SystemReligionComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadReligion()
+        this.doLoadBloodtype()
       }, 500);
 
 
@@ -56,7 +59,7 @@ export class SystemReligionComponent implements OnInit {
       }
     }
 
-    title_page:string = "Religion";
+    title_page:string = "Bloodtype";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
@@ -86,7 +89,7 @@ export class SystemReligionComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
-        this.title_page = "ข้อมูลศาสนา";
+        this.title_page = "ข้อมูลกรุ๊ปเลือด";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
@@ -124,7 +127,7 @@ export class SystemReligionComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedReligion = new ReligionModel();
+            this.selectedBloodtype = new BloodtypeModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -150,10 +153,11 @@ export class SystemReligionComponent implements OnInit {
       ];
     }
 
-    doLoadReligion(){
-      this.religionService.religion_get().then((res) => {
-       this.religion_list = res;
+    doLoadBloodtype(){
+      this.bloodtypeService.bloodtype_get().then((res) => {
+       this.bloodtype_list = res;
       });
+      console.log(this.bloodtypeService);
     }
 
     confirmRecord() {
@@ -162,7 +166,7 @@ export class SystemReligionComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordReligion()
+            this.doRecordBloodtype()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -170,14 +174,14 @@ export class SystemReligionComponent implements OnInit {
       });
     }
 
-    doRecordReligion(){
-      this.religionService.religion_record(this.selectedReligion).then((res) => {
+    doRecordBloodtype(){
+      this.bloodtypeService.bloodtype_record(this.selectedBloodtype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadReligion()
+        this.doLoadBloodtype()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -192,7 +196,7 @@ export class SystemReligionComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteReligion()
+            this.doDeleteBloodtype()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -200,14 +204,14 @@ export class SystemReligionComponent implements OnInit {
       });
     }
 
-    doDeleteReligion(){
-      this.religionService.religion_delete(this.selectedReligion).then((res) => {
+    doDeleteBloodtype(){
+      this.bloodtypeService.bloodtype_delete(this.selectedBloodtype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadReligion();
+        this.doLoadBloodtype();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -218,7 +222,7 @@ export class SystemReligionComponent implements OnInit {
       });
     }
 
-    onRowSelectReligion(event: Event) {
+    onRowSelectBloodtype(event: Event) {
       this.edit_data= true;
       this.new_data= false;
     }
@@ -230,21 +234,21 @@ export class SystemReligionComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadReligion(){
+    doUploadBloodtype(){
 
       this.displayUpload = false;
 
-      const filename = "RELIGION_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+      const filename = "BLOODTYPE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
 
 
-      this.religionService.religion_import(this.fileToUpload, filename, filetype).then((res) => {
+      this.bloodtypeService.bloodtype_import(this.fileToUpload, filename, filetype).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadReligion();
+        this.doLoadBloodtype();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -269,7 +273,7 @@ export class SystemReligionComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_religion.xlsx');
+      XLSX.writeFile(wb, 'Export_bloodtype.xlsx');
 
     }
 

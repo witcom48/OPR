@@ -16,6 +16,11 @@ import { SystemFamilyTypeComponent } from  './system-policy/system-family-type/s
 import { SystemAddressTypeComponent } from './system-policy/system-address-type/system-address-type.component';
 import { SystemProvinceComponent } from   './system-policy/system-province/system-province.component';
 import { SystemReligionComponent } from  './system-policy/system-religion/system-religion.component';
+import { SystemEthnicityComponent } from './system-policy/system-ethnicity/system-ethnicity.component';
+import { SystemBloodtypeComponent } from './system-policy/system-bloodtype/system-bloodtype.component';
+import { SystemHospitalComponent } from './system-policy/system-hospital/system-hospital.component';
+import { SystemLocationComponent } from './system-policy/system-location/system-location.component';
+import { SystemReduceComponent } from './system-policy/system-reduce/system-reduce.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -34,6 +39,13 @@ import { SystemReligionComponent } from  './system-policy/system-religion/system
         { path: 'system-address-type', component: SystemAddressTypeComponent },
         { path: 'system-province', component: SystemProvinceComponent },
         { path: 'system-religion', component: SystemReligionComponent },
+        { path: 'system-ethnicity', component: SystemEthnicityComponent },
+        { path: 'system-bloodtype', component: SystemBloodtypeComponent },
+        { path: 'system-hospital', component: SystemHospitalComponent },
+        { path: 'system-location', component: SystemLocationComponent },
+        { path: 'system-reduce', component: SystemReduceComponent },
+
+
 
 
 

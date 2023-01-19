@@ -83,7 +83,7 @@ export class ReasonComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
-        this.title_page = "เหตุผล";
+        this.title_page = "ข้อมูลเหตุผล";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
