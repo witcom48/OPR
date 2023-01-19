@@ -22,7 +22,7 @@
             selectionMode="single" [(selection)]="holidays" (onRowSelect)="onRowSelect($event)" [rows]="12"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="from {first} to {last} total {totalRecords}"
-            [globalFilterFields]="['period_name_en','period_from','period_to','period_payment','modied_by','modied_date']">
+            [globalFilterFields]="['planholiday_code','plandoliday_name_en','plandoliday_name_th','modied_by','modied_date']">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">

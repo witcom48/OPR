@@ -13,6 +13,7 @@ import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.c
 import { ReasonComponent } from './attendance-policy/reason/reason.component';
 import { LocationComponent } from './attendance-policy/location/location.component';
 import { HolidayComponent } from './attendance-policy/holiday/holiday.component';
+import { ShiftComponent } from './attendance-policy/shift/shift.component';
 
 
 
@@ -30,6 +31,7 @@ import { HolidayComponent } from './attendance-policy/holiday/holiday.component'
         { path: 'policy/reason', component: ReasonComponent },
         { path: 'policy/location', component: LocationComponent },
         { path: 'policy/holiday', component: HolidayComponent },
+        { path: 'policy/shift', component: ShiftComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

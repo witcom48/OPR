@@ -12,6 +12,10 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/flags/flags.css";
 @import "assets/demo/styles/badges.scss";
 
+// body {
+//   overflow: hidden;
+// }
+
 i {
   font-family: 'primeicons';
   speak: none;
@@ -174,11 +178,18 @@ th {
 }
 
 .formatt {
+  button {
+    min-height: 40px
+  }
+
+  min-height: 50vh;
+  max-height: 75vh;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 1vw;
-  min-width: 350px;
+  min-width: 400px;
   width: 25vw;
 
   i:before {
@@ -190,16 +201,67 @@ th {
     cursor: pointer;
   }
 
-  // div {
-  //   display: flex;
-  // }
-
   p {
     display: flex;
     flex-direction: row-reverse;
   }
 }
 
-textarea{
+.selecttype {
+  min-width: 200px !important;
+
+  li {
+    min-width: 200px !important;
+  }
+}
+
+textarea {
   min-height: 59px !important;
+}
+
+.timeperiod {
+  display: flex;
+  gap: 10px;
+
+  p-calendar {
+    input {
+      text-align: center !important;
+      max-width: 60px;
+    }
+  }
+
+  .inputtime {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      width: 100% !important;
+    }
+  }
+
+  div {
+    max-width: 137px;
+  }
+}
+
+.formot {
+  display: flex;
+  // flex-wrap: wrap;
+  gap: 10px;
+
+  input {
+    // text-align: center !important;
+    max-width: 137px !important;
+  }
+
+  // .inputtime {
+  //   max-width: 60px;
+  // }
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    // flex-direction: column;
+
+  }
 }
