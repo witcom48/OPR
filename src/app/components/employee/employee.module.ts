@@ -43,6 +43,12 @@ import { EmployeeManageComponent } from './employee-manage/employee-manage.compo
 import { EmployeePolicyComponent } from './employee-policy/employee-policy.component';
 import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.component';
 import { LocationComponent } from './location/location.component';
+import { PartComponent } from './part/part.component';
+import { PositionComponent } from './position/position.component';
+import { GroupComponent } from './group/group.component';
+import { InitialComponent } from './initial/initial.component';
+import { EmptypeComponent } from './emptype/emptype.component';
+import { EmpstatusComponent } from './empstatus/empstatus.component';
 
 
 @NgModule({
@@ -92,7 +98,13 @@ import { LocationComponent } from './location/location.component';
     EmployeeManageComponent,
     EmployeePolicyComponent,
     EmployeeMonitorComponent,
-    LocationComponent
+    LocationComponent,
+    PartComponent,
+    PositionComponent,
+    GroupComponent,
+    InitialComponent,
+    EmptypeComponent,
+    EmpstatusComponent
   ]
 })
 export class EmployeeModule { }

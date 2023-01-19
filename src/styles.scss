@@ -12,3 +12,205 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/flags/flags.css";
 @import "assets/demo/styles/badges.scss";
 
+i {
+  font-family: 'primeicons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-feature-settings: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  span {
+    font-family: 'primeicons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.p-calendar {
+  width: 100% !important;
+}
+
+input[type=file] {
+  width: 40vw;
+  max-width: 100%;
+  color: #444;
+  padding: 5px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #555;
+}
+
+input[type=file]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: #084cdf;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+
+input[type=file]::file-selector-button:hover {
+  background: #0d45a5;
+}
+
+.drop-container {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px dashed #555;
+  color: #444;
+  cursor: pointer;
+  transition: background .2s ease-in-out, border .2s ease-in-out;
+}
+
+.drop-container:hover {
+  background: #eee;
+  border-color: #111;
+}
+
+.drop-container:hover .drop-title {
+  color: #222;
+}
+
+.drop-title {
+  color: #444;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  transition: color .2s ease-in-out;
+}
+
+.selectyaer {
+  min-width: 200px !important;
+
+  ul {
+    min-width: 200px !important;
+  }
+}
+
+.path {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  span {
+    font-size: 24px
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    gap: 5px;
+    transform: translate(0, 22%);
+
+    i:before {
+      content: "\e932";
+    }
+  }
+
+
+}
+
+
+td {
+  text-align: center !important;
+}
+
+th {
+  text-align: center !important;
+}
+
+.searchtable {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.tabledata {
+  display: grid;
+  grid-template-columns: 1fr 0fr;
+  flex-wrap: wrap;
+}
+
+@media(max-width: 744px) {
+  .tabledata {
+    display: grid;
+    grid-template-columns: 1fr;
+    flex-wrap: wrap;
+  }
+
+}
+
+.formatt {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 1vw;
+  min-width: 350px;
+  width: 25vw;
+
+  i:before {
+    content: "\e90b";
+    display: flex;
+    flex-direction: row-reverse;
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  // div {
+  //   display: flex;
+  // }
+
+  p {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}
+
+textarea{
+  min-height: 59px !important;
+}
+
+.selectlevel .p-dropdown{
+  width: 100%;
+}
+
+.tableemp {
+  display: grid;
+  grid-template-columns: 1fr 0fr;
+  flex-wrap: wrap;
+}
+  

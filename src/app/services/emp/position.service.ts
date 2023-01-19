@@ -5,12 +5,12 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
-import { LocationModel } from 'src/app/models/employee/location';
+import { PositionModel } from 'src/app/models/employee/position';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LocationService {
+export class PositionService {
 
   public config:AppConfig = new AppConfig();
   
@@ -58,10 +58,10 @@ export class LocationService {
     } 
   }
 
-  public location_get(){      
-    console.log('LCT001..');
+  public position_get(){      
+    console.log('PST001..');
            
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/location_list', this.basicRequest, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/position_list', this.basicRequest, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
@@ -69,38 +69,38 @@ export class LocationService {
     });
   }
 
-  public location_record(model:LocationModel) {
-    console.log('LCT002..');
+  public position_record(model:PositionModel) {
+    console.log('PST002..');
     const data = {
-      location_id: model.location_id,
-      location_code: model.location_code,
-      location_name_th: model.location_name_th,
-      location_name_en: model.location_name_en,
-      location_detail: model.location_detail,     
+      position_id: model.position_id,
+      position_code: model.position_code,
+      position_name_th: model.position_name_th,
+      position_name_en: model.position_name_en,
+      company_code: this.initial_current.CompCode,     
       modified_by: this.initial_current.Username
     };    
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/location', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/position', data, this.options).toPromise()   
     .then((res) => {
       return res;
     });
   }
 
-  public location_delete(model:LocationModel) {
+  public position_delete(model:PositionModel) {
     console.log('LCT003..');
     const data = {
-      location_id: model.location_id,
-      location_code: model.location_code,       
-      modified_by: this.initial_current.Username
+        position_id: model.position_id,
+        position_code: model.position_code,       
+        modified_by: this.initial_current.Username
     };    
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/location_del', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/position_del', data, this.options).toPromise()   
     .then((res) => {      
       return res;
     });
   } 
 
-  public location_import(file: File, file_name:string, file_type:string){
+  public position_import(file: File, file_name:string, file_type:string){
 
     const formData = new FormData();
     formData.append('file', file);
@@ -109,7 +109,7 @@ export class LocationService {
       para += "&token=" + this.initial_current.Token;
       para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadLocation?' + para, formData).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadPosition?' + para, formData).toPromise()   
     .then((res) => {      
       return res;
     });

@@ -5,12 +5,12 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
-import { LocationModel } from 'src/app/models/employee/location';
+import { PartModel } from 'src/app/models/employee/part';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LocationService {
+export class PartService {
 
   public config:AppConfig = new AppConfig();
   
@@ -27,7 +27,6 @@ export class LocationService {
     ip:'',
     username:''
   };
-
   constructor(private http:HttpClient, private router: Router) {
     this.doGetInitialCurrent();
    }
@@ -41,27 +40,23 @@ export class LocationService {
         'Cache-Control': 'no-cache',
         'Authorization': this.initial_current.Token
       });
-
       this.options = {
         headers: this.httpHeaders
       };
-
       this.basicRequest = { 
         device_name:'',
         ip:"localhost",
         username:this.initial_current.Username
       };
-
     }   
     else{
       this.router.navigateByUrl('login');
     } 
   }
 
-  public location_get(){      
-    console.log('LCT001..');
-           
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/location_list', this.basicRequest, this.options).toPromise()   
+  public dep_get(){      
+    console.log('DEP001..');
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/dep_list', this.basicRequest, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
@@ -69,38 +64,39 @@ export class LocationService {
     });
   }
 
-  public location_record(model:LocationModel) {
-    console.log('LCT002..');
+  public dep_record(model:PartModel) {
+    console.log('DEP002..');
     const data = {
-      location_id: model.location_id,
-      location_code: model.location_code,
-      location_name_th: model.location_name_th,
-      location_name_en: model.location_name_en,
-      location_detail: model.location_detail,     
+      dep_id: model.dep_id,
+      dep_code: model.dep_code,
+      dep_name_th: model.dep_name_th,
+      dep_name_en: model.dep_name_en,
+      dep_parent: " ",
+      dep_level: model.dep_level,
+      company_code: this.initial_current.CompCode,
       modified_by: this.initial_current.Username
     };    
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/location', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/dep', data, this.options).toPromise()   
     .then((res) => {
       return res;
     });
   }
 
-  public location_delete(model:LocationModel) {
-    console.log('LCT003..');
+  public dep_delete(model:PartModel) {
+    console.log('DEP003..');
     const data = {
-      location_id: model.location_id,
-      location_code: model.location_code,       
+      dep_id: model.dep_id,
+      dep_code: model.dep_code,       
       modified_by: this.initial_current.Username
     };    
-
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/location_del', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/dep_del', data, this.options).toPromise()   
     .then((res) => {      
       return res;
     });
-  } 
+  }
 
-  public location_import(file: File, file_name:string, file_type:string){
+  public dep_import(file: File, file_name:string, file_type:string){
 
     const formData = new FormData();
     formData.append('file', file);
@@ -109,12 +105,9 @@ export class LocationService {
       para += "&token=" + this.initial_current.Token;
       para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadLocation?' + para, formData).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadDep?' + para, formData).toPromise()   
     .then((res) => {      
       return res;
     });
-
-    
   }
-
 }
