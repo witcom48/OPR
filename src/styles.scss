@@ -274,3 +274,46 @@ textarea {
 .p-dropdown {
   width: 100% !important;
 }
+
+p-inputnumber {
+  width: 100%;
+
+  span {
+    width: 100% !important;
+  }
+}
+
+.picklistvertical {
+  .p-picklist .p-picklist-buttons {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .p-picklist {
+    flex-direction: column;
+  }
+
+  .p-picklist .pi-angle-double-right:before {
+    content: "\e92c";
+  }
+
+  .p-picklist .pi-angle-left:before {
+    content: "\e933";
+  }
+
+  .p-picklist .pi-angle-right:before {
+    content: "\e930";
+  }
+
+  .p-picklist .pi-angle-double-left:before {
+    content: "\e92f";
+  }
+
+  .p-picklist-source-controls {
+    display: none !important;
+  }
+
+  .p-picklist-target-controls {
+    display: none !important;
+  }
+}

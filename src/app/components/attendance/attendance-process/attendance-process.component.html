@@ -29,7 +29,7 @@
             </div>
 
             <div class="field col-12">
-                <p-pickList [source]="timesheet_list" [target]="timesheet_dest" sourceHeader="Source List" targetHeader="Target List">
+                <p-pickList [metaKeySelection]="false"  [responsive]="true" [source]="timesheet_list" [target]="timesheet_dest" sourceHeader="Source List" targetHeader="Target List" [sourceStyle]="{'height':'15rem'}" [targetStyle]="{'height':'15rem'}">
                     <ng-template let-emp pTemplate="item">
                         <div>            
                             <div style="font-size:14px;float:left;">{{emp.emp_code}} - {{emp.emp_name}}</div>
@@ -39,7 +39,7 @@
             </div>
             <div class="field col-12 md:col-6">
                 <label for="lastname2">รูปแบบ :</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                <p-dropdown  placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
             
             <div class="field col-12 md:col-6">
