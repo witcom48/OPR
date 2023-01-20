@@ -5,7 +5,7 @@
         <i></i>
         <a routerLink="/attendance/policy">Policy</a>
         <i></i>
-        <small>Holiday</small>
+        <small>Shift Plan</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -18,8 +18,8 @@
 <div class="tabledata">
     <!-- Table Show Data Holiday -->
     <div #TABLE>
-        <p-table #dt2 [value]="holiday_lists" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-            selectionMode="single" [(selection)]="holidays" (onRowSelect)="onRowSelect($event)" [rows]="12"
+        <p-table #dt2 [value]="shiftplan_lists" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+            selectionMode="single" [(selection)]="shiftplans" (onRowSelect)="onRowSelect($event)" [rows]="12"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="from {first} to {last} total {totalRecords}"
             [globalFilterFields]="['planholiday_code','plandoliday_name_en','plandoliday_name_th','modied_by','modied_date']">
@@ -27,12 +27,8 @@
             <ng-template pTemplate="caption">
                 <div class="searchtable">
                     <div>
-                        <!-- Dropdown Select Year -->
-                        <p-dropdown class="selectyaer" [options]="yaerList" [(ngModel)]="selectedyear"
-                            (onChange)="selectYear()" optionLabel="name"></p-dropdown>
-                        <!-- ------------------END Dropdown Select Year------------------------- -->
-                    </div>
 
+                    </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
@@ -54,8 +50,8 @@
             <ng-template pTemplate="body" let-data let-i="rowIndex">
                 <tr [pSelectableRow]="data">
                     <td>{{i+1}}</td>
-                    <td>{{data.planholiday_code}}</td>
-                    <td>{{data.plandoliday_name_en}}</td>
+                    <td>{{data.planshift_code}}</td>
+                    <td>{{data.planshift_name_en}}</td>
                     <td>{{data.modied_by}}</td>
                     <td>{{data.modied_date | date:'dd/MM/yyyy'}}</td>
 
@@ -70,38 +66,50 @@
         <i (click)="close()"></i>
 
         <label>No.</label>
-        <input pInputText type="text" [(ngModel)]="holidays.planholiday_code" maxlength="2" />
-        <p>{{holidays.planholiday_code.length}}/2</p>
+        <input pInputText type="text" [(ngModel)]="shiftplans.planshift_code" maxlength="10" />
+        <p>{{shiftplans.planshift_code.length}}/10</p>
 
         <label>Description (Eng.)</label>
-        <textarea [(ngModel)]="holidays.plandoliday_name_en" pInputTextarea [autoResize]="true"></textarea>
+        <textarea [(ngModel)]="shiftplans.planshift_name_en" pInputTextarea [autoResize]="true"></textarea>
 
         <label>Description (Thai)</label>
-        <textarea [(ngModel)]="holidays.plandoliday_name_th" pInputTextarea [autoResize]="true"></textarea>
+        <textarea [(ngModel)]="shiftplans.planshift_name_th" pInputTextarea [autoResize]="true"></textarea>
         <div #TABLELIST>
             <p-accordion>
                 <p-accordionTab header="Holiday List">
                     <p-menubar [model]="items_holiday"></p-menubar>
-                    <p-table [value]="holidays.holiday_list" styleClass="p-datatable-sm"
+                    <p-table [value]="shiftplans.planschedule" styleClass="p-datatable-sm"
                         (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
-                        [virtualScroll]="true" selectionMode="single" [(selection)]="holiday_listselect">
+                        [virtualScroll]="true" selectionMode="single" [(selection)]="planschedule_listselect">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>No.</th>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Day Type</th>
-                                <th>Rate Payment(%)</th>
+                                <th>Shift</th>
+                                <th>From date</th>
+                                <th>To date</th>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Web</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
 
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-data let-i="rowIndex">
                             <tr [pSelectableRow]="data">
                                 <td>{{i+1}}</td>
-                                <td>{{data.holiday_date | date:'dd/MM/yyyy'}}</td>
-                                <td>{{data.holiday_name_en}}</td>
-                                <td>{{data.holiday_daytype}}</td>
-                                <td>{{data.holiday_payper}}</td>
+                                <td>{{data.shift_code}}</td>
+                                <td>{{data.planschedule_fromdate | date:'dd/MM/yyyy'}}</td>
+                                <td>{{data.planschedule_todate | date:'dd/MM/yyyy'}}</td>
+                                <td>{{data.planschedule_sun_off}}</td>
+                                <td>{{data.planschedule_mon_off}}</td>
+                                <td>{{data.planschedule_tue_off}}</td>
+                                <td>{{data.planschedule_web_off}}</td>
+                                <td>{{data.planschedule_thu_off}}</td>
+                                <td>{{data.planschedule_fri_off}}</td>
+                                <td>{{data.planschedule_sta_off}}</td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -116,12 +124,54 @@
 </div>
 
 
-<p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddholiday">
+<p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddholiday" [maximizable]="true">
     <div class="formatt">
-        <label>Date</label>
-        <p-calendar  appendTo="body" [(ngModel)]="holiday_listselect.holiday_date" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <p-dropdown class="selectyaer" [options]="ShiftList" [(ngModel)]="selectedshift"
+            optionLabel="shift_name_en"></p-dropdown>
+        <label>Start date</label>
+        <p-calendar appendTo="body" [(ngModel)]="planschedule_listselect.planschedule_fromdate"
+            dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <label>End date</label>
+        <p-calendar appendTo="body" [(ngModel)]="planschedule_listselect.planschedule_todate"
+            dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <div class="checkday">
 
-        <label>Description (Eng.)</label>
+            <div>
+                <input type="checkbox" value="N"  [(ngModel)]="planschedule_listselect.planschedule_sun_off">
+                  <label>Sunday</label>
+            </div>
+
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_mon_off">
+                  <label>Monday</label>
+            </div>
+
+
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_tue_off">
+                  <label>Tuesday</label>
+            </div>
+            <div>
+
+                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_web_off">
+                  <label>Wednesday</label>
+
+            </div>
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_thu_off">
+                  <label>Thursday</label>
+            </div>
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_fri_off">
+                  <label>Friday</label>
+            </div>
+            <div>
+
+                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_sta_off">
+                  <label>Saturday</label>
+            </div>
+        </div>
+        <!-- <label>Description (Eng.)</label>
         <textarea [(ngModel)]="holiday_listselect.holiday_name_en" pInputTextarea [autoResize]="true"></textarea>
 
         <label>Description (Thai)</label>
@@ -133,11 +183,9 @@
               <label>Company day</label>
         </div>
         <label>Rate Payment(%)</label>
-        <input pInputText type="text" [(ngModel)]="holiday_listselect.holiday_payper" />
+        <input pInputText type="text" [(ngModel)]="holiday_listselect.holiday_payper" /> -->
     </div>
     <ng-template pTemplate="footer">
-        <!-- <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Save"></p-button>
-        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Delete"></p-button> -->
         <button *ngIf="displayeditholiday" pButton type="button" label="Delete" icon="pi pi-trash"
             class="p-button-danger"></button>
         <button pButton type="button" label="Save" icon="pi pi-check" (click)="Saveholiday()"></button>

@@ -94,13 +94,13 @@
         <textarea [(ngModel)]="timeperiods.period_name_th" pInputTextarea [autoResize]="true"></textarea>
 
         <label>FromDate</label>
-        <p-calendar [(ngModel)]="timeperiods.period_from" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <p-calendar appendTo="body" [(ngModel)]="timeperiods.period_from" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
 
         <label>ToDate</label>
-        <p-calendar [(ngModel)]="timeperiods.period_to" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <p-calendar appendTo="body" [(ngModel)]="timeperiods.period_to" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
 
         <label>Payment</label>
-        <p-calendar [(ngModel)]="timeperiods.period_payment" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <p-calendar appendTo="body" [(ngModel)]="timeperiods.period_payment" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
         <div>
             <input type="checkbox" value="1" [(ngModel)]="timeperiods.period_dayonperiod">
               <label>Days on Period</label>

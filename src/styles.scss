@@ -175,6 +175,11 @@ th {
     flex-wrap: wrap;
   }
 
+  .p-dialog {
+    width: 100vw !important;
+    max-height: 100% !important;
+    height: 100%;
+  }
 }
 
 .formatt {
@@ -189,7 +194,7 @@ th {
   flex-direction: column;
   gap: 6px;
   padding: 1vw;
-  min-width: 400px;
+  min-width: 370px;
   width: 25vw;
 
   i:before {
@@ -264,4 +269,8 @@ textarea {
     // flex-direction: column;
 
   }
+}
+
+.p-dropdown {
+  width: 100% !important;
 }

@@ -78,10 +78,10 @@
         <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"></textarea>
 
         <label>FromDate</label>
-        <p-calendar [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <p-calendar  appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
 
         <label>ToDate</label>
-        <p-calendar [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <p-calendar  appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
 
         <div>
               <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group">

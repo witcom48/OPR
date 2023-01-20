@@ -54,6 +54,7 @@ import { LocationComponent } from './attendance-policy/location/location.compone
 import { HolidayComponent } from './attendance-policy/holiday/holiday.component';
 import { ShiftComponent } from './attendance-policy/shift/shift.component';
 import { DateMaskDirective } from './date-mask.directive';
+import { ShiftPlanComponent } from './attendance-policy/shift-plan/shift-plan.component';
 
 
 @NgModule({
@@ -116,7 +117,8 @@ import { DateMaskDirective } from './date-mask.directive';
            LocationComponent,
            HolidayComponent,
            ShiftComponent,
-		   DateMaskDirective
+		   DateMaskDirective,
+     ShiftPlanComponent
   ]
 })
 export class AttendanceModule { }

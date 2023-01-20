@@ -8,12 +8,12 @@ import { AttendanceProcessComponent } from './attendance-process/attendance-proc
 import { AttendanceCalculateComponent } from './attendance-calculate/attendance-calculate.component';
 import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
 import { YearperiodComponent } from './attendance-policy/yearperiod/yearperiod.component';
-import { AttendanceTimecardComponent } from './attendance-timecard/attendance-timecard.component';
 import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
 import { ReasonComponent } from './attendance-policy/reason/reason.component';
 import { LocationComponent } from './attendance-policy/location/location.component';
 import { HolidayComponent } from './attendance-policy/holiday/holiday.component';
 import { ShiftComponent } from './attendance-policy/shift/shift.component';
+import { ShiftPlanComponent } from './attendance-policy/shift-plan/shift-plan.component';
 
 
 
@@ -32,6 +32,7 @@ import { ShiftComponent } from './attendance-policy/shift/shift.component';
         { path: 'policy/location', component: LocationComponent },
         { path: 'policy/holiday', component: HolidayComponent },
         { path: 'policy/shift', component: ShiftComponent },
+        { path: 'policy/shiftplan', component: ShiftPlanComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
