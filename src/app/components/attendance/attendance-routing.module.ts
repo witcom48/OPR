@@ -15,6 +15,7 @@ import { HolidayComponent } from './attendance-policy/holiday/holiday.component'
 import { ShiftComponent } from './attendance-policy/shift/shift.component';
 import { ShiftPlanComponent } from './attendance-policy/shift-plan/shift-plan.component';
 import { LeaveComponent } from './attendance-policy/leave/leave.component';
+import { LeavePlanComponent } from './attendance-policy/leave-plan/leave-plan.component';
 
 
 
@@ -35,6 +36,7 @@ import { LeaveComponent } from './attendance-policy/leave/leave.component';
         { path: 'policy/shift', component: ShiftComponent },
         { path: 'policy/shiftplan', component: ShiftPlanComponent },
         { path: 'policy/leave', component: LeaveComponent },
+        { path: 'policy/leaveplan', component: LeavePlanComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

@@ -56,6 +56,7 @@ import { ShiftComponent } from './attendance-policy/shift/shift.component';
 import { DateMaskDirective } from './date-mask.directive';
 import { ShiftPlanComponent } from './attendance-policy/shift-plan/shift-plan.component';
 import { LeaveComponent } from './attendance-policy/leave/leave.component';
+import { LeavePlanComponent } from './attendance-policy/leave-plan/leave-plan.component';
 
 
 @NgModule({
@@ -120,7 +121,8 @@ import { LeaveComponent } from './attendance-policy/leave/leave.component';
            ShiftComponent,
 		   DateMaskDirective,
      ShiftPlanComponent,
-     LeaveComponent
+     LeaveComponent,
+     LeavePlanComponent
   ]
 })
 export class AttendanceModule { }

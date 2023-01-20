@@ -136,8 +136,6 @@
         <input pInputText type="text" [(ngModel)]="holiday_listselect.holiday_payper" />
     </div>
     <ng-template pTemplate="footer">
-        <!-- <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Save"></p-button>
-        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Delete"></p-button> -->
         <button *ngIf="displayeditholiday" pButton type="button" label="Delete" icon="pi pi-trash"
             class="p-button-danger"></button>
         <button pButton type="button" label="Save" icon="pi pi-check" (click)="Saveholiday()"></button>
