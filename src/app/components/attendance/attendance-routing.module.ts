@@ -16,6 +16,7 @@ import { ShiftComponent } from './attendance-policy/shift/shift.component';
 import { ShiftPlanComponent } from './attendance-policy/shift-plan/shift-plan.component';
 import { LeaveComponent } from './attendance-policy/leave/leave.component';
 import { LeavePlanComponent } from './attendance-policy/leave-plan/leave-plan.component';
+import { OvertimeComponent } from './attendance-policy/overtime/overtime.component';
 
 
 
@@ -37,6 +38,7 @@ import { LeavePlanComponent } from './attendance-policy/leave-plan/leave-plan.co
         { path: 'policy/shiftplan', component: ShiftPlanComponent },
         { path: 'policy/leave', component: LeaveComponent },
         { path: 'policy/leaveplan', component: LeavePlanComponent },
+        { path: 'policy/overtime', component: OvertimeComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

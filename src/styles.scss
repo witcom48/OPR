@@ -168,6 +168,12 @@ th {
   flex-wrap: wrap;
 }
 
+.p-selectable-row {
+  span {
+    display: none;
+  }
+}
+
 @media(max-width: 744px) {
   .tabledata {
     display: grid;
@@ -179,6 +185,12 @@ th {
     width: 100vw !important;
     max-height: 100% !important;
     height: 100%;
+  }
+
+  .p-selectable-row {
+    span {
+      display: block;
+    }
   }
 }
 
@@ -251,22 +263,16 @@ textarea {
 
 .formot {
   display: flex;
-  // flex-wrap: wrap;
   gap: 10px;
 
   input {
-    // text-align: center !important;
     max-width: 137px !important;
   }
 
-  // .inputtime {
-  //   max-width: 60px;
-  // }
 
   div {
     display: flex;
     flex-wrap: wrap;
-    // flex-direction: column;
 
   }
 }

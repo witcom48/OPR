@@ -21,8 +21,38 @@ export class YearperiodComponent implements OnInit {
 
   ngOnInit(): void {
     this.doLoadMenu()
-    this.yearperiods_list = [{ company_code: "PSG", year_id: "1", year_code: "2022", year_name_th: "ปีภาษี", year_name_en: "TAX", year_fromdate: new Date("2022-01-01"), year_todate: new Date("2022-12-31"), year_group: "TAX", created_by: "Admin01", modied_by: "admin01", created_date: "2022-01-01", modied_date: "2022-01-02", flag: "" },
-    { company_code: "PSG", year_id: "2", year_code: "2023", year_name_th: "ปีการลา", year_name_en: "Leave Calendar", year_fromdate: new Date("2022-01-01"), year_todate: new Date("2022-12-31"), year_group: "Leave", created_by: "Admin", modied_by: "admin", created_date: "2022-01-02", modied_date: "2022-01-03", flag: "" },]
+    this.yearperiods_list = [
+      {
+        company_code: "PSG",
+        year_id: "1",
+        year_code: "2022",
+        year_name_th: "ปีภาษี",
+        year_name_en: "TAX",
+        year_fromdate: new Date("2022-01-01"),
+        year_todate: new Date("2022-12-31"),
+        year_group: "TAX",
+        created_by: "Admin01",
+        modied_by: "admin01",
+        created_date: "2022-01-01",
+        modied_date: "2022-01-02",
+        flag: ""
+      },
+      {
+        company_code: "PSG",
+        year_id: "2",
+        year_code: "2023",
+        year_name_th: "ปีการลา",
+        year_name_en: "Leave Calendar",
+        year_fromdate: new Date("2022-01-01"),
+        year_todate: new Date("2022-12-31"),
+        year_group: "Leave",
+        created_by: "Admin",
+        modied_by: "admin",
+        created_date: "2022-01-02",
+        modied_date: "2022-01-03",
+        flag: ""
+      },
+    ]
   }
 
   handleFileInput(file: FileList) {
@@ -81,12 +111,12 @@ export class YearperiodComponent implements OnInit {
           this.displayUpload = false;
         }
       });
-    }else{
+    } else {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
   }
-  close(){
-    this.new_data=false
+  close() {
+    this.new_data = false
     this.yearperiods = new YearPeriodModels()
   }
   Save() {
