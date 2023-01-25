@@ -18,6 +18,7 @@ import { LeaveComponent } from './attendance-policy/leave/leave.component';
 import { LeavePlanComponent } from './attendance-policy/leave-plan/leave-plan.component';
 import { OvertimeComponent } from './attendance-policy/overtime/overtime.component';
 import { DiligenceComponent } from './attendance-policy/diligence/diligence.component';
+import { LateComponent } from './attendance-policy/late/late.component';
 
 
 
@@ -41,6 +42,7 @@ import { DiligenceComponent } from './attendance-policy/diligence/diligence.comp
         { path: 'policy/leaveplan', component: LeavePlanComponent },
         { path: 'policy/overtime', component: OvertimeComponent },
         { path: 'policy/diligence', component: DiligenceComponent },
+        { path: 'policy/late', component: LateComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
