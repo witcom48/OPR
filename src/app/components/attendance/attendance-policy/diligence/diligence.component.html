@@ -1,0 +1,254 @@
+<!-- Link Page -->
+<div class="path">
+    <span>Attendance</span>
+    <div>
+        <i></i>
+        <a routerLink="/attendance/policy">Policy</a>
+        <i></i>
+        <small>Diligence</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="diligence_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+            selectionMode="single" [(selection)]="diligences" (onRowSelect)="onRowSelect($event)" [rows]="10"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="from {first} to {last} total {totalRecords}"
+            [globalFilterFields]="['year_code','year_name_en','modied_by','modied_date']">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="search" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>No.</th>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Modified by</th>
+                    <th>Modified date</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                <tr [pSelectableRow]="data">
+                    <td>{{i+1}}</td>
+                    <td>{{data.diligence_code}}</td>
+                    <td>{{data.diligence_name_en}}</td>
+                    <td>{{data.modied_by}}</td>
+                    <td>{{data.modied_date | date:'dd/MM/yyyy'}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data Year Period -->
+    <div class="formatt" *ngIf="new_data==true">
+        <i (click)="close()"></i>
+
+        <label>Code</label>
+        <input pInputText type="text" [(ngModel)]="diligences.diligence_code" maxlength="4" />
+        <p>{{diligences.diligence_code.length}}/4</p>
+
+        <label>Description (Eng.)</label>
+        <textarea [(ngModel)]="diligences.diligence_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>Description (Thai)</label>
+        <textarea [(ngModel)]="diligences.diligence_name_th" pInputTextarea [autoResize]="true"></textarea>
+        <div class="inputincheckbox">
+            <div class="inputcheckbox">
+                <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_passpro">
+                  <label>Pass pro</label>
+            </div>
+        </div>
+
+        <div class="inputincheckbox">
+            <div class="inputcheckbox">
+                <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_punchcard">
+                  <label>Punchcard</label>
+            </div>
+            <div class="inputvalue">
+                <div>
+                    <label>Times</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_punchcard_times"
+                        [useGrouping]="false"></p-inputNumber>
+                </div>
+                <div>
+                    <label>Per Month</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_punchcard_timespermonth"
+                        [useGrouping]="false"></p-inputNumber>
+                </div>
+            </div>
+        </div>
+        <div class="inputincheckbox">
+            <div class="inputcheckbox">
+                <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_late">
+                  <label>Late</label>
+            </div>
+            <div class="inputvalue">
+                <div>
+                    <label>Times</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_late_times" [useGrouping]="false"></p-inputNumber>
+                </div>
+                <div>
+                    <label>Minute</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_late_acc" [useGrouping]="false"></p-inputNumber>
+                </div>
+                <div>
+                    <label>Per Month</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_late_timespermonth"
+                        [useGrouping]="false"></p-inputNumber>
+                </div>
+            </div>
+        </div>
+
+        <div class="inputincheckbox">
+            <div class="inputcheckbox">
+                <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_ba">
+                  <label>In/Out</label>
+            </div>
+            <div class="inputvalue">
+                <div>
+                    <label>Before (Minute)</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_before_min" [useGrouping]="false"></p-inputNumber>
+                </div>
+                <div>
+                    <label>After (Minute)</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_after_min" [useGrouping]="false"></p-inputNumber>
+                </div>
+            </div>
+        </div>
+        <div class="radiorole">
+            <label>In Case of Violate the role :</label>
+            <div>
+                  <input type="radio" name="roel" value="1" [(ngModel)]="diligences.diligence_wrongcondition">
+                  <label>1 step down and pay</label>
+
+                  <input type="radio" name="roel" value="2" [(ngModel)]="diligences.diligence_wrongcondition">
+                  <label>1 step down and not pay</label>
+
+                  <input type="radio" name="roel" value="3" [(ngModel)]="diligences.diligence_wrongcondition">
+                  <label>Step as before and pay</label>
+
+                  <input type="radio" name="roel" value="4" [(ngModel)]="diligences.diligence_wrongcondition">
+                  <label>Step as before and not Pay</label>
+
+                  <input type="radio" name="roel" value="5" [(ngModel)]="diligences.diligence_wrongcondition">
+                  <label>Start</label>
+            </div>
+        </div>
+        <div class="inputincheckbox">
+            <div class="inputcheckbox">
+                <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_somperiod">
+                  <label>Some period</label>
+            </div>
+            <div class="inputvalue">
+                  <input type="radio" name="someperiod" value="Y" [(ngModel)]="diligences.diligence_somperiod_first">
+                  <label>First period</label>
+
+                  <input type="radio" name="someperiod" value="N" [(ngModel)]="diligences.diligence_somperiod_first">
+                  <label>Second Period</label>
+            </div>
+        </div>
+        <div #TABLELIST>
+            <p-accordion>
+                <p-accordionTab header="Step">
+                    <p-menubar [model]="itemsstep"></p-menubar>
+                    <p-table [value]="diligences.step" styleClass="p-datatable-sm"
+                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                        [virtualScroll]="true" selectionMode="single" [(selection)]="diligencestep">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <!-- <th>No.</th> -->
+                                <th>Step</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data let-i="rowIndex">
+                            <tr [pSelectableRow]="data">
+                                <!-- <td>{{i+1}}</td> -->
+                                <td>{{data.steppay_step}}</td>
+                                <td>{{data.steppay_type == "1"?"Amount":data.steppay_type ==
+                                    "2"?"Percent":data.steppay_type == "3"?"Miniute/Day":null}}</td>
+                                <td>{{data.steppay_amount}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
+            class="p-button-danger"></button>
+    </div>
+    <!-- --------------End form Input Data ------------------ -->
+</div>
+
+
+
+
+
+<p-dialog header="Upload" [(visible)]="displayaddstep" [maximizable]="true">
+    <div class="formatt">
+        <label>Step</label>
+        <p-inputNumber [(ngModel)]="diligencestep.steppay_step" [useGrouping]="false"></p-inputNumber>
+        <div>
+              <input type="radio" name="fav_language" value="1" [(ngModel)]="diligencestep.steppay_type">
+              <label>Amount</label>
+
+              <input type="radio" name="fav_language" value="2" [(ngModel)]="diligencestep.steppay_type">
+              <label>Percent</label>
+
+              <input type="radio" name="fav_language" value="3" [(ngModel)]="diligencestep.steppay_type">
+              <label>Miniute/Day</label>
+        </div>
+        <label>Amount</label>
+        <p-inputNumber [(ngModel)]="diligencestep.steppay_amount" [useGrouping]="false"></p-inputNumber>
+    </div>
+    <ng-template pTemplate="footer">
+        <button *ngIf="displayeditstep" pButton type="button" label="Delete" icon="pi pi-trash"
+            class="p-button-danger"></button>
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Savestep()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

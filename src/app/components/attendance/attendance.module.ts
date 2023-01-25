@@ -58,6 +58,7 @@ import { ShiftPlanComponent } from './attendance-policy/shift-plan/shift-plan.co
 import { LeaveComponent } from './attendance-policy/leave/leave.component';
 import { LeavePlanComponent } from './attendance-policy/leave-plan/leave-plan.component';
 import { OvertimeComponent } from './attendance-policy/overtime/overtime.component';
+import { DiligenceComponent } from './attendance-policy/diligence/diligence.component';
 
 
 @NgModule({
@@ -124,7 +125,8 @@ import { OvertimeComponent } from './attendance-policy/overtime/overtime.compone
      ShiftPlanComponent,
      LeaveComponent,
      LeavePlanComponent,
-     OvertimeComponent
+     OvertimeComponent,
+     DiligenceComponent
   ]
 })
 export class AttendanceModule { }

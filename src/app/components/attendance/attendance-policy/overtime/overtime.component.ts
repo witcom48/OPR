@@ -92,6 +92,7 @@ export class OvertimeComponent implements OnInit {
   }
 
   onRowSelectList(event: any) {
+    console.log(this.daytype.keys)
     this.select_daytype = { name: this.daytype.filter((e) => e.code == this.rate.rateot_daytype)[0].name, code: this.rate.rateot_daytype }
     this.displayaddrate = true
     this.displayeditrate = true
