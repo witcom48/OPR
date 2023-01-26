@@ -20,13 +20,20 @@ import { OvertimeComponent } from './attendance-policy/overtime/overtime.compone
 import { DiligenceComponent } from './attendance-policy/diligence/diligence.component';
 import { LateComponent } from './attendance-policy/late/late.component';
 import { SetHolidayComponent } from './attendance-policy/set-holiday/set-holiday.component';
+import { SetShiftComponent } from './attendance-policy/set-shift/set-shift.component';
+import { SetOvertimeComponent } from './attendance-policy/set-overtime/set-overtime.component';
+import { SetDiligenceComponent } from './attendance-policy/set-diligence/set-diligence.component';
+import { SetLateComponent } from './attendance-policy/set-late/set-late.component';
+import { SetLeaveComponent } from './attendance-policy/set-leave/set-leave.component';
+import { AttendanceManageComponent } from './attendance-manage/attendance-manage.component';
 
 
 
 @NgModule({
-    imports: [RouterModule.forChild([ 
-       
+    imports: [RouterModule.forChild([
+
         { path: 'policy', component: AttendancePolicyComponent },
+        { path: 'manage', component: AttendanceManageComponent },
         { path: 'self', component: AttendanceSelfComponent },
         { path: 'import', component: AttendanceImportComponent },
         { path: 'process', component: AttendanceProcessComponent },
@@ -45,6 +52,11 @@ import { SetHolidayComponent } from './attendance-policy/set-holiday/set-holiday
         { path: 'policy/diligence', component: DiligenceComponent },
         { path: 'policy/late', component: LateComponent },
         { path: 'policy/setholiday', component: SetHolidayComponent },
+        { path: 'policy/setshift', component: SetShiftComponent },
+        { path: 'policy/setovertime', component: SetOvertimeComponent },
+        { path: 'policy/setdiligence', component: SetDiligenceComponent },
+        { path: 'policy/setlate', component: SetLateComponent },
+        { path: 'policy/setleave', component: SetLeaveComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

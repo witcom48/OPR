@@ -69,6 +69,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Attendance',
                 items: [
                     { label: 'Policy', routerLink: ['/attendance/policy'] },
+                    { label: 'Manage', routerLink: ['/attendance/manage'] },
                     // { label: 'Self Services', routerLink: ['/attendance/self'] },                   
                     { label: 'Import Time', routerLink: ['/attendance/import'] },
                     { label: 'Processing Time', routerLink: ['/attendance/process'] },

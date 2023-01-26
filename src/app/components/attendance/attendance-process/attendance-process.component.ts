@@ -33,10 +33,9 @@ export class AttendanceProcessComponent implements OnInit {
     this.doLoadEmp()
     this.policyselect =
     {
-      name: this.policy_list[0].name,
-      code: this.policy_list[0].code
+      name: this.policy_list[0]?.name,
+      code: this.policy_list[0]?.code
     }
-    console.log(this.result_list)
   }
 
 
@@ -184,7 +183,6 @@ export class AttendanceProcessComponent implements OnInit {
     this.timesheet_dest.forEach(element => {
       this.result_list.push({ worker: element.emp_code, policy: this.policyselect.code, modied_by: "Admin", modied_date: "2023-02-20" })
     });
-    console.log(this.result_list)
     this.index = 1;
     setTimeout(() => {
       this.new_data = true;
