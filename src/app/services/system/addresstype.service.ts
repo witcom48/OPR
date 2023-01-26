@@ -60,7 +60,7 @@ export class AddresstypeService {
     }
 
     public addresstype_get(){
-      console.log('DD001..');
+      console.log('ADD001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/addresstype_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
@@ -71,7 +71,7 @@ export class AddresstypeService {
     }
 
     public addresstype_record(model:AddresstypeModel) {
-      console.log('DD002..');
+      console.log('ADD002..');
       const data = {
         addresstype_id: model.addresstype_id,
         addresstype_code: model.addresstype_code,

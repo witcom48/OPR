@@ -1,0 +1,331 @@
+<p-toast position="top-right"></p-toast>
+
+<p-confirmDialog
+    [style]="{ width: '50vw' }"
+    [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"
+></p-confirmDialog>
+
+<p-dialog
+    header="{{ title_upload }}"
+    [(visible)]="displayUpload"
+    [style]="{ width: '40vw' }"
+>
+    <p class="custom-file-upload">
+        <input
+            type="file"
+            id="file"
+            style="width: 300px"
+            (change)="handleFileInput($any($event).target.files)"
+        />
+    </p>
+    <ng-template pTemplate="footer">
+        <p-button
+            icon="pi pi-upload"
+            (click)="doUploadComaddress()"
+            label="{{ title_upload }}"
+            styleClass="p-button-text"
+        ></p-button>
+    </ng-template>
+</p-dialog>
+<div class="field col-12 md:col-12">
+<p-menubar [model]="items"></p-menubar>
+<div class="grid">
+    <div class="col-12 md:col-9" #TABLE>
+        <p-table
+            #dt2
+            [value]="comaddress_list"
+            styleClass="p-datatable-sm"
+            [tableStyle]="{ 'min-width': '60rem' }"
+            [scrollable]="true"
+            scrollHeight="200px"
+            [virtualScroll]="true"
+            selectionMode="single"
+            [(selection)]="selectedComaddress"
+            (onRowSelect)="onRowSelectcomaddress($event)"
+            dataKey="company_code"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [paginator]="false"
+            currentPageReportTemplate="{{ title_page_from }} {first} {{
+                title_page_to
+            }} {last} {{ title_page_total }} {totalRecords} {{
+                title_page_record
+            }}"
+            [globalFilterFields]="[
+                'comaddress_no',
+                'comaddress_moo',
+                'comaddress_soi',
+                'comaddress_road',
+                'comaddress_tambon',
+                'comaddress_amphur',
+                'comaddress_zipcode',
+                'comaddress_tel',
+                'comaddress_email',
+                'comaddress_line',
+                'comaddress_facebook',
+                'comaddress_province',
+                'modified_by',
+                'modified_date'
+            ]"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input
+                            pInputText
+                            type="text"
+                            (input)="
+                                dt2.filterGlobal(
+                                    $any($event).target.value,
+                                    'contains'
+                                )
+                            "
+                            placeholder="{{ title_search }}"
+                        />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <!-- <th>{{ title_comaddress_code }}</th> -->
+                    <th>{{ title_comaddress_no }}</th>
+                    <th>{{ title_comaddress_moo }}</th>
+                    <th>{{ title_comaddress_soi }}</th>
+                    <th>{{ title_comaddress_road }}</th>
+                    <th>{{ title_comaddress_tambon }}</th>
+                    <th>{{ title_comaddress_amphur }}</th>
+                    <th>{{ title_comaddress_zipcode }}</th>
+                    <th>{{ title_comaddress_tell }}</th>
+                    <th>{{ title_comaddress_email }}</th>
+                    <th>{{ title_comaddress_line }}</th>
+                    <th>{{ title_comaddress_facebook }}</th>
+                    <th>{{ title_comaddress_province }}</th>
+                    <th>{{ modified_by }}</th>
+                    <th>{{ modified_date }}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr [pSelectableRow]="data">
+                    <th style="width: 10%">{{ data.comaddress_no }}</th>
+                    <th style="width: 10%">{{ data.comaddress_moo }}</th>
+                    <th style="width: 10%">{{ data.comaddress_soi }}</th>
+                    <th style="width: 10%">{{ data.comaddress_road }}</th>
+                    <th style="width: 10%">{{ data.comaddress_tambon }}</th>
+                    <th style="width: 10%">{{ data.comaddress_amphur }}</th>
+                    <th style="width: 10%">{{ data.comaddress_province }}</th>
+                    <th style="width: 10%">{{ data.comaddress_zipcode }}</th>
+                    <th style="width: 10%">{{ data.comaddress_tel }}</th>
+                    <th style="width: 10%">{{ data.comaddress_email }}</th>
+                    <th style="width: 10%">{{ data.comaddress_line }}</th>
+                    <th style="width: 10%">{{ data.comaddress_facebook }}</th>
+
+                    <th style="width: 10%">{{ data.modified_by }}</th>
+                    <th style="width: 10%">
+                        {{ data.modified_date | date : "dd/MM/yyyy HH:mm" }}
+                    </th>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    
+    <div class="col-12 md:col-3">
+        <div
+            class="formgrid grid"
+            *ngIf="edit_data === true || new_data === true"
+        >
+            <span class="spn_title_edit"></span>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_code }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_code"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_no }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_no"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_moo }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_moo"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_soi }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_soi"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_road }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_road"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_tambon }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_tambon"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_amphur }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_amphur"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+            <div class="field col-12">
+                <label for="ppos_name_th">{{
+                    title_comaddress_province
+                }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_province"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_zipcode }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_zipcode"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_tell }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_tel"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_email }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_email"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{ title_comaddress_line }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_line"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_th">{{
+                    title_comaddress_facebook
+                }}</label>
+                <br />
+                <textarea
+                    [rows]="2"
+                    id="ppos_name_th"
+                    [(ngModel)]="selectedComaddress.comaddress_facebook"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                ></textarea>
+            </div>
+            <div class="field col-12">
+                <p-button
+                    label="{{ title_save }}"
+                    icon="pi pi-save"
+                    (onClick)="confirmRecord()"
+                ></p-button>
+                &nbsp;
+                <button
+                    *ngIf="edit_data"
+                    pButton
+                    pRipple
+                    type="button"
+                    label="{{ title_delete }}"
+                    class="p-button-secondary"
+                    (click)="confirmDelete()"
+                ></button>
+            </div>
+        </div>
+    </div>
+</div>

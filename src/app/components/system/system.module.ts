@@ -57,6 +57,7 @@ import { SystemBloodtypeComponent } from './system-policy/system-bloodtype/syste
 import { SystemHospitalComponent } from './system-policy/system-hospital/system-hospital.component';
 import { SystemLocationComponent } from './system-policy/system-location/system-location.component';
 import { SystemReduceComponent } from './system-policy/system-reduce/system-reduce.component';
+import { SystemComaddressComponent } from './system-company/system-comaddress/system-comaddress.component';
 
 
 @NgModule({
@@ -125,6 +126,7 @@ import { SystemReduceComponent } from './system-policy/system-reduce/system-redu
            SystemHospitalComponent,
            SystemLocationComponent,
            SystemReduceComponent,
+           SystemComaddressComponent,
   ]
 })
 export class SystemModule { }
