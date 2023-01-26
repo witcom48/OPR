@@ -69,12 +69,12 @@
             <div class="field col-12 ">
                 <label for="ppos_name_th">{{title_name_th}}</label>
                 <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedEthnicity.ethnicity_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedEthnicity.ethnicity_name_th"class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
             <div class="field col-12 ">
                 <label for="ppos_name_en">{{title_name_en}}</label>
                 <br>
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedEthnicity.ethnicity_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedEthnicity.ethnicity_name_en"class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
             <div class="field col-12">
                 <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>

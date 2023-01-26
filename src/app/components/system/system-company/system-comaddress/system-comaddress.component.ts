@@ -92,12 +92,12 @@ export class SystemComaddressComponent implements OnInit {
     title_comaddress_road: string = 'Road';
     title_comaddress_tambon: string = 'Tombon';
     title_comaddress_amphur: string = 'Amphur';
-    title_comaddress_zipcode: string = 'Province';
-    title_comaddress_tell: string = 'Zipcode';
-    title_comaddress_email: string = 'Telephone';
-    title_comaddress_line: string = 'Email';
-    title_comaddress_facebook: string = 'Line';
-    title_comaddress_province: string = 'Facebook';
+    title_comaddress_province: string = 'Province';
+    title_comaddress_zipcode: string = 'Zipcode';
+    title_comaddress_tell: string = 'Telephone';
+    title_comaddress_email: string = 'Email';
+    title_comaddress_line: string = 'Line';
+    title_comaddress_facebook: string = 'Facebook';
 
     modified_by: string = 'Edit by';
     modified_date: string = 'Edit date';
@@ -140,12 +140,12 @@ export class SystemComaddressComponent implements OnInit {
             this.title_comaddress_road = 'ถนน';
             this.title_comaddress_tambon = 'ตำบล';
             this.title_comaddress_amphur = 'อำเภอ';
-            this.title_comaddress_zipcode = 'จังหวัด';
-            this.title_comaddress_tell = 'รหัสไปรษณีย์';
-            this.title_comaddress_email = 'เบอร์โทรศัพท์';
-            this.title_comaddress_line = 'อีเมล์';
-            this.title_comaddress_facebook = 'ไลน์';
-            this.title_comaddress_province = 'เฟสบุ๊ค';
+            this.title_comaddress_province = 'จังหวัด';
+            this.title_comaddress_zipcode = 'รหัสไปรษณีย์';
+            this.title_comaddress_tell = 'เบอร์โทรศัพท์';
+            this.title_comaddress_email = 'อีเมล์';
+            this.title_comaddress_line = 'ไลน์';
+            this.title_comaddress_facebook = 'เฟสบุ๊ค';
 
             this.modified_by = 'ผู้ทำรายการ';
             this.modified_date = 'วันที่ทำรายการ';
