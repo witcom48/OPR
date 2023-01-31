@@ -1,0 +1,42 @@
+<!-- Link Page -->
+<div class="path">
+    <span>Attendance</span>
+    <div>
+        <i></i>
+        <a routerLink="/attendance/manage">Manage</a>
+        <i></i>
+        <small>Change shift</small>
+    </div>
+</div>
+<!-- <label >TEST</label> -->
+<!-- <input (change)="increment()" type="text" [(ngModel)]="test" >
+<button (click)="increment()">Increment</button> -->
+<!-- ---------END Link Page----------- -->
+<div>
+    <div class="findname">
+        <table>
+            <tr>
+                <td>
+                    <i class="pi pi-angle-left" style="font-size: 2rem"></i>
+                </td>
+                <td>
+                    <input id="lastname2" type="text" value="2022120001" style="text-align: center;"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                </td>
+                <td>
+                    <i class="pi pi-angle-right" style="font-size: 2rem"></i>
+                </td>
+                <td>
+                    <i class="pi pi-search"></i>
+                </td>
+                <td style="width: 300px;">
+                    <input id="lastname2" type="text" value="นายศรัณย์ ศรีห่วง" style="width: 300px;"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="tabledata">
+        <app-manage-table [columns]="column" [values]="value"></app-manage-table>
+    </div>
+</div>

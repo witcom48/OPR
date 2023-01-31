@@ -67,6 +67,8 @@ import { SetDiligenceComponent } from './attendance-policy/set-diligence/set-dil
 import { SetLateComponent } from './attendance-policy/set-late/set-late.component';
 import { SetLeaveComponent } from './attendance-policy/set-leave/set-leave.component';
 import { AttendanceManageComponent } from './attendance-manage/attendance-manage.component';
+import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshift.component';
+import { ManageTableComponent } from './attendance-manage/manage-table/manage-table.component';
 
 
 @NgModule({
@@ -142,7 +144,9 @@ import { AttendanceManageComponent } from './attendance-manage/attendance-manage
      SetDiligenceComponent,
      SetLateComponent,
      SetLeaveComponent,
-     AttendanceManageComponent
+     AttendanceManageComponent,
+     ChangeshiftComponent,
+     ManageTableComponent
   ]
 })
 export class AttendanceModule { }

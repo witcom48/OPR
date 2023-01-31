@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { YearServices } from '../../../../services/attendance/year.service';
 import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-yearperiod',
@@ -12,49 +13,61 @@ export class YearperiodComponent implements OnInit {
   new_data: boolean = false
   edit_data: boolean = false
   fileToUpload: File | any = null;
+  tt: string = "TTT";
+  yy: string = ""
   displayUpload: boolean = false;
   constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,) { }
+    private confirmationService: ConfirmationService,
+    private yearServices: YearServices) { }
   items: MenuItem[] = [];
   yearperiods_list: YearPeriodModels[] = [];
   yearperiods: YearPeriodModels = new YearPeriodModels()
 
   ngOnInit(): void {
     this.doLoadMenu()
-    this.yearperiods_list = [
-      {
-        company_code: "PSG",
-        year_id: "1",
-        year_code: "2022",
-        year_name_th: "ปีภาษี",
-        year_name_en: "TAX",
-        year_fromdate: new Date("2022-01-01"),
-        year_todate: new Date("2022-12-31"),
-        year_group: "TAX",
-        created_by: "Admin01",
-        modied_by: "admin01",
-        created_date: "2022-01-01",
-        modied_date: "2022-01-02",
-        flag: ""
-      },
-      {
-        company_code: "PSG",
-        year_id: "2",
-        year_code: "2023",
-        year_name_th: "ปีการลา",
-        year_name_en: "Leave Calendar",
-        year_fromdate: new Date("2022-01-01"),
-        year_todate: new Date("2022-12-31"),
-        year_group: "Leave",
-        created_by: "Admin",
-        modied_by: "admin",
-        created_date: "2022-01-02",
-        modied_date: "2022-01-03",
-        flag: ""
-      },
-    ]
+    this.doLoadYear()
   }
+  doLoadYear() {
+    this.yearperiods_list = [];
+    var tmp = new YearPeriodModels();
+    this.yearServices.year_get(tmp).then((res) => {
+      res.forEach((element: YearPeriodModels) => {
+        element.year_fromdate = new Date(element.year_fromdate)
+        element.year_todate = new Date(element.year_todate)
+        this.yearperiods_list.push(element)
+      });
+    });
+  }
+  async doRecordYear(data: YearPeriodModels) {
+    await this.yearServices.year_record(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadYear()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
 
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+  async doDeleteYear(data: YearPeriodModels) {
+    await this.yearServices.year_delete(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadYear()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
@@ -119,8 +132,16 @@ export class YearperiodComponent implements OnInit {
     this.new_data = false
     this.yearperiods = new YearPeriodModels()
   }
+  changeParentCount(val: string) {
+    console.log(val)
+    this.tt = val;
+  }
   Save() {
-    console.log(this.yearperiods)
+    this.doRecordYear(this.yearperiods)
+    // console.log(this.yearperiods)
+  }
+  Delete() {
+    this.doDeleteYear(this.yearperiods)
   }
   onRowSelect(event: any) {
     this.new_data = true

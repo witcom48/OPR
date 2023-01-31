@@ -26,6 +26,7 @@ import { SetDiligenceComponent } from './attendance-policy/set-diligence/set-dil
 import { SetLateComponent } from './attendance-policy/set-late/set-late.component';
 import { SetLeaveComponent } from './attendance-policy/set-leave/set-leave.component';
 import { AttendanceManageComponent } from './attendance-manage/attendance-manage.component';
+import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshift.component';
 
 
 
@@ -57,6 +58,7 @@ import { AttendanceManageComponent } from './attendance-manage/attendance-manage
         { path: 'policy/setdiligence', component: SetDiligenceComponent },
         { path: 'policy/setlate', component: SetLateComponent },
         { path: 'policy/setleave', component: SetLeaveComponent },
+        { path: 'manage/changeshift', component: ChangeshiftComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

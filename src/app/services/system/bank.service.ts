@@ -60,8 +60,7 @@ export class BankService {
   }
      
   public bank_get(){      
-    console.log('SYS001..');
-           
+    console.log('SYS001..');  
     return this.http.post<any>(this.config.ApiSystemModule + '/bank_list', this.basicRequest, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
