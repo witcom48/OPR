@@ -122,4 +122,21 @@ export class YearServices {
             });
     }
 
+
+    public year_import(file: File, file_name: string, file_type: string) {
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        var para = "fileName=" + file_name + "." + file_type;
+        para += "&token=" + this.initial_current.Token;
+        para += "&by=" + this.initial_current.Username;
+
+        return this.http.post<any>(this.config.ApiAttendanceModule + '/doUploadYear?' + para, formData).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message;
+            });
+    }
+
 }

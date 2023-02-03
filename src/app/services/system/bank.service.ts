@@ -115,8 +115,6 @@ export class BankService {
     .then((res) => {      
       return res;
     });
-
-    
   }
 
 

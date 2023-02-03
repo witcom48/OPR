@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { YearServices } from '../../../../services/attendance/year.service';
+import { DatePipe } from '@angular/common';
 import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-yearperiod',
@@ -9,6 +10,10 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./yearperiod.component.scss']
 })
 export class YearperiodComponent implements OnInit {
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private yearServices: YearServices,
+    private datePipe: DatePipe) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   new_data: boolean = false
   edit_data: boolean = false
@@ -16,9 +21,6 @@ export class YearperiodComponent implements OnInit {
   tt: string = "TTT";
   yy: string = ""
   displayUpload: boolean = false;
-  constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,
-    private yearServices: YearServices) { }
   items: MenuItem[] = [];
   yearperiods_list: YearPeriodModels[] = [];
   yearperiods: YearPeriodModels = new YearPeriodModels()
@@ -67,6 +69,23 @@ export class YearperiodComponent implements OnInit {
     });
     this.new_data = false;
     this.edit_data = false;
+  }
+  doUploadYear() {
+    const filename = "YEAR_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+    const filetype = "xls";
+    this.yearServices.year_import(this.fileToUpload, filename, filetype).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadYear();
+        this.edit_data = false;
+        this.new_data = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
   }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -117,10 +136,9 @@ export class YearperiodComponent implements OnInit {
         accept: () => {
           console.log(this.fileToUpload)
           this.displayUpload = false;
-          this.messageService.add({ severity: 'success', summary: 'File', detail: "Upload Success" });
+          this.doUploadYear()
         },
         reject: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "Not Upload" });
           this.displayUpload = false;
         }
       });
