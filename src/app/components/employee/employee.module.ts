@@ -37,18 +37,20 @@ import {ImageModule} from 'primeng/image';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {CheckboxModule} from 'primeng/checkbox';
 
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeManageComponent } from './employee-manage/employee-manage.component';
 import { EmployeePolicyComponent } from './employee-policy/employee-policy.component';
 import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.component';
-import { LocationComponent } from './location/location.component';
-import { PartComponent } from './part/part.component';
-import { PositionComponent } from './position/position.component';
-import { GroupComponent } from './group/group.component';
-import { InitialComponent } from './initial/initial.component';
-import { EmptypeComponent } from './emptype/emptype.component';
-import { EmpstatusComponent } from './empstatus/empstatus.component';
+import { LocationComponent } from './employee-policy/genaral/location/location.component';
+import { PartComponent } from './employee-policy/genaral/part/part.component';
+import { PositionComponent } from './employee-policy/genaral/position/position.component';
+import { GroupComponent } from './employee-policy/genaral/group/group.component';
+import { InitialComponent } from './employee-policy/genaral/initial/initial.component';
+import { EmptypeComponent } from './employee-policy/genaral/emptype/emptype.component';
+import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatus.component';
 
 
 @NgModule({
@@ -88,7 +90,9 @@ import { EmpstatusComponent } from './empstatus/empstatus.component';
 		ImageModule,
 		ToastModule,
 		ConfirmDialogModule,
-		DialogModule
+		DialogModule,
+		RadioButtonModule,
+		CheckboxModule
 
 
 		

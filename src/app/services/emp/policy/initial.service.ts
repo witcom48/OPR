@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../models/project/project';
-import { AppConfig } from '../../config/config';
+import { PrjectModel } from '../../../models/project/project';
+import { AppConfig } from '../../../config/config';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { InitialCurrent } from '../../config/initial_current';
-import { EmptypeModel } from 'src/app/models/employee/emptype';
+import { InitialCurrent } from '../../../config/initial_current';
+import { InitialModel } from 'src/app/models/employee/policy/initial';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmptypeService {
+export class InitialService {
 
   public config:AppConfig = new AppConfig();
   
@@ -58,10 +59,10 @@ export class EmptypeService {
     } 
   }
 
-  public type_get(){      
-    console.log('ETP001..');
+  public initial_get(){      
+    console.log('INT001..');
            
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/type_list', this.basicRequest, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/initial_list', this.basicRequest, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
@@ -69,37 +70,37 @@ export class EmptypeService {
     });
   }
 
-  public type_record(model:EmptypeModel) {
-    console.log('ETP002..');
+  public initial_record(model:InitialModel) {
+    console.log('INT002..');
     const data = {
-        type_id: model.type_id,
-        type_code: model.type_code,
-        type_name_th: model.type_name_th,
-        type_name_en: model.type_name_en,
+        initial_id: model.initial_id,
+        initial_code: model.initial_code,
+        initial_name_th: model.initial_name_th,
+        initial_name_en: model.initial_name_en,     
         modified_by: this.initial_current.Username
     };    
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/type', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/initial', data, this.options).toPromise()   
     .then((res) => {
       return res;
     });
   }
 
-  public type_delete(model:EmptypeModel) {
-    console.log('ETP003..');
+  public initial_delete(model:InitialModel) {
+    console.log('INT003..');
     const data = {
-        type_id: model.type_id,
-        type_code: model.type_code,       
+        initial_id: model.initial_id,
+        initial_code: model.initial_code,       
         modified_by: this.initial_current.Username
     };    
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/type_del', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/initial_del', data, this.options).toPromise()   
     .then((res) => {      
       return res;
     });
   } 
 
-  public type_import(file: File, file_name:string, file_type:string){
+  public initial_import(file: File, file_name:string, file_type:string){
 
     const formData = new FormData();
     formData.append('file', file);
@@ -108,7 +109,7 @@ export class EmptypeService {
       para += "&token=" + this.initial_current.Token;
       para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadType?' + para, formData).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadInitial?' + para, formData).toPromise()   
     .then((res) => {      
       return res;
     });

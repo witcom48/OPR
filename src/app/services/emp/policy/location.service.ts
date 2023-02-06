@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../models/project/project';
-import { AppConfig } from '../../config/config';
+import { PrjectModel } from '../../../models/project/project';
+import { AppConfig } from '../../../config/config';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { InitialCurrent } from '../../config/initial_current';
-import { EmpstatusModel } from 'src/app/models/employee/empstatus';
+import { InitialCurrent } from '../../../config/initial_current';
+import { LocationModel } from 'src/app/models/employee/policy/location';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmpstatusService {
+export class LocationService {
 
   public config:AppConfig = new AppConfig();
   
@@ -58,10 +59,10 @@ export class EmpstatusService {
     } 
   }
 
-  public status_get(){      
-    console.log('STT001..');
+  public location_get(){      
+    console.log('LCT001..');
            
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/status_list', this.basicRequest, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/location_list', this.basicRequest, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
@@ -69,37 +70,38 @@ export class EmpstatusService {
     });
   }
 
-  public status_record(model:EmpstatusModel) {
-    console.log('STT002..');
+  public location_record(model:LocationModel) {
+    console.log('LCT002..');
     const data = {
-        status_id: model.status_id,
-        status_code: model.status_code,
-        status_name_th: model.status_name_th,
-        status_name_en: model.status_name_en,     
-        modified_by: this.initial_current.Username
+      location_id: model.location_id,
+      location_code: model.location_code,
+      location_name_th: model.location_name_th,
+      location_name_en: model.location_name_en,
+      location_detail: model.location_detail,     
+      modified_by: this.initial_current.Username
     };    
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/status', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/location', data, this.options).toPromise()   
     .then((res) => {
       return res;
     });
   }
 
-  public status_delete(model:EmpstatusModel) {
-    console.log('STT003..');
+  public location_delete(model:LocationModel) {
+    console.log('LCT003..');
     const data = {
-        status_id: model.status_id,
-        status_code: model.status_code,       
-        modified_by: this.initial_current.Username
+      location_id: model.location_id,
+      location_code: model.location_code,       
+      modified_by: this.initial_current.Username
     };    
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/status_del', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/location_del', data, this.options).toPromise()   
     .then((res) => {      
       return res;
     });
   } 
 
-  public status_import(file: File, file_name:string, file_type:string){
+  public location_import(file: File, file_name:string, file_type:string){
 
     const formData = new FormData();
     formData.append('file', file);
@@ -108,7 +110,7 @@ export class EmpstatusService {
       para += "&token=" + this.initial_current.Token;
       para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadStatus?' + para, formData).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadLocation?' + para, formData).toPromise()   
     .then((res) => {      
       return res;
     });

@@ -2,20 +2,37 @@ export class EmployeeModel {
     constructor() {
      
     }
-    
-    employee_id: string = "";
-    employee_code: string = "";
-    employee_card: string = "";
-    employee_initial: string = "";
-    employee_fnamename_th: string = "";
-    employee_lnamename_th: string = "";
-    employee_fnamename_en: string = "";
-    employee_lnamename_en: string = "";
-    employee_type: string = "";
-    employee_position: string = "";
-    employee_startdate: Date = new Date();
+    company_code: string = "";
+    worker_id: string = "1";
+    worker_code: string = "";
+    worker_card: string = "";
+    worker_initial: string = "";
+    worker_fname_th: string = "";    
+    worker_lname_th: string = "";    
+    worker_fname_en: string = "";    
+    worker_lname_en: string = ""; 
+    worker_type: string = "";    
+    worker_gender: string = "";
+
+    worker_position: string = "";
+
+    worker_birthdate: Date = new Date();    
+    worker_hiredate: Date = new Date();  
+    religion_code: string = "";    
+    blood_code: string = "";    
+    worker_height: number = 0;    
+    worker_weight: number = 0;    
        
-    employee_status: string = "";
+    worker_status: string = "";
+
+    worker_resigndate: Date = new Date();
+    worker_resignstatus : boolean = false;
+    worker_resignreason : string = "" ;
+    worker_probationdate: Date = new Date();
+    worker_probationenddate: Date = new Date();
+    worker_probationday : number = 0;
+    hrs_perday : number = 0;
+    worker_taxmethod : string = "";
 
     approve_by: string = "";
     approve_date: Date = new Date();
@@ -23,7 +40,9 @@ export class EmployeeModel {
     modified_by: string = "";
     modified_date: Date = new Date();
 
+    self_admin: boolean = false;
+
     index: number = 0;
-    select: boolean = false;    
+    select: boolean = false;
   }
   

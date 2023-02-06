@@ -3,10 +3,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router,NavigationExtras } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService, MegaMenuItem, ConfirmEventType, } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
-import { PartModel } from '../../../models/employee/part';
-import { PartService } from '../../../services/emp/part.service';
+import { AppConfig } from '../../../../../config/config';
+import { InitialCurrent } from '../../../../../config/initial_current';
+import { PartModel } from '../../../../../models/employee/policy/part';
+import { PartService } from '../../../../../services/emp/policy/part.service';
 import * as XLSX from 'xlsx';
 interface Level {
   name: string,
@@ -177,6 +177,7 @@ export class PartComponent implements OnInit {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
         }
     });
+    console.log(this.selectedDep)
   }
 
   doRecordDep(){

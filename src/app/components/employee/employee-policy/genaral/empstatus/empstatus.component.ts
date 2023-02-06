@@ -3,28 +3,28 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router,NavigationExtras } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService, MegaMenuItem, ConfirmEventType, } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
-import { EmptypeModel } from '../../../models/employee/emptype';
-import { EmptypeService } from '../../../services/emp/emptype.service';
+import { AppConfig } from '../../../../../config/config';
+import { InitialCurrent } from '../../../../../config/initial_current';
+import { EmpstatusModel } from '../../../../../models/employee/policy/empstatus';
+import { EmpstatusService } from '../../../../../services/emp/policy/empstatus.service';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-emptype',
-  templateUrl: './emptype.component.html',
-  styleUrls: ['./emptype.component.scss']
+  selector: 'app-empstatus',
+  templateUrl: './empstatus.component.html',
+  styleUrls: ['./empstatus.component.scss']
 })
-export class EmptypeComponent implements OnInit {
+export class EmpstatusComponent implements OnInit {
 
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
 
-  type_list : EmptypeModel[] = [];
-  selectedType : EmptypeModel = new EmptypeModel();
+  status_list : EmpstatusModel[] = [];
+  selectedStatus : EmpstatusModel = new EmpstatusModel();
 
   constructor(
-    private typeService: EmptypeService,
+    private statusService: EmpstatusService,
     private router:Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -37,7 +37,7 @@ export class EmptypeComponent implements OnInit {
     setTimeout(() => {
       this.doLoadLanguage()
       this.doLoadMenu()
-      this.doLoadType()
+      this.doLoadStatus()
     }, 500);
   }
 
@@ -49,7 +49,7 @@ export class EmptypeComponent implements OnInit {
     }       
   }
 
-  title_page:string = "Emp Type";
+  title_page:string = "Emp Status";
   title_new:string = "New";
   title_edit:string = "Edit";
   title_delete:string = "Delete";
@@ -80,7 +80,7 @@ export class EmptypeComponent implements OnInit {
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.title_page = "ข้อมูลประเภทพนักงาน";
+      this.title_page = "ข้อมูลสถานะพนักงาน";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -119,7 +119,7 @@ export class EmptypeComponent implements OnInit {
         label:this.title_new,
         icon:'pi pi-fw pi-plus',
         command: (event) => {
-          this.selectedType = new EmptypeModel();
+          this.selectedStatus = new EmpstatusModel();
           this.new_data= true;
           this.edit_data= false;
         }     
@@ -145,9 +145,9 @@ export class EmptypeComponent implements OnInit {
     ];
   }
 
-  doLoadType(){
-    this.typeService.type_get().then((res) => {
-     this.type_list = res;     
+  doLoadStatus(){
+    this.statusService.status_get().then((res) => {
+     this.status_list = res;     
     });
   }
 
@@ -157,7 +157,7 @@ export class EmptypeComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doRecordType()
+          this.doRecordStatus()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -165,14 +165,14 @@ export class EmptypeComponent implements OnInit {
     });
   }
 
-  doRecordType(){
-    this.typeService.type_record(this.selectedType).then((res) => {
+  doRecordStatus(){
+    this.statusService.status_record(this.selectedStatus).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadType()
+      this.doLoadStatus()
      }
      else{
       this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -187,7 +187,7 @@ export class EmptypeComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doDeleteType()
+          this.doDeleteStatus()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -195,14 +195,14 @@ export class EmptypeComponent implements OnInit {
     });
   }
 
-  doDeleteType(){
-    this.typeService.type_delete(this.selectedType).then((res) => {
+  doDeleteStatus(){
+    this.statusService.status_delete(this.selectedStatus).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadType();
+      this.doLoadStatus();
       this.edit_data= false;
       this.new_data= false;
      }
@@ -215,9 +215,9 @@ export class EmptypeComponent implements OnInit {
 
   close(){
     this.new_data=false
-    this.selectedType = new EmptypeModel()
+    this.selectedStatus = new EmpstatusModel()
   }
-  onRowSelectType(event: any) {
+  onRowSelectStatus(event: any) {
     this.edit_data= true;
     this.new_data= true;
   }
@@ -227,23 +227,24 @@ export class EmptypeComponent implements OnInit {
     this.fileToUpload=file.item(0);
   }
 
-  doUploadType(){
+  doUploadStatus(){
+
     if (this.fileToUpload) {
       this.confirmationService.confirm({
         message: "Confirm Upload file : " + this.fileToUpload.name,
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          const filename = "TYPE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+          const filename = "STATUS_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
           const filetype = "xls";
 
-          this.typeService.type_import(this.fileToUpload, filename, filetype).then((res) => {
+          this.statusService.status_import(this.fileToUpload, filename, filetype).then((res) => {
             console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-              this.doLoadType();
+              this.doLoadStatus();
               this.edit_data = false;
               this.new_data = false;
             }
@@ -276,8 +277,8 @@ export class EmptypeComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_emptype.xlsx');
+    XLSX.writeFile(wb, 'Export_empstatus.xlsx');
 
   }
-
+  
 }

@@ -3,28 +3,28 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router,NavigationExtras } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService, MegaMenuItem, ConfirmEventType, } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
-import { EmpstatusModel } from '../../../models/employee/empstatus';
-import { EmpstatusService } from '../../../services/emp/empstatus.service';
+import { AppConfig } from '../../../../../config/config';
+import { InitialCurrent } from '../../../../../config/initial_current';
+import { InitialModel } from '../../../../../models/employee/policy/initial';
+import { InitialService } from '../../../../../services/emp/policy/initial.service';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-empstatus',
-  templateUrl: './empstatus.component.html',
-  styleUrls: ['./empstatus.component.scss']
+  selector: 'app-initial',
+  templateUrl: './initial.component.html',
+  styleUrls: ['./initial.component.scss']
 })
-export class EmpstatusComponent implements OnInit {
+export class InitialComponent implements OnInit {
 
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
 
-  status_list : EmpstatusModel[] = [];
-  selectedStatus : EmpstatusModel = new EmpstatusModel();
+  initial_list : InitialModel[] = [];
+  selectedInitial : InitialModel = new InitialModel();
 
   constructor(
-    private statusService: EmpstatusService,
+    private initialService: InitialService,
     private router:Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -37,7 +37,7 @@ export class EmpstatusComponent implements OnInit {
     setTimeout(() => {
       this.doLoadLanguage()
       this.doLoadMenu()
-      this.doLoadStatus()
+      this.doLoadInitial()
     }, 500);
   }
 
@@ -49,7 +49,7 @@ export class EmpstatusComponent implements OnInit {
     }       
   }
 
-  title_page:string = "Emp Status";
+  title_page:string = "Initial";
   title_new:string = "New";
   title_edit:string = "Edit";
   title_delete:string = "Delete";
@@ -80,7 +80,7 @@ export class EmpstatusComponent implements OnInit {
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.title_page = "ข้อมูลสถานะพนักงาน";
+      this.title_page = "ข้อมูลคำนำหน้า";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -119,7 +119,7 @@ export class EmpstatusComponent implements OnInit {
         label:this.title_new,
         icon:'pi pi-fw pi-plus',
         command: (event) => {
-          this.selectedStatus = new EmpstatusModel();
+          this.selectedInitial = new InitialModel();
           this.new_data= true;
           this.edit_data= false;
         }     
@@ -145,9 +145,9 @@ export class EmpstatusComponent implements OnInit {
     ];
   }
 
-  doLoadStatus(){
-    this.statusService.status_get().then((res) => {
-     this.status_list = res;     
+  doLoadInitial(){
+    this.initialService.initial_get().then((res) => {
+     this.initial_list = res;     
     });
   }
 
@@ -157,7 +157,7 @@ export class EmpstatusComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doRecordStatus()
+          this.doRecordInitial()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -165,14 +165,14 @@ export class EmpstatusComponent implements OnInit {
     });
   }
 
-  doRecordStatus(){
-    this.statusService.status_record(this.selectedStatus).then((res) => {
+  doRecordInitial(){
+    this.initialService.initial_record(this.selectedInitial).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadStatus()
+      this.doLoadInitial()
      }
      else{
       this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -187,7 +187,7 @@ export class EmpstatusComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doDeleteStatus()
+          this.doDeleteInitial()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -195,14 +195,14 @@ export class EmpstatusComponent implements OnInit {
     });
   }
 
-  doDeleteStatus(){
-    this.statusService.status_delete(this.selectedStatus).then((res) => {
+  doDeleteInitial(){
+    this.initialService.initial_delete(this.selectedInitial).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadStatus();
+      this.doLoadInitial();
       this.edit_data= false;
       this.new_data= false;
      }
@@ -215,9 +215,9 @@ export class EmpstatusComponent implements OnInit {
 
   close(){
     this.new_data=false
-    this.selectedStatus = new EmpstatusModel()
+    this.selectedInitial = new InitialModel()
   }
-  onRowSelectStatus(event: any) {
+  onRowSelectInitial(event: any) {
     this.edit_data= true;
     this.new_data= true;
   }
@@ -227,24 +227,23 @@ export class EmpstatusComponent implements OnInit {
     this.fileToUpload=file.item(0);
   }
 
-  doUploadStatus(){
-
+  doUploadInitial(){
     if (this.fileToUpload) {
       this.confirmationService.confirm({
         message: "Confirm Upload file : " + this.fileToUpload.name,
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          const filename = "STATUS_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+          const filename = "INITIAL_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
           const filetype = "xls";
 
-          this.statusService.status_import(this.fileToUpload, filename, filetype).then((res) => {
+          this.initialService.initial_import(this.fileToUpload, filename, filetype).then((res) => {
             console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-              this.doLoadStatus();
+              this.doLoadInitial();
               this.edit_data = false;
               this.new_data = false;
             }
@@ -277,8 +276,7 @@ export class EmpstatusComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_empstatus.xlsx');
+    XLSX.writeFile(wb, 'Export_initial.xlsx');
 
   }
-  
 }

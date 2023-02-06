@@ -3,10 +3,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService, MegaMenuItem, ConfirmEventType, } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
-import { LocationModel } from '../../../models/employee/location';
-import { LocationService } from '../../../services/emp/location.service';
+import { AppConfig } from '../../../../../config/config';
+import { InitialCurrent } from '../../../../../config/initial_current';
+import { LocationModel } from '../../../../../models/employee/policy/location';
+import { LocationService } from '../../../../../services/emp/policy/location.service';
 import * as XLSX from 'xlsx';
 
 @Component({

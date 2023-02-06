@@ -74,7 +74,7 @@
 
         <label>{{title_level}}</label>
         <p-dropdown class="selectlevel" [options]="levelList" [(ngModel)]="selectedDep.dep_level" (onChange)="selectLevel()"
-            optionLabel="name"></p-dropdown>
+            optionLabel="name" optionValue="code"></p-dropdown>
         <!-- <textarea [(ngModel)]="selectedDep.dep_level" pInputTextarea [autoResize]="true"></textarea> -->
 
         <label>{{title_parent}}</label>

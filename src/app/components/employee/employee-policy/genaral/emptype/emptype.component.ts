@@ -3,33 +3,33 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router,NavigationExtras } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService, MegaMenuItem, ConfirmEventType, } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
-import { PositionModel } from '../../../models/employee/position';
-import { PositionService } from '../../../services/emp/position.service';
+import { AppConfig } from '../../../../../config/config';
+import { InitialCurrent } from '../../../../../config/initial_current';
+import { EmptypeModel } from '../../../../../models/employee/policy/emptype';
+import { EmptypeService } from '../../../../../services/emp/policy/emptype.service';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-position',
-  templateUrl: './position.component.html',
-  styleUrls: ['./position.component.scss']
+  selector: 'app-emptype',
+  templateUrl: './emptype.component.html',
+  styleUrls: ['./emptype.component.scss']
 })
-export class PositionComponent implements OnInit {
+export class EmptypeComponent implements OnInit {
 
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
 
-  position_list : PositionModel[] = [];
-  selectedPosition : PositionModel = new PositionModel();
+  type_list : EmptypeModel[] = [];
+  selectedType : EmptypeModel = new EmptypeModel();
 
   constructor(
-    private positionService: PositionService,
+    private typeService: EmptypeService,
     private router:Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.doGetInitialCurrent()
@@ -37,7 +37,7 @@ export class PositionComponent implements OnInit {
     setTimeout(() => {
       this.doLoadLanguage()
       this.doLoadMenu()
-      this.doLoadPosition()
+      this.doLoadType()
     }, 500);
   }
 
@@ -49,7 +49,7 @@ export class PositionComponent implements OnInit {
     }       
   }
 
-  title_page:string = "Position";
+  title_page:string = "Emp Type";
   title_new:string = "New";
   title_edit:string = "Edit";
   title_delete:string = "Delete";
@@ -59,6 +59,7 @@ export class PositionComponent implements OnInit {
   title_code:string = "Code";
   title_name_th:string = "Name (Thai)";
   title_name_en:string = "Name (Eng.)";
+  title_detail:string = "Detail";
   title_modified_by:string = "Edit by";
   title_modified_date:string = "Edit date";
   title_search:string = "Search";
@@ -79,7 +80,7 @@ export class PositionComponent implements OnInit {
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.title_page = "ข้อมูลตำแหน่ง";
+      this.title_page = "ข้อมูลประเภทพนักงาน";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -89,6 +90,7 @@ export class PositionComponent implements OnInit {
       this.title_code = "รหัส";
       this.title_name_th = "ชื่อไทย";
       this.title_name_en = "ชื่ออังกฤษ";
+      this.title_detail = "รายละเอียด";
       this.title_modified_by = "ผู้ทำรายการ";
       this.title_modified_date = "วันที่ทำรายการ";
       this.title_search = "ค้นหา";
@@ -117,7 +119,7 @@ export class PositionComponent implements OnInit {
         label:this.title_new,
         icon:'pi pi-fw pi-plus',
         command: (event) => {
-          this.selectedPosition = new PositionModel();
+          this.selectedType = new EmptypeModel();
           this.new_data= true;
           this.edit_data= false;
         }     
@@ -143,9 +145,9 @@ export class PositionComponent implements OnInit {
     ];
   }
 
-  doLoadPosition(){
-    this.positionService.position_get().then((res) => {
-     this.position_list = res;     
+  doLoadType(){
+    this.typeService.type_get().then((res) => {
+     this.type_list = res;     
     });
   }
 
@@ -155,7 +157,7 @@ export class PositionComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doRecordPosition()
+          this.doRecordType()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -163,14 +165,14 @@ export class PositionComponent implements OnInit {
     });
   }
 
-  doRecordPosition(){
-    this.positionService.position_record(this.selectedPosition).then((res) => {
+  doRecordType(){
+    this.typeService.type_record(this.selectedType).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadPosition()
+      this.doLoadType()
      }
      else{
       this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -185,7 +187,7 @@ export class PositionComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doDeletePosition()
+          this.doDeleteType()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -193,14 +195,14 @@ export class PositionComponent implements OnInit {
     });
   }
 
-  doDeletePosition(){
-    this.positionService.position_delete(this.selectedPosition).then((res) => {
+  doDeleteType(){
+    this.typeService.type_delete(this.selectedType).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadPosition();
+      this.doLoadType();
       this.edit_data= false;
       this.new_data= false;
      }
@@ -213,9 +215,9 @@ export class PositionComponent implements OnInit {
 
   close(){
     this.new_data=false
-    this.selectedPosition = new PositionModel()
+    this.selectedType = new EmptypeModel()
   }
-  onRowSelectPosition(event: any) {
+  onRowSelectType(event: any) {
     this.edit_data= true;
     this.new_data= true;
   }
@@ -225,23 +227,23 @@ export class PositionComponent implements OnInit {
     this.fileToUpload=file.item(0);
   }
 
-  doUploadPosition(){
+  doUploadType(){
     if (this.fileToUpload) {
       this.confirmationService.confirm({
         message: "Confirm Upload file : " + this.fileToUpload.name,
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          const filename = "POSITION_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+          const filename = "TYPE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
           const filetype = "xls";
 
-          this.positionService.position_import(this.fileToUpload, filename, filetype).then((res) => {
+          this.typeService.type_import(this.fileToUpload, filename, filetype).then((res) => {
             console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-              this.doLoadPosition();
+              this.doLoadType();
               this.edit_data = false;
               this.new_data = false;
             }
@@ -274,7 +276,8 @@ export class PositionComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_position.xlsx');
+    XLSX.writeFile(wb, 'Export_emptype.xlsx');
 
   }
+
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../models/project/project';
-import { AppConfig } from '../../config/config';
+import { PrjectModel } from '../../../models/project/project';
+import { AppConfig } from '../../../config/config';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { InitialCurrent } from '../../config/initial_current';
-import { PositionModel } from 'src/app/models/employee/position';
+import { InitialCurrent } from '../../../config/initial_current';
+import { PositionModel } from 'src/app/models/employee/policy/position';
 
 @Injectable({
   providedIn: 'root'

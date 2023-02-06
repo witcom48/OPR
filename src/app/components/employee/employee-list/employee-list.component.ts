@@ -10,6 +10,14 @@ import { EmployeeModel } from '../../../models/employee/employee';
 import { DatePipe } from '@angular/common';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
+import { EmployeeService } from 'src/app/services/emp/worker.service';
+import { InitialModel } from '../../../models/employee/policy/initial';
+import { EmptypeModel } from '../../../models/employee/policy/emptype';
+import { EmpstatusModel } from '../../../models/employee/policy/empstatus';
+
+import { InitialService } from '../../../services/emp/policy/initial.service';
+import { EmptypeService } from '../../../services/emp/policy/emptype.service';
+import { EmpstatusService } from '../../../services/emp/policy/empstatus.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -26,17 +34,31 @@ export class EmployeeListComponent implements OnInit {
   new_employee: boolean = false;
 
   constructor(
+    private employeeService : EmployeeService,
     private router:Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+
+
+    private initialService : InitialService,
+    private emptypeService : EmptypeService,
+    private empstatusService: EmpstatusService,
     ) { }
 
   ngOnInit(): void {
-    this.doGetInitialCurrent()
+    this.doGetInitialCurrent();
 
-    this.doLoadMenu()
-    this.doLoadEmployee()
+
+    this.doLoadInitialList();
+    this.doLoadEmptypeList();
+    this.doLoadEmpstatusList();
+
+    setTimeout(() => {
+      this.doLoadLanguage()
+      this.doLoadMenu()
+      this.doLoadEmployee()
+    }, 500);
 
   }
 
@@ -135,8 +157,9 @@ export class EmployeeListComponent implements OnInit {
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.selectedemployee = new EmployeeModel();
-          this.new_employee= true;
-          this.edit_employee= false;
+          this.selectEmpManage();
+          // this.new_employee= true;
+          // this.edit_employee= false;
         }
         
       },    
@@ -160,57 +183,127 @@ export class EmployeeListComponent implements OnInit {
     ];
 
   }
+  //get data
+  initialList:  InitialModel[] = [];
+  doLoadInitialList(){
+    this.initialService.initial_get().then((res) => {
+      this.initialList = res;
+    })
+  }
+  emptypeList: EmptypeModel[] = [];
+  doLoadEmptypeList(){
+    this.emptypeService.type_get().then((res)=>{
+      this.emptypeList = res;
+    })
+  }
+  statusList: EmpstatusModel[] = [];
+  doLoadEmpstatusList(){
+    this.empstatusService.status_get().then((res)=>{
+      this.statusList = res;
+    })
+  }
 
-  selectedEmployee: EmployeeModel = new EmployeeModel;
+  // selectedEmployee: EmployeeModel = new EmployeeModel;
+  workerCurrent:number = 0;
   doLoadEmployee(){
-    var tmp = new EmployeeModel();
+    this.employeeService.worker_get().then((res) =>{
+      this.employee_list = res;
+      this.workerCurrent = this.employee_list.length;
+    });
+    
+    
+    // var tmp = new EmployeeModel();
 
-    tmp.employee_id = "1";
-    tmp.employee_code = "2022120001";
-    tmp.employee_card = "2022120001";
-    tmp.employee_initial = "นาย";
-    tmp.employee_fnamename_th = "ศรัณย์";
-    tmp.employee_lnamename_th = "ศรีห่วง";
-    tmp.employee_type = "ประจำ";
-    tmp.employee_position = "พนักงานทำความสะอาด";
-    tmp.employee_startdate = new Date(2022, 0, 1);
+    // tmp.worker_id = "1";
+    // tmp.worker_code = "2022120001";
+    // tmp.worker_card = "2022120001";
+    // tmp.worker_initial = "นาย";
+    // tmp.worker_fname_th = "ศรัณย์";
+    // tmp.worker_lname_th = "ศรีห่วง";
+    // tmp.worker_type = "ประจำ";
+    // tmp.worker_position = "พนักงานทำความสะอาด";
+    // tmp.worker_hiredate = new Date(2022, 0, 1);
 
-    tmp.approve_by = "hropr";
-    tmp.modified_by = "hropr";
+    // tmp.approve_by = "hropr";
+    // tmp.modified_by = "hropr";
 
-    tmp.employee_status = "อนุมัติ [3/3]";
+    // tmp.worker_status = "อนุมัติ [3/3]";
 
-    this.employee_list.push(tmp);
+    // this.employee_list.push(tmp);
 
     
-    tmp = new EmployeeModel();
+    // tmp = new EmployeeModel();
 
-    tmp.employee_id = "1";
-    tmp.employee_code = "2022120002";
-    tmp.employee_card = "2022120002";
-    tmp.employee_initial = "นาย";
-    tmp.employee_fnamename_th = "สะอาด";
-    tmp.employee_lnamename_th = "สุขสมบูรณ์";
-    tmp.employee_type = "ประจำ";
-    tmp.employee_position = "พนักงานทำความสะอาด";
-    tmp.employee_startdate = new Date(2022, 3, 1);
+    // tmp.worker_id = "2";
+    // tmp.worker_code = "2022120002";
+    // tmp.worker_card = "2022120002";
+    // tmp.worker_initial = "นาย";
+    // tmp.worker_fname_th = "สะอาด";
+    // tmp.worker_lname_th = "สุขสมบูรณ์";
+    // tmp.worker_type = "ประจำ";
+    // tmp.worker_position = "พนักงานทำความสะอาด";
+    // tmp.worker_hiredate = new Date(2022, 3, 1);
 
-    tmp.approve_by = "hropr";
-    tmp.modified_by = "hropr";
+    // tmp.approve_by = "hropr";
+    // tmp.modified_by = "hropr";
 
-    tmp.employee_status = "อนุมัติ [3/3]";
+    // tmp.worker_status = "อนุมัติ [3/3]";
 
-    this.employee_list.push(tmp);
+    // this.employee_list.push(tmp);
 
-    tmp = new EmployeeModel();
+    // tmp = new EmployeeModel();
   }
+
   confirmRecord() {
-    console.log('Save');
+    this.confirmationService.confirm({
+      message: this.title_confirm_record,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doRecordEmployee()
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      }
+    });
+    console.log(this.selectedemployee);
+  }
+
+  doRecordEmployee(){
+    
+    this.employeeService.worker_record1(this.selectedemployee).then((res) => {
+      console.log(res)
+      let result = JSON.parse(res);
+
+      if (result.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+        this.doLoadEmployee()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+      }
+
+    });
   }
 
   confirmDelete() {
-    console.log('Delete');
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteEmployee()
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      }
+    });
   }
+
+  doDeleteEmployee(){
+    console.log(this.selectedemployee);
+  }
+
   close(){
     this.new_employee=false
     this.selectedemployee = new EmployeeModel()
@@ -224,8 +317,42 @@ export class EmployeeListComponent implements OnInit {
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
+
   doUploadEmployee(){
-console.log('Upload');
+    console.log('Upload');
+    if (this.fileToUpload) {
+      this.confirmationService.confirm({
+        message: "Confirm Upload file : " + this.fileToUpload.name,
+        header: "Import File",
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          const filename = "EMPLOYEE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+          const filetype = "xls";
+
+          this.employeeService.worker_import(this.fileToUpload, filename, filetype).then((res) => {
+            console.log(res)
+            let result = JSON.parse(res);
+
+            if (result.success) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+              this.doLoadEmployee();
+              this.edit_employee = false;
+              this.new_employee = false;
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+            }
+          });
+          this.displayUpload = false;
+        },
+        reject: () => {
+          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "Not Upload" });
+          this.displayUpload = false;
+        }
+      });
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+    }
   }
   displayUpload: boolean = false;
   showUpload() {
@@ -246,11 +373,11 @@ console.log('Upload');
 
   selectEmpManage(){
 
-    console.log(this.selectedEmployee.employee_code)
+    console.log(this.selectedemployee.worker_code)
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
-          "project": this.selectedEmployee.employee_code
+          "project": this.selectedemployee.worker_code
       }
     };
 

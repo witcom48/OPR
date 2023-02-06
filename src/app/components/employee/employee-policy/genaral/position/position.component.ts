@@ -3,33 +3,33 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router,NavigationExtras } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService, MegaMenuItem, ConfirmEventType, } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
-import { GroupModel } from '../../../models/employee/group';
-import { GroupService } from '../../../services/emp/group.service';
+import { AppConfig } from '../../../../../config/config';
+import { InitialCurrent } from '../../../../../config/initial_current';
+import { PositionModel } from '../../../../../models/employee/policy/position';
+import { PositionService } from '../../../../../services/emp/policy/position.service';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-group',
-  templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss']
+  selector: 'app-position',
+  templateUrl: './position.component.html',
+  styleUrls: ['./position.component.scss']
 })
-export class GroupComponent implements OnInit {
+export class PositionComponent implements OnInit {
 
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
 
-  group_list : GroupModel[] = [];
-  selectedGroup : GroupModel = new GroupModel();
+  position_list : PositionModel[] = [];
+  selectedPosition : PositionModel = new PositionModel();
 
   constructor(
-    private groupService: GroupService,
+    private positionService: PositionService,
     private router:Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe
-  ) { }
+    ) { }
 
   ngOnInit(): void {
     this.doGetInitialCurrent()
@@ -37,7 +37,7 @@ export class GroupComponent implements OnInit {
     setTimeout(() => {
       this.doLoadLanguage()
       this.doLoadMenu()
-      this.doLoadGroup()
+      this.doLoadPosition()
     }, 500);
   }
 
@@ -49,7 +49,7 @@ export class GroupComponent implements OnInit {
     }       
   }
 
-  title_page:string = "Group";
+  title_page:string = "Position";
   title_new:string = "New";
   title_edit:string = "Edit";
   title_delete:string = "Delete";
@@ -59,7 +59,6 @@ export class GroupComponent implements OnInit {
   title_code:string = "Code";
   title_name_th:string = "Name (Thai)";
   title_name_en:string = "Name (Eng.)";
-  title_detail:string = "Detail";
   title_modified_by:string = "Edit by";
   title_modified_date:string = "Edit date";
   title_search:string = "Search";
@@ -80,7 +79,7 @@ export class GroupComponent implements OnInit {
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.title_page = "ข้อมูลกลุ่ม";
+      this.title_page = "ข้อมูลตำแหน่ง";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -90,7 +89,6 @@ export class GroupComponent implements OnInit {
       this.title_code = "รหัส";
       this.title_name_th = "ชื่อไทย";
       this.title_name_en = "ชื่ออังกฤษ";
-      this.title_detail = "รายละเอียด";
       this.title_modified_by = "ผู้ทำรายการ";
       this.title_modified_date = "วันที่ทำรายการ";
       this.title_search = "ค้นหา";
@@ -119,7 +117,7 @@ export class GroupComponent implements OnInit {
         label:this.title_new,
         icon:'pi pi-fw pi-plus',
         command: (event) => {
-          this.selectedGroup = new GroupModel();
+          this.selectedPosition = new PositionModel();
           this.new_data= true;
           this.edit_data= false;
         }     
@@ -145,9 +143,9 @@ export class GroupComponent implements OnInit {
     ];
   }
 
-  doLoadGroup(){
-    this.groupService.group_get().then((res) => {
-     this.group_list = res;     
+  doLoadPosition(){
+    this.positionService.position_get().then((res) => {
+     this.position_list = res;     
     });
   }
 
@@ -157,7 +155,7 @@ export class GroupComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doRecordGroup()
+          this.doRecordPosition()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -165,14 +163,14 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  doRecordGroup(){
-    this.groupService.group_record(this.selectedGroup).then((res) => {
+  doRecordPosition(){
+    this.positionService.position_record(this.selectedPosition).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadGroup()
+      this.doLoadPosition()
      }
      else{
       this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -187,7 +185,7 @@ export class GroupComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doDeleteGroup()
+          this.doDeletePosition()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -195,14 +193,14 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  doDeleteGroup(){
-    this.groupService.group_delete(this.selectedGroup).then((res) => {
+  doDeletePosition(){
+    this.positionService.position_delete(this.selectedPosition).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadGroup();
+      this.doLoadPosition();
       this.edit_data= false;
       this.new_data= false;
      }
@@ -215,9 +213,9 @@ export class GroupComponent implements OnInit {
 
   close(){
     this.new_data=false
-    this.selectedGroup = new GroupModel()
+    this.selectedPosition = new PositionModel()
   }
-  onRowSelectGroup(event: any) {
+  onRowSelectPosition(event: any) {
     this.edit_data= true;
     this.new_data= true;
   }
@@ -227,23 +225,23 @@ export class GroupComponent implements OnInit {
     this.fileToUpload=file.item(0);
   }
 
-  doUploadGroup(){
+  doUploadPosition(){
     if (this.fileToUpload) {
       this.confirmationService.confirm({
         message: "Confirm Upload file : " + this.fileToUpload.name,
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          const filename = "GROUP_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+          const filename = "POSITION_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
           const filetype = "xls";
 
-          this.groupService.group_import(this.fileToUpload, filename, filetype).then((res) => {
+          this.positionService.position_import(this.fileToUpload, filename, filetype).then((res) => {
             console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-              this.doLoadGroup();
+              this.doLoadPosition();
               this.edit_data = false;
               this.new_data = false;
             }
@@ -276,7 +274,7 @@ export class GroupComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_group.xlsx');
+    XLSX.writeFile(wb, 'Export_position.xlsx');
 
   }
 }

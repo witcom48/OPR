@@ -3,28 +3,28 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router,NavigationExtras } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService, MegaMenuItem, ConfirmEventType, } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
-import { InitialModel } from '../../../models/employee/initial';
-import { InitialService } from '../../../services/emp/initial.service';
+import { AppConfig } from '../../../../../config/config';
+import { InitialCurrent } from '../../../../../config/initial_current';
+import { GroupModel } from '../../../../../models/employee/policy/group';
+import { GroupService } from '../../../../../services/emp/policy/group.service';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-initial',
-  templateUrl: './initial.component.html',
-  styleUrls: ['./initial.component.scss']
+  selector: 'app-group',
+  templateUrl: './group.component.html',
+  styleUrls: ['./group.component.scss']
 })
-export class InitialComponent implements OnInit {
+export class GroupComponent implements OnInit {
 
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
 
-  initial_list : InitialModel[] = [];
-  selectedInitial : InitialModel = new InitialModel();
+  group_list : GroupModel[] = [];
+  selectedGroup : GroupModel = new GroupModel();
 
   constructor(
-    private initialService: InitialService,
+    private groupService: GroupService,
     private router:Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -37,7 +37,7 @@ export class InitialComponent implements OnInit {
     setTimeout(() => {
       this.doLoadLanguage()
       this.doLoadMenu()
-      this.doLoadInitial()
+      this.doLoadGroup()
     }, 500);
   }
 
@@ -49,7 +49,7 @@ export class InitialComponent implements OnInit {
     }       
   }
 
-  title_page:string = "Initial";
+  title_page:string = "Group";
   title_new:string = "New";
   title_edit:string = "Edit";
   title_delete:string = "Delete";
@@ -80,7 +80,7 @@ export class InitialComponent implements OnInit {
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.title_page = "ข้อมูลคำนำหน้า";
+      this.title_page = "ข้อมูลกลุ่ม";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -119,7 +119,7 @@ export class InitialComponent implements OnInit {
         label:this.title_new,
         icon:'pi pi-fw pi-plus',
         command: (event) => {
-          this.selectedInitial = new InitialModel();
+          this.selectedGroup = new GroupModel();
           this.new_data= true;
           this.edit_data= false;
         }     
@@ -145,9 +145,9 @@ export class InitialComponent implements OnInit {
     ];
   }
 
-  doLoadInitial(){
-    this.initialService.initial_get().then((res) => {
-     this.initial_list = res;     
+  doLoadGroup(){
+    this.groupService.group_get().then((res) => {
+     this.group_list = res;     
     });
   }
 
@@ -157,7 +157,7 @@ export class InitialComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doRecordInitial()
+          this.doRecordGroup()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -165,14 +165,14 @@ export class InitialComponent implements OnInit {
     });
   }
 
-  doRecordInitial(){
-    this.initialService.initial_record(this.selectedInitial).then((res) => {
+  doRecordGroup(){
+    this.groupService.group_record(this.selectedGroup).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadInitial()
+      this.doLoadGroup()
      }
      else{
       this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -187,7 +187,7 @@ export class InitialComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doDeleteInitial()
+          this.doDeleteGroup()
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -195,14 +195,14 @@ export class InitialComponent implements OnInit {
     });
   }
 
-  doDeleteInitial(){
-    this.initialService.initial_delete(this.selectedInitial).then((res) => {
+  doDeleteGroup(){
+    this.groupService.group_delete(this.selectedGroup).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadInitial();
+      this.doLoadGroup();
       this.edit_data= false;
       this.new_data= false;
      }
@@ -215,9 +215,9 @@ export class InitialComponent implements OnInit {
 
   close(){
     this.new_data=false
-    this.selectedInitial = new InitialModel()
+    this.selectedGroup = new GroupModel()
   }
-  onRowSelectInitial(event: any) {
+  onRowSelectGroup(event: any) {
     this.edit_data= true;
     this.new_data= true;
   }
@@ -227,23 +227,23 @@ export class InitialComponent implements OnInit {
     this.fileToUpload=file.item(0);
   }
 
-  doUploadInitial(){
+  doUploadGroup(){
     if (this.fileToUpload) {
       this.confirmationService.confirm({
         message: "Confirm Upload file : " + this.fileToUpload.name,
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          const filename = "INITIAL_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+          const filename = "GROUP_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
           const filetype = "xls";
 
-          this.initialService.initial_import(this.fileToUpload, filename, filetype).then((res) => {
+          this.groupService.group_import(this.fileToUpload, filename, filetype).then((res) => {
             console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-              this.doLoadInitial();
+              this.doLoadGroup();
               this.edit_data = false;
               this.new_data = false;
             }
@@ -276,7 +276,7 @@ export class InitialComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_initial.xlsx');
+    XLSX.writeFile(wb, 'Export_group.xlsx');
 
   }
 }
