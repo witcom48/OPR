@@ -16,7 +16,7 @@ declare var yearperiod: any;
 })
 export class YearperiodComponent implements OnInit {
   langs: any = yearperiod;
-  selectlang: string = "EN";
+  selectlang: string = "TH";
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private yearServices: YearServices,
@@ -37,7 +37,7 @@ export class YearperiodComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('');
     }
-    this.selectlang = this.initial_current.Language;
+    // this.selectlang = this.initial_current.Language;
   }
 
   ngOnInit(): void {
@@ -147,8 +147,8 @@ export class YearperiodComponent implements OnInit {
   Uploadfile() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
-        message: "Confirm Upload file : " + this.fileToUpload.name,
-        header: "Import File",
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           console.log(this.fileToUpload)

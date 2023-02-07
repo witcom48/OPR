@@ -4,6 +4,7 @@ var yearperiod = new Map([
     ["yearperiod", { TH: "ปีการจ่าย", EN: "Year Period" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
+    ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],
     ["export", { TH: "ส่งออกไฟล์", EN: "Export" }],
     ["showing", { TH: "แสดง", EN: "Showing" }],
     ["to", { TH: "ถึง", EN: "to" }],
