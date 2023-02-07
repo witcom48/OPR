@@ -23,8 +23,8 @@
             (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['year_code','year_name_en','modified_by','modified_date']" responsiveLayout="stack"
-            [breakpoint]="'744px'">
+            [globalFilterFields]="['year_code','year_name_en','year_name_th','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -54,7 +54,7 @@
                 <tr [pSelectableRow]="data">
                     <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
                     <td><span>{{langs.get('code')[selectlang]}}</span>{{data.year_code}}</td>
-                    <td><span>{{langs.get('description')[selectlang]}}</span>{{data.year_name_en}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.year_name_en:data.year_name_th}}</td>
                     <td><span>{{langs.get('type')[selectlang]}}</span>{{data.year_group}}</td>
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |

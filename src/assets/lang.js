@@ -1,3 +1,16 @@
+var langcalendarth = {
+    firstDayOfWeek: 1,
+    dayNames: ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์"],
+    dayNamesShort: ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."],
+    dayNamesMin: ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."],
+    monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+    monthNamesShort: ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."],
+    accept: "ใช่",
+    reject: "ไม่",
+
+};
+
+
 var yearperiod = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
@@ -25,4 +38,35 @@ var yearperiod = new Map([
     ["delete", { TH: "ลบ", EN: "Delete" }],
     ["upload", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
+]);
+
+var timeperiod = new Map([
+    ["title", { TH: "Attendance", EN: "Attendance" }],
+    ["policy", { TH: "นะโยบาย", EN: "Policy" }],
+    ["new", { TH: "เพิ่ม", EN: "New" }],
+    ["import", { TH: "นำเข้า", EN: "Import" }],
+    ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],
+    ["export", { TH: "ส่งออกไฟล์", EN: "Export" }],
+    ["showing", { TH: "แสดง", EN: "Showing" }],
+    ["to", { TH: "ถึง", EN: "to" }],
+    ["of", { TH: "จาก", EN: "of" }],
+    ["entries", { TH: "รายการ", EN: "entries" }],
+    ["search", { TH: "ค้นหา", EN: "search" }],
+    ["no", { TH: "อันดับ", EN: "No." }],
+    ["code", { TH: "รหัส", EN: "Code" }],
+    ["description", { TH: "รายละเอียด", EN: "Description" }],
+    ["type", { TH: "ประเภท", EN: "Type" }],
+    ["modified_by", { TH: "ผู้ทำรายการ", EN: "Modified by" }],
+    ["modified_date", { TH: "วันที่ทำรายการ", EN: "Modified date" }],
+    ["fromdate", { TH: "จากวันที่", EN: "FromDate" }],
+    ["todate", { TH: "ถึงวันที่", EN: "ToDate" }],
+    ["payment", { TH: "วันที่จ่าย", EN: "Payment" }],
+    ["save", { TH: "บันทึก", EN: "Save" }],
+    ["delete", { TH: "ลบ", EN: "Delete" }],
+    ["upload", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
+    ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
+    ["day_pay", { TH: "จำนวนวันตามงวด", EN: "Days on Period" }],
+    ["monthly", { TH: "รายเดือน", EN: "Monthly" }],
+    ["daily", { TH: "รายวัน", EN: "Daily" }],
+    ["timeperiod", { TH: "กำหนดงวด", EN: "Time Period" }],
 ]);

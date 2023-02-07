@@ -16,7 +16,7 @@ declare var yearperiod: any;
 })
 export class YearperiodComponent implements OnInit {
   langs: any = yearperiod;
-  selectlang: string = "TH";
+  selectlang: string = "EN";
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private yearServices: YearServices,
@@ -37,7 +37,7 @@ export class YearperiodComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('');
     }
-    // this.selectlang = this.initial_current.Language;
+    this.selectlang = this.initial_current.Language;
   }
 
   ngOnInit(): void {

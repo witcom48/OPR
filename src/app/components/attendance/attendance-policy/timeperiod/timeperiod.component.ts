@@ -2,8 +2,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { TimePeriodModels } from 'src/app/models/attendance/timeperiod';
 import { PeriodServices } from 'src/app/services/attendance/period.service';
+import { PrimeNGConfig } from 'primeng/api';
 import * as XLSX from 'xlsx';
-
+import { InitialCurrent } from 'src/app/config/initial_current';
+import { AppConfig } from 'src/app/config/config';
+import { Router } from '@angular/router';
+declare var timeperiod: any;
+declare var langcalendarth: any;
 interface Year {
   name: string,
   code: string
@@ -14,9 +19,13 @@ interface Year {
   styleUrls: ['./timeperiod.component.scss']
 })
 export class TimeperiodComponent implements OnInit {
+  langs: any = timeperiod;
+  selectlang: string = "EN";
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private periodService: PeriodServices,) { }
+    private periodService: PeriodServices,
+    private config: PrimeNGConfig,
+    private router: Router,) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   yaerList: Year[] = [];
   selectedyear!: Year;
@@ -28,50 +37,24 @@ export class TimeperiodComponent implements OnInit {
   items: MenuItem[] = [];
   timeperiods_list: TimePeriodModels[] = [];
   timeperiods: TimePeriodModels = new TimePeriodModels()
-
+  public initial_current: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current) {
+      this.router.navigateByUrl('');
+    }
+    this.selectlang = this.initial_current.Language;
+    if (this.initial_current.Language == "TH") {
+      this.config.setTranslation(langcalendarth)
+    }
+  }
   ngOnInit(): void {
+    this.doGetInitialCurrent();
     this.doLoadMenu()
     this.yaerList = [
       { name: 'Tax Calendar 2022', code: '2022' },
       { name: 'Tax Calendar 2023', code: '2023' },
     ];
-    // this.timeperiods_list = [{
-    //   company_code: 'PSG',
-    //   period_id: '100',
-    //   period_type: 'PAY',
-    //   emptype_code: 'D',
-    //   year_code: '2022',
-    //   period_no: '01',
-    //   period_name_th: 'มกราคม',
-    //   period_name_en: 'January',
-    //   period_from: new Date('2022-01-01'),
-    //   period_to: new Date('2022-01-31'),
-    //   period_payment: new Date('2022-01-27'),
-    //   period_dayonperiod: "1",
-    //   created_by: "Admin",
-    //   created_date: "2022-01-13",
-    //   modied_by: 'admin',
-    //   modied_date: new Date('2022-02-14'),
-    //   flag: false
-    // }, {
-    //   company_code: 'PSG',
-    //   period_id: '101',
-    //   period_type: 'PAY',
-    //   emptype_code: 'D',
-    //   year_code: '2022',
-    //   period_no: '02',
-    //   period_name_th: 'กุมภา',
-    //   period_name_en: 'February',
-    //   period_from: new Date('2022-01-01'),
-    //   period_to: new Date('2022-01-31'),
-    //   period_payment: new Date('2022-01-27'),
-    //   period_dayonperiod: "1",
-    //   created_by: "Admin",
-    //   created_date: "2022-01-13",
-    //   modied_by: 'admin',
-    //   modied_date: new Date('2022-02-14'),
-    //   flag: false
-    // }]
     this.doLoadPeriod()
   }
 
@@ -135,7 +118,7 @@ export class TimeperiodComponent implements OnInit {
 
     this.items = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.timeperiods = new TimePeriodModels();
@@ -145,7 +128,7 @@ export class TimeperiodComponent implements OnInit {
       }
       ,
       {
-        label: "Import",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -154,7 +137,7 @@ export class TimeperiodComponent implements OnInit {
       }
       ,
       {
-        label: "Export",
+        label: this.langs.get('export')[this.selectlang],
         icon: 'pi-file-export',
         command: (event) => {
           this.exportAsExcel()
@@ -169,8 +152,8 @@ export class TimeperiodComponent implements OnInit {
   Uploadfile() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
-        message: "Confirm Upload file : " + this.fileToUpload.name,
-        header: "Import File",
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           console.log(this.fileToUpload)
@@ -215,7 +198,7 @@ export class TimeperiodComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
+    XLSX.writeFile(wb, 'Export_Period.xlsx');
 
   }
 

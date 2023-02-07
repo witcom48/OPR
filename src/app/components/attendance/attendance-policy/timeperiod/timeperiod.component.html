@@ -1,11 +1,11 @@
 <!-- Link Page -->
 <div class="path">
-    <span>Attendance</span>
+    <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
-        <a routerLink="/attendance/policy">Policy</a>
+        <a routerLink="/attendance/policy">{{langs.get('policy')[selectlang]}}</a>
         <i></i>
-        <small>Time Period</small>
+        <small>{{langs.get('timeperiod')[selectlang]}}</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -21,8 +21,8 @@
         <p-table #dt2 [value]="timeperiods_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
             selectionMode="single" [(selection)]="timeperiods" (onRowSelect)="onRowSelect($event)" [rows]="12"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-            currentPageReportTemplate="from {first} to {last} total {totalRecords}"
-            [globalFilterFields]="['period_name_en','period_from','period_to','period_payment','modied_by','modied_date']">
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['period_name_en','period_name_th','period_from','period_to','period_payment','modified_by','modified_date']">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -35,10 +35,10 @@
                         <div>
                             <input type="radio" name="fav_language" value="M" [(ngModel)]="emptype"
                                 (change)="selectYear()">
-                              <label>Monthly</label>
+                              <label>{{langs.get('monthly')[selectlang]}}</label>
                             <input type="radio" name="fav_language" value="D" [(ngModel)]="emptype"
                                 (change)="selectYear()">
-                              <label>Daily</label>
+                              <label>{{langs.get('daily')[selectlang]}}</label>
                         </div>
                         <!-- -----------END Radio Select------------ -->
                     </div>
@@ -46,32 +46,34 @@
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="search" />
+                            placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
             </ng-template>
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                    <th>No.</th>
-                    <th>Description</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Payment</th>
-                    <th>Modified by</th>
-                    <th>Modified date</th>
-
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('description')[selectlang]}}</th>
+                    <th>{{langs.get('fromdate')[selectlang]}}</th>
+                    <th>{{langs.get('todate')[selectlang]}}</th>
+                    <th>{{langs.get('payment')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex">
                 <tr [pSelectableRow]="data">
-                    <td>{{i+1}}</td>
-                    <td>{{data.period_name_en}}</td>
-                    <td>{{data.period_from | date:'dd/MM/yyyy'}}</td>
-                    <td>{{data.period_to | date:'dd/MM/yyyy'}}</td>
-                    <td>{{data.period_payment | date:'dd/MM/yyyy'}}</td>
-                    <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.period_name_en:data.period_name_th}}
+                    </td>
+                    <td><span>{{langs.get('fromdate')[selectlang]}}</span>{{data.period_from | date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{langs.get('todate')[selectlang]}}</span>{{data.period_to | date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{langs.get('payment')[selectlang]}}</span>{{data.period_payment | date:'dd/MM/yyyy'}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
 
                 </tr>
             </ng-template>
@@ -83,47 +85,51 @@
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
 
-        <label>No.</label>
+        <label>{{langs.get('code')[selectlang]}}</label>
         <input pInputText type="text" [(ngModel)]="timeperiods.period_no" maxlength="2" />
         <p>{{timeperiods.period_no.length}}/2</p>
 
-        <label>Description (Eng.)</label>
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
         <textarea [(ngModel)]="timeperiods.period_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>Description (Thai)</label>
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
         <textarea [(ngModel)]="timeperiods.period_name_th" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>FromDate</label>
-        <p-calendar appendTo="body" [(ngModel)]="timeperiods.period_from" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <label>{{langs.get('fromdate')[selectlang]}}</label>
+        <p-calendar appendTo="body" [(ngModel)]="timeperiods.period_from" dateFormat="dd/mm/yy"><input
+                type="text"></p-calendar>
 
-        <label>ToDate</label>
-        <p-calendar appendTo="body" [(ngModel)]="timeperiods.period_to" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <label>{{langs.get('todate')[selectlang]}}</label>
+        <p-calendar appendTo="body" [(ngModel)]="timeperiods.period_to" dateFormat="dd/mm/yy"><input
+                type="text"></p-calendar>
 
-        <label>Payment</label>
-        <p-calendar appendTo="body" [(ngModel)]="timeperiods.period_payment" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <label>{{langs.get('payment')[selectlang]}}</label>
+        <p-calendar appendTo="body" [(ngModel)]="timeperiods.period_payment" dateFormat="dd/mm/yy"><input
+                type="text"></p-calendar>
         <div>
             <input type="checkbox" value="1" [(ngModel)]="timeperiods.period_dayonperiod">
-              <label>Days on Period</label>
+              <label>{{langs.get('day_pay')[selectlang]}}</label>
         </div>
 
-        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="Delete"  (click)="Delete()"icon="pi pi-trash"
-            class="p-button-danger"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+            (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
+            icon="pi pi-trash" class="p-button-danger"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>
 
 <!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
+        <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
         <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
     </ng-template>
 </p-dialog>
+
 
 <!-- -----------------End Dialog Choose File-------------------- -->
 
