@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../models/project/project';
 import { AppConfig } from '../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
-import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { TimePeriodModels } from 'src/app/models/attendance/timeperiod';
 
 @Injectable({
@@ -14,8 +12,6 @@ import { TimePeriodModels } from 'src/app/models/attendance/timeperiod';
 export class PeriodServices {
 
     public config: AppConfig = new AppConfig();
-
-    private model: PrjectModel = new PrjectModel();
     public initial_current: InitialCurrent = new InitialCurrent();
 
     httpHeaders = new HttpHeaders({});
