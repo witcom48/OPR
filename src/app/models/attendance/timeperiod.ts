@@ -18,6 +18,6 @@ export class TimePeriodModels {
     created_by: string = "";
     created_date: string = "";
     modied_by: string = "";
-    modied_date: string = "";
-    flag: string = "";
+    modied_date!: Date;
+    flag: boolean = false;
 }

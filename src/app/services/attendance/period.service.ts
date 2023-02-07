@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { TimePeriodModels } from 'src/app/models/attendance/timeperiod';
 
 @Injectable({
     providedIn: 'root'
 })
-export class YearServices {
+export class PeriodServices {
 
     public config: AppConfig = new AppConfig();
 
@@ -46,75 +47,63 @@ export class YearServices {
         }
     }
 
-    public year_get(Year: YearPeriodModels) {
+    public period_get(Period: TimePeriodModels) {
         console.log('ATT001..');
         let data = {
-            device_name: "Desktop",
-            ip: "127.0.0.1",
-            username: this.initial_current.Username,
-            company_code: Year.company_code || this.initial_current.CompCode,
-            year_id: Year.year_id,
-            year_code: Year.year_code,
-            year_name_th: Year.year_name_th,
-            year_name_en: Year.year_name_en,
-            year_fromdate: Year.year_fromdate,
-            year_todate: Year.year_todate,
-            year_group: Year.year_group,
-            modified_by: this.initial_current.Username,
-            fag: false
-
+            "device_name": "phone",
+            "ip": "127.0.0.1",
+            "username": this.initial_current.Username,
+            "company_code": Period.company_code || this.initial_current.CompCode,
+            "period_id": Period.period_id,
+            "period_type": Period.period_type,
+            "year_code": Period.year_code,
+            "emptype_code": Period.emptype_code
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/year_list', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiAttendanceModule + '/period_list', data, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;
             });
     }
 
-    public year_record(Year: YearPeriodModels) {
+    public period_record(Period: TimePeriodModels) {
         console.log('ATT002..');
         let data = {
-            device_name: "Desktop",
-            ip: "127.0.0.1",
-            username: this.initial_current.Username,
-            company_code: Year.company_code || this.initial_current.CompCode,
-            year_id: Year.year_id,
-            year_code: Year.year_code,
-            year_name_th: Year.year_name_th,
-            year_name_en: Year.year_name_en,
-            year_fromdate: Year.year_fromdate,
-            year_todate: Year.year_todate,
-            year_group: Year.year_group,
-            modified_by: this.initial_current.Username,
-            fag: false
-
+            "device_name": "phone",
+            "ip": "127.0.0.1",
+            "username": this.initial_current.Username,
+            "company_code": Period.company_code || this.initial_current.CompCode,
+            "period_id": Period.period_id,
+            "period_type": Period.period_type || "PAY",
+            "emptype_code": Period.emptype_code,
+            "year_code": Period.year_code,
+            "period_no": Period.period_no,
+            "period_name_th": Period.period_name_th,
+            "period_name_en": Period.period_name_en,
+            "period_from": Period.period_from,
+            "period_to": Period.period_to,
+            "period_payment": Period.period_payment,
+            "period_dayonperiod": Period.period_dayonperiod,
+            "modified_by": this.initial_current.Username,
+            "flag": Period.flag
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/year', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiAttendanceModule + '/period', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
-    public year_delete(Year: YearPeriodModels) {
+    public period_delete(Period: TimePeriodModels) {
         console.log('ATT003..');
         let data = {
-            device_name: "Desktop",
-            ip: "127.0.0.1",
-            username: this.initial_current.Username,
-            company_code: Year.company_code || this.initial_current.CompCode,
-            year_id: Year.year_id,
-            year_code: Year.year_code,
-            year_name_th: Year.year_name_th,
-            year_name_en: Year.year_name_en,
-            year_fromdate: Year.year_fromdate,
-            year_todate: Year.year_todate,
-            year_group: Year.year_group,
-            modified_by: this.initial_current.Username,
-            fag: false
-
+            "device_name": "phone",
+            "ip": "127.0.0.1",
+            "username": this.initial_current.Username,
+            "company_code": Period.company_code || this.initial_current.CompCode,
+            "period_id": Period.period_id
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/year_del', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiAttendanceModule + '/period_del', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);

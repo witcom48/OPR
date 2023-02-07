@@ -32,12 +32,12 @@ export class YearperiodComponent implements OnInit {
   doLoadYear() {
     this.yearperiods_list = [];
     var tmp = new YearPeriodModels();
-    this.yearServices.year_get(tmp).then((res) => {
-      res.forEach((element: YearPeriodModels) => {
+    this.yearServices.year_get(tmp).then(async (res) => {
+      await res.forEach((element: YearPeriodModels) => {
         element.year_fromdate = new Date(element.year_fromdate)
         element.year_todate = new Date(element.year_todate)
-        this.yearperiods_list.push(element)
       });
+      this.yearperiods_list = await res;
     });
   }
   async doRecordYear(data: YearPeriodModels) {
