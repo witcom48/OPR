@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ReasonModels } from 'src/app/models/attendance/reason';
 import * as XLSX from 'xlsx';
+declare var reason: any;
 interface Type {
   name: string,
   code: string
@@ -12,23 +13,30 @@ interface Type {
   styleUrls: ['./reason.component.scss']
 })
 export class ReasonComponent implements OnInit {
+  langs: any = reason;
+  selectlang: string = "EN"
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   TypeList: Type[] = [];
-  selectedType!: Type;
+  selectedType: Type = { code: 'EMP', name: this.langs.get('resignreq')[this.selectlang] }
   new_data: boolean = false
   edit_data: boolean = false
   fileToUpload: File | any = null;
   displayUpload: boolean = false;
-  constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,) { }
   items: MenuItem[] = [];
   reason_list: ReasonModels[] = [];
   reasons: ReasonModels = new ReasonModels()
   ngOnInit(): void {
     this.doLoadMenu()
     this.TypeList = [
-      { name: 'Leave', code: 'Leave' },
-      { name: 'OT', code: 'OT' },
+      { code: 'EMP', name: this.langs.get('resignreq')[this.selectlang] },
+      { code: 'LEAVE', name: this.langs.get('leavereq')[this.selectlang] },
+      { code: 'OT', name: this.langs.get('otreq')[this.selectlang] },
+      { code: 'DAT', name: this.langs.get('daytypereq')[this.selectlang] },
+      { code: 'SHT', name: this.langs.get('shiftreq')[this.selectlang] },
+      { code: 'ONS', name: this.langs.get('onsitereq')[this.selectlang] },
+      { code: 'SAL', name: this.langs.get('salaryreq')[this.selectlang] }
     ];
     this.reason_list = [
       {
@@ -78,8 +86,8 @@ export class ReasonComponent implements OnInit {
       }
     ];
   }
-  close(){
-    this.new_data=false
+  close() {
+    this.new_data = false
     this.reasons = new ReasonModels()
   }
   showUpload() {
