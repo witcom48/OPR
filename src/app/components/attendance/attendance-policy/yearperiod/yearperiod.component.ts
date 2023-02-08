@@ -100,7 +100,7 @@ export class YearperiodComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.fileToUpload = null;
     });
   }
   handleFileInput(file: FileList) {
@@ -151,7 +151,6 @@ export class YearperiodComponent implements OnInit {
         header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          console.log(this.fileToUpload)
           this.displayUpload = false;
           this.doUploadYear()
         },

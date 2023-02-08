@@ -1,5 +1,4 @@
 var langcalendarth = {
-    firstDayOfWeek: 1,
     dayNames: ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์"],
     dayNamesShort: ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."],
     dayNamesMin: ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."],
@@ -9,6 +8,15 @@ var langcalendarth = {
     reject: "ไม่",
 
 };
+var langcalendaren = {
+    dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    accept: "Yes",
+    reject: "No",
+}
 
 
 var yearperiod = new Map([

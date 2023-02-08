@@ -7,8 +7,12 @@ import * as XLSX from 'xlsx';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
 import { Router } from '@angular/router';
+import { YearServices } from 'src/app/services/attendance/year.service';
+import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { DatePipe } from '@angular/common';
 declare var timeperiod: any;
 declare var langcalendarth: any;
+declare var langcalendaren: any;
 interface Year {
   name: string,
   code: string
@@ -24,8 +28,10 @@ export class TimeperiodComponent implements OnInit {
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private periodService: PeriodServices,
+    private yearServices: YearServices,
     private config: PrimeNGConfig,
-    private router: Router,) { }
+    private router: Router,
+    private datePipe: DatePipe,) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   yaerList: Year[] = [];
   selectedyear!: Year;
@@ -46,19 +52,28 @@ export class TimeperiodComponent implements OnInit {
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.config.setTranslation(langcalendarth)
+    } else {
+      this.config.setTranslation(langcalendaren)
     }
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
-    this.doLoadMenu()
-    this.yaerList = [
-      { name: 'Tax Calendar 2022', code: '2022' },
-      { name: 'Tax Calendar 2023', code: '2023' },
-    ];
-    this.doLoadPeriod()
+    this.doLoadYear();
+    this.doLoadMenu();
   }
+  doLoadYear() {
+    this.yaerList = [];
+    var tmp = new YearPeriodModels();
+    tmp.year_group = "TAX"
+    this.yearServices.year_get(tmp).then(async (res) => {
+      await res.forEach((element: YearPeriodModels) => {
+        this.yaerList.push({ name: (this.selectlang == "EN" ? element.year_name_en : element.year_name_th) + " " + element.year_code, code: element.year_code })
+      });
+      await this.doLoadPeriod();
+    });
 
-  doLoadPeriod() {
+  }
+  async doLoadPeriod() {
     this.new_data = false;
     this.edit_data = false;
     this.timeperiods_list = [];
@@ -69,8 +84,9 @@ export class TimeperiodComponent implements OnInit {
       tmp.year_code = this.selectedyear.code || "";
     } else {
       tmp.year_code = this.yaerList[0].code
+      this.selectedyear = this.yaerList[0]
     }
-    this.periodService.period_get(tmp).then(async (res) => {
+    await this.periodService.period_get(tmp).then(async (res) => {
       await res.forEach((element: TimePeriodModels) => {
         element.period_from = new Date(element.period_from)
         element.period_to = new Date(element.period_to)
@@ -81,7 +97,6 @@ export class TimeperiodComponent implements OnInit {
   }
   async doRecordPeriod(data: TimePeriodModels) {
     await this.periodService.period_record(data).then((res) => {
-      console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPeriod()
@@ -96,7 +111,6 @@ export class TimeperiodComponent implements OnInit {
   }
   async doDeleteYear(data: TimePeriodModels) {
     await this.periodService.period_delete(data).then((res) => {
-      console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPeriod()
@@ -108,6 +122,24 @@ export class TimeperiodComponent implements OnInit {
     });
     this.new_data = false;
     this.edit_data = false;
+  }
+
+  doUploadPeriod() {
+    const filename = "PERIOD_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+    const filetype = "xls";
+    this.periodService.period_import(this.fileToUpload, filename, filetype).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadPeriod();
+        this.edit_data = false;
+        this.new_data = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileToUpload = null;
+    });
   }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -156,12 +188,10 @@ export class TimeperiodComponent implements OnInit {
         header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          console.log(this.fileToUpload)
           this.displayUpload = false;
-          this.messageService.add({ severity: 'success', summary: 'File', detail: "Upload Success" });
+          this.doUploadPeriod()
         },
         reject: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "Not Upload" });
           this.displayUpload = false;
         }
       });
@@ -176,21 +206,17 @@ export class TimeperiodComponent implements OnInit {
   Save() {
     this.timeperiods.emptype_code = this.emptype;
     this.timeperiods.year_code = this.selectedyear.code;
-    console.log(this.timeperiods)
     this.doRecordPeriod(this.timeperiods)
   }
   Delete() {
     this.doDeleteYear(this.timeperiods)
   }
   selectYear() {
-    console.log(this.emptype)
-    console.log(this.selectedyear)
     this.doLoadPeriod()
   }
   onRowSelect(event: any) {
     this.new_data = true
     this.edit_data = true;
-    console.log(this.timeperiods)
   }
   exportAsExcel() {
 

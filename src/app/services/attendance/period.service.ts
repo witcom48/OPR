@@ -108,7 +108,7 @@ export class PeriodServices {
     }
 
 
-    public year_import(file: File, file_name: string, file_type: string) {
+    public period_import(file: File, file_name: string, file_type: string) {
         console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
@@ -117,7 +117,7 @@ export class PeriodServices {
         para += "&token=" + this.initial_current.Token;
         para += "&by=" + this.initial_current.Username;
 
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/doUploadYear?' + para, formData).toPromise()
+        return this.http.post<any>(this.config.ApiAttendanceModule + '/doUploadMTPeriod?' + para, formData).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message;
