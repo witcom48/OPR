@@ -19,7 +19,6 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
-
 # Visual Studio Code
 .vscode
 .vscode/*
@@ -43,3 +42,5 @@ yarn.lock
 layout.css
 src/assets/demo/styles/badges.css
 src/assets/layout/styles/theme/designer
+
+/Imports
