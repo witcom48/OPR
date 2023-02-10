@@ -1,4 +1,13 @@
-<span style="font-size: 20px;">System</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>{{title_page}}</small>
+<div class="path">
+    <span>System</span>
+    <div>
+        <i></i>
+        <a routerLink="/system/genaral">Genaral</a>
+        <i></i>
+        <small>{{title_page}}</small>
+    </div>
+</div>
+<!-- <span style="font-size: 20px;">System</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>{{title_page}}</small> -->
 <hr>
 
 <p-toast position="top-right"></p-toast>
@@ -72,18 +81,18 @@
             <span class="spn_title_edit"></span>
             <div class="field col-12 ">
                 <label for="ppos_code">{{title_code}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedReduce.reduce_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [readonly]="edit_data">
+                <input type="text" id="ppos_code" [(ngModel)]="selectedReduce.reduce_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="5" [readonly]="edit_data">
             </div>
 
             <div class="field col-12 ">
                 <label for="ppos_name_th">{{title_name_th}}</label>
                 <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedReduce.reduce_name_th"class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedReduce.reduce_name_th"class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="100" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
             <div class="field col-12 ">
                 <label for="ppos_name_en">{{title_name_en}}</label>
                 <br>
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedReduce.reduce_name_en" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10"[cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedReduce.reduce_name_en" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="100"[cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
 
             <div class="field col-12 ">
@@ -103,10 +112,11 @@
             </div>
 
             <div class="field col-12">
-                <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
-                &nbsp;
-                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary" (click)="confirmDelete()"></button>
+                <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="confirmDelete()"></button>
             </div>
+
 
         </div>
 

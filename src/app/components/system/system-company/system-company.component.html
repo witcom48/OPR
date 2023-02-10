@@ -1,183 +1,145 @@
-<p-menubar [model]="toolbar_menu"></p-menubar>
-<p-card header="Company" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+<!-- <app-companys></app-companys> -->
+
+
+<span style="font-size: 20px">System</span>&nbsp;
+<i class="pi pi-angle-right"></i>&nbsp; <small>{{ title_page }}</small>
+<!-- <a routerLink="../../system/CompanysComponent">test1</a> -->
+<hr />
+
+
+<table class="table_tools">
+    <tr>
+        <td align="left">
+            <table class="table_item">
+                <tr>
+                    <td align="left">
+                        <div *ngIf="dt2">
+                            <span (click)="doLoadMenu()"><i class="ace-icon fa  fa-plus bigger-120">&nbsp;</i>&nbsp;</span>
+                        </div>
+                        <div *ngIf="dt2">
+                            <!-- <button mat-icon-button color="default" (click)="doLoadMenu()">กลับ</button> -->
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<p-toast position="top-right"></p-toast>
+
+<p-confirmDialog
+    [style]="{ width: '50vw' }"
+    [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"
+></p-confirmDialog>
+
+<p-toast position="top-right"></p-toast>
+
+<p-confirmDialog
+    [style]="{ width: '50vw' }"
+    [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"
+></p-confirmDialog>
+
+<p-dialog
+    header="{{ title_upload }}"
+    [(visible)]="displayUpload"
+    [style]="{ width: '40vw' }"
+>
+    <p class="custom-file-upload">
+        <input
+            type="file"
+            id="file"
+            style="width: 300px"
+            (change)="handleFileInput($any($event).target.files)"
+        />
+    </p>
+    <ng-template pTemplate="footer">
+        <p-button
+            icon="pi pi-upload"
+            (click)="doUploadCompany()"
+            label="{{ title_upload }}"
+            styleClass="p-button-text"
+        ></p-button>
+    </ng-template>
+</p-dialog>
+<div class="field col-12 md:col-12">
+    <p-menubar [model]="items"></p-menubar>
     <div class="grid">
-        <div class="col-12 md:col-20">
-            <p-tabView >
-                <p-tabPanel >
-                    <ng-template pTemplate = "header">
-                        <i class="pi pi-cog"></i>&nbsp;&nbsp;
-                        <span>ข้อมูลพื้นฐาน</span>
-                    </ng-template>
-
-                    <div class="formgrid grid align-items-end">
-
-                        <div class="field col-12 md:col-3">
-                            <p-image src="../../../../assets/images/bpc.jpg" alt="Image" width="150" height="150"></p-image>
-                        </div>
-                        <div class="field col-12 md:col-2">
-                            <p-button label="Upload Logo"></p-button>
-                        </div>
-                        <div class="field col-12 md:col-6">
-
-                        </div>
-                        <!-- <a routerLink="../../system/system-comaddress">test</a> -->
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">รหัสบริษัท</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ชื่อย่อ</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>
-                       
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ชื่อไทย</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ชื่ออังกฤษ</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>
-<!-- ที่อยู่ -->
-                        <div class="field col-12 md:col-12">
-                            <p-accordion >
-                                <p-accordionTab header="ที่อยู่" >
-                                    <app-system-comaddress></app-system-comaddress>
-                                </p-accordionTab>
-                            </p-accordion>
-                        </div>
-
+        <div class="col-12 md:col-12" #TABLE>
+            <p-table
+                #dt2
+                [value]="company_list"
+                styleClass="p-datatable-sm"
+                [tableStyle]="{ 'min-width': '70rem' }"
+                [scrollable]="true"
+                scrollHeight="500px"
+                [virtualScroll]="true"
+                selectionMode="single"
+                [(selection)]="selectedCompany"
+                dataKey="company_code"
+                [rows]="30"
+                [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10, 20, 50]"
+                [paginator]="false"
+                currentPageReportTemplate="{{ title_page_from }} {first} {{
+                    title_page_to
+                }} {last} {{ title_page_total }} {totalRecords} {{
+                    title_page_record
+                }}"
+                [globalFilterFields]="[
+                    'company_code',
+                    'company_initials',
+                    'company_name_th',
+                    'modified_by',
+                    'modified_date'
+                ]"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input
+                                pInputText
+                                type="text"
+                                (input)="dt2.filterGlobal($any($event).target.value,'contains')"placeholder="{{ title_search }}"
+                            />
+                        </span>
                     </div>
-                </p-tabPanel>
-
-                <!-- ข้อมูลทั่วไป -->
-                <p-tabPanel >
-                    <ng-template pTemplate = "header">
-                        <i class="pi pi-file-edit"></i>&nbsp;&nbsp;
-                        <span>ข้อมูลทั่วไป</span>
-                    </ng-template>
-
-                    <div class="formgrid grid">
-
-                        <div class="field col-4">
-                            <label for="lastname2">ชั่วโมงการทำงาน</label>
-                            <br>
-                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
-                            </p-inputNumber>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label for="lastname2">ประกันสังคมส่วนพนักงาน</label>
-                            <br>
-                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
-                            </p-inputNumber>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label for="lastname2">ประกันสังคมส่วนบริษัท</label>
-                            <br>
-                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
-                            </p-inputNumber>
-                        </div>
-
-                        <div class="field col-4">
-                            <label for="lastname2">อายุพนักงานมากสุด</label>
-                            <br>
-                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
-                            </p-inputNumber>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label for="lastname2">ค่าจ้างตํ่าสุด</label>
-                            <br>
-                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
-                            </p-inputNumber>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <label for="lastname2">ค่าจ้างสูงสุด</label>
-                            <br>
-                            <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60" [max]="120">
-                            </p-inputNumber>
-                        </div>
-
-                        <!-- ข้อมูลบัตร -->
-                        <div class="field col-12 md:col-12">
-                            <p-accordion>
-                                <p-accordionTab header="ข้อมูลบัตร" >
-                                    <p-menubar [model]="items"></p-menubar>
-                                    <p-table #dt3  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
-                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                    [paginator]="false" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                    >
-                                        <ng-template pTemplate="caption">
-                                            <div class="flex">
-                                                <span class="p-input-icon-left ml-auto">
-                                                    <i class="pi pi-search"></i>
-                                                    <input pInputText type="text" (input)="dt3.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                                                </span>
-                                            </div>
-                                        </ng-template>
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>ประเภทบัตร</th>
-                                                <th>รหัสบัตร</th>
-                                                <th>วันที่เปิดบัตร</th>
-                                                <th>วันที่หมดอายุ</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
-                                            </tr>
-
-                                        </ng-template>
-                                    </p-table>
-                                </p-accordionTab>
-                            </p-accordion>
-                        </div>
-                        <!-- ข้อมูลธนาคาร -->
-                        <div class="field col-12">
-                            <p-accordion>
-                                <p-accordionTab header="ข้อมูลธนาคาร" >
-                                    <p-menubar [model]="items"></p-menubar>
-                                    <p-table #dt4  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
-                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                    [paginator]="false" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                    >
-                                        <ng-template pTemplate="caption">
-                                            <div class="flex">
-                                                <span class="p-input-icon-left ml-auto">
-                                                    <i class="pi pi-search"></i>
-                                                    <input pInputText type="text" (input)="dt4.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                                                </span>
-                                            </div>
-                                        </ng-template>
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>ธนาคาร</th>
-                                                <th>เลขที่บัญชี</th>
-                                                <th>ชื่อบัญชี</th>
-                                                <th>ธนาคาร(%)</th>
-                                                <th>เงินสด(%)</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
-                                            </tr>
-
-                                        </ng-template>
-                                    </p-table>
-                                </p-accordionTab>
-                            </p-accordion>
-                        </div>
-
-                    </div>
-
-                </p-tabPanel>
+                </ng-template>
 
 
+                <ng-template pTemplate="header" >
+                    <tr>
+                        <th>รหัส</th>
+                        <th>ชื่อย่อ</th>
+                        <th>ชื่อบริษัท</th>
+                        <th>Edit by</th>
+                        <th>Edit date</th>
+                    </tr>
+                </ng-template>
 
-            </p-tabView>
+                <ng-template pTemplate="body" let-data>
+                    <tr [pSelectableRow]="data">
+                        <th>{{data.company_code}}</th>
+                        <th>{{data.company_initials}}</th>
+                        <th>{{data.company_name_th}}</th>
+                        <th>{{data.modified_by}}</th>
+                        <th>
+                            {{ data.modified_date | date : "dd/MM/yyyy HH:mm" }}
+                        </th>
+                    </tr>
+                </ng-template>
+            </p-table>
+
         </div>
-        <!-- <div class="col-12 md:col-3">
-            <div class="col-md">
-                <button mat-raised-button color="primary">{{'บันทึก'}}</button>
-            </div>
-
-        </div> -->
     </div>
-</p-card>
+</div>
+
+
+
+

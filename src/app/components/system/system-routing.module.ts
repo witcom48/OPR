@@ -21,7 +21,11 @@ import { SystemBloodtypeComponent } from './system-policy/system-bloodtype/syste
 import { SystemHospitalComponent } from './system-policy/system-hospital/system-hospital.component';
 import { SystemLocationComponent } from './system-policy/system-location/system-location.component';
 import { SystemReduceComponent } from './system-policy/system-reduce/system-reduce.component';
-import { SystemComaddressComponent } from './system-company/system-comaddress/system-comaddress.component';
+import { SystemComaddressComponent } from './system-company/system-comaddress/comaddress.component';
+
+import { SystemBankaccountComponent } from './system-company/system-bankaccount/system-bankaccount.component';
+import { CompanysComponent } from './system-company/companys/companys.component';
+import { SystemComcardComponent } from './system-company/system-comcard/system-comcard.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -46,6 +50,9 @@ import { SystemComaddressComponent } from './system-company/system-comaddress/sy
         { path: 'system-location', component: SystemLocationComponent },
         { path: 'system-reduce', component: SystemReduceComponent },
         { path: 'system-comaddress', component: SystemComaddressComponent },
+        { path: 'system-bankaccount', component: SystemBankaccountComponent },
+        { path: 'CompanysComponent', component: CompanysComponent },
+        { path: 'system-comcard', component: SystemComcardComponent },
 
 
 

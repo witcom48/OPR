@@ -42,7 +42,6 @@
             [virtualScroll]="true"
             selectionMode="single"
             [(selection)]="selectedComaddress"
-            (onRowSelect)="onRowSelectcomaddress($event)"
             dataKey="comaddress_code"
             [rows]="30"
             [showCurrentPageReport]="true"
@@ -62,12 +61,12 @@
                 'comaddress_amphur',
                 'comaddress_province',
                 'comaddress_zipcode',
-                
+
                 'comaddress_tel',
                 'comaddress_email',
                 'comaddress_line',
                 'comaddress_facebook',
-                
+
                 'modified_by',
                 'modified_date'
             ]"
@@ -133,21 +132,25 @@
             </ng-template>
         </p-table>
     </div>
-    
+
     <div class="col-12 md:col-2 ">
         <div
             class="formgrid grid"
             *ngIf="edit_data === true || new_data === true"
         >
             <span class="spn_title_edit"></span>
+            <!-- <div class="field col-12 ">
+                <label for="ppos_code">{{title_code}}</label>
+                <input type="text" id="ppos_code" [(ngModel)]="selectedReason.reason_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [readonly]="edit_data">
+            </div> -->
 
             <div class="field col-12">
                 <label for="ppos_name_th">{{ title_comaddress_code }}</label>
                 <br />
                 <textarea
                     [rows]="2"
-                    id="ppos_name_th"[(ngModel)]="selectedComaddress.comaddress_code"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [cols]="30"
+                    id="ppos_name_en"[(ngModel)]="selectedComaddress.comaddress_code"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [readonly]="edit_data"
                     pInputTextarea
                     [autoResize]="true"
                 ></textarea>
@@ -316,16 +319,7 @@
                     icon="pi pi-save"
                     (onClick)="confirmRecord()"
                 ></p-button>
-                &nbsp;
-                <button
-                    *ngIf="edit_data"
-                    pButton
-                    pRipple
-                    type="button"
-                    label="{{ title_delete }}"
-                    class="p-button-secondary"
-                    (click)="confirmDelete()"
-                ></button>
+
             </div>
         </div>
     </div>

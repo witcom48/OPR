@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
+import {CalendarModule} from 'primeng/calendar';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import {
@@ -13,23 +14,30 @@ import * as XLSX from 'xlsx';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 
-import { ComaddressService } from 'src/app/services/system/comaddress.service';
-import { ComaddressModel } from 'src/app/models/system/comaddress';
+
+import { CompanyModel } from 'src/app/models/system/company';
+import { CompanyService } from 'src/app/services/system/company.service';
+import { CombankModel } from 'src/app/models/system/combank';
+import { CombankService } from 'src/app/services/system/combank.service';
+import { ComcardModel } from 'src/app/models/system/comcard';
+import { ComcardService } from 'src/app/services/system/comcard.service';
 @Component({
-    selector: 'app-system-comaddress',
-    templateUrl: './system-comaddress.component.html',
-    styleUrls: ['./system-comaddress.component.scss'],
+  selector: 'app-system-comcard',
+  templateUrl: './system-comcard.component.html',
+  styleUrls: ['./system-comcard.component.scss']
 })
-export class SystemComaddressComponent implements OnInit {
+export class SystemComcardComponent implements OnInit {
+
+
     items: MenuItem[] = [];
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    comaddress_list: ComaddressModel[] = [];
-    selectedComaddress: ComaddressModel = new ComaddressModel();
+    comcard_list: ComcardModel[] = [];
+    selectedComcard: ComcardModel = new ComcardModel();
 
     constructor(
-        private comaddressService: ComaddressService,
+        private comcardService: ComcardService,
         private router: Router,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
@@ -42,7 +50,7 @@ export class SystemComaddressComponent implements OnInit {
         setTimeout(() => {
             this.doLoadLanguage();
             this.doLoadMenu();
-            this.doLoadComaddress();
+            this.doLoadComcard();
         }, 500);
     }
 
@@ -56,7 +64,7 @@ export class SystemComaddressComponent implements OnInit {
         }
     }
 
-    title_page: string = 'Comaddress';
+    title_page: string = 'Comcard';
     title_new: string = 'New';
     title_edit: string = 'Edit';
     title_delete: string = 'Delete';
@@ -84,20 +92,16 @@ export class SystemComaddressComponent implements OnInit {
 
     title_confirm_cancel: string = 'You have cancelled';
 
-    // title_comaddress_id: string = '';
-    title_comaddress_code: string = 'Code';
-    title_comaddress_no: string = 'Address NO';
-    title_comaddress_moo: string = 'Moo';
-    title_comaddress_soi: string = 'Soi';
-    title_comaddress_road: string = 'Road';
-    title_comaddress_tambon: string = 'Tombon';
-    title_comaddress_amphur: string = 'Amphur';
-    title_comaddress_province: string = 'Province';
-    title_comaddress_zipcode: string = 'Zipcode';
-    title_comaddress_tell: string = 'Telephone';
-    title_comaddress_email: string = 'Email';
-    title_comaddress_line: string = 'Line';
-    title_comaddress_facebook: string = 'Facebook';
+    // title_combank_id: string = 'Code';
+    title_company_code: string = 'Code';
+    title_comcard_code: string = 'Comcard Code';
+    title_card_type: string = 'Card Type';
+    title_comcard_issue: string = 'Comcard Issue';
+    title_comcard_expire: string = 'Comcard Expire';
+
+    // title_combranch_code: string = 'Cash Percent';
+
+
 
     modified_by: string = 'Edit by';
     modified_date: string = 'Edit date';
@@ -132,25 +136,23 @@ export class SystemComaddressComponent implements OnInit {
             this.title_confirm_no = 'ยกเลิก';
             this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
 
-            // this.title_comaddress_id = 'ที่อยู่';
-            this.title_comaddress_code = 'รหัส';
-            this.title_comaddress_no = 'เลขที่';
-            this.title_comaddress_moo = 'หมู่';
-            this.title_comaddress_soi = 'ซอย';
-            this.title_comaddress_road = 'ถนน';
-            this.title_comaddress_tambon = 'ตำบล';
-            this.title_comaddress_amphur = 'อำเภอ';
-            this.title_comaddress_province = 'จังหวัด';
-            this.title_comaddress_zipcode = 'รหัสไปรษณีย์';
-            this.title_comaddress_tell = 'เบอร์โทรศัพท์';
-            this.title_comaddress_email = 'อีเมล์';
-            this.title_comaddress_line = 'ไลน์';
-            this.title_comaddress_facebook = 'เฟสบุ๊ค';
+            // this.title_combank_id = 'รหัส';
+            this.title_comcard_code = 'ประเภทบัตร';
+
+            this.title_card_type = 'รหัสบัตร';
+            this.title_comcard_issue = 'วันที่เปิดบัตร';
+            this.title_comcard_expire = 'วันที่หมดอายุ';
+            this.title_company_code = 'เลขที่';
+
+
+            // this.title_combranch_code = 'เงินสด%';
 
             this.modified_by = 'ผู้ทำรายการ';
             this.modified_date = 'วันที่ทำรายการ';
         }
     }
+
+
 
     doLoadMenu() {
         this.items = [
@@ -158,31 +160,33 @@ export class SystemComaddressComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    this.selectedComaddress = new ComaddressModel();
+                    this.selectedComcard = new ComcardModel();
                     this.new_data = true;
                     this.edit_data = false;
                 },
             },
             {
-                label: this.title_import,
-                icon: 'pi pi-fw pi-file-import',
+                label: this.title_edit,
+                icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
-                    this.showUpload();
+                    this.doLoadComcard();
+                    this.edit_data = true;
+                    this.new_data = false;
                 },
             },
             {
-                label: this.title_export,
-                icon: 'pi pi-fw pi-file-export',
+                label: this.title_delete,
+                icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    this.exportAsExcel();
+                    this.confirmDelete();
                 },
             },
         ];
     }
 
-    doLoadComaddress() {
-        this.comaddressService.comaddress_get().then((res) => {
-            this.comaddress_list = res;
+    doLoadComcard() {
+        this.comcardService.comcard_get().then((res) => {
+            this.comcard_list = res;
         });
     }
 
@@ -192,7 +196,7 @@ export class SystemComaddressComponent implements OnInit {
             header: this.title_confirm,
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.doRecordComaddress();
+                this.doRecordComcard();
             },
             reject: () => {
                 this.messageService.add({
@@ -204,9 +208,9 @@ export class SystemComaddressComponent implements OnInit {
         });
     }
 
-    doRecordComaddress() {
-        this.comaddressService
-            .comaddress_record(this.selectedComaddress)
+    doRecordComcard() {
+        this.comcardService
+            .comcard_record(this.selectedComcard)
             .then((res) => {
                 console.log(res);
                 let result = JSON.parse(res);
@@ -217,7 +221,7 @@ export class SystemComaddressComponent implements OnInit {
                         summary: 'Success',
                         detail: result.message,
                     });
-                    this.doLoadComaddress();
+                    this.doLoadComcard();
                 } else {
                     this.messageService.add({
                         severity: 'error',
@@ -234,7 +238,7 @@ export class SystemComaddressComponent implements OnInit {
             header: this.title_confirm,
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.doDeleteComaddress();
+                this.doDeleteComcard();
             },
             reject: () => {
                 this.messageService.add({
@@ -246,9 +250,9 @@ export class SystemComaddressComponent implements OnInit {
         });
     }
 
-    doDeleteComaddress() {
-        this.comaddressService
-            .comaddress_delete(this.selectedComaddress)
+    doDeleteComcard() {
+        this.comcardService
+            .comcard_delete(this.selectedComcard)
             .then((res) => {
                 console.log(res);
                 let result = JSON.parse(res);
@@ -259,7 +263,7 @@ export class SystemComaddressComponent implements OnInit {
                         summary: 'Success',
                         detail: result.message,
                     });
-                    this.doLoadComaddress();
+                    this.doLoadComcard();
                     this.edit_data = false;
                     this.new_data = false;
                 } else {
@@ -272,7 +276,7 @@ export class SystemComaddressComponent implements OnInit {
             });
     }
 
-    onRowSelectcomaddress(event: Event) {
+    onRowSelectComcard(event: Event) {
         this.edit_data = true;
         this.new_data = false;
     }
@@ -282,15 +286,15 @@ export class SystemComaddressComponent implements OnInit {
         this.fileToUpload = file.item(0);
     }
 
-    doUploadComaddress() {
+    doUploadComcard() {
         this.displayUpload = false;
 
         const filename =
-            'Comaddress_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+            'Comcard_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
         const filetype = 'xls';
 
-        this.comaddressService
-            .comaddress_import(this.fileToUpload, filename, filetype)
+        this.comcardService
+            .comcard_import(this.fileToUpload, filename, filetype)
             .then((res) => {
                 console.log(res);
                 let result = JSON.parse(res);
@@ -301,7 +305,7 @@ export class SystemComaddressComponent implements OnInit {
                         summary: 'Success',
                         detail: result.message,
                     });
-                    this.doLoadComaddress();
+                    this.doLoadComcard();
                     this.edit_data = false;
                     this.new_data = false;
                 } else {
@@ -328,6 +332,6 @@ export class SystemComaddressComponent implements OnInit {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-        XLSX.writeFile(wb, 'Export_comaddress.xlsx');
+        XLSX.writeFile(wb, 'Export_Comcard.xlsx');
     }
 }
