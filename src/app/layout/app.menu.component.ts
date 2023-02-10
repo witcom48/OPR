@@ -39,6 +39,8 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Monitor', routerLink: ['/project/monitor'] },
                     { label: 'Timesheet', routerLink: ['/project/timesheet'] },
                     { label: 'Approval list', routerLink: ['/project/approve'] },
+
+                    { label: 'จัดการข้อมูลกองทุนฯ', routerLink: ['/project/pf'] },
                    
                     { label: 'Reports', routerLink: ['/project/reports'] },
                 ]

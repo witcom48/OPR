@@ -4,15 +4,15 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
-import { ProjectModel } from '../../models/project/project';
+import { ProcostModel } from '../../models/project/policy/procost';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService {
+export class ProcostService {
 
-  public config:AppConfig = new AppConfig();
-  
+  public config:AppConfig = new AppConfig();  
   public initial_current:InitialCurrent = new InitialCurrent();  
 
   httpHeaders = new HttpHeaders({});
@@ -57,25 +57,8 @@ export class ProjectService {
     } 
   }
      
-  public project_get(company:string, project:string){     
-    
-    var filter = { 
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:company,
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-    };
-    
-
-    return this.http.post<any>(this.config.ApiProjectModule + '/project_list', filter, this.options).toPromise()   
+  public procost_get(company:string){      
+        return this.http.post<any>(this.config.ApiProjectModule + '/procost_list', this.basicRequest, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
       //console.log(res)
@@ -83,56 +66,51 @@ export class ProjectService {
     });
   }
  
-  public project_record(model:ProjectModel) {   
+  public procost_record(model:ProcostModel) {   
     const data = {
-      project_id: model.project_id,
-      project_code: model.project_code,
-      project_name_th: model.project_name_th,
-      project_name_en: model.project_name_en,    
-
-      project_name_sub: model.project_name_sub,    
-      project_codecentral: model.project_codecentral,    
-      project_protype: model.project_protype,    
-      project_probusiness: model.project_probusiness,    
-      project_roundtime: model.project_roundtime,    
-      project_roundmoney: model.project_roundmoney, 
+      procost_id: model.procost_id,
+      procost_code: model.procost_code,
+      procost_name_th: model.procost_name_th,
+      procost_name_en: model.procost_name_en,    
       
-      project_status: model.project_status,      
+      procost_type: model.procost_type,    
+      procost_auto: model.procost_auto,    
+      procost_itemcode: model.procost_itemcode,    
       company_code: model.company_code,    
 
       modified_by: this.initial_current.Username
     };    
 
-    console.log(this.config.ApiProjectModule)
+    //console.log(this.config.ApiProjectModule)
 
-    return this.http.post<any>(this.config.ApiProjectModule + '/project', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiProjectModule + '/procost', data, this.options).toPromise()   
     .then((res) => {      
       return res;
     });
   }  
 
-  public project_delete(model:ProjectModel) {    
+  public procost_delete(model:ProcostModel) {    
     const data = {
-      project_id: model.project_id,
-      project_code: model.project_code,       
+      procost_id: model.procost_id,
+      procost_code: model.procost_code,       
       modified_by: this.initial_current.Username
     };    
 
-    return this.http.post<any>(this.config.ApiProjectModule + '/project_del', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiProjectModule + '/procost_del', data, this.options).toPromise()   
     .then((res) => {      
       return res;
     });
   }  
 
 
-  public project_import(file: File, file_name:string, file_type:string){
+  public procost_import(file: File, file_name:string, file_type:string){
     const formData = new FormData();
     formData.append('file', file);    
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProject?' + para, formData).toPromise()   
+    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProcost?' + para, formData).toPromise()   
     .then((res) => {      
       return res;
     });

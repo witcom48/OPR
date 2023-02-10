@@ -1,12 +1,345 @@
 
 
+<p-toast position="top-right"></p-toast> 
+
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+<p-dialog header="{{title_upload}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
+    <p class="custom-file-upload">
+        <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
+    </p>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [style]="{width: '25vw'}" [position]="position">
+
+    <p-scrollPanel [style]="{width: '100%', height: '650px'}" >
+    <div class="formgrid grid" *ngIf="edit_procontact==true || new_procontact==true">
+        <span class="spn_title">{{title_contact}}</span>
+        <div class="field col-12">
+            <label for="procost_type">{{title_contact_initial}}</label><br>
+            <p-dropdown [options]="initial_list_cbb" [(ngModel)]="selectedProcontact_initial" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>       
+        <div class="field col-12 ">
+            <label for="procontact_firstname_th">{{title_contact_firstname}}</label>     
+            <input type="text" id="procontact_firstname_th" [(ngModel)]="selectedProcontact.procontact_firstname_th" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="procontact_lastname_th">{{title_contact_lastname}}</label>  
+            <input type="text" id="procontact_lastname_th" [(ngModel)]="selectedProcontact.procontact_lastname_th" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+
+        <div class="field col-12 ">
+            <label for="procontact_firstname_en">{{title_contact_firstname}} (EN)</label>  
+            <input type="text" id="procontact_firstname_en" [(ngModel)]="selectedProcontact.procontact_firstname_en" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="procontact_lastname_en">{{title_contact_lastname}} (EN)</label>  
+            <input type="text" id="procontact_lastname_en" [(ngModel)]="selectedProcontact.procontact_lastname_en" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div> 
+        <div class="field col-12">
+            <label for="procost_type">{{title_contact_position}}</label><br>
+            <p-dropdown  [options]="position_list_cbb" [(ngModel)]="selectedProcontact_position" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+        <div class="field col-12 ">
+            <label for="ppos_code">{{title_contact_tel}}</label>    
+            <input type="text" id="ppos_code" [(ngModel)]="selectedProcontact.procontact_tel" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="ppos_code">{{title_contact_email}}</label>    
+            <input type="text" id="ppos_code" [(ngModel)]="selectedProcontact.procontact_email" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>	
+        <div class="field col-12">
+            <p-button label="{{title_submit}}" icon="pi pi-save" (click)="procontact_summit()"></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="{{title_cancel}}" class="p-button-outlined p-button-secondary" (click)="procontact_cancel()"></button>            
+        </div>
+    </div>
+
+    <div class="formgrid grid" *ngIf="edit_procontract==true || new_procontract==true">
+         
+        <div class="field col-12 ">
+            <label for="procontract_customer">ชื่อลูกค้า</label>     
+            <input type="text" id="procontract_customer" [(ngModel)]="selectedProcontract.procontract_customer" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="procontract_date">วันที่ทำสัญญา</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProcontract.procontract_date" dateFormat="dd/mm/yy" inputId="selectedProcontract.procontract_date"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="procontract_ref">เลขที่สัญญา</label>  
+            <input type="text" id="procontract_ref" [(ngModel)]="selectedProcontract.procontract_ref" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="procontract_amount">ราคา</label>  
+            <br>
+            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProcontract.procontract_amount"></p-inputNumber>
+        </div> 
+        
+        <div class="field col-12 ">
+            <label for="procontract_fromdate">จากวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProcontract.procontract_fromdate"  dateFormat="dd/mm/yy" inputId="procontract_fromdate"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="procontract_todate">ถึงวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProcontract.procontract_todate" dateFormat="dd/mm/yy" inputId="procontract_todate"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="procontract_customer">ผู้เสนอราคา</label>     
+            <input type="text" id="procontract_customer" [(ngModel)]="selectedProcontract.procontract_bidder" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" (click)="procontract_summit()"></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="procontract_cancel()"></button>            
+        </div>
+    </div>
+
+    <div class="formgrid grid" *ngIf="edit_proresponsible==true || new_proresponsible==true">
+        <div class="field col-12 ">
+            <label for="procontract_customer">รหัสพนักงาน</label>     
+            <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_ref" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div> 
+        <div class="field col-12 ">
+            <label for="procontract_customer">ชื่อ-นามสกุล</label>     
+            <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_emp" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="procontract_customer">ตำแหน่ง</label>     
+            <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_position" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="procontract_customer">เขต</label>     
+            <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_area" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>                
+        <div class="field col-12 ">
+            <label for="procontract_fromdate">จากวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProresponsible.proresponsible_fromdate" dateFormat="dd/mm/yy" inputId="proresponsible_fromdate"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="procontract_todate">ถึงวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProresponsible.proresponsible_todate" dateFormat="dd/mm/yy" inputId="proresponsible_todate"></p-calendar>
+        </div>        
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" (click)="proresponsible_summit()"></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="proresponsible_cancel()"></button>            
+        </div>
+    </div>
+
+    <div class="formgrid grid" *ngIf="edit_projobcontract==true || new_projobcontract==true">
+         
+        <div class="field col-12 ">
+            <label for="projobcontract_date">วันที่ทำสัญญา</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobcontract.projobcontract_date" dateFormat="dd/mm/yy" inputId="selectedProjobcontract.projobcontract_date"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcontract_ref">เลขที่สัญญา</label>  
+            <input type="text" id="projobcontract_ref" [(ngModel)]="selectedProjobcontract.projobcontract_ref" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcontract_emp">จำนวนพนักงาน</label>  
+            <br>
+            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProjobcontract.projobcontract_emp"></p-inputNumber>
+        </div> 
+
+        <div class="field col-12 ">
+            <label for="projobcontract_amount">ราคา</label>  
+            <br>
+            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProjobcontract.projobcontract_amount"></p-inputNumber>
+        </div> 
+        
+        <div class="field col-12 ">
+            <label for="projobcontract_fromdate">จากวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobcontract.projobcontract_fromdate" dateFormat="dd/mm/yy" inputId="projobcontract_fromdate"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcontract_todate">ถึงวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobcontract.projobcontract_todate" dateFormat="dd/mm/yy" inputId="projobcontract_todate"></p-calendar>
+        </div>       
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" (click)="projobcontract_summit()"></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="projobcontract_cancel()"></button>            
+        </div>
+    </div>
+
+    <div class="formgrid grid" *ngIf="edit_projobcost==true || new_projobcost==true">
+        <div class="field col-12 ">
+            <label for="projobcost_version">เวอร์ชั่น</label>  
+            <input type="text" id="projobcost_version" [(ngModel)]="selectedProjobcost.projobcost_version" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12">
+            <label for="selectedProjobcost_cost">ต้นทุน</label><br>
+            <p-dropdown  [options]="polcost_list_cbb" [(ngModel)]="selectedProjobcost_cost" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcost_amount">จำนวนเงิน</label>  
+            <br>
+            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProjobcost.projobcost_amount"></p-inputNumber>
+        </div>         
+        <div class="field col-12 ">
+            <label for="projobcost_fromdate">จากวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobcost.projobcost_fromdate" dateFormat="dd/mm/yy" inputId="projobcost_fromdate"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcost_todate">ถึงวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobcost.projobcost_todate" dateFormat="dd/mm/yy" inputId="projobcost_todate"></p-calendar>
+        </div>       
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" (click)="projobcost_summit()"></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="projobcost_cancel()"></button>            
+        </div>
+    </div>
+
+    <div class="formgrid grid" *ngIf="edit_projobmachine==true || new_projobmachine==true">
+        <div class="field col-12 ">
+            <label for="projobmachine_ip">IP Address</label>  
+            <input type="text" id="projobmachine_ip" [(ngModel)]="selectedProjobmachine.projobmachine_ip" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="projobmachine_port">Port</label>  
+            <input type="text" id="projobmachine_port" [(ngModel)]="selectedProjobmachine.projobmachine_port" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div> 
+        <div class="field col-12 ">
+            <div class="field-checkbox">
+                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmachine.projobmachine_enable" inputId="projobmachine_enable"></p-checkbox>
+                <label for="projobmachine_enable">ใช้งาน</label>
+            </div>
+        </div>
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" (click)="projobmachine_summit()"></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="projobmachine_cancel()"></button>            
+        </div>
+    </div>
+
+    <div class="formgrid grid" *ngIf="edit_projobsubcontract==true || new_projobsubcontract==true">
+         
+        <div class="field col-12 ">
+            <label for="projobcontract_date">วันที่ทำสัญญา</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobsubcontract.projobcontract_date" dateFormat="dd/mm/yy" inputId="selectedProjobsubcontract.projobcontract_date"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcontract_ref">เลขที่สัญญา</label>  
+            <input type="text" id="projobcontract_ref" [(ngModel)]="selectedProjobsubcontract.projobcontract_ref" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcontract_emp">จำนวนพนักงาน</label>  
+            <br>
+            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProjobsubcontract.projobcontract_emp"></p-inputNumber>
+        </div> 
+
+        <div class="field col-12 ">
+            <label for="projobcontract_amount">ราคา</label>  
+            <br>
+            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProjobsubcontract.projobcontract_amount"></p-inputNumber>
+        </div> 
+        
+        <div class="field col-12 ">
+            <label for="projobcontract_fromdate">จากวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobsubcontract.projobcontract_fromdate" dateFormat="dd/mm/yy" inputId="projobcontract_fromdate"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcontract_todate">ถึงวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobsubcontract.projobcontract_todate" dateFormat="dd/mm/yy" inputId="projobcontract_todate"></p-calendar>
+        </div>       
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" (click)="projobsubcontract_summit()"></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="projobsubcontract_cancel()"></button>            
+        </div>
+    </div>
+
+    <div class="formgrid grid" *ngIf="edit_projobsubcost==true || new_projobsubcost==true">
+        <div class="field col-12 ">
+            <label for="projobcost_version">เวอร์ชั่น</label>  
+            <input type="text" id="projobcost_version" [(ngModel)]="selectedProjobsubcost.projobcost_version" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>
+        <div class="field col-12">
+            <label for="selectedProjobcost_cost">ต้นทุน</label><br>
+            <p-dropdown  [options]="polcost_list_cbb" [(ngModel)]="selectedProjobcost_cost" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcost_amount">จำนวนเงิน</label>  
+            <br>
+            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProjobsubcost.projobcost_amount"></p-inputNumber>
+        </div>         
+        <div class="field col-12 ">
+            <label for="projobcost_fromdate">จากวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobsubcost.projobcost_fromdate" dateFormat="dd/mm/yy" inputId="projobcost_fromdate"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="projobcost_todate">ถึงวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobsubcost.projobcost_todate" dateFormat="dd/mm/yy" inputId="projobcost_todate"></p-calendar>
+        </div>       
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" (click)="projobsubcost_summit()"></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="projobsubcost_cancel()"></button>            
+        </div>
+    </div>
+
+    <div class="formgrid grid" *ngIf="edit_projobemp==true || new_projobemp==true">
+        <span class="spn_title">พนักงานประจำหน่วยงาน</span>
+        <div class="field col-12 ">
+            <label for="projobemp_emp">พนักงาน</label>     
+            <input type="text" id="projobemp_emp" [(ngModel)]="selectedProjobemp.projobemp_emp" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        </div>   
+        <div class="field col-12">
+            <label for="selectedProjobcost_cost">งาน</label><br>
+            <p-dropdown  [options]="projobmain_list_cbb" [(ngModel)]="selectedProjobmain_cbb" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+        
+        <div class="field col-12 ">
+            <label for="projobemp_fromdate">จากวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobemp.projobemp_fromdate" dateFormat="dd/mm/yy" inputId="projobemp_fromdate"></p-calendar>
+        </div>
+        <div class="field col-12 ">
+            <label for="projobemp_todate">ถึงวันที่</label>  
+            <br>
+            <p-calendar [(ngModel)]="selectedProjobemp.projobemp_todate" dateFormat="dd/mm/yy" inputId="projobemp_todate"></p-calendar>
+        </div>    
+               
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" (click)="projobemp_record()"></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="projobemp_cancel()"></button>            
+        </div>
+    </div>
+
+</p-scrollPanel>
+    
+</p-dialog>
+
+
 <p-menubar [model]="toolbar_menu"></p-menubar>
 
 <p-card header="Project management" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
     
     <div class="grid">
         <div class="col-12 md:col-9">
-            <p-tabView >
+            <p-tabView (onChange)="tabChange($event)">
                 <p-tabPanel  [selected]="true">
                     <ng-template pTemplate = "header">
                         <i class="pi pi-cog"></i>&nbsp;&nbsp;
@@ -14,118 +347,150 @@
                     </ng-template>
                 
                     <div class="formgrid grid">
-                        <div class="field col-3">
-                            <label for="firstname2">รหัสหน่วยงาน</label>
-                            <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        <div class="field col-12 md:col-6">
+                            <label for="project_code">{{title_project_code}}</label>
+                            <input id="project_code" type="text" [(ngModel)]="selectedProject.project_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </div>		
-                        <div class="field col-3">
-                            <label for="lastname2">รหัสหน่วยงานกลาง</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>		
-                        <div class="field col-6">
-                            <label for="firstname2">ชื่อย่อ</label>
-                            <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        <div class="field col-12 md:col-6"></div>	                        
+                        <div class="field col-12">
+                            <label for="project_name_th">{{title_project_name_th}}</label>
+                            <input id="project_name_th" type="text" [(ngModel)]="selectedProject.project_name_th" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+                        <div class="field col-12">
+                            <label for="project_name_en">{{title_project_name_en}}</label>
+                            <input id="project_name_en" type="text" [(ngModel)]="selectedProject.project_name_en" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </div>
                         <div class="field col-12 md:col-6">
-                            <label for="lastname2">ชื่อไทย</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            <label for="project_codecentral">{{title_project_codecentral}}</label>
+                            <input id="project_codecentral" type="text" [(ngModel)]="selectedProject.project_codecentral" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>	
+                        <div class="field col-12 md:col-6">
+                            <label for="project_name_sub">{{title_project_name_sub}}</label>
+                            <input id="project_name_sub" type="text" [(ngModel)]="selectedProject.project_name_sub" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>                        
+                        <div class="field col-12 md:col-6">
+                            <label for="probusiness_name_th">{{title_project_probusiness}} :</label><br>
+                            <p-dropdown [options]="probusiness_list" [(ngModel)]="selectedProbusiness" optionLabel="probusiness_name_th" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>        
+                        <div class="field col-12 md:col-6">
+                            <label for="protype_name_th">{{title_project_protype}} :</label><br>
+                            <p-dropdown [options]="protype_list" [(ngModel)]="selectedProtype" optionLabel="protype_name_th" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                         </div>
                         <div class="field col-12 md:col-6">
-                            <label for="lastname2">ชื่ออังกฤษ</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>                   
-                        
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ประเภทธุรกิจ :</label><br>
-                            <p-dropdown placeholder="B001 - ห้องสรรพสินค้า" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                        </div>
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ประเภทงาน :</label><br>
-                            <p-dropdown placeholder="001 - ประจำ" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                        </div>
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">รูปแบบปัดเศษเวลา :</label><br>
+                            <label for="lastname2">{{title_project_roundtime}} :</label><br>
                             <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                         </div>
-
                         <div class="field col-12 md:col-6">
-                            <label for="lastname2">รูปแบบปัดเศษเงิน :</label><br>
+                            <label for="lastname2">{{title_project_roundmoney}} :</label><br>
                             <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                        </div>
-                        
+                        </div>                        
                         <div class="col-12">
                             <p-accordion>
-                                <p-accordionTab header="ที่อยู่" [selected]="false">
+                                <p-accordionTab header="{{title_address}}" [selected]="false">
                                     <div class="formgrid grid">			
                                         <div class="field col-6">
-                                            <label for="firstname2">เลขที่</label>
-                                            <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            <label for="firstname2">{{title_address_no}}</label>
+                                            <input id="firstname2" type="text" [(ngModel)]="selectedProaddress.proaddress_no" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                         </div>
                                         <div class="field col-6">
-                                            <label for="lastname2">ถนน</label>
-                                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            <label for="lastname2">{{title_address_moo}}</label>
+                                            <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_moo" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                         </div>
                                         <div class="field col-6">
-                                            <label for="firstname2">ตำบล</label>
-                                            <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            <label for="firstname2">{{title_address_road}}</label>
+                                            <input id="firstname2" type="text" [(ngModel)]="selectedProaddress.proaddress_road" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                         </div>
                                         <div class="field col-6">
-                                            <label for="lastname2">อำเภอ</label>
-                                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            <label for="lastname2">{{title_address_soi}}</label>
+                                            <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_soi" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                         </div>
                                         <div class="field col-6">
-                                            <label for="lastname2">จังหวัด :</label><br>
+                                            <label for="firstname2">{{title_address_tambon}}</label>
+                                            <input id="firstname2" type="text" [(ngModel)]="selectedProaddress.proaddress_tambon" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                        </div>
+                                        <div class="field col-6">
+                                            <label for="lastname2">{{title_address_amphur}}</label>
+                                            <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_amphur" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                        </div>
+                                        <div class="field col-6">
+                                            <label for="lastname2">{{title_address_province}} :</label><br>
                                             <p-dropdown placeholder="Select a Type" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                                         </div>
                                         <div class="field col-6">
-                                            <label for="lastname2">รหัสไปรษณีย์</label>
-                                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            <label for="lastname2">{{title_address_zipcode}}</label>
+                                            <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_zipcode" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                         </div>
                                         <div class="field col-6">
                                             <div class="p-inputgroup">
-                                                <span class="p-inputgroup-addon">เบอร์โทรศัพท์</span>
-                                                <input type="text" pInputText placeholder="">      
+                                                <span class="p-inputgroup-addon">{{title_address_tel}}</span>
+                                                <input type="text" pInputText placeholder="" [(ngModel)]="selectedProaddress.proaddress_tel" >      
                                             </div>
                                         </div>
                                         <div class="field col-6">
                                             <div class="p-inputgroup">
-                                                <span class="p-inputgroup-addon">Email</span>
-                                                <input type="text" pInputText placeholder="">      
+                                                <span class="p-inputgroup-addon">{{title_address_email}}</span>
+                                                <input type="text" pInputText placeholder="" [(ngModel)]="selectedProaddress.proaddress_email" >      
                                             </div>
                                         </div>	
                                         <div class="field col-12">
-                                            <label for="ppos_name_en">เพิ่มเติม</label>                        
+                                            <label for="ppos_name_en">{{title_address_note}}</label>                        
                                             <textarea [rows]="2" id="ppos_name_en"  [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                                         </div>		
                                     </div>
                                 </p-accordionTab>
                             </p-accordion>
-                        </div>
-
-                        
+                        </div>                        
                         <div class="col-12">
                             <p></p>
                             <p-accordion>
-                                <p-accordionTab header="ผู้ติดต่อ" >
-                                    <p-table  [tableStyle]="{'min-width': '60rem', 'min-height': '10rem'}">
-                                        <ng-template pTemplate="header">
-                                            <tr>						
-                                                <th>ลำดับ</th>
-                                                <th>ชื่อ</th>
-                                                <th>นามสกุล</th>
-                                                <th>ตำแหน่ง</th>
-                                                <th>เบอร์โทรศัพท์</th>
-                                                <th>อีเมล์</th>
-                                                
-                                            </tr>	
-                                        </ng-template>                                              
+                                <p-accordionTab header="{{title_contact}}" >
+                                    <p-menubar [model]="menu_procontact"></p-menubar>
+                                    <p-table #dtContact [value]="procontact_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProcontact" (onRowSelect)="onRowSelectProcontact($event)" dataKey="procontact_ref"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                                    >
+                                    <ng-template pTemplate="header">
+                                        <tr>						
+                                            <th>{{title_contact_no}}</th>
+                                            <th>{{title_contact_firstname}}</th>
+                                            <th>{{title_contact_lastname}}</th>
+                                            <th>{{title_contact_position}}</th>
+                                            <th>{{title_contact_tel}}</th>
+                                            <th>{{title_contact_email}}</th>   
+                                            <th>{{title_modified_by}}</th>
+                                            <th>{{title_modified_date}}</th>                                                 
+                                        </tr>	
+                                    </ng-template>    
+                                    <ng-template pTemplate="body" let-procontact>
+                                        <tr [pSelectableRow]="procontact">        
+                                            <td>{{procontact.procontact_ref}}</td>                                
+                                            <td>
+                                                <div *ngIf="this.initial_current.Language == 'TH'">
+                                                    {{procontact.procontact_firstname_th}}
+                                                </div>
+                                                <div *ngIf="this.initial_current.Language != 'TH'">
+                                                    {{procontact.procontact_firstname_en}}
+                                                </div>
+                                            </td>  
+                                            <td>
+                                                <div *ngIf="this.initial_current.Language == 'TH'">
+                                                    {{procontact.procontact_lastname_th}}
+                                                </div>
+                                                <div *ngIf="this.initial_current.Language != 'TH'">
+                                                    {{procontact.procontact_lastname_en}}
+                                                </div>
+                                            </td>                                              
+                                            <td>{{procontact.position_code}}</td>
+                                            <td>{{procontact.procontact_tel}}</td>
+                                            <td>{{procontact.procontact_email}}</td>                                       
+                                            <td>{{procontact.modified_by}}</td>      
+                                            <td>{{procontact.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>                                        
                                     </p-table>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
-
                     </div>  
                 </p-tabPanel>
                 <p-tabPanel >    
@@ -133,8 +498,11 @@
                         <i class="pi pi-file-edit"></i>&nbsp;&nbsp;
                         <span>ข้อมูลสัญญา</span>
                     </ng-template>                         
-                    <p-menubar [model]="items"></p-menubar>
-                    <p-table  [tableStyle]="{'min-width': '50rem', 'min-height': '15rem'}">
+                    <p-menubar [model]="menu_procontract"></p-menubar>                    
+                    <p-table #dtContract [value]="procontract_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProcontract" (onRowSelect)="onRowSelectProcontract($event)" dataKey="procontract_ref"
+                        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                        [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                    >
                         <ng-template pTemplate="header">
                             <tr>				
                                 <th>ชื่อลูกค้า</th>		
@@ -144,14 +512,31 @@
                                 <th>จากวันที่</th>
                                 <th>ถึงวันที่</th>
                                 <th>ผู้เสนอราคา</th>
+                                <th>ผู้ทำรายการ</th>
+                                <th>วันที่ทำรายการ</th>       
                             </tr>	
                         </ng-template>
-                                          
+                        <ng-template pTemplate="body" let-procontract>
+                            <tr [pSelectableRow]="procontract">        
+                                <td>{{procontract.procontract_customer}}</td>       
+                                <td>{{procontract.procontract_date | date:'dd/MM/yyyy'}}</td>    
+                                <td>{{procontract.procontract_ref}}</td>                                
+                                <td>{{procontract.procontract_amount | number:'1.2-2'}}</td>             
+                                <td>{{procontract.procontract_fromdate | date:'dd/MM/yyyy'}}</td>    
+                                <td>{{procontract.procontract_todate | date:'dd/MM/yyyy'}}</td>                                                         
+                                <td>{{procontract.procontract_bidder}}</td>                                                                  
+                                <td>{{procontract.modified_by}}</td>      
+                                <td>{{procontract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                            </tr>
+                        </ng-template>                                             
                     </p-table>
                     
-                    <p-divider><b>ผู้รับผิดชอบ</b></p-divider>  
-                    <p-menubar [model]="items"></p-menubar>
-                    <p-table  [tableStyle]="{'min-width': '50rem', 'min-height': '15rem'}">
+                    <p-divider><b>ผู้รับผิดชอบ</b></p-divider>                     
+                    <p-menubar [model]="menu_proresponsible"></p-menubar>                    
+                    <p-table #dtResponsible [value]="proresponsible_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProresponsible" (onRowSelect)="onRowSelectProresponsible($event)" dataKey="proresponsible_ref"
+                        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                        [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                    >
                         <ng-template pTemplate="header">
                             <tr>						
                                 <th>รหัสพนักงาน</th>
@@ -160,22 +545,35 @@
                                 <th>เขต</th>
                                 <th>จากวันที่</th>
                                 <th>ถึงวันที่</th>
+                                <th>ผู้ทำรายการ</th>
+                                <th>วันที่ทำรายการ</th>     
                             </tr>	
                         </ng-template>
-                        <ng-template pTemplate="body" >
-                            
-                        </ng-template>                    
+                        <ng-template pTemplate="body" let-proresponsible>
+                            <tr [pSelectableRow]="proresponsible">        
+                                <td>{{proresponsible.proresponsible_ref}}</td>      
+                                <td>{{proresponsible.proresponsible_emp}}</td>       
+                                <td>{{proresponsible.proresponsible_position}}</td>       
+                                <td>{{proresponsible.proresponsible_area}}</td>                                                 
+                                <td>{{proresponsible.proresponsible_fromdate | date:'dd/MM/yyyy'}}</td>    
+                                <td>{{proresponsible.proresponsible_todate | date:'dd/MM/yyyy'}}</td>        
+                                <td>{{proresponsible.modified_by}}</td>      
+                                <td>{{proresponsible.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                            </tr>
+                        </ng-template>                 
                     </p-table>
                 </p-tabPanel>
                 <p-tabPanel >
                     <ng-template pTemplate = "header">
                         <i class="pi pi-wrench"></i>&nbsp;&nbsp;
-                        <span>นโยบาย</span>
-                        
-                    </ng-template>      
-                    
-                    <p-menubar [model]="items"></p-menubar >
-                    <p-table [value]="project_pols"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedPolicy" (onRowSelect)="onRowSelectPPol($event)" dataKey="ppol_code">
+                        <span>นโยบาย</span>                        
+                    </ng-template>                          
+                    <p-menubar [model]="menu_protimepol"></p-menubar>
+                   
+                    <p-table #dtTimepol [value]="protimepol_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProtimepol" (onRowSelect)="onRowSelectProtimepol($event)" dataKey="protimepol_code"
+                        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                        [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                    >                    
                         <ng-template pTemplate="header">
                             <tr>	
                                 <th>รหัส</th>
@@ -189,23 +587,29 @@
                                 <th>วันที่ทำรายการ</th>                                                
                             </tr>	
                         </ng-template>
-                        <ng-template pTemplate="body" let-pol>
-                            <tr [pSelectableRow]="pol">        
-                                <td>{{pol.ppol_code}}</td>     
-                                <td>{{pol.ppol_name_th}}</td>                                
-                                <td>{{pol.ppol_ot}}</td>
-                                <td>{{pol.ppol_allw}}</td>
-                                <td>{{pol.ppol_dg}}</td>
-                                <td>{{pol.ppol_leave}}</td>
-                                <td>{{pol.ppol_late}}</td>
-                                <td>{{pol.modified_by}}</td>      
-                                <td>{{pol.modified_date | date:'dd/MM/yyyy '}}</td>  
-                                
+
+                        <ng-template pTemplate="body" let-protimepol>
+                            <tr [pSelectableRow]="protimepol">        
+                                <td>{{protimepol.protimepol_code}}</td>  
+                                <td>
+                                    <div *ngIf="this.initial_current.Language == 'TH'">
+                                        {{protimepol.protimepol_name_th}}
+                                    </div>
+                                    <div *ngIf="this.initial_current.Language != 'TH'">
+                                        {{protimepol.protimepol_name_en}}
+                                    </div>
+                                </td>                                  
+                                <td>{{protimepol.protimepol_ot}}</td>       
+                                <td>{{protimepol.protimepol_allw}}</td>       
+                                <td>{{protimepol.protimepol_dg}}</td>                                                 
+                                <td>{{protimepol.protimepol_lv}}</td>        
+                                <td>{{protimepol.protimepol_lt}}</td>   
+                                <td>{{protimepol.modified_by}}</td>      
+                                <td>{{protimepol.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                             </tr>
-                        </ng-template>             
+                        </ng-template>   
+                                  
                     </p-table>
-                                        
-                    
                 </p-tabPanel>
                 <p-tabPanel >
                     <ng-template pTemplate = "header">
@@ -216,7 +620,7 @@
                         <tr>
                             <td>
                                 <div class="main_div">
-                                    <span class="spn_value">{{project_costs_total | number:'1.2-2'}}</span>
+                                    <span class="spn_value">{{project_summary_cost | number:'1.2-2'}}</span>
                                     <div class="sub_div">
                                         <span class="spn_title">ราคารวม</span>
                                     </div>
@@ -224,18 +628,24 @@
                             </td>
                             <td>
                                 <div class="main_div">
-                                    <span class="spn_value">{{project_costs_emp}}</span>
+                                    <span class="spn_value">{{project_summary_emp}}</span>
                                     <div class="sub_div">
                                         <span class="spn_title">จำนวนพนักงาน</span>
                                     </div>
                                 </div>
-                            </td>
-                                                                  
+                            </td>                                                                  
                         </tr>
                     </table>                                   
                     <br> 
-                    <p-menubar [model]="items"></p-menubar >
-                        <p-table [value]="project_positions"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '160rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedPosition" (onRowSelect)="onRowSelectPPos($event)" dataKey="pos_code">
+                    <p-accordion>
+                        <p-accordionTab header="รายละเอียดงาน" [selected]="true">      
+                        <p-menubar [model]="menu_projobmain"></p-menubar>
+                
+                        <p-table #dtJobmain [value]="projobmain_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '170rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobmain" (onRowSelect)="onRowSelectProjobmain($event)" dataKey="projobmain_code"
+                            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                            [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                        >                   
+                         
                             <ng-template pTemplate="header">
                                 <tr>		
                                     <th>รหัสงาน</th>	
@@ -250,216 +660,88 @@
                                     <th>นโยบายเวลา</th>
                                     <th>รูปแบบสลิป</th>
                                     <th>ชุดฟอร์ม</th>
-                                    <th>ค่าแรง</th>
-                                    <th>ค่าล่วงเวลา</th>
-                                    <th>ค่าตำแหน่ง</th>
-                                    <th>ค่ากะ</th>
-                                    <th>เบี้ยขยัน</th> 
+                                    <th *ngIf="costs_title[0] !=''">{{costs_title[0]}}</th>
+                                    <th *ngIf="costs_title[1] !=''">{{costs_title[1]}}</th>
+                                    <th *ngIf="costs_title[2] !=''">{{costs_title[2]}}</th>
+                                    <th *ngIf="costs_title[3] !=''">{{costs_title[3]}}</th>
+                                    <th *ngIf="costs_title[4] !=''">{{costs_title[4]}}</th>
+                                    <th *ngIf="costs_title[5] !=''">{{costs_title[5]}}</th>
+                                    <th *ngIf="costs_title[6] !=''">{{costs_title[6]}}</th>
+                                    <th *ngIf="costs_title[7] !=''">{{costs_title[7]}}</th>
+                                    <th *ngIf="costs_title[8] !=''">{{costs_title[8]}}</th>
+                                    <th *ngIf="costs_title[9] !=''">{{costs_title[9]}}</th>                                   
                                     <th>โอทีอัตโนมัติ</th>
                                     <th>รวม/คน</th>     
                                     <th>รวมทั้งหมด</th>     
+                                    <th>ผู้ทำรายการ</th>
+                                    <th>วันที่ทำรายการ</th>
                                 </tr>	
                             </ng-template>
-                            <ng-template pTemplate="body" let-pos>
-                                <tr [pSelectableRow]="pos">        
-                                    <td>{{pos.pos_code}}</td>                                
-                                    <td>{{pos.pos_name_th}}</td>
-                                    <td>{{pos.pos_type}}</td>
-                                    <td>{{pos.pos_emp}}</td>                                    
-                                    <td>{{pos.shift_working}}</td>
-                                    <td>{{pos.shift_hrs}}</td>
-                                    <td>{{pos.shift_overtime}}</td>
-                                    <td>{{pos.shift_code}}</td>
+                            <ng-template pTemplate="body" let-projobmain>
+                                <tr [pSelectableRow]="projobmain">        
+                                    <td>{{projobmain.projobmain_code}}</td>  
                                     <td>
-                                        <div style="display: inline" *ngIf="pos.pos_code=='70001.1'  || pos.pos_code=='70013'">
-                                            <input type="checkbox"   /> Sun
-                                            <input type="checkbox" checked  /> Mon
-                                            <input type="checkbox" checked  /> Tue
-                                            <input type="checkbox" checked  /> Wed
-                                            <input type="checkbox" checked  /> Thu
-                                            <input type="checkbox" checked  /> Fri
-                                            <input type="checkbox" checked  /> Sat
-                                            <input type="checkbox"   /> Holiday
+                                        <div *ngIf="this.initial_current.Language == 'TH'">
+                                            {{projobmain.projobmain_name_th}}
                                         </div>
-                                        <div style="display: inline" *ngIf="pos.pos_code=='70001.2' ">
-                                            <input type="checkbox"  checked /> Sun
-                                            <input type="checkbox"   /> Mon
-                                            <input type="checkbox"   /> Tue
-                                            <input type="checkbox"   /> Wed
-                                            <input type="checkbox"   /> Thu
-                                            <input type="checkbox"   /> Fri
-                                            <input type="checkbox"   /> Sat
-                                            <input type="checkbox" checked  /> Holiday
+                                        <div *ngIf="this.initial_current.Language != 'TH'">
+                                            {{projobmain.projobmain_name_en}}
                                         </div>
-                                    </td>                                    
-                                    <td>{{pos.pol_allw_code}}</td>
-                                    <td>{{pos.pol_slip_code}}</td>
-                                    <td>{{pos.pol_uniform_code}}</td>
-                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow1 | number:'1.2-2'}}</td>
-                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow2 | number:'1.2-2'}}</td>
-                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow3 | number:'1.2-2'}}</td>
-                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow4 | number:'1.2-2'}}</td>
-                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow5 | number:'1.2-2'}}</td>                
-                                    <td style="text-align: center;">{{true == pos.ot_auto ? 'Yes' : 'No' }}</td>       
-                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow_emp | number:'1.2-2'}}</td>
-                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow_total | number:'1.2-2'}}</td>            
+                                    </td>                                 
+                                    <td>{{projobmain.projobmain_type}}</td>
+                                    <td style="text-align: right; padding-right: 10px;">{{projobmain.emp_total | number:'1.2-2'}}</td>
+                                    <td>{{projobmain.projobmain_working}}</td>
+                                    <td>{{projobmain.projobmain_hrsperday}}</td>
+                                    <td>{{projobmain.projobmain_hrsot}}</td>                                    
+                                    <td>{{projobmain.projobmain_shift}}</td>                                    
+                                    <td>
+                                        <div style="display: inline" >
+
+                                            {{true == projobmain.projobmain_sun ? ' Sun |' : '' }}
+                                            {{true == projobmain.projobmain_mon ? ' Mon |' : '' }}
+                                            {{true == projobmain.projobmain_tue ? ' Tue |' : '' }}
+                                            {{true == projobmain.projobmain_wed ? ' Wed |' : '' }}
+                                            {{true == projobmain.projobmain_thu ? ' Thu |' : '' }}
+                                            {{true == projobmain.projobmain_fri ? ' Fri |' : '' }}
+                                            {{true == projobmain.projobmain_sat ? ' Sat ' : '' }}    
+
+                                        </div>                                       
+                                    </td>     
+                                    <td>{{projobmain.projobmain_timepol}}</td>
+                                    <td>{{projobmain.projobmain_slip}}</td>
+                                    <td>{{projobmain.projobmain_uniform}}</td>
+                                   
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[0] !=''">{{projobmain.allow1 | number:'1.2-2'}}</td>
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[1] !=''">{{projobmain.allow2 | number:'1.2-2'}}</td>
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[2] !=''">{{projobmain.allow3 | number:'1.2-2'}}</td>
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[3] !=''">{{projobmain.allow4 | number:'1.2-2'}}</td>
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[4] !=''">{{projobmain.allow5 | number:'1.2-2'}}</td> 
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[5] !=''">{{projobmain.allow6 | number:'1.2-2'}}</td> 
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[6] !=''">{{projobmain.allow7 | number:'1.2-2'}}</td> 
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[7] !=''">{{projobmain.allow8 | number:'1.2-2'}}</td> 
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[8] !=''">{{projobmain.allow9 | number:'1.2-2'}}</td> 
+                                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[9] !=''">{{projobmain.allow10 | number:'1.2-2'}}</td>                                                                         
+
+                                    <td style="text-align: center;">{{true == projobmain.projobmain_autoot ? 'Yes' : 'No' }}</td>       
+                                    <td style="text-align: right; padding-right: 10px;">{{projobmain.allow_emp | number:'1.2-2'}}</td>
+                                    <td style="text-align: right; padding-right: 10px;">{{projobmain.allow_total | number:'1.2-2'}}</td>            
+                                    <td>{{projobmain.modified_by}}</td>      
+                                    <td>{{projobmain.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                 </tr>
-                            </ng-template> 
-                        </p-table>
-                        <br>
-                        <p-accordion>
-                            <p-accordionTab header="สัญญา" >                         
-                                <p-table [value]="project_contracts_a"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="150px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedContract"  dataKey="pcontract_doc">
-    
-                                    <ng-template pTemplate="header">
-                                        <tr>						
-                                            <th>วันที่ทำสัญญา</th>
-                                            <th>เลขที่สัญญา</th>   
-                                            <th>จำนวนพนักงาน</th>                                     
-                                            <th>ราคา</th>
-                                            <th>จากวันที่</th>
-                                            <th>ถึงวันที่</th>
-                                            <th>ผู้ทำรายการ</th>
-                                            <th>วันที่ทำรายการ</th>
-                                        </tr>	
-                                    </ng-template>     
-                                    <ng-template pTemplate="body" let-contract>
-                                        <tr [pSelectableRow]="contract">        
-                                            <td>{{contract.pcontract_date | date:'dd/MM/yyyy '}}</td>     
-                                            <td>{{contract.pcontract_doc}}</td>    
-                                            <td>{{contract.pcontract_emp | number:'1.2-2'}}</td>   
-                                            <td>{{contract.pcontract_amount | number:'1.2-2'}}</td>    
-                                            <td>{{contract.pcontract_start | date:'dd/MM/yyyy '}}</td>  
-                                            <td>{{contract.pcontract_end | date:'dd/MM/yyyy '}}</td>                                                                          
-                                            <td>{{contract.modified_by}}</td>      
-                                            <td>{{contract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>                                  
-                                        </tr>
-                                    </ng-template>   
-                                    
-                                </p-table>
-                            </p-accordionTab>
-                        </p-accordion>
-                        <br>
-                        <p-accordion>
-                            <p-accordionTab header="รายการต้นทุน" >
-                                <p-menubar [model]="items"></p-menubar >
-                                <p-table [value]="project_costs"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedCost" dataKey="pcost_id">
-                                    <ng-template pTemplate="header">
-                                        <tr>		
-                                            <th>เวอร์ชั่น</th>	
-                                            <th>ต้นทุน</th>
-                                            <th>ชื่อต้นทุน</th>
-                                            <th>รูปแบบ</th>
-                                            <th>จำนวนเงิน</th>
-                                            <th>รหัสเงินได้</th>
-                                            <th>Auto</th>
-                                            <th>จากวันที่</th>
-                                            <th>ถึงวันที่</th>
-                                            <th>สถานะ</th>                                            
-                                            <th>วันที่อนุมัติ</th>
-                                            <th>ผู้ทำรายการ</th>
-                                            <th>วันที่ทำรายการ</th>                                                
-                                        </tr>	
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-cost>
-                                        <tr [pSelectableRow]="cost">        
-                                            <td>{{cost.pcost_version}}</td>                                
-                                            <td>{{cost.pcost_code}}</td>
-                                            <td>{{cost.cost_name_th}}</td>
-                                            <td>{{cost.pcost_type}}</td>
-                                            <td style="text-align: right; padding-right: 30px;">{{cost.pcost_amount | number:'1.2-2'}}</td>
-                                            <td>{{cost.pcost_allwcode}}</td>
-                                            <td>{{true == cost.cost_auto ? 'Yes' : 'No' }}</td>
-                                            <td>{{cost.pcost_start | date:'dd/MM/yyyy '}}</td>
-                                            <td>{{cost.pcost_end | date:'dd/MM/yyyy '}}</td>
-                                            <td>{{cost.pcost_status}}</td>                                            
-                                            <td>{{cost.pcost_start | date:'dd/MM/yyyy '}}</td>  
-                                            <td>{{cost.approve_by}}</td>      
-                                            <td>{{cost.pcost_start | date:'dd/MM/yyyy '}}</td>
-                                        </tr>
-                                    </ng-template>             
-                                </p-table>
-                            </p-accordionTab>
-                        </p-accordion>
-                        <br>
-                        <p-accordion>
-                            <p-accordionTab header="เครื่องบันทึกเวลา" >
-                                <p-menubar [model]="items"></p-menubar >
-                                <p-table styleClass="p-datatable-sm" [tableStyle]="{'min-width': '10rem'}" [scrollable]="true" scrollHeight="50px" [virtualScroll]="true" selectionMode="single" >
-                                    <ng-template pTemplate="header">
-                                        <tr>		
-                                            <th>รหัสเครื่อง</th>                             
-                                        </tr>	
-                                    </ng-template>                                            
-                                </p-table>
-                            </p-accordionTab>
-                        </p-accordion>
-
-                </p-tabPanel>
-
-                <p-tabPanel>
-                    <ng-template pTemplate = "header">
-                        <i class="pi pi-user"></i>&nbsp;&nbsp;
-                        <span>งานเคลีย์</span>      
-                    </ng-template>     
-
-                    <table class="table_summary_">
-                        <tr>
-                            <td>
-                                <div class="main_div">
-                                    <span class="spn_value">9,000.00</span>
-                                    <div class="sub_div">
-                                        <span class="spn_title">ราคารวม</span>
-                                    </div>
-                                </div>
-                            </td>
-                                                                                              
-                        </tr>
-                    </table>                                   
-                    <br> 
-
-                    <p-menubar [model]="items"></p-menubar >
-                    <p-table [value]="project_clears"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedClear"  dataKey="pclear_code">
-                        <ng-template pTemplate="header">
-                            <tr>	
-                                <th>รหัส</th>
-                                <th>รายละเอียด</th>
-                                <th>จำนวนพนักงาน</th>
-                                <th>ใช้ไป</th>
-                                <!-- <th>จากวันที่</th>
-                                <th>ถึงวันที่</th>       -->
-                                <th>ค่าแรง</th>
-                                <th>ค่าล่วงเวลา</th>
-                                <th>เงินได้อื่นๆ</th>     
-                                <th>รวม/คน</th>     
-                                <th>รวมทั้งหมด</th>                                                           
-                                <th>ผู้ทำรายการ</th>
-                                <th>วันที่ทำรายการ</th>                                                
-                            </tr>	
-                        </ng-template>
-                        <ng-template pTemplate="body" let-clear>
-                            <tr [pSelectableRow]="clear">        
-                                <td>{{clear.pclear_code}}</td>     
-                                <td>{{clear.pclear_name_th}}</td>                                
-                                <td>{{clear.pclear_times}}</td>        
-                                <td>{{clear.pclear_used}}</td>        
-                                <!-- <td>{{clear.pclear_start | date:'dd/MM/yyyy '}}</td>  
-                                <td>{{clear.pclear_end | date:'dd/MM/yyyy '}}</td>                           -->
-                                <td>{{clear.pclear_wage | number:'1.2-2'}}</td>   
-                                <td>{{clear.pclear_overtime | number:'1.2-2'}}</td>   
-                                <td>{{clear.pclear_other | number:'1.2-2'}}</td>   
-                                <td>{{clear.allow_emp | number:'1.2-2'}}</td>   
-                                <td>{{clear.allow_total | number:'1.2-2'}}</td>                                    
-                                <td>{{clear.modified_by}}</td>      
-                                <td>{{clear.modified_date | date:'dd/MM/yyyy '}}</td>                                  
-                            </tr>
-                        </ng-template>             
-                    </p-table>
+                                </ng-template> 
+                            </p-table>
+                        </p-accordionTab>
+                    </p-accordion>
                     <br>
                     <p-accordion>
                         <p-accordionTab header="สัญญา" >                         
-                            <p-table [value]="project_contracts_a"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedContract"  dataKey="pcontract_doc">
-
+                            
+                            <p-menubar [model]="menu_projobcontract"></p-menubar>
+        
+                            <p-table #dtJobcontract [value]="projobcontract_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobcontract" (onRowSelect)="onRowSelectProjobcontract($event)" dataKey="projobcontract_ref"
+                                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                            >  
                                 <ng-template pTemplate="header">
                                     <tr>						
                                         <th>วันที่ทำสัญญา</th>
@@ -471,27 +753,261 @@
                                         <th>ผู้ทำรายการ</th>
                                         <th>วันที่ทำรายการ</th>
                                     </tr>	
-                                </ng-template>     
-                                <ng-template pTemplate="body" let-contract>
-                                    <tr [pSelectableRow]="contract">        
-                                        <td>{{contract.pcontract_date | date:'dd/MM/yyyy '}}</td>     
-                                        <td>{{contract.pcontract_doc}}</td>    
-                                        <td>{{contract.pcontract_emp | number:'1.2-2'}}</td>   
-                                        <td>{{contract.pcontract_amount | number:'1.2-2'}}</td>    
-                                        <td>{{contract.pcontract_start | date:'dd/MM/yyyy '}}</td>  
-                                        <td>{{contract.pcontract_end | date:'dd/MM/yyyy '}}</td>                                                                          
-                                        <td>{{contract.modified_by}}</td>      
-                                        <td>{{contract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>                                  
-                                    </tr>
                                 </ng-template>   
+                                <ng-template pTemplate="body" let-projobcontract>
+                                    <tr [pSelectableRow]="projobcontract">        
+                                        <td>{{projobcontract.projobcontract_date | date:'dd/MM/yyyy'}}</td> 
+                                        <td>{{projobcontract.projobcontract_ref}}</td>
+                                        <td>{{projobcontract.projobcontract_emp}}</td>
+                                        <td>{{projobcontract.projobcontract_amount}}</td>
+                                        <td>{{projobcontract.projobcontract_fromdate | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{projobcontract.projobcontract_todate | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{projobcontract.modified_by}}</td>      
+                                        <td>{{projobcontract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                    </tr>
+                                </ng-template>
+                                
                                 
                             </p-table>
                         </p-accordionTab>
                     </p-accordion>
-
                     <br>
                     <p-accordion>
-                        <p-accordionTab header="การปฎิบัติงาน" [selected]="true">
+                            <p-accordionTab header="รายการต้นทุน" >
+                                
+                                <p-menubar [model]="menu_projobcost"></p-menubar>        
+                                <p-table #dtJobcost [value]="projobcost_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobcost" (onRowSelect)="onRowSelectProjobcost($event)" dataKey="projobcost_id"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                                >  
+                                    <ng-template pTemplate="header">
+                                        <tr>		
+                                            <th>เวอร์ชั่น</th>	
+                                            <th>ต้นทุน</th>
+                                            <th>ชื่อต้นทุน</th>
+                                            <th>รูปแบบ</th>
+                                            <th>จำนวนเงิน</th>
+                                            <th>รหัสเงินได้</th>
+                                            <th>Auto</th>
+                                            <th>จากวันที่</th>
+                                            <th>ถึงวันที่</th>
+                                            <th>สถานะ</th>    
+                                            <th>ผู้ทำรายการ</th>
+                                            <th>วันที่ทำรายการ</th>                                                
+                                        </tr>	
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-cost>
+                                        <tr [pSelectableRow]="cost">        
+                                            <td>{{cost.projobcost_version}}</td>                                
+                                            <td>{{cost.projobcost_code}}</td>
+                                            <td>{{doGetProCostName(cost.projobcost_code)}}</td>
+                                            <td>{{doGetProCostType(cost.projobcost_code)}}</td>
+                                            <td style="text-align: right; padding-right: 30px;">{{cost.projobcost_amount | number:'1.2-2'}}</td>
+                                            <td>{{doGetProCostItem(cost.projobcost_code)}}</td>                                            
+                                            <td style="text-align: center;">{{true == doGetProCostAuto(cost.projobcost_code) ? 'Yes' : 'No' }}</td>  
+
+                                            <td style="text-align: center;">{{cost.projobcost_fromdate | date:'dd/MM/yyyy '}}</td>
+                                            <td style="text-align: center;">{{cost.projobcost_todate | date:'dd/MM/yyyy '}}</td>
+                                            <td style="text-align: center;">{{cost.projobcost_status}}</td>       
+                                            <td>{{cost.modified_by}}</td>      
+                                            <td>{{cost.modified_date | date:'dd/MM/yyyy '}}</td>
+                                        </tr>
+                                    </ng-template>             
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                        <br>
+                        <p-accordion>
+                            <p-accordionTab header="เครื่องบันทึกเวลา" >                                
+                                <p-menubar [model]="menu_projobmachine"></p-menubar>        
+                                <p-table #dtJobmachine [value]="projobmachine_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '40rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobmachine" (onRowSelect)="onRowSelectProjobmachine($event)" dataKey="projobmachine_id"
+                                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                    [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                                > 
+                                    <ng-template pTemplate="header">
+                                        <tr>		
+                                            <th>IP Address</th>
+                                            <th>Port</th> 
+                                            <th>ใช้งาน</th>    
+                                            <th>ผู้ทำรายการ</th>
+                                            <th>วันที่ทำรายการ</th>                              
+                                        </tr>	
+                                    </ng-template>    
+                                    <ng-template pTemplate="body" let-machine>
+                                        <tr [pSelectableRow]="machine">        
+                                            <td>{{machine.projobmachine_ip}}</td>                                
+                                            <td>{{machine.projobmachine_port}}</td>
+                                            <td style="text-align: center;">{{true == machine.projobmachine_enable ? 'Yes' : 'No' }}</td>                                              
+                                            <td>{{machine.modified_by}}</td>      
+                                            <td>{{machine.modified_date | date:'dd/MM/yyyy '}}</td>
+                                        </tr>
+                                    </ng-template>                                        
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+
+                </p-tabPanel>
+
+                <p-tabPanel>
+                    <ng-template pTemplate = "header">                        
+                        <span>งานเคลีย์</span>      
+                    </ng-template>     
+
+                    <table class="table_summary_">
+                        <tr>
+                            <td>
+                                <div class="main_div">
+                                    <span class="spn_value">{{project_summary_clear_cost | number:'1.2-2'}}</span>
+                                    <div class="sub_div">
+                                        <span class="spn_title">ราคารวม</span>
+                                    </div>
+                                </div>
+                            </td>
+                                                                                              
+                        </tr>
+                    </table>                                   
+                    <br> 
+
+                    <p-menubar [model]="menu_projobsub"></p-menubar>        
+                    <p-table #dtJobsub [value]="projobsub_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobsub" (onRowSelect)="onRowSelectProjobsub($event)" dataKey="projobsub_id"
+                        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                        [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                    >   
+                        <ng-template pTemplate="header">
+                            <tr>	
+                                <th>รหัส</th>
+                                <th>รายละเอียด</th>
+                                <th>จำนวนพนักงาน</th>
+                                <th>ใช้ไป</th>                               
+                                <th *ngIf="costs_title[0] !=''">{{costs_title[0]}}</th>
+                                <th *ngIf="costs_title[1] !=''">{{costs_title[1]}}</th>
+                                <th *ngIf="costs_title[2] !=''">{{costs_title[2]}}</th>
+                                <th *ngIf="costs_title[3] !=''">{{costs_title[3]}}</th>
+                                <th *ngIf="costs_title[4] !=''">{{costs_title[4]}}</th>
+                                <th *ngIf="costs_title[5] !=''">{{costs_title[5]}}</th>
+                                <th *ngIf="costs_title[6] !=''">{{costs_title[6]}}</th>
+                                <th *ngIf="costs_title[7] !=''">{{costs_title[7]}}</th>
+                                <th *ngIf="costs_title[8] !=''">{{costs_title[8]}}</th>
+                                <th *ngIf="costs_title[9] !=''">{{costs_title[9]}}</th>    
+                                <th>รวม/คน</th>     
+                                <th>รวมทั้งหมด</th>     
+                                <th>ผู้ทำรายการ</th>
+                                <th>วันที่ทำรายการ</th>                                                
+                            </tr>	
+                        </ng-template>
+                        <ng-template pTemplate="body" let-projobsub>
+                            <tr [pSelectableRow]="projobsub">   
+                                <td>{{projobsub.projobsub_code}}</td>  
+                                <td>
+                                    <div *ngIf="this.initial_current.Language == 'TH'">
+                                        {{projobsub.projobsub_name_th}}
+                                    </div>
+                                    <div *ngIf="this.initial_current.Language != 'TH'">
+                                        {{projobsub.projobsub_name_en}}
+                                    </div>
+                                </td>         
+                                <td style="text-align: right; padding-right: 10px;">{{projobsub.emp_total | number:'1.2-2'}}</td>                        
+                                <td></td>                               
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[0] !=''">{{projobsub.allow1 | number:'1.2-2'}}</td>
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[1] !=''">{{projobsub.allow2 | number:'1.2-2'}}</td>
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[2] !=''">{{projobsub.allow3 | number:'1.2-2'}}</td>
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[3] !=''">{{projobsub.allow4 | number:'1.2-2'}}</td>
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[4] !=''">{{projobsub.allow5 | number:'1.2-2'}}</td> 
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[5] !=''">{{projobsub.allow6 | number:'1.2-2'}}</td> 
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[6] !=''">{{projobsub.allow7 | number:'1.2-2'}}</td> 
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[7] !=''">{{projobsub.allow8 | number:'1.2-2'}}</td> 
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[8] !=''">{{projobsub.allow9 | number:'1.2-2'}}</td> 
+                                <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[9] !=''">{{projobsub.allow10 | number:'1.2-2'}}</td> 
+                                <td style="text-align: right; padding-right: 10px;">{{projobsub.allow_emp | number:'1.2-2'}}</td>
+                                <td style="text-align: right; padding-right: 10px;">{{projobsub.allow_total | number:'1.2-2'}}</td>            
+                                <td>{{projobsub.modified_by}}</td>      
+                                <td>{{projobsub.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>                                
+                            </tr>
+                        </ng-template>             
+                    </p-table>
+                    <br>
+                    <p-accordion>
+                        <p-accordionTab header="สัญญา" >       
+                            <p-menubar [model]="menu_projobsubcontract"></p-menubar>        
+                            <p-table #dtJobsubcontract [value]="projobsubcontract_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobsubcontract" (onRowSelect)="onRowSelectProjobsubcontract($event)" dataKey="projobcontract_ref"
+                                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                            >  
+                                <ng-template pTemplate="header">
+                                    <tr>						
+                                        <th>วันที่ทำสัญญา</th>
+                                        <th>เลขที่สัญญา</th>   
+                                        <th>จำนวนพนักงาน</th>                                     
+                                        <th>ราคา</th>
+                                        <th>จากวันที่</th>
+                                        <th>ถึงวันที่</th>
+                                        <th>ผู้ทำรายการ</th>
+                                        <th>วันที่ทำรายการ</th>
+                                    </tr>	
+                                </ng-template>   
+                                <ng-template pTemplate="body" let-projobsubcontract>
+                                    <tr [pSelectableRow]="projobsubcontract">        
+                                        <td>{{projobsubcontract.projobcontract_date | date:'dd/MM/yyyy'}}</td> 
+                                        <td>{{projobsubcontract.projobcontract_ref}}</td>
+                                        <td>{{projobsubcontract.projobcontract_emp}}</td>
+                                        <td>{{projobsubcontract.projobcontract_amount}}</td>
+                                        <td>{{projobsubcontract.projobcontract_fromdate | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{projobsubcontract.projobcontract_todate | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{projobsubcontract.modified_by}}</td>      
+                                        <td>{{projobsubcontract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-accordionTab>
+                    </p-accordion>
+                    <br>
+                    <p-accordion>
+                        <p-accordionTab header="รายการต้นทุน" >
+                            
+                            <p-menubar [model]="menu_projobsubcost"></p-menubar>        
+                            <p-table #dtJobsubcost [value]="projobsubcost_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobsubcost" (onRowSelect)="onRowSelectProjobsubcost($event)" dataKey="projobcost_id"
+                                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                                [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                            >  
+                                <ng-template pTemplate="header">
+                                    <tr>		
+                                        <th>เวอร์ชั่น</th>	
+                                        <th>ต้นทุน</th>
+                                        <th>ชื่อต้นทุน</th>
+                                        <th>รูปแบบ</th>
+                                        <th>จำนวนเงิน</th>
+                                        <th>รหัสเงินได้</th>
+                                        <th>Auto</th>
+                                        <th>จากวันที่</th>
+                                        <th>ถึงวันที่</th>
+                                        <th>สถานะ</th>    
+                                        <th>ผู้ทำรายการ</th>
+                                        <th>วันที่ทำรายการ</th>                                                
+                                    </tr>	
+                                </ng-template>
+                                <ng-template pTemplate="body" let-cost>
+                                    <tr [pSelectableRow]="cost">        
+                                        <td>{{cost.projobcost_version}}</td>                                
+                                        <td>{{cost.projobcost_code}}</td>
+                                        <td>{{doGetProCostName(cost.projobcost_code)}}</td>
+                                        <td>{{doGetProCostType(cost.projobcost_code)}}</td>
+                                        <td style="text-align: right; padding-right: 30px;">{{cost.projobcost_amount | number:'1.2-2'}}</td>
+                                        <td>{{doGetProCostItem(cost.projobcost_code)}}</td>                                            
+                                        <td style="text-align: center;">{{true == doGetProCostAuto(cost.projobcost_code) ? 'Yes' : 'No' }}</td>  
+
+                                        <td style="text-align: center;">{{cost.projobcost_fromdate | date:'dd/MM/yyyy '}}</td>
+                                        <td style="text-align: center;">{{cost.projobcost_todate | date:'dd/MM/yyyy '}}</td>
+                                        <td style="text-align: center;">{{cost.projobcost_status}}</td>       
+                                        <td>{{cost.modified_by}}</td>      
+                                        <td>{{cost.modified_date | date:'dd/MM/yyyy '}}</td>
+                                    </tr>
+                                </ng-template>             
+                            </p-table>
+                        </p-accordionTab>
+                    </p-accordion>
+                    <br>
+                    <p-accordion>
+                        <p-accordionTab header="การปฎิบัติงาน">
                             <p-table  [tableStyle]="{'min-width': '70rem', 'min-height': '20rem'}">
                                 <ng-template pTemplate="header">
                                     <tr>						
@@ -516,24 +1032,12 @@
                         <i class="pi pi-user"></i>&nbsp;&nbsp;
                         <span>พนักงานหน่วยงาน</span>      
                     </ng-template>     
-                    <p-menubar [model]="items"></p-menubar >
-                        <p-table #dt2 [value]="project_emps"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" 
-                        [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[25,50,100]" 
-                        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                        selectionMode="single" [(selection)]="selectedEmp" dataKey="emp_code"
-                        
-                        [globalFilterFields]="['ppos_code','ppos_name_th','emp_code','emp_name']"
-                        
-                        >
-                            
-                            <ng-template pTemplate="caption">
-                                <div class="flex">
-                                    <span class="p-input-icon-left ml-auto">
-                                        <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                                    </span>
-                                </div>
-                            </ng-template>
+                                            
+                        <p-menubar [model]="menu_projobemp"></p-menubar>        
+                        <p-table #dtJobemp [value]="projobemp_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobemp" (onRowSelect)="onRowSelectProjobemp($event)" dataKey="projobemp_id"
+                            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                            [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                        >                            
                             <ng-template pTemplate="header">
                                 <tr>		
                                     <th>รหัสงาน</th>	
@@ -542,10 +1046,7 @@
                                     <th>ชื่อ-นามสกุล</th>
                                     <th>สถานะพนักงาน</th>
                                     <th>วันที่โอนย้าย</th>
-                                    <th>วันที่ย้ายออก</th>
-                                    <th>ค่าแรง</th>
-                                    <th>ค่าล่วงเวลา</th>    
-                                    <th></th>                               
+                                    <th>วันที่ย้ายออก</th>                                                      
                                     <th>สถานะ</th>
                                     <th>วันที่อนุมัติ</th>
                                     <th>ผู้ทำรายการ</th>
@@ -554,40 +1055,20 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-emp>
                                 <tr [pSelectableRow]="emp">        
-                                    <td>{{emp.ppos_code}}</td>                                
-                                    <td>{{emp.ppos_name_th}}</td>
-                                    <td>{{emp.emp_code}}</td>
-                                    <td>{{emp.emp_name}}</td>
-                                    <td>{{emp.emp_position}}</td>
-                                    <td>{{emp.emp_startdate | date:'dd/MM/yyyy '}}</td>  
-                                    <td></td>
-
-                                    <td style="text-align: right; padding-right: 30px;">{{emp.pcost_allw1 | number:'1.2-2'}}</td>
-                                    <td style="text-align: right; padding-right: 30px;">
-                                        {{emp.pcost_allw2 | number:'1.2-2'}}                                        
-                                    </td>
-                                    <td><input type="checkbox" checked /><label for="firstname2">Auto</label></td>
-                                 
-                                    <td>
-                                        <div *ngIf="emp.approve_status==true">
-                                            <span style="color: green;">อนุมัติ</span>
-                                        </div>
-                                        <div *ngIf="emp.approve_status==false">
-                                            <span>0/3</span>
-                                        </div>
-
-                                    </td>
-                                    <td>
-                                        <div *ngIf="emp.approve_status==true">
-                                            {{emp.approve_date | date:'dd/MM/yyyy '}}
-                                        </div>
-                                        
-                                    </td>
-                                    
+                                    <td>{{emp.projob_code}}</td>    
+                                    <td>{{doGetJobmainName(emp.projob_code)}}</td>                            
+                                    <td>{{emp.projobemp_emp}}</td>
+                                    <td></td>  
+                                    <td></td>    
+                                    <td>{{emp.projobemp_fromdate | date:'dd/MM/yyyy '}}</td>
+                                    <td>{{emp.projobemp_todate | date:'dd/MM/yyyy '}}</td>
+                                    <td>{{emp.projobemp_status}}</td>
+                                    <td></td>    
                                     <td>{{emp.modified_by}}</td>      
-                                    <td>{{emp.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>  
+                                    <td>{{emp.modified_date | date:'dd/MM/yyyy '}}</td>
                                 </tr>
-                            </ng-template>             
+                            </ng-template>    
+                                        
                         </p-table>
                 </p-tabPanel>
             </p-tabView>
@@ -595,157 +1076,169 @@
         </div>
         <div class="col-12 md:col-3">
             <p-scrollPanel [style]="{width: '99%', height: '800px'}" >
-                
-                <div class="formgrid grid" *ngIf="edit_ppos">
-                    <span class="spn_title_edit">งาน</span>
-                    <div class="field col-12 ">
-                        <label for="ppos_code">รหัส</label>    
-                        <input type="text" id="ppos_code" [(ngModel)]="selectedPosition.pos_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-                    </div>	
-                   
-                    <div class="field col-12 ">
-                        <label for="ppos_name_th">ชื่อไทย</label>                        
-                        <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedPosition.pos_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                    </div>
-                    <div class="field col-12 ">
-                        <label for="ppos_name_en">ชื่ออังกฤษ</label>                        
-                        <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedPosition.pos_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                    </div>
 
-                    <div class="field col-12 ">   
-                        <label for="ppos_shift_code">ประเภทงาน</label>
-                        <p-dropdown id="pjobtype_code" [options]="jobtype_list" [(ngModel)]="selectedJobtype" optionLabel="pjobtype_name_th" [showClear]="false" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                <div class="formgrid grid" *ngIf="edit_protimepol==true || new_protimepol==true">
+                    <span class="spn_title_edit">นโยบายเวลา</span>
+                    <div class="field col-12 ">
+                        <label for="protimepol_code">รหัส</label>    
+                        <input type="text" id="protimepol_code" [(ngModel)]="selectedProtimepol.protimepol_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
                     </div>
-                    
-                    <div class="field col-12 ">   
-                        <label for="ppos_shift_code">กะการทำงาน</label>
-                        <p-dropdown id="ppos_shift_code" [options]="project_shifts" [(ngModel)]="selectedShift" optionLabel="shift_name_th" [showClear]="false" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    <div class="field col-12 ">
+                        <label for="protimepol_name_th">ชื่อไทย</label>                        
+                        <textarea [rows]="2" id="protimepol_name_th" [(ngModel)]="selectedProtimepol.protimepol_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                    </div>
+                    <div class="field col-12 ">
+                        <label for="protimepol_name_en">ชื่ออังกฤษ</label>                        
+                        <textarea [rows]="2" id="protimepol_name_en" [(ngModel)]="selectedProtimepol.protimepol_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                    </div> 
+                    <div class="field col-12">
+                        <label for="selectedProtimepol_ot">ค่าล่วงเวลา</label><br>
+                        <p-dropdown [options]="polot_list_cbb" [(ngModel)]="selectedProtimepol_ot" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    </div>  
+                    <div class="field col-12">
+                        <label for="selectedProtimepol_allw">เงินได้ค่าเวลา</label><br>
+                        <p-dropdown [options]="polallw_list_cbb" [(ngModel)]="selectedProtimepol_allw" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    </div>  
+                    <div class="field col-12">
+                        <label for="selectedProtimepol_dg">เบี้ยขยัน</label><br>
+                        <p-dropdown [options]="poldg_list_cbb" [(ngModel)]="selectedProtimepol_dg" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                     </div>
                     <div class="field col-12">
-						<input type="checkbox" /><label for="firstname2">Sun</label>
-						<input type="checkbox" checked/><label for="firstname2">Mon</label>
-						<input type="checkbox" checked/><label for="firstname2">Tue</label>
-						<input type="checkbox" checked/><label for="firstname2">Wed</label>
-						<input type="checkbox" checked/><label for="firstname2">Thu</label>
-						<input type="checkbox" checked/><label for="firstname2">Fri</label>
-						<input type="checkbox" checked/><label for="firstname2">Sat</label>
+                        <label for="selectedProtimepol_lv">การลา</label><br>
+                        <p-dropdown [options]="pollv_list_cbb" [(ngModel)]="selectedProtimepol_lv" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    </div>  
+                    <div class="field col-12">
+                        <label for="selectedProtimepol_lt">การหักสาย</label><br>
+                        <p-dropdown [options]="pollt_list_cbb" [(ngModel)]="selectedProtimepol_lt" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    </div> 
+                    <div class="field col-12">
+                        <p-button label="บันทึก" icon="pi pi-save" (click)="protimepol_summit()"></p-button>  
+                        &nbsp;
+                        <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="protimepol_cancel()"></button>            
+                    </div>
+                </div>
+
+                <div class="formgrid grid" *ngIf="edit_projobmain==true || new_projobmain==true">
+                    <span class="spn_title_edit">งานหลัก</span>
+                    <div class="field col-12 ">
+                        <label for="projobmain_code">รหัส</label>    
+                        <input type="text" id="projobmain_code" [(ngModel)]="selectedProjobmain.projobmain_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                    </div>
+                    <div class="field col-12 ">
+                        <label for="projobmain_name_th">ชื่อไทย</label>                        
+                        <textarea [rows]="2" id="projobmain_name_th" [(ngModel)]="selectedProjobmain.projobmain_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                    </div>
+                    <div class="field col-12 ">
+                        <label for="projobmain_name_en">ชื่ออังกฤษ</label>                        
+                        <textarea [rows]="2" id="projobmain_name_en" [(ngModel)]="selectedProjobmain.projobmain_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                    </div>
+                    <div class="field col-12">
+                        <label for="selectedProjobmain_type">ประเภทงาน</label><br>
+                        <p-dropdown [options]="projobtype_list" [(ngModel)]="selectedProjobmain_type" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    </div> 
+                    <div class="field col-12">
+                        <label for="selectedProjobmain_shift">กะการทำงาน</label><br>
+                        <p-dropdown [options]="polshift_list" [(ngModel)]="selectedProjobmain_shift" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    </div>  
+                    <div class="field col-12">
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmain.projobmain_sun" inputId="projobmain_sun"></p-checkbox>
+                            <label for="projobmain_sun">{{days[0]}}</label>
+                        </div>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmain.projobmain_mon" inputId="projobmain_mon"></p-checkbox>
+                            <label for="projobmain_mon">{{days[1]}}</label>
+                        </div>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmain.projobmain_tue" inputId="projobmain_tue"></p-checkbox>
+                            <label for="projobmain_tue">{{days[2]}}</label>
+                        </div>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmain.projobmain_wed" inputId="projobmain_wed"></p-checkbox>
+                            <label for="projobmain_wed">{{days[3]}}</label>
+                        </div>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmain.projobmain_thu" inputId="projobmain_thu"></p-checkbox>
+                            <label for="projobmain_thu">{{days[4]}}</label>
+                        </div>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmain.projobmain_fri" inputId="projobmain_fri"></p-checkbox>
+                            <label for="projobmain_fri">{{days[5]}}</label>
+                        </div>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmain.projobmain_sat" inputId="projobmain_sat"></p-checkbox>
+                            <label for="projobmain_sat">{{days[6]}}</label>
+                        </div>
 					</div>
                     <div class="field col-12">
+                        <label for="minmax-buttons">จำนวนทำงาน</label><br>
+                        <p-inputNumber [(ngModel)]="selectedProjobmain.projobmain_working" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="31">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12">
                         <label for="minmax-buttons">ชั่วโมงทำงาน</label><br>
-                        <p-inputNumber [(ngModel)]="selectedPosition.shift_hrs" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
+                        <p-inputNumber [(ngModel)]="selectedProjobmain.projobmain_hrsperday" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12">
                         <label for="minmax-buttons">ชั่วโมงโอที</label><br>
-                        <p-inputNumber [(ngModel)]="selectedPosition.shift_overtime" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
+                        <p-inputNumber [(ngModel)]="selectedProjobmain.projobmain_hrsot" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12">
-						<input type="checkbox" /><label for="firstname2">ใบขอโอที</label>						
+						<div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmain.projobmain_autoot" inputId="projobmain_autoot"></p-checkbox>
+                            <label for="projobmain_autoot">Auto OT</label>
+                        </div>					
 					</div>
                     <div class="field col-12">
-                        <label for="lastname2">นโยบายเวลา :</label><br>
-                        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        <label for="selectedProjobmain_timepol">นโยบายเวลา</label><br>
+                        <p-dropdown [options]="poltimepol_list_cbb" [(ngModel)]="selectedProjobmain_timepol" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    </div> 
+                    <div class="field col-12">
+                        <label for="selectedProjobmain_slip">รูปแบบสลิป</label><br>
+                        <p-dropdown [options]="polslip_list_cbb" [(ngModel)]="selectedProjobmain_slip" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                     </div>
                     <div class="field col-12">
-                        <label for="lastname2">รูปแบบสลิป :</label><br>
-                        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        <label for="selectedProjobmain_uniform">ชุดฟอร์ม</label><br>
+                        <p-dropdown [options]="poluniform_list_cbb" [(ngModel)]="selectedProjobmain_uniform" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                     </div>
                     <div class="field col-12">
-                        <label for="lastname2">ชุดฟอร์ม :</label><br>
-                        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        <p-button label="บันทึก" icon="pi pi-save" (click)="projobmain_summit()"></p-button>  
+                        &nbsp;
+                        <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="projobmain_cancel()"></button>            
                     </div>
-
-                    <div class="field col-12">
-                        <p-button label="บันทึก" icon="pi pi-save"></p-button>                       
-                    </div>
-
                 </div>
 
-                <div class="formgrid grid" *ngIf="edit_ppol">
-                    <span class="spn_title_edit">นโยบายเวลา</span>
+                <div class="formgrid grid" *ngIf="edit_projobsub==true || new_projobsub==true">
+                    <span class="spn_title_edit">งานเคลีย์</span>
                     <div class="field col-12 ">
-                        <label for="ppol_code">รหัส</label>    
-                        <input type="text" id="ppol_code" [(ngModel)]="selectedPolicy.ppol_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-                    </div>	
-                   
-                    <div class="field col-12 ">
-                        <label for="ppol_name_th">ชื่อไทย</label>                        
-                        <textarea [rows]="2" id="ppol_name_th" [(ngModel)]="selectedPolicy.ppol_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        <label for="projobsub_code">รหัส</label>    
+                        <input type="text" id="projobsub_code" [(ngModel)]="selectedProjobsub.projobsub_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
                     </div>
                     <div class="field col-12 ">
-                        <label for="ppol_name_en">ชื่ออังกฤษ</label>                        
-                        <textarea [rows]="2" id="ppol_name_en" [(ngModel)]="selectedPolicy.ppol_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        <label for="projobsub_name_th">ชื่อไทย</label>                        
+                        <textarea [rows]="2" id="projobsub_name_th" [(ngModel)]="selectedProjobsub.projobsub_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                     </div>
-                    
-                    
+                    <div class="field col-12 ">
+                        <label for="projobsub_name_en">ชื่ออังกฤษ</label>                        
+                        <textarea [rows]="2" id="projobsub_name_en" [(ngModel)]="selectedProjobsub.projobsub_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                    </div> 
                     <div class="field col-12">
-                        <label for="lastname2">ค่าล่วงเวลา :</label><br>
-                        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        <p-button label="บันทึก" icon="pi pi-save" (click)="projobsub_summit()"></p-button>  
+                        &nbsp;
+                        <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="projobsub_cancel()"></button>            
                     </div>
-                    <div class="field col-12">
-                        <label for="lastname2">เงินได้ค่าเวลา :</label><br>
-                        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                    </div>
-                    <div class="field col-12">
-                        <label for="lastname2">เบี้ยขยัน :</label><br>
-                        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                    </div>
-                    <div class="field col-12">
-                        <label for="lastname2">การลา :</label><br>
-                        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                    </div>
-                    <div class="field col-12">
-                        <label for="lastname2">การหักสาย :</label><br>
-                        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                    </div>
-
-                    <div class="field col-12">
-                        <p-button label="บันทึก" icon="pi pi-save"></p-button>                       
-                    </div>
-
                 </div>
 
-                <div class="formgrid grid" *ngIf="edit_pcost">
-                    <span class="spn_title_edit">ต้นทุน</span>
-                    <div class="field col-12 ">
-                        <label for="ppos_code">รหัส</label>    
-                        <input type="text" id="ppos_code" [(ngModel)]="selectedPosition.pos_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-                    </div>	
-                   
-                    <div class="field col-12 ">
-                        <label for="ppos_name_th">ชื่อไทย</label>                        
-                        <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedPosition.pos_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                    </div>
-                    <div class="field col-12 ">
-                        <label for="ppos_name_en">ชื่ออังกฤษ</label>                        
-                        <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedPosition.pos_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                    </div>
-                    
-                    <div class="field col-12 ">   
-                        <label for="ppos_shift_code">ประเภท</label>
-                        <p-dropdown placeholder="รายเดือน" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                    </div>
-                    <div class="field col-12">
-						<input type="checkbox" /><label for="firstname2">Auto</label>						
-					</div>
-
-                    <div class="field col-12 ">   
-                        <label for="ppos_shift_code">รหัสเงินได้</label>
-                        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                    </div>
-                    
-                    <div class="field col-12">
-                        <p-button label="บันทึก" icon="pi pi-save"></p-button>                       
-                    </div>
-
-                </div>
+                
 
 
             </p-scrollPanel>
 
             
         </div>
+       
     </div>
     
 </p-card>
