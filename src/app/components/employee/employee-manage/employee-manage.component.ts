@@ -10,12 +10,17 @@ import { EmployeeModel } from '../../../models/employee/employee';
 import { InitialModel } from '../../../models/employee/policy/initial';
 import { EmptypeModel } from '../../../models/employee/policy/emptype';
 import { EmpstatusModel } from '../../../models/employee/policy/empstatus';
+import { EmpaddressModel } from '../../../models/employee/manage/address';
+import { EmpcardModel } from '../../../models/employee/manage/card';
 
 //import service
 import { EmployeeService } from '../../../services/emp/worker.service';
 import { InitialService } from '../../../services/emp/policy/initial.service';
 import { EmptypeService } from '../../../services/emp/policy/emptype.service';
 import { EmpstatusService } from '../../../services/emp/policy/empstatus.service';
+import { EmpbankModel } from 'src/app/models/employee/manage/bank';
+
+
 
 
 interface Taxmethod {
@@ -73,6 +78,11 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadInitialList();
     this.doLoadEmptypeList();
     this.doLoadEmpstatusList();
+
+
+    this.doLoadEmpaddressList();
+    this.doLoadEmpcardList();
+    this.doLoadEmpbankList();
 
     setTimeout(() => {
       this.doLoadSimple();
@@ -287,11 +297,6 @@ export class EmployeeManageComponent implements OnInit {
       }
       ,
       {
-        label: 'Add copy',
-        icon: 'pi pi-fw pi-copy',
-      }
-      ,
-      {
         label: 'Delete',
         icon: 'pi pi-fw pi-trash',
       }
@@ -327,6 +332,30 @@ export class EmployeeManageComponent implements OnInit {
   doLoadEmpstatusList(){
     this.empstatusService.status_get().then((res)=>{
       this.statusList = res;
+    })
+  }
+
+  empaddressList: EmpaddressModel[] = [];
+  doLoadEmpaddressList(){
+    this.employeeService.getworker_address(this.selectedEmployee).then((res)=>{
+      this.empaddressList = res;
+      console.log(this.empaddressList);
+    })
+  }
+
+  empcardList: EmpcardModel[] = [];
+  doLoadEmpcardList(){
+    this.employeeService.getworker_card(this.selectedEmployee).then((res)=>{
+      this.empcardList = res;
+      console.log(this.empcardList);
+    })
+  }
+
+  empbankList: EmpbankModel[] = [];
+  doLoadEmpbankList(){
+    this.employeeService.getworker_bank(this.selectedEmployee).then((res)=>{
+      this.empbankList = res;
+      console.log(this.empbankList);
     })
   }
 

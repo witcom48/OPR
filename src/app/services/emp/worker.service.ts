@@ -155,8 +155,57 @@ export class EmployeeService {
     .then((res) => {      
       return res;
     });
-
-    
   }
 
+  //Emp Address
+
+  public getworker_address(model:EmployeeModel){
+
+    const data = {
+      company_code: this.initial_current.CompCode,
+      worker_code: 'EMP01',
+      username : this.initial_current.Username
+    }; 
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empaddlist', data, this.options).toPromise()   
+    .then((res) => {
+      let message = JSON.parse(res);
+      console.log(res)
+      return message.data;
+    });
+  }
+
+  //Emp Card
+  public getworker_card(model:EmployeeModel){
+
+    const data = {
+      company_code: this.initial_current.CompCode,
+      worker_code: 'EMP01',
+      username : this.initial_current.Username
+    }; 
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empcardlist', data, this.options).toPromise()   
+    .then((res) => {
+      let message = JSON.parse(res);
+      console.log(res)
+      return message.data;
+    });
+  }
+
+  //Emp Bank
+  public getworker_bank(model:EmployeeModel){
+
+    const data = {
+      company_code: this.initial_current.CompCode,
+      worker_code: 'EMP01',
+      username : this.initial_current.Username
+    }; 
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empbanklist', data, this.options).toPromise()   
+    .then((res) => {
+      let message = JSON.parse(res);
+      console.log(res)
+      return message.data;
+    });
+  }
 }

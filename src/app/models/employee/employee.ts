@@ -16,8 +16,8 @@ export class EmployeeModel {
 
     worker_position: string = "";
 
-    worker_birthdate: Date = new Date();    
-    worker_hiredate: Date = new Date();  
+    worker_birthdate: string = "";    
+    worker_hiredate: string = "";  
     religion_code: string = "";    
     blood_code: string = "";    
     worker_height: number = 0;    
@@ -25,24 +25,26 @@ export class EmployeeModel {
        
     worker_status: string = "";
 
-    worker_resigndate: Date = new Date();
+    worker_resigndate: string = "";
     worker_resignstatus : boolean = false;
     worker_resignreason : string = "" ;
-    worker_probationdate: Date = new Date();
-    worker_probationenddate: Date = new Date();
+    worker_probationdate: string = "";
+    worker_probationenddate: string = "";
     worker_probationday : number = 0;
     hrs_perday : number = 0;
     worker_taxmethod : string = "";
 
     approve_by: string = "";
-    approve_date: Date = new Date();
+    approve_date: string = "";
 
     modified_by: string = "";
-    modified_date: Date = new Date();
+    modified_date: string = "";
 
     self_admin: boolean = false;
 
     index: number = 0;
     select: boolean = false;
+
+    username: string = "";
   }
   
