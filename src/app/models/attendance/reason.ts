@@ -11,7 +11,7 @@ export class ReasonModels {
     reason_group: string="";
     created_by: string = "";
     created_date: string = "";
-    modied_by: string = "";
-    modied_date: string = "";
-    flag: string = "";
+    modified_by: string = "";
+    modified_date: string = "";
+    flag: boolean = false;
 }

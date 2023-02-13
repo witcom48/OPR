@@ -18,11 +18,12 @@
 <div class="tabledata">
     <!-- Table Show Data Time Period -->
     <div #TABLE>
-        <p-table #dt2 [value]="timeperiods_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+        <p-table #dt2 [value]="timeperiods_list"
             selectionMode="single" [(selection)]="timeperiods" (onRowSelect)="onRowSelect($event)" [rows]="12"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['period_name_en','period_name_th','period_from','period_to','period_payment','modified_by','modified_date']">
+            [globalFilterFields]="['period_name_en','period_name_th','period_from','period_to','period_payment','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">

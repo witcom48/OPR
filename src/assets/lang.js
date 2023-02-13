@@ -113,4 +113,5 @@ var reason = new Map([
     ["shiftreq", { TH: "ขอเปลี่ยนกะ", EN: "Shift req." }],
     ["onsitereq", { TH: "บันทึกการลงเวลา", EN: "Onsite req." }],
     ["salaryreq", { TH: "การปรับเงินเดือน", EN: "Salary adjust" }],
+    ["reason", { TH: "เหตุผล", EN: "Reasons" }],
 ]);

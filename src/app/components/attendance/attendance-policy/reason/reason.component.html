@@ -3,9 +3,9 @@
     <span>Attendance</span>
     <div>
         <i></i>
-        <a routerLink="/attendance/policy">Policy</a>
+        <a routerLink="/attendance/policy">{{langs.get('policy')[selectlang]}}</a>
         <i></i>
-        <small>Reasons</small>
+        <small>{{langs.get('reason')[selectlang]}}</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -18,47 +18,49 @@
 <div class="tabledata">
     <!-- Table Show Data Time Period -->
     <div #TABLE>
-        <p-table #dt2 [value]="reason_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+        <p-table #dt2 [value]="reason_list"
             selectionMode="single" [(selection)]="reasons" (onRowSelect)="onRowSelect($event)" [rows]="12"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-            currentPageReportTemplate="from {first} to {last} total {totalRecords}"
-            [globalFilterFields]="['reason_code','reason_name_en','reason_name_th','period_payment','modied_by','modied_date']">
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['reason_code','reason_name_en','reason_name_th','period_payment','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
-                    <div>
+                    <div class="reasontype">
                         <!-- Dropdown Select Type -->
-                        <p-dropdown class="selecttype" [options]="TypeList" [(ngModel)]="selectedType" (onChange)="selectType()"
-                            optionLabel="name"></p-dropdown>
+                        <p-dropdown class="selecttype" [options]="TypeList" [(ngModel)]="selectedType"
+                            (onChange)="selectType()" optionLabel="name"></p-dropdown>
                         <!-- ------------------END Dropdown Select Type------------------------- -->
                     </div>
 
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="search" />
+                            placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
             </ng-template>
             <!-- --------------END Form Search Table------------------ -->
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header"  let-columns>
                 <tr>
-                    <th>No.</th>
-                    <th>Code</th>
-                    <th>Detail</th>
-                    <th>Modified by</th>
-                    <th>Modified date</th>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('code')[selectlang]}}</th>
+                    <th>{{langs.get('description')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
 
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data let-i="rowIndex">
+            <ng-template pTemplate="body" let-data let-i="rowIndex"  let-columns="columns">
                 <tr [pSelectableRow]="data">
-                    <td>{{i+1}}</td>
-                    <td>{{data.reason_code}}</td>
-                    <td>{{data.reason_name_en}}</td>
-                    <td>{{data.modied_by}}</td>
-                    <td>{{data.modied_date | date:'dd/MM/yyyy'}}</td>
-
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('code')[selectlang]}}</span>{{data.reason_code}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.reason_name_en:data.reason_name_th}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
                 </tr>
             </ng-template>
         </p-table>
@@ -69,32 +71,32 @@
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
 
-        <label>No.</label>
+        <label>{{langs.get('code')[selectlang]}}</label>
         <input pInputText type="text" [(ngModel)]="reasons.reason_code" maxlength="5" />
         <p>{{reasons.reason_code.length}}/5</p>
 
-        <label>Description (Eng.)</label>
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
         <textarea [(ngModel)]="reasons.reason_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>Description (Thai)</label>
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
         <textarea [(ngModel)]="reasons.reason_name_th" pInputTextarea [autoResize]="true"></textarea>
 
-        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
-            class="p-button-danger"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+        (click)="Save()"></button>
+    <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
+        icon="pi pi-trash" class="p-button-danger"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>
 
 <!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
+        <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
         <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
     </ng-template>
 </p-dialog>
 

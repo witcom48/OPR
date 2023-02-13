@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { YearServices } from '../../../../services/attendance/year.service';
 import { DatePipe } from '@angular/common';
@@ -9,6 +9,8 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
 import { Router } from '@angular/router';
 declare var yearperiod: any;
+declare var langcalendarth: any;
+declare var langcalendaren: any;
 @Component({
   selector: 'app-yearperiod',
   templateUrl: './yearperiod.component.html',
@@ -21,6 +23,7 @@ export class YearperiodComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private yearServices: YearServices,
     private datePipe: DatePipe,
+    private config: PrimeNGConfig,
     private router: Router,) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   new_data: boolean = false
@@ -38,8 +41,12 @@ export class YearperiodComponent implements OnInit {
       this.router.navigateByUrl('');
     }
     this.selectlang = this.initial_current.Language;
+    if (this.initial_current.Language == "TH") {
+      this.config.setTranslation(langcalendarth)
+    } else {
+      this.config.setTranslation(langcalendaren)
+    }
   }
-
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu()
