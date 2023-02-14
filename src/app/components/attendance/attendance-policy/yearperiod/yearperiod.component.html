@@ -54,7 +54,8 @@
                 <tr [pSelectableRow]="data">
                     <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
                     <td><span>{{langs.get('code')[selectlang]}}</span>{{data.year_code}}</td>
-                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.year_name_en:data.year_name_th}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.year_name_en:data.year_name_th}}
+                    </td>
                     <td><span>{{langs.get('type')[selectlang]}}</span>{{data.year_group}}</td>
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |

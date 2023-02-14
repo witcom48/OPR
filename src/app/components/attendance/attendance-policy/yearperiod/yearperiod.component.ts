@@ -125,7 +125,6 @@ export class YearperiodComponent implements OnInit {
           this.yearperiods = new YearPeriodModels();
           this.new_data = true;
           this.edit_data = false;
-          this.selectlang = "TH"
         }
       }
       ,

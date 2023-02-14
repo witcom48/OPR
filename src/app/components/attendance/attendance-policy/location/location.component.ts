@@ -1,42 +1,101 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { AppConfig } from 'src/app/config/config';
+import { InitialCurrent } from 'src/app/config/initial_current';
 import { LocationModels } from 'src/app/models/attendance/location';
+import { LocationServices } from 'src/app/services/attendance/location.service';
 import * as XLSX from 'xlsx';
+declare var locationpage: any;
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss']
 })
 export class LocationComponent implements OnInit {
+  langs: any = locationpage;
+  selectlang: string = "EN";
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private datePipe: DatePipe,
+    private router: Router,
+    private locationService: LocationServices) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   new_data: boolean = false
   edit_data: boolean = false
   fileToUpload: File | any = null;
   displayUpload: boolean = false;
-  constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,) { }
   items: MenuItem[] = [];
   location_list: LocationModels[] = [];
   locations: LocationModels = new LocationModels()
+
+  public initial_current: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current) {
+      this.router.navigateByUrl('');
+    }
+    this.selectlang = this.initial_current.Language;
+  }
   ngOnInit(): void {
+    this.doGetInitialCurrent();
     this.doLoadMenu();
-    this.location_list = [
-      {
-        company_code: "PSG",
-        location_id: "1",
-        location_code: "00000",
-        location_name_th: "สาขากรุงเทพ",
-        location_name_en: "bangkok",
-        location_detail: "144/136 ram",
-        location_lat: "100",
-        location_long: "200",
-        created_by: "Admin",
-        created_date: "2022-01-13",
-        modied_by: "admin",
-        modied_date: "2022-01-14",
-        flag: "0"
-      },
-    ]
+    this.doLoadLocation();
+  }
+  doLoadLocation() {
+    this.location_list = [];
+    var tmp = new LocationModels();
+    this.locationService.location_get(tmp).then(async (res) => {
+      this.location_list = await res;
+    });
+  }
+  async doRecordLocation(data: LocationModels) {
+    await this.locationService.location_record(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadLocation()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+  async doDeleteLocation(data: LocationModels) {
+    await this.locationService.location_delete(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadLocation()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+  doUploadYear() {
+    const filename = "LOCATION_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+    const filetype = "xls";
+    this.locationService.location_import(this.fileToUpload, filename, filetype).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadLocation();
+        this.edit_data = false;
+        this.new_data = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileToUpload = null;
+    });
   }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -45,7 +104,7 @@ export class LocationComponent implements OnInit {
 
     this.items = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.locations = new LocationModels();
@@ -55,7 +114,7 @@ export class LocationComponent implements OnInit {
       }
       ,
       {
-        label: "Import",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -64,7 +123,7 @@ export class LocationComponent implements OnInit {
       }
       ,
       {
-        label: "Export",
+        label: this.langs.get('export')[this.selectlang],
         icon: 'pi-file-export',
         command: (event) => {
           this.exportAsExcel()
@@ -79,16 +138,14 @@ export class LocationComponent implements OnInit {
   Uploadfile() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
-        message: "Confirm Upload file : " + this.fileToUpload.name,
-        header: "Import File",
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          console.log(this.fileToUpload)
           this.displayUpload = false;
-          this.messageService.add({ severity: 'success', summary: 'File', detail: "Upload Success" });
+          this.doUploadYear()
         },
         reject: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "Not Upload" });
           this.displayUpload = false;
         }
       });
@@ -102,6 +159,10 @@ export class LocationComponent implements OnInit {
   }
   Save() {
     console.log(this.locations)
+    this.doRecordLocation(this.locations)
+  }
+  Delete() {
+    this.doDeleteLocation(this.locations)
   }
   onRowSelect(event: any) {
     this.new_data = true
@@ -113,7 +174,7 @@ export class LocationComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
+    XLSX.writeFile(wb, 'Export_Location.xlsx');
 
   }
 }
