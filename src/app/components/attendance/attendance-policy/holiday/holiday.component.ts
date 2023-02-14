@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { HolidayModels } from 'src/app/models/attendance/holiday';
 import { Holiday_listModels } from 'src/app/models/attendance/holiday_list';
+import { PlanholidayServices } from 'src/app/services/attendance/planholiday.service';
 import * as XLSX from 'xlsx';
 interface Year {
   name: string,
@@ -13,6 +14,9 @@ interface Year {
   styleUrls: ['./holiday.component.scss']
 })
 export class HolidayComponent implements OnInit {
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private  planholidayService:PlanholidayServices) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   @ViewChild('TABLELIST') tablelist: ElementRef | any = null;
   yaerList: Year[] = [];
@@ -23,8 +27,6 @@ export class HolidayComponent implements OnInit {
   displayaddholiday: boolean = false;
   displayeditholiday: boolean = false;
   fileToUpload: File | any = null;
-  constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,) { }
   items: MenuItem[] = [];
   items_holiday: MenuItem[] = [];
   holiday_lists: HolidayModels[] = [];
@@ -37,53 +39,83 @@ export class HolidayComponent implements OnInit {
       { name: '2022', code: '2022' },
       { name: '2023', code: '2023' },
     ];
-    this.holiday_lists = [{
-      company_code: 'PSG',
-      planholiday_id: '1',
-      planholiday_code: 'HOLD',
-      plandoliday_name_th: 'วันหยุดประจำปีรายเดือน',
-      plandoliday_name_en: 'Holiday(Monthly)',
-      year_code: '2022',
-      holiday_list: [{
-        company_code: 'PSG',
-        holiday_date: new Date(),
-        holiday_name_th: 'วันขึ้นปีใหม่',
-        holiday_name_en: 'New Years Day',
-        planholiday_code: 'HOLD',
-        holiday_daytype: 'H',
-        holiday_payper: '100.00'
+    this.doLoadPlanholiday();
+    // this.holiday_lists = [{
+    //   company_code: 'PSG',
+    //   planholiday_id: '1',
+    //   planholiday_code: 'HOLD',
+    //   planholiday_name_th: 'วันหยุดประจำปีรายเดือน',
+    //   planholiday_name_en: 'Holiday(Monthly)',
+    //   year_code: '2022',
+    //   holiday_list: [{
+    //     company_code: 'PSG',
+    //     holiday_date: new Date(),
+    //     holiday_name_th: 'วันขึ้นปีใหม่',
+    //     holiday_name_en: 'New Years Day',
+    //     planholiday_code: 'HOLD',
+    //     holiday_daytype: 'H',
+    //     holiday_payper: '100.00'
 
-      }, {
-        company_code: 'PSG',
-        holiday_date: new Date(),
-        holiday_name_th: 'วันขึ้นปีใหม่',
-        holiday_name_en: 'New Years Day',
-        planholiday_code: 'HOLD',
-        holiday_daytype: 'C',
-        holiday_payper: '100.00'
+    //   }, {
+    //     company_code: 'PSG',
+    //     holiday_date: new Date(),
+    //     holiday_name_th: 'วันขึ้นปีใหม่',
+    //     holiday_name_en: 'New Years Day',
+    //     planholiday_code: 'HOLD',
+    //     holiday_daytype: 'C',
+    //     holiday_payper: '100.00'
 
-      }],
-      created_by: 'Admin',
-      created_date: '2022-01-16',
-      modied_by: 'admin',
-      modied_date: '2022-01-17',
-      flag: "0"
-    }, {
-      company_code: 'PSG',
-      planholiday_id: '2',
-      planholiday_code: 'HOLM',
-      plandoliday_name_th: 'วันหยุดประจำปีรายวัน',
-      plandoliday_name_en: 'Holiday(Day)',
-      year_code: '2022',
-      holiday_list: [],
-      created_by: 'Admin',
-      created_date: '2022-01-16',
-      modied_by: 'admin',
-      modied_date: '2022-01-17',
-      flag: "0"
-    },]
+    //   }],
+    //   created_by: 'Admin',
+    //   created_date: '2022-01-16',
+    //   modified_by: 'admin',
+    //   modified_date: '2022-01-17',
+    //   flag: false
+    // }, {
+    //   company_code: 'PSG',
+    //   planholiday_id: '2',
+    //   planholiday_code: 'HOLM',
+    //   planholiday_name_th: 'วันหยุดประจำปีรายวัน',
+    //   planholiday_name_en: 'Holiday(Day)',
+    //   year_code: '2022',
+    //   holiday_list: [],
+    //   created_by: 'Admin',
+    //   created_date: '2022-01-16',
+    //   modified_by: 'admin',
+    //   modified_date: '2022-01-17',
+    //   flag: false
+    // },]
   }
 
+  doLoadPlanholiday() {
+    this.holiday_lists = [];
+    var tmp = new HolidayModels();
+    this.planholidayService.planholiday_get(tmp).then(async (res) => {
+      await res.forEach((element: HolidayModels) => {
+        element.holiday_list.forEach((elm:Holiday_listModels)=>{
+          elm.holiday_date = new Date(elm.holiday_date)
+        })
+      });
+      this.holiday_lists = await res;
+    });
+  }
+
+  async doRecordPlanholiday(data: HolidayModels) {
+    data.year_code = "2023"
+    await this.planholidayService.planholiday_record(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadPlanholiday()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
@@ -177,9 +209,11 @@ export class HolidayComponent implements OnInit {
   close() {
     this.new_data = false
     this.holidays = new HolidayModels()
+    this.holiday_listselect = new Holiday_listModels();
   }
   Save() {
     console.log(this.holidays)
+    this.doRecordPlanholiday(this.holidays)
   }
   Saveholiday() {
     if (!this.displayeditholiday) {
