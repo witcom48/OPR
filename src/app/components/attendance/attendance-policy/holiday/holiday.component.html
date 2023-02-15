@@ -1,11 +1,11 @@
 <!-- Link Page -->
 <div class="path">
-    <span>Attendance</span>
+    <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
-        <a routerLink="/attendance/policy">Policy</a>
+        <a routerLink="/attendance/policy">{{langs.get('policy')[selectlang]}}</a>
         <i></i>
-        <small>Holiday</small>
+        <small>{{langs.get('playholiday')[selectlang]}}</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -18,11 +18,12 @@
 <div class="tabledata">
     <!-- Table Show Data Holiday -->
     <div #TABLE>
-        <p-table #dt2 [value]="holiday_lists" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-            selectionMode="single" [(selection)]="holidays" (onRowSelect)="onRowSelect($event)" [rows]="12"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-            currentPageReportTemplate="from {first} to {last} total {totalRecords}"
-            [globalFilterFields]="['planholiday_code','planholiday_name_en','planholiday_name_th','modified_by','modified_date']">
+        <p-table #dt2 [value]="holiday_lists" selectionMode="single" [(selection)]="holidays"
+            (onRowSelect)="onRowSelect($event)" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['planholiday_code','planholiday_name_en','planholiday_name_th','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -36,29 +37,30 @@
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="search" />
+                            placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
             </ng-template>
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                    <th>No.</th>
-                    <th>Code</th>
-                    <th>Description</th>
-                    <th>Modified by</th>
-                    <th>Modified date</th>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('code')[selectlang]}}</th>
+                    <th>{{langs.get('description')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
 
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex">
                 <tr [pSelectableRow]="data">
-                    <td>{{i+1}}</td>
-                    <td>{{data.planholiday_code}}</td>
-                    <td>{{data.planholiday_name_en}}</td>
-                    <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
-
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('code')[selectlang]}}</span>{{data.planholiday_code}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.planholiday_name_en:data.planholiday_name_th}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
                 </tr>
             </ng-template>
         </p-table>
@@ -69,29 +71,29 @@
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
 
-        <label>No.</label>
-        <input pInputText type="text" [(ngModel)]="holidays.planholiday_code" maxlength="2" />
-        <p>{{holidays.planholiday_code.length}}/2</p>
+        <label>{{langs.get('code')[selectlang]}}</label>
+        <input pInputText type="text" [(ngModel)]="holidays.planholiday_code" maxlength="10" />
+        <p>{{holidays.planholiday_code.length}}/10</p>
 
-        <label>Description (Eng.)</label>
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
         <textarea [(ngModel)]="holidays.planholiday_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>Description (Thai)</label>
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
         <textarea [(ngModel)]="holidays.planholiday_name_th" pInputTextarea [autoResize]="true"></textarea>
         <div #TABLELIST>
             <p-accordion>
-                <p-accordionTab header="Holiday List">
+                <p-accordionTab header="{{langs.get('holidaylist')[selectlang]}}">
                     <p-menubar [model]="items_holiday"></p-menubar>
                     <p-table [value]="holidays.holiday_list" styleClass="p-datatable-sm"
                         (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
                         [virtualScroll]="true" selectionMode="single" [(selection)]="holiday_listselect">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>No.</th>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Day Type</th>
-                                <th>Rate Payment(%)</th>
+                                <th>{{langs.get('no')[selectlang]}}</th>
+                                <th>{{langs.get('date')[selectlang]}}</th>
+                                <th>{{langs.get('description')[selectlang]}}</th>
+                                <th>{{langs.get('daytype')[selectlang]}}</th>
+                                <th>{{langs.get('ratepay')[selectlang]}}(%)</th>
 
                             </tr>
                         </ng-template>
@@ -99,7 +101,7 @@
                             <tr [pSelectableRow]="data">
                                 <td>{{i+1}}</td>
                                 <td>{{data.holiday_date | date:'dd/MM/yyyy'}}</td>
-                                <td>{{data.holiday_name_en}}</td>
+                                <td>{{selectlang=="EN"?data.holiday_name_en:data.holiday_name_th}}</td>
                                 <td>{{data.holiday_daytype}}</td>
                                 <td>{{data.holiday_payper}}</td>
                             </tr>
@@ -108,37 +110,39 @@
                 </p-accordionTab>
             </p-accordion>
         </div>
-        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
-            class="p-button-danger"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+            (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
+            icon="pi pi-trash" class="p-button-danger"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>
 
 
-<p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddholiday">
+<p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddholiday" (onHide)="closedispaly()">
     <div class="formatt">
-        <label>Date</label>
-        <p-calendar  appendTo="body" [(ngModel)]="holiday_listselect.holiday_date" dateFormat="dd/mm/yy"><input type="text"></p-calendar>
+        <label>{{langs.get('date')[selectlang]}}</label>
+        <p-calendar appendTo="body" [(ngModel)]="holiday_listselect.holiday_date" dateFormat="dd/mm/yy"><input
+                type="text"></p-calendar>
 
-        <label>Description (Eng.)</label>
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
         <textarea [(ngModel)]="holiday_listselect.holiday_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>Description (Thai)</label>
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
         <textarea [(ngModel)]="holiday_listselect.holiday_name_th" pInputTextarea [autoResize]="true"></textarea>
         <div>
             <input type="radio" name="holiday_daytype" value="H" [(ngModel)]="holiday_listselect.holiday_daytype">
-              <label>Holiday</label>
+              <label>{{langs.get('holiday')[selectlang]}}</label>
             <input type="radio" name="holiday_daytype" value="C" [(ngModel)]="holiday_listselect.holiday_daytype">
-              <label>Company day</label>
+              <label>{{langs.get('companyday')[selectlang]}}</label>
         </div>
-        <label>Rate Payment(%)</label>
+        <label>{{langs.get('ratepay')[selectlang]}}(%)</label>
         <input pInputText type="text" [(ngModel)]="holiday_listselect.holiday_payper" />
     </div>
     <ng-template pTemplate="footer">
-        <button *ngIf="displayeditholiday" pButton type="button" label="Delete" icon="pi pi-trash"
-            class="p-button-danger"></button>
-        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Saveholiday()"></button>
+        <button *ngIf="displayeditholiday" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="Deleteholiday()"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Saveholiday()"></button>
     </ng-template>
 </p-dialog>
 
@@ -152,6 +156,17 @@
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
     </ng-template>
+</p-dialog>
+
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUploadholidaylist">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInputholidaylist($any($event).target.files)">
+    </label>
+    <!-- <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+    </ng-template> -->
 </p-dialog>
 
 <!-- -----------------End Dialog Choose File-------------------- -->

@@ -24,7 +24,8 @@ export class YearperiodComponent implements OnInit {
     private yearServices: YearServices,
     private datePipe: DatePipe,
     private config: PrimeNGConfig,
-    private router: Router,) { }
+    private router: Router,
+    ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   new_data: boolean = false
   edit_data: boolean = false
