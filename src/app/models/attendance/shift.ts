@@ -29,15 +29,15 @@ export class ShiftModels {
     shift_ch7_to: string = "00:00";
     shift_ch8_from: string = "00:00";
     shift_ch8_to: string = "00:00";
-    shift_otin_min: string = "";
-    shift_otout_min: string = "";
-    shift_otin_max: string = "";
-    shift_otout_max: string = "";
+    shift_otin_min!: Number
+    shift_otout_min!: Number;
+    shift_otin_max!: Number;
+    shift_otout_max!: Number;
     created_by: string = "";
     created_date: string = "";
-    modied_by: string = "";
-    modied_date: string = "";
-    flag: string = "";
+    modified_by: string = "";
+    modified_date: string = "";
+    flag: boolean = false;
     shift_flexiblebreak: boolean = false;
     shift_break: ShiftbreakModels[] = [];
     shift_allowance: ShiftallowanceModels[] = [];

@@ -56,32 +56,32 @@ export class ShiftPlanComponent implements OnInit {
       shift_ch7_to: '00:00',
       shift_ch8_from: '00:00',
       shift_ch8_to: '00:00',
-      shift_otin_min: '3',
-      shift_otin_max: '3',
-      shift_otout_min: '6',
-      shift_otout_max: '6',
+      shift_otin_min: 3,
+      shift_otin_max: 3,
+      shift_otout_min: 6,
+      shift_otout_max: 6,
       created_by: 'Admin',
       created_date: '2022-01-16',
-      modied_by: 'admin',
-      modied_date: '2022-01-17',
-      flag: "0",
+      modified_by: 'admin',
+      modified_date: '2022-01-17',
+      flag: false,
       shift_flexiblebreak: true,
       shift_break: [{
         company_code: 'PSG',
         shift_code: 'Nhift N1',
-        shiftbreak_no: "1",
+        shiftbreak_no: 0,
         shiftbreak_from: "12:00",
         shiftbreak_to: "13:00",
-        shiftbreak_break: '1'
+        shiftbreak_break: 1
       }],
       shift_allowance: [{
         company_code: "PSG",
         shift_code: "Shift N1",
-        shiftallowance_no: "1",
+        shiftallowance_no: 0,
         shiftallowance_name_th: "ค่ากะ",
         shiftallowance_name_en: "KA",
         shiftallowance_hhmm: "04:00",
-        shiftallowance_amount: "40.00"
+        shiftallowance_amount: 40.00
       }],
     })
     this.shiftplan_lists = [{
@@ -92,9 +92,9 @@ export class ShiftPlanComponent implements OnInit {
       planshift_name_en: "Plan for pemanent Staff",
       created_by: 'Admin',
       created_date: '2022-01-16',
-      modied_by: 'admin',
-      modied_date: '2022-01-17',
-      flag: "0",
+      modified_by: 'admin',
+      modified_deate: '2022-01-17',
+      flag: false,
       planschedule: [{
         company_code: "PSG",
         planshift_code: "Plan01",
@@ -110,9 +110,9 @@ export class ShiftPlanComponent implements OnInit {
         planschedule_sta_off: "Y",
         created_by: 'Admin',
         created_date: '2022-01-16',
-        modied_by: 'admin',
-        modied_date: '2022-01-17',
-        flag: "0",
+        modified_by: 'admin',
+        modified_date: '2022-01-17',
+        flag: false,
       }]
     }]
   }
@@ -233,9 +233,9 @@ export class ShiftPlanComponent implements OnInit {
         planschedule_sta_off: "Y",
         created_by: 'Admin',
         created_date: '2022-01-16',
-        modied_by: 'admin',
-        modied_date: '2022-01-17',
-        flag: "0",
+        modified_by: 'admin',
+        modified_date: '2022-01-17',
+        flag: false,
       })
     }
     this.shiftplan_listselect = new ShiftplanModels();
