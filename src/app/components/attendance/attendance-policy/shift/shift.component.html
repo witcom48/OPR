@@ -18,11 +18,12 @@
 <div class="tabledata">
     <!-- Table Show Data Year Period -->
     <div #TABLE>
-        <p-table #dt2 [value]="shift_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-            selectionMode="single" [(selection)]="shifts" (onRowSelect)="onRowSelect($event)" [rows]="10"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+        <p-table #dt2 [value]="shift_list" selectionMode="single" [(selection)]="shifts"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="from {first} to {last} total {totalRecords}"
-            [globalFilterFields]="['shift_code','shift_name_en','shift_name_th','modified_by','modified_date']">
+            [globalFilterFields]="['shift_code','shift_name_en','shift_name_th','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -198,7 +199,7 @@
                 <p-accordionTab header="Break">
                     <p-menubar [model]="items_break"></p-menubar>
                     <p-table [value]="shifts.shift_break" styleClass="p-datatable-sm"
-                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                        (onRowSelect)="onRowSelectbreak($event)" [scrollable]="true" scrollHeight="220px"
                         [virtualScroll]="true" selectionMode="single" [(selection)]="shifts_brack">
                         <ng-template pTemplate="header">
                             <tr>
@@ -226,7 +227,7 @@
                 <p-accordionTab header="Allowance">
                     <p-menubar [model]="items_allowance"></p-menubar>
                     <p-table [value]="shifts.shift_allowance" styleClass="p-datatable-sm"
-                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                        (onRowSelect)="onRowSelectallowance($event)" [scrollable]="true" scrollHeight="220px"
                         [virtualScroll]="true" selectionMode="single" [(selection)]="shifts_allowance">
                         <ng-template pTemplate="header">
                             <tr>
@@ -250,11 +251,65 @@
             </p-accordion>
         </div>
         <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
-            class="p-button-danger"></button>
+        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash" class="p-button-danger"
+            (click)="Delete()"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
+
 </div>
+<p-dialog header="Upload" [(visible)]="displayaddbreak" (onHide)="closedispaly()">
+    <div class="formatt">
+        <div>
+            <div class="timeto">
+                <div> <label>{{langs.get('fromdate')[selectlang]}}</label>
+                    <p-calendar [(ngModel)]="shifts_brack.shiftbreak_from" dataType="string" [timeOnly]="true"
+                        dateMask></p-calendar>
+                </div>
+                <div>
+                    <label>{{langs.get('todate')[selectlang]}}</label>
+                    <p-calendar [(ngModel)]="shifts_brack.shiftbreak_to" dataType="string" [timeOnly]="true"
+                        dateMask></p-calendar>
+                </div>
+            </div>
+            <div class="inputtime">
+                <label>Break</label>
+                <p-inputNumber dataType="string" [(ngModel)]="shifts_brack.shiftbreak_break"
+                    [useGrouping]="false"></p-inputNumber>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button *ngIf="displayeditbreak" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+            icon="pi pi-trash" class="p-button-danger" (click)="Deletebreak()"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+            (click)="Savebreak()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Upload" [(visible)]="displayaddallowance" (onHide)="closedispaly()">
+    <div class="formatt">
+        <label>Description (Eng.)</label>
+        <textarea [(ngModel)]="shifts_allowance.shiftallowance_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>Description (Thai)</label>
+        <textarea [(ngModel)]="shifts_allowance.shiftallowance_name_th" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>{{langs.get('todate')[selectlang]}}</label>
+        <p-calendar [(ngModel)]="shifts_allowance.shiftallowance_hhmm" dataType="string" [timeOnly]="true" dateMask
+            [ngStyle]="{width:'50%'}"></p-calendar>
+        <div class="inputtime">
+            <label> Amount</label>
+            <p-inputNumber dataType="string" [(ngModel)]="shifts_allowance.shiftallowance_amount"
+                [useGrouping]="false"></p-inputNumber>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button *ngIf="displayeditallowance" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+            icon="pi pi-trash" class="p-button-danger" (click)="Deleteallowance()"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+            (click)="Saveallowance()"></button>
+    </ng-template>
+</p-dialog>
 
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">

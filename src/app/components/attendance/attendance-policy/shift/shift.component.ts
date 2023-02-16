@@ -1,22 +1,36 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ShiftModels } from 'src/app/models/attendance/shift';
 import { ShiftallowanceModels } from 'src/app/models/attendance/shiftallowance';
 import { ShiftbreakModels } from 'src/app/models/attendance/shiftbreak';
+import { ShiftServices } from 'src/app/services/attendance/shift.service';
 import * as XLSX from 'xlsx';
+declare var shfit: any;
 @Component({
   selector: 'app-shift',
   templateUrl: './shift.component.html',
   styleUrls: ['./shift.component.scss']
 })
 export class ShiftComponent implements OnInit {
+  langs: any = shfit;
+  selectlang: string = "EN";
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private shiftService: ShiftServices,
+    private datePipe: DatePipe,
+    private router: Router,
+  ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   new_data: boolean = false
   edit_data: boolean = false
   fileToUpload: File | any = null;
   displayUpload: boolean = false;
-  constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,) { }
+  displayaddbreak: boolean = false;
+  displayeditbreak: boolean = false;
+  displayaddallowance: boolean = false;
+  displayeditallowance: boolean = false;
   items: MenuItem[] = [];
   items_break: MenuItem[] = [];
   items_allowance: MenuItem[] = [];
@@ -27,58 +41,60 @@ export class ShiftComponent implements OnInit {
 
   ngOnInit(): void {
     this.doLoadMenu()
-    this.shift_list = [{
-      company_code: 'PSG',
-      shift_id: '1',
-      shift_code: 'Shift N1',
-      shift_name_th: 'กะการทำงานเวลาปกติ 7.00-16.00น.',
-      shift_name_en: 'Shift Normal 7.00-16.00',
-      shift_ch1: '04:00',
-      shift_ch2: '07:00',
-      shift_ch3: '07:00',
-      shift_ch4: '16:00',
-      shift_ch5: '00:00',
-      shift_ch6: '00:00',
-      shift_ch7: '00:00',
-      shift_ch8: '00:00',
-      shift_ch9: '16:00',
-      shift_ch10: '22:00',
-      shift_ch3_from: '04:00',
-      shift_ch3_to: '12:00',
-      shift_ch4_from: '12:00',
-      shift_ch4_to: '22:00',
-      shift_ch7_from: '00:00',
-      shift_ch7_to: '00:00',
-      shift_ch8_from: '00:00',
-      shift_ch8_to: '00:00',
-      shift_otin_min: 3,
-      shift_otin_max: 3,
-      shift_otout_min: 6,
-      shift_otout_max: 6,
-      created_by: 'Admin',
-      created_date: '2022-01-16',
-      modified_by: 'admin',
-      modified_date: '2022-01-17',
-      flag: false,
-      shift_flexiblebreak: true,
-      shift_break: [{
-        company_code: 'PSG',
-        shift_code: 'Nhift N1',
-        shiftbreak_no: 0,
-        shiftbreak_from: "12:00",
-        shiftbreak_to: "13:00",
-        shiftbreak_break: 1
-      }],
-      shift_allowance: [{
-        company_code: "PSG",
-        shift_code: "Shift N1",
-        shiftallowance_no: 0,
-        shiftallowance_name_th: "ค่ากะ",
-        shiftallowance_name_en: "KA",
-        shiftallowance_hhmm: "04:00",
-        shiftallowance_amount: 40.00
-      }],
-    }]
+    this.doLoadShift();
+  }
+  doLoadShift() {
+    this.shift_list = [];
+    var tmp = new ShiftModels();
+    this.shiftService.shift_get(tmp).then(async (res) => {
+      this.shift_list = await res;
+    });
+  }
+  async doRecordShift(data: ShiftModels) {
+    await this.shiftService.shift_record(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadShift();
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+  async doDeleteShift(data: ShiftModels) {
+    await this.shiftService.shift_delete(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadShift()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+  doUploadShift() {
+    const filename = "SHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+    const filetype = "xls";
+    this.shiftService.shift_import(this.fileToUpload, filename, filetype).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadShift();
+        this.edit_data = false;
+        this.new_data = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileToUpload = null;
+    });
   }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -121,58 +137,56 @@ export class ShiftComponent implements OnInit {
         label: "New",
         icon: 'pi-plus',
         command: (event) => {
-          this.shifts = new ShiftModels();
-          this.new_data = true;
-          this.edit_data = false;
+          this.shifts_brack = new ShiftbreakModels();
+          this.displayaddbreak = true;
         }
       }
-      ,
-      {
-        label: "Import",
-        icon: 'pi-file-import',
-        command: (event) => {
-          this.showUpload()
+      // ,
+      // {
+      //   label: "Import",
+      //   icon: 'pi-file-import',
+      //   command: (event) => {
+      //     this.showUpload()
 
-        }
-      }
-      ,
-      {
-        label: "Export",
-        icon: 'pi-file-export',
-        command: (event) => {
-          this.exportAsExcel()
+      //   }
+      // }
+      // ,
+      // {
+      //   label: "Export",
+      //   icon: 'pi-file-export',
+      //   command: (event) => {
+      //     this.exportAsExcel()
 
-        }
-      }
+      //   }
+      // }
     ];
     this.items_allowance = [
       {
         label: "New",
         icon: 'pi-plus',
         command: (event) => {
-          this.shifts = new ShiftModels();
-          this.new_data = true;
-          this.edit_data = false;
+          this.shifts_allowance = new ShiftallowanceModels();
+          this.displayaddallowance = true;
         }
       }
-      ,
-      {
-        label: "Import",
-        icon: 'pi-file-import',
-        command: (event) => {
-          this.showUpload()
+      // ,
+      // {
+      //   label: "Import",
+      //   icon: 'pi-file-import',
+      //   command: (event) => {
+      //     this.showUpload()
 
-        }
-      }
-      ,
-      {
-        label: "Export",
-        icon: 'pi-file-export',
-        command: (event) => {
-          this.exportAsExcel()
+      //   }
+      // }
+      // ,
+      // {
+      //   label: "Export",
+      //   icon: 'pi-file-export',
+      //   command: (event) => {
+      //     this.exportAsExcel()
 
-        }
-      }
+      //   }
+      // }
     ];
   }
   showUpload() {
@@ -185,12 +199,10 @@ export class ShiftComponent implements OnInit {
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          console.log(this.fileToUpload)
           this.displayUpload = false;
-          this.messageService.add({ severity: 'success', summary: 'File', detail: "Upload Success" });
+          this.doUploadShift();
         },
         reject: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "Not Upload" });
           this.displayUpload = false;
         }
       });
@@ -204,15 +216,77 @@ export class ShiftComponent implements OnInit {
   }
   Save() {
     console.log(this.shifts)
+    this.doRecordShift(this.shifts)
   }
-  onRowSelectList(event: any) {
-    // this.displayaddholiday = true
-    // this.displayeditholiday = true
-    console.log(this.shifts_brack)
+  Delete() {
+    this.doDeleteShift(this.shifts);
+  }
+  Savebreak() {
+    if (!this.displayeditbreak) {
+      this.shifts.shift_break = this.shifts.shift_break.concat({
+        company_code: this.shifts.company_code,
+        shift_code: this.shifts.shift_code,
+        shiftbreak_no: this.shifts_brack.shiftbreak_no,
+        shiftbreak_from: this.shifts_brack.shiftbreak_from,
+        shiftbreak_to: this.shifts_brack.shiftbreak_to,
+        shiftbreak_break: this.shifts_brack.shiftbreak_break
+      })
+    }
+    this.shifts_brack = new ShiftbreakModels();
+    this.displayeditbreak = false;
+    this.displayaddbreak = false;
+
+  }
+  Deletebreak() {
+    this.shifts.shift_break = this.shifts.shift_break.filter((item) => {
+      return item !== this.shifts_brack;
+    });
+    this.shifts_brack = new ShiftbreakModels();
+    this.displayeditbreak = false;
+    this.displayaddbreak = false;
+  }
+
+  Saveallowance() {
+    if (!this.displayeditallowance) {
+      this.shifts.shift_allowance = this.shifts.shift_allowance.concat({
+        company_code: this.shifts.company_code,
+        shift_code: this.shifts.shift_code,
+        shiftallowance_no: this.shifts_allowance.shiftallowance_no,
+        shiftallowance_name_th: this.shifts_allowance.shiftallowance_name_th,
+        shiftallowance_name_en: this.shifts_allowance.shiftallowance_name_en,
+        shiftallowance_hhmm: this.shifts_allowance.shiftallowance_hhmm,
+        shiftallowance_amount: this.shifts_allowance.shiftallowance_amount,
+      })
+    }
+    this.shifts_allowance = new ShiftallowanceModels();
+    this.displayeditallowance = false;
+    this.displayaddallowance = false;
+
+  }
+  Deleteallowance() {
+    this.shifts.shift_allowance = this.shifts.shift_allowance.filter((item) => {
+      return item !== this.shifts_allowance;
+    });
+    this.shifts_allowance = new ShiftallowanceModels();
+    this.displayeditallowance = false;
+    this.displayaddallowance = false;
+  }
+  closedispaly() {
+    this.shifts_brack = new ShiftbreakModels();
+    this.shifts_allowance = new ShiftallowanceModels();
   }
   onRowSelect(event: any) {
-    this.new_data = true
     this.edit_data = true;
+    this.new_data = true;
+  }
+  onRowSelectbreak(event: any) {
+    this.displayeditbreak = true;
+    this.displayaddbreak = true;
+  }
+  onRowSelectallowance(event: any) {
+    this.displayeditallowance = true;
+    this.displayaddallowance = true;
+
   }
   exportAsExcel() {
 

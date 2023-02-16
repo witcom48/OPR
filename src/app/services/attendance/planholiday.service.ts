@@ -93,7 +93,9 @@ export class PlanholidayServices {
             ip: "127.0.0.1",
             username: this.initial_current.Username,
             company_code: Planholiday.company_code || this.initial_current.CompCode,
-            planholiday_id: Planholiday.planholiday_id
+            planholiday_id: Planholiday.planholiday_id,
+            planholiday_code:Planholiday.planholiday_code,
+            year_code:Planholiday.year_code
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/planholiday_del', data, this.options).toPromise()
             .then((res) => {

@@ -242,6 +242,12 @@ textarea {
   display: flex;
   gap: 10px;
 
+  .timeto{
+    div{
+      display: flex;
+      flex-direction: column;
+    }
+  }
   p-calendar {
     input {
       text-align: center !important;
