@@ -1,11 +1,11 @@
 <!-- Link Page -->
 <div class="path">
-    <span>Attendance</span>
+    <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
-        <a routerLink="/attendance/policy">Policy</a>
+        <a routerLink="/attendance/policy">{{langs.get('policy')[selectlang]}}</a>
         <i></i>
-        <small>Shift</small>
+        <small>{{langs.get('shfits')[selectlang]}}</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -21,7 +21,7 @@
         <p-table #dt2 [value]="shift_list" selectionMode="single" [(selection)]="shifts"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-            currentPageReportTemplate="from {first} to {last} total {totalRecords}"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
             [globalFilterFields]="['shift_code','shift_name_en','shift_name_th','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
@@ -31,28 +31,31 @@
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="search" />
+                            placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
             </ng-template>
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                    <th>No.</th>
-                    <th>Code</th>
-                    <th>Description</th>
-                    <th>Modified by</th>
-                    <th>Modified date</th>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('code')[selectlang]}}</th>
+                    <th>{{langs.get('description')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
 
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex">
                 <tr [pSelectableRow]="data">
-                    <td>{{i+1}}</td>
-                    <td>{{data.shift_code}}</td>
-                    <td>{{data.shift_name_en}}</td>
-                    <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('code')[selectlang]}}</span>{{data.shift_code}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.shift_name_en:data.shift_name_th}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+
 
                 </tr>
             </ng-template>
@@ -64,23 +67,23 @@
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
 
-        <label>Code</label>
+        <label>{{langs.get('code')[selectlang]}}</label>
         <input pInputText type="text" [(ngModel)]="shifts.shift_code" maxlength="10" />
         <p>{{shifts.shift_code.length}}/10</p>
 
-        <label>Description (Eng.)</label>
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
         <textarea [(ngModel)]="shifts.shift_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>Description (Thai)</label>
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
         <textarea [(ngModel)]="shifts.shift_name_th" pInputTextarea [autoResize]="true"></textarea>
-        <h3>Working</h3>
+        <h3>{{langs.get('working')[selectlang]}}</h3>
         <hr>
         <div class="formworking">
             <div>
-                <h5>Period 1</h5>
+                <h5>{{langs.get('period')[selectlang]}} 1</h5>
                 <div class="timeperiod">
                     <div>
-                        <label>In</label>
+                        <label>{{langs.get('in')[selectlang]}}</label>
                         <p-calendar dataType="string" [timeOnly]="true" [(ngModel)]="shifts.shift_ch3"
                             dateMask></p-calendar>
                         <div class="timeto">
@@ -92,7 +95,7 @@
 
                     </div>
                     <div>
-                        <label>Out</label>
+                        <label>{{langs.get('out')[selectlang]}}</label>
                         <p-calendar dataType="string" [(ngModel)]="shifts.shift_ch4" [timeOnly]="true"
                             dateMask></p-calendar>
                         <div class="timeto">
@@ -105,10 +108,10 @@
                 </div>
             </div>
             <div>
-                <h5>Period 2</h5>
+                <h5>{{langs.get('period')[selectlang]}} 2</h5>
                 <div class="timeperiod">
                     <div>
-                        <label>In</label>
+                        <label>{{langs.get('in')[selectlang]}}</label>
                         <p-calendar [(ngModel)]="shifts.shift_ch7" dataType="string" [timeOnly]="true"
                             dateMask></p-calendar>
                         <div class="timeto">
@@ -120,7 +123,7 @@
 
                     </div>
                     <div>
-                        <label>Out</label>
+                        <label>{{langs.get('out')[selectlang]}}</label>
                         <p-calendar [(ngModel)]="shifts.shift_ch8" dataType="string" [timeOnly]="true"
                             dateMask></p-calendar>
                         <div class="timeto">
@@ -133,29 +136,29 @@
                 </div>
             </div>
             <div style="width: 100vw;">
-                <h3>Overtime</h3>
+                <h3>{{langs.get('overtime')[selectlang]}}</h3>
                 <hr>
             </div>
             <div>
-                <h5>Before</h5>
+                <h5>{{langs.get('before')[selectlang]}}</h5>
                 <div class="timeperiod">
                     <div>
-                        <label>In</label>
+                        <label>{{langs.get('in')[selectlang]}}</label>
                         <p-calendar [(ngModel)]="shifts.shift_ch1" dataType="string" [timeOnly]="true"
                             dateMask></p-calendar>
                         <div class="inputtime">
-                            <label>Min</label>
+                            <label>{{langs.get('min')[selectlang]}}</label>
                             <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otin_min"
                                 [useGrouping]="false"></p-inputNumber>
                         </div>
 
                     </div>
                     <div>
-                        <label>Out</label>
+                        <label>{{langs.get('out')[selectlang]}}</label>
                         <p-calendar [(ngModel)]="shifts.shift_ch2" dataType="string" [timeOnly]="true"
                             dateMask></p-calendar>
                         <div class="inputtime">
-                            <label>Max</label>
+                            <label>{{langs.get('max')[selectlang]}}</label>
                             <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otin_max"
                                 [useGrouping]="false"></p-inputNumber>
                         </div>
@@ -164,25 +167,25 @@
                 </div>
             </div>
             <div>
-                <h5>After</h5>
+                <h5>{{langs.get('after')[selectlang]}}</h5>
                 <div class="timeperiod">
                     <div>
-                        <label>In</label>
+                        <label>{{langs.get('in')[selectlang]}}</label>
                         <p-calendar [(ngModel)]="shifts.shift_ch9" dataType="string" [timeOnly]="true"
                             dateMask></p-calendar>
                         <div class="inputtime">
-                            <label>Min</label>
+                            <label>{{langs.get('min')[selectlang]}}</label>
                             <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otout_min"
                                 [useGrouping]="false"></p-inputNumber>
                         </div>
 
                     </div>
                     <div>
-                        <label>Out</label>
+                        <label>{{langs.get('out')[selectlang]}}</label>
                         <p-calendar [(ngModel)]="shifts.shift_ch10" dataType="string" [timeOnly]="true"
                             dateMask></p-calendar>
                         <div class="inputtime">
-                            <label>Max</label>
+                            <label>{{langs.get('max')[selectlang]}}</label>
                             <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otout_max"
                                 [useGrouping]="false"></p-inputNumber>
                         </div>
@@ -192,21 +195,21 @@
         </div>
         <div>
             <input type="checkbox" value="1" [(ngModel)]="shifts.shift_flexiblebreak">
-              <label>Flexiblebreak</label>
+              <label>{{langs.get('flexiblebreak')[selectlang]}}</label>
         </div>
         <div>
             <p-accordion>
-                <p-accordionTab header="Break">
+                <p-accordionTab header="{{langs.get('break')[selectlang]}}">
                     <p-menubar [model]="items_break"></p-menubar>
                     <p-table [value]="shifts.shift_break" styleClass="p-datatable-sm"
                         (onRowSelect)="onRowSelectbreak($event)" [scrollable]="true" scrollHeight="220px"
                         [virtualScroll]="true" selectionMode="single" [(selection)]="shifts_brack">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>No.</th>
-                                <th>From</th>
-                                <th>To</th>
-                                <th>Break</th>
+                                <th>{{langs.get('no')[selectlang]}}</th>
+                                <th>{{langs.get('from')[selectlang]}}</th>
+                                <th>{{langs.get('too')[selectlang]}}</th>
+                                <th>{{langs.get('break')[selectlang]}}</th>
 
                             </tr>
                         </ng-template>
@@ -224,17 +227,17 @@
         </div>
         <div>
             <p-accordion>
-                <p-accordionTab header="Allowance">
+                <p-accordionTab header="{{langs.get('allowance')[selectlang]}}">
                     <p-menubar [model]="items_allowance"></p-menubar>
                     <p-table [value]="shifts.shift_allowance" styleClass="p-datatable-sm"
                         (onRowSelect)="onRowSelectallowance($event)" [scrollable]="true" scrollHeight="220px"
                         [virtualScroll]="true" selectionMode="single" [(selection)]="shifts_allowance">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>No.</th>
-                                <th>Detail</th>
-                                <th>Time</th>
-                                <th>Amount</th>
+                                <th>{{langs.get('no')[selectlang]}}</th>
+                                <th>{{langs.get('detail')[selectlang]}}</th>
+                                <th>{{langs.get('time')[selectlang]}}</th>
+                                <th>{{langs.get('amount')[selectlang]}}</th>
 
                             </tr>
                         </ng-template>
@@ -250,14 +253,14 @@
                 </p-accordionTab>
             </p-accordion>
         </div>
-        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash" class="p-button-danger"
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash" class="p-button-danger"
             (click)="Delete()"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
 
 </div>
-<p-dialog header="Upload" [(visible)]="displayaddbreak" (onHide)="closedispaly()">
+<p-dialog header="{{langs.get('uploadinfo')[selectlang]}}" [(visible)]="displayaddbreak" (onHide)="closedispaly()">
     <div class="formatt">
         <div>
             <div class="timeto">
@@ -272,7 +275,7 @@
                 </div>
             </div>
             <div class="inputtime">
-                <label>Break</label>
+                <label>{{langs.get('break')[selectlang]}}</label>
                 <p-inputNumber dataType="string" [(ngModel)]="shifts_brack.shiftbreak_break"
                     [useGrouping]="false"></p-inputNumber>
             </div>
@@ -286,19 +289,19 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Upload" [(visible)]="displayaddallowance" (onHide)="closedispaly()">
+<p-dialog header="{{langs.get('uploadinfo')[selectlang]}}" [(visible)]="displayaddallowance" (onHide)="closedispaly()">
     <div class="formatt">
-        <label>Description (Eng.)</label>
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
         <textarea [(ngModel)]="shifts_allowance.shiftallowance_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>Description (Thai)</label>
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
         <textarea [(ngModel)]="shifts_allowance.shiftallowance_name_th" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>{{langs.get('todate')[selectlang]}}</label>
+        <label>{{langs.get('time')[selectlang]}}</label>
         <p-calendar [(ngModel)]="shifts_allowance.shiftallowance_hhmm" dataType="string" [timeOnly]="true" dateMask
             [ngStyle]="{width:'50%'}"></p-calendar>
         <div class="inputtime">
-            <label> Amount</label>
+            <label>{{langs.get('amount')[selectlang]}}</label>
             <p-inputNumber dataType="string" [(ngModel)]="shifts_allowance.shiftallowance_amount"
                 [useGrouping]="false"></p-inputNumber>
         </div>
@@ -312,14 +315,13 @@
 </p-dialog>
 
 <!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
+        <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
         <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
     </ng-template>
 </p-dialog>
 

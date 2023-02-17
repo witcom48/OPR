@@ -2,6 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { AppConfig } from 'src/app/config/config';
+import { InitialCurrent } from 'src/app/config/initial_current';
 import { ShiftModels } from 'src/app/models/attendance/shift';
 import { ShiftallowanceModels } from 'src/app/models/attendance/shiftallowance';
 import { ShiftbreakModels } from 'src/app/models/attendance/shiftbreak';
@@ -38,8 +40,16 @@ export class ShiftComponent implements OnInit {
   shifts: ShiftModels = new ShiftModels()
   shifts_brack: ShiftbreakModels = new ShiftbreakModels()
   shifts_allowance: ShiftallowanceModels = new ShiftallowanceModels()
-
+  public initial_current: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current.Token) {
+      this.router.navigateByUrl('');
+    }
+    this.selectlang = this.initial_current.Language;
+  }
   ngOnInit(): void {
+    this.doGetInitialCurrent();
     this.doLoadMenu()
     this.doLoadShift();
   }
@@ -105,7 +115,7 @@ export class ShiftComponent implements OnInit {
 
     this.items = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.shifts = new ShiftModels();
@@ -115,7 +125,7 @@ export class ShiftComponent implements OnInit {
       }
       ,
       {
-        label: "Import",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -124,7 +134,7 @@ export class ShiftComponent implements OnInit {
       }
       ,
       {
-        label: "Export",
+        label: this.langs.get('export')[this.selectlang],
         icon: 'pi-file-export',
         command: (event) => {
           this.exportAsExcel()
@@ -134,59 +144,24 @@ export class ShiftComponent implements OnInit {
     ];
     this.items_break = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.shifts_brack = new ShiftbreakModels();
           this.displayaddbreak = true;
         }
       }
-      // ,
-      // {
-      //   label: "Import",
-      //   icon: 'pi-file-import',
-      //   command: (event) => {
-      //     this.showUpload()
-
-      //   }
-      // }
-      // ,
-      // {
-      //   label: "Export",
-      //   icon: 'pi-file-export',
-      //   command: (event) => {
-      //     this.exportAsExcel()
-
-      //   }
       // }
     ];
     this.items_allowance = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.shifts_allowance = new ShiftallowanceModels();
           this.displayaddallowance = true;
         }
       }
-      // ,
-      // {
-      //   label: "Import",
-      //   icon: 'pi-file-import',
-      //   command: (event) => {
-      //     this.showUpload()
-
-      //   }
-      // }
-      // ,
-      // {
-      //   label: "Export",
-      //   icon: 'pi-file-export',
-      //   command: (event) => {
-      //     this.exportAsExcel()
-
-      //   }
-      // }
     ];
   }
   showUpload() {
@@ -274,6 +249,8 @@ export class ShiftComponent implements OnInit {
   closedispaly() {
     this.shifts_brack = new ShiftbreakModels();
     this.shifts_allowance = new ShiftallowanceModels();
+    this.displayeditallowance = false;
+    this.displayeditbreak = false;
   }
   onRowSelect(event: any) {
     this.edit_data = true;
