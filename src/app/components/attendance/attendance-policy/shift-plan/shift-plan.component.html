@@ -66,7 +66,7 @@
         <i (click)="close()"></i>
 
         <label>No.</label>
-        <input pInputText type="text" [(ngModel)]="shiftplans.planshift_code" maxlength="10" />
+        <input pInputText type="text" [(ngModel)]="shiftplans.planshift_code" maxlength="10" disabled="{{edit_data}}" />
         <p>{{shiftplans.planshift_code.length}}/10</p>
 
         <label>Description (Eng.)</label>
@@ -103,13 +103,13 @@
                                 <td>{{data.shift_code}}</td>
                                 <td>{{data.planschedule_fromdate | date:'dd/MM/yyyy'}}</td>
                                 <td>{{data.planschedule_todate | date:'dd/MM/yyyy'}}</td>
-                                <td>{{data.planschedule_sun_off}}</td>
-                                <td>{{data.planschedule_mon_off}}</td>
-                                <td>{{data.planschedule_tue_off}}</td>
-                                <td>{{data.planschedule_web_off}}</td>
-                                <td>{{data.planschedule_thu_off}}</td>
-                                <td>{{data.planschedule_fri_off}}</td>
-                                <td>{{data.planschedule_sta_off}}</td>
+                                <td>{{data.planschedule_sun_off?"Y":"N"}}</td>
+                                <td>{{data.planschedule_mon_off?"Y":"N"}}</td>
+                                <td>{{data.planschedule_tue_off?"Y":"N"}}</td>
+                                <td>{{data.planschedule_wed_off?"Y":"N"}}</td>
+                                <td>{{data.planschedule_thu_off?"Y":"N"}}</td>
+                                <td>{{data.planschedule_fri_off?"Y":"N"}}</td>
+                                <td>{{data.planschedule_sat_off?"Y":"N"}}</td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -117,14 +117,15 @@
             </p-accordion>
         </div>
         <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
-            class="p-button-danger"></button>
+        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash" class="p-button-danger"
+            (click)="Delete()"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>
 
 
-<p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddholiday" [maximizable]="true">
+<p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddholiday" [maximizable]="true"
+    (onHide)="closedispaly()">
     <div class="formatt">
         <p-dropdown class="selectyaer" [options]="ShiftList" [(ngModel)]="selectedshift"
             optionLabel="shift_name_en"></p-dropdown>
@@ -137,7 +138,7 @@
         <div class="checkday">
 
             <div>
-                <input type="checkbox" value="N"  [(ngModel)]="planschedule_listselect.planschedule_sun_off">
+                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_sun_off">
                   <label>Sunday</label>
             </div>
 
@@ -153,7 +154,7 @@
             </div>
             <div>
 
-                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_web_off">
+                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_wed_off">
                   <label>Wednesday</label>
 
             </div>
@@ -167,15 +168,15 @@
             </div>
             <div>
 
-                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_sta_off">
+                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_sat_off">
                   <label>Saturday</label>
             </div>
         </div>
     </div>
     <ng-template pTemplate="footer">
         <button *ngIf="displayeditholiday" pButton type="button" label="Delete" icon="pi pi-trash"
-            class="p-button-danger"></button>
-        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Saveholiday()"></button>
+            class="p-button-danger" (click)="Deleteplanschedule()"></button>
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Saveplanschedule()"></button>
     </ng-template>
 </p-dialog>
 
