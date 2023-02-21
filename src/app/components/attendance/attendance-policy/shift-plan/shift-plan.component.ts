@@ -1,23 +1,30 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { AppConfig } from 'src/app/config/config';
+import { InitialCurrent } from 'src/app/config/initial_current';
 import { PlanscheduleModels } from 'src/app/models/attendance/planschedule';
 import { ShiftModels } from 'src/app/models/attendance/shift';
 import { ShiftplanModels } from 'src/app/models/attendance/shift_plan';
 import { PlanshiftServices } from 'src/app/services/attendance/planshift.service';
 import { ShiftServices } from 'src/app/services/attendance/shift.service';
 import * as XLSX from 'xlsx';
+declare var planshift: any;
 @Component({
   selector: 'app-shift-plan',
   templateUrl: './shift-plan.component.html',
   styleUrls: ['./shift-plan.component.scss']
 })
 export class ShiftPlanComponent implements OnInit {
+  langs: any = planshift;
+  selectlang: string = "EN";
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private shiftService: ShiftServices,
     private planshiftService: PlanshiftServices,
     private datePipe: DatePipe,
+    private router: Router,
   ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   @ViewChild('TABLELIST') tablelist: ElementRef | any = null;
@@ -37,7 +44,16 @@ export class ShiftPlanComponent implements OnInit {
   planschedule_listselect: PlanscheduleModels = new PlanscheduleModels()
   shiftplans: ShiftplanModels = new ShiftplanModels()
 
+  public initial_current: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current.Token) {
+      this.router.navigateByUrl('');
+    }
+    this.selectlang = this.initial_current.Language;
+  }
   ngOnInit(): void {
+    this.doGetInitialCurrent();
     this.doLoadMenu();
     this.doLoadShift();
     this.doLoadPlanshift();
@@ -122,7 +138,7 @@ export class ShiftPlanComponent implements OnInit {
 
     this.items = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.shiftplans = new ShiftplanModels();
@@ -132,7 +148,7 @@ export class ShiftPlanComponent implements OnInit {
       }
       ,
       {
-        label: "Import",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -141,7 +157,7 @@ export class ShiftPlanComponent implements OnInit {
       }
       ,
       {
-        label: "Export",
+        label: this.langs.get('export')[this.selectlang],
         icon: 'pi-file-export',
         command: (event) => {
           this.exportAsExcel()
@@ -151,31 +167,12 @@ export class ShiftPlanComponent implements OnInit {
     ];
     this.items_holiday = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.shiftplan_listselect = new ShiftplanModels();
           this.displayaddholiday = true;
           this.displayeditholiday = false;
-        }
-      }
-      ,
-      {
-        label: "Import",
-        icon: 'pi-file-import',
-        command: (event) => {
-          // this.showUpload()
-
-        }
-      }
-      ,
-      {
-        label: "Export",
-        icon: 'pi-file-export',
-        command: (event) => {
-          // this.exportAsExcel()
-          this.exportAsExcelHolidaylist();
-
         }
       }
     ]
@@ -186,8 +183,8 @@ export class ShiftPlanComponent implements OnInit {
   Uploadfile() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
-        message: "Confirm Upload file : " + this.fileToUpload.name,
-        header: "Import File",
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.displayUpload = false;
@@ -230,10 +227,7 @@ export class ShiftPlanComponent implements OnInit {
         planschedule_thu_off: this.planschedule_listselect.planschedule_thu_off,
         planschedule_fri_off: this.planschedule_listselect.planschedule_fri_off,
         planschedule_sat_off: this.planschedule_listselect.planschedule_sat_off,
-        // created_by: "",
-        // created_date: "",
         modified_by: "Admin",
-        // modified_date: "",
         flag: false,
       })
     }
@@ -283,16 +277,7 @@ export class ShiftPlanComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
-
-  }
-  exportAsExcelHolidaylist() {
-
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.tablelist.nativeElement);//converts a DOM TABLE element to a worksheet
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    XLSX.writeFile(wb, 'Export_HolidayList.xlsx');
+    XLSX.writeFile(wb, 'Export_Planshift.xlsx');
 
   }
 }

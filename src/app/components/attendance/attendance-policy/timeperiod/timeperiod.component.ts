@@ -218,7 +218,7 @@ export class TimeperiodComponent implements OnInit {
     this.new_data = true
     this.edit_data = true;
   }
-exportAsExcel() {
+  exportAsExcel() {
 
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
     for (var i in ws) {
