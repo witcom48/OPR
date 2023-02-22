@@ -58,9 +58,9 @@ export class OvertimeComponent implements OnInit {
         rateot_name_th: "โอทีรายวัน",
         rateot_name_en: "OT(Daily work)",
         created_by: "Admin01",
-        modied_by: "admin01",
+        modified_by: "admin01",
         created_date: "2022-01-01",
-        modied_date: "2022-01-02",
+        modified_date: "2022-01-02",
         flag: "",
         rate: [
           {
@@ -72,9 +72,9 @@ export class OvertimeComponent implements OnInit {
             rateot_break: "0.00",
             rateot_after: "3.00",
             created_by: "Admin01",
-            modied_by: "admin01",
+            modified_by: "admin01",
             created_date: "2022-01-01",
-            modied_date: "2022-01-02",
+            modified_date: "2022-01-02",
             flag: ""
           }
         ]

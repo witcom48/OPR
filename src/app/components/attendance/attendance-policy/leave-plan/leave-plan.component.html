@@ -22,7 +22,7 @@
             selectionMode="single" [(selection)]="leaveplans" (onRowSelect)="onRowSelect($event)" [rows]="10"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="from {first} to {last} total {totalRecords}"
-            [globalFilterFields]="['planleave_code','planleave_name_en','planleave_name_th','modied_date']">
+            [globalFilterFields]="['planleave_code','planleave_name_en','planleave_name_th','modified_date']">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -52,8 +52,8 @@
                     <td>{{i+1}}</td>
                     <td>{{data.planleave_code}}</td>
                     <td>{{data.planleave_name_en}}</td>
-                    <td>{{data.modied_by}}</td>
-                    <td>{{data.modied_date | date:'dd/MM/yyyy'}}</td>
+                    <td>{{data.modified_by}}</td>
+                    <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
 
                 </tr>
             </ng-template>
@@ -66,7 +66,7 @@
         <i (click)="close()"></i>
 
         <label>Code</label>
-        <input pInputText type="text" [(ngModel)]="leaveplans.planleave_code" maxlength="10" />
+        <input pInputText type="text" [(ngModel)]="leaveplans.planleave_code" maxlength="10" disabled="{{edit_data}}"/>
         <p>{{leaveplans.planleave_code.length}}/10</p>
 
         <label>Description (Eng.)</label>
@@ -74,19 +74,20 @@
 
         <label>Description (Thai)</label>
         <textarea [(ngModel)]="leaveplans.planleave_name_th" pInputTextarea [autoResize]="true"></textarea>
-        <p-pickList class="picklistvertical" [metaKeySelection]="false" [responsive]="true" [source]="leaves_list"
+        <p-pickList class="picklistvertical" [metaKeySelection]="false" [responsive]="true" [source]="leaves_listselect"
             [target]="leaveplans.leavelists" sourceHeader="Source List" targetHeader="Target List"
             [sourceStyle]="{'height':'15rem'}" [targetStyle]="{'height':'15rem'}" sourceFilterPlaceholder="Search"
             targetFilterPlaceholder="Search" filterBy="leave_code,leave_name_en,leave_name_th">
             <ng-template let-data pTemplate="item">
                 <div>
-                    <div style="font-size:14px;float:left;">{{data.leave_code}} - {{data.leave_name_en}}</div>
+                    <div style="font-size:14px;float:left;">{{data.leave_code}} - {{selectlang
+                        =='EN'?data.leave_name_en:data.leave_name_th}}</div>
                 </div>
             </ng-template>
         </p-pickList>
         <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
-            class="p-button-danger"></button>
+            class="p-button-danger" (click)="Delete()"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>

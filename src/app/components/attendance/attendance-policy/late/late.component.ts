@@ -33,9 +33,9 @@ export class LateComponent implements OnInit {
         late_name_th: "นโยยาบสาย",
         late_name_en: "Policy Late",
         created_by: "Admin01",
-        modied_by: "admin01",
+        modified_by: "admin01",
         created_date: "2022-01-01",
-        modied_date: "2022-01-02",
+        modified_date: "2022-01-02",
         flag: "",
         condition: [
           {

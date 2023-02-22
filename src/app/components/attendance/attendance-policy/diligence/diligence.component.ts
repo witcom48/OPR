@@ -49,8 +49,8 @@ export class DiligenceComponent implements OnInit {
         diligence_somperiod_first: "N",
         created_by: 'Admin',
         created_date: '2022-01-16',
-        modied_by: 'admin',
-        modied_date: '2022-01-17',
+        modified_by: 'admin',
+        modified_date: '2022-01-17',
         flag: "0",
         step: [
           {

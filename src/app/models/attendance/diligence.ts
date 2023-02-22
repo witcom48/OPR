@@ -26,8 +26,8 @@ export class DiligenceModels {
     diligence_somperiod_first: string = ""
     created_by: string = "";
     created_date: string = "";
-    modied_by: string = "";
-    modied_date: string = "";
+    modified_by: string = "";
+    modified_date: string = "";
     flag: string = "";
     step:DiligencestepModels[] = [];
 }
