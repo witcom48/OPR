@@ -68,7 +68,7 @@
         <i (click)="close()"></i>
 
         <label>{{langs.get('code')[selectlang]}}</label>
-        <input pInputText type="text" [(ngModel)]="shifts.shift_code" maxlength="10" />
+        <input pInputText type="text" [(ngModel)]="shifts.shift_code" maxlength="10"  disabled="{{edit_data}}"/>
         <p>{{shifts.shift_code.length}}/10</p>
 
         <label>{{langs.get('description')[selectlang]}} (Eng.)</label>

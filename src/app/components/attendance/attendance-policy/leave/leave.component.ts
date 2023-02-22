@@ -1,14 +1,28 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { AppConfig } from 'src/app/config/config';
+import { InitialCurrent } from 'src/app/config/initial_current';
 import { LeaveModels } from 'src/app/models/attendance/leave';
 import { LeaveworkageModels } from 'src/app/models/attendance/leave_workage';
+import { LeaveServices } from 'src/app/services/attendance/leave.service';
 import * as XLSX from 'xlsx';
+declare var leave: any;
 @Component({
   selector: 'app-leave',
   templateUrl: './leave.component.html',
   styleUrls: ['./leave.component.scss']
 })
 export class LeaveComponent implements OnInit {
+  langs: any = leave;
+  selectlang: string = "EN";
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private LeaveServices: LeaveServices,
+    private datePipe: DatePipe,
+    private router: Router,
+  ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   new_data: boolean = false
   edit_data: boolean = false
@@ -16,81 +30,84 @@ export class LeaveComponent implements OnInit {
   displayUpload: boolean = false;
   displayaddworkage: boolean = false;
   displayeditworkage: boolean = false;
-  constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,) { }
   items: MenuItem[] = [];
   items_workage: MenuItem[] = [];
   leaves_list: LeaveModels[] = [];
   leaves: LeaveModels = new LeaveModels()
   workage_list: LeaveworkageModels[] = [];
   workages: LeaveworkageModels = new LeaveworkageModels()
-
-  ngOnInit(): void {
-    this.doLoadMenu()
-    this.leaves_list = [
-      {
-        company_code: "PSG",
-        leave_id: "1",
-        leave_code: "LB01",
-        leave_name_th: "ลากิจ(จ่าย)",
-        leave_name_en: "Private Leave",
-        leave_day_peryear: "3",
-        leave_day_acc: "0.00",
-        leave_day_accexpire: new Date("999-12-31"),
-        leave_incholiday: "N",
-        leave_passpro: "N",
-        leave_deduct: "N",
-        leave_caldiligence: "N",
-        leave_agework: "N",
-        leave_ahead: "7",
-        leave_min_hrs: "00:00",
-        leave_max_day: "0",
-        created_by: 'Admin',
-        created_date: '2022-01-16',
-        modied_by: 'admin',
-        modied_date: '2022-01-17',
-        flag: "0",
-        leave_workage: [{
-          company_code: "PSG",
-          leave_code: "LB01",
-          workage_from: "1.00",
-          workage_to: "99.00",
-          workage_leaveday: "14.00"
-        }]
-      }
-    ]
-    this.items_workage = [
-      {
-        label: "New",
-        icon: 'pi-plus',
-        command: (event) => {
-          this.workages = new LeaveworkageModels();
-          this.displayaddworkage = true;
-          this.displayeditworkage = false;
-        }
-      }
-      ,
-      {
-        label: "Import",
-        icon: 'pi-file-import',
-        command: (event) => {
-          // this.showUpload()
-
-        }
-      }
-      ,
-      {
-        label: "Export",
-        icon: 'pi-file-export',
-        command: (event) => {
-          // this.exportAsExcel()
-          // this.exportAsExcelHolidaylist();
-
-        }
-      }
-    ]
+  public initial_current: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current.Token) {
+      this.router.navigateByUrl('');
+    }
+    this.selectlang = this.initial_current.Language;
   }
+  ngOnInit(): void {
+    this.doGetInitialCurrent();
+    this.doLoadMenu();
+    this.doLoadLeave();
+  }
+  doLoadLeave() {
+    this.leaves_list = [];
+    var tmp = new LeaveModels();
+    this.LeaveServices.leave_get(tmp).then(async (res) => {
+      await res.forEach((element: any) => {
+        element.leave_day_accexpire = new Date(element.leave_day_accexpire)
+        element.leave_incholiday = element.leave_incholiday == "Y" ? true : false;
+        element.leave_passpro = element.leave_passpro == "Y" ? true : false;
+        element.leave_deduct = element.leave_deduct == "Y" ? true : false;
+        element.leave_caldiligence = element.leave_caldiligence == "Y" ? true : false;
+        element.leave_agework = element.leave_agework == "Y" ? true : false;
+      });
+      this.leaves_list = await res;
+    });
+  }
+  async doRecordLeave(data: LeaveModels) {
+    await this.LeaveServices.leave_record(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadLeave();
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
 
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+  async doDeletedLeave(data: LeaveModels) {
+    await this.LeaveServices.leave_delete(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadLeave();
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+  doUploadLeave() {
+    const filename = "LEAVE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+    const filetype = "xls";
+    this.LeaveServices.leave_import(this.fileToUpload, filename, filetype).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadLeave();
+        this.edit_data = false;
+        this.new_data = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileToUpload = null;
+    });
+  }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
@@ -100,7 +117,7 @@ export class LeaveComponent implements OnInit {
 
     this.items = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.leaves = new LeaveModels();
@@ -110,7 +127,7 @@ export class LeaveComponent implements OnInit {
       }
       ,
       {
-        label: "Import",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -119,7 +136,7 @@ export class LeaveComponent implements OnInit {
       }
       ,
       {
-        label: "Export",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-export',
         command: (event) => {
           this.exportAsExcel()
@@ -127,12 +144,37 @@ export class LeaveComponent implements OnInit {
         }
       }
     ];
-  }
-  Saveholiday() {
-    console.log(this.workages)
-    this.displayaddworkage = false;
-    this.displayeditworkage = false;
-    this.workages = new LeaveworkageModels();
+
+    this.items_workage = [
+      {
+        label: this.langs.get('new')[this.selectlang],
+        icon: 'pi-plus',
+        command: (event) => {
+          this.workages = new LeaveworkageModels();
+          this.displayaddworkage = true;
+          this.displayeditworkage = false;
+        }
+      }
+      //   ,
+      //   {
+      //     label: "Import",
+      //     icon: 'pi-file-import',
+      //     command: (event) => {
+      //       // this.showUpload()
+
+      //     }
+      //   }
+      //   ,
+      //   {
+      //     label: "Export",
+      //     icon: 'pi-file-export',
+      //     command: (event) => {
+      //       // this.exportAsExcel()
+      //       // this.exportAsExcelHolidaylist();
+
+      //     }
+      //   }
+    ]
   }
   onRowSelectList(event: any) {
     this.displayaddworkage = true
@@ -145,8 +187,8 @@ export class LeaveComponent implements OnInit {
   Uploadfile() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
-        message: "Confirm Upload file : " + this.fileToUpload.name,
-        header: "Import File",
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           console.log(this.fileToUpload)
@@ -164,16 +206,50 @@ export class LeaveComponent implements OnInit {
   }
   close() {
     this.new_data = false
+    this.displayaddworkage = false;
+    this.displayeditworkage = false;
+    this.workages = new LeaveworkageModels();
     this.leaves = new LeaveModels()
   }
   Save() {
-    console.log(this.leaves)
+    // console.log(this.leaves)
+    this.doRecordLeave(this.leaves)
+  }
+  Delete() {
+    this.doDeletedLeave(this.leaves)
+  }
+  Saveworkages() {
+    // console.log(this.workages)
+    this.leaves.leave_workage = this.leaves.leave_workage.concat({
+      company_code: this.initial_current.CompCode,
+      leave_code: this.leaves.leave_code,
+      workage_from: this.workages.workage_from,
+      workage_to: this.workages.workage_to,
+      workage_leaveday: this.workages.workage_leaveday,
+    }
+    )
+    this.displayaddworkage = false;
+    this.displayeditworkage = false;
+    this.workages = new LeaveworkageModels();
+  }
+  Deleteworkages() {
+    this.leaves.leave_workage = this.leaves.leave_workage.filter((item) => {
+      return item !== this.workages;
+    });
+    this.displayaddworkage = false;
+    this.displayeditworkage = false;
+    this.workages = new LeaveworkageModels();
+  }
+  closedispaly() {
+    this.displayaddworkage = false;
+    this.displayeditworkage = false;
+    this.workages = new LeaveworkageModels();
   }
   onRowSelect(event: any) {
     this.new_data = true
     this.edit_data = true;
   }
-exportAsExcel() {
+  exportAsExcel() {
 
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
     for (var i in ws) {

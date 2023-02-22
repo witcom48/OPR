@@ -69,7 +69,7 @@
         <i (click)="close()"></i>
 
         <label>{{langs.get('code')[selectlang]}}</label>
-        <input pInputText type="text" [(ngModel)]="locations.location_code" maxlength="5" />
+        <input pInputText type="text" [(ngModel)]="locations.location_code" maxlength="5" disabled="{{edit_data}}" />
         <p>{{locations.location_code.length}}/5</p>
 
         <label>{{langs.get('name')[selectlang]}} (Eng.)</label>

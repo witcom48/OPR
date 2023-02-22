@@ -13,18 +13,18 @@ export class LeaveModels {
     leave_day_peryear: string = "";
     leave_day_acc: string = "";
     leave_day_accexpire: Date = new Date();
-    leave_incholiday: string = "";
-    leave_passpro: string = "";
-    leave_deduct: string = "";
-    leave_caldiligence: string = "";
-    leave_agework: string = "";
+    leave_incholiday: boolean = false;
+    leave_passpro: boolean = false;
+    leave_deduct: boolean = false;
+    leave_caldiligence: boolean = false;
+    leave_agework: boolean = false;
     leave_ahead: string = "";
     leave_min_hrs: string = "00:00";
     leave_max_day: string = "";
     created_by: string = "";
     created_date: string = "";
-    modied_by: string = "";
-    modied_date: string = "";
-    flag: string = "";
+    modified_by: string = "";
+    modified_date: string = "";
+    flag: boolean = false;
     leave_workage: LeaveworkageModels[] = []
 }
