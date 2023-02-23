@@ -350,4 +350,6 @@ var planleave = new Map([
     ["upload", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
     ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
+    ["planleave", { TH: "นโยบายการลา", EN: "Leave Plan" }],
+    ["leavelist", { TH: "รูปแบบการลา", EN: "Leave List" }],
 ]);

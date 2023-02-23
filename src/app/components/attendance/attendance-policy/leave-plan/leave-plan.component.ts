@@ -7,7 +7,6 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { LeaveModels } from 'src/app/models/attendance/leave';
 import { LeaveplanModels } from 'src/app/models/attendance/leave_plan';
-import { LeaveworkageModels } from 'src/app/models/attendance/leave_workage';
 import { LeaveServices } from 'src/app/services/attendance/leave.service';
 import { PlanleaveServices } from 'src/app/services/attendance/planleave.service';
 import * as XLSX from 'xlsx';
@@ -43,7 +42,7 @@ export class LeavePlanComponent implements OnInit {
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('');
     }
-    this.selectlang = "TH";
+    this.selectlang = this.initial_current.Language;
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -133,7 +132,7 @@ export class LeavePlanComponent implements OnInit {
 
     this.items = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.leaveplans = new LeaveplanModels();
@@ -144,7 +143,7 @@ export class LeavePlanComponent implements OnInit {
       }
       ,
       {
-        label: "Import",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -153,7 +152,7 @@ export class LeavePlanComponent implements OnInit {
       }
       ,
       {
-        label: "Export",
+        label: this.langs.get('export')[this.selectlang],
         icon: 'pi-file-export',
         command: (event) => {
           this.exportAsExcel()
