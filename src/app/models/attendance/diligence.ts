@@ -28,6 +28,6 @@ export class DiligenceModels {
     created_date: string = "";
     modified_by: string = "";
     modified_date: string = "";
-    flag: string = "";
+    flag: boolean = false;
     step:DiligencestepModels[] = [];
 }

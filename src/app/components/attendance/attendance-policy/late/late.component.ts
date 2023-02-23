@@ -36,7 +36,7 @@ export class LateComponent implements OnInit {
         modified_by: "admin01",
         created_date: "2022-01-01",
         modified_date: "2022-01-02",
-        flag: "",
+        flag: false,
         condition: [
           {
             company_code: "PSG",

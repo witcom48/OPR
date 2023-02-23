@@ -61,21 +61,16 @@ export class OvertimeComponent implements OnInit {
         modified_by: "admin01",
         created_date: "2022-01-01",
         modified_date: "2022-01-02",
-        flag: "",
-        rate: [
+        flag: false,
+        rateot_data: [
           {
             company_code: "PSG",
             rateot_code: "OTD",
             rateot_daytype: "O",
-            rateot_before: "3.00",
-            rateot_normal: "2.00",
-            rateot_break: "0.00",
-            rateot_after: "3.00",
-            created_by: "Admin01",
-            modified_by: "admin01",
-            created_date: "2022-01-01",
-            modified_date: "2022-01-02",
-            flag: ""
+            rateot_before: 3,
+            rateot_normal: 2,
+            rateot_break: 0,
+            rateot_after: 3,
           }
         ]
       }

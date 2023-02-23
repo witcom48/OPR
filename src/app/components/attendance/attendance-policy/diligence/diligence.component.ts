@@ -51,7 +51,7 @@ export class DiligenceComponent implements OnInit {
         created_date: '2022-01-16',
         modified_by: 'admin',
         modified_date: '2022-01-17',
-        flag: "0",
+        flag: false,
         step: [
           {
             company_code: "PSG",

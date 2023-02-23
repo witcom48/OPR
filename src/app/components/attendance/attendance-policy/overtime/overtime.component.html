@@ -80,7 +80,7 @@
             <p-accordion>
                 <p-accordionTab header="Rate">
                     <p-menubar [model]="itemsrate"></p-menubar>
-                    <p-table [value]="overtimes.rate" styleClass="p-datatable-sm"
+                    <p-table [value]="overtimes.rateot_data" styleClass="p-datatable-sm"
                         (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
                         [virtualScroll]="true" selectionMode="single" [(selection)]="rate">
                         <ng-template pTemplate="header">

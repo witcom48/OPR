@@ -14,6 +14,6 @@ export class OvertimeModels {
     created_date: string = "";
     modified_by: string = "";
     modified_date: string = "";
-    flag: string = "";
-    rate: OvertimerateModels[] = [];
+    flag: boolean = false;
+    rateot_data: OvertimerateModels[] = [];
 }
