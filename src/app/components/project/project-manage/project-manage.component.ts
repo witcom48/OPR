@@ -34,6 +34,9 @@ import { ProjobsubModel } from '../../../models/project/project_jobsub';
 import { ProjobempModel } from '../../../models/project/project_jobemp';
 import { ProjobworkingModel } from '../../../models/project/project_jobworking';
 
+import { EmployeeModel } from '../../../models/employee/employee';
+import { EmployeeService } from 'src/app/services/emp/worker.service';
+
 import { RadiovalueModel } from '../../../models/project/radio_value';
 
 
@@ -194,7 +197,8 @@ export class ProjectManageComponent implements OnInit {
     private procostService:ProcostService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private employeeService: EmployeeService
 
   ) {
 
@@ -222,6 +226,8 @@ export class ProjectManageComponent implements OnInit {
     setTimeout(() => {
        
       this.doLoadProject()  
+      this.doLoadEmployee()
+
     }, 400);
    
   }
@@ -2729,6 +2735,7 @@ export class ProjectManageComponent implements OnInit {
 
         this.selectedProjobemp.project_code = this.project_code
         this.selectedProjobemp.projob_code = this.selectedProjobmain_cbb.value
+        this.selectedProjobemp.projobemp_emp = this.selectedEmployee_cbb.value
        
         this.projectDetailService.projobemp_record(this.selectedProjobemp).then((res) => {       
           let result = JSON.parse(res);  
@@ -2770,5 +2777,35 @@ export class ProjectManageComponent implements OnInit {
 
   }
 
+  employee_list: EmployeeModel[] = [];
+  doLoadEmployee(){
+    this.employeeService.worker_get().then((res) =>{
+      this.employee_list = res;
+      
+      if(this.employee_list.length > 0){
+
+        this.employee_list_cbb = []
+
+        for (let i = 0; i < this.employee_list.length; i++) {
+
+          var tmp = new RadiovalueModel();  
+          tmp.value = this.employee_list[i].worker_code;      
+          if(this.initial_current.Language == "EN"){        
+            tmp.text = this.employee_list[i].worker_code + ' : ' + this.employee_list[i].worker_fname_th + ' ' + this.employee_list[i].worker_lname_th               
+          }
+          else{
+            tmp.text = this.employee_list[i].worker_code + ' : ' + this.employee_list[i].worker_fname_en + ' ' + this.employee_list[i].worker_lname_en 
+          }
+
+          this.employee_list_cbb.push(tmp)  
+
+        }
+      }
+
+    });
+  }
+
+  employee_list_cbb: RadiovalueModel[] = [];  
+  selectedEmployee_cbb: RadiovalueModel = new RadiovalueModel;
 
 }

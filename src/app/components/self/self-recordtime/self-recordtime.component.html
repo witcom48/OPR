@@ -1,0 +1,92 @@
+<span style="font-size: 20px;">Self services</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Punchcard</small>
+<hr>
+
+
+<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [style]="{width: '50vw'}" [position]="position">
+    <div class="formgrid grid align-items-end">
+
+
+        <div class="field col-12">
+            <p-calendar [(ngModel)]="date_from" dateFormat="dd/mm/yy"  inputId="date_from" ></p-calendar>
+            -
+            <p-calendar [(ngModel)]="date_to" dateFormat="dd/mm/yy" inputId="date_to"></p-calendar>
+        </div>
+    
+        <div class="field col-12 md:col-3">       
+           <p>เข้างาน</p>
+           <p-inputMask mask="99:99" [(ngModel)]="time_half" placeholder="HH:mm"></p-inputMask>
+        </div>
+        <div class="field col-12 md:col-3">       
+            <p>ออกงาน</p>
+            <p-inputMask mask="99:99" [(ngModel)]="time_half" placeholder="HH:mm"></p-inputMask>
+        </div>
+        <div class="field col-12 md:col-6">       
+            
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">สถานที่ปฎิบัติงาน</label>
+            <p-dropdown placeholder="LO001 : BPC" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">เหตุผลการลืมลงเวลา</label>
+            <p-dropdown placeholder="REA001 : อื่นๆ" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+
+        <div class="field col-12">
+            <label for="project_name_th">เพิ่มเติม</label>
+            <input id="project_name_th" type="text"  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+
+        <div class="field col-12">
+            <p-menubar [model]="items_attfile"></p-menubar >
+                <p-table  [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="100px" [virtualScroll]="true" selectionMode="single" 
+                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                    [paginator]="true"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>		
+                            <th>ชื่อไฟล์</th>	                            
+                            <th>ผู้ทำรายการ</th>
+                            <th>วันที่ทำรายการ</th>                                  
+                        </tr>	
+                    </ng-template>
+                </p-table>
+        </div>
+
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" ></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="closeManage()" ></button>            
+        </div>
+
+    </div>
+</p-dialog>
+
+
+<div class="grid">
+    
+    <div class="col-12">
+        <p-menubar [model]="items"></p-menubar >
+        <p-table  [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" 
+        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+            [paginator]="true"
+        >
+            <ng-template pTemplate="header">
+                <tr>		
+                    <th>รหัสเอกสาร</th>	                    
+                    <th>วันที่</th>                    
+                    <th>เวลาเข้า</th>
+                    <th>เวลาออก</th>                    
+                    <th>สถานะเอกสาร</th>
+                    <th>ผู้ทำรายการ</th>
+                    <th>วันที่ทำรายการ</th>                                        
+                </tr>	
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+
+

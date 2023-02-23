@@ -1,157 +1,200 @@
 <table class="table_head" style="width: 100%;">
     <tr>
         <td align="left">
-            <h4>Employee management</h4>
+            <h4>{{this.title_page}}</h4>
             <br>
             <a>Manage</a>
             |
             <a>Link</a>
         </td>
         <td align="right">
-            
+
             <div class="flex">
                 <p style="width: 80px; text-align: left;">
-                    <b>2</b>
+                    <b>{{workerCurrent}}</b>
                     <br>
-                    <small>จำนวนพนักงาน</small>
+                    <small>{{this.title_num_emp}}</small>
                 </p>
-                <p-divider layout="vertical" ></p-divider>        
+                <p-divider layout="vertical"></p-divider>
                 <p style="width: 80px; text-align: left;">
                     <b>1</b>
                     <br>
-                    <small>พนักงานใหม่</small>
+                    <small>{{this.title_new_emp}}</small>
                 </p>
-                <p-divider layout="vertical" ></p-divider>        
+                <p-divider layout="vertical"></p-divider>
                 <p style="width: 80px; text-align: left;">
                     <b style="color: orange;">0</b>
                     <br>
-                    <small>พนักงานลาออก</small>
+                    <small>{{this.title_resign_emp}}</small>
                 </p>
-                
+
             </div>
-            
+
 
         </td>
     </tr>
 </table>
-<p-menubar [model]="items"></p-menubar >
-    <div class="grid">
-        <div class="col-12 md:col-9">
-            <p-table #dt2  [value]="employee_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmployee" (onRowSelect)="onRowSelectEmployee($event)" dataKey="employee_code"
-            
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [globalFilterFields]="['employee_code','employee_initial','employee_fnamename_th','employee_lnamename_th','employee_type','employee_position','employee_startdate']"
-            >
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tableemp">
+    <!-- Table Show Data -->
+    <div #TABLE>
+        <p-table #dt2 [value]="employee_list" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true"
+            scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedemployee"
+            (onRowSelect)="onRowSelectEmployee($event)" dataKey="worker_code" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+            [globalFilterFields]="['worker_code','worker_initial','worker_fnamename_th','worker_lnamename_th','worker_type','worker_position','worker_hiredate']">
             <ng-template pTemplate="caption">
                 <div class="flex">
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="Search keyword" />
                     </span>
                 </div>
             </ng-template>
 
-                <ng-template pTemplate="header">
-                    <tr>		                        
-                        <th style="width:10%">รหัสพนักงาน</th>
-                        <th style="width:9%">คำนำหน้า</th>                       
-                        <th style="width:10%">ชื่อ</th>
-                        <th style="width:10%">นามสกุล</th>
-                        <th>ประเภทพนักงาน</th>
-                        <th>ตำแหน่ง</th>
-                        <th>วันที่เริ่มงาน</th>                    
-                        <th>สถานะ</th>
-                        <th>วันที่อนุมัติ</th>
-                        <th>ผู้ทำรายการ</th>
-                        <th>วันที่ทำรายการ</th>                                                
-                    </tr>	
-                    <tr>
-                        <th>
-                            <p-columnFilter type="text" field="employee_code"></p-columnFilter>
-                        </th>
-                        <th>
-                            <p-columnFilter type="text" field="employee_initial"></p-columnFilter>
-                        </th>
-                        <th>
-                            <p-columnFilter type="text" field="employee_fnamename_th"></p-columnFilter>
-                        </th>
-                        <th>
-                            <p-columnFilter type="text" field="employee_lnamename_th"></p-columnFilter>
-                        </th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{title_code}}</th>
+                    <th>{{title_initial}}</th>
+                    <th>{{title_Fname}}</th>
+                    <th>{{title_Lname}}</th>
+                    <th>{{title_emptype}}</th>
+                    <th>{{title_position}}</th>
+                    <th>{{title_startdate}}</th>
+                    <th>{{title_status}}</th>
+                    <th>{{title_apprdate}}</th>
+                    <th>{{title_modified_by}}</th>
+                    <th>{{title_modified_date}}</th>
+                </tr>
+                <!-- <tr>
+                    <th>
+                        <p-columnFilter type="text" field="employee_code"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="employee_initial"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="employee_fnamename_th"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="employee_lnamename_th"></p-columnFilter>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr> -->
 
-                </ng-template>
-                <ng-template pTemplate="body" let-project>
-                    <tr [pSelectableRow]="project">        
-                        <td>{{project.employee_code}}</td>                                
-                        <td>{{project.employee_initial}}</td>                       
-                        <td>{{project.employee_fnamename_th}}</td>
-                        <td>{{project.employee_lnamename_th}}</td>
-                        <td>{{project.employee_type}}</td>
-                        <td>{{project.employee_position}}</td>                        
-                        <td>{{project.employee_startdate | date:'dd/MM/yyyy '}}</td>                                                        
-                        <td>{{project.employee_status}}</td>      
-                        <td>{{project.approve_date | date:'dd/MM/yyyy HH:mm'}}</td>  
-                        <td>{{project.modified_by}}</td>      
-                        <td>{{project.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                    </tr>
-                </ng-template>      
-              
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr [pSelectableRow]="data">
+                    <td>{{data.worker_code}}</td>
+                    <td>{{initial_current.Language == "TH"? data.initial_name_th:data.initial_name_en}}</td>
+                    <td>{{initial_current.Language == "TH"? data.worker_fname_th:data.worker_fname_en}}</td>
+                    <td>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td>
+                    <td>{{data.worker_type}}</td>
+                    <td>{{data.worker_position}}</td>
+                    <td>{{data.worker_hiredate | date:'dd/MM/yyyy '}}</td>
+                    <td>{{data.worker_status}}</td>
+                    <td>{{data.approve_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{data.modified_by}}</td>
+                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>
 
-            </p-table>
-        </div>
-        <div class="col-12 md:col-3">
-            <div class="formgrid grid" *ngIf="edit_employee">
-                <span class="spn_title_edit">Project</span>
-                <div class="field col-12 ">
-                    <label for="ppos_code">รหัสพนักงาน</label>    
-                    <input type="text" id="ppos_code" [(ngModel)]="selectedEmployee.employee_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-                </div>	
 
-                <div class="field col-12">
-                    <label for="lastname2">คำนำหน้า :</label><br>
-                    <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                </div>
-               
-                <div class="field col-12 ">
-                    <label for="ppos_name_th">ชื่อ</label>                        
-                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedEmployee.employee_fnamename_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                </div>
-                <div class="field col-12 ">
-                    <label for="ppos_name_en">นามสกุล</label>                        
-                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedEmployee.employee_lnamename_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                </div>
-                
-                <div class="field col-12">
-                    <label for="lastname2">ประเภทพนักงาน :</label><br>
-                    <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                </div>
-
-                <div class="field col-12">
-                    <label for="lastname2">ตำแหน่ง :</label><br>
-                    <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                </div>
-
-                <div class="field col-12">
-                    <label for="lastname2">วันที่เริ่มงาน :</label><br>
-                    <p-dropdown placeholder="22/12/2022" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                </div>
-
-                <div class="field col-12">
-                    <p-button label="บันทึก" icon="pi pi-save" ></p-button>
-                    &nbsp;
-                    <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectEmployee()" class="p-button-secondary"></button>
-                </div>
-                
-
-            </div>
-        </div>
+        </p-table>
     </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data -->
+
+
+    <div class="formatt" *ngIf="new_employee==true">
+        <i (click)="close()"></i>
+
+        <label>{{title_code}}</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedemployee.worker_code">
+
+        <label>{{title_initial}} :</label>
+        <p-dropdown placeholder="--" [options]="initialList" optionValue="initial_code" [showClear]="true"
+            [(ngModel)]="selectedemployee.worker_initial" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
+            </ng-template>
+        </p-dropdown>
+        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" value="03"
+            [style]="{ width: '100%', overflow: 'visible' }" [(ngModel)]="selectedemployee.worker_initial"></p-dropdown> -->
+
+        <label for="ppos_name_th">{{title_Fname}}</label>
+        <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedemployee.worker_fname_th" [cols]="30" pInputTextarea
+            [autoResize]="true"></textarea>
+
+        <label for="ppos_name_en">{{title_Lname}}</label>
+        <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedemployee.worker_lname_th" [cols]="30" pInputTextarea
+            [autoResize]="true"></textarea>
+
+        <label for="lastname2">{{title_emptype}} :</label>
+        <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code" [showClear]="true"
+            [(ngModel)]="selectedemployee.worker_type" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+            </ng-template>
+        </p-dropdown>
+        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [style]="{ width: '100%', overflow: 'visible' }" value="M"
+            [(ngModel)]="selectedemployee.worker_type"></p-dropdown> -->
+
+        <label for="lastname2">{{title_position}} :</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+
+        <label for="lastname2">{{title_startdate}} :</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+            [(ngModel)]="selectedemployee.worker_hiredate"></p-calendar>
+        <!-- <p-dropdown placeholder="22/12/2022" optionLabel="name" [showClear]="true"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+        <br>
+        <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectEmpManage()"
+            class="p-button-secondary"></button>
+        <button pButton type="button" label="บันทึก" icon="pi pi-check" (click)="confirmRecord()"></button>
+        <button *ngIf="edit_employee" pButton type="button" label="ลบ" icon="pi pi-trash" class="p-button-danger"
+            (click)="confirmDelete()"></button>
+
+    </div>
+</div>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadEmployee()" label="{{title_upload}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

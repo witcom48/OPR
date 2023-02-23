@@ -1,0 +1,39 @@
+.inputincheckbox {
+    display: flex;
+    // flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+
+    ::ng-deep {
+        .inputcheckbox {
+            display: flex;
+            min-width: 100px;
+        }
+
+        .inputvalue {
+            display: flex;
+            gap: 8px;
+
+            div {
+                width: 100px;
+
+                input {
+                    width: 100px;
+                }
+            }
+        }
+    }
+
+}
+.radiorole{
+    display: flex;
+    label{
+        min-width: 110px;
+    }
+}
+
+@media(max-width: 1750px) {
+    .inputincheckbox {
+        flex-wrap: wrap;
+    }
+}

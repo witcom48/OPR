@@ -1,0 +1,202 @@
+<!-- Link Page -->
+<div class="path">
+    <span>Attendance</span>
+    <div>
+        <i></i>
+        <a routerLink="/attendance/policy">Policy</a>
+        <i></i>
+        <small>Leave</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="leaves_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+            selectionMode="single" [(selection)]="leaves" (onRowSelect)="onRowSelect($event)" [rows]="10"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="from {first} to {last} total {totalRecords}"
+            [globalFilterFields]="['year_code','year_name_en','modied_by','modied_date']">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="search" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>No.</th>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Modified by</th>
+                    <th>Modified date</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                <tr [pSelectableRow]="data">
+                    <td>{{i+1}}</td>
+                    <td>{{data.leave_code}}</td>
+                    <td>{{data.leave_name_en}}</td>
+                    <td>{{data.modied_by}}</td>
+                    <td>{{data.modied_date | date:'dd/MM/yyyy'}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data Year Period -->
+    <div class="formatt" *ngIf="new_data==true">
+        <i (click)="close()"></i>
+
+        <label>Code</label>
+        <input pInputText type="text" [(ngModel)]="leaves.leave_code" maxlength="4" />
+        <p>{{leaves.leave_code.length}}/4</p>
+
+        <label>Description (Eng.)</label>
+        <textarea [(ngModel)]="leaves.leave_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>Description (Thai)</label>
+        <textarea [(ngModel)]="leaves.leave_name_th" pInputTextarea [autoResize]="true"></textarea>
+        <div class="leaveform">
+            <div>
+                <label>Quota days</label>
+                <p-inputNumber [(ngModel)]="leaves.leave_day_peryear" [useGrouping]="false"></p-inputNumber>
+            </div>
+            <div>
+                <label>Max days</label>
+                <p-inputNumber [(ngModel)]="leaves.leave_day_acc" [useGrouping]="false"></p-inputNumber>
+            </div>
+        </div>
+        <div class="leaveform">
+            <div>
+                <label>Day in advance</label>
+                <p-inputNumber [(ngModel)]="leaves.leave_ahead" [useGrouping]="false"></p-inputNumber>
+            </div>
+            <div>
+                <label>Expire</label>
+                <p-calendar appendTo="body" [(ngModel)]="leaves.leave_day_accexpire" dateFormat="dd/mm/yy"><input
+                        type="text"></p-calendar>
+            </div>
+        </div>
+
+        <div class="leaveform">
+            <div>
+                <label>Minimum(Hrs.)</label>
+                <p-calendar [(ngModel)]="leaves.leave_min_hrs" dataType="string" [timeOnly]="true"
+                    dateMask></p-calendar>
+            </div>
+            <div>
+                <label>Not over days</label>
+                <p-inputNumber [(ngModel)]="leaves.leave_max_day" [useGrouping]="false"></p-inputNumber>
+            </div>
+
+        </div>
+        <div class="checkoption">
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="leaves.leave_incholiday">
+                  <label>Include holidday</label>
+            </div>
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="leaves.leave_passpro">
+                  <label>Pass probation</label>
+            </div>
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="leaves.leave_deduct">
+                  <label>Deduct</label>
+            </div>
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="leaves.leave_caldiligence">
+                  <label>Calculate diligence</label>
+            </div>
+        </div>
+        <div #TABLELIST>
+            <p-accordion>
+                <p-accordionTab header="By Workage">
+                    <p-menubar [model]="items_workage"></p-menubar>
+                    <p-table [value]="leaves.leave_workage" styleClass="p-datatable-sm"
+                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                        [virtualScroll]="true" selectionMode="single" [(selection)]="workages">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>No.</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Day</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data let-i="rowIndex">
+                            <tr [pSelectableRow]="data">
+                                <td>{{i+1}}</td>
+                                <td>{{data.workage_from}}</td>
+                                <td>{{data.workage_to}}</td>
+                                <td>{{data.workage_leaveday}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
+            class="p-button-danger"></button>
+    </div>
+    <!-- --------------End form Input Data ------------------ -->
+</div>
+
+
+
+
+
+<p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddworkage" [maximizable]="true">
+    <div class="formatt">
+        <label>From</label>
+        <p-inputNumber [(ngModel)]="workages.workage_from" [useGrouping]="false"></p-inputNumber>
+        <label>To</label>
+        <p-inputNumber [(ngModel)]="workages.workage_to" [useGrouping]="false"></p-inputNumber>
+        <label>Leave days</label>
+        <p-inputNumber [(ngModel)]="workages.workage_leaveday" [useGrouping]="false"></p-inputNumber>
+    </div>
+    <ng-template pTemplate="footer">
+        <button *ngIf="displayeditworkage" pButton type="button" label="Delete" icon="pi pi-trash"
+            class="p-button-danger"></button>
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Saveholiday()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

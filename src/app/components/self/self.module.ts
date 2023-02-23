@@ -34,7 +34,19 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
 import {ChartModule} from 'primeng/chart';
 import {ImageModule} from 'primeng/image';
+
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { RadioButtonModule } from 'primeng/radiobutton';
+
+
 import { SelfPolicyComponent } from './self-policy/self-policy.component';
+import { SelfLeaveComponent } from './self-leave/self-leave.component';
+import { SelfEmployeeComponent } from './self-employee/self-employee.component';
+import { SelfOvertimeComponent } from './self-overtime/self-overtime.component';
+import { SelfChangeshiftComponent } from './self-changeshift/self-changeshift.component';
+import { SelfRecordtimeComponent } from './self-recordtime/self-recordtime.component';
 
 
 @NgModule({
@@ -71,7 +83,12 @@ import { SelfPolicyComponent } from './self-policy/self-policy.component';
 		ScrollPanelModule,
 		ChipModule,
 		ChartModule,
-		ImageModule
+		ImageModule,
+		ToastModule,
+		ConfirmDialogModule,
+		DialogModule,
+		RadioButtonModule
+
 
 
 		
@@ -80,7 +97,12 @@ import { SelfPolicyComponent } from './self-policy/self-policy.component';
    
   
   
-    SelfPolicyComponent
+    SelfPolicyComponent,
+              SelfLeaveComponent,
+              SelfEmployeeComponent,
+              SelfOvertimeComponent,
+              SelfChangeshiftComponent,
+              SelfRecordtimeComponent
   ]
 })
 export class SelfModule { }

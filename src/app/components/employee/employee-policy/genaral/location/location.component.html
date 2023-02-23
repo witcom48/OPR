@@ -1,0 +1,102 @@
+<!-- Link Page -->
+<div class="path">
+    <span>Employee</span>
+    <div>
+        <i></i>
+        <a routerLink="/employee/policy">Policy</a>
+        <i></i>
+        <small>Location</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+
+
+<div class="tableemp">
+    <!-- Table Show Data -->
+    <div #TABLE>
+        <p-table #dt2 [value]="location_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+        selectionMode="single" [(selection)]="selectedLocation" (onRowSelect)="onRowSelectLocation($event)" [rows]="12"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+        [globalFilterFields]="['location_code','location_name_en','location_name_th','modied_by','modied_date']">
+        <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{title_search}}" />
+                    </span>
+                </div>
+            </ng-template>
+        <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{title_code}}</th>
+                    <th>{{title_name_th}}</th>
+                    <th>{{title_name_en}}</th>
+                    <th>{{title_modified_by}}</th>
+                    <th>{{title_modified_date}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr [pSelectableRow]="data">
+                    <td>{{data.location_code}}</td>
+                    <td>{{data.location_name_th}}</td>
+                    <td>{{data.location_name_en}}</td>
+                    <td>{{data.modified_by}}</td>
+                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data -->
+    <div class="formatt" *ngIf="new_data==true">
+        <i (click)="close()"></i>
+
+        <label>{{title_code}}</label>
+        <input pInputText type="text" [(ngModel)]="selectedLocation.location_code" maxlength="5" />
+        <p>{{selectedLocation.location_code.length}}/5</p>
+
+        <label>{{title_name_th}}</label>
+        <textarea [(ngModel)]="selectedLocation.location_name_th" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>{{title_name_en}}</label>
+        <textarea [(ngModel)]="selectedLocation.location_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>{{title_detail}}</label>
+        <textarea [(ngModel)]="selectedLocation.location_detail" pInputTextarea [autoResize]="true"></textarea>
+
+        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="confirmDelete()"></button>
+    </div>
+</div>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadLocation()" label="{{title_upload}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

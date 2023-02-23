@@ -1,0 +1,157 @@
+<!-- Link Page -->
+<div class="path">
+    <span>Attendance</span>
+    <div>
+        <i></i>
+        <a routerLink="/attendance/policy">Policy</a>
+        <i></i>
+        <small>Overtime</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="overtime_list" selectionMode="single" [(selection)]="overtimes"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="from {first} to {last} total {totalRecords}"
+            [globalFilterFields]="['rateot_code','rateot_name_en','rateot_name_th','modied_by','modied_date']" responsiveLayout="stack"
+            [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="search" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>No.</th>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Modified by</th>
+                    <th>Modified date</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr [pSelectableRow]="data">
+                    <td><span>No.</span>{{i+1}}</td>
+                    <td><span>Code</span>{{data.rateot_code}}</td>
+                    <td><span>Desc</span>{{data.rateot_name_en}}</td>
+                    <td><span>Mod by</span>{{data.modied_by}}</td>
+                    <td><span>Mod date</span>{{data.modied_date | date:'dd/MM/yyyy'}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data Year Period -->
+    <div class="formatt" *ngIf="new_data==true">
+        <i (click)="close()"></i>
+
+        <label>Code</label>
+        <input pInputText type="text" [(ngModel)]="overtimes.rateot_code" maxlength="10" />
+        <p>{{overtimes.rateot_code.length}}/10</p>
+
+        <label>Description (Eng.)</label>
+        <textarea [(ngModel)]="overtimes.rateot_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>Description (Thai)</label>
+        <textarea [(ngModel)]="overtimes.rateot_name_th" pInputTextarea [autoResize]="true"></textarea>
+
+        <div #TABLELIST>
+            <p-accordion>
+                <p-accordionTab header="Rate">
+                    <p-menubar [model]="itemsrate"></p-menubar>
+                    <p-table [value]="overtimes.rate" styleClass="p-datatable-sm"
+                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                        [virtualScroll]="true" selectionMode="single" [(selection)]="rate">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>No.</th>
+                                <th>Daytype</th>
+                                <th>Before</th>
+                                <th>Normal</th>
+                                <th>Break</th>
+                                <th>After</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data let-i="rowIndex">
+                            <tr [pSelectableRow]="data">
+                                <td>{{i+1}}</td>
+                                <td>{{data.rateot_daytype}}</td>
+                                <td>{{data.rateot_before}}</td>
+                                <td>{{data.rateot_normal}}</td>
+                                <td>{{data.rateot_break}}</td>
+                                <td>{{data.rateot_after}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
+            class="p-button-danger"></button>
+    </div>
+    <!-- --------------End form Input Data ------------------ -->
+</div>
+
+
+<p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddrate" [maximizable]="true" (onHide)="closedispaly()">
+    <div class="formatt">
+        <p-dropdown class="selectyaer"(onChange)="selectdaytype($event)" [options]="daytype"  [(ngModel)]="select_daytype" optionLabel="name"></p-dropdown>
+        <label>Before</label>
+        <p-inputNumber [(ngModel)]="rate.rateot_before" [useGrouping]="false"></p-inputNumber>
+        <label>Normal</label>
+        <p-inputNumber [(ngModel)]="rate.rateot_normal" [useGrouping]="false"></p-inputNumber>
+        <label>Break</label>
+        <p-inputNumber [(ngModel)]="rate.rateot_break" [useGrouping]="false"></p-inputNumber>
+        <label>After</label>
+        <p-inputNumber [(ngModel)]="rate.rateot_after" [useGrouping]="false"></p-inputNumber>
+    </div>
+    <ng-template pTemplate="footer">
+        <button *ngIf="displayeditrate" pButton type="button" label="Delete" icon="pi pi-trash"
+            class="p-button-danger"></button>
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Saverate()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

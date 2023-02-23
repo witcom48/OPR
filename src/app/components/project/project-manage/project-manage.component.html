@@ -301,10 +301,13 @@
 
     <div class="formgrid grid" *ngIf="edit_projobemp==true || new_projobemp==true">
         <span class="spn_title">พนักงานประจำหน่วยงาน</span>
-        <div class="field col-12 ">
-            <label for="projobemp_emp">พนักงาน</label>     
-            <input type="text" id="projobemp_emp" [(ngModel)]="selectedProjobemp.projobemp_emp" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>   
+      
+        <div class="field col-12">
+            <label for="procost_type">พนักงาน</label><br>
+            <p-dropdown  [options]="employee_list_cbb" [(ngModel)]="selectedEmployee_cbb" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+        
+
         <div class="field col-12">
             <label for="selectedProjobcost_cost">งาน</label><br>
             <p-dropdown  [options]="projobmain_list_cbb" [(ngModel)]="selectedProjobmain_cbb" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
