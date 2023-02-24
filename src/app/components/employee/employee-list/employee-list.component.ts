@@ -206,7 +206,7 @@ export class EmployeeListComponent implements OnInit {
   // selectedEmployee: EmployeeModel = new EmployeeModel;
   workerCurrent:number = 0;
   doLoadEmployee(){
-    this.employeeService.worker_get().then((res) =>{
+    this.employeeService.worker_get(this.initial_current.CompCode,"").then((res) =>{
       this.employee_list = res;
       this.workerCurrent = this.employee_list.length;
     });
@@ -271,7 +271,7 @@ export class EmployeeListComponent implements OnInit {
 
   doRecordEmployee(){
     
-    this.employeeService.worker_record1(this.selectedemployee).then((res) => {
+    this.employeeService.worker_recordall(this.selectedemployee).then((res) => {
       console.log(res)
       let result = JSON.parse(res);
 
@@ -377,7 +377,7 @@ export class EmployeeListComponent implements OnInit {
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
-          "project": this.selectedemployee.worker_code
+          "empcode": this.selectedemployee.worker_code
       }
     };
 

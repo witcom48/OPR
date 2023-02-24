@@ -1,13 +1,13 @@
-export class EmpcardModel {
+export class EmpProvidentModel {
     constructor() {
     }
     company_code: string = "";
     worker_code: string = "";
-    card_id: string= "1";
-    card_code: string= "";
-    card_type: string= "";
-    card_issue: string= "";
-    card_expire: string= "";  
+    provident_code: string= "";  
+    empprovident_card: string= "";
+    empprovident_entry: string= "";
+    empprovident_start: string= "";
+    empprovident_end: string= "";
   
     modified_by: string= "";
     modified_date: string= ""; 

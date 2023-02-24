@@ -3,11 +3,11 @@ export class EmpbankModel {
     }
     company_code: string= "";
     worker_code: string= "";
-    empbank_id: string= "1";
-    empbank_bankcode: string= "";
-    empbank_bankaccount: string= "";
-    empbank_bankpercent: string= "";
-    empbank_cashpercent: string= "";
+    bank_id: string= "1";
+    bank_code: string= "";
+    bank_account: string= "";
+    bank_percent: string= "";
+    bank_cashpercent: string= "";
 
     empbank_bankname: string= "";
 

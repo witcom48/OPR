@@ -58,35 +58,23 @@ export class EmployeeService {
     } 
   }
 
-  public worker_get(){      
+  public worker_get(company:string, code:string){      
     console.log('WKR001..');
            
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_list', this.basicRequest, this.options).toPromise()   
+    var filter = { 
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:company,
+      language:"",
+      worker_code:code
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_list', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
       return message.data;
-    });
-  }
-
-  public worker_record1(model:EmployeeModel) {
-    console.log('WKR002..');
-    const data = {
-      company_code: this.initial_current.CompCode,
-      worker_id: model.worker_id,
-      worker_code: model.worker_code,
-      worker_card: model.worker_code,
-      worker_initial: model.worker_initial,
-      worker_fname_th: model.worker_fname_th,
-      worker_lname_th: model.worker_lname_th,
-      worker_type: model.worker_type,
-      worker_hiredate: model.worker_hiredate,
-      modified_by: this.initial_current.Username
-    };    
-
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker', data, this.options).toPromise()   
-    .then((res) => {
-      return res;
     });
   }
 
@@ -157,55 +145,5 @@ export class EmployeeService {
     });
   }
 
-  //Emp Address
-
-  public getworker_address(model:EmployeeModel){
-
-    const data = {
-      company_code: this.initial_current.CompCode,
-      worker_code: 'EMP01',
-      username : this.initial_current.Username
-    }; 
-
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/empaddlist', data, this.options).toPromise()   
-    .then((res) => {
-      let message = JSON.parse(res);
-      console.log(res)
-      return message.data;
-    });
-  }
-
-  //Emp Card
-  public getworker_card(model:EmployeeModel){
-
-    const data = {
-      company_code: this.initial_current.CompCode,
-      worker_code: 'EMP01',
-      username : this.initial_current.Username
-    }; 
-
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/empcardlist', data, this.options).toPromise()   
-    .then((res) => {
-      let message = JSON.parse(res);
-      console.log(res)
-      return message.data;
-    });
-  }
-
-  //Emp Bank
-  public getworker_bank(model:EmployeeModel){
-
-    const data = {
-      company_code: this.initial_current.CompCode,
-      worker_code: 'EMP01',
-      username : this.initial_current.Username
-    }; 
-
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/empbanklist', data, this.options).toPromise()   
-    .then((res) => {
-      let message = JSON.parse(res);
-      console.log(res)
-      return message.data;
-    });
-  }
+  
 }
