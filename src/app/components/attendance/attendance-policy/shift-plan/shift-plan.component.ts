@@ -227,7 +227,7 @@ export class ShiftPlanComponent implements OnInit {
         planschedule_thu_off: this.planschedule_listselect.planschedule_thu_off,
         planschedule_fri_off: this.planschedule_listselect.planschedule_fri_off,
         planschedule_sat_off: this.planschedule_listselect.planschedule_sat_off,
-        modified_by: "Admin",
+        modified_by: this.initial_current.Username,
         flag: false,
       })
     }

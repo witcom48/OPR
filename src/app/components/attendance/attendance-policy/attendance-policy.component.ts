@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class AttendancePolicyComponent implements OnInit {
 
   constructor() { }
-
+  public ttt: string = "TH";
   ngOnInit(): void {
   }
 
