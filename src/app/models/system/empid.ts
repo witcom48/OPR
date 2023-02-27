@@ -1,4 +1,5 @@
 export class EmpIDModel {
+
     constructor() {
 
     }
@@ -7,6 +8,8 @@ export class EmpIDModel {
     empid_code: string = "";
     empid_name_th: string = "";
     empid_name_en: string = "";
+    empid_group: string="";
+
     modified_by: string = "";
     modified_date: string = "";
     index: number = 0;

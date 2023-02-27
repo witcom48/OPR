@@ -4,11 +4,7 @@ import { Table } from 'primeng/table';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import {
-    ConfirmationService,
-    ConfirmEventType,
-    MessageService,
-} from 'primeng/api';
+import {ConfirmationService,ConfirmEventType,MessageService} from 'primeng/api';
 import * as XLSX from 'xlsx';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
@@ -16,13 +12,10 @@ import { ComaddressService } from 'src/app/services/system/comaddress.service';
 import { ComaddressModel } from 'src/app/models/system/comaddress';
 import { CompanyModel } from 'src/app/models/system/company';
 import { CompanyService } from 'src/app/services/system/company.service';
-
 import { CombankModel } from 'src/app/models/system/combank';
 import { ComcardModel } from 'src/app/models/system/comcard';
 import { CombankService } from 'src/app/services/system/combank.service';
 import { ComcardService } from 'src/app/services/system/comcard.service';
-// import { SystemBankaccountComponent } from '../system-bankaccount/system-bankaccount.component';
-
 @Component({
     selector: 'app-companys',
     templateUrl: './companys.component.html',
@@ -352,7 +345,7 @@ export class CompanysComponent implements OnInit {
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
                     this.confirmRecord();
-                    this.page_tab = 1;
+                    // this.page_tab = 1;
                 },
             },
             {
@@ -397,17 +390,11 @@ export class CompanysComponent implements OnInit {
                     this.doLoadComcard();
                     this.doLoadCombank();
                     this.doLoadCompany();
-                    this.page_tab = 2;
                     // this.selectedCompany = new CompanyModel();
                     // this.selectedCombank = new CombankModel();
                     // this.selectedComaddress = new ComaddressModel();
                     // this.selectedComcard = new ComcardModel();
-                    // this.doLoadCombank()
-                    // this.doLoadComaddress()
-                    // this.doLoadComcard()
-                    // this.doLoadCompany();
-
-
+                    this.page_tab = 2;
                     this.edit_data = true;
                     this.new_data = false;
                     // this.router.navigate(["system/CompanysComponent"]);
@@ -424,6 +411,10 @@ export class CompanysComponent implements OnInit {
                     // this.doLoadCombank()
                     // this.doLoadComaddress()
                     // this.doLoadComcard()
+                    this.selectedCompany = new CompanyModel();
+                    this.selectedCombank = new CombankModel();
+                    this.selectedComaddress = new ComaddressModel();
+                    this.selectedComcard = new ComcardModel();
                     this.confirmDelete();
                     this.new_data = true;
                     this.edit_data = false;
@@ -431,6 +422,11 @@ export class CompanysComponent implements OnInit {
             },
         ];
     }
+
+
+    doBack(page: number) {
+        this.page_tab = page;
+      }
 
     //get data
     // ------company------

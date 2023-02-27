@@ -1,15 +1,16 @@
-export class ResonsModel {
+export class ReasonsModel {
     constructor() {
 
     }
-
-    reason_id: string = "1";
+    company_code: string = "";
+    reason_id: string = "";
     reason_code: string = "";
     reason_name_th: string = "";
     reason_name_en: string = "";
-    reason_group: string = "";
+    reason_group: string="";
     created_by: string = "";
+    created_date: string = "";
     modified_by: string = "";
-    index: number = 0;
-    select: boolean = false;
-  }
+    modified_date: string = "";
+    flag: boolean = false;
+}

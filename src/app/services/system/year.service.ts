@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { PrjectModel } from '../../models/project/project';
 import { AppConfig } from '../../config/config';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { InitialCurrent } from '../../config/initial_current';
-import { LocationModel } from 'src/app/models/system/location';
+import { ReligionModel } from 'src/app/models/system/religion';
+import { YearPeriodModels } from 'src/app/models/system/yearperiod';
+
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root'
 })
-export class LocationService {
+export class YearService {
+
     public config: AppConfig = new AppConfig();
     public initial_current: InitialCurrent = new InitialCurrent();
 
@@ -41,58 +44,75 @@ export class LocationService {
         }
     }
 
-    public location_get(Location: LocationModel) {
+    public year_get(Year: YearPeriodModels) {
         console.log('ATT001..');
         let data = {
-            device_name: "phone",
+            device_name: "Desktop",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: Location.company_code || this.initial_current.CompCode,
-            location_id: Location.location_id,
-            location_code: Location.company_code
+            company_code: Year.company_code || this.initial_current.CompCode,
+            year_id: Year.year_id,
+            year_code: Year.year_code,
+            year_name_th: Year.year_name_th,
+            year_name_en: Year.year_name_en,
+            year_fromdate: Year.year_fromdate,
+            year_todate: Year.year_todate,
+            year_group: Year.year_group,
+            modified_by: this.initial_current.Username,
+            fag: false
+
         }
-        return this.http.post<any>(this.config.ApiSystemModule + '/location_list', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiAttendanceModule + '/year_list', data, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;
             });
     }
 
-    public location_record(Location: LocationModel) {
+    public year_record(Year: YearPeriodModels) {
         console.log('ATT002..');
         let data = {
-            device_name: "phone",
+            device_name: "Desktop",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: Location.company_code || this.initial_current.CompCode,
-            location_id: Location.location_id,
-            location_code: Location.location_code,
-            location_name_th: Location.location_name_th,
-            location_name_en: Location.location_name_en,
-            location_detail: Location.location_detail,
-            location_lat: Location.location_lat,
-            location_long: Location.location_long,
+            company_code: Year.company_code || this.initial_current.CompCode,
+            year_id: Year.year_id,
+            year_code: Year.year_code,
+            year_name_th: Year.year_name_th,
+            year_name_en: Year.year_name_en,
+            year_fromdate: Year.year_fromdate,
+            year_todate: Year.year_todate,
+            year_group: Year.year_group,
             modified_by: this.initial_current.Username,
-            flag: Location.flag
+            fag: false
+
         }
-        console.log(data)
-        return this.http.post<any>(this.config.ApiSystemModule + '/location', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiAttendanceModule + '/year', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
-    public location_delete(Location: LocationModel) {
+    public year_delete(Year: YearPeriodModels) {
         console.log('ATT003..');
         let data = {
-            device_name: "phone",
+            device_name: "Desktop",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: Location.company_code || this.initial_current.CompCode,
-            location_id: Location.location_id
+            company_code: Year.company_code || this.initial_current.CompCode,
+            year_id: Year.year_id,
+            year_code: Year.year_code,
+            year_name_th: Year.year_name_th,
+            year_name_en: Year.year_name_en,
+            year_fromdate: Year.year_fromdate,
+            year_todate: Year.year_todate,
+            year_group: Year.year_group,
+            modified_by: this.initial_current.Username,
+            fag: false
+
         }
-        return this.http.post<any>(this.config.ApiSystemModule + '/location_del', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiAttendanceModule + '/year_del', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);
@@ -101,7 +121,7 @@ export class LocationService {
     }
 
 
-    public location_import(file: File, file_name: string, file_type: string) {
+    public year_import(file: File, file_name: string, file_type: string) {
         console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
@@ -110,7 +130,7 @@ export class LocationService {
         para += "&token=" + this.initial_current.Token;
         para += "&by=" + this.initial_current.Username;
 
-        return this.http.post<any>(this.config.ApiSystemModule + '/doUploadMTLocation?' + para, formData).toPromise()
+        return this.http.post<any>(this.config.ApiAttendanceModule + '/doUploadYear?' + para, formData).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message;

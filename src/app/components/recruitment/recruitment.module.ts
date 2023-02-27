@@ -37,7 +37,9 @@ import {ImageModule} from 'primeng/image';
 import { RecruitmentRequestComponent } from './recruitment-request/recruitment-request.component';
 import { RecruitmentApplyComponent } from './recruitment-apply/recruitment-apply.component';
 import { RecruitmentPolicyComponent } from './recruitment-policy/recruitment-policy.component';
-
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
 	imports: [
@@ -73,14 +75,18 @@ import { RecruitmentPolicyComponent } from './recruitment-policy/recruitment-pol
 		ScrollPanelModule,
 		ChipModule,
 		ChartModule,
-		ImageModule
+		ImageModule,
+        ToastModule,
+		ConfirmDialogModule,
+		DialogModule,
 
 
-		
+
+
 	],
 	declarations: [
-   
-  
+
+
     RecruitmentRequestComponent,
            RecruitmentApplyComponent,
            RecruitmentPolicyComponent

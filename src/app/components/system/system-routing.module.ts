@@ -7,7 +7,7 @@ import { SystemSecurityComponent } from './system-security/system-security.compo
 import { SystemNotificationComponent } from './system-notification/system-notification.component';
 
 import { BankComponent } from './bank/bank.component';
-import { ReasonComponent } from  './system-policy/reason/reason.component';
+
 
 import { EmpIDComponent } from  './system-policy/emp-id/emp-id.component';
 import { SystemOrganizationLevelComponent } from  './system-policy/system-organization-level/system-organization-level.component';
@@ -26,6 +26,11 @@ import { SystemComaddressComponent } from './system-company/system-comaddress/co
 import { SystemBankaccountComponent } from './system-company/system-bankaccount/system-bankaccount.component';
 import { CompanysComponent } from './system-company/companys/companys.component';
 import { SystemComcardComponent } from './system-company/system-comcard/system-comcard.component';
+import { ReasonComponent } from './system-policy/reason/reason.component';
+import { SystemYearperiodComponent } from './system-policy/system-yearperiod/system-yearperiod.component';
+import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
+
+
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -53,7 +58,8 @@ import { SystemComcardComponent } from './system-company/system-comcard/system-c
         { path: 'system-bankaccount', component: SystemBankaccountComponent },
         { path: 'CompanysComponent', component: CompanysComponent },
         { path: 'system-comcard', component: SystemComcardComponent },
-
+        { path: 'system-yearperiod', component: SystemYearperiodComponent },
+        { path: 'system-AddCodestructure', component: AddCodestructureComponent },
 
 
 
