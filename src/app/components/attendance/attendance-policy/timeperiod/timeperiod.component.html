@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,7 +7,7 @@
         <i></i>
         <small>{{langs.get('timeperiod')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
 <!-- ---------END Link Page----------- -->
 <hr>
 <!-- Menu New Import Export Data -->
@@ -87,7 +87,7 @@
         <i (click)="close()"></i>
 
         <label>{{langs.get('code')[selectlang]}}</label>
-        <input pInputText type="text" [(ngModel)]="timeperiods.period_no" maxlength="2" />
+        <input pInputText type="text" [(ngModel)]="timeperiods.period_no" maxlength="2"  disabled="{{edit_data}}"/>
         <p>{{timeperiods.period_no.length}}/2</p>
 
         <label>{{langs.get('description')[selectlang]}} (Eng.)</label>

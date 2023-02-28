@@ -22,7 +22,7 @@
             (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="from {first} to {last} total {totalRecords}"
-            [globalFilterFields]="['year_code','year_name_en','modied_by','modied_date']" responsiveLayout="stack"
+            [globalFilterFields]="['year_code','year_name_en','modified_by','modified_date']" responsiveLayout="stack"
             [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -53,8 +53,8 @@
                     <td><span>No.</span>{{i+1}}</td>
                     <td><span>Code</span>{{data.late_code}}</td>
                     <td><span>Desc</span>{{data.late_name_en}}</td>
-                    <td><span>Mod by</span>{{data.modied_by}}</td>
-                    <td><span>Mod date</span>{{data.modied_date | date:'dd/MM/yyyy'}}</td>
+                    <td><span>Mod by</span>{{data.modified_by}}</td>
+                    <td><span>Mod date</span>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
 
                 </tr>
             </ng-template>

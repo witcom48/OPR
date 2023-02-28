@@ -1,15 +1,31 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { AppConfig } from 'src/app/config/config';
+import { InitialCurrent } from 'src/app/config/initial_current';
 import { PlanscheduleModels } from 'src/app/models/attendance/planschedule';
 import { ShiftModels } from 'src/app/models/attendance/shift';
 import { ShiftplanModels } from 'src/app/models/attendance/shift_plan';
+import { PlanshiftServices } from 'src/app/services/attendance/planshift.service';
+import { ShiftServices } from 'src/app/services/attendance/shift.service';
 import * as XLSX from 'xlsx';
+declare var planshift: any;
 @Component({
   selector: 'app-shift-plan',
   templateUrl: './shift-plan.component.html',
   styleUrls: ['./shift-plan.component.scss']
 })
 export class ShiftPlanComponent implements OnInit {
+  langs: any = planshift;
+  selectlang: string = "EN";
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private shiftService: ShiftServices,
+    private planshiftService: PlanshiftServices,
+    private datePipe: DatePipe,
+    private router: Router,
+  ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   @ViewChild('TABLELIST') tablelist: ElementRef | any = null;
   ShiftList: ShiftModels[] = [];
@@ -20,8 +36,6 @@ export class ShiftPlanComponent implements OnInit {
   displayaddholiday: boolean = false;
   displayeditholiday: boolean = false;
   fileToUpload: File | any = null;
-  constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,) { }
   items: MenuItem[] = [];
   items_holiday: MenuItem[] = [];
   shiftplan_lists: ShiftplanModels[] = [];
@@ -30,93 +44,91 @@ export class ShiftPlanComponent implements OnInit {
   planschedule_listselect: PlanscheduleModels = new PlanscheduleModels()
   shiftplans: ShiftplanModels = new ShiftplanModels()
 
-  ngOnInit(): void {
-    this.doLoadMenu()
-    this.ShiftList.push({
-      company_code: 'PSG',
-      shift_id: '1',
-      shift_code: 'Shift N1',
-      shift_name_th: 'กะการทำงานเวลาปกติ 7.00-16.00น.',
-      shift_name_en: 'Shift Normal 7.00-16.00',
-      shift_ch1: '04:00',
-      shift_ch2: '07:00',
-      shift_ch3: '07:00',
-      shift_ch4: '16:00',
-      shift_ch5: '00:00',
-      shift_ch6: '00:00',
-      shift_ch7: '00:00',
-      shift_ch8: '00:00',
-      shift_ch9: '16:00',
-      shift_ch10: '22:00',
-      shift_ch3_from: '04:00',
-      shift_ch3_to: '12:00',
-      shift_ch4_from: '12:00',
-      shift_ch4_to: '22:00',
-      shift_ch7_from: '00:00',
-      shift_ch7_to: '00:00',
-      shift_ch8_from: '00:00',
-      shift_ch8_to: '00:00',
-      shift_otin_min: 3,
-      shift_otin_max: 3,
-      shift_otout_min: 6,
-      shift_otout_max: 6,
-      created_by: 'Admin',
-      created_date: '2022-01-16',
-      modified_by: 'admin',
-      modified_date: '2022-01-17',
-      flag: false,
-      shift_flexiblebreak: true,
-      shift_break: [{
-        company_code: 'PSG',
-        shift_code: 'Nhift N1',
-        shiftbreak_no: 0,
-        shiftbreak_from: "12:00",
-        shiftbreak_to: "13:00",
-        shiftbreak_break: 1
-      }],
-      shift_allowance: [{
-        company_code: "PSG",
-        shift_code: "Shift N1",
-        shiftallowance_no: 0,
-        shiftallowance_name_th: "ค่ากะ",
-        shiftallowance_name_en: "KA",
-        shiftallowance_hhmm: "04:00",
-        shiftallowance_amount: 40.00
-      }],
-    })
-    this.shiftplan_lists = [{
-      company_code: "PSG",
-      planshift_id: "1",
-      planshift_code: "01",
-      planshift_name_th: "แผนการทำงานพนักงานรายวัน",
-      planshift_name_en: "Plan for pemanent Staff",
-      created_by: 'Admin',
-      created_date: '2022-01-16',
-      modified_by: 'admin',
-      modified_deate: '2022-01-17',
-      flag: false,
-      planschedule: [{
-        company_code: "PSG",
-        planshift_code: "Plan01",
-        planschedule_fromdate: new Date("2022-01-19"),
-        planschedule_todate: new Date("2022-01-20"),
-        shift_code: "Shift N4",
-        planschedule_sun_off: "Y",
-        planschedule_mon_off: "",
-        planschedule_tue_off: "",
-        planschedule_web_off: "",
-        planschedule_thu_off: "",
-        planschedule_fri_off: "",
-        planschedule_sta_off: "Y",
-        created_by: 'Admin',
-        created_date: '2022-01-16',
-        modified_by: 'admin',
-        modified_date: '2022-01-17',
-        flag: false,
-      }]
-    }]
+  public initial_current: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current.Token) {
+      this.router.navigateByUrl('');
+    }
+    this.selectlang = this.initial_current.Language;
   }
+  ngOnInit(): void {
+    this.doGetInitialCurrent();
+    this.doLoadMenu();
+    this.doLoadShift();
+    this.doLoadPlanshift();
+  }
+  doLoadShift() {
+    this.ShiftList = [];
+    var tmp = new ShiftModels();
+    this.shiftService.shift_get(tmp).then(async (res) => {
+      this.ShiftList = await res;
+    });
+  }
+  doLoadPlanshift() {
+    this.shiftplan_lists = [];
+    var tmp = new ShiftplanModels();
+    this.planshiftService.planshift_get(tmp).then(async (res) => {
+      await res.forEach(async (element: ShiftplanModels) => {
+        await element.planschedule.forEach((elm: any) => {
+          elm.planschedule_fromdate = new Date(elm.planschedule_fromdate);
+          elm.planschedule_todate = new Date(elm.planschedule_todate);
+          elm.planschedule_sun_off = elm.planschedule_sun_off == "Y" ? true : false;
+          elm.planschedule_mon_off = elm.planschedule_mon_off == "Y" ? true : false;
+          elm.planschedule_tue_off = elm.planschedule_tue_off == "Y" ? true : false;
+          elm.planschedule_wed_off = elm.planschedule_wed_off == "Y" ? true : false;
+          elm.planschedule_thu_off = elm.planschedule_thu_off == "Y" ? true : false;
+          elm.planschedule_fri_off = elm.planschedule_fri_off == "Y" ? true : false;
+          elm.planschedule_sat_off = elm.planschedule_sat_off == "Y" ? true : false;
+        });
+      });
+      this.shiftplan_lists = await res;
+    });
+  }
+  async doRecorddPlanshift(data: ShiftplanModels) {
+    await this.planshiftService.planshift_record(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadPlanshift()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
 
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+  async doDeletedPlanshift(data: ShiftplanModels) {
+    await this.planshiftService.planshift_delete(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadPlanshift()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+  doUploadPlanshift() {
+    const filename = "PLANSHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+    const filetype = "xls";
+    this.planshiftService.planshift_import(this.fileToUpload, filename, filetype).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadPlanshift();
+        this.edit_data = false;
+        this.new_data = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileToUpload = null;
+    });
+  }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
@@ -126,7 +138,7 @@ export class ShiftPlanComponent implements OnInit {
 
     this.items = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.shiftplans = new ShiftplanModels();
@@ -136,7 +148,7 @@ export class ShiftPlanComponent implements OnInit {
       }
       ,
       {
-        label: "Import",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -145,7 +157,7 @@ export class ShiftPlanComponent implements OnInit {
       }
       ,
       {
-        label: "Export",
+        label: this.langs.get('export')[this.selectlang],
         icon: 'pi-file-export',
         command: (event) => {
           this.exportAsExcel()
@@ -155,31 +167,12 @@ export class ShiftPlanComponent implements OnInit {
     ];
     this.items_holiday = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.shiftplan_listselect = new ShiftplanModels();
           this.displayaddholiday = true;
           this.displayeditholiday = false;
-        }
-      }
-      ,
-      {
-        label: "Import",
-        icon: 'pi-file-import',
-        command: (event) => {
-          // this.showUpload()
-
-        }
-      }
-      ,
-      {
-        label: "Export",
-        icon: 'pi-file-export',
-        command: (event) => {
-          // this.exportAsExcel()
-          this.exportAsExcelHolidaylist();
-
         }
       }
     ]
@@ -190,16 +183,14 @@ export class ShiftPlanComponent implements OnInit {
   Uploadfile() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
-        message: "Confirm Upload file : " + this.fileToUpload.name,
-        header: "Import File",
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          console.log(this.fileToUpload)
           this.displayUpload = false;
-          this.messageService.add({ severity: 'success', summary: 'File', detail: "Upload Success" });
+          this.doUploadPlanshift()
         },
         reject: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "Not Upload" });
           this.displayUpload = false;
         }
       });
@@ -209,68 +200,84 @@ export class ShiftPlanComponent implements OnInit {
   }
   close() {
     this.new_data = false
+    this.displayaddholiday = false;
+    this.displayeditholiday = false;
     this.shiftplans = new ShiftplanModels();
     this.shiftplan_listselect = new ShiftplanModels();
     this.planschedule_listselect = new PlanscheduleModels();
   }
   Save() {
-    console.log(this.shiftplans)
+    this.doRecorddPlanshift(this.shiftplans)
   }
-  Saveholiday() {
+  Delete() {
+    this.doDeletedPlanshift(this.shiftplans)
+  }
+  Saveplanschedule() {
     if (!this.displayeditholiday) {
       this.shiftplans.planschedule = this.shiftplans.planschedule.concat({
-        company_code: "PSG",
-        planshift_code: "Plan01",
-        planschedule_fromdate: new Date("2022-01-19"),
-        planschedule_todate: new Date("2022-01-20"),
-        shift_code: "Shift N4",
-        planschedule_sun_off: "Y",
-        planschedule_mon_off: "",
-        planschedule_tue_off: "",
-        planschedule_web_off: "",
-        planschedule_thu_off: "",
-        planschedule_fri_off: "",
-        planschedule_sta_off: "Y",
-        created_by: 'Admin',
-        created_date: '2022-01-16',
-        modified_by: 'admin',
-        modified_date: '2022-01-17',
+        company_code: this.shiftplans.company_code,
+        planshift_code: this.shiftplans.planshift_code,
+        planschedule_fromdate: this.planschedule_listselect.planschedule_fromdate,
+        planschedule_todate: this.planschedule_listselect.planschedule_todate,
+        shift_code: this.selectedshift.shift_code,
+        planschedule_sun_off: this.planschedule_listselect.planschedule_sun_off,
+        planschedule_mon_off: this.planschedule_listselect.planschedule_mon_off,
+        planschedule_tue_off: this.planschedule_listselect.planschedule_tue_off,
+        planschedule_wed_off: this.planschedule_listselect.planschedule_wed_off,
+        planschedule_thu_off: this.planschedule_listselect.planschedule_thu_off,
+        planschedule_fri_off: this.planschedule_listselect.planschedule_fri_off,
+        planschedule_sat_off: this.planschedule_listselect.planschedule_sat_off,
+        modified_by: this.initial_current.Username,
         flag: false,
       })
     }
-    this.shiftplan_listselect = new ShiftplanModels();
     this.displayaddholiday = false;
     this.displayeditholiday = false;
-    console.log(this.shiftplan_listselect)
+    this.planschedule_listselect = new PlanscheduleModels();
+  }
+
+  Deleteplanschedule() {
+    this.shiftplans.planschedule = this.shiftplans.planschedule.filter((item) => {
+      return item !== this.planschedule_listselect;
+    });
+    this.displayaddholiday = false;
+    this.displayeditholiday = false;
+    this.planschedule_listselect = new PlanscheduleModels();
+  }
+  closedispaly() {
+    this.displayaddholiday = false;
+    this.displayeditholiday = false;
     this.planschedule_listselect = new PlanscheduleModels();
   }
   onRowSelectList(event: any) {
     this.displayaddholiday = true
     this.displayeditholiday = true
-    console.log(this.shiftplan_listselect)
   }
   onRowSelect(event: any) {
-    console.log(this.shiftplan_listselect)
-    console.log(this.shiftplans)
     this.new_data = true
     this.edit_data = true;
   }
   exportAsExcel() {
 
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    for (var i in ws) {
+      if (i.startsWith("!") || i.charAt(1) !== "1") {
+        continue;
+      }
+      var n = 0;
+      for (var j in ws) {
+        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+          ws[j].v = ws[j].v.replace(ws[i].v, "")
+        } else {
+          n += 1;
+        }
+
+      }
+    }
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
-
-  }
-  exportAsExcelHolidaylist() {
-
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.tablelist.nativeElement);//converts a DOM TABLE element to a worksheet
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    XLSX.writeFile(wb, 'Export_HolidayList.xlsx');
+    XLSX.writeFile(wb, 'Export_Planshift.xlsx');
 
   }
 }

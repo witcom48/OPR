@@ -17,7 +17,7 @@ export class TimePeriodModels {
     period_dayonperiod: string = "";
     created_by: string = "";
     created_date: string = "";
-    modied_by: string = "";
-    modied_date!: Date;
+    modified_by: string = "";
+    modified_date!: Date;
     flag: boolean = false;
 }

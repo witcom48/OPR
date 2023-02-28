@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,7 +7,7 @@
         <i></i>
         <small>{{langs.get('yearperiod')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
 <!-- <app-changeshift [test]="tt" (result)="changeParentCount($event)"></app-changeshift> -->
 <!-- ---------END Link Page----------- -->
 <hr>
@@ -72,7 +72,7 @@
         <i (click)="close()"></i>
 
         <label>{{langs.get('code')[selectlang]}}</label>
-        <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" />
+        <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" disabled="{{edit_data}}"/>
         <p>{{yearperiods.year_code.length}}/4</p>
 
         <label>{{langs.get('description')[selectlang]}} (Eng.)</label>

@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,7 +7,7 @@
         <i></i>
         <small>{{langs.get('location')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
 <!-- ---------END Link Page----------- -->
 <hr>
 <!-- Menu New Import Export Data -->
@@ -69,7 +69,7 @@
         <i (click)="close()"></i>
 
         <label>{{langs.get('code')[selectlang]}}</label>
-        <input pInputText type="text" [(ngModel)]="locations.location_code" maxlength="5" />
+        <input pInputText type="text" [(ngModel)]="locations.location_code" maxlength="5" disabled="{{edit_data}}" />
         <p>{{locations.location_code.length}}/5</p>
 
         <label>{{langs.get('name')[selectlang]}} (Eng.)</label>

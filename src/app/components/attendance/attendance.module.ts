@@ -36,9 +36,7 @@ import {ChartModule} from 'primeng/chart';
 import {ImageModule} from 'primeng/image';
 import {FileUploadModule} from 'primeng/fileupload';
 import {PickListModule} from 'primeng/picklist';
-
 import { CheckboxModule } from 'primeng/checkbox';
-
 
 import { AttendancePolicyComponent } from './attendance-policy/attendance-policy.component';
 import { AttendanceSelfComponent } from './attendance-self/attendance-self.component';
@@ -150,8 +148,7 @@ import { ManageTableComponent } from './attendance-manage/manage-table/manage-ta
      SetLeaveComponent,
      AttendanceManageComponent,
      ChangeshiftComponent,
-     ManageTableComponent,
-     
+     ManageTableComponent
   ]
 })
 export class AttendanceModule { }

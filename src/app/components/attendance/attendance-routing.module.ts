@@ -28,6 +28,8 @@ import { SetLeaveComponent } from './attendance-policy/set-leave/set-leave.compo
 import { AttendanceManageComponent } from './attendance-manage/attendance-manage.component';
 import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshift.component';
 
+
+
 @NgModule({
     imports: [RouterModule.forChild([
 
@@ -57,7 +59,6 @@ import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshif
         { path: 'policy/setlate', component: SetLateComponent },
         { path: 'policy/setleave', component: SetLeaveComponent },
         { path: 'manage/changeshift', component: ChangeshiftComponent },
-
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

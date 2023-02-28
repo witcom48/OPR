@@ -25,7 +25,7 @@ export class YearperiodComponent implements OnInit {
     private datePipe: DatePipe,
     private config: PrimeNGConfig,
     private router: Router,
-    ) { }
+  ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   new_data: boolean = false
   edit_data: boolean = false
@@ -56,6 +56,7 @@ export class YearperiodComponent implements OnInit {
   doLoadYear() {
     this.yearperiods_list = [];
     var tmp = new YearPeriodModels();
+    tmp.year_group = "LEAVE"
     this.yearServices.year_get(tmp).then(async (res) => {
       await res.forEach((element: YearPeriodModels) => {
         element.year_fromdate = new Date(element.year_fromdate)
@@ -187,9 +188,23 @@ export class YearperiodComponent implements OnInit {
     this.new_data = true
     this.edit_data = true;
   }
-  exportAsExcel() {
+exportAsExcel() {
 
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    for (var i in ws) {
+      if (i.startsWith("!") || i.charAt(1) !== "1") {
+        continue;
+      }
+      var n = 0;
+      for (var j in ws) {
+        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+          ws[j].v = ws[j].v.replace(ws[i].v, "")
+        } else {
+          n += 1;
+        }
+
+      }
+    }
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 

@@ -13,7 +13,7 @@ export class ShiftplanModels {
     created_by: string = "";
     created_date: string = "";
     modified_by: string = "";
-    modified_deate: string = "";
+    modified_datte: string = "";
     flag: boolean = false;
     planschedule:PlanscheduleModels[] = []
 }

@@ -8,8 +8,8 @@ interface Policy {
 interface Result {
   worker: string,
   policy: string,
-  modied_by: string,
-  modied_date: string,
+  modified_by: string,
+  modified_date: string,
 }
 @Component({
   selector: 'app-attendance-process',
@@ -181,7 +181,7 @@ export class AttendanceProcessComponent implements OnInit {
   process() {
     this.result_list = [];
     this.timesheet_dest.forEach(element => {
-      this.result_list.push({ worker: element.emp_code, policy: this.policyselect.code, modied_by: "Admin", modied_date: "2023-02-20" })
+      this.result_list.push({ worker: element.emp_code, policy: this.policyselect.code, modified_by: "Admin", modified_date: "2023-02-20" })
     });
     this.index = 1;
     setTimeout(() => {
