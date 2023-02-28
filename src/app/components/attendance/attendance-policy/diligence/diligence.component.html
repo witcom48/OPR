@@ -1,11 +1,11 @@
 <!-- Link Page -->
 <div class="path">
-    <span>Attendance</span>
+    <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
-        <a routerLink="/attendance/policy">Policy</a>
+        <a routerLink="/attendance/policy">{{langs.get('policy')[selectlang]}}</a>
         <i></i>
-        <small>Diligence</small>
+        <small>{{langs.get('diligence')[selectlang]}}</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -18,11 +18,12 @@
 <div class="tabledata">
     <!-- Table Show Data Year Period -->
     <div #TABLE>
-        <p-table #dt2 [value]="diligence_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-            selectionMode="single" [(selection)]="diligences" (onRowSelect)="onRowSelect($event)" [rows]="10"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-            currentPageReportTemplate="from {first} to {last} total {totalRecords}"
-            [globalFilterFields]="['year_code','year_name_en','modified_by','modified_date']">
+        <p-table #dt2 [value]="diligence_list" selectionMode="single" [(selection)]="diligences"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['year_code','year_name_en','modified_by','modified_date']" responsiveLayout="stack"
+            [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -32,28 +33,30 @@
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="search" />
+                            placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
             </ng-template>
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                    <th>No.</th>
-                    <th>Code</th>
-                    <th>Description</th>
-                    <th>Modified by</th>
-                    <th>Modified date</th>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('code')[selectlang]}}</th>
+                    <th>{{langs.get('description')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
 
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex">
                 <tr [pSelectableRow]="data">
-                    <td>{{i+1}}</td>
-                    <td>{{data.diligence_code}}</td>
-                    <td>{{data.diligence_name_en}}</td>
-                    <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('code')[selectlang]}}</span>{{data.diligence_code}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.diligence_name_en:data.diligence_name_th}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
 
                 </tr>
             </ng-template>
@@ -65,58 +68,60 @@
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
 
-        <label>Code</label>
-        <input pInputText type="text" [(ngModel)]="diligences.diligence_code" maxlength="4" />
-        <p>{{diligences.diligence_code.length}}/4</p>
+        <label>{{langs.get('code')[selectlang]}}</label>
+        <input pInputText type="text" [(ngModel)]="diligences.diligence_code" maxlength="10" disabled="{{edit_data}}" />
+        <p>{{diligences.diligence_code.length}}/10</p>
 
-        <label>Description (Eng.)</label>
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
         <textarea [(ngModel)]="diligences.diligence_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>Description (Thai)</label>
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
         <textarea [(ngModel)]="diligences.diligence_name_th" pInputTextarea [autoResize]="true"></textarea>
         <div class="inputincheckbox">
             <div class="inputcheckbox">
                 <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_passpro">
-                  <label>Pass pro</label>
+                  <label>{{langs.get('passpro')[selectlang]}}</label>
             </div>
         </div>
 
         <div class="inputincheckbox">
             <div class="inputcheckbox">
                 <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_punchcard">
-                  <label>Punchcard</label>
+                  <label>{{langs.get('punchcard')[selectlang]}}</label>
             </div>
             <div class="inputvalue">
                 <div>
-                    <label>Times</label>
-                    <p-inputNumber [(ngModel)]="diligences.diligence_punchcard_times"
-                        [useGrouping]="false"></p-inputNumber>
+                    <label>{{langs.get('times')[selectlang]}}</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_punchcard_times" [useGrouping]="false"
+                        [disabled]="!diligences.diligence_punchcard"></p-inputNumber>
                 </div>
                 <div>
-                    <label>Per Month</label>
-                    <p-inputNumber [(ngModel)]="diligences.diligence_punchcard_timespermonth"
-                        [useGrouping]="false"></p-inputNumber>
+                    <label>{{langs.get('permonth')[selectlang]}}</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_punchcard_timespermonth" [useGrouping]="false"
+                        [disabled]="!diligences.diligence_punchcard"></p-inputNumber>
                 </div>
             </div>
         </div>
         <div class="inputincheckbox">
             <div class="inputcheckbox">
                 <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_late">
-                  <label>Late</label>
+                  <label>{{langs.get('late')[selectlang]}}</label>
             </div>
             <div class="inputvalue">
                 <div>
-                    <label>Times</label>
-                    <p-inputNumber [(ngModel)]="diligences.diligence_late_times" [useGrouping]="false"></p-inputNumber>
+                    <label>{{langs.get('times')[selectlang]}}</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_late_times" [useGrouping]="false"
+                        [disabled]="!diligences.diligence_late"></p-inputNumber>
                 </div>
                 <div>
-                    <label>Minute</label>
-                    <p-inputNumber [(ngModel)]="diligences.diligence_late_acc" [useGrouping]="false"></p-inputNumber>
+                    <label>{{langs.get('minute')[selectlang]}}</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_late_acc" [useGrouping]="false"
+                        [disabled]="!diligences.diligence_late"></p-inputNumber>
                 </div>
                 <div>
-                    <label>Per Month</label>
-                    <p-inputNumber [(ngModel)]="diligences.diligence_late_timespermonth"
-                        [useGrouping]="false"></p-inputNumber>
+                    <label>{{langs.get('permonth')[selectlang]}}</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_late_timespermonth" [useGrouping]="false"
+                        [disabled]="!diligences.diligence_late"></p-inputNumber>
                 </div>
             </div>
         </div>
@@ -124,64 +129,72 @@
         <div class="inputincheckbox">
             <div class="inputcheckbox">
                 <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_ba">
-                  <label>In/Out</label>
+                  <label>{{langs.get('inout')[selectlang]}}</label>
             </div>
             <div class="inputvalue">
                 <div>
-                    <label>Before (Minute)</label>
-                    <p-inputNumber [(ngModel)]="diligences.diligence_before_min" [useGrouping]="false"></p-inputNumber>
+                    <label>{{langs.get('before')[selectlang]}}</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_before_min" [useGrouping]="false"
+                        [disabled]="!diligences.diligence_ba"></p-inputNumber>
                 </div>
                 <div>
-                    <label>After (Minute)</label>
-                    <p-inputNumber [(ngModel)]="diligences.diligence_after_min" [useGrouping]="false"></p-inputNumber>
+                    <label>{{langs.get('after')[selectlang]}}</label>
+                    <p-inputNumber [(ngModel)]="diligences.diligence_after_min" [useGrouping]="false"
+                        [disabled]="!diligences.diligence_ba"></p-inputNumber>
                 </div>
             </div>
         </div>
         <div class="radiorole">
-            <label>In Case of Violate the role :</label>
-            <div>
-                  <input type="radio" name="roel" value="1" [(ngModel)]="diligences.diligence_wrongcondition">
-                  <label>1 step down and pay</label>
-
-                  <input type="radio" name="roel" value="2" [(ngModel)]="diligences.diligence_wrongcondition">
-                  <label>1 step down and not pay</label>
-
-                  <input type="radio" name="roel" value="3" [(ngModel)]="diligences.diligence_wrongcondition">
-                  <label>Step as before and pay</label>
-
-                  <input type="radio" name="roel" value="4" [(ngModel)]="diligences.diligence_wrongcondition">
-                  <label>Step as before and not Pay</label>
-
-                  <input type="radio" name="roel" value="5" [(ngModel)]="diligences.diligence_wrongcondition">
-                  <label>Start</label>
+            <label>{{langs.get('violate')[selectlang]}}</label>
+            <div class="radioroledata">
+                <div>
+                      <input type="radio" name="roel" value="1" [(ngModel)]="diligences.diligence_wrongcondition">
+                      <label>{{langs.get('downandpay')[selectlang]}}</label>
+                </div>
+                <div>
+                      <input type="radio" name="roel" value="2" [(ngModel)]="diligences.diligence_wrongcondition">
+                      <label>{{langs.get('downandnotpay')[selectlang]}}</label>
+                </div>
+                <div>
+                      <input type="radio" name="roel" value="3" [(ngModel)]="diligences.diligence_wrongcondition">
+                      <label>{{langs.get('beforeandpay')[selectlang]}}</label>
+                </div>
+                <div>
+                      <input type="radio" name="roel" value="4" [(ngModel)]="diligences.diligence_wrongcondition">
+                      <label>{{langs.get('beforeandnotpay')[selectlang]}}</label>
+                </div>
+                <div>
+                      <input type="radio" name="roel" value="5" [(ngModel)]="diligences.diligence_wrongcondition">
+                      <label>{{langs.get('start')[selectlang]}}</label>
+                </div>
             </div>
         </div>
         <div class="inputincheckbox">
             <div class="inputcheckbox">
-                <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_somperiod">
-                  <label>Some period</label>
+                <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_someperiod">
+                  <label>{{langs.get('someperiod')[selectlang]}}</label>
             </div>
             <div class="inputvalue">
-                  <input type="radio" name="someperiod" value="Y" [(ngModel)]="diligences.diligence_somperiod_first">
-                  <label>First period</label>
+                  <input type="radio" name="someperiod" value="Y" [(ngModel)]="diligences.diligence_someperiod_first">
+                  <label>{{langs.get('firstperiod')[selectlang]}}</label>
 
-                  <input type="radio" name="someperiod" value="N" [(ngModel)]="diligences.diligence_somperiod_first">
-                  <label>Second Period</label>
+                  <input type="radio" name="someperiod" value="N" [(ngModel)]="diligences.diligence_someperiod_first">
+                  <label>{{langs.get('secondperiod')[selectlang]}}</label>
             </div>
         </div>
         <div #TABLELIST>
             <p-accordion>
-                <p-accordionTab header="Step">
+                <p-accordionTab header="{{langs.get('step')[selectlang]}}">
                     <p-menubar [model]="itemsstep"></p-menubar>
-                    <p-table [value]="diligences.step" styleClass="p-datatable-sm"
+                    <p-table [value]="diligences.steppay_data" styleClass="p-datatable-sm"
                         (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
                         [virtualScroll]="true" selectionMode="single" [(selection)]="diligencestep">
                         <ng-template pTemplate="header">
                             <tr>
                                 <!-- <th>No.</th> -->
-                                <th>Step</th>
-                                <th>Type</th>
-                                <th>Amount</th>
+                                <th>{{langs.get('step')[selectlang]}}</th>
+                                <th>{{langs.get('type')[selectlang]}}</th>
+                                <th>{{langs.get('amount')[selectlang]}}</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-data let-i="rowIndex">
@@ -197,9 +210,9 @@
                 </p-accordionTab>
             </p-accordion>
         </div>
-        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="Delete" icon="pi pi-trash"
-            class="p-button-danger"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash" class="p-button-danger"
+            (click)="Delete()"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>
@@ -208,39 +221,38 @@
 
 
 
-<p-dialog header="Upload" [(visible)]="displayaddstep" [maximizable]="true">
+<p-dialog header="{{langs.get('step')[selectlang]}}" [(visible)]="displayaddstep" [maximizable]="true" (onHide)="closedispaly()">
     <div class="formatt">
-        <label>Step</label>
+        <label>{{langs.get('step')[selectlang]}}</label>
         <p-inputNumber [(ngModel)]="diligencestep.steppay_step" [useGrouping]="false"></p-inputNumber>
         <div>
               <input type="radio" name="fav_language" value="1" [(ngModel)]="diligencestep.steppay_type">
-              <label>Amount</label>
+              <label>{{langs.get('amount')[selectlang]}}</label>
 
               <input type="radio" name="fav_language" value="2" [(ngModel)]="diligencestep.steppay_type">
-              <label>Percent</label>
+              <label>{{langs.get('percent')[selectlang]}}</label>
 
               <input type="radio" name="fav_language" value="3" [(ngModel)]="diligencestep.steppay_type">
-              <label>Miniute/Day</label>
+              <label>{{langs.get('md')[selectlang]}}</label>
         </div>
-        <label>Amount</label>
+        <label>{{langs.get('amount')[selectlang]}}</label>
         <p-inputNumber [(ngModel)]="diligencestep.steppay_amount" [useGrouping]="false"></p-inputNumber>
     </div>
     <ng-template pTemplate="footer">
-        <button *ngIf="displayeditstep" pButton type="button" label="Delete" icon="pi pi-trash"
-            class="p-button-danger"></button>
-        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Savestep()"></button>
+        <button *ngIf="displayeditstep" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash" class="p-button-danger"
+            (click)="Deletestep()"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Savestep()"></button>
     </ng-template>
 </p-dialog>
 
 <!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
+        <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
         <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
     </ng-template>
 </p-dialog>
 

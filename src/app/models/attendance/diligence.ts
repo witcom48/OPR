@@ -10,24 +10,29 @@ export class DiligenceModels {
     diligence_code: string = "";
     diligence_name_th: string = "";
     diligence_name_en: string = "";
-    diligence_punchcard: string = "";
-    diligence_punchcard_times: string = "";
-    diligence_punchcard_timespermonth: string = "";
-    diligence_late: string = "";
-    diligence_late_times: string = "";
-    diligence_late_acc: string = "";
-    diligence_late_timespermonth: string = "";
-    diligence_ba: string = "";
-    diligence_before_min: string = "";
-    diligence_after_min: string = "";
-    diligence_passpro: string = "";
+
+    diligence_punchcard: boolean = false;
+    diligence_punchcard_times: Number = 0;
+    diligence_punchcard_timespermonth: Number = 0;
+
+    diligence_late: boolean = false;
+    diligence_late_times: Number = 0;
+    diligence_late_timespermonth: Number = 0;
+    diligence_late_acc: Number = 0;
+
+    diligence_ba: boolean = false;
+    diligence_before_min: Number = 0;
+    diligence_after_min: Number = 0;
+
+    diligence_passpro: boolean = false;
     diligence_wrongcondition: string = "";
-    diligence_somperiod: string = "";
-    diligence_somperiod_first: string = ""
+    diligence_someperiod: boolean = false;
+    diligence_someperiod_first: string = "N";
+
     created_by: string = "";
     created_date: string = "";
     modified_by: string = "";
     modified_date: string = "";
     flag: boolean = false;
-    step:DiligencestepModels[] = [];
+    steppay_data: DiligencestepModels[] = [];
 }

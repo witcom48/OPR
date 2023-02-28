@@ -1,14 +1,28 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { AppConfig } from 'src/app/config/config';
+import { InitialCurrent } from 'src/app/config/initial_current';
 import { DiligenceModels } from 'src/app/models/attendance/diligence';
 import { DiligencestepModels } from 'src/app/models/attendance/diligence_step';
+import { DiligenceServices } from 'src/app/services/attendance/diligence.service';
 import * as XLSX from 'xlsx';
+declare var diligence: any;
 @Component({
   selector: 'app-diligence',
   templateUrl: './diligence.component.html',
   styleUrls: ['./diligence.component.scss']
 })
 export class DiligenceComponent implements OnInit {
+  langs: any = diligence;
+  selectlang: string = "EN";
+  constructor(private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private diligenceServices: DiligenceServices,
+    private datePipe: DatePipe,
+    private router: Router,
+  ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   new_data: boolean = false
   edit_data: boolean = false
@@ -16,97 +30,87 @@ export class DiligenceComponent implements OnInit {
   displayUpload: boolean = false;
   displayaddstep: boolean = false;
   displayeditstep: boolean = false;
-  constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,) { }
   items: MenuItem[] = [];
   itemsstep: MenuItem[] = [];
   diligence_list: DiligenceModels[] = [];
   diligences: DiligenceModels = new DiligenceModels();
   diligencestep: DiligencestepModels = new DiligencestepModels()
 
+  public initial_current: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current.Token) {
+      this.router.navigateByUrl('');
+    }
+    this.selectlang = this.initial_current.Language;
+  }
   ngOnInit(): void {
-    this.doLoadMenu()
-    this.diligence_list = [
-      {
-        company_code: "PGS",
-        diligence_id: "8",
-        diligence_code: "DG",
-        diligence_name_th: "เบี้ยขยัน",
-        diligence_name_en: "DILIGENCE",
-        diligence_punchcard: "N",
-        diligence_punchcard_times: "0",
-        diligence_punchcard_timespermonth: "0",
-        diligence_late: "N",
-        diligence_late_acc: "0",
-        diligence_late_times: "0",
-        diligence_late_timespermonth: "0",
-        diligence_ba: "N",
-        diligence_before_min: "0",
-        diligence_after_min: "0",
-        diligence_passpro: "N",
-        diligence_wrongcondition: "1",
-        diligence_somperiod: "N",
-        diligence_somperiod_first: "N",
-        created_by: 'Admin',
-        created_date: '2022-01-16',
-        modified_by: 'admin',
-        modified_date: '2022-01-17',
-        flag: false,
-        step: [
-          {
-            company_code: "PSG",
-            diligence_code: "DG",
-            steppay_step: "1",
-            steppay_type: "1",
-            steppay_amount: "300.0"
-          },
-          {
-            company_code: "PSG",
-            diligence_code: "DG",
-            steppay_step: "2",
-            steppay_type: "2",
-            steppay_amount: "400.0"
-          },
-          {
-            company_code: "PSG",
-            diligence_code: "DG",
-            steppay_step: "3",
-            steppay_type: "3",
-            steppay_amount: "500.0"
-          }
-        ]
+    this.doGetInitialCurrent();
+    this.doLoadMenu();
+    this.doLoadDiligence();
+  }
+  doLoadDiligence() {
+    this.diligence_list = [];
+    var tmp = new DiligenceModels();
+    this.diligenceServices.diligence_get(tmp).then(async (res) => {
+      await res.forEach((element: any) => {
+        element.diligence_punchcard = element.diligence_punchcard == "Y" ? true : false;
+        element.diligence_late = element.diligence_late == "Y" ? true : false;
+        element.diligence_ba = element.diligence_ba == "Y" ? true : false;
+        element.diligence_passpro = element.diligence_passpro == "Y" ? true : false;
+        element.diligence_someperiod = element.diligence_someperiod == "Y" ? true : false;
+      });
+      this.diligence_list = await res;
+    });
+  }
+  async doRecordDiligence(data: DiligenceModels) {
+    await this.diligenceServices.diligence_record(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadDiligence()
       }
-    ]
-    this.itemsstep = [
-      {
-        label: "New",
-        icon: 'pi-plus',
-        command: (event) => {
-          this.diligencestep = new DiligencestepModels();
-          this.displayaddstep = true;
-          this.displayeditstep = false;
-        }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-      ,
-      {
-        label: "Import",
-        icon: 'pi-file-import',
-        command: (event) => {
-          // this.showUpload()
 
-        }
-      }
-      ,
-      {
-        label: "Export",
-        icon: 'pi-file-export',
-        command: (event) => {
-          // this.exportAsExcel()
-          // this.exportAsExcelHolidaylist();
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
 
-        }
+  async doDeleteDiligence(data: DiligenceModels) {
+    await this.diligenceServices.diligence_delete(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadDiligence()
       }
-    ]
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+  }
+
+  doUploadDiligence() {
+    const filename = "DILIGENCE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+    const filetype = "xls";
+    this.diligenceServices.diligence_import(this.fileToUpload, filename, filetype).then((res) => {
+      console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadDiligence();
+        this.edit_data = false;
+        this.new_data = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileToUpload = null;
+    });
   }
 
   handleFileInput(file: FileList) {
@@ -118,7 +122,7 @@ export class DiligenceComponent implements OnInit {
 
     this.items = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.diligences = new DiligenceModels();
@@ -128,7 +132,7 @@ export class DiligenceComponent implements OnInit {
       }
       ,
       {
-        label: "Import",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -137,7 +141,7 @@ export class DiligenceComponent implements OnInit {
       }
       ,
       {
-        label: "Export",
+        label: this.langs.get('export')[this.selectlang],
         icon: 'pi-file-export',
         command: (event) => {
           this.exportAsExcel()
@@ -145,13 +149,19 @@ export class DiligenceComponent implements OnInit {
         }
       }
     ];
+    this.itemsstep = [
+      {
+        label: this.langs.get('new')[this.selectlang],
+        icon: 'pi-plus',
+        command: (event) => {
+          this.diligencestep = new DiligencestepModels();
+          this.displayaddstep = true;
+          this.displayeditstep = false;
+        }
+      }
+    ]
   }
-  Savestep() {
-    console.log(this.diligencestep)
-    this.displayaddstep = false;
-    this.displayeditstep = false;
-    this.diligencestep = new DiligencestepModels();
-  }
+
   onRowSelectList(event: any) {
     this.displayaddstep = true
     this.displayeditstep = true
@@ -163,16 +173,14 @@ export class DiligenceComponent implements OnInit {
   Uploadfile() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
-        message: "Confirm Upload file : " + this.fileToUpload.name,
-        header: "Import File",
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          console.log(this.fileToUpload)
           this.displayUpload = false;
-          this.messageService.add({ severity: 'success', summary: 'File', detail: "Upload Success" });
+          this.doUploadDiligence();
         },
         reject: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "Not Upload" });
           this.displayUpload = false;
         }
       });
@@ -186,13 +194,45 @@ export class DiligenceComponent implements OnInit {
     this.diligences = new DiligenceModels()
   }
   Save() {
+    // console.log(this.diligencestep)
+    this.doRecordDiligence(this.diligences)
+  }
+  Savestep() {
     console.log(this.diligencestep)
+    if (!this.displayeditstep) {
+      this.diligences.steppay_data = this.diligences.steppay_data.concat({
+        company_code: this.initial_current.CompCode,
+        diligence_code: this.diligences.diligence_code,
+        steppay_step: this.diligencestep.steppay_step,
+        steppay_type: this.diligencestep.steppay_type,
+        steppay_amount: this.diligencestep.steppay_amount
+      })
+    }
+    this.displayaddstep = false;
+    this.displayeditstep = false;
+    this.diligencestep = new DiligencestepModels();
+  }
+  Delete() {
+    this.doDeleteDiligence(this.diligences)
+  }
+  Deletestep() {
+    this.diligences.steppay_data = this.diligences.steppay_data.filter((item) => {
+      return item !== this.diligencestep;
+    });
+    this.displayaddstep = false;
+    this.displayeditstep = false;
+    this.diligencestep = new DiligencestepModels();
+  }
+  closedispaly() {
+    this.displayaddstep = false;
+    this.displayeditstep = false;
+    this.diligencestep = new DiligencestepModels();
   }
   onRowSelect(event: any) {
     this.new_data = true
     this.edit_data = true;
   }
-exportAsExcel() {
+  exportAsExcel() {
 
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
     for (var i in ws) {
@@ -212,7 +252,7 @@ exportAsExcel() {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
+    XLSX.writeFile(wb, 'Export_Diligence.xlsx');
 
   }
 

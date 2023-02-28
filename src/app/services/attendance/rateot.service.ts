@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
-import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { OvertimeModels } from 'src/app/models/attendance/overtime';
 
 @Injectable({

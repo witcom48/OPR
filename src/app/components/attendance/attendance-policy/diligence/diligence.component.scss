@@ -25,10 +25,17 @@
     }
 
 }
-.radiorole{
+
+.radiorole {
     display: flex;
-    label{
+
+    label {
         min-width: 110px;
+    }
+
+    .radioroledata {
+        display: flex;
+        flex-direction: column;
     }
 }
 
