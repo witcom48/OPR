@@ -67,8 +67,8 @@
         <i (click)="close()"></i>
 
         <label>Code</label>
-        <input pInputText type="text" [(ngModel)]="lates.late_code" maxlength="4" />
-        <p>{{lates.late_code.length}}/4</p>
+        <input pInputText type="text" [(ngModel)]="lates.late_code" maxlength="10" disabled="{{edit_data}}"  />
+        <p>{{lates.late_code.length}}/10</p>
 
         <label>Description (Eng.)</label>
         <textarea [(ngModel)]="lates.late_name_en" pInputTextarea [autoResize]="true"></textarea>
@@ -80,7 +80,7 @@
             <p-accordion>
                 <p-accordionTab header="Condition">
                     <p-menubar [model]="itemslate"></p-menubar>
-                    <p-table [value]="lates.condition" styleClass="p-datatable-sm"
+                    <p-table [value]="lates.late_data" styleClass="p-datatable-sm"
                         (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
                         [virtualScroll]="true" selectionMode="single" [(selection)]="conditions">
                         <ng-template pTemplate="header">
@@ -111,6 +111,33 @@
     </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>
+
+
+<p-dialog header="Upload" [(visible)]="displayaddcondition" [maximizable]="true"  (onHide)="closedispaly()">
+    <div class="formatt">
+        <label>From</label>
+        <p-inputNumber [(ngModel)]="conditions.late_from" [useGrouping]="false"></p-inputNumber>
+        <label>To</label>
+        <p-inputNumber [(ngModel)]="conditions.late_to" [useGrouping]="false"></p-inputNumber>
+        <div>
+            <input type="radio" name="fav_language" value="1" [(ngModel)]="conditions.late_deduct_type">
+            <label>Amount</label>
+
+            <input type="radio" name="fav_language" value="2" [(ngModel)]="conditions.late_deduct_type">
+            <label>Percent</label>
+
+            <input type="radio" name="fav_language" value="3" [(ngModel)]="conditions.late_deduct_type">
+            <label>Miniute/Day</label>
+        </div>
+        <label>Amount</label>
+        <p-inputNumber [(ngModel)]="conditions.late_deduct_amount" [useGrouping]="false"></p-inputNumber>
+    </div>
+    <ng-template pTemplate="footer">
+        <button *ngIf="displayeditcondition" pButton type="button" label="Delete" icon="pi pi-trash"
+            class="p-button-danger" (click)="Deletelate()"></button>
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="Savelate()"></button>
+    </ng-template>
+</p-dialog>
 
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">

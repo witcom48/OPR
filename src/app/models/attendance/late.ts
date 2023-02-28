@@ -15,5 +15,5 @@ export class LateModels {
     modified_by: string = "";
     modified_date: string = "";
     flag: boolean = false;
-    condition: LateconditionModels[] = [];
+    late_data: LateconditionModels[] = [];
 }
