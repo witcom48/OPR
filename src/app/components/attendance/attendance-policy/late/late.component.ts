@@ -112,7 +112,7 @@ export class LateComponent implements OnInit {
 
     this.items = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.lates = new LateModels();
@@ -122,7 +122,7 @@ export class LateComponent implements OnInit {
       }
       ,
       {
-        label: "Import",
+        label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -131,7 +131,7 @@ export class LateComponent implements OnInit {
       }
       ,
       {
-        label: "Export",
+        label: this.langs.get('export')[this.selectlang],
         icon: 'pi-file-export',
         command: (event) => {
           this.exportAsExcel()
@@ -141,7 +141,7 @@ export class LateComponent implements OnInit {
     ];
     this.itemslate = [
       {
-        label: "New",
+        label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           this.conditions = new LateconditionModels();
@@ -157,8 +157,8 @@ export class LateComponent implements OnInit {
   Uploadfile() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
-        message: "Confirm Upload file : " + this.fileToUpload.name,
-        header: "Import File",
+        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
+        header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.displayUpload = false;

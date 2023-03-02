@@ -468,6 +468,8 @@ var late = new Map([
     ["modified_by", { TH: "ผู้ทำรายการ", EN: "Modified by" }],
     ["modified_date", { TH: "วันที่ทำรายการ", EN: "Modified date" }],
     ["fromdate", { TH: "จากวันที่", EN: "FromDate" }],
+    ["from", { TH: "จาก", EN: "From" }],
+    ["tos", { TH: "ถึง", EN: "To" }],
     ["todate", { TH: "ถึงวันที่", EN: "ToDate" }],
     ["tax", { TH: "ภาษี", EN: "TAX" }],
     ["leave", { TH: "ลา", EN: "Leave" }],
@@ -476,4 +478,9 @@ var late = new Map([
     ["upload", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
     ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
+    ["late", { TH: "นโยบายสาย", EN: "Late" }],
+    ["amount", { TH: "จำนวนเงิน", EN: "Amount" }],
+    ["condition", { TH: "เงื่อนไข", EN: "Condition" }],
+    ["percent", { TH: "เปอร์เซ็นต์", EN: "Percent" }],
+    ["md", { TH: "นาที/วัน", EN: "Miniute/Day" }],
 ]);
