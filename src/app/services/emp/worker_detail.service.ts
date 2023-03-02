@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AppConfig } from '../../config/config';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 import { InitialCurrent } from '../../config/initial_current';
 
@@ -43,7 +44,7 @@ export class EmpDetailService {
     username:''
   };
 
-  constructor(private http:HttpClient, private router: Router) {
+  constructor(private http:HttpClient, private router: Router,private datePipe: DatePipe) {
     this.doGetInitialCurrent();
    }
 
@@ -212,8 +213,8 @@ export class EmpDetailService {
       item_data = item_data + "\"card_id\":\"" + list[i].card_id + "\"";  
       item_data = item_data + ",\"card_code\":\"" + list[i].card_code + "\"";  
       item_data = item_data + ",\"card_type\":\"" + list[i].card_type + "\"";  
-      item_data = item_data + ",\"card_issue\":\"" + list[i].card_issue + "\"";  
-      item_data = item_data + ",\"card_expire\":\"" + list[i].card_expire + "\"";  
+      item_data = item_data + ",\"card_issue\":\"" + this.datePipe.transform(list[i].card_issue) + "\"";  
+      item_data = item_data + ",\"card_expire\":\"" + this.datePipe.transform(list[i].card_expire) + "\"";  
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";          
       item_data = item_data + "}" + ",";
@@ -223,7 +224,7 @@ export class EmpDetailService {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
-
+    console.log(item_data);
     var specificData = {           
       transaction_data:item_data,    
       worker_code:worker_code,
@@ -291,7 +292,7 @@ export class EmpDetailService {
       item_data = item_data + ",\"bank_account\":\"" + list[i].bank_account + "\"";  
       item_data = item_data + ",\"bank_percent\":\"" + list[i].bank_percent + "\"";  
       item_data = item_data + ",\"bank_cashpercent\":\"" + list[i].bank_cashpercent + "\"";  
-      item_data = item_data + ",\"empbank_bankname\":\"" + list[i].empbank_bankname + "\"";  
+      item_data = item_data + ",\"bank_bankname\":\"" + list[i].bank_bankname + "\"";  
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";          
       item_data = item_data + "}" + ",";
@@ -371,7 +372,7 @@ export class EmpDetailService {
       item_data = item_data + ",\"family_lname_th\":\"" + list[i].family_lname_th + "\"";  
       item_data = item_data + ",\"family_fname_en\":\"" + list[i].family_fname_en + "\"";  
       item_data = item_data + ",\"family_lname_en\":\"" + list[i].family_lname_en + "\"";  
-      item_data = item_data + ",\"family_birthdate\":\"" + list[i].family_birthdate + "\"";  
+      item_data = item_data + ",\"family_birthdate\":\"" + this.datePipe.transform(list[i].family_birthdate) + "\"";  
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";          
       item_data = item_data + "}" + ",";
@@ -445,7 +446,7 @@ export class EmpDetailService {
       item_data = item_data + "{";
       item_data = item_data + "\"emphospital_id\":\"" + list[i].emphospital_id + "\"";  
       item_data = item_data + ",\"emphospital_code\":\"" + list[i].emphospital_code + "\"";  
-      item_data = item_data + ",\"emphospital_date\":\"" + list[i].emphospital_date + "\"";  
+      item_data = item_data + ",\"emphospital_date\":\"" + this.datePipe.transform(list[i].emphospital_date)  + "\"";  
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";          
       item_data = item_data + "}" + ",";
@@ -513,10 +514,10 @@ export class EmpDetailService {
       return message.data;
     });
   }
-  public record_empforeigner(model:EmpForeignerModel){
+  public record_empforeigner(worker_code :string, model:EmpForeignerModel){
     const data = {
-      company_code: model.company_code,
-      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,
+      worker_code: worker_code,
       foreigner_id : model.foreigner_id,     
       passport_no : model.passport_no,  
       passport_issue : model.passport_issue,  
@@ -536,7 +537,11 @@ export class EmpDetailService {
       
       modified_by: this.initial_current.Username
     };
-    
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empforeigner', data, this.options).toPromise()   
+    .then((res) => {
+      return res;
+    });
   }
   public delete_empforeigner(model:EmpForeignerModel){
     const data = {
@@ -589,7 +594,7 @@ export class EmpDetailService {
     for (let i = 0; i < list.length; i++) {         
       item_data = item_data + "{";
       item_data = item_data + "\"empdep_id\":\"" + list[i].empdep_id + "\"";  
-      item_data = item_data + ",\"empdep_date\":\"" + list[i].empdep_date + "\"";  
+      item_data = item_data + ",\"empdep_date\":\"" + this.datePipe.transform(list[i].empdep_date)  + "\"";  
       item_data = item_data + ",\"empdep_level01\":\"" + list[i].empdep_level01 + "\"";  
       item_data = item_data + ",\"empdep_level02\":\"" + list[i].empdep_level02 + "\"";  
       item_data = item_data + ",\"empdep_level03\":\"" + list[i].empdep_level03+ "\"";  
@@ -674,7 +679,7 @@ export class EmpDetailService {
     for (let i = 0; i < list.length; i++) {         
       item_data = item_data + "{";
       item_data = item_data + "\"empposition_id\":\"" + list[i].empposition_id + "\"";  
-      item_data = item_data + ",\"empposition_date\":\"" + list[i].empposition_date + "\"";  
+      item_data = item_data + ",\"empposition_date\":\"" + this.datePipe.transform(list[i].empposition_date)  + "\"";  
       item_data = item_data + ",\"empposition_position\":\"" + list[i].empposition_position + "\"";  
       item_data = item_data + ",\"empposition_reason\":\"" + list[i].empposition_reason + "\""; 
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
@@ -751,8 +756,8 @@ export class EmpDetailService {
       item_data = item_data + "{";
       item_data = item_data + "\"empeducation_no\":\"" + list[i].empeducation_no + "\"";  
       item_data = item_data + ",\"empeducation_gpa\":\"" + list[i].empeducation_gpa + "\"";  
-      item_data = item_data + ",\"empeducation_start\":\"" + list[i].empeducation_start + "\"";  
-      item_data = item_data + ",\"empeducation_finish\":\"" + list[i].empeducation_finish + "\""; 
+      item_data = item_data + ",\"empeducation_start\":\"" + this.datePipe.transform(list[i].empeducation_start)  + "\"";  
+      item_data = item_data + ",\"empeducation_finish\":\"" + this.datePipe.transform(list[i].empeducation_finish)  + "\""; 
       item_data = item_data + ",\"institute_code\":\"" + list[i].institute_code + "\"";  
       item_data = item_data + ",\"faculty_code\":\"" + list[i].faculty_code + "\"";  
       item_data = item_data + ",\"major_code\":\"" + list[i].major_code + "\"";  
@@ -830,8 +835,8 @@ export class EmpDetailService {
     for (let i = 0; i < list.length; i++) {         
       item_data = item_data + "{";
       item_data = item_data + "\"emptraining_no\":\"" + list[i].emptraining_no + "\"";  
-      item_data = item_data + ",\"emptraining_start\":\"" + list[i].emptraining_start + "\"";  
-      item_data = item_data + ",\"emptraining_finish\":\"" + list[i].emptraining_finish + "\"";  
+      item_data = item_data + ",\"emptraining_start\":\"" + this.datePipe.transform(list[i].emptraining_start)  + "\"";  
+      item_data = item_data + ",\"emptraining_finish\":\"" + this.datePipe.transform(list[i].emptraining_finish)  + "\"";  
       item_data = item_data + ",\"emptraining_status\":\"" + list[i].emptraining_status + "\""; 
       item_data = item_data + ",\"emptraining_hours\":\"" + list[i].emptraining_hours + "\"";  
       item_data = item_data + ",\"emptraining_cost\":\"" + list[i].emptraining_cost + "\"";  
@@ -915,8 +920,8 @@ export class EmpDetailService {
       item_data = item_data + "\"empassessment_id\":\"" + list[i].empassessment_id + "\"";  
       item_data = item_data + ",\"empassessment_location\":\"" + list[i].empassessment_location + "\"";  
       item_data = item_data + ",\"empassessment_topic\":\"" + list[i].empassessment_topic + "\"";  
-      item_data = item_data + ",\"empassessment_fromdate\":\"" + list[i].empassessment_fromdate + "\""; 
-      item_data = item_data + ",\"empassessment_todate\":\"" + list[i].empassessment_todate + "\"";  
+      item_data = item_data + ",\"empassessment_fromdate\":\"" + this.datePipe.transform(list[i].empassessment_fromdate)  + "\""; 
+      item_data = item_data + ",\"empassessment_todate\":\"" + this.datePipe.transform(list[i].empassessment_todate)  + "\"";  
       item_data = item_data + ",\"empassessment_count\":\"" + list[i].empassessment_count + "\"";  
       item_data = item_data + ",\"empassessment_result\":\"" + list[i].empassessment_result + "\""; 
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
@@ -993,8 +998,8 @@ export class EmpDetailService {
       item_data = item_data + "{";
       item_data = item_data + "\"empcriminal_id\":\"" + list[i].empcriminal_id + "\"";  
       item_data = item_data + ",\"empcriminal_location\":\"" + list[i].empcriminal_location + "\"";  
-      item_data = item_data + ",\"empcriminal_fromdate\":\"" + list[i].empcriminal_fromdate + "\"";  
-      item_data = item_data + ",\"empcriminal_todate\":\"" + list[i].empcriminal_todate + "\""; 
+      item_data = item_data + ",\"empcriminal_fromdate\":\"" + this.datePipe.transform(list[i].empcriminal_fromdate)  + "\"";  
+      item_data = item_data + ",\"empcriminal_todate\":\"" + this.datePipe.transform(list[i].empcriminal_todate)  + "\""; 
       item_data = item_data + ",\"empcriminal_count\":\"" + list[i].empcriminal_count + "\"";  
       item_data = item_data + ",\"empcriminal_result\":\"" + list[i].empcriminal_result + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
@@ -1071,7 +1076,7 @@ export class EmpDetailService {
       item_data = item_data + "{";
       item_data = item_data + "\"empsalary_id\":\"" + list[i].empsalary_id + "\"";  
       item_data = item_data + ",\"empsalary_amount\":\"" + list[i].empsalary_amount + "\"";  
-      item_data = item_data + ",\"empsalary_date\":\"" + list[i].empsalary_date + "\"";  
+      item_data = item_data + ",\"empsalary_date\":\"" + this.datePipe.transform(list[i].empsalary_date)  + "\"";  
       item_data = item_data + ",\"empsalary_reason\":\"" + list[i].empsalary_reason + "\""; 
       item_data = item_data + ",\"empsalary_incamount\":\"" + list[i].empsalary_incamount + "\"";  
       item_data = item_data + ",\"empsalary_incpercent\":\"" + list[i].empsalary_incpercent + "\"";
@@ -1124,83 +1129,6 @@ export class EmpDetailService {
     });
   }
 
-  //Emp Provident
-  public getworker_provident(company:string, code:string){
-
-    var filter = { 
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company_code:company,
-      language:"",
-      worker_code:code
-    };
-
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/empprovidentlist', filter, this.options).toPromise()   
-    .then((res) => {
-      let message = JSON.parse(res);
-      console.log(res)
-      return message.data;
-    });
-  }
-  public record_empprovident(worker_code :string, list:EmpProvidentModel[]){
-    var item_data:string = "[";
-    for (let i = 0; i < list.length; i++) {         
-      item_data = item_data + "{";
-      item_data = item_data + "\"provident_code\":\"" + list[i].provident_code + "\"";  
-      item_data = item_data + ",\"empprovident_card\":\"" + list[i].empprovident_card + "\"";  
-      item_data = item_data + ",\"empprovident_entry\":\"" + list[i].empprovident_entry + "\"";  
-      item_data = item_data + ",\"empprovident_start\":\"" + list[i].empprovident_start + "\""; 
-      item_data = item_data + ",\"empprovident_end\":\"" + list[i].empprovident_end + "\"";
-      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";          
-      item_data = item_data + "}" + ",";
-    }
-    if(item_data.length > 2) 
-    {
-      item_data = item_data.substr(0, item_data.length - 1);
-    }
-    item_data = item_data + "]";
-
-    var specificData = {           
-      transaction_data:item_data,    
-      worker_code:worker_code,
-      company_code : this.initial_current.CompCode,
-      modified_by:this.initial_current.Username
-    };
-    
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/empprovident', specificData, this.options).toPromise()   
-    .then((res) => {      
-      return res;
-    });
-  }
-  public delete_empprovident(model:EmpProvidentModel){
-    const data = {
-      provident_code: model.provident_code,
-      worker_code: model.worker_code,
-      company_code: this.initial_current.CompCode,    
-      modified_by: this.initial_current.Username
-    };    
-
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/empprovident_del', data, this.options).toPromise()   
-    .then((res) => {      
-      return res;
-    });
-  }
-  public empprovident_import(file: File, file_name:string, file_type:string){
-    const formData = new FormData();
-    formData.append('file', file);
-    
-      var para = "fileName=" + file_name + "." + file_type;
-      para += "&token=" + this.initial_current.Token;
-      para += "&by=" + this.initial_current.Username;
-
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpProvident?' + para, formData).toPromise()   
-    .then((res) => {      
-      return res;
-    });
-  }
-
   //Emp Benefit
   public getworker_benefit(company:string, code:string){
 
@@ -1226,8 +1154,8 @@ export class EmpDetailService {
       item_data = item_data + "{";
       item_data = item_data + "\"empbenefit_id\":\"" + list[i].empbenefit_id + "\"";  
       item_data = item_data + ",\"empbenefit_amount\":\"" + list[i].empbenefit_amount + "\"";  
-      item_data = item_data + ",\"empbenefit_startdate\":\"" + list[i].empbenefit_startdate + "\"";  
-      item_data = item_data + ",\"empbenefit_enddate\":\"" + list[i].empbenefit_enddate + "\""; 
+      item_data = item_data + ",\"empbenefit_startdate\":\"" + this.datePipe.transform(list[i].empbenefit_startdate)  + "\"";  
+      item_data = item_data + ",\"empbenefit_enddate\":\"" + this.datePipe.transform(list[i].empbenefit_enddate)  + "\""; 
       item_data = item_data + ",\"empbenefit_reason\":\"" + list[i].empbenefit_reason + "\"";
       item_data = item_data + ",\"empbenefit_note\":\"" + list[i].empbenefit_note + "\"";
       item_data = item_data + ",\"empbenefit_paytype\":\"" + list[i].empbenefit_paytype + "\"";
@@ -1284,6 +1212,85 @@ export class EmpDetailService {
       return res;
     });
   }
+
+  //Emp Provident
+  public getworker_provident(company:string, code:string){
+
+    var filter = { 
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:company,
+      language:"",
+      worker_code:code
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empprovidentlist', filter, this.options).toPromise()   
+    .then((res) => {
+      let message = JSON.parse(res);
+      console.log(res)
+      return message.data;
+    });
+  }
+  public record_empprovident(worker_code :string, list:EmpProvidentModel[]){
+    var item_data:string = "[";
+    for (let i = 0; i < list.length; i++) {         
+      item_data = item_data + "{";
+      item_data = item_data + "\"provident_code\":\"" + list[i].provident_code + "\"";  
+      item_data = item_data + ",\"empprovident_card\":\"" + list[i].empprovident_card + "\"";  
+      item_data = item_data + ",\"empprovident_entry\":\"" + this.datePipe.transform(list[i].empprovident_entry)  + "\"";  
+      item_data = item_data + ",\"empprovident_start\":\"" + this.datePipe.transform(list[i].empprovident_start)  + "\""; 
+      item_data = item_data + ",\"empprovident_end\":\"" + this.datePipe.transform(list[i].empprovident_end)  + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";          
+      item_data = item_data + "}" + ",";
+    }
+    if(item_data.length > 2) 
+    {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {           
+      transaction_data:item_data,    
+      worker_code:worker_code,
+      company_code : this.initial_current.CompCode,
+      modified_by:this.initial_current.Username
+    };
+    
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empprovident', specificData, this.options).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
+  public delete_empprovident(model:EmpProvidentModel){
+    const data = {
+      provident_code: model.provident_code,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,    
+      modified_by: this.initial_current.Username
+    };    
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empprovident_del', data, this.options).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
+  public empprovident_import(file: File, file_name:string, file_type:string){
+    const formData = new FormData();
+    formData.append('file', file);
+    
+      var para = "fileName=" + file_name + "." + file_type;
+      para += "&token=" + this.initial_current.Token;
+      para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpProvident?' + para, formData).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
+
+  
 
   //Emp Reduce
   public getworker_reduce(company:string, code:string){

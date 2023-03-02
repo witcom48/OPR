@@ -5,8 +5,8 @@ export class EmpEducationModel {
     worker_code: string = "";
     empeducation_no: string= ""
     empeducation_gpa: string= "";  
-    empeducation_start: string= "";
-    empeducation_finish: string= "";
+    empeducation_start!: Date;
+    empeducation_finish!: Date;
     institute_code: string= "";
     faculty_code: string= "";
     major_code: string= "";

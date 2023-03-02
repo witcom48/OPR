@@ -6,8 +6,8 @@ export class EmpcardModel {
     card_id: string= "1";
     card_code: string= "";
     card_type: string= "";
-    card_issue: string= "";
-    card_expire: string= "";  
+    card_issue!: Date;
+    card_expire!: Date;
   
     modified_by: string= "";
     modified_date: string= ""; 
