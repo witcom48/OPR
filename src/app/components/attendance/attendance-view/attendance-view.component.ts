@@ -235,7 +235,7 @@ export class AttendanceViewComponent implements OnInit {
     dateString = '2023-01-31T00:00:00'
     var ToDate = new Date(dateString);
 
-    this.timecardService.timecard_get("XXX", "PRO001", this.worker_code, FromDate, ToDate).then((res) =>{
+    this.timecardService.timecard_get(this.initial_current.CompCode, "", this.worker_code, FromDate, ToDate).then((res) =>{
       this.timecard_list = res;   
     });
   }

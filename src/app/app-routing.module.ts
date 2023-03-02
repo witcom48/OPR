@@ -19,7 +19,8 @@ import { VerifyComponent } from './components/authen/verify/verify.component';
                     { path: 'payroll', loadChildren: () => import('./components/payroll/payroll.module').then(m => m.PayrollModule) },
                     { path: 'recruitment', loadChildren: () => import('./components/recruitment/recruitment.module').then(m => m.RecruitmentModule) },
                     { path: 'system', loadChildren: () => import('./components/system/system.module').then(m => m.SystemModule) },
-                    { path: 'self', loadChildren: () => import('./components/self/self.module').then(m => m.SelfModule) }
+                    { path: 'self', loadChildren: () => import('./components/self/self.module').then(m => m.SelfModule) },
+
                     
 
                 ]

@@ -76,7 +76,7 @@ export class TimecardService {
     };
     
 
-    return this.http.post<any>(this.config.ApiAttendanceModule + '/timecard_list', filter, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiProjectModule + '/timecard_list', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
@@ -130,7 +130,7 @@ export class TimecardService {
 
     console.log(this.config.ApiProjectModule)
 
-    return this.http.post<any>(this.config.ApiAttendanceModule + '/timecard', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiProjectModule + '/timecard', data, this.options).toPromise()   
     .then((res) => {      
       return res;
     });

@@ -64,7 +64,7 @@ export class EmployeeService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_list', this.basicRequest, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      //console.log(res)
       return message.data;
     });
   }
