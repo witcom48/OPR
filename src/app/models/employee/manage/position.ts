@@ -1,3 +1,5 @@
+import { PositionModel } from "../policy/position";
+
 export class EmpPositionModel {
     constructor() {
     }
@@ -14,4 +16,6 @@ export class EmpPositionModel {
 
     index: number = 0;
     select: boolean = false;
+
+    positionlists: PositionModel[]=[];
 }

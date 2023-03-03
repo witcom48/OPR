@@ -90,7 +90,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empaddlist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -279,7 +279,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empbanklist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -357,7 +357,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empfamilylist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -436,7 +436,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/emphospitallist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -510,7 +510,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empforeignerlist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -585,7 +585,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empdeplist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -670,7 +670,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/emppositionlist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -746,7 +746,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empeducationlist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -826,7 +826,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/emptraininglist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -909,7 +909,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empassessmentlist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -988,7 +988,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empcriminallist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -1066,7 +1066,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empsalarylist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -1144,7 +1144,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empbenefitlist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -1228,7 +1228,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empprovidentlist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -1307,7 +1307,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empreducelist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -1382,7 +1382,7 @@ export class EmpDetailService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empaccumalatelist', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }

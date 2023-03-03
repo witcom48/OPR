@@ -1246,7 +1246,7 @@
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_account">
 
         <label>โอนธนาคาร(%)</label>
-        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100" 
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
             [(ngModel)]="selectedEmpbank.bank_percent" suffix="%">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_percent"> -->
@@ -1300,7 +1300,8 @@
     <!-- Form Emp Hospital -->
     <div class="formatt" *ngIf="edit_emphospital==true || new_hospital==true">
         <label>โรงพยาบาล</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmphospital.emphospital_code"
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmphospital.emphospital_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_code"> -->
 
@@ -1381,12 +1382,14 @@
     <!-- Form Emp Education -->
     <div class="formatt" *ngIf="edit_empeducation==true || new_education==true">
         <label>สถานศึกษา</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpeducation.institute_code"
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpeducation.institute_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.institute_code"> -->
 
         <label>คณะ</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpeducation.faculty_code"
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpeducation.faculty_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.faculty_code"> -->
 
@@ -1396,7 +1399,8 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.major_code"> -->
 
         <label>วุฒิการศึกษา</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpeducation.qualification_code"
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpeducation.qualification_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.qualification_code"> -->
 
@@ -1412,7 +1416,7 @@
 
         <label>GPA</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="4"
-            [(ngModel)]="selectedEmpeducation.empeducation_gpa" [minFractionDigits]="2" [maxFractionDigits]="2" >
+            [(ngModel)]="selectedEmpeducation.empeducation_gpa" [minFractionDigits]="2" [maxFractionDigits]="2">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.empeducation_gpa"> -->
 
@@ -1431,7 +1435,8 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.course_code"> -->
 
         <label>สถานศึกษา</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmptraining.institute_code"
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmptraining.institute_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.institute_code"> -->
 
@@ -1459,13 +1464,13 @@
 
         <label>จำนวนชั่วโมง</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
-            [(ngModel)]="selectedEmptraining.emptraining_hours"  >
+            [(ngModel)]="selectedEmptraining.emptraining_hours">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_hours"> -->
 
         <label>ค่าใช้จ่าย</label>
-        <p-inputNumber mode="currency" [showButtons]="false" inputId="currency" currency="THB"
-            [(ngModel)]="selectedEmptraining.emptraining_cost"  >
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency"
+            [(ngModel)]="selectedEmptraining.emptraining_cost">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_cost"> -->
 
@@ -1483,7 +1488,10 @@
     <!-- Form Emp Assessment -->
     <div class="formatt" *ngIf="edit_empassessment==true || new_assessment==true">
         <label>สถานที่</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_location">
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpassessment.empassessment_location"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_location"> -->
 
         <label>หัวข้อ</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_topic">
@@ -1502,7 +1510,16 @@
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_count">
 
         <label>ผลการประเมิน</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_result">
+        <div class="radio">
+            <p-radioButton name="assessment_result" value="Y"
+                [(ngModel)]="selectedEmpassessment.empassessment_result"></p-radioButton>&nbsp;
+            <label>Pass</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="assessment_result" value="N"
+                [(ngModel)]="selectedEmpassessment.empassessment_result"></p-radioButton>&nbsp;
+            <label>Not Pass</label>
+        </div>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_result"> -->
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
@@ -1514,7 +1531,10 @@
     <!-- Form Emp Criminal -->
     <div class="formatt" *ngIf="edit_empcriminal==true || new_criminal==true">
         <label>สถานที่</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_location">
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpcriminal.empcriminal_location"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_location"> -->
 
         <label>จากวันที่</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
@@ -1530,7 +1550,16 @@
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_count">
 
         <label>ผลการตรวจสอบ</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_result">
+        <div class="radio">
+            <p-radioButton name="criminal_result" value="Y"
+                [(ngModel)]="selectedEmpcriminal.empcriminal_result"></p-radioButton>&nbsp;
+            <label>Pass</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="criminal_result" value="N"
+                [(ngModel)]="selectedEmpcriminal.empcriminal_result"></p-radioButton>&nbsp;
+            <label>Not Pass</label>
+        </div>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_result"> -->
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
@@ -1542,13 +1571,22 @@
     <!-- Form Emp Salary -->
     <div class="formatt" *ngIf="edit_empsalary==true || new_salary==true">
         <label>อัตราปรับ(บาท)</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_incamount">
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedEmpsalary.empsalary_incamount">
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_incamount"> -->
 
         <label>อัตราปรับ(%)</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_incpercent">
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax" suffix="%"
+            [(ngModel)]="selectedEmpsalary.empsalary_incpercent" [max]="100">
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_incpercent"> -->
 
         <label>จำนวน</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_amount">
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedEmpsalary.empsalary_amount">
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_amount"> -->
 
         <label>วันที่มีผล</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
@@ -1556,7 +1594,10 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_date"> -->
 
         <label>เหตุผล</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_reason">
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpsalary.empsalary_reason"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_reason"> -->
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empsalary_summit()"></button>
@@ -1567,10 +1608,14 @@
     <!-- Form Emp provident -->
     <div class="formatt" *ngIf="edit_empprovident==true || new_provident==true">
         <label>นโยบาย</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.provident_code">
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpprovident.provident_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.provident_code"> -->
 
         <label>รหัสกองทุนฯ</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_card">
+        <input pInputText type="text" [(ngModel)]="selectedEmpprovident.empprovident_card" maxlength="20">
+        <p>{{selectedEmpprovident.empprovident_card.length}}/20</p>
 
         <label>วันที่เข้า</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
@@ -1597,10 +1642,15 @@
     <!-- Form Emp benefit -->
     <div class="formatt" *ngIf="edit_empbenefit==true || new_benefit==true">
         <label>เงินได้สวัสดิการ</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.item_code">
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpbenefit.item_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.item_code"> -->
 
         <label>จำนวน</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_amount">
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedEmpbenefit.empbenefit_amount">
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_amount"> -->
 
         <label>วันที่เริ่ม</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
@@ -1613,25 +1663,63 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_enddate"> -->
 
         <label>ประเภท</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_paytype">
+        <div class="radio">
+            <p-radioButton name="benefit_paytype" value="A"
+                [(ngModel)]="selectedEmpbenefit.empbenefit_paytype"></p-radioButton>&nbsp;
+            <label>เต็มจำนวน</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="benefit_paytype" value="D"
+                [(ngModel)]="selectedEmpbenefit.empbenefit_paytype"></p-radioButton>&nbsp;
+            <label>ตามวันที่ทำงาน</label>
+        </div>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_paytype"> -->
 
         <label>เงื่อนไขการจ่าย</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_conditionpay">
+        <p-dropdown [options]="conPay" placeholder="--" optionValue="value" [showClear]="true"
+            [(ngModel)]="selectedEmpbenefit.empbenefit_conditionpay" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+        </p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_conditionpay"> -->
 
         <label>งวด</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_payfirst">
+        <div class="radio">
+            <p-radioButton name="benefit_payfirst" value="Y"
+                [(ngModel)]="selectedEmpbenefit.empbenefit_payfirst"></p-radioButton>&nbsp;
+            <label>งวดแรก</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="benefit_payfirst" value="N"
+                [(ngModel)]="selectedEmpbenefit.empbenefit_payfirst"></p-radioButton>&nbsp;
+            <label>งวดที่สอง</label>
+        </div>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_payfirst"> -->
 
         <label>เหตุผล</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_reason">
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpbenefit.empbenefit_reason"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_reason"> -->
 
         <label>เพิ่มเติม</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_note">
+        <textarea [(ngModel)]="selectedEmpbenefit.empbenefit_note" pInputTextarea [autoResize]="true"></textarea>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_note"> -->
 
-        <label>พักการจ่าย</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_break">
-
+        <div class="checkbreak">
+            <p-checkbox name="selectedEmpbenefit.empbenefit_break" [(ngModel)]="selectedEmpbenefit.empbenefit_break"
+                [binary]="true"></p-checkbox> &nbsp;
+            <label>พักการจ่าย</label>
+        </div>
+        <!-- <label>พักการจ่าย</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_break"> -->
         <label>เหตุผล(พักการจ่าย)</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_breakreason">
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpbenefit.empbenefit_breakreason"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_breakreason"> -->
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
@@ -1643,10 +1731,15 @@
     <!-- Form Emp Reduce -->
     <div class="formatt" *ngIf="edit_empreduce==true || new_reduce==true">
         <label>ลดหย่อน</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpreduce.reduce_type">
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpreduce.reduce_type"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpreduce.reduce_type"> -->
 
         <label>จำนวน</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpreduce.empreduce_amount">
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedEmpreduce.empreduce_amount">
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpreduce.empreduce_amount"> -->
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empreduce_summit()"></button>
