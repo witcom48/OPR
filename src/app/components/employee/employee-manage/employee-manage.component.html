@@ -1222,8 +1222,15 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
 
         <label>ประเภทบัตร</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpcard.card_type"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <p-dropdown placeholder="--" [options]="cardTypelist" optionValue="code" [showClear]="true"
+            [(ngModel)]="selectedEmpcard.card_type" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+        </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_type"> -->
 
         <br>

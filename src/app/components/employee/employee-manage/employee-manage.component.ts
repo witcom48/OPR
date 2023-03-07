@@ -53,6 +53,11 @@ interface ConPay {
   name_en: string,
   value: string
 }
+interface Ctype{
+  name_th: string,
+  name_en: string,
+  code: string
+}
 
 
 @Component({
@@ -79,6 +84,7 @@ export class EmployeeManageComponent implements OnInit {
 
   taxM: Taxmethod[] = [];
   conPay: ConPay[] = [];
+  cardTypelist: Ctype[]=[];
 
   //menu empaddress
   menu_empaddress: MenuItem[] = [];
@@ -179,6 +185,11 @@ export class EmployeeManageComponent implements OnInit {
     this.conPay = [
       { name_th: 'ต่องวด', name_en: 'Per Period', value: 'F' },
       { name_th: 'งวดเว้นงวด', name_en: 'Switch Period', value: 'H' },
+    ]
+    this.cardTypelist=[
+      { name_th: 'เลขที่ประจำตัวนิติบุคคล', name_en: '	Citizen ID', code: 'CID' },
+      { name_th: 'บัตรประชาชน', name_en: 'National ID', code: 'NTID' },
+      { name_th: 'ประกันสังคม', name_en: 'Social', code: 'SSO' },
     ]
   }
 
@@ -1812,10 +1823,7 @@ export class EmployeeManageComponent implements OnInit {
     this.empdetailService.getworker_position(this.initial_current.CompCode, this.emp_code).then(async (res) => {
       await res.forEach((element: EmpPositionModel) => {
         element.empposition_date = new Date(element.empposition_date)
-        element.positionlists.forEach(async(item)=>{
-          // let name = this.getpositionname(item.position_code);
-          console.log(item)
-        })
+       
       })
       this.emppositionList = await res;
       if (this.emppositionList.length > 0) {
