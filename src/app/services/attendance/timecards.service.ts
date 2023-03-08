@@ -84,7 +84,7 @@ export class TimecardService {
     });
   }
  
-  public project_record(model:TimecardsModel) {   
+  public timecard_record(model:TimecardsModel) {   
 
     var data = { 
 

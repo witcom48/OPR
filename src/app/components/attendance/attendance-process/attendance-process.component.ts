@@ -69,11 +69,9 @@ export class AttendanceProcessComponent implements OnInit {
 
     this.doGetInitialCurrent()
     
-    this.policyselect =
-    {
-      name: this.policy_list[0]?.name,
-      code: this.policy_list[0]?.code
-    }
+    setTimeout(() => {      
+      this.doLoadTask()
+    }, 200);
   }
 
   public initial_current:InitialCurrent = new InitialCurrent();  
