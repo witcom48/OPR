@@ -10,10 +10,10 @@ import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { LevelModel } from 'src/app/models/system/level';
-import { LevelService } from 'src/app/services/system/level.service';
-import { HospitalModel } from 'src/app/models/system/hospital';
-import { HospitalService } from 'src/app/services/system/hospital.service';
+import { LevelModel } from 'src/app/models/system/policy/level';
+import { LevelService } from 'src/app/services/system/policy/level.service';
+import { HospitalModel } from 'src/app/models/system/policy/hospital';
+import { HospitalService } from 'src/app/services/system/policy/hospital.service';
 @Component({
   selector: 'app-system-hospital',
   templateUrl: './system-hospital.component.html',
@@ -25,10 +25,10 @@ export class SystemHospitalComponent implements OnInit {
     items: MenuItem[] = [];
     edit_data: boolean = false;
     new_data: boolean = false;
-  
+
     hospital_list : HospitalModel[] = [];
     selectedHospital : HospitalModel = new HospitalModel();
-  
+
     constructor(
       private hospitalService: HospitalService,
       private router:Router,
@@ -36,25 +36,25 @@ export class SystemHospitalComponent implements OnInit {
       private confirmationService: ConfirmationService,
       private datePipe: DatePipe
     ) { }
-  
+
     ngOnInit(): void {
       this.doGetInitialCurrent()
-      
+
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
         this.doLoadHospital()
       }, 500);
     }
-  
-    public initial_current:InitialCurrent = new InitialCurrent();  
-    doGetInitialCurrent(){    
+
+    public initial_current:InitialCurrent = new InitialCurrent();
+    doGetInitialCurrent(){
       this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
       if (!this.initial_current) {
         this.router.navigateByUrl('');
-      }       
+      }
     }
-  
+
     title_page:string = "Hospital";
     title_new:string = "New";
     title_edit:string = "Edit";
@@ -70,20 +70,20 @@ export class SystemHospitalComponent implements OnInit {
     title_modified_date:string = "Edit date";
     title_search:string = "Search";
     title_upload:string = "Upload";
-  
+
     title_page_from:string = "Showing";
     title_page_to:string = "to";
     title_page_total:string = "of";
     title_page_record:string = "entries";
-  
+
     title_confirm:string = "Are you sure?";
     title_confirm_record:string = "Confirm to record";
     title_confirm_delete:string = "Confirm to delete";
     title_confirm_yes:string = "Yes";
     title_confirm_no:string = "No";
-  
+
     title_confirm_cancel:string = "You have cancelled";
-  
+
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
         this.title_page = "ข้อมูลประเภทพนักงาน";
@@ -101,26 +101,26 @@ export class SystemHospitalComponent implements OnInit {
         this.title_modified_date = "วันที่ทำรายการ";
         this.title_search = "ค้นหา";
         this.title_upload = "อัพโหลด";
-  
+
         this.title_page_from = "แสดง";
         this.title_page_to = "ถึง";
         this.title_page_total = "จาก";
         this.title_page_record = "รายการ";
-  
+
         this.title_confirm = "ยืนยันการทำรายการ";
         this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
         this.title_confirm_delete = "คุณต้องการลบรายการ";
-  
+
         this.title_confirm_yes = "ใช่";
         this.title_confirm_no = "ยกเลิก";
         this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-        
+
       }
     }
-  
+
     doLoadMenu(){
-       
-      this.items = [   
+
+      this.items = [
         {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
@@ -128,35 +128,35 @@ export class SystemHospitalComponent implements OnInit {
             this.selectedHospital = new HospitalModel();
             this.new_data= true;
             this.edit_data= false;
-          }     
+          }
         }
-        ,    
+        ,
         {
             label:this.title_import,
-            icon:'pi pi-fw pi-file-import',       
+            icon:'pi pi-fw pi-file-import',
             command: (event) => {
               this.showUpload()
-             
-            }        
+
+            }
         }
-        ,    
+        ,
         {
             label:this.title_export,
-            icon:'pi pi-fw pi-file-export',  
+            icon:'pi pi-fw pi-file-export',
             command: (event) => {
               this.exportAsExcel()
-             
-            }                
-        }      
+
+            }
+        }
       ];
     }
-  
+
     doLoadHospital(){
       this.hospitalService.hospital_get().then((res) => {
-       this.hospital_list = res;     
+       this.hospital_list = res;
       });
     }
-  
+
     confirmRecord() {
       this.confirmationService.confirm({
           message: this.title_confirm_record,
@@ -170,12 +170,12 @@ export class SystemHospitalComponent implements OnInit {
           }
       });
     }
-  
+
     doRecordHospital(){
       this.hospitalService.hospital_record(this.selectedHospital).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
-  
+
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
         this.doLoadHospital()
@@ -183,10 +183,10 @@ export class SystemHospitalComponent implements OnInit {
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
        }
-  
+
       });
     }
-  
+
     confirmDelete() {
       this.confirmationService.confirm({
           message: this.title_confirm_delete,
@@ -200,12 +200,12 @@ export class SystemHospitalComponent implements OnInit {
           }
       });
     }
-  
+
     doDeleteHospital(){
       this.hospitalService.hospital_delete(this.selectedHospital).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
-  
+
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
         this.doLoadHospital();
@@ -215,10 +215,10 @@ export class SystemHospitalComponent implements OnInit {
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
        }
-  
+
       });
     }
-  
+
     close(){
       this.new_data=false
       this.selectedHospital = new HospitalModel()
@@ -227,12 +227,12 @@ export class SystemHospitalComponent implements OnInit {
       this.edit_data= true;
       this.new_data= true;
     }
-  
-    fileToUpload: File | any = null;  
+
+    fileToUpload: File | any = null;
     handleFileInput(file: FileList) {
       this.fileToUpload=file.item(0);
     }
-  
+
     doUploadHospital(){
       if (this.fileToUpload) {
         this.confirmationService.confirm({
@@ -242,11 +242,11 @@ export class SystemHospitalComponent implements OnInit {
           accept: () => {
             const filename = "Hospital_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
             const filehospital = "xls";
-  
+
             this.hospitalService.hospital_import(this.fileToUpload, filename, filehospital).then((res) => {
               console.log(res)
               let result = JSON.parse(res);
-  
+
               if (result.success) {
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
                 this.doLoadHospital();
@@ -268,24 +268,24 @@ export class SystemHospitalComponent implements OnInit {
         this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
       }
     }
-  
+
     displayUpload: boolean = false;
     showUpload() {
       this.displayUpload = true;
     }
-  
+
     @ViewChild('TABLE') table: ElementRef | any = null;
-  
+
     exportAsExcel()
     {
       const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  
+
       XLSX.writeFile(wb, 'Export_hospital.xlsx');
-  
+
     }
-  
+
   }
 //     items: MenuItem[] = [];
 //     edit_data: boolean = false;

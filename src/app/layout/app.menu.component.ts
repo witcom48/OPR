@@ -24,9 +24,9 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Self Services',
                 items: [
-                    //{ label: 'Policy', routerLink: ['/self/policy'] },   
-                    { label: 'Employee', routerLink: ['/attendance/self'] },       
-                    { label: 'Manager', routerLink: ['/self/approve'] },                                       
+                    //{ label: 'Policy', routerLink: ['/self/policy'] },
+                    { label: 'Employee', routerLink: ['/attendance/self'] },
+                    { label: 'Manager', routerLink: ['/self/approve'] },
                     { label: 'Reports', routerLink: ['/self/reports'] },
                 ]
             }
@@ -35,11 +35,11 @@ export class AppMenuComponent implements OnInit {
                 label: 'Project',
                 items: [
                     { label: 'Policy', routerLink: ['/project/policy'] },
-                    { label: 'Project', routerLink: ['/project/list'] },                   
+                    { label: 'Project', routerLink: ['/project/list'] },
                     { label: 'Monitor', routerLink: ['/project/monitor'] },
                     { label: 'Timesheet', routerLink: ['/project/timesheet'] },
                     { label: 'Approval list', routerLink: ['/project/approve'] },
-                   
+
                     { label: 'Reports', routerLink: ['/project/reports'] },
                 ]
             }
@@ -48,7 +48,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Employee',
                 items: [
                     { label: 'Policy', routerLink: ['/employee/policy'] },
-                    { label: 'Employee info', routerLink: ['/employee/list'] },                   
+                    { label: 'Employee info', routerLink: ['/employee/list'] },
                     { label: 'Monitor', routerLink: ['/employee/monitor'] },
                     { label: 'Reports', routerLink: ['/employee/reports'] },
                 ]
@@ -58,7 +58,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Recruitment',
                 items: [
                     { label: 'Policy', routerLink: ['/recruitment/policy'] },
-                    { label: 'Request', routerLink: ['/recruitment/request'] },                   
+                    { label: 'Request', routerLink: ['/recruitment/request'] },
                     { label: 'Apply work', routerLink: ['/recruitment/apply'] },
                     { label: 'Approval list', routerLink: ['/recruitment/approve'] },
                     { label: 'Reports', routerLink: ['/recruitment/reports'] },
@@ -69,7 +69,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Attendance',
                 items: [
                     { label: 'Policy', routerLink: ['/attendance/policy'] },
-                    // { label: 'Self Services', routerLink: ['/attendance/self'] },                   
+                    // { label: 'Self Services', routerLink: ['/attendance/self'] },
                     { label: 'Import Time', routerLink: ['/attendance/import'] },
                     { label: 'Processing Time', routerLink: ['/attendance/process'] },
                     { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'] },
@@ -83,9 +83,9 @@ export class AppMenuComponent implements OnInit {
                 label: 'Payroll',
                 items: [
                     { label: 'Policy', routerLink: ['/payroll/policy'] },
-                    { label: 'Calculate Money', routerLink: ['/payroll/calculate'] },                   
+                    { label: 'Calculate Money', routerLink: ['/payroll/calculate'] },
                     { label: 'Income / Deduct', routerLink: ['/payroll/entry'] },
-                    { label: 'Calculate Tax', routerLink: ['/payroll/caltax'] },                    
+                    { label: 'Calculate Tax', routerLink: ['/payroll/caltax'] },
                     { label: 'View Calculate', routerLink: ['/payroll/view'] },
                     { label: 'Transfer', routerLink: ['/payroll/transfer'] },
                     { label: 'Approval list', routerLink: ['/payroll/approve'] },
@@ -97,14 +97,15 @@ export class AppMenuComponent implements OnInit {
                 label: 'System',
                 items: [
                     { label: 'Genaral', routerLink: ['/system/genaral'] },
-                    { label: 'Company', routerLink: ['/system/company'] },                   
+                    { label: 'Company', routerLink: ['/system/company'] },
+                    { label: 'Branch', routerLink: ['/system/Branch'] },
                     { label: 'Security', routerLink: ['/system/security'] },
-                    { label: 'Notification', routerLink: ['/system/notification'] },    
+                    { label: 'Notification', routerLink: ['/system/notification'] },
                     { label: 'Reports', routerLink: ['/system/reports'] },
                 ]
             }
-            
-           
+
+
         ];
     }
 }

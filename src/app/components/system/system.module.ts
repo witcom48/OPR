@@ -63,6 +63,8 @@ import { CompanysComponent } from './system-company/companys/companys.component'
 import { SystemComcardComponent } from './system-company/system-comcard/system-comcard.component';
 import { SystemYearperiodComponent } from './system-policy/system-yearperiod/system-yearperiod.component';
 import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
+import { BranchComponent } from './branch/branch.component';
+import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
 
 
 @NgModule({
@@ -137,6 +139,8 @@ import { AddCodestructureComponent } from './system-policy/emp-id/add-codestruct
            SystemComcardComponent,
            SystemYearperiodComponent,
            AddCodestructureComponent,
+           BranchComponent,
+           SysBranchComponent,
   ]
 })
 export class SystemModule { }

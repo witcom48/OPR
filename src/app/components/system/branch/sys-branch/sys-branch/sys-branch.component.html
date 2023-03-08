@@ -1,0 +1,222 @@
+<p-menubar [model]="toolbar_menu"></p-menubar>
+<p-card header="Branch" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+    <div class="grid">
+        <div class="col-12 md:col-9">
+            <p-tabView (onChange)="tabChange($event)">
+
+                <!-- Tab Genaral -->
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                        <span>{{title_genaral}}</span>
+                    </ng-template>
+
+                    <div class="empinfo">
+                    <div class="formgrid grid">
+                        <!-- <div class="field col-6">
+                            <label for="lastname2">{{title_religion}} :</label><br>
+                            <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                                optionValue="religion_code" [(ngModel)]="selectedEmployee.religion_code"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                            </p-dropdown>
+                        </div> -->
+                        <div class="field col-12 md:col-6">
+                            <label for="firstname2">รหัส</label><br>
+                            <br />
+                            <textarea [rows]="2" id="ppos_detailen"
+                            [(ngModel)]="selectedEmployee.religion_code"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="firstname2">รายละเอียด th</label><br>
+                            <br />
+                            <textarea [rows]="2" id="ppos_detailen"
+                            [(ngModel)]="selectedEmployee.religion_code"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="firstname2">รายละเอียด en</label><br>
+                            <br />
+                            <textarea [rows]="2" id="ppos_detailen"
+                            [(ngModel)]="selectedEmployee.religion_code"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_address}}">
+                                    <p-menubar [model]="menu_empaddress"></p-menubar>
+                                    <p-table #dtAddress [value]="empaddressList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpAddress"
+                                        (onRowSelect)="onRowSelectEmpAddress($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภท</th>
+                                                <th>เลขที่</th>
+                                                <th>ซอย</th>
+                                                <th>ถนน</th>
+                                                <th>อำเภอ</th>
+                                                <th>ตำบล</th>
+                                                <th>จังหวัด</th>
+                                                <th>รหัสไปรษณีย์</th>
+                                                <th>เบอร์โทรศัพท์</th>
+                                                <th>อีเมล์</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empaddress>
+                                            <tr [pSelectableRow]="empaddress">
+                                                <td>{{empaddress.address_type}}</td>
+                                                <td>{{empaddress.address_no}}</td>
+                                                <td>{{empaddress.address_soi}}</td>
+                                                <td>{{empaddress.address_road}}</td>
+                                                <td>{{empaddress.address_amphur}}</td>
+                                                <td>{{empaddress.address_tambon}}</td>
+                                                <td>{{empaddress.province_code}}</td>
+                                                <td>{{empaddress.address_zipcode}}</td>
+                                                <td>{{empaddress.address_tel}}</td>
+                                                <td>{{empaddress.address_email}}</td>
+                                                <td>{{empaddress.modified_by}}</td>
+                                                <td>{{empaddress.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- card -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_card}}">
+                                    <p-menubar [model]="menu_empcard"></p-menubar>
+                                    <p-table #dtempcard [value]="empcardList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpcard"
+                                        (onRowSelect)="onRowSelectEmpCard($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภทบัตร</th>
+                                                <th>รหัสบัตร</th>
+                                                <th>วันที่เปิดบัตร</th>
+                                                <th>วันที่หมดอายุ</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empcard>
+                                            <tr [pSelectableRow]="empcard">
+                                                <td>{{empcard.card_type}}</td>
+                                                <td>{{empcard.card_code}}</td>
+                                                <td>{{empcard.card_issue | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empcard.card_expire | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empcard.modified_by}}</td>
+                                                <td>{{empcard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+            
+
+<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
+    <!-- Form Emp Address -->
+    <div class="formatt" *ngIf="edit_empaddress===true || new_empaddress===true">
+        <label>ประเภท</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpAddress.address_type"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+
+        <label>เลขที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_no">
+
+        <label>หมู่ที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_moo">
+
+        <label>ซอย</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_soi">
+
+        <label>ถนน</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_road">
+
+        <label>ตำบล</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_tambon">
+
+        <label>อำเภอ</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_amphur">
+
+        <label>จังหวัด</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.province_code">
+
+        <label>รหัสไปรษณีย์</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_zipcode">
+
+        <label>เบอร์โทรศัพท์</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_tel">
+
+        <label>อีเมล์</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_email">
+
+        <label>Line</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_line">
+
+        <label>Facebook</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_facebook">
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="empaddress_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empaddress_cancel()"></button>
+
+    </div>
+    <!-- Form Emp Card -->
+    <div class="formatt" *ngIf="edit_empcard===true || new_card===true">
+        <label>เลขที่</label>
+        <input pInputText type="text" id="card_no" [(ngModel)]="selectedEmpcard.card_code">
+
+        <label>วันที่เปิดบัตร</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpcard.card_issue"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_issue"> -->
+
+        <label>วันที่หมดอายุ</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false" [(ngModel)]="selectedEmpcard.card_expire">
+            <input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
+
+        <label>ประเภทบัตร</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpcard.card_type"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_type"> -->
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empcard_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empcard_cancel()"></button>
+
+    </div>
+   
+       
+
+<!-- END FORM DIALOG-->
+
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

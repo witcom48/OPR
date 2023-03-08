@@ -4,7 +4,7 @@ import { AppConfig } from '../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { InitialCurrent } from '../../config/initial_current';
-import { AddresstypeModel } from 'src/app/models/system/addresstype';
+import { AddresstypeModel } from 'src/app/models/system/policy/addresstype';
 import { ComaddressModel } from 'src/app/models/system/comaddress';
 
 @Injectable({
@@ -77,9 +77,9 @@ export class ComaddressService {
     public comaddress_record(model: ComaddressModel) {
         console.log('CAD002..');
         const data = {
-            comaddress_id: model.comaddress_id,
-            comaddress_code: model.comaddress_code,
-
+            company_code: model.company_code,
+            combranch_code: model.combranch_code,
+            comaddress_type: model.comaddress_type,
             comaddress_no: model.comaddress_no,
             comaddress_moo: model.comaddress_moo,
             comaddress_soi: model.comaddress_soi,
@@ -91,7 +91,8 @@ export class ComaddressService {
             comaddress_email: model.comaddress_email,
             comaddress_line: model.comaddress_line,
             comaddress_facebook: model.comaddress_facebook,
-            comaddress_province: model.comaddress_province,
+            province_code: model.province_code,
+
 
             modified_by: this.initial_current.Username,
         };
@@ -112,8 +113,9 @@ export class ComaddressService {
     public comaddress_delete(model: ComaddressModel) {
         console.log('CAD002..');
         const data = {
-            comaddress_id: model.comaddress_id,
-            comaddress_code: model.comaddress_code,
+            company_code:model.company_code,
+            combranch_code:model.combranch_code,
+            comaddress_type:model.comaddress_type,
             modified_by: this.initial_current.Username,
         };
 
@@ -148,3 +150,5 @@ export class ComaddressService {
             });
     }
 }
+
+

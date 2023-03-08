@@ -1,2 +1,100 @@
-<app-companys></app-companys>
+<!-- <app-companys></app-companys> -->
 
+<!-- <app-system-bankaccount></app-system-bankaccount> -->
+
+<span style="font-size: 20px">System</span>&nbsp;
+<i class="pi pi-angle-right"></i>&nbsp;
+<small>{{ title_page }}</small>
+<hr />
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+<div class="tableemp">
+    <div #TABLE>
+        <p-table #dt2 [value]="company_list" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true"
+            scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedcompany"
+            (onRowSelect)="onRowSelectCompany($event)" dataKey="company_code" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+            [globalFilterFields]="['company_code','company_initials','company_name_th','modified_by','modified_date']">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="Search keyword" />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <tr>
+                        <th>รหัส</th>
+                        <th>ชื่อย่อ</th>
+                        <th>ชื่อบริษัท</th>
+                        <th>Edit by</th>
+                        <th>Edit date</th>
+                    </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr [pSelectableRow]="data">
+                    <td>{{data.company_code}}</td>
+                    <td>{{data.company_initials}}</td>
+                    <td>{{data.company_name_th}}</td>
+                    <td>{{data.modified_by}}</td>
+                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>
+
+
+        </p-table>
+    </div>
+</div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <div class="formatt" *ngIf="new_company===true">
+        <i (click)="close()"></i>
+
+        <label>รหัส</label>
+        <!-- <input pInputText type="text" [(ngModel)]="selectedCardtype.cardtype_code" maxlength="5"  [readonly]="edit_data" /> -->
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedcompany.company_code" maxlength="5"  [readonly]="edit_company" >
+        <p>{{selectedcompany.company_code.length}}/5</p>
+
+        <label for="lastname2">ชื่อย่อ</label>
+        <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcompany.company_initials" [cols]="30" pInputTextarea
+            [autoResize]="true"></textarea>
+
+
+        <label for="lastname2">ชื่อบริษัท</label>
+        <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcompany.company_name_th" [cols]="30" pInputTextarea
+            [autoResize]="true"></textarea>
+
+
+
+        <button pButton pRipple type="button" label="แก้ไข" (click)="selectComManage()"
+            class="p-button-secondary"></button>
+        <button pButton type="button" label="บันทึก" icon="pi pi-check" (click)="confirmRecord()"></button>
+        <button *ngIf="edit_company" pButton type="button" label="ลบ" icon="pi pi-trash" class="p-button-danger"
+            (click)="confirmDelete()"></button>
+
+    </div>
+</div>
+
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadCompany()" label="{{title_upload}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>

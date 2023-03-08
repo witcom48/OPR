@@ -6,62 +6,62 @@
         <p-menubar [model]="items"></p-menubar >
         <p-table [value]="pol_cost"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedPolCost" (onRowSelect)="onRowSelectPCost($event)" dataKey="cost_code">
             <ng-template pTemplate="header">
-                <tr>	
+                <tr>
                     <th>รหัส</th>
                     <th>รายละเอียด</th>
                     <th>ประเภท</th>
                     <th>Auto</th>
-                    <th>รหัสเงินได้</th>                                                                 
+                    <th>รหัสเงินได้</th>
                     <th>ผู้ทำรายการ</th>
-                    <th>วันที่ทำรายการ</th>                                                
-                </tr>	
+                    <th>วันที่ทำรายการ</th>
+                </tr>
             </ng-template>
             <ng-template pTemplate="body" let-pol>
-                <tr [pSelectableRow]="pol">        
-                    <td>{{pol.cost_code}}</td>     
-                    <td>{{pol.cost_name_th}}</td>                                
+                <tr [pSelectableRow]="pol">
+                    <td>{{pol.cost_code}}</td>
+                    <td>{{pol.cost_name_th}}</td>
                     <td>{{pol.cost_type}}</td>
-                    <td>{{true == pol.cost_auto ? 'Yes' : 'No' }}</td>
-                    <td>{{pol.cost_allwcode}}</td>                                    
-                    <td>{{pol.modified_by}}</td>      
-                    <td>{{pol.modified_date | date:'dd/MM/yyyy '}}</td>  
-                    
+                    <td>{{true === pol.cost_auto ? 'Yes' : 'No' }}</td>
+                    <td>{{pol.cost_allwcode}}</td>
+                    <td>{{pol.modified_by}}</td>
+                    <td>{{pol.modified_date | date:'dd/MM/yyyy '}}</td>
+
                 </tr>
-            </ng-template>             
+            </ng-template>
         </p-table>
     </div>
     <div class="col-12 md:col-3">
         <div class="formgrid grid" *ngIf="edit_pcost">
             <span class="spn_title_edit">ต้นทุน</span>
             <div class="field col-12 ">
-                <label for="ppos_code">รหัส</label>    
+                <label for="ppos_code">รหัส</label>
                 <input type="text" id="ppos_code" [(ngModel)]="selectedPolCost.cost_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-            </div>	
-           
+            </div>
+
             <div class="field col-12 ">
-                <label for="ppos_name_th">ชื่อไทย</label>                        
+                <label for="ppos_name_th">ชื่อไทย</label>
                 <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedPolCost.cost_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
             <div class="field col-12 ">
-                <label for="ppos_name_en">ชื่ออังกฤษ</label>                        
+                <label for="ppos_name_en">ชื่ออังกฤษ</label>
                 <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedPolCost.cost_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
-            
-            <div class="field col-12 ">   
+
+            <div class="field col-12 ">
                 <label for="ppos_shift_code">ประเภท</label>
                 <p-dropdown placeholder="รายเดือน" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
             <div class="field col-12">
-                <input type="checkbox" /><label for="firstname2">Auto</label>						
+                <input type="checkbox" /><label for="firstname2">Auto</label>
             </div>
 
-            <div class="field col-12 ">   
+            <div class="field col-12 ">
                 <label for="ppos_shift_code">รหัสเงินได้</label>
                 <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
-            
+
             <div class="field col-12">
-                <p-button label="บันทึก" icon="pi pi-save"></p-button>                       
+                <p-button label="บันทึก" icon="pi pi-save"></p-button>
             </div>
 
         </div>

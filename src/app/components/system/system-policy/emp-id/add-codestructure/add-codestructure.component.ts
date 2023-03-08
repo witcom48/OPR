@@ -8,8 +8,8 @@ import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api
 import * as XLSX from 'xlsx';
 import { AppConfig } from '../../../../../config/config';
 import { InitialCurrent } from '../../../../../config/initial_current';
-import { EmpIDModel } from 'src/app/models/system/empid';
-import { EmpidService } from 'src/app/services/system/empid.service';
+import { EmpIDModel } from 'src/app/models/system/policy/empid';
+import { EmpidService } from 'src/app/services/system/policy/empid.service';
 @Component({
   selector: 'app-add-codestructure',
   templateUrl: './add-codestructure.component.html',

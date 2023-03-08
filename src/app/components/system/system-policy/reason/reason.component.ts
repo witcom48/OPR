@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
-import { ReasonsModel } from 'src/app/models/system/reasons';
-import { ReasonsService } from 'src/app/services/system/reasons.service';
+import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import * as XLSX from 'xlsx';
 declare var reason: any;
 interface Type {name: string, code: string}

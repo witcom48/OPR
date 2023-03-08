@@ -3,7 +3,7 @@
 <p-menubar [model]="toolbar_menu"></p-menubar>
 
 <p-card header="Project management" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
-    
+
     <div class="grid">
         <div class="col-12 md:col-9">
             <p-tabView >
@@ -12,16 +12,16 @@
                         <i class="pi pi-cog"></i>&nbsp;&nbsp;
                         <span>ข้อมูลทั่วไป</span>
                     </ng-template>
-                
+
                     <div class="formgrid grid">
                         <div class="field col-3">
                             <label for="firstname2">รหัสหน่วยงาน</label>
                             <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>		
+                        </div>
                         <div class="field col-3">
                             <label for="lastname2">รหัสหน่วยงานกลาง</label>
                             <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>		
+                        </div>
                         <div class="field col-6">
                             <label for="firstname2">ชื่อย่อ</label>
                             <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
@@ -33,8 +33,8 @@
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ชื่ออังกฤษ</label>
                             <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>                   
-                        
+                        </div>
+
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ประเภทธุรกิจ :</label><br>
                             <p-dropdown placeholder="B001 - ห้องสรรพสินค้า" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
@@ -54,11 +54,11 @@
                             <label for="lastname2">รูปแบบปัดเศษเงิน :</label><br>
                             <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                         </div>
-                        
+
                         <div class="col-12">
                             <p-accordion>
                                 <p-accordionTab header="ที่อยู่" [selected]="false">
-                                    <div class="formgrid grid">			
+                                    <div class="formgrid grid">
                                         <div class="field col-6">
                                             <label for="firstname2">เลขที่</label>
                                             <input id="firstname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
@@ -86,132 +86,132 @@
                                         <div class="field col-6">
                                             <div class="p-inputgroup">
                                                 <span class="p-inputgroup-addon">เบอร์โทรศัพท์</span>
-                                                <input type="text" pInputText placeholder="">      
+                                                <input type="text" pInputText placeholder="">
                                             </div>
                                         </div>
                                         <div class="field col-6">
                                             <div class="p-inputgroup">
                                                 <span class="p-inputgroup-addon">Email</span>
-                                                <input type="text" pInputText placeholder="">      
+                                                <input type="text" pInputText placeholder="">
                                             </div>
-                                        </div>	
+                                        </div>
                                         <div class="field col-12">
-                                            <label for="ppos_name_en">เพิ่มเติม</label>                        
+                                            <label for="ppos_name_en">เพิ่มเติม</label>
                                             <textarea [rows]="2" id="ppos_name_en"  [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                        </div>		
+                                        </div>
                                     </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
 
-                        
+
                         <div class="col-12">
                             <p></p>
                             <p-accordion>
                                 <p-accordionTab header="ผู้ติดต่อ" >
                                     <p-table  [tableStyle]="{'min-width': '60rem', 'min-height': '10rem'}">
                                         <ng-template pTemplate="header">
-                                            <tr>						
+                                            <tr>
                                                 <th>ลำดับ</th>
                                                 <th>ชื่อ</th>
                                                 <th>นามสกุล</th>
                                                 <th>ตำแหน่ง</th>
                                                 <th>เบอร์โทรศัพท์</th>
                                                 <th>อีเมล์</th>
-                                                
-                                            </tr>	
-                                        </ng-template>                                              
+
+                                            </tr>
+                                        </ng-template>
                                     </p-table>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
 
-                    </div>  
+                    </div>
                 </p-tabPanel>
-                <p-tabPanel >    
+                <p-tabPanel >
                     <ng-template pTemplate = "header">
                         <i class="pi pi-file-edit"></i>&nbsp;&nbsp;
                         <span>ข้อมูลสัญญา</span>
-                    </ng-template>                         
+                    </ng-template>
                     <p-menubar [model]="items"></p-menubar>
                     <p-table  [tableStyle]="{'min-width': '50rem', 'min-height': '15rem'}">
                         <ng-template pTemplate="header">
-                            <tr>				
-                                <th>ชื่อลูกค้า</th>		
+                            <tr>
+                                <th>ชื่อลูกค้า</th>
                                 <th>วันที่ทำสัญญา</th>
                                 <th>เลขที่สัญญา</th>
                                 <th>ราคา</th>
                                 <th>จากวันที่</th>
                                 <th>ถึงวันที่</th>
                                 <th>ผู้เสนอราคา</th>
-                            </tr>	
+                            </tr>
                         </ng-template>
-                                          
+
                     </p-table>
-                    
-                    <p-divider><b>ผู้รับผิดชอบ</b></p-divider>  
+
+                    <p-divider><b>ผู้รับผิดชอบ</b></p-divider>
                     <p-menubar [model]="items"></p-menubar>
                     <p-table  [tableStyle]="{'min-width': '50rem', 'min-height': '15rem'}">
                         <ng-template pTemplate="header">
-                            <tr>						
+                            <tr>
                                 <th>รหัสพนักงาน</th>
                                 <th>ชื่อ-นามสกุล</th>
                                 <th>ตำแหน่ง</th>
                                 <th>เขต</th>
                                 <th>จากวันที่</th>
                                 <th>ถึงวันที่</th>
-                            </tr>	
+                            </tr>
                         </ng-template>
                         <ng-template pTemplate="body" >
-                            
-                        </ng-template>                    
+
+                        </ng-template>
                     </p-table>
                 </p-tabPanel>
                 <p-tabPanel >
                     <ng-template pTemplate = "header">
                         <i class="pi pi-wrench"></i>&nbsp;&nbsp;
                         <span>นโยบาย</span>
-                        
-                    </ng-template>      
-                    
+
+                    </ng-template>
+
                     <p-menubar [model]="items"></p-menubar >
                     <p-table [value]="project_pols"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedPolicy" (onRowSelect)="onRowSelectPPol($event)" dataKey="ppol_code">
                         <ng-template pTemplate="header">
-                            <tr>	
+                            <tr>
                                 <th>รหัส</th>
                                 <th>รายละเอียด</th>
                                 <th>ค่าล่วงเวลา</th>
                                 <th>เงินได้ค่าเวลา</th>
                                 <th>เบี้ยขยัน</th>
                                 <th>การลา</th>
-                                <th>การหักสาย</th>                                       
+                                <th>การหักสาย</th>
                                 <th>ผู้ทำรายการ</th>
-                                <th>วันที่ทำรายการ</th>                                                
-                            </tr>	
+                                <th>วันที่ทำรายการ</th>
+                            </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-pol>
-                            <tr [pSelectableRow]="pol">        
-                                <td>{{pol.ppol_code}}</td>     
-                                <td>{{pol.ppol_name_th}}</td>                                
+                            <tr [pSelectableRow]="pol">
+                                <td>{{pol.ppol_code}}</td>
+                                <td>{{pol.ppol_name_th}}</td>
                                 <td>{{pol.ppol_ot}}</td>
                                 <td>{{pol.ppol_allw}}</td>
                                 <td>{{pol.ppol_dg}}</td>
                                 <td>{{pol.ppol_leave}}</td>
                                 <td>{{pol.ppol_late}}</td>
-                                <td>{{pol.modified_by}}</td>      
-                                <td>{{pol.modified_date | date:'dd/MM/yyyy '}}</td>  
-                                
+                                <td>{{pol.modified_by}}</td>
+                                <td>{{pol.modified_date | date:'dd/MM/yyyy '}}</td>
+
                             </tr>
-                        </ng-template>             
+                        </ng-template>
                     </p-table>
-                                        
-                    
+
+
                 </p-tabPanel>
                 <p-tabPanel >
                     <ng-template pTemplate = "header">
                         <i class="pi pi-money-bill"></i>&nbsp;&nbsp;
                         <span>งานหลัก</span>
-                    </ng-template>     
+                    </ng-template>
                     <table class="table_summary_">
                         <tr>
                             <td>
@@ -230,15 +230,15 @@
                                     </div>
                                 </div>
                             </td>
-                                                                  
+
                         </tr>
-                    </table>                                   
-                    <br> 
+                    </table>
+                    <br>
                     <p-menubar [model]="items"></p-menubar >
                         <p-table [value]="project_positions"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '160rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedPosition" (onRowSelect)="onRowSelectPPos($event)" dataKey="pos_code">
                             <ng-template pTemplate="header">
-                                <tr>		
-                                    <th>รหัสงาน</th>	
+                                <tr>
+                                    <th>รหัสงาน</th>
                                     <th>ชื่องาน</th>
                                     <th>ประเภทงาน</th>
                                     <th>จำนวนพนักงาน</th>
@@ -246,7 +246,7 @@
                                     <th>ชั่วโมงทำงาน</th>
                                     <th>ชั่วโมงโอที</th>
                                     <th>กะการทำงาน</th>
-                                    <th>วันทำงาน</th>                                    
+                                    <th>วันทำงาน</th>
                                     <th>นโยบายเวลา</th>
                                     <th>รูปแบบสลิป</th>
                                     <th>ชุดฟอร์ม</th>
@@ -254,24 +254,24 @@
                                     <th>ค่าล่วงเวลา</th>
                                     <th>ค่าตำแหน่ง</th>
                                     <th>ค่ากะ</th>
-                                    <th>เบี้ยขยัน</th> 
+                                    <th>เบี้ยขยัน</th>
                                     <th>โอทีอัตโนมัติ</th>
-                                    <th>รวม/คน</th>     
-                                    <th>รวมทั้งหมด</th>     
-                                </tr>	
+                                    <th>รวม/คน</th>
+                                    <th>รวมทั้งหมด</th>
+                                </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-pos>
-                                <tr [pSelectableRow]="pos">        
-                                    <td>{{pos.pos_code}}</td>                                
+                                <tr [pSelectableRow]="pos">
+                                    <td>{{pos.pos_code}}</td>
                                     <td>{{pos.pos_name_th}}</td>
                                     <td>{{pos.pos_type}}</td>
-                                    <td>{{pos.pos_emp}}</td>                                    
+                                    <td>{{pos.pos_emp}}</td>
                                     <td>{{pos.shift_working}}</td>
                                     <td>{{pos.shift_hrs}}</td>
                                     <td>{{pos.shift_overtime}}</td>
                                     <td>{{pos.shift_code}}</td>
                                     <td>
-                                        <div style="display: inline" *ngIf="pos.pos_code=='70001.1'  || pos.pos_code=='70013'">
+                                        <div style="display: inline" *ngIf="pos.pos_code==='70001.1'  || pos.pos_code==='70013'">
                                             <input type="checkbox"   /> Sun
                                             <input type="checkbox" checked  /> Mon
                                             <input type="checkbox" checked  /> Tue
@@ -281,7 +281,7 @@
                                             <input type="checkbox" checked  /> Sat
                                             <input type="checkbox"   /> Holiday
                                         </div>
-                                        <div style="display: inline" *ngIf="pos.pos_code=='70001.2' ">
+                                        <div style="display: inline" *ngIf="pos.pos_code==='70001.2' ">
                                             <input type="checkbox"  checked /> Sun
                                             <input type="checkbox"   /> Mon
                                             <input type="checkbox"   /> Tue
@@ -291,7 +291,7 @@
                                             <input type="checkbox"   /> Sat
                                             <input type="checkbox" checked  /> Holiday
                                         </div>
-                                    </td>                                    
+                                    </td>
                                     <td>{{pos.pol_allw_code}}</td>
                                     <td>{{pos.pol_slip_code}}</td>
                                     <td>{{pos.pol_uniform_code}}</td>
@@ -299,43 +299,43 @@
                                     <td style="text-align: right; padding-right: 10px;">{{pos.allow2 | number:'1.2-2'}}</td>
                                     <td style="text-align: right; padding-right: 10px;">{{pos.allow3 | number:'1.2-2'}}</td>
                                     <td style="text-align: right; padding-right: 10px;">{{pos.allow4 | number:'1.2-2'}}</td>
-                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow5 | number:'1.2-2'}}</td>                
-                                    <td style="text-align: center;">{{true == pos.ot_auto ? 'Yes' : 'No' }}</td>       
+                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow5 | number:'1.2-2'}}</td>
+                                    <td style="text-align: center;">{{true === pos.ot_auto ? 'Yes' : 'No' }}</td>
                                     <td style="text-align: right; padding-right: 10px;">{{pos.allow_emp | number:'1.2-2'}}</td>
-                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow_total | number:'1.2-2'}}</td>            
+                                    <td style="text-align: right; padding-right: 10px;">{{pos.allow_total | number:'1.2-2'}}</td>
                                 </tr>
-                            </ng-template> 
+                            </ng-template>
                         </p-table>
                         <br>
                         <p-accordion>
-                            <p-accordionTab header="สัญญา" >                         
+                            <p-accordionTab header="สัญญา" >
                                 <p-table [value]="project_contracts_a"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="150px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedContract"  dataKey="pcontract_doc">
-    
+
                                     <ng-template pTemplate="header">
-                                        <tr>						
+                                        <tr>
                                             <th>วันที่ทำสัญญา</th>
-                                            <th>เลขที่สัญญา</th>   
-                                            <th>จำนวนพนักงาน</th>                                     
+                                            <th>เลขที่สัญญา</th>
+                                            <th>จำนวนพนักงาน</th>
                                             <th>ราคา</th>
                                             <th>จากวันที่</th>
                                             <th>ถึงวันที่</th>
                                             <th>ผู้ทำรายการ</th>
                                             <th>วันที่ทำรายการ</th>
-                                        </tr>	
-                                    </ng-template>     
-                                    <ng-template pTemplate="body" let-contract>
-                                        <tr [pSelectableRow]="contract">        
-                                            <td>{{contract.pcontract_date | date:'dd/MM/yyyy '}}</td>     
-                                            <td>{{contract.pcontract_doc}}</td>    
-                                            <td>{{contract.pcontract_emp | number:'1.2-2'}}</td>   
-                                            <td>{{contract.pcontract_amount | number:'1.2-2'}}</td>    
-                                            <td>{{contract.pcontract_start | date:'dd/MM/yyyy '}}</td>  
-                                            <td>{{contract.pcontract_end | date:'dd/MM/yyyy '}}</td>                                                                          
-                                            <td>{{contract.modified_by}}</td>      
-                                            <td>{{contract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>                                  
                                         </tr>
-                                    </ng-template>   
-                                    
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-contract>
+                                        <tr [pSelectableRow]="contract">
+                                            <td>{{contract.pcontract_date | date:'dd/MM/yyyy '}}</td>
+                                            <td>{{contract.pcontract_doc}}</td>
+                                            <td>{{contract.pcontract_emp | number:'1.2-2'}}</td>
+                                            <td>{{contract.pcontract_amount | number:'1.2-2'}}</td>
+                                            <td>{{contract.pcontract_start | date:'dd/MM/yyyy '}}</td>
+                                            <td>{{contract.pcontract_end | date:'dd/MM/yyyy '}}</td>
+                                            <td>{{contract.modified_by}}</td>
+                                            <td>{{contract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>
+
                                 </p-table>
                             </p-accordionTab>
                         </p-accordion>
@@ -345,8 +345,8 @@
                                 <p-menubar [model]="items"></p-menubar >
                                 <p-table [value]="project_costs"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedCost" dataKey="pcost_id">
                                     <ng-template pTemplate="header">
-                                        <tr>		
-                                            <th>เวอร์ชั่น</th>	
+                                        <tr>
+                                            <th>เวอร์ชั่น</th>
                                             <th>ต้นทุน</th>
                                             <th>ชื่อต้นทุน</th>
                                             <th>รูปแบบ</th>
@@ -355,29 +355,29 @@
                                             <th>Auto</th>
                                             <th>จากวันที่</th>
                                             <th>ถึงวันที่</th>
-                                            <th>สถานะ</th>                                            
+                                            <th>สถานะ</th>
                                             <th>วันที่อนุมัติ</th>
                                             <th>ผู้ทำรายการ</th>
-                                            <th>วันที่ทำรายการ</th>                                                
-                                        </tr>	
+                                            <th>วันที่ทำรายการ</th>
+                                        </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-cost>
-                                        <tr [pSelectableRow]="cost">        
-                                            <td>{{cost.pcost_version}}</td>                                
+                                        <tr [pSelectableRow]="cost">
+                                            <td>{{cost.pcost_version}}</td>
                                             <td>{{cost.pcost_code}}</td>
                                             <td>{{cost.cost_name_th}}</td>
                                             <td>{{cost.pcost_type}}</td>
                                             <td style="text-align: right; padding-right: 30px;">{{cost.pcost_amount | number:'1.2-2'}}</td>
                                             <td>{{cost.pcost_allwcode}}</td>
-                                            <td>{{true == cost.cost_auto ? 'Yes' : 'No' }}</td>
+                                            <td>{{true === cost.cost_auto ? 'Yes' : 'No' }}</td>
                                             <td>{{cost.pcost_start | date:'dd/MM/yyyy '}}</td>
                                             <td>{{cost.pcost_end | date:'dd/MM/yyyy '}}</td>
-                                            <td>{{cost.pcost_status}}</td>                                            
-                                            <td>{{cost.pcost_start | date:'dd/MM/yyyy '}}</td>  
-                                            <td>{{cost.approve_by}}</td>      
+                                            <td>{{cost.pcost_status}}</td>
+                                            <td>{{cost.pcost_start | date:'dd/MM/yyyy '}}</td>
+                                            <td>{{cost.approve_by}}</td>
                                             <td>{{cost.pcost_start | date:'dd/MM/yyyy '}}</td>
                                         </tr>
-                                    </ng-template>             
+                                    </ng-template>
                                 </p-table>
                             </p-accordionTab>
                         </p-accordion>
@@ -387,10 +387,10 @@
                                 <p-menubar [model]="items"></p-menubar >
                                 <p-table styleClass="p-datatable-sm" [tableStyle]="{'min-width': '10rem'}" [scrollable]="true" scrollHeight="50px" [virtualScroll]="true" selectionMode="single" >
                                     <ng-template pTemplate="header">
-                                        <tr>		
-                                            <th>รหัสเครื่อง</th>                             
-                                        </tr>	
-                                    </ng-template>                                            
+                                        <tr>
+                                            <th>รหัสเครื่อง</th>
+                                        </tr>
+                                    </ng-template>
                                 </p-table>
                             </p-accordionTab>
                         </p-accordion>
@@ -400,8 +400,8 @@
                 <p-tabPanel>
                     <ng-template pTemplate = "header">
                         <i class="pi pi-user"></i>&nbsp;&nbsp;
-                        <span>งานเคลีย์</span>      
-                    </ng-template>     
+                        <span>งานเคลีย์</span>
+                    </ng-template>
 
                     <table class="table_summary_">
                         <tr>
@@ -413,15 +413,15 @@
                                     </div>
                                 </div>
                             </td>
-                                                                                              
+
                         </tr>
-                    </table>                                   
-                    <br> 
+                    </table>
+                    <br>
 
                     <p-menubar [model]="items"></p-menubar >
                     <p-table [value]="project_clears"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedClear"  dataKey="pclear_code">
                         <ng-template pTemplate="header">
-                            <tr>	
+                            <tr>
                                 <th>รหัส</th>
                                 <th>รายละเอียด</th>
                                 <th>จำนวนพนักงาน</th>
@@ -430,61 +430,61 @@
                                 <th>ถึงวันที่</th>       -->
                                 <th>ค่าแรง</th>
                                 <th>ค่าล่วงเวลา</th>
-                                <th>เงินได้อื่นๆ</th>     
-                                <th>รวม/คน</th>     
-                                <th>รวมทั้งหมด</th>                                                           
+                                <th>เงินได้อื่นๆ</th>
+                                <th>รวม/คน</th>
+                                <th>รวมทั้งหมด</th>
                                 <th>ผู้ทำรายการ</th>
-                                <th>วันที่ทำรายการ</th>                                                
-                            </tr>	
+                                <th>วันที่ทำรายการ</th>
+                            </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-clear>
-                            <tr [pSelectableRow]="clear">        
-                                <td>{{clear.pclear_code}}</td>     
-                                <td>{{clear.pclear_name_th}}</td>                                
-                                <td>{{clear.pclear_times}}</td>        
-                                <td>{{clear.pclear_used}}</td>        
-                                <!-- <td>{{clear.pclear_start | date:'dd/MM/yyyy '}}</td>  
+                            <tr [pSelectableRow]="clear">
+                                <td>{{clear.pclear_code}}</td>
+                                <td>{{clear.pclear_name_th}}</td>
+                                <td>{{clear.pclear_times}}</td>
+                                <td>{{clear.pclear_used}}</td>
+                                <!-- <td>{{clear.pclear_start | date:'dd/MM/yyyy '}}</td>
                                 <td>{{clear.pclear_end | date:'dd/MM/yyyy '}}</td>                           -->
-                                <td>{{clear.pclear_wage | number:'1.2-2'}}</td>   
-                                <td>{{clear.pclear_overtime | number:'1.2-2'}}</td>   
-                                <td>{{clear.pclear_other | number:'1.2-2'}}</td>   
-                                <td>{{clear.allow_emp | number:'1.2-2'}}</td>   
-                                <td>{{clear.allow_total | number:'1.2-2'}}</td>                                    
-                                <td>{{clear.modified_by}}</td>      
-                                <td>{{clear.modified_date | date:'dd/MM/yyyy '}}</td>                                  
+                                <td>{{clear.pclear_wage | number:'1.2-2'}}</td>
+                                <td>{{clear.pclear_overtime | number:'1.2-2'}}</td>
+                                <td>{{clear.pclear_other | number:'1.2-2'}}</td>
+                                <td>{{clear.allow_emp | number:'1.2-2'}}</td>
+                                <td>{{clear.allow_total | number:'1.2-2'}}</td>
+                                <td>{{clear.modified_by}}</td>
+                                <td>{{clear.modified_date | date:'dd/MM/yyyy '}}</td>
                             </tr>
-                        </ng-template>             
+                        </ng-template>
                     </p-table>
                     <br>
                     <p-accordion>
-                        <p-accordionTab header="สัญญา" >                         
+                        <p-accordionTab header="สัญญา" >
                             <p-table [value]="project_contracts_a"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedContract"  dataKey="pcontract_doc">
 
                                 <ng-template pTemplate="header">
-                                    <tr>						
+                                    <tr>
                                         <th>วันที่ทำสัญญา</th>
-                                        <th>เลขที่สัญญา</th>   
-                                        <th>จำนวนพนักงาน</th>                                     
+                                        <th>เลขที่สัญญา</th>
+                                        <th>จำนวนพนักงาน</th>
                                         <th>ราคา</th>
                                         <th>จากวันที่</th>
                                         <th>ถึงวันที่</th>
                                         <th>ผู้ทำรายการ</th>
                                         <th>วันที่ทำรายการ</th>
-                                    </tr>	
-                                </ng-template>     
-                                <ng-template pTemplate="body" let-contract>
-                                    <tr [pSelectableRow]="contract">        
-                                        <td>{{contract.pcontract_date | date:'dd/MM/yyyy '}}</td>     
-                                        <td>{{contract.pcontract_doc}}</td>    
-                                        <td>{{contract.pcontract_emp | number:'1.2-2'}}</td>   
-                                        <td>{{contract.pcontract_amount | number:'1.2-2'}}</td>    
-                                        <td>{{contract.pcontract_start | date:'dd/MM/yyyy '}}</td>  
-                                        <td>{{contract.pcontract_end | date:'dd/MM/yyyy '}}</td>                                                                          
-                                        <td>{{contract.modified_by}}</td>      
-                                        <td>{{contract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>                                  
                                     </tr>
-                                </ng-template>   
-                                
+                                </ng-template>
+                                <ng-template pTemplate="body" let-contract>
+                                    <tr [pSelectableRow]="contract">
+                                        <td>{{contract.pcontract_date | date:'dd/MM/yyyy '}}</td>
+                                        <td>{{contract.pcontract_doc}}</td>
+                                        <td>{{contract.pcontract_emp | number:'1.2-2'}}</td>
+                                        <td>{{contract.pcontract_amount | number:'1.2-2'}}</td>
+                                        <td>{{contract.pcontract_start | date:'dd/MM/yyyy '}}</td>
+                                        <td>{{contract.pcontract_end | date:'dd/MM/yyyy '}}</td>
+                                        <td>{{contract.modified_by}}</td>
+                                        <td>{{contract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                    </tr>
+                                </ng-template>
+
                             </p-table>
                         </p-accordionTab>
                     </p-accordion>
@@ -494,16 +494,16 @@
                         <p-accordionTab header="การปฎิบัติงาน" [selected]="true">
                             <p-table  [tableStyle]="{'min-width': '70rem', 'min-height': '20rem'}">
                                 <ng-template pTemplate="header">
-                                    <tr>						
+                                    <tr>
                                         <th>วันที่</th>
-                                        <th>รหัสพนักงาน</th>                                        
+                                        <th>รหัสพนักงาน</th>
                                         <th>ชื่อ-นามสกุล</th>
                                         <th>เวลาเข้า</th>
                                         <th>เวลาออก</th>
                                         <th>ผู้ทำรายการ</th>
                                         <th>วันที่ทำรายการ</th>
-                                    </tr>	
-                                </ng-template>                                              
+                                    </tr>
+                                </ng-template>
                             </p-table>
                         </p-accordionTab>
                     </p-accordion>
@@ -514,18 +514,18 @@
                 <p-tabPanel >
                     <ng-template pTemplate = "header">
                         <i class="pi pi-user"></i>&nbsp;&nbsp;
-                        <span>พนักงานหน่วยงาน</span>      
-                    </ng-template>     
+                        <span>พนักงานหน่วยงาน</span>
+                    </ng-template>
                     <p-menubar [model]="items"></p-menubar >
-                        <p-table #dt2 [value]="project_emps"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" 
-                        [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[25,50,100]" 
+                        <p-table #dt2 [value]="project_emps"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
+                        [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[25,50,100]"
                         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         selectionMode="single" [(selection)]="selectedEmp" dataKey="emp_code"
-                        
+
                         [globalFilterFields]="['ppos_code','ppos_name_th','emp_code','emp_name']"
-                        
+
                         >
-                            
+
                             <ng-template pTemplate="caption">
                                 <div class="flex">
                                     <span class="p-input-icon-left ml-auto">
@@ -535,8 +535,8 @@
                                 </div>
                             </ng-template>
                             <ng-template pTemplate="header">
-                                <tr>		
-                                    <th>รหัสงาน</th>	
+                                <tr>
+                                    <th>รหัสงาน</th>
                                     <th>ชื่องาน</th>
                                     <th>รหัสพนักงาน</th>
                                     <th>ชื่อ-นามสกุล</th>
@@ -544,80 +544,80 @@
                                     <th>วันที่โอนย้าย</th>
                                     <th>วันที่ย้ายออก</th>
                                     <th>ค่าแรง</th>
-                                    <th>ค่าล่วงเวลา</th>    
-                                    <th></th>                               
+                                    <th>ค่าล่วงเวลา</th>
+                                    <th></th>
                                     <th>สถานะ</th>
                                     <th>วันที่อนุมัติ</th>
                                     <th>ผู้ทำรายการ</th>
-                                    <th>วันที่ทำรายการ</th>                                                
-                                </tr>	
+                                    <th>วันที่ทำรายการ</th>
+                                </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-emp>
-                                <tr [pSelectableRow]="emp">        
-                                    <td>{{emp.ppos_code}}</td>                                
+                                <tr [pSelectableRow]="emp">
+                                    <td>{{emp.ppos_code}}</td>
                                     <td>{{emp.ppos_name_th}}</td>
                                     <td>{{emp.emp_code}}</td>
                                     <td>{{emp.emp_name}}</td>
                                     <td>{{emp.emp_position}}</td>
-                                    <td>{{emp.emp_startdate | date:'dd/MM/yyyy '}}</td>  
+                                    <td>{{emp.emp_startdate | date:'dd/MM/yyyy '}}</td>
                                     <td></td>
 
                                     <td style="text-align: right; padding-right: 30px;">{{emp.pcost_allw1 | number:'1.2-2'}}</td>
                                     <td style="text-align: right; padding-right: 30px;">
-                                        {{emp.pcost_allw2 | number:'1.2-2'}}                                        
+                                        {{emp.pcost_allw2 | number:'1.2-2'}}
                                     </td>
                                     <td><input type="checkbox" checked /><label for="firstname2">Auto</label></td>
-                                 
+
                                     <td>
-                                        <div *ngIf="emp.approve_status==true">
+                                        <div *ngIf="emp.approve_status===true">
                                             <span style="color: green;">อนุมัติ</span>
                                         </div>
-                                        <div *ngIf="emp.approve_status==false">
+                                        <div *ngIf="emp.approve_status===false">
                                             <span>0/3</span>
                                         </div>
 
                                     </td>
                                     <td>
-                                        <div *ngIf="emp.approve_status==true">
+                                        <div *ngIf="emp.approve_status===true">
                                             {{emp.approve_date | date:'dd/MM/yyyy '}}
                                         </div>
-                                        
+
                                     </td>
-                                    
-                                    <td>{{emp.modified_by}}</td>      
-                                    <td>{{emp.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>  
+
+                                    <td>{{emp.modified_by}}</td>
+                                    <td>{{emp.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                 </tr>
-                            </ng-template>             
+                            </ng-template>
                         </p-table>
                 </p-tabPanel>
             </p-tabView>
-                
+
         </div>
         <div class="col-12 md:col-3">
             <p-scrollPanel [style]="{width: '99%', height: '800px'}" >
-                
+
                 <div class="formgrid grid" *ngIf="edit_ppos">
                     <span class="spn_title_edit">งาน</span>
                     <div class="field col-12 ">
-                        <label for="ppos_code">รหัส</label>    
+                        <label for="ppos_code">รหัส</label>
                         <input type="text" id="ppos_code" [(ngModel)]="selectedPosition.pos_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-                    </div>	
-                   
+                    </div>
+
                     <div class="field col-12 ">
-                        <label for="ppos_name_th">ชื่อไทย</label>                        
+                        <label for="ppos_name_th">ชื่อไทย</label>
                         <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedPosition.pos_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                     </div>
                     <div class="field col-12 ">
-                        <label for="ppos_name_en">ชื่ออังกฤษ</label>                        
+                        <label for="ppos_name_en">ชื่ออังกฤษ</label>
                         <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedPosition.pos_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                     </div>
 
-                    <div class="field col-12 ">   
+                    <div class="field col-12 ">
                         <label for="ppos_shift_code">ประเภทงาน</label>
                         <p-dropdown id="pjobtype_code" [options]="jobtype_list" [(ngModel)]="selectedJobtype" optionLabel="pjobtype_name_th" [showClear]="false" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                     </div>
-                    
-                    <div class="field col-12 ">   
+
+                    <div class="field col-12 ">
                         <label for="ppos_shift_code">กะการทำงาน</label>
                         <p-dropdown id="ppos_shift_code" [options]="project_shifts" [(ngModel)]="selectedShift" optionLabel="shift_name_th" [showClear]="false" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                     </div>
@@ -641,7 +641,7 @@
                         </p-inputNumber>
                     </div>
                     <div class="field col-12">
-						<input type="checkbox" /><label for="firstname2">ใบขอโอที</label>						
+						<input type="checkbox" /><label for="firstname2">ใบขอโอที</label>
 					</div>
                     <div class="field col-12">
                         <label for="lastname2">นโยบายเวลา :</label><br>
@@ -657,7 +657,7 @@
                     </div>
 
                     <div class="field col-12">
-                        <p-button label="บันทึก" icon="pi pi-save"></p-button>                       
+                        <p-button label="บันทึก" icon="pi pi-save"></p-button>
                     </div>
 
                 </div>
@@ -665,20 +665,20 @@
                 <div class="formgrid grid" *ngIf="edit_ppol">
                     <span class="spn_title_edit">นโยบายเวลา</span>
                     <div class="field col-12 ">
-                        <label for="ppol_code">รหัส</label>    
+                        <label for="ppol_code">รหัส</label>
                         <input type="text" id="ppol_code" [(ngModel)]="selectedPolicy.ppol_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-                    </div>	
-                   
+                    </div>
+
                     <div class="field col-12 ">
-                        <label for="ppol_name_th">ชื่อไทย</label>                        
+                        <label for="ppol_name_th">ชื่อไทย</label>
                         <textarea [rows]="2" id="ppol_name_th" [(ngModel)]="selectedPolicy.ppol_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                     </div>
                     <div class="field col-12 ">
-                        <label for="ppol_name_en">ชื่ออังกฤษ</label>                        
+                        <label for="ppol_name_en">ชื่ออังกฤษ</label>
                         <textarea [rows]="2" id="ppol_name_en" [(ngModel)]="selectedPolicy.ppol_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                     </div>
-                    
-                    
+
+
                     <div class="field col-12">
                         <label for="lastname2">ค่าล่วงเวลา :</label><br>
                         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
@@ -701,7 +701,7 @@
                     </div>
 
                     <div class="field col-12">
-                        <p-button label="บันทึก" icon="pi pi-save"></p-button>                       
+                        <p-button label="บันทึก" icon="pi pi-save"></p-button>
                     </div>
 
                 </div>
@@ -709,34 +709,34 @@
                 <div class="formgrid grid" *ngIf="edit_pcost">
                     <span class="spn_title_edit">ต้นทุน</span>
                     <div class="field col-12 ">
-                        <label for="ppos_code">รหัส</label>    
+                        <label for="ppos_code">รหัส</label>
                         <input type="text" id="ppos_code" [(ngModel)]="selectedPosition.pos_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-                    </div>	
-                   
+                    </div>
+
                     <div class="field col-12 ">
-                        <label for="ppos_name_th">ชื่อไทย</label>                        
+                        <label for="ppos_name_th">ชื่อไทย</label>
                         <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedPosition.pos_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                     </div>
                     <div class="field col-12 ">
-                        <label for="ppos_name_en">ชื่ออังกฤษ</label>                        
+                        <label for="ppos_name_en">ชื่ออังกฤษ</label>
                         <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedPosition.pos_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                     </div>
-                    
-                    <div class="field col-12 ">   
+
+                    <div class="field col-12 ">
                         <label for="ppos_shift_code">ประเภท</label>
                         <p-dropdown placeholder="รายเดือน" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                     </div>
                     <div class="field col-12">
-						<input type="checkbox" /><label for="firstname2">Auto</label>						
+						<input type="checkbox" /><label for="firstname2">Auto</label>
 					</div>
 
-                    <div class="field col-12 ">   
+                    <div class="field col-12 ">
                         <label for="ppos_shift_code">รหัสเงินได้</label>
                         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                     </div>
-                    
+
                     <div class="field col-12">
-                        <p-button label="บันทึก" icon="pi pi-save"></p-button>                       
+                        <p-button label="บันทึก" icon="pi pi-save"></p-button>
                     </div>
 
                 </div>
@@ -744,8 +744,8 @@
 
             </p-scrollPanel>
 
-            
+
         </div>
     </div>
-    
+
 </p-card>

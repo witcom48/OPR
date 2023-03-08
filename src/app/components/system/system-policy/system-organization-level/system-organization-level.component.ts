@@ -10,8 +10,8 @@ import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { LevelModel } from 'src/app/models/system/level';
-import { LevelService } from 'src/app/services/system/level.service';
+import { LevelModel } from 'src/app/models/system/policy/level';
+import { LevelService } from 'src/app/services/system/policy/level.service';
 @Component({
   selector: 'app-system-organization-level',
   templateUrl: './system-organization-level.component.html',

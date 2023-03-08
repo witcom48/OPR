@@ -10,11 +10,11 @@ import {DialogModule} from 'primeng/dialog';
 import * as XLSX from 'xlsx';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { EmpIDModel } from 'src/app/models/system/empid';
+import { EmpIDModel } from 'src/app/models/system/policy/empid';
 
-import { EmpidService } from 'src/app/services/system/empid.service';
+import { EmpidService } from 'src/app/services/system/policy/empid.service';
 import { Subscription } from 'rxjs';
-import { CodestructureModel } from 'src/app/models/system/codestructure';
+// import { CodestructureModel } from 'src/app/models/system/policy/codestructure';
 declare var reason: any;
 interface Type {name: string, code: string}
 @Component({

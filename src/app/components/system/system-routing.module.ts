@@ -29,6 +29,8 @@ import { SystemComcardComponent } from './system-company/system-comcard/system-c
 import { ReasonComponent } from './system-policy/reason/reason.component';
 import { SystemYearperiodComponent } from './system-policy/system-yearperiod/system-yearperiod.component';
 import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
+import { BranchComponent } from './branch/branch.component';
+import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
 
 
 
@@ -60,8 +62,10 @@ import { AddCodestructureComponent } from './system-policy/emp-id/add-codestruct
         { path: 'system-comcard', component: SystemComcardComponent },
         { path: 'system-yearperiod', component: SystemYearperiodComponent },
         { path: 'system-AddCodestructure', component: AddCodestructureComponent },
+        { path: 'Branch', component: BranchComponent },
+        { path: 'sysbranch', component: SysBranchComponent },
 
-
+        
 
 
 

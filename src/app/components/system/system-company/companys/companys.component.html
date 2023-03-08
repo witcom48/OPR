@@ -1,929 +1,461 @@
-<div *ngIf="page_tab===1">
-    <span style="font-size: 20px">System</span>&nbsp;
-    <i class="pi pi-angle-right"></i>&nbsp;
-    <small>{{ title_page }}</small>
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<p-menubar [model]="toolbar_menu"></p-menubar>
 
+<p-card header="Company" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+    <div class="grid">
+        <div class="col-12 md:col-9">
+            <p-tabView (onChange)="tabChange($event)">
 
-
-
-    <!-- <div *ngIf="page_tab===1">
-</div> -->
-    <hr />
-
-    <table class="table_tools">
-        <tr>
-            <td align="left">
-                <table class="table_item">
-                    <tr>
-                        <td align="left">
-                            <div *ngIf="dt2">
-                                <span (click)="doLoadMenu()"><i
-                                        class="ace-icon fa  fa-plus bigger-120">&nbsp;</i>&nbsp;</span>
-                            </div>
-                            <div *ngIf="dt2">
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-
-    <p-toast position="top-right"></p-toast>
-
-    <p-confirmDialog [style]="{ width: '50vw' }" [baseZIndex]="10000"
-        rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-
-    <p-toast position="top-right"></p-toast>
-
-    <p-confirmDialog [style]="{ width: '50vw' }" [baseZIndex]="10000"
-        rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-
-    <p-dialog header="{{ title_upload }}" [(visible)]="displayUpload" [style]="{ width: '40vw' }">
-        <p class="custom-file-upload">
-            <input type="file" id="file" style="width: 300px" (change)="handleFileInput($any($event).target.files)" />
-        </p>
-        <ng-template pTemplate="footer">
-            <p-button icon="pi pi-upload" (click)="doUploadCompany()" label="{{ title_upload }}"
-                styleClass="p-button-text"></p-button>
-        </ng-template>
-    </p-dialog>
-    <div class="field col-12 md:col-12">
-        <p-menubar [model]="itemmenu"></p-menubar>
-        <div class="grid">
-            <div class="col-12 md:col-12" #TABLE>
-                <p-table #dt2 [value]="company_list" styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '70rem' }"
-                    [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-                    [(selection)]="selectedCompany" dataKey="company_code" [rows]="30" [showCurrentPageReport]="true"
-                    [rowsPerPageOptions]="[10, 20, 50]" [paginator]="false" currentPageReportTemplate="{{ title_page_from }} {first} {{
-                    title_page_to
-                }} {last} {{ title_page_total }} {totalRecords} {{
-                    title_page_record
-                }}" [globalFilterFields]="[
-                    'company_code',
-                    'company_initials',
-                    'company_name_th',
-                    'modified_by',
-                    'modified_date'
-                ]">
-                    <ng-template pTemplate="caption">
-                        <div class="flex">
-                            <span class="p-input-icon-left ml-auto">
-                                <i class="pi pi-search"></i>
-                                <input pInputText type="text"
-                                    (input)="dt2.filterGlobal($any($event).target.value,'contains')"
-                                    placeholder="{{ title_search }}" />
-                            </span>
-                        </div>
-                    </ng-template>
-
-
+                <!-- Tab Genaral -->
+                <p-tabPanel>
                     <ng-template pTemplate="header">
-                        <tr>
-                            <th>รหัส</th>
-                            <th>ชื่อย่อ</th>
-                            <th>ชื่อบริษัท</th>
-                            <th>Edit by</th>
-                            <th>Edit date</th>
-                        </tr>
+                        <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                        <span>{{title_genaral}}</span>
                     </ng-template>
+                    <div class="formgrid grid align-items-end">
+                        <div class="field col-12 md:col-3">
+                            <p-image src="../../../../assets/images/bpc.jpg" alt="Image" width="150"
+                                height="150"></p-image>
+                        </div>
+                        <div class="field col-12 md:col-2">
+                            <p-button label="Upload Logo"></p-button>
+                        </div>
+                        <div class="field col-12 md:col-6"></div>
 
-                    <ng-template pTemplate="body" let-data>
-                        <tr [pSelectableRow]="data">
-                            <th>{{data.company_code}}</th>
-                            <th>{{data.company_initials}}</th>
-                            <th>{{data.company_name_th}}</th>
-                            <th>{{data.modified_by}}</th>
-                            <th>
-                                {{ data.modified_date | date : "dd/MM/yyyy HH:mm" }}
-                            </th>
-                        </tr>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="firstname2">รหัสบริษัท</label><br>
+                            <br />
+                            <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_code"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                maxlength="5" [readonly]="company_code" [cols]="30" pInputTextarea [autoResize]="true">
+                            </textarea>
+
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="firstname2">ชื่อย่อ</label><br>
+                            <br />
+                            <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_initials"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="firstname2">ชื่อไทย</label><br>
+                            <br />
+                            <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_name_th"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="firstname2">ชื่ออังกฤษ</label><br>
+                            <br />
+                            <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_name_en"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        </div>
+                    </div>
+                    <!-- start -->
+                </p-tabPanel>
+
+                <!-- tab Personal-->
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <i class="pi pi-user"></i>&nbsp;&nbsp;
+                        <span>{{title_personal}}</span>
                     </ng-template>
-                </p-table>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
+                    <div class="formgrid grid">
+                        <div class="field col-12 md:col-6">
+                            <label for="lastname2">ชั่วโมงการทำงาน</label>
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
+                            </p-inputNumber>
+                        </div>
 
 
-
-
-
-
-
-
-<div *ngIf="page_tab===2">
-    <!-- <div class="path">
-        <div>
-            <i></i>
-            <a routerLink="/system/genaral">กลับ</a>
-            <i></i>
-        </div>
-    </div> -->
-
-    <div *ngIf="page_tab===2">
-        <span style="font-size: 20px">System</span>&nbsp;
-        <i class="pi pi-angle-right"></i>&nbsp;
-        <small>{{ title_page }}</small>
-        <div>
-            <i></i>
-            <a mat-icon-button color="default" (click)="doBack(1)">ย้อนกลับ</a>
-            <i></i>
-        </div>
+                        <!-- <div class="field col-12 md:col-6">
+                            <label for="ppos_detailen">ชั่วโมงการทำงาน</label>
+                            <br />
+                            <p-inputNumber mode="decimal" [showButtons]="true" [(ngModel)]="selectedCompany.hrs_perday"
+                                [min]="0" [max]="12000">
+                            </p-inputNumber>
+                        </div> -->
 
 
 
-        <!-- ////////////////////////////////////////////////////////////// -->
-        <p-menubar [model]="items"> </p-menubar>
-        <!-- header -->
-        <p-toast position="top-right"></p-toast>
-        <p-confirmDialog [style]="{ width: '50vw' }" [baseZIndex]="10000"
-            rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+                        <!-- <div class="field col-12 md:col-6">
+                            <label for="ppos_detailen">ประกันสังคมส่วนพนักงาน</label>
+                            <br />
+                            <p-inputNumber mode="decimal" [showButtons]="true"
+                                [(ngModel)]="selectedCompany.sso_com_rate" [min]="0" [max]="12000">
+                            </p-inputNumber>
+                        </div> -->
 
-        <p-dialog header="{{ title_upload }}" [(visible)]="displayUpload" [style]="{ width: '40vw' }">
-            <p class="custom-file-upload">
-                <input type="file" id="file" style="width: 300px"
-                    (change)="handleFileInput($any($event).target.files)" />
-            </p>
-        </p-dialog>
+                        <div class="field col-12 md:col-6">
+                            <label for="lastname2">ประกันสังคมส่วนพนักงาน(%)</label>
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                [step]="0.5" [(ngModel)]="selectedCompany.sso_emp_rate">
+                            </p-inputNumber>
+                        </div>
 
-        <!-- header -->
+                        <!-- <div class="field col-12 md:col-6">
+                            <label for="ppos_detailen">ประกันสังคมส่วนบริษัท</label>
+                            <br />
+                            <p-inputNumber mode="decimal" [showButtons]="true"
+                                [(ngModel)]="selectedCompany.sso_emp_rate" [min]="0" [max]="12000">
+                            </p-inputNumber>
+                        </div> -->
+                        <div class="field col-12 md:col-6">
+                            <label for="lastname2">ประกันสังคมส่วนบริษัท(%)</label>
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                [step]="0.5" [(ngModel)]="selectedCompany.sso_com_rate">
+                            </p-inputNumber>
+                        </div>
+
+                        <!-- <div class="field col-12 md:col-6">
+                            <label for="ppos_detailen">อายุพนักงานน้อยสุด</label>
+                            <br />
+                            <p-inputNumber mode="decimal" [showButtons]="true"
+                                [(ngModel)]="selectedCompany.sso_min_wage" [min]="0" [max]="12000">
+                            </p-inputNumber>
+                        </div> -->
+                        <div class="field col-12 md:col-6">
+                            <label for="lastname2">อายุพนักงานน้อยสุด</label>
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                [step]="0.5" [(ngModel)]="selectedCompany.sso_min_age">
+                            </p-inputNumber>
+                        </div>
+                        <!--
+                        <div class="field col-12 md:col-6">
+                            <label for="ppos_detailen">อายุพนักงานมากสุด</label>
+                            <br />
+                            <p-inputNumber mode="decimal" [showButtons]="true"
+                                [(ngModel)]="selectedCompany.sso_max_wage" [min]="0" [max]="12000">
+                            </p-inputNumber>
+                        </div> -->
+                        <div class="field col-12 md:col-6">
+                            <label for="lastname2">อายุพนักงานมากสุด</label>
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                [step]="0.5" [(ngModel)]="selectedCompany.sso_max_age">
+                            </p-inputNumber>
+                        </div>
+
+                        <!-- <div class="field col-12 md:col-6">
+                            <label for="ppos_detailen">ค่าจ้างตํ่าสุด</label>
+                            <br />
+                            <p-inputNumber mode="decimal" [showButtons]="true" [(ngModel)]="selectedCompany.sso_min_age"
+                                [min]="0" [max]="12000">
+                            </p-inputNumber>
+                        </div> -->
+                        <div class="field col-12 md:col-6">
+                            <label for="lastname2">ค่าจ้างตํ่าสุด</label>
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                [step]="0.5" [(ngModel)]="selectedCompany.sso_min_wage">
+                            </p-inputNumber>
+                        </div>
 
 
-        <p-card header="Company" [style]="{ 'margin-top': '0px', 'margin-bottom': '2em' }">
-            <div class="grid">
-                <div class="col-12 md:col-20">
-                    <p-tabView>
-                        <p-tabPanel>
-                            <ng-template pTemplate="header">
-                                <i class="pi pi-cog"></i>&nbsp;&nbsp;
-                                <span>{{ title_general }}</span>
+                        <!-- <div class="field col-12 md:col-6">
+                            <label for="ppos_detailen">ค่าจ้างสูงสุด</label>
+                            <br />
+                            <p-inputNumber mode="decimal" [showButtons]="true" [(ngModel)]="selectedCompany.sso_max_age"
+                                [min]="0" [max]="12000">
+                            </p-inputNumber>
+                        </div> -->
+                        <div class="field col-12 md:col-6">
+                            <label for="lastname2">ค่าจ้างสูงสุด</label>
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                [step]="0.5" [(ngModel)]="selectedCompany.sso_max_wage">
+                            </p-inputNumber>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_address}}">
+                                    <p-menubar [model]="menu_comaddress"></p-menubar>
+                                    <p-table #dtAddress [value]="comaddressList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedComaddress"
+                                        (onRowSelect)="onRowSelectComaddress($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภท</th>
+                                                <th>เลขที่</th>
+                                                <th>หมู่ที่</th>
+                                                <th>ซอย</th>
+                                                <th>ถนน</th>
+                                                <th>ตำบล</th>
+                                                <th>อำเภอ</th>
+                                                <th>จังหวัด</th>
+                                                <th>รหัสไปรษณีย์</th>
+                                                <th>เบอร์โทรศัพท์</th>
+                                                <th>อีเมล์</th>
+                                                <th>ไลน์</th>
+                                                <th>เฟสบุ๊ค</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data>
+                                            <tr [pSelectableRow]="data">
+                                                <td>{{data.comaddress_code}}</td>
+                                                <td>{{data.comaddress_no}}</td>
+                                                <td>{{data.comaddress_moo}}</td>
+                                                <td>{{data.comaddress_soi}}</td>
+                                                <td>{{data.comaddress_road}}</td>
+                                                <td>{{data.comaddress_tambon}}</td>
+                                                <td>{{data.comaddress_amphur}}</td>
+                                                <td>{{data.comaddress_zipcode}}</td>
+                                                <td>{{data.comaddress_tel}}</td>
+                                                <td>{{data.comaddress_email}}</td>
+                                                <td>{{data.comaddress_line}}</td>
+                                                <td>{{data.comaddress_facebook}}</td>
+                                                <td>{{data.comaddress_province}}</td>
+                                                <td>{{data.modified_by}}</td>
+                                                <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- card -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_card}}">
+                                    <p-menubar [model]="menu_comcard"></p-menubar>
+                                    <p-table #dtempcard [value]="comcardList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedComcard"
+                                        (onRowSelect)="onRowSelectComcard($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภทบัตร</th>
+                                                <th>รหัสบัตร</th>
+                                                <th>วันที่เปิดบัตร</th>
+                                                <th>วันที่หมดอายุ</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data>
+                                            <tr [pSelectableRow]="data">
+                                                <th>{{data.card_type }}</th>
+                                                <!-- <th>{{data.company_code}}</th> -->
+                                                <th>{{data.comcard_code}}</th>
+
+                                                <th>{{data.comcard_issue| date:'dd/MM/yyyy'}}</th>
+                                                <th>{{data.comcard_expire | date:'dd/MM/yyyy'}}</th>
+                                                <th>{{data.modified_by}}</th>
+                                                <th>{{data.modified_date| date: "dd/MM/yyyy HH:mm"}}</th>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <!-- bank -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_bank}}">
+                                    <p-menubar [model]="menu_combank"></p-menubar>
+                                    <p-table #dtempbank [value]="combankList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedCombank"
+                                        (onRowSelect)="onRowSelectCombank($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ธนาคาร</th>
+                                                <!-- <th>ชื่อบัญชี</th> -->
+                                                <th>เลขที่บัญชี</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data>
+                                            <tr [pSelectableRow]="data">
+                                                <!-- <th>{{ data.combank_id }}</th> -->
+                                                <th>{{ data.combank_bankcode }}</th>
+                                                <th>{{ data.combank_bankaccount }}</th>
+                                                <th>{{ data.modified_by }}</th>
+                                                <th>{{ data.modified_date | date : "dd/MM/yyyy HH:mm" }}
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
+
+                    <!-- Form Emp Address -->
+                    <div class="formatt" *ngIf="edit_comaddress==true || new_comaddress==true">
+                        <label>ประเภท</label>
+                        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                            [(ngModel)]="selectedComaddress.comaddress_type"
+                            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+
+                            <p-dropdown placeholder="--" [options]="addressList" optionLabel="initial_code" [showClear]="true"
+                            [(ngModel)]="selectedComaddress.comaddress_type" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
                             </ng-template>
-
-                            <div class="formgrid grid align-items-end">
-                                <div class="field col-12 md:col-3">
-                                    <p-image src="../../../../assets/images/bpc.jpg" alt="Image" width="150"
-                                        height="150"></p-image>
-                                </div>
-                                <div class="field col-12 md:col-2">
-                                    <p-button label="Upload Logo"></p-button>
-                                </div>
-                                <div class="field col-12 md:col-6"></div>
-                                <!-- -------------------------test ---------------------- -->
-                                <!-- <a routerLink="../../system/system-bankaccount">test1</a> -->
-                                <!-- -------------------------test ---------------------- -->
-
-                                <!-- -------------------------company ---------------------- -->
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_companycode">{{title_company_code}}</label><br />
-                                    <textarea [rows]="2" id="companycode" [(ngModel)]="selectedCompany.company_code"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div>
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_initials">{{title_company_initials}}</label><br />
-                                    <textarea [rows]="2" id="ppos_initials"
-                                        [(ngModel)]="selectedCompany.company_initials"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div>
-
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_detailth">{{title_company_name_th}}</label>
-                                    <br />
-                                    <textarea [rows]="2" id="ppos_detailth"
-                                        [(ngModel)]="selectedCompany.company_name_th"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div>
-
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_detailen">{{title_company_name_en}}</label>
-                                    <br />
-                                    <textarea [rows]="2" id="ppos_detailen"
-                                        [(ngModel)]="selectedCompany.company_name_en"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div>
-                                <!-- ------------------------------end company -------------------------------------------------- -->
-
-                                <!------------------------------------------------------------------------- ที่อยู่ ---------------------------------------------------------->
-                                <div class="field col-12">
-                                    <p-accordion>
-                                        <p-accordionTab header="ที่อยู่">
-                                            <!-- -------------------------header ที่อยู่ ---------------------- -->
-
-                                            <p-menubar [model]="menuaddress"></p-menubar>
-
-                                            <!-- -------------------------menu ที่อยู่ ---------------------- -->
-
-                                            <!-- -------------------------TABLEที่อยู่ ---------------------- -->
-
-                                            <div class="grid">
-                                                <div class="col-12 md:col-9" #TABLE>
-                                                    <p-table #dt2 [value]="ComaddressList" styleClass="p-datatable-sm"
-                                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
-                                                        scrollHeight="500px" [virtualScroll]="true"
-                                                        selectionMode="single" [(selection)]="selectedComaddress"
-                                                        (onRowSelect)="onRowSelectComaddress($event)"
-                                                        dataKey="comaddress_code" [rows]="10"
-                                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                                        [paginator]="true"
-                                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                                                        [globalFilterFields]="['comaddress_id','comaddress_code','comaddress_no','comaddress_moo','comaddress_soi',
-                                                    'comaddress_road','comaddress_tambon','comaddress_amphur','comaddress_zipcode','comaddress_tel','comaddress_email','comaddress_line','comaddress_facebook','comaddress_province']">
-                                                        <ng-template pTemplate="caption">
-                                                            <div class="flex">
-                                                                <span class="p-input-icon-left ml-auto">
-                                                                    <i class="pi pi-search"></i>
-                                                                    <input pInputText type="text"
-                                                                        (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                                                                        placeholder="{{title_search}}" />
-                                                                </span>
-                                                            </div>
-                                                        </ng-template>
-                                                        <ng-template pTemplate="header">
-                                                            <tr>
-                                                                <th>{{ title_comaddress_code }}</th>
-                                                                <th>{{ title_comaddress_no }}</th>
-                                                                <th>{{ title_comaddress_moo }}</th>
-                                                                <th>{{ title_comaddress_soi }}</th>
-                                                                <th>{{ title_comaddress_road }}</th>
-                                                                <th>{{ title_comaddress_tambon }}</th>
-                                                                <th>{{ title_comaddress_amphur }}</th>
-                                                                <th>{{ title_comaddress_province }}</th>
-                                                                <th>{{ title_comaddress_zipcode }}</th>
-                                                                <th>{{ title_comaddress_tell }}</th>
-                                                                <th>{{ title_comaddress_email }}</th>
-                                                                <th>{{ title_comaddress_line }}</th>
-                                                                <th>{{ title_comaddress_facebook }}</th>
-                                                                <th>{{ modified_by }}</th>
-                                                                <th>{{ modified_date }}</th>
-                                                            </tr>
-                                                        </ng-template>
-                                                        <ng-template pTemplate="body" let-data>
-                                                            <tr [pSelectableRow]="data">
-                                                                <!-- <th style="width: 10%">{{ data.comaddress_id }}</th> -->
-                                                                <th style="width: 10%">{{ data.comaddress_code }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_no }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_moo }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_soi }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_road }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_tambon }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_amphur }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_province }}
-                                                                </th>
-                                                                <th style="width: 10%">{{ data.comaddress_zipcode }}
-                                                                </th>
-                                                                <th style="width: 10%">{{ data.comaddress_tel }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_email }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_line }}</th>
-                                                                <th style="width: 10%">{{ data.comaddress_facebook }}
-                                                                </th>
-                                                                <th style="width: 10%">{{ data.modified_by }}</th>
-                                                                <th style="width: 10%">
-                                                                    {{ data.modified_date | date : "dd/MM/yyyy HH:mm" }}
-                                                        </ng-template>
-
-
-                                                    </p-table>
-
-
-                                                </div>
-                                                <div class="col-12 md:col-3">
-                                                    <div class="formgrid grid"
-                                                        *ngIf="edit_data===true || new_data===true">
-                                                        <span class="spn_title_edit"></span>
-                                                        <div class="field col-12 ">
-                                                            <label for="ppos_code">{{title_comaddress_code}}</label>
-                                                            <input type="text" id="ppos_code"
-                                                                [(ngModel)]="selectedComaddress.comaddress_code"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="5" [readonly]="edit_data">
-                                                        </div>
-
-                                                        <div class="field col-12 ">
-                                                            <label for="ppos_name_th">{{title_comaddress_no}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_no"
-                                                                maxlength="30" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-                                                        <div class="field col-12 ">
-                                                            <label for="ppos_name_en">{{title_comaddress_moo}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_en"
-                                                                [(ngModel)]="selectedComaddress.comaddress_moo"
-                                                                maxlength="30" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12 ">
-                                                            <label for="ppos_name_th">{{title_comaddress_soi}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_soi"
-                                                                maxlength="30" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-                                                        <div class="field col-12 ">
-                                                            <label for="ppos_name_th">{{title_comaddress_road}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_road"
-                                                                maxlength="30" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-                                                        <div class="field col-12 ">
-                                                            <label
-                                                                for="ppos_name_th">{{title_comaddress_tambon}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_tambon"
-                                                                maxlength="30" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-                                                        <div class="field col-12 ">
-                                                            <label
-                                                                for="ppos_name_th">{{title_comaddress_amphur}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_amphur"
-                                                                maxlength="30" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-                                                        <div class="field col-12 ">
-                                                            <label
-                                                                for="ppos_name_th">{{title_comaddress_province}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_province"
-                                                                maxlength="30" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-                                                        <div class="field col-12 ">
-                                                            <label
-                                                                for="ppos_name_th">{{title_comaddress_zipcode}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_zipcode"
-                                                                maxlength="30" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-                                                        <div class="field col-12 ">
-                                                            <label for="ppos_name_th">{{title_comaddress_tell}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_tel"
-                                                                maxlength="30" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12 ">
-                                                            <label for="ppos_name_th">{{title_comaddress_email}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_email"
-                                                                maxlength="50" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-                                                        <div class="field col-12 ">
-                                                            <label for="ppos_name_th">{{title_comaddress_line}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_line"
-                                                                maxlength="50" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-                                                        <div class="field col-12 ">
-                                                            <label
-                                                                for="ppos_name_th">{{title_comaddress_facebook}}</label>
-                                                            <br>
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComaddress.comaddress_facebook"
-                                                                maxlength="50" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </p-accordionTab>
-                                    </p-accordion>
-                                </div>
-                            </div>
-                        </p-tabPanel>
-                        <!-- -----------------------------------------------endที่อยู่ -------------------------------------------------------------------->
-
-
-                        <!-- ------------------------------------------------ข้อมูลทั่วไป -------------------------------------------------------------------->
-                        <p-tabPanel>
-                            <ng-template pTemplate="header">
-                                <i class="pi pi-file-edit"></i>&nbsp;&nbsp;
-                                <span>{{ title_general }}</span>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
                             </ng-template>
+                        </p-dropdown>
 
-                            <div class="formgrid grid">
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_detailen">{{title_hrs_perday}}</label>
-                                    <br />
-                                    <p-inputNumber mode="decimal" [showButtons]="true"
-                                        [(ngModel)]="selectedCompany.hrs_perday" [min]="0" [max]="12000">
-                                    </p-inputNumber>
-                                </div>
+                        <label>เลขที่</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_no">
 
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_detailen">{{title_sso_com_rate}}</label>
-                                    <br />
-                                    <p-inputNumber mode="decimal" [showButtons]="true"
-                                        [(ngModel)]="selectedCompany.sso_com_rate" [min]="0" [max]="12000">
-                                    </p-inputNumber>
-                                </div>
+                        <label>หมู่ที่</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_moo">
 
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_detailen">{{title_sso_emp_rate}}</label>
-                                    <br />
-                                    <p-inputNumber mode="decimal" [showButtons]="true"
-                                        [(ngModel)]="selectedCompany.sso_emp_rate" [min]="0" [max]="12000">
-                                    </p-inputNumber>
-                                </div>
+                        <label>ซอย</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_soi">
 
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_detailen">{{title_sso_min_wage}}</label>
-                                    <br />
-                                    <p-inputNumber mode="decimal" [showButtons]="true"
-                                        [(ngModel)]="selectedCompany.sso_min_wage" [min]="0" [max]="12000">
-                                    </p-inputNumber>
-                                </div>
+                        <label>ถนน</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_road">
 
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_detailen">{{title_sso_max_wage}}</label>
-                                    <br />
-                                    <p-inputNumber mode="decimal" [showButtons]="true"
-                                        [(ngModel)]="selectedCompany.sso_max_wage" [min]="0" [max]="12000">
-                                    </p-inputNumber>
-                                </div>
+                        <label>ตำบล</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_tambon">
 
+                        <label>อำเภอ</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_amphur">
 
+                        <label>จังหวัด</label>
+                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.province_code"> -->
+                        <p-dropdown placeholder="--" [options]="provinceList" optionLabel="initial_code" [showClear]="true"
+                            [(ngModel)]="selectedComaddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
+                            </ng-template>
+                        </p-dropdown>
 
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_detailen">{{title_sso_min_age}}</label>
-                                    <br />
-                                    <p-inputNumber mode="decimal" [showButtons]="true"
-                                        [(ngModel)]="selectedCompany.sso_min_age" [min]="0" [max]="12000">
-                                    </p-inputNumber>
-                                </div>
+                        <label>รหัสไปรษณีย์</label>
+                        <input pInputText type="text" id="ppos_code"
+                            [(ngModel)]="selectedComaddress.comaddress_zipcode">
 
-                                <div class="field col-12 md:col-6">
-                                    <label for="ppos_detailen">{{title_sso_max_age}}</label>
-                                    <br />
-                                    <p-inputNumber mode="decimal" [showButtons]="true"
-                                        [(ngModel)]="selectedCompany.sso_max_age" [min]="0" [max]="12000">
-                                    </p-inputNumber>
-                                </div>
-                                <!-- ------------------------------------------------endข้อมูลทั่วไป -------------------------------------------------------------------->
+                        <label>เบอร์โทรศัพท์</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_tel">
 
+                        <label>อีเมล์</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_email">
 
-                                <!-------------------------------------------------------- ข้อมูลบัตร----------------------------------------------- -->
+                        <label>Line</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_line">
 
-                                <div class="field col-12 md:col-12">
-                                    <p-accordion>
-                                        <p-accordionTab header="ข้อมูลบัตร">
-                                            <p-menubar [model]="menucomcard"></p-menubar>
-                                            <div class="grid">
-                                                <div class="col-20 md:col-10" #TABLE>
-                                                    <p-table #dt4 [value]="ComcardList" styleClass="p-datatable-sm"
-                                                        [tableStyle]="{
-                                                    'min-width': '70rem'
-                                                }" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
-                                                        selectionMode="single" [(selection)]="selectedComcard"
-                                                        dataKey="comaddress_code" [rows]="30"
-                                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50
-                                                ]" [paginator]="false"
-                                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                                                        [globalFilterFields]="[
-                                                    'company_code',
-                                                    'comcard_code',
-                                                    'card_type',
-                                                    'comcard_issu',
-                                                    'comcard_expire',
-                                                    'modified_by',
-                                                    'modified_date'
-                                                ]">
-                                                        <ng-template pTemplate="caption">
-                                                            <div class="flex">
-                                                                <span class="p-input-icon-left ml-auto">
-                                                                    <i class="pi pi-search"></i>
-                                                                    <input pInputText type="text"
-                                                                        (input)="
-                                                                    dt4.filterGlobal($any($event).target.value,'contains')"
-                                                                        placeholder="{{title_search}}" />
-                                                                </span>
-                                                            </div>
-                                                        </ng-template>
+                        <label>Facebook</label>
+                        <input pInputText type="text" id="ppos_code"
+                            [(ngModel)]="selectedComaddress.comaddress_facebook">
 
-                                                        <ng-template pTemplate="header">
-                                                            <tr>
-                                                                <th>{{title_company_code}}</th>
-                                                                <th>{{title_comcard_code}}</th>
-                                                                <th>{{title_card_type}}</th>
-                                                                <th>{{title_comcard_issue}}</th>
-                                                                <th>{{title_comcard_expire}}</th>
-                                                                <th>{{ modified_by }}</th>
-                                                                <th>{{ modified_date }}</th>
-                                                            </tr>
-                                                        </ng-template>
-                                                        <ng-template pTemplate="body" let-data>
-                                                            <tr [pSelectableRow]="data">
-                                                                <th>{{data.company_code}}</th>
-                                                                <th>{{data.comcard_code}}</th>
-                                                                <th>{{ data.card_type }}</th>
-                                                                <th>{{data.comcard_issue}}</th>
-                                                                <th>{{data.comcard_expire}}</th>
-                                                                <th>{{data.modified_by}}</th>
-                                                                <th>{{data.modified_date| date: "dd/MM/yyyy HH:mm"}}
-                                                                </th>
-                                                            </tr>
-                                                        </ng-template>
-                                                    </p-table>
-                                                </div>
+                        <br>
+                        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+                            (click)="comaddress_summit()"></button>
+                        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
+                            class="p-button-danger" (click)="comaddress_cancel()"></button>
 
-                                                <div class="col-12 md:col-2">
-                                                    <div class="formgrid grid"
-                                                        *ngIf="edit_data === true ||new_data === true">
-                                                        <span class="spn_title_edit"></span>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{title_company_code}}</label>
-                                                            <br />
-                                                            <textarea [rows]="2" id="ppos_name_en"
-                                                                [(ngModel)]="selectedComcard.company_code"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="5" [readonly]="edit_data" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{title_comcard_code}}</label>
-                                                            <br />
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComcard.comcard_code"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="20" [cols]="10" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{title_card_type}}</label>
-                                                            <br />
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedComcard.card_type"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="5" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{title_comcard_issue}}</label>
-                                                            <br />
-                                                            <p-calendar [(ngModel)]="selectedComcard.comcard_issue"
-                                                                [showIcon]="true" inputId="icon">
-                                                            </p-calendar>
-                                                        </div>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{title_comcard_expire}}</label>
-                                                            <br />
-                                                            <p-calendar [(ngModel)]="selectedComcard.comcard_expire"
-                                                                [showIcon]="true" inputId="icon"></p-calendar>
-                                                        </div>
-
-                                                        <!-- <div class="field col-12">
-                                                    <p-button label="{{ title_save }}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
-                                                </div> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </p-accordionTab>
-                                    </p-accordion>
-                                </div>
-                                <!-- -------------------------------------------------------ข้อมูลธนาคาร---------------------------------------------------------------------------- -->
-                                <div class="field col-12">
-                                    <p-accordion>
-                                        <p-accordionTab header="ข้อมูลธนาคาร">
-                                            <p-menubar [model]="menucombank"></p-menubar>
-                                            <div class="grid">
-                                                <div class="col-20 md:col-10" #TABLE>
-                                                    <p-table #dt5 [value]="combanklist" styleClass="p-datatable-sm"
-                                                        [tableStyle]="{ 'min-width': '70rem' }" [scrollable]="true"
-                                                        scrollHeight="500px" [virtualScroll]="true"
-                                                        selectionMode="single" [(selection)]="selectedCombank"
-                                                        dataKey="combank_bankcode" [rows]="30"
-                                                        [showCurrentPageReport]="true"
-                                                        [rowsPerPageOptions]="[10, 25, 50]" [paginator]="false"
-                                                        currentPageReportTemplate="{{ title_page_from }} {first} {{
-                                                    title_page_to
-                                                }} {last} {{ title_page_total }} {totalRecords} {{
-                                                    title_page_record
-                                                }}" [globalFilterFields]="['combank_bankcode','combank_bankaccount','combank_nameaccount','combank_bankpercent','combank_cashpercent','modified_by','modified_date',]">
-                                                        <ng-template pTemplate="caption">
-                                                            <div class="flex">
-                                                                <span class="p-input-icon-left ml-auto">
-                                                                    <i class="pi pi-search"></i>
-                                                                    <input pInputText type="text" (input)="
-                                                                    dt5.filterGlobal(
-                                                                        $any($event).target.value,
-                                                                        'contains'
-                                                                    )
-                                                                " placeholder="{{ title_search }}" />
-                                                                </span>
-                                                            </div>
-                                                        </ng-template>
-
-                                                        <ng-template pTemplate="header">
-                                                            <tr>
-                                                                <th>{{ title_combank_bankcode }}</th>
-                                                                <th>{{ title_combank_bankaccount }}</th>
-                                                                <th>{{ title_combank_nameaccount }}</th>
-                                                                <th>{{ title_combank_bankpercent }}</th>
-                                                                <th>{{ title_combank_cashpercent }}</th>
-                                                                <th>{{ modified_by }}</th>
-                                                                <th>{{ modified_date }}</th>
-                                                            </tr>
-                                                        </ng-template>
-                                                        <ng-template pTemplate="body" let-data>
-                                                            <tr [pSelectableRow]="data">
-                                                                <th>{{ data.combank_bankcode }}</th>
-                                                                <th>{{ data.combank_bankaccount }}</th>
-                                                                <th>{{ data.combank_nameaccount }}</th>
-                                                                <th>{{ data.combank_bankpercent }}</th>
-                                                                <th>{{ data.combank_cashpercent }}</th>
-                                                                <th>{{ data.modified_by }}</th>
-                                                                <th>{{ data.modified_date | date : "dd/MM/yyyy HH:mm" }}
-                                                                </th>
-                                                            </tr>
-                                                        </ng-template>
-                                                    </p-table>
-                                                </div>
-
-                                                <div class="col-12 md:col-2 ">
-                                                    <div class="formgrid grid"
-                                                        *ngIf="edit_data === true || new_data === true">
-                                                        <span class="spn_title_edit"></span>
+                    </div>
+                    <div class="formatt" *ngIf="edit_comcard==true || new_card==true">
+                        <!-- Form Card -->
+                        <label>ประเภทบัตร</label>
+                        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                        [(ngModel)]="selectedComcard.card_type"
+                        [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
 
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{ title_company_code }}</label>
-                                                            <br />
-                                                            <textarea [rows]="2" id="ppos_name_en"
-                                                                [(ngModel)]="selectedCombank.company_code"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="5" [readonly]="edit_data" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{ title_combank_bankcode
-                                                                }}</label>
-                                                            <br />
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedCombank.combank_bankcode"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="20" [cols]="10" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{ title_combank_bankaccount
-                                                                }}</label>
-                                                            <br />
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedCombank.combank_bankaccount"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="20" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{ title_combank_nameaccount
-                                                                }}</label>
-                                                            <br />
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedCombank.combank_nameaccount"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="20" [cols]="30" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{ title_combank_bankpercent
-                                                                }}</label>
-                                                            <br />
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedCombank.combank_bankpercent"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="20" [cols]="30000" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-                                                        <div class="field col-12">
-                                                            <label for="ppos_name_th">{{ title_combank_cashpercent
-                                                                }}</label>
-                                                            <br />
-
-                                                            <textarea [rows]="2" id="ppos_name_th"
-                                                                [(ngModel)]="selectedCombank.combank_cashpercent"
-                                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                                                maxlength="20" [cols]="30000" pInputTextarea
-                                                                [autoResize]="true"></textarea>
-                                                        </div>
-
-
-                                                        <!-- <div class="field col-12">
-                                                    <p-button
-                                                        label="{{ title_save }}"
-                                                        icon="pi pi-save"
-                                                        (onClick)="confirmRecord()"
-                                                    ></p-button>
-
-                                                </div> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </p-accordionTab>
-                                    </p-accordion>
-                                </div>
-                                <!-- ---------------------------------------------------------------------ข้อมูลธนาคาร  ------------------------------------------------------------------  -->
-                            </div>
-                        </p-tabPanel>
-                    </p-tabView>
-                </div>
-                <div class="col-12 md:col-3"></div>
-            </div>
-        </p-card>
-    </div>
-    <!-- <span style="font-size: 20px;">System</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>{{title_page}}</small>
-<hr>
-
-<p-toast position="top-right"></p-toast>
-
-
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-
-<p-dialog header="{{title_upload}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
-    <p class="custom-file-upload">
-        <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
-    </p>
-    <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadCompany()" label="{{title_upload}}" styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-dialog>
-
-<p-menubar [model]="items"></p-menubar >
-<div class="grid">
-    <div class="col-12 md:col-9" #TABLE>
-        <p-table #dt2  [value]="company_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedCompany" (onRowSelect)="onRowSelectCompany($event)" dataKey="company_code"
+                        <p-dropdown placeholder="--" [options]="cardList" optionLabel="initial_code" [showClear]="true"
+                            [(ngModel)]="selectedComcard.card_type" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_type"> -->
 
 
 
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-            [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['company_code','company_initials','company_name_th','company_name_en','hrs_perday',
-            'sso_com_rate','sso_emp_rate','sso_min_wage','sso_max_wage','sso_min_age','sso_max_age','modified_by','modified_date']">
-            <ng-template pTemplate="caption">
-                <div class="flex">
-                    <span class="p-input-icon-left ml-auto">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search}}" />
-                    </span>
-                </div>
-            </ng-template>
+                        <label>เลขที่</label>
+                        <input pInputText type="text" id="card_no" [(ngModel)]="selectedComcard.comcard_code">
+
+                        <label>วันที่เปิดบัตร</label>
+                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                            [(ngModel)]="selectedComcard.comcard_issue"><input type="text"></p-calendar>
+                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_issue"> -->
+
+                        <label>วันที่หมดอายุ</label>
+                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                            [(ngModel)]="selectedComcard.comcard_expire">
+                            <input type="text"></p-calendar>
+                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
+
+
+                        <br>
+                        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+                            (click)="comcard_summit()"></button>
+                        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
+                            class="p-button-danger" (click)="comcard_cancel()"></button>
+
+                    </div>
+
+                    <!-- Form Bank -->
+                    <div class="formatt" *ngIf="edit_combank==true || new_bank==true">
+                        <div>
+                            <label for="lastname2">ธนาคาร :</label>
+                            <p-dropdown placeholder="--" [options]="bankList" optionValue="initial_code"
+                                [showClear]="true" [(ngModel)]="selectedCombank.combank_bankcode"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <!-- <label>ชื่อบัญชี</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankcode"> -->
+
+                        <label>เลขที่บัญชี</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankaccount">
 
 
 
+                        <br>
+                        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+                            (click)="combank_summit()"></button>
+                        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
+                            class="p-button-danger" (click)="combank_cancel()"></button>
 
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>{{ title_company_code }}</th>
-                    <th>{{ title_company_initials }}</th>
-                    <th>{{ title_company_name_th }}</th>
-                    <th>{{ title_company_name_en }}</th>
-                    <th>{{ title_hrs_perday }}</th>
-                    <th>{{ title_sso_com_rate }}</th>
-                    <th>{{ title_sso_emp_rate }}</th>
-                    <th>{{ title_sso_min_wage }}</th>
-                    <th>{{ title_sso_max_wage }}</th>
-                    <th>{{ title_sso_min_age }}</th>
-                    <th>{{ title_sso_max_age }}</th>
+                    </div>
 
-                    <th>{{ modified_by }}</th>
-                    <th>{{ modified_date }}</th>
-                    </tr>
-
-                </ng-template>
-                <ng-template pTemplate="body" let-data>
-                    <tr [pSelectableRow]="data">
-                        <th style="width: 10%">{{ data.company_code }}</th>
-                    <th style="width: 10%">{{ data.company_initials }}</th>
-                    <th style="width: 10%">{{ data.company_name_th }}</th>
-                    <th style="width: 10%">{{ data.company_name_en }}</th>
-                    <th style="width: 10%">{{ data.hrs_perday }}</th>
-                    <th style="width: 10%">{{ data.sso_com_rate }}</th>
-                    <th style="width: 10%">{{ data.sso_emp_rate }}</th>
-                    <th style="width: 10%">{{ data.sso_min_wage }}</th>
-                    <th style="width: 10%">{{ data.sso_max_wage }}</th>
-                    <th style="width: 10%">{{ data.sso_min_age }}</th>
-                    <th style="width: 10%">{{ data.sso_max_age }}</th>
+                    <!-- END FORM Accumalate-->
+                </p-dialog>
+                <!-- END FORM DIALOG-->
 
 
-                    <th style="width: 10%">{{ data.modified_by }}</th>
-                    <th style="width: 10%">
-                        {{ data.modified_date | date : "dd/MM/yyyy HH:mm" }}
-                </ng-template>
 
+                <!-- ConfirmDialog and toast Noti -->
+                <p-toast position="top-right"></p-toast>
+                <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+                    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
-            </p-table>
-
-
-    </div>
-    <div class="col-12 md:col-3">
-        <div class="formgrid grid" *ngIf="edit_data===true || new_data===true">
-            <span class="spn_title_edit"></span>
-            <div class="field col-12 ">
-                <label for="ppos_code">{{title_company_code}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedCompany.company_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [readonly]="edit_data">
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_company_initials}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedCompany.company_initials" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-            <div class="field col-12 ">
-                <label for="ppos_name_en">{{title_company_name_th}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedCompany.company_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_company_name_en}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedCompany.company_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_hrs_perday}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedCompany.hrs_perday" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_sso_com_rate}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedCompany.sso_com_rate" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_sso_emp_rate}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedCompany.sso_emp_rate" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_sso_min_wage}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedCompany.sso_min_wage" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_sso_max_wage}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedCompany.sso_max_wage" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_sso_min_age}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedCompany.sso_min_age" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_sso_max_age}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedCompany.sso_max_age" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-
-            <div class="field col-12">
-                <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
-                &nbsp;
-                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary" (click)="confirmDelete()"></button>
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
- -->
+                <!-- ----------------------END Confirm and Toast------------------------ -->

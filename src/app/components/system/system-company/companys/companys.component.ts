@@ -1,909 +1,792 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
-import { Table } from 'primeng/table';
-import { MegaMenuItem, MenuItem } from 'primeng/api';
-import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import {ConfirmationService,ConfirmEventType,MessageService} from 'primeng/api';
-import * as XLSX from 'xlsx';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { ComaddressService } from 'src/app/services/system/comaddress.service';
-import { ComaddressModel } from 'src/app/models/system/comaddress';
+//import model
+import { BankModel } from 'src/app/models/system/policy/bank';
+import { EmptypeModel } from '../../../../models/employee/policy/emptype';
+import { EmpstatusModel } from '../../../../models/employee/policy/empstatus';
+import { PositionModel } from '../../../../models/employee/policy/position';
+//import service
+import { InitialService } from '../../../../services/emp/policy/initial.service';
+import { EmptypeService } from '../../../../services/emp/policy/emptype.service';
+import { EmpstatusService } from '../../../../services/emp/policy/empstatus.service';
+import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
+import { PositionService } from 'src/app/services/emp/policy/position.service';
 import { CompanyModel } from 'src/app/models/system/company';
 import { CompanyService } from 'src/app/services/system/company.service';
-import { CombankModel } from 'src/app/models/system/combank';
+import { ComaddressModel } from 'src/app/models/system/comaddress';
 import { ComcardModel } from 'src/app/models/system/comcard';
-import { CombankService } from 'src/app/services/system/combank.service';
-import { ComcardService } from 'src/app/services/system/comcard.service';
+import { CombankModel } from 'src/app/models/system/combank';
+import { CompanyDetailService } from 'src/app/services/system/company_detail.service';
+import { BankService } from 'src/app/services/system/policy/bank.service';
+import { CardtypeService } from 'src/app/services/system/policy/cardtype.service';
+import { CardtypeModel } from 'src/app/models/system/policy/cardtype';
+import { AddresstypeService } from 'src/app/services/system/policy/addresstype.service';
+import { AddresstypeModel } from 'src/app/models/system/policy/addresstype';
+import { ProvinceModel } from 'src/app/models/system/policy/province';
+import { ProvinceService } from 'src/app/services/system/policy/province.service';
 @Component({
     selector: 'app-companys',
     templateUrl: './companys.component.html',
     styleUrls: ['./companys.component.scss'],
 })
 export class CompanysComponent implements OnInit {
+
+    company_code: string = "";
+    manage_title: string = ""
+
+    toolbar_menu: MenuItem[] = [];
     items: MenuItem[] = [];
-    menu: MenuItem[] = [];
-    menuaddress: MenuItem[] = [];
-    menucomcard: MenuItem[] = [];
-    menucombank: MenuItem[] = [];
-    itemmenu: MenuItem[] = [];
+    items_tab: MenuItem[] = [];
 
-
-    edit_data: boolean = false;
-    new_data: boolean = false;
-    // ------company------
     company_list: CompanyModel[] = [];
     selectedCompany: CompanyModel = new CompanyModel();
 
-    // ------Comaddress------
-    comaddress_list: ComaddressModel[] = [];
-    selectedComaddress: ComaddressModel = new ComaddressModel();
+    edit_company: boolean = false;
+    new_company: boolean = false;
 
-    // ------Comcard------
-    comcard_list: ComcardModel[] = [];
-    selectedComcard: ComcardModel = new ComcardModel();
+    //menu Comaddress
+    menu_comaddress: MenuItem[] = [];
+    edit_comaddress: boolean = false;
+    new_comaddress: boolean = false;
+    //menu comcard
+    menu_comcard: MenuItem[] = [];
+    edit_comcard: boolean = false;
+    new_card: boolean = false;
+    //menu Combank
+    menu_combank: MenuItem[] = [];
+    edit_combank: boolean = false;
+    new_bank: boolean = false;
 
-    // ------Combank------
-    combank_list: CombankModel[] = [];
-    selectedCombank: CombankModel = new CombankModel();
 
+
+
+
+    displayManage: boolean = false;
 
     constructor(
-        private companyService: CompanyService,
-        private router: Router,
-        private messageService: MessageService,
-        private confirmationService: ConfirmationService,
-        private combankService: CombankService,
-        private comaddressService: ComaddressService,
-        private comcardService: ComcardService,
-        private datePipe: DatePipe
-    ) {}
+      private companyService: CompanyService,
+      private router: Router,
+      private route: ActivatedRoute,
+      private messageService: MessageService,
+      private confirmationService: ConfirmationService,
+      private datePipe: DatePipe,
+      private empdetailService:EmpDetailService ,
+      private companyDetailService:CompanyDetailService ,
+
+
+      //service
+      private bankService: BankService,
+      private cardtypeService: CardtypeService,
+      private addresstypeService: AddresstypeService,
+      private provinceService : ProvinceService,
+    ) {
+    }
 
     ngOnInit(): void {
-        this.doGetInitialCurrent();
-        this.page_tab = 1;
-        setTimeout(() => {
-            this.doLoadLanguage();
-            this.doLoadMenu();
-            this.doLoadCompany();
-            this.doLoadComaddress();
-            this.doLoadComcard();
-            this.doLoadCombank();
-        }, 500);
+
+      this.route.queryParams.subscribe(params => {
+        this.company_code = params['companycode'];
+        console.log(this.company_code);
+      });
+
+      this.doGetInitialCurrent();
+
+      // Dropdown
+      this.doLoadbankList();
+      this.doLoadcardList();
+      this.doLoadaddressList();
+      this.doLoadprovinceList();
+
+
+      setTimeout(() => {
+        this.doLoadMenu();
+      }, 100);
+
+      setTimeout(() => {
+        if (this.company_code != "") {
+          this.doLoadCompany()
+        }
+
+      }, 400);
+
     }
-    public page_tab:number | undefined;
 
     public initial_current: InitialCurrent = new InitialCurrent();
     doGetInitialCurrent() {
-        this.initial_current = JSON.parse(
-            localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
-        );
-        if (!this.initial_current) {
-            this.router.navigateByUrl('');
-        }
+      this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+      if (!this.initial_current) {
+        this.router.navigateByUrl('');
+      }
     }
-    title_page: string = 'company';
-    title_new: string = 'New';
-    title_edit: string = 'Edit';
-    title_delete: string = 'Delete';
-    title_import: string = 'Import';
-    title_export: string = 'Export';
-    title_save: string = 'Save';
-    title_code: string = 'Code';
-    title_name_th: string = 'Name (Thai)';
-    title_name_en: string = 'Name (Eng.)';
-    title_modified_by: string = 'Edit by';
-    title_modified_date: string = 'Edit date';
-    title_search: string = 'Search';
-    title_upload: string = 'Upload';
-    title_page_from: string = 'Showing';
-    title_page_to: string = 'to';
-    title_page_total: string = 'of';
-    title_page_record: string = 'entries';
-    title_confirm: string = 'Are you sure?';
-    title_confirm_record: string = 'Confirm to record';
-    title_confirm_delete: string = 'Confirm to delete';
-    title_confirm_yes: string = 'Yes';
-    title_confirm_no: string = 'No';
-    title_confirm_cancel: string = 'You have cancelled';
-    title_basic: string = 'basic information';
-    title_general: string = 'General Information';
-    title_company_code: string = 'Company Code';
-    title_company_initials: string = 'Initials';
-    title_company_name_th: string = 'Detail (Thai)';
-    title_company_name_en: string = 'Detail (Eng)';
-    modified_by: string = 'Edit by';
-    modified_date: string = 'Edit date';
 
- //-------------------ข้อมูลทั่วไป -------------------------
+    title_page: string = "company";
+    title_new: string = "New";
+    title_edit: string = "Edit";
+    title_delete: string = "Delete";
+    title_import: string = "Import";
+    title_export: string = "Export";
+    title_save: string = "Save";
+    title_code: string = "Code";
 
-    title_hrs_perday: string = 'Working Hours';
-    title_sso_com_rate: string = 'Social Security Company';
-    title_sso_emp_rate: string = 'Social Security';
-    title_sso_min_wage: string = 'Minimum Wage';
-    title_sso_max_wage: string = 'Highest Wage';
-    title_sso_min_age: string = 'Min Age';
-    title_sso_max_age: string = 'Max Age';
-    title_comaddress: string = 'Comaddress';
-    title_combank: string = 'Combank';
-    title_comcard: string = 'Comcard';
+    title_summit: string = "Summit";
+    title_cancel: string = "Cancel";
+
+    title_genaral: string = "Genaral";
+
+    title_fname_th: string = "First Name (Thai)";
+    title_lname_th: string = "Last Name (Thai)";
+    title_fname_en: string = "First Name (Eng.)";
+    title_lname_en: string = "Last Name (Eng.)";
+    title_initial: string = "Initial";
 
 
-    //------------------Address-------------------------
-    title_comaddress_code: string = 'Code';
-    title_comaddress_no: string = 'Address NO';
-    title_comaddress_moo: string = 'Moo';
-    title_comaddress_soi: string = 'Soi';
-    title_comaddress_road: string = 'Road';
-    title_comaddress_tambon: string = 'Tombon';
-    title_comaddress_amphur: string = 'Amphur';
-    title_comaddress_province: string = 'Province';
-    title_comaddress_zipcode: string = 'Zipcode';
-    title_comaddress_tell: string = 'Telephone';
-    title_comaddress_email: string = 'Email';
-    title_comaddress_line: string = 'Line';
-    title_comaddress_facebook: string = 'Facebook';
+    title_birthdate: string = "Birth Date";
+    title_startdate: string = "Start Date";
+    title_hrs: string = "Hour/Day";
+    title_probation: string = "Probation";
+    title_probationdate: string = "Probation Date";
+    title_probationenddate: string = "Probation End";
+    title_resignstatus: string = "Resign Status";
+    title_resigndate: string = "Resign Date";
+    title_resignreason: string = "Resign Reason";
 
-    //------------------Comcard-------------------------
-    title_comcard_code: string = 'Comcard Code';
-    title_card_type: string = 'Card Type';
-    title_comcard_issue: string = 'Comcard Issue';
-    title_comcard_expire: string = 'Comcard Expire';
+    title_personal: string = "Personal";
+    title_religion: string = "Religion";
+    title_blood: string = "Blood";
+    title_weight: string = "Weight";
+    title_height: string = "Height";
+    title_address: string = "Address";
+    title_card: string = "Card";
+    title_bank: string = "Bank";
+    title_family: string = "Family";
+    title_hospital: string = "Hospital";
+    title_foreigner: string = "Foreigner";
 
-   //------------------Bank-------------------------
-    title_combank_bankcode: string = 'Bankcode';
-    title_combank_bankaccount: string = 'Bank Account';
-    title_combank_nameaccount: string = 'Name Account';
-    title_combank_bankpercent: string = 'Bank(%)';
-    title_combank_cashpercent: string = 'Cash(%)';
+    title_record: string = "Record";
+    title_department: string = "Department";
+    title_position: string = "Position";
+    title_training: string = "Training";
+    title_education: string = "Education";
+    title_assessment: string = "Assessment";
+    title_criminal: string = "Criminal Record";
 
+    title_finance: string = "Finance";
+    title_taxmethod: string = "Tax Method";
+    title_salary: string = "Salary";
+    title_benefit: string = "Benefit";
+    title_fund: string = "Provident Fund";
+    title_reduce: string = "Reduces";
+    title_accumulate: string = "Accumalate";
 
+    title_tranfer: string = "Tranfer record";
+
+    title_modified_by: string = "Edit by";
+    title_modified_date: string = "Edit date";
+    title_search: string = "Search";
+    title_upload: string = "Upload";
+
+    title_page_from: string = "Showing";
+    title_page_to: string = "to";
+    title_page_total: string = "of";
+    title_page_record: string = "entries";
+
+    title_confirm: string = "Are you sure?";
+    title_confirm_record: string = "Confirm to record";
+    title_confirm_delete: string = "Confirm to delete";
+    title_confirm_yes: string = "Yes";
+    title_confirm_no: string = "No";
+
+    title_confirm_cancel: string = "You have cancelled";
 
     doLoadLanguage() {
-        if (this.initial_current.Language == 'TH') {
-            this.title_page = 'ข้อมูลธนาคาร';
-            this.title_new = 'เพิ่ม';
-            this.title_edit = 'แก้ไข';
-            this.title_delete = 'ลบ';
-            this.title_import = 'นำเข้า';
-            this.title_export = 'โอนออก';
-            this.title_save = 'บันทึก';
-            this.title_code = 'รหัส';
-            this.title_name_th = 'ชื่อไทย';
-            this.title_name_en = 'ชื่ออังกฤษ';
-            this.title_modified_by = 'ผู้ทำรายการ';
-            this.title_modified_date = 'วันที่ทำรายการ';
-            this.title_search = 'ค้นหา';
-            this.title_upload = 'อัพโหลด';
-            this.title_page_from = 'แสดง';
-            this.title_page_to = 'ถึง';
-            this.title_page_total = 'จาก';
-            this.title_page_record = 'รายการ';
-            this.title_confirm = 'ยืนยันการทำรายการ';
-            this.title_confirm_record = 'คุณต้องการบันทึกการทำรายการ';
-            this.title_confirm_delete = 'คุณต้องการลบรายการ';
-            this.title_confirm_yes = 'ใช่';
-            this.title_confirm_no = 'ยกเลิก';
-            this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
-            this.title_general = 'ข้อมูลทั่วไป';
-            this.title_basic = 'ข้อมูลพื้นฐาน';
-            this.title_company_code = 'รหัสบริษัท';
-            this.title_company_initials = 'ชื่อย่อ';
-            this.title_company_name_th = 'ชื่อ (ไทย)';
-            this.title_company_name_en = 'ชื่อ (อังกฤษ)';
+      if (this.initial_current.Language == "TH") {
+        this.title_page = "ข้อมูลสถานที่ปฎิบัติงาน";
+        this.title_new = "เพิ่ม";
+        this.title_edit = "แก้ไข";
+        this.title_delete = "ลบ";
+        this.title_import = "นำเข้า";
+        this.title_export = "โอนออก";
+        this.title_save = "บันทึก";
 
- //-------------------ข้อมูลทั่วไป -------------------------
-            this.title_hrs_perday = 'ชั่วโมงทำงาน';
-            this.title_sso_com_rate = 'ประกันสังคมบริษัท';
-            this.title_sso_emp_rate = 'ประกันสังคมส่วนพนักงาน';
-            this.title_sso_min_wage = 'ค่าจ้างตํ่าสุด';
-            this.title_sso_max_wage = 'ค่าจ้างสูงสุด ';
-            this.title_sso_min_age = 'อายุพนักงานน้อยสุด';
-            this.title_sso_max_age = 'อายุพนักงานมากสุด';
-            this.title_comaddress = 'ที่อยู่';
-            this.title_combank = 'ข้อมูลธนาคาร';
-            this.title_comcard = 'ข้อมูลธนาคาร';
-            this.modified_by = 'ผู้ทำรายการ';
-            this.modified_date = 'วันที่ทำรายการ';
+        this.title_summit = "บันทึก";
+        this.title_cancel = "ยกเลิก";
 
-    //------------------Address-------------------------
+        this.title_genaral = 'ข้อมูลทั่วไป';
+        this.title_code = "รหัสพนักงาน";
+        this.title_fname_th = "ชื่อจริง (ไทย)";
+        this.title_lname_th = "นามสกุล (ไทย)";
+        this.title_fname_en = "ชื่อจริง (อังกฤษ)";
+        this.title_lname_en = "นามสกุล (อังกฤษ)";
+        this.title_initial = "คำนำหน้า";
 
-            this.title_comaddress_code = 'รหัส';
-            this.title_comaddress_no = 'เลขที่';
-            this.title_comaddress_moo = 'หมู่';
-            this.title_comaddress_soi = 'ซอย';
-            this.title_comaddress_road = 'ถนน';
-            this.title_comaddress_tambon = 'ตำบล';
-            this.title_comaddress_amphur = 'อำเภอ';
-            this.title_comaddress_province = 'จังหวัด';
-            this.title_comaddress_zipcode = 'รหัสไปรษณีย์';
-            this.title_comaddress_tell = 'เบอร์โทรศัพท์';
-            this.title_comaddress_email = 'อีเมล์';
-            this.title_comaddress_line = 'ไลน์';
-            this.title_comaddress_facebook = 'เฟสบุ๊ค';
 
-    //------------------comcard-------------------------
-            this.title_comcard_code = 'ประเภทบัตร';
-            this.title_card_type = 'รหัสบัตร';
-            this.title_comcard_issue = 'วันที่เปิดบัตร';
-            this.title_comcard_expire = 'วันที่หมดอายุ';
+        this.title_birthdate = 'วันเกิด';
+        this.title_startdate = 'วันที่เริ่มงาน';
+        this.title_hrs = 'ชั่วโมงทำงาน';
+        this.title_probation = 'จำนวนวันทดลองงาน';
+        this.title_probationdate = 'วันที่เริ่มทดลองงาน';
+        this.title_probationenddate = 'วันที่สิ้นสุดทดลองงาน';
+        this.title_resignstatus = 'ลาออก';
+        this.title_resigndate = 'วันที่ลาออก';
+        this.title_resignreason = 'เหตุผลการลาออก';
 
-    //------------------combank-------------------------
+        this.title_personal = 'ข้อมูลส่วนตัว';
+        this.title_religion = 'ศาสนา';
+        this.title_blood = 'กรุ๊ปเลือด';
+        this.title_weight = 'นํ้าหนัก';
+        this.title_height = 'ส่วนสูง';
+        this.title_address = 'ที่อยู่';
+        this.title_card = 'ข้อมูลบัตร';
+        this.title_bank = 'ข้อมูลธนาคาร';
+        this.title_family = 'ข้อมูลครอบครัว';
+        this.title_hospital = 'ข้อมูลโรงพยาบาล';
+        this.title_foreigner = 'ข้อมูลพนักงานต่างด้าว';
 
-            this.title_company_code = 'เลขที่';
-            this.title_combank_bankcode = 'ธนาคาร';
-            this.title_combank_bankaccount = 'เลขที่บัญชี';
-            this.title_combank_nameaccount = 'ชื่อบัญชี';
-            this.title_combank_bankpercent = 'ธนาคาร%';
-            this.title_combank_cashpercent = 'เงินสด%';
-        }
+        this.title_record = 'ข้อมูลประวัติ';
+        this.title_department = 'สังกัด';
+        this.title_position = 'ตำแหน่ง';
+        this.title_education = 'ประวัติการศึกษา';
+        this.title_training = 'ประวัติการอบรม';
+        this.title_assessment = 'ประวัติการประเมิน';
+        this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม'
+
+        this.title_finance = 'การเงิน';
+        this.title_taxmethod = 'การคำนวนภาษี';
+        this.title_salary = 'เงินเดือน/ค่าจ้าง';
+        this.title_benefit = 'สวัสดิการ';
+        this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
+        this.title_reduce = 'ค่าลดหย่อน';
+        this.title_accumulate = 'รายได้สะสม/ภาษีสะสม';
+
+        this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
+
+        this.title_modified_by = "ผู้ทำรายการ";
+        this.title_modified_date = "วันที่ทำรายการ";
+        this.title_search = "ค้นหา";
+        this.title_upload = "อัพโหลด";
+
+        this.title_page_from = "แสดง";
+        this.title_page_to = "ถึง";
+        this.title_page_total = "จาก";
+        this.title_page_record = "รายการ";
+
+        this.title_confirm = "ยืนยันการทำรายการ";
+        this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
+        this.title_confirm_delete = "คุณต้องการลบรายการ";
+
+        this.title_confirm_yes = "ใช่";
+        this.title_confirm_no = "ยกเลิก";
+        this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
+
+      }
     }
 
 
     doLoadMenu() {
-//-----------------------menuaddress--------------------------------
-        this.menuaddress = [
-            {
-                label: this.title_new,
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.selectedComaddress = new ComaddressModel();
-                    this.new_data = true;
-                    this.edit_data = false;
-                },
-            },
+      //menumain
+      this.toolbar_menu = [
+        {
+          label: 'Back',
+          icon: 'pi-arrow-left',
+          command: (event) => {
+            this.router.navigateByUrl('system/company');
+          }
+        },
+        {
+          label: 'Save',
+          icon: 'pi pi-fw pi-save',
+          command: (event) => {
+            console.log('Save')
+            this.confirmRecord()
+          }
 
-            {
-                label: this.title_edit,
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.doLoadComaddress();
-                    // this.doRecordComaddress();
-                    this.edit_data = true;
-                    this.new_data = false;
-                },
-            },
+        },];
+      //menu address
+      this.menu_comaddress = [
+        {
+          label: 'New',
+          icon: 'pi pi-fw pi-plus',
+          command: (event) => {
+            this.clearManage()
+            this.new_comaddress = true
+            var ref = this.comaddressList.length + 100
+            this.selectedComaddress = new ComaddressModel()
+            this.selectedComaddress.company_code = ref.toString()
+            this.showManage()
+          }
+        },
+        {
+          label: 'Edit',
+          icon: 'pi pi-fw pi-pencil',
+          command: (event) => {
+            this.clearManage()
+            if (this.selectedComaddress != null) {
+              this.edit_comaddress = true
+              this.showManage()
+            }
+          }
+        },
+        {
+          label: 'Delete',
+          icon: 'pi pi-fw pi-trash',
+          command: (event) => {
+            if(this.selectedComaddress != null){
+              this.comaddresss_remove()
+            }
+          }
+        },
+        {
+          label: 'Import',
+          icon: 'pi pi-fw pi-file-import',
+          command: (event) => {
+            console.log("IMPORT");
+          }
+        },
+        {
+          label: 'Export',
+          icon: 'pi pi-fw pi-file-export',
+          command: (event) => {
 
-            {
-                label: this.title_delete,
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    // this.confirmDelete();
-                    this.doDeleteComaddress();
-                },
-            },
-        ];
-//-----------------------menucomcard--------------------------------
-        this.menucomcard = [
-            {
-                label: this.title_new,
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.selectedComcard = new ComcardModel();
-                    this.new_data = true;
-                    this.edit_data = false;
-                },
-            },
+          }
+        }];
+      //menu card
+      this.menu_comcard = [
+        {
+          label: 'New',
+          icon: 'pi pi-fw pi-plus',
+          command: (event) => {
+            this.clearManage()
+            this.new_card = true
+            var ref = this.comcardList.length + 100
+            this.selectedComcard = new ComcardModel()
+            this.selectedComcard.comcard_id = ref.toString()
+            this.showManage()
+          }
+        },
+        {
+          label: 'Edit',
+          icon: 'pi pi-fw pi-pencil',
+          command: (event) => {
+            this.clearManage()
+            if (this.selectedComcard != null) {
+              this.edit_comcard = true
+              this.showManage()
+            }
+          }
+        },
+        {
+          label: 'Delete',
+          icon: 'pi pi-fw pi-trash',
+          command: (event) => {
+            if(this.selectedComcard != null){
+              this.comcard_remove()
+            }
+          }
+        },
+        {
+          label: 'Import',
+          icon: 'pi pi-fw pi-file-import',
+          command: (event) => {
+          }
+        },
+        {
+          label: 'Export',
+          icon: 'pi pi-fw pi-file-export',
+          command: (event) => {
+          }
+        }];
+      //menu bank
+      this.menu_combank = [
+        {
+          label: 'New',
+          icon: 'pi pi-fw pi-plus',
+          command: (event) => {
+            this.clearManage()
+            this.new_bank = true
+            var ref = this.combankList.length + 100
+            this.selectedCombank = new CombankModel()
+            this.selectedCombank.combank_id = ref.toString()
+            this.showManage()
+          }
+        },
+        {
+          label: 'Edit',
+          icon: 'pi pi-fw pi-pencil',
+          command: (event) => {
+            this.clearManage()
+            if (this.selectedCombank != null) {
+              this.edit_combank = true
+              this.showManage()
+            }
+          }
+        },
+        {
+          label: 'Delete',
+          icon: 'pi pi-fw pi-trash',
+          command: (event) => {
+            if(this.selectedCombank != null){
+              this.combank_remove()
+            }
+          }
+        },
+        {
+          label: 'Import',
+          icon: 'pi pi-fw pi-file-import',
+          command: (event) => {
+          }
+        },
+        {
+          label: 'Export',
+          icon: 'pi pi-fw pi-file-export',
+          command: (event) => {
+          }
+        }];
 
-            {
-                label: this.title_edit,
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.doLoadComcard();
-                    this.edit_data = true;
-                    this.new_data = false;
-                },
-            },
-
-            {
-                label: this.title_delete,
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    // this.confirmDelete();
-                    this. doDeleteComcard();
-                },
-            },
-        ];
-
-//-----------------------menucombank--------------------------------
-
-        this.menucombank = [
-            {
-                label: this.title_new,
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.selectedCombank = new CombankModel();
-                    this.new_data = true;
-                    this.edit_data = false;
-                },
-            },
-
-            {
-                label: this.title_edit,
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.doLoadCombank();
-                    this.edit_data = true;
-                    this.new_data = false;
-                },
-            },
-
-            {
-                label: this.title_delete,
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    this.doDeleteCombank();
-                },
-            },
-        ];
-
-//-----------------------items--------------------------------
-        this.items = [
-            {
-                label: 'Save',
-                icon: 'pi pi-fw pi-save',
-                command: (event) => {
-                    this.confirmRecord();
-                    // this.page_tab = 1;
-                },
-            },
-            {
-                label:this.title_export,
-                icon: 'pi pi-fw pi-file-export',
-                //   icon:'pi pi-fw pi-file-import',
-                command: (event) => {
-                    this.exportAsExcel();
-                },
-            },
-            {
-                label:this.title_import,
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    this.showUpload();
-                    // this.exportAsExcel()
-                },
-            },
-        ];
-
-        this.itemmenu= [
-            {
-                label: this.title_new,
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.selectedCompany = new CompanyModel();
-                    this.selectedCombank = new CombankModel();
-                    this.selectedComaddress = new ComaddressModel();
-                    this.selectedComcard = new ComcardModel();
-                    this.page_tab = 2;
-                    this.new_data = true;
-                    this.edit_data = false;
-                    // this.router.navigate(["system/CompanysComponent"]);
-                },
-            },
-
-            {
-                label: this.title_edit,
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.doLoadComaddress();
-                    this.doLoadComcard();
-                    this.doLoadCombank();
-                    this.doLoadCompany();
-                    // this.selectedCompany = new CompanyModel();
-                    // this.selectedCombank = new CombankModel();
-                    // this.selectedComaddress = new ComaddressModel();
-                    // this.selectedComcard = new ComcardModel();
-                    this.page_tab = 2;
-                    this.edit_data = true;
-                    this.new_data = false;
-                    // this.router.navigate(["system/CompanysComponent"]);
-                },
-            },
-            {
-                label: this.title_delete,
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    // this.selectedCompany = new CompanyModel();
-                    // this.selectedCombank = new CombankModel();
-                    // this.selectedComaddress = new ComaddressModel();
-                    // this.selectedComcard = new ComcardModel();
-                    // this.doLoadCombank()
-                    // this.doLoadComaddress()
-                    // this.doLoadComcard()
-                    this.selectedCompany = new CompanyModel();
-                    this.selectedCombank = new CombankModel();
-                    this.selectedComaddress = new ComaddressModel();
-                    this.selectedComcard = new ComcardModel();
-                    this.confirmDelete();
-                    this.new_data = true;
-                    this.edit_data = false;
-                },
-            },
-        ];
     }
 
+    tabChange(e: { index: any; }) {
+      var index = e.index;
 
-    doBack(page: number) {
-        this.page_tab = page;
+      this.edit_comaddress = false;
+      this.new_comaddress = false;
+      //
+      this.edit_comcard = false;
+      this.new_card = false;
+      //
+      this.edit_combank = false;
+      this.new_bank = false;
+      //
+
+
+      this.displayManage = false
+
+    }
+
+    position: string = "right";
+    showManage() {
+      this.displayManage = true;
+
+      if (this.initial_current.Language == "EN") {
+        if (this.new_comaddress || this.edit_comaddress) {
+          this.manage_title = "Address"
+        }
+        else if (this.new_card || this.edit_comcard) {
+          this.manage_title = "Card"
+        }
+        else if (this.new_bank || this.edit_combank) {
+          this.manage_title = "Bank"
+        }
+
+      } else {
+        if (this.new_comaddress || this.edit_comaddress) {
+          this.manage_title = "ที่อยู่"
+        }
+        else if (this.new_card || this.edit_comcard) {
+          this.manage_title = "ข้อมูลบัตร"
+        }
+        else if (this.new_bank || this.edit_combank) {
+          this.manage_title = "ข้อมูลธนาคาร"
+        }
+
       }
+    }
 
-    //get data
-    // ------company------
-
-    CompanyList: CompanyModel[] = [];
     doLoadCompany() {
-        this.companyService.company_get().then((res) => {
-            this.company_list = res;
-        });
-        console.log(this.companyService);
+      var Company_list: CompanyModel[] = [];
+      this.companyService.company_get(this.company_code).then(async(res) => {
+        await res.forEach((element: CompanyModel)=>{
+
+        })
+
+        Company_list = await res;
+
+        if (Company_list.length > 0) {
+          this.selectedCompany = Company_list[0]
+
+          setTimeout(() => {
+            this.doLoadComaddressList();
+            this.doLoadComcardList();
+            this.doLoadCombankList();
+
+          }, 300);
+
+        }
+
+      });
     }
 
-    // ------combank------
-    combanklist: CombankModel[] = [];
-    doLoadCombank() {
-        this.combankService.combank_get().then((res) => {
-            this.combanklist = res;
-        });
-        console.log(this.combankService);
+    // get data dropdown
+    bankList: BankModel[] = [];
+    doLoadbankList() {
+      this.bankService.bank_get().then((res) => {
+        this.bankList = res;
+      })
+    }
+    cardList: CardtypeModel[] = [];
+    doLoadcardList() {
+      this.cardtypeService.cardtype_get().then((res) => {
+        this.cardList = res;
+      })
+    }
+    addressList: AddresstypeModel[] = [];
+    doLoadaddressList() {
+      this.addresstypeService.addresstype_get().then((res) => {
+        this.addressList = res;
+      })
+    }
+    provinceList: ProvinceModel[]=[];
+    doLoadprovinceList() {
+      this.provinceService.province_get().then((res) => {
+        this.provinceList = res;
+      })
     }
 
-        // ------Comaddress------
-    ComaddressList: ComaddressModel[] = [];
-    doLoadComaddress() {
-        this.comaddressService.comaddress_get().then((res) => {
-            this.ComaddressList = res;
-        });
-        console.log(this.comaddressService);
+    //address
+    comaddressList: ComaddressModel[] = [];
+    selectedComaddress: ComaddressModel = new ComaddressModel();
+    doLoadComaddressList() {
+      this.companyDetailService.getcompany_address(this.company_code,'').then((res) => {
+        this.comaddressList = res;
+        if (this.comaddressList.length > 0) {
+          this.selectedComaddress = this.comaddressList[0];
+        }
+      })
+    }
+    onRowSelectComaddress(event: Event) { }
+    comaddress_summit() {
+      this.comaddress_addItem(this.selectedComaddress)
+      this.new_comaddress = false
+      this.edit_comaddress = false
+      this.displayManage = false
+    }
+    comaddresss_remove() {
+      this.selectedComaddress.company_code = "9999";
+      this.comaddress_addItem(this.selectedComaddress)
+      this.new_comaddress = false
+      this.edit_comaddress= false
+    }
+    comaddress_delete() { }
+    comaddress_cancel() {
+      this.new_comaddress = false
+      this.edit_comaddress = false
+      this.displayManage = false
+    }
+    comaddress_addItem(model:ComaddressModel){
+      const itemNew:ComaddressModel[] = [];
+      for (let i = 0; i < this.comaddressList.length; i++) {
+        if(this.comaddressList[i].company_code==model.company_code ){
+          //-- Notting
+        }
+        else{
+          itemNew.push(this.comaddressList[i]);
+        }
+      }
+      //-- 9999 for delete
+      if(model.company_code != "9999"){
+        itemNew.push(model);
+      }
+      this.comaddressList = [];
+      this.comaddressList = itemNew;
+      this.comaddressList.sort(function(a, b) { return parseInt(a.comaddress_no) - parseInt(b.comaddress_no); })
+    }
+    record_comaddress(){
+      if(this.comaddressList.length == 0){
+        return
+      }
+      this.companyDetailService.record_comddress(this.selectedCompany.company_code, this.comaddressList).then((res) => {
+        let result = JSON.parse(res);
+        if(result.success){
+        }
+        else{
+        }
+      });
     }
 
-   // ------Comcard------
-    ComcardList: ComcardModel[] = [];
-    doLoadComcard() {
-        this.comcardService.comcard_get().then((res) => {
-            this.ComcardList = res;
-        });
-        console.log(this.comcardService);
+    //card
+    comcardList: ComcardModel[] = [];
+    selectedComcard: ComcardModel = new ComcardModel();
+    doLoadComcardList() {
+      this.companyDetailService.getcompany_card(this.company_code,'').then(async(res) => {
+        await res.forEach((element: ComcardModel)=>{
+          element.comcard_issue = new Date(element.comcard_issue)
+          element.comcard_expire = new Date(element.comcard_expire)
+
+        })
+        this.comcardList = await res;
+
+        if (this.comcardList.length > 0) {
+          this.selectedComcard = this.comcardList[0];
+        }
+      })
+    }
+    onRowSelectComcard(event: Event) { }
+    comcard_summit() {
+      this.comcard_addItem(this.selectedComcard)
+      this.new_card = false
+      this.edit_comcard = false
+      this.displayManage = false
+    }
+    comcard_remove() {
+      this.selectedComcard.comcard_id = "9999";
+      this.comcard_addItem(this.selectedComcard)
+      this.new_card = false
+      this.edit_comcard = false
+    }
+    comcard_delete() { }
+    comcard_cancel() {
+      this.new_card = false
+      this.edit_comcard = false
+      this.displayManage = false
+    }
+    comcard_addItem(model:ComcardModel){
+      const itemNew:ComcardModel[] = [];
+      for (let i = 0; i < this.comcardList.length; i++) {
+        if(this.comcardList[i].comcard_id==model.comcard_id ){
+          //-- Notting
+        }
+        else{
+          itemNew.push(this.comcardList[i]);
+        }
+      }
+      //-- 9999 for delete
+      if(model.comcard_id != "9999"){
+        itemNew.push(model);
+      }
+      this.comcardList = [];
+      this.comcardList = itemNew;
+      this.comcardList.sort(function(a, b) { return parseInt(a.comcard_id) - parseInt(b.comcard_id); })
+    }
+    record_comcard(){
+      if(this.comcardList.length == 0){
+        return
+      }
+      this.companyDetailService.record_comcard(this.selectedCompany.company_code, this.comcardList).then((res) => {
+        let result = JSON.parse(res);
+        if(result.success){
+        }
+        else{
+        }
+      });
     }
 
+    //bank
+    combankList: CombankModel[] = [];
+    selectedCombank: CombankModel = new CombankModel();
+    doLoadCombankList() {
+      this.companyDetailService.getcompany_bank(this.company_code,'').then((res) => {
 
+        this.combankList = res;
+        if (this.combankList.length > 0) {
+          this.selectedCombank = this.combankList[0];
+        }
+      })
+    }
+    onRowSelectCombank(event: Event) { }
+    combank_summit() {
+      this.combank_addItem(this.selectedCombank)
+      this.new_bank = false
+      this.edit_combank = false
+      this.displayManage = false
+    }
+    combank_remove() {
+      this.selectedCombank.combank_id = "9999";
+      this.combank_addItem(this.selectedCombank)
+      this.new_bank = false
+      this.edit_combank = false
+    }
+    combank_delete() { }
+    combank_cancel() {
+      this.new_bank = false
+      this.edit_combank = false
+      this.displayManage = false
+    }
+    combank_addItem(model:CombankModel){
+      const itemNew:CombankModel[] = [];
+      for (let i = 0; i < this.combankList.length; i++) {
+        if(this.combankList[i].combank_id==model.combank_id ){
+          //-- Notting
+        }
+        else{
+          itemNew.push(this.combankList[i]);
+        }
+      }
+      //-- 9999 for delete
+      if(model.combank_id != "9999"){
+        itemNew.push(model);
+      }
+      this.combankList = [];
+      this.combankList = itemNew;
+      this.combankList.sort(function(a, b) { return parseInt(a.combank_id) - parseInt(b.combank_id); })
+    }
+    record_combank(){
+      if(this.combankList.length == 0){
+        return
+      }
+      this.companyDetailService.record_combank(this.selectedCompany.company_code, this.combankList).then((res) => {
+        let result = JSON.parse(res);
+        if(result.success){
+        }
+        else{
+        }
+      });
+    }
     confirmRecord() {
-        this.confirmationService.confirm({
-            message: this.title_confirm_record,
-            header: this.title_confirm,
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.doRecordCompany();
-                console.log(this.selectedCompany);
-
-
-                this.doRecordComaddress();
-                console.log(this.selectedComaddress);
-
-                this.doRecordComcard();
-                console.log(this.selectedComcard);
-
-                this.doRecordCombank();
-                console.log(this.selectedCombank);
-
-            },
-            reject: () => {
-                this.messageService.add({
-                    severity: 'warn',
-                    summary: 'Cancelled',
-                    detail: this.title_confirm_cancel,
-                });
-            },
-        });
+      this.confirmationService.confirm({
+        message: this.title_confirm_record,
+        header: this.title_confirm,
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.doRecordCompany()
+        },
+        reject: () => {
+          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+        }
+      });
     }
 
-    // ------company------
     doRecordCompany() {
-        this.companyService.company_record(this.selectedCompany).then((res) => {
-            console.log(res);
-            let result = JSON.parse(res);
 
-            if (result.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: result.message,
-                });
-                this.doLoadCompany();
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: result.message,
-                });
-            }
-        });
+      this.companyService.company_recordall(this.selectedCompany).then((res) => {
+
+        console.log(res)
+
+        let result = JSON.parse(res);
+
+        if (result.success) {
+
+           //-- Transaction
+           this.record_comaddress();
+           this.record_comcard();
+           this.record_combank();
+
+
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+        //   this.router.navigateByUrl('company/list');
+          this.doLoadCompany()
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+        }
+
+      });
     }
 
-
-    // ------Comaddress------
-    doRecordComaddress() {
-        this.comaddressService
-            .comaddress_record(this.selectedComaddress)
-            .then((res) => {
-                console.log(res);
-                let result = JSON.parse(res);
-
-                if (result.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        // detail: result.message,
-                    });
-                    this.doLoadComaddress();
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: result.message,
-                    });
-                }
-            });
-    }
-
- // ------Combank------
-    doRecordCombank() {
-        this.combankService.combank_record(this.selectedCombank).then((res) => {
-            console.log(res);
-            let result = JSON.parse(res);
-
-            if (result.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: result.message,
-                });
-                this.doLoadCombank();
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: result.message,
-                });
-            }
-        });
-    }
-
-     // ------Comcard------
-    doRecordComcard() {
-        this.comcardService.comcard_record(this.selectedComcard).then((res) => {
-            console.log(res);
-            let result = JSON.parse(res);
-
-            if (result.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: result.message,
-                });
-                this.doLoadComcard();
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: result.message,
-                });
-            }
-        });
+    close() {
+      this.new_company = false;
+      this.selectedCompany = new CompanyModel();
     }
 
 
 
+    clearManage() {
+      this.new_comaddress = false; this.edit_comaddress = false;
+      this.new_card = false; this.edit_comcard = false;
+      this.new_bank = false; this.edit_combank = false;
 
-    confirmDelete() {
-        this.confirmationService.confirm({
-            message: this.title_confirm_delete,
-            header: this.title_confirm,
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.doDeleteCompany();
-                console.log(this.selectedComaddress);
-
-                this.doDeleteComaddress();
-                console.log(this.selectedComaddress);
-
-                this.doDeleteComcard();
-                console.log(this.selectedComcard);
-
-                this.doDeleteCombank();
-                console.log(this.selectedCombank);
-
-            },
-            reject: () => {
-                this.messageService.add({
-                    severity: 'warn',
-                    summary: 'Cancelled',
-                    detail: this.title_confirm_cancel,
-                });
-            },
-        });
     }
 
-    // ------company------
-    doDeleteCompany() {
-        this.companyService.company_delete(this.selectedCompany).then((res) => {
-            console.log(res);
-            let result = JSON.parse(res);
-
-            if (result.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: result.message,
-                });
-                this.doLoadCompany();
-                this.edit_data = false;
-                this.new_data = false;
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: result.message,
-                });
-            }
-        });
-    }
-
-    // ------Comaddress------
-    doDeleteComaddress() {
-        this.comaddressService
-            .comaddress_delete(this.selectedComaddress)
-            .then((res) => {
-                console.log(res);
-                let result = JSON.parse(res);
-
-                if (result.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: result.message,
-                    });
-                    this.doLoadComaddress();
-                    this.edit_data = false;
-                    this.new_data = false;
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: result.message,
-                    });
-                }
-            });
-    }
-
-    // ------Combank------
-    doDeleteCombank() {
-        this.combankService.combank_delete(this.selectedCombank).then((res) => {
-            console.log(res);
-            let result = JSON.parse(res);
-
-            if (result.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: result.message,
-                });
-                this.doLoadCombank();
-                this.edit_data = false;
-                this.new_data = false;
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: result.message,
-                });
-            }
-        });
-    }
-
-    // ------Comcard------
-    doDeleteComcard() {
-        this.comcardService.comcard_delete(this.selectedComcard).then((res) => {
-            console.log(res);
-            let result = JSON.parse(res);
-
-            if (result.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: result.message,
-                });
-                this.doLoadComcard();
-                this.edit_data = false;
-                this.new_data = false;
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: result.message,
-                });
-            }
-        });
-    }
-
-    // ------company------
-    onRowSelectCompany(event: Event) {
-        this.edit_data = true;
-        this.new_data = false;
-    }
-
-    // ------Comaddress------
-    onRowSelectComaddress(event: Event) {
-        this.edit_data = true;
-        this.new_data = false;
-    }
-
-    // ------Combank------
-    onRowSelectCombank(event: Event) {
-        this.edit_data = true;
-        this.new_data = false;
-    }
-
-    // ------Comcard------
-    onRowSelectComcard(event: Event) {
-        this.edit_data = true;
-        this.new_data = false;
-    }
-
-
-
-    fileToUpload: File | any = null;
-    handleFileInput(file: FileList) {
-        this.fileToUpload = file.item(0);
-    }
-
-
-    // ------company------
-    doUploadCompany() {
-        this.displayUpload = false;
-
-        const filename =
-            'company_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-        const filetype = 'xls';
-
-        this.companyService
-            .company_import(this.fileToUpload, filename, filetype)
-            .then((res) => {
-                console.log(res);
-                let result = JSON.parse(res);
-
-                if (result.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: result.message,
-                    });
-                    this.doLoadCompany();
-                    this.edit_data = false;
-                    this.new_data = false;
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: result.message,
-                    });
-                }
-            });
-    }
-
-  // ------Comcard------
-    doUploadComcard() {
-        this.displayUpload = false;
-
-        const filename =
-            'Comcard_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-        const filetype = 'xls';
-
-        this.comcardService
-            .comcard_import(this.fileToUpload, filename, filetype)
-            .then((res) => {
-                console.log(res);
-                let result = JSON.parse(res);
-
-                if (result.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: result.message,
-                    });
-                    this.doLoadComcard();
-                    this.edit_data = false;
-                    this.new_data = false;
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: result.message,
-                    });
-                }
-            });
-    }
-
-    // ------Comaddress------
-    doUploadComaddress() {
-        this.displayUpload = false;
-
-        const filename =
-            'Comaddress_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-        const filetype = 'xls';
-
-        this.comaddressService
-            .comaddress_import(this.fileToUpload, filename, filetype)
-            .then((res) => {
-                console.log(res);
-                let result = JSON.parse(res);
-
-                if (result.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: result.message,
-                    });
-                    this.doLoadComaddress();
-                    this.edit_data = false;
-                    this.new_data = false;
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: result.message,
-                    });
-                }
-            });
-    }
-
-    // ------Combank------
-    doUploadCombank() {
-        this.displayUpload = false;
-
-        const filename =
-            'Combank_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-        const filetype = 'xls';
-
-        this.combankService
-            .combank_import(this.fileToUpload, filename, filetype)
-            .then((res) => {
-                console.log(res);
-                let result = JSON.parse(res);
-
-                if (result.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: result.message,
-                    });
-                    this.doLoadCombank();
-                    this.edit_data = false;
-                    this.new_data = false;
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: result.message,
-                    });
-                }
-            });
-    }
-
-
-    displayUpload: boolean = false;
-    showUpload() {
-        this.displayUpload = true;
-    }
-
-    @ViewChild('TABLE') table: ElementRef | any = null;
-    exportAsExcel() {
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-            this.table.nativeElement
-        );
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-        XLSX.writeFile(wb, 'Export_company.xlsx');
-    }
-}
+  }

@@ -1,0 +1,17 @@
+export class EmpPositionModel {
+    constructor() {
+    }
+    company_code: string= "";
+    worker_code: string= "";
+    empposition_id: string= "";
+    empposition_date: string= "";
+    empposition_position: string= "";
+    empposition_reason: string= "";
+
+    modified_by: string= "";
+    modified_date: string= "";
+
+
+    index: number = 0;
+    select: boolean = false;
+}

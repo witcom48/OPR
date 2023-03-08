@@ -81,13 +81,10 @@ export class CombankService {
     public combank_record(model: CombankModel) {
         console.log('CBK002..');
         const data = {
+            combankcompany_code_id: model.company_code,
             combank_id: model.combank_id,
-            company_code: model.company_code,
             combank_bankcode: model.combank_bankcode,
             combank_bankaccount: model.combank_bankaccount,
-            combank_nameaccount: model.combank_nameaccount,
-            combank_bankpercent: model.combank_bankpercent,
-            combank_cashpercent: model.combank_cashpercent,
             modified_by: this.initial_current.Username,
         };
 

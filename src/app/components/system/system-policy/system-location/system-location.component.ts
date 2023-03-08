@@ -10,8 +10,8 @@ import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { LocationModel } from 'src/app/models/system/location';
-import { LocationService } from 'src/app/services/system/location.service';
+import { LocationModel } from 'src/app/models/system/policy/location';
+import { LocationService } from 'src/app/services/system/policy/location.service';
 declare var locationpage: any;
 
 // import { LocationModel } from 'src/app/models/system/location';
@@ -38,7 +38,7 @@ export class SystemLocationComponent implements OnInit {
     items: MenuItem[] = [];
     location_list: LocationModel[] = [];
     locations: LocationModel = new LocationModel()
-  
+
     public initial_current: InitialCurrent = new InitialCurrent();
     doGetInitialCurrent() {
       this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
@@ -69,7 +69,7 @@ export class SystemLocationComponent implements OnInit {
         else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
         }
-  
+
       });
       this.new_data = false;
       this.edit_data = false;
@@ -84,7 +84,7 @@ export class SystemLocationComponent implements OnInit {
         else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
         }
-  
+
       });
       this.new_data = false;
       this.edit_data = false;
@@ -110,7 +110,7 @@ export class SystemLocationComponent implements OnInit {
       this.fileToUpload = file.item(0);
     }
     doLoadMenu() {
-  
+
       this.items = [
         {
           label: this.langs.get('new')[this.selectlang],
@@ -127,7 +127,7 @@ export class SystemLocationComponent implements OnInit {
           icon: 'pi-file-import',
           command: (event) => {
             this.showUpload()
-  
+
           }
         }
         ,
@@ -136,7 +136,7 @@ export class SystemLocationComponent implements OnInit {
           icon: 'pi-file-export',
           command: (event) => {
             this.exportAsExcel()
-  
+
           }
         }
       ];
@@ -178,7 +178,7 @@ export class SystemLocationComponent implements OnInit {
       this.edit_data = true;
     }
   exportAsExcel() {
-  
+
       const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
       for (var i in ws) {
         if (i.startsWith("!") || i.charAt(1) !== "1") {
@@ -191,14 +191,13 @@ export class SystemLocationComponent implements OnInit {
           } else {
             n += 1;
           }
-  
+
         }
       }
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  
+
       XLSX.writeFile(wb, 'Export_Location.xlsx');
-  
+
     }
   }
-  

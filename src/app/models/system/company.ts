@@ -1,9 +1,8 @@
 
   export class CompanyModel {
+
     constructor() {
-
     }
-
     company_id: string = "1";
     company_code: string = "";
     company_initials: string = "";
@@ -21,5 +20,6 @@
     modified_date: string = "";
     index: number = 0;
     select: boolean = false;
+    username: string = "";
   }
 
