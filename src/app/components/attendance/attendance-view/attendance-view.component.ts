@@ -65,6 +65,8 @@ export class AttendanceViewComponent implements OnInit {
   title_submit:string = "Submit";
   title_cancel:string = "Cancel";
 
+  style_input_real:string = "[style]=\"{'width':'80px'}\\";
+
   menu_timecard: MenuItem[] = [];
 
   constructor(private employeeService: EmployeeService,
@@ -190,7 +192,7 @@ export class AttendanceViewComponent implements OnInit {
   worker_code:string = "";
   worker_name:string = "";
   doLoadEmployee(){
-    this.employeeService.worker_get(this.initial_current.CompCode,"").then((res) =>{
+    this.employeeService.worker_get(this.initial_current.CompCode, "").then((res) =>{
       this.worker_list = res;   
     });
   }

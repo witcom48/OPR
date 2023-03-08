@@ -1,10 +1,14 @@
 <span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>View Time</small>
 <hr>
 
-<p-toast position="top-right"></p-toast>
+<p-toast position="top-right"></p-toast> 
 
-<p-dialog header="{{date_work | date:'dd/MM/yyyy'}}" [(visible)]="displayManage" [style]="{width: '55vw'}" [position]="position">
-    <div class="formgrid grid" *ngIf="edit_timecard==true">            
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+
+<p-dialog header="{{date_work | date:'dd/MM/yyyy'}}" [(visible)]="displayManage" [style]="{width: '40vw'}" [position]="position">
+    <div class="formgrid grid align-items-end" *ngIf="edit_timecard==true">            
                
         <div class="field col-12 md:col-6">
             <label for="ppos_shift_code">กะการทำงาน</label>
@@ -15,112 +19,157 @@
             <p-dropdown placeholder="วันทำงาน" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         </div>
         
-        <div class="field col-12">โอทีก่อนเข้างาน</div>  
+        <div class="field col-12 p-2">โอทีก่อนเข้างาน</div>  
 
-        <div class="field col-12 md:col-6">
-            <div>
-                <p-calendar [(ngModel)]="date_ch1" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch1" ></p-calendar>
-                -
-                <p-calendar [(ngModel)]="date_ch2" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch2"></p-calendar>
-            </div>            
+        <div class="field col-12 md:col-8">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-calendar [(ngModel)]="date_ch1" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch1"  ></p-calendar>
+                </div>
+                <div class="col-6">
+                    <p-calendar [(ngModel)]="date_ch2" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch2"></p-calendar>
+                </div>
+            </div>  
         </div>
-        <div class="field col-12 md:col-6">
-            <p-inputMask mask="99:99" [(ngModel)]="before" placeholder="HH:mm" styleClass="time_real"></p-inputMask>
-            &nbsp;&nbsp;
-            <p-inputMask mask="99:99" [(ngModel)]="before_app" placeholder="HH:mm"></p-inputMask>
-        </div>
-
-        <div class="field col-12">เข้างานช่วงที่ 1</div>  
-
-        <div class="field col-12 md:col-6">
-            <div>
-                <p-calendar [(ngModel)]="date_ch3" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch3" ></p-calendar>
-                -
-                <p-calendar [(ngModel)]="date_ch4" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch4"></p-calendar>
-            </div>            
-        </div>
-        <div class="field col-12 md:col-6">
-            <p-inputMask mask="99:99" [(ngModel)]="work1" placeholder="HH:mm" styleClass="time_real"></p-inputMask>
-            &nbsp;&nbsp;
-            <p-inputMask mask="99:99" [(ngModel)]="work1_app" placeholder="HH:mm"></p-inputMask>
+        <div class="field col-12 md:col-4">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-inputMask mask="99:99" [(ngModel)]="before" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
+                </div>
+                <div class="col-6">
+                    <p-inputMask mask="99:99" [(ngModel)]="before_app" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'#FFFFFF','color':'green'}"></p-inputMask>
+                </div>
+            </div>   
         </div>
 
-        <div class="field col-12">เข้างานช่วงที่ 2</div>  
+        <div class="field col-12 p-2">เข้างานช่วงที่ 1</div>
+        <div class="field col-12 md:col-8">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-calendar [(ngModel)]="date_ch3" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch3"  ></p-calendar>
+                </div>
+                <div class="col-6">
+                    <p-calendar [(ngModel)]="date_ch4" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch4"></p-calendar>
+                </div>
+            </div>  
+        </div>
+        <div class="field col-12 md:col-4">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-inputMask mask="99:99" [(ngModel)]="work1" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
+                </div>
+                <div class="col-6">
+                    <p-inputMask mask="99:99" [(ngModel)]="work1_app" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'#FFFFFF','color':'green'}"></p-inputMask>
+                </div>
+            </div>   
+        </div>        
 
-        <div class="field col-12 md:col-6">
-            <div>
-                <p-calendar [(ngModel)]="date_ch7" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch7" ></p-calendar>
-                -
-                <p-calendar [(ngModel)]="date_ch8" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch8"></p-calendar>
-            </div>            
+        <div class="field col-12 p-2">เข้างานช่วงที่ 2</div> 
+        <div class="field col-12 md:col-8">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-calendar [(ngModel)]="date_ch7" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch7"  ></p-calendar>
+                </div>
+                <div class="col-6">
+                    <p-calendar [(ngModel)]="date_ch8" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch8"></p-calendar>
+                </div>
+            </div>  
         </div>
-        <div class="field col-12 md:col-6">
-            <p-inputMask mask="99:99" [(ngModel)]="work2" placeholder="HH:mm" styleClass="time_real"></p-inputMask>
-            &nbsp;&nbsp;
-            <p-inputMask mask="99:99" [(ngModel)]="work2_app" placeholder="HH:mm"></p-inputMask>
-        </div>
-
-        <div class="field col-12">พักเบรก</div>  
-
-        <div class="field col-12 md:col-6">
-            <div>
-                <p-calendar [(ngModel)]="date_ch5" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch5" ></p-calendar>
-                -
-                <p-calendar [(ngModel)]="date_ch6" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch6"></p-calendar>
-            </div>            
-        </div>
-        <div class="field col-12 md:col-6">
-            <p-inputMask mask="99:99" [(ngModel)]="break" placeholder="HH:mm" styleClass="time_real"></p-inputMask>
-            &nbsp;&nbsp;
-            <p-inputMask mask="99:99" [(ngModel)]="break_app" placeholder="HH:mm"></p-inputMask>
+        <div class="field col-12 md:col-4">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-inputMask mask="99:99" [(ngModel)]="work2" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
+                </div>
+                <div class="col-6">
+                    <p-inputMask mask="99:99" [(ngModel)]="work2_app" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'#FFFFFF','color':'green'}"></p-inputMask>
+                </div>
+            </div>   
         </div>
 
-        <div class="field col-12">โอทีหลังเลิกงาน</div>  
+        <div class="field col-12 p-2">พักเบรก</div>  
+        <div class="field col-12 md:col-8">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-calendar [(ngModel)]="date_ch5" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch5"  ></p-calendar>
+                </div>
+                <div class="col-6">
+                    <p-calendar [(ngModel)]="date_ch6" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch6"></p-calendar>
+                </div>
+            </div>  
+        </div>
+        <div class="field col-12 md:col-4">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-inputMask mask="99:99" [(ngModel)]="break" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
+                </div>
+                <div class="col-6">
+                    <p-inputMask mask="99:99" [(ngModel)]="break_app" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'#FFFFFF','color':'green'}"></p-inputMask>
+                </div>
+            </div>   
+        </div>
 
-        <div class="field col-12 md:col-6">
-            <div>
-                <p-calendar [(ngModel)]="date_ch9" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch9" ></p-calendar>
-                -
-                <p-calendar [(ngModel)]="date_ch10" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch10"></p-calendar>
-            </div>            
+        <div class="field col-12 p-2">โอทีหลังเลิกงาน</div> 
+        <div class="field col-12 md:col-8">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-calendar [(ngModel)]="date_ch9" dateFormat="dd/mm/yy"  [showTime]="true" inputId="date_ch9"  ></p-calendar>
+                </div>
+                <div class="col-6">
+                    <p-calendar [(ngModel)]="date_ch10" dateFormat="dd/mm/yy" [showTime]="true" inputId="date_ch10"></p-calendar>
+                </div>
+            </div>  
         </div>
-        <div class="field col-12 md:col-6">
-            <p-inputMask mask="99:99" [(ngModel)]="after" placeholder="HH:mm" styleClass="time_real"></p-inputMask>
-            &nbsp;&nbsp;
-            <p-inputMask mask="99:99" [(ngModel)]="after_app" placeholder="HH:mm"></p-inputMask>
+        <div class="field col-12 md:col-4">
+            <div class="grid">
+                <div class="col-6 ">
+                    <p-inputMask mask="99:99" [(ngModel)]="after" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
+                </div>
+                <div class="col-6">
+                    <p-inputMask mask="99:99" [(ngModel)]="after_app" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'#FFFFFF','color':'green'}"></p-inputMask>
+                </div>
+            </div>   
         </div>
-
-        <div class="field col-12 md:col-6">
-            <p>สาย</p>
-            <p-inputMask mask="99:99" [(ngModel)]="late" placeholder="HH:mm" styleClass="time_real"></p-inputMask>
-            &nbsp;&nbsp;
-            <p-inputMask mask="99:99" [(ngModel)]="late_app" placeholder="HH:mm"></p-inputMask>
-        </div>
-        <div class="field col-12 md:col-6">
-            <p>ลางาน</p>
-            <p-inputMask mask="99:99" [(ngModel)]="leave" placeholder="HH:mm" styleClass="time_real"></p-inputMask>
-            &nbsp;&nbsp;
-            <p-inputMask mask="99:99" [(ngModel)]="leave_app" placeholder="HH:mm"></p-inputMask>
-        </div>
+       
         
-        <div class="field col-12">
+        <div class="field col-12 md:col-8">           
+            <div class="grid">
+                <div class="col-6 p-2" >
+                    สาย
+                </div>
+                <div class="col-6 p-2">
+                    ลางาน
+                </div>
+                <div class="col-3 ">
+                    <p-inputMask mask="99:99" [(ngModel)]="late" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
+                </div>
+                <div class="col-3">
+                    <p-inputMask mask="99:99" [(ngModel)]="late_app" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'#FFFFFF','color':'green'}"></p-inputMask>
+                </div>
+                <div class="col-3 ">
+                    <p-inputMask mask="99:99" [(ngModel)]="leave" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
+                </div>
+                <div class="col-3">
+                    <p-inputMask mask="99:99" [(ngModel)]="leave_app" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'#FFFFFF','color':'green'}"></p-inputMask>
+                </div>
+            </div>  
+        </div>
+        <div class="field col-12 md:col-4">
             <div class="field-checkbox">
                 <p-checkbox [binary]="true" [(ngModel)]="selectedTimecard.timecard_lock" inputId="timecard_lock"></p-checkbox>
                 <label for="timecard_lock">ล็อค</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <p-checkbox [binary]="true" [(ngModel)]="selectedTimecard.timecard_deduct" inputId="timecard_deduct"></p-checkbox>
+                <label for="timecard_deduct">หักเงิน</label>
             </div>
         </div>
-
+        
         <div class="field col-12">
             <p-accordion>
                 <p-accordionTab header="เอกสาร" > </p-accordionTab>
                   
             </p-accordion>
         </div>
-
-
-
-
-                  
+         
         <div class="field col-12">
             <p-button label="บันทึก" icon="pi pi-save" (click)="timecard_summit()"></p-button>  
             &nbsp;
@@ -130,78 +179,81 @@
 </p-dialog>
 
 <div class="grid">
-    <div class="col-12">        
-        <table style="width: 100%">
-            <tr>
-                <td style="width: 20px;">
-                    <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
-                </td>
-                <td style="width: 150px;">
-                    <input id="lastname2" type="text" value="{{worker_code}}" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                </td>
-                <td style="width: 20px;">
-                    <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
-                </td>
-                <td style="width: 20px;">
-                    <i class="pi pi-search" ></i>
-                </td>
-                <td style="width: 250px;" align="left">
-                    <input id="lastname2" type="text" value="{{worker_name}}" style="width: 250px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                </td>
-                <td align="right">
-                    <table class="table_summary_">
-                        <tr>
-                            <td>
-                                <div class="main_div">
-                                    <span class="spn_value">10</span>
-                                    <div class="sub_div">
-                                        <span class="spn_title">วันทำงาน</span>
-                                    </div>
+    <div class="col-12">    
+        <div class="grid">
+            <div class="field col-12 md:col-5">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 20px;">
+                            <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
+                        </td>
+                        <td style="width: 150px;">
+                            <input id="lastname2" type="text" value="{{worker_code}}" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </td>
+                        <td style="width: 20px;">
+                            <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
+                        </td>
+                        <td style="width: 20px;">
+                            <i class="pi pi-search" ></i>
+                        </td>
+                        <td style="width: 250px;" align="left">
+                            <input id="lastname2" type="text" value="{{worker_name}}" style="width: 250px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="field col-12 md:col-7">
+                <table class="table_summary_">
+                    <tr>
+                        <td>
+                            <div class="main_div">
+                                <span class="spn_value">10</span>
+                                <div class="sub_div">
+                                    <span class="spn_title">วันทำงาน</span>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="main_div">
-                                    <span class="spn_value">10:00</span>
-                                    <div class="sub_div">
-                                        <span class="spn_title">ล่วงเวลา</span>
-                                    </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="main_div">
+                                <span class="spn_value">10:00</span>
+                                <div class="sub_div">
+                                    <span class="spn_title">ล่วงเวลา</span>
                                 </div>
-                            </td>   
-                            <td>
-                                <div class="main_div">
-                                    <span class="spn_value">1</span>
-                                    <div class="sub_div">
-                                        <span class="spn_title">วันลา</span>
-                                    </div>
+                            </div>
+                        </td>   
+                        <td>
+                            <div class="main_div">
+                                <span class="spn_value">1</span>
+                                <div class="sub_div">
+                                    <span class="spn_title">วันลา</span>
                                 </div>
-                            </td>   
-                            <td>
-                                <div class="main_div">
-                                    <span class="spn_value">0</span>
-                                    <div class="sub_div">
-                                        <span class="spn_title">ขาดงาน</span>
-                                    </div>
+                            </div>
+                        </td>   
+                        <td>
+                            <div class="main_div">
+                                <span class="spn_value">0</span>
+                                <div class="sub_div">
+                                    <span class="spn_title">ขาดงาน</span>
                                 </div>
-                            </td>   
-                            <td>
-                                <div class="main_div">
-                                    <span class="spn_value">00:50</span>
-                                    <div class="sub_div">
-                                        <span class="spn_title">สาย</span>
-                                    </div>
+                            </div>
+                        </td>   
+                        <td>
+                            <div class="main_div">
+                                <span class="spn_value">00:50</span>
+                                <div class="sub_div">
+                                    <span class="spn_title">สาย</span>
                                 </div>
-                            </td>                                                                  
-                        </tr>
-                    </table>  
-                </td>
-            </tr>
-            
-        </table>        
+                            </div>
+                        </td>                                                                  
+                    </tr>
+                </table>  
+            </div>
+        </div>   
     </div>
 
     <div class="col-12">
         <p-menubar [model]="menu_timecard"></p-menubar>        
-        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '170rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="timecard_workdate"
+        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '160rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="timecard_workdate"
         [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']"
