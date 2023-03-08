@@ -40,6 +40,20 @@
     </tr>
 </table>
 
+<p-toast position="top-right"></p-toast> 
+
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+<p-dialog header="{{title_upload}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
+    <p class="custom-file-upload">
+        <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
+    </p>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+
 <p-menubar [model]="items"></p-menubar >
 
     <div class="grid">
@@ -47,33 +61,31 @@
             <p-table #dt2  [value]="project_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProject" (onRowSelect)="onRowSelectProject($event)" dataKey="project_code"
             
             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [globalFilterFields]="['project_code','project_name_th','project_name_short','project_business','project_type','project_start','project_end']"
+            [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+            [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']"
             >
             <ng-template pTemplate="caption">
                 <div class="flex">
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search}}" />
                     </span>
                 </div>
             </ng-template>
 
                 <ng-template pTemplate="header">
                     <tr>		                        
-                        <th style="width:9%">โครงการ</th>
-                        <th style="width:12%">ชื่อโครงการ</th>
-                        <!-- <th style="width:8%">ชื่อย่อ</th> -->
-                        <th>ประเภทธุรกิจ</th>
-                        <th>ประเภทงาน</th>
-                        <th>จากวันที่</th>
-                        <th>ถึงวันที่</th>
-                        <th>จำนวนพนักงาน</th>
-                        <th>ต้นทุน</th>
-                        <th>สถานะ</th>
-                        <th>วันที่อนุมัติ</th>
-                        <th>ผู้ทำรายการ</th>
-                        <th>วันที่ทำรายการ</th>                                                
+                        <th style="width:9%">{{title_projectcode}}</th>
+                        <th style="width:12%">{{title_projectname}}</th>                      
+                        <th>{{title_probusiness}}</th>
+                        <th>{{title_protype}}</th>
+                        <th>{{title_fromdate}}</th>
+                        <th>{{title_todate}}</th>
+                        <th>{{title_manpower}}</th>
+                        <th>{{title_cost}}</th>
+                        <th>{{title_status}}</th>                        
+                        <th>{{title_modified_by}}</th>
+                        <th>{{title_modified_date}}</th>                                                
                     </tr>	
                     <tr>
                         <th>
@@ -81,56 +93,57 @@
                         </th>
                         <th>
                             <p-columnFilter type="text" field="project_name_th"></p-columnFilter>
-                        </th>
-                        <!-- <th>
-                            <p-columnFilter type="text" field="project_name_short"></p-columnFilter>
-                        </th> -->
+                        </th>                       
                         <th>
-                            <p-columnFilter field="project_business" matchMode="equals" [showMenu]="false">
+                            <p-columnFilter field="project_probusiness" matchMode="equals" [showMenu]="false">
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-dropdown [ngModel]="value" [options]="pbusiness_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="pbusiness_name_th">
+                                    <p-dropdown [ngModel]="value" [options]="probusiness_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="probusiness_name_th">
                                         <ng-template let-option pTemplate="item">
-                                            <span >{{option.pbusiness_name_th}}</span>
+                                            <span >{{option.probusiness_name_th}}</span>
                                         </ng-template>
                                     </p-dropdown>
                                 </ng-template>
                             </p-columnFilter>
                         </th>
                         <th>
-                            <p-columnFilter field="project_type" matchMode="equals" [showMenu]="false">
+                            <p-columnFilter field="project_protype" matchMode="equals" [showMenu]="false">
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-dropdown [ngModel]="value" [options]="ptype_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="ptype_name_th">
+                                    <p-dropdown [ngModel]="value" [options]="protype_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="protype_name_th">
                                         <ng-template let-option pTemplate="item">
-                                            <span >{{option.ptype_name_th}}</span>
+                                            <span >{{option.protype_name_th}}</span>
                                         </ng-template>
                                     </p-dropdown>
                                 </ng-template>
                             </p-columnFilter>
                         </th>
+                        
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th> 
+                        <th></th>                        
                     </tr>
-
                 </ng-template>
                 <ng-template pTemplate="body" let-project>
                     <tr [pSelectableRow]="project">        
                         <td>{{project.project_code}}</td>                                
-                        <td>{{project.project_name_th}}</td>
-                        <!-- <td>{{project.project_name_short}}</td> -->
-                        <td>{{project.project_business}}</td>
-                        <td>{{project.project_type}}</td>
+                        <td>
+                            <div *ngIf="this.initial_current.Language == 'TH'">
+                                {{project.project_name_th}}
+                            </div>
+                            <div *ngIf="this.initial_current.Language != 'TH'">
+                                {{project.project_name_en}}
+                            </div>
+                        </td>                        
+                        <td>{{project.project_probusiness}}</td>
+                        <td>{{project.project_protype}}</td>
                         <td>{{project.project_start | date:'dd/MM/yyyy '}}</td>  
                         <td>{{project.project_end | date:'dd/MM/yyyy '}}</td>  
                         <td style="text-align: center;">{{project.project_emp}}</td>
                         <td style="text-align: right; padding-right: 30px;">{{project.project_cost | number:'1.2-2'}}</td>                                           
-                        <td>{{project.project_status}}</td>      
-                        <td>{{project.approve_date | date:'dd/MM/yyyy HH:mm'}}</td>  
+                        <td>{{project.project_status}}</td>  
                         <td>{{project.modified_by}}</td>      
                         <td>{{project.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     </tr>
@@ -140,36 +153,36 @@
             </p-table>
         </div>
         <div class="col-12 md:col-3">
-            <div class="formgrid grid" *ngIf="edit_project">
+            <div class="formgrid grid" *ngIf="edit_data==true || new_data==true">
                 <span class="spn_title_edit">Project</span>
                 <div class="field col-12 ">
-                    <label for="ppos_code">รหัส</label>    
+                    <label for="ppos_code">{{title_projectcode}}</label>    
                     <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
                 </div>	
                
                 <div class="field col-12 ">
-                    <label for="ppos_name_th">ชื่อไทย</label>                        
+                    <label for="ppos_name_th">{{title_projectname}} (TH)</label>                        
                     <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProject.project_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                 </div>
                 <div class="field col-12 ">
-                    <label for="ppos_name_en">ชื่ออังกฤษ</label>                        
+                    <label for="ppos_name_en">{{title_projectname}} (EN)</label>                        
                     <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProject.project_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                 </div>
                 
                 <div class="field col-12">
-                    <label for="lastname2">ประเภทธุรกิจ :</label><br>
-                    <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    <label for="lastname2">{{title_probusiness}}</label><br>   
+                    <p-dropdown [options]="probusiness_list" [(ngModel)]="selectedProbusiness" optionLabel="probusiness_name_th" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                 </div>
 
                 <div class="field col-12">
-                    <label for="lastname2">ประเภทงาน :</label><br>
-                    <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    <label for="lastname2">{{title_protype}}</label><br>
+                    <p-dropdown [options]="protype_list" [(ngModel)]="selectedProtype" optionLabel="protype_name_th" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                 </div>
 
                 <div class="field col-12">
-                    <p-button label="บันทึก" icon="pi pi-save" ></p-button>
+                    <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                     &nbsp;
-                    <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectProject()" class="p-button-secondary"></button>
+                    <button pButton pRipple type="button" label="{{title_more}}" (click)="selectProject()" class="p-button-secondary"></button>
                 </div>
                 
 

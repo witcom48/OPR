@@ -25,7 +25,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Self Services',
                 items: [
                     //{ label: 'Policy', routerLink: ['/self/policy'] },   
-                    { label: 'Employee', routerLink: ['/attendance/self'] },       
+                    { label: 'Employee', routerLink: ['/self/employee'] },       
                     { label: 'Manager', routerLink: ['/self/approve'] },                                       
                     { label: 'Reports', routerLink: ['/self/reports'] },
                 ]
@@ -39,6 +39,8 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Monitor', routerLink: ['/project/monitor'] },
                     { label: 'Timesheet', routerLink: ['/project/timesheet'] },
                     { label: 'Approval list', routerLink: ['/project/approve'] },
+
+                    // { label: 'จัดการข้อมูลกองทุนฯ', routerLink: ['/project/pf'] },
                    
                     { label: 'Reports', routerLink: ['/project/reports'] },
                 ]
@@ -51,6 +53,9 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Employee info', routerLink: ['/employee/list'] },                   
                     { label: 'Monitor', routerLink: ['/employee/monitor'] },
                     { label: 'Reports', routerLink: ['/employee/reports'] },
+
+                    { label: 'Select Emp', routerLink: ['/usercontrol/selectemp'] },
+                    
                 ]
             }
             ,

@@ -173,7 +173,7 @@ export class BankComponent implements OnInit {
 
   doRecordBank(){
     this.bankService.bank_record(this.selectedBank).then((res) => {
-     console.log(res)
+     //console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -203,7 +203,7 @@ export class BankComponent implements OnInit {
 
   doDeleteBank(){
     this.bankService.bank_delete(this.selectedBank).then((res) => {
-     console.log(res)
+     //console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -240,7 +240,7 @@ export class BankComponent implements OnInit {
 
 
     this.bankService.bank_import(this.fileToUpload, filename, filetype).then((res) => {
-     console.log(res)
+     //console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){

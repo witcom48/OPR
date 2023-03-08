@@ -1,17 +1,17 @@
-export class PrjectContractModel {
+export class ProcontractModel {
     constructor() {
              
     }
        
-    pos_code: string = "";
-    pcontract_doc: string = "";
-    pcontract_date: Date = new Date();
-    pcontract_emp: number = 0;
-    pcontract_amount: number = 0;
-
-    pcontract_start: Date = new Date();
-    pcontract_end: Date = new Date();
-   
+    procontract_id: string = "1";
+    procontract_ref: string = "";
+    procontract_date: Date = new Date();
+    procontract_amount: number = 0;   
+    procontract_fromdate: Date = new Date();
+    procontract_todate: Date = new Date();
+    procontract_customer: string = "";
+    procontract_bidder: string = "";
+    project_code: string = "";   
     modified_by: string = "";
     modified_date: Date = new Date();
     index: number = 0;

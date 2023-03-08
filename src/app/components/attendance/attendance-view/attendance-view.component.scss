@@ -1,3 +1,42 @@
 table td{
     padding:5px
 }
+
+.table_summary_{
+    border-collapse: collapse;
+}
+
+.table_summary_ td{
+    padding: 5px;
+    border: 0px solid #ccc;
+}
+
+
+.main_div {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 60px;
+    width: 100px;
+    background-color: #152047;
+}
+.sub_div {
+    position: absolute;
+    bottom: 5px;
+}
+
+.spn_value{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.spn_title{
+    color: #FFFFFF;
+    font-size: 12px;    
+}
+
+
+:host .time_real{
+    background-color: black;
+    color: #FFFFFF;
+}

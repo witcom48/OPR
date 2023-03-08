@@ -1,13 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
+import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import * as XLSX from 'xlsx';
+import { DatePipe } from '@angular/common';
 
-
-import { PrjectModel } from '../../../models/project/project';
+import { AppConfig } from '../../../config/config';
+import { InitialCurrent } from '../../../config/initial_current';
+import { ProjectModel } from '../../../models/project/project';
 import { ProjectTypeModel } from '../../../models/project/project_type';
 import { ProjectBusinessModel } from '../../../models/project/project_business';
+
+import { ProbusinessModel, ProtypeModel, ProslipModel, ProuniformModel } from '../../../models/project/policy/pro_genaral';
+import { ProgenaralService } from '../../../services/project/pro_genaral.service';
+  
 
 import { ProjectService } from '../../../services/project/project.service';
 
@@ -19,82 +27,183 @@ import { ProjectService } from '../../../services/project/project.service';
 export class ProjectListComponent implements OnInit {
 
   loading: boolean = true;
-  project_list: PrjectModel[] = [];
+  project_list: ProjectModel[] = [];
   ptype_list: ProjectTypeModel[] = [];
   pbusiness_list: ProjectBusinessModel[] = [];
   statuses: any[] = [];
 
   toolbar_menu: MenuItem[] = [];
   items: MenuItem[] = [];
-  edit_project: boolean = false;
+
+  probusiness_list: ProbusinessModel[] = [];
+  selectedProbusiness: ProbusinessModel = new ProbusinessModel();
+
+  protype_list: ProtypeModel[] = [];
+  selectedProtype: ProtypeModel = new ProtypeModel();
+
+  edit_data: boolean = false;
+  new_data: boolean = false;
+ 
+
+  title_page:string = "Geanral";
+  title_new:string = "New";
+  title_edit:string = "Edit";
+  title_delete:string = "Delete";
+  title_import:string = "Import";
+  title_export:string = "Export";
+  title_save:string = "Save";
+  title_more:string = "More";
+  title_code:string = "Code";
+  title_name_th:string = "Name (Thai)";
+  title_name_en:string = "Name (Eng.)";
+
+  title_projectcode:string = "Code";
+  title_projectname:string = "Name";
+  title_protype:string = "Type";
+  title_probusiness:string = "Business";
+  title_fromdate:string = "From";
+  title_todate:string = "To";
+  title_manpower:string = "Manpower";
+  title_cost:string = "Cost";
+  title_status:string = "Status";
   
+  title_modified_by:string = "Edit by";
+  title_modified_date:string = "Edit date";
+  title_search:string = "Search";
+  title_upload:string = "Upload";
 
+  title_page_from:string = "Showing";
+  title_page_to:string = "to";
+  title_page_total:string = "of";
+  title_page_record:string = "entries";
 
-  constructor(private projectService: ProjectService, private router:Router) { }
+  title_confirm:string = "Are you sure?";
+  title_confirm_record:string = "Confirm to record";
+  title_confirm_delete:string = "Confirm to delete";
+  title_confirm_yes:string = "Yes";
+  title_confirm_no:string = "No";
+
+  title_confirm_cancel:string = "You have cancelled";
+
+  doLoadLanguage(){
+    if(this.initial_current.Language == "TH"){
+      this.title_page = "ข้อมูลทั่วไป";
+      this.title_new = "เพิ่ม";
+      this.title_edit = "แก้ไข";
+      this.title_delete = "ลบ";
+      this.title_import = "นำเข้า";
+      this.title_export = "โอนออก";
+      this.title_save = "บันทึก";
+      this.title_more = "เพิ่มเติม";
+      this.title_code = "รหัส";
+      this.title_name_th = "ชื่อไทย";
+      this.title_name_en = "ชื่ออังกฤษ";
+      this.title_modified_by = "ผู้ทำรายการ";
+      this.title_modified_date = "วันที่ทำรายการ";
+      this.title_search = "ค้นหา";
+      this.title_upload = "อัพโหลด";
+
+      this.title_page_from = "แสดง";
+      this.title_page_to = "ถึง";
+      this.title_page_total = "จาก";
+      this.title_page_record = "รายการ";
+
+      this.title_confirm = "ยืนยันการทำรายการ";
+      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
+      this.title_confirm_delete = "คุณต้องการลบรายการ";
+
+      this.title_confirm_yes = "ใช่";
+      this.title_confirm_no = "ยกเลิก";
+      this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
+
+      this.title_projectcode = "โครงการ";
+      this.title_projectname = "ชื่อโครงการ";
+      this.title_probusiness = "ประเภทธุรกิจ";
+      this.title_protype = "ประเภทงาน";
+      this.title_fromdate = "จากวันที่";
+      this.title_todate = "ถึงวันที่";
+      this.title_manpower = "จำนวนพนักงาน";
+      this.title_cost = "ต้นทุน";
+      this.title_status = "สถานะ";
+      
+    }
+  }
+
+  public initial_current:InitialCurrent = new InitialCurrent();  
+  doGetInitialCurrent(){    
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current) {
+      this.router.navigateByUrl('');
+    }       
+  }
+
+  constructor(private projectService: ProjectService, 
+    private genaralService: ProgenaralService, 
+    private router:Router,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private datePipe: DatePipe
+    ) { }
 
   ngOnInit(): void {
 
-    this.doLoadSimple();
-    this.doLoadProjectType();
-    this.doLoadProjectBusiness();
-    this.doLoadProject();
+    this.doGetInitialCurrent()
+    this.doLoadMenu()        
+    this.doLoadLanguage()   
+    this.doLoadMaster()
 
-    //this.projectService.project_get('').then((project) => {
-    //  this.project = project;
-    //  this.loading = false;
-    //});
+    setTimeout(() => {
+      this.doLoadProject()  
+    }, 300);
 
   }
 
-  doLoadSimple(){
-    this.toolbar_menu = [
+  doLoadMenu(){
+       
+    this.items = [   
       {
-        label:'Save',
-        icon:'pi pi-fw pi-save',
-        
-      },
-      {
-          label:'Export',
-          icon:'pi pi-fw pi-file-export',
-          command: (event) => {
-            console.log('Edit')
-        }        
-      },    
-    ];
-
- 
-    this.items = [
-   
-      {
-        label:'New',
+        label:this.title_new,
         icon:'pi pi-fw pi-plus',
-        
-      },
+        command: (event) => {
+          
+          this.selectedProject = new ProjectModel();    
+          this.selectedProbusiness = new ProbusinessModel();
+          this.selectedProtype = new ProtypeModel();    
+          this.new_data= true;
+          this.edit_data= false;
+          
+        }     
+      }
+      ,    
       {
-          label:'Edit',
-          icon:'pi pi-fw pi-pencil',
+          label:this.title_import,
+          icon:'pi pi-fw pi-file-import',       
           command: (event) => {
-            console.log('Edit')
-        }        
-      },    
-      {
-          label:'Delete',
-          icon:'pi pi-fw pi-trash',          
-      }
-     
-      ,    
-      {
-          label:'Import',
-          icon:'pi pi-fw pi-file-import',          
+            this.showUpload()
+           
+          }        
       }
       ,    
       {
-          label:'Export',
-          icon:'pi pi-fw pi-file-export',          
-      }
-      
+          label:this.title_export,
+          icon:'pi pi-fw pi-file-export',  
+          command: (event) => {
+            this.exportAsExcel()
+           
+          }                
+      }      
     ];
+  }
 
+  doLoadMaster(){
+    this.genaralService.probusiness_get().then((res) => {
+      //console.log(res)
+      this.probusiness_list = res;     
+    });
+
+    this.genaralService.protype_get().then((res) => {
+      this.protype_list = res;     
+    });
   }
 
   clear(table: Table) {
@@ -115,98 +224,128 @@ export class ProjectListComponent implements OnInit {
   }
 
   onRowSelectProject(event: Event) {
-    this.edit_project= true;
+    this.edit_data= true;
+
+    this.doLoadSelectedProbusiness(this.selectedProject.project_probusiness);
+    this.doLoadSelectedProtype(this.selectedProject.project_protype);
   }
 
-  selectedProject: PrjectModel = new PrjectModel;
+  doLoadSelectedProbusiness(value:string){
+    for (let i = 0; i < this.probusiness_list.length; i++) {   
+      if(this.probusiness_list[i].probusiness_code==value ){
+        this.selectedProbusiness = this.probusiness_list[i];
+        break;         
+      }                      
+    }
+  }
+
+  doLoadSelectedProtype(value:string){
+    for (let i = 0; i < this.protype_list.length; i++) {   
+      if(this.protype_list[i].protype_code==value ){
+        this.selectedProtype = this.protype_list[i];
+        break;         
+      }                      
+    }
+  }
+
+  selectedProject: ProjectModel = new ProjectModel;
   doLoadProject(){
-    var tmp = new PrjectModel();
-
-    tmp.project_id = "SHT001";
-    tmp.project_code = "100008.00";
-    tmp.project_name_th = "บริษัทควอลิตี้";
-    tmp.project_name_en = "Quarity";
-    tmp.project_name_short = "ควอลิตี้";
-    tmp.project_type = "ประจำ";
-    tmp.project_business = "ห้างฯ";
-    tmp.project_emp = 2;
-    tmp.project_cost = 400000;
-    tmp.approve_by = "hropr";
-    tmp.modified_by = "hropr";
-
-    tmp.project_status = "อนุมัติ [3/3]";
-
-    this.project_list.push(tmp);
-
-    tmp = new PrjectModel();
-
-    tmp.project_id = "SHT002";
-    tmp.project_code = "100009.00";
-    tmp.project_name_th = "แฟชั่นฯ";
-    tmp.project_name_en = "Fasion";
-    tmp.project_name_short = "Fasion";
-    tmp.project_type = "ประจำ";
-    tmp.project_business = "ห้างฯ";
-    tmp.project_emp = 2;
-    tmp.project_cost = 5400000;
-    tmp.approve_by = "hropr";
-    tmp.modified_by = "hropr";
-
-    tmp.project_status = "อนุมัติ [3/3]";
-
-    this.project_list.push(tmp);
     
+    this.projectService.project_get(this.initial_current.CompCode, "").then((res) => {
+      //console.log(res)
+      this.project_list = res;     
+    });
+  }
+
+  confirmRecord() {
+    this.confirmationService.confirm({
+        message: this.title_confirm_record,
+        header: this.title_confirm,
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+
+          this.selectedProject.project_probusiness = this.selectedProbusiness.probusiness_code;
+          this.selectedProject.project_protype = this.selectedProtype.protype_code;
+
+          this.projectService.project_record(this.selectedProject).then((res) => {       
+            let result = JSON.parse(res);  
+            if(result.success){
+              this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
+              this.doLoadProject()
+            }
+            else{
+              this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
+            }  
+          });
+        },
+        reject: () => {
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+        }
+    });
+  }
+      
+  confirmDelete() {
+    this.confirmationService.confirm({
+        message: this.title_confirm_delete,
+        header: this.title_confirm,
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.projectService.project_delete(this.selectedProject).then((res) => {      
+            let result = JSON.parse(res);  
+            if(result.success){
+              this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
+              this.doLoadProject()       
+            }
+            else{
+              this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
+            }  
+          });
+        },
+        reject: () => {
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+        }
+    });
+  }
+
+  displayUpload: boolean = false;
+  showUpload() {
+    this.displayUpload = true;
+  }
+
+  @ViewChild('TABLE') table: ElementRef | any = null;
+
+  exportAsExcel()
+  {
+    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, 'Export_genaral.xlsx');
 
   }
 
-  doLoadProjectType(){
-    var tmp = new ProjectTypeModel();
-
-    tmp.ptype_code = "SHT001";
-    tmp.ptype_name_th = "ประจำ";
-    tmp.ptype_name_en = "Regular";
-    
-    tmp.modified_by = "hropr";
-
-    this.ptype_list.push(tmp);
-
-    tmp = new ProjectTypeModel();
-
-    tmp.ptype_code = "SHT002";
-    tmp.ptype_name_th = "ชั่วคราว";
-    tmp.ptype_name_en = "Temporary";
-    
-    tmp.modified_by = "hropr";
-
-    this.ptype_list.push(tmp);
-
-    
-
+  fileToUpload: File | any = null;  
+  handleFileInput(file: FileList) {
+    this.fileToUpload=file.item(0);
   }
+  doUploadGenaral(){
+  
+    this.displayUpload = false;
 
-  doLoadProjectBusiness(){
-    var tmp = new ProjectBusinessModel();
+    const filename = "Project_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+    const filetype = "xls";  
 
-    tmp.pbusiness_code = "BUS001";
-    tmp.pbusiness_name_th = "ห้างฯ";
-    tmp.pbusiness_name_en = "Store";
-    
-    tmp.modified_by = "hropr";
-
-    this.pbusiness_list.push(tmp);
-
-    tmp = new ProjectBusinessModel();
-
-    tmp.pbusiness_code = "BUS002";
-    tmp.pbusiness_name_th = "มหาวิทยาลัย";
-    tmp.pbusiness_name_en = "University";
-    
-    tmp.modified_by = "hropr";
-
-    this.pbusiness_list.push(tmp);
-
-    
-
+    this.projectService.project_import(this.fileToUpload, filename, filetype).then((res) => {      
+      let result = JSON.parse(res);  
+      if(result.success){
+        this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
+        this.doLoadProject()    
+      }
+      else{
+      this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
+      }  
+    });
+       
   }
 
   

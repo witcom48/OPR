@@ -36,6 +36,7 @@ import {ChartModule} from 'primeng/chart';
 import {ImageModule} from 'primeng/image';
 import {FileUploadModule} from 'primeng/fileupload';
 import {PickListModule} from 'primeng/picklist';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { AttendancePolicyComponent } from './attendance-policy/attendance-policy.component';
 import { AttendanceSelfComponent } from './attendance-self/attendance-self.component';
@@ -69,6 +70,8 @@ import { SetLeaveComponent } from './attendance-policy/set-leave/set-leave.compo
 import { AttendanceManageComponent } from './attendance-manage/attendance-manage.component';
 import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshift.component';
 import { ManageTableComponent } from './attendance-manage/manage-table/manage-table.component';
+
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 
 
 @NgModule({
@@ -110,7 +113,9 @@ import { ManageTableComponent } from './attendance-manage/manage-table/manage-ta
 		PickListModule,
 		ToastModule,
 		ConfirmDialogModule,
-		DialogModule
+		DialogModule,
+		CheckboxModule,
+		UsercontrolModule
 
 
 		
@@ -118,35 +123,41 @@ import { ManageTableComponent } from './attendance-manage/manage-table/manage-ta
 	declarations: [
    
   
-    AttendancePolicyComponent,
-           AttendanceSelfComponent,
-           AttendanceImportComponent,
-           AttendanceProcessComponent,
-           AttendanceCalculateComponent,
-           AttendanceViewComponent,
-           AttendanceTimecardComponent,
-           YearperiodComponent,
-           TimeperiodComponent,
-           ReasonComponent,
-           LocationComponent,
-           HolidayComponent,
-           ShiftComponent,
-		   DateMaskDirective,
-     ShiftPlanComponent,
-     LeaveComponent,
-     LeavePlanComponent,
-     OvertimeComponent,
-     DiligenceComponent,
-     LateComponent,
-     SetHolidayComponent,
-     SetShiftComponent,
-     SetOvertimeComponent,
-     SetDiligenceComponent,
-     SetLateComponent,
-     SetLeaveComponent,
-     AttendanceManageComponent,
-     ChangeshiftComponent,
-     ManageTableComponent
-  ]
+    	AttendancePolicyComponent,
+		AttendanceSelfComponent,
+		AttendanceImportComponent,
+		AttendanceProcessComponent,
+		AttendanceCalculateComponent,
+		AttendanceViewComponent,
+		AttendanceTimecardComponent,
+		YearperiodComponent,
+		TimeperiodComponent,
+		ReasonComponent,
+		LocationComponent,
+		HolidayComponent,
+		ShiftComponent,
+		DateMaskDirective,
+		ShiftPlanComponent,
+		LeaveComponent,
+		LeavePlanComponent,
+		OvertimeComponent,
+		DiligenceComponent,
+		LateComponent,
+		SetHolidayComponent,
+		SetShiftComponent,
+		SetOvertimeComponent,
+		SetDiligenceComponent,
+		SetLateComponent,
+		SetLeaveComponent,
+		AttendanceManageComponent,
+		ChangeshiftComponent,
+		ManageTableComponent,
+	 
+	 
+
+
+
+  ],
+  exports: [],
 })
 export class AttendanceModule { }
