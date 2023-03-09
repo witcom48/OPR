@@ -36,6 +36,8 @@ import { EmpCriminalModel } from 'src/app/models/employee/manage/criminal';
 import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
 import { PositionService } from 'src/app/services/emp/policy/position.service';
 import { EmpForeignerModel } from 'src/app/models/employee/manage/foreigner';
+import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
+import { EmpBranchModel } from 'src/app/models/employee/manage/empbranch';
 
 
 
@@ -53,7 +55,7 @@ interface ConPay {
   name_en: string,
   value: string
 }
-interface Ctype{
+interface Ctype {
   name_th: string,
   name_en: string,
   code: string
@@ -84,8 +86,16 @@ export class EmployeeManageComponent implements OnInit {
 
   taxM: Taxmethod[] = [];
   conPay: ConPay[] = [];
-  cardTypelist: Ctype[]=[];
+  cardTypelist: Ctype[] = [];
 
+  //menu emplocation
+  menu_emplocation: MenuItem[] = [];
+  edit_emplocation: boolean = false;
+  new_emplocation: boolean = false;
+  //menu empbranch
+  menu_empbranch: MenuItem[] = [];
+  edit_empbranch: boolean = false;
+  new_empbranch: boolean = false;
   //menu empaddress
   menu_empaddress: MenuItem[] = [];
   edit_empaddress: boolean = false;
@@ -186,7 +196,7 @@ export class EmployeeManageComponent implements OnInit {
       { name_th: 'ต่องวด', name_en: 'Per Period', value: 'F' },
       { name_th: 'งวดเว้นงวด', name_en: 'Switch Period', value: 'H' },
     ]
-    this.cardTypelist=[
+    this.cardTypelist = [
       { name_th: 'เลขที่ประจำตัวนิติบุคคล', name_en: '	Citizen ID', code: 'CID' },
       { name_th: 'บัตรประชาชน', name_en: 'National ID', code: 'NTID' },
       { name_th: 'ประกันสังคม', name_en: 'Social', code: 'SSO' },
@@ -253,6 +263,8 @@ export class EmployeeManageComponent implements OnInit {
   title_gender: string = "Gender";
   male_gender: string = "Male";
   female_gender: string = "Female";
+  title_emplocation: string = "Location";
+  title_empbranch: string = "Branch";
   title_type: string = "Employee Type";
   title_status: string = "Employee Status";
   title_birthdate: string = "Birth Date";
@@ -337,6 +349,8 @@ export class EmployeeManageComponent implements OnInit {
       this.title_gender = "เพศ";
       this.male_gender = "ชาย";
       this.female_gender = "หญิง";
+      this.title_emplocation = "สถานที่ปฏิบัติงาน";
+      this.title_empbranch = "สาขา";
       this.title_type = "ประเภทพนักงาน";
       this.title_status = 'สถานะ';
       this.title_birthdate = 'วันเกิด';
@@ -419,6 +433,74 @@ export class EmployeeManageComponent implements OnInit {
           this.confirmRecord()
         }
 
+      },];
+    //menu location
+    this.menu_emplocation = [
+      {
+        label: 'New',
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.clearManage()
+          this.new_emplocation = true
+          var ref = this.emplocationList.length + 100
+          this.selectedEmpLocation = new EmpLocationModel()
+          this.selectedEmpLocation.emplocation_id = ref.toString()
+          this.showManage()
+        }
+      },
+      {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedEmpLocation != null) {
+            this.edit_emplocation = true
+            this.showManage()
+          }
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          if (this.selectedEmpLocation != null) {
+            this.emplocation_remove()
+          }
+        }
+      },];
+    //menu branch
+    this.menu_empbranch = [
+      {
+        label: 'New',
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.clearManage()
+          this.new_empbranch = true
+          var ref = this.empbranchList.length + 100
+          this.selectedEmpbranch = new EmpBranchModel()
+          this.selectedEmpbranch.empbranch_id = ref.toString()
+          this.showManage()
+        }
+      },
+      {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedEmpbranch != null) {
+            this.edit_empbranch = true
+            this.showManage()
+          }
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          if (this.selectedEmpbranch != null) {
+            this.empbranch_remove()
+          }
+        }
       },];
     //menu address
     this.menu_empaddress = [
@@ -1164,7 +1246,13 @@ export class EmployeeManageComponent implements OnInit {
 
   tabChange(e: { index: any; }) {
     var index = e.index;
-
+    //
+    this.edit_emplocation = false;
+    this.new_emplocation = false;
+    //
+    this.edit_empbranch = false;
+    this.new_empbranch = false;
+    //
     this.edit_empaddress = false;
     this.new_empaddress = false;
     //    
@@ -1228,7 +1316,14 @@ export class EmployeeManageComponent implements OnInit {
     this.displayManage = true;
 
     if (this.initial_current.Language == "EN") {
-      if (this.new_empaddress || this.edit_empaddress) {
+
+      if (this.new_emplocation || this.edit_emplocation) {
+        this.manage_title = "Location"
+      }
+      else if (this.new_empbranch || this.edit_empbranch) {
+        this.manage_title = "Branch"
+      }
+      else if (this.new_empaddress || this.edit_empaddress) {
         this.manage_title = "Address"
       }
       else if (this.new_card || this.edit_empcard) {
@@ -1283,7 +1378,13 @@ export class EmployeeManageComponent implements OnInit {
         this.manage_title = "Tranfer"
       }
     } else {
-      if (this.new_empaddress || this.edit_empaddress) {
+      if (this.new_emplocation || this.edit_emplocation) {
+        this.manage_title = "สถานที่ปฏิบัติงาน"
+      }
+      else if (this.new_empbranch || this.edit_empbranch) {
+        this.manage_title = "สาขา"
+      }
+      else if (this.new_empaddress || this.edit_empaddress) {
         this.manage_title = "ที่อยู่"
       }
       else if (this.new_card || this.edit_empcard) {
@@ -1357,6 +1458,9 @@ export class EmployeeManageComponent implements OnInit {
         this.selectedEmployee = employee_list[0]
 
         setTimeout(() => {
+          this.doLoadEmplocationList();
+          this.doLoadEmpbranchList();
+
           this.doLoadEmpaddressList();
           this.doLoadEmpcardList();
           this.doLoadEmpbankList();
@@ -1823,7 +1927,7 @@ export class EmployeeManageComponent implements OnInit {
     this.empdetailService.getworker_position(this.initial_current.CompCode, this.emp_code).then(async (res) => {
       await res.forEach((element: EmpPositionModel) => {
         element.empposition_date = new Date(element.empposition_date)
-       
+
       })
       this.emppositionList = await res;
       if (this.emppositionList.length > 0) {
@@ -1831,14 +1935,14 @@ export class EmployeeManageComponent implements OnInit {
       }
     })
   }
-  
-  getpositionname(code : string){
-    let result = this.positionList.find((obj: PositionModel) =>{
+
+  getpositionname(code: string) {
+    let result = this.positionList.find((obj: PositionModel) => {
       return obj.position_code === code
     })
     var res1 = result?.position_name_th;
     var res2 = result?.position_name_en;
-    return {th:res1, en: res2}
+    return { th: res1, en: res2 }
   }
   onRowSelectEmpPosition(event: Event) { }
   empposition_summit() {
@@ -2434,6 +2538,136 @@ export class EmployeeManageComponent implements OnInit {
     });
   }
 
+  //emp location
+  emplocationList: EmpLocationModel[] = [];
+  selectedEmpLocation: EmpLocationModel = new EmpLocationModel();
+  doLoadEmplocationList() {
+    this.empdetailService.getworker_location(this.initial_current.CompCode, this.emp_code).then(async(res) => {
+      await res.forEach((element: EmpLocationModel) => {
+        element.emplocation_startdate = new Date(element.emplocation_startdate)
+        element.emplocation_enddate = new Date(element.emplocation_enddate)
+      })
+      this.emplocationList = await res;
+      if (this.emplocationList.length > 0) {
+        this.selectedEmpLocation = this.emplocationList[0];
+      }
+    })
+  }
+  onRowSelectEmpLocation(event: Event) { }
+  emplocation_summit() {
+    this.emplocation_addItem(this.selectedEmpLocation)
+    this.new_emplocation = false
+    this.edit_emplocation = false
+    this.displayManage = false
+  }
+  emplocation_remove() {
+    this.selectedEmpLocation.emplocation_id = "9999";
+    this.emplocation_addItem(this.selectedEmpLocation)
+    this.new_emplocation = false
+    this.edit_emplocation = false
+  }
+  emplocation_delete() { }
+  emplocation_cancel() {
+    this.new_emplocation = false
+    this.edit_emplocation = false
+    this.displayManage = false
+  }
+  emplocation_addItem(model: EmpLocationModel) {
+    const itemNew: EmpLocationModel[] = [];
+    for (let i = 0; i < this.emplocationList.length; i++) {
+      if (this.emplocationList[i].emplocation_id == model.emplocation_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.emplocationList[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.emplocation_id != "9999") {
+      itemNew.push(model);
+    }
+    this.emplocationList = [];
+    this.emplocationList = itemNew;
+    this.emplocationList.sort(function (a, b) { return parseInt(a.emplocation_id) - parseInt(b.emplocation_id); })
+  }
+  record_emplocation() {
+    if (this.emplocationList.length == 0) {
+      return
+    }
+    this.empdetailService.record_emplocation(this.selectedEmployee.worker_code, this.emplocationList).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+      }
+      else {
+      }
+    });
+  }
+
+  //emp branch
+  empbranchList: EmpBranchModel[] = [];
+  selectedEmpbranch: EmpBranchModel = new EmpBranchModel();
+  doLoadEmpbranchList() {
+    this.empdetailService.getworker_branch(this.initial_current.CompCode, this.emp_code).then(async(res) => {
+      await res.forEach((element: EmpBranchModel) => {
+        element.empbranch_startdate = new Date(element.empbranch_startdate)
+        element.empbranch_enddate = new Date(element.empbranch_enddate)
+      })
+      this.empbranchList = await res;
+      if (this.empbranchList.length > 0) {
+        this.selectedEmpbranch = this.empbranchList[0];
+      }
+    })
+  }
+  onRowSelectEmpBranch(event: Event) { }
+  empbranch_summit() {
+    this.empbranch_addItem(this.selectedEmpbranch)
+    this.new_empbranch = false
+    this.edit_empbranch = false
+    this.displayManage = false
+  }
+  empbranch_remove() {
+    this.selectedEmpbranch.empbranch_id = "9999";
+    this.empbranch_addItem(this.selectedEmpbranch)
+    this.new_empbranch = false
+    this.edit_empbranch = false
+  }
+  empbranch_delete() { }
+  empbranch_cancel() {
+    this.new_empbranch = false
+    this.edit_empbranch = false
+    this.displayManage = false
+  }
+  empbranch_addItem(model: EmpBranchModel) {
+    const itemNew: EmpBranchModel[] = [];
+    for (let i = 0; i < this.empbranchList.length; i++) {
+      if (this.empbranchList[i].empbranch_id == model.empbranch_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.empbranchList[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.empbranch_id != "9999") {
+      itemNew.push(model);
+    }
+    this.empbranchList = [];
+    this.empbranchList = itemNew;
+    this.empbranchList.sort(function (a, b) { return parseInt(a.empbranch_id) - parseInt(b.empbranch_id); })
+  }
+  record_empbranch() {
+    if (this.empbranchList.length == 0) {
+      return
+    }
+    this.empdetailService.record_empbranch(this.selectedEmployee.worker_code, this.empbranchList).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+      }
+      else {
+      }
+    });
+  }
+
   doRecordEmployee() {
 
     this.employeeService.worker_recordall(this.selectedEmployee).then((res) => {
@@ -2442,6 +2676,9 @@ export class EmployeeManageComponent implements OnInit {
       if (result.success) {
 
         //-- Transaction
+        this.record_emplocation();
+        this.record_empbranch();
+
         this.record_empaddress();
         this.record_empcard();
         this.record_empbank();
@@ -2479,6 +2716,8 @@ export class EmployeeManageComponent implements OnInit {
 
 
   clearManage() {
+    this.new_emplocation = false; this.edit_emplocation = false;
+    this.new_empbranch = false; this.edit_empbranch = false;
     this.new_empaddress = false; this.edit_empaddress = false;
     this.new_card = false; this.edit_empcard = false;
     this.new_bank = false; this.edit_empbank = false;

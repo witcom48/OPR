@@ -79,6 +79,39 @@
                             <hr>
                         </div>
 
+
+
+                        <!-- <div>
+                            <label for="lastname2">{{title_emplocation}} :</label>
+                            <p-dropdown placeholder="--" 
+                                [showClear]="true" 
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                [(ngModel)]="selectedEmployee.worker_type" [options]="emptypeList" optionValue="type_code" 
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+
+                        <div>
+                            <label for="lastname2">{{title_empbranch}} :</label>
+                            <p-dropdown placeholder="--" 
+                                [showClear]="true"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                [(ngModel)]="selectedEmployee.worker_status" [options]="statusList" optionValue="status_code" 
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div> -->
+
+
                         <div>
                             <label for="lastname2">{{title_type}} :</label>
                             <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code"
@@ -188,8 +221,80 @@
                                 [(ngModel)]="selectedEmployee.worker_resignreason"
                                 [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                         </div>
+                        <div class="horizontal">
+                            <hr>
+                        </div>
                     </div>
                     <!-- end resign form-->
+                    <div class="accordion">
+                        <p-accordion>
+                            <p-accordionTab header="{{title_emplocation}}">
+                                <p-menubar [model]="menu_emplocation"></p-menubar>
+                                <p-table #dtemplocation [value]="emplocationList" styleClass="p-datatable-sm"
+                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpLocation"
+                                    (onRowSelect)="onRowSelectEmpLocation($event)" [rows]="10"
+                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>สถานที่ปฏิบัติงาน</th>
+                                            <th>วันที่เริ่ม</th>
+                                            <th>เพิ่มเติม</th>
+                                            <th>ผู้ทำรายการ</th>
+                                            <th>วันที่ทำรายการ</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-emplocation>
+                                        <tr [pSelectableRow]="emplocation">
+                                            <td>{{emplocation.location_code}}</td>
+                                            <td>{{emplocation.emplocation_startdate | date:'dd/MM/yyyy'}}</td>
+                                            <td>{{emplocation.emplocation_note}}</td>
+                                            <td>{{emplocation.modified_by}}</td>
+                                            <td>{{emplocation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+
+                    <div class="horizontal">
+                        <br>
+                    </div>
+
+                    <div class="accordion">
+                        <p-accordion>
+                            <p-accordionTab header="{{title_empbranch}}">
+                                <p-menubar [model]="menu_empbranch"></p-menubar>
+                                <p-table #dtempbranch [value]="empbranchList" styleClass="p-datatable-sm"
+                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpbranch"
+                                    (onRowSelect)="onRowSelectEmpBranch($event)" [rows]="10"
+                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>สาขา</th>
+                                            <th>วันที่เริ่ม</th>
+                                            <th>เพิ่มเติม</th>
+                                            <th>ผู้ทำรายการ</th>
+                                            <th>วันที่ทำรายการ</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-empbranch>
+                                        <tr [pSelectableRow]="empbranch">
+                                            <td>{{empbranch.branch_code}}</td>
+                                            <td>{{empbranch.empbranch_startdate | date:'dd/MM/yyyy'}}</td>
+                                            <td>{{empbranch.empbranch_note}}</td>
+                                            <td>{{empbranch.modified_by}}</td>
+                                            <td>{{empbranch.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
                 </p-tabPanel>
                 <!-- End tab Genaral-->
 
@@ -1820,6 +1925,56 @@
             [(ngModel)]="selectedEmpaccumalate.pfacc_company">
     </div>
     <!-- END FORM Accumalate-->
+
+    <!-- Form Emp Location -->
+    <div class="formatt" *ngIf="edit_emplocation==true || new_emplocation==true">
+        <label>สถานที่ปฏิบัติงาน</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedEmpLocation.location_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+
+        <label>วันที่เริ่ม</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpLocation.emplocation_startdate"><input type="text"></p-calendar>
+
+        <label>วันที่สิ้นสุด</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpLocation.emplocation_enddate"><input type="text"></p-calendar>
+
+        <label>เพิ่มเติม</label>
+        <textarea [(ngModel)]="selectedEmpLocation.emplocation_note" pInputTextarea [autoResize]="true"></textarea>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="emplocation_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="emplocation_cancel()"></button>
+    </div>
+    <!-- END EMP Location -->
+
+    <!-- Form Emp branch -->
+    <div class="formatt" *ngIf="edit_empbranch==true || new_empbranch==true">
+        <label>สาขา</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpbranch.branch_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+
+        <label>วันที่เริ่ม</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpbranch.empbranch_startdate"><input type="text"></p-calendar>
+
+        <label>วันที่สิ้นสุด</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpbranch.empbranch_enddate"><input type="text"></p-calendar>
+
+        <label>เพิ่มเติม</label>
+        <textarea [(ngModel)]="selectedEmpbranch.empbranch_note" pInputTextarea [autoResize]="true"></textarea>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empbranch_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empbranch_cancel()"></button>
+    </div>
+    <!-- END EMP Location -->
 </p-dialog>
 <!-- END FORM DIALOG-->
 

@@ -6,6 +6,8 @@ import { DatePipe } from '@angular/common';
 
 import { InitialCurrent } from '../../config/initial_current';
 
+import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
+import { EmpBranchModel } from 'src/app/models/employee/manage/empbranch';
 import { EmpaddressModel } from 'src/app/models/employee/manage/address';
 import { EmpcardModel } from 'src/app/models/employee/manage/card';
 import { EmpbankModel } from 'src/app/models/employee/manage/bank';
@@ -1413,4 +1415,157 @@ export class EmpDetailService {
     });
   }
 
+  //emp location
+  public getworker_location(company:string, code:string){
+
+    var filter = { 
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:company,
+      language:"",
+      worker_code:code
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/emplocationlist', filter, this.options).toPromise()   
+    .then((res) => {
+      let message = JSON.parse(res);
+      // console.log(res)
+      return message.data;
+    });
+  }
+  public record_emplocation(worker_code :string, list:EmpLocationModel[]){
+    var item_data:string = "[";
+    for (let i = 0; i < list.length; i++) {         
+      item_data = item_data + "{";
+      item_data = item_data + "\"location_code\":\"" + list[i].location_code + "\"";  
+      item_data = item_data + ",\"emplocation_startdate\":\"" + this.datePipe.transform(list[i].emplocation_startdate) + "\"";  
+      item_data = item_data + ",\"emplocation_enddate\":\"" + this.datePipe.transform(list[i].emplocation_enddate) + "\"";  
+      item_data = item_data + ",\"emplocation_note\":\"" + list[i].emplocation_note + "\"";  
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";          
+      item_data = item_data + "}" + ",";
+    }
+    if(item_data.length > 2) 
+    {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {           
+      transaction_data:item_data,    
+      worker_code:worker_code,
+      company_code : this.initial_current.CompCode,
+      modified_by:this.initial_current.Username
+    };
+    
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/emplocation', specificData, this.options).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
+  public delete_emplocation(model:EmpLocationModel){
+    const data = {
+      location_code: model.location_code,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,    
+      modified_by: this.initial_current.Username
+    };    
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/emplocation_del', data, this.options).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
+  
+  public emplocation_import(file: File, file_name:string, file_type:string){
+    const formData = new FormData();
+    formData.append('file', file);
+    
+      var para = "fileName=" + file_name + "." + file_type;
+      para += "&token=" + this.initial_current.Token;
+      para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpLocation?' + para, formData).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
+
+  //emp branch
+  public getworker_branch(company:string, code:string){
+
+    var filter = { 
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:company,
+      language:"",
+      worker_code:code
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empbranchlist', filter, this.options).toPromise()   
+    .then((res) => {
+      let message = JSON.parse(res);
+      // console.log(res)
+      return message.data;
+    });
+  }
+  public record_empbranch(worker_code :string, list:EmpBranchModel[]){
+    var item_data:string = "[";
+    for (let i = 0; i < list.length; i++) {         
+      item_data = item_data + "{";
+      item_data = item_data + "\"branch_code\":\"" + list[i].branch_code + "\"";  
+      item_data = item_data + ",\"empbranch_startdate\":\"" + this.datePipe.transform(list[i].empbranch_startdate) + "\"";  
+      item_data = item_data + ",\"empbranch_enddate\":\"" + this.datePipe.transform(list[i].empbranch_enddate) + "\"";  
+      item_data = item_data + ",\"empbranch_note\":\"" + list[i].empbranch_note + "\"";  
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";          
+      item_data = item_data + "}" + ",";
+    }
+    if(item_data.length > 2) 
+    {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {           
+      transaction_data:item_data,    
+      worker_code:worker_code,
+      company_code : this.initial_current.CompCode,
+      modified_by:this.initial_current.Username
+    };
+    
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empbranch', specificData, this.options).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
+  public delete_empbranch(model:EmpBranchModel){
+    const data = {
+      branch_code: model.branch_code,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,    
+      modified_by: this.initial_current.Username
+    };    
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empbranch_del', data, this.options).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
+  
+  public empbranch_import(file: File, file_name:string, file_type:string){
+    const formData = new FormData();
+    formData.append('file', file);
+    
+      var para = "fileName=" + file_name + "." + file_type;
+      para += "&token=" + this.initial_current.Token;
+      para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpBranch?' + para, formData).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
 }
