@@ -158,17 +158,29 @@ export class CompanyDetailService {
   public getcompany_card(company:string, code:string){
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company_code:company,
-      language:"",
-      card_type:"",
-      comcard_id:"",
-      combranch_code:"",
-      comcard_code:"",
-    //   worker_code:code
-    };
+        device_name:'',
+        ip:"localhost",
+        username:this.initial_current.Username,
+        company_code:company,
+        language:"",
+        card_type:"",
+        comcard_id:"",
+        combranch_code:code,
+        comcard_code:"",
+      //   worker_code:code
+      };
+    // var filter = {
+    //   device_name:'',
+    //   ip:"localhost",
+    //   username:this.initial_current.Username,
+    //   company_code:company,
+    //   language:"",
+    //   card_type:"",
+    //   comcard_id:"",
+    //   combranch_code:"",
+    //   comcard_code:"",
+    // //   worker_code:code
+    // };
 
     return this.http.post<any>(this.config.ApiSystemModule + '/comcard_list', filter, this.options).toPromise()
     .then((res) => {

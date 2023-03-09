@@ -150,14 +150,14 @@ export class CombranchDetailService {
       });
     }
 
-    //Card
+    //Card(com:string, type:string, id:string, code:string, branch:string)
     public getcombranch_card(company:string, code:string){
 
         var filter = {
             device_name:'',
             ip:"localhost",
             username:this.initial_current.Username,
-            company_code:"",
+            company_code:company,
             language:"",
             card_type:"",
             comcard_id:"",

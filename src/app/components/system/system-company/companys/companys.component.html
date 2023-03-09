@@ -249,9 +249,9 @@
                                         <ng-template pTemplate="body" let-data>
                                             <tr [pSelectableRow]="data">
                                                 <th>{{data.card_type }}</th>
-                                                <!-- <th>{{data.company_code}}</th> -->
-                                                <th>{{data.comcard_code}}</th>
+                                                <!-- <td>{{initial_current.Language == "TH"? data.cardtype_name_th:data.cardtype_name_en}}</td> -->
 
+                                                <th>{{data.comcard_code}}</th>
                                                 <th>{{data.comcard_issue| date:'dd/MM/yyyy'}}</th>
                                                 <th>{{data.comcard_expire | date:'dd/MM/yyyy'}}</th>
                                                 <th>{{data.modified_by}}</th>
@@ -374,13 +374,26 @@
                     </div>
                     <div class="formatt" *ngIf="edit_comcard==true || new_card==true">
                         <!-- Form Card -->
-                        <label>ประเภทบัตร</label>
+                        <!-- <label>ประเภทบัตร</label> -->
+                        <div>
+                            <label for="lastname2">ประเภทบัตร :</label>
+                            <p-dropdown placeholder="--" [options]="cardList" optionValue="cardtype_code"
+                                [showClear]="true" [(ngModel)]="selectedComcard.card_type"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
                         <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
                         [(ngModel)]="selectedComcard.card_type"
                         [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
 
-                        <p-dropdown placeholder="--" [options]="cardList" optionValue="cardtype_code" [showClear]="true"
+                        <!-- <p-dropdown placeholder="--" [options]="cardList" optionValue="cardtype_code" [showClear]="true"
                             [(ngModel)]="selectedComcard.card_type" [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
@@ -388,7 +401,7 @@
                             <ng-template let-item pTemplate="item">
                                 {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
                             </ng-template>
-                        </p-dropdown>
+                        </p-dropdown> -->
                         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_type"> -->
 
 

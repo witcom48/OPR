@@ -576,7 +576,7 @@ export class SysBranchComponent implements OnInit {
       this.displayManage = false
     }
     comcard_remove() {
-      this.selectedComcard.comcard_id = "9999";
+      this.selectedComcard.combranch_code = "9999";
       this.comcard_addItem(this.selectedComcard)
       this.new_card = false
       this.edit_comcard = false
@@ -590,7 +590,7 @@ export class SysBranchComponent implements OnInit {
     comcard_addItem(model:ComcardModel){
       const itemNew:ComcardModel[] = [];
       for (let i = 0; i < this.comcardList.length; i++) {
-        if(this.comcardList[i].comcard_id==model.comcard_id ){
+        if(this.comcardList[i].combranch_code==model.combranch_code ){
           //-- Notting
         }
         else{
@@ -598,7 +598,7 @@ export class SysBranchComponent implements OnInit {
         }
       }
       //-- 9999 for delete
-      if(model.comcard_id != "9999"){
+      if(model.combranch_code != "9999"){
         itemNew.push(model);
       }
       this.comcardList = [];
@@ -647,11 +647,11 @@ export class SysBranchComponent implements OnInit {
            //-- Transaction
            this.record_comaddress();
            this.record_comcard();
-
+           this.doLoadCombranch();
 
 
           this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-          this.doLoadCombranch()
+          
         }
         else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });

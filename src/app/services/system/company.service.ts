@@ -66,6 +66,7 @@ export class CompanyService {
             ip: 'localhost',
             username: this.initial_current.Username,
             company_code: code,
+            company_id: '',
             language: '',
             //   company_code:code
         };

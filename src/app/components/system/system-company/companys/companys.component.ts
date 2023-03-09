@@ -664,7 +664,7 @@ export class CompanysComponent implements OnInit {
       if(this.comcardList.length == 0){
         return
       }
-      this.companyDetailService.record_comcard(this.selectedCompany.company_code, this.comcardList).then((res) => {
+      this.companyDetailService.record_comcard(this.selectedCompany.company_code,this.comcardList).then((res) => {
         let result = JSON.parse(res);
         if(result.success){
         }
