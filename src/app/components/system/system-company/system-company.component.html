@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- <app-companys></app-companys> -->
 
 <!-- <app-system-bankaccount></app-system-bankaccount> -->
@@ -43,7 +44,8 @@
                 <tr [pSelectableRow]="data">
                     <td>{{data.company_code}}</td>
                     <td>{{data.company_initials}}</td>
-                    <td>{{data.company_name_th}}</td>
+                    <td>{{initial_current.Language == "TH"? data.company_name_th:data.company_name_en}}</td>
+                    <!-- <td>{{data.company_name_th}}</td> -->
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>

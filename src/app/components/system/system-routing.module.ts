@@ -23,7 +23,6 @@ import { SystemLocationComponent } from './system-policy/system-location/system-
 import { SystemReduceComponent } from './system-policy/system-reduce/system-reduce.component';
 import { SystemComaddressComponent } from './system-company/system-comaddress/comaddress.component';
 
-import { SystemBankaccountComponent } from './system-company/system-bankaccount/system-bankaccount.component';
 import { CompanysComponent } from './system-company/companys/companys.component';
 import { SystemComcardComponent } from './system-company/system-comcard/system-comcard.component';
 import { ReasonComponent } from './system-policy/reason/reason.component';
@@ -31,6 +30,7 @@ import { SystemYearperiodComponent } from './system-policy/system-yearperiod/sys
 import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
 import { BranchComponent } from './branch/branch.component';
 import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
+import { SystemBankaccountComponent } from './system-company/system-bankaccount/system-bankaccount.component';
 
 
 
@@ -65,7 +65,7 @@ import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.co
         { path: 'Branch', component: BranchComponent },
         { path: 'sysbranch', component: SysBranchComponent },
 
-        
+
 
 
 

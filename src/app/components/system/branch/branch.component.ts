@@ -18,6 +18,8 @@ import { EmpstatusModel } from '../../../models/employee/policy/empstatus';
 import { InitialService } from '../../../services/emp/policy/initial.service';
 import { EmptypeService } from '../../../services/emp/policy/emptype.service';
 import { EmpstatusService } from '../../../services/emp/policy/empstatus.service';
+import { CombranchModel } from 'src/app/models/system/branch';
+import { CombranchService } from 'src/app/services/system/combranch.service';
 
 @Component({
   selector: 'app-branch',
@@ -25,15 +27,15 @@ import { EmpstatusService } from '../../../services/emp/policy/empstatus.service
   styleUrls: ['./branch.component.scss']
 })
 export class BranchComponent implements OnInit {
-
-    employee_list: EmployeeModel[] = [];
-    selectedemployee : EmployeeModel = new EmployeeModel();
+    combranch_list: CombranchModel[] = [];
+    selectedcombranch : CombranchModel = new CombranchModel();
     items: MenuItem[] = [];
-    edit_employee: boolean = false;
-    new_employee: boolean = false;
+    edit_combranch: boolean = false;
+    new_combranch: boolean = false;
+
 
     constructor(
-      private employeeService : EmployeeService,
+      private combranchService : CombranchService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -49,14 +51,14 @@ export class BranchComponent implements OnInit {
       this.doGetInitialCurrent();
 
 
-      this.doLoadInitialList();
-      this.doLoadEmptypeList();
-      this.doLoadEmpstatusList();
+    //   this.doLoadInitialList();
+    //   this.doLoadEmptypeList();
+    //   this.doLoadEmpstatusList();
 
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadEmployee()
+        this.doLoadCombranch()
       }, 500);
 
     }
@@ -69,8 +71,8 @@ export class BranchComponent implements OnInit {
       }
     }
 
-    title_page: string = "Employee management";
-    title_num_emp: string = "Employee";
+    title_page: string = "combranch";
+    title_num_emp: string = "combranch";
     title_new_emp: string = "New";
     title_resign_emp: string = "Resign";
     title_new: string = "New";
@@ -155,8 +157,9 @@ export class BranchComponent implements OnInit {
           label:'New',
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedemployee = new EmployeeModel();
-            this.selectEmpManage();
+            this.selectedcombranch = new CombranchModel();
+            this.selectComManage();
+
           }
 
         },
@@ -180,31 +183,9 @@ export class BranchComponent implements OnInit {
       ];
 
     }
-    //get data
-    initialList:  InitialModel[] = [];
-    doLoadInitialList(){
-      this.initialService.initial_get().then((res) => {
-        this.initialList = res;
-      })
-    }
-    emptypeList: EmptypeModel[] = [];
-    doLoadEmptypeList(){
-      this.emptypeService.type_get().then((res)=>{
-        this.emptypeList = res;
-      })
-    }
-    statusList: EmpstatusModel[] = [];
-    doLoadEmpstatusList(){
-      this.empstatusService.status_get().then((res)=>{
-        this.statusList = res;
-      })
-    }
-
-    workerCurrent:number = 0;
-    doLoadEmployee(){
-      this.employeeService.worker_get(this.initial_current.CompCode,"").then((res) =>{
-        this.employee_list = res;
-        this.workerCurrent = this.employee_list.length;
+    doLoadCombranch(){
+      this.combranchService.combranch_get('').then((res) =>{
+        this.combranch_list = res;
       });
     }
 
@@ -214,24 +195,25 @@ export class BranchComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doRecordEmployee()
+          this.doRecordCombranch()
         },
         reject: () => {
           this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
         }
       });
-      console.log(this.selectedemployee);
+      console.log(this.selectedcombranch);
     }
 
-    doRecordEmployee(){
+    doRecordCombranch(){
 
-      this.employeeService.worker_recordall(this.selectedemployee).then((res) => {
+      this.combranchService.combranch_record(this.selectedcombranch).then((res) => {
         console.log(res)
         let result = JSON.parse(res);
 
         if (result.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-          this.doLoadEmployee()
+          this.doLoadCombranch()
+
         }
         else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -246,25 +228,47 @@ export class BranchComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doDeleteEmployee()
+          this.doDeleteCombranch()
         },
         reject: () => {
           this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
         }
       });
     }
+    doDeleteCombranch() {
+              console.log(this.selectedcombranch);
 
-    doDeleteEmployee(){
-      console.log(this.selectedemployee);
+        this.combranchService
+            .combranch_delete(this.selectedcombranch)
+            .then((res) => {
+                console.log(res);
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Success',
+                        detail: result.message,
+                    });
+                    this.doLoadCombranch();
+
+                } else {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: result.message,
+                    });
+                }
+            });
     }
 
     close(){
-      this.new_employee=false
-      this.selectedemployee = new EmployeeModel()
+      this.new_combranch=false
+      this.selectedcombranch= new CombranchModel()
     }
-    onRowSelectEmployee(event: Event) {
-      this.edit_employee= true;
-      this.new_employee = true;
+    onRowSelectCombranch(event: Event) {
+      this.edit_combranch= true;
+      this.new_combranch = true;
     }
 
     fileToUpload: File | any = null;
@@ -272,7 +276,7 @@ export class BranchComponent implements OnInit {
       this.fileToUpload = file.item(0);
     }
 
-    doUploadEmployee(){
+    doUploadCombranch(){
       console.log('Upload');
       if (this.fileToUpload) {
         this.confirmationService.confirm({
@@ -280,18 +284,18 @@ export class BranchComponent implements OnInit {
           header: "Import File",
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            const filename = "EMPLOYEE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+            const filename = "Combranch_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
             const filetype = "xls";
 
-            this.employeeService.worker_import(this.fileToUpload, filename, filetype).then((res) => {
+            this.combranchService.combranch_import(this.fileToUpload, filename, filetype).then((res) => {
               console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                this.doLoadEmployee();
-                this.edit_employee = false;
-                this.new_employee = false;
+                this.doLoadCombranch();
+                this.edit_combranch = false;
+                this.new_combranch = false;
               }
               else {
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -321,17 +325,18 @@ export class BranchComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_employeeinfo.xlsx');
+      XLSX.writeFile(wb, 'Export_Combranchinfo.xlsx');
 
     }
 
-    selectEmpManage(){
+    selectComManage(){
 
-      console.log(this.selectedemployee.worker_code)
+      console.log(this.selectedcombranch.combranch_code)
 
       let navigationExtras: NavigationExtras = {
         queryParams: {
-            "empcode": this.selectedemployee.worker_code
+            "combranchcode": this.selectedcombranch.combranch_code
+
         }
       };
 
@@ -340,3 +345,5 @@ export class BranchComponent implements OnInit {
 
 
   }
+
+

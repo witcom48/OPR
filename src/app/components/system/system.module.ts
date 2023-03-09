@@ -58,12 +58,12 @@ import { SystemHospitalComponent } from './system-policy/system-hospital/system-
 import { SystemLocationComponent } from './system-policy/system-location/system-location.component';
 import { SystemReduceComponent } from './system-policy/system-reduce/system-reduce.component';
 import { SystemComaddressComponent } from './system-company/system-comaddress/comaddress.component';
-import { SystemBankaccountComponent } from './system-company/system-bankaccount/system-bankaccount.component';
 import { CompanysComponent } from './system-company/companys/companys.component';
 import { SystemComcardComponent } from './system-company/system-comcard/system-comcard.component';
 import { SystemYearperiodComponent } from './system-policy/system-yearperiod/system-yearperiod.component';
 import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
 import { BranchComponent } from './branch/branch.component';
+import { SystemBankaccountComponent } from './system-company/system-bankaccount/system-bankaccount.component';
 import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
 
 

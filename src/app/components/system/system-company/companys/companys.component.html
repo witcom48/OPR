@@ -203,7 +203,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-data>
                                             <tr [pSelectableRow]="data">
-                                                <td>{{data.comaddress_code}}</td>
+                                                <td>{{data.comaddress_type}}</td>
                                                 <td>{{data.comaddress_no}}</td>
                                                 <td>{{data.comaddress_moo}}</td>
                                                 <td>{{data.comaddress_soi}}</td>
@@ -308,7 +308,7 @@
                             [(ngModel)]="selectedComaddress.comaddress_type"
                             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
-                            <p-dropdown placeholder="--" [options]="addressList" optionLabel="initial_code" [showClear]="true"
+                            <p-dropdown placeholder="--" [options]="addressList"   optionValue="addresstype_code" [showClear]="true"
                             [(ngModel)]="selectedComaddress.comaddress_type" [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
@@ -338,7 +338,7 @@
 
                         <label>จังหวัด</label>
                         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.province_code"> -->
-                        <p-dropdown placeholder="--" [options]="provinceList" optionLabel="initial_code" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code" [showClear]="true"
                             [(ngModel)]="selectedComaddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
@@ -380,7 +380,7 @@
                         [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
 
-                        <p-dropdown placeholder="--" [options]="cardList" optionLabel="initial_code" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="cardList" optionValue="cardtype_code" [showClear]="true"
                             [(ngModel)]="selectedComcard.card_type" [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
@@ -420,7 +420,7 @@
                     <div class="formatt" *ngIf="edit_combank==true || new_bank==true">
                         <div>
                             <label for="lastname2">ธนาคาร :</label>
-                            <p-dropdown placeholder="--" [options]="bankList" optionValue="initial_code"
+                            <p-dropdown placeholder="--" [options]="bankList" optionValue="bank_code"
                                 [showClear]="true" [(ngModel)]="selectedCombank.combank_bankcode"
                                 [style]="{ width: '100%', overflow: 'visible' }">
                                 <ng-template let-item pTemplate="selectedItem">
@@ -447,11 +447,7 @@
 
                     </div>
 
-                    <!-- END FORM Accumalate-->
                 </p-dialog>
-                <!-- END FORM DIALOG-->
-
-
 
                 <!-- ConfirmDialog and toast Noti -->
                 <p-toast position="top-right"></p-toast>

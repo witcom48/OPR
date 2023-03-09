@@ -4,7 +4,7 @@ export class ComcardModel {
     }
     comcard_id: string = "1";
     comcard_code: string = "";
-    combranch_code: string = "00000";
+    combranch_code: string = "";
     card_type: string = "";
     comcard_issue!: Date;
     comcard_expire!: Date;

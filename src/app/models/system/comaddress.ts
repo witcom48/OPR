@@ -4,7 +4,7 @@ export class ComaddressModel {
     }
 
     company_code: string = "";
-    combranch_code: string = "00000";
+    combranch_code: string = "";
     comaddress_type: string = "1";
     comaddress_no: string = "";
     comaddress_moo: string = "";
