@@ -63,8 +63,8 @@ export class SystemReduceComponent implements OnInit {
     title_export:string = "Export";
     title_save:string = "Save";
     title_code:string = "Code";
-    title_name_th:string = "Name (Thai)";
-    title_name_en:string = "Name (Eng.)";
+    title_name_th:string = "Description(Thai)";
+    title_name_en:string = "Description(Eng)";
     title_detail:string = "Detail";
     title_modified_by:string = "Edit by";
     title_modified_date:string = "Edit date";

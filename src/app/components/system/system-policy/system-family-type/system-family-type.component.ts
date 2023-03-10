@@ -61,8 +61,8 @@ export class SystemFamilyTypeComponent implements OnInit {
     title_export:string = "Export";
     title_save:string = "Save";
     title_code:string = "Code";
-    title_name_th:string = "Name (Thai)";
-    title_name_en:string = "Name (Eng.)";
+    title_name_th:string = "Description(Thai)";
+    title_name_en:string = "Description(Eng)";
     title_detail:string = "Detail";
     title_modified_by:string = "Edit by";
     title_modified_date:string = "Edit date";
@@ -92,8 +92,8 @@ export class SystemFamilyTypeComponent implements OnInit {
         this.title_export = "โอนออก";
         this.title_save = "บันทึก";
         this.title_code = "รหัส";
-        this.title_name_th = "ชื่อไทย";
-        this.title_name_en = "ชื่ออังกฤษ";
+        this.title_name_th = "รายละเอียด(Thai)";
+        this.title_name_en = "รายละเอียด(Eng)";
         this.title_detail = "รายละเอียด";
         this.title_modified_by = "ผู้ทำรายการ";
         this.title_modified_date = "วันที่ทำรายการ";
