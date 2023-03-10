@@ -5,7 +5,7 @@ export class ComaddressModel {
 
     company_code: string = "";
     combranch_code: string = "";
-    comaddress_type: string = "1";
+    comaddress_type: string = "";
     comaddress_no: string = "";
     comaddress_moo: string = "";
     comaddress_soi: string = "";

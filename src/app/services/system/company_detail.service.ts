@@ -162,25 +162,13 @@ export class CompanyDetailService {
         ip:"localhost",
         username:this.initial_current.Username,
         company_code:company,
-        language:"",
+        // language:"",
         card_type:"",
         comcard_id:"",
-        combranch_code:code,
+        combranch_code:"",
         comcard_code:"",
-      //   worker_code:code
       };
-    // var filter = {
-    //   device_name:'',
-    //   ip:"localhost",
-    //   username:this.initial_current.Username,
-    //   company_code:company,
-    //   language:"",
-    //   card_type:"",
-    //   comcard_id:"",
-    //   combranch_code:"",
-    //   comcard_code:"",
-    // //   worker_code:code
-    // };
+
 
     return this.http.post<any>(this.config.ApiSystemModule + '/comcard_list', filter, this.options).toPromise()
     .then((res) => {
@@ -193,14 +181,14 @@ export class CompanyDetailService {
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"comcard_id\":\"" + list[i].comcard_id + "\"";
-      item_data = item_data + ",\"comcard_code\":\"" + list[i].comcard_code + "\"";    
-      item_data = item_data + ",\"combranch_code\":\"" + list[i].combranch_code + "\"";  
+      item_data = item_data + "\"company_code\":\"" + company_code + "\"";
+      item_data = item_data + ",\"comcard_id\":\"" + list[i].comcard_id + "\"";
+      item_data = item_data + ",\"comcard_code\":\"" + list[i].comcard_code + "\"";
+      item_data = item_data + ",\"combranch_code\":\"" + list[i].combranch_code + "\"";
       item_data = item_data + ",\"card_type\":\"" + list[i].card_type + "\"";
       item_data = item_data + ",\"comcard_issue\":\"" + this.datePipe.transform(list[i].comcard_issue) + "\"";
       item_data = item_data + ",\"comcard_expire\":\"" + this.datePipe.transform(list[i].comcard_expire) + "\"";
     //   item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-      item_data = item_data + ",\"company_code\":\"" + company_code + "\"";
       item_data = item_data + "}" + ",";
     }
     if(item_data.length > 2)
@@ -258,7 +246,7 @@ export class CompanyDetailService {
     //   company_code:company,
       language:"",
       company_code:company
-      
+
     };
 
     return this.http.post<any>(this.config.ApiSystemModule + '/combank_list', filter, this.options).toPromise()
@@ -276,7 +264,7 @@ export class CompanyDetailService {
       item_data = item_data + ",\"combank_id\":\"" + list[i].combank_id + "\"";
       item_data = item_data + ",\"combank_bankcode\":\"" + list[i].combank_bankcode + "\"";
       item_data = item_data + ",\"combank_bankaccount\":\"" + list[i].combank_bankaccount + "\"";
-    
+
     //   item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
     //   item_data = item_data + ",\"company_code\":\"" + company_code + "\"";
       item_data = item_data + "}" + ",";

@@ -94,7 +94,7 @@
 
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ประกันสังคมส่วนพนักงาน(%)</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
                                 [step]="0.5" [(ngModel)]="selectedCompany.sso_emp_rate">
                             </p-inputNumber>
                         </div>
@@ -108,7 +108,7 @@
                         </div> -->
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ประกันสังคมส่วนบริษัท(%)</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
                                 [step]="0.5" [(ngModel)]="selectedCompany.sso_com_rate">
                             </p-inputNumber>
                         </div>
@@ -122,7 +122,7 @@
                         </div> -->
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">อายุพนักงานน้อยสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="60"
                                 [step]="0.5" [(ngModel)]="selectedCompany.sso_min_age">
                             </p-inputNumber>
                         </div>
@@ -136,7 +136,7 @@
                         </div> -->
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">อายุพนักงานมากสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="70"
                                 [step]="0.5" [(ngModel)]="selectedCompany.sso_max_age">
                             </p-inputNumber>
                         </div>
@@ -150,7 +150,7 @@
                         </div> -->
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ค่าจ้างตํ่าสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
                                 [step]="0.5" [(ngModel)]="selectedCompany.sso_min_wage">
                             </p-inputNumber>
                         </div>
@@ -165,7 +165,7 @@
                         </div> -->
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ค่าจ้างสูงสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
                                 [step]="0.5" [(ngModel)]="selectedCompany.sso_max_wage">
                             </p-inputNumber>
                         </div>

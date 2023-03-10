@@ -65,12 +65,12 @@ export class CombranchDetailService {
             device_name:'',
             ip:"localhost",
             username:this.initial_current.Username,
-            // company_code:company,
+            company_code:company,
             language:"",
-            compan_code:"",
+            // compan_code:"",
             combranch_code:code,
             comaddress_type:"",
-      
+
           };
 
       return this.http.post<any>(this.config.ApiSystemModule + '/comaddress_list', filter, this.options).toPromise()
@@ -87,7 +87,7 @@ export class CombranchDetailService {
         item_data = item_data + "{";
         item_data = item_data + "\"comaddress_type\":\"" + list[i].comaddress_type + "\"";
         item_data = item_data + ",\"comaddress_no\":\"" + list[i].comaddress_no + "\"";
-        item_data = item_data + ",\"combranch_code\":\"" + list[i].combranch_code + "\"";
+        item_data = item_data + ",\"combranch_code\":\"" + combranch_code + "\"";
         item_data = item_data + ",\"comaddress_moo\":\"" + list[i].comaddress_moo + "\"";
         item_data = item_data + ",\"comaddress_soi\":\"" + list[i].comaddress_soi + "\"";
         item_data = item_data + ",\"comaddress_road\":\"" + list[i].comaddress_road + "\"";
@@ -112,7 +112,7 @@ export class CombranchDetailService {
 
       var specificData = {
         transaction_data:item_data,
-        // company_code:company_code,
+        company_code:this.initial_current.CompCode,
         combranch_code:combranch_code,
         modified_by:this.initial_current.Username
       };
@@ -173,13 +173,13 @@ export class CombranchDetailService {
         return message.data;
       });
     }
-    public record_comcard(combranch_code :string, list:ComcardModel[]){
+    public record_comcard( combranch_code :string, list:ComcardModel[]){
       var item_data:string = "[";
       for (let i = 0; i < list.length; i++) {
         item_data = item_data + "{";
         item_data = item_data + "\"comcard_id\":\"" + list[i].comcard_id + "\"";
         item_data = item_data + ",\"comcard_code\":\"" + list[i].comcard_code + "\"";
-        item_data = item_data + ",\"combranch_code\":\"" + list[i].combranch_code + "\"";
+        item_data = item_data + ",\"combranch_code\":\"" + combranch_code + "\"";
         item_data = item_data + ",\"card_type\":\"" + list[i].card_type + "\"";
         item_data = item_data + ",\"comcard_issue\":\"" + this.datePipe.transform(list[i].comcard_issue) + "\"";
         item_data = item_data + ",\"comcard_expire\":\"" + this.datePipe.transform(list[i].comcard_expire) + "\"";
@@ -195,12 +195,12 @@ export class CombranchDetailService {
 
       var specificData = {
         transaction_data:item_data,
-        // company_code:company_code,
+        company_code:this.initial_current.CompCode,
         combranch_code:combranch_code,
         modified_by:this.initial_current.Username
       };
 
-      
+
       return this.http.post<any>(this.config.ApiSystemModule + '/comcard', specificData, this.options).toPromise()
       .then((res) => {
         return res;

@@ -494,7 +494,7 @@ export class SysBranchComponent implements OnInit {
     comaddressList: ComaddressModel[] = [];
     selectedComaddress: ComaddressModel = new ComaddressModel();
     doLoadComaddressList() {
-      this.combranchDetailService.getcombranch_address(this.combranch_code,'').then((res) => {
+      this.combranchDetailService.getcombranch_address(this.initial_current.CompCode ,this.combranch_code).then((res) => {
         this.comaddressList = res;
         if (this.comaddressList.length > 0) {
           this.selectedComaddress = this.comaddressList[0];
@@ -555,7 +555,7 @@ export class SysBranchComponent implements OnInit {
     comcardList: ComcardModel[] = [];
     selectedComcard: ComcardModel = new ComcardModel();
     doLoadComcardList() {
-      this.combranchDetailService.getcombranch_card(this.combranch_code,'').then(async(res) => {
+      this.combranchDetailService.getcombranch_card(this.initial_current.CompCode ,this.combranch_code).then(async(res) => {
         await res.forEach((element: ComcardModel)=>{
           element.comcard_issue = new Date(element.comcard_issue)
           element.comcard_expire = new Date(element.comcard_expire)
@@ -590,7 +590,7 @@ export class SysBranchComponent implements OnInit {
     comcard_addItem(model:ComcardModel){
       const itemNew:ComcardModel[] = [];
       for (let i = 0; i < this.comcardList.length; i++) {
-        if(this.comcardList[i].combranch_code==model.combranch_code ){
+        if(this.comcardList[i].comcard_id==model.comcard_id ){
           //-- Notting
         }
         else{
@@ -598,7 +598,7 @@ export class SysBranchComponent implements OnInit {
         }
       }
       //-- 9999 for delete
-      if(model.combranch_code != "9999"){
+      if(model.comcard_id != "9999"){
         itemNew.push(model);
       }
       this.comcardList = [];
@@ -651,7 +651,7 @@ export class SysBranchComponent implements OnInit {
 
 
           this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-          
+
         }
         else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
