@@ -68,7 +68,7 @@
                     <th>{{title_position}}</th>
                     <th>{{title_startdate}}</th>
                     <th>{{title_status}}</th>
-                    <th>{{title_apprdate}}</th>
+                    <!-- <th>{{title_apprdate}}</th> -->
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
                 </tr>
@@ -105,7 +105,7 @@
                     <td>{{data.worker_position}}</td>
                     <td>{{data.worker_hiredate | date:'dd/MM/yyyy '}}</td>
                     <td>{{data.worker_status}}</td>
-                    <td>{{data.approve_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <!-- <td>{{data.approve_date | date:'dd/MM/yyyy HH:mm'}}</td> -->
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
@@ -161,8 +161,9 @@
             [(ngModel)]="selectedemployee.worker_type"></p-dropdown> -->
 
         <label for="lastname2">{{title_position}} :</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <input pInputText type="text" id="ppos_code" [disabled]="true" >
+        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
         <label for="lastname2">{{title_startdate}} :</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"

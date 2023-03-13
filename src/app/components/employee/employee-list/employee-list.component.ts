@@ -18,6 +18,10 @@ import { EmpstatusModel } from '../../../models/employee/policy/empstatus';
 import { InitialService } from '../../../services/emp/policy/initial.service';
 import { EmptypeService } from '../../../services/emp/policy/emptype.service';
 import { EmpstatusService } from '../../../services/emp/policy/empstatus.service';
+import { EmpPositionModel } from 'src/app/models/employee/manage/position';
+import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
+import { PositionService } from 'src/app/services/emp/policy/position.service';
+import { PositionModel } from 'src/app/models/employee/policy/position';
 
 @Component({
   selector: 'app-employee-list',
@@ -42,8 +46,10 @@ export class EmployeeListComponent implements OnInit {
 
 
     private initialService : InitialService,
+    private positionService : PositionService,
     private emptypeService : EmptypeService,
     private empstatusService: EmpstatusService,
+    private empdetailService: EmpDetailService,
     ) { }
 
   ngOnInit(): void {
@@ -203,11 +209,31 @@ export class EmployeeListComponent implements OnInit {
     })
   }
 
+  emppositionList : EmpPositionModel[]=[];
+  doLoadempposition(worker_code:string){
+    this.empdetailService.getworker_position(this.initial_current.CompCode,worker_code).then(async(res)=>{
+      this.emppositionList = await res;
+    })
+  }
+  positionList: PositionModel[]=[];
+  doloadposition(){
+    this.positionService.position_get().then(async(res)=>{
+      res.forEach((element: PositionModel)=>{
+      })
+      this.positionList = await res
+    })
+  }
+
+  
+
   // selectedEmployee: EmployeeModel = new EmployeeModel;
   workerCurrent:number = 0;
   doLoadEmployee(){
-    this.employeeService.worker_get(this.initial_current.CompCode,"").then((res) =>{
-      this.employee_list = res;
+    this.employeeService.worker_get(this.initial_current.CompCode,"").then(async(res) =>{
+      await res.forEach((element: EmployeeModel) => {
+        element.worker_hiredate = new Date(element.worker_hiredate)
+      })
+      this.employee_list = await res;
       this.workerCurrent = this.employee_list.length;
     });
     
@@ -357,6 +383,15 @@ export class EmployeeListComponent implements OnInit {
   displayUpload: boolean = false;
   showUpload() {
     this.displayUpload = true;
+  }
+
+  getnameList(position_code: string) {
+    let result = this.positionList.find((obj: PositionModel) => {
+      return obj.position_code === position_code;
+    })
+    var res1 = result?.position_name_th;
+    var res2 = result?.position_name_en;
+    return { th: res1, en: res2 };
   }
 
   @ViewChild('TABLE') table: ElementRef | any = null;

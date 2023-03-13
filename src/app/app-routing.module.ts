@@ -14,7 +14,7 @@ import { VerifyComponent } from './components/authen/verify/verify.component';
 
 
                     { path: 'project', loadChildren: () => import('./components/project/project.module').then(m => m.ProjectModule) },
-                    // { path: 'employee', loadChildren: () => import('./components/employee/employee.module').then(m => m.EmployeeModule) },
+                    { path: 'employee', loadChildren: () => import('./components/employee/employee.module').then(m => m.EmployeeModule) },
                     { path: 'attendance', loadChildren: () => import('./components/attendance/attendance.module').then(m => m.AttendanceModule) },
                     { path: 'payroll', loadChildren: () => import('./components/payroll/payroll.module').then(m => m.PayrollModule) },
                     { path: 'recruitment', loadChildren: () => import('./components/recruitment/recruitment.module').then(m => m.RecruitmentModule) },

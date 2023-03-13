@@ -15,7 +15,6 @@ employee_code: any;
     worker_type: string = "";
     worker_gender: string = "";
 
-    worker_position: string = "";
 
     worker_birthdate!: Date ;
     worker_hiredate!: Date;
@@ -32,7 +31,7 @@ employee_code: any;
     worker_probationdate!: Date;
     worker_probationenddate!: Date;
     worker_probationday : number = 0;
-    hrs_perday : number = 0;
+    hrs_perday : number = 8;
     worker_taxmethod : string = "";
 
     approve_by: string = "";
@@ -47,4 +46,7 @@ employee_code: any;
     select: boolean = false;
 
     username: string = "";
+
+    position_name_th: string = "";
+    position_name_en: string = "";
   }
