@@ -51,6 +51,8 @@ import { GroupComponent } from './employee-policy/genaral/group/group.component'
 import { InitialComponent } from './employee-policy/genaral/initial/initial.component';
 import { EmptypeComponent } from './employee-policy/genaral/emptype/emptype.component';
 import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatus.component';
+import { EmpsetpositionComponent } from './employee-policy/setup-batch/empsetposition/empsetposition.component';
+import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/empsetdep.component';
 
 
 @NgModule({
@@ -108,7 +110,9 @@ import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatu
     GroupComponent,
     InitialComponent,
     EmptypeComponent,
-    EmpstatusComponent
+    EmpstatusComponent,
+    EmpsetpositionComponent,
+    EmpsetdepComponent,
   ]
 })
 export class EmployeeModule { }
