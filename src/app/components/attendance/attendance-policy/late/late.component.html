@@ -1,0 +1,168 @@
+<!-- Link Page -->
+<div class="path">
+    <span>{{langs.get('title')[selectlang]}}</span>
+    <div>
+        <i></i>
+        <a routerLink="/attendance/policy">{{langs.get('policy')[selectlang]}}</a>
+        <i></i>
+        <small>{{langs.get('late')[selectlang]}}</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="late_list" selectionMode="single" [(selection)]="lates"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['late_code','late_name_th','late_name_en','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('code')[selectlang]}}</th>
+                    <th>{{langs.get('description')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr [pSelectableRow]="data">
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('code')[selectlang]}}</span>{{data.late_code}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.late_name_en:data.late_name_th}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data Year Period -->
+    <div class="formatt" *ngIf="new_data==true">
+        <i (click)="close()"></i>
+
+        <label>{{langs.get('code')[selectlang]}}</label>
+        <input pInputText type="text" [(ngModel)]="lates.late_code" maxlength="10" disabled="{{edit_data}}" />
+        <p>{{lates.late_code.length}}/10</p>
+
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
+        <textarea [(ngModel)]="lates.late_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
+        <textarea [(ngModel)]="lates.late_name_th" pInputTextarea [autoResize]="true"></textarea>
+
+        <div #TABLELIST>
+            <p-accordion>
+                <p-accordionTab header="{{langs.get('condition')[selectlang]}}">
+                    <p-menubar [model]="itemslate"></p-menubar>
+                    <p-table [value]="lates.late_data" styleClass="p-datatable-sm"
+                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                        [virtualScroll]="true" selectionMode="single" [(selection)]="conditions">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{langs.get('no')[selectlang]}}</th>
+                                <th>{{langs.get('from')[selectlang]}}</th>
+                                <th>{{langs.get('tos')[selectlang]}}</th>
+                                <th>{{langs.get('type')[selectlang]}}</th>
+                                <th>{{langs.get('amount')[selectlang]}}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data let-i="rowIndex">
+                            <tr [pSelectableRow]="data">
+                                <td>{{i+1}}</td>
+                                <td>{{data.late_from}}</td>
+                                <td>{{data.late_to}}</td>
+                                <td *ngIf="data.late_deduct_type=='1'">{{langs.get('amount')[selectlang]}}</td>
+                                <td *ngIf="data.late_deduct_type=='2'">{{langs.get('percent')[selectlang]}}</td>
+                                <td *ngIf="data.late_deduct_type=='3'">{{langs.get('md')[selectlang]}}</td>
+                                <td>{{data.late_deduct_amount}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+            (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash"
+            class="p-button-danger"></button>
+    </div>
+    <!-- --------------End form Input Data ------------------ -->
+</div>
+
+
+<p-dialog header="{{langs.get('condition')[selectlang]}}" [(visible)]="displayaddcondition" [maximizable]="true"
+    (onHide)="closedispaly()">
+    <div class="formatt">
+        <label>{{langs.get('from')[selectlang]}}</label>
+        <p-inputNumber [(ngModel)]="conditions.late_from" [useGrouping]="false"></p-inputNumber>
+        <label>{{langs.get('tos')[selectlang]}}</label>
+        <p-inputNumber [(ngModel)]="conditions.late_to" [useGrouping]="false"></p-inputNumber>
+        <div>
+            <input type="radio" name="fav_language" value="1" [(ngModel)]="conditions.late_deduct_type">
+            <label>{{langs.get('amount')[selectlang]}}</label>
+
+            <input type="radio" name="fav_language" value="2" [(ngModel)]="conditions.late_deduct_type">
+            <label>{{langs.get('percent')[selectlang]}}</label>
+
+            <input type="radio" name="fav_language" value="3" [(ngModel)]="conditions.late_deduct_type">
+            <label>{{langs.get('md')[selectlang]}}</label>
+        </div>
+        <label>{{langs.get('amount')[selectlang]}}</label>
+        <p-inputNumber [(ngModel)]="conditions.late_deduct_amount" [useGrouping]="false"></p-inputNumber>
+    </div>
+    <ng-template pTemplate="footer">
+        <button *ngIf="displayeditcondition" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+            icon="pi pi-trash" class="p-button-danger" (click)="Deletelate()"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+            (click)="Savelate()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

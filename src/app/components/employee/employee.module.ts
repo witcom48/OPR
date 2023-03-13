@@ -95,7 +95,7 @@ import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatu
 		CheckboxModule
 
 
-		
+
 	],
 	declarations: [
     EmployeeListComponent,

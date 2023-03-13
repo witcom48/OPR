@@ -1,0 +1,16 @@
+.checkday {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    div{
+        display: flex;
+    }
+    input {
+        cursor: pointer;
+        width: 18px;
+        height: 18px;
+
+    }
+}
+

@@ -1,3 +1,50 @@
 table td{
     padding:5px
 }
+
+.table_summary_{
+    border-collapse: collapse;
+}
+
+.table_summary_ td{
+    padding: 5px;
+    border: 0px solid #ccc;
+}
+
+
+.main_div {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 70px;
+    width: 120px;
+    background-color: #152047;
+}
+.sub_div {
+    position: absolute;
+    bottom: 5px;
+}
+
+.spn_value{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.spn_title{
+    color: #FFFFFF;
+    font-size: 12px;    
+}
+
+
+
+.time_real{
+    background-color: black;
+    color: #FFFFFF;
+    width: 80px;
+}
+
+:host .input-mask{
+    width:100px;
+    text-align:center;
+    }
+    

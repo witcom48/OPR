@@ -8,14 +8,12 @@
 
     
     <div class="col-12 md:col-3">
-        <b>Genaral</b>
-        <a routerLink="../../project/setup_cost">Cost</a>
-        <a >Project Type</a>
-        <a >Project Business</a>
-        
-        <a >Uniform</a>     
-        <a >Slip form</a>     
-       
+        <b>Genaral</b>        
+        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'procost'}">Cost</a>
+        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'protype'}">Project Type</a>
+        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'probusiness'}">Project Business</a>
+        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'prouniform'}">Uniform</a>
+        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'proslip'}">Slip form</a>       
     </div>
 
     <div class="col-12 md:col-3">

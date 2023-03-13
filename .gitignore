@@ -19,7 +19,6 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
-
 # Visual Studio Code
 .vscode
 .vscode/*
@@ -37,8 +36,11 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+yarn.lock
 
 # Compiled files
 layout.css
 src/assets/demo/styles/badges.css
 src/assets/layout/styles/theme/designer
+
+/Imports

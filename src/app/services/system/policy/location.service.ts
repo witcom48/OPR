@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../../models/project/project';
+import { ProjectModel } from '../../../models/project/project';
 import { AppConfig } from '../../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';

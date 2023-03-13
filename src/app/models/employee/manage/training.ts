@@ -4,8 +4,8 @@ export class EmpTrainingModel {
     company_code: string = "";
     worker_code: string = "";
     emptraining_no: string= "";
-    emptraining_start: string= "";  
-    emptraining_finish: string= "";
+    emptraining_start!: Date;
+    emptraining_finish!: Date;
     emptraining_status: string= "";
     emptraining_hours: string= "";
     emptraining_cost: string= "";
@@ -14,10 +14,10 @@ export class EmpTrainingModel {
     institute_other: string= "";
     course_code: string= "";
     course_other: string= "";
-  
+
     modified_by: string= "";
-    modified_date: string= ""; 
-  
+    modified_date: string= "";
+
     index: number = 0;
     select: boolean = false;
   }

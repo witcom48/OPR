@@ -17,8 +17,8 @@ employee_code: any;
 
     worker_position: string = "";
 
-    worker_birthdate: string = "";
-    worker_hiredate: string = "";
+    worker_birthdate!: Date ;
+    worker_hiredate!: Date;
     religion_code: string = "";
     blood_code: string = "";
     worker_height: number = 0;
@@ -26,11 +26,11 @@ employee_code: any;
 
     worker_status: string = "";
 
-    worker_resigndate: string = "";
+    worker_resigndate!: Date;
     worker_resignstatus : boolean = false;
     worker_resignreason : string = "" ;
-    worker_probationdate: string = "";
-    worker_probationenddate: string = "";
+    worker_probationdate!: Date;
+    worker_probationenddate!: Date;
     worker_probationday : number = 0;
     hrs_perday : number = 0;
     worker_taxmethod : string = "";

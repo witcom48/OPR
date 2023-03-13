@@ -44,7 +44,7 @@ import { SystemSecurityComponent } from './system-security/system-security.compo
 import { SystemNotificationComponent } from './system-notification/system-notification.component';
 import { BankComponent } from './bank/bank.component';
 import { ReasonComponent } from './system-policy/reason/reason.component';
-// import { EmpIDComponent } from './system-policy/emp-id/emp-id.component';
+import { EmpIDComponent } from './system-policy/emp-id/emp-id.component';
 import { SystemOrganizationLevelComponent } from './system-policy/system-organization-level/system-organization-level.component';
 import { SystemCardTypeComponent } from './system-policy/system-card-type/system-card-type.component';
 import { SystemFamilyTypeComponent } from './system-policy/system-family-type/system-family-type.component';
@@ -58,13 +58,16 @@ import { SystemHospitalComponent } from './system-policy/system-hospital/system-
 import { SystemLocationComponent } from './system-policy/system-location/system-location.component';
 import { SystemReduceComponent } from './system-policy/system-reduce/system-reduce.component';
 import { SystemComaddressComponent } from './system-company/system-comaddress/comaddress.component';
+import { SystemBankaccountComponent } from './system-company/system-bankaccount/system-bankaccount.component';
 import { CompanysComponent } from './system-company/companys/companys.component';
 import { SystemComcardComponent } from './system-company/system-comcard/system-comcard.component';
 import { SystemYearperiodComponent } from './system-policy/system-yearperiod/system-yearperiod.component';
-// import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
+import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
 import { BranchComponent } from './branch/branch.component';
-import { SystemBankaccountComponent } from './system-company/system-bankaccount/system-bankaccount.component';
 import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
+import { YearComponent } from './system-policy/year/year.component';
+import { SystemReasonComponent } from './system-policy/system-reason/system-reason.component';
+import { LocationComponent } from './system-policy/location/location.component';
 
 
 @NgModule({
@@ -105,42 +108,43 @@ import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.co
 		ToastModule,
 		ConfirmDialogModule,
 		DialogModule,
-
-
-
-
-
 	],
 	declarations: [
-
-
-           SystemPolicyComponent,
-           SystemCompanyComponent,
-           SystemSecurityComponent,
-           SystemNotificationComponent,
-           BankComponent,
-           ReasonComponent,
-        //    EmpIDComponent,
-           SystemOrganizationLevelComponent,
-           SystemCardTypeComponent,
-           SystemFamilyTypeComponent,
-           SystemAddressTypeComponent,
-           SystemProvinceComponent,
-           SystemReligionComponent,
-           SystemEthnicityComponent,
-           BloodtypeComponent,
-           SystemBloodtypeComponent,
-           SystemHospitalComponent,
-           SystemLocationComponent,
-           SystemReduceComponent,
-           SystemComaddressComponent,
-           SystemBankaccountComponent,
-           CompanysComponent,
-           SystemComcardComponent,
-           SystemYearperiodComponent,
-        //    AddCodestructureComponent,
-           BranchComponent,
-           SysBranchComponent,
-  ]
+		SystemPolicyComponent,
+		SystemCompanyComponent,
+		SystemSecurityComponent,
+		SystemNotificationComponent,
+		BankComponent,
+		EmpIDComponent,
+		SystemOrganizationLevelComponent,
+		SystemCardTypeComponent,
+		SystemFamilyTypeComponent,
+		SystemAddressTypeComponent,
+		SystemProvinceComponent,
+		SystemReligionComponent,
+		SystemEthnicityComponent,
+		BloodtypeComponent,
+		SystemBloodtypeComponent,
+		SystemHospitalComponent,
+		SystemLocationComponent,
+		SystemReduceComponent,
+		SystemComaddressComponent,
+		SystemBankaccountComponent,
+		CompanysComponent,
+		SystemComcardComponent,
+		SystemYearperiodComponent,
+		AddCodestructureComponent,
+		BranchComponent,
+		SysBranchComponent,
+		YearComponent,
+		SystemReasonComponent,
+		ReasonComponent,
+  LocationComponent
+	],
+	exports: [
+		YearComponent,
+		ReasonComponent,
+		LocationComponent
+	],
 })
 export class SystemModule { }

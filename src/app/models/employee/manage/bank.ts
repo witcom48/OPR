@@ -9,7 +9,7 @@ export class EmpbankModel {
     bank_percent: string= "";
     bank_cashpercent: string= "";
 
-    empbank_bankname: string= "";
+    bank_bankname: string= "";
 
     modified_by: string= "";
     modified_date: string= "";

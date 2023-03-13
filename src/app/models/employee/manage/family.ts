@@ -10,7 +10,7 @@ export class EmpFamilyModel {
     family_lname_th: string= "";
     family_fname_en: string= "";
     family_lname_en: string= "";
-    family_birthdate: string= "";
+    family_birthdate!: Date;
 
     modified_by: string= "";
     modified_date: string= "";

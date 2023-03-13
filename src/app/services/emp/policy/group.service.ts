@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../../models/project/project';
 import { AppConfig } from '../../../config/config';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -13,8 +12,8 @@ import { GroupModel } from 'src/app/models/employee/policy/group';
 export class GroupService {
 
   public config:AppConfig = new AppConfig();
-  
-  private model:PrjectModel = new PrjectModel();
+
+
   public initial_current:InitialCurrent = new InitialCurrent();
 
   httpHeaders = new HttpHeaders({});
@@ -22,7 +21,7 @@ export class GroupService {
     headers: this.httpHeaders
   };
 
-  basicRequest = { 
+  basicRequest = {
     device_name:'',
     ip:'',
     username:''
@@ -32,7 +31,7 @@ export class GroupService {
     this.doGetInitialCurrent();
    }
 
-   doGetInitialCurrent(){    
+   doGetInitialCurrent(){
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (this.initial_current) {
       this.httpHeaders = new HttpHeaders({
@@ -46,22 +45,22 @@ export class GroupService {
         headers: this.httpHeaders
       };
 
-      this.basicRequest = { 
+      this.basicRequest = {
         device_name:'',
         ip:"localhost",
         username:this.initial_current.Username
       };
 
-    }   
+    }
     else{
       this.router.navigateByUrl('login');
-    } 
+    }
   }
 
-  public group_get(){      
+  public group_get(){
     console.log('GRP001..');
-           
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/group_list', this.basicRequest, this.options).toPromise()   
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/group_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
@@ -76,11 +75,11 @@ export class GroupService {
         group_code: model.group_code,
         group_name_th: model.group_name_th,
         group_name_en: model.group_name_en,
-        company_code: this.initial_current.CompCode,     
+        company_code: this.initial_current.CompCode,
         modified_by: this.initial_current.Username
-    };    
+    };
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/group', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/group', data, this.options).toPromise()
     .then((res) => {
       return res;
     });
@@ -90,31 +89,31 @@ export class GroupService {
     console.log('GRP003..');
     const data = {
         group_id: model.group_id,
-        group_code: model.group_code,       
+        group_code: model.group_code,
         modified_by: this.initial_current.Username
-    };    
+    };
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/group_del', data, this.options).toPromise()   
-    .then((res) => {      
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/group_del', data, this.options).toPromise()
+    .then((res) => {
       return res;
     });
-  } 
+  }
 
   public group_import(file: File, file_name:string, file_type:string){
 
     const formData = new FormData();
     formData.append('file', file);
-    
+
       var para = "fileName=" + file_name + "." + file_type;
       para += "&token=" + this.initial_current.Token;
       para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadGroup?' + para, formData).toPromise()   
-    .then((res) => {      
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadGroup?' + para, formData).toPromise()
+    .then((res) => {
       return res;
     });
 
-    
+
   }
 
 }

@@ -292,7 +292,7 @@ export class EmpDetailService {
       item_data = item_data + ",\"bank_account\":\"" + list[i].bank_account + "\"";
       item_data = item_data + ",\"bank_percent\":\"" + list[i].bank_percent + "\"";
       item_data = item_data + ",\"bank_cashpercent\":\"" + list[i].bank_cashpercent + "\"";
-      item_data = item_data + ",\"bank_bankname\":\"" + list[i].empbank_bankname + "\"";
+      item_data = item_data + ",\"bank_bankname\":\"" + list[i].bank_bankname + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

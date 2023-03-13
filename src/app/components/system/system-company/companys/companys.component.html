@@ -278,6 +278,7 @@
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>ธนาคาร</th>
+                                                <!-- <th>ชื่อบัญชี</th> -->
                                                 <th>เลขที่บัญชี</th>
                                                 <th>ผู้ทำรายการ</th>
                                                 <th>วันที่ทำรายการ</th>
@@ -285,6 +286,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-data>
                                             <tr [pSelectableRow]="data">
+                                                <!-- <th>{{ data.combank_id }}</th> -->
                                                 <th>{{ data.combank_bankcode }}</th>
                                                 <th>{{ data.combank_bankaccount }}</th>
                                                 <th>{{ data.modified_by }}</th>
@@ -302,6 +304,9 @@
                     <!-- Form Emp Address -->
                     <div class="formatt" *ngIf="edit_comaddress==true || new_comaddress==true">
                         <label>ประเภท</label>
+                        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                            [(ngModel)]="selectedComaddress.comaddress_type"
+                            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
                             <p-dropdown placeholder="--" [options]="addressList"   optionValue="addresstype_code" [showClear]="true"
                             [(ngModel)]="selectedComaddress.comaddress_type" [style]="{ width: '100%', overflow: 'visible' }">
@@ -332,6 +337,7 @@
                         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_amphur">
 
                         <label>จังหวัด</label>
+                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.province_code"> -->
                         <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code" [showClear]="true"
                             [(ngModel)]="selectedComaddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="selectedItem">
@@ -367,8 +373,8 @@
 
                     </div>
                     <div class="formatt" *ngIf="edit_comcard==true || new_card==true">
-
                         <!-- Form Card -->
+                        <!-- <label>ประเภทบัตร</label> -->
                         <div>
                             <label for="lastname2">ประเภทบัตร :</label>
                             <p-dropdown placeholder="--" [options]="cardList" optionValue="cardtype_code"
@@ -382,6 +388,21 @@
                                 </ng-template>
                             </p-dropdown>
                         </div>
+                        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                        [(ngModel)]="selectedComcard.card_type"
+                        [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+
+
+                        <!-- <p-dropdown placeholder="--" [options]="cardList" optionValue="cardtype_code" [showClear]="true"
+                            [(ngModel)]="selectedComcard.card_type" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                            </ng-template>
+                        </p-dropdown> -->
+                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_type"> -->
 
 
 
@@ -391,11 +412,13 @@
                         <label>วันที่เปิดบัตร</label>
                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="selectedComcard.comcard_issue"><input type="text"></p-calendar>
+                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_issue"> -->
 
                         <label>วันที่หมดอายุ</label>
                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="selectedComcard.comcard_expire">
                             <input type="text"></p-calendar>
+                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
 
 
                         <br>
@@ -421,6 +444,8 @@
                                 </ng-template>
                             </p-dropdown>
                         </div>
+                        <!-- <label>ชื่อบัญชี</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankcode"> -->
 
                         <label>เลขที่บัญชี</label>
                         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankaccount">

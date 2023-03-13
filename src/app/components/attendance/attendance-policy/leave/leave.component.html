@@ -1,0 +1,210 @@
+<!-- Link Page -->
+<div class="path">
+    <span>{{langs.get('title')[selectlang]}}</span>
+    <div>
+        <i></i>
+        <a routerLink="/attendance/policy">{{langs.get('policy')[selectlang]}}</a>
+        <i></i>
+        <small>{{langs.get('leavepaln')[selectlang]}}</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="leaves_list" selectionMode="single" [(selection)]="leaves"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['leave_code','leave_name_en','leave_name_th','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('code')[selectlang]}}</th>
+                    <th>{{langs.get('description')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                <tr [pSelectableRow]="data">
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('code')[selectlang]}}</span>{{data.leave_code}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.leave_name_en:data.leave_name_th}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data Year Period -->
+    <div class="formatt" *ngIf="new_data==true">
+        <i (click)="close()"></i>
+
+        <label>{{langs.get('code')[selectlang]}}</label>
+        <input pInputText type="text" [(ngModel)]="leaves.leave_code" maxlength="4" disabled="{{edit_data}}" />
+        <p>{{leaves.leave_code.length}}/4</p>
+
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
+        <textarea [(ngModel)]="leaves.leave_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
+        <textarea [(ngModel)]="leaves.leave_name_th" pInputTextarea [autoResize]="true"></textarea>
+        <div class="leaveform">
+            <div>
+                <label>{{langs.get('quotadays')[selectlang]}}</label>
+                <p-inputNumber [(ngModel)]="leaves.leave_day_peryear" [useGrouping]="false"></p-inputNumber>
+            </div>
+            <div>
+                <label>{{langs.get('maxdays')[selectlang]}}</label>
+                <p-inputNumber [(ngModel)]="leaves.leave_day_acc" [useGrouping]="false"></p-inputNumber>
+            </div>
+        </div>
+        <div class="leaveform">
+            <div>
+                <label>{{langs.get('dayadvance')[selectlang]}}</label>
+                <p-inputNumber [(ngModel)]="leaves.leave_ahead" [useGrouping]="false"></p-inputNumber>
+            </div>
+            <div>
+                <label>{{langs.get('expire')[selectlang]}}</label>
+                <p-calendar appendTo="body" [(ngModel)]="leaves.leave_day_accexpire" dateFormat="dd/mm/yy"><input
+                        type="text"></p-calendar>
+            </div>
+        </div>
+
+        <div class="leaveform">
+            <div>
+                <label>{{langs.get('minimum')[selectlang]}}</label>
+                <p-calendar [(ngModel)]="leaves.leave_min_hrs" dataType="string" [timeOnly]="true"
+                    dateMask></p-calendar>
+            </div>
+            <div>
+                <label>{{langs.get('notover')[selectlang]}}</label>
+                <p-inputNumber [(ngModel)]="leaves.leave_max_day" [useGrouping]="false"></p-inputNumber>
+            </div>
+
+        </div>
+        <div class="checkoption">
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="leaves.leave_incholiday">
+                <label>{{langs.get('include_holiday')[selectlang]}}</label>
+            </div>
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="leaves.leave_passpro">
+                <label>{{langs.get('pass_probation')[selectlang]}}</label>
+                 
+            </div>
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="leaves.leave_deduct">
+                  <label>{{langs.get('deduct')[selectlang]}}</label>
+
+            </div>
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="leaves.leave_caldiligence">
+                  <label>{{langs.get('calculate_diligence')[selectlang]}}</label>
+
+            </div>
+        </div>
+        <div #TABLELIST>
+            <p-accordion>
+                <p-accordionTab header="{{langs.get('by_workag')[selectlang]}}">
+                    <p-menubar [model]="items_workage"></p-menubar>
+                    <p-table [value]="leaves.leave_workage" styleClass="p-datatable-sm"
+                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                        [virtualScroll]="true" selectionMode="single" [(selection)]="workages">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{langs.get('no')[selectlang]}}</th>
+                                <th>{{langs.get('from')[selectlang]}}</th>
+                                <th>{{langs.get('tos')[selectlang]}}</th>
+                                <th>{{langs.get('leave_day')[selectlang]}}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data let-i="rowIndex">
+                            <tr [pSelectableRow]="data">
+                                <td>{{i+1}}</td>
+                                <td>{{data.workage_from}}</td>
+                                <td>{{data.workage_to}}</td>
+                                <td>{{data.workage_leaveday}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+            (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
+            icon="pi pi-trash" class="p-button-danger"></button>
+    </div>
+    <!-- --------------End form Input Data ------------------ -->
+</div>
+
+
+
+
+
+<p-dialog class="displayaddholiday" header="{{langs.get('uploadinfo')[selectlang]}}" [(visible)]="displayaddworkage"
+    [maximizable]="true" (onHide)="closedispaly()">
+    <div class="formatt">
+        <label>{{langs.get('from')[selectlang]}}</label>
+        <p-inputNumber [(ngModel)]="workages.workage_from" [useGrouping]="false"></p-inputNumber>
+        <label>{{langs.get('tos')[selectlang]}}</label>
+        <p-inputNumber [(ngModel)]="workages.workage_to" [useGrouping]="false"></p-inputNumber>
+        <label>{{langs.get('leave_day')[selectlang]}}</label>
+        <p-inputNumber [(ngModel)]="workages.workage_leaveday" [useGrouping]="false"></p-inputNumber>
+    </div>
+    <ng-template pTemplate="footer">
+        <button *ngIf="displayeditworkage" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="Deleteworkages()"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Saveworkages()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

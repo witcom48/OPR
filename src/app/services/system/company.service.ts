@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../models/project/project';
+import { ProjectModel } from '../../models/project/project';
 import { AppConfig } from '../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { CompanyModel } from 'src/app/models/system/company';
 export class CompanyService {
     public config: AppConfig = new AppConfig();
 
-    private model: PrjectModel = new PrjectModel();
+    private model: ProjectModel = new ProjectModel();
     public initial_current: InitialCurrent = new InitialCurrent();
 
     httpHeaders = new HttpHeaders({});
@@ -158,7 +158,7 @@ export class CompanyService {
 }
 
 // import { Injectable } from '@angular/core';
-// import { PrjectModel } from '../../models/project/project';
+// import { ProjectModel } from '../../models/project/project';
 // import { AppConfig } from '../../config/config';
 // import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { Router } from '@angular/router';
@@ -171,7 +171,7 @@ export class CompanyService {
 // export class CompanyService {
 //     public config: AppConfig = new AppConfig();
 
-//     private model: PrjectModel = new PrjectModel();
+//     private model: ProjectModel = new ProjectModel();
 //     public initial_current: InitialCurrent = new InitialCurrent();
 
 //     httpHeaders = new HttpHeaders({});

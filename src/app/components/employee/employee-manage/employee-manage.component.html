@@ -1,0 +1,1733 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<p-menubar [model]="toolbar_menu"></p-menubar>
+<p-card header="Employee Management" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+    <div class="grid">
+        <div class="col-12 md:col-9">
+            <p-tabView (onChange)="tabChange($event)">
+
+                <!-- Tab Genaral -->
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                        <span>{{title_genaral}}</span>
+                    </ng-template>
+
+                    <div class="empinfo">
+                        <p-image src="../../../../assets/images/people.png" alt="Image" width="150"
+                            height="150"></p-image>
+
+                        <p-button class="upload" label="Upload Images"></p-button>
+
+                        <div>
+                            <label for="firstname2">{{title_code}} :</label>
+                            <input pInputText id="firstname2" type="text" [(ngModel)]="selectedEmployee.worker_code">
+                        </div>
+
+                        <div>
+                            <label for="lastname2">{{title_cardid}} :</label>
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedEmployee.worker_card">
+                        </div>
+                        <div></div>
+                        <div>
+                            <label for="lastname2">{{title_initial}} :</label>
+                            <p-dropdown placeholder="--" [options]="initialList" optionValue="initial_code"
+                                [showClear]="true" [(ngModel)]="selectedEmployee.worker_initial"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div>
+                            <label for="Gender">{{title_gender}} :</label>
+                            <div class="radio">
+                                <p-radioButton name="Gender" value="M"
+                                    [(ngModel)]="selectedEmployee.worker_gender"></p-radioButton>
+                                <label>{{male_gender}}</label>
+                                &nbsp;&nbsp;
+                                <p-radioButton name="Gender" value="F"
+                                    [(ngModel)]="selectedEmployee.worker_gender"></p-radioButton>
+                                <label>{{female_gender}}</label>
+                            </div>
+                        </div>
+                        <div style="grid-column: 1;">
+                            <label for="Fname1">{{title_fname_th}} :</label>
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedEmployee.worker_fname_th">
+                        </div>
+                        <div>
+                            <label for="Lname1">{{title_lname_th}} :</label>
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedEmployee.worker_lname_th">
+                        </div>
+
+
+                        <div style="grid-column: 1;">
+                            <label for="Fname2">{{title_fname_en}} :</label>
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedEmployee.worker_fname_en">
+                        </div>
+
+                        <div>
+                            <label for="Lname2">{{title_lname_en}} :</label>
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedEmployee.worker_lname_en">
+                        </div>
+                    </div>
+
+                    <div class="empinfo2">
+
+                        <div class="horizontal">
+                            <hr>
+                        </div>
+
+                        <div>
+                            <label for="lastname2">{{title_type}} :</label>
+                            <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code"
+                                [showClear]="true" [(ngModel)]="selectedEmployee.worker_type"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+
+                        <div>
+                            <label for="lastname2">{{title_status}} :</label>
+                            <p-dropdown placeholder="--" [options]="statusList" optionValue="status_code"
+                                [showClear]="true" [(ngModel)]="selectedEmployee.worker_status"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+
+                        <div>
+                            <label for="worker_birthdate">{{title_birthdate}} :</label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_birthdate" inputId="worker_birthdate">
+                                <input type="text">
+                            </p-calendar>
+                            <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
+                                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+                        </div>
+
+                        <div>
+                            <label for="lastname2">{{title_startdate}} :</label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_hiredate">
+                                <input type="text">
+                            </p-calendar>
+                            <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
+                                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+                        </div>
+
+                        <div>
+                            <label for="lastname2">{{title_hrs}}</label>
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0"
+                                [max]="120" [step]="0.5" [(ngModel)]="selectedEmployee.hrs_perday">
+                            </p-inputNumber>
+                        </div>
+                        <div>
+                            <label for="lastname2">{{title_probation}}</label>
+                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60"
+                                [(ngModel)]="selectedEmployee.worker_probationday">
+                            </p-inputNumber>
+                        </div>
+
+                        <div>
+                            <label for="lastname2">{{title_probationdate}} :</label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_probationdate">
+                                <input type="text">
+                            </p-calendar>
+                            <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
+                                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+                        </div>
+
+                        <div>
+                            <label for="lastname2">{{title_probationenddate}} :</label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_probationenddate">
+                                <input type="text">
+                            </p-calendar>
+                            <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
+                                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+                        </div>
+
+                        <div class="checkresign">
+                            <p-checkbox name="selectedEmployee.worker_resignstatus"
+                                [(ngModel)]="selectedEmployee.worker_resignstatus" [binary]="true"></p-checkbox>
+                            <label>{{title_resignstatus}}</label>
+                        </div>
+
+                        <div class="horizontal">
+                            <hr>
+                        </div>
+                    </div>
+                    <!-- resign form-->
+                    <div class="empinfo2" *ngIf="selectedEmployee.worker_resignstatus == true">
+                        <div>
+                            <label for="lastname2">{{title_resigndate}} :</label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_resigndate">
+                                <input type="text">
+                            </p-calendar>
+                            <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
+                            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+                        </div>
+
+                        <div>
+                            <label for="lastname2">{{title_resignreason}} :</label>
+                            <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                                [(ngModel)]="selectedEmployee.worker_resignreason"
+                                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+                    </div>
+                    <!-- end resign form-->
+                </p-tabPanel>
+                <!-- End tab Genaral-->
+
+                <!-- tab Personal-->
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <i class="pi pi-user"></i>&nbsp;&nbsp;
+                        <span>{{title_personal}}</span>
+                    </ng-template>
+
+                    <div class="formgrid grid">
+                        <div class="field col-6">
+                            <label for="lastname2">{{title_religion}} :</label><br>
+                            <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                                optionValue="religion_code" [(ngModel)]="selectedEmployee.religion_code"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <!-- <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template> -->
+                            </p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="lastname2">{{title_blood}} :</label><br>
+                            <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" optionValue="blood_code"
+                                [(ngModel)]="selectedEmployee.blood_code"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <!-- <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template> -->
+                            </p-dropdown>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="firstname2">{{title_height}}</label><br>
+                            <p-inputNumber mode="decimal" inputId="minmax-buttons" [min]="0" [max]="999"
+                                [(ngModel)]="selectedEmployee.worker_height">
+                            </p-inputNumber>
+                        </div>
+
+                        <div class="field col-6">
+                            <label for="firstname2">{{title_weight}}</label><br>
+                            <p-inputNumber mode="decimal" inputId="minmax-buttons" [min]="0" [max]="999"
+                                [(ngModel)]="selectedEmployee.worker_weight">
+                            </p-inputNumber>
+                        </div>
+                        <!-- Address -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_address}}">
+                                    <p-menubar [model]="menu_empaddress"></p-menubar>
+                                    <p-table #dtAddress [value]="empaddressList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpAddress"
+                                        (onRowSelect)="onRowSelectEmpAddress($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภท</th>
+                                                <th>เลขที่</th>
+                                                <th>ซอย</th>
+                                                <th>ถนน</th>
+                                                <th>อำเภอ</th>
+                                                <th>ตำบล</th>
+                                                <th>จังหวัด</th>
+                                                <th>รหัสไปรษณีย์</th>
+                                                <th>เบอร์โทรศัพท์</th>
+                                                <th>อีเมล์</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empaddress>
+                                            <tr [pSelectableRow]="empaddress">
+                                                <td>{{empaddress.address_type}}</td>
+                                                <td>{{empaddress.address_no}}</td>
+                                                <td>{{empaddress.address_soi}}</td>
+                                                <td>{{empaddress.address_road}}</td>
+                                                <td>{{empaddress.address_amphur}}</td>
+                                                <td>{{empaddress.address_tambon}}</td>
+                                                <td>{{empaddress.province_code}}</td>
+                                                <td>{{empaddress.address_zipcode}}</td>
+                                                <td>{{empaddress.address_tel}}</td>
+                                                <td>{{empaddress.address_email}}</td>
+                                                <td>{{empaddress.modified_by}}</td>
+                                                <td>{{empaddress.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- card -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_card}}">
+                                    <p-menubar [model]="menu_empcard"></p-menubar>
+                                    <p-table #dtempcard [value]="empcardList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpcard"
+                                        (onRowSelect)="onRowSelectEmpCard($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภทบัตร</th>
+                                                <th>รหัสบัตร</th>
+                                                <th>วันที่เปิดบัตร</th>
+                                                <th>วันที่หมดอายุ</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empcard>
+                                            <tr [pSelectableRow]="empcard">
+                                                <td>{{empcard.card_type}}</td>
+                                                <td>{{empcard.card_code}}</td>
+                                                <td>{{empcard.card_issue | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empcard.card_expire | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empcard.modified_by}}</td>
+                                                <td>{{empcard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- bank -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_bank}}">
+                                    <p-menubar [model]="menu_empbank"></p-menubar>
+                                    <p-table #dtempbank [value]="empbankList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpbank"
+                                        (onRowSelect)="onRowSelectEmpbank($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ธนาคาร</th>
+                                                <th>เลขที่บัญชี</th>
+                                                <th>ชื่อบัญชี</th>
+                                                <th>ธนาคาร(%)</th>
+                                                <th>เงินสด(%)</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empbank>
+                                            <tr [pSelectableRow]="empbank">
+                                                <td>{{empbank.bank_code}}</td>
+                                                <td>{{empbank.bank_account}}</td>
+                                                <td>{{empbank.bank_bankname}}</td>
+                                                <td>{{empbank.bank_percent}}</td>
+                                                <td>{{empbank.bank_cashpercent}}</td>
+                                                <td>{{empbank.modified_by}}</td>
+                                                <td>{{empbank.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- family -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_family}}">
+                                    <p-menubar [model]="menu_empfamily"></p-menubar>
+                                    <p-table #dtempfamily [value]="empfamilyList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpfamily"
+                                        (onRowSelect)="onRowSelectEmpFamily($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภท</th>
+                                                <th>เลขที่บัตรประชาชน</th>
+                                                <th>ชื่อ</th>
+                                                <th>นามสกุล</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empfamily>
+                                            <tr [pSelectableRow]="empfamily">
+                                                <td>{{empfamily.family_type}}</td>
+                                                <td>{{empfamily.family_code}}</td>
+                                                <td>{{empfamily.family_fname_th}}</td>
+                                                <td>{{empfamily.family_lname_th}}</td>
+                                                <td>{{empfamily.modified_by}}</td>
+                                                <td>{{empfamily.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- hospital -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_hospital}}">
+                                    <p-menubar [model]="menu_emphospital"></p-menubar>
+                                    <p-table #dtemphospital [value]="emphospitalList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmphospital"
+                                        (onRowSelect)="onRowSelectEmpHospital($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>โรงพยาบาล</th>
+                                                <th>วันที่มีผล</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-emphospital>
+                                            <tr [pSelectableRow]="emphospital">
+                                                <td>{{emphospital.emphospital_code}}</td>
+                                                <td>{{emphospital.emphospital_date | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{emphospital.modified_by}}</td>
+                                                <td>{{emphospital.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- foreigner -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_foreigner}}">
+                                    <div class="foreigner">
+                                        <h4>หนังสือเดินทาง</h4>
+                                        <div>
+                                            <label>เลขที่</label>
+                                            <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_no"
+                                                maxlength="20">
+                                        </div>
+                                        <div style="grid-column: 1;">
+                                            <label>วันที่เข้าประเทศ</label>
+                                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                                [(ngModel)]="selectedEmpforeigner.entry_date"><input
+                                                    type="text"></p-calendar>
+                                            <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.entry_date"> -->
+                                        </div>
+                                        <div style="grid-column: 1;">
+                                            <label>วันที่ออกหนังสือเดินทาง</label>
+                                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                                [(ngModel)]="selectedEmpforeigner.passport_issue"><input
+                                                    type="text"></p-calendar>
+                                            <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_issue"> -->
+                                        </div>
+                                        <div>
+                                            <label>วันที่หมดอายุ</label>
+                                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                                [(ngModel)]="selectedEmpforeigner.passport_expire"><input
+                                                    type="text"></p-calendar>
+                                            <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_expire"> -->
+                                        </div>
+                                        <div class="horizontal">
+                                            <hr>
+                                        </div>
+                                        <h4>VISA</h4>
+                                        <div>
+                                            <label>เลขที่</label>
+                                            <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_no"
+                                                maxlength="20">
+                                        </div>
+                                        <div style="grid-column: 1;">
+                                            <label>วันที่ออก</label>
+                                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                                [(ngModel)]="selectedEmpforeigner.visa_issue"><input
+                                                    type="text"></p-calendar>
+                                            <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_issue"> -->
+                                        </div>
+                                        <div>
+                                            <label>วันที่หมดอายุ</label>
+                                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                                [(ngModel)]="selectedEmpforeigner.visa_expire"><input
+                                                    type="text"></p-calendar>
+                                            <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_expire">  -->
+                                        </div>
+                                        <div class="horizontal">
+                                            <hr>
+                                        </div>
+                                        <h4>Work Permit</h4>
+                                        <div>
+                                            <label>เลขที่</label>
+                                            <input type="text" pInputText
+                                                [(ngModel)]="selectedEmpforeigner.workpermit_no" maxlength="20">
+                                        </div>
+                                        <div style="grid-column: 1;">
+                                            <label>ออกโดย</label>
+                                            <input type="text" pInputText
+                                                [(ngModel)]="selectedEmpforeigner.workpermit_by">
+                                        </div>
+                                        <div style="grid-column: 1;">
+                                            <label>วันที่ออก</label>
+                                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                                [(ngModel)]="selectedEmpforeigner.workpermit_issue"><input
+                                                    type="text"></p-calendar>
+                                            <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.workpermit_issue"> -->
+                                        </div>
+                                        <div>
+                                            <label>วันที่หมดอายุ</label>
+                                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                                [(ngModel)]="selectedEmpforeigner.workpermit_expire"><input
+                                                    type="text"></p-calendar>
+                                            <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.workpermit_expire"> -->
+                                        </div>
+                                        <div class="horizontal">
+                                            <hr>
+                                        </div>
+                                        <div>
+                                            <label>เลขที่เอกสารสำคัญ</label>
+                                            <input type="text" pInputText
+                                                [(ngModel)]="selectedEmpforeigner.certificate_no" maxlength="20">
+                                        </div>
+                                        <div>
+                                            <label>วันที่เอกสารสำคัญหมดอายุ</label>
+                                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                                [(ngModel)]="selectedEmpforeigner.certificate_expire"><input
+                                                    type="text"></p-calendar>
+                                            <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.certificate_expire"> -->
+                                        </div>
+                                        <div>
+                                            <label>เลขที่เอกสารอื่นๆ</label>
+                                            <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.otherdoc_no"
+                                                maxlength="20">
+                                        </div>
+                                        <div>
+                                            <label>วันที่หมดอายุของเอกสารอื่นๆ</label>
+                                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                                [(ngModel)]="selectedEmpforeigner.otherdoc_expire"><input
+                                                    type="text"></p-calendar>
+                                            <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.otherdoc_expire"> -->
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <!-- end tab Personal-->
+
+                <!-- tab Record-->
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <i class="pi pi-history"></i>&nbsp;&nbsp;
+                        <span>{{title_record}}</span>
+                    </ng-template>
+                    <!-- dep -->
+                    <div class="formgrid grid">
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_department}}">
+                                    <p-menubar [model]="menu_empdep"></p-menubar>
+                                    <p-table #dtdep [value]="empdepList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" [(selection)]="selectedEmpdep"
+                                        (onRowSelect)="onRowSelectEmpDep($event)" selectionMode="single" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>
+                                                <th>ระดับ 1</th>
+                                                <th>ระดับ 2</th>
+                                                <th>ระดับ 3</th>
+                                                <th>ระดับ 4</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empdep>
+                                            <tr [pSelectableRow]="empdep">
+                                                <td>{{empdep.empdep_date | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empdep.empdep_level01}}</td>
+                                                <td>{{empdep.empdep_level02}}</td>
+                                                <td>{{empdep.empdep_level03}}</td>
+                                                <td>{{empdep.empdep_level04}}</td>
+                                                <td>{{empdep.modified_by}}</td>
+                                                <td>{{empdep.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- Position -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_position}}">
+                                    <p-menubar [model]="menu_empposition"></p-menubar>
+                                    <p-table #dtempposition [value]="emppositionList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmpPosition"
+                                        (onRowSelect)="onRowSelectEmpPosition($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>
+                                                <th>ตำแหน่ง</th>
+                                                <th>เหตุผล</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empposition>
+                                            <tr [pSelectableRow]="empposition">
+                                                <td>{{empposition.empposition_date | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{initial_current.Language == "TH"?
+                                                    empposition.position_name_th:empposition.position_name_en}}</td>
+                                                <td>{{empposition.empposition_reason}}</td>
+                                                <td>{{empposition.modified_by}}</td>
+                                                <td>{{empposition.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- Education -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_education}}">
+                                    <p-menubar [model]="menu_empeducation"></p-menubar>
+                                    <p-table #dteducation [value]="empeducationList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmpeducation"
+                                        (onRowSelect)="onRowSelectEmpeducation($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>สถานศึกษา</th>
+                                                <th>วันที่เริ่ม</th>
+                                                <th>วันที่จบ</th>
+                                                <th>คณะ</th>
+                                                <th>วิชาเอก</th>
+                                                <th>วุฒิการศึกษา</th>
+                                                <th>เกรดเฉลี่ย</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empeducation>
+                                            <tr [pSelectableRow]="empeducation">
+                                                <td>{{empeducation.institute_code}}</td>
+                                                <td>{{empeducation.empeducation_start | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empeducation.empeducation_finish | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empeducation.faculty_code}}</td>
+                                                <td>{{empeducation.major_code}}</td>
+                                                <td>{{empeducation.qualification_code}}</td>
+                                                <td>{{empeducation.empeducation_gpa}}</td>
+                                                <td>{{empeducation.modified_by}}</td>
+                                                <td>{{empeducation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- Training -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_training}}">
+                                    <p-menubar [model]="menu_emptraining"></p-menubar>
+                                    <p-table #dttraining [value]="emptrainingList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmptraining"
+                                        (onRowSelect)="onRowSelectEmptraining($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>สถาบัน/สถานที่</th>
+                                                <th>หลักสูตร</th>
+                                                <th>ครั้งที่</th>
+                                                <th>จากวันที่</th>
+                                                <th>ถึงวันที่</th>
+                                                <th>ผลการอมรบ</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-emptraining>
+                                            <tr [pSelectableRow]="emptraining">
+                                                <td>{{emptraining.institute_code}}</td>
+                                                <td>{{emptraining.course_code}}</td>
+                                                <td>{{emptraining.course_other}}</td>
+                                                <td>{{emptraining.emptraining_start | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{emptraining.emptraining_finish | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{emptraining.emptraining_status}}</td>
+                                                <td>{{emptraining.modified_by}}</td>
+                                                <td>{{emptraining.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- Assessment -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_assessment}}">
+                                    <p-menubar [model]="menu_empassessment"></p-menubar>
+                                    <p-table #dtassessment [value]="empassessmentList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmpassessment"
+                                        (onRowSelect)="onRowSelectEmpassessment($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <!-- <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text"
+                                                        (input)="dt11.filterGlobal($any($event).target.value, 'contains')"
+                                                        placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template> -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>สถานที่</th>
+                                                <th>หัวข้อ</th>
+                                                <th>จากวันที่</th>
+                                                <th>ถึงวันที่</th>
+                                                <th>ครั้งที่</th>
+                                                <th>ผลการประเมิน</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empassessment>
+                                            <tr [pSelectableRow]="empassessment">
+                                                <td>{{empassessment.empassessment_location}}</td>
+                                                <td>{{empassessment.empassessment_topic}}</td>
+                                                <td>{{empassessment.empassessment_fromdate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empassessment.empassessment_todate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empassessment.empassessment_count}}</td>
+                                                <td>{{empassessment.empassessment_result}}</td>
+                                                <td>{{empassessment.modified_by}}</td>
+                                                <td>{{empassessment.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- criminal -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_criminal}}">
+                                    <p-menubar [model]="menu_empcriminal"></p-menubar>
+                                    <p-table #dtcriminal [value]="empcriminalList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmpcriminal"
+                                        (onRowSelect)="onRowSelectEmpcriminal($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <!-- <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text"
+                                                        (input)="dt12.filterGlobal($any($event).target.value, 'contains')"
+                                                        placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template> -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>สถานที่</th>
+                                                <th>จากวันที่</th>
+                                                <th>ถึงวันที่</th>
+                                                <th>ครั้งที่</th>
+                                                <th>ผลการตรวจสอบ</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empcriminal>
+                                            <tr [pSelectableRow]="empcriminal">
+                                                <td>{{empcriminal.empcriminal_location}}</td>
+                                                <td>{{empcriminal.empcriminal_fromdate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empcriminal.empcriminal_todate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empcriminal.empcriminal_count}}</td>
+                                                <td>{{empcriminal.empcriminal_result}}</td>
+                                                <td>{{empcriminal.modified_by}}</td>
+                                                <td>{{empcriminal.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+
+
+                    </div>
+                </p-tabPanel>
+                <!-- tab Record-->
+
+                <!-- tab Finance-->
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <i class="pi pi-money-bill"></i>&nbsp;&nbsp;
+                        <span>{{title_finance}}</span>
+                    </ng-template>
+
+                    <div class="formgrid grid">
+
+                        <div class="field col-6">
+                            <label for="lastname2">{{title_taxmethod}} :</label><br>
+                            <p-dropdown [options]="taxM" optionValue="code" [showClear]="true"
+                                [(ngModel)]="selectedEmployee.worker_taxmethod"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                            <!-- <p-dropdown placeholder="พนักงานจ่ายเอง" optionLabel="name" [showClear]="true"
+                                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+                        </div>
+                        <div class="field col-6">
+
+                        </div>
+                        <!-- salary -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_salary}}">
+                                    <p-menubar [model]="menu_empsalary"></p-menubar>
+                                    <p-table #dtsalary [value]="empsalaryList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpsalary"
+                                        (onRowSelect)="onRowSelectEmpsalary($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <!-- <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text"
+                                                        (input)="dt13.filterGlobal($any($event).target.value, 'contains')"
+                                                        placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template> -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>
+                                                <th>เงินเดือน/ค่าจ้าง</th>
+                                                <th>เหตุผล</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empsalary>
+                                            <tr [pSelectableRow]="empsalary">
+                                                <td>{{empsalary.empsalary_date | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empsalary.empsalary_amount}}</td>
+                                                <td>{{empsalary.empsalary_reason}}</td>
+                                                <td>{{empsalary.modified_by}}</td>
+                                                <td>{{empsalary.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- benefit -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_benefit}}">
+                                    <p-menubar [model]="menu_empbenefit"></p-menubar>
+                                    <p-table #dtbenefit [value]="empbenefitList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpbenefit"
+                                        (onRowSelect)="onRowSelectEmpbenefit($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <!-- <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text"
+                                                        (input)="dt14.filterGlobal($any($event).target.value, 'contains')"
+                                                        placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template> -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>
+                                                <th>ชื่อเงินได้/เงินหัก</th>
+                                                <th>จำนวนเงิน</th>
+                                                <th>เงื่อนไขการจ่าย</th>
+                                                <th>เหตุผล</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empbenefit>
+                                            <tr [pSelectableRow]="empbenefit">
+                                                <td>{{empbenefit.empbenefit_startdate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empbenefit.item_code}}</td>
+                                                <td>{{empbenefit.empbenefit_amount}}</td>
+                                                <td>{{empbenefit.empbenefit_conditionpay}}</td>
+                                                <td>{{empbenefit.empbenefit_reason}}</td>
+                                                <td>{{empbenefit.modified_by}}</td>
+                                                <td>{{empbenefit.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- provident -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_fund}}">
+                                    <p-menubar [model]="menu_empprovident"></p-menubar>
+                                    <p-table #dtprovident [value]="empprovidentList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmpprovident"
+                                        (onRowSelect)="onRowSelectEmpprovident($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <!-- <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text"
+                                                        (input)="dt15.filterGlobal($any($event).target.value, 'contains')"
+                                                        placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template> -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>แผนกองทุนฯ</th>
+                                                <th>วันที่เข้า</th>
+                                                <th>วันที่เริ่ม</th>
+                                                <th>สะสม %</th>
+                                                <th>สมทบ %</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empprovident>
+                                            <tr [pSelectableRow]="empprovident">
+                                                <td>{{empprovident.provident_code}}</td>
+                                                <td>{{empprovident.empprovident_entry| date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empprovident.empprovident_start| date:'dd/MM/yyyy'}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>{{empprovident.modified_by}}</td>
+                                                <td>{{empprovident.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- reduce -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_reduce}}">
+                                    <p-menubar [model]="menu_empreduce"></p-menubar>
+                                    <p-table #dtreduce [value]="empreduceList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpreduce"
+                                        (onRowSelect)="onRowSelectEmpreduce($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <!-- <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text"
+                                                        (input)="dt16.filterGlobal($any($event).target.value, 'contains')"
+                                                        placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template> -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ประเภทค่าลดหย่อน</th>
+                                                <th>จำนวนเงิน</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empreduce>
+                                            <tr [pSelectableRow]="empreduce">
+                                                <td>{{empreduce.reduce_type}}</td>
+                                                <td>{{empreduce.empreduce_amount}}</td>
+                                                <td>{{empreduce.modified_by}}</td>
+                                                <td>{{empreduce.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                        <!-- accumalate -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_accumulate}}">
+                                    <p-menubar [model]="menu_empaccumalate"></p-menubar>
+                                    <p-table #dt17 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '150rem'}"
+                                        (onRowSelect)="onRowSelectEmpAcc($event)" [scrollable]="true"
+                                        scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text"
+                                                        (input)="dt17.filterGlobal($any($event).target.value, 'contains')"
+                                                        placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่จ่าย</th>
+                                                <th>เงินได้คำนวณภาษี</th>
+                                                <th>เงินได้ไม่คำนวณภาษี</th>
+                                                <th>เงินหักคำนวณภาษี</th>
+                                                <th>เงินหักไม่คำนวณภาษี</th>
+                                                <th>40(1)</th>
+                                                <th>40(1) ร้อยละ 3</th>
+                                                <th>40(1)(2)</th>
+                                                <th>40(2)</th>
+                                                <th>ภาษี 40(1)</th>
+                                                <th>ภาษี 40(1) ร้อยละ 3</th>
+                                                <th>ภาษี 40(1)(2)</th>
+                                                <th>ภาษี 40(2)</th>
+                                                <th>ประกันสังคมสะสม</th>
+                                                <th>ประกันสังคมสมทบ</th>
+                                                <th>กองทุนฯสะสม</th>
+                                                <th>กองทุนฯสมทบ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data>
+                                            <tr [pSelectableRow]="data">
+                                                <td>{{data.paydate}}</td>
+                                                <td>{{data.incomefix}}</td>
+                                                <td>{{data.incomevar}}</td>
+                                                <td>{{data.taxfix}}</td>
+                                                <td>{{data.taxvar}}</td>
+                                                <td>{{data.incomefortyone}}</td>
+                                                <td>{{data.incomefortyoneperthree}}</td>
+                                                <td>{{data.incomefortyonetwo}}</td>
+                                                <td>{{data.incomefortytwoin}}</td>
+                                                <td>{{data.taxfortyone}}</td>
+                                                <td>{{data.taxfortyoneperthree}}</td>
+                                                <td>{{data.taxfortyonetwo}}</td>
+                                                <td>{{data.taxfortytwoin}}</td>
+                                                <td>{{data.ssoacc_worker}}</td>
+                                                <td>{{data.ssoacc_company}}</td>
+                                                <td>{{data.pfacc_worker}}</td>
+                                                <td>{{data.pfacc_company}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <!-- tab Finance-->
+
+                <!-- tab tranfer-->
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        &nbsp;
+                        <span>{{title_tranfer}}</span>
+                    </ng-template>
+                    <!-- <p-menubar [model]="menu_emptranfer"></p-menubar> -->
+                    <p-table #dt17 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true"
+                        scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"
+                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <span class="p-input-icon-left ml-auto">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text"
+                                        (input)="dt17.filterGlobal($any($event).target.value, 'contains')"
+                                        placeholder="Search keyword" />
+                                </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>หน่วยงาน</th>
+                                <th>ประเภทงาน</th>
+                                <th>จากวันที่</th>
+                                <th>ถึงวันที่</th>
+                                <th>เงินเดือน/ค่าจ้าง</th>
+                                <th>ค่าล่วงเวลา</th>
+                                <th>อื่นๆ</th>
+                                <th>ผู้ทำรายการ</th>
+                                <th>วันที่ทำรายการ</th>
+                            </tr>
+
+                        </ng-template>
+                    </p-table>
+
+                </p-tabPanel>
+                <!-- tab tranfer-->
+            </p-tabView>
+
+        </div>
+        <!-- <div class="col-12 md:col-3">
+
+        </div> -->
+    </div>
+
+</p-card>
+
+<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
+    <!-- Form Emp Address -->
+    <div class="formatt" *ngIf="edit_empaddress==true || new_empaddress==true">
+        <label>ประเภท</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpAddress.address_type"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+
+        <label>เลขที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_no">
+
+        <label>หมู่ที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_moo">
+
+        <label>ซอย</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_soi">
+
+        <label>ถนน</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_road">
+
+        <label>ตำบล</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_tambon">
+
+        <label>อำเภอ</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_amphur">
+
+        <label>จังหวัด</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.province_code">
+
+        <label>รหัสไปรษณีย์</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_zipcode">
+
+        <label>เบอร์โทรศัพท์</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_tel">
+
+        <label>อีเมล์</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_email">
+
+        <label>Line</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_line">
+
+        <label>Facebook</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_facebook">
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="empaddress_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empaddress_cancel()"></button>
+
+    </div>
+    <!-- Form Emp Card -->
+    <div class="formatt" *ngIf="edit_empcard==true || new_card==true">
+        <label>เลขที่</label>
+        <input pInputText type="text" id="card_no" [(ngModel)]="selectedEmpcard.card_code">
+
+        <label>วันที่เปิดบัตร</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpcard.card_issue"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_issue"> -->
+
+        <label>วันที่หมดอายุ</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false" [(ngModel)]="selectedEmpcard.card_expire">
+            <input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
+
+        <label>ประเภทบัตร</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpcard.card_type"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_type"> -->
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empcard_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empcard_cancel()"></button>
+
+    </div>
+    <!-- Form Emp Bank -->
+    <div class="formatt" *ngIf="edit_empbank==true || new_bank==true">
+        <label>ธนาคาร</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpbank.bank_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_code"> -->
+
+        <label>ชื่อบัญชี</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_bankname">
+
+        <label>เลขที่บัญชี</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_account">
+
+        <label>โอนธนาคาร(%)</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
+            [(ngModel)]="selectedEmpbank.bank_percent" suffix="%">
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_percent"> -->
+
+        <label>เงินสด(%)</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
+            [(ngModel)]="selectedEmpbank.bank_cashpercent" suffix="%">
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_cashpercent"> -->
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empbank_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empbank_cancel()"></button>
+
+    </div>
+    <!-- Form Emp Family -->
+    <div class="formatt" *ngIf="edit_empfamily==true || new_family==true">
+        <label>รหัสประจำตัว</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_code">
+
+        <label>ชื่อ(TH)</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_fname_th">
+
+        <label>นามสกุล(TH)</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_lname_th">
+
+        <label>ชื่อ(EN)</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_fname_en">
+
+        <label>นามสกุล(EN)</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_lname_en">
+
+        <label>วันเกิด</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpfamily.family_birthdate"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_birthdate"> -->
+
+        <label>ประเภท</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpfamily.family_type"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_type"> -->
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empfamily_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empfamily_cancel()"></button>
+
+    </div>
+
+    <!-- Form Emp Hospital -->
+    <div class="formatt" *ngIf="edit_emphospital==true || new_hospital==true">
+        <label>โรงพยาบาล</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmphospital.emphospital_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_code"> -->
+
+        <label>วันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmphospital.emphospital_date"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_date"> -->
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="emphospital_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="emphospital_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Dep -->
+    <div class="formatt" *ngIf="edit_empdep==true || new_dep==true">
+        <label>วันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpdep.empdep_date"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_date"> -->
+
+        <label>ฝ่าย</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level01"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level01"> -->
+
+        <label>แผนก</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level02"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level02"> -->
+
+        <label>สังกัด</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level03"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level03"> -->
+
+        <label>เหตุผล</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_reason"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_reason"> -->
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empdep_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empdep_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Position -->
+    <div class="formatt" *ngIf="edit_empposition==true || new_position==true">
+        <label>วันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpPosition.empposition_date"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_date"> -->
+
+        <label>ตำแหน่ง</label>
+        <p-dropdown placeholder="--" [options]="positionList" optionValue="position_code" [showClear]="true"
+            [(ngModel)]="selectedEmpPosition.empposition_position" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+            </ng-template>
+        </p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_position"> -->
+
+        <label>เหตุผล</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_reason">
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="empposition_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empposition_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Education -->
+    <div class="formatt" *ngIf="edit_empeducation==true || new_education==true">
+        <label>สถานศึกษา</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpeducation.institute_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.institute_code"> -->
+
+        <label>คณะ</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpeducation.faculty_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.faculty_code"> -->
+
+        <label>วิชาเอก</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpeducation.major_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.major_code"> -->
+
+        <label>วุฒิการศึกษา</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpeducation.qualification_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.qualification_code"> -->
+
+        <label>วันที่เริ่ม</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpeducation.empeducation_start"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.empeducation_start"> -->
+
+        <label>วันที่จบ</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpeducation.empeducation_finish"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.empeducation_finish"> -->
+
+        <label>GPA</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="4"
+            [(ngModel)]="selectedEmpeducation.empeducation_gpa" [minFractionDigits]="2" [maxFractionDigits]="2" >
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.empeducation_gpa"> -->
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="empeducation_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empeducation_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Training -->
+    <div class="formatt" *ngIf="edit_emptraining==true || new_training==true">
+        <label>หลักสูตร</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmptraining.course_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.course_code"> -->
+
+        <label>สถานศึกษา</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmptraining.institute_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.institute_code"> -->
+
+        <label>วันที่เริ่ม</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmptraining.emptraining_start"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_start"> -->
+
+        <label>วันที่จบ</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmptraining.emptraining_finish"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_finish"> -->
+
+        <label>สถานะ</label>
+        <div class="radio">
+            <p-radioButton name="training_status" value="Y"
+                [(ngModel)]="selectedEmptraining.emptraining_status"></p-radioButton>&nbsp;
+            <label>Pass</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="training_status" value="N"
+                [(ngModel)]="selectedEmptraining.emptraining_status"></p-radioButton>&nbsp;
+            <label>Not Pass</label>
+        </div>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_status"> -->
+
+        <label>จำนวนชั่วโมง</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
+            [(ngModel)]="selectedEmptraining.emptraining_hours"  >
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_hours"> -->
+
+        <label>ค่าใช้จ่าย</label>
+        <p-inputNumber mode="currency" [showButtons]="false" inputId="currency" currency="THB"
+            [(ngModel)]="selectedEmptraining.emptraining_cost"  >
+        </p-inputNumber>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_cost"> -->
+
+        <label>รายละเอียด</label>
+        <textarea [(ngModel)]="selectedEmptraining.emptraining_note" pInputTextarea [autoResize]="true"></textarea>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_note"> -->
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="emptraining_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="emptraining_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Assessment -->
+    <div class="formatt" *ngIf="edit_empassessment==true || new_assessment==true">
+        <label>สถานที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_location">
+
+        <label>หัวข้อ</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_topic">
+
+        <label>จากวันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpassessment.empassessment_fromdate"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_fromdate"> -->
+
+        <label>ถึงวันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpassessment.empassessment_todate"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_todate"> -->
+
+        <label>ครั้งที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_count">
+
+        <label>ผลการประเมิน</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_result">
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="empassessment_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empassessment_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Criminal -->
+    <div class="formatt" *ngIf="edit_empcriminal==true || new_criminal==true">
+        <label>สถานที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_location">
+
+        <label>จากวันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpcriminal.empcriminal_fromdate"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_fromdate"> -->
+
+        <label>ถึงวันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpcriminal.empcriminal_todate"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_todate"> -->
+
+        <label>ครั้งที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_count">
+
+        <label>ผลการตรวจสอบ</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_result">
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="empcriminal_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empcriminal_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Salary -->
+    <div class="formatt" *ngIf="edit_empsalary==true || new_salary==true">
+        <label>อัตราปรับ(บาท)</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_incamount">
+
+        <label>อัตราปรับ(%)</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_incpercent">
+
+        <label>จำนวน</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_amount">
+
+        <label>วันที่มีผล</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpsalary.empsalary_date"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_date"> -->
+
+        <label>เหตุผล</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_reason">
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empsalary_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empsalary_cancel()"></button>
+    </div>
+
+    <!-- Form Emp provident -->
+    <div class="formatt" *ngIf="edit_empprovident==true || new_provident==true">
+        <label>นโยบาย</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.provident_code">
+
+        <label>รหัสกองทุนฯ</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_card">
+
+        <label>วันที่เข้า</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpprovident.empprovident_entry"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_entry"> -->
+
+        <label>วันที่เริ่ม</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpprovident.empprovident_start"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_start"> -->
+
+        <label>วันที่ออก</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpprovident.empprovident_end"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_end"> -->
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="empprovident_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empprovident_cancel()"></button>
+    </div>
+
+    <!-- Form Emp benefit -->
+    <div class="formatt" *ngIf="edit_empbenefit==true || new_benefit==true">
+        <label>เงินได้สวัสดิการ</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.item_code">
+
+        <label>จำนวน</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_amount">
+
+        <label>วันที่เริ่ม</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpbenefit.empbenefit_startdate"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_startdate"> -->
+
+        <label>วันที่สิ้นสุด</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpbenefit.empbenefit_enddate"><input type="text"></p-calendar>
+        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_enddate"> -->
+
+        <label>ประเภท</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_paytype">
+
+        <label>เงื่อนไขการจ่าย</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_conditionpay">
+
+        <label>งวด</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_payfirst">
+
+        <label>เหตุผล</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_reason">
+
+        <label>เพิ่มเติม</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_note">
+
+        <label>พักการจ่าย</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_break">
+
+        <label>เหตุผล(พักการจ่าย)</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_breakreason">
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="empbenefit_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-trash" class="p-button-danger"
+            (click)="empbenefit_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Reduce -->
+    <div class="formatt" *ngIf="edit_empreduce==true || new_reduce==true">
+        <label>ลดหย่อน</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpreduce.reduce_type">
+
+        <label>จำนวน</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpreduce.empreduce_amount">
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empreduce_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-trash" class="p-button-danger"
+            (click)="empreduce_cancel()"></button>
+    </div>
+
+    <!-- FORM Emp Accumalate -->
+    <div class="formatt" *ngIf="edit_empaccumalate==true || new_accumalate==true">
+
+
+        <label>วันที่จ่าย</label>
+        <input pInputText type="text" id="payacc" [disabled]="true" [(ngModel)]="selectedEmpaccumalate.paydate">
+
+        <label for="ppos_name_th">เงินได้คำนวณภาษี</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true" [(ngModel)]="selectedEmpaccumalate.incomefix">
+
+        <label for="ppos_name_en">เงินได้ไม่คำนวณภาษี</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true" [(ngModel)]="selectedEmpaccumalate.incomevar">
+
+        <label for="lastname2">เงินหักคำนวณภาษี :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true" [(ngModel)]="selectedEmpaccumalate.taxfix">
+
+        <label for="lastname2">เงินหักไม่คำนวณภาษี :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true" [(ngModel)]="selectedEmpaccumalate.taxvar">
+
+        <label for="lastname2">40(1) :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.incomefortyone">
+
+        <label for="lastname2">40(1) ร้อยละ 3 :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.incomefortyoneperthree">
+
+        <label for="lastname2">40(1)(2) :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.incomefortyonetwo">
+
+        <label for="lastname2">40(2) :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.incomefortytwoin">
+
+        <label for="lastname2">ภาษี 40(1) :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true" [(ngModel)]="selectedEmpaccumalate.taxfortyone">
+
+        <label for="lastname2">ภาษี 40(1) ร้อยละ 3 :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.taxfortyoneperthree">
+
+        <label for="lastname2">ภาษี 40(1)(2) :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.taxfortyonetwo">
+
+        <label for="lastname2">ภาษี 40(2) :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.taxfortytwoin">
+
+        <label for="lastname2">ประกันสังคมสะสม :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.ssoacc_worker">
+
+        <label for="lastname2">ประกันสังคมสมทบ :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.ssoacc_company">
+
+        <label for="lastname2">กองทุนฯสะสม :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true" [(ngModel)]="selectedEmpaccumalate.pfacc_worker">
+
+        <label for="lastname2">กองทุนฯสมทบ :</label>
+        <input pInputText type="text" id="ppos_code" [disabled]="true"
+            [(ngModel)]="selectedEmpaccumalate.pfacc_company">
+    </div>
+    <!-- END FORM Accumalate-->
+</p-dialog>
+<!-- END FORM DIALOG-->
+
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

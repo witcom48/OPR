@@ -5,8 +5,8 @@ export class EmpHospitalModel {
     worker_code: string= "";
     emphospital_id: string= "1";
     emphospital_code: string= "";
-    emphospital_date: string= "";
-    
+    emphospital_date!: Date;
+
     modified_by: string= "";
     modified_date: string= "";
 

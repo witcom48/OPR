@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../models/project/project';
+import { ProjectModel } from '../../models/project/project';
 import { AppConfig } from '../../config/config';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
@@ -12,27 +12,27 @@ import { EmployeeModel } from 'src/app/models/employee/employee';
 })
 export class EmployeeService {
 
-  public config:AppConfig = new AppConfig();
-  
-  private model:PrjectModel = new PrjectModel();
-  public initial_current:InitialCurrent = new InitialCurrent();
+  public config: AppConfig = new AppConfig();
+
+  private model: ProjectModel = new ProjectModel();
+  public initial_current: InitialCurrent = new InitialCurrent();
 
   httpHeaders = new HttpHeaders({});
   options = {
     headers: this.httpHeaders
   };
 
-  basicRequest = { 
-    device_name:'',
-    ip:'',
-    username:''
+  basicRequest = {
+    device_name: '',
+    ip: '',
+    username: ''
   };
 
-  constructor(private http:HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
     this.doGetInitialCurrent();
-   }
+  }
 
-   doGetInitialCurrent(){    
+  doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (this.initial_current) {
       this.httpHeaders = new HttpHeaders({
@@ -46,39 +46,39 @@ export class EmployeeService {
         headers: this.httpHeaders
       };
 
-      this.basicRequest = { 
-        device_name:'',
-        ip:"localhost",
-        username:this.initial_current.Username
+      this.basicRequest = {
+        device_name: '',
+        ip: "localhost",
+        username: this.initial_current.Username
       };
 
-    }   
-    else{
+    }
+    else {
       this.router.navigateByUrl('login');
-    } 
+    }
   }
 
-  public worker_get(company:string, code:string){      
+  public worker_get(company: string, code: string) {
     console.log('WKR001..');
-           
-    var filter = { 
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company_code:company,
-      language:"",
-      worker_code:code
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: company,
+      language: "",
+      worker_code: code
     };
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_list', filter, this.options).toPromise()   
-    .then((res) => {
-      let message = JSON.parse(res);
-      console.log(res)
-      return message.data;
-    });
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_list', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        console.log(res)
+        return message.data;
+      });
   }
 
-  public worker_recordall(model:EmployeeModel) {
+  public worker_recordall(model: EmployeeModel) {
     console.log('WKR002..');
     const data = {
       company_code: this.initial_current.CompCode,
@@ -108,42 +108,40 @@ export class EmployeeService {
       hrs_perday: model.hrs_perday,
       worker_taxmethod: model.worker_taxmethod,
       modified_by: this.initial_current.Username
-    };    
+    };
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker', data, this.options).toPromise()   
-    .then((res) => {
-      return res;
-    });
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
   }
 
-  public worker_delete(model:EmployeeModel) {
+  public worker_delete(model: EmployeeModel) {
     console.log('WKR003..');
     const data = {
       worker_id: model.worker_id,
-      worker_code: model.worker_code,       
+      worker_code: model.worker_code,
       modified_by: this.initial_current.Username
-    };    
+    };
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_del', data, this.options).toPromise()   
-    .then((res) => {      
-      return res;
-    });
-  } 
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
 
-  public worker_import(file: File, file_name:string, file_type:string){
+  public worker_import(file: File, file_name: string, file_type: string) {
 
     const formData = new FormData();
     formData.append('file', file);
-    
-      var para = "fileName=" + file_name + "." + file_type;
-      para += "&token=" + this.initial_current.Token;
-      para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadWorker?' + para, formData).toPromise()   
-    .then((res) => {      
-      return res;
-    });
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadWorker?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
   }
-
-  
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../../models/project/project';
+import { ProjectModel } from '../../../models/project/project';
 import { AppConfig } from '../../../config/config';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -62,7 +62,7 @@ export class YearService {
             fag: false
 
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/year_list', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSystemModule + '/year_list', data, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;
@@ -87,7 +87,7 @@ export class YearService {
             fag: false
 
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/year', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSystemModule + '/year', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);
@@ -112,7 +112,7 @@ export class YearService {
             fag: false
 
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/year_del', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSystemModule + '/year_del', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);
@@ -130,7 +130,7 @@ export class YearService {
         para += "&token=" + this.initial_current.Token;
         para += "&by=" + this.initial_current.Username;
 
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/doUploadYear?' + para, formData).toPromise()
+        return this.http.post<any>(this.config.ApiSystemModule + '/doUploadYear?' + para, formData).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message;

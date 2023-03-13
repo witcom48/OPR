@@ -19,7 +19,7 @@ export class InitialCurrent {
     PR_FromDate: Date = new Date();
     PR_ToDate: Date = new Date();   
     PR_PayDate: Date = new Date();    
-    PR_Year: string = "1999";    
+    PR_Year: string = "2023";    
     PR_Period: string = "01";    
     PR_Enable: boolean = true;    
 

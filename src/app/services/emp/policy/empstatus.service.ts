@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PrjectModel } from '../../../models/project/project';
+import { ProjectModel } from '../../../models/project/project';
+
 import { AppConfig } from '../../../config/config';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -14,8 +15,9 @@ import { EmpstatusModel } from 'src/app/models/employee/policy/empstatus';
 export class EmpstatusService {
 
   public config:AppConfig = new AppConfig();
-  
-  private model:PrjectModel = new PrjectModel();
+
+  private model:ProjectModel = new ProjectModel();
+
   public initial_current:InitialCurrent = new InitialCurrent();
 
   httpHeaders = new HttpHeaders({});
@@ -23,7 +25,7 @@ export class EmpstatusService {
     headers: this.httpHeaders
   };
 
-  basicRequest = { 
+  basicRequest = {
     device_name:'',
     ip:'',
     username:''
@@ -33,7 +35,7 @@ export class EmpstatusService {
     this.doGetInitialCurrent();
    }
 
-   doGetInitialCurrent(){    
+   doGetInitialCurrent(){
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (this.initial_current) {
       this.httpHeaders = new HttpHeaders({
@@ -47,22 +49,22 @@ export class EmpstatusService {
         headers: this.httpHeaders
       };
 
-      this.basicRequest = { 
+      this.basicRequest = {
         device_name:'',
         ip:"localhost",
         username:this.initial_current.Username
       };
 
-    }   
+    }
     else{
       this.router.navigateByUrl('login');
-    } 
+    }
   }
 
-  public status_get(){      
+  public status_get(){
     console.log('STT001..');
-           
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/status_list', this.basicRequest, this.options).toPromise()   
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/status_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
@@ -76,11 +78,11 @@ export class EmpstatusService {
         status_id: model.status_id,
         status_code: model.status_code,
         status_name_th: model.status_name_th,
-        status_name_en: model.status_name_en,     
+        status_name_en: model.status_name_en,
         modified_by: this.initial_current.Username
-    };    
+    };
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/status', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/status', data, this.options).toPromise()
     .then((res) => {
       return res;
     });
@@ -90,31 +92,31 @@ export class EmpstatusService {
     console.log('STT003..');
     const data = {
         status_id: model.status_id,
-        status_code: model.status_code,       
+        status_code: model.status_code,
         modified_by: this.initial_current.Username
-    };    
+    };
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/status_del', data, this.options).toPromise()   
-    .then((res) => {      
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/status_del', data, this.options).toPromise()
+    .then((res) => {
       return res;
     });
-  } 
+  }
 
   public status_import(file: File, file_name:string, file_type:string){
 
     const formData = new FormData();
     formData.append('file', file);
-    
+
       var para = "fileName=" + file_name + "." + file_type;
       para += "&token=" + this.initial_current.Token;
       para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadStatus?' + para, formData).toPromise()   
-    .then((res) => {      
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadStatus?' + para, formData).toPromise()
+    .then((res) => {
       return res;
     });
 
-    
+
   }
 
 }

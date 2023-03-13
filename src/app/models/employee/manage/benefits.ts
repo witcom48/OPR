@@ -5,8 +5,8 @@ export class EmpBenefitsModel {
     worker_code: string = "";
     empbenefit_id: string= "";
     empbenefit_amount: string= "";
-    empbenefit_startdate: string= "";
-    empbenefit_enddate: string= "";
+    empbenefit_startdate!: Date;
+    empbenefit_enddate!: Date;
     empbenefit_reason: string= "";
     empbenefit_note: string= "";
 
@@ -18,10 +18,10 @@ export class EmpBenefitsModel {
     empbenefit_payfirst: string= "";
 
     item_code: string= "";
-  
+
     modified_by: string= "";
-    modified_date: string= ""; 
-  
+    modified_date: string= "";
+
     index: number = 0;
     select: boolean = false;
   }

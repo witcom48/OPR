@@ -4,7 +4,7 @@ export class EmpDepModel {
     company_code: string= "";
     worker_code: string= "";
     empdep_id: string= "1";
-    empdep_date: string ="";
+    empdep_date!: Date;
     empdep_level01: string ="";
     empdep_level02: string ="";
     empdep_level03: string ="";
