@@ -7,9 +7,9 @@ import * as XLSX from 'xlsx';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
 import { Router } from '@angular/router';
-import { YearServices } from 'src/app/services/attendance/year.service';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { DatePipe } from '@angular/common';
+import { YearService } from 'src/app/services/system/policy/year.service';
 declare var timeperiod: any;
 declare var langcalendarth: any;
 declare var langcalendaren: any;
@@ -28,7 +28,7 @@ export class TimeperiodComponent implements OnInit {
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private periodService: PeriodServices,
-    private yearServices: YearServices,
+    private yearServices: YearService,
     private config: PrimeNGConfig,
     private router: Router,
     private datePipe: DatePipe,) { }

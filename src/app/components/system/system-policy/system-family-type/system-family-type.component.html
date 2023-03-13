@@ -1,0 +1,197 @@
+<!-- Link Page -->
+ <div class="path">
+    <span>System</span>
+    <div>
+        <i></i>
+        <a routerLink="/system/genaral">Genaral</a>
+        <i></i>
+        <small>{{title_page}}</small>
+    </div>
+</div>
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+
+
+<div class="tabledata">
+    <!-- Table Show Data -->
+    <div #TABLE>
+        <p-table #dt2 [value]="family_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+        selectionMode="single" [(selection)]="selectedFamily" (onRowSelect)="onRowSelectFamily($event)" [rows]="12"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+        [globalFilterFields]="['family_code','family_name_th','family_name_en']">
+        <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{title_search}}" />
+                    </span>
+                </div>
+            </ng-template>
+        <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{title_code}}</th>
+                    <th>{{title_name_th}}</th>
+                    <th>{{title_name_en}}</th>
+                    <th>{{title_modified_by}}</th>
+                    <th>{{title_modified_date}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr [pSelectableRow]="data">
+                    <td>{{data.family_code}}</td>
+                        <td>{{data.family_name_th}}</td>
+                        <td>{{data.family_name_en}}</td>
+                        <td>{{data.modified_by}}</td>
+                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data -->
+    <div class="formatt" *ngIf="new_data===true">
+        <i (click)="close()"></i>
+
+        <label>{{title_code}}</label>
+        <input pInputText type="text" [(ngModel)]="selectedFamily.family_code" maxlength="5"  [readonly]="edit_data" />
+        <p>{{selectedFamily.family_code.length}}/5</p>
+
+        <label>{{title_name_th}}</label>
+        <textarea [(ngModel)]="selectedFamily.family_name_th" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>{{title_name_en}}</label>
+        <textarea [(ngModel)]="selectedFamily.family_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="confirmDelete()"></button>
+    </div>
+</div>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadFamily()" label="{{title_upload}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->
+
+
+
+<!-- <div class="path">
+    <span>System</span>
+    <div>
+        <i></i>
+        <a routerLink="/system/genaral">Genaral</a>
+        <i></i>
+        <small>{{title_page}}</small>
+    </div>
+</div>
+<hr>
+
+<p-toast position="top-right"></p-toast>
+
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+<p-dialog header="{{title_upload}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
+    <p class="custom-file-upload">
+        <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
+    </p>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadFamily()" label="{{title_upload}}" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-menubar [model]="items"></p-menubar >
+<div class="grid">
+    <div class="col-12 md:col-9" #TABLE>
+        <p-table #dt2  [value]="family_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedFamily" (onRowSelect)="onRowSelectFamily($event)" dataKey="family_code"
+
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+            [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+            [globalFilterFields]="['family_code','family_name_th','family_name_en']"
+            >
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search}}" />
+                    </span>
+                </div>
+            </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{title_code}}</th>
+                        <th>{{title_name_th}}</th>
+                        <th>{{title_name_en}}</th>
+                        <th>{{title_modified_by}}</th>
+                        <th>{{title_modified_date}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                    <tr [pSelectableRow]="data">
+                        <td>{{data.family_code}}</td>
+                        <td>{{data.family_name_th}}</td>
+                        <td>{{data.family_name_en}}</td>
+                        <td>{{data.modified_by}}</td>
+                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    </tr>
+                </ng-template>
+
+
+            </p-table>
+
+
+    </div>
+    <div class="col-12 md:col-3">
+        <div class="formgrid grid" *ngIf="edit_data===true || new_data===true">
+            <span class="spn_title_edit"></span>
+            <div class="field col-12 ">
+                <label for="ppos_code">{{title_code}}</label>
+                <input type="text" id="ppos_code" [(ngModel)]="selectedFamily.family_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [readonly]="edit_data">
+            </div>
+
+            <div class="field col-12 ">
+                <label for="ppos_name_th">{{title_name_th}}</label>
+                <br>
+                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedFamily.family_name_th"class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12 ">
+                <label for="ppos_name_en">{{title_name_en}}</label>
+                <br>
+                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedFamily.family_name_en"class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12">
+                <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="confirmDelete()"></button>
+            </div>
+
+
+        </div>
+
+    </div>
+</div> -->

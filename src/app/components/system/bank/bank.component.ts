@@ -10,8 +10,8 @@ import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
-import { BankModel } from '../../../models/system/bank';
-import { BankService } from '../../../services/system/bank.service';
+import { BankModel } from 'src/app/models/system/policy/bank';
+import { BankService } from 'src/app/services/system/policy/bank.service';
 
 @Component({
   selector: 'app-bank',

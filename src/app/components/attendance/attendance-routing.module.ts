@@ -9,8 +9,6 @@ import { AttendanceCalculateComponent } from './attendance-calculate/attendance-
 import { AttendanceViewComponent } from './attendance-view/attendance-view.component';
 import { YearperiodComponent } from './attendance-policy/yearperiod/yearperiod.component';
 import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
-import { ReasonComponent } from './attendance-policy/reason/reason.component';
-import { LocationComponent } from './attendance-policy/location/location.component';
 import { HolidayComponent } from './attendance-policy/holiday/holiday.component';
 import { ShiftComponent } from './attendance-policy/shift/shift.component';
 import { ShiftPlanComponent } from './attendance-policy/shift-plan/shift-plan.component';
@@ -27,6 +25,8 @@ import { SetLateComponent } from './attendance-policy/set-late/set-late.componen
 import { SetLeaveComponent } from './attendance-policy/set-leave/set-leave.component';
 import { AttendanceManageComponent } from './attendance-manage/attendance-manage.component';
 import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshift.component';
+import { AttendanceReasonComponent } from './attendance-policy/attendance-reason/attendance-reason.component';
+import { AttendanceLocationComponent } from './attendance-policy/attendance-location/attendance-location.component';
 
 
 
@@ -42,8 +42,8 @@ import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshif
         { path: 'view', component: AttendanceViewComponent },
         { path: 'policy/yearperiod', component: YearperiodComponent },
         { path: 'policy/timeperiod', component: TimeperiodComponent },
-        { path: 'policy/reason', component: ReasonComponent },
-        { path: 'policy/location', component: LocationComponent },
+        { path: 'policy/reason', component: AttendanceReasonComponent },
+        { path: 'policy/location', component: AttendanceLocationComponent },
         { path: 'policy/holiday', component: HolidayComponent },
         { path: 'policy/shift', component: ShiftComponent },
         { path: 'policy/shiftplan', component: ShiftPlanComponent },

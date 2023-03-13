@@ -32,10 +32,10 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
-import {ChartModule} from 'primeng/chart';
-import {ImageModule} from 'primeng/image';
-import {FileUploadModule} from 'primeng/fileupload';
-import {PickListModule} from 'primeng/picklist';
+import { ChartModule } from 'primeng/chart';
+import { ImageModule } from 'primeng/image';
+import { FileUploadModule } from 'primeng/fileupload';
+import { PickListModule } from 'primeng/picklist';
 import { CheckboxModule } from 'primeng/checkbox';
 
 import { AttendancePolicyComponent } from './attendance-policy/attendance-policy.component';
@@ -50,8 +50,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
-import { ReasonComponent } from './attendance-policy/reason/reason.component';
-import { LocationComponent } from './attendance-policy/location/location.component';
 import { HolidayComponent } from './attendance-policy/holiday/holiday.component';
 import { ShiftComponent } from './attendance-policy/shift/shift.component';
 import { DateMaskDirective } from './date-mask.directive';
@@ -72,6 +70,9 @@ import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshif
 import { ManageTableComponent } from './attendance-manage/manage-table/manage-table.component';
 
 import { UsercontrolModule } from '../usercontrol/usercontrol.module';
+import { SystemModule } from '../system/system.module';
+import { AttendanceReasonComponent } from './attendance-policy/attendance-reason/attendance-reason.component';
+import { AttendanceLocationComponent } from './attendance-policy/attendance-location/attendance-location.component';
 
 
 @NgModule({
@@ -115,15 +116,15 @@ import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 		ConfirmDialogModule,
 		DialogModule,
 		CheckboxModule,
-		UsercontrolModule
+		UsercontrolModule,
+		SystemModule
 
 
-		
+
 	],
 	declarations: [
-   
-  
-    	AttendancePolicyComponent,
+
+		AttendancePolicyComponent,
 		AttendanceSelfComponent,
 		AttendanceImportComponent,
 		AttendanceProcessComponent,
@@ -132,8 +133,6 @@ import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 		AttendanceTimecardComponent,
 		YearperiodComponent,
 		TimeperiodComponent,
-		ReasonComponent,
-		LocationComponent,
 		HolidayComponent,
 		ShiftComponent,
 		DateMaskDirective,
@@ -152,12 +151,9 @@ import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 		AttendanceManageComponent,
 		ChangeshiftComponent,
 		ManageTableComponent,
-	 
-	 
-
-
-
-  ],
-  exports: [],
+		AttendanceReasonComponent,
+		AttendanceLocationComponent,
+	],
+	exports: [],
 })
 export class AttendanceModule { }

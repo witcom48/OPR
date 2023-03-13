@@ -8,7 +8,7 @@ import { HolidayModels } from 'src/app/models/attendance/holiday';
 import { Holiday_listModels } from 'src/app/models/attendance/holiday_list';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { PlanholidayServices } from 'src/app/services/attendance/planholiday.service';
-import { YearServices } from 'src/app/services/attendance/year.service';
+import { YearService } from 'src/app/services/system/policy/year.service';
 import * as XLSX from 'xlsx';
 interface Year {
   name: string,
@@ -26,7 +26,7 @@ export class HolidayComponent implements OnInit {
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private planholidayService: PlanholidayServices,
-    private yearServices: YearServices,
+    private yearServices: YearService,
     private datePipe: DatePipe,
     private router: Router,
   ) { }
