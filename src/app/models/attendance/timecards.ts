@@ -37,6 +37,7 @@ export class TimecardsModel {
     timecard_late_min_app: number =0;
 
     timecard_lock: boolean = false;
+    timecard_deduct: boolean = false;
 
     modified_by: string = "";
     modified_date: string = "";

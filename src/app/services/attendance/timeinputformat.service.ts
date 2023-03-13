@@ -69,7 +69,7 @@ export class TimeinputformatService {
     };
     
 
-    return this.http.post<any>(this.config.ApiProjectModule + '/timeformat_list', filter, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiAttendanceModule + '/timeformat_list', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
@@ -104,7 +104,7 @@ export class TimeinputformatService {
       modified_by:this.initial_current.Username
     };
 
-    return this.http.post<any>(this.config.ApiProjectModule + '/timeformat', data, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiAttendanceModule + '/timeformat', data, this.options).toPromise()   
     .then((res) => {      
       return res;
     });
@@ -119,7 +119,7 @@ export class TimeinputformatService {
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTimeInput?' + para, formData).toPromise()   
+    return this.http.post<any>(this.config.ApiAttendanceModule + '/doUploadTimeInput?' + para, formData).toPromise()   
     .then((res) => {      
       return res;
     });
@@ -135,7 +135,7 @@ export class TimeinputformatService {
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiProjectModule + '/doReadSimpleTimeInput?' + para, formData).toPromise()   
+    return this.http.post<any>(this.config.ApiAttendanceModule + '/doReadSimpleTimeInput?' + para, formData).toPromise()   
     .then((res) => {      
       return res;
     });

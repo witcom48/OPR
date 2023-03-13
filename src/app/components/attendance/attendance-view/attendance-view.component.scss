@@ -36,7 +36,15 @@ table td{
 }
 
 
-:host .time_real{
+
+.time_real{
     background-color: black;
     color: #FFFFFF;
+    width: 80px;
 }
+
+:host .input-mask{
+    width:100px;
+    text-align:center;
+    }
+    
