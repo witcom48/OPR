@@ -44,7 +44,7 @@ import { SystemSecurityComponent } from './system-security/system-security.compo
 import { SystemNotificationComponent } from './system-notification/system-notification.component';
 import { BankComponent } from './bank/bank.component';
 import { ReasonComponent } from './system-policy/reason/reason.component';
-import { EmpIDComponent } from './system-policy/emp-id/emp-id.component';
+// import { EmpIDComponent } from './system-policy/emp-id/emp-id.component';
 import { SystemOrganizationLevelComponent } from './system-policy/system-organization-level/system-organization-level.component';
 import { SystemCardTypeComponent } from './system-policy/system-card-type/system-card-type.component';
 import { SystemFamilyTypeComponent } from './system-policy/system-family-type/system-family-type.component';
@@ -61,7 +61,7 @@ import { SystemComaddressComponent } from './system-company/system-comaddress/co
 import { CompanysComponent } from './system-company/companys/companys.component';
 import { SystemComcardComponent } from './system-company/system-comcard/system-comcard.component';
 import { SystemYearperiodComponent } from './system-policy/system-yearperiod/system-yearperiod.component';
-import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
+// import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
 import { BranchComponent } from './branch/branch.component';
 import { SystemBankaccountComponent } from './system-company/system-bankaccount/system-bankaccount.component';
 import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
@@ -120,7 +120,7 @@ import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.co
            SystemNotificationComponent,
            BankComponent,
            ReasonComponent,
-           EmpIDComponent,
+        //    EmpIDComponent,
            SystemOrganizationLevelComponent,
            SystemCardTypeComponent,
            SystemFamilyTypeComponent,
@@ -138,7 +138,7 @@ import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.co
            CompanysComponent,
            SystemComcardComponent,
            SystemYearperiodComponent,
-           AddCodestructureComponent,
+        //    AddCodestructureComponent,
            BranchComponent,
            SysBranchComponent,
   ]
