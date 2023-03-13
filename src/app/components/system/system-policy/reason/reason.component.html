@@ -1,0 +1,98 @@
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Time Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="reason_list"
+            selectionMode="single" [(selection)]="reasons" (onRowSelect)="onRowSelect($event)" [rows]="12"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['reason_code','reason_name_en','reason_name_th','period_payment','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div class="reasontype">
+                        <!-- Dropdown Select Type -->
+                        <p-dropdown class="selecttype" [options]="TypeList" [(ngModel)]="selectedType"
+                            (onChange)="selectType()" optionLabel="name"></p-dropdown>
+                        <!-- ------------------END Dropdown Select Type------------------------- -->
+                    </div>
+
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header"  let-columns>
+                <tr>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('code')[selectlang]}}</th>
+                    <th>{{langs.get('description')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex"  let-columns="columns">
+                <tr [pSelectableRow]="data">
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('code')[selectlang]}}</span>{{data.reason_code}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang==="EN"?data.reason_name_en:data.reason_name_th}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data Year Period -->
+    <div class="formatt" *ngIf="new_data===true">
+        <i (click)="close()"></i>
+
+        <label>{{langs.get('code')[selectlang]}}</label>
+        <input pInputText type="text" [(ngModel)]="reasons.reason_code" maxlength="5" disabled="{{edit_data}}" />
+        <p>{{reasons.reason_code.length}}/5</p>
+
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
+        <textarea [(ngModel)]="reasons.reason_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
+        <textarea [(ngModel)]="reasons.reason_name_th" pInputTextarea [autoResize]="true"></textarea>
+
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"(click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
+        icon="pi pi-trash" class="p-button-danger"></button>
+    </div>
+    <!-- --------------End form Input Data ------------------ -->
+</div>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

@@ -12,6 +12,9 @@ import { ProjectApproveComponent } from './project-approve/project-approve.compo
 
 import { ProjectPackageComponent } from './project-package/project-package.component';
 import { CostSetupComponent } from './policy/cost-setup/cost-setup.component';
+import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component';
+
+import { PfManageComponent } from './pf-manage/pf-manage.component';
 
 
 @NgModule({
@@ -25,6 +28,11 @@ import { CostSetupComponent } from './policy/cost-setup/cost-setup.component';
         { path: 'approve', component: ProjectApproveComponent },
         { path: 'package', component: ProjectPackageComponent },
         { path: 'setup_cost', component: CostSetupComponent },
+
+        { path: 'pro_genaral', component: ProGenaralComponent },
+        { path: 'procost', component: ProGenaralComponent },
+
+        { path: 'pf', component: PfManageComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

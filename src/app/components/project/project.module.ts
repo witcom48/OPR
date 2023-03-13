@@ -32,6 +32,10 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 
@@ -44,7 +48,8 @@ import { ProjectTimesheetComponent } from './project-timesheet/project-timesheet
 import { ProjectApproveComponent } from './project-approve/project-approve.component';
 import { ProjectPackageComponent } from './project-package/project-package.component';
 import { CostSetupComponent } from './policy/cost-setup/cost-setup.component';
-
+import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component';
+import { PfManageComponent } from './pf-manage/pf-manage.component';
 
 
 @NgModule({
@@ -79,11 +84,17 @@ import { CostSetupComponent } from './policy/cost-setup/cost-setup.component';
 		TabMenuModule,
 		SelectButtonModule,
 		ScrollPanelModule,
-		ChipModule
+		ChipModule,
+		ToastModule,
+		ConfirmDialogModule,
+		DialogModule,
+		CheckboxModule
+
+
 
 
 		
 	],
-	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent]
+	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent, PfManageComponent]
 })
 export class ProjectModule { }

@@ -1,3 +1,9 @@
+<p-toast position="top-right"></p-toast> 
+
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+
 <span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Import</small>
 <hr>
 
@@ -11,24 +17,24 @@
                     <span>Import</span>
                 </ng-template>
 
-                <p-fileUpload name="myfile[]" ></p-fileUpload>
 
-                <p-table #dt3  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
-                >
-                    <ng-template pTemplate="header">
-                        <tr>                                                  
-                            <th>รหัสบัตร</th>
-                            <th>วันที่</th>
-                            <th>เวลา</th>
-                            <th>ฟังก์ชั่น</th>   
-                            <th>รหัสเครื่อง</th>                                                                                          
-                        </tr>	
-                        
-                    </ng-template>
-                </p-table>
+                <div class="formgrid grid align-items-end">
+                    <div class="field col-12 md:col-9">
+                        <label for="file">{{labChooseFile}}</label>
+                        &nbsp;
+                        <input type="file"
+                                id="file_import" name="file_import" #importFile
+                                (change)="handleFileImport($any($event).target.files)">    
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <p-button label="Import" icon="pi pi-save" (click)="import()"></p-button>  
+                    </div>
+                    <div class="field col-12">
+                        <app-task></app-task>
+                    </div>
+                </div>
 
+                
             </p-tabPanel>
             <p-tabPanel >
                 <ng-template pTemplate = "header">
@@ -36,7 +42,20 @@
                     <span>Setting</span>
                 </ng-template>
                 <div class="formgrid grid">
-                    <div class="field col-12 md:col-6">
+
+                    <div class="field col-12 md:col-12">
+                        <label for="file">{{labChooseFile}}</label>
+                        &nbsp;
+                        <input type="file"
+                                id="file"
+                                (change)="handleFileInput($any($event).target.files)">               
+                    </div>   
+
+                    <div class="field col-12 md:col-12">
+                        {{examInput}}
+                    </div>
+
+                    <div class="field col-12 md:col-3">
                         <label for="lastname2">รูปแบบวันที่ :</label><br>
                         <p-dropdown placeholder="dd/MM/yyyy" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                     </div>
@@ -45,86 +64,108 @@
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">[รหัสบัตร] จาก</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.card_start" (onInput)="onChangeFormatCard($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">ถึง</label>
+                        <label for="lastname2">ความยาว</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.card_lenght" (onInput)="onChangeFormatCard($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">ตัวอย่าง</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                            <input id="lastname2" type="text" [(ngModel)]="examCard" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">[วันที่] จาก</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.date_start" (onInput)="onChangeFormatDate($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">ถึง</label>
+                        <label for="lastname2">ความยาว</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.date_lenght" (onInput)="onChangeFormatDate($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">ตัวอย่าง</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                            <input id="lastname2" type="text" [(ngModel)]="examDate" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
                     </div>
 
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">[เวลา] จาก</label>
+                        <label for="lastname2">[ชั่วโมง] จาก</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.hours_start" (onInput)="onChangeFormatHours($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">ถึง</label>
+                        <label for="lastname2">ความยาว</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.hours_lenght" (onInput)="onChangeFormatHours($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">ตัวอย่าง</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                            <input id="lastname2" type="text" [(ngModel)]="examHours" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">[นาที] จาก</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.minute_start" (onInput)="onChangeFormatMinute($event.value)">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ความยาว</label>
+                        <br>
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.minute_lenght" (onInput)="onChangeFormatMinute($event.value)">
+                        </p-inputNumber>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="lastname2">ตัวอย่าง</label>
+                            <input id="lastname2" type="text" [(ngModel)]="examMinute" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">[ฟังก์ชั่น] จาก</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.function_start" (onInput)="onChangeFormatFunction($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">ถึง</label>
+                        <label for="lastname2">ความยาว</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.function_lenght" (onInput)="onChangeFormatFunction($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">ตัวอย่าง</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                            <input id="lastname2" type="text" [(ngModel)]="examFunction"  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">[รหัสเครื่อง] จาก</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.machine_start" (onInput)="onChangeFormatMachine($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">ถึง</label>
+                        <label for="lastname2">ความยาว</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50">
+                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.machine_lenght" (onInput)="onChangeFormatMachine($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">ตัวอย่าง</label>
-                            <input id="lastname2" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                            <input id="lastname2" type="text" [(ngModel)]="examMachine" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                    </div>
+
+                    <div class="field col-12">
+                        <p-button label="บันทึก" icon="pi pi-save" (click)="summit()"></p-button>  
+                       
                     </div>
 
                 </div>
@@ -132,12 +173,12 @@
                 
             </p-tabPanel>
 
-            <p-tabPanel >
+            <!-- <p-tabPanel >
                 <ng-template pTemplate = "header">
                     <i class="pi pi-history"></i>&nbsp;&nbsp;
                     <span>History</span>
                 </ng-template>
-            </p-tabPanel>
+            </p-tabPanel> -->
 
         </p-tabView>
 

@@ -1,7 +1,8 @@
 <span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Calculate Time Cost</small>
 <hr>
 
-
+<p-toast position="top-right"></p-toast> 
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <p-tabView >
     <p-tabPanel  [selected]="true">
         <ng-template pTemplate = "header">
@@ -11,47 +12,24 @@
         
         <div class="formgrid grid align-items-end">
 
-            <div class="field col-12 md:col-6">
-                <label for="lastname2">หน่วยงาน :</label><br>
-                <p-dropdown placeholder="ทั้งหมด" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="lastname2">ตำแหน่งงาน :</label><br>
-                <p-dropdown placeholder="ทั้งหมด" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="lastname2">ประเภทพนักงาน :</label><br>
-                <p-dropdown placeholder="ทั้งหมด" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="lastname2">สถานะพนักงาน :</label><br>
-                <p-dropdown placeholder="ทั้งหมด" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
-
             <div class="field col-12">
-                <p-pickList [source]="timesheet_list" [target]="timesheet_dest" sourceHeader="Source List" targetHeader="Target List">
-                    <ng-template let-emp pTemplate="item">
-                        <div>            
-                            <div style="font-size:14px;float:left;">{{emp.emp_code}} - {{emp.emp_name}}</div>
-                        </div>
-                    </ng-template>
-                </p-pickList>      
-            </div>
-            <div class="field col-12 md:col-6">
+                <app-select-emp></app-select-emp>
+            </div>            
+            <div class="field col-12 md:col-7">
                 <div style="display: inline" >
                     
-                    <input type="checkbox" checked  /> ค่าจ้าง
-                    <input type="checkbox" checked  /> ล่วงเวลา
-                    <input type="checkbox" checked  /> เบี้ยขยัน
-                    <input type="checkbox" checked  /> เงินค่าเวลา
-                    <input type="checkbox"   /> ลางาน
-                    <input type="checkbox"   /> ขาดงาน
-                    <input type="checkbox"   /> สาย                    
+                    <input type="checkbox"  [(ngModel)]="selectedSalary" name="selectedSalary"/> {{labSalary}}
+                    <input type="checkbox"  [(ngModel)]="selectedOvertime" name="selectedOvertime"/> {{labOvertime}}
+                    <input type="checkbox"  [(ngModel)]="selectedDiligence" name="selectedDiligence"/> {{labDiligence}}
+                    <input type="checkbox"  [(ngModel)]="selectedAllowance" name="selectedAllowance"/> {{labAllowance}}
+                    <input type="checkbox"  [(ngModel)]="selectedLeave" name="selectedLeave" /> {{labLeave}}
+                    <input type="checkbox"  [(ngModel)]="selectedAbsent" name="selectedAbsent" /> {{labAbsent}}
+                    <input type="checkbox"  [(ngModel)]="selectedLate" name="selectedLate" /> {{labLate}}                    
                 </div>
             </div>
             
-            <div class="field col-12 md:col-6">
-                <p-button label="Process"></p-button>
+            <div class="field col-12 md:col-3">
+                <p-button label="Process" (click)="process()"></p-button>
             </div>
         </div>
     </p-tabPanel>
@@ -59,35 +37,18 @@
     <p-tabPanel >
         <ng-template pTemplate = "header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
-            <span>Result</span>
+            <span>Logs</span>
         </ng-template>
-        <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
-        >
-            <ng-template pTemplate="caption">
-                <div class="flex">
-                    <span class="p-input-icon-left ml-auto">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                    </span>
-                </div>
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>                    
-                    <th>รหัสพนักงาน</th>   
-                    <th>ชื่อ-นามสกุล</th>
-                    <th>ค่าจ้าง</th>   
-                    <th>ล่วงเวลา</th>
-                    <th>เบี้ยขยัน</th>
-                    <th>เงินค่าเวลา</th>     
-                    <th>ลางาน</th>   
-                    <th>ขาดงาน</th>
-                    <th>สาย</th>                                                                   
-                </tr>	
-                
-            </ng-template>
-        </p-table>
+        
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-task></app-task>
+            </div>
+                       
+        </div>
+
+
     </p-tabPanel>
 
 </p-tabView>

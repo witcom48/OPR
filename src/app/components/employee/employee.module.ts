@@ -44,7 +44,6 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeManageComponent } from './employee-manage/employee-manage.component';
 import { EmployeePolicyComponent } from './employee-policy/employee-policy.component';
 import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.component';
-import { LocationComponent } from './employee-policy/genaral/location/location.component';
 import { PartComponent } from './employee-policy/genaral/part/part.component';
 import { PositionComponent } from './employee-policy/genaral/position/position.component';
 import { GroupComponent } from './employee-policy/genaral/group/group.component';
@@ -53,6 +52,8 @@ import { EmptypeComponent } from './employee-policy/genaral/emptype/emptype.comp
 import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatus.component';
 import { EmpsetpositionComponent } from './employee-policy/setup-batch/empsetposition/empsetposition.component';
 import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/empsetdep.component';
+import { SystemModule } from '../system/system.module';
+import { EmployeeLocationComponent } from './employee-policy/genaral/employee-location/employee-location.component';
 
 
 @NgModule({
@@ -94,7 +95,8 @@ import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/emps
 		ConfirmDialogModule,
 		DialogModule,
 		RadioButtonModule,
-		CheckboxModule
+		CheckboxModule,
+		SystemModule
 
 
 		
@@ -104,7 +106,6 @@ import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/emps
     EmployeeManageComponent,
     EmployeePolicyComponent,
     EmployeeMonitorComponent,
-    LocationComponent,
     PartComponent,
     PositionComponent,
     GroupComponent,
@@ -113,6 +114,7 @@ import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/emps
     EmpstatusComponent,
     EmpsetpositionComponent,
     EmpsetdepComponent,
+    EmployeeLocationComponent
   ]
 })
 export class EmployeeModule { }

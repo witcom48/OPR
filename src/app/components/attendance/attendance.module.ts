@@ -32,10 +32,11 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
-import {ChartModule} from 'primeng/chart';
-import {ImageModule} from 'primeng/image';
-import {FileUploadModule} from 'primeng/fileupload';
-import {PickListModule} from 'primeng/picklist';
+import { ChartModule } from 'primeng/chart';
+import { ImageModule } from 'primeng/image';
+import { FileUploadModule } from 'primeng/fileupload';
+import { PickListModule } from 'primeng/picklist';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { AttendancePolicyComponent } from './attendance-policy/attendance-policy.component';
 import { AttendanceSelfComponent } from './attendance-self/attendance-self.component';
@@ -49,8 +50,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { TimeperiodComponent } from './attendance-policy/timeperiod/timeperiod.component';
-import { ReasonComponent } from './attendance-policy/reason/reason.component';
-import { LocationComponent } from './attendance-policy/location/location.component';
 import { HolidayComponent } from './attendance-policy/holiday/holiday.component';
 import { ShiftComponent } from './attendance-policy/shift/shift.component';
 import { DateMaskDirective } from './date-mask.directive';
@@ -69,6 +68,11 @@ import { SetLeaveComponent } from './attendance-policy/set-leave/set-leave.compo
 import { AttendanceManageComponent } from './attendance-manage/attendance-manage.component';
 import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshift.component';
 import { ManageTableComponent } from './attendance-manage/manage-table/manage-table.component';
+
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
+import { SystemModule } from '../system/system.module';
+import { AttendanceReasonComponent } from './attendance-policy/attendance-reason/attendance-reason.component';
+import { AttendanceLocationComponent } from './attendance-policy/attendance-location/attendance-location.component';
 
 
 @NgModule({
@@ -110,43 +114,46 @@ import { ManageTableComponent } from './attendance-manage/manage-table/manage-ta
 		PickListModule,
 		ToastModule,
 		ConfirmDialogModule,
-		DialogModule
+		DialogModule,
+		CheckboxModule,
+		UsercontrolModule,
+		SystemModule
 
 
-		
+
 	],
 	declarations: [
-   
-  
-    AttendancePolicyComponent,
-           AttendanceSelfComponent,
-           AttendanceImportComponent,
-           AttendanceProcessComponent,
-           AttendanceCalculateComponent,
-           AttendanceViewComponent,
-           AttendanceTimecardComponent,
-           YearperiodComponent,
-           TimeperiodComponent,
-           ReasonComponent,
-           LocationComponent,
-           HolidayComponent,
-           ShiftComponent,
-		   DateMaskDirective,
-     ShiftPlanComponent,
-     LeaveComponent,
-     LeavePlanComponent,
-     OvertimeComponent,
-     DiligenceComponent,
-     LateComponent,
-     SetHolidayComponent,
-     SetShiftComponent,
-     SetOvertimeComponent,
-     SetDiligenceComponent,
-     SetLateComponent,
-     SetLeaveComponent,
-     AttendanceManageComponent,
-     ChangeshiftComponent,
-     ManageTableComponent
-  ]
+
+		AttendancePolicyComponent,
+		AttendanceSelfComponent,
+		AttendanceImportComponent,
+		AttendanceProcessComponent,
+		AttendanceCalculateComponent,
+		AttendanceViewComponent,
+		AttendanceTimecardComponent,
+		YearperiodComponent,
+		TimeperiodComponent,
+		HolidayComponent,
+		ShiftComponent,
+		DateMaskDirective,
+		ShiftPlanComponent,
+		LeaveComponent,
+		LeavePlanComponent,
+		OvertimeComponent,
+		DiligenceComponent,
+		LateComponent,
+		SetHolidayComponent,
+		SetShiftComponent,
+		SetOvertimeComponent,
+		SetDiligenceComponent,
+		SetLateComponent,
+		SetLeaveComponent,
+		AttendanceManageComponent,
+		ChangeshiftComponent,
+		ManageTableComponent,
+		AttendanceReasonComponent,
+		AttendanceLocationComponent,
+	],
+	exports: [],
 })
 export class AttendanceModule { }

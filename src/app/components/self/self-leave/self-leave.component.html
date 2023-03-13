@@ -1,0 +1,129 @@
+<span style="font-size: 20px;">Self services</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Leave</small>
+<hr>
+
+
+<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [style]="{width: '50vw'}" [position]="position">
+    <div class="formgrid grid align-items-end">
+
+        <div class="field col-12">
+            <div class="formgroup-inline">
+                <div class="field-radiobutton">
+                    <p-radioButton name="leavetype" value="F" [(ngModel)]="leavetype" inputId="leavetype" onClick="onchangeType()"></p-radioButton>
+                    <label for="leavetype">เต็มวัน</label>
+                </div>
+                <div class="field-radiobutton">
+                    <p-radioButton name="leavetype" value="H" [(ngModel)]="leavetype" inputId="leavetype" onClick="onchangeType()"></p-radioButton>
+                    <label for="leavetype">ครึ่งวัน</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="field col-12">
+            <div *ngIf="leavetype=='F'">
+                <p-calendar [(ngModel)]="date_from" dateFormat="dd/mm/yy"   inputId="date_from" ></p-calendar>
+                -
+                <p-calendar [(ngModel)]="date_to" dateFormat="dd/mm/yy"  inputId="date_to"></p-calendar>
+                &nbsp;&nbsp;&nbsp;
+                <span style="color: green;">จำนวนวันลา 1 วัน</span>
+            </div>  
+            <div *ngIf="leavetype=='H'">
+                <p-calendar [(ngModel)]="date_half" dateFormat="dd/mm/yy"   inputId="date_from" ></p-calendar>
+                &nbsp;&nbsp;&nbsp;
+                <p-inputMask mask="99:99" [(ngModel)]="time_half" placeholder="HH:mm"></p-inputMask>
+            </div>   
+        </div>
+    
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">ประเภทการลา</label>
+            <p-dropdown placeholder="LS001 : ลาป่วย" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-6">
+            <span style="color: green;">คงเหลือ 10 วัน 4 ชม.</span>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">เหตุผลการลา</label>
+            <p-dropdown placeholder="REA001 : อื่นๆ" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+
+        <div class="field col-12">
+            <label for="project_name_th">เพิ่มเติม</label>
+            <input id="project_name_th" type="text"  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+
+        <div class="field col-12">
+            <p-menubar [model]="items_attfile"></p-menubar >
+                <p-table  [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="100px" [virtualScroll]="true" selectionMode="single" 
+                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+                    [paginator]="true"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>		
+                            <th>ชื่อไฟล์</th>	                            
+                            <th>ผู้ทำรายการ</th>
+                            <th>วันที่ทำรายการ</th>                                  
+                        </tr>	
+                    </ng-template>
+                </p-table>
+        </div>
+
+        <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" ></p-button>  
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary" (click)="closeManage()" ></button>            
+        </div>
+
+    </div>
+</p-dialog>
+
+
+<div class="grid">
+    
+    <div class="col-12">
+        <p-menubar [model]="items"></p-menubar >
+        <p-table  [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" 
+        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+            [paginator]="true"
+        >
+            <ng-template pTemplate="header">
+                <tr>		
+                    <th>รหัสเอกสาร</th>	
+                    <th>ประเภทการลา</th>
+                    <th>จากวันที่</th>
+                    <th>ถึงวันที่</th>
+                    <th>รูปแบบการลา</th>
+                    <th>สาเหตุการลา</th>
+                    <th>สถานะเอกสาร</th>
+                    <th>ผู้ทำรายการ</th>
+                    <th>วันที่ทำรายการ</th>                                  
+                </tr>	
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div class="col-12">
+        <span style="font-size: 20px;">วันลาสะสม</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>2023</small>
+    </div>
+    <div class="col-12">       
+        <p-table  [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single" 
+        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+            [paginator]="true"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>ประเภทการลา</th>
+                    <th>วันลายกมา</th>
+                    <th>วันลาต่อปี</th>
+                    <th>รวมวันลา</th>
+                    <th>วันลาใช้ไป</th>
+                    <th>วันลาคงเหลือ</th>
+                    <th>ปรับปรุงล่าสุด</th>                                  
+                </tr>	
+            </ng-template>
+        </p-table>
+    </div>
+    
+</div>
+
+
+

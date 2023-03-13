@@ -10,8 +10,8 @@ import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
-import { BankModel } from '../../../models/system/bank';
-import { BankService } from '../../../services/system/bank.service';
+import { BankModel } from 'src/app/models/system/policy/bank';
+import { BankService } from 'src/app/services/system/policy/bank.service';
 
 @Component({
   selector: 'app-bank',
@@ -173,7 +173,7 @@ export class BankComponent implements OnInit {
 
   doRecordBank(){
     this.bankService.bank_record(this.selectedBank).then((res) => {
-     console.log(res)
+     //console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -203,7 +203,7 @@ export class BankComponent implements OnInit {
 
   doDeleteBank(){
     this.bankService.bank_delete(this.selectedBank).then((res) => {
-     console.log(res)
+     //console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -240,7 +240,7 @@ export class BankComponent implements OnInit {
 
 
     this.bankService.bank_import(this.fileToUpload, filename, filetype).then((res) => {
-     console.log(res)
+     //console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){

@@ -5,7 +5,6 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeManageComponent } from './employee-manage/employee-manage.component';
 import { EmployeePolicyComponent } from './employee-policy/employee-policy.component';
 import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.component';
-import { LocationComponent } from './employee-policy/genaral/location/location.component';
 import { PartComponent } from './employee-policy/genaral/part/part.component';
 import { PositionComponent } from './employee-policy/genaral/position/position.component';
 import { GroupComponent } from './employee-policy/genaral/group/group.component';
@@ -14,6 +13,7 @@ import { EmptypeComponent } from './employee-policy/genaral/emptype/emptype.comp
 import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatus.component';
 import { EmpsetpositionComponent } from './employee-policy/setup-batch/empsetposition/empsetposition.component';
 import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/empsetdep.component';
+import { EmployeeLocationComponent } from './employee-policy/genaral/employee-location/employee-location.component';
 
 @NgModule({
     imports: [RouterModule.forChild([ 
@@ -23,7 +23,7 @@ import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/emps
         { path: 'monitor', component: EmployeeMonitorComponent },
 
         //policy/general
-        { path: 'policy/location', component: LocationComponent },
+        { path: 'policy/location', component: EmployeeLocationComponent },
         { path: 'policy/part', component: PartComponent },
         { path: 'policy/position', component: PositionComponent },
         { path: 'policy/group', component: GroupComponent },
