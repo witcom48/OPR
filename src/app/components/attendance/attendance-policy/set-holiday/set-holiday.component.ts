@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { HolidayModels } from 'src/app/models/attendance/holiday';
-import { Holiday_listModels } from 'src/app/models/attendance/holiday_list';
 import { PlanholidayServices } from 'src/app/services/attendance/planholiday.service';
 
 @Component({

@@ -61,9 +61,7 @@ export class SetuppolicyComponent implements OnInit {
   process() {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
-      if (this.pol_type == "HO") {
-        this.doRecordPlanholiday();
-      }
+      this.SetPolicyAtt();
       // this.confirmationService.confirm({
       //   message: "SetUpPolicyAttence",
       //   header: "SetUp",
@@ -77,7 +75,7 @@ export class SetuppolicyComponent implements OnInit {
     }
   }
 
-  async doRecordPlanholiday() {
+  async SetPolicyAtt() {
     var data = new SetPolicyAttModels();
     data.pol_code = this.policyselect.code
     data.pol_type = this.pol_type;
