@@ -73,6 +73,7 @@ import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 import { SystemModule } from '../system/system.module';
 import { AttendanceReasonComponent } from './attendance-policy/attendance-reason/attendance-reason.component';
 import { AttendanceLocationComponent } from './attendance-policy/attendance-location/attendance-location.component';
+import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolicy.component';
 
 
 @NgModule({
@@ -153,6 +154,7 @@ import { AttendanceLocationComponent } from './attendance-policy/attendance-loca
 		ManageTableComponent,
 		AttendanceReasonComponent,
 		AttendanceLocationComponent,
+		SetuppolicyComponent,
 	],
 	exports: [],
 })
