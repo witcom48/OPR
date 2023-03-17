@@ -74,6 +74,7 @@ import { SystemModule } from '../system/system.module';
 import { AttendanceReasonComponent } from './attendance-policy/attendance-reason/attendance-reason.component';
 import { AttendanceLocationComponent } from './attendance-policy/attendance-location/attendance-location.component';
 import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolicy.component';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 
 @NgModule({
@@ -118,7 +119,8 @@ import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolic
 		DialogModule,
 		CheckboxModule,
 		UsercontrolModule,
-		SystemModule
+		SystemModule,
+		ProgressBarModule
 
 
 
