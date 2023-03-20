@@ -1,1 +1,69 @@
-<p>empsetdep works!</p>
+<!-- <p>empsetdep works!</p> -->
+<!-- Link Page -->
+<div class="path">
+    <span>Employee</span>
+    <div>
+        <i></i>
+        <a routerLink="/employee/policy">Policy</a>
+        <i></i>
+        <small>Set Part</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+
+<p-tabView [(activeIndex)]="index" (onChange)="function($event)">
+    <p-tabPanel [selected]="true">
+        <ng-template pTemplate="header">
+            <i class="pi pi-cog"></i>&nbsp;&nbsp;
+            <span>Process</span>
+        </ng-template>
+
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-select-emp></app-select-emp>
+            </div>
+            <div class="field col-12 md:col-7">
+                <div style="display: inline">
+                    <div>Level 1</div>
+                    <p-dropdown placeholder="--" [options]="depList" optionValue="position_code" [showClear]="true"
+                        [(ngModel)]="selectedEmpDep.empdep_level01"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="field col-12 md:col-6">
+                <p-button label="Process" (click)="process()"></p-button>
+            </div>
+
+        </div>
+    </p-tabPanel>
+
+    <p-tabPanel>
+        <ng-template pTemplate="header">
+            <i class="pi pi-file-import"></i>&nbsp;&nbsp;
+            <span>Result</span>
+        </ng-template>
+
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-task></app-task>
+            </div>
+
+        </div>
+
+    </p-tabPanel>
+
+</p-tabView>

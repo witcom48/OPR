@@ -54,6 +54,7 @@ import { EmpsetpositionComponent } from './employee-policy/setup-batch/empsetpos
 import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/empsetdep.component';
 import { SystemModule } from '../system/system.module';
 import { EmployeeLocationComponent } from './employee-policy/genaral/employee-location/employee-location.component';
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { EmployeeLocationComponent } from './employee-policy/genaral/employee-lo
 		DialogModule,
 		RadioButtonModule,
 		CheckboxModule,
-		SystemModule
+		SystemModule,
+		UsercontrolModule
 
 
 
