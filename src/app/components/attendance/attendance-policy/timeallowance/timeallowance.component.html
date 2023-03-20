@@ -1,0 +1,217 @@
+<!-- Link Page -->
+<div class="path">
+    <span>{{langs.get('title')[selectlang]}}</span>
+    <div>
+        <i></i>
+        <a routerLink="/attendance/policy">{{langs.get('policy')[selectlang]}}</a>
+        <i></i>
+        <small>{{langs.get('timeallowance')[selectlang]}}</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="allowance_list" selectionMode="single" [(selection)]="allowance"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['plantimeallw_code','plantimeallw_name_th','plantimeallw_name_en','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('code')[selectlang]}}</th>
+                    <th>{{langs.get('description')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr [pSelectableRow]="data">
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('code')[selectlang]}}</span>{{data.plantimeallw_code}}</td>
+                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang=="EN"?data.plantimeallw_name_en:data.plantimeallw_name_th}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data Year Period -->
+    <div class="formatt" *ngIf="new_data==true">
+        <i (click)="close()"></i>
+
+        <label>{{langs.get('code')[selectlang]}}</label>
+        <input pInputText type="text" [(ngModel)]="allowance.plantimeallw_code" maxlength="10"
+            disabled="{{edit_data}}" />
+        <p>{{allowance.plantimeallw_code.length}}/10</p>
+
+        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
+        <textarea [(ngModel)]="allowance.plantimeallw_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
+        <textarea [(ngModel)]="allowance.plantimeallw_name_th" pInputTextarea [autoResize]="true"></textarea>
+        <div class="amount">
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="allowance.plantimeallw_passpro">
+                  <label>{{langs.get('probation')[selectlang]}}</label>
+            </div>
+
+            <div>
+                <input type="checkbox" value="N" [(ngModel)]="allowance.plantimeallw_lastperiod">
+                  <label>{{langs.get('nextperiod')[selectlang]}}</label>
+            </div>
+        </div>
+        <div #TABLELIST>
+            <p-accordion>
+                <p-accordionTab header="{{langs.get('list')[selectlang]}}">
+                    <p-menubar [model]="itemslate"></p-menubar>
+                    <p-table [value]="allowance.timeallw_data" styleClass="p-datatable-sm"
+                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                        [virtualScroll]="true" selectionMode="single" [(selection)]="tr_timeallw">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{langs.get('no')[selectlang]}}</th>
+                                <th>{{langs.get('timehrs')[selectlang]}}</th>
+                                <th>{{langs.get('normalday')[selectlang]}}</th>
+                                <th>{{langs.get('offday')[selectlang]}}</th>
+                                <th>{{langs.get('companyday')[selectlang]}}</th>
+                                <th>{{langs.get('holiday')[selectlang]}}</th>
+                                <th>{{langs.get('leaveday')[selectlang]}}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data let-i="rowIndex">
+                            <tr [pSelectableRow]="data">
+                                <td>{{i+1}}</td>
+                                <td>{{doPrintCondition(data)}}</td>
+                                <td>{{data.timeallw_normalday}}</td>
+                                <td>{{data.timeallw_offday}}</td>
+                                <td>{{data.timeallw_companyday}}</td>
+                                <td>{{data.timeallw_holiday}}</td>
+                                <td>{{data.timeallw_leaveday}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+            (click)="Save()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="Delete()"></button>
+    </div>
+    <!-- --------------End form Input Data ------------------ -->
+</div>
+<p-dialog header="{{langs.get('list')[selectlang]}}" [(visible)]="displayaddtrallow" [maximizable]="true"
+    (onHide)="closedispaly()">
+    <div class="formatt">
+        <div>
+            <input type="radio" name="fav_language" value="H" [(ngModel)]="tr_timeallw.timeallw_method"  (change)="selectedWH()">
+              <label>{{langs.get('wrokhours')[selectlang]}}</label>
+            <input type="radio" name="fav_language" value="T" [(ngModel)]="tr_timeallw.timeallw_method" (change)="selectedWT()">
+              <label>{{langs.get('worktime')[selectlang]}}</label>
+        </div>
+        <hr>
+        <div *ngIf="tr_timeallw.timeallw_method=='H'">
+            <input type="radio" name="fav_type" value="N" [(ngModel)]="tr_timeallw.timeallw_type">
+              <label>{{langs.get('normalonly')[selectlang]}}</label>
+            <input type="radio" name="fav_type" value="O" [(ngModel)]="tr_timeallw.timeallw_type">
+              <label>{{langs.get('overtimeonly')[selectlang]}}</label>
+            <input type="radio" name="fav_type" value="A" [(ngModel)]="tr_timeallw.timeallw_type">
+              <label>{{langs.get('all')[selectlang]}}</label>
+        </div>
+        <div *ngIf="tr_timeallw.timeallw_method=='T'">
+            <p-dropdown class="selectyaer" [options]="typetrallow" [(ngModel)]="selectedtype"
+                (onChange)="selecteddropdown()" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="timeto" *ngIf="tr_timeallw.timeallw_type!=='4'">
+            {{langs.get('time')[selectlang]}}<p-calendar [(ngModel)]="tr_timeallw.timeallw_timein" dataType="string" [timeOnly]="true"
+                dateMask></p-calendar>
+                {{langs.get('hts')[selectlang]}}
+        </div>
+        <div class="timeto" *ngIf="tr_timeallw.timeallw_type=='4'">
+            {{langs.get('time')[selectlang]}}<p-calendar [(ngModel)]="tr_timeallw.timeallw_timein" dataType="string" [timeOnly]="true"
+                dateMask></p-calendar>-
+            <p-calendar [(ngModel)]="tr_timeallw.timeallw_timeout" dataType="string" [timeOnly]="true"
+                dateMask></p-calendar>
+                {{langs.get('hts')[selectlang]}}
+        </div>
+        <div class="amount">
+            <div>
+                <label>{{langs.get('normalday')[selectlang]}}</label>
+                <input pInputText type="text" [(ngModel)]="tr_timeallw.timeallw_normalday" maxlength="10" />
+            </div>
+            <div>
+                <label>{{langs.get('offday')[selectlang]}}</label>
+                <input pInputText type="text" [(ngModel)]="tr_timeallw.timeallw_offday" maxlength="10" />
+            </div>
+        </div>
+        <div class="amount">
+            <div>
+                <label>{{langs.get('companyday')[selectlang]}}</label>
+                <input pInputText type="text" [(ngModel)]="tr_timeallw.timeallw_companyday" maxlength="10" />
+            </div>
+            <div>
+                <label>{{langs.get('holiday')[selectlang]}}</label>
+                <input pInputText type="text" [(ngModel)]="tr_timeallw.timeallw_holiday" maxlength="10" />
+            </div>
+        </div>
+
+        <label>{{langs.get('leaveday')[selectlang]}}</label>
+        <input pInputText type="text" [(ngModel)]="tr_timeallw.timeallw_leaveday" maxlength="10" />
+    </div>
+    <ng-template pTemplate="footer">
+        <button *ngIf="displayedittrallow" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+            icon="pi pi-trash" class="p-button-danger" (click)="Deletelate()"></button>
+        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+            (click)="Savelate()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->
