@@ -30,11 +30,11 @@
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policy_list"
                     [(ngModel)]="policyselect"></p-dropdown>
             </div>
-            <div class="field col-12 md:col-6">
+            <div *ngIf="!loading" class="field col-12 md:col-6">
                 <p-button label="Process" (click)="process()"></p-button>
             </div>
-
         </div>
+        <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
     </p-tabPanel>
     <p-tabPanel>
         <ng-template pTemplate="header">

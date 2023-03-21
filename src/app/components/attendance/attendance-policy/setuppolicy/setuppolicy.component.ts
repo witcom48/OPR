@@ -33,12 +33,14 @@ export class SetuppolicyComponent implements OnInit {
   @Input() title: string = "";
   @Input() pol_type: string = "";
   index: number = 0;
+
   @ViewChild(SelectEmpComponent) selectEmp: any;
   // timesheet_list: PrjectEmpdailyModel[] = [];
   // timesheet_dest: PrjectEmpdailyModel[] = [];
   result_list: Result[] = [];
   // selectedDate: PrjectEmpdailyModel = new PrjectEmpdailyModel;
   policyselect!: Policy;
+  loading: boolean = false;
   new_data: boolean = false;
   @ViewChild('dt2') table: Table | undefined;
 
@@ -82,6 +84,7 @@ export class SetuppolicyComponent implements OnInit {
     data.company_code = this.initial_current.CompCode
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
+    this.loading = true;
     await this.setPolicyAttService.SetPolicyAtt_record(data).then((res) => {
       console.log(res)
       if (res.success) {
@@ -91,7 +94,7 @@ export class SetuppolicyComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.loading = false;
     });
   }
 

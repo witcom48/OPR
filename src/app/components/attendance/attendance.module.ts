@@ -76,6 +76,7 @@ import { AttendanceLocationComponent } from './attendance-policy/attendance-loca
 import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolicy.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TimeallowanceComponent } from './attendance-policy/timeallowance/timeallowance.component';
+import { SetTimeallowanceComponent } from './attendance-policy/set-timeallowance/set-timeallowance.component';
 
 
 @NgModule({
@@ -159,6 +160,7 @@ import { TimeallowanceComponent } from './attendance-policy/timeallowance/timeal
 		AttendanceLocationComponent,
 		SetuppolicyComponent,
   TimeallowanceComponent,
+  SetTimeallowanceComponent,
 	],
 	exports: [],
 })
