@@ -40,6 +40,7 @@ import { RecruitmentPolicyComponent } from './recruitment-policy/recruitment-pol
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { ApplyListComponent } from './recruitment-apply/apply/apply-list/apply-list.component';
 
 @NgModule({
 	imports: [
@@ -89,7 +90,8 @@ import { DialogModule } from 'primeng/dialog';
 
     RecruitmentRequestComponent,
            RecruitmentApplyComponent,
-           RecruitmentPolicyComponent
+           RecruitmentPolicyComponent,
+           ApplyListComponent
   ]
 })
 export class RecruitmentModule { }

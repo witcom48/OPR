@@ -10,24 +10,24 @@ import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { CardtypeModel } from 'src/app/models/system/policy/cardtype';
-import { CardtypeService } from 'src/app/services/system/policy/cardtype.service';
-@Component({
-  selector: 'app-system-card-type',
-  templateUrl: './system-card-type.component.html',
-  styleUrls: ['./system-card-type.component.scss']
-})
-export class SystemCardTypeComponent implements OnInit {
 
+import { FacultyModel } from 'src/app/models/system/policy/faculty';
+import { FacultyService } from 'src/app/services/system/policy/faculty.service';
+@Component({
+  selector: 'app-system-faculty',
+  templateUrl: './system-faculty.component.html',
+  styleUrls: ['./system-faculty.component.scss']
+})
+export class SystemFacultyComponent implements OnInit {
     items: MenuItem[] = [];
     edit_data: boolean = false;
     new_data: boolean = false;
 
-    cardtype_list : CardtypeModel[] = [];
-    selectedCardtype : CardtypeModel = new CardtypeModel();
+    faculty_list : FacultyModel[] = [];
+    selectedFaculty : FacultyModel = new FacultyModel();
 
     constructor(
-      private cardtypeService: CardtypeService,
+      private facultyService: FacultyService,
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -40,7 +40,7 @@ export class SystemCardTypeComponent implements OnInit {
       setTimeout(() => {
         this.doLoadLanguage()
         this.doLoadMenu()
-        this.doLoadCardtype()
+        this.doLoadFaculty()
       }, 500);
     }
 
@@ -52,7 +52,7 @@ export class SystemCardTypeComponent implements OnInit {
       }
     }
 
-    title_page:string = "Cardtype";
+    title_page:string = "Faculty";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
@@ -122,7 +122,7 @@ export class SystemCardTypeComponent implements OnInit {
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
-            this.selectedCardtype = new CardtypeModel();
+            this.selectedFaculty = new FacultyModel();
             this.new_data= true;
             this.edit_data= false;
           }
@@ -148,9 +148,9 @@ export class SystemCardTypeComponent implements OnInit {
       ];
     }
 
-    doLoadCardtype(){
-      this.cardtypeService.cardtype_get().then((res) => {
-       this.cardtype_list = res;
+    doLoadFaculty(){
+      this.facultyService.faculty_get().then((res) => {
+       this.faculty_list = res;
       });
     }
 
@@ -160,7 +160,7 @@ export class SystemCardTypeComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doRecordCardtype()
+            this.doRecordFaculty()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -168,14 +168,14 @@ export class SystemCardTypeComponent implements OnInit {
       });
     }
 
-    doRecordCardtype(){
-      this.cardtypeService.cardtype_record(this.selectedCardtype).then((res) => {
+    doRecordFaculty(){
+      this.facultyService.faculty_record(this.selectedFaculty).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadCardtype()
+        this.doLoadFaculty()
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -190,7 +190,7 @@ export class SystemCardTypeComponent implements OnInit {
           header: this.title_confirm,
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            this.doDeleteCardtype()
+            this.doDeleteFaculty()
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -198,14 +198,14 @@ export class SystemCardTypeComponent implements OnInit {
       });
     }
 
-    doDeleteCardtype(){
-      this.cardtypeService.cardtype_delete(this.selectedCardtype).then((res) => {
+    doDeleteFaculty(){
+      this.facultyService.faculty_delete(this.selectedFaculty).then((res) => {
        console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadCardtype();
+        this.doLoadFaculty();
         this.edit_data= false;
         this.new_data= false;
        }
@@ -218,9 +218,9 @@ export class SystemCardTypeComponent implements OnInit {
 
     close(){
       this.new_data=false
-      this.selectedCardtype = new CardtypeModel()
+      this.selectedFaculty = new FacultyModel()
     }
-    onRowSelectCardtype(event: any) {
+    onRowSelectFaculty(event: any) {
       this.edit_data= true;
       this.new_data= true;
     }
@@ -230,7 +230,7 @@ export class SystemCardTypeComponent implements OnInit {
       this.fileToUpload=file.item(0);
     }
 
-    doUploadCardtype(){
+    doUploadFaculty(){
 
       if (this.fileToUpload) {
         this.confirmationService.confirm({
@@ -238,16 +238,16 @@ export class SystemCardTypeComponent implements OnInit {
           header: "Import File",
           icon: 'pi pi-exclamation-triangle',
           accept: () => {
-            const filename = "Cardtype_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+            const filename = "Faculty_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
             const filetype = "xls";
 
-            this.cardtypeService.cardtype_import(this.fileToUpload, filename, filetype).then((res) => {
+            this.facultyService.faculty_import(this.fileToUpload, filename, filetype).then((res) => {
               console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                this.doLoadCardtype();
+                this.doLoadFaculty();
                 this.edit_data = false;
                 this.new_data = false;
               }
@@ -276,11 +276,11 @@ export class SystemCardTypeComponent implements OnInit {
 
     exportAsExcel()
     {
-      const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+      const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'Export_cardtype.xlsx');
+      XLSX.writeFile(wb, 'Export_Faculty.xlsx');
 
     }
 

@@ -74,23 +74,7 @@
                         </div>
 
 
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="ppos_detailen">ชั่วโมงการทำงาน</label>
-                            <br />
-                            <p-inputNumber mode="decimal" [showButtons]="true" [(ngModel)]="selectedCompany.hrs_perday"
-                                [min]="0" [max]="12000">
-                            </p-inputNumber>
-                        </div> -->
 
-
-
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="ppos_detailen">ประกันสังคมส่วนพนักงาน</label>
-                            <br />
-                            <p-inputNumber mode="decimal" [showButtons]="true"
-                                [(ngModel)]="selectedCompany.sso_com_rate" [min]="0" [max]="12000">
-                            </p-inputNumber>
-                        </div> -->
 
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ประกันสังคมส่วนพนักงาน(%)</label>
@@ -99,13 +83,7 @@
                             </p-inputNumber>
                         </div>
 
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="ppos_detailen">ประกันสังคมส่วนบริษัท</label>
-                            <br />
-                            <p-inputNumber mode="decimal" [showButtons]="true"
-                                [(ngModel)]="selectedCompany.sso_emp_rate" [min]="0" [max]="12000">
-                            </p-inputNumber>
-                        </div> -->
+
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ประกันสังคมส่วนบริษัท(%)</label>
                             <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
@@ -113,27 +91,14 @@
                             </p-inputNumber>
                         </div>
 
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="ppos_detailen">อายุพนักงานน้อยสุด</label>
-                            <br />
-                            <p-inputNumber mode="decimal" [showButtons]="true"
-                                [(ngModel)]="selectedCompany.sso_min_wage" [min]="0" [max]="12000">
-                            </p-inputNumber>
-                        </div> -->
+
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">อายุพนักงานน้อยสุด</label>
                             <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="60"
                                 [step]="0.5" [(ngModel)]="selectedCompany.sso_min_age">
                             </p-inputNumber>
                         </div>
-                        <!--
-                        <div class="field col-12 md:col-6">
-                            <label for="ppos_detailen">อายุพนักงานมากสุด</label>
-                            <br />
-                            <p-inputNumber mode="decimal" [showButtons]="true"
-                                [(ngModel)]="selectedCompany.sso_max_wage" [min]="0" [max]="12000">
-                            </p-inputNumber>
-                        </div> -->
+
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">อายุพนักงานมากสุด</label>
                             <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="70"
@@ -141,13 +106,7 @@
                             </p-inputNumber>
                         </div>
 
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="ppos_detailen">ค่าจ้างตํ่าสุด</label>
-                            <br />
-                            <p-inputNumber mode="decimal" [showButtons]="true" [(ngModel)]="selectedCompany.sso_min_age"
-                                [min]="0" [max]="12000">
-                            </p-inputNumber>
-                        </div> -->
+
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ค่าจ้างตํ่าสุด</label>
                             <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
@@ -156,13 +115,7 @@
                         </div>
 
 
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="ppos_detailen">ค่าจ้างสูงสุด</label>
-                            <br />
-                            <p-inputNumber mode="decimal" [showButtons]="true" [(ngModel)]="selectedCompany.sso_max_age"
-                                [min]="0" [max]="12000">
-                            </p-inputNumber>
-                        </div> -->
+
                         <div class="field col-12 md:col-6">
                             <label for="lastname2">ค่าจ้างสูงสุด</label>
                             <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
@@ -304,9 +257,7 @@
                     <!-- Form Emp Address -->
                     <div class="formatt" *ngIf="edit_comaddress==true || new_comaddress==true">
                         <label>ประเภท</label>
-                        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
-                            [(ngModel)]="selectedComaddress.comaddress_type"
-                            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+
 
                             <p-dropdown placeholder="--" [options]="addressList"   optionValue="addresstype_code" [showClear]="true"
                             [(ngModel)]="selectedComaddress.comaddress_type" [style]="{ width: '100%', overflow: 'visible' }">
@@ -337,7 +288,6 @@
                         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_amphur">
 
                         <label>จังหวัด</label>
-                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.province_code"> -->
                         <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code" [showClear]="true"
                             [(ngModel)]="selectedComaddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="selectedItem">
@@ -388,22 +338,6 @@
                                 </ng-template>
                             </p-dropdown>
                         </div>
-                        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
-                        [(ngModel)]="selectedComcard.card_type"
-                        [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
-
-
-                        <!-- <p-dropdown placeholder="--" [options]="cardList" optionValue="cardtype_code" [showClear]="true"
-                            [(ngModel)]="selectedComcard.card_type" [style]="{ width: '100%', overflow: 'visible' }">
-                            <ng-template let-item pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
-                            </ng-template>
-                            <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
-                            </ng-template>
-                        </p-dropdown> -->
-                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_type"> -->
-
 
 
                         <label>เลขที่</label>
@@ -412,13 +346,11 @@
                         <label>วันที่เปิดบัตร</label>
                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="selectedComcard.comcard_issue"><input type="text"></p-calendar>
-                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_issue"> -->
 
                         <label>วันที่หมดอายุ</label>
                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="selectedComcard.comcard_expire">
                             <input type="text"></p-calendar>
-                        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
 
 
                         <br>
@@ -444,8 +376,6 @@
                                 </ng-template>
                             </p-dropdown>
                         </div>
-                        <!-- <label>ชื่อบัญชี</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankcode"> -->
 
                         <label>เลขที่บัญชี</label>
                         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankaccount">

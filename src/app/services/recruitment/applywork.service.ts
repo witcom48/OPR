@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { ProjectModel } from '../../../models/project/project';
-import { AppConfig } from '../../../config/config';
+import { ProjectModel } from '../../models/project/project';
+import { AppConfig } from '../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { InitialCurrent } from '../../../config/initial_current';
-import { EmpIDModel } from 'src/app/models/system/policy/empid';
-
+import { InitialCurrent } from '../../config/initial_current';
+import { ApplyworkModel } from 'src/app/models/recruitment/applywork';
 @Injectable({
     providedIn: 'root',
 })
-export class EmpidService {
+export class ApplyworkService {
     public config: AppConfig = new AppConfig();
 
     private model: ProjectModel = new ProjectModel();
@@ -57,13 +56,22 @@ export class EmpidService {
         }
     }
 
-    public empid_get() {
-        console.log('EID001..');
+    public applywork_get(company: string, code: string) {
+        console.log('APW001..');
+
+        var filter = {
+            device_name: '',
+            ip: 'localhost',
+            username: this.initial_current.Username,
+            company_code: company,
+            language: '',
+            applywork_code: code,
+        };
 
         return this.http
             .post<any>(
-                this.config.ApiSystemModule + '/empid_list',
-                this.basicRequest,
+                this.config.ApiRecruitmentModule + '/applywork_list',
+                filter,
                 this.options
             )
             .toPromise()
@@ -74,40 +82,30 @@ export class EmpidService {
             });
     }
 
-    public empid_record(model: EmpIDModel) {
-        console.log('EID002..');
+    public applywork_recordall(model: ApplyworkModel) {
+        console.log('APW002..');
         const data = {
-            empid_id: model.empid_id,
-            empid_code: model.empid_code,
-            empid_name_th: model.empid_name_th,
-            empid_name_en: model.empid_name_en,
+            company_code: this.initial_current.CompCode,
+            applywork_id: model.applywork_id,
+            applywork_code: model.applywork_code,
+            applywork_initial: model.applywork_initial,
+            applywork_fname_th: model.applywork_fname_th,
+            applywork_lname_th: model.applywork_lname_th,
+            applywork_fname_en: model.applywork_fname_en,
+            applywork_lname_en: model.applywork_lname_en,
+            applywork_birthdate: model.applywork_birthdate,
+            applywork_startdate: model.applywork_startdate,
+            province_code: model.province_code,
+            bloodtype_code: model.bloodtype_code,
+            applywork_height: model.applywork_height,
+            applywork_weight: model.applywork_weight,
+
             modified_by: this.initial_current.Username,
         };
 
         return this.http
             .post<any>(
-                this.config.ApiSystemModule + '/empid',
-                data,
-                this.options
-            )
-            .toPromise()
-            .then((res) => {
-                //console.log(res)
-                return res;
-            });
-    }
-
-    public empid_delete(model: EmpIDModel) {
-        console.log('EID002..');
-        const data = {
-            empid_id: model.empid_id,
-            empid_code: model.empid_code,
-            modified_by: this.initial_current.Username,
-        };
-
-        return this.http
-            .post<any>(
-                this.config.ApiSystemModule + '/empid_del',
+                this.config.ApiRecruitmentModule + '/applywork',
                 data,
                 this.options
             )
@@ -117,7 +115,27 @@ export class EmpidService {
             });
     }
 
-    public empid_import(file: File, file_name: string, file_type: string) {
+    public applywork_delete(model: ApplyworkModel) {
+        console.log('APW003..');
+        const data = {
+            applywork_id: model.applywork_id,
+            applywork_code: model.applywork_code,
+            modified_by: this.initial_current.Username,
+        };
+
+        return this.http
+            .post<any>(
+                this.config.ApiRecruitmentModule + '/applywork_del',
+                data,
+                this.options
+            )
+            .toPromise()
+            .then((res) => {
+                return res;
+            });
+    }
+
+    public applywork_import(file: File, file_name: string, file_type: string) {
         const formData = new FormData();
         formData.append('file', file);
 
@@ -127,7 +145,7 @@ export class EmpidService {
 
         return this.http
             .post<any>(
-                this.config.ApiSystemModule + '/doUploadEmpid?' + para,
+                this.config.ApiRecruitmentModule + '/doUploadApplywork?' + para,
                 formData
             )
             .toPromise()
