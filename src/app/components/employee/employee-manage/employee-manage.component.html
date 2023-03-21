@@ -926,6 +926,47 @@
                             </p-accordion>
                         </div>
 
+                        <!-- Resign record -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_resignrecord}}">
+                                    <p-table #dtresignrecord [value]="empresignrecord" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '20rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmpresign"(onRowSelect)="onRowSelectEmpresign($event)"
+                                        [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <!-- <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                                <span class="p-input-icon-left ml-auto">
+                                                    <i class="pi pi-search"></i>
+                                                    <input pInputText type="text"
+                                                        (input)="dt12.filterGlobal($any($event).target.value, 'contains')"
+                                                        placeholder="Search keyword" />
+                                                </span>
+                                            </div>
+                                        </ng-template> -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ครั้งที่</th>
+                                                <th>วันที่</th>
+                                                <th>เหตุผล</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empresign>
+                                            <tr [pSelectableRow]="empresign">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
 
 
                     </div>
@@ -1467,8 +1508,16 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_date"> -->
 
         <label>ฝ่าย</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level01"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <p-dropdown appendTo="body" placeholder="--" [options]="depList" optionValue="dep_code"
+            [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level01"
+            [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+            </ng-template>
+        </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level01"> -->
 
         <label>แผนก</label>

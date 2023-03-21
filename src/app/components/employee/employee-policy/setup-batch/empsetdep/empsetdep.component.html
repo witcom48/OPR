@@ -29,16 +29,21 @@
                 <app-select-emp></app-select-emp>
             </div>
             <div class="field col-12 md:col-7">
-                <div style="display: inline">
-                    <div>Level 1</div>
-                    <p-dropdown placeholder="--" [options]="depList" optionValue="position_code" [showClear]="true"
-                        [(ngModel)]="selectedEmpDep.empdep_level01"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                <div>
+                    <label>วันที่มีผล</label>
+                    <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                        [(ngModel)]="selectedEmpDep.empdep_date"><input type="text"></p-calendar>
+                </div>
+                <br>
+                <div>
+                    <label>Level 1</label>
+                    <p-dropdown placeholder="--" [options]="depList" optionValue="dep_code" [showClear]="true"
+                        [(ngModel)]="selectedEmpDep.empdep_level01" [style]="{ width: '100%', overflow: 'visible' }">
                         <ng-template let-item pTemplate="selectedItem">
-                            {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                            {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
                         </ng-template>
                         <ng-template let-item pTemplate="item">
-                            {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                            {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
                         </ng-template>
                     </p-dropdown>
                 </div>

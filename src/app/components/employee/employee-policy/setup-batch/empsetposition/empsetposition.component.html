@@ -29,7 +29,14 @@
                 <app-select-emp></app-select-emp>
             </div>
             <div class="field col-12 md:col-7">
-                <div style="display: inline">
+                <div>
+                    <label>วันที่มีผล</label>
+                    <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                        [(ngModel)]="selectedEmpPosition.empposition_date"><input type="text"></p-calendar>
+                </div>
+                <br>
+                <div>
+                    <label>ตำแหน่ง</label>
                     <p-dropdown placeholder="--" [options]="positionList" optionValue="position_code" [showClear]="true"
                         [(ngModel)]="selectedEmpPosition.empposition_position"
                         [style]="{ width: '100%', overflow: 'visible' }">

@@ -74,7 +74,7 @@ export class EmpsetdepComponent implements OnInit {
   //get dep
   depList : PartModel[]=[];
   doLoadDepList(){
-    this.depService.dep_get().then(async(res)=>{
+    this.depService.dep_get("").then(async(res)=>{
       this.depList = await res;
     })
   }

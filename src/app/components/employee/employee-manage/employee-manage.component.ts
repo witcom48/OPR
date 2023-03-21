@@ -58,6 +58,8 @@ import { FamilyModel } from 'src/app/models/system/policy/family';
 import { FamilyService } from 'src/app/services/system/policy/family.service';
 import { HospitalService } from 'src/app/services/system/policy/hospital.service';
 import { HospitalModel } from 'src/app/models/system/policy/hospital';
+import { PartModel } from 'src/app/models/employee/policy/part';
+import { PartService } from 'src/app/services/emp/policy/part.service';
 
 
 
@@ -164,6 +166,10 @@ export class EmployeeManageComponent implements OnInit {
   menu_empcriminal: MenuItem[] = [];
   edit_empcriminal: boolean = false;
   new_criminal: boolean = false;
+  //menu empresign
+  menu_empresign: MenuItem[] = [];
+  edit_empresign: boolean = false;
+  new_resign: boolean = false;
   //menu empsalary
   menu_empsalary: MenuItem[] = [];
   edit_empsalary: boolean = false;
@@ -215,6 +221,7 @@ export class EmployeeManageComponent implements OnInit {
     private bankService : BankService,
     private familytypeService : FamilyService,
     private hospitalService: HospitalService,
+    private depService: PartService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -256,6 +263,7 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadBankList();
     this.doLoadFamilytypeList();
     this.doLoadHospitalList();
+    this.doLoadDepLiat();
 
     setTimeout(() => {
       this.doLoadMenu();
@@ -334,6 +342,7 @@ export class EmployeeManageComponent implements OnInit {
   title_education: string = "Education";
   title_assessment: string = "Assessment";
   title_criminal: string = "Criminal Record";
+  title_resignrecord: string = "Resign Record";
 
   title_finance: string = "Finance";
   title_taxmethod: string = "Tax Method";
@@ -419,7 +428,8 @@ export class EmployeeManageComponent implements OnInit {
       this.title_education = 'ประวัติการศึกษา';
       this.title_training = 'ประวัติการอบรม';
       this.title_assessment = 'ประวัติการประเมิน';
-      this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม'
+      this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
+      this.title_resignrecord = 'ประวัติการลาออก';
 
       this.title_finance = 'การเงิน';
       this.title_taxmethod = 'การคำนวนภาษี';
@@ -1612,6 +1622,13 @@ export class EmployeeManageComponent implements OnInit {
       this.hospitalList = await res ;
     })
   }
+  depList: PartModel[]=[];
+  doLoadDepLiat(){
+    var tmp = new PartModel();
+    this.depService.dep_get("").then(async(res)=>{
+      this.depList = await res ;
+    })
+  }
 
   //address
   empaddressList: EmpaddressModel[] = [];
@@ -2354,6 +2371,10 @@ export class EmployeeManageComponent implements OnInit {
       }
     });
   }
+
+  empresignrecord: []=[];
+  selectedEmpresign : EmpSalaryModel = new EmpSalaryModel();
+  onRowSelectEmpresign(event: Event) { }
 
   //salary
   empsalaryList: EmpSalaryModel[] = [];

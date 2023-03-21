@@ -53,9 +53,17 @@ export class PartService {
     }
   }
 
-  public dep_get(){
+  public dep_get(level:string){
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:this.initial_current.CompCode,
+      language:"",
+      level_code: level
+    }
     console.log('DEP001..');
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/dep_list', this.basicRequest, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/dep_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
       console.log(res)
@@ -70,7 +78,7 @@ export class PartService {
       dep_code: model.dep_code,
       dep_name_th: model.dep_name_th,
       dep_name_en: model.dep_name_en,
-      dep_parent: " ",
+      dep_parent: model.dep_parent,
       dep_level: model.dep_level,
       company_code: this.initial_current.CompCode,
       modified_by: this.initial_current.Username
