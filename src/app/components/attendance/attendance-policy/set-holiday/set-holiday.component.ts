@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppConfig } from 'src/app/config/config';
+import { InitialCurrent } from 'src/app/config/initial_current';
+import { HolidayModels } from 'src/app/models/attendance/holiday';
+import { PlanholidayServices } from 'src/app/services/attendance/planholiday.service';
 
 @Component({
   selector: 'app-set-holiday',
@@ -6,13 +11,40 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./set-holiday.component.scss']
 })
 export class SetHolidayComponent implements OnInit {
-  policy = [
-    { name: 'Holiday(Monthly)', code: "HOLM" },
-    { name: 'Holiday(Day)', code: "HOLD" },
-  ];
-  constructor() { }
-
+  policy: any = []
+  check: boolean = false;
+  constructor(
+    private planholidayService: PlanholidayServices,
+    private router: Router
+  ) { }
+  public initial_current: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current) {
+      this.router.navigateByUrl('');
+    }
+  }
   ngOnInit(): void {
+    this.doGetInitialCurrent();
+    this.doLoadPlanholiday()
+  }
+
+  doLoadPlanholiday() {
+    this.policy = [];
+    var tmp = new HolidayModels();
+    tmp.year_code = this.initial_current.PR_Year
+    this.planholidayService.planholiday_get(tmp).then(async (res) => {
+      await res.forEach((element: HolidayModels) => {
+        this.policy.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.planholiday_name_en : element.planholiday_name_th,
+            code: element.planholiday_code
+          }
+        )
+      });
+      this.check = true;
+      // this.holiday_lists = await res;
+    });
   }
 
 }

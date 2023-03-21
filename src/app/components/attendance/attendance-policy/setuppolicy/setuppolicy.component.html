@@ -5,7 +5,7 @@
         <i></i>
         <a routerLink="/attendance/policy">Policy</a>
         <i></i>
-        <small>Set Shift</small>
+        <small>Set {{title}}</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -25,19 +25,13 @@
                 <app-select-emp></app-select-emp>
             </div>
             <div class="field col-12 md:col-6">
-                <div class="field">
-                    <label for="lastname2">ปี :</label><br>
-                    <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }" [options]="yaer_list"
-                        [(ngModel)]="yearselect"></p-dropdown>
-                </div>
-                <div class="field">
-                    <label for="lastname2">รูปแบบ :</label><br>
-                    <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }" [options]="policy_list"
-                        [(ngModel)]="policyselect"></p-dropdown>
-                </div>
-                <p-button *ngIf="!loading"  label="Process" (click)="process()"></p-button>
+                <label for="lastname2">รูปแบบ :</label><br>
+                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policy_list"
+                    [(ngModel)]="policyselect"></p-dropdown>
+            </div>
+            <div *ngIf="!loading" class="field col-12 md:col-6">
+                <p-button label="Process" (click)="process()"></p-button>
             </div>
         </div>
         <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>

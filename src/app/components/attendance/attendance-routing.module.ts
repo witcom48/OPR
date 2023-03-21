@@ -27,6 +27,8 @@ import { AttendanceManageComponent } from './attendance-manage/attendance-manage
 import { ChangeshiftComponent } from './attendance-manage/changeshift/changeshift.component';
 import { AttendanceReasonComponent } from './attendance-policy/attendance-reason/attendance-reason.component';
 import { AttendanceLocationComponent } from './attendance-policy/attendance-location/attendance-location.component';
+import { TimeallowanceComponent } from './attendance-policy/timeallowance/timeallowance.component';
+import { SetTimeallowanceComponent } from './attendance-policy/set-timeallowance/set-timeallowance.component';
 
 
 
@@ -58,6 +60,8 @@ import { AttendanceLocationComponent } from './attendance-policy/attendance-loca
         { path: 'policy/setdiligence', component: SetDiligenceComponent },
         { path: 'policy/setlate', component: SetLateComponent },
         { path: 'policy/setleave', component: SetLeaveComponent },
+        { path: 'policy/timeallowance', component: TimeallowanceComponent },
+        { path: 'policy/settimeallowance', component: SetTimeallowanceComponent },
         { path: 'manage/changeshift', component: ChangeshiftComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },

@@ -63,7 +63,7 @@ export class HolidayComponent implements OnInit {
   doLoadYear() {
     this.yaerList = [];
     var tmp = new YearPeriodModels();
-    tmp.year_group = "TAX"
+    tmp.year_group = "LEAVE"
     this.yearServices.year_get(tmp).then(async (res) => {
       await res.forEach((element: YearPeriodModels) => {
         this.yaerList.push({ name: (this.selectlang == "EN" ? element.year_name_en : element.year_name_th) + " " + element.year_code, code: element.year_code })
@@ -313,7 +313,7 @@ export class HolidayComponent implements OnInit {
     console.log(this.selectedyear)
     this.doLoadPlanholiday();
   }
-exportAsExcel() {
+  exportAsExcel() {
 
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
     for (var i in ws) {

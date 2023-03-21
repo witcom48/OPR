@@ -73,6 +73,10 @@ import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 import { SystemModule } from '../system/system.module';
 import { AttendanceReasonComponent } from './attendance-policy/attendance-reason/attendance-reason.component';
 import { AttendanceLocationComponent } from './attendance-policy/attendance-location/attendance-location.component';
+import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolicy.component';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { TimeallowanceComponent } from './attendance-policy/timeallowance/timeallowance.component';
+import { SetTimeallowanceComponent } from './attendance-policy/set-timeallowance/set-timeallowance.component';
 
 
 @NgModule({
@@ -117,7 +121,8 @@ import { AttendanceLocationComponent } from './attendance-policy/attendance-loca
 		DialogModule,
 		CheckboxModule,
 		UsercontrolModule,
-		SystemModule
+		SystemModule,
+		ProgressBarModule
 
 
 
@@ -153,6 +158,9 @@ import { AttendanceLocationComponent } from './attendance-policy/attendance-loca
 		ManageTableComponent,
 		AttendanceReasonComponent,
 		AttendanceLocationComponent,
+		SetuppolicyComponent,
+  TimeallowanceComponent,
+  SetTimeallowanceComponent,
 	],
 	exports: [],
 })
