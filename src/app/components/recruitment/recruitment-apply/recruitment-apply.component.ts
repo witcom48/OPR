@@ -2074,7 +2074,8 @@ export class RecruitmentApplyComponent implements OnInit {
         }
         this.reqdetailService
             .record_reqeducation(
-                this.selectedEmployee.worker_code,
+                // this.selectedEmployee.worker_code,
+                this.selectedApplywork.applywork_code,
                 this.reqeducationList
             )
             .then((res) => {
