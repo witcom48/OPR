@@ -73,11 +73,27 @@
         <textarea [(ngModel)]="selectedDep.dep_name_en" pInputTextarea [autoResize]="true"></textarea>
 
         <label>{{title_level}}</label>
-        <p-dropdown class="selectlevel" [options]="levelList" [(ngModel)]="selectedDep.dep_level" (onChange)="selectLevel()"
-            optionLabel="name" optionValue="code"></p-dropdown>
+        <p-dropdown placeholder="--" [options]="levelList" optionValue="level_code" [showClear]="true"
+            [(ngModel)]="selectedDep.dep_level" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+            </ng-template>
+        </p-dropdown>
         <!-- <textarea [(ngModel)]="selectedDep.dep_level" pInputTextarea [autoResize]="true"></textarea> -->
 
         <label>{{title_parent}}</label>
+        <!-- <p-dropdown placeholder="--" [options]="depParentList" optionValue="dep_code" [showClear]="true"
+            [(ngModel)]="selectedDep.dep_parent" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+            </ng-template>
+        </p-dropdown> -->
         <textarea [(ngModel)]="selectedDep.dep_parent" pInputTextarea [autoResize]="true"></textarea>
 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
@@ -87,7 +103,7 @@
 </div>
 
 <!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload" >
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or

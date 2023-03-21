@@ -14,6 +14,8 @@ import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatu
 import { EmpsetpositionComponent } from './employee-policy/setup-batch/empsetposition/empsetposition.component';
 import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/empsetdep.component';
 import { EmployeeLocationComponent } from './employee-policy/genaral/employee-location/employee-location.component';
+import { EmpsetsalaryComponent } from './employee-policy/setup-batch/empsetsalary/empsetsalary.component';
+import { EmpsetgroupComponent } from './employee-policy/setup-batch/empsetgroup/empsetgroup.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -34,6 +36,8 @@ import { EmployeeLocationComponent } from './employee-policy/genaral/employee-lo
         //policy/batch
         { path: 'policy/batch/empposition',component:EmpsetpositionComponent},
         { path: 'policy/batch/empdep',component:EmpsetdepComponent},
+        { path: 'policy/batch/empsalary', component:EmpsetsalaryComponent},
+        { path: 'policy/batch/empgroup', component:EmpsetgroupComponent},
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

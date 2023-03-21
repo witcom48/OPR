@@ -8,10 +8,8 @@ import { InitialCurrent } from '../../../../../config/initial_current';
 import { PartModel } from '../../../../../models/employee/policy/part';
 import { PartService } from '../../../../../services/emp/policy/part.service';
 import * as XLSX from 'xlsx';
-interface Level {
-  name: string,
-  code: string
-}
+import { LevelService } from 'src/app/services/system/policy/level.service';
+import { LevelModel } from 'src/app/models/system/policy/level';
 
 @Component({
   selector: 'app-part',
@@ -27,22 +25,21 @@ export class PartComponent implements OnInit {
   dep_list : PartModel[] = [];
   selectedDep : PartModel = new PartModel();
 
-  levelList: Level[] = [];
-  selectedLevel! : Level;
 
   constructor(
     private partService: PartService,
     private router:Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private levelService : LevelService,
   ) { }
 
   ngOnInit(): void {
     this.doGetInitialCurrent()
-    this.levelList = [
-      {name: 'Department', code:'01'},
-    ]
+    
+    this.doLoadLevelList();
+    this.doLoadParent();
     
     setTimeout(() => {
       this.doLoadLanguage()
@@ -159,10 +156,31 @@ export class PartComponent implements OnInit {
     ];
   }
 
+  levelList: LevelModel[]=[];
+  doLoadLevelList(){
+    this.levelService.level_get().then(async(res)=>{
+      this.levelList = await res;
+    })
+  }
+
   doLoadDep(){
-    this.partService.dep_get().then((res) => {
+    this.partService.dep_get("").then((res) => {
      this.dep_list = res;     
     });
+  }
+
+  depParentList: PartModel[]=[];
+  doLoadParent(){
+    // var parent = 0;
+    // if(this.selectedDep.dep_parent == "01"){
+
+    // }else{
+    //   var parent = Number(this.selectedDep.dep_level) + 1;
+    // }
+    // var level = "0" + parent.toString();
+    // this.partService.dep_get(level).then(async(res)=>{
+    //   this.depParentList = await res;
+    // })
   }
 
   confirmRecord() {
@@ -187,7 +205,8 @@ export class PartComponent implements OnInit {
 
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadDep()
+      this.doLoadDep();
+      this.doLoadParent();
      }
      else{
       this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
