@@ -5,7 +5,7 @@
     <tr>
         <td>
             <div class="main_div">
-                <span class="spn_value">2</span>
+                <span class="spn_value">{{total_project}}</span>
                 <div class="sub_div">
                     <span class="spn_title">จำนวนโครงการ</span>
                 </div>
@@ -13,29 +13,29 @@
         </td>
         <td>
             <div class="main_div">
-                <span class="spn_value">27,500.00</span>
+                <span class="spn_value">{{total_cost | number:'1.2-2'}}</span>
                 <div class="sub_div">
                     <span class="spn_title">จำนวนต้นทุน</span>
                 </div>
             </div>
-        </td>
+        </td>        
         <td>
             <div class="main_div">
-                <span class="spn_value">25,000.00</span>
+                <span class="spn_value">{{total_payment | number:'1.2-2'}}</span>
                 <div class="sub_div">
                     <span class="spn_title">ยอดชำระ</span>
                 </div>
             </div>
         </td>
-
+                                              
     </tr>
-</table>
+</table>  
 
 
 
 <p-table #dt2  [value]="project_monitor"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="350px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjectMonitor" (onRowSelect)="onRowSelectProject($event)" dataKey="project_code"
 
-[rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+[rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
 [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 [globalFilterFields]="['project_code','project_name_th','project_name_short','project_business','project_type','project_start','project_end']"
 
@@ -53,31 +53,31 @@ rowGroupMode="subheader"
 </ng-template>
 
     <ng-template pTemplate="header">
-        <tr>
+        <tr>		                        
             <th style="width:15%">หน่วยงาน</th>
-            <th style="width:15%">ชื่อหน่วยงาน</th>
+            <th style="width:15%">ชื่อหน่วยงาน</th>                       
             <th>ประเภทธุรกิจ</th>
-            <th>ประเภทงาน</th>
+            <th>ประเภทงาน</th>                        
             <th>จำนวนพนักงาน</th>
             <th>มาทำงาน</th>
             <th>ลางาน</th>
             <th>ขาดงาน</th>
             <th>ต้นทุน</th>
-            <th>ยอดชำระ</th>
-        </tr>
+            <th>ยอดชำระ</th>                                                            
+        </tr>	
         <tr>
             <th>
                 <p-columnFilter type="text" field="project_code"></p-columnFilter>
             </th>
             <th>
                 <p-columnFilter type="text" field="project_name_th"></p-columnFilter>
-            </th>
+            </th>                        
             <th>
                 <p-columnFilter field="project_business" matchMode="equals" [showMenu]="false">
                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                        <p-dropdown [ngModel]="value" [options]="pbusiness_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="pbusiness_name_th">
+                        <p-dropdown [ngModel]="value" [options]="probusiness_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="text">
                             <ng-template let-option pTemplate="item">
-                                <span >{{option.pbusiness_name_th}}</span>
+                                <span >{{option.text}}</span>
                             </ng-template>
                         </p-dropdown>
                     </ng-template>
@@ -86,9 +86,9 @@ rowGroupMode="subheader"
             <th>
                 <p-columnFilter field="project_type" matchMode="equals" [showMenu]="false">
                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                        <p-dropdown [ngModel]="value" [options]="ptype_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="ptype_name_th">
+                        <p-dropdown [ngModel]="value" [options]="protype_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="text">
                             <ng-template let-option pTemplate="item">
-                                <span >{{option.ptype_name_th}}</span>
+                                <span >{{option.text}}</span>
                             </ng-template>
                         </p-dropdown>
                     </ng-template>
@@ -98,27 +98,34 @@ rowGroupMode="subheader"
             <th></th>
             <th></th>
             <th></th>
-            <th></th>
-            <th></th>
+            <th></th> 
+            <th></th>                       
         </tr>
 
     </ng-template>
 
     <ng-template pTemplate="groupheader" let-project let-rowIndex="rowIndex" let-expanded="expanded">
         <tr>
-            <td colspan="2">
+            <td>
                 <button type="button" pButton pRipple [pRowToggler]="project" class="p-button-text p-button-rounded p-button-plain mr-2" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-
-                <span >{{project.project_code}} - {{project.project_name_th}}</span>
+                
             </td>
-            <td>{{project.project_business}}</td>
-            <td>{{project.project_type}}</td>
+            <td>
+                <div *ngIf="this.initial_current.Language == 'TH'">
+                    {{project.project_name_th}}
+                </div>
+                <div *ngIf="this.initial_current.Language != 'TH'">
+                    {{project.project_name_en}}
+                </div>
+            </td>
+            <td></td>
+            <td></td>                        
             <td style="text-align: center;">{{project.project_manpower}}</td>
             <td style="text-align: center;">{{project.project_working}}</td>
             <td style="text-align: center;">{{project.project_leave}}</td>
             <td style="text-align: center;">{{project.project_absent}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{project.project_cost | number:'1.2-2'}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{project.project_pay | number:'1.2-2'}}</td>
+            <td style="text-align: right; padding-right: 30px;">{{project.project_cost | number:'1.2-2'}}</td>                                           
+            <td style="text-align: right; padding-right: 30px;">{{project.project_pay | number:'1.2-2'}}</td> 
         </tr>
     </ng-template>
 
@@ -129,37 +136,44 @@ rowGroupMode="subheader"
             <td style="text-align: center;">{{total_working}}</td>
             <td style="text-align: center;">{{total_leave}}</td>
             <td style="text-align: center;">{{total_absent}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{total_cost | number:'1.2-2'}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{total_payment | number:'1.2-2'}}</td>
+            <td style="text-align: right; padding-right: 30px;">{{total_cost | number:'1.2-2'}}</td>    
+            <td style="text-align: right; padding-right: 30px;">{{total_payment | number:'1.2-2'}}</td>    
 
         </tr>
     </ng-template>
 
     <ng-template  pTemplate="rowexpansion" let-project>
-        <tr [pSelectableRow]="project" *ngIf="project.root===false">
-            <td>{{project.project_code}}</td>
-            <td>{{project.project_name_th}}</td>
+        <tr [pSelectableRow]="project" *ngIf="project.root==false">        
+            <td></td>                                
+            <td>
+                <div *ngIf="this.initial_current.Language == 'TH'">
+                    {{project.project_name_th}}
+                </div>
+                <div *ngIf="this.initial_current.Language != 'TH'">
+                    {{project.project_name_en}}
+                </div>
+            </td>                 
             <td>{{project.project_business}}</td>
-            <td>{{project.project_type}}</td>
+            <td>{{project.project_type}}</td>                        
             <td style="text-align: center;">{{project.project_manpower}}</td>
             <td style="text-align: center;">{{project.project_working}}</td>
             <td style="text-align: center;">{{project.project_leave}}</td>
             <td style="text-align: center;">{{project.project_absent}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{project.project_cost | number:'1.2-2'}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{project.project_pay | number:'1.2-2'}}</td>
+            <td style="text-align: right; padding-right: 30px;">{{project.project_cost | number:'1.2-2'}}</td>                                           
+            <td style="text-align: right; padding-right: 30px;">{{project.project_pay | number:'1.2-2'}}</td> 
         </tr>
-    </ng-template>
-
+    </ng-template>      
+    
 
 </p-table>
-<p></p>
+<p></p> 
 <p-accordion>
     <p-accordionTab header="Timesheet" >
         <p-menubar [model]="items"></p-menubar >
         <p-table [value]="timesheet_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="220px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedDate"  dataKey="daily_id">
             <ng-template pTemplate="header">
-                <tr>
-                    <th>ตำแหน่ง</th>
+                <tr>		
+                    <th>ตำแหน่ง</th>	
                     <th>ชื่อตำแหน่ง</th>
                     <th>รหัสพนักงาน</th>
                     <th>ชื่อ-นามสกุล</th>
@@ -168,20 +182,20 @@ rowGroupMode="subheader"
                     <th>กะการทำงาน</th>
                     <th>เวลาเข้า</th>
                     <th>เวลาออก</th>
-
+                    
                     <th>สแกนเข้า</th>
                     <th>สแกนออก</th>
                     <th>ชั่วโมงทำงาน</th>
-                    <th>สาย</th>
+                    <th>สาย</th>                                    
                     <th>ล่วงเวลา</th>
-
-                </tr>
+                    
+                </tr>	
             </ng-template>
             <ng-template pTemplate="body" let-daily>
-                <tr [pSelectableRow]="daily">
-                    <td>{{daily.ppos_code}}</td>
+                <tr [pSelectableRow]="daily">        
+                    <td>{{daily.ppos_code}}</td>                                
                     <td>{{daily.ppos_name_th}}</td>
-                    <td>{{daily.emp_code}}</td>
+                    <td>{{daily.emp_code}}</td>                                    
                     <td>{{daily.emp_name}}</td>
                     <td>{{daily.timecard_date | date:'dd/MM/yyyy '}}</td>
                     <td>{{daily.timecard_daytype}}</td>
@@ -192,25 +206,25 @@ rowGroupMode="subheader"
                     <td>{{daily.timecard_out}}</td>
                     <td>{{daily.timecard_working}}</td>
                     <td>{{daily.timecard_late}}</td>
-                    <td>{{daily.timecard_overtime}}</td>
+                    <td>{{daily.timecard_overtime}}</td>                      
                 </tr>
-            </ng-template>
-
+            </ng-template>   
+                    
         </p-table>
     </p-accordionTab>
 </p-accordion>
-<p></p>
+<p></p> 
 <p-accordion>
     <p-accordionTab header="Cost" >
-        <p-table #dt2 [value]="project_emps"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true"
-                        [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[25,50,100]"
+        <p-table #dt2 [value]="project_emps"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" 
+                        [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[25,50,100]" 
                         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         selectionMode="single" [(selection)]="selectedEmp" dataKey="emp_code"
-
+                        
                         [globalFilterFields]="['ppos_code','ppos_name_th','emp_code','emp_name']"
-
+                        
                         >
-
+                            
                             <ng-template pTemplate="caption">
                                 <div class="flex">
                                     <span class="p-input-icon-left ml-auto">
@@ -220,25 +234,25 @@ rowGroupMode="subheader"
                                 </div>
                             </ng-template>
                             <ng-template pTemplate="header">
-                                <tr>
+                                <tr>		                                  
                                     <th>รหัสพนักงาน</th>
                                     <th>ชื่อ-นามสกุล</th>
-                                    <th>สถานะพนักงาน</th>
+                                    <th>สถานะพนักงาน</th>                                  
                                     <th>ค่าแรง</th>
-                                    <th>ค่าล่วงเวลา</th>
-                                </tr>
+                                    <th>ค่าล่วงเวลา</th>                                                                              
+                                </tr>	
                             </ng-template>
                             <ng-template pTemplate="body" let-emp>
-                                <tr [pSelectableRow]="emp">
+                                <tr [pSelectableRow]="emp">    
                                     <td>{{emp.emp_code}}</td>
                                     <td>{{emp.emp_name}}</td>
-                                    <td>{{emp.emp_position}}</td>
+                                    <td>{{emp.emp_position}}</td>                                  
                                     <td style="text-align: right; padding-right: 30px;">{{emp.pcost_allw1 | number:'1.2-2'}}</td>
                                     <td style="text-align: right; padding-right: 30px;">
-                                        {{emp.pcost_allw2 | number:'1.2-2'}}
-                                    </td>
+                                        {{emp.pcost_allw2 | number:'1.2-2'}}                                        
+                                    </td>                                     
                                 </tr>
-                            </ng-template>
+                            </ng-template>             
                         </p-table>
     </p-accordionTab>
 </p-accordion>

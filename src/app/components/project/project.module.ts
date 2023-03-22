@@ -51,6 +51,7 @@ import { CostSetupComponent } from './policy/cost-setup/cost-setup.component';
 import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component';
 import { PfManageComponent } from './pf-manage/pf-manage.component';
 
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 
 @NgModule({
 	imports: [
@@ -88,7 +89,9 @@ import { PfManageComponent } from './pf-manage/pf-manage.component';
 		ToastModule,
 		ConfirmDialogModule,
 		DialogModule,
-		CheckboxModule
+		CheckboxModule,
+
+		UsercontrolModule
 
 
 
