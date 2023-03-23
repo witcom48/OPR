@@ -24,7 +24,7 @@
                         </div>
                         <div class="field col-12 md:col-4">
                             <label for="Fname1"> รหัส :</label>
-                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedApplywork.applywork_code">
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedApplywork.applywork_code" maxlength="5"  [readonly]="edit_applywork" >
                         </div>
                         <div class="field col-12 md:col-5"></div>
 
@@ -252,7 +252,7 @@
 
                         <div class="field col-12 md:col-4">
                             <!-- <label for="Fname1">ส่วนสูง:</label> -->
-                            <label for="lastname2">ส่วนสูง :</label>
+                            <label for="lastname1">ส่วนสูง :</label>
                             <input pInputText id="lastname2" type="text"
                                 [(ngModel)]="selectedApplywork.applywork_height">
                         </div>

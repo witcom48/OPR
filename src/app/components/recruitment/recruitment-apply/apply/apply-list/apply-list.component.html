@@ -103,7 +103,7 @@
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedApplywork.applywork_code">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedApplywork.applywork_code" maxlength="5"  [readonly]="edit_applywork"> 
 
         <label>{{title_initial}} :</label>
         <p-dropdown placeholder="--" [options]="initialList" optionValue="initial_code" [showClear]="true"
