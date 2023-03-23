@@ -15,6 +15,14 @@ import { RadiovalueModel } from '../../../models/project/radio_value';
 import { ProjectModel } from '../../../models/project/project';
 import { ProjectService } from '../../../services/project/project.service';
 
+import { ProgenaralService } from '../../../services/project/pro_genaral.service';
+import { ProjectDetailService } from '../../../services/project/project_detail.service';
+
+
+import { ProjobmainModel } from '../../../models/project/project_jobmain';
+
+
+
 import { TimecardsModel } from '../../../models/attendance/timecards';
 import { TimecardService } from 'src/app/services/attendance/timecards.service';
 
@@ -71,6 +79,7 @@ export class ProjectTimesheetComponent implements OnInit {
     private shiftServices: ShiftServices,
     private projectService: ProjectService,  
     private timecardService: TimecardService,
+    private projectDetailService: ProjectDetailService
   ) {    
    }
 
@@ -84,6 +93,7 @@ export class ProjectTimesheetComponent implements OnInit {
       this.doLoadProject()
       this.doLoadPolShift()
       this.doLoadPolDaytype()
+      this.doLoadPolJobmain()
     }, 300);
 
     let dateString = '2023-01-10T00:00:00'
@@ -308,7 +318,7 @@ export class ProjectTimesheetComponent implements OnInit {
   doLoadPolDaytype(){   
    
     this.daytype_list = []   
-    this.timecardService.daytype_get().then((res) => {          
+    this.timecardService.daytype_get().then((res) => {              
       var list: DaytypeModels[] = [];     
       list = res;          
       if(list.length > 0){
@@ -334,6 +344,41 @@ export class ProjectTimesheetComponent implements OnInit {
       }                      
     }
   }
+
+  jobmain_list: RadiovalueModel[] = [];
+  selectedJobmain: RadiovalueModel = new RadiovalueModel;
+  doLoadPolJobmain(){   
+   
+    this.jobmain_list = []   
+    
+      this.projectDetailService.projobmain_get("").then((res) => {          
+      var list: ProjobmainModel[] = [];     
+      list = res;          
+      if(list.length > 0){
+        for (let i = 0; i < list.length; i++) {  
+          var tmp = new RadiovalueModel();  
+          tmp.value = list[i].projobmain_code;      
+          if(this.initial_current.Language == "EN"){        
+            tmp.text = list[i].projobmain_name_en;        
+          }
+          else{
+            tmp.text = list[i].projobmain_name_th;      
+          }
+          this.jobmain_list.push(tmp);                         
+        }      
+      }
+    });
+  }
+  doLoadSelectedJobmain(value:string){
+    for (let i = 0; i < this.jobmain_list.length; i++) {   
+      if(this.jobmain_list[i].value==value ){
+        this.selectedJobmain = this.jobmain_list[i];
+        break;         
+      }                      
+    }
+  }
+
+
 
   timesheet_summit(){
     this.confirmationService.confirm({

@@ -35,7 +35,15 @@ import { ChipModule } from 'primeng/chip';
 import {ChartModule} from 'primeng/chart';
 import {ImageModule} from 'primeng/image';
 import { VerifyComponent } from './verify/verify.component';
+import { SecAccountComponent } from './sec-account/sec-account.component';
+import { SecMenuComponent } from './sec-menu/sec-menu.component';
 
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { PickListModule } from 'primeng/picklist';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
 	imports: [
@@ -71,7 +79,13 @@ import { VerifyComponent } from './verify/verify.component';
 		ScrollPanelModule,
 		ChipModule,
 		ChartModule,
-		ImageModule
+		ImageModule,
+		ToastModule,
+		ConfirmDialogModule,
+		DialogModule,
+		RadioButtonModule,
+		PickListModule,
+		CheckboxModule
 
 
 		
@@ -80,7 +94,9 @@ import { VerifyComponent } from './verify/verify.component';
    
   
   
-    VerifyComponent
+    VerifyComponent,
+                 SecAccountComponent,
+                 SecMenuComponent
   ]
 })
 export class AuthenModule { }

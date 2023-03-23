@@ -19,6 +19,11 @@
                 <br>                 
                 <textarea [rows]="2" id="emp_name" [(ngModel)]="emp_name" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
+
+            <div class="field col-12">
+                <label for="selectedJobmain">งาน</label><br>
+                <p-dropdown [options]="jobmain_list" [(ngModel)]="selectedJobmain" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            </div>  
                         
             <div class="field col-12">
                 <label for="selectedShift">กะการทำงาน</label><br>

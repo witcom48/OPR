@@ -287,7 +287,7 @@ export class ProjectMonitorComponent implements OnInit {
     tmp.emp_code = "220108001";
     tmp.emp_name = "ศรัณย์ ศรีห่วง";
     tmp.emp_position = "พนักงานประจำ";    
-    tmp.pcost_allw1 = 10000.00;
+    tmp.pcost_allw1 = 350.00;
     tmp.pcost_allw2 = 67.50;
     tmp.pcost_allw3 = 1;
     tmp.pcost_allw4 = 1;
@@ -304,7 +304,7 @@ export class ProjectMonitorComponent implements OnInit {
     tmp.emp_code = "220108002";
     tmp.emp_name = "อำพล ลำพูน";
     tmp.emp_position = "พนักงานชั่วคราว";    
-    tmp.pcost_allw1 = 9000.00;
+    tmp.pcost_allw1 = 500.00;
     tmp.pcost_allw2 = 50.00;
     tmp.pcost_allw3 = 1;
     tmp.pcost_allw4 = 1;

@@ -216,6 +216,7 @@ rowGroupMode="subheader"
 <p></p> 
 <p-accordion>
     <p-accordionTab header="Cost" >
+        <p-menubar [model]="items"></p-menubar >  
         <p-table #dt2 [value]="project_emps"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" 
                         [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[25,50,100]" 
                         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -239,7 +240,8 @@ rowGroupMode="subheader"
                                     <th>ชื่อ-นามสกุล</th>
                                     <th>สถานะพนักงาน</th>                                  
                                     <th>ค่าแรง</th>
-                                    <th>ค่าล่วงเวลา</th>                                                                              
+                                    <th>ค่าล่วงเวลา</th>   
+                                    <th>รวม</th>                                                                              
                                 </tr>	
                             </ng-template>
                             <ng-template pTemplate="body" let-emp>
@@ -250,7 +252,8 @@ rowGroupMode="subheader"
                                     <td style="text-align: right; padding-right: 30px;">{{emp.pcost_allw1 | number:'1.2-2'}}</td>
                                     <td style="text-align: right; padding-right: 30px;">
                                         {{emp.pcost_allw2 | number:'1.2-2'}}                                        
-                                    </td>                                     
+                                    </td>            
+                                    <td style="text-align: right; padding-right: 30px;">{{emp.pcost_allw1 + emp.pcost_allw2 | number:'1.2-2'}}</td>                         
                                 </tr>
                             </ng-template>             
                         </p-table>
