@@ -739,6 +739,41 @@
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
+
+                        <!-- Group -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_empgroup}}">
+                                    <p-menubar [model]="menu_empgroup"></p-menubar>
+                                    <p-table #dtempgroup [value]="empgroupList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmpGroup"
+                                        (onRowSelect)="onRowSelectEmpGroup($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่มีผล</th>
+                                                <th>กลุ่มพนักงาน</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empgroup>
+                                            <tr [pSelectableRow]="empgroup">
+                                                <td>{{empgroup.empgroup_date | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empgroup.empgroup_code}}</td>
+                                                <td>{{empgroup.modified_by}}</td>
+                                                <td>{{empgroup.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
                         <!-- Education -->
                         <div class="field col-12">
                             <p-accordion>
@@ -1568,6 +1603,30 @@
             (click)="empposition_summit()"></button>
         <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
             (click)="empposition_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Group -->
+    <div class="formatt" *ngIf="edit_empgroup==true || new_group==true">
+        <label>วันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpGroup.empgroup_date"><input type="text"></p-calendar>
+
+        <label>กลุ่มพนักงาน</label>
+        <p-dropdown placeholder="--" [options]="groupList" optionValue="group_code" [showClear]="true"
+            [(ngModel)]="selectedEmpGroup.empgroup_code" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.group_name_th : item.group_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.group_name_th : item.group_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="empgroup_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empgroup_cancel()"></button>
     </div>
 
     <!-- Form Emp Education -->

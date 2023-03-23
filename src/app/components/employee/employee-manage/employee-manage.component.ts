@@ -60,6 +60,9 @@ import { HospitalService } from 'src/app/services/system/policy/hospital.service
 import { HospitalModel } from 'src/app/models/system/policy/hospital';
 import { PartModel } from 'src/app/models/employee/policy/part';
 import { PartService } from 'src/app/services/emp/policy/part.service';
+import { EmpGroupModel } from 'src/app/models/employee/manage/empgroup';
+import { GroupService } from 'src/app/services/emp/policy/group.service';
+import { GroupModel } from 'src/app/models/employee/policy/group';
 
 
 
@@ -150,6 +153,10 @@ export class EmployeeManageComponent implements OnInit {
   menu_empposition: MenuItem[] = [];
   edit_empposition: boolean = false;
   new_position: boolean = false;
+  //menu empgroup
+  menu_empgroup: MenuItem[] = [];
+  edit_empgroup: boolean = false;
+  new_group: boolean = false;
   //menu empeducation
   menu_empeducation: MenuItem[] = [];
   edit_empeducation: boolean = false;
@@ -212,6 +219,7 @@ export class EmployeeManageComponent implements OnInit {
     private emptypeService: EmptypeService,
     private empstatusService: EmpstatusService,
     private positionService: PositionService,
+    private groupService: GroupService,
     private locationService : LocationService,
     private combranchService : CombranchService,
     private bloodtypeService: BloodtypeService,
@@ -253,6 +261,7 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadEmptypeList();
     this.doLoadEmpstatusList();
     this.doLoadPositionList();
+    this.doLoadGroupList();
     this.doLoadLocationList();
     this.doLoadCombranchList();
     this.doLoadBloodtypeList();
@@ -338,6 +347,7 @@ export class EmployeeManageComponent implements OnInit {
   title_record: string = "Record";
   title_department: string = "Department";
   title_position: string = "Position";
+  title_empgroup: string = "Group";
   title_training: string = "Training";
   title_education: string = "Education";
   title_assessment: string = "Assessment";
@@ -425,6 +435,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_record = 'ข้อมูลประวัติ';
       this.title_department = 'สังกัด';
       this.title_position = 'ตำแหน่ง';
+      this.title_empgroup = 'กลุ่มพนักงาน';
       this.title_education = 'ประวัติการศึกษา';
       this.title_training = 'ประวัติการอบรม';
       this.title_assessment = 'ประวัติการประเมิน';
@@ -889,6 +900,56 @@ export class EmployeeManageComponent implements OnInit {
           console.log("EXPORT");
         }
       }]
+      //menu Group
+    this.menu_empgroup = [
+      {
+        label: 'New',
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          console.log("NEW");
+          this.clearManage()
+          this.new_group = true
+          var ref = this.empgroupList.length + 100
+          this.selectedEmpGroup = new EmpGroupModel()
+          this.selectedEmpGroup.empgroup_id = ref.toString()
+          this.showManage()
+        }
+      },
+      {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          console.log("EDIT");
+          this.clearManage()
+          if (this.selectedEmpGroup != null) {
+            this.edit_empgroup = true
+            this.showManage()
+          }
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          if (this.selectedEmpGroup != null) {
+            this.empgroup_remove();
+          }
+        }
+      },
+      {
+        label: 'Import',
+        icon: 'pi pi-fw pi-file-import',
+        command: (event) => {
+          console.log("IMPORT");
+        }
+      },
+      {
+        label: 'Export',
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          console.log("EXPORT");
+        }
+      }]
     //menu education
     this.menu_empeducation = [
       {
@@ -1325,6 +1386,9 @@ export class EmployeeManageComponent implements OnInit {
     this.edit_empposition = false;
     this.new_position = false;
     //   
+    this.edit_empgroup = false;
+    this.new_group = false;
+    //   
     this.edit_empeducation = false;
     this.new_education = false;
     //   
@@ -1395,6 +1459,9 @@ export class EmployeeManageComponent implements OnInit {
       else if (this.new_position || this.edit_empposition) {
         this.manage_title = "Position"
       }
+      else if (this.new_group || this.edit_empgroup) {
+        this.manage_title = "Group"
+      }
       else if (this.new_education || this.edit_empeducation) {
         this.manage_title = "Education"
       }
@@ -1455,6 +1522,9 @@ export class EmployeeManageComponent implements OnInit {
       }
       else if (this.new_position || this.edit_empposition) {
         this.manage_title = "ตำแหน่ง"
+      }
+      else if (this.new_group || this.edit_empgroup) {
+        this.manage_title = "กลุ่มพนักงาน"
       }
       else if (this.new_education || this.edit_empeducation) {
         this.manage_title = "ประวัติการศึกษา"
@@ -1518,6 +1588,7 @@ export class EmployeeManageComponent implements OnInit {
 
           this.doLoadEmpDepList();
           this.doLoadEmpPositionList();
+          this.doLoadEmpGroupList();
           this.doLoadEmpeducationList();
           this.doLoadEmptrainingList();
           this.doLoadEmpassessmentList();
@@ -1557,6 +1628,12 @@ export class EmployeeManageComponent implements OnInit {
   doLoadPositionList() {
     this.positionService.position_get().then((res) => {
       this.positionList = res;
+    })
+  }
+  groupList: GroupModel []= [];
+  doLoadGroupList(){
+    this.groupService.group_get().then((res)=>{
+      this.groupList=res;
     })
   }
   locationList: LocationModel[] = [];
@@ -2072,8 +2149,8 @@ export class EmployeeManageComponent implements OnInit {
   empposition_remove() {
     this.selectedEmpPosition.empposition_id = "9999";
     this.empposition_addItem(this.selectedEmpPosition)
-    this.new_dep = false
-    this.edit_empdep = false
+    this.new_position = false
+    this.edit_empposition = false
   }
   empposition_delete() { }
   empposition_cancel() {
@@ -2104,6 +2181,72 @@ export class EmployeeManageComponent implements OnInit {
       return
     }
     this.empdetailService.record_empposition(this.selectedEmployee.worker_code, this.emppositionList).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+      }
+      else {
+      }
+    });
+  }
+
+  //emp group
+  empgroupList: EmpGroupModel[] = [];
+  selectedEmpGroup: EmpGroupModel = new EmpGroupModel();
+  doLoadEmpGroupList() {
+    this.empdetailService.getworker_group(this.initial_current.CompCode, this.emp_code).then(async (res) => {
+      await res.forEach((element: EmpGroupModel) => {
+        element.empgroup_date = new Date(element.empgroup_date)
+
+      })
+      this.empgroupList = await res;
+      if (this.empgroupList.length > 0) {
+        this.selectedEmpGroup = this.empgroupList[0];
+      }
+    })
+  }
+
+  onRowSelectEmpGroup(event: Event) { }
+  empgroup_summit() {
+    this.empgroup_addItem(this.selectedEmpGroup)
+    this.new_group = false
+    this.edit_empgroup = false
+    this.displayManage = false
+  }
+  empgroup_remove() {
+    this.selectedEmpGroup.empgroup_id = "9999";
+    this.empgroup_addItem(this.selectedEmpGroup)
+    this.new_group = false
+    this.edit_empgroup = false
+  }
+  empgroup_delete() { }
+  empgroup_cancel() {
+    this.new_group = false
+    this.edit_empgroup = false
+    this.displayManage = false
+  }
+  empgroup_addItem(model: EmpGroupModel) {
+    const itemNew: EmpGroupModel[] = [];
+    for (let i = 0; i < this.empgroupList.length; i++) {
+      if (this.empgroupList[i].empgroup_id == model.empgroup_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.empgroupList[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.empgroup_id != "9999") {
+      itemNew.push(model);
+    }
+    this.empgroupList = [];
+    this.empgroupList = itemNew;
+    this.empgroupList.sort(function (a, b) { return parseInt(a.empgroup_id) - parseInt(b.empgroup_id); })
+  }
+  record_empgroup() {
+    if (this.empgroupList.length == 0) {
+      return
+    }
+    this.empdetailService.record_empgroup(this.selectedEmployee.worker_code, this.empgroupList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
@@ -2810,6 +2953,7 @@ export class EmployeeManageComponent implements OnInit {
 
         this.record_empdep();
         this.record_empposition();
+        this.record_empgroup();
         this.record_empeducation();
         this.record_emptraining();
         this.record_empassessment();
@@ -2848,6 +2992,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_foreigner = false; this.edit_empforeigner = false;
     this.new_dep = false; this.edit_empdep = false;
     this.new_position = false; this.edit_empposition = false;
+    this.new_group = false; this.edit_empgroup = false;
     this.new_education = false; this.edit_empeducation = false;
     this.new_training = false; this.edit_emptraining = false;
     this.new_assessment = false; this.edit_empassessment = false;

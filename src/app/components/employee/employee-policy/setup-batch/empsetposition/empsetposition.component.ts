@@ -1,10 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Console } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/select-emp.component';
 import { TaskComponent } from 'src/app/components/usercontrol/task/task.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 import { EmpPositionModel } from 'src/app/models/employee/manage/position';
 import { PositionModel } from 'src/app/models/employee/policy/position';
 import { PositionService } from 'src/app/services/emp/policy/position.service';
@@ -56,6 +58,7 @@ export class EmpsetpositionComponent implements OnInit {
 
 
     new_data: boolean = false;
+
   ngOnInit(): void {
 
     this.doGetInitialCurrent();
@@ -82,8 +85,11 @@ export class EmpsetpositionComponent implements OnInit {
 
   selectedEmpPosition: EmpPositionModel = new EmpPositionModel();
 
-  process(){
 
+  process(){
+    this.selectEmp.employee_dest.forEach((item:EmployeeModel)=>{
+      console.log(item.worker_code)
+    })
   }
 
   function(e: any) {

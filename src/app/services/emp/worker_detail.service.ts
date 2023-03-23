@@ -25,6 +25,7 @@ import { EmpAccumalateModel } from 'src/app/models/employee/manage/accumalate';
 import { EmpAssessmentModel } from 'src/app/models/employee/manage/assessment';
 import { EmpCriminalModel } from 'src/app/models/employee/manage/criminal';
 import { EmpForeignerModel } from 'src/app/models/employee/manage/foreigner';
+import { EmpGroupModel } from 'src/app/models/employee/manage/empgroup';
 
 
 @Injectable({
@@ -728,6 +729,81 @@ export class EmpDetailService {
       para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpPosition?' + para, formData).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+
+  //Emp Group
+  public getworker_group(company:string, code:string){
+
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:company,
+      language:"",
+      worker_code:code
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empgrouplist', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      // console.log(res)
+      return message.data;
+    });
+  }
+  public record_empgroup(worker_code :string, list:EmpGroupModel[]){
+    var item_data:string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"empgroup_id\":\"" + list[i].empgroup_id + "\"";
+      item_data = item_data + ",\"empgroup_code\":\"" + list[i].empgroup_code + "\"";
+      item_data = item_data + ",\"empgroup_date\":\"" + this.datePipe.transform(list[i].empgroup_date)  + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if(item_data.length > 2)
+    {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data:item_data,
+      worker_code:worker_code,
+      company_code : this.initial_current.CompCode,
+      modified_by:this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empgroup', specificData, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+  public delete_empgroup(model:EmpGroupModel){
+    const data = {
+      empgroup_id: model.empgroup_id,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empgroup_del', data, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+  public empgroup_import(file: File, file_name:string, file_type:string){
+    const formData = new FormData();
+    formData.append('file', file);
+
+      var para = "fileName=" + file_name + "." + file_type;
+      para += "&token=" + this.initial_current.Token;
+      para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpGroup?' + para, formData).toPromise()
     .then((res) => {
       return res;
     });
