@@ -1,12 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    ConfirmationService,
-    MegaMenuItem,
-    MenuItem,
-    MessageService,
-} from 'primeng/api';
+import { RadioButtonModule } from 'primeng/radiobutton';
+
+import {ConfirmationService,MegaMenuItem,MenuItem,MessageService,} from 'primeng/api';
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
 
@@ -29,8 +26,6 @@ import { EmployeeService } from '../../../services/emp/worker.service';
 import { InitialService } from '../../../services/emp/policy/initial.service';
 import { EmptypeService } from '../../../services/emp/policy/emptype.service';
 import { EmpstatusService } from '../../../services/emp/policy/empstatus.service';
-import { EmpAssessmentModel } from 'src/app/models/employee/manage/assessment';
-import { EmpCriminalModel } from 'src/app/models/employee/manage/criminal';
 import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
 import { PositionService } from 'src/app/services/emp/policy/position.service';
 import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
@@ -63,6 +58,8 @@ import { QualificationModel } from 'src/app/models/system/policy/qualification';
 import { QualificationService } from 'src/app/services/system/policy/qualification.service';
 import { CourseModel } from 'src/app/models/system/policy/course';
 import { CourseService } from 'src/app/services/system/policy/course.service';
+import { ReqAssessmentModel } from 'src/app/models/recruitment/appassessment';
+import { ReqCriminalModel } from 'src/app/models/recruitment/applycriminal';
 
 interface Taxmethod {
     name_th: string;
@@ -158,13 +155,13 @@ export class RecruitmentApplyComponent implements OnInit {
     menu_reqtraining: MenuItem[] = [];
     edit_reqtraining: boolean = false;
     new_training: boolean = false;
-    //menu empassessment
-    menu_empassessment: MenuItem[] = [];
-    edit_empassessment: boolean = false;
+    //////////////////////////////////////menu reqassessment
+    menu_reqassessment: MenuItem[] = [];
+    edit_reqassessment: boolean = false;
     new_assessment: boolean = false;
-    //menu empcriminal
-    menu_empcriminal: MenuItem[] = [];
-    edit_empcriminal: boolean = false;
+    /////////////////////////////////menu reqcriminal
+    menu_reqcriminal: MenuItem[] = [];
+    edit_reqcriminal: boolean = false;
     new_criminal: boolean = false;
     //menu empsalary
     menu_empsalary: MenuItem[] = [];
@@ -947,7 +944,7 @@ export class RecruitmentApplyComponent implements OnInit {
             },
         ];
         //menu assessment
-        this.menu_empassessment = [
+        this.menu_reqassessment = [
             {
                 label: 'New',
                 icon: 'pi pi-fw pi-plus',
@@ -955,9 +952,9 @@ export class RecruitmentApplyComponent implements OnInit {
                     console.log('NEW');
                     this.clearManage();
                     this.new_assessment = true;
-                    var ref = this.empassessmentList.length + 100;
-                    this.selectedEmpassessment = new EmpAssessmentModel();
-                    this.selectedEmpassessment.empassessment_id =
+                    var ref = this.reqassessmentList.length + 100;
+                    this.selectedReqassessment = new ReqAssessmentModel();
+                    this.selectedReqassessment.reqassessment_id =
                         ref.toString();
                     this.showManage();
                 },
@@ -968,8 +965,8 @@ export class RecruitmentApplyComponent implements OnInit {
                 command: (event) => {
                     console.log('EDIT');
                     this.clearManage();
-                    if (this.selectedEmpassessment != null) {
-                        this.edit_empassessment = true;
+                    if (this.selectedReqassessment != null) {
+                        this.edit_reqassessment = true;
                         this.showManage();
                     }
                 },
@@ -978,8 +975,8 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: 'Delete',
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedEmpassessment != null) {
-                        this.empassessment_remove();
+                    if (this.selectedReqassessment != null) {
+                        this.reqassessment_remove();
                     }
                 },
             },
@@ -999,7 +996,7 @@ export class RecruitmentApplyComponent implements OnInit {
             },
         ];
         //menu criminal
-        this.menu_empcriminal = [
+        this.menu_reqcriminal = [
             {
                 label: 'New',
                 icon: 'pi pi-fw pi-plus',
@@ -1007,9 +1004,9 @@ export class RecruitmentApplyComponent implements OnInit {
                     console.log('NEW');
                     this.clearManage();
                     this.new_criminal = true;
-                    var ref = this.empcriminalList.length + 100;
-                    this.selectedEmpcriminal = new EmpCriminalModel();
-                    this.selectedEmpcriminal.empcriminal_id = ref.toString();
+                    var ref = this.reqcriminalList.length + 100;
+                    this.selectedReqcriminal = new ReqCriminalModel();
+                    this.selectedReqcriminal.reqcriminal_id = ref.toString();
                     this.showManage();
                 },
             },
@@ -1019,8 +1016,8 @@ export class RecruitmentApplyComponent implements OnInit {
                 command: (event) => {
                     console.log('EDIT');
                     this.clearManage();
-                    if (this.selectedEmpcriminal != null) {
-                        this.edit_empcriminal = true;
+                    if (this.selectedReqcriminal != null) {
+                        this.edit_reqcriminal = true;
                         this.showManage();
                     }
                 },
@@ -1029,8 +1026,8 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: 'Delete',
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedEmpcriminal != null) {
-                        this.empcriminal_remove();
+                    if (this.selectedReqcriminal != null) {
+                        this.reqcriminal_remove();
                     }
                 },
             },
@@ -1294,10 +1291,10 @@ export class RecruitmentApplyComponent implements OnInit {
         this.edit_reqtraining = false;
         this.new_training = false;
         //
-        this.edit_empassessment = false;
+        this.edit_reqassessment = false;
         this.new_assessment = false;
         //
-        this.edit_empcriminal = false;
+        this.edit_reqcriminal = false;
         this.new_criminal = false;
         //
         this.edit_empsalary = false;
@@ -1350,9 +1347,9 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.manage_title = 'Education';
             } else if (this.new_training || this.edit_reqtraining) {
                 this.manage_title = 'Training';
-            } else if (this.new_assessment || this.edit_empassessment) {
+            } else if (this.new_assessment || this.edit_reqassessment) {
                 this.manage_title = 'Assessment';
-            } else if (this.new_criminal || this.edit_empcriminal) {
+            } else if (this.new_criminal || this.edit_reqcriminal) {
                 this.manage_title = 'Criminal';
             } else if (this.new_salary || this.edit_empsalary) {
                 this.manage_title = 'Salary';
@@ -1392,9 +1389,9 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.manage_title = 'ประวัติการศึกษา';
             } else if (this.new_training || this.edit_reqtraining) {
                 this.manage_title = 'ประวัติการอบรม';
-            } else if (this.new_assessment || this.edit_empassessment) {
+            } else if (this.new_assessment || this.edit_reqassessment) {
                 this.manage_title = 'ประวัติการประเมิน';
-            } else if (this.new_criminal || this.edit_empcriminal) {
+            } else if (this.new_criminal || this.edit_reqcriminal) {
                 this.manage_title = 'ประวัติการตรวจสอบอาชญากรรม';
             } else if (this.new_salary || this.edit_empsalary) {
                 this.manage_title = 'เงินเดือน/ค่าจ้าง';
@@ -1448,8 +1445,8 @@ export class RecruitmentApplyComponent implements OnInit {
                         this.doLoadEmpDepList();
                         this.doLoadReqeducationList();
                         this.doLoadReqtrainingList();
-                        this.doLoadEmpassessmentList();
-                        this.doLoadEmpcriminalList();
+                        this.doLoadReqassessmentList();
+                        this.doLoadReqcriminalList();
 
                         this.doLoadEmpsalaryList();
                         this.doLoadEmpbenefitList();
@@ -2094,12 +2091,8 @@ export class RecruitmentApplyComponent implements OnInit {
             .getapplywork_training(this.initial_current.CompCode, this.req_code)
             .then(async (res) => {
                 await res.forEach((element: ReqTrainingModel) => {
-                    element.reqtraining_start = new Date(
-                        element.reqtraining_start
-                    );
-                    element.reqtraining_finish = new Date(
-                        element.reqtraining_finish
-                    );
+                    element.reqtraining_start = new Date(element.reqtraining_start);
+                    element.reqtraining_finish = new Date(element.reqtraining_finish);
                 });
                 this.reqtrainingList = await res;
                 if (this.reqtrainingList.length > 0) {
@@ -2165,75 +2158,75 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     //Assessment
-    empassessmentList: EmpAssessmentModel[] = [];
-    selectedEmpassessment: EmpAssessmentModel = new EmpAssessmentModel();
-    doLoadEmpassessmentList() {
-        this.empdetailService
-            .getworker_assessment(this.initial_current.CompCode, this.req_code)
+    reqassessmentList: ReqAssessmentModel[] = [];
+    selectedReqassessment: ReqAssessmentModel = new ReqAssessmentModel();
+    doLoadReqassessmentList() {
+        this.reqdetailService
+            .getapplywork__assessment(this.initial_current.CompCode, this.req_code)
             .then(async (res) => {
-                await res.forEach((element: EmpAssessmentModel) => {
-                    element.empassessment_fromdate = new Date(
-                        element.empassessment_fromdate
+                await res.forEach((element: ReqAssessmentModel) => {
+                    element.reqassessment_fromdate = new Date(
+                        element.reqassessment_fromdate
                     );
-                    element.empassessment_todate = new Date(
-                        element.empassessment_todate
+                    element.reqassessment_todate = new Date(
+                        element.reqassessment_todate
                     );
                 });
-                this.empassessmentList = await res;
-                if (this.empassessmentList.length > 0) {
-                    this.selectedEmpassessment = this.empassessmentList[0];
+                this.reqassessmentList = await res;
+                if (this.reqassessmentList.length > 0) {
+                    this.selectedReqassessment = this.reqassessmentList[0];
                 }
             });
     }
-    onRowSelectEmpassessment(event: Event) {}
-    empassessment_summit() {
-        this.empassessment_addItem(this.selectedEmpassessment);
+    onRowSelectReqassessment(event: Event) {}
+    reqassessment_summit() {
+        this.reqassessment_addItem(this.selectedReqassessment);
         this.new_assessment = false;
-        this.edit_empassessment = false;
+        this.edit_reqassessment = false;
         this.displayManage = false;
     }
-    empassessment_remove() {
-        this.selectedEmpassessment.empassessment_id = '9999';
-        this.empassessment_addItem(this.selectedEmpassessment);
+    reqassessment_remove() {
+        this.selectedReqassessment.reqassessment_id = '9999';
+        this.reqassessment_addItem(this.selectedReqassessment);
         this.new_assessment = false;
-        this.edit_empassessment = false;
+        this.edit_reqassessment = false;
     }
-    empassessment_delete() {}
-    empassessment_cancel() {
+    reqassessment_delete() {}
+    reqassessment_cancel() {
         this.new_assessment = false;
-        this.edit_empassessment = false;
+        this.edit_reqassessment = false;
         this.displayManage = false;
     }
-    empassessment_addItem(model: EmpAssessmentModel) {
-        const itemNew: EmpAssessmentModel[] = [];
-        for (let i = 0; i < this.empassessmentList.length; i++) {
+    reqassessment_addItem(model: ReqAssessmentModel) {
+        const itemNew: ReqAssessmentModel[] = [];
+        for (let i = 0; i < this.reqassessmentList.length; i++) {
             if (
-                this.empassessmentList[i].empassessment_id ==
-                model.empassessment_id
+                this.reqassessmentList[i].reqassessment_id ==
+                model.reqassessment_id
             ) {
                 //-- Notting
             } else {
-                itemNew.push(this.empassessmentList[i]);
+                itemNew.push(this.reqassessmentList[i]);
             }
         }
         //-- 9999 for delete
-        if (model.empassessment_id != '9999') {
+        if (model.reqassessment_id != '9999') {
             itemNew.push(model);
         }
-        this.empassessmentList = [];
-        this.empassessmentList = itemNew;
-        this.empassessmentList.sort(function (a, b) {
-            return parseInt(a.empassessment_id) - parseInt(b.empassessment_id);
+        this.reqassessmentList = [];
+        this.reqassessmentList = itemNew;
+        this.reqassessmentList.sort(function (a, b) {
+            return parseInt(a.reqassessment_id) - parseInt(b.reqassessment_id);
         });
     }
-    record_empassessment() {
-        if (this.empassessmentList.length == 0) {
+    record_reqassessment() {
+        if (this.reqassessmentList.length == 0) {
             return;
         }
-        this.empdetailService
-            .record_empassessment(
-                this.selectedEmployee.worker_code,
-                this.empassessmentList
+        this.reqdetailService
+            .record_reqassessment(
+                this.selectedApplywork.applywork_code,
+                this.reqassessmentList
             )
             .then((res) => {
                 let result = JSON.parse(res);
@@ -2244,74 +2237,74 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     //Criminal
-    empcriminalList: EmpCriminalModel[] = [];
-    selectedEmpcriminal: EmpCriminalModel = new EmpCriminalModel();
-    doLoadEmpcriminalList() {
-        this.empdetailService
-            .getworker_criminal(this.initial_current.CompCode, this.req_code)
+    reqcriminalList: ReqCriminalModel[] = [];
+    selectedReqcriminal: ReqCriminalModel = new ReqCriminalModel();
+    doLoadReqcriminalList() {
+        this.reqdetailService
+            .getapplywork_criminal(this.initial_current.CompCode, this.req_code)
             .then(async (res) => {
-                await res.forEach((element: EmpCriminalModel) => {
-                    element.empcriminal_fromdate = new Date(
-                        element.empcriminal_fromdate
+                await res.forEach((element: ReqCriminalModel) => {
+                    element.reqcriminal_fromdate = new Date(
+                        element.reqcriminal_fromdate
                     );
-                    element.empcriminal_todate = new Date(
-                        element.empcriminal_todate
+                    element.reqcriminal_todate = new Date(
+                        element.reqcriminal_todate
                     );
                 });
-                this.empcriminalList = await res;
-                if (this.empcriminalList.length > 0) {
-                    this.selectedEmpcriminal = this.empcriminalList[0];
+                this.reqcriminalList = await res;
+                if (this.reqcriminalList.length > 0) {
+                    this.selectedReqcriminal = this.reqcriminalList[0];
                 }
             });
     }
-    onRowSelectEmpcriminal(event: Event) {}
-    empcriminal_summit() {
-        this.empcriminal_addItem(this.selectedEmpcriminal);
+    onRowSelectReqcriminal(event: Event) {}
+    reqcriminal_summit() {
+        this.reqcriminal_addItem(this.selectedReqcriminal);
         this.new_criminal = false;
-        this.edit_empcriminal = false;
+        this.edit_reqcriminal = false;
         this.displayManage = false;
     }
-    empcriminal_remove() {
-        this.selectedEmpcriminal.empcriminal_id = '9999';
-        this.empcriminal_addItem(this.selectedEmpcriminal);
+    reqcriminal_remove() {
+        this.selectedReqcriminal.reqcriminal_id = '9999';
+        this.reqcriminal_addItem(this.selectedReqcriminal);
         this.new_criminal = false;
-        this.edit_empcriminal = false;
+        this.edit_reqcriminal = false;
     }
-    empcriminal_delete() {}
-    empcriminal_cancel() {
+    reqcriminal_delete() {}
+    reqcriminal_cancel() {
         this.new_criminal = false;
-        this.edit_empcriminal = false;
+        this.edit_reqcriminal = false;
         this.displayManage = false;
     }
-    empcriminal_addItem(model: EmpCriminalModel) {
-        const itemNew: EmpCriminalModel[] = [];
-        for (let i = 0; i < this.empcriminalList.length; i++) {
+    reqcriminal_addItem(model: ReqCriminalModel) {
+        const itemNew: ReqCriminalModel[] = [];
+        for (let i = 0; i < this.reqcriminalList.length; i++) {
             if (
-                this.empcriminalList[i].empcriminal_id == model.empcriminal_id
+                this.reqcriminalList[i].reqcriminal_id == model.reqcriminal_id
             ) {
                 //-- Notting
             } else {
-                itemNew.push(this.empcriminalList[i]);
+                itemNew.push(this.reqcriminalList[i]);
             }
         }
         //-- 9999 for delete
-        if (model.empcriminal_id != '9999') {
+        if (model.reqcriminal_id != '9999') {
             itemNew.push(model);
         }
-        this.empcriminalList = [];
-        this.empcriminalList = itemNew;
-        this.empcriminalList.sort(function (a, b) {
-            return parseInt(a.empcriminal_id) - parseInt(b.empcriminal_id);
+        this.reqcriminalList = [];
+        this.reqcriminalList = itemNew;
+        this.reqcriminalList.sort(function (a, b) {
+            return parseInt(a.reqcriminal_id) - parseInt(b.reqcriminal_id);
         });
     }
-    record_empcriminal() {
-        if (this.empcriminalList.length == 0) {
+    record_reqcriminal() {
+        if (this.reqcriminalList.length == 0) {
             return;
         }
-        this.empdetailService
-            .record_empcriminal(
-                this.selectedEmployee.worker_code,
-                this.empcriminalList
+        this.reqdetailService
+            .record_reqcriminal(
+                this.selectedApplywork.applywork_code,
+                this.reqcriminalList
             )
             .then((res) => {
                 let result = JSON.parse(res);
@@ -2823,8 +2816,8 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.record_empdep();
                     this.record_reqeducation();
                     this.record_reqtraining();
-                    this.record_empassessment();
-                    this.record_empcriminal();
+                    this.record_reqassessment();
+                    this.record_reqcriminal();
 
                     this.record_empsalary();
                     this.record_empbenefit();
@@ -2879,9 +2872,9 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_training = false;
         this.edit_reqtraining = false;
         this.new_assessment = false;
-        this.edit_empassessment = false;
+        this.edit_reqassessment = false;
         this.new_criminal = false;
-        this.edit_empcriminal = false;
+        this.edit_reqcriminal = false;
         this.new_salary = false;
         this.edit_empsalary = false;
         this.new_provident = false;

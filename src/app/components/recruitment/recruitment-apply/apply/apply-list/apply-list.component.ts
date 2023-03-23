@@ -258,7 +258,30 @@ applyworkCurrent:number = 0;
 
   doDeleteApplywork(){
     console.log(this.selectedApplywork);
-  }
+
+    this.applyworkService
+    .applywork_delete(this.selectedApplywork)
+    .then((res) => {
+        console.log(res);
+        let result = JSON.parse(res);
+
+        if (result.success) {
+            this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: result.message,
+            });
+            this.doLoadapplywork();
+
+        } else {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: result.message,
+            });
+        }
+    });
+}
 
   close(){
     this.new_applywork=false

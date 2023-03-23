@@ -9,6 +9,8 @@ import { ReqcardModel } from 'src/app/models/recruitment/applycard';
 import { ReqEducationModel } from 'src/app/models/recruitment/applyeducation';
 import { ReqTrainingModel } from 'src/app/models/recruitment/applytraining';
 import { ReqForeignerModel } from 'src/app/models/recruitment/applyforeigner';
+import { ReqCriminalModel } from 'src/app/models/recruitment/applycriminal';
+import { ReqAssessmentModel } from 'src/app/models/recruitment/appassessment';
 
 @Injectable({
   providedIn: 'root'
@@ -310,87 +312,243 @@ export class ApplyworkDetailService {
     //Training
     public getapplywork_training(company:string, code:string){
 
-      var filter = {
-        device_name:'',
-        ip:"localhost",
-        username:this.initial_current.Username,
-        company_code:company,
-        language:"",
-        applywork_code:code
-      };
-
-      return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqtraininglist', filter, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        // console.log(res)
-        return message.data;
-      });
-    }
-    public record_reqtraining(applywork_code :string, list:ReqTrainingModel[]){
-      var item_data:string = "[";
-      for (let i = 0; i < list.length; i++) {
-        item_data = item_data + "{";
-        item_data = item_data + "\"reqtraining_no\":\"" + list[i].reqtraining_no + "\"";
-        item_data = item_data + ",\"reqtraining_start\":\"" + this.datePipe.transform(list[i].reqtraining_start)  + "\"";
-        item_data = item_data + ",\"reqtraining_finish\":\"" + this.datePipe.transform(list[i].reqtraining_finish)  + "\"";
-        item_data = item_data + ",\"reqtraining_status\":\"" + list[i].reqtraining_status + "\"";
-        item_data = item_data + ",\"reqtraining_hours\":\"" + list[i].reqtraining_hours + "\"";
-        item_data = item_data + ",\"reqtraining_cost\":\"" + list[i].reqtraining_cost + "\"";
-        item_data = item_data + ",\"reqtraining_note\":\"" + list[i].reqtraining_note + "\"";
-        item_data = item_data + ",\"institute_code\":\"" + list[i].institute_code + "\"";
-        item_data = item_data + ",\"institute_other\":\"" + list[i].institute_other + "\"";
-        item_data = item_data + ",\"course_code\":\"" + list[i].course_code + "\"";
-        item_data = item_data + ",\"course_other\":\"" + list[i].course_other + "\"";
-        item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-        item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
-        item_data = item_data + "}" + ",";
+        var filter = {
+          device_name:'',
+          ip:"localhost",
+          username:this.initial_current.Username,
+          company_code:company,
+          language:"",
+          applywork_code:code
+        };
+    
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqtraininglist', filter, this.options).toPromise()
+        .then((res) => {
+          let message = JSON.parse(res);
+          // console.log(res)
+          return message.data;
+        });
       }
-      if(item_data.length > 2)
-      {
-        item_data = item_data.substr(0, item_data.length - 1);
+      public record_reqtraining(applywork_code :string, list:ReqTrainingModel[]){
+        var item_data:string = "[";
+        for (let i = 0; i < list.length; i++) {
+          item_data = item_data + "{";
+          item_data = item_data + "\"reqtraining_no\":\"" + list[i].reqtraining_no + "\"";
+          item_data = item_data + ",\"reqtraining_start\":\"" + this.datePipe.transform(list[i].reqtraining_start)  + "\"";
+          item_data = item_data + ",\"reqtraining_finish\":\"" + this.datePipe.transform(list[i].reqtraining_finish)  + "\"";
+          item_data = item_data + ",\"reqtraining_status\":\"" + list[i].reqtraining_status + "\"";
+          item_data = item_data + ",\"reqtraining_hours\":\"" + list[i].reqtraining_hours + "\"";
+          item_data = item_data + ",\"reqtraining_cost\":\"" + list[i].reqtraining_cost + "\"";
+          item_data = item_data + ",\"reqtraining_note\":\"" + list[i].reqtraining_note + "\"";
+          item_data = item_data + ",\"institute_code\":\"" + list[i].institute_code + "\"";
+          item_data = item_data + ",\"institute_other\":\"" + list[i].institute_other + "\"";
+          item_data = item_data + ",\"course_code\":\"" + list[i].course_code + "\"";
+          item_data = item_data + ",\"course_other\":\"" + list[i].course_other + "\"";
+          item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+          item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
+          item_data = item_data + "}" + ",";
+        }
+        if(item_data.length > 2)
+        {
+          item_data = item_data.substr(0, item_data.length - 1);
+        }
+        item_data = item_data + "]";
+    
+        var specificData = {
+          transaction_data:item_data,
+          applywork_code:applywork_code,
+          company_code : this.initial_current.CompCode,
+          modified_by:this.initial_current.Username
+        };
+    
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqtraining', specificData, this.options).toPromise()
+        .then((res) => {
+          return res;
+        });
       }
-      item_data = item_data + "]";
+      public delete_reqtraining(model:ReqTrainingModel){
+        const data = {
+          reqtraining_no: model.reqtraining_no,
+          applywork_code: model.applywork_code,
+          company_code: this.initial_current.CompCode,
+          modified_by: this.initial_current.Username
+        };
+    
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqtraining_del', data, this.options).toPromise()
+        .then((res) => {
+          return res;
+        });
+      }
+      public reqtraining_import(file: File, file_name:string, file_type:string){
+        const formData = new FormData();
+        formData.append('file', file);
+    
+          var para = "fileName=" + file_name + "." + file_type;
+          para += "&token=" + this.initial_current.Token;
+          para += "&by=" + this.initial_current.Username;
+    
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadreqTraining?' + para, formData).toPromise()
+        .then((res) => {
+          return res;
+        });
+      }
 
-      var specificData = {
-        transaction_data:item_data,
-        applywork_code:applywork_code,
-        company_code : this.initial_current.CompCode,
-        modified_by:this.initial_current.Username
-      };
 
-      return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqtraining', specificData, this.options).toPromise()
-      .then((res) => {
-        return res;
-      });
+  //req Assessment
+  public getapplywork__assessment(company:string, code:string){
+
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:company,
+      language:"",
+      applywork_code:code
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqassessmentlist', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      // console.log(res)
+      return message.data;
+    });
+  }
+  public record_reqassessment(applywork_code :string, list:ReqAssessmentModel[]){
+    var item_data:string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"reqassessment_id\":\"" + list[i].reqassessment_id + "\"";
+      item_data = item_data + ",\"reqassessment_location\":\"" + list[i].reqassessment_location + "\"";
+      item_data = item_data + ",\"reqassessment_topic\":\"" + list[i].reqassessment_topic + "\"";
+      item_data = item_data + ",\"reqassessment_fromdate\":\"" + this.datePipe.transform(list[i].reqassessment_fromdate)  + "\"";
+      item_data = item_data + ",\"reqassessment_todate\":\"" + this.datePipe.transform(list[i].reqassessment_todate)  + "\"";
+      item_data = item_data + ",\"reqassessment_count\":\"" + list[i].reqassessment_count + "\"";
+      item_data = item_data + ",\"reqassessment_result\":\"" + list[i].reqassessment_result + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
+      item_data = item_data + "}" + ",";
     }
-    public delete_emptraining(model:ReqTrainingModel){
-      const data = {
-        reqtraining_no: model.reqtraining_no,
+    if(item_data.length > 2)
+    {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data:item_data,
+      applywork_code:applywork_code,
+      company_code : this.initial_current.CompCode,
+      modified_by:this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqassessment', specificData, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+  public delete_reqassessment(model:ReqAssessmentModel){
+    const data = {
+        reqassessment_id : model.reqassessment_id,
         applywork_code: model.applywork_code,
-        company_code: this.initial_current.CompCode,
-        modified_by: this.initial_current.Username
-      };
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
 
-      return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqtraining_del', data, this.options).toPromise()
-      .then((res) => {
-        return res;
-      });
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqassessment_del', data, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+  public reqassessment_import(file: File, file_name:string, file_type:string){
+    const formData = new FormData();
+    formData.append('file', file);
+
+      var para = "fileName=" + file_name + "." + file_type;
+      para += "&token=" + this.initial_current.Token;
+      para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqAssessment?' + para, formData).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+
+  //req Criminal
+  public getapplywork_criminal(company:string, code:string){
+
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:company,
+      language:"",
+      applywork_code:code
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqcriminallist', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      // console.log(res)
+      return message.data;
+    });
+  }
+  public record_reqcriminal(applywork_code :string, list:ReqCriminalModel[]){
+    var item_data:string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"reqcriminal_id\":\"" + list[i].reqcriminal_id + "\"";
+      item_data = item_data + ",\"reqcriminal_location\":\"" + list[i].reqcriminal_location + "\"";
+      item_data = item_data + ",\"reqcriminal_fromdate\":\"" + this.datePipe.transform(list[i].reqcriminal_fromdate)  + "\"";
+      item_data = item_data + ",\"reqcriminal_todate\":\"" + this.datePipe.transform(list[i].reqcriminal_todate)  + "\"";
+      item_data = item_data + ",\"reqcriminal_count\":\"" + list[i].reqcriminal_count + "\"";
+      item_data = item_data + ",\"reqcriminal_result\":\"" + list[i].reqcriminal_result + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
+      item_data = item_data + "}" + ",";
     }
-    public emptraining_import(file: File, file_name:string, file_type:string){
-      const formData = new FormData();
-      formData.append('file', file);
-
-        var para = "fileName=" + file_name + "." + file_type;
-        para += "&token=" + this.initial_current.Token;
-        para += "&by=" + this.initial_current.Username;
-
-      return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadreqTraining?' + para, formData).toPromise()
-      .then((res) => {
-        return res;
-      });
+    if(item_data.length > 2)
+    {
+      item_data = item_data.substr(0, item_data.length - 1);
     }
+    item_data = item_data + "]";
 
+    var specificData = {
+      transaction_data:item_data,
+      applywork_code:applywork_code,
+      company_code : this.initial_current.CompCode,
+      modified_by:this.initial_current.Username
+    };
 
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqcriminal', specificData, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+  public delete_reqcriminal(model:ReqCriminalModel){
+    const data = {
+        reqcriminal_id : model.reqcriminal_id,
+        applywork_code: model.applywork_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqcriminal_del', data, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+  public reqcriminal_import(file: File, file_name:string, file_type:string){
+    const formData = new FormData();
+    formData.append('file', file);
+
+      var para = "fileName=" + file_name + "." + file_type;
+      para += "&token=" + this.initial_current.Token;
+      para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqCriminal?' + para, formData).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
 
   //Foreigner
   public getapplywork_foreigner(company:string, code:string){
@@ -452,7 +610,7 @@ export class ApplyworkDetailService {
       return res;
     });
   }
-  public empforeigner_import(file: File, file_name:string, file_type:string){
+  public reqforeigner_import(file: File, file_name:string, file_type:string){
     const formData = new FormData();
     formData.append('file', file);
 

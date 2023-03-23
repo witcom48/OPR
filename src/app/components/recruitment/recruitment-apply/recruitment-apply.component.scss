@@ -1710,3 +1710,1620 @@
 //   }
 
 
+
+
+// applywork_code: string = "";
+//     manage_title: string = ""
+//     gender: any;
+//     toolbar_menu: MenuItem[] = [];
+//     items: MenuItem[] = [];
+//     items_tab: MenuItem[] = [];
+
+//     applywork_list: ApplyworkModel[] = [];
+//     selectedApplywork: ApplyworkModel = new ApplyworkModel();
+
+//     edit_applywork: boolean = false;
+//     new_applywork: boolean = false;
+
+//     resign_emp: boolean = false;
+
+//     taxM: Taxmethod[] = [];
+//     conPay: ConPay[] = [];
+//     cardTypelist: Ctype[] = [];
+
+//     //menu emplocation
+//     menu_emplocation: MenuItem[] = [];
+//     edit_emplocation: boolean = false;
+//     new_emplocation: boolean = false;
+//     //menu empbranch
+//     menu_empbranch: MenuItem[] = [];
+//     edit_empbranch: boolean = false;
+//     new_empbranch: boolean = false;
+//     //////////////////////////////////// menu reqeaddress
+//     menu_reqaddress: MenuItem[] = [];
+//     edit_reqaddress: boolean = false;
+//     new_reqaddress: boolean = false;
+//     ///////////////////////////////////menu reqcard
+//     menu_reqcard: MenuItem[] = [];
+//     edit_reqcard: boolean = false;
+//     new_card: boolean = false;
+//     //menu empbank
+//     menu_empbank: MenuItem[] = [];
+//     edit_empbank: boolean = false;
+//     new_bank: boolean = false;
+//     //menu empfamily
+//     menu_empfamily: MenuItem[] = [];
+//     edit_empfamily: boolean = false;
+//     new_family: boolean = false;
+//     //menu emphospital
+//     menu_emphospital: MenuItem[] = [];
+//     edit_emphospital: boolean = false;
+//     new_hospital: boolean = false;
+//     ///////////////////////////////////menu reqforeigner
+//     menu_reqforeigner: MenuItem[] = [];
+//     edit_reqforeigner: boolean = false;
+//     new_foreigner: boolean = false;
+//     //menu empfamily
+//     menu_empdep: MenuItem[] = [];
+//     edit_empdep: boolean = false;
+//     new_dep: boolean = false;
+
+//     ////////////////////////////////////menu reqeducation
+//     menu_reqeducation: MenuItem[] = [];
+//     edit_reqeducation: boolean = false;
+//     new_education: boolean = false;
+//     //menu emptraining
+//     menu_emptraining: MenuItem[] = [];
+//     edit_emptraining: boolean = false;
+//     new_training: boolean = false;
+//     //menu empassessment
+//     menu_empassessment: MenuItem[] = [];
+//     edit_empassessment: boolean = false;
+//     new_assessment: boolean = false;
+//     //menu empcriminal
+//     menu_empcriminal: MenuItem[] = [];
+//     edit_empcriminal: boolean = false;
+//     new_criminal: boolean = false;
+//     //menu empsalary
+//     menu_empsalary: MenuItem[] = [];
+//     edit_empsalary: boolean = false;
+//     new_salary: boolean = false;
+//     //menu empprovident
+//     menu_empprovident: MenuItem[] = [];
+//     edit_empprovident: boolean = false;
+//     new_provident: boolean = false;
+//     //menu empbenefit
+//     menu_empbenefit: MenuItem[] = [];
+//     edit_empbenefit: boolean = false;
+//     new_benefit: boolean = false;
+//     //menu empreduce
+//     menu_empreduce: MenuItem[] = [];
+//     edit_empreduce: boolean = false;
+//     new_reduce: boolean = false;
+//     //menu empaccumalate
+//     menu_empaccumalate: MenuItem[] = [];
+//     edit_empaccumalate: boolean = false;
+//     new_accumalate: boolean = false;
+//     //menu emptranfer
+//     menu_emptranfer: MenuItem[] = [];
+//     edit_emptranfer: boolean = false;
+//     new_tranfer: boolean = false;
+
+//     displayManage: boolean = false;
+
+//     constructor(
+//       private applyworkService: ApplyworkService,
+//       private reqdetailService: ApplyworkDetailService,
+//       private router: Router,
+//       private route: ActivatedRoute,
+//       private messageService: MessageService,
+//       private confirmationService: ConfirmationService,
+//       private datePipe: DatePipe,
+//       private empdetailService: EmpDetailService,
+
+//       //service
+//       private initialService: InitialService,
+//       private religionService: ReligionService,
+//       private bloodtypeService: BloodtypeService,
+//       private positionService: PositionService,
+//     ) {
+
+//     }
+
+//     ngOnInit(): void {
+
+//       this.route.queryParams.subscribe(params => {
+//         this.applywork_code = params['applycode'];
+//         console.log(this.applywork_code);
+//       });
+
+//       this.doGetInitialCurrent();
+
+//       // Dropdown
+//       this.doLoadInitialList();
+//       this.doLoadReligionList();
+//       this.doLoadBloodtypeList();
+
+
+//       setTimeout(() => {
+//         this.doLoadMenu();
+//       }, 100);
+
+//       setTimeout(() => {
+//         if (this.applywork_code != "") {
+//           this.doLoadApplywork()
+//         }
+
+//       }, 400);
+
+//     }
+
+//     public initial_current: InitialCurrent = new InitialCurrent();
+//     doGetInitialCurrent() {
+//       this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+//       if (!this.initial_current) {
+//         this.router.navigateByUrl('');
+//       }
+//     }
+
+//     title_page: string = "Applywork";
+//     title_new: string = "New";
+//     title_edit: string = "Edit";
+//     title_delete: string = "Delete";
+//     title_import: string = "Import";
+//     title_export: string = "Export";
+//     title_save: string = "Save";
+//     title_code: string = "Code";
+
+//     title_summit: string = "Summit";
+//     title_cancel: string = "Cancel";
+
+//     title_genaral: string = "Genaral";
+//     title_empid: string = "Applywork ID";
+//     title_cardid: string = "Applywork Card";
+//     title_fname_th: string = "First Name (Thai)";
+//     title_lname_th: string = "Last Name (Thai)";
+//     title_fname_en: string = "First Name (Eng.)";
+//     title_lname_en: string = "Last Name (Eng.)";
+//     title_initial: string = "Initial";
+//     title_gender: string = "Gender";
+//     male_gender: string = "Male";
+//     female_gender: string = "Female";
+//     title_emplocation: string = "Location";
+//     title_empbranch: string = "Branch";
+//     title_type: string = "Applywork Type";
+//     title_status: string = "Applywork Status";
+//     title_birthdate: string = "Birth Date";
+//     title_startdate: string = "Start Date";
+//     title_hrs: string = "Hour/Day";
+//     title_probation: string = "Probation";
+//     title_probationdate: string = "Probation Date";
+//     title_probationenddate: string = "Probation End";
+//     title_resignstatus: string = "Resign Status";
+//     title_resigndate: string = "Resign Date";
+//     title_resignreason: string = "Resign Reason";
+
+//     title_personal: string = "Personal";
+//     title_religion: string = "Religion";
+//     title_blood: string = "Blood";
+//     title_weight: string = "Weight";
+//     title_height: string = "Height";
+//     title_address: string = "Address";
+//     title_card: string = "Card";
+//     title_bank: string = "Bank";
+//     title_family: string = "Family";
+//     title_hospital: string = "Hospital";
+//     title_foreigner: string = "Foreigner";
+
+//     title_record: string = "Record";
+//     title_department: string = "Department";
+//     title_position: string = "Position";
+//     title_training: string = "Training";
+//     title_education: string = "Education";
+//     title_assessment: string = "Assessment";
+//     title_criminal: string = "Criminal Record";
+
+//     title_finance: string = "Finance";
+//     title_taxmethod: string = "Tax Method";
+//     title_salary: string = "Salary";
+//     title_benefit: string = "Benefit";
+//     title_fund: string = "Provident Fund";
+//     title_reduce: string = "Reduces";
+//     title_accumulate: string = "Accumalate";
+
+//     title_tranfer: string = "Tranfer record";
+
+//     title_modified_by: string = "Edit by";
+//     title_modified_date: string = "Edit date";
+//     title_search: string = "Search";
+//     title_upload: string = "Upload";
+
+//     title_page_from: string = "Showing";
+//     title_page_to: string = "to";
+//     title_page_total: string = "of";
+//     title_page_record: string = "entries";
+
+//     title_confirm: string = "Are you sure?";
+//     title_confirm_record: string = "Confirm to record";
+//     title_confirm_delete: string = "Confirm to delete";
+//     title_confirm_yes: string = "Yes";
+//     title_confirm_no: string = "No";
+
+//     title_confirm_cancel: string = "You have cancelled";
+
+//     doLoadLanguage() {
+//       if (this.initial_current.Language == "TH") {
+//         this.title_page = "ข้อมูลสถานที่ปฎิบัติงาน";
+//         this.title_new = "เพิ่ม";
+//         this.title_edit = "แก้ไข";
+//         this.title_delete = "ลบ";
+//         this.title_import = "นำเข้า";
+//         this.title_export = "โอนออก";
+//         this.title_save = "บันทึก";
+
+//         this.title_summit = "บันทึก";
+//         this.title_cancel = "ยกเลิก";
+
+//         this.title_genaral = 'ข้อมูลทั่วไป';
+//         this.title_code = "รหัสพนักงาน";
+//         this.title_cardid = "รหัสบัตร";
+//         this.title_fname_th = "ชื่อจริง (ไทย)";
+//         this.title_lname_th = "นามสกุล (ไทย)";
+//         this.title_fname_en = "ชื่อจริง (อังกฤษ)";
+//         this.title_lname_en = "นามสกุล (อังกฤษ)";
+//         this.title_initial = "คำนำหน้า";
+//         this.title_gender = "เพศ";
+//         this.male_gender = "ชาย";
+//         this.female_gender = "หญิง";
+//         this.title_emplocation = "สถานที่ปฏิบัติงาน";
+//         this.title_empbranch = "สาขา";
+//         this.title_type = "ประเภทพนักงาน";
+//         this.title_status = 'สถานะ';
+//         this.title_birthdate = 'วันเกิด';
+//         this.title_startdate = 'วันที่เริ่มงาน';
+//         this.title_hrs = 'ชั่วโมงทำงาน';
+//         this.title_probation = 'จำนวนวันทดลองงาน';
+//         this.title_probationdate = 'วันที่เริ่มทดลองงาน';
+//         this.title_probationenddate = 'วันที่สิ้นสุดทดลองงาน';
+//         this.title_resignstatus = 'ลาออก';
+//         this.title_resigndate = 'วันที่ลาออก';
+//         this.title_resignreason = 'เหตุผลการลาออก';
+
+//         this.title_personal = 'ข้อมูลส่วนตัว';
+//         this.title_religion = 'ศาสนา';
+//         this.title_blood = 'กรุ๊ปเลือด';
+//         this.title_weight = 'นํ้าหนัก';
+//         this.title_height = 'ส่วนสูง';
+//         this.title_address = 'ที่อยู่';
+//         this.title_card = 'ข้อมูลบัตร';
+//         this.title_bank = 'ข้อมูลธนาคาร';
+//         this.title_family = 'ข้อมูลครอบครัว';
+//         this.title_hospital = 'ข้อมูลโรงพยาบาล';
+//         this.title_foreigner = 'ข้อมูลพนักงานต่างด้าว';
+
+//         this.title_record = 'ข้อมูลประวัติ';
+//         this.title_department = 'สังกัด';
+//         this.title_position = 'ตำแหน่ง';
+//         this.title_education = 'ประวัติการศึกษา';
+//         this.title_training = 'ประวัติการอบรม';
+//         this.title_assessment = 'ประวัติการประเมิน';
+//         this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม'
+
+//         this.title_finance = 'การเงิน';
+//         this.title_taxmethod = 'การคำนวนภาษี';
+//         this.title_salary = 'เงินเดือน/ค่าจ้าง';
+//         this.title_benefit = 'สวัสดิการ';
+//         this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
+//         this.title_reduce = 'ค่าลดหย่อน';
+//         this.title_accumulate = 'รายได้สะสม/ภาษีสะสม';
+
+//         this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
+
+//         this.title_modified_by = "ผู้ทำรายการ";
+//         this.title_modified_date = "วันที่ทำรายการ";
+//         this.title_search = "ค้นหา";
+//         this.title_upload = "อัพโหลด";
+
+//         this.title_page_from = "แสดง";
+//         this.title_page_to = "ถึง";
+//         this.title_page_total = "จาก";
+//         this.title_page_record = "รายการ";
+
+//         this.title_confirm = "ยืนยันการทำรายการ";
+//         this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
+//         this.title_confirm_delete = "คุณต้องการลบรายการ";
+
+//         this.title_confirm_yes = "ใช่";
+//         this.title_confirm_no = "ยกเลิก";
+//         this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
+
+//       }
+//     }
+
+//     doLoadMenu() {
+//       //menumain
+//       this.toolbar_menu = [
+//         {
+//           label: 'Back',
+//           icon: 'pi-arrow-left',
+//           command: (event) => {
+//             this.router.navigateByUrl('recruitment/applylist');
+//           }
+//         },
+//         {
+//           label: 'Save',
+//           icon: 'pi pi-fw pi-save',
+//           command: (event) => {
+//             console.log('Save')
+//             this.confirmRecord()
+//           }
+
+//         },];
+//       //menu location
+//       this.menu_emplocation = [
+//         {
+//           label: 'New',
+//           icon: 'pi pi-fw pi-plus',
+//           command: (event) => {
+//             this.clearManage()
+//             this.new_emplocation = true
+//             var ref = this.emplocationList.length + 100
+//             this.selectedEmpLocation = new EmpLocationModel()
+//             this.selectedEmpLocation.emplocation_id = ref.toString()
+//             this.showManage()
+//           }
+//         },
+//         {
+//           label: 'Edit',
+//           icon: 'pi pi-fw pi-pencil',
+//           command: (event) => {
+//             this.clearManage()
+//             if (this.selectedEmpLocation != null) {
+//               this.edit_emplocation = true
+//               this.showManage()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Delete',
+//           icon: 'pi pi-fw pi-trash',
+//           command: (event) => {
+//             if (this.selectedEmpLocation != null) {
+//               this.emplocation_remove()
+//             }
+//           }
+//         },];
+//       //menu branch
+//       this.menu_empbranch = [
+//         {
+//           label: 'New',
+//           icon: 'pi pi-fw pi-plus',
+//           command: (event) => {
+//             this.clearManage()
+//             this.new_empbranch = true
+//             var ref = this.empbranchList.length + 100
+//             this.selectedEmpbranch = new EmpBranchModel()
+//             this.selectedEmpbranch.empbranch_id = ref.toString()
+//             this.showManage()
+//           }
+//         },
+//         {
+//           label: 'Edit',
+//           icon: 'pi pi-fw pi-pencil',
+//           command: (event) => {
+//             this.clearManage()
+//             if (this.selectedEmpbranch != null) {
+//               this.edit_empbranch = true
+//               this.showManage()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Delete',
+//           icon: 'pi pi-fw pi-trash',
+//           command: (event) => {
+//             if (this.selectedEmpbranch != null) {
+//               this.empbranch_remove()
+//             }
+//           }
+//         },];
+//       //menu address
+//       this.menu_reqaddress = [
+//         {
+//           label: 'New',
+//           icon: 'pi pi-fw pi-plus',
+//           command: (event) => {
+//             this.clearManage()
+//             this.new_reqaddress = true
+//             var ref = this.reqaddressList.length + 100
+//             this.selectedReqAddress = new ReqaddressModel()
+//             this.selectedReqAddress.applyaddress_id = ref.toString()
+//             this.showManage()
+//           }
+//         },
+//         {
+//           label: 'Edit',
+//           icon: 'pi pi-fw pi-pencil',
+//           command: (event) => {
+//             this.clearManage()
+//             if (this.selectedReqAddress != null) {
+//               this.edit_reqaddress = true
+//               this.showManage()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Delete',
+//           icon: 'pi pi-fw pi-trash',
+//           command: (event) => {
+//             if (this.selectedReqAddress != null) {
+//               this.reqaddress_remove()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Import',
+//           icon: 'pi pi-fw pi-file-import',
+//           command: (event) => {
+//             console.log("IMPORT");
+//           }
+//         },
+//         {
+//           label: 'Export',
+//           icon: 'pi pi-fw pi-file-export',
+//           command: (event) => {
+
+//           }
+//         }];
+//       //menu card
+//       this.menu_reqcard = [
+//         {
+//           label: 'New',
+//           icon: 'pi pi-fw pi-plus',
+//           command: (event) => {
+//             this.clearManage()
+//             this.new_card = true
+//             var ref = this.reqcardList.length + 100
+//             this.selectedReqcard = new ReqcardModel()
+//             this.selectedReqcard.card_id = ref.toString()
+//             this.showManage()
+//           }
+//         },
+//         {
+//           label: 'Edit',
+//           icon: 'pi pi-fw pi-pencil',
+//           command: (event) => {
+//             this.clearManage()
+//             if (this.selectedReqcard != null) {
+//               this.edit_reqcard = true
+//               this.showManage()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Delete',
+//           icon: 'pi pi-fw pi-trash',
+//           command: (event) => {
+//             if (this.selectedReqcard != null) {
+//               this.reqcard_remove()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Import',
+//           icon: 'pi pi-fw pi-file-import',
+//           command: (event) => {
+//           }
+//         },
+//         {
+//           label: 'Export',
+//           icon: 'pi pi-fw pi-file-export',
+//           command: (event) => {
+//           }
+//         }];
+//       //menu bank
+//       this.menu_empbank = [
+//         {
+//           label: 'New',
+//           icon: 'pi pi-fw pi-plus',
+//           command: (event) => {
+//             this.clearManage()
+//             this.new_bank = true
+//             var ref = this.empbankList.length + 100
+//             this.selectedEmpbank = new EmpbankModel()
+//             this.selectedEmpbank.bank_id = ref.toString()
+//             this.showManage()
+//           }
+//         },
+//         {
+//           label: 'Edit',
+//           icon: 'pi pi-fw pi-pencil',
+//           command: (event) => {
+//             this.clearManage()
+//             if (this.selectedEmpbank != null) {
+//               this.edit_empbank = true
+//               this.showManage()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Delete',
+//           icon: 'pi pi-fw pi-trash',
+//           command: (event) => {
+//             if (this.selectedEmpbank != null) {
+//               this.empbank_remove()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Import',
+//           icon: 'pi pi-fw pi-file-import',
+//           command: (event) => {
+//           }
+//         },
+//         {
+//           label: 'Export',
+//           icon: 'pi pi-fw pi-file-export',
+//           command: (event) => {
+//           }
+//         }];
+//       //menu family
+//       this.menu_empfamily = [
+//         {
+//           label: 'New',
+//           icon: 'pi pi-fw pi-plus',
+//           command: (event) => {
+//             this.clearManage()
+//             this.new_family = true
+//             var ref = this.empfamilyList.length + 100
+//             this.selectedEmpfamily = new EmpFamilyModel()
+//             this.selectedEmpfamily.family_id = ref.toString()
+//             this.showManage()
+//           }
+//         },
+//         {
+//           label: 'Edit',
+//           icon: 'pi pi-fw pi-pencil',
+//           command: (event) => {
+//             this.clearManage()
+//             if (this.selectedEmpfamily != null) {
+//               this.edit_empfamily = true
+//               this.showManage()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Delete',
+//           icon: 'pi pi-fw pi-trash',
+//           command: (event) => {
+//             if (this.selectedEmpfamily != null) {
+//               this.empfamily_remove()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Import',
+//           icon: 'pi pi-fw pi-file-import',
+//           command: (event) => {
+//             console.log("IMPORT");
+//           }
+//         },
+//         {
+//           label: 'Export',
+//           icon: 'pi pi-fw pi-file-export',
+//           command: (event) => {
+//             console.log("EXPORT");
+//           }
+//         }]
+
+//         //menu education
+//     this.menu_empeducation = [
+//         {
+//           label: 'New',
+//           icon: 'pi pi-fw pi-plus',
+//           command: (event) => {
+//             console.log("NEW");
+//             this.clearManage()
+//             this.new_education = true
+//             var ref = this.empeducationList.length + 100
+//             this.selectedEmpeducation = new EmpEducationModel()
+//             this.selectedEmpeducation.empeducation_no = ref.toString()
+//             this.showManage()
+//           }
+//         },
+//         {
+//           label: 'Edit',
+//           icon: 'pi pi-fw pi-pencil',
+//           command: (event) => {
+//             console.log("EDIT");
+//             this.clearManage()
+//             if (this.selectedEmpeducation != null) {
+//               this.edit_empeducation = true
+//               this.showManage()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Delete',
+//           icon: 'pi pi-fw pi-trash',
+//           command: (event) => {
+//             if (this.selectedEmpeducation != null) {
+//               this.empeducation_remove()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Import',
+//           icon: 'pi pi-fw pi-file-import',
+//           command: (event) => {
+//             console.log("IMPORT");
+//           }
+//         },
+//         {
+//           label: 'Export',
+//           icon: 'pi pi-fw pi-file-export',
+//           command: (event) => {
+//             console.log("EXPORT");
+//           }
+//         }]
+
+//       //menu hospital
+//       this.menu_emphospital = [
+//         {
+//           label: 'New',
+//           icon: 'pi pi-fw pi-plus',
+//           command: (event) => {
+//             console.log("NEW");
+//             this.clearManage()
+//             this.new_hospital = true
+//             var ref = this.emphospitalList.length + 100
+//             this.selectedEmphospital = new EmpHospitalModel()
+//             this.selectedEmphospital.emphospital_id = ref.toString()
+//             this.showManage()
+//           }
+//         },
+//         {
+//           label: 'Edit',
+//           icon: 'pi pi-fw pi-pencil',
+//           command: (event) => {
+//             console.log("EDIT");
+//             this.clearManage()
+//             if (this.selectedEmphospital != null) {
+//               this.edit_emphospital = true
+//               this.showManage()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Delete',
+//           icon: 'pi pi-fw pi-trash',
+//           command: (event) => {
+//             if (this.selectedEmphospital != null) {
+//               this.emphospital_remove()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Import',
+//           icon: 'pi pi-fw pi-file-import',
+//           command: (event) => {
+//             console.log("IMPORT");
+//           }
+//         },
+//         {
+//           label: 'Export',
+//           icon: 'pi pi-fw pi-file-export',
+//           command: (event) => {
+//             console.log("EXPORT");
+//           }
+//         }]
+
+//       //menu Dep
+//       this.menu_empdep = [
+//         {
+//           label: 'New',
+//           icon: 'pi pi-fw pi-plus',
+//           command: (event) => {
+//             console.log("NEW");
+//             this.clearManage()
+//             this.new_dep = true
+//             var ref = this.empdepList.length + 100
+//             this.selectedEmpdep = new EmpDepModel()
+//             this.selectedEmpdep.empdep_id = ref.toString()
+//             this.showManage()
+//           }
+//         },
+//         {
+//           label: 'Edit',
+//           icon: 'pi pi-fw pi-pencil',
+//           command: (event) => {
+//             console.log("EDIT");
+//             this.clearManage()
+//             if (this.selectedEmpdep != null) {
+//               this.edit_empdep = true
+//               this.showManage()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Delete',
+//           icon: 'pi pi-fw pi-trash',
+//           command: (event) => {
+//             if (this.selectedEmpdep != null) {
+//               this.empdep_remove()
+//             }
+//           }
+//         },
+//         {
+//           label: 'Import',
+//           icon: 'pi pi-fw pi-file-import',
+//           command: (event) => {
+//             console.log("IMPORT");
+//           }
+//         },
+//         {
+//           label: 'Export',
+//           icon: 'pi pi-fw pi-file-export',
+//           command: (event) => {
+//             console.log("EXPORT");
+//           }
+//         }]
+
+
+//     }
+
+//     tabChange(e: { index: any; }) {
+//       var index = e.index;
+//       //
+//       this.edit_emplocation = false;
+//       this.new_emplocation = false;
+//       //
+//       this.edit_empbranch = false;
+//       this.new_empbranch = false;
+//       //
+//       this.edit_reqaddress = false;
+//       this.new_reqaddress = false;
+//       //
+//       this.edit_reqcard = false;
+//       this.new_card = false;
+//       //
+//       this.edit_empbank = false;
+//       this.new_bank = false;
+//       //
+//       this.edit_empfamily = false;
+//       this.new_family = false;
+//       //
+//       this.edit_emphospital = false;
+//       this.new_hospital = false;
+//       //
+//       this.edit_reqforeigner = false;
+//       this.new_foreigner = false;
+//       //
+//       this.edit_empdep = false;
+//       this.new_dep = false;
+// //
+//     this.edit_empeducation = false;
+//     this.new_education = false;
+//     //
+//       this.displayManage = false
+
+//     }
+
+//     position: string = "right";
+//     showManage() {
+//       this.displayManage = true;
+
+//       if (this.initial_current.Language == "EN") {
+
+//         if (this.new_emplocation || this.edit_emplocation) {
+//           this.manage_title = "Location"
+//         }
+//         else if (this.new_empbranch || this.edit_empbranch) {
+//           this.manage_title = "recommender"
+//         }
+//         else if (this.new_reqaddress || this.edit_reqaddress) {
+//           this.manage_title = "Address"
+//         }
+//         else if (this.new_card || this.edit_reqcard) {
+//           this.manage_title = "Card"
+//         }
+//         else if (this.new_bank || this.edit_empbank) {
+//           this.manage_title = "ข้อมูลพนักงานต่างด้าวen"
+//         }
+//         else if (this.new_family || this.edit_empfamily) {
+//           this.manage_title = "ประวัติการศึกษาen "
+//         }
+//         else if (this.new_hospital || this.edit_emphospital) {
+//           this.manage_title = "ประวัติการอบรมen"
+//         }
+//         else if (this.new_foreigner || this.edit_reqforeigner) {
+//           this.manage_title = "ประวัติการประเมินen"
+//         }
+//         else if (this.new_education || this.edit_empeducation) {
+//           this.manage_title = "Education"
+//         }
+
+
+//         else if (this.new_dep || this.edit_empdep) {
+//           this.manage_title = "ประวัติการตรวจสอบอาชญากรรมen"
+//         }
+
+
+//       } else {
+//         if (this.new_emplocation || this.edit_emplocation) {
+//           this.manage_title = "สถานที่ต้องการปฎิบัติงาน"
+//         }
+//         else if (this.new_empbranch || this.edit_empbranch) {
+//           this.manage_title = "ผู้แนะนำ"
+//         }
+//         else if (this.new_reqaddress || this.edit_reqaddress) {
+//           this.manage_title = "ที่อยู่"
+//         }
+//         else if (this.new_card || this.edit_reqcard) {
+//           this.manage_title = "ข้อมูลบัตร"
+//         }
+//         else if (this.new_bank || this.edit_empbank) {
+//           this.manage_title = "ข้อมูลพนักงานต่างด้าว"
+//         }
+//         else if (this.new_family || this.edit_empfamily) {
+//           this.manage_title = "ประวัติการศึกษา"
+//         }
+//         else if (this.new_hospital || this.edit_emphospital) {
+//           this.manage_title = "ประวัติการอบรม"
+//         }
+//         else if (this.new_foreigner || this.edit_reqforeigner) {
+//           this.manage_title = "ประวัติการประเมิน"
+//         }
+//         else if (this.new_dep || this.edit_empdep) {
+//           this.manage_title = "ประวัติการตรวจสอบอาชญากรรม"
+//         }
+
+//     else if (this.new_education || this.edit_empeducation) {
+//       this.manage_title = "ประวัติการศึกษา"
+//     }
+
+//       }
+//     }
+
+//     doLoadApplywork() {
+//       var applywork_list: ApplyworkModel[] = [];
+//       this.applyworkService.applywork_get(this.initial_current.CompCode, this.applywork_code).then(async (res) => {
+//         await res.forEach((element: ApplyworkModel) => {
+//           element.applywork_birthdate = new Date(element.applywork_birthdate)
+//           element.applywork_startdate = new Date(element.applywork_startdate)
+//         //   element.worker_resigndate = new Date(element.worker_resigndate)
+//         //   element.worker_probationdate = new Date(element.worker_probationdate)
+//         //   element.worker_probationenddate = new Date(element.worker_probationenddate)
+//         })
+
+//         applywork_list = await res;
+
+//         if (applywork_list.length > 0) {
+//           this.selectedApplywork = applywork_list[0]
+
+//           setTimeout(() => {
+//             this.doLoadEmplocationList();
+//             this.doLoadEmpbranchList();
+
+//             this.doLoadReqaddressList();
+//             this.doLoadReqcardList();
+//             this.doLoadEmpbankList();
+//             this.doLoadEmpfamilyList();
+//             this.doLoadEmpHospitalList();
+//             this.doLoadReqForeigner();
+//             this.doLoadEmpeducationList();
+
+//             this.doLoadEmpDepList();
+
+//           }, 300);
+
+//         }
+
+//       });
+//     }
+
+//     //get data dropdown
+//     // คำนำหน้า
+//     initialList: InitialModel[] = [];
+//     doLoadInitialList() {
+//       this.initialService.initial_get().then((res) => {
+//         this.initialList = res;
+//       })
+//     }
+//     // ศาสนา
+//     religionList: ReligionModel[] = [];
+//     doLoadReligionList() {
+//       this.religionService.religion_get().then((res) => {
+//         this.religionList = res;
+//       })
+//     }
+//     // กรุ๊ปเลือด
+//     bloodtypeList: BloodtypeModel[] = [];
+//     doLoadBloodtypeList() {
+//       this.bloodtypeService.bloodtype_get().then((res) => {
+//         this.bloodtypeList = res;
+//       })
+//     }
+
+//     //address
+//     reqaddressList: ReqaddressModel[] = [];
+//     selectedReqAddress: ReqaddressModel = new ReqaddressModel();
+//     doLoadReqaddressList() {
+//       this.reqdetailService.getapplywork_reqaddress(this.initial_current.CompCode, this.applywork_code).then((res) => {
+//         this.reqaddressList = res;
+//         if (this.reqaddressList.length > 0) {
+//           this.selectedReqAddress = this.reqaddressList[0];
+//         }
+//       })
+//     }
+//     onRowSelectReqAddress(event: Event) { }
+//     reqaddress_summit() {
+//       this.reqaddress_addItem(this.selectedReqAddress)
+//       this.new_reqaddress = false
+//       this.edit_reqaddress = false
+//       this.displayManage = false
+//     }
+//     reqaddress_remove() {
+//       this.selectedReqAddress.applyaddress_id = "9999";
+//       this.reqaddress_addItem(this.selectedReqAddress)
+//       this.new_reqaddress = false
+//       this.edit_reqaddress = false
+//     }
+//     reqaddress_delete() { }
+//     reqaddress_cancel() {
+//       this.new_reqaddress = false
+//       this.edit_reqaddress = false
+//       this.displayManage = false
+//     }
+//     reqaddress_addItem(model: ReqaddressModel) {
+//       const itemNew: ReqaddressModel[] = [];
+//       for (let i = 0; i < this.reqaddressList.length; i++) {
+//         if (this.reqaddressList[i].applyaddress_id == model.applyaddress_id) {
+//           //-- Notting
+//         }
+//         else {
+//           itemNew.push(this.reqaddressList[i]);
+//         }
+//       }
+//       //-- 9999 for delete
+//       if (model.applyaddress_id != "9999") {
+//         itemNew.push(model);
+//       }
+//       this.reqaddressList = [];
+//       this.reqaddressList = itemNew;
+//       this.reqaddressList.sort(function (a, b) { return parseInt(a.applyaddress_no) - parseInt(b.applyaddress_no); })
+//     }
+//     record_reqaddress() {
+//       if (this.reqaddressList.length == 0) {
+//         return
+//       }
+//       this.reqdetailService.record_reqaddress(this.selectedApplywork.applywork_code, this.reqaddressList).then((res) => {
+//         let result = JSON.parse(res);
+//         if (result.success) {
+//         }
+//         else {
+//         }
+//       });
+//     }
+
+//   //education
+//   empeducationList: EmpEducationModel[] = [];
+//   selectedEmpeducation: EmpEducationModel = new EmpEducationModel();
+//   doLoadEmpeducationList() {
+//     this.empdetailService.getworker_education(this.initial_current.CompCode, this.emp_code).then(async (res) => {
+//       await res.forEach((element: EmpEducationModel) => {
+//         element.empeducation_start = new Date(element.empeducation_start)
+//         element.empeducation_finish = new Date(element.empeducation_finish)
+//       })
+//       this.empeducationList = await res;
+//       if (this.empeducationList.length > 0) {
+//         this.selectedEmpeducation = this.empeducationList[0];
+//       }
+//     })
+//   }
+//   onRowSelectEmpeducation(event: Event) { }
+//   empeducation_summit() {
+//     this.empeducation_addItem(this.selectedEmpeducation)
+//     this.new_education = false
+//     this.edit_empeducation = false
+//     this.displayManage = false
+//   }
+//   empeducation_remove() {
+//     this.selectedEmpeducation.empeducation_no = "9999";
+//     this.empeducation_addItem(this.selectedEmpeducation)
+//     this.new_education = false
+//     this.edit_empeducation = false
+//   }
+//   empeducation_delete() { }
+//   empeducation_cancel() {
+//     this.new_education = false
+//     this.edit_empeducation = false
+//     this.displayManage = false
+//   }
+//   empeducation_addItem(model: EmpEducationModel) {
+//     const itemNew: EmpEducationModel[] = [];
+//     for (let i = 0; i < this.empeducationList.length; i++) {
+//       if (this.empeducationList[i].empeducation_no == model.empeducation_no) {
+//         //-- Notting
+//       }
+//       else {
+//         itemNew.push(this.empeducationList[i]);
+//       }
+//     }
+//     //-- 9999 for delete
+//     if (model.empeducation_no != "9999") {
+//       itemNew.push(model);
+//     }
+//     this.empeducationList = [];
+//     this.empeducationList = itemNew;
+//     this.empeducationList.sort(function (a, b) { return parseInt(a.empeducation_no) - parseInt(b.empeducation_no); })
+//   }
+//   record_empeducation() {
+//     if (this.empeducationList.length == 0) {
+//       return
+//     }
+//     this.empdetailService.record_empeducation(this.selectedEmployee.worker_code, this.empeducationList).then((res) => {
+//       let result = JSON.parse(res);
+//       if (result.success) {
+//       }
+//       else {
+//       }
+//     });
+//   }
+//     //card
+//     reqcardList: ReqcardModel[] = [];
+//     selectedReqcard: ReqcardModel = new ReqcardModel();
+//     doLoadReqcardList() {
+//       this.reqdetailService.getapplywork_card(this.initial_current.CompCode, this.applywork_code).then(async (res) => {
+//         await res.forEach((element: ReqcardModel) => {
+//           element.card_issue = new Date(element.card_issue)
+//           element.card_expire = new Date(element.card_expire)
+
+//         })
+//         this.reqcardList = await res;
+
+//         if (this.reqcardList.length > 0) {
+//           this.selectedReqcard = this.reqcardList[0];
+//         }
+//       })
+//     }
+//     onRowSelectReqCard(event: Event) { }
+//     reqcard_summit() {
+//       this.reqcard_addItem(this.selectedReqcard)
+//       this.new_card = false
+//       this.edit_reqcard = false
+//       this.displayManage = false
+//     }
+//     reqcard_remove() {
+//       this.selectedReqcard.card_id = "9999";
+//       this.reqcard_addItem(this.selectedReqcard)
+//       this.new_card = false
+//       this.edit_reqcard = false
+//     }
+//     reqcard_delete() { }
+//     reqcard_cancel() {
+//       this.new_card = false
+//       this.edit_reqcard = false
+//       this.displayManage = false
+//     }
+//     reqcard_addItem(model: ReqcardModel) {
+//       const itemNew: ReqcardModel[] = [];
+//       for (let i = 0; i < this.reqcardList.length; i++) {
+//         if (this.reqcardList[i].card_id == model.card_id) {
+//           //-- Notting
+//         }
+//         else {
+//           itemNew.push(this.reqcardList[i]);
+//         }
+//       }
+//       //-- 9999 for delete
+//       if (model.card_id != "9999") {
+//         itemNew.push(model);
+//       }
+//       this.reqcardList = [];
+//       this.reqcardList = itemNew;
+//       this.reqcardList.sort(function (a, b) { return parseInt(a.card_id) - parseInt(b.card_id); })
+//     }
+//     record_reqcard() {
+//       if (this.reqcardList.length == 0) {
+//         return
+//       }
+//       this.reqdetailService.record_reqcard(this.selectedApplywork.applywork_code, this.reqcardList).then((res) => {
+//         let result = JSON.parse(res);
+//         if (result.success) {
+//         }
+//         else {
+//         }
+//       });
+//     }
+
+//     //bank
+//     empbankList: EmpbankModel[] = [];
+//     selectedEmpbank: EmpbankModel = new EmpbankModel();
+//     doLoadEmpbankList() {
+//       this.empdetailService.getworker_bank(this.initial_current.CompCode, this.applywork_code).then((res) => {
+
+//         this.empbankList = res;
+//         if (this.empbankList.length > 0) {
+//           this.selectedEmpbank = this.empbankList[0];
+//         }
+//       })
+//     }
+//     onRowSelectEmpbank(event: Event) { }
+//     empbank_summit() {
+//       this.empbank_addItem(this.selectedEmpbank)
+//       this.new_bank = false
+//       this.edit_empbank = false
+//       this.displayManage = false
+//     }
+//     empbank_remove() {
+//       this.selectedEmpbank.bank_id = "9999";
+//       this.empbank_addItem(this.selectedEmpbank)
+//       this.new_bank = false
+//       this.edit_empbank = false
+//     }
+//     empbank_delete() { }
+//     empbank_cancel() {
+//       this.new_bank = false
+//       this.edit_empbank = false
+//       this.displayManage = false
+//     }
+//     empbank_addItem(model: EmpbankModel) {
+//       const itemNew: EmpbankModel[] = [];
+//       for (let i = 0; i < this.empbankList.length; i++) {
+//         if (this.empbankList[i].bank_id == model.bank_id) {
+//           //-- Notting
+//         }
+//         else {
+//           itemNew.push(this.empbankList[i]);
+//         }
+//       }
+//       //-- 9999 for delete
+//       if (model.bank_id != "9999") {
+//         itemNew.push(model);
+//       }
+//       this.empbankList = [];
+//       this.empbankList = itemNew;
+//       this.empbankList.sort(function (a, b) { return parseInt(a.bank_id) - parseInt(b.bank_id); })
+//     }
+//     record_empbank() {
+//       if (this.empbankList.length == 0) {
+//         return
+//       }
+//       this.empdetailService.record_empbank(this.selectedApplywork.applywork_code, this.empbankList).then((res) => {
+//         let result = JSON.parse(res);
+//         if (result.success) {
+//         }
+//         else {
+//         }
+//       });
+//     }
+
+//     //family
+//     empfamilyList: EmpFamilyModel[] = [];
+//     selectedEmpfamily: EmpFamilyModel = new EmpFamilyModel();
+//     doLoadEmpfamilyList() {
+//       this.empdetailService.getworker_family(this.initial_current.CompCode, this.applywork_code).then(async (res) => {
+//         await res.forEach((element: EmpFamilyModel) => {
+//           element.family_birthdate = new Date(element.family_birthdate)
+//         })
+//         this.empfamilyList = await res;
+//         if (this.empfamilyList.length > 0) {
+//           this.selectedEmpfamily = this.empfamilyList[0];
+//         }
+//       })
+//     }
+//     onRowSelectEmpFamily(event: Event) { }
+//     empfamily_summit() {
+//       this.empfamily_addItem(this.selectedEmpfamily)
+//       this.new_family = false
+//       this.edit_empfamily = false
+//       this.displayManage = false
+//     }
+//     empfamily_remove() {
+//       this.selectedEmpfamily.family_id = "9999";
+//       this.empfamily_addItem(this.selectedEmpfamily)
+//       this.new_bank = false
+//       this.edit_empbank = false
+//     }
+//     empfamily_delete() { }
+//     empfamily_cancel() {
+//       this.new_family = false
+//       this.edit_empfamily = false
+//       this.displayManage = false
+//     }
+//     empfamily_addItem(model: EmpFamilyModel) {
+//       const itemNew: EmpFamilyModel[] = [];
+//       for (let i = 0; i < this.empfamilyList.length; i++) {
+//         if (this.empfamilyList[i].family_id == model.family_id) {
+//           //-- Notting
+//         }
+//         else {
+//           itemNew.push(this.empfamilyList[i]);
+//         }
+//       }
+//       //-- 9999 for delete
+//       if (model.family_id != "9999") {
+//         itemNew.push(model);
+//       }
+//       this.empfamilyList = [];
+//       this.empfamilyList = itemNew;
+//       this.empfamilyList.sort(function (a, b) { return parseInt(a.family_id) - parseInt(b.family_id); })
+//     }
+//     record_empfamily() {
+//       if (this.empfamilyList.length == 0) {
+//         return
+//       }
+//       this.empdetailService.record_empfamily(this.selectedApplywork.applywork_code, this.empfamilyList).then((res) => {
+//         let result = JSON.parse(res);
+//         if (result.success) {
+//         }
+//         else {
+//         }
+//       });
+//     }
+
+//     //hospital
+//     emphospitalList: EmpHospitalModel[] = [];
+//     selectedEmphospital: EmpHospitalModel = new EmpHospitalModel();
+//     doLoadEmpHospitalList() {
+//       this.empdetailService.getworker_hospital(this.initial_current.CompCode, this.applywork_code).then(async (res) => {
+//         await res.forEach((element: EmpHospitalModel) => {
+//           element.emphospital_date = new Date(element.emphospital_date)
+//         })
+//         this.emphospitalList = await res;
+//         if (this.emphospitalList.length > 0) {
+//           this.selectedEmphospital = this.emphospitalList[0];
+//         }
+//       })
+//     }
+//     onRowSelectEmpHospital(event: Event) { }
+//     emphospital_summit() {
+//       this.emphospital_addItem(this.selectedEmphospital)
+//       this.new_hospital = false
+//       this.edit_emphospital = false
+//       this.displayManage = false
+//     }
+//     emphospital_remove() {
+//       this.selectedEmphospital.emphospital_id = "9999";
+//       this.emphospital_addItem(this.selectedEmphospital)
+//       this.new_hospital = false
+//       this.edit_emphospital = false
+//     }
+//     emphospital_delete() { }
+//     emphospital_cancel() {
+//       this.new_hospital = false
+//       this.edit_emphospital = false
+//       this.displayManage = false
+//     }
+//     emphospital_addItem(model: EmpHospitalModel) {
+//       const itemNew: EmpHospitalModel[] = [];
+//       for (let i = 0; i < this.emphospitalList.length; i++) {
+//         if (this.emphospitalList[i].emphospital_id == model.emphospital_id) {
+//           //-- Notting
+//         }
+//         else {
+//           itemNew.push(this.emphospitalList[i]);
+//         }
+//       }
+//       //-- 9999 for delete
+//       if (model.emphospital_id != "9999") {
+//         itemNew.push(model);
+//       }
+//       this.emphospitalList = [];
+//       this.emphospitalList = itemNew;
+//       this.emphospitalList.sort(function (a, b) { return parseInt(a.emphospital_id) - parseInt(b.emphospital_id); })
+//     }
+//     record_emphospital() {
+//       if (this.emphospitalList.length == 0) {
+//         return
+//       }
+//       this.empdetailService.record_emphospital(this.selectedApplywork.applywork_code, this.emphospitalList).then((res) => {
+//         let result = JSON.parse(res);
+//         if (result.success) {
+//         }
+//         else {
+//         }
+//       });
+//     }
+
+//     reqforeignerList: ReqForeignerModel[] = [];
+//     selectedReqforeigner: ReqForeignerModel = new ReqForeignerModel();
+//     doLoadReqForeigner() {
+//       this.reqdetailService.getapplywork_foreigner(this.initial_current.CompCode, this.applywork_code).then(async (res) => {
+//         await res.forEach((element: ReqForeignerModel) => {
+//           element.passport_issue = new Date(element.passport_issue)
+//           element.passport_expire = new Date(element.passport_expire)
+//           element.visa_issue = new Date(element.visa_issue)
+//           element.visa_expire = new Date(element.visa_expire)
+//           element.workpermit_issue = new Date(element.workpermit_issue)
+//           element.workpermit_expire = new Date(element.workpermit_expire)
+//           element.entry_date = new Date(element.entry_date)
+//           element.certificate_expire = new Date(element.certificate_expire)
+//           element.otherdoc_expire = new Date(element.otherdoc_expire)
+//         })
+//         this.reqforeignerList = await res;
+//         if (this.reqforeignerList.length > 0) {
+//           this.selectedReqforeigner = this.reqforeignerList[0];
+//         }
+//       })
+//     }
+//     record_reqforeigner() {
+//       this.reqdetailService.record_reqforeigner(this.selectedApplywork.applywork_code, this.selectedReqforeigner)
+//     }
+
+//     //dep
+//     empdepList: EmpDepModel[] = [];
+//     selectedEmpdep: EmpDepModel = new EmpDepModel();
+//     doLoadEmpDepList() {
+//       this.empdetailService.getworker_dep(this.initial_current.CompCode, this.applywork_code).then(async (res) => {
+//         await res.forEach((element: EmpDepModel) => {
+//           element.empdep_date = new Date(element.empdep_date)
+//         })
+//         this.empdepList = await res;
+//         if (this.empdepList.length > 0) {
+//           this.selectedEmpdep = this.empdepList[0];
+//         }
+//       })
+//     }
+//     onRowSelectEmpDep(event: Event) { }
+//     empdep_summit() {
+//       this.empdep_addItem(this.selectedEmpdep)
+//       this.new_dep = false
+//       this.edit_empdep = false
+//       this.displayManage = false
+//     }
+//     empdep_remove() {
+//       this.selectedEmpdep.empdep_id = "9999";
+//       this.empdep_addItem(this.selectedEmpdep)
+//       this.new_dep = false
+//       this.edit_empdep = false
+//     }
+//     empdep_delete() { }
+//     empdep_cancel() {
+//       this.new_dep = false
+//       this.edit_empdep = false
+//       this.displayManage = false
+//     }
+//     empdep_addItem(model: EmpDepModel) {
+//       const itemNew: EmpDepModel[] = [];
+//       for (let i = 0; i < this.empdepList.length; i++) {
+//         if (this.empdepList[i].empdep_id == model.empdep_id) {
+//           //-- Notting
+//         }
+//         else {
+//           itemNew.push(this.empdepList[i]);
+//         }
+//       }
+//       //-- 9999 for delete
+//       if (model.empdep_id != "9999") {
+//         itemNew.push(model);
+//       }
+//       this.empdepList = [];
+//       this.empdepList = itemNew;
+//       this.empdepList.sort(function (a, b) { return parseInt(a.empdep_id) - parseInt(b.empdep_id); })
+//     }
+//     record_empdep() {
+//       if (this.empdepList.length == 0) {
+//         return
+//       }
+//       this.empdetailService.record_empdep(this.selectedApplywork.applywork_code, this.empdepList).then((res) => {
+//         let result = JSON.parse(res);
+//         if (result.success) {
+//         }
+//         else {
+//         }
+//       });
+//     }
+
+
+
+
+
+//     //emp location
+//     emplocationList: EmpLocationModel[] = [];
+//     selectedEmpLocation: EmpLocationModel = new EmpLocationModel();
+//     doLoadEmplocationList() {
+//       this.empdetailService.getworker_location(this.initial_current.CompCode, this.applywork_code).then(async(res) => {
+//         await res.forEach((element: EmpLocationModel) => {
+//           element.emplocation_startdate = new Date(element.emplocation_startdate)
+//           element.emplocation_enddate = new Date(element.emplocation_enddate)
+//         })
+//         this.emplocationList = await res;
+//         if (this.emplocationList.length > 0) {
+//           this.selectedEmpLocation = this.emplocationList[0];
+//         }
+//       })
+//     }
+//     onRowSelectEmpLocation(event: Event) { }
+//     emplocation_summit() {
+//       this.emplocation_addItem(this.selectedEmpLocation)
+//       this.new_emplocation = false
+//       this.edit_emplocation = false
+//       this.displayManage = false
+//     }
+//     emplocation_remove() {
+//       this.selectedEmpLocation.emplocation_id = "9999";
+//       this.emplocation_addItem(this.selectedEmpLocation)
+//       this.new_emplocation = false
+//       this.edit_emplocation = false
+//     }
+//     emplocation_delete() { }
+//     emplocation_cancel() {
+//       this.new_emplocation = false
+//       this.edit_emplocation = false
+//       this.displayManage = false
+//     }
+//     emplocation_addItem(model: EmpLocationModel) {
+//       const itemNew: EmpLocationModel[] = [];
+//       for (let i = 0; i < this.emplocationList.length; i++) {
+//         if (this.emplocationList[i].emplocation_id == model.emplocation_id) {
+//           //-- Notting
+//         }
+//         else {
+//           itemNew.push(this.emplocationList[i]);
+//         }
+//       }
+//       //-- 9999 for delete
+//       if (model.emplocation_id != "9999") {
+//         itemNew.push(model);
+//       }
+//       this.emplocationList = [];
+//       this.emplocationList = itemNew;
+//       this.emplocationList.sort(function (a, b) { return parseInt(a.emplocation_id) - parseInt(b.emplocation_id); })
+//     }
+//     record_emplocation() {
+//       if (this.emplocationList.length == 0) {
+//         return
+//       }
+//       this.empdetailService.record_emplocation(this.selectedApplywork.applywork_code, this.emplocationList).then((res) => {
+//         let result = JSON.parse(res);
+//         if (result.success) {
+//         }
+//         else {
+//         }
+//       });
+//     }
+
+//     //emp branch
+//     empbranchList: EmpBranchModel[] = [];
+//     selectedEmpbranch: EmpBranchModel = new EmpBranchModel();
+//     doLoadEmpbranchList() {
+//       this.empdetailService.getworker_branch(this.initial_current.CompCode, this.applywork_code).then(async(res) => {
+//         await res.forEach((element: EmpBranchModel) => {
+//           element.empbranch_startdate = new Date(element.empbranch_startdate)
+//           element.empbranch_enddate = new Date(element.empbranch_enddate)
+//         })
+//         this.empbranchList = await res;
+//         if (this.empbranchList.length > 0) {
+//           this.selectedEmpbranch = this.empbranchList[0];
+//         }
+//       })
+//     }
+//     onRowSelectEmpBranch(event: Event) { }
+//     empbranch_summit() {
+//       this.empbranch_addItem(this.selectedEmpbranch)
+//       this.new_empbranch = false
+//       this.edit_empbranch = false
+//       this.displayManage = false
+//     }
+//     empbranch_remove() {
+//       this.selectedEmpbranch.empbranch_id = "9999";
+//       this.empbranch_addItem(this.selectedEmpbranch)
+//       this.new_empbranch = false
+//       this.edit_empbranch = false
+//     }
+//     empbranch_delete() { }
+//     empbranch_cancel() {
+//       this.new_empbranch = false
+//       this.edit_empbranch = false
+//       this.displayManage = false
+//     }
+//     empbranch_addItem(model: EmpBranchModel) {
+//       const itemNew: EmpBranchModel[] = [];
+//       for (let i = 0; i < this.empbranchList.length; i++) {
+//         if (this.empbranchList[i].empbranch_id == model.empbranch_id) {
+//           //-- Notting
+//         }
+//         else {
+//           itemNew.push(this.empbranchList[i]);
+//         }
+//       }
+//       //-- 9999 for delete
+//       if (model.empbranch_id != "9999") {
+//         itemNew.push(model);
+//       }
+//       this.empbranchList = [];
+//       this.empbranchList = itemNew;
+//       this.empbranchList.sort(function (a, b) { return parseInt(a.empbranch_id) - parseInt(b.empbranch_id); })
+//     }
+//     record_empbranch() {
+//       if (this.empbranchList.length == 0) {
+//         return
+//       }
+//       this.empdetailService.record_empbranch(this.selectedApplywork.applywork_code, this.empbranchList).then((res) => {
+//         let result = JSON.parse(res);
+//         if (result.success) {
+//         }
+//         else {
+//         }
+//       });
+//     }
+
+//     confirmRecord() {
+//         this.confirmationService.confirm({
+//           message: this.title_confirm_record,
+//           header: this.title_confirm,
+//           icon: 'pi pi-exclamation-triangle',
+//           accept: () => {
+//             this.doRecordApplywork()
+//           },
+//           reject: () => {
+//             this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+//           }
+//         });
+//       }
+
+//     // confirmRecord() {
+//     //     this.confirmationService.confirm({
+//     //       message: this.title_confirm_record,
+//     //       header: this.title_confirm,
+//     //       icon: 'pi pi-exclamation-triangle',
+//     //       accept: () => {
+//     //         this.doRecordApplywork()
+//     //       },
+//     //       reject: () => {
+//     //         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+//     //         // this.router.navigateByUrl('recruitment/applylist');
+//     //         // this.doLoadApplywork()
+//     //     }
+//     //     });
+//     //   }
+
+//       doRecordApplywork() {
+
+//         this.applyworkService.applywork_recordall(this.selectedApplywork).then((res) => {
+
+//           console.log(res)
+
+//           let result = JSON.parse(res);
+
+//           if (result.success) {
+
+//              //-- Transaction
+//             //  this.record_comaddress();
+//             //  this.record_comcard();
+//             //  this.record_combank();
+
+//             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+//             this.router.navigateByUrl('recruitment/applylist');
+//             this.doLoadApplywork()
+//           }
+//           else {
+//             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+//           }
+
+//         });
+//       }
+
+//       close() {
+//         this.new_applywork = false;
+//         this.selectedApplywork = new ApplyworkModel();
+//       }
+
+//     clearManage() {
+//       this.new_emplocation = false; this.edit_emplocation = false;
+//       this.new_empbranch = false; this.edit_empbranch = false;
+//       this.new_reqaddress = false; this.edit_reqaddress = false;
+//       this.new_card = false; this.edit_reqcard = false;
+//       this.new_bank = false; this.edit_empbank = false;
+//       this.new_family = false; this.edit_empfamily = false;
+//       this.new_hospital = false; this.edit_emphospital = false;
+//       this.new_foreigner = false; this.edit_reqforeigner = false;
+//       this.new_dep = false; this.edit_empdep = false;
+
+//     }
+
+//   }
+
+
