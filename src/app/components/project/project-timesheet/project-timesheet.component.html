@@ -1,112 +1,148 @@
 <span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Timesheet</small>
 <hr>
+<p-toast position="top-right"></p-toast> 
 
-<div class="grid">
-    <div class="col-12">
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
-        <div class="formgrid grid">
-            <div class="field col-12 md:col-3 ">   
-                <label for="ppos_shift_code">วันที่</label>
-                <p-dropdown placeholder="11/12/2022" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
-            <div class="field col-12 md:col-3 ">   
-                <label for="ppos_shift_code">หน่วยงาน</label>
-                <p-dropdown placeholder="แฟชั่น" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 md:col-9">
-        <p-menubar [model]="items"></p-menubar >
-        <p-table [value]="timesheet_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedDate" (onRowSelect)="onRowSelectDaily($event)" dataKey="daily_id">
-            <ng-template pTemplate="header">
-                <tr>		
-                    <th>รหัสงาน</th>	
-                    <th>ชื่องาน</th>
-                    <th>ประเภทงาน</th>
-                    <th>รหัสพนักงาน</th>
-                    <th>ชื่อ-นามสกุล</th>
-                    <th>วันที่</th>
-                    <th>ประเภทวัน</th>
-                    <th>กะการทำงาน</th>
-                    <th>เวลาเข้า</th>
-                    <th>เวลาออก</th>                    
-                    <th>สแกนเข้า</th>
-                    <th>สแกนออก</th>
-                    <th>ชั่วโมงทำงาน</th>
-                    <th>สาย</th>                                    
-                    <th>ล่วงเวลา</th>                    
-                </tr>	
-            </ng-template>
-            <ng-template pTemplate="body" let-daily>
-                <tr [pSelectableRow]="daily">        
-                    <td>{{daily.ppos_code}}</td>                                
-                    <td>{{daily.ppos_name_th}}</td>
-                    <td>{{daily.daily_job}}</td>
-                    <td>{{daily.emp_code}}</td>                                    
-                    <td>{{daily.emp_name}}</td>
-                    <td>{{daily.timecard_date | date:'dd/MM/yyyy '}}</td>
-                    <td>{{daily.timecard_daytype}}</td>
-                    <td>{{daily.timecard_shift}}</td>
-                    <td>{{daily.timecard_shiftin}}</td>
-                    <td>{{daily.timecard_shiftout}}</td>
-                    <td>{{daily.timecard_in}}</td>
-                    <td>{{daily.timecard_out}}</td>
-                    <td>{{daily.timecard_working}}</td>
-                    <td>{{daily.timecard_late}}</td>
-                    <td>{{daily.timecard_overtime}}</td>                      
-                </tr>
-            </ng-template>   
-                    
-        </p-table>
-    </div>
-    <div class="col-12 md:col-3">
-        <div class="formgrid grid" *ngIf="edit_daily">
+
+<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [style]="{width: '30vw'}" [position]="position">
+    <p-scrollPanel [style]="{width: '100%', height: '650px'}" >
+        <div class="formgrid grid" >
             <span class="spn_title_edit">Time information</span>
             <div class="field col-12 ">
-                <label for="ppos_code">รหัสพนักงาน</label>    
-                <input type="text" id="ppos_code" [(ngModel)]="selectedDate.emp_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                <label for="worker_code">รหัสพนักงาน</label>    
+                <input type="text" id="worker_code" [(ngModel)]="selectedTimecard.worker_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
             </div>	
            
             <div class="field col-12 ">
-                <label for="ppos_name_th">ชื่อ-นามสกุล</label>       
+                <label for="emp_name">ชื่อ-นามสกุล</label>       
                 <br>                 
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedDate.emp_name" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                <textarea [rows]="2" id="emp_name" [(ngModel)]="emp_name" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
                         
-            <div class="field col-12 ">   
-                <label for="ppos_shift_code">กะการทำงาน</label>
-                <p-dropdown placeholder="DAY-001 กะเช้า" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
+            <div class="field col-12">
+                <label for="selectedShift">กะการทำงาน</label><br>
+                <p-dropdown [options]="shift_list" [(ngModel)]="selectedShift" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            </div>  
 
-            <div class="field col-12 ">   
-                <label for="ppos_shift_code">ประเภทวัน</label>
-                <p-dropdown placeholder="วันทำงาน" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
-           
-            <div class="field col-12 ">   
-                <label for="ppos_shift_code">ประเภทงาน</label>
-                <p-dropdown id="pjobtype_code" [options]="jobtype_list" [(ngModel)]="selectedJobtype" optionLabel="pjobtype_name_th" [showClear]="false" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
-
+            <div class="field col-12">
+                <label for="selectedShift">ประเภทวัน</label><br>
+                <p-dropdown [options]="daytype_list" [(ngModel)]="selectedDaytype" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            </div>  
+                      
             <div class="field col-6 ">
-                <label for="ppos_code">เวลาเข้า</label>    
-                <input type="text" id="ppos_code" [(ngModel)]="selectedDate.timecard_in"  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                <label for="ppos_code">เวลาเข้า</label> 
+                <br> 
+                <p-inputMask mask="99:99" [(ngModel)]="timein" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
             </div>
-            
             <div class="field col-6 ">
-                <label for="ppos_code">เวลาออก</label>    
-                <input type="text" id="ppos_code" [(ngModel)]="selectedDate.timecard_out" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                <label for="ppos_code">เวลาออก</label>  
+                <br>
+                <p-inputMask mask="99:99" [(ngModel)]="timeout" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}"></p-inputMask>
             </div>
-            
             
             <div class="field col-12">
-                <p-button label="บันทึก" icon="pi pi-save"></p-button> 
                 &nbsp;
-                    <button pButton pRipple type="button" label="บันทึกการลา" class="p-button-secondary"></button>                      
             </div>
+            
+            <div class="field col-12">
+                <p-button label="บันทึก" icon="pi pi-save" (click)="timesheet_summit()"></p-button> 
+                &nbsp;
+                <button pButton pRipple type="button" label="ปิด" class="p-button-secondary" (click)="close_manage()"></button>                      
+            </div>
+        </div>
+    </p-scrollPanel>
 
+</p-dialog>
+
+<p-dialog [(visible)]="searchEmp" [style]="{width: '30vw'}" [position]="position">
+    <div class="grid">
+        <div class="col-12">
+            <app-search-emp></app-search-emp>
+        </div>
+        <div class="col-12">
+            <p-button label="ตกลง" icon="pi pi-save" (click)="select_emp()"></p-button> 
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-secondary" (click)="close_searchemp()"></button>                      
         </div>
     </div>
+</p-dialog>
+
+<div class="grid">  
+    <div class="col-12">
+
+        <div class="formgrid grid">
+            <div class="field col-12 md:col-2 ">   
+                <label for="ppos_shift_code">วันที่</label>
+                
+                <p-calendar [(ngModel)]="selectedDate_fillter" dateFormat="dd/mm/yy"  [showTime]="false" (onSelect)="doFillter()" inputId="selectedDate_fillter"  ></p-calendar>
+            
+            </div>
+            <div class="field col-12 md:col-3 ">   
+             
+                <label for="selectedProject_fillter">หน่วยงาน</label><br>
+                <p-dropdown  [options]="project_list_cbb" [(ngModel)]="selectedProject_fillter" optionLabel="text" (onChange)="doFillter()"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 md:col-12">
+        <p-menubar [model]="menu_timecard"></p-menubar>        
+        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="worker_code"
+        [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']"
+        >
+            <ng-template pTemplate="header">
+                <tr>  
+                    <th>รหัสพนักงาน</th>   
+                    <th>ชื่อ-นามสกุล</th>                       
+                    <th style="width: 100px;">กะการทำงาน</th>
+                    <th style="width: 100px;">ประเภทวัน</th>   
+                    <th>เวลาเข้า</th>
+                    <th>เวลาออก</th>                                    
+                    <th>โอทีก่อนเข้างาน</th>                      
+                    <th>เวลาทำงาน</th>                               
+                    <th>โอทีหลังเลิกงาน</th>                                       
+                    <th>สาย</th>                     
+                    <th>ลางาน</th>                       
+                    <th style="width: 200px;">ผู้ทำรายการ</th>
+                    <th>วันที่ทำรายการ</th>                                                                 
+                </tr>	                	                
+            </ng-template>
+
+            <ng-template pTemplate="body" let-timecard>
+                <tr [pSelectableRow]="timecard" >        
+                    <td>{{timecard.worker_code}}</td>   
+
+                    <td>
+                        <div *ngIf="this.initial_current.Language == 'TH'">
+                            {{timecard.worker_name_th}}
+                        </div>
+                        <div *ngIf="this.initial_current.Language != 'TH'">
+                            {{timecard.worker_name_en}}
+                        </div>
+                    </td>   
+                             
+                    <td>{{timecard.shift_code}}</td>   
+                    <td>{{timecard.timecard_daytype}}</td>       
+                    <td>{{timecard.timecard_in | date:'dd/MM/yyyy HH:mm'}}</td>       
+                    <td>{{timecard.timecard_out | date:'dd/MM/yyyy HH:mm'}}</td>  
+                    <td>{{doConvertHHMM(timecard.timecard_before_min_app)}}</td>  
+                    <td>{{doConvertHHMM(timecard.timecard_work1_min_app)}}</td>  
+                    <td>{{doConvertHHMM(timecard.timecard_after_min_app)}}</td> 
+                    <td>{{doConvertHHMM(timecard.timecard_late_min_app)}}</td>                    
+                    <td></td>                                     
+                    <td>{{timecard.modified_by}}</td>      
+                    <td>{{timecard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>    
+        </p-table>
+    </div>
+    
+
+  
 </div>
 
 

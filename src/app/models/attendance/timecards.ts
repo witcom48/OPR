@@ -50,11 +50,16 @@ export class TimecardsModel {
     //-- Display
     row: number = 0;
     col: number = 0;
-    timecard_in: string = "";
-    timecard_out: string = "";
+    timecard_in: string | null | undefined
+    timecard_out: string | null | undefined
     work_hrs: string = "";
     ot_hrs: string = "";
     late_hrs: string = "";
+
+    worker_name_th: string = "";
+    worker_name_en: string = "";
+    projob_code: string = "";
+
     
   }
   

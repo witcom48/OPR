@@ -1364,25 +1364,25 @@ export class EmployeeManageComponent implements OnInit {
     //
     this.edit_empaddress = false;
     this.new_empaddress = false;
-    //    
+    //
     this.edit_empcard = false;
     this.new_card = false;
-    //   
+    //
     this.edit_empbank = false;
     this.new_bank = false;
-    //   
+    //
     this.edit_empfamily = false;
     this.new_family = false;
-    //   
+    //
     this.edit_emphospital = false;
     this.new_hospital = false;
-    //   
+    //
     this.edit_empforeigner = false;
     this.new_foreigner = false;
-    //   
+    //
     this.edit_empdep = false;
     this.new_dep = false;
-    //   
+    //
     this.edit_empposition = false;
     this.new_position = false;
     //   
@@ -1391,31 +1391,31 @@ export class EmployeeManageComponent implements OnInit {
     //   
     this.edit_empeducation = false;
     this.new_education = false;
-    //   
+    //
     this.edit_emptraining = false;
     this.new_training = false;
-    //   
+    //
     this.edit_empassessment = false;
     this.new_assessment = false;
-    //   
+    //
     this.edit_empcriminal = false;
     this.new_criminal = false;
-    //   
+    //
     this.edit_empsalary = false;
     this.new_salary = false;
-    //   
+    //
     this.edit_empprovident = false;
     this.new_provident = false;
-    //   
+    //
     this.edit_empbenefit = false;
     this.new_benefit = false;
-    //   
+    //
     this.edit_empreduce = false;
     this.new_reduce = false;
-    //   
+    //
     this.edit_empaccumalate = false;
     this.new_accumalate = false;
-    //   
+    //
     this.edit_emptranfer = false;
     this.new_tranfer = false;
 

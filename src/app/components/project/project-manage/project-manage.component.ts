@@ -205,8 +205,6 @@ export class ProjectManageComponent implements OnInit {
     
    }
 
-
-
   ngOnInit(): void {
 
     this.route.queryParams.subscribe(params => {

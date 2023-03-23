@@ -64,7 +64,8 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Policy', routerLink: ['/recruitment/policy'] },
                     { label: 'Request', routerLink: ['/recruitment/request'] },
-                    { label: 'Apply work', routerLink: ['/recruitment/apply'] },
+                    // { label: 'Apply work', routerLink: ['/recruitment/apply'] },
+                    { label: 'Apply work', routerLink: ['/recruitment/applylist'] },
                     { label: 'Approval list', routerLink: ['/recruitment/approve'] },
                     { label: 'Reports', routerLink: ['/recruitment/reports'] },
                 ]

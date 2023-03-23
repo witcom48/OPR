@@ -68,6 +68,11 @@ import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.co
 import { YearComponent } from './system-policy/year/year.component';
 import { SystemReasonComponent } from './system-policy/system-reason/system-reason.component';
 import { LocationComponent } from './system-policy/location/location.component';
+import { SystemCourseComponent } from './system-policy/system-course/system-course.component';
+import { SystemInstituteComponent } from './system-policy/system-institute/system-institute.component';
+import { SystemFacultyComponent } from './system-policy/system-faculty/system-faculty.component';
+import { SystemMajorComponent } from './system-policy/system-major/system-major.component';
+import { SystemQualificationComponent } from './system-policy/system-qualification/system-qualification.component';
 
 
 @NgModule({
@@ -139,7 +144,12 @@ import { LocationComponent } from './system-policy/location/location.component';
 		YearComponent,
 		SystemReasonComponent,
 		ReasonComponent,
-  LocationComponent
+  LocationComponent,
+  SystemCourseComponent,
+  SystemInstituteComponent,
+  SystemFacultyComponent,
+  SystemMajorComponent,
+  SystemQualificationComponent
 	],
 	exports: [
 		YearComponent,

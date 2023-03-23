@@ -765,7 +765,7 @@ export class CompanysComponent implements OnInit {
 
 
           this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-        //   this.router.navigateByUrl('company/list');
+          this.router.navigateByUrl('system/company');
           this.doLoadCompany()
         }
         else {

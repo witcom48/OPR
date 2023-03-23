@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import { Component, OnInit, ViewChild,  Inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Table } from 'primeng/table';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -10,6 +10,11 @@ import { AppConfig } from '../../../../../config/config';
 import { InitialCurrent } from '../../../../../config/initial_current';
 import { EmpIDModel } from 'src/app/models/system/policy/empid';
 import { EmpidService } from 'src/app/services/system/policy/empid.service';
+import { CodestructureModel } from 'src/app/models/system/policy/codestructure';
+import { TRPolcodeModel } from 'src/app/models/system/policy/tr_polcode';
+import { PolcodeService } from 'src/app/services/system/policy/polcode.service';
+// import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/core/dialog';
+// import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 @Component({
   selector: 'app-add-codestructure',
   templateUrl: './add-codestructure.component.html',
@@ -17,264 +22,102 @@ import { EmpidService } from 'src/app/services/system/policy/empid.service';
 })
 export class AddCodestructureComponent implements OnInit {
 
-    items: MenuItem[] = [];
-    edit_data: boolean = false;
-    new_data: boolean = false;
 
-    empid_list: EmpIDModel[] = [];
-    selectedEmpid: EmpIDModel = new EmpIDModel();
+  //-- Label
+  public labDetail!: string;
+  public labLenght!: string;
+  public labText!: string;
+  public labOrder!: string;
+    dialogRef: any;
 
-    constructor(private empidService: EmpidService,
-      private router:Router,
-      private messageService: MessageService,
-      private confirmationService: ConfirmationService,
-      private datePipe: DatePipe
-      ) { }
+//   public initial:Initiacl = new Initial();
 
-    ngOnInit(): void {
+  constructor(
+    private dialog: ActivatedRoute ,
 
-      this.doGetInitialCurrent()
+    // public dialogRef: MatDialogRef<AddCodestructureComponent>,
+    @Inject('') public data: TRPolcodeModel,
+    private polcodeService:PolcodeService
+    ) {}
 
-      setTimeout(() => {
-        this.doLoadLanguage()
-        this.doLoadMenu()
-        this.doLoadEmpid()
-      }, 500);
+  public initial_current:InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent(){
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
 
+    // this.initial_current = JSON.parse(localStorage.getItem(Initial.SESSIONInitial));
+    if (this.initial_current) {
+        this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
 
+    //   this.initial_current = JSON.parse(localStorage.getItem(Initial.SESSIONInitial));
     }
+  }
 
-    public initial_current:InitialCurrent = new InitialCurrent();
-    doGetInitialCurrent(){
-      this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
-      if (!this.initial_current) {
-        this.router.navigateByUrl('');
+  getLanguage() : string {
+    return this.initial_current.Language;
+  }
+
+  doCheckLanguage(){
+    if(this.getLanguage() == "EN"){
+      this.labDetail = "Detail";
+      this.labLenght = "Lenght";
+      this.labText = "Text";
+      this.labOrder = "Order";
+    }
+    else{
+      this.labDetail = "รายละเอียด";
+      this.labLenght = "ความยาว";
+      this.labText = "ข้อความคงที่";
+      this.labOrder = "อันดับ";
+    }
+  }
+
+  ngOnInit(): void {
+    this.doGetInitialCurrent();
+    this.doCheckLanguage();
+    this.doGetStrucList();
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close({codestructure_code: ''});
+  }
+
+  public codeStrucList!: CodestructureModel[];
+
+  doGetStrucList(){
+
+    this.codeStrucList = [];
+
+    this.polcodeService.getStructureList().then((response) =>{
+
+      let resultJSON = JSON.parse(response);
+
+      if(resultJSON.result == "1"){
+        this.codeStrucList = resultJSON.data;
       }
-    }
 
-    title_page:string = "Structure code";
-    title_new:string = "New";
-    title_edit:string = "Edit";
-    title_delete:string = "Delete";
-    title_import:string = "Import";
-    title_export:string = "Export";
-    title_save:string = "Save";
-    title_code:string = "ID";
-    title_name_th:string = "EmpID (Thai)";
-    title_name_en:string = "EmpID (Eng.)";
-    title_modified_by:string = "Edit by";
-    title_modified_date:string = "Edit date";
-    title_search:string = "Search";
-    title_upload:string = "Upload";
-
-    title_page_from:string = "Showing";
-    title_page_to:string = "to";
-    title_page_total:string = "of";
-    title_page_record:string = "entries";
-
-    title_confirm:string = "Are you sure?";
-    title_confirm_record:string = "Confirm to record";
-    title_confirm_delete:string = "Confirm to delete";
-    title_confirm_yes:string = "Yes";
-    title_confirm_no:string = "No";
-
-    title_confirm_cancel:string = "You have cancelled";
-    title_labCode:string= "Code";
-    title_labDetail:string = "Detail";
-    title_labLenght:string= "Lenght";
-    title_labText:string= "Text";
-    title_labOrder:string= "Order";
-    title_labExample:string= "Example";
-
-    doLoadLanguage(){
-      if(this.initial_current.Language == "TH"){
-        this.title_page = "โครงสร้างรหัสพนักงาน";
-        this.title_new = "เพิ่ม";
-        this.title_edit = "แก้ไข";
-        this.title_delete = "ลบ";
-        this.title_import = "นำเข้า";
-        this.title_export = "โอนออก";
-        this.title_save = "บันทึก";
-        this.title_labCode = "รหัส";
-        this.title_labDetail = "รายละเอียด";
-        this.title_labLenght = "ความยาว";
-        this.title_labText = "ข้อความคงที่";
-        this.title_labOrder = "อันดับ";
-        this.title_modified_by = "ผู้ทำรายการ";
-        this.title_modified_date = "วันที่ทำรายการ";
-        this.title_search = "ค้นหา";
-        this.title_upload = "อัพโหลด";
-
-        this.title_page_from = "แสดง";
-        this.title_page_to = "ถึง";
-        this.title_page_total = "จาก";
-        this.title_page_record = "รายการ";
-
-        this.title_confirm = "ยืนยันการทำรายการ";
-        this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
-        this.title_confirm_delete = "คุณต้องการลบรายการ";
-
-        this.title_confirm_yes = "ใช่";
-        this.title_confirm_no = "ยกเลิก";
-        this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-
-      }
-    }
-
-    doLoadMenu(){
-
-      this.items = [
-        {
-          label:this.title_new,
-          icon:'pi pi-fw pi-plus',
-          command: (event) => {
-            this.selectedEmpid = new EmpIDModel();
-            this.new_data= true;
-            this.edit_data= false;
-          }
-        }
-        ,
-        {
-            label:this.title_import,
-            icon:'pi pi-fw pi-file-import',
-            command: (event) => {
-              this.showUpload()
-
-            }
-        }
-        ,
-        {
-            label:this.title_export,
-            icon:'pi pi-fw pi-file-export',
-            command: (event) => {
-              this.exportAsExcel()
-
-            }
-        }
-      ];
-    }
-
-    doLoadEmpid(){
-      this.empidService.empid_get().then((res) => {
-       this.empid_list = res;
-      });
-    }
-
-    confirmRecord() {
-      this.confirmationService.confirm({
-          message: this.title_confirm_record,
-          header: this.title_confirm,
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            this.doRecordEmpid()
-          },
-          reject: () => {
-            this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-          }
-      });
-    }
-
-    doRecordEmpid(){
-      this.empidService.empid_record(this.selectedEmpid).then((res) => {
-       console.log(res)
-       let result = JSON.parse(res);
-
-       if(result.success){
-        this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadEmpid()
-       }
-       else{
-        this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
-       }
-
-      });
-    }
-
-    confirmDelete() {
-      this.confirmationService.confirm({
-          message: this.title_confirm_delete,
-          header: this.title_confirm,
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            this.doDeleteEmpid()
-          },
-          reject: () => {
-            this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-          }
-      });
-    }
-
-    doDeleteEmpid(){
-      this.empidService.empid_delete(this.selectedEmpid).then((res) => {
-       console.log(res)
-       let result = JSON.parse(res);
-
-       if(result.success){
-        this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadEmpid();
-        this.edit_data= false;
-        this.new_data= false;
-       }
-       else{
-        this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
-       }
-
-      });
-    }
-
-    onRowSelectEmpid(event: Event) {
-      this.edit_data= true;
-      this.new_data= false;
-    }
-
-
-
-    fileToUpload: File | any = null;
-    handleFileInput(file: FileList) {
-      this.fileToUpload=file.item(0);
-    }
-
-    doUploadEmpid(){
-
-      this.displayUpload = false;
-
-      const filename = "EMPID_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-      const filetype = "xls";
-
-
-      this.empidService.empid_import(this.fileToUpload, filename, filetype).then((res) => {
-       console.log(res)
-       let result = JSON.parse(res);
-
-       if(result.success){
-        this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadEmpid();
-        this.edit_data= false;
-        this.new_data= false;
-       }
-       else{
-        this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
-       }
-
-      });
-    }
-
-
-    displayUpload: boolean = false;
-    showUpload() {
-      this.displayUpload = true;
-    }
-
-    @ViewChild('TABLE') table: ElementRef | any = null;
-
-    exportAsExcel()
-    {
-      const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-      XLSX.writeFile(wb, 'Export_empid.xlsx');
-
-    }
+    });
 
   }
+
+  setFormatLenght($event: { target: { value: string; }; })
+  {
+    $event.target.value = parseFloat($event.target.value).toFixed(0);
+    this.data.polcode_lenght = $event.target.value;
+  }
+
+  setFormatOrder($event: { target: { value: string; }; })
+  {
+    $event.target.value = parseFloat($event.target.value).toFixed(0);
+    this.data.polcode_order = $event.target.value;
+  }
+
+  doSubmit() {
+    this.dialogRef.close({codestructure_code: this.data.codestructure_code
+      , polcode_lenght: this.data.polcode_lenght
+      , polcode_text: this.data.polcode_text
+      , polcode_order: this.data.polcode_order
+     });
+  }
+
+}
+

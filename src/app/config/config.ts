@@ -7,6 +7,7 @@ export class AppConfig {
   ApiMainModule: string = this.UrlApi + "/BpcOpr.svc/BpcOpr";
   ApiSystemModule: string = this.UrlApi + "/Module_System/ModuleSystem.svc/System";
   ApiAttendanceModule: string = this.UrlApi + "/Module_Attendance/ModuleAttendance.svc/Attendance";
+  ApiRecruitmentModule: string = this.UrlApi + "/Module_Recruitment/ModuleRecruitment.svc/Recruitment";
   ApiEmployeeModule: string = this.UrlApi + "/Module_Employee/ModuleEmployee.svc/Employee";
   ApiProjectModule: string = this.UrlApi + "/Module_Project/ModuleProject.svc/Project";
 

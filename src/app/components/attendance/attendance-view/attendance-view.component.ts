@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
+import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Router } from '@angular/router';
@@ -14,6 +15,10 @@ import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { TimecardsModel } from '../../../models/attendance/timecards';
 import { TimecardService } from 'src/app/services/attendance/timecards.service';
 
+import { DaytypeModels } from 'src/app/models/attendance/daytype';
+
+import { ShiftModels } from 'src/app/models/attendance/shift';
+import { ShiftServices } from 'src/app/services/attendance/shift.service';
 
 @Component({
   selector: 'app-attendance-view',
@@ -67,12 +72,19 @@ export class AttendanceViewComponent implements OnInit {
 
   style_input_real:string = "[style]=\"{'width':'80px'}\\";
 
+
+  
+
   menu_timecard: MenuItem[] = [];
 
   constructor(private employeeService: EmployeeService,
     private timecardService: TimecardService,
     private router:Router, 
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private shiftServices: ShiftServices
+
     ) { }
 
   ngOnInit(): void {
@@ -83,7 +95,7 @@ export class AttendanceViewComponent implements OnInit {
 
     setTimeout(() => {
       this.doLoadEmployee()
-      this.doLoadDaytype()
+      this.doLoadPolDaytype()
       this.doLoadPolShift()
     }, 200);
 
@@ -301,6 +313,10 @@ export class AttendanceViewComponent implements OnInit {
     this.after_app = this.doConvertHHMM(this.selectedTimecard.timecard_after_min_app)
   }
 
+  onChangeWork1(){
+    console.log(this.work1)
+  }
+
   pad(num:number, size:number): string {
     let s = num+"";
     while (s.length < size) s = "0" + s;
@@ -314,75 +330,94 @@ export class AttendanceViewComponent implements OnInit {
   }
 
   doGetMinute(HHmm:string) : number {    
-    var result = Number(HHmm.substr(0, 2)) * 60;
-    result += Number(HHmm.substr(2, 0));        
+
+    var splitted = HHmm.split(":", 2); 
+
+    var result = Number(splitted[0]) * 60;
+    result += Number(splitted[1]);        
+
     return result;
   }
 
 
   timecard_summit(){
+    this.confirmationService.confirm({
+      message: this.title_confirm_record,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
 
+        this.selectedTimecard.timecard_color = "1"
+
+        this.selectedTimecard.timecard_ch1 = new Date(this.date_ch1)
+        this.selectedTimecard.timecard_ch2 = new Date(this.date_ch2)
+        this.selectedTimecard.timecard_ch3 = new Date(this.date_ch3)
+        this.selectedTimecard.timecard_ch4 = new Date(this.date_ch4)
+        this.selectedTimecard.timecard_ch5 = new Date(this.date_ch5)
+        this.selectedTimecard.timecard_ch6 = new Date(this.date_ch6)
+        this.selectedTimecard.timecard_ch7 = new Date(this.date_ch7)
+        this.selectedTimecard.timecard_ch8 = new Date(this.date_ch8)
+        this.selectedTimecard.timecard_ch9 = new Date(this.date_ch9)
+        this.selectedTimecard.timecard_ch10 = new Date(this.date_ch10)
+       
+        this.selectedTimecard.timecard_before_min = this.doGetMinute(this.before)
+        this.selectedTimecard.timecard_before_min_app = this.doGetMinute(this.before_app)
+        this.selectedTimecard.timecard_work1_min = this.doGetMinute(this.work1)
+        this.selectedTimecard.timecard_work1_min_app = this.doGetMinute(this.work1_app)
+        this.selectedTimecard.timecard_work2_min = this.doGetMinute(this.work2)
+        this.selectedTimecard.timecard_work2_min_app = this.doGetMinute(this.work2_app)
+        this.selectedTimecard.timecard_break_min = this.doGetMinute(this.break)
+        this.selectedTimecard.timecard_break_min_app = this.doGetMinute(this.break_app)
+        this.selectedTimecard.timecard_after_min = this.doGetMinute(this.after)
+        this.selectedTimecard.timecard_after_min_app = this.doGetMinute(this.after_app)
+
+        this.timecardService.timecard_record(this.selectedTimecard).then((res) => {       
+          let result = JSON.parse(res);  
+          if(result.success){  
+            this.messageService.add({severity:'success', summary: 'Success', detail: "Record Success.."});
+
+            this.displayManage = false                        
+          }
+          else{  
+            this.messageService.add({severity:'error', summary: 'Error', detail: "Record Not Success.."});   
+          }  
+        })
+
+
+         
+      },
+      reject: () => {
+        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+      }
+    });
   }
 
   timecard_cancel(){
-    
+    this.displayManage = false
   }
 
   daytype_list: RadiovalueModel[] = [];
   selectedDaytype: RadiovalueModel = new RadiovalueModel;
-  doLoadDaytype(){   
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();  
-      tmp.value = "N";
-      tmp.text = "Normal day";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "O";
-      tmp.text = "Off day";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "H";
-      tmp.text = "Holiday";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "C";
-      tmp.text = "Company day";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "L";
-      tmp.text = "Leave day";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "A";
-      tmp.text = "Absent day";       
-      this.daytype_list.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();  
-      tmp.value = "N";
-      tmp.text = "วันทำงาน";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "O";
-      tmp.text = "วันหยุด";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "H";
-      tmp.text = "วันหยุดประเพณี";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "C";
-      tmp.text = "วันหยุดบริษัท";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "L";
-      tmp.text = "วันลา";       
-      this.daytype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "A";
-      tmp.text = "ขาดงาน";       
-      this.daytype_list.push(tmp);
-    }
+  doLoadPolDaytype(){   
+   
+    this.daytype_list = []   
+    this.timecardService.daytype_get().then((res) => {          
+      var list: DaytypeModels[] = [];     
+      list = res;          
+      if(list.length > 0){
+        for (let i = 0; i < list.length; i++) {  
+          var tmp = new RadiovalueModel();  
+          tmp.value = list[i].daytype_code;      
+          if(this.initial_current.Language == "EN"){        
+            tmp.text = list[i].daytype_name_en;        
+          }
+          else{
+            tmp.text = list[i].daytype_name_th;      
+          }
+          this.daytype_list.push(tmp);                         
+        }      
+      }
+    });
   }
   doLoadSelectedDaytype(value:string){
     for (let i = 0; i < this.daytype_list.length; i++) {   
@@ -396,20 +431,27 @@ export class AttendanceViewComponent implements OnInit {
   shift_list: RadiovalueModel[] = [];
   selectedShift: RadiovalueModel = new RadiovalueModel;
   doLoadPolShift(){   
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();  
-      tmp.value = "SHT001";
-      tmp.text = "Shift Day";       
-      this.shift_list.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();  
-      tmp.value = "SHT001";
-      tmp.text = "กะเช้า";        
-      this.shift_list.push(tmp);
-    }
+    var tmp = new ShiftModels();
+    this.shift_list = []   
+    this.shiftServices.shift_get(tmp).then((res) => {          
+      var list: ShiftModels[] = [];     
+      list = res;          
+      if(list.length > 0){
+        for (let i = 0; i < list.length; i++) {  
+          var tmp = new RadiovalueModel();  
+          tmp.value = list[i].shift_code;      
+          if(this.initial_current.Language == "EN"){        
+            tmp.text = list[i].shift_name_en;        
+          }
+          else{
+            tmp.text = list[i].shift_name_th;      
+          }
+          this.shift_list.push(tmp);                         
+        }      
+      }
+    });
   }
-  doLoadSelectedProjobmain_shift(value:string){
+  doLoadSelectedShift(value:string){
     for (let i = 0; i < this.shift_list.length; i++) {   
       if(this.shift_list[i].value==value ){
         this.selectedShift = this.shift_list[i];

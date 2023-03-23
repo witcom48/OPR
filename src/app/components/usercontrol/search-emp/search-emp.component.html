@@ -1,0 +1,47 @@
+<div class="grid">
+    <div class="col-12">
+    <p-table #dtEmpSearch [value]="worker_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmployee" (onRowSelect)="onRowSelectEmployee($event)" dataKey="worker_code"
+        [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+       
+        >
+            <ng-template pTemplate="header">
+                <tr>  
+                    <th>รหัสพนักงาน</th>     
+                    <th>ชื่อ</th>
+                    <th>นามสกุล</th>                                    
+                    <th>ตำแหน่ง</th>   
+                    <th>ประเภทพักงาน</th>                                                                     
+                </tr>	                	                
+            </ng-template>
+
+            <ng-template pTemplate="body" let-worker>
+                <tr [pSelectableRow]="worker" >        
+                    <td>{{worker.worker_code}}</td>     
+                    <td>
+                        <div *ngIf="this.initial_current.Language == 'TH'">
+                            {{worker.worker_fname_th}}
+                        </div>
+                        <div *ngIf="this.initial_current.Language != 'TH'">
+                            {{worker.worker_fname_en}}
+                        </div>
+                    </td>     
+                    <td>
+                        <div *ngIf="this.initial_current.Language == 'TH'">
+                            {{worker.worker_lname_th}}
+                        </div>
+                        <div *ngIf="this.initial_current.Language != 'TH'">
+                            {{worker.worker_lname_en}}
+                        </div>
+                    </td>     
+                    
+                    <td></td>   
+                    <td></td>      
+                </tr>
+            </ng-template>    
+        </p-table>
+    </div>
+    <div class="col-12">
+        
+    </div>
+</div>

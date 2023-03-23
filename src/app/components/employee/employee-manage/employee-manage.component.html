@@ -84,10 +84,10 @@
 
                         <!-- <div>
                             <label for="lastname2">{{title_emplocation}} :</label>
-                            <p-dropdown placeholder="--" 
-                                [showClear]="true" 
+                            <p-dropdown placeholder="--"
+                                [showClear]="true"
                                 [style]="{ width: '100%', overflow: 'visible' }">
-                                [(ngModel)]="selectedEmployee.worker_type" [options]="emptypeList" optionValue="type_code" 
+                                [(ngModel)]="selectedEmployee.worker_type" [options]="emptypeList" optionValue="type_code"
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
                                 </ng-template>
@@ -99,10 +99,10 @@
 
                         <div>
                             <label for="lastname2">{{title_empbranch}} :</label>
-                            <p-dropdown placeholder="--" 
+                            <p-dropdown placeholder="--"
                                 [showClear]="true"
                                 [style]="{ width: '100%', overflow: 'visible' }">
-                                [(ngModel)]="selectedEmployee.worker_status" [options]="statusList" optionValue="status_code" 
+                                [(ngModel)]="selectedEmployee.worker_status" [options]="statusList" optionValue="status_code"
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
                                 </ng-template>

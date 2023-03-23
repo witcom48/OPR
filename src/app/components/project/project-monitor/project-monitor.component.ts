@@ -1,12 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
+
+import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import * as XLSX from 'xlsx';
+import { DatePipe } from '@angular/common';
+
+
+import { AppConfig } from '../../../config/config';
+import { InitialCurrent } from '../../../config/initial_current';
+import { RadiovalueModel } from '../../../models/project/radio_value';
+
+import { ProbusinessModel, ProtypeModel, ProslipModel, ProuniformModel } from '../../../models/project/policy/pro_genaral';
+
+import { ProjectService } from '../../../services/project/project.service';
+import { ProgenaralService } from '../../../services/project/pro_genaral.service';
 
 import { PrjectMonitorModel } from '../../../models/project/project_monitor'
 import { ProjectTypeModel } from '../../../models/project/project_type';
 import { ProjectBusinessModel } from '../../../models/project/project_business';
 import { PrjectEmpdailyModel } from '../../../models/project/project_empdaily';
 import { PrjectEmpModel } from '../../../models/project/project_emp';
+
+
 
 @Component({
   selector: 'app-project-monitor',
@@ -22,21 +39,57 @@ export class ProjectMonitorComponent implements OnInit {
   ptype_list: ProjectTypeModel[] = [];
   pbusiness_list: ProjectBusinessModel[] = [];
 
+  selectedDate_fillter :Date = new Date()
+
   edit_workflow: boolean = false;
 
-  constructor() { }
+  constructor(
+    private router:Router, 
+    private route: ActivatedRoute,    
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private datePipe: DatePipe,      
+    private projectService: ProjectService,      
+    private progenaralService:ProgenaralService
+  ) {    
+   }
+
+  public initial_current:InitialCurrent = new InitialCurrent();  
+  doGetInitialCurrent(){    
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current) {
+      this.router.navigateByUrl('');
+    }       
+  }
+
+  doLoadLanguage(){
+    if(this.initial_current.Language == "TH"){
+      
+    }     
+
+  }
 
   ngOnInit(): void {
-    this.doLoadSimple()
-    this.doLoadProjectMonitor()
+    this.doLoadLanguage()
+    this.doGetInitialCurrent()
+    this.doLoadMenu()
     this.doLoadProjectType()
     this.doLoadProjectBusiness()
-    this.calculateTotal()
+
+    let dateString = '2023-01-10T00:00:00'
+    this.selectedDate_fillter = new Date(dateString);
+
+
+    setTimeout(() => {
+      this.doLoadProjectMonitor()
+    }, 300);
+
+
     this.doLoadEmp()
     this.doLoadEmpCost()
   }
 
-  doLoadSimple(){
+  doLoadMenu(){
     this.toolbar_menu = [
       {
         label:'Save',
@@ -89,91 +142,14 @@ export class ProjectMonitorComponent implements OnInit {
 
   selectedProjectMonitor: PrjectMonitorModel = new PrjectMonitorModel;
   doLoadProjectMonitor(){
-    var tmp = new PrjectMonitorModel();
+    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter).then((res) => {    
+      console.log(res)
+      this.project_monitor = res;  
+    });
 
-    tmp.project_id = "SHT001";
-    tmp.project_code = "100008.00";
-    tmp.project_name_th = "บริษัทควอลิตี้";
-    tmp.project_name_en = "Quarity";
-
-    tmp.project_type = "ประจำ";
-    tmp.project_business = "ห้างฯ";
-   
-    tmp.project_manpower = 4;
-    tmp.project_working = 2;
-    tmp.project_leave = 1;
-    tmp.project_absent = 1;
-  
-    tmp.project_cost = 3500;
-    tmp.project_pay = 3000;
-
-    tmp.root = true;
-
-    this.project_monitor.push(tmp);
-
-
-    tmp = new PrjectMonitorModel();
-
-    tmp.project_id = "SHT00ถ";
-    tmp.project_code = "100008.00";
-    tmp.project_name_th = "บริษัทควอลิตี้";
-    tmp.project_name_en = "Quarity";
-
-    tmp.project_type = "พนักงานทำความสะอาด";
-    tmp.project_business = "70001.1";
-   
-    tmp.project_manpower = 3;
-    tmp.project_working = 2;
-    tmp.project_leave = 1;
-    tmp.project_absent = 0;
-  
-    tmp.project_cost = 3000;
-    tmp.project_pay = 2500;
-
-    this.project_monitor.push(tmp);
-
-    tmp = new PrjectMonitorModel();
-
-    tmp.project_id = "SHT007";
-    tmp.project_code = "100008.00";
-    tmp.project_name_th = "บริษัทควอลิตี้";
-    tmp.project_name_en = "Quarity";
-
-    tmp.project_type = "พนักงานห้องนํ้า";
-    tmp.project_business = "70013";
-   
-    tmp.project_manpower = 1;
-    tmp.project_working = 1;
-    tmp.project_leave = 0;
-    tmp.project_absent = 0;
-  
-    tmp.project_cost = 500;
-    tmp.project_pay = 500;
-
-    this.project_monitor.push(tmp);
-
-
-
-    tmp = new PrjectMonitorModel();
-
-    tmp.project_id = "SHT002";
-    tmp.project_code = "100009.00";
-    tmp.project_name_th = "แฟชั่นฯ";
-    tmp.project_name_en = "Fasion";    
-    tmp.project_type = "ประจำ";
-    tmp.project_business = "ห้างฯ";
-   
-    tmp.project_manpower = 20;
-    tmp.project_working = 18;
-    tmp.project_leave = 0;
-    tmp.project_absent = 2;
-  
-    tmp.project_cost = 24000;
-    tmp.project_pay = 22000;
-
-    tmp.root = true;
-
-    this.project_monitor.push(tmp);
+    setTimeout(() => {
+      this.calculateTotal()
+    }, 500);
     
   }
 
@@ -181,55 +157,57 @@ export class ProjectMonitorComponent implements OnInit {
     this.edit_workflow= true;
   }
 
-  doLoadProjectType(){
-    var tmp = new ProjectTypeModel();
 
-    tmp.ptype_code = "SHT001";
-    tmp.ptype_name_th = "ประจำ";
-    tmp.ptype_name_en = "Regular";
-    
-    tmp.modified_by = "hropr";
+  probusiness_list: RadiovalueModel[] = []; 
+  doLoadProjectBusiness(){   
+    var tmp = new RadiovalueModel();
+    this.probusiness_list = []   
 
-    this.ptype_list.push(tmp);
-
-    tmp = new ProjectTypeModel();
-
-    tmp.ptype_code = "SHT002";
-    tmp.ptype_name_th = "ชั่วคราว";
-    tmp.ptype_name_en = "Temporary";
-    
-    tmp.modified_by = "hropr";
-
-    this.ptype_list.push(tmp);
-
-    
-
+    this.progenaralService.probusiness_get().then((res) => {          
+      var list: ProbusinessModel[] = [];     
+      list = res;          
+      if(list.length > 0){
+        for (let i = 0; i < list.length; i++) {  
+          var tmp = new RadiovalueModel();  
+          tmp.value = list[i].probusiness_id;      
+          if(this.initial_current.Language == "EN"){        
+            tmp.text = list[i].probusiness_name_en;        
+          }
+          else{
+            tmp.text = list[i].probusiness_name_th;      
+          }
+          this.probusiness_list.push(tmp);                         
+        }      
+      }
+    });
   }
 
-  doLoadProjectBusiness(){
-    var tmp = new ProjectBusinessModel();
 
-    tmp.pbusiness_code = "BUS001";
-    tmp.pbusiness_name_th = "ห้างฯ";
-    tmp.pbusiness_name_en = "Store";
-    
-    tmp.modified_by = "hropr";
+  protype_list: RadiovalueModel[] = [];  
+  doLoadProjectType(){   
+    var tmp = new RadiovalueModel();
+    this.protype_list = []   
 
-    this.pbusiness_list.push(tmp);
-
-    tmp = new ProjectBusinessModel();
-
-    tmp.pbusiness_code = "BUS002";
-    tmp.pbusiness_name_th = "มหาวิทยาลัย";
-    tmp.pbusiness_name_en = "University";
-    
-    tmp.modified_by = "hropr";
-
-    this.pbusiness_list.push(tmp);
-
-    
-
+    this.progenaralService.protype_get().then((res) => {          
+      var list: ProtypeModel[] = [];     
+      list = res;          
+      if(list.length > 0){
+        for (let i = 0; i < list.length; i++) {  
+          var tmp = new RadiovalueModel();  
+          tmp.value = list[i].protype_id;      
+          if(this.initial_current.Language == "EN"){        
+            tmp.text = list[i].protype_name_en;        
+          }
+          else{
+            tmp.text = list[i].protype_name_th;      
+          }
+          this.protype_list.push(tmp);                         
+        }      
+      }
+    });
   }
+
+
 
 
   total_emp: number = 0;
@@ -239,6 +217,7 @@ export class ProjectMonitorComponent implements OnInit {
   total_cost: number = 0;
   total_payment: number = 0;
 
+  total_project: number = 0;
 
 
   calculateTotal() {
@@ -259,6 +238,8 @@ export class ProjectMonitorComponent implements OnInit {
 
         this.total_cost += project.project_cost;
         this.total_payment += project.project_pay;
+
+        this.total_project += 1
       }
     } 
 

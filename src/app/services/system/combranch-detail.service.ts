@@ -150,7 +150,7 @@ export class CombranchDetailService {
       });
     }
 
-    //Card(com:string, type:string, id:string, code:string, branch:string)
+    //Card
     public getcombranch_card(company:string, code:string){
 
         var filter = {

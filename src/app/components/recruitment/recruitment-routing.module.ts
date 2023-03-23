@@ -5,13 +5,16 @@ import { RecruitmentRequestComponent } from './recruitment-request/recruitment-r
 import { RecruitmentApplyComponent } from './recruitment-apply/recruitment-apply.component';
 import { RecruitmentPolicyComponent } from './recruitment-policy/recruitment-policy.component';
 
+import { ApplyListComponent } from './recruitment-apply/apply/apply-list/apply-list.component';
 
 @NgModule({
-    imports: [RouterModule.forChild([ 
-       
+    imports: [RouterModule.forChild([
+
         { path: 'request', component: RecruitmentRequestComponent },
         { path: 'apply', component: RecruitmentApplyComponent },
         { path: 'policy', component: RecruitmentPolicyComponent },
+        { path: 'applylist', component: ApplyListComponent },
+
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
