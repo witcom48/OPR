@@ -584,7 +584,7 @@ export class SystemComaddressComponent implements OnInit {
     }
     this.comaddressList = [];
     this.comaddressList = itemNew;
-    this.comaddressList.sort(function(a, b) { return parseInt(a.comaddress_no) - parseInt(b.comaddress_no); })
+    this.comaddressList.sort(function(a, b) { return parseInt(a.comaddressen_no) - parseInt(b.comaddressth_no); })
   }
   record_comaddress(){
     if(this.comaddressList.length == 0){

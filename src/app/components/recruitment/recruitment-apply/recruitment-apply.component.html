@@ -24,7 +24,8 @@
                         </div>
                         <div class="field col-12 md:col-4">
                             <label for="Fname1"> รหัส :</label>
-                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedApplywork.applywork_code" maxlength="5"  [readonly]="edit_applywork" >
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedApplywork.applywork_code"
+                                maxlength="5" [readonly]="edit_applywork">
                         </div>
                         <div class="field col-12 md:col-5"></div>
 
@@ -961,34 +962,34 @@
         <!-- <label>หลักสูตร</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmptraining.course_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
-            <div>
-                <label for="lastname2">หลักสูตร :</label>
-                <p-dropdown placeholder="--" [options]="courseList" optionValue="course_code" [showClear]="true"
-                    [(ngModel)]="selectedReqtraining.course_code" [style]="{ width: '100%', overflow: 'visible' }">
-                    <ng-template let-item pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.course_name_th : item.course_name_en}}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.course_name_th : item.course_name_en}}
-                    </ng-template>
-                </p-dropdown>
-            </div>
+        <div>
+            <label for="lastname2">หลักสูตร :</label>
+            <p-dropdown placeholder="--" [options]="courseList" optionValue="course_code" [showClear]="true"
+                [(ngModel)]="selectedReqtraining.course_code" [style]="{ width: '100%', overflow: 'visible' }">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.course_name_th : item.course_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.course_name_th : item.course_name_en}}
+                </ng-template>
+            </p-dropdown>
+        </div>
         <!-- <label>สถานศึกษา</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [(ngModel)]="selectedReqtraining.institute_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
-            <div>
-                <label for="lastname2">สถานศึกษา :</label>
-                <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-                    [(ngModel)]="selectedReqtraining.institute_code" [style]="{ width: '100%', overflow: 'visible' }">
-                    <ng-template let-item pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
-                    </ng-template>
-                </p-dropdown>
-            </div>
+        <div>
+            <label for="lastname2">สถานศึกษา :</label>
+            <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
+                [(ngModel)]="selectedReqtraining.institute_code" [style]="{ width: '100%', overflow: 'visible' }">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+                </ng-template>
+            </p-dropdown>
+        </div>
         <label>วันที่เริ่ม</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedReqtraining.reqtraining_start"><input type="text"></p-calendar>
@@ -1013,7 +1014,7 @@
 
 
 
-<!-- <div class="flex flex-wrap gap-3">
+        <!-- <div class="flex flex-wrap gap-3">
     <div class="flex align-items-center">
         <p-radioButton name="pizza" value="Cheese" [(ngModel)]="selectedReqtraining.reqtraining_status" inputId="ingredient1"></p-radioButton>
         <label for="ingredient1" class="ml-2">Cheese</label>
@@ -1060,24 +1061,25 @@
 
 
 
-     <!-- Form req Assessment -->
-     <div class="formatt" *ngIf="edit_reqassessment==true || new_assessment==true">
+    <!-- Form req Assessment -->
+    <div class="formatt" *ngIf="edit_reqassessment==true || new_assessment==true">
         <!-- <label>สถานที่</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [(ngModel)]="selectedReqassessment.reqassessment_location"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
-            <div>
-                <label for="lastname2">สถานที่ :</label>
-                <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-                    [(ngModel)]="selectedReqassessment.reqassessment_location" [style]="{ width: '100%', overflow: 'visible' }">
-                    <ng-template let-item pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
-                    </ng-template>
-                </p-dropdown>
-            </div>
+        <div>
+            <label for="lastname2">สถานที่ :</label>
+            <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
+                [(ngModel)]="selectedReqassessment.reqassessment_location"
+                [style]="{ width: '100%', overflow: 'visible' }">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+                </ng-template>
+            </p-dropdown>
+        </div>
         <label>หัวข้อ</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqassessment.reqassessment_topic">
 
@@ -1116,18 +1118,18 @@
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [(ngModel)]="selectedReqcriminal.reqcriminal_location"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
-            <div>
-                <label for="lastname2">สถานที่ :</label>
-                <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-                    [(ngModel)]="selectedReqcriminal.reqcriminal_location" [style]="{ width: '100%', overflow: 'visible' }">
-                    <ng-template let-item pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
-                    </ng-template>
-                </p-dropdown>
-            </div>
+        <div>
+            <label for="lastname2">สถานที่ :</label>
+            <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
+                [(ngModel)]="selectedReqcriminal.reqcriminal_location" [style]="{ width: '100%', overflow: 'visible' }">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+                </ng-template>
+            </p-dropdown>
+        </div>
         <label>จากวันที่</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedReqcriminal.reqcriminal_fromdate"><input type="text"></p-calendar>

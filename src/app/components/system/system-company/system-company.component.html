@@ -1,12 +1,22 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- <app-companys></app-companys> -->
-
+<div class="path">
+    <span>System</span>
+    <div>
+        <i></i>
+        <a routerLink="/system/sys-manage">Manage</a>
+        <i></i>
+        <small>{{title_page}}</small>
+    </div>
+</div>
+<!-- <span style="font-size: 20px;">System</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>{{title_page}}</small> -->
+<hr>
 <!-- <app-system-bankaccount></app-system-bankaccount> -->
 
-<span style="font-size: 20px">System</span>&nbsp;
+<!-- <span style="font-size: 20px">System</span>&nbsp;
 <i class="pi pi-angle-right"></i>&nbsp;
 <small>{{ title_page }}</small>
-<hr />
+<hr /> -->
 <div>
     <p-menubar [model]="items"></p-menubar>
 </div>

@@ -1,0 +1,64 @@
+p-dropdown{
+    width: '100%'; overflow: 'visible';
+    
+}
+
+
+.table_summary_{
+    border-collapse: collapse;
+}
+
+.table_summary_ td{
+    padding: 5px;
+    border: 0px solid #ccc;
+}
+
+
+.main_div {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 100px;
+    width: 100px;
+    background-color: #152047;
+}
+.sub_div {
+    position: absolute;
+    bottom: 5px;
+}
+
+.spn_value{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.spn_title{
+    color: #FFFFFF;
+    font-size: 12px;    
+}
+
+.spn_title_edit{
+    margin: 70px 0px 10px 15px;    
+    font-weight: bold;
+    font-size: 15px;    
+}
+
+.td_amount{
+    text-align: right;
+    padding-right: 10px;
+}
+
+::ng-deep .input-styling input {
+    width: 40px !important;
+  }
+
+  textarea{
+    width: 100%;
+  }
+
+
+  .spn_title_edit_procontact{
+    margin: 350px 0px 10px 15px;    
+    font-weight: bold;
+    font-size: 15px;    
+}

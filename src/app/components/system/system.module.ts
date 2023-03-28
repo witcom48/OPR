@@ -65,14 +65,15 @@ import { SystemYearperiodComponent } from './system-policy/system-yearperiod/sys
 import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
 import { BranchComponent } from './branch/branch.component';
 import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
-import { YearComponent } from './system-policy/year/year.component';
-import { SystemReasonComponent } from './system-policy/system-reason/system-reason.component';
+import { YearComponent } from './system-manage/year/year.component';
+import { SystemReasonComponent } from './system-manage/system-reason/system-reason.component';
 import { LocationComponent } from './system-policy/location/location.component';
 import { SystemCourseComponent } from './system-policy/system-course/system-course.component';
-import { SystemInstituteComponent } from './system-policy/system-institute/system-institute.component';
+import { SystemInstituteComponent } from './system-manage/system-institute/system-institute.component';
 import { SystemFacultyComponent } from './system-policy/system-faculty/system-faculty.component';
 import { SystemMajorComponent } from './system-policy/system-major/system-major.component';
 import { SystemQualificationComponent } from './system-policy/system-qualification/system-qualification.component';
+import { SysManageComponent } from './system-manage/sys-manage/sys-manage.component';
 
 
 @NgModule({
@@ -149,7 +150,8 @@ import { SystemQualificationComponent } from './system-policy/system-qualificati
   SystemInstituteComponent,
   SystemFacultyComponent,
   SystemMajorComponent,
-  SystemQualificationComponent
+  SystemQualificationComponent,
+  SysManageComponent
 	],
 	exports: [
 		YearComponent,

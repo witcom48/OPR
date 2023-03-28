@@ -515,7 +515,7 @@ export class SysBranchComponent implements OnInit {
         this.comaddressList = [];
         this.comaddressList = itemNew;
         this.comaddressList.sort(function (a, b) {
-            return parseInt(a.comaddress_no) - parseInt(b.comaddress_no);
+            return parseInt(a.comaddressen_no) - parseInt(b.comaddressth_no);
         });
     }
     record_comaddress() {

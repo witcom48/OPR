@@ -170,38 +170,38 @@
 
                                 <label>เลขที่</label>
                                 <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_no">
+                                    [(ngModel)]="selectedComaddress.comaddressth_no">
 
                                 <label>หมู่ที่</label>
                                 <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_moo">
+                                    [(ngModel)]="selectedComaddress.comaddressth_moo">
 
                                 <label>ซอย</label>
                                 <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_soi">
+                                    [(ngModel)]="selectedComaddress.comaddressth_soi">
 
                                 <label>ถนน</label>
                                 <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_road">
+                                    [(ngModel)]="selectedComaddress.comaddressth_road">
 
                                 <label>ตำบล</label>
                                 <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_tambon">
+                                    [(ngModel)]="selectedComaddress.comaddressth_tambon">
 
                                 <label>อำเภอ</label>
                                 <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_amphur">
+                                    [(ngModel)]="selectedComaddress.comaddressth_amphur">
 
                                 <label>จังหวัด</label>
                                 <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code"
-                                    [showClear]="true" [(ngModel)]="selectedComaddress.province_code"
+                                    [showClear]="true" [(ngModel)]="selectedComaddress.provinceen_code"
                                     [style]="{ width: '100%', overflow: 'visible' }">
                                     <ng-template let-item pTemplate="selectedItem">
-                                        {{initial_current.Language=="TH"? item.province_name_th :
+                                        {{initial_current.Language=="TH"? item.province_name_en :
                                         item.province_name_en}}
                                     </ng-template>
                                     <ng-template let-item pTemplate="item">
-                                        {{initial_current.Language=="TH"? item.province_name_th :
+                                        {{initial_current.Language=="TH"? item.province_name_en :
                                         item.province_name_en}}
                                     </ng-template>
                                 </p-dropdown>
