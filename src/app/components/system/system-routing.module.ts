@@ -30,7 +30,7 @@ import { BranchComponent } from './branch/branch.component';
 import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
 import { SystemReasonComponent } from './system-manage/system-reason/system-reason.component';
 import { SystemCourseComponent } from './system-policy/system-course/system-course.component';
-import { SystemInstituteComponent } from './system-manage/system-institute/system-institute.component';
+import { SystemInstituteComponent } from './system-policy/system-institute/system-institute.component';
 import { SystemFacultyComponent } from './system-policy/system-faculty/system-faculty.component';
 import { SystemMajorComponent } from './system-policy/system-major/system-major.component';
 import { SystemQualificationComponent } from './system-policy/system-qualification/system-qualification.component';
