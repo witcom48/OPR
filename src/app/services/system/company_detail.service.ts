@@ -4,9 +4,7 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { InitialCurrent } from '../../config/initial_current';
-// import { EmpaddressModel } from 'src/app/models/employee/manage/address';
-// import { EmpcardModel } from 'src/app/models/employee/manage/card';
-// import { EmpbankModel } from 'src/app/models/employee/manage/bank';
+
 import { ComaddressModel } from 'src/app/models/system/comaddress';
 import { ComcardModel } from 'src/app/models/system/comcard';
 import { CombankModel } from 'src/app/models/system/combank';
@@ -256,9 +254,9 @@ export class CompanyDetailService {
       ip:"localhost",
       username:this.initial_current.Username,
     //   company_code:company,
-      language:"",
-      company_code:company
-
+    company_id:"",
+    company_code:company,
+    language:"",
     };
 
     return this.http.post<any>(this.config.ApiSystemModule + '/combank_list', filter, this.options).toPromise()
@@ -291,6 +289,8 @@ export class CompanyDetailService {
     var specificData = {
       transaction_data:item_data,
       company_code:company_code,
+    //   company_code:this.initial_current.CompCode,
+
     //   company_code : this.initial_current.CompCode,
       modified_by:this.initial_current.Username
     };

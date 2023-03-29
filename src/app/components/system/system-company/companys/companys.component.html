@@ -192,145 +192,149 @@
                         <i class="pi pi-user"></i>&nbsp;&nbsp;
                         <span>{{title_personal}}</span>
                     </ng-template>
-                    <div class="formgrid grid">
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ชั่วโมงการทำงาน</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
-                                [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
-                            </p-inputNumber>
+                    <div class="col-12">
+                        <div class="formgrid grid">
+
+                           
+
+
+                            <div class="formgrid grid">
+                                <div class="center field col-12 md:col-5">
+                                    <label for="firstname2">เลขประจำตัวผู้เสียภาษี</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.sso_tax_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+    
+    
+                                <div class="center field col-12 md:col-5">
+                                    <label for="firstname2">เลขทะเบียนนิติบุคคล</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.citizen_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+    
+                                <div class="field col-12 md:col-12"></div>
+    
+                                <div class="center field col-12 md:col-5">
+                                    <label for=" firstname2">เลขกองทุนสำรองเลี้ยงชีพ</label><br>
+                                    
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.provident_fund_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+    
+                                <!-- <div class=" field col-12 md:col-5">
+                                    <label for="firstname2">เลขกองทุนสำรองเลี้ยงชีพ</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.provident_fund_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div> -->
+    
+    
+                                <!-- <div class="field col-12 md:col-5"></div> -->
+    
+                                <div class="center field col-5 ">
+                                    <label for="lastname2">ชั่วโมงการทำงาน</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                        [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
+                                    </p-inputNumber>
+                                </div>
+    
+    
+    
+    
+    
+                                <div class="field col-12 md:col-12"></div>
+
+    
+                                <div class="center field col-5 ">
+                                    <label for="lastname2">อายุพนักงานน้อยสุด</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="18"
+                                        [max]="60" [step]="1" [(ngModel)]="selectedCompany.sso_min_age">
+                                    </p-inputNumber>
+                                </div>
+    
+    
+    
+    
+                                <div class="center field col-5 ">
+                                    <label for="lastname2">อายุพนักงานมากสุด</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="18"
+                                        [max]="60" [step]="1" [(ngModel)]="selectedCompany.sso_max_age">
+                                    </p-inputNumber>
+                                </div>
+                                
+                                <div class="field col-12 md:col-12"></div>
+
+                                <div class="center field col-12 md:col-5">
+                                    <label for="firstname2">เลขประกันสังคม</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen"
+                                        [(ngModel)]="selectedCompany.sso_security_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="13" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+                                <div class="center field col-12 md:col-5">
+                                    <label for=" firstname2">สาขาประกันสังคม</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.sso_branch_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="6" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+
+
+
+                                <div class="field col-12 md:col-12"></div>
+
+                                <div class="field col-12 md:col-12">
+                                    <h1 for="lastname2">อัตราการจ่าย %</h1>
+                                </div>
+
+
+
+
+                                <div class="center field col-12 md:col-5">
+                                    <label for="lastname2">ประกันสังคมส่วนบริษัท</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_com_rate">
+                                    </p-inputNumber>
+                                </div>
+
+
+                                <div class="center field col-12 md:col-5">
+                                    <label for="lastname2">ประกันสังคมส่วนพนักงาน</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_emp_rate">
+                                    </p-inputNumber>
+                                </div>
+
+
+                                <div class="field col-12 md:col-12"></div>
+
+                                <div class="field col-12 md:col-12">
+                                    <h1 for="lastname2">อัตราค่าจ้าง</h1>
+                                </div>
+                                <div class="center field col-12 md:col-5">
+                                    <label for="lastname2">ค่าจ้างตํ่าสุด</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_min_wage">
+                                    </p-inputNumber>
+                                </div>
+
+
+                                <div class="center field col-12 md:col-5">
+                                    <label for="lastname2">ค่าจ้างสูงสุด</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_max_wage">
+                                    </p-inputNumber>
+                                </div>
+                            </div>
                         </div>
 
 
 
+                        
 
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ประกันสังคมส่วนพนักงาน(%)</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_emp_rate">
-                            </p-inputNumber>
-                        </div>
-
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ประกันสังคมส่วนบริษัท(%)</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_com_rate">
-                            </p-inputNumber>
-                        </div>
-
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">อายุพนักงานน้อยสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="60"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_min_age">
-                            </p-inputNumber>
-                        </div>
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">อายุพนักงานมากสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="70"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_max_age">
-                            </p-inputNumber>
-                        </div>
-
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ค่าจ้างตํ่าสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_min_wage">
-                            </p-inputNumber>
-                        </div>
-
-
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ค่าจ้างสูงสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_max_wage">
-                            </p-inputNumber>
-                        </div>
-
-                        <!--  -->
-                        <div class="col-12">
-                            <p-accordion>
-                                <p-accordionTab header="ประกันสังคม" [selected]="false">
-
-
-
-                                    <!--  -->
-                                    <!--  -->
-                                    <!-- <div class="col-12">
-                            <p-accordion> -->
-                                    <div class="formgrid grid">
-                                        <div class="field col-12 md:col-6">
-                                            <label for="lastname2">เลขประกันสังคม</label>
-                                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                                [max]="120" [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
-                                            </p-inputNumber>
-                                        </div>
-
-
-
-
-                                        <div class="field col-12 md:col-6">
-                                            <label for="lastname2">สาขาประกันสังคม</label>
-                                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                                [max]="500000" [step]="0.5" [(ngModel)]="selectedCompany.sso_emp_rate">
-                                            </p-inputNumber>
-                                        </div>
-
-
-                                        <div class="field col-12 md:col-6">
-                                            <label for="lastname2">อัตราการจ่าย</label>
-                                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                                [max]="500000" [step]="0.5" [(ngModel)]="selectedCompany.sso_com_rate">
-                                            </p-inputNumber>
-                                        </div>
-
-
-                                        <div class="field col-12 md:col-6">
-                                            <label for="lastname2">อัตราค่าจ้าง</label>
-                                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                                [max]="60" [step]="0.5" [(ngModel)]="selectedCompany.sso_min_age">
-                                            </p-inputNumber>
-                                        </div>
-
-                                        <div class="field col-12 md:col-6">
-                                            <label for="lastname2">อายุพนักงานมากสุด</label>
-                                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                                [max]="70" [step]="0.5" [(ngModel)]="selectedCompany.sso_max_age">
-                                            </p-inputNumber>
-                                        </div>
-
-
-                                        <div class="field col-12 md:col-6">
-                                            <label for="lastname2">ค่าจ้างตํ่าสุด</label>
-                                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                                [max]="500000" [step]="0.5" [(ngModel)]="selectedCompany.sso_min_wage">
-                                            </p-inputNumber>
-                                        </div>
-
-
-
-                                        <div class="field col-12 md:col-6">
-                                            <label for="lastname2">ค่าจ้างสูงสุด</label>
-                                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                                [max]="500000" [step]="0.5" [(ngModel)]="selectedCompany.sso_max_wage">
-                                            </p-inputNumber>
-                                        </div>
-                                    </div>
-
-                                </p-accordionTab>
-                            </p-accordion>
-                        </div>
-
-
-
-
-
-                        <!--  -->
-                        <!-- <p-scrollPanel> -->
-
+                        
                         <!-- card -->
                         <div class="col-12">
                             <p-accordion>
@@ -404,7 +408,6 @@
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
-                        <!-- </p-scrollPanel> -->
                     </div>
                 </p-tabPanel>
 
@@ -559,18 +562,17 @@
                         </p-dropdown>
 
                         <label>tel</label>
-                        <input pInputText type="text" id="ppos_code"
-                            [(ngModel)]="selectedComaddress.comaddress_tel">
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_tel">
 
                         <label>email</label>
                         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_email">
 
                         <label>line</label>
-                        <input pInputText type="text" id="ppos_code"
-                            [(ngModel)]="selectedComaddress.comaddress_line">
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_line">
 
                         <label>facebook</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_facebook">
+                        <input pInputText type="text" id="ppos_code"
+                            [(ngModel)]="selectedComaddress.comaddress_facebook">
 
                         <!-- <label>province</label>
                         <input pInputText type="text" id="ppos_code"

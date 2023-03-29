@@ -53,7 +53,7 @@ export class CompanysComponent implements OnInit {
     edit_comaddresseen: boolean = false;
     new_comaddresseen: boolean = false;
 
-    
+
 
     //menu Comaddress en
     menu_comaddressen: MenuItem[] = [];
@@ -321,7 +321,7 @@ export class CompanysComponent implements OnInit {
                     this.clearManage();
                     if (this.selectedComaddress != null) {
                         this.edit_comaddress = true;
-                        
+
                         this.showManage();
                     }
                 },
@@ -858,70 +858,134 @@ export class CompanysComponent implements OnInit {
             });
     }
 
-    //bank
-    combankList: CombankModel[] = [];
-    selectedCombank: CombankModel = new CombankModel();
-    doLoadCombankList() {
-        this.companyDetailService
-            .getcompany_bank(this.company_code, '')
-            .then((res) => {
-                this.combankList = res;
-                if (this.combankList.length > 0) {
-                    this.selectedCombank = this.combankList[0];
-                }
-            });
-    }
-    onRowSelectCombank(event: Event) {}
-    combank_summit() {
-        this.combank_addItem(this.selectedCombank);
-        this.new_bank = false;
-        this.edit_combank = false;
-        this.displayManage = false;
-    }
-    combank_remove() {
-        this.selectedCombank.combank_id = '9999';
-        this.combank_addItem(this.selectedCombank);
-        this.new_bank = false;
-        this.edit_combank = false;
-    }
-    combank_delete() {}
-    combank_cancel() {
-        this.new_bank = false;
-        this.edit_combank = false;
-        this.displayManage = false;
-    }
-    combank_addItem(model: CombankModel) {
-        const itemNew: CombankModel[] = [];
-        for (let i = 0; i < this.combankList.length; i++) {
-            if (this.combankList[i].combank_id == model.combank_id) {
-                //-- Notting
-            } else {
-                itemNew.push(this.combankList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.combank_id != '9999') {
-            itemNew.push(model);
-        }
-        this.combankList = [];
-        this.combankList = itemNew;
-        this.combankList.sort(function (a, b) {
-            return parseInt(a.combank_id) - parseInt(b.combank_id);
-        });
-    }
-    record_combank() {
-        if (this.combankList.length == 0) {
-            return;
-        }
-        this.companyDetailService
-            .record_combank(this.selectedCompany.company_code, this.combankList)
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
+    // //bank
+   //bank
+   combankList: CombankModel[] = [];
+   selectedCombank: CombankModel = new CombankModel();
+   doLoadCombankList() {
+       this.companyDetailService
+           .getcompany_bank(this.initial_current.CompCode, this.company_code)
+           .then((res) => {
+               this.combankList = res;
+               if (this.combankList.length > 0) {
+                   this.selectedCombank = this.combankList[0];
+               }
+           });
+   }
+   onRowSelectCombank(event: Event) {}
+   combank_summit() {
+       this.combank_addItem(this.selectedCombank);
+       this.new_bank = false;
+       this.edit_combank = false;
+       this.displayManage = false;
+   }
+   combank_remove() {
+       this.selectedCombank.company_code = '9999';
+       this.combank_addItem(this.selectedCombank);
+       this.new_bank = false;
+       this.edit_combank = false;
+   }
+   combank_delete() {}
+   combank_cancel() {
+       this.new_bank = false;
+       this.edit_combank = false;
+       this.displayManage = false;
+   }
+   combank_addItem(model: CombankModel) {
+       const itemNew: CombankModel[] = [];
+       for (let i = 0; i < this.combankList.length; i++) {
+           if (this.combankList[i].combank_id == model.combank_id) {
+               //-- Notting
+           } else {
+               itemNew.push(this.combankList[i]);
+           }
+       }
+       //-- 9999 for delete
+       if (model.combank_id != '9999') {
+           itemNew.push(model);
+       }
+       this.combankList = [];
+       this.combankList = itemNew;
+       this.combankList.sort(function (a, b) {
+           return parseInt(a.combank_id) - parseInt(b.combank_id);
+       });
+   }
+   record_combank() {
+       if (this.combankList.length == 0) {
+           return;
+       }
+       this.companyDetailService
+           .record_combank(this.selectedCompany.company_code, this.combankList)
+           .then((res) => {
+               let result = JSON.parse(res);
+               if (result.success) {
+               } else {
+               }
+           });
+   }
+    // combankList: CombankModel[] = [];
+    // selectedCombank: CombankModel = new CombankModel();
+    // doLoadCombankList() {
+    //     this.companyDetailService
+    //         .getcompany_bank(this.initial_current.CompCode,this.company_code)
+    //         .then((res) => {
+    //             this.combankList = res;
+    //             if (this.combankList.length > 0) {
+    //                 this.selectedCombank = this.combankList[0];
+    //             }
+    //         });
+    // }
+    // onRowSelectCombank(event: Event) {}
+    // combank_summit() {
+    //     this.combank_addItem(this.selectedCombank);
+    //     this.new_bank = false;
+    //     this.edit_combank = false;
+    //     this.displayManage = false;
+    // }
+    // combank_remove() {
+    //     this.selectedCombank.combank_id = '9999';
+    //     this.combank_addItem(this.selectedCombank);
+    //     this.new_bank = false;
+    //     this.edit_combank = false;
+    // }
+    // combank_delete() {}
+    // combank_cancel() {
+    //     this.new_bank = false;
+    //     this.edit_combank = false;
+    //     this.displayManage = false;
+    // }
+    // combank_addItem(model: CombankModel) {
+    //     const itemNew: CombankModel[] = [];
+    //     for (let i = 0; i < this.combankList.length; i++) {
+    //         if (this.combankList[i].combank_id == model.combank_id) {
+    //             //-- Notting
+    //         } else {
+    //             itemNew.push(this.combankList[i]);
+    //         }
+    //     }
+    //     //-- 9999 for delete
+    //     if (model.combank_id != '9999') {
+    //         itemNew.push(model);
+    //     }
+    //     this.combankList = [];
+    //     this.combankList = itemNew;
+    //     this.combankList.sort(function (a, b) {
+    //         return parseInt(a.combank_id) - parseInt(b.combank_id);
+    //     });
+    // }
+    // record_combank() {
+    //     if (this.combankList.length == 0) {
+    //         return;
+    //     }
+    //     this.companyDetailService
+    //         .record_combank(this.selectedCompany.company_code, this.combankList)
+    //         .then((res) => {
+    //             let result = JSON.parse(res);
+    //             if (result.success) {
+    //             } else {
+    //             }
+    //         });
+    // }
     confirmRecord() {
         this.confirmationService.confirm({
             message: this.title_confirm_record,
