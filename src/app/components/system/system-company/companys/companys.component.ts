@@ -48,7 +48,7 @@ export class CompanysComponent implements OnInit {
     menu_comaddress: MenuItem[] = [];
     edit_comaddress: boolean = false;
     new_comaddress: boolean = false;
-    //menu Comaddress th
+    //menu Comaddress en
     menu_comaddresseen: MenuItem[] = [];
     edit_comaddresseen: boolean = false;
     new_comaddresseen: boolean = false;

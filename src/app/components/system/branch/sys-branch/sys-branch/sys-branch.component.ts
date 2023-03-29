@@ -63,6 +63,12 @@ export class SysBranchComponent implements OnInit {
     menu_comaddress: MenuItem[] = [];
     edit_comaddress: boolean = false;
     new_comaddress: boolean = false;
+     //menu Comaddress en
+     menu_comaddresseen: MenuItem[] = [];
+     edit_comaddresseen: boolean = false;
+     new_comaddresseen: boolean = false;
+
+
     //menu comcard
     menu_comcard: MenuItem[] = [];
     edit_comcard: boolean = false;
@@ -343,6 +349,55 @@ export class SysBranchComponent implements OnInit {
                 command: (event) => {},
             },
         ];
+        //menu address en
+        this.menu_comaddresseen = [
+            {
+                label: 'New',
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.clearManage();
+                    this.new_comaddresseen = true;
+                    var ref = this.comaddressList.length + 100;
+                    this.selectedComaddress = new ComaddressModel();
+                    this.selectedComaddress.company_code = ref.toString();
+                    this.showManage();
+                },
+            },
+            {
+                label: 'Edit',
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    this.clearManage();
+                    if (this.selectedComaddress != null) {
+                        this.edit_comaddresseen = true;
+                        this.showManage();
+                    }
+                },
+            },
+            {
+                label: 'Delete',
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    if (this.selectedComaddress != null) {
+                        this.comaddresss_remove();
+                    }
+                },
+            },
+            {
+                label: 'Import',
+                icon: 'pi pi-fw pi-file-import',
+                command: (event) => {
+                    console.log('IMPORT');
+                },
+            },
+            {
+                label: 'Export',
+                icon: 'pi pi-fw pi-file-export',
+                command: (event) => {},
+            },
+        ];
+
+
         //menu card
         this.menu_comcard = [
             {
@@ -396,6 +451,9 @@ export class SysBranchComponent implements OnInit {
         this.edit_comaddress = false;
         this.new_comaddress = false;
         //
+        this.edit_comaddresseen = false;
+        this.new_comaddresseen = false;
+        //
         this.edit_comcard = false;
         this.new_card = false;
         //
@@ -410,12 +468,17 @@ export class SysBranchComponent implements OnInit {
         if (this.initial_current.Language == 'EN') {
             if (this.new_comaddress || this.edit_comaddress) {
                 this.manage_title = 'Address';
+            } else if (this.new_comaddresseen || this.edit_comaddresseen) {
+                this.manage_title = 'Addressen';
             } else if (this.new_card || this.edit_comcard) {
                 this.manage_title = 'Card';
             }
         } else {
             if (this.new_comaddress || this.edit_comaddress) {
                 this.manage_title = 'ที่อยู่';
+
+            } else if (this.new_comaddresseen || this.edit_comaddresseen) {
+                this.manage_title = 'ที่อยู่ene';
             } else if (this.new_card || this.edit_comcard) {
                 this.manage_title = 'ข้อมูลบัตร';
             }
@@ -486,17 +549,27 @@ export class SysBranchComponent implements OnInit {
         this.new_comaddress = false;
         this.edit_comaddress = false;
         this.displayManage = false;
+
+        this.new_comaddresseen = false;
+        this.edit_comaddresseen = false;
     }
     comaddresss_remove() {
         this.selectedComaddress.combranch_code = '9999';
         this.comaddress_addItem(this.selectedComaddress);
         this.new_comaddress = false;
         this.edit_comaddress = false;
+
+        this.new_comaddresseen = false;
+        this.edit_comaddresseen = false;
     }
     comaddress_delete() {}
     comaddress_cancel() {
         this.new_comaddress = false;
         this.edit_comaddress = false;
+
+        this.new_comaddresseen = false;
+        this.edit_comaddresseen = false;
+
         this.displayManage = false;
     }
     comaddress_addItem(model: ComaddressModel) {
@@ -668,6 +741,10 @@ export class SysBranchComponent implements OnInit {
     clearManage() {
         this.new_comaddress = false;
         this.edit_comaddress = false;
+
+        this.new_comaddresseen = false;
+        this.edit_comaddresseen = false;
+
         this.new_card = false;
         this.edit_comcard = false;
     }
