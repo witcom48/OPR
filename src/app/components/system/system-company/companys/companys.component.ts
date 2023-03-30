@@ -1024,7 +1024,7 @@ export class CompanysComponent implements OnInit {
                         summary: 'Success',
                         detail: result.message,
                     });
-                    //   this.router.navigateByUrl('system/company');
+                      this.router.navigateByUrl('system/company');
                     this.doLoadCompany();
                 } else {
                     this.messageService.add({

@@ -10,18 +10,9 @@ import {
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 
-import { EmployeeModel } from '../../../models/employee/employee';
 import { DatePipe } from '@angular/common';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
-import { EmployeeService } from 'src/app/services/emp/worker.service';
-import { InitialModel } from '../../../models/employee/policy/initial';
-import { EmptypeModel } from '../../../models/employee/policy/emptype';
-import { EmpstatusModel } from '../../../models/employee/policy/empstatus';
-
-import { InitialService } from '../../../services/emp/policy/initial.service';
-import { EmptypeService } from '../../../services/emp/policy/emptype.service';
-import { EmpstatusService } from '../../../services/emp/policy/empstatus.service';
 import { CombranchModel } from 'src/app/models/system/branch';
 import { CombranchService } from 'src/app/services/system/combranch.service';
 
@@ -44,17 +35,13 @@ export class BranchComponent implements OnInit {
         private confirmationService: ConfirmationService,
         private datePipe: DatePipe,
 
-        private initialService: InitialService,
-        private emptypeService: EmptypeService,
-        private empstatusService: EmpstatusService
+
     ) {}
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
 
-        //   this.doLoadInitialList();
-        //   this.doLoadEmptypeList();
-        //   this.doLoadEmpstatusList();
+
 
         setTimeout(() => {
             this.doLoadLanguage();
@@ -349,7 +336,7 @@ export class BranchComponent implements OnInit {
     exportAsExcel() {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
             this.table.nativeElement
-        ); //converts a DOM TABLE element to a worksheet
+        );
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 

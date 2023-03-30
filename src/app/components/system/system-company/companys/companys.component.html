@@ -336,7 +336,7 @@
 
                         
                         <!-- card -->
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <p-accordion>
                                 <p-accordionTab header="{{title_card}}">
                                     <p-menubar [model]="menu_comcard"></p-menubar>
@@ -360,7 +360,6 @@
                                         <ng-template pTemplate="body" let-data>
                                             <tr [pSelectableRow]="data">
                                                 <th>{{data.card_type }}</th>
-                                                <!-- <td>{{initial_current.Language == "TH"? data.cardtype_name_th:data.cardtype_name_en}}</td> -->
 
                                                 <th>{{data.comcard_code}}</th>
                                                 <th>{{data.comcard_issue| date:'dd/MM/yyyy'}}</th>
@@ -372,7 +371,7 @@
                                     </p-table>
                                 </p-accordionTab>
                             </p-accordion>
-                        </div>
+                        </div> -->
 
                         <!-- bank -->
                         <div class="col-12">
@@ -452,6 +451,10 @@
                                 {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_th}}
                             </ng-template>
                         </p-dropdown>
+
+                        <!-- <input  [(ngModel)]="selectedComaddress.combranch_code"> -->
+
+
 
                         <label>เลขที่</label>
                         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddressth_no">

@@ -67,7 +67,6 @@ export class CombranchDetailService {
             username:this.initial_current.Username,
             company_code:company,
             language:"",
-            // compan_code:"",
             combranch_code:code,
             comaddress_type:"",
 

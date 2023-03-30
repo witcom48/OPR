@@ -26,7 +26,7 @@
                         <div class="field col-12 md:col-6">
                             <label for="firstname2">สาขาประกันสังคม</label><br>
                             <br />
-                            <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.combranch_name_en"
+                            <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.sso_combranch_no"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                         </div>
@@ -284,10 +284,10 @@
 
                                 <!-- <label>อีเมล์</label>
                                 <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_email">
-        
+
                                 <label>Line</label>
                                 <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_line">
-        
+
                                 <label>Facebook</label>
                                 <input pInputText type="text" id="ppos_code"
                                     [(ngModel)]="selectedComaddress.comaddress_facebook"> -->
@@ -305,8 +305,8 @@
 
 
                                 <!-- <label>ประเภท</label>
-        
-        
+
+
                                 <p-dropdown placeholder="--" [options]="addressList" optionValue="addresstype_code"
                                     [showClear]="true" [(ngModel)]="selectedComaddress.comaddress_type"
                                     [style]="{ width: '100%', overflow: 'visible' }">

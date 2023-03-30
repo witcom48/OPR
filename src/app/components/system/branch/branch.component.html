@@ -28,7 +28,7 @@
             (onRowSelect)="onRowSelectCombranch($event)" dataKey="combranch_code" [rows]="10" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['combranch_code','combranch_name_th','modified_by','modified_date']">
+            [globalFilterFields]="['combranch_code','combranch_name_th','sso_combranch_no','modified_by','modified_date']">
             <ng-template pTemplate="caption">
                 <div class="flex">
                     <span class="p-input-icon-left ml-auto">
@@ -42,8 +42,9 @@
             <ng-template pTemplate="header">
                 <tr>
                     <tr>
-                        <th>รหัส</th>
-                        <th>รายละเอียด</th>
+                        <th>รหัสสาขา</th>
+                        <th>ชื่อสาขา</th>
+                        <th>สาขาประกันสังคม</th>
                         <th>Edit by</th>
                         <th>Edit date</th>
                     </tr>
@@ -52,8 +53,7 @@
                 <tr [pSelectableRow]="data">
                     <td>{{data.combranch_code}}</td>
                     <td>{{initial_current.Language == "TH"? data.combranch_name_th:data.combranch_name_en}}</td>
-
-                    <!-- <td>{{data.combranch_name_th}}</td> -->
+                    <td>{{data.sso_combranch_no}}</td>
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
@@ -73,12 +73,14 @@
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedcombranch.combranch_code" maxlength="5"  [readonly]="edit_combranch" >
         <p>{{selectedcombranch.combranch_code.length}}/5</p>
 
-        <label for="lastname2">ลายละเอียด</label>
+        <label for="lastname2">ชื่อสาขา</label>
         <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcombranch.combranch_name_th" [cols]="30" pInputTextarea
             [autoResize]="true"></textarea>
 
 
-
+        <label for="lastname2">สาขาประกันสังคม</label>
+        <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcombranch.sso_combranch_no" [cols]="30" pInputTextarea
+            [autoResize]="true"></textarea>
 
         <button pButton pRipple type="button" label="แก้ไข" (click)="selectComManage()"
             class="p-button-secondary"></button>

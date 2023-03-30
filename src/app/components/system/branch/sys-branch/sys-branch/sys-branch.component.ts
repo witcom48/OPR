@@ -1,33 +1,16 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    ConfirmationService,
-    MegaMenuItem,
-    MenuItem,
-    MessageService,
-} from 'primeng/api';
-import { EmployeeModel } from 'src/app/models/employee/employee';
-import { EmpaddressModel } from 'src/app/models/employee/manage/address';
-import { EmpcardModel } from 'src/app/models/employee/manage/card';
-import { EmpstatusModel } from 'src/app/models/employee/policy/empstatus';
-import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
-import { PositionModel } from 'src/app/models/employee/policy/position';
+import {ConfirmationService,MegaMenuItem,MenuItem,MessageService,} from 'primeng/api';
 import { CombranchModel } from 'src/app/models/system/branch';
 import { ComaddressModel } from 'src/app/models/system/comaddress';
 import { ComcardModel } from 'src/app/models/system/comcard';
-import { InitialModel } from 'src/app/models/system/initial';
 import { AddresstypeModel } from 'src/app/models/system/policy/addresstype';
 import { CardtypeModel } from 'src/app/models/system/policy/cardtype';
 import { ProvinceModel } from 'src/app/models/system/policy/province';
-import { EmpstatusService } from 'src/app/services/emp/policy/empstatus.service';
-import { EmptypeService } from 'src/app/services/emp/policy/emptype.service';
-import { PositionService } from 'src/app/services/emp/policy/position.service';
-import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
 import { CombranchDetailService } from 'src/app/services/system/combranch-detail.service';
 import { CombranchService } from 'src/app/services/system/combranch.service';
-import { InitialService } from 'src/app/services/system/initial.service';
 import { AddresstypeService } from 'src/app/services/system/policy/addresstype.service';
 import { CardtypeService } from 'src/app/services/system/policy/cardtype.service';
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
