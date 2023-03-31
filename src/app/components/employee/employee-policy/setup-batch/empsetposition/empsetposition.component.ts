@@ -8,8 +8,10 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { EmpPositionModel } from 'src/app/models/employee/manage/position';
+import { SetPositionModel } from 'src/app/models/employee/policy/batch/setposition';
 import { PositionModel } from 'src/app/models/employee/policy/position';
 import { PositionService } from 'src/app/services/emp/policy/position.service';
+import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { TaskService } from 'src/app/services/task.service';
 
 interface Policy {
@@ -46,7 +48,9 @@ export class EmpsetpositionComponent implements OnInit {
 
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
+  loading: boolean = false;
   index: number = 0;
+  result_list: Result[] = [];
   
   constructor(
     private messageService: MessageService,
@@ -54,6 +58,7 @@ export class EmpsetpositionComponent implements OnInit {
     private taskService: TaskService,
     private router:Router,
     private positionService: PositionService,
+    private setempdetailService: SetEmpDetailService,
     ) { }
 
 
@@ -84,12 +89,36 @@ export class EmpsetpositionComponent implements OnInit {
   }
 
   selectedEmpPosition: EmpPositionModel = new EmpPositionModel();
-
+  emppositionList: EmpPositionModel[] = [];
 
   process(){
-    this.selectEmp.employee_dest.forEach((item:EmployeeModel)=>{
-      console.log(item.worker_code)
-    })
+    this.result_list = [];
+    if (this.selectEmp.employee_dest.length > 0) {
+      this.Setbatchposition();
+    }
+  }
+
+  async Setbatchposition(){
+    var data = new SetPositionModel();
+    data.empposition_date = this.selectedEmpPosition.empposition_date;
+    data.empposition_position = this.selectedEmpPosition.empposition_position;
+    data.empposition_reason = this.selectedEmpPosition.empposition_reason;
+    data.company_code = this.initial_current.CompCode
+    data.modified_by = this.initial_current.Username
+    data.emp_data = this.selectEmp.employee_dest;
+    this.loading = true;
+    console.log(data)
+    await this.setempdetailService.SetPosition_record(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        console.log(res.message)
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.loading = false;
+    });
   }
 
   function(e: any) {

@@ -375,7 +375,7 @@ export class EmpDetailService {
       item_data = item_data + ",\"family_lname_th\":\"" + list[i].family_lname_th + "\"";
       item_data = item_data + ",\"family_fname_en\":\"" + list[i].family_fname_en + "\"";
       item_data = item_data + ",\"family_lname_en\":\"" + list[i].family_lname_en + "\"";
-      item_data = item_data + ",\"family_birthdate\":\"" + this.datePipe.transform(list[i].family_birthdate) + "\"";
+      item_data = item_data + ",\"family_birthdate\":\"" + this.datePipe.transform(list[i].family_birthdate,'yyyy-MM-dd HH:mm:ss') + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

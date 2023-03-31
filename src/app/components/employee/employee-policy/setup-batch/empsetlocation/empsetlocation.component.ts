@@ -5,11 +5,11 @@ import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/se
 import { TaskComponent } from 'src/app/components/usercontrol/task/task.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
-import { EmpGroupModel } from 'src/app/models/employee/manage/empgroup';
-import { SetGroupModel } from 'src/app/models/employee/policy/batch/setgroup';
-import { GroupModel } from 'src/app/models/employee/policy/group';
-import { GroupService } from 'src/app/services/emp/policy/group.service';
+import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
+import { SetLocationModel } from 'src/app/models/employee/policy/batch/setlocation';
+import { LocationModel } from 'src/app/models/system/policy/location';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
+import { LocationService } from 'src/app/services/system/policy/location.service';
 import { TaskService } from 'src/app/services/task.service';
 
 interface Policy {
@@ -24,11 +24,11 @@ interface Result {
 }
 
 @Component({
-  selector: 'app-empsetgroup',
-  templateUrl: './empsetgroup.component.html',
-  styleUrls: ['./empsetgroup.component.scss']
+  selector: 'app-empsetlocation',
+  templateUrl: './empsetlocation.component.html',
+  styleUrls: ['./empsetlocation.component.scss']
 })
-export class EmpsetgroupComponent implements OnInit {
+export class EmpsetlocationComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
@@ -49,14 +49,14 @@ export class EmpsetgroupComponent implements OnInit {
   loading: boolean = false;
   index: number = 0;
   result_list: Result[] = [];
-
+  
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
     private router:Router,
-    private groupService : GroupService,
     private setempdetailService: SetEmpDetailService,
+    private locationService : LocationService
   ) { }
 
   new_data: boolean = false;
@@ -66,54 +66,53 @@ export class EmpsetgroupComponent implements OnInit {
     this.doGetInitialCurrent();
 
     //dropdown
-    this.doLoadGroupList();
+    this.doLoadLocationList();
   }
 
-public initial_current: InitialCurrent = new InitialCurrent();
+  public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('');
     }
   }
-  
-  //get group
-  groupList: GroupModel[]=[];
-  doLoadGroupList(){
-    this.groupService.group_get().then(async(res)=>{
-      this.groupList = await res;
+
+  locationList: LocationModel[]=[];
+  doLoadLocationList(){
+    var tmp = new LocationModel();
+    this.locationService.location_get(tmp).then(async(res)=>{
+      this.locationList = await res;
     })
   }
 
-  selectedEmpGroup: EmpGroupModel = new EmpGroupModel();
-  empgroupList: EmpGroupModel[] = [];
+  selectedEmpLocation: EmpLocationModel = new EmpLocationModel();
+  emplocationList: EmpLocationModel[]=[];
 
   process(){
     this.result_list = [];
-    if (this.selectEmp.employee_dest.length > 0) {
-      this.Setbatchgroup();
+    if(this.selectEmp.employee_dest.length >0){
+      this.Setbatchlocation()
     }
   }
 
-  async Setbatchgroup(){
-    var data = new SetGroupModel();
-    data.empgroup_date = this.selectedEmpGroup.empgroup_date;
-    data.empgroup_code = this.selectedEmpGroup.empgroup_code;
-    data.company_code = this.initial_current.CompCode
-    data.modified_by = this.initial_current.Username
+  async Setbatchlocation(){
+    var data = new SetLocationModel();
+    data.location_code = this.selectedEmpLocation.location_code;
+    data.emplocation_startdate = this.selectedEmpLocation.emplocation_startdate;
+    data.emplocation_enddate = this.selectedEmpLocation.emplocation_enddate;
+    data.emplocation_note = this.selectedEmpLocation.emplocation_note;
+    data.company_code = this.initial_current.CompCode;
+    data.modified_by = this.initial_current.Username;
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
-    await this.setempdetailService.SetGroup_record(data).then((res) => {
-      console.log(res)
-      if (res.success) {
-        console.log(res.message)
+    await this.setempdetailService.SetLocation_record(data).then((res)=>{
+      if (res.success){
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-      }
-      else {
+      }else{
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-      this.loading = false;
-    });
+    })
+    this.loading = false;
   }
 
   function(e: any) {

@@ -57,6 +57,7 @@ import { EmployeeLocationComponent } from './employee-policy/genaral/employee-lo
 import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 import { EmpsetsalaryComponent } from './employee-policy/setup-batch/empsetsalary/empsetsalary.component';
 import { EmpsetgroupComponent } from './employee-policy/setup-batch/empsetgroup/empsetgroup.component';
+import { EmpsetlocationComponent } from './employee-policy/setup-batch/empsetlocation/empsetlocation.component';
 
 
 @NgModule({
@@ -120,7 +121,8 @@ import { EmpsetgroupComponent } from './employee-policy/setup-batch/empsetgroup/
     EmpsetdepComponent,
     EmployeeLocationComponent,
     EmpsetsalaryComponent,
-    EmpsetgroupComponent
+    EmpsetgroupComponent,
+    EmpsetlocationComponent
   ]
 })
 export class EmployeeModule { }
