@@ -35,7 +35,11 @@ import { SystemFacultyComponent } from './system-policy/system-faculty/system-fa
 import { SystemMajorComponent } from './system-policy/system-major/system-major.component';
 import { SystemQualificationComponent } from './system-policy/system-qualification/system-qualification.component';
 import { SysManageComponent } from './system-manage/sys-manage/sys-manage.component';
+import { SysComlocationComponent } from './system-manage/sys-comlocation/sys-comlocation.component';
+import { ComlocationlistComponent } from './system-manage/sys-comlocation/comlocationlist/comlocationlist.component';
 
+import { RoundComponent } from './system-manage/round/round.component';
+import { AddRounComponent } from './system-manage/round/add-roun/add-roun.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -74,8 +78,13 @@ import { SysManageComponent } from './system-manage/sys-manage/sys-manage.compon
         { path: 'major', component: SystemMajorComponent },
         { path: 'qualification', component: SystemQualificationComponent },
         { path: 'sys-manage', component: SysManageComponent },
+        { path: 'sys-comlocation', component: SysComlocationComponent },
+        { path: 'sys-comlocationlist', component: ComlocationlistComponent },
+        { path: 'sys-roundComponent', component: RoundComponent },
+        { path: 'sys-addroun', component: AddRounComponent },
 
-
+        
+        
 
 
 

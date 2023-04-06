@@ -74,6 +74,10 @@ import { SystemFacultyComponent } from './system-policy/system-faculty/system-fa
 import { SystemMajorComponent } from './system-policy/system-major/system-major.component';
 import { SystemQualificationComponent } from './system-policy/system-qualification/system-qualification.component';
 import { SysManageComponent } from './system-manage/sys-manage/sys-manage.component';
+import { SysComlocationComponent } from './system-manage/sys-comlocation/sys-comlocation.component';
+import { ComlocationlistComponent } from './system-manage/sys-comlocation/comlocationlist/comlocationlist.component';
+import { RoundComponent } from './system-manage/round/round.component';
+import { AddRounComponent } from './system-manage/round/add-roun/add-roun.component';
 
 
 @NgModule({
@@ -151,7 +155,11 @@ import { SysManageComponent } from './system-manage/sys-manage/sys-manage.compon
   SystemFacultyComponent,
   SystemMajorComponent,
   SystemQualificationComponent,
-  SysManageComponent
+  SysManageComponent,
+  SysComlocationComponent,
+  ComlocationlistComponent,
+  RoundComponent,
+  AddRounComponent
 	],
 	exports: [
 		YearComponent,

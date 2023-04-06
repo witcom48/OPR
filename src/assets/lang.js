@@ -49,6 +49,55 @@ var yearperiod = new Map([
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
 ]);
 
+
+
+
+var rounddecimal = new Map([
+    ["code", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
+    ["nameth", { TH: "ชื่อ ไทย", EN: "Name th" }],
+    ["nameen", { TH: "ชื่อ อังกฤษ ", EN: "Name en" }],
+    ["rounddecimal", { TH: "การปัดเศษ", EN: "Round Decimal" }],
+    ["currency", { TH: "Currency", EN: "Currency" }],
+    ["from", { TH: "จาก", EN: "From" }],
+    ["tod", { TH: "ถึง", EN: "To" }],
+    ["round", { TH: "ปัดเศษ", EN: "Round" }],
+    ["timee", { TH: "เวลา", EN: "Time" }],
+
+
+
+
+
+    ["Time", { TH: "นะโยบาย", EN: "Time" }],
+    ["yearperiod", { TH: "ปีการจ่าย", EN: "Year Period" }],
+    ["new", { TH: "เพิ่ม", EN: "New" }],
+    ["import", { TH: "นำเข้า", EN: "Import" }],
+    ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],
+    ["export", { TH: "ส่งออกไฟล์", EN: "Export" }],
+    ["showing", { TH: "แสดง", EN: "Showing" }],
+    ["to", { TH: "ถึง", EN: "to" }],
+    ["of", { TH: "จาก", EN: "of" }],
+    ["entries", { TH: "รายการ", EN: "entries" }],
+    ["search", { TH: "ค้นหา", EN: "search" }],
+    ["no", { TH: "อันดับ", EN: "No." }],
+    ["code", { TH: "รหัส", EN: "Code" }],
+    ["description", { TH: "รายละเอียด", EN: "Description" }],
+    ["type", { TH: "ประเภท", EN: "Type" }],
+    ["modified_by", { TH: "ผู้ทำรายการ", EN: "Modified by" }],
+    ["modified_date", { TH: "วันที่ทำรายการ", EN: "Modified date" }],
+
+    ["tax", { TH: "ภาษี", EN: "TAX" }],
+    ["leave", { TH: "ลา", EN: "Leave" }],
+    ["save", { TH: "บันทึก", EN: "Save" }],
+    ["delete", { TH: "ลบ", EN: "Delete" }],
+    ["upload", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
+    ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
+    ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
+
+
+]);
+
+
+
 var timeperiod = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],

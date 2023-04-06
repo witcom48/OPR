@@ -1,11 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    ConfirmationService,
-    MegaMenuItem,
-    MenuItem,
-    MessageService,
+import {ConfirmationService,MegaMenuItem,MenuItem,MessageService,
 } from 'primeng/api';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';

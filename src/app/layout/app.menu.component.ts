@@ -105,8 +105,8 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Genaral', routerLink: ['/system/genaral'] },
                     { label: 'Manage', routerLink: ['/system/sys-manage'] },
-                    { label: 'Company', routerLink: ['/system/company'] },
-                    { label: 'Branch', routerLink: ['/system/Branch'] },
+                    // { label: 'Company', routerLink: ['/system/company'] },
+                    // { label: 'Branch', routerLink: ['/system/Branch'] },
                     { label: 'Security', routerLink: ['/system/security'] },
                     { label: 'Notification', routerLink: ['/system/notification'] },
                     { label: 'Reports', routerLink: ['/system/reports'] },
