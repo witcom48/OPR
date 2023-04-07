@@ -62,8 +62,11 @@ var rounddecimal = new Map([
     ["tod", { TH: "ถึง", EN: "To" }],
     ["round", { TH: "ปัดเศษ", EN: "Round" }],
     ["timee", { TH: "เวลา", EN: "Time" }],
+    ["decimal", { TH: "Round Decimal", EN: "Round Decimal" }],
+    ["roundTime", { TH: "Round Time", EN: "Round Time" }],
+    ["group", { TH: "กลุ่ม", EN: "group" }],
 
-
+     
 
 
 
