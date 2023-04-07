@@ -47,6 +47,8 @@ var yearperiod = new Map([
     ["upload", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
     ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
+    ["manage", { TH: "จัดการ", EN: "Manage" }],
+
 ]);
 
 
@@ -54,8 +56,8 @@ var yearperiod = new Map([
 
 var rounddecimal = new Map([
     ["code", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
-    ["nameth", { TH: "ชื่อ ไทย", EN: "Name th" }],
-    ["nameen", { TH: "ชื่อ อังกฤษ ", EN: "Name en" }],
+    ["nameth", { TH: "ชื่อ ไทย", EN: "Name " }],
+    ["nameen", { TH: "ชื่อ อังกฤษ ", EN: "Name " }],
     ["rounddecimal", { TH: "การปัดเศษ", EN: "Round Decimal" }],
     ["currency", { TH: "Currency", EN: "Currency" }],
     ["from", { TH: "จาก", EN: "From" }],
@@ -64,9 +66,10 @@ var rounddecimal = new Map([
     ["timee", { TH: "เวลา", EN: "Time" }],
     ["decimal", { TH: "Round Decimal", EN: "Round Decimal" }],
     ["roundTime", { TH: "Round Time", EN: "Round Time" }],
-    ["group", { TH: "กลุ่ม", EN: "group" }],
+    ["group", { TH: "กลุ่ม", EN: "Group" }],
+    ["manage", { TH: "จัดการ", EN: "Manage" }],
 
-     
+
 
 
 
@@ -133,6 +136,8 @@ var timeperiod = new Map([
 ]);
 
 var reason = new Map([
+    ["manage", { TH: "จัดการ", EN: "Manage" }],
+
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
     ["yearperiod", { TH: "ปีการจ่าย", EN: "Year Period" }],
