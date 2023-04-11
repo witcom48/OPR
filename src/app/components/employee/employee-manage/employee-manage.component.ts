@@ -63,6 +63,8 @@ import { PartService } from 'src/app/services/emp/policy/part.service';
 import { EmpGroupModel } from 'src/app/models/employee/manage/empgroup';
 import { GroupService } from 'src/app/services/emp/policy/group.service';
 import { GroupModel } from 'src/app/models/employee/policy/group';
+import { LevelModel } from 'src/app/models/system/policy/level';
+import { EmpSupplyModel } from 'src/app/models/employee/manage/empsupply';
 
 
 
@@ -161,6 +163,10 @@ export class EmployeeManageComponent implements OnInit {
   menu_empeducation: MenuItem[] = [];
   edit_empeducation: boolean = false;
   new_education: boolean = false;
+  //menu empsupply
+  menu_empsupply: MenuItem[] = [];
+  edit_empsupply: boolean = false;
+  new_supply: boolean = false;
   //menu emptraining
   menu_emptraining: MenuItem[] = [];
   edit_emptraining: boolean = false;
@@ -350,6 +356,7 @@ export class EmployeeManageComponent implements OnInit {
   title_empgroup: string = "Group";
   title_training: string = "Training";
   title_education: string = "Education";
+  title_supply: string = "Office Supply";
   title_assessment: string = "Assessment";
   title_criminal: string = "Criminal Record";
   title_resignrecord: string = "Resign Record";
@@ -437,6 +444,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_position = 'ตำแหน่ง';
       this.title_empgroup = 'กลุ่มพนักงาน';
       this.title_education = 'ประวัติการศึกษา';
+      this.title_supply = 'อุปกรณ์สำนักงาน';
       this.title_training = 'ประวัติการอบรม';
       this.title_assessment = 'ประวัติการประเมิน';
       this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
@@ -1000,6 +1008,56 @@ export class EmployeeManageComponent implements OnInit {
           console.log("EXPORT");
         }
       }]
+      //menu Supply
+    this.menu_empsupply = [
+      {
+        label: 'New',
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          console.log("NEW");
+          this.clearManage()
+          this.new_supply = true
+          var ref = this.empsupplyList.length + 100
+          this.selectedEmpSupply = new EmpSupplyModel()
+          this.selectedEmpSupply.empsupply_id = ref.toString()
+          this.showManage()
+        }
+      },
+      {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          console.log("EDIT");
+          this.clearManage()
+          if (this.selectedEmpSupply != null) {
+            this.edit_empsupply = true
+            this.showManage()
+          }
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          if (this.selectedEmpSupply != null) {
+            this.empsupply_remove();
+          }
+        }
+      },
+      {
+        label: 'Import',
+        icon: 'pi pi-fw pi-file-import',
+        command: (event) => {
+          console.log("IMPORT");
+        }
+      },
+      {
+        label: 'Export',
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          console.log("EXPORT");
+        }
+      }]
     //menu training
     this.menu_emptraining = [
       {
@@ -1392,6 +1450,9 @@ export class EmployeeManageComponent implements OnInit {
     this.edit_empeducation = false;
     this.new_education = false;
     //
+    this.edit_empsupply = false;
+    this.new_supply = false;
+    //
     this.edit_emptraining = false;
     this.new_training = false;
     //
@@ -1465,6 +1526,9 @@ export class EmployeeManageComponent implements OnInit {
       else if (this.new_education || this.edit_empeducation) {
         this.manage_title = "Education"
       }
+      else if (this.new_supply || this.edit_empsupply) {
+        this.manage_title = "Office Supply"
+      }
       else if (this.new_training || this.edit_emptraining) {
         this.manage_title = "Training"
       }
@@ -1529,6 +1593,9 @@ export class EmployeeManageComponent implements OnInit {
       else if (this.new_education || this.edit_empeducation) {
         this.manage_title = "ประวัติการศึกษา"
       }
+      else if (this.new_supply || this.edit_empsupply) {
+        this.manage_title = "อุปกรณ์สำนักงาน"
+      }
       else if (this.new_training || this.edit_emptraining) {
         this.manage_title = "ประวัติการอบรม"
       }
@@ -1590,6 +1657,7 @@ export class EmployeeManageComponent implements OnInit {
           this.doLoadEmpPositionList();
           this.doLoadEmpGroupList();
           this.doLoadEmpeducationList();
+          this.doLoadEmpSupplyList();
           this.doLoadEmptrainingList();
           this.doLoadEmpassessmentList();
           this.doLoadEmpcriminalList();
@@ -1701,8 +1769,8 @@ export class EmployeeManageComponent implements OnInit {
   }
   depList: PartModel[]=[];
   doLoadDepLiat(){
-    var tmp = new PartModel();
-    this.depService.dep_get("").then(async(res)=>{
+    var tmp = new LevelModel();
+    this.depService.dep_get(tmp).then(async(res)=>{
       this.depList = await res ;
     })
   }
@@ -2312,6 +2380,72 @@ export class EmployeeManageComponent implements OnInit {
       return
     }
     this.empdetailService.record_empeducation(this.selectedEmployee.worker_code, this.empeducationList).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+      }
+      else {
+      }
+    });
+  }
+
+  //emp supply
+  empsupplyList: EmpSupplyModel[] = [];
+  selectedEmpSupply: EmpSupplyModel = new EmpSupplyModel();
+  doLoadEmpSupplyList() {
+    this.empdetailService.getworker_supply(this.initial_current.CompCode, this.emp_code).then(async (res) => {
+      await res.forEach((element: EmpSupplyModel) => {
+        element.empsupply_issuedate = new Date(element.empsupply_issuedate)
+        element.empsupply_returndate = new Date(element.empsupply_returndate)
+      })
+      console.log(res)
+      this.empsupplyList = await res;
+      if (this.empsupplyList.length > 0) {
+        this.selectedEmpSupply = this.empsupplyList[0];
+      }
+    })
+  }
+  onRowSelectEmpSupply(event: Event) { }
+  empsupply_summit() {
+    this.empsupply_addItem(this.selectedEmpSupply)
+    this.new_supply = false
+    this.edit_empsupply = false
+    this.displayManage = false
+  }
+  empsupply_remove() {
+    this.selectedEmpSupply.empsupply_id = "9999";
+    this.empsupply_addItem(this.selectedEmpSupply)
+    this.new_supply = false
+    this.edit_empsupply = false
+  }
+  empsupply_delete() { }
+  empsupply_cancel() {
+    this.new_supply = false
+    this.edit_empsupply = false
+    this.displayManage = false
+  }
+  empsupply_addItem(model: EmpSupplyModel) {
+    const itemNew: EmpSupplyModel[] = [];
+    for (let i = 0; i < this.empsupplyList.length; i++) {
+      if (this.empsupplyList[i].empsupply_id == model.empsupply_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.empsupplyList[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.empsupply_id != "9999") {
+      itemNew.push(model);
+    }
+    this.empsupplyList = [];
+    this.empsupplyList = itemNew;
+    this.empsupplyList.sort(function (a, b) { return parseInt(a.empsupply_id) - parseInt(b.empsupply_id); })
+  }
+  record_empsupply() {
+    if (this.empsupplyList.length == 0) {
+      return
+    }
+    this.empdetailService.record_empsupply(this.selectedEmployee.worker_code, this.empsupplyList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
@@ -2955,6 +3089,7 @@ export class EmployeeManageComponent implements OnInit {
         this.record_empposition();
         this.record_empgroup();
         this.record_empeducation();
+        this.record_empsupply();
         this.record_emptraining();
         this.record_empassessment();
         this.record_empcriminal();
@@ -2994,6 +3129,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_position = false; this.edit_empposition = false;
     this.new_group = false; this.edit_empgroup = false;
     this.new_education = false; this.edit_empeducation = false;
+    this.new_supply = false; this.edit_empsupply = false;
     this.new_training = false; this.edit_emptraining = false;
     this.new_assessment = false; this.edit_empassessment = false;
     this.new_criminal = false; this.edit_empcriminal = false;

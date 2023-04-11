@@ -5,10 +5,9 @@ import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/se
 import { TaskComponent } from 'src/app/components/usercontrol/task/task.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
-import { EmpDepModel } from 'src/app/models/employee/manage/dep';
-import { PartModel } from 'src/app/models/employee/policy/part';
-import { LevelModel } from 'src/app/models/system/policy/level';
-import { PartService } from 'src/app/services/emp/policy/part.service';
+import { EmpProvidentModel } from 'src/app/models/employee/manage/provident';
+import { SetProvidentModel } from 'src/app/models/employee/policy/batch/setprovident';
+import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { TaskService } from 'src/app/services/task.service';
 
 interface Policy {
@@ -23,14 +22,15 @@ interface Result {
 }
 
 @Component({
-  selector: 'app-empsetdep',
-  templateUrl: './empsetdep.component.html',
-  styleUrls: ['./empsetdep.component.scss']
+  selector: 'app-empsetprovident',
+  templateUrl: './empsetprovident.component.html',
+  styleUrls: ['./empsetprovident.component.scss']
 })
-export class EmpsetdepComponent implements OnInit {
+export class EmpsetprovidentComponent implements OnInit {
+
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
-  
+
   title_confirm:string = "Are you sure?";
   title_confirm_record:string = "Confirm to process";
   title_confirm_delete:string = "Confirm to delete";
@@ -41,29 +41,27 @@ export class EmpsetdepComponent implements OnInit {
 
   title_submit:string = "Submit";
   title_cancel:string = "Cancel";
-
+  
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
+  loading: boolean = false;
   index: number = 0;
+  result_list: Result[] = [];
   
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
     private router:Router,
-    private depService: PartService,
-    ) { }
+    private setempdetailService: SetEmpDetailService,
+  ) { }
 
   new_data: boolean = false;
 
-
   ngOnInit(): void {
-
     this.doGetInitialCurrent();
-
-    this.doLoadDepList();
   }
-  
+
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
@@ -72,19 +70,38 @@ export class EmpsetdepComponent implements OnInit {
     }
   }
 
-  //get dep
-  depList : PartModel[]=[];
-  doLoadDepList(){
-    var tmp = new LevelModel();
-    this.depService.dep_get(tmp).then(async(res)=>{
-      this.depList = await res;
-    })
+  selectedEmpProvident: EmpProvidentModel = new EmpProvidentModel();
+  empprovidentList: EmpProvidentModel[] = [];
+
+  process(){
+    this.result_list = [];
+    if (this.selectEmp.employee_dest.length > 0) {
+      this.Setbatchprovident();
+    }
   }
 
-  selectedEmpDep: EmpDepModel = new EmpDepModel();
-  
-  process(){
-
+  async Setbatchprovident(){
+    var data = new SetProvidentModel();
+    data.provident_code = this.selectedEmpProvident.provident_code;
+    data.empprovident_card = this.selectedEmpProvident.empprovident_card;
+    data.empprovident_entry = this.selectedEmpProvident.empprovident_entry;
+    data.empprovident_start = this.selectedEmpProvident.empprovident_start;
+    data.empprovident_end = this.selectedEmpProvident.empprovident_end;
+    data.company_code = this.initial_current.CompCode
+    data.modified_by = this.initial_current.Username
+    data.emp_data = this.selectEmp.employee_dest;
+    this.loading = true;
+    await this.setempdetailService.SetProvident_record(data).then((res) => {
+      console.log(res)
+      if (res.success) {
+        console.log(res.message)
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.loading = false;
+    });
   }
 
   function(e: any) {
@@ -98,4 +115,5 @@ export class EmpsetdepComponent implements OnInit {
       this.new_data = false;
     }
   }
+
 }

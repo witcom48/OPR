@@ -5,10 +5,12 @@ import { Router } from '@angular/router';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmployeeModel } from 'src/app/models/employee/employee';
+import { SetBenefitsModel } from 'src/app/models/employee/policy/batch/setbenefits';
 import { SetDepModel } from 'src/app/models/employee/policy/batch/setdep';
 import { SetGroupModel } from 'src/app/models/employee/policy/batch/setgroup';
 import { SetLocationModel } from 'src/app/models/employee/policy/batch/setlocation';
 import { SetPositionModel } from 'src/app/models/employee/policy/batch/setposition';
+import { SetProvidentModel } from 'src/app/models/employee/policy/batch/setprovident';
 import { SetSalaryModel } from 'src/app/models/employee/policy/batch/setsalary';
 
 @Injectable({
@@ -208,6 +210,73 @@ export class SetEmpDetailService {
       modified_by: Setup.modified_by || this.initial_current.Username,
     }
     return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchsalary', data, this.options).toPromise()
+      .then((res) => {
+        console.log(res)
+        let message = JSON.parse(res);
+        return message;
+      });
+  }
+
+  //set provident
+  public SetProvident_record(Setup: SetProvidentModel){
+    let emplists: any = []
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: "",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      provident_code: Setup.provident_code,
+      empprovident_card: Setup.empprovident_card,
+      empprovident_entry: this.datePipe.transform(Setup.empprovident_entry),
+      empprovident_start: this.datePipe.transform(Setup.empprovident_start),
+      empprovident_end: this.datePipe.transform(Setup.empprovident_end),
+      emp_data: emplists,
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    }
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchprovident', data, this.options).toPromise()
+      .then((res) => {
+        console.log(res)
+        let message = JSON.parse(res);
+        return message;
+      });
+  }
+
+  //set benefits
+  public SetBenefits_record(Setup: SetBenefitsModel){
+    let emplists: any = []
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: "",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      item_code: Setup.item_code,
+
+      empbenefit_amount: Setup.empbenefit_amount,
+      empbenefit_startdate: this.datePipe.transform(Setup.empbenefit_startdate),
+      empbenefit_enddate: this.datePipe.transform(Setup.empbenefit_enddate),
+      empbenefit_reason: Setup.empbenefit_reason,
+      empbenefit_note: Setup.empbenefit_note,
+      empbenefit_paytype: Setup.empbenefit_paytype,
+      empbenefit_break: Setup.empbenefit_break,
+      empbenefit_breakreason: Setup.empbenefit_breakreason,
+      empbenefit_conditionpay: Setup.empbenefit_conditionpay,
+      empbenefit_payfirst: Setup.empbenefit_payfirst,
+      emp_data: emplists,
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    }
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchbenefit', data, this.options).toPromise()
       .then((res) => {
         console.log(res)
         let message = JSON.parse(res);
