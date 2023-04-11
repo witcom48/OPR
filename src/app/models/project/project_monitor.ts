@@ -1,3 +1,6 @@
+
+import { ProjobmainMonitorModel } from '../project/projobmain_monitor';
+
 export class PrjectMonitorModel {
     constructor() {
      
@@ -14,9 +17,9 @@ export class PrjectMonitorModel {
     project_manpower: number = 0;
     project_working: number = 0;
     project_leave: number = 0;
-
     project_absent: number = 0;
 
+    projobmain_data:ProjobmainMonitorModel = new ProjobmainMonitorModel();
 
     root: boolean = false;   
 

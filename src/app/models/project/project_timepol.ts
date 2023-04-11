@@ -4,7 +4,7 @@ export class ProtimepolModel {
     }
        
     protimepol_id: number = 1;
-    protimepol_code: string = "1";
+    protimepol_code: string = "";
     protimepol_name_th: string = "";
     protimepol_name_en: string = "";
 

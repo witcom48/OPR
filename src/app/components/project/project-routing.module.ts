@@ -14,9 +14,6 @@ import { ProjectPackageComponent } from './project-package/project-package.compo
 import { CostSetupComponent } from './policy/cost-setup/cost-setup.component';
 import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component';
 
-import { PfManageComponent } from './pf-manage/pf-manage.component';
-
-
 @NgModule({
     imports: [RouterModule.forChild([ 
         { path: 'manage', component: ProjectManageComponent },
@@ -31,10 +28,6 @@ import { PfManageComponent } from './pf-manage/pf-manage.component';
 
         { path: 'pro_genaral', component: ProGenaralComponent },
         { path: 'procost', component: ProGenaralComponent },
-
-        { path: 'pf', component: PfManageComponent },
-
-        //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }
     ])],

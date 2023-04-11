@@ -1,8 +1,8 @@
-export class TimecardsModel {
+export class TimecardMonitorModel {
     constructor() {
+     
     }
     
-    company_code: string = "";
     worker_code: string = "";
     
     project_code: string = "";
@@ -50,9 +50,6 @@ export class TimecardsModel {
 
     select: boolean = false;
 
-    //-- Display
-    row: number = 0;
-    col: number = 0;
     timecard_in: string | null | undefined
     timecard_out: string | null | undefined
     work_hrs: string = "";
@@ -61,8 +58,21 @@ export class TimecardsModel {
 
     worker_name_th: string = "";
     worker_name_en: string = "";
-    
 
+    //-- wage
+    wageday_wage: number =0;
+    wageday_before_amount: number =0;
+    wageday_normal_amount: number =0;
+    wageday_break_amount: number =0;
+    wageday_after_amount: number =0;
+    ot1_amount: number =0;
+    ot15_amount: number =0;
+    ot2_amount: number =0;
+    ot3_amount: number =0;
+    late_amount: number =0;
+    leave_amount: number =0;
+    absent_amount: number =0;
+    allowance_amount: number =0;
     
   }
   

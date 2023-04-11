@@ -138,9 +138,12 @@ export class TimecardService {
 
     var data = { 
 
-      company_code:model.company_code,
-      project_code:model.project_code,
+      company_code:model.company_code,      
       worker_code:model.worker_code,
+
+      project_code:model.project_code,
+      projob_code:model.projob_code,
+
       timecard_workdate:model.timecard_workdate,
       timecard_daytype:model.timecard_daytype,
       shift_code:model.shift_code,

@@ -4,6 +4,9 @@ export class RadiovalueModel {
     }
     
     value: string = "";
-    text: string = "";    
+    text: string = "";  
+    
+    text_th: string = "";  
+    text_en: string = "";  
   }
   

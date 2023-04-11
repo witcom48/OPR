@@ -20,6 +20,8 @@ import { ProjobcontractModel } from '../../models/project/project_jobcontract';
 import { ProjobcostModel } from '../../models/project/project_jobcost';
 import { ProjobmachineModel } from '../../models/project/project_jobmachine';
 
+import { ProjobshiftModel } from '../../models/project/project_jobshift';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -748,6 +750,8 @@ export class ProjectDetailService {
       
       item_data = item_data + ",\"projobcost_version\":\"" + list[i].projobcost_version + "\"";  
       item_data = item_data + ",\"projobcost_status\":\"" + list[i].projobcost_status + "\"";
+
+      item_data = item_data + ",\"projobcost_auto\":\"" + list[i].projobcost_auto + "\"";
       
       item_data = item_data + ",\"projob_code\":\"" + job + "\"";       
       item_data = item_data + ",\"project_code\":\"" + project + "\"";            
@@ -1179,5 +1183,108 @@ export class ProjectDetailService {
       return res;
     });
   }
+
+
+
+  //-- Job shift
+  public projobshift_get(project:string, job:string){     
+    
+    var filter = { 
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company:"",
+      language:"",
+      project_code:project,
+      project_name_th:"",
+      project_name_en:"",
+      project_name_sub:"",
+      project_codecentral:"",
+      project_protype:"",
+      project_probusiness:"",
+      job_code:job,
+    };
+    
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobshift_list', filter, this.options).toPromise()   
+    .then((res) => {
+      let message = JSON.parse(res);
+      //console.log(res)
+      return message.data;
+    });
+  }
+ 
+  public projobshift_record(project:string, job:string, list:ProjobshiftModel[]) {   
+    
+    var item_data:string = "[";
+    for (let i = 0; i < list.length; i++) {         
+      item_data = item_data + "{";
+      
+      item_data = item_data + "\"projobshift_id\":\"" + list[i].projobshift_id + "\"";      
+      item_data = item_data + ",\"projobshift_shift\":\"" + list[i].projobshift_shift + "\"";  
+      item_data = item_data + ",\"projobshift_sun\":\"" + list[i].projobshift_sun + "\""; 
+      item_data = item_data + ",\"projobshift_mon\":\"" + list[i].projobshift_mon + "\""; 
+      item_data = item_data + ",\"projobshift_tue\":\"" + list[i].projobshift_tue + "\""; 
+      item_data = item_data + ",\"projobshift_wed\":\"" + list[i].projobshift_wed + "\""; 
+      item_data = item_data + ",\"projobshift_thu\":\"" + list[i].projobshift_thu + "\""; 
+      item_data = item_data + ",\"projobshift_fri\":\"" + list[i].projobshift_fri + "\""; 
+      item_data = item_data + ",\"projobshift_sat\":\"" + list[i].projobshift_sat + "\""; 
+
+      item_data = item_data + ",\"projobshift_emp\":\"" + list[i].projobshift_emp + "\""; 
+      item_data = item_data + ",\"projobshift_working\":\"" + list[i].projobshift_working + "\""; 
+      item_data = item_data + ",\"projobshift_hrsperday\":\"" + list[i].projobshift_hrsperday + "\""; 
+      item_data = item_data + ",\"projobshift_hrsot\":\"" + list[i].projobshift_hrsot + "\"";                
+      
+      item_data = item_data + ",\"projob_code\":\"" + job + "\"";       
+      item_data = item_data + ",\"project_code\":\"" + project + "\"";            
+      item_data = item_data + "}" + ",";
+    }
+    if(item_data.length > 2) 
+    {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {           
+      transaction_data:item_data,    
+      project_code:project,
+      job_code:job,
+      modified_by:this.initial_current.Username
+    };
+    
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobshifts', specificData, this.options).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }  
+
+  public projobshift_delete(model:ProjobshiftModel) {    
+    const data = {
+      projobshift_id: model.projobshift_id,
+      projobshift_shift: model.projobshift_shift, 
+      projob_code: model.projob_code,   
+      project_code: model.project_code,       
+      modified_by: this.initial_current.Username
+    };    
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobshift_del', data, this.options).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }  
+
+  public projobshift_import(file: File, file_name:string, file_type:string){
+    const formData = new FormData();
+    formData.append('file', file);    
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobshift?' + para, formData).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }
+
 
 }
