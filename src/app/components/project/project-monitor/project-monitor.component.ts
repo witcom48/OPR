@@ -7,7 +7,6 @@ import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api
 import * as XLSX from 'xlsx';
 import { DatePipe } from '@angular/common';
 
-
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
 import { RadiovalueModel } from '../../../models/project/radio_value';
@@ -16,18 +15,12 @@ import { ProbusinessModel, ProtypeModel, ProslipModel, ProuniformModel } from '.
 
 import { ProjectService } from '../../../services/project/project.service';
 import { ProgenaralService } from '../../../services/project/pro_genaral.service';
-
 import { PrjectMonitorModel } from '../../../models/project/project_monitor'
-
 import { TimecardsModel } from '../../../models/attendance/timecards';
 import { TimecardService } from 'src/app/services/attendance/timecards.service';
-
 import { ProjectDetailService } from '../../../services/project/project_detail.service';
 import { ProjobmainModel } from '../../../models/project/project_jobmain';
-
-
 import { JobMonitorModel } from '../../../models/project/job_monitor'
-
 
 @Component({
   selector: 'app-project-monitor',
@@ -125,9 +118,7 @@ export class ProjectMonitorComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('');
     }       
-  }
-
-  
+  }  
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
@@ -170,8 +161,6 @@ export class ProjectMonitorComponent implements OnInit {
 
     //let dateString = '2023-01-10T00:00:00'
     //this.selectedDate_fillter = new Date(dateString);
-
-
     setTimeout(() => {
       this.doLoadProjectMonitor()
     }, 300);
