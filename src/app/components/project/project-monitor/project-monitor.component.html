@@ -1,47 +1,192 @@
 <span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Monitor</small>
 <hr>
+<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [style]="{width: '70vw'}" [position]="position">
+    <p-scrollPanel [style]="{width: '100%', height: '650px'}" >
+
+        <p-table #dtJob [value]="job_monitor"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedJobMonitor" (onRowSelect)="onRowSelectJobMonitor($event)" dataKey="projobmain_code"
+        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,20,50]" 
+        [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+        
+        groupRowsBy="projobmain_code"
+        rowGroupMode="subheader"
+        >
+            <ng-template pTemplate="header">
+                <tr>  
+                    <th></th>
+                    <th>{{title_jobcode[initial_current.Language]}}</th>
+                    <th>{{title_jobname[initial_current.Language]}}</th>
+                    <th>{{title_emp_total[initial_current.Language]}}</th>
+                    <th>{{title_working[initial_current.Language]}}</th>
+                    <th>{{title_leave[initial_current.Language]}}</th>
+                    <th>{{title_absent[initial_current.Language]}}</th>
+                    <th>{{title_cost[initial_current.Language]}}</th>
+                    <th>{{title_actual[initial_current.Language]}}</th>         
+                </tr>	                	                
+            </ng-template>
+            
+            <ng-template pTemplate="groupheader" let-job let-rowIndex="rowIndex" let-expanded="expanded">        
+                <tr [pSelectableRow]="job" >      
+                    <td>
+                        <a href="#" [pRowToggler]="job">
+                            <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                        </a>
+                    </td>
+                    <td>{{job.projobmain_code}}</td>  
+                    <td>{{initial_current.Language=="TH"? job.projobmain_name_th : job.projobmain_name_en }}</td>    
+                    <td style="text-align: center;">{{job.projobmain_manpower}}</td>
+                    <td style="text-align: center;">{{job.projobmain_working}}</td>
+                    <td style="text-align: center;">{{job.projobmain_leave}}</td>
+                    <td style="text-align: center;">{{job.projobmain_absent}}</td>
+                    <td style="text-align: right; padding-right: 30px;">{{job.projobmain_cost | number:'1.2-2'}}</td>                                           
+                    <td style="text-align: right; padding-right: 30px;">{{job.projobmain_pay | number:'1.2-2'}}</td> 
+                </tr>
+            </ng-template>    
+
+            <ng-template pTemplate="rowexpansion" let-job>
+                <tr>
+                    <td></td>
+                    <td colspan="8" >
+                        <div class="p-1">
+                            <p-table [value]="job.timecard_data"  dataKey="worker_code" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" >        
+                                <ng-template pTemplate="header">       
+                                    <th>{{title_empcode[initial_current.Language]}}</th>
+                                    <th>{{title_empname[initial_current.Language]}}</th>                    
+                                    <th>{{title_shift[initial_current.Language]}}</th>
+                                    <th>{{title_daytype[initial_current.Language]}}</th>  
+                                    <th>{{title_timein[initial_current.Language]}}</th>
+                                    <th>{{title_timeout[initial_current.Language]}}</th>                                  
+                                    <th>{{title_working_before[initial_current.Language]}}</th>                     
+                                    <th>{{title_working[initial_current.Language]}}</th>                              
+                                    <th>{{title_working_after[initial_current.Language]}}</th>                                      
+                                    <th>{{title_working_late[initial_current.Language]}}</th>                  
+                                    <th>{{title_working_leave[initial_current.Language]}}</th>         
+                                    <th>{{title_modified_by[initial_current.Language]}}</th>         
+                                    <th>{{title_modified_date[initial_current.Language]}}</th>    
+                                </ng-template>
+        
+                                <ng-template pTemplate="body" let-timecard>
+                                    <tr>                                
+                                        <td>{{timecard.worker_code}}</td>   
+                                        <td>{{initial_current.Language=="TH"? timecard.worker_name_th : timecard.worker_name_en }}</td>                                
+                                        <td>{{timecard.shift_code}}</td>   
+                                        <td>{{timecard.timecard_daytype}}</td>       
+                                        <td>{{timecard.timecard_in | date:'dd/MM/yyyy HH:mm'}}</td>       
+                                        <td>{{timecard.timecard_out | date:'dd/MM/yyyy HH:mm'}}</td>  
+                                        <td>{{doConvertHHMM(timecard.timecard_before_min_app)}}</td>  
+                                        <td>{{doConvertHHMM(timecard.timecard_work1_min_app)}}</td>  
+                                        <td>{{doConvertHHMM(timecard.timecard_after_min_app)}}</td> 
+                                        <td>{{doConvertHHMM(timecard.timecard_late_min_app)}}</td>                    
+                                        <td></td>                                     
+                                        <td>{{timecard.modified_by}}</td>      
+                                        <td>{{timecard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>                                                            
+                                    </tr>
+                                </ng-template>        
+                            </p-table>        
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-scrollPanel>
+</p-dialog>
 
 <table class="table_summary_">
     <tr>
         <td>
             <div class="main_div">
-                <span class="spn_value">2</span>
+                <span class="spn_value">{{total_project}}</span>
                 <div class="sub_div">
-                    <span class="spn_title">จำนวนโครงการ</span>
+                    <span class="spn_title">{{title_project_total[initial_current.Language]}}</span>
                 </div>
             </div>
         </td>
         <td>
             <div class="main_div">
-                <span class="spn_value">27,500.00</span>
+                <span class="spn_value">{{total_cost | number:'1.2-2'}}</span>
                 <div class="sub_div">
-                    <span class="spn_title">จำนวนต้นทุน</span>
+                    <span class="spn_title">{{title_cost_total[initial_current.Language]}}</span>
                 </div>
             </div>
-        </td>
+        </td>        
         <td>
             <div class="main_div">
-                <span class="spn_value">25,000.00</span>
+                <span class="spn_value">{{total_payment | number:'1.2-2'}}</span>
                 <div class="sub_div">
-                    <span class="spn_title">ยอดชำระ</span>
+                    <span class="spn_title">{{title_actual_total[initial_current.Language]}}</span>
                 </div>
             </div>
         </td>
+        <td valign="bottom">
+            <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain mr-2" [icon]="show_fillter ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"  (click)="doShowFillter()"></button>  
+        </td>                                              
+    </tr>
+    
+</table>  
 
+<table *ngIf="show_fillter==true">
+    <tr >
+        <td colspan="4">
+            <table class="table_fillter" >
+                <tr>
+                    <td class="text-left" style="width: 120px;">{{title_date[initial_current.Language]}}</td>
+                    
+                    <td>                                    
+                        <p-calendar [(ngModel)]="selectedDate_fillter" dateFormat="dd/mm/yy"  [showTime]="false" (onSelect)="doFillter()" inputId="selectedDate_fillter"  ></p-calendar>
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="type_fillter" inputId="type_fillter" (onChange)="doFillter()"></p-checkbox>
+                            <label for="type_fillter">{{title_project_protype[initial_current.Language]}}</label>
+                        </div>
+                    </td>                    
+                    <td>
+                        <p-dropdown [options]="protype_list" optionValue="protype_code" [(ngModel)]="selectedType_fillter" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
+                            <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
+                            </ng-template>
+                        </p-dropdown>           
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="business_fillter" inputId="business_fillter" (onChange)="doFillter()"></p-checkbox>
+                            <label for="business_fillter">{{title_project_probusiness[initial_current.Language]}}</label>
+                        </div>
+                    </td>    
+                    <td>
+                        <p-dropdown [options]="probusiness_list" optionValue="probusiness_code" [(ngModel)]="selectedBusiness_fillter" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
+                            <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                            </ng-template>
+                        </p-dropdown>           
+                    </td>
+                </tr>
+            </table>
+        </td>
     </tr>
 </table>
 
+<div #scrollMe style="overflow: scroll; height: 400px;">
 
 
-<p-table #dt2  [value]="project_monitor"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="350px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjectMonitor" (onRowSelect)="onRowSelectProject($event)" dataKey="project_code"
 
-[rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+<p-table #dt2  [value]="project_monitor"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="350px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjectMonitor" (onRowSelect)="onRowSelectProject($event)"  dataKey="project_code"
+
+[rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+[paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
 [globalFilterFields]="['project_code','project_name_th','project_name_short','project_business','project_type','project_start','project_end']"
 
 groupRowsBy="project_code"
 rowGroupMode="subheader"
-
 >
 <ng-template pTemplate="caption">
     <div class="flex">
@@ -53,192 +198,144 @@ rowGroupMode="subheader"
 </ng-template>
 
     <ng-template pTemplate="header">
-        <tr>
-            <th style="width:15%">หน่วยงาน</th>
-            <th style="width:15%">ชื่อหน่วยงาน</th>
-            <th>ประเภทธุรกิจ</th>
-            <th>ประเภทงาน</th>
-            <th>จำนวนพนักงาน</th>
-            <th>มาทำงาน</th>
-            <th>ลางาน</th>
-            <th>ขาดงาน</th>
-            <th>ต้นทุน</th>
-            <th>ยอดชำระ</th>
-        </tr>
-        <tr>
-            <th>
-                <p-columnFilter type="text" field="project_code"></p-columnFilter>
-            </th>
-            <th>
-                <p-columnFilter type="text" field="project_name_th"></p-columnFilter>
-            </th>
-            <th>
-                <p-columnFilter field="project_business" matchMode="equals" [showMenu]="false">
-                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                        <p-dropdown [ngModel]="value" [options]="pbusiness_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="pbusiness_name_th">
-                            <ng-template let-option pTemplate="item">
-                                <span >{{option.pbusiness_name_th}}</span>
-                            </ng-template>
-                        </p-dropdown>
-                    </ng-template>
-                </p-columnFilter>
-            </th>
-            <th>
-                <p-columnFilter field="project_type" matchMode="equals" [showMenu]="false">
-                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                        <p-dropdown [ngModel]="value" [options]="ptype_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="ptype_name_th">
-                            <ng-template let-option pTemplate="item">
-                                <span >{{option.ptype_name_th}}</span>
-                            </ng-template>
-                        </p-dropdown>
-                    </ng-template>
-                </p-columnFilter>
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
+        <tr>		
+            <th></th>                        
+            <th style="width:10%">{{title_project_code[initial_current.Language]}}</th>
+            <th style="width:15%">{{title_project_name[initial_current.Language]}}</th>     
+            <th>{{title_emp_total[initial_current.Language]}}</th>
+            <th>{{title_working[initial_current.Language]}}</th>
+            <th>{{title_leave[initial_current.Language]}}</th>
+            <th>{{title_absent[initial_current.Language]}}</th>
+            <th>{{title_cost[initial_current.Language]}}</th>
+            <th>{{title_actual[initial_current.Language]}}</th>   
+            <th></th>                                                         
+        </tr>	        
 
     </ng-template>
 
     <ng-template pTemplate="groupheader" let-project let-rowIndex="rowIndex" let-expanded="expanded">
-        <tr>
-            <td colspan="2">
-                <button type="button" pButton pRipple [pRowToggler]="project" class="p-button-text p-button-rounded p-button-plain mr-2" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-
-                <span >{{project.project_code}} - {{project.project_name_th}}</span>
+        <tr >            
+            <td>
+                <button type="button" pButton pRipple [pRowToggler]="project" class="p-button-text p-button-rounded p-button-plain mr-2" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>                
             </td>
-            <td>{{project.project_business}}</td>
-            <td>{{project.project_type}}</td>
+            <td>{{project.project_code}}</td>
+            <td style="text-align: left;">{{initial_current.Language=="TH"? project.project_name_th : project.project_name_en}}</td>
+                           
             <td style="text-align: center;">{{project.project_manpower}}</td>
             <td style="text-align: center;">{{project.project_working}}</td>
             <td style="text-align: center;">{{project.project_leave}}</td>
             <td style="text-align: center;">{{project.project_absent}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{project.project_cost | number:'1.2-2'}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{project.project_pay | number:'1.2-2'}}</td>
+            <td style="text-align: right; padding-right: 30px;">{{project.project_cost | number:'1.2-2'}}</td>                                           
+            <td style="text-align: right; padding-right: 30px;">{{project.project_pay | number:'1.2-2'}}</td> 
+            <td>
+                <p-button icon="pi pi-search" (click)="doLoadTimesheet(project.project_code)" label="" styleClass="p-button-text"></p-button>
+            </td>
         </tr>
     </ng-template>
 
     <ng-template pTemplate="footer" let-customer>
         <tr class="p-rowgroup-footer">
-            <td colspan="4" style="text-align: right">รวม</td>
+            <td colspan="3" style="text-align: right">{{title_total[initial_current.Language]}}</td>
             <td style="text-align: center;">{{total_emp}}</td>
             <td style="text-align: center;">{{total_working}}</td>
             <td style="text-align: center;">{{total_leave}}</td>
             <td style="text-align: center;">{{total_absent}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{total_cost | number:'1.2-2'}}</td>
+            <td style="text-align: right; padding-right: 30px;">{{total_cost | number:'1.2-2'}}</td>    
             <td style="text-align: right; padding-right: 30px;">{{total_payment | number:'1.2-2'}}</td>
-
+            <td></td>
         </tr>
     </ng-template>
 
-    <ng-template  pTemplate="rowexpansion" let-project>
-        <tr [pSelectableRow]="project" *ngIf="project.root===false">
-            <td>{{project.project_code}}</td>
-            <td>{{project.project_name_th}}</td>
-            <td>{{project.project_business}}</td>
-            <td>{{project.project_type}}</td>
-            <td style="text-align: center;">{{project.project_manpower}}</td>
-            <td style="text-align: center;">{{project.project_working}}</td>
-            <td style="text-align: center;">{{project.project_leave}}</td>
-            <td style="text-align: center;">{{project.project_absent}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{project.project_cost | number:'1.2-2'}}</td>
-            <td style="text-align: right; padding-right: 30px;">{{project.project_pay | number:'1.2-2'}}</td>
+    <ng-template pTemplate="rowexpansion" let-project>
+        <tr>
+            <td></td>
+            <td colspan="8" >
+                <div class="p-1">
+                    <p-table [value]="project.projobmain_data"  dataKey="projobmain_id">
+
+                        <ng-template pTemplate="header">                                                  
+                            <th style="width:10%">{{title_job_code[initial_current.Language]}}</th>
+                            <th style="width:15%">{{title_job_name[initial_current.Language]}}</th>       
+                            <th>{{title_emp_total[initial_current.Language]}}</th>
+                            <th>{{title_working[initial_current.Language]}}</th>
+                            <th>{{title_leave[initial_current.Language]}}</th>
+                            <th>{{title_absent[initial_current.Language]}}</th>
+                            <th>{{title_cost[initial_current.Language]}}</th>
+                            <th>{{title_actual[initial_current.Language]}}</th>       
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-projobmain>
+                            <tr>                                
+                                <td>{{ projobmain.projobmain_code }}</td>
+                                <td style="text-align: left;">{{initial_current.Language=="TH"? projobmain.projobmain_name_th : projobmain.projobmain_name_en}}</td>                                                           
+                                <td style="text-align: center;">{{projobmain.projobmain_manpower}}</td>
+                                <td style="text-align: center;">{{projobmain.projobmain_working}}</td>
+                                <td style="text-align: center;">{{projobmain.projobmain_leave}}</td>
+                                <td style="text-align: center;">{{projobmain.projobmain_absent}}</td>
+                                <td style="text-align: right; padding-right: 30px;">{{projobmain.projobmain_cost | number:'1.2-2'}}</td>                                           
+                                <td style="text-align: right; padding-right: 30px;">{{projobmain.projobmain_pay | number:'1.2-2'}}</td> 
+                                                    
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </td>
         </tr>
-    </ng-template>
-
-
+    </ng-template>    
 </p-table>
-<p></p>
+<p></p> 
 <p-accordion>
-    <p-accordionTab header="Timesheet" >
-        <p-menubar [model]="items"></p-menubar >
-        <p-table [value]="timesheet_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="220px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedDate"  dataKey="daily_id">
+    <p-accordionTab header="Timesheet" [selected]="true">
+        
+        <p-menubar [model]="menu_timecard"></p-menubar>        
+        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="worker_code"
+        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+        [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+        [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']"
+        >
             <ng-template pTemplate="header">
-                <tr>
-                    <th>ตำแหน่ง</th>
-                    <th>ชื่อตำแหน่ง</th>
-                    <th>รหัสพนักงาน</th>
-                    <th>ชื่อ-นามสกุล</th>
-                    <th>วันที่</th>
-                    <th>ประเภทวัน</th>
-                    <th>กะการทำงาน</th>
-                    <th>เวลาเข้า</th>
-                    <th>เวลาออก</th>
-
-                    <th>สแกนเข้า</th>
-                    <th>สแกนออก</th>
-                    <th>ชั่วโมงทำงาน</th>
-                    <th>สาย</th>
-                    <th>ล่วงเวลา</th>
-
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-daily>
-                <tr [pSelectableRow]="daily">
-                    <td>{{daily.ppos_code}}</td>
-                    <td>{{daily.ppos_name_th}}</td>
-                    <td>{{daily.emp_code}}</td>
-                    <td>{{daily.emp_name}}</td>
-                    <td>{{daily.timecard_date | date:'dd/MM/yyyy '}}</td>
-                    <td>{{daily.timecard_daytype}}</td>
-                    <td>{{daily.timecard_shift}}</td>
-                    <td>{{daily.timecard_shiftin}}</td>
-                    <td>{{daily.timecard_shiftout}}</td>
-                    <td>{{daily.timecard_in}}</td>
-                    <td>{{daily.timecard_out}}</td>
-                    <td>{{daily.timecard_working}}</td>
-                    <td>{{daily.timecard_late}}</td>
-                    <td>{{daily.timecard_overtime}}</td>
-                </tr>
+                <tr>  
+                    <th>{{title_jobcode[initial_current.Language]}}</th>
+                    <th>{{title_jobname[initial_current.Language]}}</th>
+                    <th>{{title_empcode[initial_current.Language]}}</th>
+                    <th>{{title_empname[initial_current.Language]}}</th>                    
+                    <th>{{title_shift[initial_current.Language]}}</th>
+                    <th>{{title_daytype[initial_current.Language]}}</th>  
+                    <th>{{title_timein[initial_current.Language]}}</th>
+                    <th>{{title_timeout[initial_current.Language]}}</th>                                  
+                    <th>{{title_working_before[initial_current.Language]}}</th>                     
+                    <th>{{title_working[initial_current.Language]}}</th>                              
+                    <th>{{title_working_after[initial_current.Language]}}</th>                                      
+                    <th>{{title_working_late[initial_current.Language]}}</th>                  
+                    <th>{{title_working_leave[initial_current.Language]}}</th>         
+                    <th>{{title_modified_by[initial_current.Language]}}</th>         
+                    <th>{{title_modified_date[initial_current.Language]}}</th>                    
+                                                                                
+                </tr>	                	                
             </ng-template>
 
+            <ng-template pTemplate="body" let-timecard>
+                <tr [pSelectableRow]="timecard" >      
+                    <td>{{timecard.projob_code}}</td>  
+                    <td>{{doGetPolJobmainDetail(timecard.projob_code)}}</td>   
+                    <td>{{timecard.worker_code}}</td>   
+                    <td>{{initial_current.Language=="TH"? timecard.worker_name_th : timecard.worker_name_en }}</td>                                
+                    <td>{{timecard.shift_code}}</td>   
+                    <td>{{timecard.timecard_daytype}}</td>       
+                    <td>{{timecard.timecard_in | date:'dd/MM/yyyy HH:mm'}}</td>       
+                    <td>{{timecard.timecard_out | date:'dd/MM/yyyy HH:mm'}}</td>  
+                    <td>{{doConvertHHMM(timecard.timecard_before_min_app)}}</td>  
+                    <td>{{doConvertHHMM(timecard.timecard_work1_min_app)}}</td>  
+                    <td>{{doConvertHHMM(timecard.timecard_after_min_app)}}</td> 
+                    <td>{{doConvertHHMM(timecard.timecard_late_min_app)}}</td>                    
+                    <td></td>                                     
+                    <td>{{timecard.modified_by}}</td>      
+                    <td>{{timecard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>    
         </p-table>
+
     </p-accordionTab>
 </p-accordion>
-<p></p>
-<p-accordion>
-    <p-accordionTab header="Cost" >
-        <p-table #dt2 [value]="project_emps"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true"
-                        [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[25,50,100]"
-                        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                        selectionMode="single" [(selection)]="selectedEmp" dataKey="emp_code"
 
-                        [globalFilterFields]="['ppos_code','ppos_name_th','emp_code','emp_name']"
-
-                        >
-
-                            <ng-template pTemplate="caption">
-                                <div class="flex">
-                                    <span class="p-input-icon-left ml-auto">
-                                        <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                                    </span>
-                                </div>
-                            </ng-template>
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th>รหัสพนักงาน</th>
-                                    <th>ชื่อ-นามสกุล</th>
-                                    <th>สถานะพนักงาน</th>
-                                    <th>ค่าแรง</th>
-                                    <th>ค่าล่วงเวลา</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-emp>
-                                <tr [pSelectableRow]="emp">
-                                    <td>{{emp.emp_code}}</td>
-                                    <td>{{emp.emp_name}}</td>
-                                    <td>{{emp.emp_position}}</td>
-                                    <td style="text-align: right; padding-right: 30px;">{{emp.pcost_allw1 | number:'1.2-2'}}</td>
-                                    <td style="text-align: right; padding-right: 30px;">
-                                        {{emp.pcost_allw2 | number:'1.2-2'}}
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-    </p-accordionTab>
-</p-accordion>
+</div>

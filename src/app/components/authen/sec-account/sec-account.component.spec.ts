@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PfManageComponent } from './pf-manage.component';
+import { SecAccountComponent } from './sec-account.component';
 
-describe('PfManageComponent', () => {
-  let component: PfManageComponent;
-  let fixture: ComponentFixture<PfManageComponent>;
+describe('SecAccountComponent', () => {
+  let component: SecAccountComponent;
+  let fixture: ComponentFixture<SecAccountComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PfManageComponent ]
+      declarations: [ SecAccountComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PfManageComponent);
+    fixture = TestBed.createComponent(SecAccountComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

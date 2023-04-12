@@ -134,12 +134,12 @@ export class AttendanceImportComponent implements OnInit {
 
 
   dateformatList: RadiovalueModel[] = [
-    {value: 'dd/MM/yyyy', text: 'dd/MM/yyyy'},
-    {value: 'ddMMyyyy', text: 'ddMMyyyy'},
-    {value: 'ddMMyy', text: 'ddMMyy'},
-    {value: 'dd-MM-yyyy', text: 'dd-MM-yyyy'},
-    {value: 'dd-MM-yy', text: 'dd-MM-yy'},
-    {value: 'yyyy-MM-dd', text: 'yyyy-MM-dd'}
+    {value: 'dd/MM/yyyy', text: 'dd/MM/yyyy', text_th:'', text_en:''},
+    {value: 'ddMMyyyy', text: 'ddMMyyyy', text_th:'', text_en:''},
+    {value: 'ddMMyy', text: 'ddMMyy', text_th:'', text_en:''},
+    {value: 'dd-MM-yyyy', text: 'dd-MM-yyyy', text_th:'', text_en:''},
+    {value: 'dd-MM-yy', text: 'dd-MM-yy', text_th:'', text_en:''},
+    {value: 'yyyy-MM-dd', text: 'yyyy-MM-dd', text_th:'', text_en:''}
  ];
 
   timeformat_list: TimeinputformatModel[] = [];

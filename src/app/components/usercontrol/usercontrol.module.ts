@@ -39,6 +39,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 import { SelectEmpComponent } from './select-emp/select-emp.component';
 import { TaskComponent } from './task/task.component';
+import { SearchEmpComponent } from './search-emp/search-emp.component';
 
 
 @NgModule({
@@ -84,8 +85,8 @@ import { TaskComponent } from './task/task.component';
 		
 	],
 	declarations: [     
-		SelectEmpComponent, TaskComponent
+		SelectEmpComponent, TaskComponent, SearchEmpComponent
   ],
-  exports: [SelectEmpComponent, TaskComponent],
+  exports: [SelectEmpComponent, TaskComponent, SearchEmpComponent],
 })
 export class UsercontrolModule { }

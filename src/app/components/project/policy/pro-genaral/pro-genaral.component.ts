@@ -357,9 +357,9 @@
             break;
         case "procost":
 
+            this.selectedProcost.company_code = this.initial_current.CompCode
             this.selectedProcost.procost_type = this.selectedProcostType.value;
             this.selectedProcost.procost_itemcode = this.selectedProcostItem.value;
-
 
             this.procostService.procost_record(this.selectedProcost).then((res) => {       
               let result = JSON.parse(res);  

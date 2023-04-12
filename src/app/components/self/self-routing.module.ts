@@ -7,12 +7,19 @@ import { SelfEmployeeComponent } from './self-employee/self-employee.component';
 import { SelfOvertimeComponent } from './self-overtime/self-overtime.component';
 import { SelfChangeshiftComponent } from './self-changeshift/self-changeshift.component';
 import { SelfRecordtimeComponent } from './self-recordtime/self-recordtime.component';
+import { SelfWorkflowComponent } from './self-workflow/self-workflow.component';
+import { SelfAccountComponent } from './self-account/self-account.component';
+import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.component';
 
 
 @NgModule({
     imports: [RouterModule.forChild([ 
        
         { path: 'policy', component: SelfPolicyComponent },
+
+        { path: 'workflow', component: SelfWorkflowComponent },
+        { path: 'lineapprove', component: SelfLineapproveComponent },
+        { path: 'account', component: SelfAccountComponent },
 
         { path: 'employee', component: SelfEmployeeComponent },
         { path: 'req_leave', component: SelfLeaveComponent },

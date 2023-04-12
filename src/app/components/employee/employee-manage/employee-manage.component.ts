@@ -39,6 +39,28 @@ import { EmpForeignerModel } from 'src/app/models/employee/manage/foreigner';
 import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
 import { EmpBranchModel } from 'src/app/models/employee/manage/empbranch';
 
+//dropdown
+import { LocationService } from 'src/app/services/system/policy/location.service';
+import { LocationModel } from 'src/app/models/system/policy/location';
+import { CombranchService } from 'src/app/services/system/combranch.service';
+import { CombranchModel } from 'src/app/models/system/branch';
+import { BloodtypeService } from 'src/app/services/system/policy/bloodtype.service';
+import { ReligionService } from 'src/app/services/system/policy/religion.service';
+import { BloodtypeModel } from 'src/app/models/system/policy/bloodtype';
+import { ReligionModel } from 'src/app/models/system/policy/religion';
+import { AddresstypeService } from 'src/app/services/system/policy/addresstype.service';
+import { AddresstypeModel } from 'src/app/models/system/policy/addresstype';
+import { CardtypeService } from 'src/app/services/system/policy/cardtype.service';
+import { CardtypeModel } from 'src/app/models/system/policy/cardtype';
+import { BankService } from 'src/app/services/system/policy/bank.service';
+import { BankModel } from 'src/app/models/system/policy/bank';
+import { FamilyModel } from 'src/app/models/system/policy/family';
+import { FamilyService } from 'src/app/services/system/policy/family.service';
+import { HospitalService } from 'src/app/services/system/policy/hospital.service';
+import { HospitalModel } from 'src/app/models/system/policy/hospital';
+import { PartModel } from 'src/app/models/employee/policy/part';
+import { PartService } from 'src/app/services/emp/policy/part.service';
+
 
 
 
@@ -144,6 +166,10 @@ export class EmployeeManageComponent implements OnInit {
   menu_empcriminal: MenuItem[] = [];
   edit_empcriminal: boolean = false;
   new_criminal: boolean = false;
+  //menu empresign
+  menu_empresign: MenuItem[] = [];
+  edit_empresign: boolean = false;
+  new_resign: boolean = false;
   //menu empsalary
   menu_empsalary: MenuItem[] = [];
   edit_empsalary: boolean = false;
@@ -186,6 +212,16 @@ export class EmployeeManageComponent implements OnInit {
     private emptypeService: EmptypeService,
     private empstatusService: EmpstatusService,
     private positionService: PositionService,
+    private locationService : LocationService,
+    private combranchService : CombranchService,
+    private bloodtypeService: BloodtypeService,
+    private religionService: ReligionService,
+    private addresstypeService: AddresstypeService,
+    private cardtypeService: CardtypeService,
+    private bankService : BankService,
+    private familytypeService : FamilyService,
+    private hospitalService: HospitalService,
+    private depService: PartService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -217,7 +253,17 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadEmptypeList();
     this.doLoadEmpstatusList();
     this.doLoadPositionList();
+    this.doLoadLocationList();
+    this.doLoadCombranchList();
+    this.doLoadBloodtypeList();
+    this.doLoadReligionList();
 
+    this.doLoadAddresstypeList();
+    this.doLoadCardtypeList();
+    this.doLoadBankList();
+    this.doLoadFamilytypeList();
+    this.doLoadHospitalList();
+    this.doLoadDepLiat();
 
     setTimeout(() => {
       this.doLoadMenu();
@@ -296,6 +342,7 @@ export class EmployeeManageComponent implements OnInit {
   title_education: string = "Education";
   title_assessment: string = "Assessment";
   title_criminal: string = "Criminal Record";
+  title_resignrecord: string = "Resign Record";
 
   title_finance: string = "Finance";
   title_taxmethod: string = "Tax Method";
@@ -381,7 +428,8 @@ export class EmployeeManageComponent implements OnInit {
       this.title_education = 'ประวัติการศึกษา';
       this.title_training = 'ประวัติการอบรม';
       this.title_assessment = 'ประวัติการประเมิน';
-      this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม'
+      this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
+      this.title_resignrecord = 'ประวัติการลาออก';
 
       this.title_finance = 'การเงิน';
       this.title_taxmethod = 'การคำนวนภาษี';
@@ -1511,6 +1559,76 @@ export class EmployeeManageComponent implements OnInit {
       this.positionList = res;
     })
   }
+  locationList: LocationModel[] = [];
+  doLoadLocationList(){
+    var tmp = new LocationModel();
+    this.locationService.location_get(tmp).then(async(res)=>{
+      this.locationList = await res ;
+    })
+  }
+  combranchList: CombranchModel[] = [];
+  doLoadCombranchList(){
+    var tmp = new CombranchModel();
+    this.combranchService.combranch_get('').then(async(res)=>{
+      this.combranchList = await res ;
+    })
+  }
+  bloodtypeList: BloodtypeModel[]=[];
+  doLoadBloodtypeList(){
+    var tmp = new BloodtypeModel();
+    this.bloodtypeService.bloodtype_get().then(async(res)=>{
+      this.bloodtypeList = await res ;
+    })
+  }
+  religionList: ReligionModel[]=[];
+  doLoadReligionList(){
+    var tmp = new ReligionModel();
+    this.religionService.religion_get().then(async(res)=>{
+      this.religionList = await res ;
+    })
+  }
+  addresstypeList: AddresstypeModel[]=[];
+  doLoadAddresstypeList(){
+    var tmp = new AddresstypeModel();
+    this.addresstypeService.addresstype_get().then(async(res)=>{
+      this.addresstypeList = await res ;
+    })
+  }
+  cardtypeList: CardtypeModel[]=[];
+  doLoadCardtypeList(){
+    var tmp = new CardtypeModel();
+    this.cardtypeService.cardtype_get().then(async(res)=>{
+      this.cardtypeList = await res ;
+    })
+  }
+  bankList: BankModel[]=[];
+  doLoadBankList(){
+    var tmp = new BankModel();
+    this.bankService.bank_get().then(async(res)=>{
+      this.bankList = await res ;
+    })
+  }
+  familytypeList: FamilyModel[]=[];
+  doLoadFamilytypeList(){
+    var tmp = new FamilyModel();
+    this.familytypeService.family_get().then(async(res)=>{
+      this.familytypeList = await res ;
+    })
+  }
+  hospitalList: HospitalModel[]=[];
+  doLoadHospitalList(){
+    var tmp = new HospitalModel();
+    this.hospitalService.hospital_get().then(async(res)=>{
+      this.hospitalList = await res ;
+    })
+  }
+  depList: PartModel[]=[];
+  doLoadDepLiat(){
+    var tmp = new PartModel();
+    this.depService.dep_get("").then(async(res)=>{
+      this.depList = await res ;
+    })
+  }
 
   //address
   empaddressList: EmpaddressModel[] = [];
@@ -2253,6 +2371,10 @@ export class EmployeeManageComponent implements OnInit {
       }
     });
   }
+
+  empresignrecord: []=[];
+  selectedEmpresign : EmpSalaryModel = new EmpSalaryModel();
+  onRowSelectEmpresign(event: Event) { }
 
   //salary
   empsalaryList: EmpSalaryModel[] = [];

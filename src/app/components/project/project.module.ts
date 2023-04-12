@@ -49,8 +49,9 @@ import { ProjectApproveComponent } from './project-approve/project-approve.compo
 import { ProjectPackageComponent } from './project-package/project-package.component';
 import { CostSetupComponent } from './policy/cost-setup/cost-setup.component';
 import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component';
-import { PfManageComponent } from './pf-manage/pf-manage.component';
 
+
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 
 @NgModule({
 	imports: [
@@ -88,13 +89,15 @@ import { PfManageComponent } from './pf-manage/pf-manage.component';
 		ToastModule,
 		ConfirmDialogModule,
 		DialogModule,
-		CheckboxModule
+		CheckboxModule,
+
+		UsercontrolModule
 
 
 
 
 		
 	],
-	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent, PfManageComponent]
+	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent]
 })
 export class ProjectModule { }

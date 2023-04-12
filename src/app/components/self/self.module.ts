@@ -39,7 +39,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { RadioButtonModule } from 'primeng/radiobutton';
-
+import { PickListModule } from 'primeng/picklist';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { SelfPolicyComponent } from './self-policy/self-policy.component';
 import { SelfLeaveComponent } from './self-leave/self-leave.component';
@@ -47,6 +48,9 @@ import { SelfEmployeeComponent } from './self-employee/self-employee.component';
 import { SelfOvertimeComponent } from './self-overtime/self-overtime.component';
 import { SelfChangeshiftComponent } from './self-changeshift/self-changeshift.component';
 import { SelfRecordtimeComponent } from './self-recordtime/self-recordtime.component';
+import { SelfWorkflowComponent } from './self-workflow/self-workflow.component';
+import { SelfAccountComponent } from './self-account/self-account.component';
+import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.component';
 
 
 @NgModule({
@@ -87,7 +91,10 @@ import { SelfRecordtimeComponent } from './self-recordtime/self-recordtime.compo
 		ToastModule,
 		ConfirmDialogModule,
 		DialogModule,
-		RadioButtonModule
+		RadioButtonModule,
+		PickListModule,
+		CheckboxModule
+
 
 
 
@@ -102,7 +109,10 @@ import { SelfRecordtimeComponent } from './self-recordtime/self-recordtime.compo
               SelfEmployeeComponent,
               SelfOvertimeComponent,
               SelfChangeshiftComponent,
-              SelfRecordtimeComponent
+              SelfRecordtimeComponent,
+              SelfWorkflowComponent,
+              SelfAccountComponent,
+              SelfLineapproveComponent
   ]
 })
 export class SelfModule { }

@@ -79,7 +79,7 @@ export class TimecardService {
     return this.http.post<any>(this.config.ApiAttendanceModule + '/timecard_list', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      //console.log(res)
       return message.data;
     });
   }
@@ -128,12 +128,49 @@ export class TimecardService {
       modified_by:this.initial_current.Username
     };
 
-    console.log(this.config.ApiProjectModule)
-
     return this.http.post<any>(this.config.ApiAttendanceModule + '/timecard', data, this.options).toPromise()   
     .then((res) => {      
       return res;
     });
   }  
+
+  public timesheet_record(model:TimecardsModel) {   
+
+    var data = { 
+
+      company_code:model.company_code,      
+      worker_code:model.worker_code,
+
+      project_code:model.project_code,
+      projob_code:model.projob_code,
+
+      timecard_workdate:model.timecard_workdate,
+      timecard_daytype:model.timecard_daytype,
+      shift_code:model.shift_code,
+      timecard_color:model.timecard_color,
+
+      timecard_lock:model.timecard_lock,
+      timecard_in:model.timecard_in,
+      timecard_out:model.timecard_out,
+          
+      modified_by:this.initial_current.Username
+    };
+ 
+    return this.http.post<any>(this.config.ApiAttendanceModule + '/timesheet', data, this.options).toPromise()   
+    .then((res) => {      
+      return res;
+    });
+  }  
+
+
+  public daytype_get(){    
+    
+    return this.http.get<any>(this.config.ApiAttendanceModule + '/daytype_list').toPromise()   
+    .then((res) => {
+      let message = JSON.parse(res);
+      console.log(res)
+      return message.data;
+    });
+  }
 
 }

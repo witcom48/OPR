@@ -4,7 +4,7 @@ export class EmpLocationModel {
     company_code: string = "";
     worker_code: string = "";
     emplocation_id:string = "1";
-    location_code: string = "00000";
+    location_code: string = "";
     emplocation_startdate!: Date;
     emplocation_enddate!: Date;
     emplocation_note:string= "";

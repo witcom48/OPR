@@ -1,12 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 
+import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import * as XLSX from 'xlsx';
+import { DatePipe } from '@angular/common';
+
+import { AppConfig } from '../../../config/config';
+import { InitialCurrent } from '../../../config/initial_current';
+import { RadiovalueModel } from '../../../models/project/radio_value';
+
+import { ProbusinessModel, ProtypeModel, ProslipModel, ProuniformModel } from '../../../models/project/policy/pro_genaral';
+
+import { ProjectService } from '../../../services/project/project.service';
+import { ProgenaralService } from '../../../services/project/pro_genaral.service';
 import { PrjectMonitorModel } from '../../../models/project/project_monitor'
-import { ProjectTypeModel } from '../../../models/project/project_type';
-import { ProjectBusinessModel } from '../../../models/project/project_business';
-import { PrjectEmpdailyModel } from '../../../models/project/project_empdaily';
-import { PrjectEmpModel } from '../../../models/project/project_emp';
+import { TimecardsModel } from '../../../models/attendance/timecards';
+import { TimecardService } from 'src/app/services/attendance/timecards.service';
+import { ProjectDetailService } from '../../../services/project/project_detail.service';
+import { ProjobmainModel } from '../../../models/project/project_jobmain';
+import { JobMonitorModel } from '../../../models/project/job_monitor'
 
 @Component({
   selector: 'app-project-monitor',
@@ -15,28 +29,146 @@ import { PrjectEmpModel } from '../../../models/project/project_emp';
 })
 export class ProjectMonitorComponent implements OnInit {
 
+  @ViewChild('scrollMe')
+  private myScrollContainer!: ElementRef;
+
   items: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
+  menu_timecard: MenuItem[] = [];
 
-  project_monitor: PrjectMonitorModel[] = [];
-  ptype_list: ProjectTypeModel[] = [];
-  pbusiness_list: ProjectBusinessModel[] = [];
+  manage_title: string = "Time sheet"
+  displayManage: boolean = false;
+  searchEmp: boolean = false;
+  position: string = "right";
+
+  
+
+  selectedType_fillter :string = ""
+  selectedBusiness_fillter :string = ""
+
+  business_fillter :boolean = false
+  type_fillter :boolean = false
+
+  selectedDate_fillter :Date = new Date()
 
   edit_workflow: boolean = false;
 
-  constructor() { }
+  title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
+  title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
+  title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
+  title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
+  title_page_total: {[key: string]: string} = {  EN: "of",  TH: "จาก"}
+  title_page_record: {[key: string]: string} = {  EN: "entries",  TH: "รายการ"}
 
-  ngOnInit(): void {
-    this.doLoadSimple()
-    this.doLoadProjectMonitor()
-    this.doLoadProjectType()
-    this.doLoadProjectBusiness()
-    this.calculateTotal()
-    this.doLoadEmp()
-    this.doLoadEmpCost()
+  title_date: {[key: string]: string} = {  EN: "Date",  TH: "วันที่"}
+  title_project_probusiness: {[key: string]: string} = {  EN: "Business",  TH: "ประเภทธุรกิจ"}
+  title_project_protype: {[key: string]: string} = {  EN: "Type",  TH: "ประเภทงาน"}
+
+  title_project_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัสโครงการ"}
+  title_project_name: {[key: string]: string} = {  EN: "Description",  TH: "โครงการ"}
+  title_emp_total: {[key: string]: string} = {  EN: "Manpower",  TH: "จำนวนพนักงาน"}
+  title_working: {[key: string]: string} = {  EN: "Working",  TH: "มาทำงาน"}
+  title_leave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
+  title_absent: {[key: string]: string} = {  EN: "Absent",  TH: "ขาดงาน"}
+  title_cost: {[key: string]: string} = {  EN: "Code",  TH: "ต้นทุน"}
+  title_actual: {[key: string]: string} = {  EN: "Actual",  TH: "ยอดจริง"}
+
+  title_project_total: {[key: string]: string} = {  EN: "Code",  TH: "จำนวนโครงการ"}
+  title_cost_total: {[key: string]: string} = {  EN: "Code",  TH: "จำนวนต้นทุน"}
+  title_actual_total: {[key: string]: string} = {  EN: "Code",  TH: "ยอดชำระ"}
+
+  title_job_code: {[key: string]: string} = {  EN: "Job code",  TH: "รหัสงาน"}
+  title_job_name: {[key: string]: string} = {  EN: "Job name",  TH: "ชื่องาน"}
+
+  title_total: {[key: string]: string} = {  EN: "Total",  TH: "รวม"}
+
+  title_jobcode: {[key: string]: string} = {  EN: "Job",  TH: "งาน"}
+  title_jobname: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
+  title_empcode: {[key: string]: string} = {  EN: "Emp. code",  TH: "รหัสพนักงาน"}
+  title_empname: {[key: string]: string} = {  EN: "Emp. name",  TH: "ชื่อ-นามสกุล"}
+  title_shift: {[key: string]: string} = {  EN: "Shift",  TH: "กะการทำงาน"}
+  title_daytype: {[key: string]: string} = {  EN: "Daytype",  TH: "ประเภทวัน"}
+  title_timein: {[key: string]: string} = {  EN: "In",  TH: "เวลาเข้า"}
+  title_timeout: {[key: string]: string} = {  EN: "Out",  TH: "เวลาออก"}
+  title_working_before: {[key: string]: string} = {  EN: "OT in",  TH: "โอทีก่อนเข้างาน"}  
+  title_working_after: {[key: string]: string} = {  EN: "OT out",  TH: "โอทีหลังเลิกงาน"}
+  title_working_late: {[key: string]: string} = {  EN: "Late",  TH: "สาย"}
+  title_working_leave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
+  
+
+  show_fillter: boolean = false;
+
+  constructor(
+    private router:Router, 
+    private route: ActivatedRoute,    
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private datePipe: DatePipe,      
+    private projectService: ProjectService,      
+    private progenaralService:ProgenaralService,
+    private timecardService: TimecardService,
+    private projectDetailService:ProjectDetailService
+
+  ) {    
+   }
+
+  public initial_current:InitialCurrent = new InitialCurrent();  
+  doGetInitialCurrent(){    
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current) {
+      this.router.navigateByUrl('');
+    }       
+  }  
+
+  doLoadLanguage(){
+    if(this.initial_current.Language == "TH"){
+      
+    }     
+
   }
 
-  doLoadSimple(){
+  doLoadTimesheet(project: string){
+    //this.displayManage = true
+
+    //console.log(project)
+
+    this.selectedProject(project)
+
+    setTimeout(() => {
+      //this.doLoadTimecard()
+      //this.scrollToBottom()
+      this.manage_title = "Job detail"
+      this.doLoadJobMonitor()
+      this.displayManage = true
+
+    }, 300);
+    
+  }
+
+  scrollToBottom(): void {
+      try {
+          this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      } catch(err) { }                 
+  }
+
+  ngOnInit(): void {
+    this.doLoadLanguage()
+    this.doGetInitialCurrent()
+    this.doLoadMenu()
+    this.doLoadProjectType()
+    this.doLoadProjectBusiness()
+    this.doLoadPolJobmain()
+
+    //let dateString = '2023-01-10T00:00:00'
+    //this.selectedDate_fillter = new Date(dateString);
+    setTimeout(() => {
+      this.doLoadProjectMonitor()
+    }, 300);
+
+
+  }
+
+  doLoadMenu(){
     this.toolbar_menu = [
       {
         label:'Save',
@@ -85,152 +217,107 @@ export class ProjectMonitorComponent implements OnInit {
       
     ];
 
+    this.menu_timecard = [
+   
+      {
+        label:'Add',
+        icon:'pi pi-fw pi-plus',
+        command: (event) => {
+          this.searchEmp = true
+      }   
+        
+      },
+      {
+          label:'Edit',
+          icon:'pi pi-fw pi-pencil',
+          command: (event) => {
+            this.displayManage = true
+        }        
+      },    
+      {
+          label:'Delete',
+          icon:'pi pi-fw pi-trash',          
+      }
+     
+      ,    
+      {
+          label:'Import',
+          icon:'pi pi-fw pi-file-import',          
+      }
+      ,    
+      {
+          label:'Export',
+          icon:'pi pi-fw pi-file-export',          
+      }
+      
+    ];
+
   }
 
+  doShowFillter(){
+    if(this.show_fillter){
+      this.show_fillter = false
+    }
+    else{
+      this.show_fillter = true
+    }
+  }
+
+  doFillter(){
+    this.doLoadProjectMonitor()
+  }
+
+  project_monitor: PrjectMonitorModel[] = [];
   selectedProjectMonitor: PrjectMonitorModel = new PrjectMonitorModel;
   doLoadProjectMonitor(){
-    var tmp = new PrjectMonitorModel();
-
-    tmp.project_id = "SHT001";
-    tmp.project_code = "100008.00";
-    tmp.project_name_th = "บริษัทควอลิตี้";
-    tmp.project_name_en = "Quarity";
-
-    tmp.project_type = "ประจำ";
-    tmp.project_business = "ห้างฯ";
-   
-    tmp.project_manpower = 4;
-    tmp.project_working = 2;
-    tmp.project_leave = 1;
-    tmp.project_absent = 1;
-  
-    tmp.project_cost = 3500;
-    tmp.project_pay = 3000;
-
-    tmp.root = true;
-
-    this.project_monitor.push(tmp);
-
-
-    tmp = new PrjectMonitorModel();
-
-    tmp.project_id = "SHT00ถ";
-    tmp.project_code = "100008.00";
-    tmp.project_name_th = "บริษัทควอลิตี้";
-    tmp.project_name_en = "Quarity";
-
-    tmp.project_type = "พนักงานทำความสะอาด";
-    tmp.project_business = "70001.1";
-   
-    tmp.project_manpower = 3;
-    tmp.project_working = 2;
-    tmp.project_leave = 1;
-    tmp.project_absent = 0;
-  
-    tmp.project_cost = 3000;
-    tmp.project_pay = 2500;
-
-    this.project_monitor.push(tmp);
-
-    tmp = new PrjectMonitorModel();
-
-    tmp.project_id = "SHT007";
-    tmp.project_code = "100008.00";
-    tmp.project_name_th = "บริษัทควอลิตี้";
-    tmp.project_name_en = "Quarity";
-
-    tmp.project_type = "พนักงานห้องนํ้า";
-    tmp.project_business = "70013";
-   
-    tmp.project_manpower = 1;
-    tmp.project_working = 1;
-    tmp.project_leave = 0;
-    tmp.project_absent = 0;
-  
-    tmp.project_cost = 500;
-    tmp.project_pay = 500;
-
-    this.project_monitor.push(tmp);
-
-
-
-    tmp = new PrjectMonitorModel();
-
-    tmp.project_id = "SHT002";
-    tmp.project_code = "100009.00";
-    tmp.project_name_th = "แฟชั่นฯ";
-    tmp.project_name_en = "Fasion";    
-    tmp.project_type = "ประจำ";
-    tmp.project_business = "ห้างฯ";
-   
-    tmp.project_manpower = 20;
-    tmp.project_working = 18;
-    tmp.project_leave = 0;
-    tmp.project_absent = 2;
-  
-    tmp.project_cost = 24000;
-    tmp.project_pay = 22000;
-
-    tmp.root = true;
-
-    this.project_monitor.push(tmp);
     
+    var probusiness = ""
+    var protype = ""
+    if(this.business_fillter){
+      probusiness = this.selectedBusiness_fillter;
+    }
+
+    if(this.type_fillter){
+      protype = this.selectedType_fillter;
+    }
+    
+
+    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness).then(async (res) => {
+      this.project_monitor = await res;
+      setTimeout(() => {
+        this.calculateTotal()
+      }, 500);
+    }); 
+  }
+
+  selectedProject(code:string){
+    for (let i = 0; i < this.project_monitor.length; i++) {
+      if(this.project_monitor[i].project_code==code ){
+        this.selectedProjectMonitor = this.project_monitor[i];
+        break;
+      }
+    }
   }
 
   onRowSelectProject(event: Event) {
     this.edit_workflow= true;
   }
 
-  doLoadProjectType(){
-    var tmp = new ProjectTypeModel();
-
-    tmp.ptype_code = "SHT001";
-    tmp.ptype_name_th = "ประจำ";
-    tmp.ptype_name_en = "Regular";
-    
-    tmp.modified_by = "hropr";
-
-    this.ptype_list.push(tmp);
-
-    tmp = new ProjectTypeModel();
-
-    tmp.ptype_code = "SHT002";
-    tmp.ptype_name_th = "ชั่วคราว";
-    tmp.ptype_name_en = "Temporary";
-    
-    tmp.modified_by = "hropr";
-
-    this.ptype_list.push(tmp);
-
-    
-
+  probusiness_list: ProbusinessModel[] = []; 
+  doLoadProjectBusiness(){       
+    this.probusiness_list = []   
+    this.progenaralService.probusiness_get().then(async (res) => {
+      this.probusiness_list = await res;      
+    }); 
   }
 
-  doLoadProjectBusiness(){
-    var tmp = new ProjectBusinessModel();
-
-    tmp.pbusiness_code = "BUS001";
-    tmp.pbusiness_name_th = "ห้างฯ";
-    tmp.pbusiness_name_en = "Store";
-    
-    tmp.modified_by = "hropr";
-
-    this.pbusiness_list.push(tmp);
-
-    tmp = new ProjectBusinessModel();
-
-    tmp.pbusiness_code = "BUS002";
-    tmp.pbusiness_name_th = "มหาวิทยาลัย";
-    tmp.pbusiness_name_en = "University";
-    
-    tmp.modified_by = "hropr";
-
-    this.pbusiness_list.push(tmp);
-
-    
-
+  protype_list: ProtypeModel[] = [];  
+  doLoadProjectType(){      
+    this.protype_list = []   
+    this.progenaralService.protype_get().then(async (res) => {
+      this.protype_list = await res;      
+    });     
   }
-
 
   total_emp: number = 0;
   total_working: number = 0;
@@ -238,8 +325,7 @@ export class ProjectMonitorComponent implements OnInit {
   total_absent: number = 0;
   total_cost: number = 0;
   total_payment: number = 0;
-
-
+  total_project: number = 0;
 
   calculateTotal() {
 
@@ -259,6 +345,8 @@ export class ProjectMonitorComponent implements OnInit {
 
         this.total_cost += project.project_cost;
         this.total_payment += project.project_pay;
+
+        this.total_project += 1
       }
     } 
 
@@ -266,71 +354,89 @@ export class ProjectMonitorComponent implements OnInit {
 
   }
 
-  timesheet_list: PrjectEmpdailyModel[] = [];
-  selectedDate: PrjectEmpdailyModel = new PrjectEmpdailyModel;
-  doLoadEmp(){
-    var tmp = new PrjectEmpdailyModel();
+  timecard_list: TimecardsModel[] = [];
+  selectedTimecard: TimecardsModel = new TimecardsModel();
+  edit_timecard: boolean = false;
 
-    tmp.daily_id = "00001";
-    tmp.ppos_code = "70001";
-    tmp.ppos_name_th = "พนักงานทำความสะอาด";
+  timein: string | null | undefined
+  timeout: string | null | undefined
 
-    tmp.emp_code = "220108001";
-    tmp.emp_name = "ศรัณย์ ศรีห่วง";
-    tmp.emp_position = "พนักงานประจำ";   
-    
-    tmp.timecard_shift = "DAY001";   
-    tmp.timecard_shiftin = "08:00";   
-    tmp.timecard_shiftout = "19:00";   
-    tmp.timecard_daytype = "N";   
-    tmp.timecard_in = "07:56";   
-    tmp.timecard_out = "19:15"; 
-    
-    tmp.timecard_working = "09:00"; 
-    tmp.timecard_late = "-"; 
-    tmp.timecard_overtime = "-"; 
+  doLoadTimecard(){    
+    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedProjectMonitor.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
+      this.timecard_list = await res;
+    });
+  }
   
-    this.timesheet_list.push(tmp);
+  emp_name:string = "" 
+  onRowSelectTimecard(event: Event) {
+    if(this.initial_current.Language == "EN"){
+      this.emp_name = this.selectedTimecard.worker_name_en
+    }
+    else{
+      this.emp_name = this.selectedTimecard.worker_name_th
+    }
+   
+    this.timein = this.datePipe.transform(this.selectedTimecard.timecard_in, 'HH:mm')
+    this.timeout = this.datePipe.transform(this.selectedTimecard.timecard_out, 'HH:mm')
 
-    
   }
 
-  project_emps: PrjectEmpModel[] = [];
-  selectedEmp: PrjectEmpModel = new PrjectEmpModel;
-  doLoadEmpCost(){
-    var tmp = new PrjectEmpModel();
+  pad(num:number, size:number): string {
+    let s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+  }
 
-    tmp.ppos_code = "70001";
-    tmp.ppos_name_th = "พนักงานทำความสะอาด";
+  doConvertHHMM(time_min:number) : string {    
+    var hrs = Math.floor(time_min / 60);
+    var min = time_min - (hrs * 60);
+    return this.pad(hrs, 2) + ":" + this.pad(min, 2);
+  }
 
-    tmp.emp_code = "220108001";
-    tmp.emp_name = "ศรัณย์ ศรีห่วง";
-    tmp.emp_position = "พนักงานประจำ";    
-    tmp.pcost_allw1 = 10000.00;
-    tmp.pcost_allw2 = 67.50;
-    tmp.pcost_allw3 = 1;
-    tmp.pcost_allw4 = 1;
-    tmp.pcost_allw5 = 1;   
+  doGetMinute(HHmm:string) : number {    
 
-    tmp.approve_status = true;
-    this.project_emps.push(tmp);
+    var splitted = HHmm.split(":", 2); 
 
-    tmp = new PrjectEmpModel();
+    var result = Number(splitted[0]) * 60;
+    result += Number(splitted[1]);        
 
-    tmp.ppos_code = "70001";
-    tmp.ppos_name_th = "พนักงานทำความสะอาด";
+    return result;
+  }
 
-    tmp.emp_code = "220108002";
-    tmp.emp_name = "อำพล ลำพูน";
-    tmp.emp_position = "พนักงานชั่วคราว";    
-    tmp.pcost_allw1 = 9000.00;
-    tmp.pcost_allw2 = 50.00;
-    tmp.pcost_allw3 = 1;
-    tmp.pcost_allw4 = 1;
-    tmp.pcost_allw5 = 1; 
+  //
+  jobmain_list: ProjobmainModel[] = [];
+  selectedJobmain: RadiovalueModel = new RadiovalueModel;
+  doLoadPolJobmain(){      
+    this.jobmain_list = []   
+    this.projectDetailService.projobmain_get("").then(async (res) => {
+      this.jobmain_list = await res;
+    });   
+  }
+  doGetPolJobmainDetail(code:string) : string {
+    for (let i = 0; i < this.jobmain_list.length; i++) {
+      if(this.jobmain_list[i].projobmain_code==code ){
+        return this.initial_current.Language=="TH" ? this.jobmain_list[i].projobmain_name_th : this.jobmain_list[i].projobmain_name_en
+      }
+    }
+    return ""      
+  }
+
+  //-- Job monitor
+  job_monitor: JobMonitorModel[] = [];
+  selectedJobMonitor: JobMonitorModel = new JobMonitorModel;
+  doLoadJobMonitor(){        
+    this.projectService.job_monitor(this.initial_current.CompCode, this.selectedProjectMonitor.project_code, this.selectedDate_fillter).then(async (res) => {
+      this.job_monitor = await res;
+      setTimeout(() => {
         
-    this.project_emps.push(tmp);
+        
+      }, 500);
+    }); 
   }
-  
+
+  onRowSelectJobMonitor(event: Event){
+
+  }
+
 
 }

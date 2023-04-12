@@ -54,6 +54,9 @@ import { EmpsetpositionComponent } from './employee-policy/setup-batch/empsetpos
 import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/empsetdep.component';
 import { SystemModule } from '../system/system.module';
 import { EmployeeLocationComponent } from './employee-policy/genaral/employee-location/employee-location.component';
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
+import { EmpsetsalaryComponent } from './employee-policy/setup-batch/empsetsalary/empsetsalary.component';
+import { EmpsetgroupComponent } from './employee-policy/setup-batch/empsetgroup/empsetgroup.component';
 
 
 @NgModule({
@@ -96,7 +99,8 @@ import { EmployeeLocationComponent } from './employee-policy/genaral/employee-lo
 		DialogModule,
 		RadioButtonModule,
 		CheckboxModule,
-		SystemModule
+		SystemModule,
+		UsercontrolModule
 
 
 
@@ -114,7 +118,9 @@ import { EmployeeLocationComponent } from './employee-policy/genaral/employee-lo
     EmpstatusComponent,
     EmpsetpositionComponent,
     EmpsetdepComponent,
-    EmployeeLocationComponent
+    EmployeeLocationComponent,
+    EmpsetsalaryComponent,
+    EmpsetgroupComponent
   ]
 })
 export class EmployeeModule { }

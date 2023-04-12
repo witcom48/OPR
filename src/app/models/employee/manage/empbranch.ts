@@ -4,7 +4,7 @@ export class EmpBranchModel {
     company_code: string = "";
     worker_code: string = "";
     empbranch_id: string = "1";
-    branch_code: string = "00000";
+    branch_code: string = "";
     empbranch_startdate!: Date;
     empbranch_enddate!: Date;
     empbranch_note:string= "";
