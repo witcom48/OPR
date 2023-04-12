@@ -1,10 +1,12 @@
 .center {
-    margin: auto;  //ระยะขอบ ผลักอัตโนมัติ
-    width: 50%;   //ความกว้าง 50%
-    // border: 3px solid blue;   //ความหนา รูปแบบ สีของขอบ
-    padding: 5%;  //ขยายขอบด้านใน
+    margin: auto;  
+    width: 50%;   
+    padding: 5%; 
  }
-
+ .right {
+    text-align: right;
+  
+ }
 p-dropdown{
     width: '100%'; overflow: 'visible';
 

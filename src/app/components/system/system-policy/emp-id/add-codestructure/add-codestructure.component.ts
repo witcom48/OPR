@@ -87,15 +87,15 @@ export class AddCodestructureComponent implements OnInit {
 
     this.codeStrucList = [];
 
-    this.polcodeService.getStructureList().then((response) =>{
+    // this.polcodeService.getStructureList().then((response) =>{
 
-      let resultJSON = JSON.parse(response);
+    //   let resultJSON = JSON.parse(response);
 
-      if(resultJSON.result == "1"){
-        this.codeStrucList = resultJSON.data;
-      }
+    //   if(resultJSON.result == "1"){
+    //     this.codeStrucList = resultJSON.data;
+    //   }
 
-    });
+    // });
 
   }
 

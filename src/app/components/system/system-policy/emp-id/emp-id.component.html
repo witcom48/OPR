@@ -4,11 +4,13 @@
     <span>System</span>
     <div>
         <i></i>
-        <a routerLink="/system/genaral">Genaral</a>
+        <a routerLink="/system/sys-manage">Manage</a>
         <i></i>
-        <small>title_page</small>
+        <small><label>Structure</label>
+        </small>
     </div>
 </div>
+
 <hr>
 
 
@@ -53,154 +55,31 @@
         <!-- <i (click)="close()"></i> -->
 
         <label>code</label>
-        <input pInputText type="text" [(ngModel)]="selectedPolcode.codestructure_code" maxlength="5" />
+        <input pInputText type="text" [(ngModel)]="selectedTRPolcode.codestructure_code" maxlength="5" />
 
-        <!-- <p-dropdown placeholder="--" [options]="--" optionValue="--" [showClear]="true"
-            [(ngModel)]="selectedPolcode.codestructure_code" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.codestructure_name_th :
-                item.codestructure_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.codestructure_name_th :
-                item.codestructure_name_en}}
-            </ng-template>
-        </p-dropdown> -->
+
 
         <label>lenght</label>
-        <textarea [(ngModel)]="selectedPolcode.polcode_lenght" pInputTextarea [autoResize]="true"></textarea>
+        <textarea [(ngModel)]="selectedTRPolcode.polcode_lenght" pInputTextarea [autoResize]="true"></textarea>
 
         <label>text</label>
-        <textarea [(ngModel)]="selectedPolcode.polcode_text" pInputTextarea [autoResize]="true"></textarea>
+        <textarea [(ngModel)]="selectedTRPolcode.polcode_text" pInputTextarea [autoResize]="true"></textarea>
 
         <label>order</label>
-        <textarea [(ngModel)]="selectedPolcode.polcode_order" pInputTextarea [autoResize]="true"></textarea>
+        <textarea [(ngModel)]="selectedTRPolcode.polcode_order" pInputTextarea [autoResize]="true"></textarea>
 
-        <button pButton type="button" label="save" icon="pi pi-check" (click)="doSubmit()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="title_delete" icon="pi pi-trash" class="p-button-danger"
-            (click)="doSubmit()"></button>
-        <!-- <button (click)="doDeleteStructure(item.index)"><i class="ace-icon fa  fa-trash-o bigger-120">&nbsp;</i></button> -->
-
+        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+        <button *ngIf=" edit_TRPolcode" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="confirmRecord()"></button>
     </div>
+
 </div>
 
 
-
-<!-- Dialog Choose File Import -->
-<!-- <p-dialog class="uploadfile" header="title_upload" [(visible)]="displayUpload">
-    <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" accept="xlxs/*" required (change)="doEditStructure($any($event).target.files)">
-    </label>
-    <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doDeleteStructure()" 
-            styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-dialog> -->
 <!-- -----------------End Dialog Choose File-------------------- -->
 
 <!-- ConfirmDialog and toast Noti -->
-<p-toast position="top-right"></p-toast>
+<!-- <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog> -->
 <!-- ----------------------END Confirm and Toast------------------------ -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-
-<table class="table_tools">
-    <tr>
-        <td align="left">
-            <table class="table_item">
-                <tr>
-                    <td align="left">
-                       &nbsp;
-                    </td>
-                    <td align="right">
-                        <a href="#"  routerLink="../../sys/menu" ><u>{{labLink}}</u></a>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-
-<div class="example-container">
-
-    <form class="manage-form">
-
-        <div class="row">
-            <div class="col-sm">
-                <h4 style="margin-bottom: 10px;">{{labTitle}}</h4>
-            </div>
-        </div>
-
-        <div class="space-6"></div>
-
-
-        <div class="row">
-            <div class="col-sm">
-                <table class="table_list">
-                    <tr>
-                        <td colspan="4" align="left">
-                            <span (click)="doNewStructure()"><i class="ace-icon fa  fa-plus bigger-120">&nbsp;</i>&nbsp;New</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>{{labCode}}</th>
-                        <th>{{labDetail}}</th>
-                        <th>{{labLenght}}</th>
-                        <th>{{labText}}</th>
-                        <th></th>
-                    </tr>
-                    <tr mdbTableCol *ngFor="let item of strucList">
-                        <td scope="row">{{item.codestructure_code}}</td>
-                        <td>{{item.codestructure_code}}</td>
-                        <td>{{item.polcode_lenght}}</td>
-                        <td>{{item.polcode_text}}</td>
-                        <td>
-                            <button (click)="doEditStructure(item.index)"><i class="ace-icon fa  fa-pencil bigger-120">&nbsp;</i></button>
-                            <button (click)="doDeleteStructure(item.index)"><i class="ace-icon fa  fa-trash-o bigger-120">&nbsp;</i></button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="space-12"></div>
-        <div class="space-6"></div>
-        <div class="row">
-            <div class="col-sm">
-                <button mat-raised-button color="primary" (click)="doSubmit()">{{labSave}}</button>
-            </div>
-        </div>
-
-    </form>
-
-</div>
- -->

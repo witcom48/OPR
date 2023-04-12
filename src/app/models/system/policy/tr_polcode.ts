@@ -2,6 +2,8 @@ export class TRPolcodeModel {
     constructor() {
 }
 
+
+
 polcode_id: string = "1";
 codestructure_code: string = "";
 polcode_lenght: string = "0";

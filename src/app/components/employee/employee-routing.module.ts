@@ -14,6 +14,7 @@ import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatu
 import { EmpsetpositionComponent } from './employee-policy/setup-batch/empsetposition/empsetposition.component';
 import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/empsetdep.component';
 import { EmployeeLocationComponent } from './employee-policy/genaral/employee-location/employee-location.component';
+import { SystemModule } from '../system/system.module';
 
 @NgModule({
     imports: [RouterModule.forChild([

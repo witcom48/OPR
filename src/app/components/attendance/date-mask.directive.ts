@@ -3,6 +3,7 @@ import { Calendar } from 'primeng/calendar';
 import Inputmask from 'inputmask';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[dateMask]'
 })
 export class DateMaskDirective implements AfterViewInit {

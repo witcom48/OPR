@@ -17,14 +17,7 @@
     <p-menubar [model]="items"></p-menubar>
 </div>
 
-<div class="input_radio" >
 
-    <input routerLink="../../system/sys-roundComponent" type="radio" name="fav_language" value="Currency" >
-    <label>{{langs.get('currency')[selectlang]}}</label>
-
-    <input name="notification" type="radio" id="RadioGroup1_0" value="Course" checked="checked" />
-    <label>{{langs.get('timee')[selectlang]}}</label>
-</div>
 <!-- ----------------END MENU----------------- -->
 <div class="tabledata">
     <!-- Table Show Data rounds-->
@@ -38,8 +31,13 @@
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
-                    <div>
+                    <div class="input_radio" >
 
+                        <input routerLink="../../system/sys-roundComponent" type="radio" name="fav_language" value="Currency" >
+                        <label>{{langs.get('currency')[selectlang]}}</label>
+                    
+                        <input name="notification" type="radio" id="RadioGroup1_0" value="Course" checked="checked" />
+                        <label>{{langs.get('timee')[selectlang]}}</label>
                     </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
