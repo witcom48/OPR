@@ -190,12 +190,18 @@ th {
   .p-selectable-row {
     span {
       display: block;
-      font-weight:bold;
+      font-weight: bold;
     }
   }
 }
 
 .formatt {
+  .step {
+    button {
+      min-height: 10px
+    }
+  }
+
   button {
     min-height: 40px
   }
@@ -232,9 +238,11 @@ th {
     min-width: 200px !important;
   }
 }
+
 .p-dropdown-items-wrapper {
   max-height: 50vh !important;
 }
+
 textarea {
   min-height: 59px !important;
 }
@@ -243,12 +251,13 @@ textarea {
   display: flex;
   gap: 10px;
 
-  .timeto{
-    div{
+  .timeto {
+    div {
       display: flex;
       flex-direction: column;
     }
   }
+
   p-calendar {
     input {
       text-align: center !important;

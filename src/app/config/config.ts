@@ -10,6 +10,7 @@ export class AppConfig {
   ApiRecruitmentModule: string = this.UrlApi + "/Module_Recruitment/ModuleRecruitment.svc/Recruitment";
   ApiEmployeeModule: string = this.UrlApi + "/Module_Employee/ModuleEmployee.svc/Employee";
   ApiProjectModule: string = this.UrlApi + "/Module_Project/ModuleProject.svc/Project";
+  ApiSelfServicesModule: string = this.UrlApi + "/Module_SelfServices/ModuleSelfServices.svc/SelfServices";
 
 
   static SESSIONInitial: string = "SESSIONInitial";
