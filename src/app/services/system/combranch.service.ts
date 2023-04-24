@@ -70,30 +70,12 @@ export class CombranchService {
         };
 
         return this.http
-        .post<any>(
-            this.config.ApiSystemModule + '/combranch_list',
-            filter,
-            this.options
-        )
-        .toPromise()
-        .then((res) => {
-            let message = JSON.parse(res);
-            console.log(res);
+        .post<any>(this.config.ApiSystemModule + '/combranch_list',filter,this.options).toPromise()
+        .then((res) => {let message = JSON.parse(res);console.log(res);
             return message.data;
         });
 
-        // return this.http
-        //     .post<any>(
-        //         this.config.ApiSystemModule + '/combranch_list',
-        //         this.basicRequest,
-        //         this.options
-        //     )
-        //     .toPromise()
-        //     .then((res) => {
-        //         let message = JSON.parse(res);
-        //         console.log(res);
-        //         return message.data;
-        //     });
+
     }
 
     public combranch_record(model: CombranchModel) {

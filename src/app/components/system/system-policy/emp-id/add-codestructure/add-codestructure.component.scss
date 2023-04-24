@@ -1,0 +1,407 @@
+// codestructure_code: string = '';
+//   manage_title: string = '';
+
+//   toolbar_menu: MenuItem[] = [];
+//   items: MenuItem[] = [];
+//   items_tab: MenuItem[] = [];
+
+//   codestructure_list: CodestructureModel[] = [];
+//   selectedCodestructure: CodestructureModel = new CodestructureModel();
+
+//   edit_codestructure: boolean = false;
+//   new_codestructure: boolean = false;
+
+//   //menu TRPolcode
+//   menu_TRPolcode: MenuItem[] = [];
+//   edit_TRPolcode: boolean = false;
+//   new_TRPolcode: boolean = false;
+
+//   displayManage: boolean = false;
+
+//   constructor(
+//       private combranchService: CombranchService,
+//       private router: Router,
+//       private route: ActivatedRoute,
+//       private messageService: MessageService,
+//       private confirmationService: ConfirmationService,
+// //service
+//       private codestructureService: CodestructureService,
+//       private codePolcodeService: CodePolcodeService,
+
+
+
+
+//       private cardtypeService: CardtypeService,
+
+//   ) {}
+
+//   ngOnInit(): void {
+//       this.route.queryParams.subscribe((params) => {
+//           // this.combranch_code = params['combranchcode'];
+//           console.log(this.codestructure_code);
+//       });
+
+//       this.doGetInitialCurrent();
+
+//       // Dropdown
+//       this.doLoadCodestructureList();
+
+
+//       setTimeout(() => {
+//           this.doLoadMenu();
+//       }, 100);
+
+//       setTimeout(() => {
+//           if (this.codestructure_code != '') {
+//               this.doLoadCodestructure();
+//           }
+//       }, 400);
+//   }
+
+//   public initial_current: InitialCurrent = new InitialCurrent();
+//   doGetInitialCurrent() {
+//       this.initial_current = JSON.parse(
+//           localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
+//       );
+//       if (!this.initial_current) {
+//           this.router.navigateByUrl('');
+//       }
+//   }
+
+//   title_page: string = 'combranch';
+//   title_new: string = 'New';
+//   title_edit: string = 'Edit';
+//   title_delete: string = 'Delete';
+//   title_import: string = 'Import';
+//   title_export: string = 'Export';
+//   title_save: string = 'Save';
+//   title_code: string = 'Code';
+
+//   title_summit: string = 'Summit';
+//   title_cancel: string = 'Cancel';
+
+//   title_genaral: string = 'Genaral';
+
+//   title_fname_th: string = 'First Name (Thai)';
+//   title_lname_th: string = 'Last Name (Thai)';
+//   title_fname_en: string = 'First Name (Eng.)';
+//   title_lname_en: string = 'Last Name (Eng.)';
+//   title_initial: string = 'Initial';
+
+//   title_modified_by: string = 'Edit by';
+//   title_modified_date: string = 'Edit date';
+//   title_search: string = 'Search';
+//   title_upload: string = 'Upload';
+
+//   title_page_from: string = 'Showing';
+//   title_page_to: string = 'to';
+//   title_page_total: string = 'of';
+//   title_page_record: string = 'entries';
+
+//   title_confirm: string = 'Are you sure?';
+//   title_confirm_record: string = 'Confirm to record';
+//   title_confirm_delete: string = 'Confirm to delete';
+//   title_confirm_yes: string = 'Yes';
+//   title_confirm_no: string = 'No';
+
+//   title_confirm_cancel: string = 'You have cancelled';
+
+//   doLoadLanguage() {
+//       if (this.initial_current.Language == 'TH') {
+//           this.title_page = 'ข้อมูลสถานที่ปฎิบัติงาน';
+//           this.title_new = 'เพิ่ม';
+//           this.title_edit = 'แก้ไข';
+//           this.title_delete = 'ลบ';
+//           this.title_import = 'นำเข้า';
+//           this.title_export = 'โอนออก';
+//           this.title_save = 'บันทึก';
+
+//           this.title_summit = 'บันทึก';
+//           this.title_cancel = 'ยกเลิก';
+
+//           this.title_genaral = 'ข้อมูลทั่วไป';
+//           this.title_code = 'รหัสพนักงาน';
+//           this.title_fname_th = 'ชื่อจริง (ไทย)';
+//           this.title_lname_th = 'นามสกุล (ไทย)';
+//           this.title_fname_en = 'ชื่อจริง (อังกฤษ)';
+//           this.title_lname_en = 'นามสกุล (อังกฤษ)';
+//           this.title_initial = 'คำนำหน้า';
+
+//           this.title_modified_by = 'ผู้ทำรายการ';
+//           this.title_modified_date = 'วันที่ทำรายการ';
+//           this.title_search = 'ค้นหา';
+//           this.title_upload = 'อัพโหลด';
+
+//           this.title_page_from = 'แสดง';
+//           this.title_page_to = 'ถึง';
+//           this.title_page_total = 'จาก';
+//           this.title_page_record = 'รายการ';
+
+//           this.title_confirm = 'ยืนยันการทำรายการ';
+//           this.title_confirm_record = 'คุณต้องการบันทึกการทำรายการ';
+//           this.title_confirm_delete = 'คุณต้องการลบรายการ';
+
+//           this.title_confirm_yes = 'ใช่';
+//           this.title_confirm_no = 'ยกเลิก';
+//           this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
+//       }
+//   }
+
+//   doLoadMenu() {
+//       //menumain
+//       this.toolbar_menu = [
+//           {
+//               label: 'Back',
+//               icon: 'pi-arrow-left',
+//               command: (event) => {
+//                   this.router.navigateByUrl('system/sys-manage');
+//               },
+//           },
+//           {
+//               label: 'Save',
+//               icon: 'pi pi-fw pi-save',
+//               command: (event) => {
+//                   console.log('Save');
+//                   this.confirmRecord();
+//               },
+//           },
+//       ];
+
+//       //menu TRPolcode
+//       this.menu_TRPolcode = [
+//           {
+//               label: 'New',
+//               icon: 'pi pi-fw pi-plus',
+//               command: (event) => {
+//                   this.clearManage();
+//                   this.new_TRPolcode = true;
+//                   var ref = this.TRPolcodeList.length + 100;
+//                   this.selectedTRPolcode = new TRPolcodeModel();
+//                   this.selectedTRPolcode.polcode_id = ref.toString();
+//                   this.showManage();
+//               },
+//           },
+//           {
+//               label: 'Edit',
+//               icon: 'pi pi-fw pi-pencil',
+//               command: (event) => {
+//                   this.clearManage();
+//                   if (this.selectedTRPolcode != null) {
+//                       this.edit_TRPolcode = true;
+//                       this.showManage();
+//                   }
+//               },
+//           },
+//           {
+//               label: 'Delete',
+//               icon: 'pi pi-fw pi-trash',
+//               command: (event) => {
+//                   if (this.selectedTRPolcode != null) {
+//                       this.TRPolcode_remove();
+//                   }
+//               },
+//           },
+//           {
+//               label: 'Import',
+//               icon: 'pi pi-fw pi-file-import',
+//               command: (event) => {},
+//           },
+//           {
+//               label: 'Export',
+//               icon: 'pi pi-fw pi-file-export',
+//               command: (event) => {},
+//           },
+//       ];
+//   }
+
+//   tabChange(e: { index: any }) {
+//       var index = e.index;
+
+
+//       this.edit_TRPolcode = false;
+//       this.new_TRPolcode = false;
+//       //
+
+//       this.displayManage = false;
+//   }
+
+//   position: string = 'right';
+//   showManage() {
+//       this.displayManage = true;
+
+//       if (this.initial_current.Language == 'EN') {
+//           if (this.new_TRPolcode || this.edit_TRPolcode) {
+//               this.manage_title = 'Address';
+
+//           }
+//       } else {
+//           if (this.new_TRPolcode || this.edit_TRPolcode) {
+//               this.manage_title = 'ที่อยู่';
+
+
+//           }
+//       }
+//   }
+
+//   doLoadCodestructure() {
+//       var codestructure_list: CodestructureModel[] = [];
+//       this.codestructureService
+//           .codestructure_get()
+//           .then(async (res) => {
+//               await res.forEach((element: CodestructureModel) => {});
+
+//               codestructure_list = await res;
+//               console.log(res);
+
+//               if (codestructure_list.length > 0) {
+//                   this.selectedCodestructure = codestructure_list[0];
+
+//                   setTimeout(() => {
+//                       this.doLoadTRPolcodeList();
+//                   }, 300);
+//               }
+//           });
+//   }
+
+//   // get data dropdown
+//       codestructureList: CodestructureModel[] = [];
+//       doLoadCodestructureList() {
+//           this.codestructureService.codestructure_get().then((res) => {
+//               this.codestructureList = res;
+//           });
+//   }
+
+
+
+//   //TRPolcode
+//   TRPolcodeList: TRPolcodeModel[] = [];
+//   selectedTRPolcode: TRPolcodeModel = new TRPolcodeModel();
+//   doLoadTRPolcodeList() {
+//       this.codePolcodeService
+//           .getTRPolcode_TRPolcode(
+//               this.initial_current.CompCode
+//           )
+//           .then(async (res) => {
+//               await res.forEach((element: TRPolcodeModel) => {});
+//               this.TRPolcodeList = await res;
+
+//               if (this.TRPolcodeList.length > 0) {
+//                   this.selectedTRPolcode = this.TRPolcodeList[0];
+//               }
+//           });
+//   }
+//   onRowSelectTRPolcode(event: Event) {}
+//   TRPolcode_summit() {
+//       this.TRPolcode_addItem(this.selectedTRPolcode);
+//       this.new_TRPolcode = false;
+//       this.edit_TRPolcode = false;
+//       this.displayManage = false;
+//   }
+//   TRPolcode_remove() {
+//       this.selectedTRPolcode.codestructure_code = '9999';
+//       this.TRPolcode_addItem(this.selectedTRPolcode);
+//       this.new_TRPolcode = false;
+//       this.edit_TRPolcode = false;
+//   }
+//   TRPolcode_delete() {}
+//   TRPolcode_cancel() {
+//       this.new_TRPolcode = false;
+//       this.edit_TRPolcode = false;
+//       this.displayManage = false;
+//   }
+//   TRPolcode_addItem(model: TRPolcodeModel) {
+//       const itemNew: TRPolcodeModel[] = [];
+//       for (let i = 0; i < this.TRPolcodeList.length; i++) {
+//           if (this.TRPolcodeList[i].polcode_id == model.polcode_id) {
+//               //-- Notting
+//           } else {
+//               itemNew.push(this.TRPolcodeList[i]);
+//           }
+//       }
+//       //-- 9999 for delete
+//       if (model.polcode_id != '9999') {
+//           itemNew.push(model);
+//       }
+//       this.TRPolcodeList = [];
+//       this.TRPolcodeList = itemNew;
+//       this.TRPolcodeList.sort(function (a, b) {
+//           return parseInt(a.polcode_id) - parseInt(b.polcode_id);
+//       });
+//   }
+//   record_TRPolcode() {
+//       if (this.TRPolcodeList.length == 0) {
+//           return;
+//       }
+//       this.codePolcodeService
+//           .record_TRPolcode(
+//               this.selectedCodestructure.codestructure_code,
+//               // this.selectedTRPolcode.codestructure_code,
+//               this.TRPolcodeList
+//           )
+//           .then((res) => {
+//               let result = JSON.parse(res);
+//               if (result.success) {
+//               } else {
+//               }
+//           });
+//   }
+
+//   confirmRecord() {
+//       this.confirmationService.confirm({
+//           message: this.title_confirm_record,
+//           header: this.title_confirm,
+//           icon: 'pi pi-exclamation-triangle',
+//           accept: () => {
+//               this.doRecordTRPolcode();
+//           },
+//           reject: () => {
+//               this.messageService.add({
+//                   severity: 'warn',
+//                   summary: 'Cancelled',
+//                   detail: this.title_confirm_cancel,
+//               });
+//           },
+//       });
+//   }
+
+//   doRecordTRPolcode() {
+//       this.codestructureService
+//           .codestructure_record(this.selectedCodestructure)
+//           .then((res) => {
+//               console.log(res);
+
+//               let result = JSON.parse(res);
+
+//               if (result.success) {
+//                   //-- Transaction
+//                   this.record_TRPolcode();
+//                   this.doLoadCodestructure();
+
+//                   this.messageService.add({
+//                       severity: 'success',
+//                       summary: 'Success',
+//                       detail: result.message,
+//                   });
+//                   // this.router.navigateByUrl('system/Branch');
+
+//               } else {
+//                   this.messageService.add({
+//                       severity: 'error',
+//                       summary: 'Error',
+//                       detail: result.message,
+//                   });
+//               }
+//           });
+//   }
+
+//   close() {
+//       this.new_codestructure = false;
+//       this.selectedCodestructure = new CodestructureModel();
+//   }
+
+//   clearManage() {
+
+//       this.new_TRPolcode = false;
+//       this.edit_TRPolcode = false;
+//   }
+// }

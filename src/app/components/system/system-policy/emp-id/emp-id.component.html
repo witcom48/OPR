@@ -1,4 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
+
+
 <!-- Link Page -->
 <div class="path">
     <span>System</span>
@@ -6,80 +8,126 @@
         <i></i>
         <a routerLink="/system/sys-manage">Manage</a>
         <i></i>
-        <small><label>Structure</label>
-        </small>
+        <small>{{title_page}}</small>
     </div>
 </div>
-
+<!-- ---------END Link Page----------- -->
 <hr>
-
-
-
 <!-- Menu New Import Export Data -->
-<div>
-    <p-menubar [model]="items"></p-menubar>
-</div>
+
 <!-- ----------------END MENU----------------- -->
 
+
 <div class="tabledata">
-    <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true"
-        scrollHeight="350px" [virtualScroll]="true" selectionMode="single" [rows]="20" [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[20,50,100]" [paginator]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-        <ng-template pTemplate="caption">
-            <div class="flex">
-                <span class="p-input-icon-left ml-auto">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                        placeholder="Search keyword" />
-                </span>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Code</th>
-                <th>Detail</th>
-                <th>Lenght</th>
-                <th>Text</th>
-                <th>ผู้ทำรายการ</th>
-                <th>วันที่ทำรายการ</th>
-            </tr>
+    <!-- Table Show Data -->
+    <div #TABLE>
+        <div>
+            <p-menubar [model]="items"></p-menubar>
+        </div>
+        <p-table #dt2 [value]="TRPolcode_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+        selectionMode="single" [(selection)]="selectedTRPolcode" (onRowSelect)="onRowSelectTRPolcode($event)" [rows]="12"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+        [globalFilterFields]="['codestructure_code','polcode_lenght','polcode_text','polcode_order']">
+        <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{title_search}}" />
+                    </span>
+                </div>
+            </ng-template>
+        <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Code</th>
+                    <th>Detail</th>
+                    <th>Lenght</th>
+                    <th>Text</th>
 
-        </ng-template>
-    </p-table>
-
+                 
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr [pSelectableRow]="data">
+                        <td>{{data.codestructure_code}}</td>
+                        <td>{{data.polcode_lenght}}</td>
+                        <td>{{data.polcode_text}}</td>
+                        <td>{{data.polcode_order}}</td>
+                   
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
     <div class="formatt" *ngIf="new_data==true">
-        <!-- <i (click)="close()"></i> -->
+        <i (click)="close()"></i>
 
-        <label>code</label>
-        <input pInputText type="text" [(ngModel)]="selectedTRPolcode.codestructure_code" maxlength="5" />
+          <label>Code</label>
+          <p-dropdown placeholder="--" [options]="codestructureList" optionValue="codestructure_code"
+              [showClear]="true" [(ngModel)]="selectedTRPolcode.codestructure_code"
+              [style]="{ width: '150%', overflow: 'visible' }">
+              <ng-template let-item pTemplate="selectedItem">
+                  {{initial_current.Language=="TH"? item.codestructure_name_th :
+                  item.codestructure_name_en}}
+              </ng-template>
+              <ng-template let-item pTemplate="item">
+                  {{initial_current.Language=="TH"? item.codestructure_name_th :
+                  item.codestructure_name_en}}
+              </ng-template>
+          </p-dropdown>
 
+          <!-- <div class=" field col-5 ">
+            <label for="lastname2">Detail</label>
+            <p-inputNumber [showButtons]="true" inputId="minmax-buttons"
+                [step]="1" [(ngModel)]="selectedTRPolcode.polcode_lenght">
+            </p-inputNumber>
+        </div> -->
 
+        
+          <label>Detail</label>
+          <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_lenght">
 
-        <label>lenght</label>
-        <textarea [(ngModel)]="selectedTRPolcode.polcode_lenght" pInputTextarea [autoResize]="true"></textarea>
+          <label>Lenght</label>
+          <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_text">
 
-        <label>text</label>
-        <textarea [(ngModel)]="selectedTRPolcode.polcode_text" pInputTextarea [autoResize]="true"></textarea>
+          <!-- <div class=" field col-12 ">
+            <label for="lastname2">Text</label>
+            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" 
+                [step]="1" [(ngModel)]="selectedTRPolcode.polcode_order">
+            </p-inputNumber>
+        </div> -->
 
-        <label>order</label>
-        <textarea [(ngModel)]="selectedTRPolcode.polcode_order" pInputTextarea [autoResize]="true"></textarea>
+          <label>Text</label>
+          <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_order">
 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <button *ngIf=" edit_TRPolcode" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="confirmRecord()"></button>
+        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="confirmDelete()"></button>
     </div>
-
 </div>
 
-
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadTRPolcode()" label="{{title_upload}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
 <!-- -----------------End Dialog Choose File-------------------- -->
 
 <!-- ConfirmDialog and toast Noti -->
-<!-- <p-toast position="top-right"></p-toast>
+<p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog> -->
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
+

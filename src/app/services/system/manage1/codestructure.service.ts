@@ -4,11 +4,11 @@ import { AppConfig } from '../../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { InitialCurrent } from '../../../config/initial_current';
-import { MajorModel } from 'src/app/models/system/policy/major';
+import { CodestructureModel } from 'src/app/models/system/policy/codestructure';
 @Injectable({
   providedIn: 'root'
 })
-export class MajorService {
+export class CodestructureService {
 
     public config:AppConfig = new AppConfig();
 
@@ -57,10 +57,10 @@ export class MajorService {
       }
     }
 
-    public major_get(){
-      console.log('MAJ001..');
+    public codestructure_get(){
+      console.log('CODE001..');
 
-      return this.http.post<any>(this.config.ApiSystemModule + '/major_list', this.basicRequest, this.options).toPromise()
+      return this.http.post<any>(this.config.ApiSystemModule + '/codestructure_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         console.log(res)
@@ -68,17 +68,16 @@ export class MajorService {
       });
     }
 
-    public major_record(model:MajorModel) {
-      console.log('MAJ002..');
+    public codestructure_record(model:CodestructureModel) {
+      console.log('CODE002..');
       const data = {
-        major_id: model.major_id,
-        major_code: model.major_code,
-        major_name_th: model.major_name_th,
-        major_name_en: model.major_name_en,
+        codestructure_code: model.codestructure_code,
+        codestructure_name_th: model.codestructure_name_th,
+        codestructure_name_en: model.codestructure_name_en,
         modified_by: this.initial_current.Username
       };
 
-      return this.http.post<any>(this.config.ApiSystemModule + '/major', data, this.options).toPromise()
+      return this.http.post<any>(this.config.ApiSystemModule + '/codestructure', data, this.options).toPromise()
       .then((res) => {
 
         console.log(res)
@@ -86,22 +85,21 @@ export class MajorService {
       });
     }
 
-    public major_delete(model:MajorModel) {
-      console.log('MAJ003..');
+    public codestructure_delete(model:CodestructureModel) {
+      console.log('CODE003..');
       const data = {
-        major_id: model.major_id,
-        major_code: model.major_code,
+        codestructure_code: model.codestructure_code,
         modified_by: this.initial_current.Username
       };
 
-      return this.http.post<any>(this.config.ApiSystemModule + '/major_del', data, this.options).toPromise()
+      return this.http.post<any>(this.config.ApiSystemModule + '/codestructure_del', data, this.options).toPromise()
       .then((res) => {
         return res;
       });
     }
 
 
-    public major_import(file: File, file_name:string, file_type:string){
+    public codestructure_import(file: File, file_name:string, file_type:string){
 
       const formData = new FormData();
       formData.append('file', file);
@@ -110,7 +108,7 @@ export class MajorService {
         para += "&token=" + this.initial_current.Token;
         para += "&by=" + this.initial_current.Username;
 
-      return this.http.post<any>(this.config.ApiSystemModule + '/doUploadmajor?' + para, formData).toPromise()
+      return this.http.post<any>(this.config.ApiSystemModule + '/doUploadCodestructure?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });
@@ -118,7 +116,4 @@ export class MajorService {
 
     }
 
-
-
-
-  }
+}

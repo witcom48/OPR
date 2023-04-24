@@ -40,6 +40,7 @@ import { ComlocationlistComponent } from './system-manage/sys-comlocation/comloc
 
 import { RoundComponent } from './system-manage/round/round.component';
 import { AddRounComponent } from './system-manage/round/add-roun/add-roun.component';
+import { CodestructureComponent } from './system-manage/codestructure/codestructure.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -82,7 +83,9 @@ import { AddRounComponent } from './system-manage/round/add-roun/add-roun.compon
         { path: 'sys-comlocationlist', component: ComlocationlistComponent },
         { path: 'sys-roundComponent', component: RoundComponent },
         { path: 'sys-addroun', component: AddRounComponent },
+        { path: 'sys-codestructure', component: CodestructureComponent },
 
+        
         
         
 

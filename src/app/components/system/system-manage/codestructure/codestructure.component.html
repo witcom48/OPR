@@ -1,9 +1,10 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- Link Page -->
- <div class="path">
+<div class="path">
     <span>System</span>
     <div>
         <i></i>
-        <a routerLink="/system/genaral">Genaral</a>
+        <a routerLink="/system/sys-manage">Manage</a>
         <i></i>
         <small>{{title_page}}</small>
     </div>
@@ -20,11 +21,11 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="cardtype_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-        selectionMode="single" [(selection)]="selectedCardtype" (onRowSelect)="onRowSelectCardtype($event)" [rows]="12"
+        <p-table #dt2 [value]="codestructure_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+        selectionMode="single" [(selection)]="selectedcodestructure" (onRowSelect)="onRowSelectCodestructure($event)" [rows]="12"
         [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
         currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['cardtype_code','cardtype_name_th','cardtype_name_en']">
+        [globalFilterFields]="['major_code','major_name_th','major_name_en']">
         <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -41,17 +42,17 @@
                     <th>{{title_code}}</th>
                         <th>{{title_name_th}}</th>
                         <th>{{title_name_en}}</th>
-                        <th>{{title_modified_by}}</th>
-                        <th>{{title_modified_date}}</th>
+                        <!-- <th>{{title_modified_by}}</th>
+                        <th>{{title_modified_date}}</th> -->
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data>
                 <tr [pSelectableRow]="data">
-                    <td>{{data.cardtype_code}}</td>
-                        <td>{{data.cardtype_name_th}}</td>
-                        <td>{{data.cardtype_name_en}}</td>
-                        <td>{{data.modified_by}}</td>
-                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <td>{{data.codestructure_code}}</td>
+                        <td>{{data.codestructure_name_th}}</td>
+                        <td>{{data.codestructure_name_en}}</td>
+                        <!-- <td>{{data.modified_by}}</td>
+                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td> -->
                 </tr>
             </ng-template>
         </p-table>
@@ -59,18 +60,18 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data===true">
+    <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedCardtype.cardtype_code" maxlength="5"  [readonly]="edit_data" />
-        <p>{{selectedCardtype.cardtype_code.length}}/5</p>
+        <input pInputText type="text" [(ngModel)]="selectedcodestructure.codestructure_code" maxlength="5"  [readonly]="edit_data" />
+        <p>{{selectedcodestructure.codestructure_code.length}}/5</p>
 
         <label>{{title_name_th}}</label>
-        <textarea [(ngModel)]="selectedCardtype.cardtype_name_th" pInputTextarea [autoResize]="true"></textarea>
+        <textarea [(ngModel)]="selectedcodestructure.codestructure_name_th" pInputTextarea [autoResize]="true"></textarea>
 
         <label>{{title_name_en}}</label>
-        <textarea [(ngModel)]="selectedCardtype.cardtype_name_en" pInputTextarea [autoResize]="true"></textarea>
+        <textarea [(ngModel)]="selectedcodestructure.codestructure_name_en" pInputTextarea [autoResize]="true"></textarea>
 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
@@ -86,7 +87,7 @@
         <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadCardtype()" label="{{title_upload}}"
+        <p-button icon="pi pi-upload" (click)="doUploadCodestructure()" label="{{title_upload}}"
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>

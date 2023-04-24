@@ -43,12 +43,9 @@ export class AddCodestructureComponent implements OnInit {
   public initial_current:InitialCurrent = new InitialCurrent();
   doGetInitialCurrent(){
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
-
-    // this.initial_current = JSON.parse(localStorage.getItem(Initial.SESSIONInitial));
     if (this.initial_current) {
         this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
 
-    //   this.initial_current = JSON.parse(localStorage.getItem(Initial.SESSIONInitial));
     }
   }
 
@@ -82,35 +79,19 @@ export class AddCodestructureComponent implements OnInit {
   }
 
   public codeStrucList!: CodestructureModel[];
-
   doGetStrucList(){
-
     this.codeStrucList = [];
-
-    // this.polcodeService.getStructureList().then((response) =>{
-
-    //   let resultJSON = JSON.parse(response);
-
-    //   if(resultJSON.result == "1"){
-    //     this.codeStrucList = resultJSON.data;
-    //   }
-
-    // });
-
   }
-
   setFormatLenght($event: { target: { value: string; }; })
   {
     $event.target.value = parseFloat($event.target.value).toFixed(0);
     this.data.polcode_lenght = $event.target.value;
   }
-
   setFormatOrder($event: { target: { value: string; }; })
   {
     $event.target.value = parseFloat($event.target.value).toFixed(0);
     this.data.polcode_order = $event.target.value;
   }
-
   doSubmit() {
     this.dialogRef.close({codestructure_code: this.data.codestructure_code
       , polcode_lenght: this.data.polcode_lenght
@@ -118,6 +99,5 @@ export class AddCodestructureComponent implements OnInit {
       , polcode_order: this.data.polcode_order
      });
   }
-
 }
 
