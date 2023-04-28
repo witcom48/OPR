@@ -1,4 +1,7 @@
 export class WorkflowModel {
+  forEach(arg0: (element: any) => void) {
+    throw new Error('Method not implemented.');
+  }
   constructor() {
 
   }

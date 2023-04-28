@@ -27,7 +27,7 @@ export class SelfWorkflowComponent implements OnInit {
     private workflowService: WorkflowServices,
     private router: Router,
   ) { }
-  TypeList: Type[] = [{ name: "Leave", code: "LEAVE" }, { name: "Shift", code: "SHIFT" }];
+  TypeList: Type[] = [];
   selectedtype: any;
   items_menu: MenuItem[] = [];
   new_data: boolean = false
@@ -44,6 +44,13 @@ export class SelfWorkflowComponent implements OnInit {
     this.selectlang = this.initial_current.Language;
   }
   ngOnInit(): void {
+    this.TypeList = [
+      { code: 'LEA', name: this.langs.get('leavereq')[this.selectlang] },
+      { code: 'OT', name: this.langs.get('otreq')[this.selectlang] },
+      { code: 'DAT', name: this.langs.get('daytypereq')[this.selectlang] },
+      { code: 'SHT', name: this.langs.get('shiftreq')[this.selectlang] },
+      { code: 'ONS', name: this.langs.get('onsitereq')[this.selectlang] },
+    ];
     this.doGetInitialCurrent()
     this.doLoadMenu()
     this.doLoadWorkflow()
@@ -73,6 +80,7 @@ export class SelfWorkflowComponent implements OnInit {
       totalapp += 1
     }
     data.totalapprove = totalapp;
+    data.workflow_type = this.selectedtype.code;
     await this.workflowService.workflow_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -133,12 +141,16 @@ export class SelfWorkflowComponent implements OnInit {
     ];
   }
   selectType() {
+    console.log(this.selectedtype)
     this.selectedWorkflow.workflow_type = this.selectedtype.code;
   }
   onRowSelect(event: Event) {
     this.new_data = true
     this.edit_data = true;
     this.selectedtype = this.TypeList.find(({ code }) => code === this.selectedWorkflow.workflow_type);
+  }
+  typename(codemodel: string) {
+    return this.TypeList.find(({ code }) => code === codemodel)?.name;
   }
   close() {
     this.new_data = false

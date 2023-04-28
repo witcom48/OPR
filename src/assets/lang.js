@@ -568,4 +568,9 @@ var workflow = new Map([
     ["monthly", { TH: "รายเดือน", EN: "Monthly" }],
     ["daily", { TH: "รายวัน", EN: "Daily" }],
     ["step", { TH: "ลำดับ", EN: "Step" }],
+    ["leavereq", { TH: "ลางาน", EN: "Leave" }],
+    ["otreq", { TH: "โอที", EN: "Overtime" }],
+    ["daytypereq", { TH: "เปลี่ยนประเภทวัน", EN: "Daytype" }],
+    ["shiftreq", { TH: "เปลี่ยนกะ", EN: "Shift" }],
+    ["onsitereq", { TH: "ทึกการลงเวลา", EN: "Onsite" }],
 ]);
