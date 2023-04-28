@@ -227,6 +227,8 @@
                         </div>
                     </div>
                     <!-- end resign form-->
+
+                    <!-- Location -->
                     <div class="accordion">
                         <p-accordion>
                             <p-accordionTab header="{{title_emplocation}}">
@@ -264,6 +266,7 @@
                         <br>
                     </div>
 
+                    <!-- Branch -->
                     <div class="accordion">
                         <p-accordion>
                             <p-accordionTab header="{{title_empbranch}}">
@@ -290,6 +293,43 @@
                                             <td>{{empbranch.empbranch_note}}</td>
                                             <td>{{empbranch.modified_by}}</td>
                                             <td>{{empbranch.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+
+                    <div class="horizontal">
+                        <br>
+                    </div>
+
+                     <!-- Suggest -->
+                     <div class="accordion">
+                        <p-accordion>
+                            <p-accordionTab header="{{title_suggest}}">
+                                <p-menubar [model]="menu_empsuggest"></p-menubar>
+                                <p-table #dtempsuggest [value]="empsuggestList" styleClass="p-datatable-sm"
+                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpSuggest"
+                                    (onRowSelect)="onRowSelectEmpSuggest($event)" [rows]="10"
+                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                    [paginator]="true"
+                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>ผู้แนะนำ</th>
+                                            <th>เพิ่มเติม</th>
+                                            <th>ผู้ทำรายการ</th>
+                                            <th>วันที่ทำรายการ</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-empsuggest>
+                                        <tr [pSelectableRow]="empsuggest">
+                                            <td>{{empsuggest.empsuggest_code}}</td>
+                                            <td>{{empsuggest.empsuggest_note}}</td>
+                                            <td>{{empsuggest.modified_by}}</td>
+                                            <td>{{empsuggest.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
@@ -852,6 +892,45 @@
                                                 <td>{{empsupply.empsupply_note}}</td>
                                                 <td>{{empsupply.modified_by}}</td>
                                                 <td>{{empsupply.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <!-- Uniform -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_uniform}}">
+                                    <p-menubar [model]="menu_empuniform"></p-menubar>
+                                    <p-table #dtempuniform [value]="empuniformList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpUniform"
+                                        (onRowSelect)="onRowSelectEmpUniform($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>วันที่เบิก</th>
+                                                <th>ประเภทชุด</th>
+                                                <th>จำนวน</th>
+                                                <th>ราคา</th>
+                                                <th>รายละเอียด</th>
+                                                <th>ผู้ทำรายการ</th>
+                                                <th>วันที่ทำรายการ</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empuniform>
+                                            <tr [pSelectableRow]="empuniform">
+                                                <td>{{empuniform.empuniform_issuedate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empuniform.empuniform_code}}</td>
+                                                <td>{{empuniform.empuniform_qauntity}}</td>
+                                                <td>{{empuniform.empuniform_amount}}</td>
+                                                <td>{{empuniform.empuniform_note}}</td>
+                                                <td>{{empuniform.modified_by}}</td>
+                                                <td>{{empuniform.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
                                         </ng-template>
                                     </p-table>
@@ -1748,6 +1827,59 @@
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empsupply_summit()"></button>
         <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
             (click)="empsupply_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Uniform -->
+    <div class="formatt" *ngIf="edit_empuniform==true || new_uniform==true">
+        <label>วันที่เบิก</label>
+        <p-calendar dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedEmpUniform.empuniform_issuedate"><input type="text"></p-calendar>
+
+        <label>เครื่องแบบ</label>
+        <p-dropdown placeholder="--" [showClear]="true"
+            [(ngModel)]="selectedEmpUniform.empuniform_code" [style]="{ width: '100%', overflow: 'visible' }">
+        </p-dropdown>
+
+        <label>จำนวน</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
+            [(ngModel)]="selectedEmpUniform.empuniform_qauntity" [minFractionDigits]="2" [maxFractionDigits]="2">
+        </p-inputNumber>
+
+        <label>ราคา</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
+            [(ngModel)]="selectedEmpUniform.empuniform_amount" [minFractionDigits]="2" [maxFractionDigits]="2" >
+        </p-inputNumber>
+
+        <label>รายละเอียด</label>
+        <textarea [(ngModel)]="selectedEmpUniform.empuniform_note" pInputTextarea [autoResize]="true"></textarea>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empuniform_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empuniform_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Suggest -->
+    <div class="formatt" *ngIf="edit_empsuggest==true || new_suggest==true">
+        <label>ผู้แนะนำ</label>
+        <p-dropdown placeholder="--" [options]="suggest_List" optionValue="worker_code"  [showClear]="true"
+            [(ngModel)]="selectedEmpSuggest.empsuggest_code" [style]="{ width: '100%', overflow: 'visible' }"
+            [filter]="true" filterBy="worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th : item.worker_fname_en +" "+item.worker_lname_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th : item.worker_fname_en +" "+item.worker_lname_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <label>เพิ่มเติม</label>
+        <textarea [(ngModel)]="selectedEmpSuggest.empsuggest_note" pInputTextarea [autoResize]="true"></textarea>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empsuggest_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="empsuggest_cancel()"></button>
     </div>
 
     <!-- Form Emp Training -->

@@ -25,6 +25,8 @@ import { EmpBenefitsModel } from '../../../models/employee/manage/benefits';
 import { EmpReduceModel } from '../../../models/employee/manage/reduce';
 import { EmpAccumalateModel } from '../../../models/employee/manage/accumalate';
 import { PositionModel } from '../../../models/employee/policy/position';
+import { EmpSupplyModel } from 'src/app/models/employee/manage/empsupply';
+import { EmpUniformModel } from 'src/app/models/employee/manage/empuniform';
 
 //import service
 import { EmployeeService } from '../../../services/emp/worker.service';
@@ -64,7 +66,7 @@ import { EmpGroupModel } from 'src/app/models/employee/manage/empgroup';
 import { GroupService } from 'src/app/services/emp/policy/group.service';
 import { GroupModel } from 'src/app/models/employee/policy/group';
 import { LevelModel } from 'src/app/models/system/policy/level';
-import { EmpSupplyModel } from 'src/app/models/employee/manage/empsupply';
+import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
 
 
 
@@ -167,6 +169,14 @@ export class EmployeeManageComponent implements OnInit {
   menu_empsupply: MenuItem[] = [];
   edit_empsupply: boolean = false;
   new_supply: boolean = false;
+  //menu empuniform
+  menu_empuniform: MenuItem[] = [];
+  edit_empuniform: boolean = false;
+  new_uniform: boolean = false;
+  //menu empsuggest
+  menu_empsuggest: MenuItem[] = [];
+  edit_empsuggest: boolean = false;
+  new_suggest: boolean = false;
   //menu emptraining
   menu_emptraining: MenuItem[] = [];
   edit_emptraining: boolean = false;
@@ -280,6 +290,8 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadHospitalList();
     this.doLoadDepLiat();
 
+    this.doLoadSuggestList();
+
     setTimeout(() => {
       this.doLoadMenu();
     }, 100);
@@ -357,6 +369,8 @@ export class EmployeeManageComponent implements OnInit {
   title_training: string = "Training";
   title_education: string = "Education";
   title_supply: string = "Office Supply";
+  title_uniform: string = "Uniform";
+  title_suggest: string = "Suggest";
   title_assessment: string = "Assessment";
   title_criminal: string = "Criminal Record";
   title_resignrecord: string = "Resign Record";
@@ -445,6 +459,8 @@ export class EmployeeManageComponent implements OnInit {
       this.title_empgroup = 'กลุ่มพนักงาน';
       this.title_education = 'ประวัติการศึกษา';
       this.title_supply = 'อุปกรณ์สำนักงาน';
+      this.title_uniform = 'เครื่องแบบพนักงาน';
+      this,this.title_suggest = 'ผู้แนะนำ';
       this.title_training = 'ประวัติการอบรม';
       this.title_assessment = 'ประวัติการประเมิน';
       this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
@@ -1058,6 +1074,90 @@ export class EmployeeManageComponent implements OnInit {
           console.log("EXPORT");
         }
       }]
+
+      //menu Uniform
+    this.menu_empuniform = [
+      {
+        label: 'New',
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.clearManage()
+          this.new_uniform = true
+          var ref = this.empuniformList.length + 100
+          this.selectedEmpUniform = new EmpUniformModel()
+          this.selectedEmpUniform.empuniform_id = ref.toString()
+          this.showManage()
+        }
+      },
+      {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedEmpUniform != null) {
+            this.edit_empuniform = true
+            this.showManage()
+          }
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          if (this.selectedEmpUniform != null) {
+            this.empuniform_remove();
+          }
+        }
+      },
+      {
+        label: 'Import',
+        icon: 'pi pi-fw pi-file-import',
+        command: (event) => {
+        }
+      },
+      {
+        label: 'Export',
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+        }
+      }]
+
+      //menu Suggest
+    this.menu_empsuggest = [
+      {
+        label: 'New',
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.clearManage()
+          this.new_suggest = true
+          var ref = this.empsuggestList.length + 100
+          this.selectedEmpSuggest = new EmpSuggestModel()
+          this.selectedEmpSuggest.empsuggest_id = ref.toString()
+          this.showManage()
+        }
+      },
+      {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedEmpSuggest != null) {
+            this.edit_empsuggest = true
+            this.showManage()
+          }
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          if (this.selectedEmpSuggest != null) {
+            this.empsuggest_remove();
+          }
+        }
+      },
+      ]
+
     //menu training
     this.menu_emptraining = [
       {
@@ -1453,6 +1553,12 @@ export class EmployeeManageComponent implements OnInit {
     this.edit_empsupply = false;
     this.new_supply = false;
     //
+    this.edit_empuniform = false;
+    this.new_uniform = false;
+    //
+    this.edit_empsuggest = false;
+    this.new_suggest = false;
+    //
     this.edit_emptraining = false;
     this.new_training = false;
     //
@@ -1529,6 +1635,12 @@ export class EmployeeManageComponent implements OnInit {
       else if (this.new_supply || this.edit_empsupply) {
         this.manage_title = "Office Supply"
       }
+      else if (this.new_uniform || this.edit_empuniform) {
+        this.manage_title = "Uniform"
+      }
+      else if (this.new_suggest || this.edit_empsuggest) {
+        this.manage_title = "Suggest"
+      }
       else if (this.new_training || this.edit_emptraining) {
         this.manage_title = "Training"
       }
@@ -1596,6 +1708,12 @@ export class EmployeeManageComponent implements OnInit {
       else if (this.new_supply || this.edit_empsupply) {
         this.manage_title = "อุปกรณ์สำนักงาน"
       }
+      else if (this.new_uniform || this.edit_empuniform) {
+        this.manage_title = "เครื่องแบบพนักงาน"
+      }
+      else if (this.new_suggest || this.edit_empsuggest) {
+        this.manage_title = "ผู้แนะนำ"
+      }
       else if (this.new_training || this.edit_emptraining) {
         this.manage_title = "ประวัติการอบรม"
       }
@@ -1658,6 +1776,8 @@ export class EmployeeManageComponent implements OnInit {
           this.doLoadEmpGroupList();
           this.doLoadEmpeducationList();
           this.doLoadEmpSupplyList();
+          this.doLoadEmpUniformList();
+          this.doLoadEmpSuggestList();
           this.doLoadEmptrainingList();
           this.doLoadEmpassessmentList();
           this.doLoadEmpcriminalList();
@@ -1772,6 +1892,13 @@ export class EmployeeManageComponent implements OnInit {
     var tmp = new LevelModel();
     this.depService.dep_get(tmp).then(async(res)=>{
       this.depList = await res ;
+    })
+  }
+  suggest_List: EmployeeModel []=[];
+  doLoadSuggestList(){
+    var tmp = new EmployeeModel();
+    this.employeeService.worker_get(this.initial_current.CompCode,"").then(async(res)=>{
+      this.suggest_List = await res;
     })
   }
 
@@ -2454,6 +2581,137 @@ export class EmployeeManageComponent implements OnInit {
     });
   }
 
+  //emp uniform
+  empuniformList: EmpUniformModel[] = [];
+  selectedEmpUniform: EmpUniformModel = new EmpUniformModel();
+  doLoadEmpUniformList() {
+    this.empdetailService.getworker_uniform(this.initial_current.CompCode, this.emp_code).then(async (res) => {
+      await res.forEach((element: EmpUniformModel) => {
+        element.empuniform_issuedate = new Date(element.empuniform_issuedate)
+        
+      })
+      console.log(res)
+      this.empuniformList = await res;
+      if (this.empuniformList.length > 0) {
+        this.selectedEmpUniform = this.empuniformList[0];
+      }
+    })
+  }
+  onRowSelectEmpUniform(event: Event) { }
+  empuniform_summit() {
+    this.empuniform_addItem(this.selectedEmpUniform)
+    this.new_uniform = false
+    this.edit_empuniform = false
+    this.displayManage = false
+  }
+  empuniform_remove() {
+    this.selectedEmpUniform.empuniform_id = "9999";
+    this.empuniform_addItem(this.selectedEmpUniform)
+    this.new_uniform = false
+    this.edit_empuniform = false
+  }
+  empuniform_delete() { }
+  empuniform_cancel() {
+    this.new_uniform = false
+    this.edit_empuniform = false
+    this.displayManage = false
+  }
+  empuniform_addItem(model: EmpUniformModel) {
+    const itemNew: EmpUniformModel[] = [];
+    for (let i = 0; i < this.empuniformList.length; i++) {
+      if (this.empuniformList[i].empuniform_id == model.empuniform_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.empuniformList[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.empuniform_id != "9999") {
+      itemNew.push(model);
+    }
+    this.empuniformList = [];
+    this.empuniformList = itemNew;
+    this.empuniformList.sort(function (a, b) { return parseInt(a.empuniform_id) - parseInt(b.empuniform_id); })
+  }
+  record_empuniform() {
+    if (this.empuniformList.length == 0) {
+      return
+    }
+    this.empdetailService.record_empuniform(this.selectedEmployee.worker_code, this.empuniformList).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+      }
+      else {
+      }
+    });
+  }
+
+  //emp suggest
+  empsuggestList: EmpSuggestModel[] = [];
+  selectedEmpSuggest: EmpSuggestModel = new EmpSuggestModel();
+  doLoadEmpSuggestList() {
+    this.empdetailService.getworker_suggest(this.initial_current.CompCode, this.emp_code).then(async (res) => {
+      await res.forEach((element: EmpSuggestModel) => {
+        element.empsuggest_date = new Date(element.empsuggest_date)
+        
+      })
+      this.empsuggestList = await res;
+      if (this.empsuggestList.length > 0) {
+        this.selectedEmpSuggest = this.empsuggestList[0];
+      }
+    })
+  }
+  onRowSelectEmpSuggest(event: Event) { }
+  empsuggest_summit() {
+    this.empsuggest_addItem(this.selectedEmpSuggest)
+    this.new_suggest = false
+    this.edit_empsuggest = false
+    this.displayManage = false
+  }
+  empsuggest_remove() {
+    this.selectedEmpSuggest.empsuggest_id = "9999";
+    this.empsuggest_addItem(this.selectedEmpSuggest)
+    this.new_suggest = false
+    this.edit_empsuggest = false
+  }
+  empsuggest_delete() { }
+  empsuggest_cancel() {
+    this.new_suggest = false
+    this.edit_empsuggest = false
+    this.displayManage = false
+  }
+  empsuggest_addItem(model: EmpSuggestModel) {
+    const itemNew: EmpSuggestModel[] = [];
+    for (let i = 0; i < this.empsuggestList.length; i++) {
+      if (this.empsuggestList[i].empsuggest_id == model.empsuggest_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.empsuggestList[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.empsuggest_id != "9999") {
+      itemNew.push(model);
+    }
+    this.empsuggestList = [];
+    this.empsuggestList = itemNew;
+    this.empsuggestList.sort(function (a, b) { return parseInt(a.empsuggest_id) - parseInt(b.empsuggest_id); })
+  }
+  record_empsuggest() {
+    if (this.empsuggestList.length == 0) {
+      return
+    }
+    this.empdetailService.record_empsuggest(this.selectedEmployee.worker_code, this.empsuggestList).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+      }
+      else {
+      }
+    });
+  }
+
   //training
   emptrainingList: EmpTrainingModel[] = [];
   selectedEmptraining: EmpTrainingModel = new EmpTrainingModel();
@@ -3090,6 +3348,8 @@ export class EmployeeManageComponent implements OnInit {
         this.record_empgroup();
         this.record_empeducation();
         this.record_empsupply();
+        this.record_empuniform();
+        this.record_empsuggest();
         this.record_emptraining();
         this.record_empassessment();
         this.record_empcriminal();
@@ -3130,6 +3390,8 @@ export class EmployeeManageComponent implements OnInit {
     this.new_group = false; this.edit_empgroup = false;
     this.new_education = false; this.edit_empeducation = false;
     this.new_supply = false; this.edit_empsupply = false;
+    this.new_uniform = false; this.edit_empuniform = false;
+    this.new_suggest = false; this.edit_empsuggest = false;
     this.new_training = false; this.edit_emptraining = false;
     this.new_assessment = false; this.edit_empassessment = false;
     this.new_criminal = false; this.edit_empcriminal = false;

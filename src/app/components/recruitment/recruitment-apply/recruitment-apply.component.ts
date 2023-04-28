@@ -95,8 +95,8 @@ export class RecruitmentApplyComponent implements OnInit {
     items: MenuItem[] = [];
     items_tab: MenuItem[] = [];
 
-    employee_list: EmployeeModel[] = [];
-    selectedEmployee: EmployeeModel = new EmployeeModel();
+    reqworkerList: EmployeeModel[] = [];
+    selectedReqworker: EmployeeModel = new EmployeeModel();
 
     applywork_list: ApplyworkModel[] = [];
     selectedApplywork: ApplyworkModel = new ApplyworkModel();
@@ -114,10 +114,6 @@ export class RecruitmentApplyComponent implements OnInit {
     menu_emplocation: MenuItem[] = [];
     edit_emplocation: boolean = false;
     new_emplocation: boolean = false;
-    //menu empbranch
-    menu_empbranch: MenuItem[] = [];
-    edit_empbranch: boolean = false;
-    new_empbranch: boolean = false;
     ///////////////////////////////////menu reqaddress
     menu_reqaddress: MenuItem[] = [];
     edit_reqaddress: boolean = false;
@@ -126,30 +122,10 @@ export class RecruitmentApplyComponent implements OnInit {
     menu_reqcard: MenuItem[] = [];
     edit_reqcard: boolean = false;
     new_card: boolean = false;
-    //menu empbank
-    menu_empbank: MenuItem[] = [];
-    edit_empbank: boolean = false;
-    new_bank: boolean = false;
-    //menu empfamily
-    menu_empfamily: MenuItem[] = [];
-    edit_empfamily: boolean = false;
-    new_family: boolean = false;
-    //menu emphospital
-    menu_emphospital: MenuItem[] = [];
-    edit_emphospital: boolean = false;
-    new_hospital: boolean = false;
     ///////////////////////////////////menu reqforeigner
     menu_reqforeigner: MenuItem[] = [];
     edit_reqforeigner: boolean = false;
     new_foreigner: boolean = false;
-    //menu empfamily
-    menu_empdep: MenuItem[] = [];
-    edit_empdep: boolean = false;
-    new_dep: boolean = false;
-    //menu empposition
-    menu_empposition: MenuItem[] = [];
-    edit_empposition: boolean = false;
-    new_position: boolean = false;
     /////////////////////////////////////menu reqeducation
     menu_reqeducation: MenuItem[] = [];
     edit_reqeducation: boolean = false;
@@ -158,38 +134,6 @@ export class RecruitmentApplyComponent implements OnInit {
     menu_reqtraining: MenuItem[] = [];
     edit_reqtraining: boolean = false;
     new_training: boolean = false;
-    //menu empassessment
-    menu_empassessment: MenuItem[] = [];
-    edit_empassessment: boolean = false;
-    new_assessment: boolean = false;
-    //menu empcriminal
-    menu_empcriminal: MenuItem[] = [];
-    edit_empcriminal: boolean = false;
-    new_criminal: boolean = false;
-    //menu empsalary
-    menu_empsalary: MenuItem[] = [];
-    edit_empsalary: boolean = false;
-    new_salary: boolean = false;
-    //menu empprovident
-    menu_empprovident: MenuItem[] = [];
-    edit_empprovident: boolean = false;
-    new_provident: boolean = false;
-    //menu empbenefit
-    menu_empbenefit: MenuItem[] = [];
-    edit_empbenefit: boolean = false;
-    new_benefit: boolean = false;
-    //menu empreduce
-    menu_empreduce: MenuItem[] = [];
-    edit_empreduce: boolean = false;
-    new_reduce: boolean = false;
-    //menu empaccumalate
-    menu_empaccumalate: MenuItem[] = [];
-    edit_empaccumalate: boolean = false;
-    new_accumalate: boolean = false;
-    //menu emptranfer
-    menu_emptranfer: MenuItem[] = [];
-    edit_emptranfer: boolean = false;
-    new_tranfer: boolean = false;
 
     displayManage: boolean = false;
 
@@ -207,9 +151,6 @@ export class RecruitmentApplyComponent implements OnInit {
 
         //service
         private initialService: InitialService,
-        private emptypeService: EmptypeService,
-        private empstatusService: EmpstatusService,
-        private positionService: PositionService,
         private religionService: ReligionService,
         private bloodtypeService: BloodtypeService,
         private cardtypeService: CardtypeService,
@@ -519,41 +460,6 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
         ];
-        //menu branch
-        this.menu_empbranch = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.clearManage();
-                    this.new_empbranch = true;
-                    var ref = this.empbranchList.length + 100;
-                    this.selectedEmpbranch = new EmpBranchModel();
-                    this.selectedEmpbranch.empbranch_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.clearManage();
-                    if (this.selectedEmpbranch != null) {
-                        this.edit_empbranch = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpbranch != null) {
-                        this.empbranch_remove();
-                    }
-                },
-            },
-        ];
         //menu address
         this.menu_reqaddress = [
             {
@@ -646,204 +552,6 @@ export class RecruitmentApplyComponent implements OnInit {
                 command: (event) => {},
             },
         ];
-        //menu bank
-        this.menu_empbank = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.clearManage();
-                    this.new_bank = true;
-                    var ref = this.empbankList.length + 100;
-                    this.selectedEmpbank = new EmpbankModel();
-                    this.selectedEmpbank.bank_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.clearManage();
-                    if (this.selectedEmpbank != null) {
-                        this.edit_empbank = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpbank != null) {
-                        this.empbank_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {},
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
-            },
-        ];
-        //menu family
-        this.menu_empfamily = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.clearManage();
-                    this.new_family = true;
-                    var ref = this.empfamilyList.length + 100;
-                    this.selectedEmpfamily = new EmpFamilyModel();
-                    this.selectedEmpfamily.family_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.clearManage();
-                    if (this.selectedEmpfamily != null) {
-                        this.edit_empfamily = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpfamily != null) {
-                        this.empfamily_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
-        ];
-        //menu hospital
-        this.menu_emphospital = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    console.log('NEW');
-                    this.clearManage();
-                    this.new_hospital = true;
-                    var ref = this.emphospitalList.length + 100;
-                    this.selectedEmphospital = new EmpHospitalModel();
-                    this.selectedEmphospital.emphospital_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    console.log('EDIT');
-                    this.clearManage();
-                    if (this.selectedEmphospital != null) {
-                        this.edit_emphospital = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmphospital != null) {
-                        this.emphospital_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
-        ];
-
-        //menu Dep
-        this.menu_empdep = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    console.log('NEW');
-                    this.clearManage();
-                    this.new_dep = true;
-                    var ref = this.empdepList.length + 100;
-                    this.selectedEmpdep = new EmpDepModel();
-                    this.selectedEmpdep.empdep_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    console.log('EDIT');
-                    this.clearManage();
-                    if (this.selectedEmpdep != null) {
-                        this.edit_empdep = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpdep != null) {
-                        this.empdep_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
-        ];
-
         //menu education
         this.menu_reqeducation = [
             {
@@ -946,313 +654,6 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
         ];
-        //menu assessment
-        this.menu_empassessment = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    console.log('NEW');
-                    this.clearManage();
-                    this.new_assessment = true;
-                    var ref = this.empassessmentList.length + 100;
-                    this.selectedEmpassessment = new EmpAssessmentModel();
-                    this.selectedEmpassessment.empassessment_id =
-                        ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    console.log('EDIT');
-                    this.clearManage();
-                    if (this.selectedEmpassessment != null) {
-                        this.edit_empassessment = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpassessment != null) {
-                        this.empassessment_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
-        ];
-        //menu criminal
-        this.menu_empcriminal = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    console.log('NEW');
-                    this.clearManage();
-                    this.new_criminal = true;
-                    var ref = this.empcriminalList.length + 100;
-                    this.selectedEmpcriminal = new EmpCriminalModel();
-                    this.selectedEmpcriminal.empcriminal_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    console.log('EDIT');
-                    this.clearManage();
-                    if (this.selectedEmpcriminal != null) {
-                        this.edit_empcriminal = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpcriminal != null) {
-                        this.empcriminal_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
-        ];
-        //menu salary
-        this.menu_empsalary = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    console.log('NEW');
-                    this.clearManage();
-                    this.new_salary = true;
-                    var ref = this.empsalaryList.length + 100;
-                    this.selectedEmpsalary = new EmpSalaryModel();
-                    this.selectedEmpsalary.empsalary_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    console.log('EDIT');
-                    this.clearManage();
-                    if (this.selectedEmpsalary != null) {
-                        this.edit_empsalary = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpsalary != null) {
-                        this.empsalary_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
-        ];
-        //menu provident
-        this.menu_empprovident = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    console.log('NEW');
-                    this.clearManage();
-                    this.new_provident = true;
-                    var ref = this.empprovidentList.length + 100;
-                    this.selectedEmpprovident = new EmpProvidentModel();
-                    this.selectedEmpprovident.empprovident_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    console.log('EDIT');
-                    this.clearManage();
-                    if (this.selectedEmpprovident != null) {
-                        this.edit_empprovident = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpprovident != null) {
-                        this.empprovident_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
-        ];
-        //menu benefit
-        this.menu_empbenefit = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    console.log('NEW');
-                    this.clearManage();
-                    this.new_benefit = true;
-                    var ref = this.empbenefitList.length + 100;
-                    this.selectedEmpbenefit = new EmpBenefitsModel();
-                    this.selectedEmpbenefit.empbenefit_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    console.log('EDIT');
-                    this.clearManage();
-                    if (this.selectedEmpbenefit != null) {
-                        this.edit_empbenefit = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpbenefit != null) {
-                        this.empbenefit_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
-        ];
-        //menu reduce
-        this.menu_empreduce = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    console.log('NEW');
-                    this.clearManage();
-                    this.new_reduce = true;
-                    var ref = this.empreduceList.length + 100;
-                    this.selectedEmpreduce = new EmpReduceModel();
-                    this.selectedEmpreduce.empreduce_id = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    console.log('EDIT');
-                    this.clearManage();
-                    if (this.selectedEmpreduce != null) {
-                        this.edit_empreduce = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedEmpreduce != null) {
-                        this.empreduce_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
-        ];
     }
 
     tabChange(e: { index: any }) {
@@ -1261,62 +662,20 @@ export class RecruitmentApplyComponent implements OnInit {
         this.edit_emplocation = false;
         this.new_emplocation = false;
         //
-        this.edit_empbranch = false;
-        this.new_empbranch = false;
-        //
         this.edit_reqaddress = false;
         this.new_reqaddress = false;
         //
         this.edit_reqcard = false;
         this.new_card = false;
         //
-        this.edit_empbank = false;
-        this.new_bank = false;
-        //
-        this.edit_empfamily = false;
-        this.new_family = false;
-        //
-        this.edit_emphospital = false;
-        this.new_hospital = false;
-        //
         this.edit_reqforeigner = false;
         this.new_foreigner = false;
-        //
-        this.edit_empdep = false;
-        this.new_dep = false;
-        //
-        this.edit_empposition = false;
-        this.new_position = false;
         //
         this.edit_reqeducation = false;
         this.new_education = false;
         //
         this.edit_reqtraining = false;
         this.new_training = false;
-        //
-        this.edit_empassessment = false;
-        this.new_assessment = false;
-        //
-        this.edit_empcriminal = false;
-        this.new_criminal = false;
-        //
-        this.edit_empsalary = false;
-        this.new_salary = false;
-        //
-        this.edit_empprovident = false;
-        this.new_provident = false;
-        //
-        this.edit_empbenefit = false;
-        this.new_benefit = false;
-        //
-        this.edit_empreduce = false;
-        this.new_reduce = false;
-        //
-        this.edit_empaccumalate = false;
-        this.new_accumalate = false;
-        //
-        this.edit_emptranfer = false;
-        this.new_tranfer = false;
 
         this.displayManage = false;
     }
@@ -1328,133 +687,61 @@ export class RecruitmentApplyComponent implements OnInit {
         if (this.initial_current.Language == 'EN') {
             if (this.new_emplocation || this.edit_emplocation) {
                 this.manage_title = 'Location';
-            } else if (this.new_empbranch || this.edit_empbranch) {
-                this.manage_title = 'Branch';
             } else if (this.new_reqaddress || this.edit_reqaddress) {
                 this.manage_title = 'Address';
             } else if (this.new_card || this.edit_reqcard) {
                 this.manage_title = 'Card';
-            } else if (this.new_bank || this.edit_empbank) {
-                this.manage_title = 'Bank';
-            } else if (this.new_family || this.edit_empfamily) {
-                this.manage_title = 'Family';
-            } else if (this.new_hospital || this.edit_emphospital) {
-                this.manage_title = 'Hospital';
             } else if (this.new_foreigner || this.edit_reqforeigner) {
                 this.manage_title = 'Foreigner';
-            } else if (this.new_dep || this.edit_empdep) {
-                this.manage_title = 'Department';
-            } else if (this.new_position || this.edit_empposition) {
-                this.manage_title = 'Position';
             } else if (this.new_education || this.edit_reqeducation) {
                 this.manage_title = 'Education';
             } else if (this.new_training || this.edit_reqtraining) {
                 this.manage_title = 'Training';
-            } else if (this.new_assessment || this.edit_empassessment) {
-                this.manage_title = 'Assessment';
-            } else if (this.new_criminal || this.edit_empcriminal) {
-                this.manage_title = 'Criminal';
-            } else if (this.new_salary || this.edit_empsalary) {
-                this.manage_title = 'Salary';
-            } else if (this.new_provident || this.edit_empprovident) {
-                this.manage_title = 'Provident';
-            } else if (this.new_benefit || this.edit_empbenefit) {
-                this.manage_title = 'Benefit';
-            } else if (this.new_reduce || this.edit_empreduce) {
-                this.manage_title = 'Reduce';
-            } else if (this.new_accumalate || this.edit_empaccumalate) {
-                this.manage_title = 'Accumalate';
-            } else if (this.new_tranfer || this.edit_emptranfer) {
-                this.manage_title = 'Tranfer';
             }
         } else {
             if (this.new_emplocation || this.edit_emplocation) {
                 this.manage_title = 'สถานที่ปฏิบัติงาน';
-            } else if (this.new_empbranch || this.edit_empbranch) {
-                this.manage_title = 'สาขา';
             } else if (this.new_reqaddress || this.edit_reqaddress) {
                 this.manage_title = 'ที่อยู่';
             } else if (this.new_card || this.edit_reqcard) {
                 this.manage_title = 'ข้อมูลบัตร';
-            } else if (this.new_bank || this.edit_empbank) {
-                this.manage_title = 'ข้อมูลธนาคาร';
-            } else if (this.new_family || this.edit_empfamily) {
-                this.manage_title = 'ข้อมูลครอบครัว';
-            } else if (this.new_hospital || this.edit_emphospital) {
-                this.manage_title = 'ข้อมูลโรงพยาบาล';
             } else if (this.new_foreigner || this.edit_reqforeigner) {
                 this.manage_title = 'ข้อมูลพนักงานต่างด้าว';
-            } else if (this.new_dep || this.edit_empdep) {
-                this.manage_title = 'สังกัด';
-            } else if (this.new_position || this.edit_empposition) {
-                this.manage_title = 'ตำแหน่ง';
             } else if (this.new_education || this.edit_reqeducation) {
                 this.manage_title = 'ประวัติการศึกษา';
             } else if (this.new_training || this.edit_reqtraining) {
                 this.manage_title = 'ประวัติการอบรม';
-            } else if (this.new_assessment || this.edit_empassessment) {
-                this.manage_title = 'ประวัติการประเมิน';
-            } else if (this.new_criminal || this.edit_empcriminal) {
-                this.manage_title = 'ประวัติการตรวจสอบอาชญากรรม';
-            } else if (this.new_salary || this.edit_empsalary) {
-                this.manage_title = 'เงินเดือน/ค่าจ้าง';
-            } else if (this.new_provident || this.edit_empprovident) {
-                this.manage_title = 'กองทุนสำรองเลี้ยงชีพ';
-            } else if (this.new_benefit || this.edit_empbenefit) {
-                this.manage_title = 'สวัสดิการ';
-            } else if (this.new_reduce || this.edit_empreduce) {
-                this.manage_title = 'ค่าลดหย่อน';
-            } else if (this.new_accumalate || this.edit_empaccumalate) {
-                this.manage_title = 'รายได้สะสม/ภาษีสะสม';
-            } else if (this.new_tranfer || this.edit_emptranfer) {
-                this.manage_title = 'ประวัติการโอนย้ายหน่วยงาน';
             }
         }
     }
 
     doLoadApplywork() {
-        var applywork_list: ApplyworkModel[] = [];
+        var reqworker_list: EmployeeModel[] = [];
         this.applyworkService
-            .applywork_get(this.initial_current.CompCode, this.req_code)
+            .reqworker_get(this.initial_current.CompCode, this.req_code)
             .then(async (res) => {
-                await res.forEach((element: ApplyworkModel) => {
-                    element.applywork_birthdate = new Date(
-                        element.applywork_birthdate
+                await res.forEach((element: EmployeeModel) => {
+                    element.worker_birthdate = new Date(
+                        element.worker_birthdate
                     );
-                    element.applywork_startdate = new Date(
-                        element.applywork_startdate
+                    element.worker_hiredate = new Date(
+                        element.worker_hiredate
                     );
-                    //   element.worker_resigndate = new Date(element.worker_resigndate)
-                    //   element.worker_probationdate = new Date(element.worker_probationdate)
-                    //   element.worker_probationenddate = new Date(element.worker_probationenddate)
+                    
                 });
 
-                applywork_list = await res;
+                reqworker_list = await res;
 
-                if (applywork_list.length > 0) {
-                    this.selectedApplywork = applywork_list[0];
+                if (reqworker_list.length > 0) {
+                    this.selectedReqworker = reqworker_list[0];
 
                     setTimeout(() => {
-                        this.doLoadEmplocationList();
-                        this.doLoadEmpbranchList();
-
                         this.doLoadReqaddressList();
                         this.doLoadReqcardList();
-                        this.doLoadEmpbankList();
-                        this.doLoadEmpfamilyList();
-                        this.doLoadEmpHospitalList();
-                        this.doLoadReqForeigner();
-
-                        this.doLoadEmpDepList();
+                        
                         this.doLoadReqeducationList();
                         this.doLoadReqtrainingList();
-                        this.doLoadEmpassessmentList();
-                        this.doLoadEmpcriminalList();
-
-                        this.doLoadEmpsalaryList();
-                        this.doLoadEmpbenefitList();
-                        this.doLoadEmpprovidentList();
-                        this.doLoadEmpreduceList();
+                        
                     }, 300);
                 }
             });
@@ -1686,218 +973,6 @@ export class RecruitmentApplyComponent implements OnInit {
             });
     }
 
-    //bank
-    empbankList: EmpbankModel[] = [];
-    selectedEmpbank: EmpbankModel = new EmpbankModel();
-    doLoadEmpbankList() {
-        this.empdetailService
-            .getworker_bank(this.initial_current.CompCode, this.req_code)
-            .then((res) => {
-                this.empbankList = res;
-                if (this.empbankList.length > 0) {
-                    this.selectedEmpbank = this.empbankList[0];
-                }
-            });
-    }
-    onRowSelectEmpbank(event: Event) {}
-    empbank_summit() {
-        this.empbank_addItem(this.selectedEmpbank);
-        this.new_bank = false;
-        this.edit_empbank = false;
-        this.displayManage = false;
-    }
-    empbank_remove() {
-        this.selectedEmpbank.bank_id = '9999';
-        this.empbank_addItem(this.selectedEmpbank);
-        this.new_bank = false;
-        this.edit_empbank = false;
-    }
-    empbank_delete() {}
-    empbank_cancel() {
-        this.new_bank = false;
-        this.edit_empbank = false;
-        this.displayManage = false;
-    }
-    empbank_addItem(model: EmpbankModel) {
-        const itemNew: EmpbankModel[] = [];
-        for (let i = 0; i < this.empbankList.length; i++) {
-            if (this.empbankList[i].bank_id == model.bank_id) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empbankList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.bank_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empbankList = [];
-        this.empbankList = itemNew;
-        this.empbankList.sort(function (a, b) {
-            return parseInt(a.bank_id) - parseInt(b.bank_id);
-        });
-    }
-    record_empbank() {
-        if (this.empbankList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empbank(this.selectedEmployee.worker_code, this.empbankList)
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
-
-    //family
-    empfamilyList: EmpFamilyModel[] = [];
-    selectedEmpfamily: EmpFamilyModel = new EmpFamilyModel();
-    doLoadEmpfamilyList() {
-        this.empdetailService
-            .getworker_family(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                await res.forEach((element: EmpFamilyModel) => {
-                    element.family_birthdate = new Date(
-                        element.family_birthdate
-                    );
-                });
-                this.empfamilyList = await res;
-                if (this.empfamilyList.length > 0) {
-                    this.selectedEmpfamily = this.empfamilyList[0];
-                }
-            });
-    }
-    onRowSelectEmpFamily(event: Event) {}
-    empfamily_summit() {
-        this.empfamily_addItem(this.selectedEmpfamily);
-        this.new_family = false;
-        this.edit_empfamily = false;
-        this.displayManage = false;
-    }
-    empfamily_remove() {
-        this.selectedEmpfamily.family_id = '9999';
-        this.empfamily_addItem(this.selectedEmpfamily);
-        this.new_bank = false;
-        this.edit_empbank = false;
-    }
-    empfamily_delete() {}
-    empfamily_cancel() {
-        this.new_family = false;
-        this.edit_empfamily = false;
-        this.displayManage = false;
-    }
-    empfamily_addItem(model: EmpFamilyModel) {
-        const itemNew: EmpFamilyModel[] = [];
-        for (let i = 0; i < this.empfamilyList.length; i++) {
-            if (this.empfamilyList[i].family_id == model.family_id) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empfamilyList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.family_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empfamilyList = [];
-        this.empfamilyList = itemNew;
-        this.empfamilyList.sort(function (a, b) {
-            return parseInt(a.family_id) - parseInt(b.family_id);
-        });
-    }
-    record_empfamily() {
-        if (this.empfamilyList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empfamily(
-                this.selectedEmployee.worker_code,
-                this.empfamilyList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
-
-    //hospital
-    emphospitalList: EmpHospitalModel[] = [];
-    selectedEmphospital: EmpHospitalModel = new EmpHospitalModel();
-    doLoadEmpHospitalList() {
-        this.empdetailService
-            .getworker_hospital(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                await res.forEach((element: EmpHospitalModel) => {
-                    element.emphospital_date = new Date(
-                        element.emphospital_date
-                    );
-                });
-                this.emphospitalList = await res;
-                if (this.emphospitalList.length > 0) {
-                    this.selectedEmphospital = this.emphospitalList[0];
-                }
-            });
-    }
-    onRowSelectEmpHospital(event: Event) {}
-    emphospital_summit() {
-        this.emphospital_addItem(this.selectedEmphospital);
-        this.new_hospital = false;
-        this.edit_emphospital = false;
-        this.displayManage = false;
-    }
-    emphospital_remove() {
-        this.selectedEmphospital.emphospital_id = '9999';
-        this.emphospital_addItem(this.selectedEmphospital);
-        this.new_hospital = false;
-        this.edit_emphospital = false;
-    }
-    emphospital_delete() {}
-    emphospital_cancel() {
-        this.new_hospital = false;
-        this.edit_emphospital = false;
-        this.displayManage = false;
-    }
-    emphospital_addItem(model: EmpHospitalModel) {
-        const itemNew: EmpHospitalModel[] = [];
-        for (let i = 0; i < this.emphospitalList.length; i++) {
-            if (
-                this.emphospitalList[i].emphospital_id == model.emphospital_id
-            ) {
-                //-- Notting
-            } else {
-                itemNew.push(this.emphospitalList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.emphospital_id != '9999') {
-            itemNew.push(model);
-        }
-        this.emphospitalList = [];
-        this.emphospitalList = itemNew;
-        this.emphospitalList.sort(function (a, b) {
-            return parseInt(a.emphospital_id) - parseInt(b.emphospital_id);
-        });
-    }
-    record_emphospital() {
-        if (this.emphospitalList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_emphospital(
-                this.selectedEmployee.worker_code,
-                this.emphospitalList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
     // reqforeigner
     reqforeignerList: ReqForeignerModel[] = [];
     selectedReqforeigner: ReqForeignerModel = new ReqForeignerModel();
@@ -1936,74 +1011,6 @@ export class RecruitmentApplyComponent implements OnInit {
             this.selectedApplywork.applywork_code,
             this.selectedReqforeigner
         );
-    }
-
-    //dep
-    empdepList: EmpDepModel[] = [];
-    selectedEmpdep: EmpDepModel = new EmpDepModel();
-    doLoadEmpDepList() {
-        this.empdetailService
-            .getworker_dep(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                await res.forEach((element: EmpDepModel) => {
-                    element.empdep_date = new Date(element.empdep_date);
-                });
-                this.empdepList = await res;
-                if (this.empdepList.length > 0) {
-                    this.selectedEmpdep = this.empdepList[0];
-                }
-            });
-    }
-    onRowSelectEmpDep(event: Event) {}
-    empdep_summit() {
-        this.empdep_addItem(this.selectedEmpdep);
-        this.new_dep = false;
-        this.edit_empdep = false;
-        this.displayManage = false;
-    }
-    empdep_remove() {
-        this.selectedEmpdep.empdep_id = '9999';
-        this.empdep_addItem(this.selectedEmpdep);
-        this.new_dep = false;
-        this.edit_empdep = false;
-    }
-    empdep_delete() {}
-    empdep_cancel() {
-        this.new_dep = false;
-        this.edit_empdep = false;
-        this.displayManage = false;
-    }
-    empdep_addItem(model: EmpDepModel) {
-        const itemNew: EmpDepModel[] = [];
-        for (let i = 0; i < this.empdepList.length; i++) {
-            if (this.empdepList[i].empdep_id == model.empdep_id) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empdepList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.empdep_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empdepList = [];
-        this.empdepList = itemNew;
-        this.empdepList.sort(function (a, b) {
-            return parseInt(a.empdep_id) - parseInt(b.empdep_id);
-        });
-    }
-    record_empdep() {
-        if (this.empdepList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empdep(this.selectedEmployee.worker_code, this.empdepList)
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
     }
 
     //education
@@ -2164,489 +1171,6 @@ export class RecruitmentApplyComponent implements OnInit {
             });
     }
 
-    //Assessment
-    empassessmentList: EmpAssessmentModel[] = [];
-    selectedEmpassessment: EmpAssessmentModel = new EmpAssessmentModel();
-    doLoadEmpassessmentList() {
-        this.empdetailService
-            .getworker_assessment(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                await res.forEach((element: EmpAssessmentModel) => {
-                    element.empassessment_fromdate = new Date(
-                        element.empassessment_fromdate
-                    );
-                    element.empassessment_todate = new Date(
-                        element.empassessment_todate
-                    );
-                });
-                this.empassessmentList = await res;
-                if (this.empassessmentList.length > 0) {
-                    this.selectedEmpassessment = this.empassessmentList[0];
-                }
-            });
-    }
-    onRowSelectEmpassessment(event: Event) {}
-    empassessment_summit() {
-        this.empassessment_addItem(this.selectedEmpassessment);
-        this.new_assessment = false;
-        this.edit_empassessment = false;
-        this.displayManage = false;
-    }
-    empassessment_remove() {
-        this.selectedEmpassessment.empassessment_id = '9999';
-        this.empassessment_addItem(this.selectedEmpassessment);
-        this.new_assessment = false;
-        this.edit_empassessment = false;
-    }
-    empassessment_delete() {}
-    empassessment_cancel() {
-        this.new_assessment = false;
-        this.edit_empassessment = false;
-        this.displayManage = false;
-    }
-    empassessment_addItem(model: EmpAssessmentModel) {
-        const itemNew: EmpAssessmentModel[] = [];
-        for (let i = 0; i < this.empassessmentList.length; i++) {
-            if (
-                this.empassessmentList[i].empassessment_id ==
-                model.empassessment_id
-            ) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empassessmentList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.empassessment_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empassessmentList = [];
-        this.empassessmentList = itemNew;
-        this.empassessmentList.sort(function (a, b) {
-            return parseInt(a.empassessment_id) - parseInt(b.empassessment_id);
-        });
-    }
-    record_empassessment() {
-        if (this.empassessmentList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empassessment(
-                this.selectedEmployee.worker_code,
-                this.empassessmentList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
-
-    //Criminal
-    empcriminalList: EmpCriminalModel[] = [];
-    selectedEmpcriminal: EmpCriminalModel = new EmpCriminalModel();
-    doLoadEmpcriminalList() {
-        this.empdetailService
-            .getworker_criminal(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                await res.forEach((element: EmpCriminalModel) => {
-                    element.empcriminal_fromdate = new Date(
-                        element.empcriminal_fromdate
-                    );
-                    element.empcriminal_todate = new Date(
-                        element.empcriminal_todate
-                    );
-                });
-                this.empcriminalList = await res;
-                if (this.empcriminalList.length > 0) {
-                    this.selectedEmpcriminal = this.empcriminalList[0];
-                }
-            });
-    }
-    onRowSelectEmpcriminal(event: Event) {}
-    empcriminal_summit() {
-        this.empcriminal_addItem(this.selectedEmpcriminal);
-        this.new_criminal = false;
-        this.edit_empcriminal = false;
-        this.displayManage = false;
-    }
-    empcriminal_remove() {
-        this.selectedEmpcriminal.empcriminal_id = '9999';
-        this.empcriminal_addItem(this.selectedEmpcriminal);
-        this.new_criminal = false;
-        this.edit_empcriminal = false;
-    }
-    empcriminal_delete() {}
-    empcriminal_cancel() {
-        this.new_criminal = false;
-        this.edit_empcriminal = false;
-        this.displayManage = false;
-    }
-    empcriminal_addItem(model: EmpCriminalModel) {
-        const itemNew: EmpCriminalModel[] = [];
-        for (let i = 0; i < this.empcriminalList.length; i++) {
-            if (
-                this.empcriminalList[i].empcriminal_id == model.empcriminal_id
-            ) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empcriminalList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.empcriminal_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empcriminalList = [];
-        this.empcriminalList = itemNew;
-        this.empcriminalList.sort(function (a, b) {
-            return parseInt(a.empcriminal_id) - parseInt(b.empcriminal_id);
-        });
-    }
-    record_empcriminal() {
-        if (this.empcriminalList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empcriminal(
-                this.selectedEmployee.worker_code,
-                this.empcriminalList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
-
-    //salary
-    empsalaryList: EmpSalaryModel[] = [];
-    selectedEmpsalary: EmpSalaryModel = new EmpSalaryModel();
-    doLoadEmpsalaryList() {
-        this.empdetailService
-            .getworker_salary(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                await res.forEach((element: EmpSalaryModel) => {
-                    element.empsalary_date = new Date(element.empsalary_date);
-                });
-                this.empsalaryList = await res;
-                if (this.empsalaryList.length > 0) {
-                    this.selectedEmpsalary = this.empsalaryList[0];
-                }
-            });
-    }
-    onRowSelectEmpsalary(event: Event) {}
-    empsalary_summit() {
-        this.empsalary_addItem(this.selectedEmpsalary);
-        this.new_salary = false;
-        this.edit_empsalary = false;
-        this.displayManage = false;
-    }
-    empsalary_remove() {
-        this.selectedEmpsalary.empsalary_id = '9999';
-        this.empsalary_addItem(this.selectedEmpsalary);
-        this.new_salary = false;
-        this.edit_empsalary = false;
-    }
-    empsalary_delete() {}
-    empsalary_cancel() {
-        this.new_salary = false;
-        this.edit_empsalary = false;
-        this.displayManage = false;
-    }
-    empsalary_addItem(model: EmpSalaryModel) {
-        const itemNew: EmpSalaryModel[] = [];
-        for (let i = 0; i < this.empsalaryList.length; i++) {
-            if (this.empsalaryList[i].empsalary_id == model.empsalary_id) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empsalaryList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.empsalary_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empsalaryList = [];
-        this.empsalaryList = itemNew;
-        this.empsalaryList.sort(function (a, b) {
-            return parseInt(a.empsalary_id) - parseInt(b.empsalary_id);
-        });
-    }
-    record_empsalary() {
-        if (this.empsalaryList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empsalary(
-                this.selectedEmployee.worker_code,
-                this.empsalaryList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
-
-    //Provident
-    empprovidentList: EmpProvidentModel[] = [];
-    selectedEmpprovident: EmpProvidentModel = new EmpProvidentModel();
-    doLoadEmpprovidentList() {
-        this.empdetailService
-            .getworker_provident(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                await res.forEach((element: EmpProvidentModel) => {
-                    element.empprovident_entry = new Date(
-                        element.empprovident_entry
-                    );
-                    element.empprovident_start = new Date(
-                        element.empprovident_start
-                    );
-                    element.empprovident_end = new Date(
-                        element.empprovident_end
-                    );
-                });
-                this.empprovidentList = await res;
-                if (this.empprovidentList.length > 0) {
-                    this.selectedEmpprovident = this.empprovidentList[0];
-                }
-            });
-    }
-    onRowSelectEmpprovident(event: Event) {}
-    empprovident_summit() {
-        this.empprovident_addItem(this.selectedEmpprovident);
-        this.new_provident = false;
-        this.edit_empprovident = false;
-        this.displayManage = false;
-    }
-    empprovident_remove() {
-        this.selectedEmpprovident.empprovident_id = '9999';
-        this.empprovident_addItem(this.selectedEmpprovident);
-        this.new_provident = false;
-        this.edit_empprovident = false;
-    }
-    empprovident_delete() {}
-    empprovident_cancel() {
-        this.new_provident = false;
-        this.edit_empprovident = false;
-        this.displayManage = false;
-    }
-    empprovident_addItem(model: EmpProvidentModel) {
-        const itemNew: EmpProvidentModel[] = [];
-        for (let i = 0; i < this.empprovidentList.length; i++) {
-            if (
-                this.empprovidentList[i].empprovident_id ==
-                model.empprovident_id
-            ) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empprovidentList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.empprovident_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empprovidentList = [];
-        this.empprovidentList = itemNew;
-        this.empprovidentList.sort(function (a, b) {
-            return parseInt(a.empprovident_id) - parseInt(b.empprovident_id);
-        });
-    }
-    record_empprovident() {
-        if (this.empprovidentList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empprovident(
-                this.selectedEmployee.worker_code,
-                this.empprovidentList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
-
-    //benefit
-    empbenefitList: EmpBenefitsModel[] = [];
-    selectedEmpbenefit: EmpBenefitsModel = new EmpBenefitsModel();
-    doLoadEmpbenefitList() {
-        this.empdetailService
-            .getworker_benefit(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                await res.forEach((element: EmpBenefitsModel) => {
-                    element.empbenefit_startdate = new Date(
-                        element.empbenefit_startdate
-                    );
-                    element.empbenefit_enddate = new Date(
-                        element.empbenefit_enddate
-                    );
-                });
-                this.empbenefitList = await res;
-                if (this.empbenefitList.length > 0) {
-                    this.selectedEmpbenefit = this.empbenefitList[0];
-                }
-            });
-    }
-    onRowSelectEmpbenefit(event: Event) {}
-    empbenefit_summit() {
-        this.empbenefit_addItem(this.selectedEmpbenefit);
-        this.new_benefit = false;
-        this.edit_empbenefit = false;
-        this.displayManage = false;
-    }
-    empbenefit_remove() {
-        this.selectedEmpbenefit.empbenefit_id = '9999';
-        this.empbenefit_addItem(this.selectedEmpbenefit);
-        this.new_benefit = false;
-        this.edit_empbenefit = false;
-    }
-    empbenefit_delete() {}
-    empbenefit_cancel() {
-        this.new_benefit = false;
-        this.edit_empbenefit = false;
-        this.displayManage = false;
-    }
-    empbenefit_addItem(model: EmpBenefitsModel) {
-        const itemNew: EmpBenefitsModel[] = [];
-        for (let i = 0; i < this.empbenefitList.length; i++) {
-            if (this.empbenefitList[i].empbenefit_id == model.empbenefit_id) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empbenefitList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.empbenefit_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empbenefitList = [];
-        this.empbenefitList = itemNew;
-        this.empbenefitList.sort(function (a, b) {
-            return parseInt(a.empbenefit_id) - parseInt(b.empbenefit_id);
-        });
-    }
-    record_empbenefit() {
-        if (this.empbenefitList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empbenefit(
-                this.selectedEmployee.worker_code,
-                this.empbenefitList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
-
-    //reduce
-    empreduceList: EmpReduceModel[] = [];
-    selectedEmpreduce: EmpReduceModel = new EmpReduceModel();
-    doLoadEmpreduceList() {
-        this.empdetailService
-            .getworker_reduce(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                this.empreduceList = await res;
-                if (this.empreduceList.length > 0) {
-                    this.selectedEmpreduce = this.empreduceList[0];
-                }
-            });
-    }
-    onRowSelectEmpreduce(event: Event) {}
-    empreduce_summit() {
-        this.empreduce_addItem(this.selectedEmpreduce);
-        this.new_reduce = false;
-        this.edit_empreduce = false;
-        this.displayManage = false;
-    }
-    empreduce_remove() {
-        this.selectedEmpreduce.empreduce_id = '9999';
-        this.empreduce_addItem(this.selectedEmpreduce);
-        this.new_reduce = false;
-        this.edit_empreduce = false;
-    }
-    empreduce_delete() {}
-    empreduce_cancel() {
-        this.new_reduce = false;
-        this.edit_empreduce = false;
-        this.displayManage = false;
-    }
-    empreduce_addItem(model: EmpReduceModel) {
-        const itemNew: EmpReduceModel[] = [];
-        for (let i = 0; i < this.empreduceList.length; i++) {
-            if (this.empreduceList[i].empreduce_id == model.empreduce_id) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empreduceList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.empreduce_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empreduceList = [];
-        this.empreduceList = itemNew;
-        this.empreduceList.sort(function (a, b) {
-            return parseInt(a.empreduce_id) - parseInt(b.empreduce_id);
-        });
-    }
-    record_empreduce() {
-        if (this.empreduceList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empreduce(
-                this.selectedEmployee.worker_code,
-                this.empreduceList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
-
-    //accumalate
-    empacculamateList: EmpAccumalateModel[] = [];
-    selectedEmpaccumalate: EmpAccumalateModel = new EmpAccumalateModel();
-    onRowSelectEmpAcc(event: any) {
-        this.edit_empaccumalate = true;
-        this.new_accumalate = true;
-    }
-    closeAcc() {
-        this.new_accumalate = false;
-        this.selectedEmpaccumalate = new EmpAccumalateModel();
-    }
-
-    confirmRecord() {
-        this.confirmationService.confirm({
-            message: this.title_confirm_record,
-            header: this.title_confirm,
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.doRecordApplywork();
-            },
-            reject: () => {
-                this.messageService.add({
-                    severity: 'warn',
-                    summary: 'Cancelled',
-                    detail: this.title_confirm_cancel,
-                });
-            },
-        });
-    }
 
     //emp location
     emplocationList: EmpLocationModel[] = [];
@@ -2715,7 +1239,7 @@ export class RecruitmentApplyComponent implements OnInit {
         }
         this.empdetailService
             .record_emplocation(
-                this.selectedEmployee.worker_code,
+                this.selectedReqworker.worker_code,
                 this.emplocationList
             )
             .then((res) => {
@@ -2726,110 +1250,24 @@ export class RecruitmentApplyComponent implements OnInit {
             });
     }
 
-    //emp branch
-    empbranchList: EmpBranchModel[] = [];
-    selectedEmpbranch: EmpBranchModel = new EmpBranchModel();
-    doLoadEmpbranchList() {
-        this.empdetailService
-            .getworker_branch(this.initial_current.CompCode, this.req_code)
-            .then(async (res) => {
-                await res.forEach((element: EmpBranchModel) => {
-                    element.empbranch_startdate = new Date(
-                        element.empbranch_startdate
-                    );
-                    element.empbranch_enddate = new Date(
-                        element.empbranch_enddate
-                    );
-                });
-                this.empbranchList = await res;
-                if (this.empbranchList.length > 0) {
-                    this.selectedEmpbranch = this.empbranchList[0];
-                }
-            });
-    }
-    onRowSelectEmpBranch(event: Event) {}
-    empbranch_summit() {
-        this.empbranch_addItem(this.selectedEmpbranch);
-        this.new_empbranch = false;
-        this.edit_empbranch = false;
-        this.displayManage = false;
-    }
-    empbranch_remove() {
-        this.selectedEmpbranch.empbranch_id = '9999';
-        this.empbranch_addItem(this.selectedEmpbranch);
-        this.new_empbranch = false;
-        this.edit_empbranch = false;
-    }
-    empbranch_delete() {}
-    empbranch_cancel() {
-        this.new_empbranch = false;
-        this.edit_empbranch = false;
-        this.displayManage = false;
-    }
-    empbranch_addItem(model: EmpBranchModel) {
-        const itemNew: EmpBranchModel[] = [];
-        for (let i = 0; i < this.empbranchList.length; i++) {
-            if (this.empbranchList[i].empbranch_id == model.empbranch_id) {
-                //-- Notting
-            } else {
-                itemNew.push(this.empbranchList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.empbranch_id != '9999') {
-            itemNew.push(model);
-        }
-        this.empbranchList = [];
-        this.empbranchList = itemNew;
-        this.empbranchList.sort(function (a, b) {
-            return parseInt(a.empbranch_id) - parseInt(b.empbranch_id);
-        });
-    }
-    record_empbranch() {
-        if (this.empbranchList.length == 0) {
-            return;
-        }
-        this.empdetailService
-            .record_empbranch(
-                this.selectedEmployee.worker_code,
-                this.empbranchList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
 
     doRecordApplywork() {
         this.applyworkService
-            .applywork_recordall(this.selectedApplywork)
+            .reqworker_record(this.selectedReqworker)
             .then((res) => {
                 let result = JSON.parse(res);
 
                 if (result.success) {
                     //-- Transaction
                     this.record_emplocation();
-                    this.record_empbranch();
-
+                
                     this.record_reqaddress();
                     this.record_reqcard();
-                    this.record_empbank();
-                    this.record_empfamily();
-                    this.record_emphospital();
                     this.record_reqforeigner();
 
-                    this.record_empdep();
+                    
                     this.record_reqeducation();
                     this.record_reqtraining();
-                    this.record_empassessment();
-                    this.record_empcriminal();
-
-                    this.record_empsalary();
-                    this.record_empbenefit();
-                    this.record_empprovident();
-                    this.record_empreduce();
 
                     this.messageService.add({
                         severity: 'success',
@@ -2848,6 +1286,20 @@ export class RecruitmentApplyComponent implements OnInit {
             });
     }
 
+    confirmRecord() {
+        this.confirmationService.confirm({
+          message: this.title_confirm_record,
+          header: this.title_confirm,
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.doRecordApplywork()
+          },
+          reject: () => {
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+          }
+        });
+      }
+
     close() {
         this.new_applywork = false;
         this.selectedApplywork = new ApplyworkModel();
@@ -2856,43 +1308,18 @@ export class RecruitmentApplyComponent implements OnInit {
     clearManage() {
         this.new_emplocation = false;
         this.edit_emplocation = false;
-        this.new_empbranch = false;
-        this.edit_empbranch = false;
+        
         this.new_reqaddress = false;
         this.edit_reqaddress = false;
         this.new_card = false;
         this.edit_reqcard = false;
-        this.new_bank = false;
-        this.edit_empbank = false;
-        this.new_family = false;
-        this.edit_empfamily = false;
-        this.new_hospital = false;
-        this.edit_emphospital = false;
+        
         this.new_foreigner = false;
         this.edit_reqforeigner = false;
-        this.new_dep = false;
-        this.edit_empdep = false;
-        this.new_position = false;
-        this.edit_empposition = false;
+        
         this.new_education = false;
         this.edit_reqeducation = false;
         this.new_training = false;
         this.edit_reqtraining = false;
-        this.new_assessment = false;
-        this.edit_empassessment = false;
-        this.new_criminal = false;
-        this.edit_empcriminal = false;
-        this.new_salary = false;
-        this.edit_empsalary = false;
-        this.new_provident = false;
-        this.edit_empprovident = false;
-        this.new_benefit = false;
-        this.edit_empbenefit = false;
-        this.new_reduce = false;
-        this.edit_empreduce = false;
-        this.new_accumalate = false;
-        this.edit_empaccumalate = false;
-        this.new_tranfer = false;
-        this.edit_emptranfer = false;
     }
 }

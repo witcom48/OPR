@@ -41,6 +41,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ApplyListComponent } from './recruitment-apply/apply/apply-list/apply-list.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
 	imports: [
@@ -80,6 +82,8 @@ import { ApplyListComponent } from './recruitment-apply/apply/apply-list/apply-l
         ToastModule,
 		ConfirmDialogModule,
 		DialogModule,
+		RadioButtonModule,
+		CheckboxModule,
 
 
 

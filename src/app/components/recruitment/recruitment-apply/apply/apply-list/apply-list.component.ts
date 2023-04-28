@@ -17,6 +17,7 @@ import { ApplyworkService } from 'src/app/services/recruitment/applywork.service
 import { ApplyworkModel } from 'src/app/models/recruitment/applywork';
 import { InitialModel } from 'src/app/models/employee/policy/initial';
 import { InitialService } from 'src/app/services/emp/policy/initial.service';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 
 @Component({
   selector: 'app-apply-list',
@@ -25,6 +26,8 @@ import { InitialService } from 'src/app/services/emp/policy/initial.service';
 })
 export class ApplyListComponent implements OnInit {
     applywork_code: string = "";
+    reqworkerList: EmployeeModel[]=[];
+    selectedReqworker: EmployeeModel = new EmployeeModel();
   applywork_list: ApplyworkModel[] = [];
   selectedApplywork : ApplyworkModel = new ApplyworkModel();
   items: MenuItem[] = [];
@@ -41,8 +44,6 @@ export class ApplyListComponent implements OnInit {
 
     private initialService : InitialService,
     private positionService : PositionService,
-    // private emptypeService : EmptypeService,
-    // private empstatusService: EmpstatusService,
     private empdetailService: EmpDetailService,
     ) { }
 
@@ -195,19 +196,14 @@ export class ApplyListComponent implements OnInit {
 applyworkCurrent:number = 0;
 
   doLoadapplywork(){
-    this.applyworkService.applywork_get(this.initial_current.CompCode, "").then(async (res) => {
-    // this.applyworkService.applywork_get(this.initial_current.CompCode,"").then(async(res) =>{
-      await res.forEach((element: ApplyworkModel) => {
-        element.applywork_startdate = new Date(element.applywork_startdate)
+    this.applyworkService.reqworker_get(this.initial_current.CompCode,"").then(async(res)=>{
+      await res.forEach((element: EmployeeModel) => {
+        element.worker_hiredate = new Date(element.worker_hiredate)
+        element.worker_birthdate = new Date(element.worker_birthdate)
       })
-      this.applywork_list = await res;
-      this.applyworkCurrent = this.applywork_list.length;
-    });
-
-    
-
-
-
+      this.reqworkerList = await res;
+      this.applyworkCurrent = this.reqworkerList.length;
+    })
   }
 
   confirmRecord() {
@@ -222,12 +218,10 @@ applyworkCurrent:number = 0;
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
       }
     });
-    console.log(this.selectedApplywork);
   }
 
   doRecordApplywork(){
-
-    this.applyworkService.applywork_recordall(this.selectedApplywork).then((res) => {
+    this.applyworkService.reqworker_record(this.selectedReqworker).then((res) => {
       console.log(res)
       let result = JSON.parse(res);
 
@@ -329,11 +323,9 @@ applyworkCurrent:number = 0;
 
     selectComManage(){
 
-    console.log(this.selectedApplywork.applywork_code)
-
     let navigationExtras: NavigationExtras = {
       queryParams: {
-          "applycode": this.selectedApplywork.applywork_code
+          "applycode": this.selectedReqworker.worker_code
       }
     };
 
