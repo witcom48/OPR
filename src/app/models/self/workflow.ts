@@ -1,3 +1,5 @@
+import { LineapproveModel } from "./lineapprove";
+
 export class WorkflowModel {
   forEach(arg0: (element: any) => void) {
     throw new Error('Method not implemented.');
@@ -25,4 +27,5 @@ export class WorkflowModel {
   index: number = 0;
   select: boolean = false;
   flag: boolean = false;
+  lineapprove_data: LineapproveModel[] = [];
 }

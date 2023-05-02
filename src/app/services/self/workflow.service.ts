@@ -80,7 +80,8 @@ export class WorkflowServices {
             step5: workflow.step5,
             totalapprove: workflow.totalapprove,
             modified_by: workflow.company_code || this.initial_current.CompCode,
-            flag: workflow.flag
+            flag: workflow.flag,
+            lineapprove_data:workflow.lineapprove_data
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/workflow', data, this.options).toPromise()
             .then((res) => {
@@ -120,6 +121,20 @@ export class WorkflowServices {
             .then((res) => {
                 let message = JSON.parse(res);
                 return message;
+            });
+    }
+    public workflow_getposition_level(workflow: WorkflowModel) {
+        console.log('ATT001..');
+        let data = {
+            device_name: "phone",
+            ip: "127.0.0.1",
+            username: this.initial_current.Username,
+            company_code: workflow.company_code || this.initial_current.CompCode,
+        }
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/positionlevel', data, this.options).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message.data;
             });
     }
 

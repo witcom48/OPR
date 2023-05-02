@@ -115,6 +115,19 @@
             </p-inputNumber>
         </div>
 
+        <p-pickList class="picklistvertical" [metaKeySelection]="true" [responsive]="true"
+            [source]="position_level_source" [target]="position_level_target"
+            sourceHeader="{{langs.get('position_level')[selectlang]}}" targetHeader="{{langs.get('position_select')[selectlang]}}"
+            [sourceStyle]="{'height':'15rem'}" [targetStyle]="{'height':'15rem'}" (onSourceSelect)="teset($event)"
+            (onTargetSelect)="teset2($event)">
+            <ng-template let-data pTemplate="item">
+                <div>
+                    <div style="font-size:14px;float:left;">{{data.position_level}} - {{selectlang
+                        =='EN'?data.position_name_en:data.position_name_th }}</div>
+                </div>
+            </ng-template>
+        </p-pickList>
+
 
         <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
             (click)="Save()"></button>

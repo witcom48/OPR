@@ -7,7 +7,10 @@ import { ConfirmationService, ConfirmEventType, MenuItem, MessageService } from 
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
 import { WorkflowModel } from '../../../models/self/workflow';
+import { PositionModel } from '../../../models/employee/policy/position';
 import { WorkflowServices } from 'src/app/services/self/workflow.service';
+import { PositionService } from 'src/app/services/emp/policy/position.service';
+import { LineapproveModel } from 'src/app/models/self/lineapprove';
 declare var workflow: any;
 interface Type {
   name: string,
@@ -25,6 +28,7 @@ export class SelfWorkflowComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
     private workflowService: WorkflowServices,
+    private positionService: PositionService,
     private router: Router,
   ) { }
   TypeList: Type[] = [];
@@ -32,6 +36,9 @@ export class SelfWorkflowComponent implements OnInit {
   items_menu: MenuItem[] = [];
   new_data: boolean = false
   edit_data: boolean = false
+  position_level_list: any[] = [];
+  position_level_source: any[] = [];
+  position_level_target: any[] = [];
   workflow_manage: boolean = false;
   workflow_list: WorkflowModel[] = [];
   selectedWorkflow: WorkflowModel = new WorkflowModel();
@@ -54,6 +61,7 @@ export class SelfWorkflowComponent implements OnInit {
     this.doGetInitialCurrent()
     this.doLoadMenu()
     this.doLoadWorkflow()
+    this.doLoadPositionlevel()
   }
   doLoadWorkflow() {
     this.workflow_list = [];
@@ -61,6 +69,19 @@ export class SelfWorkflowComponent implements OnInit {
     this.workflowService.workflow_get(tmp).then(async (res) => {
       this.workflow_list = await res;
     });
+  }
+
+  doLoadPositionlevel() {
+    this.position_level_source = [];
+    this.positionService.position_get().then(async (res) => {
+      this.position_level_list = await res;
+    });
+
+    // this.position_level_source = [];
+    // var tmp = new WorkflowModel();
+    // this.workflowService.workflow_getposition_level(tmp).then(async (res) => {
+    //   this.position_level_source = await res;
+    // });
   }
   async doRecordWorkflow(data: WorkflowModel) {
     let totalapp = 0;
@@ -81,6 +102,7 @@ export class SelfWorkflowComponent implements OnInit {
     }
     data.totalapprove = totalapp;
     data.workflow_type = this.selectedtype.code;
+    console.log(data)
     await this.workflowService.workflow_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -109,6 +131,32 @@ export class SelfWorkflowComponent implements OnInit {
     this.edit_data = false;
   }
 
+  teset(event: any) {
+    console.log(event)
+    var data = event.items;
+    event.items = []
+    var arr = this.position_level_source.filter((obj: PositionModel) => {
+      if (obj.position_level === data.slice(-1)[0].position_level) {
+        this.position_level_target.push(obj)
+      }
+      return obj.position_level !== data.slice(-1)[0].position_level
+    })
+
+    this.position_level_source = arr;
+  }
+  teset2(event: any) {
+    var data = event.items;
+    event.items = []
+    console.log(event)
+    var arr = this.position_level_target.filter((obj: PositionModel) => {
+      if (obj.position_level === data.slice(-1)[0].position_level) {
+        this.position_level_source.push(obj)
+      }
+      return obj.position_level !== data.slice(-1)[0].position_level
+    })
+
+    this.position_level_target = arr;
+  }
   doLoadMenu() {
 
     this.items_menu = [
@@ -120,6 +168,7 @@ export class SelfWorkflowComponent implements OnInit {
           this.new_data = true;
           this.edit_data = false;
           this.selectedtype = this.TypeList[0]
+          this.position_level_source = this.position_level_list;
         }
       }
       ,
@@ -145,9 +194,23 @@ export class SelfWorkflowComponent implements OnInit {
     this.selectedWorkflow.workflow_type = this.selectedtype.code;
   }
   onRowSelect(event: Event) {
+    this.position_level_target = []
+    this.position_level_source = []
     this.new_data = true
     this.edit_data = true;
     this.selectedtype = this.TypeList.find(({ code }) => code === this.selectedWorkflow.workflow_type);
+    this.selectedWorkflow.lineapprove_data.filter((obj: LineapproveModel) => {
+      this.position_level_list.filter((elm: PositionModel) => {
+        if (+obj.position_level === elm.position_level) {
+          this.position_level_target.push(elm)
+        }
+      })
+    })
+    this.position_level_list.filter((elm: PositionModel) => {
+      if (!this.position_level_target.includes(elm)) {
+        this.position_level_source.push(elm)
+      }
+    })
   }
   typename(codemodel: string) {
     return this.TypeList.find(({ code }) => code === codemodel)?.name;
@@ -161,7 +224,17 @@ export class SelfWorkflowComponent implements OnInit {
     this.doDeleteWorkflow(this.selectedWorkflow)
   }
   Save() {
-    console.log(this.selectedWorkflow)
+    this.selectedWorkflow.lineapprove_data = []
+    const unique = [...new Set(this.position_level_target.map(item => item.position_level))];
+    unique.forEach((obj) => {
+      this.selectedWorkflow.lineapprove_data.push({
+        company_code: this.initial_current.CompCode,
+        workflow_type: this.selectedWorkflow.workflow_type,
+        workflow_code: this.selectedWorkflow.workflow_code,
+        position_level: obj,
+        flag: false
+      })
+    })
     this.doRecordWorkflow(this.selectedWorkflow)
   }
 

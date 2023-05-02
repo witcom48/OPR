@@ -1,20 +1,11 @@
 export class LineapproveModel {
-    constructor() {
-             
-    }
-    
-    company_code: string = "";
-    account_user: string = "";
-    workflow_leave: string = "";
-    workflow_overtime: string = "";
-    workflow_shift: string = "";
-    workflow_recordtime: string = "";
-    workflow_checkin: string = "";
-    workflow_daytype: string = "";    
+  constructor() {
 
-    modified_by: string = "";
-    modified_date: string = "";
-    index: number = 0;
-    select: boolean = false;    
   }
-  
+
+  company_code: string = "";
+  workflow_type: string = "";
+  workflow_code: string = "";
+  position_level: number = 0;
+  flag: boolean = false;
+}
