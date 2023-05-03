@@ -169,6 +169,7 @@ export class SelfWorkflowComponent implements OnInit {
           this.edit_data = false;
           this.selectedtype = this.TypeList[0]
           this.position_level_source = this.position_level_list;
+          this.position_level_target = [];
         }
       }
       ,
