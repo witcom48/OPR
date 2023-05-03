@@ -4,16 +4,16 @@ import { FormsModule } from '@angular/forms';
 
 import { SystemRoutingModule } from './system-routing.module';
 
-import { AutoCompleteModule } from "primeng/autocomplete";
-import { CalendarModule } from "primeng/calendar";
-import { ChipsModule } from "primeng/chips";
-import { DropdownModule } from "primeng/dropdown";
-import { InputMaskModule } from "primeng/inputmask";
-import { InputNumberModule } from "primeng/inputnumber";
-import { CascadeSelectModule } from "primeng/cascadeselect";
-import { MultiSelectModule } from "primeng/multiselect";
-import { InputTextareaModule } from "primeng/inputtextarea";
-import { InputTextModule } from "primeng/inputtext";
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CalendarModule } from 'primeng/calendar';
+import { ChipsModule } from 'primeng/chips';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
 import { TabViewModule } from 'primeng/tabview';
 import { PanelModule } from 'primeng/panel';
 import { MenuModule } from 'primeng/menu';
@@ -80,93 +80,88 @@ import { RoundComponent } from './system-manage/round/round.component';
 import { AddRounComponent } from './system-manage/round/add-roun/add-roun.component';
 import { CodestructureComponent } from './system-manage/codestructure/codestructure.component';
 
-
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		SystemRoutingModule,
-		AutoCompleteModule,
-		CalendarModule,
-		ChipsModule,
-		DropdownModule,
-		InputMaskModule,
-		InputNumberModule,
-		CascadeSelectModule,
-		MultiSelectModule,
-		InputTextareaModule,
-		InputTextModule,
-		TabViewModule,
-		PanelModule,
-		MenuModule,
-		TableModule,
-		TagModule,
-		PanelMenuModule,
-		DividerModule,
-		AccordionModule,
-		CardModule,
-		InputSwitchModule,
-		BreadcrumbModule,
-		ToolbarModule,
-		MenubarModule,
-		MegaMenuModule,
-		TabMenuModule,
-		SelectButtonModule,
-		ScrollPanelModule,
-		ChipModule,
-		ChartModule,
-		ImageModule,
-		ToastModule,
-		ConfirmDialogModule,
-		DialogModule,
-	],
-	declarations: [
-		SystemPolicyComponent,
-		SystemCompanyComponent,
-		SystemSecurityComponent,
-		SystemNotificationComponent,
-		BankComponent,
-		EmpIDComponent,
-		SystemOrganizationLevelComponent,
-		SystemCardTypeComponent,
-		SystemFamilyTypeComponent,
-		SystemAddressTypeComponent,
-		SystemProvinceComponent,
-		SystemReligionComponent,
-		SystemEthnicityComponent,
-		BloodtypeComponent,
-		SystemBloodtypeComponent,
-		SystemHospitalComponent,
-		SystemLocationComponent,
-		SystemReduceComponent,
-		SystemComaddressComponent,
-		SystemBankaccountComponent,
-		CompanysComponent,
-		SystemComcardComponent,
-		SystemYearperiodComponent,
-		AddCodestructureComponent,
-		BranchComponent,
-		SysBranchComponent,
-		YearComponent,
-		SystemReasonComponent,
-		ReasonComponent,
-  LocationComponent,
-  SystemCourseComponent,
-  SystemInstituteComponent,
-  SystemFacultyComponent,
-  SystemMajorComponent,
-  SystemQualificationComponent,
-  SysManageComponent,
-  SysComlocationComponent,
-  ComlocationlistComponent,
-  RoundComponent,
-  AddRounComponent,
-  CodestructureComponent
-	],
-	exports: [
-		YearComponent,
-		ReasonComponent,
-		LocationComponent
-	],
+    imports: [
+        CommonModule,
+        FormsModule,
+        SystemRoutingModule,
+        AutoCompleteModule,
+        CalendarModule,
+        ChipsModule,
+        DropdownModule,
+        InputMaskModule,
+        InputNumberModule,
+        CascadeSelectModule,
+        MultiSelectModule,
+        InputTextareaModule,
+        InputTextModule,
+        TabViewModule,
+        PanelModule,
+        MenuModule,
+        TableModule,
+        TagModule,
+        PanelMenuModule,
+        DividerModule,
+        AccordionModule,
+        CardModule,
+        InputSwitchModule,
+        BreadcrumbModule,
+        ToolbarModule,
+        MenubarModule,
+        MegaMenuModule,
+        TabMenuModule,
+        SelectButtonModule,
+        ScrollPanelModule,
+        ChipModule,
+        ChartModule,
+        ImageModule,
+        ToastModule,
+        ConfirmDialogModule,
+        DialogModule,
+    ],
+    declarations: [
+        SystemPolicyComponent,
+        SystemCompanyComponent,
+        SystemSecurityComponent,
+        SystemNotificationComponent,
+        BankComponent,
+        EmpIDComponent,
+        SystemOrganizationLevelComponent,
+        SystemCardTypeComponent,
+        SystemFamilyTypeComponent,
+        SystemAddressTypeComponent,
+        SystemProvinceComponent,
+        SystemReligionComponent,
+        SystemEthnicityComponent,
+        BloodtypeComponent,
+        SystemBloodtypeComponent,
+        SystemHospitalComponent,
+        SystemLocationComponent,
+        SystemReduceComponent,
+        SystemComaddressComponent,
+        SystemBankaccountComponent,
+        CompanysComponent,
+        SystemComcardComponent,
+        SystemYearperiodComponent,
+        AddCodestructureComponent,
+        BranchComponent,
+        SysBranchComponent,
+        YearComponent,
+        SystemReasonComponent,
+        ReasonComponent,
+        LocationComponent,
+        SystemCourseComponent,
+        SystemInstituteComponent,
+        SystemFacultyComponent,
+        SystemMajorComponent,
+        SystemQualificationComponent,
+        SysManageComponent,
+        SysComlocationComponent,
+        ComlocationlistComponent,
+        RoundComponent,
+        AddRounComponent,
+        CodestructureComponent,
+    ],
+    exports: [YearComponent, ReasonComponent, LocationComponent],
 })
-export class SystemModule { }
+export class SystemModule {}

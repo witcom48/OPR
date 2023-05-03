@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ProjectModel } from '../../../models/project/project';
-import { AppConfig } from '../../../config/config';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
+import { ProjectModel } from '../../models/project/project';
+import { AppConfig } from '../../config/config';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { InitialCurrent } from '../../../config/initial_current';
-import { AddresstypeModel } from 'src/app/models/system/policy/addresstype';
-
+import { InitialCurrent } from '../../config/initial_current';
+import { TaxrateModel } from 'src/app/models/payroll/taxrate';
 @Injectable({
   providedIn: 'root'
 })
-export class AddresstypeService {
-
-
+export class TaxrateService {
     public config:AppConfig = new AppConfig();
 
     private model:ProjectModel = new ProjectModel();
@@ -55,72 +52,73 @@ export class AddresstypeService {
 
       }
       else{
+        
         this.router.navigateByUrl('login');
       }
     }
 
-    public addresstype_get(){
-      console.log('ADD001..');
+    public taxrate_get(){
+      console.log('PAYT001..');
 
-      return this.http.post<any>(this.config.ApiSystemModule + '/addresstype_list', this.basicRequest, this.options).toPromise()
+      return this.http.post<any>(this.config.ApiPayrollModule + '/TRTaxrate_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
+
         let message = JSON.parse(res);
         console.log(res)
         return message.data;
       });
     }
 
-    public addresstype_record(model:AddresstypeModel) {
-      console.log('ADD002..');
+    public taxrate_record(model:TaxrateModel) {
+      console.log('PAYT002..');
       const data = {
-        addresstype_id: model.addresstype_id,
-        addresstype_code: model.addresstype_code,
-        addresstype_name_th: model.addresstype_name_th,
-        addresstype_name_en: model.addresstype_name_en,
+
+        company_code: this.initial_current.CompCode,
+        taxrate_id: model.taxrate_id,
+        taxrate_from: model.taxrate_from,
+        taxrate_to: model.taxrate_to,
+        taxrate_tax: model.taxrate_tax,
         modified_by: this.initial_current.Username
       };
 
-      return this.http.post<any>(this.config.ApiSystemModule + '/addresstype', data, this.options).toPromise()
+      return this.http.post<any>(this.config.ApiPayrollModule + '/TRTaxrate', data, this.options).toPromise()
       .then((res) => {
 
-        //console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
-    public addresstype_delete(model:AddresstypeModel) {
-      console.log('ADD003..');
+    public taxrate_delete(model:TaxrateModel) {
+      console.log('PAYT003..');
       const data = {
-        addresstype_id: model.addresstype_id,
-        addresstype_code: model.addresstype_code,
+        company_code: this.initial_current.CompCode,
+        taxrate_id: model.taxrate_id,
+        taxrate_from: model.taxrate_from,
+        taxrate_to: model.taxrate_to,
+        taxrate_tax: model.taxrate_tax,
         modified_by: this.initial_current.Username
       };
 
-      return this.http.post<any>(this.config.ApiSystemModule + '/addresstype_del', data, this.options).toPromise()
+      return this.http.post<any>(this.config.ApiPayrollModule + '/TRTaxrate_del', data, this.options).toPromise()
       .then((res) => {
         return res;
       });
     }
 
 
-    public addresstype_import(file: File, file_name:string, file_type:string){
-
+    public taxrate_import(file: File, file_name:string, file_type:string){
       const formData = new FormData();
       formData.append('file', file);
-
         var para = "fileName=" + file_name + "." + file_type;
         para += "&token=" + this.initial_current.Token;
         para += "&by=" + this.initial_current.Username;
 
-      return this.http.post<any>(this.config.ApiSystemModule + '/doUploadAddresstype?' + para, formData).toPromise()
+      return this.http.post<any>(this.config.ApiPayrollModule + '/doUploadTRTaxrate?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });
 
-
     }
+}
 
-
-
-
-  }

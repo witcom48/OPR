@@ -3,9 +3,7 @@ import { ProjectModel } from '../../models/project/project';
 import { AppConfig } from '../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-
 import { InitialCurrent } from '../../config/initial_current';
-import { EmployeeModel } from 'src/app/models/employee/employee';
 import { CompanyModel } from 'src/app/models/system/company';
 
 @Injectable({

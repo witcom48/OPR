@@ -36,13 +36,20 @@ import {ChartModule} from 'primeng/chart';
 import {ImageModule} from 'primeng/image';
 import {FileUploadModule} from 'primeng/fileupload';
 import {PickListModule} from 'primeng/picklist';
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 import { PayrollPolicyComponent } from './payroll-policy/payroll-policy.component';
 import { PayrollTransferComponent } from './payroll-transfer/payroll-transfer.component';
 import { PayrollEntryComponent } from './payroll-entry/payroll-entry.component';
 import { PayrollCalculateComponent } from './payroll-calculate/payroll-calculate.component';
 import { PayrollCaltaxComponent } from './payroll-caltax/payroll-caltax.component';
 import { PayrollViewComponent } from './payroll-view/payroll-view.component';
+import { TaxrateComponent } from './payroll-policy/taxrate/taxrate.component';
+import { ToastModule } from 'primeng/toast';
+import { ItemsComponent } from './payroll-policy/items/items.component';
+import { ItemComponent } from './payroll-policy/items/item/item.component';
+import { ProvidentComponent } from './payroll-policy/provident/provident.component';
+import { BonusComponent } from './payroll-policy/bonus/bonus.component';
 
 
 @NgModule({
@@ -81,20 +88,28 @@ import { PayrollViewComponent } from './payroll-view/payroll-view.component';
 		ChartModule,
 		ImageModule,
 		FileUploadModule,
-		PickListModule
+		PickListModule,
+        ConfirmDialogModule,
+        DialogModule,
+        ToastModule,
 
 
-		
+
 	],
 	declarations: [
-   
-  
+
+
     PayrollPolicyComponent,
            PayrollTransferComponent,
            PayrollEntryComponent,
            PayrollCalculateComponent,
            PayrollCaltaxComponent,
-           PayrollViewComponent
+           PayrollViewComponent,
+           TaxrateComponent,
+           ItemsComponent,
+           ItemComponent,
+           ProvidentComponent,
+           BonusComponent
   ]
 })
 export class PayrollModule { }
