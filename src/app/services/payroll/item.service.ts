@@ -44,13 +44,11 @@ export class ItemService {
     public item_get(model: ItemsModel) {
         console.log('PAYT001..');
         let data = {
-            device_name: "Desktop",
-            ip: "127.0.0.1",
+            device_name: "",
+            ip: "",
             
             username: this.initial_current.Username,
-            // company_code: this.initial_current.CompCode,
             company_code: model.company_code || this.initial_current.CompCode,
-
             item_id:model.item_id,
             item_code:model.item_code,
             item_name_th:model.item_name_th,
@@ -78,8 +76,8 @@ export class ItemService {
     public item_record(model: ItemsModel) {
         console.log('PAYT002..');
         let data = {
-            device_name: "Desktop",
-            ip: "127.0.0.1",
+            device_name: "",
+            ip: "",
             username: this.initial_current.Username,
             company_code: model.company_code || this.initial_current.CompCode,
             item_id:model.item_id,
@@ -111,8 +109,8 @@ export class ItemService {
     public item_delete(model: ItemsModel) {
         console.log('PAYT003..');
         let data = {
-            device_name: "Desktop",
-            ip: "127.0.0.1",
+            device_name: "",
+            ip: "",
             username: this.initial_current.Username,
             company_code: model.company_code || this.initial_current.CompCode,
             item_id:model.item_id,

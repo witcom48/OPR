@@ -6,7 +6,9 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { BonusModel } from 'src/app/models/payroll/bonus';
 import { BonusrateModel } from 'src/app/models/payroll/bonusrate';
+import { ItemsModel } from 'src/app/models/payroll/items';
 import { BonusService } from 'src/app/services/payroll/bonus.service';
+import { ItemService } from 'src/app/services/payroll/item.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -15,12 +17,15 @@ import * as XLSX from 'xlsx';
     styleUrls: ['./bonus.component.scss'],
 })
 export class BonusComponent implements OnInit {
+    item_list: never[] | undefined;
     constructor(
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private datePipe: DatePipe,
         private bonusService: BonusService,
+        private itemService: ItemService,
 
+        
         private router: Router
     ) {}
     @ViewChild('TABLE') table: ElementRef | any = null;
@@ -139,6 +144,8 @@ export class BonusComponent implements OnInit {
 
     ngOnInit(): void {
         this.doLoadLanguage();
+        this.doLoadItemsList();
+
         this.doGetInitialCurrent();
         this.doLoadMenu();
         this.doLoadLate();
@@ -262,6 +269,26 @@ export class BonusComponent implements OnInit {
             },
         ];
     }
+
+    // get data dropdown
+
+    ItemsList: ItemsModel[] = [];
+    doLoadItemsList() {
+        var tmp = new ItemsModel();
+        this.itemService.item_get(tmp).then((res) => {
+            this.ItemsList = res;
+        });
+    }
+
+    // doLoadItemsList() {
+    //     this.item_list = [];
+    //     var tmp = new ItemsModel();
+    //     this.itemService.item_get(tmp).then(async (res) => {
+    //         this.item_list = await res;
+    //     });
+    // }
+
+
     showUpload() {
         this.displayUpload = true;
     }
