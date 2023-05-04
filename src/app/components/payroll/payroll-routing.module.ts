@@ -11,6 +11,7 @@ import { ItemsComponent } from './payroll-policy/items/items.component';
 import { ItemComponent } from './payroll-policy/items/item/item.component';
 import { ProvidentComponent } from './payroll-policy/provident/provident.component';
 import { BonusComponent } from './payroll-policy/bonus/bonus.component';
+import { CalculationperiodComponent } from './payroll-policy/calculationperiod/calculationperiod.component';
 
 import { TaxrateComponent } from './payroll-policy/taxrate/taxrate.component';
 @NgModule({
@@ -27,9 +28,10 @@ import { TaxrateComponent } from './payroll-policy/taxrate/taxrate.component';
         { path: 'item', component: ItemComponent },
         { path: 'pay-provident', component: ProvidentComponent },
         { path: 'pay-bonus', component: BonusComponent },
+        { path: 'calculationperiod', component: CalculationperiodComponent },
 
 
-        
+
 
 
 

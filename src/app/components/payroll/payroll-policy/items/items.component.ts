@@ -56,6 +56,7 @@ export class ItemsComponent implements OnInit {
     title_Section: string = 'Section';
     title_Rate: string = 'Rate';
     title_Account: string = 'Account';
+    title_no: string = 'No';
 
     title_edit: string = 'Edit';
     title_delete: string = 'Delete';
@@ -102,7 +103,7 @@ export class ItemsComponent implements OnInit {
             this.title_Section = 'มาตรา';
             this.title_Rate = 'อัตรา';
             this.title_Account = 'รหัสบัญชี';
-
+            this.title_no = 'อันดับ';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';

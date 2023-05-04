@@ -68,6 +68,7 @@ export class BonusComponent implements OnInit {
     title_Item: string = 'Income ID';
     title_Rate: string = 'Rate';
     title_From: string = 'From';
+    title_no: string = 'No';
 
     title_edit: string = 'Edit';
     title_delete: string = 'Delete';
@@ -111,6 +112,7 @@ export class BonusComponent implements OnInit {
             this.title_Workage = 'อัตราตามอายุงาน';
             this.title_Rate = 'อัตรา';
             this.title_From = 'จาก';
+            this.title_no = 'อันดับ';
 
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
@@ -271,7 +273,6 @@ export class BonusComponent implements OnInit {
     }
 
     // get data dropdown
-
     ItemsList: ItemsModel[] = [];
     doLoadItemsList() {
         var tmp = new ItemsModel();
@@ -279,15 +280,6 @@ export class BonusComponent implements OnInit {
             this.ItemsList = res;
         });
     }
-
-    // doLoadItemsList() {
-    //     this.item_list = [];
-    //     var tmp = new ItemsModel();
-    //     this.itemService.item_get(tmp).then(async (res) => {
-    //         this.item_list = await res;
-    //     });
-    // }
-
 
     showUpload() {
         this.displayUpload = true;

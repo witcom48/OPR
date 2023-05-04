@@ -37,10 +37,12 @@ import { SystemQualificationComponent } from './system-policy/system-qualificati
 import { SysManageComponent } from './system-manage/sys-manage/sys-manage.component';
 import { SysComlocationComponent } from './system-manage/sys-comlocation/sys-comlocation.component';
 import { ComlocationlistComponent } from './system-manage/sys-comlocation/comlocationlist/comlocationlist.component';
+import { YearComponent } from './system-manage/year/year.component';
 
 import { RoundComponent } from './system-manage/round/round.component';
 import { AddRounComponent } from './system-manage/round/add-roun/add-roun.component';
 import { CodestructureComponent } from './system-manage/codestructure/codestructure.component';
+import { AddYearComponent } from './system-manage/year/add-year/add-year.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -84,6 +86,8 @@ import { CodestructureComponent } from './system-manage/codestructure/codestruct
         { path: 'sys-roundComponent', component: RoundComponent },
         { path: 'sys-addroun', component: AddRounComponent },
         { path: 'sys-codestructure', component: CodestructureComponent },
+        { path: 'year', component: YearComponent },
+        { path: 'add-year', component: AddYearComponent },
 
         
         

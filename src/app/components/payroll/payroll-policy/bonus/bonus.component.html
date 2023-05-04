@@ -41,6 +41,7 @@
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
+                    <th>{{title_no}}</th>
                     <th>{{title_code}}</th>
                     <th>{{title_detail_en}}</th>
                     <th>{{title_detail_th}}</th>
@@ -50,6 +51,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
+                    <td><span>{{title_no}}</span>{{i+1}}</td>
                     <td>{{data.bonus_code}}</td>
                     <td>{{data.bonus_name_th}}</td>
                     <td>{{data.bonus_name_en}}</td>

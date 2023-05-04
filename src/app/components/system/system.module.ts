@@ -79,6 +79,7 @@ import { ComlocationlistComponent } from './system-manage/sys-comlocation/comloc
 import { RoundComponent } from './system-manage/round/round.component';
 import { AddRounComponent } from './system-manage/round/add-roun/add-roun.component';
 import { CodestructureComponent } from './system-manage/codestructure/codestructure.component';
+import { AddYearComponent } from './system-manage/year/add-year/add-year.component';
 
 @NgModule({
     imports: [
@@ -161,6 +162,7 @@ import { CodestructureComponent } from './system-manage/codestructure/codestruct
         RoundComponent,
         AddRounComponent,
         CodestructureComponent,
+        AddYearComponent,
     ],
     exports: [YearComponent, ReasonComponent, LocationComponent],
 })

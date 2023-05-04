@@ -38,15 +38,17 @@
         <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                    <th>{{title_From}}</th>
-                    <th>{{title_To}}</th>
+                <th>{{title_no}}</th>
+                <th>{{title_From}}</th>
+                <th>{{title_To}}</th>
                     <th>{{title_Tax}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
+                    <td><span>{{title_no}}</span>{{i+1}}</td>
                         <td>{{data.taxrate_from}}</td>
                         <td>{{data.taxrate_to}}</td>
                         <td>{{data.taxrate_tax}}</td>

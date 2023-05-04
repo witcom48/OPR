@@ -69,6 +69,7 @@ export class TaxrateComponent implements OnInit {
     title_Tax: string = '%';
     title_From: string = 'From';
     title_To: string = 'To';
+    title_no: string = 'No';
 
     title_edit: string = 'Edit';
     title_delete: string = 'Delete';
@@ -111,7 +112,7 @@ export class TaxrateComponent implements OnInit {
             this.title_From = 'จาก';
             this.title_To = 'ถึง';
             this.title_Tax = '%';
-
+ this.title_no = 'อันดับ';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';

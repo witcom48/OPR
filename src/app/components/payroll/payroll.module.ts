@@ -50,66 +50,65 @@ import { ItemsComponent } from './payroll-policy/items/items.component';
 import { ItemComponent } from './payroll-policy/items/item/item.component';
 import { ProvidentComponent } from './payroll-policy/provident/provident.component';
 import { BonusComponent } from './payroll-policy/bonus/bonus.component';
+import { CalculationperiodComponent } from './payroll-policy/calculationperiod/calculationperiod.component';
+import { SystemModule } from "../system/system.module";
 
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		PayrollRoutingModule,
-		AutoCompleteModule,
-		CalendarModule,
-		ChipsModule,
-		DropdownModule,
-		InputMaskModule,
-		InputNumberModule,
-		CascadeSelectModule,
-		MultiSelectModule,
-		InputTextareaModule,
-		InputTextModule,
-		TabViewModule,
-		PanelModule,
-		MenuModule,
-		TableModule,
-		TagModule,
-		PanelMenuModule,
-		DividerModule,
-		AccordionModule,
-		CardModule,
-		InputSwitchModule,
-		BreadcrumbModule,
-		ToolbarModule,
-		MenubarModule,
-		MegaMenuModule,
-		TabMenuModule,
-		SelectButtonModule,
-		ScrollPanelModule,
-		ChipModule,
-		ChartModule,
-		ImageModule,
-		FileUploadModule,
-		PickListModule,
+    declarations: [
+        PayrollPolicyComponent,
+        PayrollTransferComponent,
+        PayrollEntryComponent,
+        PayrollCalculateComponent,
+        PayrollCaltaxComponent,
+        PayrollViewComponent,
+        TaxrateComponent,
+        ItemsComponent,
+        ItemComponent,
+        ProvidentComponent,
+        BonusComponent,
+        CalculationperiodComponent
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        PayrollRoutingModule,
+        AutoCompleteModule,
+        CalendarModule,
+        ChipsModule,
+        DropdownModule,
+        InputMaskModule,
+        InputNumberModule,
+        CascadeSelectModule,
+        MultiSelectModule,
+        InputTextareaModule,
+        InputTextModule,
+        TabViewModule,
+        PanelModule,
+        MenuModule,
+        TableModule,
+        TagModule,
+        PanelMenuModule,
+        DividerModule,
+        AccordionModule,
+        CardModule,
+        InputSwitchModule,
+        BreadcrumbModule,
+        ToolbarModule,
+        MenubarModule,
+        MegaMenuModule,
+        TabMenuModule,
+        SelectButtonModule,
+        ScrollPanelModule,
+        ChipModule,
+        ChartModule,
+        ImageModule,
+        FileUploadModule,
+        PickListModule,
         ConfirmDialogModule,
         DialogModule,
         ToastModule,
-
-
-
-	],
-	declarations: [
-
-
-    PayrollPolicyComponent,
-           PayrollTransferComponent,
-           PayrollEntryComponent,
-           PayrollCalculateComponent,
-           PayrollCaltaxComponent,
-           PayrollViewComponent,
-           TaxrateComponent,
-           ItemsComponent,
-           ItemComponent,
-           ProvidentComponent,
-           BonusComponent
-  ]
+        SystemModule
+    ]
 })
 export class PayrollModule { }

@@ -63,6 +63,7 @@ export class ProvidentComponent implements OnInit {
     title_To: string = 'To';
     title_Rateemp: string = 'Emp. (%)';
     title_Ratecom: string = 'Com. (%)';
+    title_no: string = 'No';
 
     title_edit: string = 'Edit';
     title_delete: string = 'Delete';
@@ -107,7 +108,7 @@ export class ProvidentComponent implements OnInit {
             this.title_To = 'ถึง';
             this.title_Rateemp = 'พนักงาน (%)';
             this.title_Ratecom = 'สมทบ (%)';
-
+ this.title_no = 'อันดับ';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';
