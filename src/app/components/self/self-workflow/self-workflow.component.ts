@@ -230,7 +230,7 @@ export class SelfWorkflowComponent implements OnInit {
     unique.forEach((obj) => {
       this.selectedWorkflow.lineapprove_data.push({
         company_code: this.initial_current.CompCode,
-        workflow_type: this.selectedWorkflow.workflow_type,
+        workflow_type: this.selectedtype.code,
         workflow_code: this.selectedWorkflow.workflow_code,
         position_level: obj,
         flag: false

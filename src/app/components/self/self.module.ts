@@ -34,6 +34,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
 import {ChartModule} from 'primeng/chart';
 import {ImageModule} from 'primeng/image';
+import { PasswordModule } from 'primeng/password';
 
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -51,7 +52,7 @@ import { SelfRecordtimeComponent } from './self-recordtime/self-recordtime.compo
 import { SelfWorkflowComponent } from './self-workflow/self-workflow.component';
 import { SelfAccountComponent } from './self-account/self-account.component';
 import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.component';
-
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 
 @NgModule({
 	imports: [
@@ -93,7 +94,9 @@ import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.co
 		DialogModule,
 		RadioButtonModule,
 		PickListModule,
-		CheckboxModule
+		CheckboxModule,
+		PasswordModule,
+		UsercontrolModule
 
 
 

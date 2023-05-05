@@ -9,6 +9,9 @@ import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import {ConfirmationService} from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+
 
 
 @NgModule({
@@ -18,7 +21,9 @@ import {ConfirmationService} from 'primeng/api';
     imports: [
         AppRoutingModule,
         AppLayoutModule,
-        HttpClientModule
+        HttpClientModule,
+        ConfirmDialogModule,
+        ToastModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

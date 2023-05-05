@@ -1,155 +1,214 @@
-<span style="font-size: 20px;">Self service</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <a routerLink="/self/employee">Employee</a>&nbsp;<i class="pi pi-angle-right"></i>&nbsp;<small>Account</small>
-<hr>
-
-<p-toast position="top-right"></p-toast> 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-
-<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [style]="{width: '50vw'}" [position]="position">
-    <div class="formgrid grid align-items-end" *ngIf="account_manage">
-        <span class="spn_title_edit"></span>
-          
-        <div class="field col-12 md:col-6">
-            <label for="account_user">{{title_user}}</label>    
-            <br>                
-            <input type="text" id="account_user" [(ngModel)]="selectedAccount.account_user" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-
-        </div>
-        <div class="field col-12 md:col-6">
-            <label for="account_pass">{{title_pass}}</label>     
-            <br>                      
-            <input type="text" id="account_pass" [(ngModel)]="selectedAccount.account_pass" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-
-        </div>
-        <div class="field col-12 md:col-6">
-            <label for="workflow_name_en">{{title_type}}</label>     
-            <br>     
-            <p-dropdown placeholder="Emp" optionLabel="account_type" [showClear]="true"
-            [(ngModel)]="selectedAccount.account_type"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-6">
-            <label for="minmax-buttons">Level</label><br>
-            <p-inputNumber [(ngModel)]="selectedAccount.account_level" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="1" [max]="5">
-            </p-inputNumber>
-        </div>
-
-        <div class="field col-12 md:col-6">
-            <label for="account_email">Email</label>     
-            <br>                      
-            <input type="text" id="account_email" [(ngModel)]="selectedAccount.account_email" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-
-        </div>
-        <div class="field col-12 md:col-6">
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_email_alert" inputId="account_email_alert"></p-checkbox>
-                <label for="account_email_alert">แจ้งเตือน</label>
-            </div>
-        </div>
-
-        <div class="field col-12 md:col-6">
-            <label for="account_line">Line</label>     
-            <br>                      
-            <input type="text" id="account_line" [(ngModel)]="selectedAccount.account_line" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-
-        </div>
-        <div class="field col-12 md:col-6">
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_line_alert" inputId="account_line_alert"></p-checkbox>
-                <label for="account_line_alert">แจ้งเตือน</label>
-            </div>
-        </div>
-
-        <div class="field col-12">
-            <p-pickList [source]="position_list" [target]="position_list_dest" sourceHeader="Position List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
-
-        <div class="field col-12">
-            <p-pickList [source]="dep1_list" [target]="dep1_list_dest" sourceHeader="Level 1 List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
-
-        <div class="field col-12">
-            <p-pickList [source]="dep2_list" [target]="dep2_list_dest" sourceHeader="Level 2 List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
-
-        <div class="field col-12">
-            <p-pickList [source]="dep3_list" [target]="dep3_list_dest" sourceHeader="Level 3 List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
-        
-
-        <div class="field col-12">
-            <p-button label="{{title_save}}" icon="pi pi-save" ></p-button>
-            &nbsp;
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary" ></button>             
-        </div>
-
+<!-- Link Page -->
+<div class="path">
+    <span>{{langs.get('title')[selectlang]}}</span>
+    <div>
+        <i></i>
+        <a routerLink="/self/employee">{{langs.get('employee')[selectlang]}}</a>
+        <i></i>
+        <small>{{langs.get('account')[selectlang]}}</small>
     </div>
-
-</p-dialog>
-
-
-<p-menubar [model]="items_menu"></p-menubar >
-<div class="grid">
-    <div class="col-12 md:col-9" #TABLE>
-        <p-table #dt2  [value]="account_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedAccount" (onRowSelect)="onRowSelectAccount($event)" dataKey="account_user"
-                
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-                [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['account_user','account_type']"
-                >
-                <ng-template pTemplate="caption">
-                    <div class="flex">
-                        <span class="p-input-icon-left ml-auto">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search}}" />
-                        </span>
-                    </div>
-                </ng-template>
-
-                    <ng-template pTemplate="header">
-                        <tr>	
-                            <th>{{title_user}}</th>     
-                            <th>{{title_type}}</th>                       
-                            <th>{{title_modified_by}}</th>
-                            <th>{{title_modified_date}}</th>                                                
-                        </tr>	                    
-                    </ng-template>
-                    <ng-template pTemplate="body" let-data>
-                        <tr [pSelectableRow]="data">        
-                            <td>{{data.account_user}}</td>                                
-                            <td>{{data.account_type}}</td>      
-                            <td>{{data.modified_by}}</td>      
-                            <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                        </tr>
-                    </ng-template> 
-            </p-table>
-
-    </div>
-    <div class="col-12 md:col-3">
-        
-    </div>
-
 </div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items_menu"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="account_list" selectionMode="single" [(selection)]="selectedAccount"
+            (onRowSelect)="onRowSelectAccount($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['account_user','account_type','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('username')[selectlang]}}</th>
+                    <!-- <th>{{langs.get('description')[selectlang]}}</th> -->
+                    <th>{{langs.get('type')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr [pSelectableRow]="data">
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('username')[selectlang]}}</span>{{data.account_user}}</td>
+                    <td><span>{{langs.get('type')[selectlang]}}</span>{{data.account_type}}</td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+    <p-dialog header="{{langs.get('manage')[selectlang]}}" [(visible)]="displayManage"
+        [style]="{width: '50vw',height:'100vh'}" [position]="position" (onHide)="close()">
+        <!-- <div class="formgrid grid align-items-end" *ngIf="account_manage"> -->
+        <div class="formgrid grid align-items-end">
+            <span class="spn_title_edit"></span>
+
+            <div class="field col-12 md:col-6">
+                <label for="account_user">{{langs.get('username')[selectlang]}}</label>
+                <br>
+                <input type="text" id="account_user" [(ngModel)]="selectedAccount.account_user"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                    disabled="{{edit_data}}">
+
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="account_pwd">{{langs.get('password')[selectlang]}}</label>
+                <br>
+                <!-- <p-password [(ngModel)]="selectedAccount.account_pwd" [toggleMask]="true" [feedback]="false"></p-password> -->
+                <input type="text" id="account_pwd" [(ngModel)]="selectedAccount.account_pwd"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="workflow_name_en">{{langs.get('type')[selectlang]}}</label>
+                <br>
+                <p-dropdown [options]="TypeList" optionLabel="name" [showClear]="true" [(ngModel)]="selectuserType"
+                    [disabled]="edit_data" (onChange)="selectType()"
+                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="minmax-buttons">{{langs.get('stepuser')[selectlang]}}</label><br>
+                <p-inputNumber [(ngModel)]="selectedAccount.account_level" mode="decimal" [showButtons]="true"
+                    inputId="minmax-buttons" [min]="1" [max]="5">
+                </p-inputNumber>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="account_email">{{langs.get('email')[selectlang]}}</label>
+                <br>
+                <input type="text" id="account_email" [(ngModel)]="selectedAccount.account_email"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
+            </div>
+            <div class="field col-12 md:col-6">
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_email_alert"
+                        inputId="account_email_alert"></p-checkbox>
+                    <label for="account_email_alert">{{langs.get('noti')[selectlang]}}</label>
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="account_line">{{langs.get('line')[selectlang]}}</label>
+                <br>
+                <input type="text" id="account_line" [(ngModel)]="selectedAccount.account_line"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
+            </div>
+            <div class="field col-12 md:col-6">
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_line_alert"
+                        inputId="account_line_alert"></p-checkbox>
+                    <label for="account_line_alert">{{langs.get('noti')[selectlang]}}</label>
+                </div>
+            </div>
+            <div class="field col-12" *ngIf="selectuserType.code=='Emp'">
+                <p-pickList [source]="emp_list_source" [target]="emp_list_dest" [metaKeySelection]="true"
+                    sourceFilterPlaceholder="{{langs.get('search')[selectlang]}}"
+                    targetFilterPlaceholder="{{langs.get('search')[selectlang]}}" [showSourceControls]="false"
+                    [showTargetControls]="false" sourceHeader="{{langs.get('employee')[selectlang]}}"
+                    targetHeader="{{langs.get('employee_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
+                    [targetStyle]="{ height: '15rem' }"
+                    filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en"
+                    (onSourceSelect)="teset($event)" (onTargetSelect)="teset2($event)"
+                    (onMoveAllToTarget)="teset3($event)" (onMoveAllToSource)="teset2($event)">
+                    <ng-template let-emp pTemplate="item">
+                        <div>
+                            <div style="font-size:14px;float:left;">{{emp.worker_code}} -
+                                {{selectlang=="TH"? emp.worker_fname_th +' '+ emp.worker_lname_th :
+                                emp.worker_fname_en +' '+ emp.worker_lname_en}}
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-pickList>
+            </div>
+            <div class="field col-12" *ngIf="selectuserType.code=='GRP'">
+                <p-pickList [source]="emp_list_source" [target]="emp_list_dest" [metaKeySelection]="false"
+                    sourceFilterPlaceholder="{{langs.get('search')[selectlang]}}"
+                    targetFilterPlaceholder="{{langs.get('search')[selectlang]}}" [showSourceControls]="false"
+                    [showTargetControls]="false" sourceHeader="{{langs.get('employee')[selectlang]}}"
+                    targetHeader="{{langs.get('employee_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
+                    [targetStyle]="{ height: '15rem' }"
+                    filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
+                    <ng-template let-emp pTemplate="item">
+                        <div>
+                            <div style="font-size:14px;float:left;">{{emp.worker_code}} -
+                                {{selectlang=="TH"? emp.worker_fname_th +' '+ emp.worker_lname_th :
+                                emp.worker_fname_en +' '+ emp.worker_lname_en}}
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-pickList>
+            </div>
+            <div class="field col-12" *ngIf="selectuserType.code=='APR'">
+                <p-pickList [source]="position_list_source" [target]="position_list_dest" [metaKeySelection]="false"
+                    [showSourceControls]="false" [showTargetControls]="false"
+                    sourceHeader="{{langs.get('position')[selectlang]}}"
+                    targetHeader="{{langs.get('position_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
+                    [targetStyle]="{ height: '15rem' }">
+                    <ng-template let-position pTemplate="item">
+                        <div>
+                            <div style="font-size:14px;float:left;">{{position.position_code}} -
+                                {{selectlang=="TH"? position.position_name_th :
+                                position.position_name_en}}
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-pickList>
+            </div>
+            <div class="field col-12" *ngIf="selectuserType.code=='APR'">
+                <p-pickList [source]="dep_list_source" [target]="dep_list_dest"
+                    sourceHeader="{{langs.get('dep')[selectlang]}}"
+                    targetHeader="{{langs.get('dep_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
+                    [targetStyle]="{ height: '15rem' }" [metaKeySelection]="false" [showSourceControls]="false"
+                    [showTargetControls]="false">
+                    <ng-template let-dep pTemplate="item">
+                        <div>
+                            <div style="font-size:14px;float:left;">{{dep.dep_code}} -
+                                {{selectlang=="TH"? dep.dep_name_th :
+                                dep.dep_name_en}}
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-pickList>
+            </div>
+            <div class="field col-12">
+                <p-button label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"></p-button>
+                &nbsp;
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('delete')[selectlang]}}"
+                    class="p-button-danger" (click)="Delete()"></button>
+            </div>
+
+        </div>
+
+    </p-dialog>
+
+    <p-toast position="top-right"></p-toast>
+    <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+        rejectButtonStyleClass="p-button-text"></p-confirmDialog>
