@@ -87,11 +87,11 @@ import { AddYearComponent } from './system-manage/year/add-year/add-year.compone
         { path: 'sys-addroun', component: AddRounComponent },
         { path: 'sys-codestructure', component: CodestructureComponent },
         { path: 'year', component: YearComponent },
-        { path: 'add-year', component: AddYearComponent },
+        { path: 'system-yearperiods', component: AddYearComponent },
 
-        
-        
-        
+
+
+
 
 
 

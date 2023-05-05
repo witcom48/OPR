@@ -14,6 +14,17 @@ import { BonusComponent } from './payroll-policy/bonus/bonus.component';
 import { CalculationperiodComponent } from './payroll-policy/calculationperiod/calculationperiod.component';
 
 import { TaxrateComponent } from './payroll-policy/taxrate/taxrate.component';
+
+import { TransferBankComponent } from './payroll-transfer/transfer-bank/transfer-bank.component';
+import { TransferTaxComponent } from './payroll-transfer/transfer-tax/transfer-tax.component';
+import { TransferSsoComponent } from './payroll-transfer/transfer-sso/transfer-sso.component';
+import { TransferBonusComponent } from './payroll-transfer/transfer-bonus/transfer-bonus.component';
+import { SetbonusComponent } from './payroll-policy/setbonus/setbonus.component';
+import { SetitemsComponent } from './payroll-policy/setitems/setitems.component';
+import { SetprovidentComponent } from './payroll-policy/setprovident/setprovident.component';
+
+
+
 @NgModule({
     imports: [RouterModule.forChild([
 
@@ -31,7 +42,18 @@ import { TaxrateComponent } from './payroll-policy/taxrate/taxrate.component';
         { path: 'calculationperiod', component: CalculationperiodComponent },
 
 
+        { path: 'transferbank', component: TransferBankComponent },
+        { path: 'transfertax', component: TransferTaxComponent },
+        { path: 'transfersso', component: TransferSsoComponent },
+        { path: 'transferbonus', component: TransferBonusComponent },
+        { path: 'setbonus', component: SetbonusComponent },
 
+        { path: 'setitems', component: SetitemsComponent },
+        { path: 'setprovident', component: SetprovidentComponent },
+
+
+        
+        
 
 
 

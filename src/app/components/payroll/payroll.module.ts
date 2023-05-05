@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { PayrollRoutingModule } from './payroll-routing.module';
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar";
@@ -52,6 +53,15 @@ import { ProvidentComponent } from './payroll-policy/provident/provident.compone
 import { BonusComponent } from './payroll-policy/bonus/bonus.component';
 import { CalculationperiodComponent } from './payroll-policy/calculationperiod/calculationperiod.component';
 import { SystemModule } from "../system/system.module";
+import { TransferBankComponent } from './payroll-transfer/transfer-bank/transfer-bank.component';
+import { TransferTaxComponent } from './payroll-transfer/transfer-tax/transfer-tax.component';
+import { TransferSsoComponent } from './payroll-transfer/transfer-sso/transfer-sso.component';
+import { TransferBonusComponent } from './payroll-transfer/transfer-bonus/transfer-bonus.component';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { CheckboxModule } from 'primeng/checkbox';
+import { SetbonusComponent } from './payroll-policy/setbonus/setbonus.component';
+import { SetitemsComponent } from './payroll-policy/setitems/setitems.component';
+import { SetprovidentComponent } from './payroll-policy/setprovident/setprovident.component';
 
 
 @NgModule({
@@ -67,7 +77,14 @@ import { SystemModule } from "../system/system.module";
         ItemComponent,
         ProvidentComponent,
         BonusComponent,
-        CalculationperiodComponent
+        CalculationperiodComponent,
+        TransferBankComponent,
+        TransferTaxComponent,
+        TransferSsoComponent,
+        TransferBonusComponent,
+        SetbonusComponent,
+        SetitemsComponent,
+        SetprovidentComponent
     ],
     imports: [
         CommonModule,
@@ -108,7 +125,12 @@ import { SystemModule } from "../system/system.module";
         ConfirmDialogModule,
         DialogModule,
         ToastModule,
-        SystemModule
+        SystemModule,
+        UsercontrolModule,
+        CheckboxModule,
+
+        ProgressBarModule
+
     ]
 })
 export class PayrollModule { }
