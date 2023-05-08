@@ -253,16 +253,16 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-reqaddress>
                                             <tr [pSelectableRow]="reqaddress">
-                                                <td>{{reqaddress.applyaddress_type}}</td>
-                                                <td>{{reqaddress.applyaddress_no}}</td>
-                                                <td>{{reqaddress.applyaddress_soi}}</td>
-                                                <td>{{reqaddress.applyaddress_road}}</td>
-                                                <td>{{reqaddress.applyaddress_amphur}}</td>
-                                                <td>{{reqaddress.applyaddress_tambon}}</td>
-                                                <td>{{reqaddress.applyprovince_code}}</td>
-                                                <td>{{reqaddress.applyaddress_zipcode}}</td>
-                                                <td>{{reqaddress.applyaddress_tel}}</td>
-                                                <td>{{reqaddress.applyaddress_email}}</td>
+                                                <td>{{reqaddress.address_type}}</td>
+                                                <td>{{reqaddress.address_no}}</td>
+                                                <td>{{reqaddress.address_soi}}</td>
+                                                <td>{{reqaddress.address_road}}</td>
+                                                <td>{{reqaddress.address_amphur}}</td>
+                                                <td>{{reqaddress.address_tambon}}</td>
+                                                <td>{{reqaddress.province_code}}</td>
+                                                <td>{{reqaddress.address_zipcode}}</td>
+                                                <td>{{reqaddress.address_tel}}</td>
+                                                <td>{{reqaddress.address_email}}</td>
                                                 <td>{{reqaddress.modified_by}}</td>
                                                 <td>{{reqaddress.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -625,7 +625,7 @@
         <!--  -->
         <label for="lastname2">ประเภท :</label>
         <p-dropdown placeholder="--" [options]="addresstypeList" optionValue="addresstype_code" [showClear]="true"
-            [(ngModel)]="selectedReqAddress.applyaddress_type" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqAddress.address_type" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
             </ng-template>
@@ -636,26 +636,26 @@
 
         <!--  -->
         <label>เลขที่</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_no">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_no">
 
         <label>หมู่ที่</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_moo">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_moo">
 
         <label>ซอย</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_soi">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_soi">
 
         <label>ถนน</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_road">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_road">
 
         <label>ตำบล</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_tambon">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_tambon">
 
         <label>อำเภอ</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_amphur">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_amphur">
         <!--  -->
         <label>จังหวัด</label>
         <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code" [showClear]="true"
-            [(ngModel)]="selectedReqAddress.applyprovince_code" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqAddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
             </ng-template>
@@ -663,24 +663,21 @@
                 {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
             </ng-template>
         </p-dropdown>
-        <!--  -->
-        <!-- <label>จังหวัด</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyprovince_code"> -->
 
         <label>รหัสไปรษณีย์</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_zipcode">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_zipcode">
 
         <label>เบอร์โทรศัพท์</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_tel">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_tel">
 
         <label>อีเมล์</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_email">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_email">
 
         <label>Line</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_line">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_line">
 
         <label>Facebook</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.applyaddress_facebook">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_facebook">
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"

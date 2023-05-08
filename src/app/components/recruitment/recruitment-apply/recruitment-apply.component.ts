@@ -63,6 +63,7 @@ import { QualificationModel } from 'src/app/models/system/policy/qualification';
 import { QualificationService } from 'src/app/services/system/policy/qualification.service';
 import { CourseModel } from 'src/app/models/system/policy/course';
 import { CourseService } from 'src/app/services/system/policy/course.service';
+import { EmpaddressModel } from 'src/app/models/employee/manage/address';
 
 interface Taxmethod {
     name_th: string;
@@ -469,8 +470,8 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.clearManage();
                     this.new_reqaddress = true;
                     var ref = this.reqaddressList.length + 100;
-                    this.selectedReqAddress = new ReqaddressModel();
-                    this.selectedReqAddress.applyaddress_id = ref.toString();
+                    this.selectedReqAddress = new EmpaddressModel();
+                    this.selectedReqAddress.address_id = ref.toString();
                     this.showManage();
                 },
             },
@@ -828,8 +829,8 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     //address
-    reqaddressList: ReqaddressModel[] = [];
-    selectedReqAddress: ReqaddressModel = new ReqaddressModel();
+    reqaddressList: EmpaddressModel[] = [];
+    selectedReqAddress: EmpaddressModel = new EmpaddressModel();
     doLoadReqaddressList() {
         this.reqdetailService
             .getapplywork_reqaddress(
@@ -851,7 +852,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.displayManage = false;
     }
     reqaddress_remove() {
-        this.selectedReqAddress.applyaddress_id = '9999';
+        this.selectedReqAddress.address_id = '9999';
         this.reqaddress_addItem(this.selectedReqAddress);
         this.new_reqaddress = false;
         this.edit_reqaddress = false;
@@ -862,11 +863,11 @@ export class RecruitmentApplyComponent implements OnInit {
         this.edit_reqaddress = false;
         this.displayManage = false;
     }
-    reqaddress_addItem(model: ReqaddressModel) {
-        const itemNew: ReqaddressModel[] = [];
+    reqaddress_addItem(model: EmpaddressModel) {
+        const itemNew: EmpaddressModel[] = [];
         for (let i = 0; i < this.reqaddressList.length; i++) {
             if (
-                this.reqaddressList[i].applyaddress_id == model.applyaddress_id
+                this.reqaddressList[i].address_id == model.address_id
             ) {
                 //-- Notting
             } else {
@@ -874,13 +875,13 @@ export class RecruitmentApplyComponent implements OnInit {
             }
         }
         //-- 9999 for delete
-        if (model.applyaddress_id != '9999') {
+        if (model.address_id != '9999') {
             itemNew.push(model);
         }
         this.reqaddressList = [];
         this.reqaddressList = itemNew;
         this.reqaddressList.sort(function (a, b) {
-            return parseInt(a.applyaddress_no) - parseInt(b.applyaddress_no);
+            return parseInt(a.address_id) - parseInt(b.address_id);
         });
     }
     record_reqaddress() {
@@ -889,7 +890,7 @@ export class RecruitmentApplyComponent implements OnInit {
         }
         this.reqdetailService
             .record_reqaddress(
-                this.selectedApplywork.applywork_code,
+                this.selectedReqworker.worker_code,
                 this.reqaddressList
             )
             .then((res) => {

@@ -9,6 +9,7 @@ import { ReqcardModel } from 'src/app/models/recruitment/applycard';
 import { ReqEducationModel } from 'src/app/models/recruitment/applyeducation';
 import { ReqTrainingModel } from 'src/app/models/recruitment/applytraining';
 import { ReqForeignerModel } from 'src/app/models/recruitment/applyforeigner';
+import { EmpaddressModel } from 'src/app/models/employee/manage/address';
 
 @Injectable({
   providedIn: 'root'
@@ -69,38 +70,38 @@ export class ApplyworkDetailService {
         username:this.initial_current.Username,
         company_code:company,
         language:"",
-        applywork_code:code
+        worker_code:code
       };
 
-      return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqaddlist', filter, this.options).toPromise()
+      return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqadd_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         // console.log(res)
         return message.data;
       });
     }
-    public record_reqaddress(applywork_code :string, list:ReqaddressModel[]) {
+    public record_reqaddress(worker_code :string, list:EmpaddressModel[]) {
 
       var item_data:string = "[";
       for (let i = 0; i < list.length; i++) {
         item_data = item_data + "{";
-        item_data = item_data + "\"applyaddress_id\":\"" + list[i].applyaddress_id + "\"";
-        item_data = item_data + ",\"applyaddress_type\":\"" + list[i].applyaddress_type + "\"";
-        item_data = item_data + ",\"applyaddress_no\":\"" + list[i].applyaddress_no + "\"";
-        item_data = item_data + ",\"applyaddress_moo\":\"" + list[i].applyaddress_moo + "\"";
-        item_data = item_data + ",\"applyaddress_soi\":\"" + list[i].applyaddress_soi + "\"";
-        item_data = item_data + ",\"applyaddress_road\":\"" + list[i].applyaddress_road + "\"";
-        item_data = item_data + ",\"applyaddress_tambon\":\"" + list[i].applyaddress_tambon + "\"";
-        item_data = item_data + ",\"applyaddress_amphur\":\"" + list[i].applyaddress_amphur + "\"";
-        item_data = item_data + ",\"applyprovince_code\":\"" + list[i].applyprovince_code + "\"";
-        item_data = item_data + ",\"applyaddress_zipcode\":\"" + list[i].applyaddress_zipcode + "\"";
-        item_data = item_data + ",\"applyaddress_tel\":\"" + list[i].applyaddress_tel + "\"";
-        item_data = item_data + ",\"applyaddress_email\":\"" + list[i].applyaddress_email + "\"";
-        item_data = item_data + ",\"applyaddress_line\":\"" + list[i].applyaddress_line + "\"";
-        item_data = item_data + ",\"applyaddress_facebook\":\"" + list[i].applyaddress_facebook + "\"";
-        item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-        item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
-        item_data = item_data + "}" + ",";
+      item_data = item_data + "\"address_id\":\"" + list[i].address_id + "\"";
+      item_data = item_data + ",\"address_type\":\"" + list[i].address_type + "\"";
+      item_data = item_data + ",\"address_no\":\"" + list[i].address_no + "\"";
+      item_data = item_data + ",\"address_moo\":\"" + list[i].address_moo + "\"";
+      item_data = item_data + ",\"address_soi\":\"" + list[i].address_soi + "\"";
+      item_data = item_data + ",\"address_road\":\"" + list[i].address_road + "\"";
+      item_data = item_data + ",\"address_tambon\":\"" + list[i].address_tambon + "\"";
+      item_data = item_data + ",\"address_amphur\":\"" + list[i].address_amphur + "\"";
+      item_data = item_data + ",\"province_code\":\"" + list[i].province_code + "\"";
+      item_data = item_data + ",\"address_zipcode\":\"" + list[i].address_zipcode + "\"";
+      item_data = item_data + ",\"address_tel\":\"" + list[i].address_tel + "\"";
+      item_data = item_data + ",\"address_email\":\"" + list[i].address_email + "\"";
+      item_data = item_data + ",\"address_line\":\"" + list[i].address_line + "\"";
+      item_data = item_data + ",\"address_facebook\":\"" + list[i].address_facebook + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
       }
       if(item_data.length > 2)
       {
@@ -110,7 +111,7 @@ export class ApplyworkDetailService {
 
       var specificData = {
         transaction_data:item_data,
-        applywork_code:applywork_code,
+        worker_code:worker_code,
         company_code : this.initial_current.CompCode,
         modified_by:this.initial_current.Username
       };
@@ -121,10 +122,10 @@ export class ApplyworkDetailService {
       });
     }
 
-    public delete_reqaddress(model:ReqaddressModel){
+    public delete_reqaddress(model:EmpaddressModel){
       const data = {
-        applyaddress_id: model.applyaddress_id,
-        applywork_code: model.applywork_code,
+        address_id: model.address_id,
+        worker_code: model.worker_code,
         company_code: this.initial_current.CompCode,
         modified_by: this.initial_current.Username
       };
