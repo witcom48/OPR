@@ -4,9 +4,7 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { InitialCurrent } from '../../config/initial_current';
-// import { EmpaddressModel } from 'src/app/models/employee/manage/address';
-// import { EmpcardModel } from 'src/app/models/employee/manage/card';
-// import { EmpbankModel } from 'src/app/models/employee/manage/bank';
+
 import { ComaddressModel } from 'src/app/models/system/comaddress';
 import { ComcardModel } from 'src/app/models/system/comcard';
 import { CombankModel } from 'src/app/models/system/combank';
@@ -70,10 +68,9 @@ export class CompanyDetailService {
       ip:"localhost",
       username:this.initial_current.Username,
       company_code:company,
-      language:"",
-      compan_code:code,
-      combranch_code:"",
-      comaddress_type:"",
+    //   language:"",
+      combranch_code:"00000",
+      comaddress_type:code,
 
     };
 
@@ -90,21 +87,29 @@ export class CompanyDetailService {
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"comaddress_type\":\"" + list[i].comaddress_type + "\"";
-      item_data = item_data + ",\"comaddress_no\":\"" + list[i].comaddress_no + "\"";
-      item_data = item_data + ",\"combranch_code\":\"" + list[i].combranch_code + "\"";
-      item_data = item_data + ",\"comaddress_moo\":\"" + list[i].comaddress_moo + "\"";
-      item_data = item_data + ",\"comaddress_soi\":\"" + list[i].comaddress_soi + "\"";
-      item_data = item_data + ",\"comaddress_road\":\"" + list[i].comaddress_road + "\"";
-      item_data = item_data + ",\"comaddress_tambon\":\"" + list[i].comaddress_tambon + "\"";
-      item_data = item_data + ",\"comaddress_amphur\":\"" + list[i].comaddress_amphur + "\"";
+      item_data = item_data + ",\"combranch_code\":\"" + "00000" + "\"";
+
+      item_data = item_data + ",\"comaddressth_no\":\"" + list[i].comaddressth_no + "\"";
+      item_data = item_data + ",\"comaddressth_moo\":\"" + list[i].comaddressth_moo + "\"";
+      item_data = item_data + ",\"comaddressth_soi\":\"" + list[i].comaddressth_soi + "\"";
+      item_data = item_data + ",\"comaddressth_road\":\"" + list[i].comaddressth_road + "\"";
+      item_data = item_data + ",\"comaddressth_tambon\":\"" + list[i].comaddressth_tambon + "\"";
+      item_data = item_data + ",\"comaddressth_amphur\":\"" + list[i].comaddressth_amphur + "\"";
+      item_data = item_data + ",\"provinceth_code\":\"" + list[i].provinceth_code + "\"";
+
+      item_data = item_data + ",\"comaddressen_no\":\"" + list[i].comaddressen_no + "\"";
+      item_data = item_data + ",\"comaddressen_moo\":\"" + list[i].comaddressen_moo + "\"";
+      item_data = item_data + ",\"comaddressen_soi\":\"" + list[i].comaddressen_soi + "\"";
+      item_data = item_data + ",\"comaddressen_road\":\"" + list[i].comaddressen_road + "\"";
+      item_data = item_data + ",\"comaddressen_tambon\":\"" + list[i].comaddressen_tambon + "\"";
+      item_data = item_data + ",\"comaddressen_amphur\":\"" + list[i].comaddressen_amphur + "\"";
       item_data = item_data + ",\"comaddress_zipcode\":\"" + list[i].comaddress_zipcode + "\"";
+      item_data = item_data + ",\"provinceen_code\":\"" + list[i].provinceen_code + "\"";
+
       item_data = item_data + ",\"comaddress_tel\":\"" + list[i].comaddress_tel + "\"";
       item_data = item_data + ",\"comaddress_email\":\"" + list[i].comaddress_email + "\"";
       item_data = item_data + ",\"comaddress_line\":\"" + list[i].comaddress_line + "\"";
       item_data = item_data + ",\"comaddress_facebook\":\"" + list[i].comaddress_facebook + "\"";
-      item_data = item_data + ",\"province_code\":\"" + list[i].province_code + "\"";
-      //item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-      //test
       item_data = item_data + ",\"company_code\":\"" + company_code + "\"";
       item_data = item_data + "}" + ",";
     }
@@ -115,10 +120,13 @@ export class CompanyDetailService {
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      company_code:company_code,
-    //   company_code : this.initial_current.CompCode,
-      modified_by:this.initial_current.Username
+        transaction_data:item_data,
+        company_code:company_code,
+        modified_by:this.initial_current.Username
+    //   transaction_data:item_data,
+    //   company_code:company_code,
+    // //   company_code : this.initial_current.CompCode,
+    //   modified_by:this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiSystemModule + '/comaddress', specificData, this.options).toPromise()
@@ -135,12 +143,12 @@ export class CompanyDetailService {
       modified_by: this.initial_current.Username
     };
 
-    return this.http.post<any>(this.config.ApiSystemModule + '/empadd_del', data, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiSystemModule + '/comaddress_del', data, this.options).toPromise()
     .then((res) => {
       return res;
     });
   }
-  public empaddress_import(file: File, file_name:string, file_type:string){
+  public comaddress_import(file: File, file_name:string, file_type:string){
     const formData = new FormData();
     formData.append('file', file);
 
@@ -148,7 +156,7 @@ export class CompanyDetailService {
       para += "&token=" + this.initial_current.Token;
       para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiSystemModule + '/doUploadAddress?' + para, formData).toPromise()
+    return this.http.post<any>(this.config.ApiSystemModule + '/doUploadComaddress?' + para, formData).toPromise()
     .then((res) => {
       return res;
     });
@@ -244,9 +252,9 @@ export class CompanyDetailService {
       ip:"localhost",
       username:this.initial_current.Username,
     //   company_code:company,
-      language:"",
-      company_code:company
-
+    company_id:"",
+    company_code:company,
+    language:"",
     };
 
     return this.http.post<any>(this.config.ApiSystemModule + '/combank_list', filter, this.options).toPromise()
@@ -279,6 +287,8 @@ export class CompanyDetailService {
     var specificData = {
       transaction_data:item_data,
       company_code:company_code,
+    //   company_code:this.initial_current.CompCode,
+
     //   company_code : this.initial_current.CompCode,
       modified_by:this.initial_current.Username
     };

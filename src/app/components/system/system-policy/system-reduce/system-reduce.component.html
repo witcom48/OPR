@@ -53,7 +53,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-data>
                 <tr [pSelectableRow]="data">
-                    <td>{{data.reduce_code}}</td>
+                        <td>{{data.reduce_code}}</td>
                         <td>{{data.reduce_name_th}}</td>
                         <td>{{data.reduce_name_en}}</td>
                         <td>{{data.reduce_amount}}</td>
@@ -81,31 +81,13 @@
 
         <label>{{title_name_en}}</label>
         <textarea [(ngModel)]="selectedReduce.reduce_name_en" pInputTextarea [autoResize]="true"></textarea>
-        <label>{{title_name_th}}</label>
+        <label>{{title_amount}}</label>
         <textarea [(ngModel)]="selectedReduce.reduce_amount" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>{{title_name_en}}</label>
+        <label>{{title_percent}}</label>
         <textarea [(ngModel)]="selectedReduce.reduce_percent" pInputTextarea [autoResize]="true"></textarea>
-        <label>{{title_name_en}}</label>
+        <label>{{title_percent_max}}</label>
         <textarea [(ngModel)]="selectedReduce.reduce_percent_max" pInputTextarea [autoResize]="true"></textarea>
-
-<!-- 
-        <div class="field col-12 ">
-            <label for="ppos_company_code">{{title_amount}}</label>
-            <br>
-            <textarea [rows]="2" id="ppos_company_code" [(ngModel)]="selectedReduce.reduce_amount"class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-        </div>
-        <div class="field col-12 ">
-            <label for="ppos_company_code">{{title_percent}}</label>
-            <br>
-            <textarea [rows]="2" id="ppos_company_code" [(ngModel)]="selectedReduce.reduce_percent"class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-        </div>
-        <div class="field col-12 ">
-            <label for="ppos_company_code">{{title_percent_max}}</label>
-            <br>
-            <textarea [rows]="2" id="ppos_company_code" [(ngModel)]="selectedReduce.reduce_percent_max"class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-        </div> -->
-
 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
@@ -134,7 +116,7 @@
 <!-- ----------------------END Confirm and Toast------------------------ -->
 
 
-<!-- 
+<!--
 <p-toast position="top-right"></p-toast>
 
 

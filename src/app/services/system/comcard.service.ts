@@ -78,12 +78,12 @@ public config: AppConfig = new AppConfig();
     public comcard_record(model: ComcardModel) {
         console.log('CDD002..');
         const data = {
+            company_code: model.company_code,
             comcard_id: model.comcard_id,
             comcard_code: model.comcard_code,
             card_type: model.card_type,
             comcard_issue: model.comcard_issue,
             comcard_expire: model.comcard_expire,
-            company_code: model.company_code,
             modified_by: this.initial_current.Username,
         };
 

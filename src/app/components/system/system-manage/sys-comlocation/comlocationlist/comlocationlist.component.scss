@@ -1,0 +1,1221 @@
+// //
+// comlocation_code: string = '';
+//     manage_title: string = '';
+
+//     toolbar_menu: MenuItem[] = [];
+//     items: MenuItem[] = [];
+//     items_tab: MenuItem[] = [];
+
+//     Comlocation_list: ComlocationModel[] = [];
+//     selectedComlocation: ComlocationModel = new ComlocationModel();
+
+//     edit_comlocation: boolean = false;
+//     new_comlocation: boolean = false;
+
+//     //menu Comaddlocation
+//     menu_comaddlocation: MenuItem[] = [];
+//     edit_comaddlocation: boolean = false;
+//     new_comaddlocation: boolean = false;
+//      //menu Comaddlocation en
+//      menu_comaddlocationeen: MenuItem[] = [];
+//      edit_comaddlocationeen: boolean = false;
+//      new_comaddlocationeen: boolean = false;
+
+
+//     //menu comcard
+//     menu_comcard: MenuItem[] = [];
+//     edit_comcard: boolean = false;
+//     new_card: boolean = false;
+
+//     displayManage: boolean = false;
+
+//     constructor(
+        // private comlocationService: ComlocationService,
+//         private router: Router,
+//         private route: ActivatedRoute,
+//         private messageService: MessageService,
+//         private confirmationService: ConfirmationService,
+//         private datePipe: DatePipe,
+//         private empdetailService: EmpDetailService,
+        // private comlocationDetailService: ComlocationDetailService,
+
+//         //service
+//         private cardtypeService: CardtypeService,
+//         private addresstypeService: AddresstypeService,
+//         private provinceService: ProvinceService
+//     ) {}
+
+//     ngOnInit(): void {
+//         this.route.queryParams.subscribe((params) => {
+//             this.comlocation_code = params['comlocationcode'];
+//             console.log(this.comlocation_code);
+//         });
+
+//         this.doGetInitialCurrent();
+
+//         // Dropdown
+//         this.doLoadcardList();
+//         this.doLoadaddressList();
+//         this.doLoadprovinceList();
+
+//         setTimeout(() => {
+//             this.doLoadMenu();
+//         }, 100);
+
+//         setTimeout(() => {
+//             if (this.comlocation_code != '') {
+//                 this.doLoadComlocation();
+//             }
+//         }, 400);
+//     }
+
+//     public initial_current: InitialCurrent = new InitialCurrent();
+//     doGetInitialCurrent() {
+//         this.initial_current = JSON.parse(
+//             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
+//         );
+//         if (!this.initial_current) {
+//             this.router.navigateByUrl('');
+//         }
+//     }
+
+//     title_page: string = 'comlocation';
+//     title_new: string = 'New';
+//     title_edit: string = 'Edit';
+//     title_delete: string = 'Delete';
+//     title_import: string = 'Import';
+//     title_export: string = 'Export';
+//     title_save: string = 'Save';
+//     title_code: string = 'Code';
+
+//     title_summit: string = 'Summit';
+//     title_cancel: string = 'Cancel';
+
+//     title_genaral: string = 'Genaral';
+
+//     title_fname_th: string = 'First Name (Thai)';
+//     title_lname_th: string = 'Last Name (Thai)';
+//     title_fname_en: string = 'First Name (Eng.)';
+//     title_lname_en: string = 'Last Name (Eng.)';
+//     title_initial: string = 'Initial';
+
+//     title_birthdate: string = 'Birth Date';
+//     title_startdate: string = 'Start Date';
+//     title_hrs: string = 'Hour/Day';
+//     title_probation: string = 'Probation';
+//     title_probationdate: string = 'Probation Date';
+//     title_probationenddate: string = 'Probation End';
+//     title_resignstatus: string = 'Resign Status';
+//     title_resigndate: string = 'Resign Date';
+//     title_resignreason: string = 'Resign Reason';
+
+//     title_personal: string = 'Personal';
+//     title_religion: string = 'Religion';
+//     title_blood: string = 'Blood';
+//     title_weight: string = 'Weight';
+//     title_height: string = 'Height';
+//     title_address: string = 'Address';
+//     title_card: string = 'Card';
+//     title_family: string = 'Family';
+//     title_hospital: string = 'Hospital';
+//     title_foreigner: string = 'Foreigner';
+
+//     title_record: string = 'Record';
+//     title_department: string = 'Department';
+//     title_position: string = 'Position';
+//     title_training: string = 'Training';
+//     title_education: string = 'Education';
+//     title_assessment: string = 'Assessment';
+//     title_criminal: string = 'Criminal Record';
+
+//     title_finance: string = 'Finance';
+//     title_taxmethod: string = 'Tax Method';
+//     title_salary: string = 'Salary';
+//     title_benefit: string = 'Benefit';
+//     title_fund: string = 'Provident Fund';
+//     title_reduce: string = 'Reduces';
+//     title_accumulate: string = 'Accumalate';
+
+//     title_tranfer: string = 'Tranfer record';
+
+//     title_modified_by: string = 'Edit by';
+//     title_modified_date: string = 'Edit date';
+//     title_search: string = 'Search';
+//     title_upload: string = 'Upload';
+
+//     title_page_from: string = 'Showing';
+//     title_page_to: string = 'to';
+//     title_page_total: string = 'of';
+//     title_page_record: string = 'entries';
+
+//     title_confirm: string = 'Are you sure?';
+//     title_confirm_record: string = 'Confirm to record';
+//     title_confirm_delete: string = 'Confirm to delete';
+//     title_confirm_yes: string = 'Yes';
+//     title_confirm_no: string = 'No';
+
+//     title_confirm_cancel: string = 'You have cancelled';
+
+//     doLoadLanguage() {
+//         if (this.initial_current.Language == 'TH') {
+//             this.title_page = 'ข้อมูลสถานที่ปฎิบัติงาน';
+//             this.title_new = 'เพิ่ม';
+//             this.title_edit = 'แก้ไข';
+//             this.title_delete = 'ลบ';
+//             this.title_import = 'นำเข้า';
+//             this.title_export = 'โอนออก';
+//             this.title_save = 'บันทึก';
+
+//             this.title_summit = 'บันทึก';
+//             this.title_cancel = 'ยกเลิก';
+
+//             this.title_genaral = 'ข้อมูลทั่วไป';
+//             this.title_code = 'รหัสพนักงาน';
+//             this.title_fname_th = 'ชื่อจริง (ไทย)';
+//             this.title_lname_th = 'นามสกุล (ไทย)';
+//             this.title_fname_en = 'ชื่อจริง (อังกฤษ)';
+//             this.title_lname_en = 'นามสกุล (อังกฤษ)';
+//             this.title_initial = 'คำนำหน้า';
+
+//             this.title_birthdate = 'วันเกิด';
+//             this.title_startdate = 'วันที่เริ่มงาน';
+//             this.title_hrs = 'ชั่วโมงทำงาน';
+//             this.title_probation = 'จำนวนวันทดลองงาน';
+//             this.title_probationdate = 'วันที่เริ่มทดลองงาน';
+//             this.title_probationenddate = 'วันที่สิ้นสุดทดลองงาน';
+//             this.title_resignstatus = 'ลาออก';
+//             this.title_resigndate = 'วันที่ลาออก';
+//             this.title_resignreason = 'เหตุผลการลาออก';
+
+//             this.title_personal = 'ข้อมูลส่วนตัว';
+//             this.title_religion = 'ศาสนา';
+//             this.title_blood = 'กรุ๊ปเลือด';
+//             this.title_weight = 'นํ้าหนัก';
+//             this.title_height = 'ส่วนสูง';
+//             this.title_address = 'ที่อยู่';
+//             this.title_card = 'ข้อมูลบัตร';
+//             this.title_family = 'ข้อมูลครอบครัว';
+//             this.title_hospital = 'ข้อมูลโรงพยาบาล';
+//             this.title_foreigner = 'ข้อมูลพนักงานต่างด้าว';
+
+//             this.title_record = 'ข้อมูลประวัติ';
+//             this.title_department = 'สังกัด';
+//             this.title_position = 'ตำแหน่ง';
+//             this.title_education = 'ประวัติการศึกษา';
+//             this.title_training = 'ประวัติการอบรม';
+//             this.title_assessment = 'ประวัติการประเมิน';
+//             this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
+
+//             this.title_finance = 'การเงิน';
+//             this.title_taxmethod = 'การคำนวนภาษี';
+//             this.title_salary = 'เงินเดือน/ค่าจ้าง';
+//             this.title_benefit = 'สวัสดิการ';
+//             this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
+//             this.title_reduce = 'ค่าลดหย่อน';
+//             this.title_accumulate = 'รายได้สะสม/ภาษีสะสม';
+
+//             this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
+
+//             this.title_modified_by = 'ผู้ทำรายการ';
+//             this.title_modified_date = 'วันที่ทำรายการ';
+//             this.title_search = 'ค้นหา';
+//             this.title_upload = 'อัพโหลด';
+
+//             this.title_page_from = 'แสดง';
+//             this.title_page_to = 'ถึง';
+//             this.title_page_total = 'จาก';
+//             this.title_page_record = 'รายการ';
+
+//             this.title_confirm = 'ยืนยันการทำรายการ';
+//             this.title_confirm_record = 'คุณต้องการบันทึกการทำรายการ';
+//             this.title_confirm_delete = 'คุณต้องการลบรายการ';
+
+//             this.title_confirm_yes = 'ใช่';
+//             this.title_confirm_no = 'ยกเลิก';
+//             this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
+//         }
+//     }
+
+//     doLoadMenu() {
+//         //menumain
+//         this.toolbar_menu = [
+//             {
+//                 label: 'Back',
+//                 icon: 'pi-arrow-left',
+//                 command: (event) => {
+//                     this.router.navigateByUrl('system/sys-comlocation');
+//                 },
+//             },
+//             {
+//                 label: 'Save',
+//                 icon: 'pi pi-fw pi-save',
+//                 command: (event) => {
+//                     console.log('Save');
+//                     this.confirmRecord();
+//                 },
+//             },
+//         ];
+//         //menu ComaddlocationModel
+//         this.menu_comaddlocation = [
+//             {
+//                 label: 'New',
+//                 icon: 'pi pi-fw pi-plus',
+//                 command: (event) => {
+//                     this.clearManage();
+//                     this.new_comaddlocation = true;
+//                     var ref = this.comaddlocationList.length + 100;
+//                     this.selectedComaddlocation = new ComaddlocationModel();
+//                     this.selectedComaddlocation.comlocation_code = ref.toString();
+//                     this.showManage();
+//                 },
+//             },
+//             {
+//                 label: 'Edit',
+//                 icon: 'pi pi-fw pi-pencil',
+//                 command: (event) => {
+//                     this.clearManage();
+//                     if (this.selectedComaddlocation != null) {
+//                         this.edit_comaddlocation = true;
+//                         this.showManage();
+//                     }
+//                 },
+//             },
+//             {
+//                 label: 'Delete',
+//                 icon: 'pi pi-fw pi-trash',
+//                 command: (event) => {
+//                     if (this.selectedComaddlocation != null) {
+//                         this.comaddlocation_remove();
+//                     }
+//                 },
+//             },
+//             {
+//                 label: 'Import',
+//                 icon: 'pi pi-fw pi-file-import',
+//                 command: (event) => {
+//                     console.log('IMPORT');
+//                 },
+//             },
+//             {
+//                 label: 'Export',
+//                 icon: 'pi pi-fw pi-file-export',
+//                 command: (event) => {},
+//             },
+//         ];
+//         //menu address en
+//         this.menu_comaddlocationeen = [
+//             {
+//                 label: 'New',
+//                 icon: 'pi pi-fw pi-plus',
+//                 command: (event) => {
+//                     this.clearManage();
+//                     this.new_comaddlocationeen = true;
+//                     var ref = this.comaddlocationList.length + 100;
+//                     this.selectedComaddlocation = new ComaddlocationModel();
+//                     this.selectedComaddlocation.company_code = ref.toString();
+//                     this.showManage();
+//                 },
+//             },
+//             {
+//                 label: 'Edit',
+//                 icon: 'pi pi-fw pi-pencil',
+//                 command: (event) => {
+//                     this.clearManage();
+//                     if (this.selectedComaddlocation != null) {
+//                         this.edit_comaddlocationeen = true;
+//                         this.showManage();
+//                     }
+//                 },
+//             },
+//             {
+//                 label: 'Delete',
+//                 icon: 'pi pi-fw pi-trash',
+//                 command: (event) => {
+//                     if (this.selectedComaddlocation != null) {
+//                         this.comaddlocation_remove();
+//                     }
+//                 },
+//             },
+//             {
+//                 label: 'Import',
+//                 icon: 'pi pi-fw pi-file-import',
+//                 command: (event) => {
+//                     console.log('IMPORT');
+//                 },
+//             },
+//             {
+//                 label: 'Export',
+//                 icon: 'pi pi-fw pi-file-export',
+//                 command: (event) => {},
+//             },
+//         ];
+
+//     }
+
+//     tabChange(e: { index: any }) {
+//         var index = e.index;
+
+//         this.edit_comaddlocation = false;
+//         this.new_comaddlocation = false;
+//         //
+//         this.edit_comaddlocationeen = false;
+//         this.new_comaddlocationeen = false;
+//         //
+//         this.edit_comcard = false;
+//         this.new_card = false;
+//         //
+
+//         this.displayManage = false;
+//     }
+
+//     position: string = 'right';
+//     showManage() {
+//         this.displayManage = true;
+
+//         if (this.initial_current.Language == 'EN') {
+//             if (this.new_comaddlocation || this.edit_comaddlocation) {
+//                 this.manage_title = 'Address';
+//             } else if (this.new_comaddlocationeen || this.edit_comaddlocationeen) {
+//                 this.manage_title = 'Addressen';
+//             } else if (this.new_card || this.edit_comcard) {
+//                 this.manage_title = 'Card';
+//             }
+//         } else {
+//             if (this.new_comaddlocation || this.edit_comaddlocation) {
+//                 this.manage_title = 'ที่อยู่';
+
+//             } else if (this.new_comaddlocationeen || this.edit_comaddlocationeen) {
+//                 this.manage_title = 'ที่อยู่ene';
+//             } else if (this.new_card || this.edit_comcard) {
+//                 this.manage_title = 'ข้อมูลบัตร';
+//             }
+//         }
+//     }
+
+//     doLoadComlocation() {
+//         var Comlocation_list: ComlocationModel[] = [];
+//         this.comlocationService
+//             .comlocation_get(this.comlocation_code)
+//             .then(async (res) => {
+//                 await res.forEach((element: ComlocationModel) => {});
+
+//                 Comlocation_list = await res;
+//                 console.log(res);
+
+//                 if (Comlocation_list.length > 0) {
+//                     this.selectedComlocation = Comlocation_list[0];
+
+//                     setTimeout(() => {
+//                         this.doLoadComaddlocationList();
+//                     }, 300);
+//                 }
+//             });
+//     }
+
+//     // get data dropdown
+
+//     cardList: CardtypeModel[] = [];
+//     doLoadcardList() {
+//         this.cardtypeService.cardtype_get().then((res) => {
+//             this.cardList = res;
+//         });
+//     }
+//     addressList: AddresstypeModel[] = [];
+//     doLoadaddressList() {
+//         this.addresstypeService.addresstype_get().then((res) => {
+//             this.addressList = res;
+//         });
+//     }
+//     provinceList: ProvinceModel[] = [];
+//     doLoadprovinceList() {
+//         this.provinceService.province_get().then((res) => {
+//             this.provinceList = res;
+//         });
+//     }
+
+//     //address
+//     comaddlocationList: ComaddlocationModel[] = [];
+//     selectedComaddlocation: ComaddlocationModel = new ComaddlocationModel();
+//     doLoadComaddlocationList() {
+//         this.comlocationDetailService
+//             .getcomlocation_comaddlocation(
+//                 this.initial_current.CompCode,
+//                 this.comlocation_code
+//             )
+//             .then((res) => {
+//                 this.comaddlocationList = res;
+//                 if (this.comaddlocationList.length > 0) {
+//                     this.selectedComaddlocation = this.comaddlocationList[0];
+//                 }
+//             });
+//     }
+//     onRowSelectComaddlocation(event: Event) {}
+//     comaddlocation_summit() {
+//         this.comaddlocation_addItem(this.selectedComaddlocation);
+//         this.new_comaddlocation = false;
+//         this.edit_comaddlocation = false;
+//         this.displayManage = false;
+
+//         this.new_comaddlocationeen = false;
+//         this.edit_comaddlocationeen = false;
+//     }
+//     comaddlocation_remove() {
+//         this.selectedComaddlocation.comlocation_code = '9999';
+//         this.comaddlocation_addItem(this.selectedComaddlocation);
+//         this.new_comaddlocation = false;
+//         this.edit_comaddlocation = false;
+
+//         this.new_comaddlocationeen = false;
+//         this.edit_comaddlocationeen = false;
+//     }
+//     comaddlocation_delete() {}
+//     comaddlocation_cancel() {
+//         this.new_comaddlocation = false;
+//         this.edit_comaddlocation = false;
+
+//         this.new_comaddlocationeen = false;
+//         this.edit_comaddlocationeen = false;
+
+//         this.displayManage = false;
+//     }
+//     comaddlocation_addItem(model: ComaddlocationModel) {
+//         const itemNew: ComaddlocationModel[] = [];
+//         for (let i = 0; i < this.comaddlocationList.length; i++) {
+//             if (this.comaddlocationList[i].comlocation_code == model.comlocation_code) {
+//                 //-- Notting
+//             } else {
+//                 itemNew.push(this.comaddlocationList[i]);
+//             }
+//         }
+//         //-- 9999 for delete
+//         if (model.comlocation_code != '9999') {
+//             itemNew.push(model);
+//         }
+//         this.comaddlocationList = [];
+//         this.comaddlocationList = itemNew;
+//         this.comaddlocationList.sort(function (a, b) {
+//             return parseInt(a.comaddlocationen_no) - parseInt(b.comaddlocationth_no);
+//         });
+//     }
+//     record_comaddlocationth() {
+//         if (this.comaddlocationList.length == 0) {
+//             return;
+//         }
+//         this.comlocationDetailService
+//             .record_comaddlocation(
+//                 this.selectedComlocation.comlocation_code,
+//                 this.comaddlocationList
+//             )
+//             .then((res) => {
+//                 let result = JSON.parse(res);
+//                 if (result.success) {
+//                 } else {
+//                 }
+//             });
+//     }
+
+
+
+//     confirmRecord() {
+//         this.confirmationService.confirm({
+//             message: this.title_confirm_record,
+//             header: this.title_confirm,
+//             icon: 'pi pi-exclamation-triangle',
+//             accept: () => {
+//                 this.doRecordComlocation();
+//             },
+//             reject: () => {
+//                 this.messageService.add({
+//                     severity: 'warn',
+//                     summary: 'Cancelled',
+//                     detail: this.title_confirm_cancel,
+//                 });
+//             },
+//         });
+//     }
+
+//     doRecordComlocation() {
+//         this.comlocationService
+//             .comlocation_record(this.selectedComlocation)
+//             .then((res) => {
+//                 console.log(res);
+
+//                 let result = JSON.parse(res);
+
+//                 if (result.success) {
+//                     //-- Transaction
+//                     this.record_comaddlocationth();
+//                     this.doLoadComlocation();
+
+//                     this.messageService.add({
+//                         severity: 'success',
+//                         summary: 'Success',
+//                         detail: result.message,
+//                     });
+//                     this.router.navigateByUrl('system/Branch');
+
+//                 } else {
+//                     this.messageService.add({
+//                         severity: 'error',
+//                         summary: 'Error',
+//                         detail: result.message,
+//                     });
+//                 }
+//             });
+//     }
+
+//     close() {
+//         this.new_comlocation = false;
+//         this.selectedComlocation = new ComlocationModel();
+//     }
+
+//     clearManage() {
+//         this.new_comaddlocation = false;
+//         this.edit_comaddlocation = false;
+
+//         this.new_comaddlocationeen = false;
+//         this.edit_comaddlocationeen = false;
+
+//         this.new_card = false;
+//         this.edit_comcard = false;
+//     }
+// }
+
+
+
+
+
+
+// <!-- eslint-disable @angular-eslint/template/eqeqeq -->
+// <p-menubar [model]="toolbar_menu"></p-menubar>
+// <p-card header="Comlocation" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+//     <div class="grid">
+//         <div class="col-12 md:col-9">
+//             <p-tabView (onChange)="tabChange($event)">
+
+//                 <!-- Tab Genaral -->
+//                 <div class="empinfo">
+//                     <div class="formgrid grid">
+//                         <div class="field col-12 md:col-6">
+//                             <label for="firstname2">รหัสสถานที่ปฏิบัติงาน</label><br>
+//                             <br />
+//                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedComlocation.comlocation_code"
+//                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+//                                 maxlength="5" [readonly]="comlocation_code" [cols]="30" pInputTextarea
+//                                 [autoResize]="true"></textarea>
+//                         </div>
+//                         <div class="field col-12 md:col-6">
+//                             <label for="firstname2">ชื่อไทย </label><br>
+//                             <br />
+//                             <textarea [rows]="2" id="ppos_detailen"
+//                                 [(ngModel)]="selectedComlocation.comlocation_name_th"
+//                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+//                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+//                         </div>
+//                         <div class="field col-12 md:col-6">
+//                             <label for="firstname2">ชื่ออังกฤษ</label><br>
+//                             <br />
+//                             <textarea [rows]="2" id="ppos_detailen"
+//                                 [(ngModel)]="selectedComlocation.comlocation_name_en"
+//                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+//                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+//                         </div>
+
+//                         <div class=" col-12 ">
+//                             <p-accordion>
+//                                 <p-accordionTab header="{{title_address}}">
+
+//                                     <p-tabView (onChange)="tabChange($event)">
+//                                         <p-tabPanel>
+//                                             <ng-template pTemplate="header">
+//                                                 <i></i>&nbsp;&nbsp;
+//                                                 <span>Address TH</span>
+//                                             </ng-template>
+//                                             <div class="formgrid grid">
+
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">ประเภท:</label><br>
+//                                                     <p-dropdown placeholder="Select a Type" optionLabel="name"
+//                                                         [showClear]="true"
+//                                                         [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+//                                                 </div>
+
+
+
+// <!-- eslint-disable @angular-eslint/template/eqeqeq -->
+// <p-menubar [model]="toolbar_menu"></p-menubar>
+// <p-card header="Comlocation" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+//     <div class="grid">
+//         <div class="col-12 md:col-9">
+//             <p-tabView (onChange)="tabChange($event)">
+
+//                 <!-- Tab Genaral -->
+//                 <div class="empinfo">
+//                     <div class="formgrid grid">
+//                         <div class="field col-12 md:col-6">
+//                             <label for="firstname2">รหัสสถานที่ปฏิบัติงาน</label><br>
+//                             <br />
+//                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedComlocation.comlocation_code"
+//                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+//                                 maxlength="5" [readonly]="comlocation_code" [cols]="30" pInputTextarea
+//                                 [autoResize]="true"></textarea>
+//                         </div>
+//                         <div class="field col-12 md:col-6">
+//                             <label for="firstname2">ชื่อไทย </label><br>
+//                             <br />
+//                             <textarea [rows]="2" id="ppos_detailen"
+//                                 [(ngModel)]="selectedComlocation.comlocation_name_th"
+//                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+//                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+//                         </div>
+//                         <div class="field col-12 md:col-6">
+//                             <label for="firstname2">ชื่ออังกฤษ</label><br>
+//                             <br />
+//                             <textarea [rows]="2" id="ppos_detailen"
+//                                 [(ngModel)]="selectedComlocation.comlocation_name_en"
+//                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+//                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+//                         </div>
+
+//                         <div class=" col-12 ">
+//                             <p-accordion>
+//                                 <p-accordionTab header="{{title_address}}">
+
+//                                     <p-tabView (onChange)="tabChange($event)">
+//                                         <p-tabPanel>
+//                                             <ng-template pTemplate="header">
+//                                                 <i></i>&nbsp;&nbsp;
+//                                                 <span>Address TH</span>
+//                                             </ng-template>
+//                                             <div class="formgrid grid">
+
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">ประเภท:</label><br>
+//                                                     <p-dropdown placeholder="--" [options]="addressList"
+//                                                     optionValue="addresstype_code" [showClear]="true"
+//                                                     [(ngModel)]="selectedComaddlocation.comaddress_type"
+//                                                     [style]="{ width: '100%', overflow: 'visible' }">
+//                                                     <ng-template let-item pTemplate="selectedItem">
+//                                                         {{initial_current.Language=="TH"? item.addresstype_name_th :
+//                                                         item.addresstype_name_th}}
+//                                                     </ng-template>
+//                                                     <ng-template let-item pTemplate="item">
+//                                                         {{initial_current.Language=="TH"? item.addresstype_name_th :
+//                                                         item.addresstype_name_th}}
+//                                                     </ng-template>
+//                                                 </p-dropdown>
+//                                                 </div>
+
+
+
+//                                                 <div class="field col-6">
+//                                                     <label for="firstname2">เลขที่</label>
+//                                                     <input id="firstname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationth_no"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">หมู่ที่</label>
+//                                                     <input id="lastname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationth_moo"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="firstname2">ซอย</label>
+//                                                     <input id="firstname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationth_soi"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">ถนน</label>
+//                                                     <input id="lastname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationth_road"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="firstname2">ตำบล</label>
+//                                                     <input id="firstname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationth_tambon"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">อำเภอ</label>
+//                                                     <input id="lastname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationth_amphur"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">จังหวัด:</label><br>
+//                                                     <p-dropdown placeholder="Select a Type" optionLabel="name"
+//                                                         [showClear]="true"
+//                                                         [(ngModel)]="selectedComaddlocation.provinceth_code"
+
+//                                                         [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+//                                                 </div>
+//                                                 <!-- <div class="field col-6">
+//                                                     <label for="lastname2">รหัสไปรษณีย์</label>
+//                                                     <input id="lastname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comlocation_name_en"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div> -->
+//                                             </div>
+//                                         </p-tabPanel>
+//                                         <!--  -->
+//                                         <p-tabPanel>
+//                                             <ng-template pTemplate="header">
+//                                                 <i></i>&nbsp;&nbsp;
+//                                                 <span>Address EN</span>
+//                                             </ng-template>
+
+//                                             <div class="formgrid grid">
+//                                                 <div class="field col-6">
+//                                                     <label for="firstname2">no</label>
+//                                                     <input id="firstname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationen_no"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">moo</label>
+//                                                     <input id="lastname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationen_moo"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="firstname2">soi</label>
+//                                                     <input id="firstname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationen_soi"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">road</label>
+//                                                     <input id="lastname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationen_road"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="firstname2">tambon</label>
+//                                                     <input id="firstname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationen_tambon"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">amphur</label>
+//                                                     <input id="lastname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocationen_amphur"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">zipcode:</label><br>
+//                                                     <p-dropdown placeholder="Select a Type" optionLabel="name"
+//                                                         [showClear]="true"
+//                                                         [(ngModel)]="selectedComaddlocation.comaddlocation_zipcode"
+
+//                                                         comaddlocation_zipcode
+//                                                         [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+//                                                 </div>
+
+//                                                 <div class="field col-6">
+//                                                     <label for="lastname2">provinceen</label>
+//                                                     <input id="lastname2" type="text"
+//                                                         [(ngModel)]="selectedComaddlocation.provinceen_code"
+//                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <div class="p-inputgroup">
+//                                                         <span class="p-inputgroup-addon">tel</span>
+//                                                         <input type="text" pInputText placeholder=""
+//                                                             [(ngModel)]="selectedComaddlocation.comaddlocation_tel">
+//                                                     </div>
+//                                                 </div>
+
+
+//                                                 <div class="field col-6">
+//                                                     <div class="p-inputgroup">
+//                                                         <span class="p-inputgroup-addon">email</span>
+//                                                         <input type="text" pInputText placeholder=""
+//                                                             [(ngModel)]="selectedComaddlocation.comaddlocation_email">
+//                                                     </div>
+//                                                 </div>
+
+//                                                 <div class="field col-6">
+//                                                     <div class="p-inputgroup">
+//                                                         <span class="p-inputgroup-addon">line</span>
+//                                                         <input type="text" pInputText placeholder=""
+//                                                             [(ngModel)]="selectedComaddlocation.comaddlocation_line">
+//                                                     </div>
+//                                                 </div>
+//                                                 <div class="field col-6">
+//                                                     <div class="p-inputgroup">
+//                                                         <span class="p-inputgroup-addon">facebook</span>
+//                                                         <input type="text" pInputText placeholder=""
+//                                                             [(ngModel)]="selectedComaddlocation.comaddlocation_facebook">
+//                                                     </div>
+//                                                 </div>
+
+// comaddlocation_facebook
+
+//                                             </div>
+
+
+
+//                                         </p-tabPanel>
+//                                     </p-tabView>
+
+//                                 </p-accordionTab>
+//                             </p-accordion>
+//                         </div>
+//                         <!-- ConfirmDialog and toast Noti -->
+//                         <p-toast position="top-right"></p-toast>
+//                         <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+//                             rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+//                         <!-- ----------------------END Confirm and Toast------------------------ -->
+
+
+
+
+
+
+
+// <!-- eslint-disable @angular-eslint/template/eqeqeq -->
+// <p-menubar [model]="toolbar_menu"></p-menubar>
+// <p-card header="Branch" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+//     <div class="grid">
+//         <div class="col-12 md:col-9">
+//             <p-tabView (onChange)="tabChange($event)">
+
+//                 <!-- Tab Genaral -->
+
+//                 <!-- <ng-template pTemplate="header">
+//                         <i class="pi pi-cog"></i>&nbsp;&nbsp;
+//                         <span>{{title_genaral}}</span>
+//                     </ng-template> -->
+
+//                 <div class="empinfo">
+//                     <div class="formgrid grid">
+//                         <div class="field col-12 md:col-6">
+//                             <label for="firstname2">รหัสสถานที่ปฏิบัติงาน</label><br>
+//                             <br />
+//                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedComlocation.comlocation_code"
+//                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+//                                 maxlength="5" [readonly]="comlocation_code" [cols]="30" pInputTextarea
+//                                 [autoResize]="true"></textarea>
+//                         </div>
+
+                      
+
+//                         <div class="field col-12 md:col-6">
+//                             <label for="firstname2">ชื่อไทย </label><br>
+//                             <br />
+//                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedComlocation.comlocation_name_th"
+//                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+//                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+//                         </div>
+//                         <div class="field col-12 md:col-6">
+//                             <label for="firstname2">ชื่ออังกฤษ</label><br>
+//                             <br />
+//                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedComlocation.comlocation_name_en"
+//                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+//                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+//                         </div>
+
+
+
+//                         <!-- Address -->
+//                         <div class="field col-12">
+//                             <p-accordion>
+//                                 <p-accordionTab header="{{title_address}}">
+
+//                                     <p-tabView (onChange)="tabChange($event)">
+//                                         <p-tabPanel>
+//                                             <ng-template pTemplate="header">
+//                                                 <i></i>&nbsp;&nbsp;
+//                                                 <span>Address TH</span>
+//                                             </ng-template>
+
+//                                             <p-menubar [model]="menu_comaddlocation"></p-menubar>
+//                                             <p-table #dtAddress [value]="comaddlocationList" styleClass="p-datatable-sm"
+//                                                 [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+//                                                 scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+//                                                 [(selection)]="selectedComaddlocation"
+//                                                 (onRowSelect)="onRowSelectComaddlocation($event)" [rows]="10"
+//                                                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+//                                                 [paginator]="true"
+//                                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+//                                                 <ng-template pTemplate="header">
+//                                                     <tr>
+//                                                         <th>ประเภท</th>
+//                                                         <th>เลขที่</th>
+//                                                         <th>หมู่ที่</th>
+//                                                         <th>ซอย</th>
+//                                                         <th>ถนน</th>
+//                                                         <th>ตำบล</th>
+//                                                         <th>อำเภอ</th>
+//                                                         <th>จังหวัด</th>
+//                                                         <th>รหัสไปรษณีย์</th>
+//                                                         <th>เบอร์โทรศัพท์</th>
+//                                                         <!-- <th>อีเมล์</th>
+//                                                         <th>ไลน์</th>
+//                                                         <th>เฟสบุ๊ค</th> -->
+//                                                         <th>ผู้ทำรายการ</th>
+//                                                         <th>วันที่ทำรายการ</th>
+//                                                     </tr>
+//                                                 </ng-template>
+//                                                 <ng-template pTemplate="body" let-data>
+//                                                     <tr [pSelectableRow]="data">
+//                                                         <td>{{data.comaddlocation_type}}</td>
+//                                                         <td>{{data.comaddlocationth_no}}</td>
+//                                                         <td>{{data.comaddlocationth_moo}}</td>
+//                                                         <td>{{data.comaddlocationth_soi}}</td>
+//                                                         <td>{{data.comaddlocationth_road}}</td>
+//                                                         <td>{{data.comaddlocationth_tambon}}</td>
+//                                                         <td>{{data.comaddlocationth_amphur}}</td>
+//                                                         <td>{{data.provinceth_code}}</td>
+//                                                         <td>{{data.comaddlocation_zipcode}}</td>
+//                                                         <td>{{data.comaddlocation_tel}}</td>
+//                                                         <!-- <td>{{data.comaddress_email}}</td>
+//                                                         <td>{{data.comaddress_line}}</td>
+//                                                         <td>{{data.comaddress_facebook}}</td> -->
+
+//                                                         <td>{{data.modified_by}}</td>
+//                                                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+//                                                     </tr>
+//                                                 </ng-template>
+//                                             </p-table>
+//                                         </p-tabPanel>
+
+//                                         <p-tabPanel>
+//                                             <ng-template pTemplate="header">
+//                                                 <i></i>&nbsp;&nbsp;
+//                                                 <span>Address EN</span>
+//                                             </ng-template>
+//                                             <p-menubar [model]="menu_comaddlocation"></p-menubar>
+//                                             <p-table #dtAddress [value]="comaddlocationList" styleClass="p-datatable-sm"
+//                                                 [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+//                                                 scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+//                                                 [(selection)]="selectedComaddlocation"
+//                                                 (onRowSelect)="onRowSelectComaddlocation($event)" [rows]="10"
+//                                                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+//                                                 [paginator]="true"
+//                                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+//                                                 <ng-template pTemplate="header">
+//                                                     <tr>
+//                                                         <!-- <th>type</th> -->
+//                                                         <th>no</th>
+//                                                         <th>moo</th>
+//                                                         <th>soi</th>
+//                                                         <th>road</th>
+//                                                         <th>tambon</th>
+//                                                         <th>amphur</th>
+//                                                         <th>province</th>
+
+//                                                         <!-- <th>zipcode</th> -->
+//                                                         <!-- <th>tel</th> -->
+//                                                         <th>email</th>
+//                                                         <th>line</th>
+//                                                         <th>facebook</th>
+//                                                         <th>modified_by</th>
+//                                                         <th>modified_date</th>
+//                                                     </tr>
+//                                                 </ng-template>
+//                                                 <ng-template pTemplate="body" let-data>
+//                                                     <tr [pSelectableRow]="data">
+//                                                         <!-- <td>{{data.comaddress_type}}</td> -->
+//                                                         <td>{{data.comaddlocationen_no}}</td>
+//                                                         <td>{{data.comaddlocationen_moo}}</td>
+//                                                         <td>{{data.comaddlocationen_soi}}</td>
+//                                                         <td>{{data.comaddlocationen_road}}</td>
+//                                                         <td>{{data.comaddlocationen_tambon}}</td>
+//                                                         <td>{{data.comaddlocationen_amphur}}</td>
+//                                                         <td>{{data.provinceen_code}}</td>
+
+//                                                         <!-- <td>{{data.comaddress_zipcode}}</td> -->
+//                                                         <!-- <td>{{data.comaddress_tel}}</td> -->
+//                                                         <td>{{data.comaddlocation_email}}</td>
+//                                                         <td>{{data.comaddlocation_line}}</td>
+//                                                         <td>{{data.comaddlocation_facebook}}</td>
+//                                                         <td>{{data.modified_by}}</td>
+//                                                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+//                                                     </tr>
+//                                                 </ng-template>
+//                                             </p-table>
+//                                         </p-tabPanel>
+//                                     </p-tabView>
+
+//                                 </p-accordionTab>
+//                             </p-accordion>
+//                         </div>
+                        
+
+
+
+
+
+//                         <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
+
+//                             <!-- Address -->
+//                             <div class="formatt" *ngIf="edit_comaddlocation==true || new_comaddlocation==true">
+//                                 <label>ประเภท</label>
+
+
+//                                 <p-dropdown placeholder="--" [options]="addressList" optionValue="addresstype_code"
+//                                     [showClear]="true" [(ngModel)]="selectedComaddlocation.comaddress_type"
+//                                     [style]="{ width: '100%', overflow: 'visible' }">
+//                                     <ng-template let-item pTemplate="selectedItem">
+//                                         {{initial_current.Language=="TH"? item.addresstype_name_th :
+//                                         item.addresstype_name_th}}
+//                                     </ng-template>
+//                                     <ng-template let-item pTemplate="item">
+//                                         {{initial_current.Language=="TH"? item.addresstype_name_th :
+//                                         item.addresstype_name_th}}
+//                                     </ng-template>
+//                                 </p-dropdown>
+
+//                                 <label>เลขที่</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationth_no">
+
+//                                 <label>หมู่ที่</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationth_moo">
+
+//                                 <label>ซอย</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationth_soi">
+
+//                                 <label>ถนน</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationth_road">
+
+//                                 <label>ตำบล</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationth_tambon">
+
+//                                 <label>อำเภอ</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationth_amphur">
+
+//                                 <label>จังหวัด</label>
+//                                 <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code"
+//                                     [showClear]="true" [(ngModel)]="selectedComaddlocation.provinceth_code"
+//                                     [style]="{ width: '100%', overflow: 'visible' }">
+//                                     <ng-template let-item pTemplate="selectedItem">
+//                                         {{initial_current.Language=="TH"? item.province_name_th :
+//                                         item.province_name_th}}
+//                                     </ng-template>
+//                                     <ng-template let-item pTemplate="item">
+//                                         {{initial_current.Language=="TH"? item.province_name_th :
+//                                         item.province_name_th}}
+//                                     </ng-template>
+//                                 </p-dropdown>
+
+//                                 <label>รหัสไปรษณีย์</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocation_zipcode">
+
+//                                 <!-- <label>เบอร์โทรศัพท์</label>
+//                                 <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_tel"> -->
+
+//                                 <!-- <label>อีเมล์</label>
+//                                 <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_email">
+
+//                                 <label>Line</label>
+//                                 <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_line">
+
+//                                 <label>Facebook</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddress.comaddress_facebook"> -->
+
+
+//                                 <br>
+//                                 <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+//                                     (click)="comaddlocation_summit()"></button>
+//                                 <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
+//                                     class="p-button-danger" (click)="comaddlocation_cancel()"></button>
+
+//                             </div>
+
+//                             <div class="formatt" *ngIf="edit_comaddlocation==true || new_comaddlocation==true">
+
+
+
+//                                 <label>no</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationen_no">
+
+//                                 <label>moo</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationen_moo">
+
+//                                 <label>soi</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationen_soi">
+
+//                                 <label>road</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationen_road">
+
+//                                 <label>tambon</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationen_tambon">
+
+//                                 <label>amphur</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocationen_amphur">
+
+//                                 <label>province</label>
+//                                 <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code"
+//                                     [showClear]="true" [(ngModel)]="selectedComaddlocation.provinceen_code"
+//                                     [style]="{ width: '100%', overflow: 'visible' }">
+//                                     <ng-template let-item pTemplate="selectedItem">
+//                                         {{initial_current.Language=="TH"? item.province_name_en :
+//                                         item.province_name_en}}
+//                                     </ng-template>
+//                                     <ng-template let-item pTemplate="item">
+//                                         {{initial_current.Language=="TH"? item.province_name_en :
+//                                         item.province_name_en}}
+//                                     </ng-template>
+//                                 </p-dropdown>
+
+//                                 <label>tel</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocation_tel">
+
+//                                 <label>email</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocation_email">
+
+//                                 <label>line</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocation_line">
+
+//                                 <label>facebook</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddlocation.comaddlocation_facebook">
+
+//                                 <!-- <label>province</label>
+//                                 <input pInputText type="text" id="ppos_code"
+//                                     [(ngModel)]="selectedComaddress.comaddress_facebook"> -->
+
+//                                 <br>
+//                                 <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+//                                     (click)="comaddlocation_summit()"></button>
+//                                 <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
+//                                     class="p-button-danger" (click)="comaddlocation_cancel()"></button>
+
+//                             </div>
+
+
+
+
+
+                           
+//                         </p-dialog>
+//                     </div>
+//                 </div>
+
+//                 <!-- ConfirmDialog and toast Noti -->
+//                 <p-toast position="top-right"></p-toast>
+//                 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+//                     rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+//                 <!-- ----------------------END Confirm and Toast------------------------ -->
+

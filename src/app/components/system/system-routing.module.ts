@@ -28,12 +28,22 @@ import { SystemYearperiodComponent } from './system-policy/system-yearperiod/sys
 import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
 import { BranchComponent } from './branch/branch.component';
 import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
-import { SystemReasonComponent } from './system-policy/system-reason/system-reason.component';
+import { SystemReasonComponent } from './system-manage/system-reason/system-reason.component';
 import { SystemCourseComponent } from './system-policy/system-course/system-course.component';
 import { SystemInstituteComponent } from './system-policy/system-institute/system-institute.component';
 import { SystemFacultyComponent } from './system-policy/system-faculty/system-faculty.component';
 import { SystemMajorComponent } from './system-policy/system-major/system-major.component';
 import { SystemQualificationComponent } from './system-policy/system-qualification/system-qualification.component';
+import { SysManageComponent } from './system-manage/sys-manage/sys-manage.component';
+import { SysComlocationComponent } from './system-manage/sys-comlocation/sys-comlocation.component';
+import { ComlocationlistComponent } from './system-manage/sys-comlocation/comlocationlist/comlocationlist.component';
+import { YearComponent } from './system-manage/year/year.component';
+
+import { RoundComponent } from './system-manage/round/round.component';
+import { AddRounComponent } from './system-manage/round/add-roun/add-roun.component';
+import { CodestructureComponent } from './system-manage/codestructure/codestructure.component';
+import { AddYearComponent } from './system-manage/year/add-year/add-year.component';
+
 @NgModule({
     imports: [RouterModule.forChild([
 
@@ -70,6 +80,16 @@ import { SystemQualificationComponent } from './system-policy/system-qualificati
         { path: 'faculty', component: SystemFacultyComponent },
         { path: 'major', component: SystemMajorComponent },
         { path: 'qualification', component: SystemQualificationComponent },
+        { path: 'sys-manage', component: SysManageComponent },
+        { path: 'sys-comlocation', component: SysComlocationComponent },
+        { path: 'sys-comlocationlist', component: ComlocationlistComponent },
+        { path: 'sys-roundComponent', component: RoundComponent },
+        { path: 'sys-addroun', component: AddRounComponent },
+        { path: 'sys-codestructure', component: CodestructureComponent },
+        { path: 'year', component: YearComponent },
+        { path: 'system-yearperiods', component: AddYearComponent },
+
+
 
 
 

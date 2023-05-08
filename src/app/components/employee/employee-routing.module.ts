@@ -11,6 +11,7 @@ import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatu
 import { EmpsetpositionComponent } from './employee-policy/setup-batch/empsetposition/empsetposition.component';
 import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/empsetdep.component';
 import { EmployeeLocationComponent } from './employee-policy/genaral/employee-location/employee-location.component';
+import { SystemModule } from '../system/system.module';
 import { EmpsetsalaryComponent } from './employee-policy/setup-batch/empsetsalary/empsetsalary.component';
 import { EmpsetgroupComponent } from './employee-policy/setup-batch/empsetgroup/empsetgroup.component';
 import { EmpsetlocationComponent } from './employee-policy/setup-batch/empsetlocation/empsetlocation.component';

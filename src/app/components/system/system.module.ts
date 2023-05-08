@@ -4,16 +4,16 @@ import { FormsModule } from '@angular/forms';
 
 import { SystemRoutingModule } from './system-routing.module';
 
-import { AutoCompleteModule } from "primeng/autocomplete";
-import { CalendarModule } from "primeng/calendar";
-import { ChipsModule } from "primeng/chips";
-import { DropdownModule } from "primeng/dropdown";
-import { InputMaskModule } from "primeng/inputmask";
-import { InputNumberModule } from "primeng/inputnumber";
-import { CascadeSelectModule } from "primeng/cascadeselect";
-import { MultiSelectModule } from "primeng/multiselect";
-import { InputTextareaModule } from "primeng/inputtextarea";
-import { InputTextModule } from "primeng/inputtext";
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CalendarModule } from 'primeng/calendar';
+import { ChipsModule } from 'primeng/chips';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
 import { TabViewModule } from 'primeng/tabview';
 import { PanelModule } from 'primeng/panel';
 import { MenuModule } from 'primeng/menu';
@@ -65,96 +65,105 @@ import { SystemYearperiodComponent } from './system-policy/system-yearperiod/sys
 import { AddCodestructureComponent } from './system-policy/emp-id/add-codestructure/add-codestructure.component';
 import { BranchComponent } from './branch/branch.component';
 import { SysBranchComponent } from './branch/sys-branch/sys-branch/sys-branch.component';
-import { YearComponent } from './system-policy/year/year.component';
-import { SystemReasonComponent } from './system-policy/system-reason/system-reason.component';
+import { YearComponent } from './system-manage/year/year.component';
+import { SystemReasonComponent } from './system-manage/system-reason/system-reason.component';
 import { LocationComponent } from './system-policy/location/location.component';
 import { SystemCourseComponent } from './system-policy/system-course/system-course.component';
 import { SystemInstituteComponent } from './system-policy/system-institute/system-institute.component';
 import { SystemFacultyComponent } from './system-policy/system-faculty/system-faculty.component';
 import { SystemMajorComponent } from './system-policy/system-major/system-major.component';
 import { SystemQualificationComponent } from './system-policy/system-qualification/system-qualification.component';
-
+import { SysManageComponent } from './system-manage/sys-manage/sys-manage.component';
+import { SysComlocationComponent } from './system-manage/sys-comlocation/sys-comlocation.component';
+import { ComlocationlistComponent } from './system-manage/sys-comlocation/comlocationlist/comlocationlist.component';
+import { RoundComponent } from './system-manage/round/round.component';
+import { AddRounComponent } from './system-manage/round/add-roun/add-roun.component';
+import { CodestructureComponent } from './system-manage/codestructure/codestructure.component';
+import { AddYearComponent } from './system-manage/year/add-year/add-year.component';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		SystemRoutingModule,
-		AutoCompleteModule,
-		CalendarModule,
-		ChipsModule,
-		DropdownModule,
-		InputMaskModule,
-		InputNumberModule,
-		CascadeSelectModule,
-		MultiSelectModule,
-		InputTextareaModule,
-		InputTextModule,
-		TabViewModule,
-		PanelModule,
-		MenuModule,
-		TableModule,
-		TagModule,
-		PanelMenuModule,
-		DividerModule,
-		AccordionModule,
-		CardModule,
-		InputSwitchModule,
-		BreadcrumbModule,
-		ToolbarModule,
-		MenubarModule,
-		MegaMenuModule,
-		TabMenuModule,
-		SelectButtonModule,
-		ScrollPanelModule,
-		ChipModule,
-		ChartModule,
-		ImageModule,
-		ToastModule,
-		ConfirmDialogModule,
-		DialogModule,
-	],
-	declarations: [
-		SystemPolicyComponent,
-		SystemCompanyComponent,
-		SystemSecurityComponent,
-		SystemNotificationComponent,
-		BankComponent,
-		EmpIDComponent,
-		SystemOrganizationLevelComponent,
-		SystemCardTypeComponent,
-		SystemFamilyTypeComponent,
-		SystemAddressTypeComponent,
-		SystemProvinceComponent,
-		SystemReligionComponent,
-		SystemEthnicityComponent,
-		BloodtypeComponent,
-		SystemBloodtypeComponent,
-		SystemHospitalComponent,
-		SystemLocationComponent,
-		SystemReduceComponent,
-		SystemComaddressComponent,
-		SystemBankaccountComponent,
-		CompanysComponent,
-		SystemComcardComponent,
-		SystemYearperiodComponent,
-		AddCodestructureComponent,
-		BranchComponent,
-		SysBranchComponent,
-		YearComponent,
-		SystemReasonComponent,
-		ReasonComponent,
-  LocationComponent,
-  SystemCourseComponent,
-  SystemInstituteComponent,
-  SystemFacultyComponent,
-  SystemMajorComponent,
-  SystemQualificationComponent
-	],
-	exports: [
-		YearComponent,
-		ReasonComponent,
-		LocationComponent
-	],
+    imports: [
+        CommonModule,
+        FormsModule,
+        SystemRoutingModule,
+        AutoCompleteModule,
+        CalendarModule,
+        ChipsModule,
+        DropdownModule,
+        InputMaskModule,
+        InputNumberModule,
+        CascadeSelectModule,
+        MultiSelectModule,
+        InputTextareaModule,
+        InputTextModule,
+        TabViewModule,
+        PanelModule,
+        MenuModule,
+        TableModule,
+        TagModule,
+        PanelMenuModule,
+        DividerModule,
+        AccordionModule,
+        CardModule,
+        InputSwitchModule,
+        BreadcrumbModule,
+        ToolbarModule,
+        MenubarModule,
+        MegaMenuModule,
+        TabMenuModule,
+        SelectButtonModule,
+        ScrollPanelModule,
+        ChipModule,
+        ChartModule,
+        ImageModule,
+        ToastModule,
+        ConfirmDialogModule,
+        DialogModule,
+    ],
+    declarations: [
+        SystemPolicyComponent,
+        SystemCompanyComponent,
+        SystemSecurityComponent,
+        SystemNotificationComponent,
+        BankComponent,
+        EmpIDComponent,
+        SystemOrganizationLevelComponent,
+        SystemCardTypeComponent,
+        SystemFamilyTypeComponent,
+        SystemAddressTypeComponent,
+        SystemProvinceComponent,
+        SystemReligionComponent,
+        SystemEthnicityComponent,
+        BloodtypeComponent,
+        SystemBloodtypeComponent,
+        SystemHospitalComponent,
+        SystemLocationComponent,
+        SystemReduceComponent,
+        SystemComaddressComponent,
+        SystemBankaccountComponent,
+        CompanysComponent,
+        SystemComcardComponent,
+        SystemYearperiodComponent,
+        AddCodestructureComponent,
+        BranchComponent,
+        SysBranchComponent,
+        YearComponent,
+        SystemReasonComponent,
+        ReasonComponent,
+        LocationComponent,
+        SystemCourseComponent,
+        SystemInstituteComponent,
+        SystemFacultyComponent,
+        SystemMajorComponent,
+        SystemQualificationComponent,
+        SysManageComponent,
+        SysComlocationComponent,
+        ComlocationlistComponent,
+        RoundComponent,
+        AddRounComponent,
+        CodestructureComponent,
+        AddYearComponent,
+    ],
+    exports: [YearComponent, ReasonComponent, LocationComponent],
 })
-export class SystemModule { }
+export class SystemModule {}

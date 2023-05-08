@@ -65,35 +65,17 @@ export class CombranchService {
             company_code:'' ,
             combranch_code: code,
             combranch_id: '',
-            // language: '',
+            language: '',
             //   company_code:code
         };
 
         return this.http
-        .post<any>(
-            this.config.ApiSystemModule + '/combranch_list',
-            filter,
-            this.options
-        )
-        .toPromise()
-        .then((res) => {
-            let message = JSON.parse(res);
-            console.log(res);
+        .post<any>(this.config.ApiSystemModule + '/combranch_list',filter,this.options).toPromise()
+        .then((res) => {let message = JSON.parse(res);console.log(res);
             return message.data;
         });
 
-        // return this.http
-        //     .post<any>(
-        //         this.config.ApiSystemModule + '/combranch_list',
-        //         this.basicRequest,
-        //         this.options
-        //     )
-        //     .toPromise()
-        //     .then((res) => {
-        //         let message = JSON.parse(res);
-        //         console.log(res);
-        //         return message.data;
-        //     });
+
     }
 
     public combranch_record(model: CombranchModel) {
@@ -101,6 +83,7 @@ export class CombranchService {
         const data = {
             company_code: model.company_code,
             combranch_id: model.combranch_id,
+            sso_combranch_no: model.sso_combranch_no,
             combranch_code: model.combranch_code,
             combranch_name_th: model.combranch_name_th,
             combranch_name_en: model.combranch_name_en,
@@ -115,7 +98,7 @@ export class CombranchService {
             )
             .toPromise()
             .then((res) => {
-                //console.log(res)
+                console.log(res)
                 return res;
             });
     }
@@ -124,6 +107,7 @@ export class CombranchService {
         console.log('CBR003..');
         const data = {
             company_code: model.company_code,
+            sso_combranch_no: model.sso_combranch_no,
             combranch_code: model.combranch_code,
             combranch_id: model.combranch_id,
             modified_by: this.initial_current.Username,

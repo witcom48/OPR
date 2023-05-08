@@ -1,7 +1,7 @@
 export class CodestructureModel {
     constructor() {}
 
-    codestructure_code: string = '1';
+    codestructure_code: string = '';
     codestructure_name_th: string = '';
     codestructure_name_en: string = '';
     created_by: string = '';

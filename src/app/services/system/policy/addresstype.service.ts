@@ -89,7 +89,7 @@ export class AddresstypeService {
     }
 
     public addresstype_delete(model:AddresstypeModel) {
-      console.log('ADD002..');
+      console.log('ADD003..');
       const data = {
         addresstype_id: model.addresstype_id,
         addresstype_code: model.addresstype_code,

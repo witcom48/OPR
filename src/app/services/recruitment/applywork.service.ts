@@ -121,7 +121,8 @@ export class ApplyworkService {
         const data = {
             applywork_id: model.applywork_id,
             applywork_code: model.applywork_code,
-            modified_by: this.initial_current.Username,
+            company_code : this.initial_current.CompCode,
+            modified_by: this.initial_current.Username
         };
 
         return this.http

@@ -3,7 +3,7 @@
 
 <p-card header="Company" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
     <div class="grid">
-        <div class="col-12 md:col-9">
+        <div class="col-12 md:col-12">
             <p-tabView (onChange)="tabChange($event)">
 
                 <!-- Tab Genaral -->
@@ -56,8 +56,135 @@
                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                         </div>
                     </div>
+                    <!-- Address -->
+                    <div class="field col-12">
+                        <p-accordion>
+                            <p-accordionTab header="address">
+                                <p-tabView (onChange)="tabChange($event)">
+                                    <p-tabPanel>
+                                        <ng-template pTemplate="header">
+                                            <i></i>&nbsp;&nbsp;
+                                            <span>Address TH</span>
+                                        </ng-template>
+                                        <p-menubar [model]="menu_comaddress"></p-menubar>
+                                        <p-table #dtAddress [value]="comaddressList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedComaddress"
+                                            (onRowSelect)="onRowSelectComaddress($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>ประเภท</th>
+                                                    <th>เลขที่</th>
+                                                    <th>หมู่ที่</th>
+                                                    <th>ซอย</th>
+                                                    <th>ถนน</th>
+                                                    <th>ตำบล</th>
+                                                    <th>อำเภอ</th>
+                                                    <th>จังหวัด</th>
+                                                    <th>รหัสไปรษณีย์</th>
+                                                    <th>เบอร์โทรศัพท์</th>
+                                                    <!-- <th>อีเมล์</th>
+                                                    <th>ไลน์</th>
+                                                    <th>เฟสบุ๊ค</th> -->
+                                                    <th>ผู้ทำรายการ</th>
+                                                    <th>วันที่ทำรายการ</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-data>
+                                                <tr [pSelectableRow]="data">
+                                                    <td>{{data.comaddress_type}}</td>
+                                                    <td>{{data.comaddressth_no}}</td>
+                                                    <td>{{data.comaddressth_moo}}</td>
+                                                    <td>{{data.comaddressth_soi}}</td>
+                                                    <td>{{data.comaddressth_road}}</td>
+                                                    <td>{{data.comaddressth_tambon}}</td>
+                                                    <td>{{data.comaddressth_amphur}}</td>
+                                                    <td>{{data.provinceth_code}}</td>
+                                                    <td>{{data.comaddress_zipcode}}</td>
+                                                    <td>{{data.comaddress_tel}}</td>
+                                                    <!-- <td>{{data.comaddress_email}}</td>
+                                                    <td>{{data.comaddress_line}}</td>
+                                                    <td>{{data.comaddress_facebook}}</td> -->
+
+                                                    <td>{{data.modified_by}}</td>
+                                                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </p-tabPanel>
+                                    <p-tabPanel>
+                                        <ng-template pTemplate="header">
+                                            <i></i>&nbsp;&nbsp;
+                                            <span>Address EN</span>
+                                        </ng-template>
+                                        <p-menubar [model]="menu_comaddresseen"></p-menubar>
+                                        <p-table #dtAddress [value]="comaddressList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedComaddress"
+                                            (onRowSelect)="onRowSelectComaddress($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <!-- <th>type</th> -->
+                                                    <th>no</th>
+                                                    <th>moo</th>
+                                                    <th>soi</th>
+                                                    <th>road</th>
+                                                    <th>tambon</th>
+                                                    <th>amphur</th>
+                                                    <th>province</th>
+
+                                                    <!-- <th>zipcode</th> -->
+                                                    <!-- <th>tel</th> -->
+                                                    <th>email</th>
+                                                    <th>line</th>
+                                                    <th>facebook</th>
+                                                    <th>modified_by</th>
+                                                    <th>modified_date</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-data>
+                                                <tr [pSelectableRow]="data">
+                                                    <!-- <td>{{data.comaddress_type}}</td> -->
+                                                    <td>{{data.comaddressen_no}}</td>
+                                                    <td>{{data.comaddressen_moo}}</td>
+                                                    <td>{{data.comaddressen_soi}}</td>
+                                                    <td>{{data.comaddressen_road}}</td>
+                                                    <td>{{data.comaddressen_tambon}}</td>
+                                                    <td>{{data.comaddressen_amphur}}</td>
+                                                    <td>{{data.provinceen_code}}</td>
+
+                                                    <!-- <td>{{data.comaddress_zipcode}}</td> -->
+                                                    <!-- <td>{{data.comaddress_tel}}</td> -->
+                                                    <td>{{data.comaddress_email}}</td>
+                                                    <td>{{data.comaddress_line}}</td>
+                                                    <td>{{data.comaddress_facebook}}</td>
+                                                    <td>{{data.modified_by}}</td>
+                                                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </p-tabPanel>
+                                </p-tabView>
+
+
+
+
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+
                     <!-- start -->
                 </p-tabPanel>
+
+
 
                 <!-- tab Personal-->
                 <p-tabPanel>
@@ -65,120 +192,151 @@
                         <i class="pi pi-user"></i>&nbsp;&nbsp;
                         <span>{{title_personal}}</span>
                     </ng-template>
-                    <div class="formgrid grid">
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ชั่วโมงการทำงาน</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
-                                [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
-                            </p-inputNumber>
+                    <div class="col-12">
+                        <div class="formgrid grid">
+
+                           
+
+
+                            <div class="formgrid grid">
+                                <div class="center field col-12 md:col-5">
+                                    <label for="firstname2">เลขประจำตัวผู้เสียภาษี</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.sso_tax_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+    
+    
+                                <div class="center field col-12 md:col-5">
+                                    <label for="firstname2">เลขทะเบียนนิติบุคคล</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.citizen_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+    
+                                <div class="field col-12 md:col-12"></div>
+    
+                                <div class="center field col-12 md:col-5">
+                                    <label for=" firstname2">เลขกองทุนสำรองเลี้ยงชีพ</label><br>
+                                    
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.provident_fund_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+    
+                                <!-- <div class=" field col-12 md:col-5">
+                                    <label for="firstname2">เลขกองทุนสำรองเลี้ยงชีพ</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.provident_fund_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div> -->
+    
+    
+                                <!-- <div class="field col-12 md:col-5"></div> -->
+    
+                                <div class="center field col-5 ">
+                                    <label for="lastname2">ชั่วโมงการทำงาน</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                        [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
+                                    </p-inputNumber>
+                                </div>
+    
+    
+    
+    
+    
+                                <div class="field col-12 md:col-12"></div>
+
+    
+                                <div class="center field col-5 ">
+                                    <label for="lastname2">อายุพนักงานน้อยสุด</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="18"
+                                        [max]="60" [step]="1" [(ngModel)]="selectedCompany.sso_min_age">
+                                    </p-inputNumber>
+                                </div>
+    
+    
+    
+    
+                                <div class="center field col-5 ">
+                                    <label for="lastname2">อายุพนักงานมากสุด</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="18"
+                                        [max]="60" [step]="1" [(ngModel)]="selectedCompany.sso_max_age">
+                                    </p-inputNumber>
+                                </div>
+                                
+                                <div class="field col-12 md:col-12"></div>
+
+                                <div class="center field col-12 md:col-5">
+                                    <label for="firstname2">เลขประกันสังคม</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen"
+                                        [(ngModel)]="selectedCompany.sso_security_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="13" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+                                <div class="center field col-12 md:col-5">
+                                    <label for=" firstname2">สาขาประกันสังคม</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.sso_branch_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="6" pInputTextarea [autoResize]="true"></textarea>
+                                </div>
+
+
+
+                                <div class="field col-12 md:col-12"></div>
+
+                                <div class="field col-12 md:col-12">
+                                    <h1 for="lastname2">อัตราการจ่าย %</h1>
+                                </div>
+
+
+
+
+                                <div class="center field col-12 md:col-5">
+                                    <label for="lastname2">ประกันสังคมส่วนบริษัท</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_com_rate">
+                                    </p-inputNumber>
+                                </div>
+
+
+                                <div class="center field col-12 md:col-5">
+                                    <label for="lastname2">ประกันสังคมส่วนพนักงาน</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_emp_rate">
+                                    </p-inputNumber>
+                                </div>
+
+
+                                <div class="field col-12 md:col-12"></div>
+
+                                <div class="field col-12 md:col-12">
+                                    <h1 for="lastname2">อัตราค่าจ้าง</h1>
+                                </div>
+                                <div class="center field col-12 md:col-5">
+                                    <label for="lastname2">ค่าจ้างตํ่าสุด</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_min_wage">
+                                    </p-inputNumber>
+                                </div>
+
+
+                                <div class="center field col-12 md:col-5">
+                                    <label for="lastname2">ค่าจ้างสูงสุด</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_max_wage">
+                                    </p-inputNumber>
+                                </div>
+                            </div>
                         </div>
 
 
 
+                        
 
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ประกันสังคมส่วนพนักงาน(%)</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_emp_rate">
-                            </p-inputNumber>
-                        </div>
-
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ประกันสังคมส่วนบริษัท(%)</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_com_rate">
-                            </p-inputNumber>
-                        </div>
-
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">อายุพนักงานน้อยสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="60"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_min_age">
-                            </p-inputNumber>
-                        </div>
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">อายุพนักงานมากสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="70"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_max_age">
-                            </p-inputNumber>
-                        </div>
-
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ค่าจ้างตํ่าสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_min_wage">
-                            </p-inputNumber>
-                        </div>
-
-
-
-                        <div class="field col-12 md:col-6">
-                            <label for="lastname2">ค่าจ้างสูงสุด</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="500000"
-                                [step]="0.5" [(ngModel)]="selectedCompany.sso_max_wage">
-                            </p-inputNumber>
-                        </div>
-
-                        <!-- Address -->
-                        <div class="field col-12">
-                            <p-accordion>
-                                <p-accordionTab header="{{title_address}}">
-                                    <p-menubar [model]="menu_comaddress"></p-menubar>
-                                    <p-table #dtAddress [value]="comaddressList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedComaddress"
-                                        (onRowSelect)="onRowSelectComaddress($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>ประเภท</th>
-                                                <th>เลขที่</th>
-                                                <th>หมู่ที่</th>
-                                                <th>ซอย</th>
-                                                <th>ถนน</th>
-                                                <th>ตำบล</th>
-                                                <th>อำเภอ</th>
-                                                <th>จังหวัด</th>
-                                                <th>รหัสไปรษณีย์</th>
-                                                <th>เบอร์โทรศัพท์</th>
-                                                <th>อีเมล์</th>
-                                                <th>ไลน์</th>
-                                                <th>เฟสบุ๊ค</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-data>
-                                            <tr [pSelectableRow]="data">
-                                                <td>{{data.comaddress_type}}</td>
-                                                <td>{{data.comaddress_no}}</td>
-                                                <td>{{data.comaddress_moo}}</td>
-                                                <td>{{data.comaddress_soi}}</td>
-                                                <td>{{data.comaddress_road}}</td>
-                                                <td>{{data.comaddress_tambon}}</td>
-                                                <td>{{data.comaddress_amphur}}</td>
-                                                <td>{{data.comaddress_zipcode}}</td>
-                                                <td>{{data.comaddress_tel}}</td>
-                                                <td>{{data.comaddress_email}}</td>
-                                                <td>{{data.comaddress_line}}</td>
-                                                <td>{{data.comaddress_facebook}}</td>
-                                                <td>{{data.comaddress_province}}</td>
-                                                <td>{{data.modified_by}}</td>
-                                                <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
-                                </p-accordionTab>
-                            </p-accordion>
-                        </div>
+                        
                         <!-- card -->
-                        <div class="field col-12">
+                        <!-- <div class="col-12">
                             <p-accordion>
                                 <p-accordionTab header="{{title_card}}">
                                     <p-menubar [model]="menu_comcard"></p-menubar>
@@ -202,7 +360,6 @@
                                         <ng-template pTemplate="body" let-data>
                                             <tr [pSelectableRow]="data">
                                                 <th>{{data.card_type }}</th>
-                                                <!-- <td>{{initial_current.Language == "TH"? data.cardtype_name_th:data.cardtype_name_en}}</td> -->
 
                                                 <th>{{data.comcard_code}}</th>
                                                 <th>{{data.comcard_issue| date:'dd/MM/yyyy'}}</th>
@@ -214,10 +371,10 @@
                                     </p-table>
                                 </p-accordionTab>
                             </p-accordion>
-                        </div>
+                        </div> -->
 
                         <!-- bank -->
-                        <div class="field col-12">
+                        <div class="col-12">
                             <p-accordion>
                                 <p-accordionTab header="{{title_bank}}">
                                     <p-menubar [model]="menu_combank"></p-menubar>
@@ -252,49 +409,82 @@
                         </div>
                     </div>
                 </p-tabPanel>
+
+
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <i class="pi-map"></i>&nbsp;&nbsp;
+                        <span>แผนที่</span>
+                    </ng-template>
+                    <div class="formgrid grid align-items-end">
+                        <div class="field col-12 md:col-12">
+                            <p-image src="../../../../assets/images/bpc.jpg" alt="Image" width="400"
+                                height="400"></p-image>
+                        </div>
+                        <div class="field col-12 md:col-2">
+                            <p-button label="Upload Logo"></p-button>
+                        </div>
+                        <div class="field col-12 md:col-6"></div>
+                    </div>
+
+
+
+
+                    <!-- start -->
+                </p-tabPanel>
+
+
                 <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
 
-                    <!-- Form Emp Address -->
+                    <!-- Form   Address Th -->
                     <div class="formatt" *ngIf="edit_comaddress==true || new_comaddress==true">
                         <label>ประเภท</label>
 
 
-                            <p-dropdown placeholder="--" [options]="addressList"   optionValue="addresstype_code" [showClear]="true"
-                            [(ngModel)]="selectedComaddress.comaddress_type" [style]="{ width: '100%', overflow: 'visible' }">
+                        <p-dropdown placeholder="--" [options]="addressList" optionValue="addresstype_code"
+                            [showClear]="true" [(ngModel)]="selectedComaddress.comaddress_type"
+                            [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
+                                {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_th}}
                             </ng-template>
                             <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
+                                {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_th}}
                             </ng-template>
                         </p-dropdown>
 
+                        <!-- <input  [(ngModel)]="selectedComaddress.combranch_code"> -->
+
+
+
                         <label>เลขที่</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_no">
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddressth_no">
 
                         <label>หมู่ที่</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_moo">
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddressth_moo">
 
                         <label>ซอย</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_soi">
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddressth_soi">
 
                         <label>ถนน</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_road">
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddressth_road">
 
                         <label>ตำบล</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_tambon">
+                        <input pInputText type="text" id="ppos_code"
+                            [(ngModel)]="selectedComaddress.comaddressth_tambon">
 
                         <label>อำเภอ</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_amphur">
+                        <input pInputText type="text" id="ppos_code"
+                            [(ngModel)]="selectedComaddress.comaddressth_amphur">
 
                         <label>จังหวัด</label>
-                        <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code" [showClear]="true"
-                            [(ngModel)]="selectedComaddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
+                        <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code"
+                            [showClear]="true" [(ngModel)]="selectedComaddress.provinceth_code"
+                            [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
+                                {{initial_current.Language=="TH"? item.province_name_th : item.province_name_th}}
                             </ng-template>
                             <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
+                                {{initial_current.Language=="TH"? item.province_name_th : item.province_name_th}}
                             </ng-template>
                         </p-dropdown>
 
@@ -302,10 +492,10 @@
                         <input pInputText type="text" id="ppos_code"
                             [(ngModel)]="selectedComaddress.comaddress_zipcode">
 
-                        <label>เบอร์โทรศัพท์</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_tel">
+                        <!-- <label>เบอร์โทรศัพท์</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_tel"> -->
 
-                        <label>อีเมล์</label>
+                        <!-- <label>อีเมล์</label>
                         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_email">
 
                         <label>Line</label>
@@ -313,7 +503,8 @@
 
                         <label>Facebook</label>
                         <input pInputText type="text" id="ppos_code"
-                            [(ngModel)]="selectedComaddress.comaddress_facebook">
+                            [(ngModel)]="selectedComaddress.comaddress_facebook"> -->
+
 
                         <br>
                         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
@@ -322,6 +513,82 @@
                             class="p-button-danger" (click)="comaddress_cancel()"></button>
 
                     </div>
+                    <!-- Form com Address En -->
+                    <!-- Form   Address Th -->
+                    <div class="formatt" *ngIf="edit_comaddresseen==true || new_comaddresseen==true">
+
+
+                        <!-- <label>ประเภท</label>
+
+
+                        <p-dropdown placeholder="--" [options]="addressList" optionValue="addresstype_code"
+                            [showClear]="true" [(ngModel)]="selectedComaddress.comaddress_type"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.addresstype_name_en : item.addresstype_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.addresstype_name_en : item.addresstype_name_en}}
+                            </ng-template>
+                        </p-dropdown> -->
+
+                        <label>no</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddressen_no">
+
+                        <label>moo</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddressen_moo">
+
+                        <label>soi</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddressen_soi">
+
+                        <label>road</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddressen_road">
+
+                        <label>tambon</label>
+                        <input pInputText type="text" id="ppos_code"
+                            [(ngModel)]="selectedComaddress.comaddressen_tambon">
+
+                        <label>amphur</label>
+                        <input pInputText type="text" id="ppos_code"
+                            [(ngModel)]="selectedComaddress.comaddressen_amphur">
+
+                        <label>province</label>
+                        <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code"
+                            [showClear]="true" [(ngModel)]="selectedComaddress.provinceen_code"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.province_name_en : item.province_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.province_name_en : item.province_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+
+                        <label>tel</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_tel">
+
+                        <label>email</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_email">
+
+                        <label>line</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_line">
+
+                        <label>facebook</label>
+                        <input pInputText type="text" id="ppos_code"
+                            [(ngModel)]="selectedComaddress.comaddress_facebook">
+
+                        <!-- <label>province</label>
+                        <input pInputText type="text" id="ppos_code"
+                            [(ngModel)]="selectedComaddress.comaddress_facebook"> -->
+
+                        <br>
+                        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+                            (click)="comaddress_summit()"></button>
+                        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
+                            class="p-button-danger" (click)="comaddress_cancel()"></button>
+
+                    </div>
+
                     <div class="formatt" *ngIf="edit_comcard==true || new_card==true">
                         <!-- Form Card -->
                         <!-- <label>ประเภทบัตร</label> -->
@@ -365,8 +632,8 @@
                     <div class="formatt" *ngIf="edit_combank==true || new_bank==true">
                         <div>
                             <label for="lastname2">ธนาคาร :</label>
-                            <p-dropdown placeholder="--" [options]="bankList" optionValue="bank_code"
-                                [showClear]="true" [(ngModel)]="selectedCombank.combank_bankcode"
+                            <p-dropdown placeholder="--" [options]="bankList" optionValue="bank_code" [showClear]="true"
+                                [(ngModel)]="selectedCombank.combank_bankcode"
                                 [style]="{ width: '100%', overflow: 'visible' }">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}

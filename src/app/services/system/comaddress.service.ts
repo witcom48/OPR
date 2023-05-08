@@ -58,7 +58,7 @@ export class ComaddressService {
     }
 
     public comaddress_get() {
-        console.log('CAD001..');
+        console.log('CCAD001..');
 
         return this.http
             .post<any>(
@@ -75,23 +75,34 @@ export class ComaddressService {
     }
 
     public comaddress_record(model: ComaddressModel) {
-        console.log('CAD002..');
+        console.log('CCAD002..');
         const data = {
             company_code: model.company_code,
             combranch_code: model.combranch_code,
             comaddress_type: model.comaddress_type,
-            comaddress_no: model.comaddress_no,
-            comaddress_moo: model.comaddress_moo,
-            comaddress_soi: model.comaddress_soi,
-            comaddress_road: model.comaddress_road,
-            comaddress_tambon: model.comaddress_tambon,
-            comaddress_amphur: model.comaddress_amphur,
+
+            comaddressth_no: model.comaddressth_no,
+            comaddressth_moo: model.comaddressth_moo,
+            comaddressth_soi: model.comaddressth_soi,
+            comaddressth_road: model.comaddressth_road,
+            comaddressth_tambon: model.comaddressth_tambon,
+            comaddressth_amphur: model.comaddressth_amphur,
+            provinceth_code: model.provinceth_code,
+
+            comaddressen_no: model.comaddressen_no,
+            comaddressen_moo: model.comaddressen_moo,
+            comaddressen_soi: model.comaddressen_soi,
+            comaddressen_road: model.comaddressen_road,
+            comaddressen_tambon: model.comaddressen_tambon,
+            comaddressen_amphur: model.comaddressen_amphur,
             comaddress_zipcode: model.comaddress_zipcode,
+            provinceen_code: model.provinceen_code,
+
             comaddress_tel: model.comaddress_tel,
             comaddress_email: model.comaddress_email,
             comaddress_line: model.comaddress_line,
             comaddress_facebook: model.comaddress_facebook,
-            province_code: model.province_code,
+            
 
 
             modified_by: this.initial_current.Username,
@@ -111,7 +122,7 @@ export class ComaddressService {
     }
 
     public comaddress_delete(model: ComaddressModel) {
-        console.log('CAD002..');
+        console.log('CCAD003..');
         const data = {
             company_code:model.company_code,
             combranch_code:model.combranch_code,
