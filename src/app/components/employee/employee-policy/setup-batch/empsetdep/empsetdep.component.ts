@@ -7,6 +7,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmpDepModel } from 'src/app/models/employee/manage/dep';
 import { PartModel } from 'src/app/models/employee/policy/part';
+import { LevelModel } from 'src/app/models/system/policy/level';
 import { PartService } from 'src/app/services/emp/policy/part.service';
 import { TaskService } from 'src/app/services/task.service';
 
@@ -74,7 +75,8 @@ export class EmpsetdepComponent implements OnInit {
   //get dep
   depList : PartModel[]=[];
   doLoadDepList(){
-    this.depService.dep_get("").then(async(res)=>{
+    var tmp = new LevelModel();
+    this.depService.dep_get(tmp).then(async(res)=>{
       this.depList = await res;
     })
   }

@@ -32,7 +32,10 @@ export class PartComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
+
+    //dropdown
     private levelService : LevelService,
+
   ) { }
 
   ngOnInit(): void {
@@ -157,6 +160,7 @@ export class PartComponent implements OnInit {
   }
 
   levelList: LevelModel[]=[];
+  selectedLevel : LevelModel = new LevelModel();
   doLoadLevelList(){
     this.levelService.level_get().then(async(res)=>{
       this.levelList = await res;
@@ -164,7 +168,8 @@ export class PartComponent implements OnInit {
   }
 
   doLoadDep(){
-    this.partService.dep_get("").then((res) => {
+    var tmp = this.selectedLevel
+    this.partService.dep_get(tmp).then((res) => {
      this.dep_list = res;     
     });
   }
@@ -189,7 +194,7 @@ export class PartComponent implements OnInit {
         header: this.title_confirm,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.doRecordDep()
+          this.doRecordDep(this.selectedDep)
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
@@ -198,8 +203,9 @@ export class PartComponent implements OnInit {
     console.log(this.selectedDep)
   }
 
-  doRecordDep(){
-    this.partService.dep_record(this.selectedDep).then((res) => {
+  async doRecordDep(data: PartModel){
+    data.dep_level = this.selectedLevel.level_code
+    await this.partService.dep_record(data).then((res) => {
      console.log(res)
      let result = JSON.parse(res);
 
@@ -255,10 +261,10 @@ export class PartComponent implements OnInit {
     this.edit_data= true;
     this.new_data= true;
   }
-
-  selectLevel(){
-    console.log("Selected Level")
+  selectlevel() {
+    this.doLoadDep();
   }
+
 
   fileToUpload: File | any = null;  
   handleFileInput(file: FileList) {

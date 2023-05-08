@@ -54,7 +54,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Monitor', routerLink: ['/employee/monitor'] },
                     { label: 'Reports', routerLink: ['/employee/reports'] },
 
-                    { label: 'Select Emp', routerLink: ['/usercontrol/selectemp'] },
+                    // { label: 'Select Emp', routerLink: ['/usercontrol/selectemp'] },
 
                 ]
             }

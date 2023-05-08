@@ -1,14 +1,3 @@
-<!-- Link Page -->
-<div class="path">
-    <span>Employee</span>
-    <div>
-        <i></i>
-        <a routerLink="/employee/policy">Policy</a>
-        <i></i>
-        <small>Part</small>
-    </div>
-</div>
-<!-- ---------END Link Page----------- -->
 <hr>
 <!-- Menu New Import Export Data -->
 <div>
@@ -28,6 +17,19 @@
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
+                    <div class="reasontype">
+                        <!-- Dropdown Select Type -->
+                        <p-dropdown class="selecttype" [options]="levelList" [(ngModel)]="selectedLevel"
+                            (onChange)="selectlevel()">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                        <!-- ------------------END Dropdown Select Type------------------------- -->
+                    </div>
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
@@ -72,7 +74,7 @@
         <label>{{title_name_en}}</label>
         <textarea [(ngModel)]="selectedDep.dep_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>{{title_level}}</label>
+        <!-- <label>{{title_level}}</label>
         <p-dropdown placeholder="--" [options]="levelList" optionValue="level_code" [showClear]="true"
             [(ngModel)]="selectedDep.dep_level" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -82,7 +84,7 @@
                 {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
             </ng-template>
         </p-dropdown>
-        <!-- <textarea [(ngModel)]="selectedDep.dep_level" pInputTextarea [autoResize]="true"></textarea> -->
+        <textarea [(ngModel)]="selectedDep.dep_level" pInputTextarea [autoResize]="true"></textarea> -->
 
         <label>{{title_parent}}</label>
         <!-- <p-dropdown placeholder="--" [options]="depParentList" optionValue="dep_code" [showClear]="true"

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
 import { ApplyworkModel } from 'src/app/models/recruitment/applywork';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 @Injectable({
     providedIn: 'root',
 })
@@ -149,6 +150,79 @@ export class ApplyworkService {
                 formData
             )
             .toPromise()
+            .then((res) => {
+                return res;
+            });
+    }
+
+    public reqworker_get(company: string, code: string) {
+        var filter = {
+            device_name: '',
+            ip: "localhost",
+            username: this.initial_current.Username,
+            company_code: company,
+            language: "",
+            worker_code: code
+        };
+
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqworker_list', filter, this.options).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                // console.log(res)
+                return message.data;
+            });
+    }
+
+    public reqworker_record(model: EmployeeModel) {
+        const data = {
+            company_code: this.initial_current.CompCode,
+            worker_id: model.worker_id,
+            worker_code: model.worker_code,
+            worker_card: model.worker_code,
+            worker_initial: model.worker_initial,
+            worker_fname_th: model.worker_fname_th,
+            worker_lname_th: model.worker_lname_th,
+            worker_fname_en: model.worker_fname_en,
+            worker_lname_en: model.worker_lname_en,
+            worker_type: model.worker_type,
+            worker_gender: model.worker_gender,
+            worker_birthdate: model.worker_birthdate,
+            worker_hiredate: model.worker_hiredate,
+            worker_status: model.worker_status,
+            religion_code: model.religion_code,
+            blood_code: model.blood_code,
+            worker_height: model.worker_height,
+            worker_weight: model.worker_weight,
+            modified_by: this.initial_current.Username
+        };
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqworker', data, this.options).toPromise()
+            .then((res) => {
+                return res;
+            });
+    }
+    public reqworker_delete(model: EmployeeModel) {
+        const data = {
+            worker_id: model.worker_id,
+            worker_code: model.worker_code,
+            modified_by: this.initial_current.Username
+        };
+
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqworker_del', data, this.options).toPromise()
+            .then((res) => {
+                return res;
+            });
+    }
+
+    public reqworker_import(file: File, file_name: string, file_type: string) {
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        var para = "fileName=" + file_name + "." + file_type;
+        para += "&token=" + this.initial_current.Token;
+        para += "&by=" + this.initial_current.Username;
+
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqworker?' + para, formData).toPromise()
             .then((res) => {
                 return res;
             });

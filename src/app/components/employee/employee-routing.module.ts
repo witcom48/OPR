@@ -5,9 +5,6 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeManageComponent } from './employee-manage/employee-manage.component';
 import { EmployeePolicyComponent } from './employee-policy/employee-policy.component';
 import { EmployeeMonitorComponent } from './employee-monitor/employee-monitor.component';
-import { PartComponent } from './employee-policy/genaral/part/part.component';
-import { PositionComponent } from './employee-policy/genaral/position/position.component';
-import { GroupComponent } from './employee-policy/genaral/group/group.component';
 import { InitialComponent } from './employee-policy/genaral/initial/initial.component';
 import { EmptypeComponent } from './employee-policy/genaral/emptype/emptype.component';
 import { EmpstatusComponent } from './employee-policy/genaral/empstatus/empstatus.component';
@@ -16,6 +13,12 @@ import { EmpsetdepComponent } from './employee-policy/setup-batch/empsetdep/emps
 import { EmployeeLocationComponent } from './employee-policy/genaral/employee-location/employee-location.component';
 import { EmpsetsalaryComponent } from './employee-policy/setup-batch/empsetsalary/empsetsalary.component';
 import { EmpsetgroupComponent } from './employee-policy/setup-batch/empsetgroup/empsetgroup.component';
+import { EmpsetlocationComponent } from './employee-policy/setup-batch/empsetlocation/empsetlocation.component';
+import { EmpsetprovidentComponent } from './employee-policy/setup-batch/empsetprovident/empsetprovident.component';
+import { EmpsetbenefitsComponent } from './employee-policy/setup-batch/empsetbenefits/empsetbenefits.component';
+import { EmployeePartComponent } from './employee-policy/genaral/employee-part/employee-part.component';
+import { EmployeePositionComponent } from './employee-policy/genaral/employee-position/employee-position.component';
+import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group/employee-group.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -26,9 +29,9 @@ import { EmpsetgroupComponent } from './employee-policy/setup-batch/empsetgroup/
 
         //policy/general
         { path: 'policy/location', component: EmployeeLocationComponent },
-        { path: 'policy/part', component: PartComponent },
-        { path: 'policy/position', component: PositionComponent },
-        { path: 'policy/group', component: GroupComponent },
+        { path: 'policy/part', component: EmployeePartComponent },
+        { path: 'policy/position', component: EmployeePositionComponent },
+        { path: 'policy/group', component: EmployeeGroupComponent },
         { path: 'policy/initial', component: InitialComponent },
         { path: 'policy/emptype', component: EmptypeComponent },
         { path: 'policy/empstatus', component: EmpstatusComponent },
@@ -38,6 +41,9 @@ import { EmpsetgroupComponent } from './employee-policy/setup-batch/empsetgroup/
         { path: 'policy/batch/empdep',component:EmpsetdepComponent},
         { path: 'policy/batch/empsalary', component:EmpsetsalaryComponent},
         { path: 'policy/batch/empgroup', component:EmpsetgroupComponent},
+        { path: 'policy/batch/emplocation', component:EmpsetlocationComponent},
+        { path: 'policy/batch/empprovident',component:EmpsetprovidentComponent},
+        { path: 'policy/batch/empbenefits',component:EmpsetbenefitsComponent},
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../../config/initial_current';
 import { PartModel } from 'src/app/models/employee/policy/part';
+import { LevelModel } from 'src/app/models/system/policy/level';
 
 
 @Injectable({
@@ -53,14 +54,14 @@ export class PartService {
     }
   }
 
-  public dep_get(level:string){
+  public dep_get(model: LevelModel){
     var filter = {
       device_name:'',
       ip:"localhost",
       username:this.initial_current.Username,
       company_code:this.initial_current.CompCode,
       language:"",
-      level_code: level
+      level_code: model.level_code
     }
     console.log('DEP001..');
     return this.http.post<any>(this.config.ApiEmployeeModule + '/dep_list', filter, this.options).toPromise()

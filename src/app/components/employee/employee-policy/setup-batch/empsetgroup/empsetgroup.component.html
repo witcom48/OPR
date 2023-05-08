@@ -28,7 +28,25 @@
                     <app-select-emp></app-select-emp>
                 </div>
                 <div class="field col-12 md:col-7">
-                    
+                    <div>
+                        <label>วันที่มีผล</label>
+                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                            [(ngModel)]="selectedEmpGroup.empgroup_date"><input type="text"></p-calendar>
+                    </div>
+                    <br>
+                    <div>
+                        <label>กลุ่มพนักงาน</label>
+                        <p-dropdown placeholder="--" [options]="groupList" optionValue="group_code" [showClear]="true"
+                            [(ngModel)]="selectedEmpGroup.empgroup_code"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.group_name_th : item.group_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.group_name_th : item.group_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
                 </div>
                 <div class="field col-12 md:col-6">
                     <p-button label="Process" (click)="process()"></p-button>
