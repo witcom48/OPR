@@ -26,6 +26,8 @@ import { ProresponsibleModel } from '../../../models/project/project_responsible
 import { ProtimepolModel } from '../../../models/project/project_timepol';
 import { ProjobmainModel } from '../../../models/project/project_jobmain';
 
+import { ProjobshiftModel } from '../../../models/project/project_jobshift';
+
 import { ProjobcontractModel } from '../../../models/project/project_jobcontract';
 import { ProjobcostModel } from '../../../models/project/project_jobcost';
 import { ProjobmachineModel } from '../../../models/project/project_jobmachine';
@@ -34,12 +36,22 @@ import { ProjobsubModel } from '../../../models/project/project_jobsub';
 import { ProjobempModel } from '../../../models/project/project_jobemp';
 import { ProjobworkingModel } from '../../../models/project/project_jobworking';
 
+import { InitialModel } from '../../../models/employee/policy/initial';
+import { InitialService } from 'src/app/services/emp/policy/initial.service';
+
 import { EmployeeModel } from '../../../models/employee/employee';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 
+import { PositionModel } from '../../../models/employee/policy/position';
+import { PositionService } from 'src/app/services/emp/policy/position.service';
+
+import { EmpstatusModel } from '../../../models/employee/policy/empstatus';
+import { EmpstatusService } from 'src/app/services/emp/policy/empstatus.service';
+
 import { RadiovalueModel } from '../../../models/project/radio_value';
 
-
+import { ShiftServices } from 'src/app/services/attendance/shift.service';
+import { ShiftModels } from 'src/app/models/attendance/shift';
 
 @Component({
   selector: 'app-project-manage',
@@ -59,8 +71,7 @@ export class ProjectManageComponent implements OnInit {
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
   protype_list: ProtypeModel[] = [];
-  selectedProtype: ProtypeModel = new ProtypeModel();
-
+  
   menu_procontact: MenuItem[] = [];
   edit_procontact: boolean = false;
   new_procontact: boolean = false;
@@ -109,84 +120,174 @@ export class ProjectManageComponent implements OnInit {
   menu_projobemp: MenuItem[] = [];
   edit_projobemp: boolean = false;
   new_projobemp: boolean = false;
+  //
+  menu_projobshift: MenuItem[] = [];
+  edit_projobshift: boolean = false;
+  new_projobshift: boolean = false;
 
-
+  title_tab_genaral: {[key: string]: string} = {  EN: "Genaral",  TH: "ข้อมูลทั่วไป"}
+  title_tab_contract: {[key: string]: string} = {  EN: "Contract",  TH: "ข้อมูลสัญญา"}
+  title_tab_policy: {[key: string]: string} = {  EN: "Policy",  TH: "นโยบาย"}
+  title_tab_jobmain: {[key: string]: string} = {  EN: "Job",  TH: "งาน"}
+  title_tab_jobclear: {[key: string]: string} = {  EN: "Clear job",  TH: "งานเคลีย์"}
+  title_tab_staff: {[key: string]: string} = {  EN: "Staff",  TH: "พนักงานประจำหน่วยงาน"}
+  //
+  title_page: {[key: string]: string} = {  EN: "Project Management",  TH: "จัดการข้อมูลโครงการ"}
+  title_new: {[key: string]: string} = {  EN: "New",  TH: "เพิ่ม"}
+  title_edit: {[key: string]: string} = {  EN: "Edit",  TH: "แก้ไข"}
+  title_delete: {[key: string]: string} = {  EN: "Delete",  TH: "ลบ"}
+  title_btn_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
+  title_btn_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
+  title_btn_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+  title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
+  title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
+  title_search: {[key: string]: string} = {  EN: "Search",  TH: "ค้นหา"}
+  title_upload: {[key: string]: string} = {  EN: "Upload",  TH: "อัพโหลด"}
+  //
+  title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
+  title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
+  title_page_total: {[key: string]: string} = {  EN: "of",  TH: "จาก"}
+  title_page_record: {[key: string]: string} = {  EN: "entries",  TH: "รายการ"}
+  //
+  title_import: {[key: string]: string} = {  EN: "Import",  TH: "นำเข้า"}
+  title_export: {[key: string]: string} = {  EN: "Export",  TH: "โอนออก"}
+  title_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
+  title_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+  title_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
+  title_more: {[key: string]: string} = {  EN: "More",  TH: "เพิ่มเติม"}
+  title_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัส"}
+  title_name_th: {[key: string]: string} = {  EN: "Name (Thai)",  TH: "ชื่อไทย"}
+  title_name_en: {[key: string]: string} = {  EN: "Name (Eng.)",  TH: "ชื่ออังกฤษ"}
+  //  
+  title_shift: {[key: string]: string} = {  EN: "Shift",  TH: "กะการทำงาน"}
+  title_shift_code: {[key: string]: string} = {  EN: "Shift",  TH: "รหัสกะ"}
+  title_shift_name: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
+  title_shift_day: {[key: string]: string} = {  EN: "Working day",  TH: "วันทำงาน"}
+  title_shift_emp: {[key: string]: string} = {  EN: "Manpower",  TH: "จำนวนพนักงาน"}
+  title_shift_working: {[key: string]: string} = {  EN: "Number of work",  TH: "จำนวนทำงาน"}
+  title_shift_hrs: {[key: string]: string} = {  EN: "Working hrs.",  TH: "ชั่วโมงทำงาน"}
+  title_shift_ot: {[key: string]: string} = {  EN: "Overtime hrs.",  TH: "ชั่วโมงโอที"}  
   
-  title_page:string = "Geanral";
-  title_new:string = "New";
-  title_edit:string = "Edit";
-  title_delete:string = "Delete";
-  title_import:string = "Import";
-  title_export:string = "Export";
-  title_save:string = "Save";
-  title_more:string = "More";
-  title_code:string = "Code";
-  title_name_th:string = "Name (Thai)";
-  title_name_en:string = "Name (Eng.)";
+  //
+  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
+  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
+  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
+  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
+  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
+  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
+  //
+  title_project_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัสหน่วยงาน"}
+  title_project_name_th: {[key: string]: string} = {  EN: "Description (TH)",  TH: "ชื่อไทย"}
+  title_project_name_en: {[key: string]: string} = {  EN: "Description (EN)",  TH: "ชื่ออังกฤษ"}
+  title_project_codecentral: {[key: string]: string} = {  EN: "Code central",  TH: "รหัสหน่วยงานกลาง"}
+  title_project_name_sub: {[key: string]: string} = {  EN: "Name Sub",  TH: "ชื่อย่อ"}
+  title_project_probusiness: {[key: string]: string} = {  EN: "Business",  TH: "ประเภทธุรกิจ"}
+  title_project_protype: {[key: string]: string} = {  EN: "Type",  TH: "ประเภทงาน"}
+  title_project_roundtime: {[key: string]: string} = {  EN: "Time rounding",  TH: "รูปแบบปัดเศษเวลา"}
+  title_project_roundmoney: {[key: string]: string} = {  EN: "Amount rounding",  TH: "รูปแบบปัดเศษเงิน"}
+  // 
+  title_address: {[key: string]: string} = {  EN: "Address",  TH: "ที่อยู่"}
+  title_address_no: {[key: string]: string} = {  EN: "Address No",  TH: "เลขที่"}
+  title_address_moo: {[key: string]: string} = {  EN: "Moo",  TH: "หมู่"}
+  title_address_road: {[key: string]: string} = {  EN: "Road",  TH: "ถนน"}
+  title_address_soi: {[key: string]: string} = {  EN: "Soi",  TH: "ซอย"}
+  title_address_tambon: {[key: string]: string} = {  EN: "Tambon",  TH: "ตำบล"}
+  title_address_amphur: {[key: string]: string} = {  EN: "Amphur",  TH: "อำเภอ"}
+  title_address_province: {[key: string]: string} = {  EN: "Province",  TH: "จังหวัด"}
+  title_address_zipcode: {[key: string]: string} = {  EN: "Zipcode",  TH: "รหัสไปรษณีย์"}
+  title_address_tel: {[key: string]: string} = {  EN: "Tel.",  TH: "เบอร์โทรศัพท์"}
+  title_address_email: {[key: string]: string} = {  EN: "Email",  TH: "อีเมล์"}
+  title_address_note: {[key: string]: string} = {  EN: "Note",  TH: "เพิ่มเติม"}
+  //
+  title_contact: {[key: string]: string} = {  EN: "Contact",  TH: "ผู้ติดต่อ"}
+  title_contact_no: {[key: string]: string} = {  EN: "No",  TH: "ลำดับ"}
+  title_contact_initial: {[key: string]: string} = {  EN: "Initial",  TH: "คำนำหน้า"}
+  title_contact_firstname: {[key: string]: string} = {  EN: "Firstname",  TH: "ชื่อ"}
+  title_contact_lastname: {[key: string]: string} = {  EN: "Lastname",  TH: "นามสกุล"}
+  title_contact_position: {[key: string]: string} = {  EN: "Position",  TH: "ตำแหน่ง"}
+  title_contact_tel: {[key: string]: string} = {  EN: "Tel.",  TH: "เบอร์โทรศัพท์"}
+  title_contact_email: {[key: string]: string} = {  EN: "Email",  TH: "อีเมล์"}  
+  //
+  title_contract: {[key: string]: string} = {  EN: "Contract",  TH: "ข้อมูลสัญญา"}
+  title_contract_customer: {[key: string]: string} = {  EN: "Customer",  TH: "ชื่อลูกค้า"}
+  title_contract_date: {[key: string]: string} = {  EN: "Date",  TH: "วันที่ทำสัญญา"}
+  title_contract_ref: {[key: string]: string} = {  EN: "Ref.",  TH: "เลขที่สัญญา"}
+  title_contract_amount: {[key: string]: string} = {  EN: "Amount",  TH: "ราคา"}
+  title_contract_fromdate: {[key: string]: string} = {  EN: "Fromdate",  TH: "จากวันที่"}
+  title_contract_todate: {[key: string]: string} = {  EN: "Todate",  TH: "ถึงวันที่"}
+  title_contract_bidder: {[key: string]: string} = {  EN: "Bidder",  TH: "ผู้เสนอราคา"}
+  title_contract_emp_total: {[key: string]: string} = {  EN: "Total emp",  TH: "จำนวนพนักงาน"}
+  //
+  title_responsible: {[key: string]: string} = {  EN: "Responsible",  TH: "ผู้รับผิดชอบ"}
+  title_responsible_code: {[key: string]: string} = {  EN: "Emp code",  TH: "รหัสพนักงาน"}
+  title_responsible_name: {[key: string]: string} = {  EN: "Name",  TH: "ชื่อ-นามสกุล"}
+  title_responsible_position: {[key: string]: string} = {  EN: "Position",  TH: "ตำแหน่ง"}
+  title_responsibl_area: {[key: string]: string} = {  EN: "Area",  TH: "เขต"}
+  title_responsible_fromdate: {[key: string]: string} = {  EN: "Fromdate",  TH: "จากวันที่"}
+  title_responsible_todate: {[key: string]: string} = {  EN: "Todate",  TH: "ถึงวันที่"}
+  //
+  title_timepol: {[key: string]: string} = {  EN: "Attendance policy",  TH: "รูปแบบนโยบายเวลา"}
+  title_timepol_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัส"}
+  title_timepol_name: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
+  title_timepol_ot: {[key: string]: string} = {  EN: "Overtime",  TH: "ล่วงเวลา"}
+  title_timepol_allw: {[key: string]: string} = {  EN: "Allowance",  TH: "เงินค่าเวลา"}
+  title_timepol_dg: {[key: string]: string} = {  EN: "Diligence",  TH: "เบี้ยขยัน"}
+  title_timepol_lv: {[key: string]: string} = {  EN: "Leave",  TH: "การลา"}
+  title_timepol_lt: {[key: string]: string} = {  EN: "Late",  TH: "การคิดสาย"}
 
-  title_projectcode:string = "Code";
-  title_projectname:string = "Name";
-  title_protype:string = "Type";
-  title_probusiness:string = "Business";
-  title_fromdate:string = "From";
-  title_todate:string = "To";
-  title_manpower:string = "Manpower";
-  title_cost:string = "Cost";
-  title_status:string = "Status";
+  //
+  title_jobmain: {[key: string]: string} = {  EN: "Job",  TH: "งานหลัก"}
+  title_jobmain_detail: {[key: string]: string} = {  EN: "Detail",  TH: "รายละเอียด"}
+  title_jobmain_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัสงาน"}
+  title_jobmain_name: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
+  title_jobmain_type: {[key: string]: string} = {  EN: "Job type",  TH: "ประเภทงาน"}
+  title_jobmain_emp_total: {[key: string]: string} = {  EN: "Total emp",  TH: "จำนวนพนักงาน"}
+  title_jobmain_poltime: {[key: string]: string} = {  EN: "Time policy",  TH: "นโยบายเวลา"}
+  title_jobmain_polslip: {[key: string]: string} = {  EN: "Slip form",  TH: "รูปแบบสลิป"}
+  title_jobmain_poluniform: {[key: string]: string} = {  EN: "Uniform",  TH: "ชุดฟอร์ม"}
+  title_jobmain_amount_emp: {[key: string]: string} = {  EN: "Per/Emp",  TH: "รวม/คน"}
+  title_jobmain_amount_total: {[key: string]: string} = {  EN: "Total",  TH: "รวมทั้งหมด"}
+  title_jobmain_used: {[key: string]: string} = {  EN: "Used",  TH: "ใช้ไป"}
+  //
+  title_cost: {[key: string]: string} = {  EN: "Cost",  TH: "ต้นทุน"}
+  title_cost_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัสต้นทุน"}
+  title_cost_name: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
+  title_cost_version: {[key: string]: string} = {  EN: "Version",  TH: "เวอร์ชั่น"}
+  title_cost_type: {[key: string]: string} = {  EN: "Type",  TH: "รูปแบบ"}
+  title_cost_amount: {[key: string]: string} = {  EN: "Amount",  TH: "จำนวนเงิน"}
+  title_cost_allw: {[key: string]: string} = {  EN: "Allw. code",  TH: "รหัสเงินได้"}
+  title_cost_auto: {[key: string]: string} = {  EN: "Auto",  TH: "อัตโนมัติ"}
+  title_cost_fromdate: {[key: string]: string} = {  EN: "Fromdate",  TH: "จากวันที่"}
+  title_cost_todate: {[key: string]: string} = {  EN: "Todate",  TH: "ถึงวันที่"}
+  title_cost_status: {[key: string]: string} = {  EN: "Status",  TH: "สถานะ"}
   
-  title_modified_by:string = "Edit by";
-  title_modified_date:string = "Edit date";
-  title_search:string = "Search";
-  title_upload:string = "Upload";
+  //
+  title_machine: {[key: string]: string} = {  EN: "Finger print",  TH: "เครื่องลงเวลา"}
+  title_machine_ip: {[key: string]: string} = {  EN: "IP Address",  TH: "IP Address"}
+  title_machine_port: {[key: string]: string} = {  EN: "Port",  TH: "Port"}
+  title_machine_enable: {[key: string]: string} = {  EN: "Enable",  TH: "ใช้งาน"}
+//
+  title_working: {[key: string]: string} = {  EN: "Working",  TH: "การปฎิบัติงาน"}
+  title_working_date: {[key: string]: string} = {  EN: "Date",  TH: "วันที่"}
+  title_working_emp: {[key: string]: string} = {  EN: "Emp code",  TH: "รหัสพนักงาน"}
+  title_working_empname: {[key: string]: string} = {  EN: "Name",  TH: "ชื่อ-นามสกุล"}
+  title_working_in: {[key: string]: string} = {  EN: "In",  TH: "เวลาเข้า"}
+  title_working_out: {[key: string]: string} = {  EN: "Out",  TH: "เวลาออก"}
+  //
+  title_staff: {[key: string]: string} = {  EN: "Staff",  TH: "ประจำหน่วยงาน"}
+  title_staff_jobcode: {[key: string]: string} = {  EN: "Job code",  TH: "รหัสงาน"}
+  title_staff_jobname: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียดงาน"}
+  title_staff_empcode: {[key: string]: string} = {  EN: "Emp code",  TH: "รหัสพนักงาน"}
+  title_staff_empname: {[key: string]: string} = {  EN: "Emp name",  TH: "ชื่อ-นามสกุล"}
+  title_staff_empstatus: {[key: string]: string} = {  EN: "Emp status",  TH: "สถานะพนักงาน"}
+  title_staff_fromadate: {[key: string]: string} = {  EN: "Fromdate",  TH: "วันที่โอนย้าย"}
+  title_staff_todate: {[key: string]: string} = {  EN: "Todate",  TH: "วันที่ย้ายออก"}
+  title_staff_status: {[key: string]: string} = {  EN: "Status",  TH: "สถานะ"}
+  title_staff_apprdate: {[key: string]: string} = {  EN: "Approve date",  TH: "วันที่อนุมัติ"}
+  //
+  title_emp_total: {[key: string]: string} = {  EN: "Total emp",  TH: "จำนวนพนักงาน"}
+  title_amount_total: {[key: string]: string} = {  EN: "Total amount",  TH: "ราคารวม"}
 
-  title_page_from:string = "Showing";
-  title_page_to:string = "to";
-  title_page_total:string = "of";
-  title_page_record:string = "entries";
-
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to record";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
-
-  title_confirm_cancel:string = "You have cancelled";
-
-  title_submit:string = "Submit";
-  title_cancel:string = "Cancel";
-
-
-  title_project_code:string = "Code";
-  title_project_name_th:string = "Description (TH)";
-  title_project_name_en:string = "Description (EN)";
-  title_project_codecentral:string = "Code central";
-  title_project_name_sub:string = "Name Sub";
-  title_project_probusiness:string = "Business";
-  title_project_protype:string = "Type";
-  title_project_roundtime:string = "Time rounding";
-  title_project_roundmoney:string = "Amount rounding";
-
-  title_address:string = "Address";
-  title_address_no:string = "Address No";
-  title_address_moo:string = "Moo";
-  title_address_road:string = "Road";
-  title_address_soi:string = "Soi";
-  title_address_tambon:string = "Tambon";
-  title_address_amphur:string = "Amphur";
-  title_address_province:string = "Province";
-  title_address_zipcode:string = "Zipcode";
-  title_address_tel:string = "Tel.";
-  title_address_email:string = "Email";
-  title_address_note:string = "Note";
-
-  title_contact:string = "Contact";
-  title_contact_no:string = "No";
-  title_contact_initial:string = "Initial";
-  title_contact_firstname:string = "Firstname";
-  title_contact_lastname:string = "Lastname";
-  title_contact_position:string = "Position";
-  title_contact_tel:string = "Tel.";
-  title_contact_email:string = "Email"; 
 
   constructor(
     private router:Router, 
@@ -198,7 +299,11 @@ export class ProjectManageComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private shiftServices: ShiftServices,
+    private initialService: InitialService,
+    private positionService:PositionService,
+    private empstatusService:EmpstatusService
 
   ) {
 
@@ -232,79 +337,11 @@ export class ProjectManageComponent implements OnInit {
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.title_page = "ข้อมูลทั่วไป";
-      this.title_new = "เพิ่ม";
-      this.title_edit = "แก้ไข";
-      this.title_delete = "ลบ";
-      this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
-      this.title_save = "บันทึก";
-      this.title_more = "เพิ่มเติม";
-      this.title_code = "รหัส";
-      this.title_name_th = "ชื่อไทย";
-      this.title_name_en = "ชื่ออังกฤษ";
-      this.title_modified_by = "ผู้ทำรายการ";
-      this.title_modified_date = "วันที่ทำรายการ";
-      this.title_search = "ค้นหา";
-      this.title_upload = "อัพโหลด";
+           
 
-      this.title_page_from = "แสดง";
-      this.title_page_to = "ถึง";
-      this.title_page_total = "จาก";
-      this.title_page_record = "รายการ";
+      
 
-      this.title_confirm = "ยืนยันการทำรายการ";
-      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
-      this.title_confirm_delete = "คุณต้องการลบรายการ";
-
-      this.title_confirm_yes = "ใช่";
-      this.title_confirm_no = "ยกเลิก";
-      this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-
-      this.title_projectcode = "โครงการ";
-      this.title_projectname = "ชื่อโครงการ";
-      this.title_probusiness = "ประเภทธุรกิจ";
-      this.title_protype = "ประเภทงาน";
-      this.title_fromdate = "จากวันที่";
-      this.title_todate = "ถึงวันที่";
-      this.title_manpower = "จำนวนพนักงาน";
-      this.title_cost = "ต้นทุน";
-      this.title_status = "สถานะ";
-
-      this.title_project_code = "รหัสหน่วยงาน";
-      this.title_project_name_th = "ชื่อไทย";
-      this.title_project_name_en = "ชื่ออังกฤษ";
-      this.title_project_codecentral = "รหัสหน่วยงานกลาง";
-      this.title_project_name_sub = "ชื่อย่อ";
-      this.title_project_probusiness = "ประเภทธุรกิจ";
-      this.title_project_protype = "ประเภทงาน";
-      this.title_project_roundtime = "รูปแบบปัดเศษเวลา";
-      this.title_project_roundmoney = "รูปแบบปัดเศษเงิน";
-
-      this.title_submit = "ตกลง";
-      this.title_cancel = "ปิด";
-
-      this.title_address = "ที่อยู่";
-      this.title_address_no = "เลขที่";
-      this.title_address_moo = "หมู่";
-      this.title_address_road = "ถนน";
-      this.title_address_soi = "ซอย";
-      this.title_address_tambon = "ตำบล";
-      this.title_address_amphur = "อำเภอ";
-      this.title_address_province = "จังหวัด";
-      this.title_address_zipcode = "รหัสไปรษณีย์";
-      this.title_address_tel = "เบอร์โทรศัพท์";
-      this.title_address_email = "อีเมล์";
-      this.title_address_note = "เพิ่มเติม";
-
-      this.title_contact = "ผู้ติดต่อ";
-      this.title_contact_initial = "คำนำหน้า";
-      this.title_contact_no = "ลำดับ";
-      this.title_contact_firstname = "ชื่อ";
-      this.title_contact_lastname = "นามสกุล";
-      this.title_contact_position = "ตำแหน่ง";
-      this.title_contact_tel = "เบอร์โทรศัพท์";
-      this.title_contact_email = "อีเมล์"; 
+      
       
     }
   }
@@ -374,7 +411,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_procontact = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -399,17 +436,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProcontact != null){
@@ -421,7 +458,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_procontract = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -446,17 +483,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProcontract != null){
@@ -468,7 +505,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_proresponsible = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -493,17 +530,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProresponsible != null){
@@ -515,7 +552,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_protimepol = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -546,17 +583,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProtimepol != null){
@@ -568,7 +605,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobmain = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -598,6 +635,14 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
+        label:'Reload',
+        icon:'pi pi-fw pi-refresh',
+        command: (event) => {
+          this.doLoadProjobmain()
+        }           
+      }
+      ,
+      {
         label:'Save',
         icon:'pi pi-fw pi-save',
         command: (event) => {
@@ -606,17 +651,17 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProjobmain != null){
@@ -628,7 +673,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobcontract = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -654,17 +699,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProjobcontract != null){
@@ -676,7 +721,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobcost = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -703,17 +748,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProjobcost != null){
@@ -725,7 +770,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobmachine = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -752,17 +797,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProjobmachine != null){
@@ -772,9 +817,57 @@ export class ProjectManageComponent implements OnInit {
       } 
     ];
 
+    this.menu_projobshift = [   
+      {
+        label:this.title_new[this.initial_current.Language],
+        icon:'pi pi-fw pi-plus',
+        command: (event) => {
+          this.clearManage()
+          this.new_projobshift = true
+          var ref = this.projobshift_list.length + 100          
+          this.selectedProjobshift = new ProjobshiftModel()
+          this.selectedProjobshift.projobshift_id = ref.toString()   
+          
+          this.showManage() 
+        }  
+      } 
+      ,
+      {
+          label:'Edit',
+          icon:'pi pi-fw pi-pencil',
+          command: (event) => {
+            this.clearManage()
+            if(this.selectedProjobshift != null){
+              this.edit_projobshift = true
+              this.showManage() 
+            }            
+        }        
+      } 
+      ,
+      {
+          label:this.title_import[this.initial_current.Language],
+          icon:'pi pi-fw pi-file-import',          
+      }
+      ,    
+      {
+          label:this.title_export[this.initial_current.Language],
+          icon:'pi pi-fw pi-file-export',          
+      }
+      ,
+      {
+        label:this.title_delete[this.initial_current.Language],
+        icon:'pi pi-fw pi-trash',  
+        command: (event) => {
+          if(this.selectedProjobmachine != null){
+            this.projobshift_remove()  
+          }          
+        }  
+      } 
+    ];
+
     this.menu_projobsub = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -806,17 +899,17 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProjobsub != null){
@@ -828,7 +921,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobsubcontract = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -854,17 +947,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProjobsubcontract != null){
@@ -876,7 +969,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobsubcost = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -903,17 +996,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProjobsubcost != null){
@@ -925,7 +1018,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobemp = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -952,17 +1045,17 @@ export class ProjectManageComponent implements OnInit {
       } 
       ,
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',          
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',          
       }
       ,
       {
-        label:this.title_delete,
+        label:this.title_delete[this.initial_current.Language],
         icon:'pi pi-fw pi-trash',  
         command: (event) => {
           if(this.selectedProjobemp != null){
@@ -980,16 +1073,13 @@ export class ProjectManageComponent implements OnInit {
   selectedProject: ProjectModel = new ProjectModel;
   doLoadProject(){
     var project_list: ProjectModel[] = [];
-    this.projectService.project_get(this.initial_current.CompCode, this.project_code).then((res) => {
-      
-      project_list = res;    
-      
+
+    this.projectService.project_get(this.initial_current.CompCode, this.project_code).then(async (res) => {
+      project_list = await res;
+
       if(project_list.length > 0){
         this.selectedProject = project_list[0]
-
-        //this.doLoadSelectedProbusiness(this.selectedProject.project_probusiness);
-        //this.doLoadSelectedProtype(this.selectedProject.project_protype);
-
+        
         setTimeout(() => {
           this.doLoadProaddress()
           this.doLoadProcontact()
@@ -1000,31 +1090,17 @@ export class ProjectManageComponent implements OnInit {
           this.doLoadProjobmain()  
           this.doLoadProjobsub()     
           
-          this.doLoadProjobemp()     
+          this.doLoadProjobemp()    
+          
+          this.doLoadProtimepol()
           
 
         }, 300);
+      }     
 
-      }      
-
-    });
+    });  
   }
-  doLoadSelectedProbusiness(value:string){
-    for (let i = 0; i < this.probusiness_list.length; i++) {   
-      if(this.probusiness_list[i].probusiness_code==value ){
-        this.selectedProbusiness = this.probusiness_list[i];
-        break;         
-      }                      
-    }
-  }
-  doLoadSelectedProtype(value:string){
-    for (let i = 0; i < this.protype_list.length; i++) {   
-      if(this.protype_list[i].protype_code==value ){
-        this.selectedProtype = this.protype_list[i];
-        break;         
-      }                      
-    }
-  }
+    
   doLoadMaster(){
     this.genaralService.probusiness_get().then((res) => {
       //console.log(res)
@@ -1037,6 +1113,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.doLoadInitial()
     this.doLoadPosition()
+    this.doLoadEmpStatus()
 
     this.doLoadPolOT()
     this.doLoadPolAllw()
@@ -1053,89 +1130,14 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadPolCost()
 
   }
-
-  initial_list_cbb: RadiovalueModel[] = [];  
-  selectedProcontact_initial: RadiovalueModel = new RadiovalueModel;
-  doLoadInitial(){
-
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();  
-      tmp.value = "001";
-      tmp.text = "Mr.";       
-      this.initial_list_cbb.push(tmp);
-
-      tmp = new RadiovalueModel();  
-      tmp.value = "002";      
-      tmp.text = "Mrs.";          
-      this.initial_list_cbb.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();  
-      tmp.value = "001";
-      tmp.text = "นาย";
-        
-      this.initial_list_cbb.push(tmp);
-
-      tmp = new RadiovalueModel();  
-      tmp.value = "002";
-      tmp.text = "นาง";           
-      this.initial_list_cbb.push(tmp);
-    }    
-  }
-  doLoadSelectedProcontact_initial(value:string){
-    for (let i = 0; i < this.initial_list_cbb.length; i++) {   
-      if(this.initial_list_cbb[i].value==value ){
-        this.selectedProcontact_initial = this.initial_list_cbb[i];
-        break;         
-      }                      
-    }
-  }
-
-  position_list_cbb: RadiovalueModel[] = [];
-  selectedProcontact_position: RadiovalueModel = new RadiovalueModel;
-  doLoadPosition(){   
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();  
-      tmp.value = "001";
-      tmp.text = "Services";       
-      this.position_list_cbb.push(tmp);
-
-      tmp = new RadiovalueModel();  
-      tmp.value = "002";      
-      tmp.text = "Manager";          
-      this.position_list_cbb.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();  
-      tmp.value = "001";
-      tmp.text = "พนักงานทำความสะอาด";
-        
-      this.position_list_cbb.push(tmp);
-
-      tmp = new RadiovalueModel();  
-      tmp.value = "002";
-      tmp.text = "หัวหน้างาน";           
-      this.position_list_cbb.push(tmp);
-    }
-  }
-  doLoadSelectedProcontact_position(value:string){
-    for (let i = 0; i < this.position_list_cbb.length; i++) {   
-      if(this.position_list_cbb[i].value==value ){
-        this.selectedProcontact_initial = this.position_list_cbb[i];
-        break;         
-      }                      
-    }
-  }
-    
+       
   confirmRecord() {
     this.confirmationService.confirm({
-        message: this.title_confirm_record,
-        header: this.title_confirm,
+        message: this.title_confirm_record[this.initial_current.Language],
+        header: this.title_confirm[this.initial_current.Language],
         icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-
-          this.selectedProject.project_probusiness = this.selectedProbusiness.probusiness_code;
-          this.selectedProject.project_protype = this.selectedProtype.protype_code;
+        accept: () => {          
+          this.selectedProject.company_code = this.initial_current.CompCode
 
           this.projectService.project_record(this.selectedProject).then((res) => {       
             let result = JSON.parse(res);  
@@ -1159,29 +1161,29 @@ export class ProjectManageComponent implements OnInit {
           });
         },
         reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
         }
     });
   }
       
   confirmDelete() {
     this.confirmationService.confirm({
-        message: this.title_confirm_delete,
-        header: this.title_confirm,
+        message: this.title_confirm_delete[this.initial_current.Language],
+        header: this.title_confirm[this.initial_current.Language],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           
         },
         reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
         }
     });
   }
 
   confirmRecordJobmain() {
     this.confirmationService.confirm({
-        message: this.title_confirm_record,
-        header: this.title_confirm,
+        message: this.title_confirm_record[this.initial_current.Language],
+        header: this.title_confirm[this.initial_current.Language],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
 
@@ -1192,6 +1194,8 @@ export class ProjectManageComponent implements OnInit {
               var jobcontract = this.projobcontract_record()
               var jobcost = this.projobcost_record()
               var jobmachine = this.projobmachine_record()
+
+              var jobshift = this.projobshift_record()
 
               this.messageService.add({severity:'success', summary: 'Success', detail: "Record Success.."});
 
@@ -1211,15 +1215,15 @@ export class ProjectManageComponent implements OnInit {
           })
         },
         reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
         }
     });
   }
 
   confirmRecordJobsub() {
     this.confirmationService.confirm({
-        message: this.title_confirm_record,
-        header: this.title_confirm,
+        message: this.title_confirm_record[this.initial_current.Language],
+        header: this.title_confirm[this.initial_current.Language],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
 
@@ -1247,7 +1251,7 @@ export class ProjectManageComponent implements OnInit {
           })
         },
         reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
         }
     });
   }
@@ -1388,16 +1392,10 @@ export class ProjectManageComponent implements OnInit {
   }
   onRowSelectProcontact(event: Event) {
     this.edit_procontact= true;    
-
-    this.doLoadSelectedProcontact_initial(this.selectedProcontact.initial_code)
-    this.doLoadSelectedProcontact_position(this.selectedProcontact.position_code)
-    
+        
   }
-  procontact_summit() {           
+  procontact_summit() {               
     
-    this.selectedProcontact.initial_code = this.selectedProcontact_initial.value
-    this.selectedProcontact.position_code = this.selectedProcontact_position.value
-
     this.procontact_addItem(this.selectedProcontact)
     this.new_procontact = false
     this.edit_procontact = false
@@ -1769,38 +1767,35 @@ export class ProjectManageComponent implements OnInit {
   }
 
   //-- Project jobmain
-  projobmain_list_cbb: RadiovalueModel[] = [];
-  selectedProjobmain_cbb: RadiovalueModel = new RadiovalueModel;
-
+  
   projobmain_list: ProjobmainModel[] = [];
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
   doLoadProjobmain(){
-    this.projectDetailService.projobmain_get(this.project_code).then((res) => {      
-      this.projobmain_list = res;          
-      if(this.projobmain_list.length > 0){
-        //this.selectedProjobmain = this.projobmain_list[0]
-
-        this.projobmain_list_cbb = []
-        for (let i = 0; i < this.projobmain_list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = this.projobmain_list[i].projobmain_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = this.projobmain_list[i].projobmain_name_en;        
-          }
-          else{
-            tmp.text = this.projobmain_list[i].projobmain_name_th;      
-          }
-          this.projobmain_list_cbb.push(tmp);                         
-        }  
-
-
-      }
-    });
+   
+    this.projectDetailService.projobmain_get(this.project_code).then(async (res) => {
+      this.projobmain_list = await res;
+    }); 
 
     setTimeout(() => {
       this.projobmain_summary()
     }, 1000);
   }
+
+  doGetProjobmainDetail(code:string) : string {
+    for (let i = 0; i < this.projobmain_list.length; i++) {
+      if(this.projobmain_list[i].projobmain_code==code ){
+        if(this.initial_current.Language=="TH"){
+          return this.projobmain_list[i].projobmain_name_th;
+        }
+        else{
+          return this.projobmain_list[i].projobmain_name_en;
+        }
+      }
+    }
+    return ""      
+  }
+
+
   onRowSelectProjobmain(event: Event) {
 
     if(this.selectedProjobmain == null){
@@ -1810,6 +1805,7 @@ export class ProjectManageComponent implements OnInit {
       this.doLoadProjobcontract() 
       this.doLoadProjobcost() 
       this.doLoadProjobmachine()  
+      this.projobmain_loadtran()
 
       this.menu_projobmain[1] =
       {        
@@ -1826,13 +1822,7 @@ export class ProjectManageComponent implements OnInit {
     }
        
   }
-  projobmain_summit() {           
-
-    this.selectedProjobmain.projobmain_type = this.selectedProjobmain_type.value
-    this.selectedProjobmain.projobmain_shift = this.selectedProjobmain_shift.value
-    this.selectedProjobmain.projobmain_timepol = this.selectedProjobmain_timepol.value
-    this.selectedProjobmain.projobmain_slip = this.selectedProjobmain_slip.value
-    this.selectedProjobmain.projobmain_uniform = this.selectedProjobmain_uniform.value     
+  projobmain_summit() {            
         
     this.projobmain_addItem(this.selectedProjobmain)
     this.new_projobmain = false
@@ -1883,22 +1873,10 @@ export class ProjectManageComponent implements OnInit {
     return false
   }
 
-  doGetJobmainName(code:string) : string {    
-    for (let i = 0; i < this.projobmain_list_cbb.length; i++) {   
-      if(this.projobmain_list_cbb[i].value==code ){
-        return this.projobmain_list_cbb[i].text       
-      }                      
-    }
-    return ""
-  }
 
-  projobmain_loadtran(){
-    
-    this.doLoadSelectedProjobmain_type(this.selectedProjobmain.projobmain_type)
-    this.doLoadSelectedProjobmain_shift(this.selectedProjobmain.projobmain_shift)
-    this.doLoadSelectedProjobmain_timepol(this.selectedProjobmain.projobmain_timepol)
-    this.doLoadSelectedProjobmain_slip(this.selectedProjobmain.projobmain_slip)
-    this.doLoadSelectedProjobmain_uniform(this.selectedProjobmain.projobmain_uniform)   
+  projobmain_loadtran(){      
+
+    this.doLoadProjobshift()
 
     this.doLoadProjobcontract()
     this.doLoadProjobcost()
@@ -1907,156 +1885,122 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
-  projobtype_list: RadiovalueModel[] = [];
-  selectedProjobmain_type: RadiovalueModel = new RadiovalueModel;
+  projobtype_list: RadiovalueModel[] = [];  
   doLoadPoljobtype(){   
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();  
+    var tmp = new RadiovalueModel();  
       tmp.value = "R";
-      tmp.text = "Regular";       
+      tmp.text_en = "Regular";   
+      tmp.text_th = "ประจำ";      
       this.projobtype_list.push(tmp);
       tmp = new RadiovalueModel();  
       tmp.value = "C";
-      tmp.text = "Casual work";       
+      tmp.text_en = "Casual work";    
+      tmp.text_th = "งานจร";      
       this.projobtype_list.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();  
-      tmp.value = "R";
-      tmp.text = "ประจำ";        
-      this.projobtype_list.push(tmp);
-      tmp = new RadiovalueModel();  
-      tmp.value = "C";
-      tmp.text = "งานจร";       
-      this.projobtype_list.push(tmp);
-    }
   }
-  doLoadSelectedProjobmain_type(value:string){
-    for (let i = 0; i < this.projobtype_list.length; i++) {   
-      if(this.projobtype_list[i].value==value ){
-        this.selectedProjobmain_type = this.projobtype_list[i];
-        break;         
-      }                      
-    }
-  }
-
-  polshift_list: RadiovalueModel[] = [];
-  selectedProjobmain_shift: RadiovalueModel = new RadiovalueModel;
-  doLoadPolShift(){   
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();  
-      tmp.value = "SHT001";
-      tmp.text = "Shift Day";       
-      this.polshift_list.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();  
-      tmp.value = "SHT001";
-      tmp.text = "กะเช้า";        
-      this.polshift_list.push(tmp);
-    }
-  }
-  doLoadSelectedProjobmain_shift(value:string){
-    for (let i = 0; i < this.polshift_list.length; i++) {   
-      if(this.polshift_list[i].value==value ){
-        this.selectedProjobmain_shift = this.polshift_list[i];
-        break;         
-      }                      
-    }
-  }
-
-  poltimepol_list_cbb: RadiovalueModel[] = [];
-  selectedProjobmain_timepol: RadiovalueModel = new RadiovalueModel;
-  doLoadPolProtimepol(){   
-    this.poltimepol_list_cbb = []   
-    this.projectDetailService.protimepol_get(this.project_code).then((res) => {          
-      var list: ProtimepolModel[] = [];     
-      list = res;          
-      if(list.length > 0){
-        for (let i = 0; i < list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = list[i].protimepol_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = list[i].protimepol_name_en;        
-          }
-          else{
-            tmp.text = list[i].protimepol_name_th;      
-          }
-          this.poltimepol_list_cbb.push(tmp);                         
-        }      
+  doGetPoljobtypeDetail(code:string) : string {
+    for (let i = 0; i < this.projobtype_list.length; i++) {
+      if(this.projobtype_list[i].value==code ){
+        if(this.initial_current.Language=="TH"){
+          return this.projobtype_list[i].text_th;
+        }
+        else{
+          return this.projobtype_list[i].text_en;
+        }
       }
-    });
-  }
-  doLoadSelectedProjobmain_timepol(value:string){
-    for (let i = 0; i < this.poltimepol_list_cbb.length; i++) {   
-      if(this.poltimepol_list_cbb[i].value==value ){
-        this.selectedProjobmain_timepol = this.poltimepol_list_cbb[i];
-        break;         
-      }                      
     }
+    return ""      
   }
 
-  polslip_list_cbb: RadiovalueModel[] = [];
-  selectedProjobmain_slip: RadiovalueModel = new RadiovalueModel;
+  
+  polshift_list: ShiftModels[] = [];
+  selectedProjobmain_shift: ShiftModels = new ShiftModels;
+  doLoadPolShift(){     
+    var tmp = new ShiftModels();
+    tmp.company_code = this.initial_current.CompCode
+    this.polshift_list = []   
+    this.shiftServices.shift_get(tmp).then(async (res) => {
+      this.polshift_list = await res;
+    });    
+  }
+  doGetShiftDetail(code:string) : string {
+    for (let i = 0; i < this.polshift_list.length; i++) {
+      if(this.polshift_list[i].shift_code==code ){
+        if(this.initial_current.Language=="TH"){
+          return this.polshift_list[i].shift_name_th;
+        }
+        else{
+          return this.polshift_list[i].shift_name_en;
+        }
+      }
+    }
+    return ""      
+  }
+  
+
+  poltimepol_list: ProtimepolModel[] = [];  
+  doLoadPolProtimepol(){       
+    this.projectDetailService.protimepol_get(this.project_code).then(async (res) => {
+      this.poltimepol_list = await res;
+    }); 
+  }
+  doGetProtimepolDetail(code:string) : string {
+    for (let i = 0; i < this.poltimepol_list.length; i++) {
+      if(this.poltimepol_list[i].protimepol_code==code ){
+        if(this.initial_current.Language=="TH"){
+          return this.poltimepol_list[i].protimepol_name_th;
+        }
+        else{
+          return this.poltimepol_list[i].protimepol_name_en;
+        }
+      }
+    }
+    return ""      
+  }
+
+
+
+
+  polslip_list: ProslipModel[] = [];  
   doLoadPolProslip(){   
-    this.polslip_list_cbb = []   
-    this.genaralService.proslip_get().then((res) => {          
-      var list: ProslipModel[] = [];     
-      list = res;          
-      if(list.length > 0){
-        for (let i = 0; i < list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = list[i].proslip_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = list[i].proslip_name_en;        
-          }
-          else{
-            tmp.text = list[i].proslip_name_th;      
-          }
-          this.polslip_list_cbb.push(tmp);                         
-        }      
-      }
-    });
+    this.genaralService.proslip_get().then(async (res) => {
+      this.polslip_list = await res;
+    }); 
   }
-  doLoadSelectedProjobmain_slip(value:string){
-    for (let i = 0; i < this.polslip_list_cbb.length; i++) {   
-      if(this.polslip_list_cbb[i].value==value ){
-        this.selectedProjobmain_slip = this.polslip_list_cbb[i];
-        break;         
-      }                      
+  doGetSlipDetail(code:string) : string {
+    for (let i = 0; i < this.polslip_list.length; i++) {
+      if(this.polslip_list[i].proslip_code==code ){
+        if(this.initial_current.Language=="TH"){
+          return this.polslip_list[i].proslip_name_th;
+        }
+        else{
+          return this.polslip_list[i].proslip_name_en;
+        }
+      }
     }
+    return ""      
+  } 
+
+  poluniform_list: ProuniformModel[] = [];  
+  doLoadPolProuniform(){   
+    this.genaralService.prouniform_get().then(async (res) => {
+      this.poluniform_list = await res;
+    }); 
+  }
+  doGetUniformDetail(code:string) : string {
+    for (let i = 0; i < this.poluniform_list.length; i++) {
+      if(this.poluniform_list[i].prouniform_code==code ){
+        if(this.initial_current.Language=="TH"){
+          return this.poluniform_list[i].prouniform_name_th;
+        }
+        else{
+          return this.poluniform_list[i].prouniform_name_en;
+        }
+      }
+    }
+    return ""      
   }
 
-  poluniform_list_cbb: RadiovalueModel[] = [];
-  selectedProjobmain_uniform: RadiovalueModel = new RadiovalueModel;
-  doLoadPolProuniform(){   
-    this.poluniform_list_cbb = []   
-    this.genaralService.prouniform_get().then((res) => {          
-      var list: ProuniformModel[] = [];     
-      list = res;          
-      if(list.length > 0){
-        for (let i = 0; i < list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = list[i].prouniform_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = list[i].prouniform_name_en;        
-          }
-          else{
-            tmp.text = list[i].prouniform_name_th;      
-          }
-          this.poluniform_list_cbb.push(tmp);                         
-        }      
-      }
-    });
-  }
-  doLoadSelectedProjobmain_uniform(value:string){
-    for (let i = 0; i < this.poluniform_list_cbb.length; i++) {   
-      if(this.poluniform_list_cbb[i].value==value ){
-        this.selectedProjobmain_uniform = this.poluniform_list_cbb[i];
-        break;         
-      }                      
-    }
-  }
 
   project_summary_emp: number = 0;
   project_summary_cost: number = 0;
@@ -2097,14 +2041,7 @@ export class ProjectManageComponent implements OnInit {
       }
     });
   }
-  doLoadSelectedProjobcost_cost(value:string){
-    for (let i = 0; i < this.polcost_list_cbb.length; i++) {   
-      if(this.polcost_list_cbb[i].value==value ){
-        this.selectedProjobcost_cost = this.polcost_list_cbb[i];
-        break;         
-      }                      
-    }
-  }
+  
 
   doGetProCostType(code:string) : string {    
     for (let i = 0; i < this.polcost_list.length; i++) {   
@@ -2118,13 +2055,7 @@ export class ProjectManageComponent implements OnInit {
   doGetProCostName(code:string) : string {    
     for (let i = 0; i < this.polcost_list.length; i++) {   
       if(this.polcost_list[i].procost_code==code ){
-
-        if(this.initial_current.Language == "TH"){
-          return this.polcost_list[i].procost_name_th    
-        }
-        else{
-          return this.polcost_list[i].procost_name_en    
-        }  
+        return this.initial_current.Language == "TH" ? this.polcost_list[i].procost_name_th : this.polcost_list[i].procost_name_en 
       }                      
     }
     return ""
@@ -2242,11 +2173,7 @@ export class ProjectManageComponent implements OnInit {
 
   }
   projobcost_summit() {       
-    
-    console.log(this.selectedProjobcost.projobcost_id)
-
-    this.selectedProjobcost.projobcost_code =  this.selectedProjobcost_cost.value
-            
+ 
     this.projobcost_addItem(this.selectedProjobcost)
     this.new_projobcost = false
     this.edit_projobcost = false    
@@ -2322,6 +2249,82 @@ export class ProjectManageComponent implements OnInit {
     for (let i = 0; i < this.projobcost_list.length; i++) {
 
     }
+  }
+
+  //-- Project job shift
+  projobshift_list: ProjobshiftModel[] = [];
+  selectedProjobshift: ProjobshiftModel = new ProjobshiftModel();
+  doLoadProjobshift(){
+    this.projectDetailService.projobshift_get(this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {   
+      this.projobshift_list = res;          
+      if(this.projobshift_list.length > 0){
+        this.selectedProjobshift = this.projobshift_list[0]
+      }
+    });
+  }
+  onRowSelectProjobshift(event: Event) {
+     
+
+  }
+  projobshift_summit() {      
+    
+    this.projobshift_addItem(this.selectedProjobshift)
+    this.new_projobshift = false
+    this.edit_projobshift = false    
+
+    this.displayManage = false
+  }
+  projobshift_remove() {            
+    this.selectedProjobshift.projobshift_id = "9999";
+    this.projobshift_addItem(this.selectedProjobshift)
+    this.new_projobshift = false
+    this.edit_projobshift = false
+  }
+  projobshift_cancel() {  
+    this.edit_projobshift= false
+    this.new_projobshift= false    
+    this.displayManage = false
+  }
+  projobshift_addItem(model:ProjobshiftModel){
+    const itemNew:ProjobshiftModel[] = [];
+    for (let i = 0; i < this.projobshift_list.length; i++) {     
+      if(this.projobshift_list[i].projobshift_id==model.projobshift_id ){
+        //-- Notting
+      }   
+      else{
+
+        itemNew.push(this.projobshift_list[i]);      
+      }     
+    }  
+    //-- 9999 for delete
+    if(model.projobshift_id != "9999"){
+      itemNew.push(model);
+    }          
+    this.projobshift_list = [];
+    this.projobshift_list = itemNew;
+    this.projobshift_list.sort(function(a, b) { return parseInt(a.projobshift_id) - parseInt(b.projobshift_id); })
+  }
+  projobshift_record():boolean {     
+    
+    if(this.selectedProjobmain == null){
+      return false
+    }
+          
+    if(this.projobshift_list.length == 0){
+      //return false
+    }
+    this.projectDetailService.projobshift_record(this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobshift_list).then((res) => {       
+      let result = JSON.parse(res);  
+      if(result.success){             
+        return true
+      }
+      else{
+        return false
+      }  
+      
+    });
+
+    return false
   }
 
   //-- Project job machine
@@ -2589,9 +2592,7 @@ export class ProjectManageComponent implements OnInit {
 
   }
   projobsubcost_summit() {       
-    
-    this.selectedProjobsubcost.projobcost_code =  this.selectedProjobcost_cost.value
-            
+           
     this.projobsubcost_addItem(this.selectedProjobsubcost)
     this.new_projobsubcost = false
     this.edit_projobsubcost = false    
@@ -2676,9 +2677,7 @@ export class ProjectManageComponent implements OnInit {
   }
   projobemp_summit() {       
     
-    //this.selectedProjobemp.projobemp_emp =  this.selectedProjobmain_cbb.value
-    this.selectedProjobemp.project_code = this.project_code
-    this.selectedProjobemp.projob_code = this.selectedProjobmain_cbb.value
+    this.selectedProjobemp.project_code = this.project_code    
             
     this.projobemp_addItem(this.selectedProjobemp)
     this.new_projobemp = false
@@ -2726,14 +2725,13 @@ export class ProjectManageComponent implements OnInit {
   projobemp_record() {  
     
     this.confirmationService.confirm({
-      message: this.title_confirm_record,
-      header: this.title_confirm,
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
 
         this.selectedProjobemp.project_code = this.project_code
-        this.selectedProjobemp.projob_code = this.selectedProjobmain_cbb.value
-        this.selectedProjobemp.projobemp_emp = this.selectedEmployee_cbb.value
+      
        
         this.projectDetailService.projobemp_record(this.selectedProjobemp).then((res) => {       
           let result = JSON.parse(res);  
@@ -2752,7 +2750,7 @@ export class ProjectManageComponent implements OnInit {
         });
       },
       reject: () => {
-        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
       }
     });
    
@@ -2776,34 +2774,83 @@ export class ProjectManageComponent implements OnInit {
   }
 
   employee_list: EmployeeModel[] = [];
-  doLoadEmployee(){
-    this.employeeService.worker_get(this.initial_current.CompCode,"").then((res) =>{
-      this.employee_list = res;
-      
-      if(this.employee_list.length > 0){
-
-        this.employee_list_cbb = []
-
-        for (let i = 0; i < this.employee_list.length; i++) {
-
-          var tmp = new RadiovalueModel();  
-          tmp.value = this.employee_list[i].worker_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = this.employee_list[i].worker_code + ' : ' + this.employee_list[i].worker_fname_th + ' ' + this.employee_list[i].worker_lname_th               
-          }
-          else{
-            tmp.text = this.employee_list[i].worker_code + ' : ' + this.employee_list[i].worker_fname_en + ' ' + this.employee_list[i].worker_lname_en 
-          }
-
-          this.employee_list_cbb.push(tmp)  
-
-        }
-      }
-
-    });
+  doLoadEmployee(){    
+    this.employeeService.worker_get(this.initial_current.CompCode,"").then(async (res) => {
+      this.employee_list = await res;
+    }); 
   }
 
-  employee_list_cbb: RadiovalueModel[] = [];  
-  selectedEmployee_cbb: RadiovalueModel = new RadiovalueModel;
+  doGetEmployeeDetail(code:string) : string {
+    for (let i = 0; i < this.employee_list.length; i++) {
+      if(this.employee_list[i].worker_code==code ){
+        if(this.initial_current.Language=="TH"){
+          return this.employee_list[i].worker_fname_th + ' ' + this.employee_list[i].worker_lname_th;
+        }
+        else{
+          return this.employee_list[i].worker_fname_en + ' ' + this.employee_list[i].worker_lname_en;
+        }
+      }
+    }
+    return ""      
+  }
+
+  doGetEmployeeStatus(code:string) : string {
+    for (let i = 0; i < this.employee_list.length; i++) {
+      if(this.employee_list[i].worker_code==code ){    
+        return this.doGetEmpstatusDetail(this.employee_list[i].worker_status)
+      }
+    }
+    return ""      
+  }
+
+  initial_list: InitialModel[] = [];  
+  doLoadInitial(){         
+    this.initial_list = []   
+    this.initialService.initial_get().then(async (res) => {
+      this.initial_list = await res;
+    });    
+  }
+  doGetInitialDetail(code:string) : string {
+    for (let i = 0; i < this.initial_list.length; i++) {
+      if(this.initial_list[i].initial_code==code ){
+        return this.initial_current.Language=="TH" ? this.initial_list[i].initial_name_th : this.initial_list[i].initial_name_en
+      }
+    }
+    return ""      
+  }
+
+  position_list: PositionModel[] = [];  
+  doLoadPosition(){         
+    this.position_list = []   
+    this.positionService.position_get().then(async (res) => {
+      this.position_list = await res;
+    });    
+  }
+  doGetPositionDetail(code:string) : string {
+    for (let i = 0; i < this.position_list.length; i++) {
+      if(this.position_list[i].position_code==code ){
+        return this.initial_current.Language=="TH" ? this.position_list[i].position_name_th : this.position_list[i].position_name_en
+      }
+    }
+    return ""      
+  }
+
+  empstatus_list: EmpstatusModel[] = [];  
+  doLoadEmpStatus(){         
+    this.empstatus_list = []   
+    this.empstatusService.status_get().then(async (res) => {
+      this.empstatus_list = await res;
+    });    
+  }
+  doGetEmpstatusDetail(code:string) : string {
+    for (let i = 0; i < this.empstatus_list.length; i++) {
+      if(this.empstatus_list[i].status_code==code ){
+        return this.initial_current.Language=="TH" ? this.empstatus_list[i].status_name_th : this.empstatus_list[i].status_name_en
+      }
+    }
+    return ""      
+  }
+
+ 
 
 }

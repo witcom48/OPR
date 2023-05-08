@@ -139,7 +139,7 @@ export class ProjectService {
     });
   }
 
-  public project_monitor(company:string, workdate:Date){     
+  public project_monitor(company:string, workdate:Date, protype:string, probusiness:string){     
     
     var filter = { 
       device_name:'',
@@ -152,6 +152,34 @@ export class ProjectService {
       project_name_en:"",
       project_name_sub:"",
       project_codecentral:"",
+      project_protype:protype,
+      project_probusiness:probusiness,
+      fromdate:this.datePipe.transform(workdate, 'yyyy-MM-dd'),
+      todate:this.datePipe.transform(workdate, 'yyyy-MM-dd'),
+    };
+    
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/project_monitor', filter, this.options).toPromise()   
+    .then((res) => {
+      let message = JSON.parse(res);
+      //console.log(res)
+      return message.data;
+    });
+  }
+
+  public job_monitor(company:string, project:string, workdate:Date){     
+    
+    var filter = { 
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company:company,
+      language:"",
+      project_code:project,
+      project_name_th:"",
+      project_name_en:"",
+      project_name_sub:"",
+      project_codecentral:"",
       project_protype:"",
       project_probusiness:"",
       fromdate:this.datePipe.transform(workdate, 'yyyy-MM-dd'),
@@ -159,7 +187,7 @@ export class ProjectService {
     };
     
 
-    return this.http.post<any>(this.config.ApiProjectModule + '/project_monitor', filter, this.options).toPromise()   
+    return this.http.post<any>(this.config.ApiProjectModule + '/job_monitor', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
       //console.log(res)

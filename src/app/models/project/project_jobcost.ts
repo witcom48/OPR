@@ -11,6 +11,7 @@ export class ProjobcostModel {
     projobcost_todate: Date = new Date();
     projobcost_version: string = "";
     projobcost_status: string = "";
+    projobcost_auto: boolean = false;
     projob_code: string = "";
     project_code: string = "";
    

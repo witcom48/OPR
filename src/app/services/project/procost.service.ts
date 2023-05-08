@@ -23,7 +23,8 @@ export class ProcostService {
   basicRequest = { 
     device_name:'',
     ip:'',
-    username:''
+    username:'',
+    company:'',
   };
 
   constructor(private http:HttpClient, private router: Router) { 
@@ -48,7 +49,8 @@ export class ProcostService {
       this.basicRequest = { 
         device_name:'',
         ip:"localhost",
-        username:this.initial_current.Username
+        username:this.initial_current.Username,
+        company:this.initial_current.CompCode,
       };
 
     }   

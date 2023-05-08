@@ -58,16 +58,47 @@ export class ProjectTimesheetComponent implements OnInit {
   searchEmp: boolean = false;
   position: string = "right";
 
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to record";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
+  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
+  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
+  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
+  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
+  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
+  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
 
-  title_confirm_cancel:string = "You have cancelled";
+  title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
+  title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
+  title_page_total: {[key: string]: string} = {  EN: "of",  TH: "จาก"}
+  title_page_record: {[key: string]: string} = {  EN: "entries",  TH: "รายการ"}
+  //
+  title_page: {[key: string]: string} = {  EN: "Project Management",  TH: "จัดการข้อมูลโครงการ"}
+  title_new: {[key: string]: string} = {  EN: "New",  TH: "เพิ่ม"}
+  title_edit: {[key: string]: string} = {  EN: "Edit",  TH: "แก้ไข"}
+  title_delete: {[key: string]: string} = {  EN: "Delete",  TH: "ลบ"}
+  title_btn_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
+  title_btn_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
+  title_btn_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+  title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
+  title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
+  title_search: {[key: string]: string} = {  EN: "Search",  TH: "ค้นหา"}
+  title_upload: {[key: string]: string} = {  EN: "Upload",  TH: "อัพโหลด"}
 
-  title_submit:string = "Submit";
-  title_cancel:string = "Cancel";
+  title_date: {[key: string]: string} = {  EN: "Date",  TH: "วันที่"}
+  title_project: {[key: string]: string} = {  EN: "Project",  TH: "โครงการ"}
+
+  title_jobcode: {[key: string]: string} = {  EN: "Job",  TH: "งาน"}
+  title_jobname: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
+  title_empcode: {[key: string]: string} = {  EN: "Emp. code",  TH: "รหัสพนักงาน"}
+  title_empname: {[key: string]: string} = {  EN: "Emp. name",  TH: "ชื่อ-นามสกุล"}
+  title_shift: {[key: string]: string} = {  EN: "Shift",  TH: "กะการทำงาน"}
+  title_daytype: {[key: string]: string} = {  EN: "Daytype",  TH: "ประเภทวัน"}
+  title_timein: {[key: string]: string} = {  EN: "In",  TH: "เวลาเข้า"}
+  title_timeout: {[key: string]: string} = {  EN: "Out",  TH: "เวลาออก"}
+  title_working_before: {[key: string]: string} = {  EN: "OT in",  TH: "โอทีก่อนเข้างาน"}
+  title_working: {[key: string]: string} = {  EN: "Working",  TH: "เวลาทำงาน"}
+  title_working_after: {[key: string]: string} = {  EN: "OT out",  TH: "โอทีหลังเลิกงาน"}
+  title_working_late: {[key: string]: string} = {  EN: "Late",  TH: "สาย"}
+  title_working_leave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
+  
 
 
   constructor(
@@ -96,14 +127,14 @@ export class ProjectTimesheetComponent implements OnInit {
       this.doLoadPolJobmain()
     }, 300);
 
-    let dateString = '2023-01-10T00:00:00'
-    this.selectedDate_fillter = new Date(dateString);
+    //let dateString = '2023-01-10T00:00:00'
+    //this.selectedDate_fillter = new Date(dateString);
 
     setTimeout(() => {
 
-      if(this.project_list_cbb.length > 0)
+      if(this.project_list.length > 0)
       {
-        this.selectedProject_fillter = this.project_list_cbb[0]
+        this.selectedProject_fillter = this.project_list[0]
 
         this.doLoadTimecard()
       }
@@ -114,18 +145,8 @@ export class ProjectTimesheetComponent implements OnInit {
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.title_confirm = "ยืนยันการทำรายการ";
-      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
-      this.title_confirm_delete = "คุณต้องการลบรายการ";
-
-      this.title_confirm_yes = "ใช่";
-      this.title_confirm_no = "ยกเลิก";
-      this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-      
-      this.title_submit = "ตกลง";
-      this.title_cancel = "ปิด"; 
+     
     }     
-
   }
 
   public initial_current:InitialCurrent = new InitialCurrent();  
@@ -190,31 +211,14 @@ export class ProjectTimesheetComponent implements OnInit {
 
   }
 
-  project_list_cbb: RadiovalueModel[] = [];
-  selectedProject_fillter: RadiovalueModel = new RadiovalueModel;
+  project_list: ProjectModel[] = []; 
+  selectedProject_fillter :ProjectModel = new ProjectModel()
   selectedDate_fillter :Date = new Date()
   doLoadProject(){   
-    this.project_list_cbb = []   
-    this.projectService.project_get(this.initial_current.CompCode, "").then((res) => {          
-      var list: ProjectModel[] = [];     
-      list = res;          
-      if(list.length > 0){
-
-        for (let i = 0; i < list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = list[i].project_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = list[i].project_name_en;        
-          }
-          else{
-            tmp.text = list[i].project_name_th;      
-          }
-          this.project_list_cbb.push(tmp);                         
-        }  
-                        
-        
-      }
-    });
+    this.project_list = []   
+    this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
+      this.project_list = await res;
+    }); 
   }
 
 
@@ -225,11 +229,9 @@ export class ProjectTimesheetComponent implements OnInit {
   timein: string | null | undefined
   timeout: string | null | undefined
 
-  doLoadTimecard(){
-
-    
-    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedProject_fillter.value, "", this.selectedDate_fillter, this.selectedDate_fillter).then((res) =>{
-      this.timecard_list = res;   
+  doLoadTimecard(){    
+    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
+      this.timecard_list = await res;
     });
   }
 
@@ -241,10 +243,7 @@ export class ProjectTimesheetComponent implements OnInit {
     else{
       this.emp_name = this.selectedTimecard.worker_name_th
     }
-
-    this.doLoadSelectedDaytype(this.selectedTimecard.timecard_daytype)
-    this.doLoadSelectedShift(this.selectedTimecard.shift_code)
-
+   
     this.timein = this.datePipe.transform(this.selectedTimecard.timecard_in, 'HH:mm')
     this.timeout = this.datePipe.transform(this.selectedTimecard.timecard_out, 'HH:mm')
 
@@ -281,119 +280,70 @@ export class ProjectTimesheetComponent implements OnInit {
   }
 
 
-  shift_list: RadiovalueModel[] = [];
-  selectedShift: RadiovalueModel = new RadiovalueModel;
+  shift_list: ShiftModels[] = [];  
   doLoadPolShift(){   
     var tmp = new ShiftModels();
-    this.shift_list = []   
-    this.shiftServices.shift_get(tmp).then((res) => {          
-      var list: ShiftModels[] = [];     
-      list = res;          
-      if(list.length > 0){
-        for (let i = 0; i < list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = list[i].shift_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = list[i].shift_name_en;        
-          }
-          else{
-            tmp.text = list[i].shift_name_th;      
-          }
-          this.shift_list.push(tmp);                         
-        }      
-      }
+    this.shiftServices.shift_get(tmp).then(async (res) => {
+      this.shift_list = await res;
     });
   }
-  doLoadSelectedShift(value:string){
-    for (let i = 0; i < this.shift_list.length; i++) {   
-      if(this.shift_list[i].value==value ){
-        this.selectedShift = this.shift_list[i];
-        break;         
-      }                      
+  doGetPolShiftDetail(code:string) : string {
+    for (let i = 0; i < this.shift_list.length; i++) {
+      if(this.shift_list[i].shift_code==code ){
+        return this.initial_current.Language=="TH" ? this.shift_list[i].shift_name_th : this.shift_list[i].shift_name_en
+      }
     }
+    return ""      
   }
+  
 
-  daytype_list: RadiovalueModel[] = [];
-  selectedDaytype: RadiovalueModel = new RadiovalueModel;
-  doLoadPolDaytype(){   
-   
+  daytype_list: DaytypeModels[] = [];  
+  doLoadPolDaytype(){      
     this.daytype_list = []   
-    this.timecardService.daytype_get().then((res) => {              
-      var list: DaytypeModels[] = [];     
-      list = res;          
-      if(list.length > 0){
-        for (let i = 0; i < list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = list[i].daytype_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = list[i].daytype_name_en;        
-          }
-          else{
-            tmp.text = list[i].daytype_name_th;      
-          }
-          this.daytype_list.push(tmp);                         
-        }      
-      }
+    this.timecardService.daytype_get().then(async (res) => {
+      this.daytype_list = await res;
     });
   }
-  doLoadSelectedDaytype(value:string){
-    for (let i = 0; i < this.daytype_list.length; i++) {   
-      if(this.daytype_list[i].value==value ){
-        this.selectedDaytype = this.daytype_list[i];
-        break;         
-      }                      
+  doGetPolDaytypeDetail(code:string) : string {
+    for (let i = 0; i < this.daytype_list.length; i++) {
+      if(this.daytype_list[i].daytype_code==code ){
+        return this.initial_current.Language=="TH" ? this.daytype_list[i].daytype_name_th : this.daytype_list[i].daytype_name_en
+      }
     }
+    return ""      
   }
-
-  jobmain_list: RadiovalueModel[] = [];
+  
+  jobmain_list: ProjobmainModel[] = [];
   selectedJobmain: RadiovalueModel = new RadiovalueModel;
-  doLoadPolJobmain(){   
-   
+  doLoadPolJobmain(){      
     this.jobmain_list = []   
-    
-      this.projectDetailService.projobmain_get("").then((res) => {          
-      var list: ProjobmainModel[] = [];     
-      list = res;          
-      if(list.length > 0){
-        for (let i = 0; i < list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = list[i].projobmain_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = list[i].projobmain_name_en;        
-          }
-          else{
-            tmp.text = list[i].projobmain_name_th;      
-          }
-          this.jobmain_list.push(tmp);                         
-        }      
+    this.projectDetailService.projobmain_get("").then(async (res) => {
+      this.jobmain_list = await res;
+    });   
+  }
+  doGetPolJobmainDetail(code:string) : string {
+    for (let i = 0; i < this.jobmain_list.length; i++) {
+      if(this.jobmain_list[i].projobmain_code==code ){
+        return this.initial_current.Language=="TH" ? this.jobmain_list[i].projobmain_name_th : this.jobmain_list[i].projobmain_name_en
       }
-    });
-  }
-  doLoadSelectedJobmain(value:string){
-    for (let i = 0; i < this.jobmain_list.length; i++) {   
-      if(this.jobmain_list[i].value==value ){
-        this.selectedJobmain = this.jobmain_list[i];
-        break;         
-      }                      
     }
+    return ""      
   }
 
 
+  
 
   timesheet_summit(){
     this.confirmationService.confirm({
-      message: this.title_confirm_record,
-      header: this.title_confirm,
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
 
         this.selectedTimecard.company_code = this.initial_current.CompCode     
-
-        this.selectedTimecard.project_code = this.selectedProject_fillter.value
-        this.selectedTimecard.timecard_color = "1"
-        this.selectedTimecard.timecard_daytype = this.selectedDaytype.value
-        this.selectedTimecard.shift_code = this.selectedShift.value
-
+        this.selectedTimecard.project_code = this.selectedProject_fillter.project_code        
+        this.selectedTimecard.timecard_color = "1"       
+   
         this.selectedTimecard.timecard_workdate = new Date(this.selectedDate_fillter)
         this.selectedTimecard.timecard_in = this.timein
         this.selectedTimecard.timecard_out = this.timeout
@@ -403,7 +353,12 @@ export class ProjectTimesheetComponent implements OnInit {
           if(result.success){  
             this.messageService.add({severity:'success', summary: 'Success', detail: "Record Success.."});
 
-            this.displayManage = false                        
+            this.displayManage = false    
+
+            setTimeout(() => {
+              this.doLoadTimecard()
+            }, 300);
+
           }
           else{  
             this.messageService.add({severity:'error', summary: 'Error', detail: "Record Not Success.."});   
@@ -414,7 +369,7 @@ export class ProjectTimesheetComponent implements OnInit {
          
       },
       reject: () => {
-        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
       }
     });
   }

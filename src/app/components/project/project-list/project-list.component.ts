@@ -43,89 +43,62 @@ export class ProjectListComponent implements OnInit {
 
   edit_data: boolean = false;
   new_data: boolean = false;
+
+  title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
+  title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
+  title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
+  title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
+  title_page_total: {[key: string]: string} = {  EN: "of",  TH: "จาก"}
+  title_page_record: {[key: string]: string} = {  EN: "entries",  TH: "รายการ"}
  
+  title_new: {[key: string]: string} = {  EN: "New",  TH: "เพิ่ม"}
+  title_edit: {[key: string]: string} = {  EN: "Edit",  TH: "แก้ไข"}
+  title_delete: {[key: string]: string} = {  EN: "Delete",  TH: "ลบ"}
+  title_import: {[key: string]: string} = {  EN: "Import",  TH: "นำเข้า"}
+  title_export: {[key: string]: string} = {  EN: "Export",  TH: "โอนออก"}
+  title_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
+  title_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+  title_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
+  title_more: {[key: string]: string} = {  EN: "More",  TH: "เพิ่มเติม"}
+  title_search: {[key: string]: string} = {  EN: "Search",  TH: "ค้นหา"}
+  title_upload: {[key: string]: string} = {  EN: "Upload",  TH: "อัพโหลด"}
 
-  title_page:string = "Geanral";
-  title_new:string = "New";
-  title_edit:string = "Edit";
-  title_delete:string = "Delete";
-  title_import:string = "Import";
-  title_export:string = "Export";
-  title_save:string = "Save";
-  title_more:string = "More";
-  title_code:string = "Code";
-  title_name_th:string = "Name (Thai)";
-  title_name_en:string = "Name (Eng.)";
+  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
+  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
+  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
+  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
+  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
+  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
 
-  title_projectcode:string = "Code";
-  title_projectname:string = "Name";
-  title_protype:string = "Type";
-  title_probusiness:string = "Business";
-  title_fromdate:string = "From";
-  title_todate:string = "To";
-  title_manpower:string = "Manpower";
-  title_cost:string = "Cost";
-  title_status:string = "Status";
+  title_page: {[key: string]: string} = {  EN: "Project management",  TH: "ข้อมูลโครงการ"}
+
+  title_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัส"}
+  title_name_th: {[key: string]: string} = {  EN: "Name (Thai)",  TH: "ชื่อไทย"}
+  title_name_en: {[key: string]: string} = {  EN: "Name (Eng.)",  TH: "ชื่ออังกฤษ"}
+  title_projectcode: {[key: string]: string} = {  EN: "Code",  TH: "รหัสโครงการ"}
+  title_projectname: {[key: string]: string} = {  EN: "Name",  TH: "ชื่อโครงการ"}
+  title_protype: {[key: string]: string} = {  EN: "Type",  TH: "ประเภทงาน"}
+  title_probusiness: {[key: string]: string} = {  EN: "Business",  TH: "ประเภทธุรกิจ"}
+  title_fromdate: {[key: string]: string} = {  EN: "From",  TH: "จากวันที่"}
+  title_todate: {[key: string]: string} = {  EN: "To",  TH: "ถึงวันที่"}
+  title_manpower: {[key: string]: string} = {  EN: "Manpower",  TH: "จำนวนพนักงาน"}
+  title_cost: {[key: string]: string} = {  EN: "Cost",  TH: "ต้นทุน"}
+  title_status: {[key: string]: string} = {  EN: "Status",  TH: "สถานะ"}
   
-  title_modified_by:string = "Edit by";
-  title_modified_date:string = "Edit date";
-  title_search:string = "Search";
-  title_upload:string = "Upload";
+  title_total_project: {[key: string]: string} = {  EN: "Total project",  TH: "จำนวนโครงการ"}
+  title_new_project: {[key: string]: string} = {  EN: "Project New",  TH: "โครงการใหม่"}
+  title_total_emp: {[key: string]: string} = {  EN: "Total Emp.",  TH: "จำนวนพนักงาน"}
+  title_total_cost: {[key: string]: string} = {  EN: "Cost",  TH: "ต้นทุน"}
 
-  title_page_from:string = "Showing";
-  title_page_to:string = "to";
-  title_page_total:string = "of";
-  title_page_record:string = "entries";
-
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to record";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
-
-  title_confirm_cancel:string = "You have cancelled";
-
+  total_project:number = 0
+  new_project:number = 0
+  total_emp:number = 0
+  total_cost:number = 0
+  
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.title_page = "ข้อมูลทั่วไป";
-      this.title_new = "เพิ่ม";
-      this.title_edit = "แก้ไข";
-      this.title_delete = "ลบ";
-      this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
-      this.title_save = "บันทึก";
-      this.title_more = "เพิ่มเติม";
-      this.title_code = "รหัส";
-      this.title_name_th = "ชื่อไทย";
-      this.title_name_en = "ชื่ออังกฤษ";
-      this.title_modified_by = "ผู้ทำรายการ";
-      this.title_modified_date = "วันที่ทำรายการ";
-      this.title_search = "ค้นหา";
-      this.title_upload = "อัพโหลด";
-
-      this.title_page_from = "แสดง";
-      this.title_page_to = "ถึง";
-      this.title_page_total = "จาก";
-      this.title_page_record = "รายการ";
-
-      this.title_confirm = "ยืนยันการทำรายการ";
-      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
-      this.title_confirm_delete = "คุณต้องการลบรายการ";
-
-      this.title_confirm_yes = "ใช่";
-      this.title_confirm_no = "ยกเลิก";
-      this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-
-      this.title_projectcode = "โครงการ";
-      this.title_projectname = "ชื่อโครงการ";
-      this.title_probusiness = "ประเภทธุรกิจ";
-      this.title_protype = "ประเภทงาน";
-      this.title_fromdate = "จากวันที่";
-      this.title_todate = "ถึงวันที่";
-      this.title_manpower = "จำนวนพนักงาน";
-      this.title_cost = "ต้นทุน";
-      this.title_status = "สถานะ";
-      
+     
+               
     }
   }
 
@@ -162,7 +135,7 @@ export class ProjectListComponent implements OnInit {
        
     this.items = [   
       {
-        label:this.title_new,
+        label:this.title_new[this.initial_current.Language],
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           
@@ -176,7 +149,7 @@ export class ProjectListComponent implements OnInit {
       }
       ,    
       {
-          label:this.title_import,
+          label:this.title_import[this.initial_current.Language],
           icon:'pi pi-fw pi-file-import',       
           command: (event) => {
             this.showUpload()
@@ -185,7 +158,7 @@ export class ProjectListComponent implements OnInit {
       }
       ,    
       {
-          label:this.title_export,
+          label:this.title_export[this.initial_current.Language],
           icon:'pi pi-fw pi-file-export',  
           command: (event) => {
             this.exportAsExcel()
@@ -259,14 +232,13 @@ export class ProjectListComponent implements OnInit {
 
   confirmRecord() {
     this.confirmationService.confirm({
-        message: this.title_confirm_record,
-        header: this.title_confirm,
+        message: this.title_confirm_record[this.initial_current.Language],
+        header: this.title_confirm[this.initial_current.Language],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
 
-          this.selectedProject.project_probusiness = this.selectedProbusiness.probusiness_code;
-          this.selectedProject.project_protype = this.selectedProtype.protype_code;
-
+          this.selectedProject.company_code = this.initial_current.CompCode
+        
           this.projectService.project_record(this.selectedProject).then((res) => {       
             let result = JSON.parse(res);  
             if(result.success){
@@ -279,15 +251,15 @@ export class ProjectListComponent implements OnInit {
           });
         },
         reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
         }
     });
   }
       
   confirmDelete() {
     this.confirmationService.confirm({
-        message: this.title_confirm_delete,
-        header: this.title_confirm,
+        message: this.title_confirm_delete[this.initial_current.Language],
+        header: this.title_confirm[this.initial_current.Language],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.projectService.project_delete(this.selectedProject).then((res) => {      
@@ -302,7 +274,7 @@ export class ProjectListComponent implements OnInit {
           });
         },
         reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
         }
     });
   }
