@@ -28,6 +28,7 @@ import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.comp
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { TRAccountModel } from 'src/app/models/self/traccount';
+import { LevelModel } from 'src/app/models/system/policy/level';
 declare var account: any;
 @Component({
   selector: 'app-self-account',
@@ -151,7 +152,8 @@ export class SelfAccountComponent implements OnInit {
     });
   }
   doLoadDepartment() {
-    this.depService.dep_get("").then(async (res) => {
+    var tmp = new LevelModel();
+    this.depService.dep_get(tmp).then(async (res) => {
       this.dep_list = await res;
     });
   }
