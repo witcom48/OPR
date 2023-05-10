@@ -196,7 +196,6 @@ export class CompanyDetailService {
       item_data = item_data + ",\"card_type\":\"" + list[i].card_type + "\"";
       item_data = item_data + ",\"comcard_issue\":\"" + this.datePipe.transform(list[i].comcard_issue) + "\"";
       item_data = item_data + ",\"comcard_expire\":\"" + this.datePipe.transform(list[i].comcard_expire) + "\"";
-    //   item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + "}" + ",";
     }
     if(item_data.length > 2)

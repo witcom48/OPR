@@ -8,5 +8,8 @@ export class BonusrateModel {
     bonusrate_rate: number = 0 ;
 
 
+
+
+
   }
 

@@ -25,7 +25,6 @@ export class BonusComponent implements OnInit {
         private bonusService: BonusService,
         private itemService: ItemService,
 
-        
         private router: Router
     ) {}
     @ViewChild('TABLE') table: ElementRef | any = null;
@@ -363,7 +362,7 @@ export class BonusComponent implements OnInit {
     exportAsExcel() {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
             this.table.nativeElement
-        ); 
+        );
         for (var i in ws) {
             if (i.startsWith('!') || i.charAt(1) !== '1') {
                 continue;
