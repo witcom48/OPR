@@ -1,5 +1,8 @@
+import { EmployeeModel } from "../employee/employee";
+import { SetItemModel } from "./batch/setitem";
+
 export class ItemsModel {
-    
+
     constructor() {}
     company_code: string= "";
     item_id: string = "1";
@@ -22,5 +25,13 @@ export class ItemsModel {
     modified_date: string = "";
     index: number = 0 ;
     select: boolean = false;
+
+
+    emp_data: EmployeeModel [] = [];
+    setitesm_data: SetItemModel[] = [];
+
+    worker_code: string= "";
+    paypolitem_code: string= "";
+    worker_detail: string= "";
   }
 

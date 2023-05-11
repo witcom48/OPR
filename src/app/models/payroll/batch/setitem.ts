@@ -1,17 +1,18 @@
 import { EmployeeModel } from "../../employee/employee";
-import { BonusModel } from "../bonus";
+import { ItemsModel } from "../items";
 
-export class SetBonusModel {
+export class SetItemModel {
     constructor() {
 
     }
     company_code: string = "";
     worker_code: string= "";
-    paypolbonus_code: string= "";
+    paypolitem_code: string= "";
     worker_detail: string= "";
 
-    bonus_data: BonusModel[] = [];
+    items_data: ItemsModel[] = [];
     emp_data: EmployeeModel [] = [];
+
 
     modified_by: string = "";
     modified_date!: Date;

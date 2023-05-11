@@ -1,16 +1,15 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
-
 <!-- Link Page -->
 <div class="path">
-    <span>PayRoll</span>
+    <span>Payroll</span>
     <div>
         <i></i>
-        <a routerLink="/payroll/policy">Policy</a>
+        <a routerLink="/payroll/policy">policy</a>
         <i></i>
         <small>Set Provident</small>
+
     </div>
 </div>
-<!-- ---------END Link Page----------- -->
 <hr>
 
 
@@ -27,10 +26,19 @@
                 <app-select-emp></app-select-emp>
             </div>
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ :</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policy_list"
-                    [(ngModel)]="policyselect"></p-dropdown>
+                <div>
+                    <label>Policy</label>
+                    <p-dropdown placeholder="--" [options]="TRpolProvidentList" optionValue="provident_code" [showClear]="true"
+                        [(ngModel)]="selectedTRpolProvident.paypolprovident_code"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+               </div>
             </div>
             <div *ngIf="!loading" class="field col-12 md:col-6">
                 <p-button label="Process" (click)="process()"></p-button>
@@ -63,19 +71,18 @@
                         <th>No.</th>
                         <th>Worker</th>
                         <th>Type</th>
-                        <th>Modyfied by</th>
-                        <th>Modyfied date</th>
+                        <th>Modified by</th>
+                        <th>Modified date</th>
                     </tr>
 
                 </ng-template>
                 <ng-template pTemplate="body" let-data let-i="rowIndex">
                     <tr [pSelectableRow]="data">
                         <td>{{i+1}}</td>
-                        <td>{{data.worker}}</td>
-                        <td>{{data.policy}}</td>
-                        <td>{{data.modied_by}}</td>
-                        <td>{{data.modied_date | date:'dd/MM/yyyy'}}</td>
-
+                        <td>{{data.company_code}}</td>
+                        <td>{{data.paypolprovident_code}}</td>
+                        <td>{{data.modified_by}}</td>
+                        <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
                     </tr>
                 </ng-template>
             </p-table>
