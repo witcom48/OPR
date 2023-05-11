@@ -58,6 +58,7 @@ export class SetbonusComponent implements OnInit {
       this.doGetInitialCurrent();
       //dropdown
       this.doLoadTRBonusList();
+      this.doLoadSetBonusList();
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -77,7 +78,16 @@ export class SetbonusComponent implements OnInit {
          });
      }
 
-   
+
+         //get  data SetItem
+         SetBonus_List: SetBonusModel[] = [];
+         doLoadSetBonusList() {
+             var tmp = new SetBonusModel();
+             this.setpayrollDetailService.SetBonus_get('',tmp).then((res) => {
+                 this.SetBonus_List = res;
+             });
+         }
+
     // TRbonussList: BonusModel[] = [];
 
 

@@ -6,13 +6,9 @@ import { TaskComponent } from 'src/app/components/usercontrol/task/task.componen
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { SetItemModel } from 'src/app/models/payroll/batch/setitem';
-import { SetProvidentModel } from 'src/app/models/payroll/batch/setprovident';
 import { ItemsModel } from 'src/app/models/payroll/items';
-import { ProvidentModel } from 'src/app/models/payroll/provident';
 import { SetitemsService } from 'src/app/services/payroll/batch/setitems.service';
-import { SetprovidentService } from 'src/app/services/payroll/batch/setprovident.service';
 import { ItemService } from 'src/app/services/payroll/item.service';
-import { ProvidentService } from 'src/app/services/payroll/provident.service';
 import { TaskService } from 'src/app/services/task.service';
 interface Policy {
     name: string;
@@ -61,6 +57,7 @@ export class SetitemsComponent implements OnInit {
         this.doGetInitialCurrent();
         //dropdown
         this.doLoadItemsList();
+        this.doLoadItemList();
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -81,6 +78,15 @@ export class SetitemsComponent implements OnInit {
             this.Items_List = res;
         });
     }
+
+      //get  data SetItem
+      Item_List: SetItemModel[] = [];
+      doLoadItemList() {
+          var tmp = new SetItemModel();
+          this.setitemsService.SetItems_get(tmp).then((res) => {
+              this.Item_List = res;
+          });
+      }
 
     selectedTRItem: ItemsModel = new ItemsModel();
     process() {

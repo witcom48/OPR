@@ -56,6 +56,7 @@ export class SetprovidentComponent implements OnInit {
         this.doGetInitialCurrent();
         //dropdown
         this.doLoadTRpolProvidentList();
+        this.doLoadSetProvidentList();
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -76,6 +77,17 @@ export class SetprovidentComponent implements OnInit {
             this.TRpolProvidentList = res;
         });
     }
+
+      //get  data SetProvident
+      SetProvident_List: SetProvidentModel[] = [];
+      doLoadSetProvidentList() {
+          var tmp = new SetProvidentModel();
+          this.setprovidentService.SetProvident_get(tmp).then((res) => {
+              this.SetProvident_List = res;
+          });
+      }
+
+
 
     selectedTRpolProvident: ProvidentModel = new ProvidentModel();
     process() {
