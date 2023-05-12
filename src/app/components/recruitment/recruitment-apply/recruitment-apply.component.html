@@ -3,7 +3,7 @@
 <p-card header="Apply work" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
     <div class="grid">
         <div class="col-12 md:col-9">
-            <p-tabView>
+            <p-tabView (onChange)="tabChange($event)">
                 <!-- Tab Genaral -->
                 <p-tabPanel>
                     <ng-template pTemplate="header">
@@ -98,64 +98,28 @@
 
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="สถานที่ต้องการปฎิบัติงาน">
-                                <p-menubar [model]="menu_emplocation"></p-menubar>
-                                <p-table #dtemplocation [value]="emplocationList" styleClass="p-datatable-sm"
-                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpLocation"
-                                    (onRowSelect)="onRowSelectEmpLocation($event)" [rows]="10"
-                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>อันดับ</th>
-                                            <th>หน่วยงาน</th>
-                                            <th>ชื่องาน</th>
-                                            <th>ค่าจ้างที่ต้องการ</th>
-                                            <th>ผู้ทำรายการ</th>
-                                            <th>วันที่ทำรายการ</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-emplocation>
-                                        <tr [pSelectableRow]="emplocation">
-                                            <td>{{emplocation.location_code}}</td>
-                                            <td>{{emplocation.emplocation_startdate | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{emplocation.emplocation_note}}</td>
-                                            <td>{{emplocation.modified_by}}</td>
-                                            <td>{{emplocation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
-                            </p-accordionTab>
-                        </p-accordion>
-                    </div>
-
-                    <div class="accordion">
-                        <p-accordion>
                             <p-accordionTab header="ผู้แนะนำ">
-                                <p-menubar [model]="menu_emplocation"></p-menubar>
-                                <p-table #dtemplocation [value]="emplocationList" styleClass="p-datatable-sm"
+                                <p-menubar [model]="menu_reqsuggest"></p-menubar>
+                                <p-table #dtemplocation [value]="reqsuggestList" styleClass="p-datatable-sm"
                                     [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpLocation"
-                                    (onRowSelect)="onRowSelectEmpLocation($event)" [rows]="10"
+                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqSuggest"
+                                    (onRowSelect)="onRowSelectReqSuggest($event)" [rows]="10"
                                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                     <ng-template pTemplate="header">
                                         <tr>
-                                            <th>รหัสพนักงาน</th>
-                                            <th>ชื่อ-นามสกุล</th>
-                                            <th>ตำแหน่งงาน</th>
+                                            <th>ผู้แนะนำ</th>
+                                            <th>เพิ่มเติม</th>
                                             <th>ผู้ทำรายการ</th>
                                             <th>วันที่ทำรายการ</th>
                                         </tr>
                                     </ng-template>
-                                    <ng-template pTemplate="body" let-emplocation>
-                                        <tr [pSelectableRow]="emplocation">
-                                            <td>{{emplocation.location_code}}</td>
-                                            <td>{{emplocation.emplocation_startdate | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{emplocation.emplocation_note}}</td>
-                                            <td>{{emplocation.modified_by}}</td>
-                                            <td>{{emplocation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                    <ng-template pTemplate="body" let-empsuggest>
+                                        <tr [pSelectableRow]="empsuggest">
+                                            <td>{{empsuggest.empsuggest_code}}</td>
+                                            <td>{{empsuggest.empsuggest_note}}</td>
+                                            <td>{{empsuggest.modified_by}}</td>
+                                            <td>{{empsuggest.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
@@ -468,12 +432,12 @@
                                         <ng-template pTemplate="body" let-reqeducation>
                                             <tr [pSelectableRow]="reqeducation">
                                                 <td>{{reqeducation.institute_code}}</td>
-                                                <td>{{reqeducation.reqeducation_start | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{reqeducation.reqeducation_finish | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{reqeducation.empeducation_start | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{reqeducation.empeducation_finish | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{reqeducation.faculty_code}}</td>
                                                 <td>{{reqeducation.major_code}}</td>
                                                 <td>{{reqeducation.qualification_code}}</td>
-                                                <td>{{reqeducation.reqeducation_gpa}}</td>
+                                                <td>{{reqeducation.empeducation_gpa}}</td>
                                                 <td>{{reqeducation.modified_by}}</td>
                                                 <td>{{reqeducation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -513,9 +477,9 @@
                                                 <td>{{reqtraining.institute_code}}</td>
                                                 <td>{{reqtraining.course_code}}</td>
                                                 <td>{{reqtraining.course_other}}</td>
-                                                <td>{{reqtraining.reqtraining_start | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{reqtraining.reqtraining_finish | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{reqtraining.reqtraining_status}}</td>
+                                                <td>{{reqtraining.emptraining_start | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{reqtraining.emptraining_finish | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{reqtraining.emptraining_status}}</td>
                                                 <td>{{reqtraining.modified_by}}</td>
                                                 <td>{{reqtraining.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -527,12 +491,14 @@
 
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="ประวัติการประเมิน">
-                                    <p-menubar [model]="items"></p-menubar>
-                                    <p-table #dt11 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}"
-                                        [scrollable]="true" scrollHeight="200px" [virtualScroll]="true"
-                                        selectionMode="single" [rows]="10" [showCurrentPageReport]="true"
-                                        [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                                <p-accordionTab header="{{title_assessment}}">
+                                    <p-menubar [model]="menu_reqassessment"></p-menubar>
+                                    <p-table #dt11 [value]="reqassessmentList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" [(selection)]="selectedReqassessment"
+                                        (onRowSelect)="onRowSelectReqassessment($event)" selectionMode="single"
+                                        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="caption">
                                             <div class="flex">
@@ -555,7 +521,18 @@
                                                 <th>ผู้ทำรายการ</th>
                                                 <th>วันที่ทำรายการ</th>
                                             </tr>
-
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-reqassessment>
+                                            <tr [pSelectableRow]="reqassessment">
+                                                <td>{{reqassessment.empassessment_location}}</td>
+                                                <td>{{reqassessment.empassessment_topic}}</td>
+                                                <td>{{reqassessment.empassessment_fromdate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{reqassessment.empassessment_todate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{reqassessment.empassessment_count}}</td>
+                                                <td>{{reqassessment.empassessment_result}}</td>
+                                                <td>{{reqassessment.modified_by}}</td>
+                                                <td>{{reqassessment.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
                                         </ng-template>
                                     </p-table>
                                 </p-accordionTab>
@@ -564,11 +541,14 @@
 
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="ประวัติการตรวจสอบอาชญากรรม">
-                                    <p-menubar [model]="items"></p-menubar>
-                                    <p-table #dt12 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}"
+                                <p-accordionTab header="{{title_criminal}}">
+                                    <p-menubar [model]="menu_reqcriminal"></p-menubar>
+                                    <p-table #dt12 [value]="reqCriminalList" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}"
                                         [scrollable]="true" scrollHeight="200px" [virtualScroll]="true"
-                                        selectionMode="single" [rows]="10" [showCurrentPageReport]="true"
+                                        selectionMode="single" 
+                                        [(selection)]="selectedReqCriminal"
+                                        (onRowSelect)="onRowSelectReqcriminal($event)"
+                                        [rows]="10" [showCurrentPageReport]="true"
                                         [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="caption">
@@ -591,7 +571,17 @@
                                                 <th>ผู้ทำรายการ</th>
                                                 <th>วันที่ทำรายการ</th>
                                             </tr>
-
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-reqcriminal>
+                                            <tr [pSelectableRow]="reqcriminal">
+                                                <td>{{reqcriminal.empcriminal_location}}</td>
+                                                <td>{{reqcriminal.empcriminal_fromdate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{reqcriminal.empcriminal_todate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{reqcriminal.empcriminal_count}}</td>
+                                                <td>{{reqcriminal.empcriminal_result}}</td>
+                                                <td>{{reqcriminal.modified_by}}</td>
+                                                <td>{{reqcriminal.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
                                         </ng-template>
                                     </p-table>
                                 </p-accordionTab>
@@ -608,9 +598,7 @@
 
             </p-tabView>
         </div>
-        <div class="col-12 md:col-3">
 
-        </div>
     </div>
 
 
@@ -791,15 +779,15 @@
         </div>
         <label>วันที่เริ่ม</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
-            [(ngModel)]="selectedReqeducation.reqeducation_start"><input type="text"></p-calendar>
+            [(ngModel)]="selectedReqeducation.empeducation_start"><input type="text"></p-calendar>
 
         <label>วันที่จบ</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
-            [(ngModel)]="selectedReqeducation.reqeducation_finish"><input type="text"></p-calendar>
+            [(ngModel)]="selectedReqeducation.empeducation_finish"><input type="text"></p-calendar>
 
         <label>GPA</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="4"
-            [(ngModel)]="selectedReqeducation.reqeducation_gpa" [minFractionDigits]="2" [maxFractionDigits]="2">
+            [(ngModel)]="selectedReqeducation.empeducation_gpa" [minFractionDigits]="2" [maxFractionDigits]="2">
         </p-inputNumber>
 
         <br>
@@ -844,35 +832,35 @@
         </div>
         <label>วันที่เริ่ม</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
-            [(ngModel)]="selectedReqtraining.reqtraining_start"><input type="text"></p-calendar>
+            [(ngModel)]="selectedReqtraining.emptraining_start"><input type="text"></p-calendar>
 
         <label>วันที่จบ</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
-            [(ngModel)]="selectedReqtraining.reqtraining_finish"><input type="text"></p-calendar>
+            [(ngModel)]="selectedReqtraining.emptraining_finish"><input type="text"></p-calendar>
 
         <label>สถานะ</label>
         <div class="radio">
             <p-radioButton name="training_status" value="Y"
-                [(ngModel)]="selectedReqtraining.reqtraining_status"></p-radioButton>&nbsp;
+                [(ngModel)]="selectedReqtraining.emptraining_status"></p-radioButton>&nbsp;
             <label>Pass</label>
             &nbsp;&nbsp;
             <p-radioButton name="training_status" value="N"
-                [(ngModel)]="selectedReqtraining.reqtraining_status"></p-radioButton>&nbsp;
+                [(ngModel)]="selectedReqtraining.emptraining_status"></p-radioButton>&nbsp;
             <label>Not Pass</label>
         </div>
 
         <label>จำนวนชั่วโมง</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
-            [(ngModel)]="selectedReqtraining.reqtraining_hours">
+            [(ngModel)]="selectedReqtraining.emptraining_hours">
         </p-inputNumber>
 
         <label>ค่าใช้จ่าย</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency"
-            [(ngModel)]="selectedReqtraining.reqtraining_cost">
+            [(ngModel)]="selectedReqtraining.emptraining_cost">
         </p-inputNumber>
 
         <label>รายละเอียด</label>
-        <textarea [(ngModel)]="selectedReqtraining.reqtraining_note" pInputTextarea [autoResize]="true"></textarea>
+        <textarea [(ngModel)]="selectedReqtraining.emptraining_note" pInputTextarea [autoResize]="true"></textarea>
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
@@ -880,6 +868,95 @@
         <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
             (click)="reqtraining_cancel()"></button>
     </div>
+
+    <!-- Form Req Assessment -->
+    <div class="formatt" *ngIf="edit_reqassessment==true || new_assessment==true">
+        <label>สถานที่</label>
+        <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
+            [(ngModel)]="selectedReqassessment.empassessment_location" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <label>หัวข้อ</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqassessment.empassessment_topic">
+
+        <label>จากวันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedReqassessment.empassessment_fromdate"><input type="text"></p-calendar>
+
+        <label>ถึงวันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedReqassessment.empassessment_todate"><input type="text"></p-calendar>
+
+        <label>ครั้งที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqassessment.empassessment_count">
+
+        <label>ผลการประเมิน</label>
+        <div class="radio">
+            <p-radioButton name="assessment_result" value="Y"
+                [(ngModel)]="selectedReqassessment.empassessment_result"></p-radioButton>&nbsp;
+            <label>Pass</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="assessment_result" value="N"
+                [(ngModel)]="selectedReqassessment.empassessment_result"></p-radioButton>&nbsp;
+            <label>Not Pass</label>
+        </div>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="reqassessment_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="reqassessment_cancel()"></button>
+    </div>
+
+    <!-- Form Emp Criminal -->
+    <div class="formatt" *ngIf="edit_reqcriminal==true || new_criminal==true">
+        <label>สถานที่</label>
+        <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
+            [(ngModel)]="selectedReqCriminal.empcriminal_location"
+            [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <label>จากวันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedReqCriminal.empcriminal_fromdate"><input type="text"></p-calendar>
+
+        <label>ถึงวันที่</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+            [(ngModel)]="selectedReqCriminal.empcriminal_todate"><input type="text"></p-calendar>
+
+        <label>ครั้งที่</label>
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqCriminal.empcriminal_count">
+
+        <label>ผลการตรวจสอบ</label>
+        <div class="radio">
+            <p-radioButton name="criminal_result" value="Y"
+                [(ngModel)]="selectedReqCriminal.empcriminal_result"></p-radioButton>&nbsp;
+            <label>Pass</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="criminal_result" value="N"
+                [(ngModel)]="selectedReqCriminal.empcriminal_result"></p-radioButton>&nbsp;
+            <label>Not Pass</label>
+        </div>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="reqcriminal_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="reqcriminal_cancel()"></button>
+    </div>
+
 </p-dialog>
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
