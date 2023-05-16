@@ -136,38 +136,24 @@ export class SetitemsService {
             });
     }
 
-    public SetItems_delete(worker_code: string, Setup: SetItemModel) {
+    public SetItems_delete( Setup: SetItemModel) {
         console.log('PAYTRPI003..');
-
-        let emplists: any = [];
-        Setup.items_data.forEach((res: ItemsModel) => {
-            let ss = {
-                worker_code: res.worker_code,
-            };
-            emplists.push(ss);
-        });
         let data = {
             device_name: '',
             ip: '127.0.0.1',
             username: this.initial_current.Username,
-
             company_code: Setup.company_code || this.initial_current.CompCode,
             paypolitem_code: Setup.paypolitem_code,
             worker_code: Setup.worker_code,
             worker_detail: Setup.worker_detail,
-            emp_data: emplists,
+            emp_data: Setup.emp_data,
 
             modified_by: Setup.modified_by || this.initial_current.Username,
-        };
-        return this.http
-            .post<any>(
-                this.config.ApiPayrollModule + '/paypolitem_del',
-                data,
-                this.options
-            )
-            .toPromise()
+
+        }
+        return this.http.post<any>(this.config.ApiPayrollModule + '/paypolitem_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res);
+                console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

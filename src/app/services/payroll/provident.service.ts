@@ -80,6 +80,7 @@ export class ProvidentService {
             modified_by: this.initial_current.Username,
             flag: model.flag,
             providentWorkage_data: model.providentWorkage_data
+       
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/MTProvident', data, this.options).toPromise()
             .then((res) => {

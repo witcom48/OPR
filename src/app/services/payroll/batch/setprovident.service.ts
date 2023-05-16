@@ -133,17 +133,8 @@ import { ProvidentModel } from 'src/app/models/payroll/provident';
                 return message;
             });
     }
-
-    public SetProvident_delete(worker_code: string, Setup: SetProvidentModel) {
+    public SetProvident_delete(  Setup: SetProvidentModel) {
         console.log('PAYTRPP003..');
-
-        let emplists: any = [];
-        Setup.provident_data.forEach((res: ProvidentModel) => {
-            let ss = {
-                worker_code: res.worker_code,
-            };
-            emplists.push(ss);
-        });
         let data = {
             device_name: '',
             ip: '127.0.0.1',
@@ -153,19 +144,14 @@ import { ProvidentModel } from 'src/app/models/payroll/provident';
             paypolprovident_code: Setup.paypolprovident_code,
             worker_code: Setup.worker_code,
             worker_detail: Setup.worker_detail,
-            emp_data: emplists,
+            emp_data: Setup.emp_data,
 
             modified_by: Setup.modified_by || this.initial_current.Username,
-        };
-        return this.http
-            .post<any>(
-                this.config.ApiPayrollModule + '/setpolprovident_del',
-                data,
-                this.options
-            )
-            .toPromise()
+
+        }
+        return this.http.post<any>(this.config.ApiPayrollModule + '/setpolprovident_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res);
+                console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

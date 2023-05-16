@@ -6,8 +6,8 @@ export class SetBonusModel {
 
     }
     company_code: string = "";
-    worker_code: string= "";
-    paypolbonus_code: string= "";
+    worker_code: string = "";
+    paypolbonus_code: string = "";
     worker_detail: string= "";
 
     bonus_data: BonusModel[] = [];

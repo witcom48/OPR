@@ -9,9 +9,9 @@ import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { BonusModel } from 'src/app/models/payroll/bonus';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root'
 })
-export class SetpayrollDetailService {
+export class SetbonusService {
     public config: AppConfig = new AppConfig();
     public initial_current: InitialCurrent = new InitialCurrent();
 
@@ -60,9 +60,8 @@ export class SetpayrollDetailService {
         }
     }
 
-    //set bonus
-    public SetBonus_get(worker_code: string, Setup: SetBonusModel) {
-        console.log('PAYSB001..');
+    public SetBonus_get(worker_detail: string, Setup: SetBonusModel) {
+        console.log('PAYTRB001..');
 
         let emplists: any = [];
         Setup.bonus_data.forEach((res: BonusModel) => {
@@ -98,7 +97,7 @@ export class SetpayrollDetailService {
     }
 
     public SetBonus_record(worker_code: string, Setup: SetBonusModel) {
-        console.log('PAYSB002..');
+        console.log('PAYTRB002..');
 
         let emplists: any = [];
         Setup.bonus_data.forEach((res: BonusModel) => {
@@ -135,45 +134,31 @@ export class SetpayrollDetailService {
             });
     }
 
-    public SetBonus_delete(worker_code: string, Setup: SetBonusModel) {
-        console.log('PAYSB003..');
-
-        let emplists: any = [];
-        Setup.bonus_data.forEach((res: BonusModel) => {
-            let ss = {
-                worker_code: res.worker_code,
-            };
-            emplists.push(ss);
-        });
+    public SetBonus_delete( Setup: SetBonusModel) {
+        console.log('PAYTRB003..');
         let data = {
             device_name: '',
             ip: '127.0.0.1',
             username: this.initial_current.Username,
-
             company_code: Setup.company_code || this.initial_current.CompCode,
             paypolbonus_code: Setup.paypolbonus_code,
             worker_code: Setup.worker_code,
-            worker_detail: Setup.worker_detail,
-            emp_data: emplists,
-
+            emp_data: Setup.emp_data,
+            bonus_data: Setup.bonus_data,
             modified_by: Setup.modified_by || this.initial_current.Username,
-        };
-        return this.http
-            .post<any>(
-                this.config.ApiPayrollModule + '/setbonus_del',
-                data,
-                this.options
-            )
-            .toPromise()
+
+        }
+        return this.http.post<any>(this.config.ApiPayrollModule + '/setbonus_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res);
+                console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
 
+
     public SetBonus_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYSB004..');
+        console.log('PAYTRB005..');
         const formData = new FormData();
         formData.append('file', file);
 
