@@ -314,6 +314,8 @@ export class SelfAreaComponent implements OnInit {
     this.displayUpload = true;
     await new Promise(resolve => setTimeout(resolve, 400));
     this.distance = this.areas.area_distance;
+    this.lat = this.areas.area_lat;
+    this.long = this.areas.area_long;
     this.setMap();
   }
   close() {
