@@ -49,7 +49,7 @@ export class LocationService {
             username: this.initial_current.Username,
             company_code: Location.company_code || this.initial_current.CompCode,
             location_id: Location.location_id,
-            location_code: Location.company_code
+            location_code: Location.location_code
         }
         return this.http.post<any>(this.config.ApiSystemModule + '/location_list', data, this.options).toPromise()
             .then((res) => {

@@ -53,6 +53,8 @@ import { SelfWorkflowComponent } from './self-workflow/self-workflow.component';
 import { SelfAccountComponent } from './self-account/self-account.component';
 import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.component';
 import { UsercontrolModule } from '../usercontrol/usercontrol.module';
+import { SelfAreaComponent } from './self-area/self-area.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
 	imports: [
@@ -96,7 +98,8 @@ import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 		PickListModule,
 		CheckboxModule,
 		PasswordModule,
-		UsercontrolModule
+		UsercontrolModule,
+		LeafletModule
 
 
 
@@ -115,7 +118,8 @@ import { UsercontrolModule } from '../usercontrol/usercontrol.module';
               SelfRecordtimeComponent,
               SelfWorkflowComponent,
               SelfAccountComponent,
-              SelfLineapproveComponent
+              SelfLineapproveComponent,
+              SelfAreaComponent
   ]
 })
 export class SelfModule { }

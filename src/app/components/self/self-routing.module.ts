@@ -10,6 +10,7 @@ import { SelfRecordtimeComponent } from './self-recordtime/self-recordtime.compo
 import { SelfWorkflowComponent } from './self-workflow/self-workflow.component';
 import { SelfAccountComponent } from './self-account/self-account.component';
 import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.component';
+import { SelfAreaComponent } from './self-area/self-area.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.co
         { path: 'workflow', component: SelfWorkflowComponent },
         { path: 'lineapprove', component: SelfLineapproveComponent },
         { path: 'account', component: SelfAccountComponent },
+        { path: 'area', component: SelfAreaComponent },
 
         { path: 'employee', component: SelfEmployeeComponent },
         { path: 'req_leave', component: SelfLeaveComponent },
