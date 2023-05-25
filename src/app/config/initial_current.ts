@@ -4,7 +4,7 @@ export class InitialCurrent {
 
     }
 
-    CompCode: string = "xxx";   
+    CompCode: string = "OPR";   
     EmpType: string = "M";     
 
     Language: string = "EN";   

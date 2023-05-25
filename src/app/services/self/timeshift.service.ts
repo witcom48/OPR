@@ -4,16 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
-import { MTAreaModel } from 'src/app/models/self/MTArea';
-import { cls_TRTimeleaveModel } from 'src/app/models/self/cls_TRTimeleave';
 import { DatePipe } from '@angular/common';
-import { Observable, filter, takeWhile } from 'rxjs';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
+import { cls_TRTimeshiftModel } from 'src/app/models/self/cls_TRTimeshift';
 
 @Injectable({
     providedIn: 'root'
 })
-export class TimeleaveServices {
+export class TimeShiftServices {
 
     public config: AppConfig = new AppConfig();
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -47,101 +45,95 @@ export class TimeleaveServices {
         }
     }
 
-    public timeleave_get(timeleave: cls_TRTimeleaveModel) {
+    public timeshift_get(timeshfit: cls_TRTimeshiftModel) {
         console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: timeleave.company_code || this.initial_current.CompCode,
-            timeleave_id: timeleave.timeleave_id,
-            worker_code: timeleave.worker_code || this.initial_current.Username,
-            timeleave_fromdate: this.datePipe.transform(timeleave.timeleave_fromdate, 'yyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_FromDate, 'yyy-MM-dd'),
-            timeleave_todate: this.datePipe.transform(timeleave.timeleave_todate, 'yyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_ToDate, 'yyy-MM-dd'),
-            status: timeleave.status
+            company_code: timeshfit.company_code || this.initial_current.CompCode,
+            timeshift_id: timeshfit.timeshift_id,
+            worker_code: timeshfit.worker_code || this.initial_current.Username,
+            timeshift_fromdate: this.datePipe.transform(timeshfit.timeshift_workdate, 'yyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_FromDate, 'yyy-MM-dd'),
+            timeshift_todate: this.datePipe.transform(timeshfit.timeshift_todate, 'yyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_ToDate, 'yyy-MM-dd'),
+            status: timeshfit.status
         }
-        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_list', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeshift_list', data, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;
             });
     }
 
-    public timeleave_record(timeleaves: cls_TRTimeleaveModel[]) {
+    public timeshift_record(timeshfits: cls_TRTimeshiftModel[]) {
         console.log('ATT002..');
-        var leave_datas: any = []
-        timeleaves.forEach((timeleave: cls_TRTimeleaveModel) => {
+        var shfit_datas: any = []
+        timeshfits.forEach((timeshfit: cls_TRTimeshiftModel) => {
             let datas = {
-                company_code: timeleave.company_code || this.initial_current.CompCode,
-                worker_code: timeleave.worker_code || this.initial_current.Username,
-                timeleave_id: timeleave.timeleave_id,
-                timeleave_doc: timeleave.timeleave_doc,
-                timeleave_fromdate: this.datePipe.transform(timeleave.timeleave_fromdate, 'yyy-MM-dd'),
-                timeleave_todate: this.datePipe.transform(timeleave.timeleave_todate, 'yyy-MM-dd'),
-                timeleave_type: timeleave.timeleave_type,
-                timeleave_min: timeleave.timeleave_min,
-                timeleave_actualday: timeleave.timeleave_actualday,
-                timeleave_incholiday: timeleave.timeleave_incholiday,
-                timeleave_deduct: timeleave.timeleave_deduct,
-                timeleave_note: timeleave.timeleave_note,
-                leave_code: timeleave.leave_code,
-                reason_code: timeleave.reason_code,
-                status: timeleave.status,
-                flag: timeleave.flag,
-                reqdoc_data: timeleave.reqdoc_data,
+                company_code: timeshfit.company_code || this.initial_current.CompCode,
+                worker_code: timeshfit.worker_code || this.initial_current.Username,
+                timeshift_id: timeshfit.timeshift_id,
+                timeshift_doc: timeshfit.timeshift_doc,
+                timeshift_workdate: this.datePipe.transform(timeshfit.timeshift_workdate, 'yyy-MM-dd'),
+                timeshift_old: timeshfit.timeshift_old,
+                timeshift_new: timeshfit.timeshift_new,
+                timeshift_note: timeshfit.timeshift_note,
+                reason_code: timeshfit.reason_code,
+                status: timeshfit.status,
+                flag: timeshfit.flag,
+                reqdoc_data: timeshfit.reqdoc_data,
 
             }
-            leave_datas.push(datas)
+            shfit_datas.push(datas)
         })
-        console.log(leave_datas)
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: timeleaves[0].company_code || this.initial_current.CompCode,
-            leave_data: JSON.stringify(leave_datas)
+            company_code: timeshfits[0].company_code || this.initial_current.CompCode,
+            timeshift_data: JSON.stringify(shfit_datas)
         }
-        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeshift', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
-    public timeleave_delete(timeleave: cls_TRTimeleaveModel) {
+    public timeshft_delete(timeshift: cls_TRTimeshiftModel) {
         console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: timeleave.company_code || this.initial_current.CompCode,
-            timeleave_id: timeleave.timeleave_id,
+            company_code: timeshift.company_code || this.initial_current.CompCode,
+            timeshift_id: timeshift.timeshift_id,
         }
-        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_del', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeshift_del', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
-    public timeleaveactualday_get(timeleave: cls_TRTimeleaveModel) {
-        console.log('ATT001..');
-        let data = {
-            device_name: "phone",
-            ip: "127.0.0.1",
-            username: this.initial_current.Username,
-            company_code: timeleave.company_code || this.initial_current.CompCode,
-            worker_code: timeleave.worker_code || this.initial_current.Username,
-            project_code: timeleave.project_code,
-            timeleave_fromdate: timeleave.timeleave_fromdate,
-            timeleave_todate: timeleave.timeleave_todate
-        }
-        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_actualday', data, this.options).toPromise()
-            .then((res) => {
-                let message = JSON.parse(res);
-                return message.data;
-            });
-    }
+    // public timeleaveactualday_get(timeleave: cls_TRTimeleaveModel) {
+    //     console.log('ATT001..');
+    //     let data = {
+    //         device_name: "phone",
+    //         ip: "127.0.0.1",
+    //         username: this.initial_current.Username,
+    //         company_code: timeleave.company_code || this.initial_current.CompCode,
+    //         worker_code: timeleave.worker_code || this.initial_current.Username,
+    //         project_code: timeleave.project_code,
+    //         timeleave_fromdate: timeleave.timeleave_fromdate,
+    //         timeleave_todate: timeleave.timeleave_todate
+    //     }
+    //     return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_actualday', data, this.options).toPromise()
+    //         .then((res) => {
+    //             let message = JSON.parse(res);
+    //             return message.data;
+    //         });
+    // }
 
     public file_import(file: File, file_name: string, file_type: string) {
         console.log('ATT004..');
@@ -172,7 +164,7 @@ export class TimeleaveServices {
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doDeleteMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
-                return  JSON.parse(res);
+                return JSON.parse(res);
             });
     }
     public delete_file(file: cls_MTReqdocumentModel) {

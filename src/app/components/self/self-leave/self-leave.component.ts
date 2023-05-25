@@ -40,7 +40,6 @@ export class SelfLeaveComponent implements OnInit {
   Uploadfile: boolean = false;
   fileToUpload: File | any = null;
   position: string = "right";
-  manage_title: string = "Manage"
   items: MenuItem[] = [];
   items_attfile: MenuItem[] = [];
   selectedleave_type: cls_TRleave = new cls_TRleave();
@@ -262,6 +261,9 @@ export class SelfLeaveComponent implements OnInit {
         this.timeleaveService.deletefilepath_file(data.document_path).then((res) => {
           if (res.success) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            this.selectedtrtimeleave.reqdoc_data = this.selectedtrtimeleave.reqdoc_data.filter((item) => {
+              return item !== data;
+            });
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
           }
@@ -375,7 +377,9 @@ export class SelfLeaveComponent implements OnInit {
     return status;
   }
   Save() {
-    this.selectedtrtimeleave.timeleave_doc = "LEAVE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+    if (this.selectedtrtimeleave.timeleave_doc === "") {
+      this.selectedtrtimeleave.timeleave_doc = "LEAVE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+    }
     if (this.selectedtrtimeleave.timeleave_type != "F") {
       this.selectedtrtimeleave.timeleave_todate = this.selectedtrtimeleave.timeleave_fromdate;
       var date1 = new Date(0, 0, 0, Number(this.time_half.split(":")[0]), Number(this.time_half.split(":")[1]), 0)
