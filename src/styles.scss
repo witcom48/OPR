@@ -195,6 +195,10 @@ th {
     height: 100%;
   }
 
+  input[type=file] {
+    width: 100vw;
+  }
+
   .p-selectable-row,
   .tablenotselect {
     span {
