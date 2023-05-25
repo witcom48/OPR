@@ -169,9 +169,16 @@ th {
   flex-wrap: wrap;
 }
 
-.p-selectable-row {
+.p-selectable-row,
+.tablenotselect {
   span {
     display: none;
+  }
+
+  button {
+    span {
+      display: block;
+    }
   }
 }
 
@@ -188,7 +195,8 @@ th {
     height: 100%;
   }
 
-  .p-selectable-row {
+  .p-selectable-row,
+  .tablenotselect {
     span {
       display: block;
       font-weight: bold;

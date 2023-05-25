@@ -8,7 +8,7 @@ export class InitialCurrent {
     EmpType: string = "M";     
 
     Language: string = "EN";   
-    Username: string = "Not login";  
+    Username: string = "EMP01";  
     Usertype: string = "U";  
     LastLogin: Date = new Date();  
 

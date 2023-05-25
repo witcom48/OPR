@@ -1,4 +1,3 @@
-
 <!-- <app-changeshift [test]="tt" (result)="changeParentCount($event)"></app-changeshift> -->
 <hr>
 <!-- Menu New Import Export Data -->
@@ -19,10 +18,14 @@
             <ng-template pTemplate="caption">
                 <div class="searchtable">
                     <div class="input_radio">
-                        <input name="notification" type="radio" id="RadioGroup1_0" value="Course" checked="checked" />
+                        <input type="radio" name="fav_year" value="TAX" [(ngModel)]="year_type" (change)="selectYeartype()">
+                          <label>TAX</label>
+                        <input type="radio" name="fav_year" value="LEAVE" [(ngModel)]="year_type" (change)="selectYeartype()">
+                          <label>Leave</label>
+                        <!-- <input name="notification" type="radio" id="RadioGroup1_0" value="Course" checked="checked" />
                         <label>TAX</label>
                         <input routerLink="../../system/system-yearperiods" type="radio" name="individual" value="Time">
-                        <label>Leave</label>
+                        <label>Leave</label> -->
                     </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
@@ -65,7 +68,7 @@
         <i (click)="close()"></i>
 
         <label>{{langs.get('code')[selectlang]}}</label>
-        <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" disabled="{{edit_data}}"/>
+        <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" disabled="{{edit_data}}" />
         <p>{{yearperiods.year_code.length}}/4</p>
 
         <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
@@ -101,7 +104,7 @@
 <p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
     <label class="drop-container">
         <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
-        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
