@@ -277,7 +277,6 @@ export class SelfOvertimeComponent implements OnInit {
     });
   }
   handleFileInputholidaylist(file: FileList) {
-    console.log(file)
     this.fileToUpload = file.item(0);
   }
   onRowSelectfile(event: Event) {
