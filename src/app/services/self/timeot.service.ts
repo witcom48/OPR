@@ -4,16 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
-import { MTAreaModel } from 'src/app/models/self/MTArea';
-import { cls_TRTimeleaveModel } from 'src/app/models/self/cls_TRTimeleave';
 import { DatePipe } from '@angular/common';
-import { Observable, filter, takeWhile } from 'rxjs';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
+import { cls_TRTimeotModel } from 'src/app/models/self/cls_TRTimeot';
 
 @Injectable({
     providedIn: 'root'
 })
-export class TimeleaveServices {
+export class TimeotServices {
 
     public config: AppConfig = new AppConfig();
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -47,102 +45,80 @@ export class TimeleaveServices {
         }
     }
 
-    public timeleave_get(timeleave: cls_TRTimeleaveModel) {
+    public timeot_get(timeot: cls_TRTimeotModel) {
         console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: timeleave.company_code || this.initial_current.CompCode,
-            timeleave_id: timeleave.timeleave_id,
-            worker_code: timeleave.worker_code || this.initial_current.Username,
-            timeleave_fromdate: this.datePipe.transform(timeleave.timeleave_fromdate, 'yyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_FromDate, 'yyy-MM-dd'),
-            timeleave_todate: this.datePipe.transform(timeleave.timeleave_todate, 'yyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_ToDate, 'yyy-MM-dd'),
-            status: timeleave.status
+            company_code: timeot.company_code || this.initial_current.CompCode,
+            timeot_id: timeot.timeot_id,
+            worker_code: timeot.worker_code || this.initial_current.Username,
+            timeot_workdate: this.datePipe.transform(timeot.timeot_workdate, 'yyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_FromDate, 'yyy-MM-dd'),
+            timeot_todate: this.datePipe.transform(timeot.timeot_todate, 'yyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_ToDate, 'yyy-MM-dd'),
+            status: timeot.status
         }
-        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_list', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeot_list', data, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;
             });
     }
 
-    public timeleave_record(timeleaves: cls_TRTimeleaveModel[]) {
+    public timeot_record(timeots: cls_TRTimeotModel[]) {
         console.log('ATT002..');
-        var leave_datas: any = []
-        timeleaves.forEach((timeleave: cls_TRTimeleaveModel) => {
+        var ot_datas: any = []
+        timeots.forEach((timeot: cls_TRTimeotModel) => {
             let datas = {
-                company_code: timeleave.company_code || this.initial_current.CompCode,
-                worker_code: timeleave.worker_code || this.initial_current.Username,
-                timeleave_id: timeleave.timeleave_id,
-                timeleave_doc: timeleave.timeleave_doc,
-                timeleave_fromdate: this.datePipe.transform(timeleave.timeleave_fromdate, 'yyy-MM-dd'),
-                timeleave_todate: this.datePipe.transform(timeleave.timeleave_todate, 'yyy-MM-dd'),
-                timeleave_type: timeleave.timeleave_type,
-                timeleave_min: timeleave.timeleave_min,
-                timeleave_actualday: timeleave.timeleave_actualday,
-                timeleave_incholiday: timeleave.timeleave_incholiday,
-                timeleave_deduct: timeleave.timeleave_deduct,
-                timeleave_note: timeleave.timeleave_note,
-                leave_code: timeleave.leave_code,
-                reason_code: timeleave.reason_code,
-                status: timeleave.status,
-                flag: timeleave.flag,
-                reqdoc_data: timeleave.reqdoc_data,
+                company_code: timeot.company_code || this.initial_current.CompCode,
+                worker_code: timeot.worker_code || this.initial_current.Username,
+                timeot_id: timeot.timeot_id,
+                timeot_doc: timeot.timeot_doc,
+                timeot_workdate: this.datePipe.transform(timeot.timeot_workdate, 'yyy-MM-dd'),
+                timeot_beforemin: timeot.timeot_beforemin,
+                timeot_normalmin: timeot.timeot_normalmin,
+                timeot_breakmin: timeot.timeot_breakmin,
+                timeot_aftermin: timeot.timeot_aftermin,
+                timeot_note: timeot.timeot_note,
+                location_code: timeot.location_code,
+                reason_code: timeot.reason_code,
+                status: timeot.status,
+                flag: timeot.flag,
+                reqdoc_data: timeot.reqdoc_data,
 
             }
-            leave_datas.push(datas)
+            ot_datas.push(datas)
         })
-        console.log(leave_datas)
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: timeleaves[0].company_code || this.initial_current.CompCode,
-            leave_data: JSON.stringify(leave_datas)
+            company_code: timeots[0].company_code || this.initial_current.CompCode,
+            ot_data: JSON.stringify(ot_datas)
         }
-        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeot', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
-    public timeleave_delete(timeleave: cls_TRTimeleaveModel) {
+    public timeot_delete(timeots: cls_TRTimeotModel) {
         console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: timeleave.company_code || this.initial_current.CompCode,
-            timeleave_id: timeleave.timeleave_id,
+            company_code: timeots.company_code || this.initial_current.CompCode,
+            timeot_id: timeots.timeot_id,
         }
-        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_del', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeot_del', data, this.options).toPromise()
             .then((res) => {
                 console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
-    public timeleaveactualday_get(timeleave: cls_TRTimeleaveModel) {
-        console.log('ATT001..');
-        let data = {
-            device_name: "phone",
-            ip: "127.0.0.1",
-            username: this.initial_current.Username,
-            company_code: timeleave.company_code || this.initial_current.CompCode,
-            worker_code: timeleave.worker_code || this.initial_current.Username,
-            project_code: timeleave.project_code,
-            timeleave_fromdate: timeleave.timeleave_fromdate,
-            timeleave_todate: timeleave.timeleave_todate
-        }
-        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_actualday', data, this.options).toPromise()
-            .then((res) => {
-                let message = JSON.parse(res);
-                return message.data;
-            });
-    }
-
     public file_import(file: File, file_name: string, file_type: string) {
         console.log('ATT004..');
         const formData = new FormData();
@@ -172,7 +148,7 @@ export class TimeleaveServices {
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doDeleteMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
-                return  JSON.parse(res);
+                return JSON.parse(res);
             });
     }
     public delete_file(file: cls_MTReqdocumentModel) {

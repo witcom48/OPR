@@ -29,7 +29,8 @@ export class SelfChangeshiftComponent implements OnInit {
   shfitdis: string = "shift_name_en"
   items: MenuItem[] = [];
   items_attfile: MenuItem[] = [];
-  constructor(private messageService: MessageService,
+  constructor(
+    private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
     private reasonService: ReasonsService,

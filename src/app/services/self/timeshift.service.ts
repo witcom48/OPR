@@ -116,25 +116,6 @@ export class TimeShiftServices {
                 return message;
             });
     }
-    // public timeleaveactualday_get(timeleave: cls_TRTimeleaveModel) {
-    //     console.log('ATT001..');
-    //     let data = {
-    //         device_name: "phone",
-    //         ip: "127.0.0.1",
-    //         username: this.initial_current.Username,
-    //         company_code: timeleave.company_code || this.initial_current.CompCode,
-    //         worker_code: timeleave.worker_code || this.initial_current.Username,
-    //         project_code: timeleave.project_code,
-    //         timeleave_fromdate: timeleave.timeleave_fromdate,
-    //         timeleave_todate: timeleave.timeleave_todate
-    //     }
-    //     return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_actualday', data, this.options).toPromise()
-    //         .then((res) => {
-    //             let message = JSON.parse(res);
-    //             return message.data;
-    //         });
-    // }
-
     public file_import(file: File, file_name: string, file_type: string) {
         console.log('ATT004..');
         const formData = new FormData();
@@ -181,7 +162,7 @@ export class TimeShiftServices {
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/reqdocument_del', data, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                return message.data;
+                return message;
             });
     }
 }
