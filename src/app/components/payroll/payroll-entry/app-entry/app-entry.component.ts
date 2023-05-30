@@ -5,10 +5,10 @@ import {ConfirmationService,MessageService,} from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
+import { AppConfig } from '../../../../config/config';
+import { InitialCurrent } from '../../../../config/initial_current';
 
-import { EmployeeModel } from '../../../models/employee/employee';
+import { EmployeeModel } from '../../../../models/employee/employee';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 
 import { DatePipe } from '@angular/common';
@@ -17,8 +17,9 @@ import { PayitemService } from 'src/app/services/payroll/payitem.service';
 import * as XLSX from 'xlsx';
 import { ItemsModel } from 'src/app/models/payroll/items';
 import { ItemService } from 'src/app/services/payroll/item.service';
-import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
-
+import { SelectEmpComponent } from '../../../usercontrol/select-emp/select-emp.component';
+import { SetitemsService } from 'src/app/services/payroll/batch/setitems.service';
+declare var reason: any;
 interface Type {
     name: string;
     code: string;
@@ -34,12 +35,12 @@ interface Result {
     modified_date: string;
 }
 @Component({
-    selector: 'app-payroll-entry',
-    templateUrl: './payroll-entry.component.html',
-    styleUrls: ['./payroll-entry.component.scss'],
+  selector: 'app-app-entry',
+  templateUrl: './app-entry.component.html',
+  styleUrls: ['./app-entry.component.scss']
 })
-export class PayrollEntryComponent implements OnInit {
-
+export class AppEntryComponent implements OnInit {
+   
 
     style_input_real: string = "[style]=\"{'width':'80px'}\\";
 
@@ -54,10 +55,28 @@ export class PayrollEntryComponent implements OnInit {
         //Service
         private payitemService: PayitemService,
         private itemService: ItemService,
+        private setitemsService: SetitemsService
     ) {}
     @ViewChild(SelectEmpComponent) selectEmp: any;
 
     @ViewChild('TABLE') table: ElementRef | any = null;
+    workerDetail: EmployeeModel = new EmployeeModel();
+    worker_list: EmployeeModel[] = [];
+    worker_index: number = 0;
+    worker_code: string = '';
+    worker_name: string = '';
+    item: string = '';
+    payitem: string = '';
+    byitem_total: number = 0;
+    byemp_income: number = 0;
+    byemp_deduct: number = 0;
+    byemp_netpay: number = 0;
+    payitemDetail = new PayitemModel();
+    item_index: number = 0;
+    item_code: string = '';
+    item_name_th: string = '';
+    itemDetail: ItemsModel = new ItemsModel();
+    Items_Lists: ItemsModel[] = [];
     new_data: boolean = false;
     edit_data: boolean = false;
 
@@ -66,6 +85,7 @@ export class PayrollEntryComponent implements OnInit {
 
     loading: boolean = false;
     index: number = 0;
+
     menu_timecard: MenuItem[] = [];
     menu_Items: MenuItem[] = [];
     displayaddholiday: boolean = false;
@@ -73,31 +93,34 @@ export class PayrollEntryComponent implements OnInit {
 
     fileToUpload: File | any = null;
     displayUpload: boolean = false;
+
     SetItems_List: PayitemModel[] = [];
+
     result_list: Result[] = [];
+
     item_list: PayitemModel[] = [];
     payitem_list: PayitemModel[] = [];
-
     payitems: PayitemModel = new PayitemModel();
     TypeList: Type[] = [];
     selectedType: Type = { code: 'EMP', name: 'resignreq' };
     ngOnInit(): void {
         this.doGetInitialCurrent();
-        this.doLoadMenu();
-        this.doLoadLanguage();
-        // dropdown
-        this.doLoadItemsList();
 
-        Promise.all([this.doLoadEmployee(), this.doLoadPayitem()])
+        this.doLoadLanguage();
+        this.doLoadMenuItems();
+            Promise.all([this.doGetItemList(), this.doLoaditem()])
             .then(() => {
-                setTimeout(() => {
-                    this.worker_index = 0;
-                    this.doSetDetailWorker();
-                }, 1500);
+              setTimeout(() => {
+                this.item_index = 0;
+                this.worker_index = 0;
+                this.doSetDetailItem();
+
+              }, 500);
             })
             .catch((error) => {
-                console.error(error);
+              console.error(error);
             });
+
     }
     public initial_current: InitialCurrent = new InitialCurrent();
     doGetInitialCurrent() {
@@ -108,6 +131,7 @@ export class PayrollEntryComponent implements OnInit {
             this.router.navigateByUrl('');
         }
     }
+
     title_page: string = 'Geanral';
     title_new: string = 'New';
     title_edit: string = 'Edit';
@@ -199,9 +223,6 @@ export class PayrollEntryComponent implements OnInit {
             this.title_dropfileshere= 'วางไฟล์ที่นี่';
             this.title_by_deduct= 'เงินหัก';
 
-
-
-
             this.title_new = 'เพิ่ม';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
@@ -238,20 +259,198 @@ export class PayrollEntryComponent implements OnInit {
             this.title_manpower = 'จำนวนพนักงาน';
             this.title_cost = 'ต้นทุน';
             this.title_status = 'สถานะ';
-
             this.title_submit = 'ตกลง';
             this.title_cancel = 'ปิด';
         }
     }
-    doLoadMenu() {
-        this.menu_timecard = [
+
+    displayManage: boolean = false;
+    manage_title: string = 'ข้อมูลเวลา';
+    showManage() {
+        this.displayManage = true;
+    }
+
+    doUploadPayitem() {
+        const filename =
+            'PAYITEM_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+        const filetype = 'xls';
+        this.payitemService
+            .payitem_import(this.fileToUpload, filename, filetype)
+            .then((res) => {
+                if (res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Success',
+                        detail: res.message,
+                    });
+                    this.edit_data = false;
+                    this.new_data = false;
+                } else {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: res.message,
+                    });
+                }
+                this.fileToUpload = null;
+            });
+    }
+
+    doGetItemList() {
+        var tmp = new ItemsModel();
+        this.itemService.item_get(tmp).then((res) => {
+            this.Items_Lists = res;
+            if (this.Items_Lists.length > 0) {
+                this.doSetDetailItem();
+            }
+        });
+    }
+
+    doNextItem() {
+        if (this.item_index < this.Items_Lists.length - 1) {
+            this.item_index++;
+            this.doSetDetailItem();
+        }
+    }
+
+    doBackItem() {
+        if (this.item_index > 0) {
+            this.item_index--;
+            this.doSetDetailItem();
+        }
+    }
+      async doLoaditem() {
+        var tmp = new PayitemModel();
+        tmp.item_code = this.item_code;
+        tmp.worker_code = this.worker_code;
+
+        try {
+          const res = await this.payitemService.payitem_get(
+            this.initial_current.CompCode,'',
+            tmp.worker_code,'',
+            tmp.item_code
+          );
+
+          return res;
+        } catch (error) {
+          console.error(error);
+          throw error;
+        }
+      }
+
+      doSetDetailItem() {
+        this.itemDetail = this.Items_Lists[this.item_index];
+        this.item_code = this.itemDetail.item_code;
+
+        if (this.initial_current.Language == 'EN') {
+          this.item_name_th = this.itemDetail.item_name_en;
+        } else {
+          this.item_name_th = this.itemDetail.item_name_th;
+        }
+
+        this.doLoaditem()
+          .then((res) => {
+            this.item_list = res;
+            console.log(this.item_list);
+            this.doSummaryByEmp();
+          })
+          .catch((error) => {
+            console.error('An error occurred while loading items:', error);
+          });
+          this.doSummaryByEmp();
+      }
+
+      process() {
+        this.result_list = [];
+        if (this.selectEmp.employee_dest.length > 0) {
+          this.SetTRpolItem();
+
+        }
+      }
+
+      async SetTRpolItem() {
+        var data = new PayitemModel();
+        data.company_code = this.initial_current.CompCode;
+        data.emp_data = this.selectEmp.employee_dest;
+        data.worker_code = this.workerDetail.worker_code;
+
+        data.item_code = this.itemDetail.item_code;
+        data.payitem_date = this.payitems.payitem_date;
+        data.payitem_amount = this.payitems.payitem_amount;
+        data.payitem_quantity = this.payitems.payitem_quantity;
+        data.payitem_paytype = this.payitems.payitem_paytype;
+        data.payitem_note = this.payitems.payitem_note;
+        data.item_detail = this.payitems.item_detail;
+        data.item_type = this.payitems.item_type;
+        data.modified_by = this.initial_current.Username;
+        data.item_data = this.selectEmp.employee_dest;
+
+        this.loading = true;
+        console.log(data);
+        await this.payitemService.setpayitems_record('',data).then((res) => {
+          console.log(res);
+          if (res.success) {
+            console.log(res.message);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: res.message,
+            });
+            this.doLoaditem();
+            this.doSetDetailItem();
+            console.log(this.payitem_list); 
+
+            this.edit_data = false;
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: res.message,
+            });
+          }
+          this.loading = false;
+        });
+      }
+      doSummaryByEmp() {
+        this.byemp_income = 0;
+        this.byemp_deduct = 0;
+        this.byemp_netpay = 0;
+      
+        for (let i = 0; i < this.item_list.length; i++) {
+          if (this.item_list[i].item_type === 'IN') {
+            this.byemp_income += Number(this.item_list[i].payitem_amount);
+          } else {
+            this.byemp_deduct += Number(this.item_list[i].payitem_amount);
+          }
+        }
+      
+        this.byemp_netpay = Math.abs(this.byemp_income - this.byemp_deduct);
+      }
+    function(e: any) {
+        var page = e.index;
+        this.index = page;
+        if (page == 1) {
+            setTimeout(() => {
+                this.new_dataitem = true;
+            }, 300);
+        } else {
+            this.new_dataitem = false;
+        }
+    }
+    closedispaly() {
+        this.displayaddholiday = false;
+        this.displayeditholiday = false;
+    }
+
+    doLoadMenuItems() {
+        this.menu_Items = [
             {
                 label: this.title_new,
                 icon: 'pi-plus',
                 command: (event) => {
                     this.payitems = new PayitemModel();
-                    this.new_data = true;
-                    this.edit_data = false;
+                    this.displayaddholiday = true;
+                    this.displayeditholiday = false;
                     this.showManage();
                 },
             },
@@ -259,9 +458,10 @@ export class PayrollEntryComponent implements OnInit {
                 label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
-                    this.new_data = true;
-                    this.edit_data = false;
+                    this.displayaddholiday = true;
+                    this.displayeditholiday = false;
                     this.showManage();
+                    this.doLoaditem();
                 },
             },
             {
@@ -273,7 +473,6 @@ export class PayrollEntryComponent implements OnInit {
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     this.Delete();
-                    this.doSetDetailWorker();
                 },
             },
             {
@@ -293,210 +492,6 @@ export class PayrollEntryComponent implements OnInit {
         ];
     }
 
-    displayManage: boolean = false;
-    manage_title: string = 'ข้อมูลเวลา';
-    showManage() {
-        this.displayManage = true;
-    }
-    workerDetail: EmployeeModel = new EmployeeModel();
-    worker_list: EmployeeModel[] = [];
-    worker_index: number = 0;
-    worker_code: string = '';
-    worker_name: string = '';
-    item: string = '';
-    payitem: string = '';
-
-    byitem_total: number = 0;
-    byemp_income: number = 0;
-    byemp_deduct: number = 0;
-    byemp_netpay: number = 0;
-    doLoadEmployee() {
-        this.employeeService
-            .worker_get(this.initial_current.CompCode, '')
-            .then((res) => {
-                this.worker_list = res;
-            });
-    }
-
-    doNextWorker() {
-        if (this.worker_index < this.worker_list.length - 1) {
-            this.worker_index++;
-            this.doSetDetailWorker();
-        }
-    }
-
-    doBackWorker() {
-        if (this.worker_index > 0) {
-            this.worker_index--;
-            this.doSetDetailWorker();
-        }
-    }
-    doSetDetailWorker() {
-        this.workerDetail = this.worker_list[this.worker_index];
-        this.worker_code = this.workerDetail.worker_code;
-        if (this.initial_current.Language == 'EN') {
-            this.worker_name =
-                this.workerDetail.worker_fname_en +
-                ' ' +
-                this.workerDetail.worker_lname_en;
-        } else {
-            this.worker_name =
-                this.workerDetail.worker_fname_th +
-                ' ' +
-                this.workerDetail.worker_lname_th;
-        }
-        this.doLoadPayitem();
-    }
-
-    //get  data dropdown
-    Items_List: ItemsModel[] = [];
-    doLoadItemsList() {
-        var tmp = new ItemsModel();
-        this.itemService.item_get(tmp).then((res) => {
-            this.Items_List = res;
-        });
-    }
-
-    async doLoadPayitem() {
-        this.payitem_list = [];
-        var tmp = new PayitemModel();
-        tmp.worker_code = this.workerDetail.worker_code;
-
-        try {
-            const res = await this.payitemService.payitem_get(this.initial_current.CompCode,'',this.worker_code,'',this.item);
-            const inItems = res.filter((item: { item_type: string }) => item.item_type === 'IN');
-            const deItems = res.filter((item: { item_type: string }) => item.item_type === 'DE');
-            this.payitem_list = [...inItems, ...deItems];
-        } catch (error) {
-            console.log(error);
-        }
-        this.doSummaryByEmp();
-    }
-    async doRecordPayitem(data: PayitemModel) {
-        data.worker_code = this.workerDetail.worker_code;
-
-        try {
-            const res = await this.payitemService.payitem_record(data);
-            if (res.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: res.message,
-                });
-                await this.doLoadPayitem();
-                this.doSetDetailWorker();
-                console.log(this.payitem_list);
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: res.message,
-                });
-            }
-        } catch (error) {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'An error occurred while recording payitem.',
-            });
-        }
-
-        this.new_data = false;
-        this.edit_data = false;
-    }
-
-    doSummaryByEmp() {
-        this.byemp_income = 0;
-        this.byemp_deduct = 0;
-        this.byemp_netpay = 0;
-
-        for (let i = 0; i < this.payitem_list.length; i++) {
-            if (this.payitem_list[i].item_type === 'IN') {
-                this.byemp_income += Number(
-                    this.payitem_list[i].payitem_amount
-                );
-            } else {
-                this.byemp_deduct += Number(
-                    this.payitem_list[i].payitem_amount
-                );
-            }
-        }
-        this.byemp_netpay = this.byemp_income - this.byemp_deduct;
-        this.byemp_netpay = Math.abs(this.byemp_netpay);
-    }
-    async doDeletePayitem(data: PayitemModel) {
-        try {
-          const res = await this.payitemService.payitem_delete(data);
-          console.log(res);
-          if (res.success) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: res.message,
-            });
-            await Promise.all([this.doLoadPayitem(), this.doSetDetailWorker()]);
-            console.log(this.payitem_list);
-
-            this.new_data = false;
-            this.edit_data = false;
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: res.message,
-            });
-          }
-        } catch (error) {
-          console.log('An error occurred while deleting payitem:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'An error occurred while deleting payitem',
-          });
-        }
-      }
-
-    doUploadPayitem() {
-        const filename =
-            'PAYITEM_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-        const filetype = 'xls';
-        this.payitemService
-            .payitem_import(this.fileToUpload, filename, filetype)
-            .then((res) => {
-                if (res.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: res.message,
-                    });
-                    this.doLoadPayitem();
-                    this.edit_data = false;
-                    this.new_data = false;
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: res.message,
-                    });
-                }
-                this.fileToUpload = null;
-            });
-    }
-    function(e: any) {
-        var page = e.index;
-        this.index = page;
-        if (page == 1) {
-            setTimeout(() => {
-                this.new_dataitem = true;
-            }, 300);
-        } else {
-            this.new_dataitem = false;
-        }
-    }
-    closedispaly() {
-        this.displayaddholiday = false;
-        this.displayeditholiday = false;
-    }
     Uploadfile() {
         if (this.fileToUpload) {
             this.confirmationService.confirm({
@@ -532,17 +527,49 @@ export class PayrollEntryComponent implements OnInit {
     handleFileInput(file: FileList) {
         this.fileToUpload = file.item(0);
     }
-    Save() {
-        this.doRecordPayitem(this.payitems);
+    Saveitem() {
+        this.SetTRpolItem( );
     }
-
     Delete() {
-        this.doDeletePayitem(this.payitems);
+        this.doDeleteLate(this.payitems);
     }
+      async doDeleteLate(data: PayitemModel) {
+        try {
+          this.loading = true;
+          console.log(data);
+          const res = await this.payitemService.payitem_delete(data);
+          console.log(res);
+          if (res.success) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: res.message,
+            });
+            await this.doLoaditem();
+            this.doSetDetailItem();
+            console.log(this.payitem_list); 
+            this.edit_data = false;
+            this.new_data = false;
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: res.message,
+            });
+          }
+        } catch (error) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'An error occurred while deleting payitem.',
+          });
+        } finally {
+          this.loading = false;
+        }
+      }
 
     selectType() {
-        this.doLoadPayitem();
-
+        this.doLoaditem();
     }
 
     onRowSelect(event: any) {
@@ -551,7 +578,7 @@ export class PayrollEntryComponent implements OnInit {
     }
 
     refreshPage() {
-        location.reload();
+        location.reload(); 
     }
 
     exportAsExcel() {
@@ -582,78 +609,3 @@ export class PayrollEntryComponent implements OnInit {
     }
 }
 
-//   toolbar_menu: MenuItem[] = [];
-//   items: MenuItem[] = [];
-//   items_tab: MenuItem[] = [];
-
-//   constructor() { }
-
-//   ngOnInit(): void {
-
-//     this.doLoadSimple()
-//   }
-
-//   doLoadSimple(){
-//     this.toolbar_menu = [
-//       {
-//         label:'Save',
-//         icon:'pi pi-fw pi-save',
-
-//       },
-//       {
-//           label:'Export',
-//           icon:'pi pi-fw pi-file-export',
-//           command: (event) => {
-//             console.log('Edit')
-//         }
-//       }
-//       ,
-//       {
-//           label:'Import',
-//           icon:'pi pi-fw pi-file-import',
-//           command: (event) => {
-//             console.log('Edit')
-//         }
-//       }
-//     ];
-
-// this.items = [
-
-//   {
-//     label:'New',
-//     icon:'pi pi-fw pi-plus',
-
-//   },
-// {
-//     label:'Edit',
-//     icon:'pi pi-fw pi-pencil',
-//     command: (event) => {
-//       console.log('Edit')
-//   }
-// }
-// ,
-// {
-//     label:'Add copy',
-//     icon:'pi pi-fw pi-copy',
-// }
-// ,
-// {
-//     label:'Delete',
-//     icon:'pi pi-fw pi-trash',
-// }
-// ,
-//   {
-//       label:'Import',
-//       icon:'pi pi-fw pi-file-import',
-//   }
-//   ,
-//   {
-//       label:'Export',
-//       icon:'pi pi-fw pi-file-export',
-//   }
-
-// ];
-
-//   }
-
-// }

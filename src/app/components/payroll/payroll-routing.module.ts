@@ -22,6 +22,8 @@ import { TransferBonusComponent } from './payroll-transfer/transfer-bonus/transf
 import { SetbonusComponent } from './payroll-policy/setbonus/setbonus.component';
 import { SetitemsComponent } from './payroll-policy/setitems/setitems.component';
 import { SetprovidentComponent } from './payroll-policy/setprovident/setprovident.component';
+import { AppEntryComponent } from './payroll-entry/app-entry/app-entry.component';
+import { AppEntrysComponent } from './payroll-entry/app-entry/app-entrys/app-entrys.component';
 
 
 
@@ -50,8 +52,10 @@ import { SetprovidentComponent } from './payroll-policy/setprovident/setproviden
 
         { path: 'setitems', component: SetitemsComponent },
         { path: 'setprovident', component: SetprovidentComponent },
+        { path: 'appentry ', component: AppEntryComponent },
+        { path: 'appentrys ', component: AppEntrysComponent },
 
-
+        
         
         
 

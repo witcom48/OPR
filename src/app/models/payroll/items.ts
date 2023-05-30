@@ -2,6 +2,7 @@ import { EmployeeModel } from "../employee/employee";
 import { SetItemModel } from "./batch/setitem";
 
 export class ItemsModel {
+    
 
     constructor() {}
     company_code: string= "";

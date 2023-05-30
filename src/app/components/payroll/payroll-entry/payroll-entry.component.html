@@ -1,270 +1,391 @@
-<span style="font-size: 20px;">Payroll</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Manage Income/Deduct</small>
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<span style="font-size: 20px;">{{title_payroll}}</span>&nbsp;
+<i class="pi pi-angle-right"></i>&nbsp; <span>{{title_manage}}</span>
 <hr>
 
-<p-tabView >
-
-    <p-tabPanel  [selected]="true">
-        <ng-template pTemplate = "header">
+<p-tabView>
+    <p-tabPanel [selected]="true">
+        <ng-template pTemplate="header">
             <i class="pi pi-plus"></i>&nbsp;&nbsp;
-            <span>By Income</span>
+            <span (click)="refreshPage()">{{title_by_income}}</span>
         </ng-template>
 
-        <p-tabView >
-            <p-tabPanel  [selected]="true">
-                <ng-template pTemplate = "header">
+        <p-tabView>
+            <p-tabPanel [selected]="true">
+                <ng-template pTemplate="header">
                     <i class="pi pi-cog"></i>&nbsp;&nbsp;
-                    <span>Employee</span>
+                    <span>{{title_employee}}</span>
                 </ng-template>
-
                 <table style="width: 600px;">
                     <tr>
-                        <td>
-                            <i class="pi pi-angle-left" style="font-size: 2rem"></i>
+                        <td style="width: 20px;">
+                            <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
                         </td>
-                        <td>
-                            <input id="lastname2" type="text" value="2022120001" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        <td style="width: 150px;">
+                            <input id="lastname2" type="text" [value]="worker_code" name="worker_code"
+                                style="text-align: center;"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </td>
-                        <td>
-                            <i class="pi pi-angle-right" style="font-size: 2rem"></i>
+                        <td style="width: 20px;">
+                            <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
                         </td>
-                        <td>
-                            <i class="pi pi-search" ></i>
+                        <td style="width: 20px;">
+                            <i class="pi pi-search"></i>
                         </td>
-                        <td style="width: 300px;">
-                            <input id="lastname2" type="text" value="นายศรัณย์ ศรีห่วง" style="width: 300px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
+
+                        <td style="width: 250px;" align="left">
+                            <input id="lastname2" type="text" [value]="worker_name" style="width: 250px;"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </td>
                     </tr>
                 </table>
                 <p></p>
+                                            <!-- --------------END Form employee by income------------------ -->
 
-                <p-menubar [model]="items"></p-menubar>
-                <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
-                >
-                    <ng-template pTemplate="caption">
-                        <div class="flex">
-                            <span class="p-input-icon-left ml-auto">
-                                <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                            </span>
+                <p-menubar [model]="menu_timecard"></p-menubar>
+                <div class="tabledata">
+                    <div #TABLE>
+                        <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}"
+                            [value]="payitem_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+                            selectionMode="single" [(selection)]="workerDetail" [(selection)]="payitems"
+                            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+                            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                            [globalFilterFields]="['item_code','payitem_date','payitem_amount','payitem_quantity','payitem_paytype','payitem_note','item_detail','item_type','worker_detail','modified_by','modified_date']">
+                            <ng-template pTemplate="caption">
+                                <div class="flex">
+                                    <span class="p-input-icon-left ml-auto">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                            placeholder="Search keyword" />
+
+                                    </span>
+                                </div>
+                            </ng-template>
+                           <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{title_no}}</th>
+                                    <th>{{title_codes}}</th>
+                                    <th>{{title_details}}</th>
+                                    <th>{{title_protype}}</th>
+                                    <th>{{title_amount}}</th>
+                                    <th>{{title_quantity}}</th>
+                                    <th>{{title_bank_transfer_cash}}</th>
+                                    <th>{{title_note}}</th>
+                                    <th>{{title_date}}</th>
+                                    <th>{{title_modified_by}}</th>
+                                    <th>{{title_modified_date}}</th>
+                                </tr>
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                                <tr [pSelectableRow]="data" [ngClass]="{'de-item': data.item_type === 'DE'}"
+                                    *ngIf="data.item_type === 'IN'">
+                                    <td>{{i+1}}</td>
+                                    <td>{{data.item_code}}</td>
+                                    <td>{{data.item_detail}}</td>
+                                    <td>{{data.item_type}}</td>
+                                    <td>{{data.payitem_amount | number}}</td>
+                                    <td>{{data.payitem_quantity | number}}</td>
+                                    <td>{{data.payitem_paytype}}</td>
+                                    <td>{{data.payitem_note}}</td>
+                                    <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{data.modified_by}}</td>
+                                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                </tr>
+                            </ng-template>
+
+                        </p-table>
+                    </div>
+                    <!-- -----------------------END Table-------------------------- -->
+                    <div class="formatt" *ngIf="new_data || edit_data">
+                        <i class="pi pi-times" (click)="close()"></i>
+                        <div>
+                            <label>{{title_details}}</label>
+                            <p-dropdown placeholder="--" [options]="Items_List" optionValue="item_code"
+                                [showClear]="true" [(ngModel)]="payitems.item_code"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                                </ng-template>
+                            </p-dropdown>
                         </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>                           
-                            <th>รหัสเงินได้</th>   
-                            <th>ชื่อเงินได้</th>
-                            <th>จำนวนเงิน</th>   
-                            <th>ปริมาณ</th>
-                            <th>จากวันที่</th>
-                            <th>ถึงวันที่</th>  
-                            <th>คำนวณภาษี</th>  
-                            <th>คำนวณประกันสังคม</th>  
-                            <th>คำนวณกองทุนฯ</th>  
-                            <th>โอนธนาคาร</th>  
-                            <th>เงินสด</th>     
-                            <th>ผู้ทำรายการ</th>   
-                            <th>วันที่ทำรายการ</th>                                             
-                        </tr>	
-                        
-                    </ng-template>
-                </p-table>
+                        <label>{{title_amount}}</label>
+                        <p-inputNumber [(ngModel)]="payitems.payitem_amount" inputId="minmaxfraction" mode="decimal"
+                            [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
+
+                        <label>{{title_quantity}}</label>
+                        <p-inputNumber [(ngModel)]="payitems.payitem_quantity" inputId="minmaxfraction" mode="decimal"
+                            [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
+                        <div class="radiorole">
+                            <div class="radioroledata">
+                                <!-- ธนาคาร -->
+                                <label>{{title_bank_transfer_cash}}</label>
+                                <div>
+                                    <input type="radio" name="roel" value="B " [(ngModel)]="payitems.payitem_paytype">
+                                    <label>{{title_bank}}</label>
+
+                                </div>
+
+                                <div>
+                                    <input type="radio" name="roel" value="C " [(ngModel)]="payitems.payitem_paytype">
+                                    <label>{{title_cash}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label>{{title_note}}</label>
+                        <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea>
+
+                        <label>{{title_date}}</label>
+                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                            [(ngModel)]="payitems.payitem_date">
+                            <input type="text"></p-calendar>
+                        <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
+                            (click)="Save()"></button>
+                        <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}"
+                            icon="pi pi-trash" class="p-button-danger" (click)="Delete()"></button>
+
+                    </div>
+
+                    <!-- --------------End form Input Data ------------------ -->
+                </div>
+                <div>
+                    <tr>
+                        <td>
+                            <table class="table_summary">
+                                <tr>
+                                    <td><b>{{title_total}}</b></td>
+                                    <td><b>{{title_income}}: </b><span>{{ byemp_income }}</span></td>
+                                    <td><b>{{title_deduct}}: </b><span>{{ byemp_deduct }}</span></td>
+                                    <td><b>{{title_net}}:</b><span>{{ byemp_netpay }}</span></td>
+
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                </div>
+                                                    <!-- --------------End form summary ------------------ -->
 
             </p-tabPanel>
-            <p-tabPanel >
-                <ng-template pTemplate = "header">
-                    <i class="pi pi-cog"></i>&nbsp;&nbsp;
-                    <span>Income</span>
+            <!-- Dialog Choose File Import -->
+            <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+                <label class="drop-container">
+                    <span class="drop-title">{{title_dropfileshere}}</span>
+                    <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+                </label>
+                <ng-template pTemplate="footer">
+                    <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
                 </ng-template>
+            </p-dialog>
 
-                <table style="width: 600px;">
-                    <tr>
-                        <td>
-                            <i class="pi pi-angle-left" style="font-size: 2rem"></i>
-                        </td>
-                        <td>
-                            <input id="lastname2" type="text" value="SA001" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </td>
-                        <td>
-                            <i class="pi pi-angle-right" style="font-size: 2rem"></i>
-                        </td>
-                        <td>
-                            <i class="pi pi-search" ></i>
-                        </td>
-                        <td style="width: 300px;">
-                            <input id="lastname2" type="text" value="เงินเดือน" style="width: 300px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </td>
-                    </tr>
-                </table>
-                <p></p>
+            <!-- -----------------End Dialog Choose File-------------------- -->
 
-                <p-menubar [model]="items"></p-menubar>
-                <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
-                >
-                    <ng-template pTemplate="caption">
-                        <div class="flex">
-                            <span class="p-input-icon-left ml-auto">
-                                <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                            </span>
-                        </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>                           
-                            <th>รหัสพนักงาน</th>   
-                            <th>ชื่อ-นามสกุล</th>
-                            <th>จำนวนเงิน</th>   
-                            <th>ปริมาณ</th>
-                            <th>จากวันที่</th>
-                            <th>ถึงวันที่</th>  
-                            <th>คำนวณภาษี</th>  
-                            <th>คำนวณประกันสังคม</th>  
-                            <th>คำนวณกองทุนฯ</th>  
-                            <th>โอนธนาคาร</th>  
-                            <th>เงินสด</th>     
-                            <th>ผู้ทำรายการ</th>   
-                            <th>วันที่ทำรายการ</th>                                             
-                        </tr>	
-                        
-                    </ng-template>
-                </p-table>
+            <!-- ConfirmDialog and toast Noti -->
+            <p-toast position="top-right"></p-toast>
+            <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+                rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+            <!-- ----------------------END Confirm and Toast------------------------ -->
 
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                    <span>{{title_income}}</span>
+                </ng-template>
+                <app-app-entry></app-app-entry>
             </p-tabPanel>
         </p-tabView>
-
     </p-tabPanel>
+                                    <!-- --------------End form income ------------------ -->
 
-    <p-tabPanel >
-        <ng-template pTemplate = "header">
+    <p-tabPanel>
+        <ng-template pTemplate="header">
             <i class="pi pi-minus"></i>&nbsp;&nbsp;
-            <span>By Deduct</span>
+            <span>{{title_by_deduct}}</span>
         </ng-template>
-
-        <p-tabView >
-            <p-tabPanel  [selected]="true">
-                <ng-template pTemplate = "header">
+        <p-tabView>
+            <p-tabPanel [selected]="true">
+                <ng-template pTemplate="header">
                     <i class="pi pi-cog"></i>&nbsp;&nbsp;
-                    <span>Employee</span>
+                    <span>{{title_employee}}</span>
                 </ng-template>
 
                 <table style="width: 600px;">
                     <tr>
-                        <td>
-                            <i class="pi pi-angle-left" style="font-size: 2rem"></i>
+                        <td style="width: 20px;">
+                            <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
                         </td>
-                        <td>
-                            <input id="lastname2" type="text" value="2022120001" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        <td style="width: 150px;">
+                            <input id="lastname2" type="text" [value]="worker_code" name="worker_code"
+                                style="text-align: center;"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </td>
-                        <td>
-                            <i class="pi pi-angle-right" style="font-size: 2rem"></i>
+                        <td style="width: 20px;">
+                            <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
                         </td>
-                        <td>
-                            <i class="pi pi-search" ></i>
+                        <td style="width: 20px;">
+                            <i class="pi pi-search"></i>
                         </td>
-                        <td style="width: 300px;">
-                            <input id="lastname2" type="text" value="นายศรัณย์ ศรีห่วง" style="width: 300px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        <td style="width: 250px;" align="left">
+                            <input id="lastname2" type="text" [value]="worker_name" style="width: 250px;"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </td>
                     </tr>
                 </table>
                 <p></p>
+                                            <!-- --------------END Form employee by deduct------------------ -->
 
-                <p-menubar [model]="items"></p-menubar>
-                <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
-                >
-                    <ng-template pTemplate="caption">
-                        <div class="flex">
-                            <span class="p-input-icon-left ml-auto">
-                                <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                            </span>
+                <p-menubar [model]="menu_timecard"></p-menubar>
+                <div class="tabledata">
+                    <div #TABLE>
+                        <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}"
+                            [value]="payitem_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+                            selectionMode="single" [(selection)]="workerDetail" [(selection)]="payitems"
+                            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+                            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                            [globalFilterFields]="['item_code','payitem_date','payitem_amount','payitem_quantity','payitem_paytype','payitem_note','item_detail','item_type','worker_detail','modified_by','modified_date']">
+
+                            <ng-template pTemplate="caption">
+                                <div class="flex">
+                                    <span class="p-input-icon-left ml-auto">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text"
+                                            (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                            placeholder="Search keyword" />
+
+                                    </span>
+                                </div>
+                            </ng-template>
+
+                            <!-- --------------END Form Search Table------------------ -->
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{title_no}}</th>
+                                    <th>{{title_codeitem}}</th>
+                                    <th>{{title_details}}</th>
+                                    <th>{{title_protype}}</th>
+                                    <th>{{title_amount}}</th>
+                                    <th>{{title_quantity}}</th>
+                                    <th>{{title_bank_transfer_cash}}</th>
+                                    <th>{{title_note}}</th>
+                                    <th>{{title_date}}</th>
+                                    <th>{{title_modified_by}}</th>
+                                    <th>{{title_modified_date}}</th>
+                                </tr>
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                                <tr [pSelectableRow]="data" [ngClass]="{'de-item': data.item_type === 'DE'}"
+                                    *ngIf="data.item_type === 'DE'">
+                                    <td>{{i+1}}</td>
+                                    <td>{{data.item_code}}</td>
+                                    <td>{{data.item_detail}}</td>
+                                    <td>{{data.item_type}}</td>
+                                    <td>{{data.payitem_amount | number}}</td>
+                                    <td>{{data.payitem_quantity | number}}</td>
+                                    <td>{{data.payitem_paytype}}</td>
+                                    <td>{{data.payitem_note}}</td>
+                                    <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{data.modified_by}}</td>
+                                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                    <!-- -----------------------END Table-------------------------- -->
+
+                    <div class="formatt" *ngIf="new_data || edit_data">
+                        <i class="pi pi-times" (click)="close()"></i>
+                        <div>
+                            <label>{{title_details}}</label>
+                            <p-dropdown placeholder="--" [options]="Items_List" optionValue="item_code"
+                                [showClear]="true" [(ngModel)]="payitems.item_code"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                                </ng-template>
+                            </p-dropdown>
                         </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>                           
-                            <th>รหัสเงินหัก</th>   
-                            <th>ชื่อเงินหัก</th>
-                            <th>จำนวนเงิน</th>   
-                            <th>ปริมาณ</th>
-                            <th>จากวันที่</th>
-                            <th>ถึงวันที่</th>  
-                            <th>คำนวณภาษี</th>  
-                            <th>คำนวณประกันสังคม</th>  
-                            <th>คำนวณกองทุนฯ</th>  
-                            <th>โอนธนาคาร</th>  
-                            <th>เงินสด</th>     
-                            <th>ผู้ทำรายการ</th>   
-                            <th>วันที่ทำรายการ</th>                                             
-                        </tr>	
-                        
-                    </ng-template>
-                </p-table>
+                        <label>{{title_amount}}</label>
+                        <p-inputNumber [(ngModel)]="payitems.payitem_amount" inputId="minmaxfraction" mode="decimal"
+                            [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
 
-            </p-tabPanel>
-            <p-tabPanel >
-                <ng-template pTemplate = "header">
-                    <i class="pi pi-cog"></i>&nbsp;&nbsp;
-                    <span>Deduct</span>
-                </ng-template>
+                        <label>{{title_quantity}}</label>
+                        <p-inputNumber [(ngModel)]="payitems.payitem_quantity" inputId="minmaxfraction" mode="decimal"
+                            [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
 
-                <table style="width: 600px;">
+                        <div class="radiorole">
+                            <div class="radioroledata">
+                                <!-- ธนาคาร -->
+                                <label>{{title_bank_transfer_cash}}</label>
+                                <div>
+                                    <input type="radio" name="roel" value="B" [(ngModel)]="payitems.payitem_paytype">
+                                    <label>{{title_bank}}</label>
+
+                                </div>
+
+                                <div>
+                                    <input type="radio" name="roel" value="C" [(ngModel)]="payitems.payitem_paytype">
+                                    <label>{{title_cash}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label>{{title_note}}</label>
+                        <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea>
+
+                        <label>{{title_date}}</label>
+                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                            [(ngModel)]="payitems.payitem_date">
+                            <input type="text"></p-calendar>
+                        <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
+                            (click)="Save()"></button>
+                        <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}"
+                            icon="pi pi-trash" class="p-button-danger" (click)="Delete()"></button>
+                    </div>
+                                        <!-- --------------End form Input Data ------------------ -->
+
+                </div>
+                <div>
                     <tr>
                         <td>
-                            <i class="pi pi-angle-left" style="font-size: 2rem"></i>
-                        </td>
-                        <td>
-                            <input id="lastname2" type="text" value="DE001" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </td>
-                        <td>
-                            <i class="pi pi-angle-right" style="font-size: 2rem"></i>
-                        </td>
-                        <td>
-                            <i class="pi pi-search" ></i>
-                        </td>
-                        <td style="width: 300px;">
-                            <input id="lastname2" type="text" value="ขาดงาน" style="width: 300px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            <table class="table_summary">
+                                <tr>
+                                    <td><b>{{title_total}}</b></td>
+                                    <td><b>{{title_income}}: </b><span>{{ byemp_income }}</span></td>
+                                    <td><b>{{title_deduct}}: </b><span>{{ byemp_deduct }}</span></td>
+                                    <td><b>{{title_net}}:</b><span>{{ byemp_netpay }}</span></td>
+                                </tr>
+                            </table>
+
                         </td>
                     </tr>
-                </table>
-                <p></p>
-
-                <p-menubar [model]="items"></p-menubar>
-                <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
-                >
-                    <ng-template pTemplate="caption">
-                        <div class="flex">
-                            <span class="p-input-icon-left ml-auto">
-                                <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                            </span>
-                        </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>                           
-                            <th>รหัสพนักงาน</th>   
-                            <th>ชื่อ-นามสกุล</th>
-                            <th>จำนวนเงิน</th>   
-                            <th>ปริมาณ</th>
-                            <th>จากวันที่</th>
-                            <th>ถึงวันที่</th>  
-                            <th>คำนวณภาษี</th>  
-                            <th>คำนวณประกันสังคม</th>  
-                            <th>คำนวณกองทุนฯ</th>  
-                            <th>โอนธนาคาร</th>  
-                            <th>เงินสด</th>     
-                            <th>ผู้ทำรายการ</th>   
-                            <th>วันที่ทำรายการ</th>                                             
-                        </tr>	
-                        
-                    </ng-template>
-                </p-table>
+                </div>
+                                    <!-- --------------End form summary ------------------ -->
 
             </p-tabPanel>
+
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                    <span>{{title_deduct}}</span>
+                </ng-template>
+                <app-app-entrys></app-app-entrys>
+
+            </p-tabPanel>
+                                    <!-- --------------End form deduct ------------------ -->
+
         </p-tabView>
 
     </p-tabPanel>
