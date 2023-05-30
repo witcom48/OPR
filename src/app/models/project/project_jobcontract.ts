@@ -5,13 +5,14 @@ export class ProjobcontractModel {
        
     projobcontract_id: string = "1";
     projobcontract_ref: string = "";
-    projobcontract_date: Date = new Date();
-    projobcontract_emp: number = 0;
-    projobcontract_amount: number = 0;
-    projobcontract_fromdate: Date = new Date();
-    projobcontract_todate: Date = new Date();
+    
+    projobcontract_working: number = 0;
+    projobcontract_hrsperday: number = 0;
+    projobcontract_hrsot: number = 0;
+    
     projob_code: string = "";
     project_code: string = "";
+    version: string = "";
    
     modified_by: string = "";
     modified_date: Date = new Date();

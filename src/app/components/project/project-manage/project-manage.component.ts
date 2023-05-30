@@ -28,6 +28,10 @@ import { ProjobmainModel } from '../../../models/project/project_jobmain';
 
 import { ProjobshiftModel } from '../../../models/project/project_jobshift';
 
+import { ProjobversionModel } from '../../../models/project/project_jobversion';
+
+import { ProjobpolModel } from '../../../models/project/project_jobpol';
+
 import { ProjobcontractModel } from '../../../models/project/project_jobcontract';
 import { ProjobcostModel } from '../../../models/project/project_jobcost';
 import { ProjobmachineModel } from '../../../models/project/project_jobmachine';
@@ -105,6 +109,10 @@ export class ProjectManageComponent implements OnInit {
   edit_projobmachine: boolean = false;
   new_projobmachine: boolean = false;
   //
+  menu_projobpol: MenuItem[] = [];
+  edit_projobpol: boolean = false;
+  new_projobpol: boolean = false;
+  //
   menu_projobsub: MenuItem[] = [];
   edit_projobsub: boolean = false;
   new_projobsub: boolean = false;
@@ -124,6 +132,9 @@ export class ProjectManageComponent implements OnInit {
   menu_projobshift: MenuItem[] = [];
   edit_projobshift: boolean = false;
   new_projobshift: boolean = false;
+  //
+  edit_projobversion: boolean = false;
+  new_projobversion: boolean = false;
 
   title_tab_genaral: {[key: string]: string} = {  EN: "Genaral",  TH: "ข้อมูลทั่วไป"}
   title_tab_contract: {[key: string]: string} = {  EN: "Contract",  TH: "ข้อมูลสัญญา"}
@@ -266,6 +277,8 @@ export class ProjectManageComponent implements OnInit {
   title_machine_ip: {[key: string]: string} = {  EN: "IP Address",  TH: "IP Address"}
   title_machine_port: {[key: string]: string} = {  EN: "Port",  TH: "Port"}
   title_machine_enable: {[key: string]: string} = {  EN: "Enable",  TH: "ใช้งาน"}
+
+  title_policy: {[key: string]: string} = {  EN: "Policy",  TH: "นโยบาย"}
 //
   title_working: {[key: string]: string} = {  EN: "Working",  TH: "การปฎิบัติงาน"}
   title_working_date: {[key: string]: string} = {  EN: "Date",  TH: "วันที่"}
@@ -321,6 +334,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.doLoadLanguage()
     this.doLoadMaster()
+    
 
     setTimeout(() => {
       this.doLoadMenu()
@@ -337,10 +351,6 @@ export class ProjectManageComponent implements OnInit {
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-
-
-
-
 
 
     }
@@ -649,16 +659,16 @@ export class ProjectManageComponent implements OnInit {
           this.confirmRecordJobmain()
         }
       }
-      ,
-      {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
-      }
-      ,
-      {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
-      }
+      // ,
+      // {
+      //     label:this.title_import[this.initial_current.Language],
+      //     icon:'pi pi-fw pi-file-import',
+      // }
+      // ,
+      // {
+      //     label:this.title_export[this.initial_current.Language],
+      //     icon:'pi pi-fw pi-file-export',
+      // }
       ,
       {
         label:this.title_delete[this.initial_current.Language],
@@ -812,6 +822,55 @@ export class ProjectManageComponent implements OnInit {
         command: (event) => {
           if(this.selectedProjobmachine != null){
             this.projobmachine_remove()
+          }
+        }
+      }
+    ];
+
+    this.menu_projobpol = [
+      {
+        label:this.title_new[this.initial_current.Language],
+        icon:'pi pi-fw pi-plus',
+        command: (event) => {
+          this.clearManage()
+          this.new_projobpol = true
+          var ref = this.projobpol_list.length + 100
+          this.selectedProjobpol = new ProjobpolModel()
+          this.selectedProjobpol.projobpol_id = ref.toString()
+
+          this.showManage()
+        }
+      }
+      ,
+      {
+          label:'Edit',
+          icon:'pi pi-fw pi-pencil',
+          command: (event) => {
+            this.clearManage()
+            if(this.selectedProjobpol != null){
+              this.edit_projobpol = true
+
+              this.showManage()
+            }
+        }
+      }
+      ,
+      {
+          label:this.title_import[this.initial_current.Language],
+          icon:'pi pi-fw pi-file-import',
+      }
+      ,
+      {
+          label:this.title_export[this.initial_current.Language],
+          icon:'pi pi-fw pi-file-export',
+      }
+      ,
+      {
+        label:this.title_delete[this.initial_current.Language],
+        icon:'pi pi-fw pi-trash',
+        command: (event) => {
+          if(this.selectedProjobpol != null){
+            this.projobpol_remove()
           }
         }
       }
@@ -1087,8 +1146,8 @@ export class ProjectManageComponent implements OnInit {
           this.doLoadProresponsible()
           this.doLoadProtimepol()
 
-          this.doLoadProjobmain()
-          this.doLoadProjobsub()
+          this.doLoadProjobversion()
+          //this.doLoadProjobsub()
 
           this.doLoadProjobemp()
 
@@ -1111,6 +1170,7 @@ export class ProjectManageComponent implements OnInit {
       this.protype_list = res;
     });
 
+    
     this.doLoadInitial()
     this.doLoadPosition()
     this.doLoadEmpStatus()
@@ -1187,15 +1247,17 @@ export class ProjectManageComponent implements OnInit {
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
 
-          this.projectDetailService.projobmain_record(this.selectedProject.project_code, this.projobmain_list).then((res) => {
+          this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.projobmain_list).then((res) => {
             let result = JSON.parse(res);
             if(result.success){
 
-              var jobcontract = this.projobcontract_record()
+              //var jobcontract = this.projobcontract_record()
               var jobcost = this.projobcost_record()
               var jobmachine = this.projobmachine_record()
 
               var jobshift = this.projobshift_record()
+
+              var jobpol = this.projobpol_record()
 
               this.messageService.add({severity:'success', summary: 'Success', detail: "Record Success.."});
 
@@ -1203,10 +1265,9 @@ export class ProjectManageComponent implements OnInit {
 
               setTimeout(() => {
 
-                this.doLoadProjobcontract()
-                this.doLoadProjobcost()
+                this.projobmain_loadtran()
 
-              }, 200);
+              }, 400);
 
             }
             else{
@@ -1227,7 +1288,7 @@ export class ProjectManageComponent implements OnInit {
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
 
-          this.projectDetailService.projobsub_record(this.selectedProject.project_code, this.projobsub_list).then((res) => {
+          this.projectDetailService.projobsub_record(this.version_selected, this.selectedProject.project_code, this.projobsub_list).then((res) => {
             let result = JSON.parse(res);
             if(result.success){
 
@@ -1766,19 +1827,62 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
-  //-- Project jobmain
+  //-- Job version
 
+  version_selected: string = "";
+  fromdate_selected: string | any = null;
+  todate_selected: string | any = null;
+    
+  projobversion_list: ProjobversionModel[] = [];  
+  selectedProjobversion: ProjobversionModel = new ProjobversionModel();
+  selected_version: ProjobversionModel = new ProjobversionModel();
+  doLoadProjobversion(){
+
+    this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
+      this.projobversion_list = await res;
+     
+      if(this.projobversion_list.length > 0){        
+        this.selectedProjobversion = this.projobversion_list[0]        
+        this.selected_version = this.selectedProjobversion
+        this.printVersion()
+      }
+    });
+
+    setTimeout(() => {
+      this.doLoadProjobmain()
+    }, 1000);
+  }
+
+  onSelectProjobversion(event: any) {
+    this.selected_version = this.selectedProjobversion
+    setTimeout(() => {
+      this.printVersion()   
+    }, 500);
+  }
+
+  printVersion(){
+    this.version_selected = this.selected_version.version
+    this.fromdate_selected = this.datePipe.transform(this.selected_version.fromdate, 'dd/MM/yyyy')
+    this.todate_selected = this.datePipe.transform(this.selected_version.todate, 'dd/MM/yyyy')
+
+    this.doLoadProjobmain()
+    this.doLoadProjobsub()
+
+  }
+
+  
+  
+  //-- Project jobmain
   projobmain_list: ProjobmainModel[] = [];
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
   doLoadProjobmain(){
 
-    this.projectDetailService.projobmain_get(this.project_code).then(async (res) => {
+    this.projectDetailService.projobmain_get(this.version_selected, this.project_code).then(async (res) => {
       this.projobmain_list = await res;
+      setTimeout(() => {
+        this.projobmain_summary()
+      }, 2000);
     });
-
-    setTimeout(() => {
-      this.projobmain_summary()
-    }, 1000);
   }
 
   doGetProjobmainDetail(code:string) : string {
@@ -1795,16 +1899,13 @@ export class ProjectManageComponent implements OnInit {
     return ""
   }
 
-
   onRowSelectProjobmain(event: Event) {
 
     if(this.selectedProjobmain == null){
 
     }
     else{
-      this.doLoadProjobcontract()
-      this.doLoadProjobcost()
-      this.doLoadProjobmachine()
+      
       this.projobmain_loadtran()
 
       this.menu_projobmain[1] =
@@ -1860,7 +1961,7 @@ export class ProjectManageComponent implements OnInit {
     if(this.projobmain_list.length == 0){
       //return
     }
-    this.projectDetailService.projobmain_record(this.selectedProject.project_code, this.projobmain_list).then((res) => {
+    this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.projobmain_list).then((res) => {
       let result = JSON.parse(res);
       if(result.success){
         return true
@@ -1878,9 +1979,10 @@ export class ProjectManageComponent implements OnInit {
 
     this.doLoadProjobshift()
 
-    this.doLoadProjobcontract()
+    //this.doLoadProjobcontract()
     this.doLoadProjobcost()
     this.doLoadProjobmachine()
+    this.doLoadProjobpol()
 
   }
 
@@ -2006,6 +2108,9 @@ export class ProjectManageComponent implements OnInit {
   project_summary_cost: number = 0;
 
   projobmain_summary(){
+
+    return
+
     this.project_summary_emp = 0
     this.project_summary_cost = 0
     for (let i = 0; i < this.projobmain_list.length; i++) {
@@ -2086,7 +2191,7 @@ export class ProjectManageComponent implements OnInit {
   projobcontract_list: ProjobcontractModel[] = [];
   selectedProjobcontract: ProjobcontractModel = new ProjobcontractModel();
   doLoadProjobcontract(){
-    this.projectDetailService.projobcontract_get(this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
+    this.projectDetailService.projobcontract_get(this.version_selected, this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
       this.projobcontract_list = res;
       if(this.projobcontract_list.length > 0){
         this.selectedProjobcontract = this.projobcontract_list[0]
@@ -2144,7 +2249,7 @@ export class ProjectManageComponent implements OnInit {
       //return false
     }
 
-    this.projectDetailService.projobcontract_record(this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobcontract_list).then((res) => {
+    this.projectDetailService.projobcontract_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobcontract_list).then((res) => {
       let result = JSON.parse(res);
       if(result.success){
         return true
@@ -2161,7 +2266,7 @@ export class ProjectManageComponent implements OnInit {
   projobcost_list: ProjobcostModel[] = [];
   selectedProjobcost: ProjobcostModel = new ProjobcostModel();
   doLoadProjobcost(){
-    this.projectDetailService.projobcost_get(this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
+    this.projectDetailService.projobcost_get(this.version_selected, this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
       this.projobcost_list = res;
       if(this.projobcost_list.length > 0){
         this.selectedProjobcost = this.projobcost_list[0]
@@ -2199,17 +2304,16 @@ export class ProjectManageComponent implements OnInit {
       }
       else{
 
-        //console.log(model.projobcost_fromdate.getTime())
 
-        var date_tmp = new Date(this.projobcost_list[i].projobcost_todate)
-        //console.log(date_tmp)
+        // var date_tmp = new Date(this.projobcost_list[i].projobcost_todate)
+        // //console.log(date_tmp)
 
-        if(this.projobcost_list[i].projobcost_code==model.projobcost_code && date_tmp.getTime() > model.projobcost_fromdate.getTime()){
+        // if(this.projobcost_list[i].projobcost_code==model.projobcost_code && date_tmp.getTime() > model.projobcost_fromdate.getTime()){
 
-          this.projobcost_list[i].projobcost_todate = new Date(model.projobcost_fromdate)
-          this.projobcost_list[i].projobcost_todate.setDate( this.projobcost_list[i].projobcost_todate.getDate() - 1 );
+        //   this.projobcost_list[i].projobcost_todate = new Date(model.projobcost_fromdate)
+        //   this.projobcost_list[i].projobcost_todate.setDate( this.projobcost_list[i].projobcost_todate.getDate() - 1 );
 
-        }
+        // }
 
         itemNew.push(this.projobcost_list[i]);
       }
@@ -2231,7 +2335,7 @@ export class ProjectManageComponent implements OnInit {
     if(this.projobcost_list.length == 0){
       //return false
     }
-    this.projectDetailService.projobcost_record(this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobcost_list).then((res) => {
+    this.projectDetailService.projobcost_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobcost_list).then((res) => {
       let result = JSON.parse(res);
       if(result.success){
         return true
@@ -2255,7 +2359,7 @@ export class ProjectManageComponent implements OnInit {
   projobshift_list: ProjobshiftModel[] = [];
   selectedProjobshift: ProjobshiftModel = new ProjobshiftModel();
   doLoadProjobshift(){
-    this.projectDetailService.projobshift_get(this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
+    this.projectDetailService.projobshift_get(this.version_selected, this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
       this.projobshift_list = res;
       if(this.projobshift_list.length > 0){
         this.selectedProjobshift = this.projobshift_list[0]
@@ -2313,7 +2417,7 @@ export class ProjectManageComponent implements OnInit {
     if(this.projobshift_list.length == 0){
       //return false
     }
-    this.projectDetailService.projobshift_record(this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobshift_list).then((res) => {
+    this.projectDetailService.projobshift_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobshift_list).then((res) => {
       let result = JSON.parse(res);
       if(result.success){
         return true
@@ -2380,6 +2484,8 @@ export class ProjectManageComponent implements OnInit {
     this.projobmachine_list = itemNew;
     this.projobmachine_list.sort(function(a, b) { return parseInt(a.projobmachine_id) - parseInt(b.projobmachine_id); })
   }
+
+
   projobmachine_record():boolean {
 
     if(this.selectedProjobmain == null){
@@ -2403,11 +2509,90 @@ export class ProjectManageComponent implements OnInit {
     return false
   }
 
+  //-- Project job policy
+  projobpol_list: ProjobpolModel[] = [];
+  selectedProjobpol: ProjobpolModel = new ProjobpolModel();
+  doLoadProjobpol(){
+    this.projectDetailService.projobpol_get(this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
+      this.projobpol_list = res;
+      if(this.projobpol_list.length > 0){
+        this.selectedProjobpol = this.projobpol_list[0]
+      }
+    });
+  }
+  onRowSelectProjobpol(event: Event) {
+
+
+  }
+  projobpol_summit() {
+
+    this.projobpol_addItem(this.selectedProjobpol)
+    this.new_projobpol = false
+    this.edit_projobpol = false
+
+    this.displayManage = false
+  }
+  projobpol_remove() {
+    this.selectedProjobpol.projobpol_id = "9999";
+    this.projobpol_addItem(this.selectedProjobpol)
+    this.new_projobpol = false
+    this.edit_projobpol = false
+  }
+  projobpol_cancel() {
+    this.edit_projobpol= false
+    this.new_projobpol= false
+    this.displayManage = false
+  }
+  projobpol_addItem(model:ProjobpolModel){
+    const itemNew:ProjobpolModel[] = [];
+    for (let i = 0; i < this.projobpol_list.length; i++) {
+      if(this.projobpol_list[i].projobpol_id==model.projobpol_id ){
+        //-- Notting
+      }
+      else{
+
+        itemNew.push(this.projobpol_list[i]);
+      }
+    }
+    //-- 9999 for delete
+    if(model.projobpol_id != "9999"){
+      itemNew.push(model);
+    }
+    this.projobpol_list = [];
+    this.projobpol_list = itemNew;
+    this.projobpol_list.sort(function(a, b) { return parseInt(a.projobpol_id) - parseInt(b.projobpol_id); })
+  }
+
+
+  projobpol_record():boolean {
+
+    if(this.selectedProjobpol == null){
+      return false
+    }
+
+    if(this.projobpol_list.length == 0){
+      //return false
+    }
+
+    this.projectDetailService.projobpol_record(this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobpol_list).then((res) => {
+      let result = JSON.parse(res);
+      if(result.success){
+        return true
+      }
+      else{
+        return false
+      }
+
+    });
+
+    return false
+  }
+
   //-- Project job sub
   projobsub_list: ProjobsubModel[] = [];
   selectedProjobsub: ProjobsubModel = new ProjobsubModel();
   doLoadProjobsub(){
-    this.projectDetailService.projobsub_get(this.project_code).then((res) => {
+    this.projectDetailService.projobsub_get(this.version_selected, this.project_code).then((res) => {
       this.projobsub_list = res;
       if(this.projobsub_list.length > 0){
 
@@ -2480,7 +2665,7 @@ export class ProjectManageComponent implements OnInit {
       //return false
     }
 
-    this.projectDetailService.projobsub_record(this.selectedProject.project_code, this.projobsub_list).then((res) => {
+    this.projectDetailService.projobsub_record(this.version_selected, this.selectedProject.project_code, this.projobsub_list).then((res) => {
       let result = JSON.parse(res);
       if(result.success){
         return true
@@ -2508,7 +2693,7 @@ export class ProjectManageComponent implements OnInit {
   projobsubcontract_list: ProjobcontractModel[] = [];
   selectedProjobsubcontract: ProjobcontractModel = new ProjobcontractModel();
   doLoadProjobsubcontract(){
-    this.projectDetailService.projobcontract_get(this.project_code, this.selectedProjobsub.projobsub_code).then((res) => {
+    this.projectDetailService.projobcontract_get(this.version_selected, this.project_code, this.selectedProjobsub.projobsub_code).then((res) => {
       this.projobsubcontract_list = res;
     });
   }
@@ -2563,7 +2748,7 @@ export class ProjectManageComponent implements OnInit {
       //return false
     }
 
-    this.projectDetailService.projobcontract_record(this.selectedProject.project_code, this.selectedProjobsub.projobsub_code, this.projobsubcontract_list).then((res) => {
+    this.projectDetailService.projobcontract_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobsub.projobsub_code, this.projobsubcontract_list).then((res) => {
       let result = JSON.parse(res);
       if(result.success){
         return true
@@ -2580,7 +2765,7 @@ export class ProjectManageComponent implements OnInit {
   projobsubcost_list: ProjobcostModel[] = [];
   selectedProjobsubcost: ProjobcostModel = new ProjobcostModel();
   doLoadProjobsubcost(){
-    this.projectDetailService.projobcost_get(this.project_code, this.selectedProjobsub.projobsub_code).then((res) => {
+    this.projectDetailService.projobcost_get(this.version_selected, this.project_code, this.selectedProjobsub.projobsub_code).then((res) => {
       this.projobsubcost_list = res;
       if(this.projobsubcost_list.length > 0){
         this.selectedProjobsubcost = this.projobsubcost_list[0]
@@ -2618,14 +2803,14 @@ export class ProjectManageComponent implements OnInit {
       }
       else{
 
-        var date_tmp = new Date(this.projobsubcost_list[i].projobcost_todate)
+        // var date_tmp = new Date(this.projobsubcost_list[i].projobcost_todate)
 
-        if(this.projobsubcost_list[i].projobcost_code==model.projobcost_code && date_tmp.getTime() > model.projobcost_fromdate.getTime()){
+        // if(this.projobsubcost_list[i].projobcost_code==model.projobcost_code && date_tmp.getTime() > model.projobcost_fromdate.getTime()){
 
-          this.projobsubcost_list[i].projobcost_todate = new Date(model.projobcost_fromdate)
-          this.projobsubcost_list[i].projobcost_todate.setDate( this.projobsubcost_list[i].projobcost_todate.getDate() - 1 );
+        //   this.projobsubcost_list[i].projobcost_todate = new Date(model.projobcost_fromdate)
+        //   this.projobsubcost_list[i].projobcost_todate.setDate( this.projobsubcost_list[i].projobcost_todate.getDate() - 1 );
 
-        }
+        // }
 
         itemNew.push(this.projobsubcost_list[i]);
       }
@@ -2647,7 +2832,7 @@ export class ProjectManageComponent implements OnInit {
     if(this.projobsubcost_list.length == 0){
       //return false
     }
-    this.projectDetailService.projobcost_record(this.selectedProject.project_code, this.selectedProjobsub.projobsub_code, this.projobsubcost_list).then((res) => {
+    this.projectDetailService.projobcost_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobsub.projobsub_code, this.projobsubcost_list).then((res) => {
       let result = JSON.parse(res);
       if(result.success){
         return true
@@ -2850,6 +3035,57 @@ export class ProjectManageComponent implements OnInit {
     }
     return ""
   }
+
+
+  //-- 10/05/2023
+  
+  addVersion(){
+    this.new_projobversion = true
+    this.showManage()
+  }
+
+  projobversion_cancel(){
+    this.new_projobversion = false
+    this.edit_projobversion = false
+    this.displayManage = false
+  }
+
+  recordJobversion(){
+    this.confirmRecordJobversion()
+
+  }
+
+  confirmRecordJobversion() {
+    this.confirmationService.confirm({
+        message: this.title_confirm_record[this.initial_current.Language] + " Version",
+        header: this.title_confirm[this.initial_current.Language],
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          
+          this.selectedProjobversion.project_code = this.project_code
+
+          this.projectDetailService.projobversion_record(this.selectedProjobversion).then((res) => {
+            let result = JSON.parse(res);
+            if(result.success){
+              this.doLoadProjobversion()
+              this.projobversion_cancel()
+
+              this.messageService.add({severity:'success', summary: 'Success', detail: "Record Success.."});
+            }
+            else{
+              this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
+            }
+                  
+          });
+          
+        },
+        reject: () => {
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
+        },
+        key: "myDialog"
+    });
+  }
+
 
 
 

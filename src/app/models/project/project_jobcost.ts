@@ -7,9 +7,8 @@ export class ProjobcostModel {
     projobcost_code: string = "";
    
     projobcost_amount: number = 0;    
-    projobcost_fromdate: Date = new Date();
-    projobcost_todate: Date = new Date();
-    projobcost_version: string = "";
+    
+    version: string = "";
     projobcost_status: string = "";
     projobcost_auto: boolean = false;
     projob_code: string = "";

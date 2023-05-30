@@ -4,7 +4,7 @@ export class ProjobshiftModel {
     }
        
     projobshift_id: string = "1";    
-    projobshift_shift: string = "";
+    shift_code: string = "";
 
     projobshift_sun: boolean = false;
     projobshift_mon: boolean = false;
@@ -21,6 +21,8 @@ export class ProjobshiftModel {
    
     projob_code: string = "";
     project_code: string = "";
+
+    version: string = "";
 
     modified_by: string = "";
     modified_date: string = "";
