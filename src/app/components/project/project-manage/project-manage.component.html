@@ -1391,7 +1391,7 @@
                         <label for="projobmain_name_en">{{title_jobmain_name[initial_current.Language]}} (EN)</label>
                         <textarea [rows]="2" id="projobmain_name_en" [(ngModel)]="selectedProjobmain.projobmain_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                     </div>
-                    <div class="field col-12">
+                    <!-- <div class="field col-12">
                         <label for="selectedProjobmain_type">{{title_jobmain_type[initial_current.Language]}}</label><br>
                         <p-dropdown [options]="projobtype_list" optionValue="value" [(ngModel)]="selectedProjobmain.projobmain_type" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -1401,7 +1401,7 @@
                                 {{initial_current.Language=="TH"? item.text_th : item.text_en}}
                             </ng-template>
                         </p-dropdown>
-                    </div>
+                    </div> -->
                     <!-- <div class="field col-12">
                         <label for="selectedProjobmain_shift">กะการทำงาน</label><br>
                         <p-dropdown [options]="polshift_list" [(ngModel)]="selectedProjobmain_shift" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
@@ -1457,7 +1457,7 @@
                             <label for="projobmain_autoot">Auto OT</label>
                         </div>
 					</div> -->
-                    <div class="field col-12">
+                    <!-- <div class="field col-12">
                         <label for="selectedProjobmain_timepol">{{title_jobmain_poltime[initial_current.Language]}}</label><br>
                         <p-dropdown [options]="poltimepol_list" optionValue="protimepol_code" [(ngModel)]="selectedProjobmain.projobmain_timepol" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -1489,7 +1489,7 @@
                                 {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
                             </ng-template>
                         </p-dropdown>
-                    </div>
+                    </div> -->
                     <div class="field col-12">
                         <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobmain_summit()"></p-button>
                         &nbsp;
