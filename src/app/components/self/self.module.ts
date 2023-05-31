@@ -55,6 +55,7 @@ import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.co
 import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 import { SelfAreaComponent } from './self-area/self-area.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { SelfDaytypeComponent } from './self-daytype/self-daytype.component';
 
 @NgModule({
 	imports: [
@@ -119,7 +120,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
               SelfWorkflowComponent,
               SelfAccountComponent,
               SelfLineapproveComponent,
-              SelfAreaComponent
+              SelfAreaComponent,
+              SelfDaytypeComponent
   ]
 })
 export class SelfModule { }
