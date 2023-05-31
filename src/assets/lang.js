@@ -658,6 +658,7 @@ var workflow = new Map([
     ["daytypereq", { TH: "เปลี่ยนประเภทวัน", EN: "Daytype" }],
     ["shiftreq", { TH: "เปลี่ยนกะ", EN: "Shift" }],
     ["onsitereq", { TH: "ทึกการลงเวลา", EN: "Onsite" }],
+    ["checkinreq", { TH: "เช็คอิน", EN: "Check in" }],
     ["position_level", { TH: "ระดับตำแหน่งาน", EN: "Position Level" }],
     ["position_select", { TH: "ระดับตำแหน่งาน ที่เลือก", EN: "Position Selected" }],
 ]);

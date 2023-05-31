@@ -12,11 +12,12 @@ import { SelfAccountComponent } from './self-account/self-account.component';
 import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.component';
 import { SelfAreaComponent } from './self-area/self-area.component';
 import { SelfDaytypeComponent } from './self-daytype/self-daytype.component';
+import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
 
 
 @NgModule({
-    imports: [RouterModule.forChild([ 
-       
+    imports: [RouterModule.forChild([
+
         { path: 'policy', component: SelfPolicyComponent },
 
         { path: 'workflow', component: SelfWorkflowComponent },
@@ -30,7 +31,8 @@ import { SelfDaytypeComponent } from './self-daytype/self-daytype.component';
         { path: 'req_shift', component: SelfChangeshiftComponent },
         { path: 'req_daytype', component: SelfDaytypeComponent },
         { path: 'req_record', component: SelfRecordtimeComponent },
-       
+        { path: 'req_checkin', component: SelfCheckinComponent },
+
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
