@@ -52,7 +52,8 @@ export class AreaServices {
             company_code: area.company_code || this.initial_current.CompCode,
             area_id: area.area_id,
             location_code: area.location_code,
-            project_code: area.project_code
+            project_code: area.project_code,
+            worker_code:area.worker_code
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/area_list', data, this.options).toPromise()
             .then((res) => {

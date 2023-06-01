@@ -59,7 +59,7 @@
                 [(selection)]="selectedreqdoc" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
                 [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-                [globalFilterFields]="['empleaveacc_annual','leave_name_th','leave_name_en','empleaveacc_used','empleaveacc_remain']"
+                [globalFilterFields]="['document_name','created_by','created_date']"
                 responsiveLayout="stack" [breakpoint]="'744px'">
                 <!-- Form Search Table -->
                 <ng-template pTemplate="caption">
@@ -136,7 +136,7 @@
         <p-table #dt1 [value]="trtimeshfit_list" selectionMode="single" [(selection)]="selectedtrtimeshfit"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['timeleave_doc','worker_detail_en','worker_detail_th','timeleave_fromdate','timeleave_todate','timeleave_type','reason_th','reason_en','status','modified_by','modified_date']"
+            [globalFilterFields]="['timeshift_doc','timeshift_workdate','shift_old_en','shift_old_th','shift_new_th','shift_new_en','reason_detail_th','reason_detail_en','status_job','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -182,7 +182,6 @@
                         =="EN"?data.reason_detail_en:data.reason_detail_th}}</td>
                     <td><span>{{langs.get('status')[selectlang]}}</span>{{getFullStatus(data.status_job)}}</td>
 
-                    <!-- <td><span>{{langs.get('status')[selectlang]}}</span>{{getFullStatus(data.status_job)}}</td> -->
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
                         date:'dd/MM/yyyy'}}</td>
@@ -191,31 +190,12 @@
             </ng-template>
         </p-table>
     </div>
-    <!-- <div class="col-12">
-        <p-menubar [model]="items"></p-menubar >
-        <p-table  [tableStyle]="{'min-width': '40rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" 
-        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-            [paginator]="true"
-        >
-            <ng-template pTemplate="header">
-                <tr>		
-                    <th>รหัสเอกสาร</th>	                    
-                    <th>วันที่</th>
-                    <th>กะการทำงานเดิม</th>
-                    <th>กะการทำงานใหม่</th>                   
-                    <th>สถานะเอกสาร</th>
-                    <th>ผู้ทำรายการ</th>
-                    <th>วันที่ทำรายการ</th>                                        
-                </tr>	
-            </ng-template>
-        </p-table>
-    </div> -->
 </div>
 <p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept="" required (change)="handleFileInputholidaylist($any($event).target.files)">
+        <input type="file"  #fileUploader accept="" required (change)="handleFileInputholidaylist($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>

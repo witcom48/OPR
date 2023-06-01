@@ -147,10 +147,11 @@ export class SelfAreaComponent implements OnInit {
           this.areas = new MTAreaModel();
           this.selectedlocation = this.locationList[0]
           this.selectedproject = this.projectList[0]
-          this.lat = 13.734110815755576;
-          this.long = 100.53175066697202;
-          this.areas.area_lat = 13.734110815755576;
-          this.areas.area_long = 100.53175066697202;
+          this.getLocation();
+          // this.lat = 13.734110815755576;
+          // this.long = 100.53175066697202;
+          // this.areas.area_lat = this.lat;
+          // this.areas.area_long = this.long;
           this.areas.area_distance = 1000;
           this.areas.location_code = this.locationList[0].code;
           this.areas.project_code = this.projectList[0].code;
@@ -185,6 +186,21 @@ export class SelfAreaComponent implements OnInit {
         }
       }
     ];
+  }
+  getLocation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const longitude = position.coords.longitude;
+        const latitude = position.coords.latitude;
+        this.lat = latitude;
+        this.long = longitude;
+        this.areas.area_lat = latitude;
+        this.areas.area_long = longitude;
+        // this.callApi(longitude, latitude);
+      });
+    } else {
+      console.log("No support for geolocation")
+    }
   }
   async setMap() {
     if (this.map == undefined) {

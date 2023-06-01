@@ -11,6 +11,7 @@ export class MTAreaModel {
   area_distance: number = 0;
   location_code: string = "";
   project_code: string = "";
+  worker_code: string = "";
 
   modified_by: string = "";
   modified_date: string = "";

@@ -94,7 +94,7 @@
                 [(selection)]="selectedreqdoc" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
                 [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-                [globalFilterFields]="['empleaveacc_annual','leave_name_th','leave_name_en','empleaveacc_used','empleaveacc_remain']"
+                [globalFilterFields]="['document_name','created_by','created_date']"
                 responsiveLayout="stack" [breakpoint]="'744px'">
                 <!-- Form Search Table -->
                 <ng-template pTemplate="caption">
@@ -170,7 +170,7 @@
         <p-table #dt1 [value]="trtimeleave_list" selectionMode="single" [(selection)]="selectedtrtimeleave"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['timeleave_doc','worker_detail_en','worker_detail_th','timeleave_fromdate','timeleave_todate','timeleave_type','reason_th','reason_en','status','modified_by','modified_date']"
+            [globalFilterFields]="['timeleave_doc','leave_detail_th','leave_detail_en','timeleave_fromdate','timeleave_todate','timeleave_type','reason_th','reason_en','status_job','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -270,25 +270,6 @@
             </ng-template>
         </p-table>
     </div>
-    <!-- <div class="col-12">       
-        <p-table  [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single" 
-        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-            [paginator]="true"
-        >
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>ประเภทการลา</th>
-                    <th>วันลายกมา</th>
-                    <th>วันลาต่อปี</th>
-                    <th>รวมวันลา</th>
-                    <th>วันลาใช้ไป</th>
-                    <th>วันลาคงเหลือ</th>
-                    <th>ปรับปรุงล่าสุด</th>                                  
-                </tr>	
-            </ng-template>
-        </p-table>
-    </div> -->
-
 </div>
 
 
@@ -296,7 +277,7 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept="" required (change)="handleFileInputholidaylist($any($event).target.files)">
+        <input type="file" #fileUploader accept="" required (change)="handleFileInputholidaylist($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
@@ -18,6 +18,7 @@ declare var reqdaytype: any;
   styleUrls: ['./self-daytype.component.scss']
 })
 export class SelfDaytypeComponent implements OnInit {
+  @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
   langs: any = reqdaytype;
   selectlang: string = "EN";
   reasonedis: string = "reason_name_en"
@@ -250,6 +251,7 @@ export class SelfDaytypeComponent implements OnInit {
         header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
+          this.fileUploader.nativeElement.value = null;
           this.Uploadfile = false;
           this.doUploadFile();
         },

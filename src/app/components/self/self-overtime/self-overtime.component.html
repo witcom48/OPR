@@ -77,7 +77,7 @@
             <p-table #dt3 [value]="selectedtrtimeot.reqdoc_data" selectionMode="single" [(selection)]="selectedreqdoc"
                 (onRowSelect)="onRowSelectfile($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-                [globalFilterFields]="['empleaveacc_annual','leave_name_th','leave_name_en','empleaveacc_used','empleaveacc_remain']"
+                [globalFilterFields]="['document_name','created_by','created_date']"
                 responsiveLayout="stack" [breakpoint]="'744px'">
                 <!-- Form Search Table -->
                 <ng-template pTemplate="caption">
@@ -141,7 +141,7 @@
         <p-table #dt1 [value]="trtimeot_list" selectionMode="single" [(selection)]="selectedtrtimeot"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['timeleave_doc','worker_detail_en','worker_detail_th','timeleave_fromdate','timeleave_todate','timeleave_type','reason_th','reason_en','status','modified_by','modified_date']"
+            [globalFilterFields]="['timeot_doc','timeot_workdate','timeot_beforemin_hrs','timeot_normalmin_hrs','timeot_break_hrs','timeot_aftermin_hrs','reason_name_th','reason_name_en','status_job','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
@@ -196,23 +196,6 @@
                 </tr>
             </ng-template>
         </p-table>
-        <!-- <p-table  [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" 
-        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-            [paginator]="true"
-        >
-            <ng-template pTemplate="header">
-                <tr>		
-                    <th>รหัสเอกสาร</th>	                    
-                    <th>วันที่</th>                    
-                    <th>ก่อนเข้างาน</th>
-                    <th>เวลาปกติ</th>
-                    <th>หลังเลิกงาน</th>
-                    <th>สถานะเอกสาร</th>
-                    <th>ผู้ทำรายการ</th>
-                    <th>วันที่ทำรายการ</th>                                        
-                </tr>	
-            </ng-template>
-        </p-table> -->
     </div>
 </div>
 

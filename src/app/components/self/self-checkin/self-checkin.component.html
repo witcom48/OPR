@@ -1,1 +1,161 @@
-<p>self-checkin works!</p>
+<!-- Link Page -->
+<div class="path">
+    <span>{{langs.get('title')[selectlang]}}</span>
+    <div>
+        <i></i>
+        <a routerLink="/self/employee">{{langs.get('employee')[selectlang]}}</a>
+        <i></i>
+        <small>{{langs.get('title_checkin')[selectlang]}}</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<div class="grid">
+    <div class="col-12">
+        <p-menubar [model]="items"></p-menubar>
+        <p-table #dt1 [value]="timecheckin_list" selectionMode="single" [(selection)]="selectedtimecheckin"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['timecheckin_doc','timecheckin_workdate','timecheckin_time','timecheckin_type','location_name_en','location_name_th','status_job','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>{{langs.get('no')[selectlang]}}</th>
+                    <th>{{langs.get('checkin_doc')[selectlang]}}</th>
+                    <th>{{langs.get('date')[selectlang]}}</th>
+                    <th>{{langs.get('time')[selectlang]}}</th>
+                    <th>{{langs.get('type')[selectlang]}}</th>
+                    <th>{{langs.get('location')[selectlang]}}</th>
+                    <th>{{langs.get('status')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr [pSelectableRow]="data">
+                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                    <td><span>{{langs.get('checkin_doc')[selectlang]}}</span>{{data.timecheckin_doc}}</td>
+                    <td><span>{{langs.get('date')[selectlang]}}</span>{{data.timecheckin_workdate| date:'dd/MM/yyyy'}}
+                    </td>
+                    <td><span>{{langs.get('time')[selectlang]}}</span>{{data.timecheckin_time}}</td>
+                    <td><span>{{langs.get('type')[selectlang]}}</span>{{getFulltype(data.timecheckin_type)}}</td>
+                    <td><span>{{langs.get('location')[selectlang]}}</span>{{selectlang
+                        =="EN"?data.location_name_en:data.location_name_th}}</td>
+                    <td><span>{{langs.get('status')[selectlang]}}</span>{{getFullStatus(data.status_job)}}</td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog header="{{langs.get('manage')[selectlang]}}" [(visible)]="displayManage" [style]="{width: '50vw'}"
+    [position]="position" (onHide)="closeManage()">
+    <div class="formgrid grid align-items-end">
+
+
+        <div class="field col-12 md:col-6" style="margin-top: 2%;">
+            <p-calendar [(ngModel)]="selectedtimecheckin.timecheckin_workdate" dateFormat="dd/mm/yy" inputId="date_from"
+                [disabled]="true"></p-calendar>
+        </div>
+        <div class="field col-12">
+            <div style="height: 50vh;" id="map">
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-6" *ngIf="edit_data">
+            <label for="ppos_shift_code">{{langs.get('location')[selectlang]}}</label>
+            <p-dropdown class="selectyaer" [options]="location_list" [(ngModel)]="locationselected"
+                (onChange)="selectlocation()" optionLabel={{locatiodis}} [disabled]="true"></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-3">
+            <label for="ppos_shift_code">{{langs.get('type')[selectlang]}}</label>
+            <p-dropdown class="selectyaer" [options]="type_list" [(ngModel)]="typeselected" (onChange)="selecttype()"
+                optionLabel="name"></p-dropdown>
+        </div>
+
+        <div class="field col-12" style="display:flex;flex-direction: column;">
+            <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
+            <textarea [(ngModel)]="selectedtimecheckin.timecheckin_note" pInputTextarea [autoResize]="true"></textarea>
+        </div>
+
+        <div class="field col-12">
+            <p-menubar [model]="items_attfile"></p-menubar>
+            <p-table #dt3 [value]="selectedtimecheckin.reqdoc_data" selectionMode="single"
+                [(selection)]="selectedreqdoc" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                [globalFilterFields]="['document_name','created_by','created_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+                <!-- Form Search Table -->
+                <ng-template pTemplate="caption">
+                    <div class="searchtable">
+                        <div>
+
+                        </div>
+
+                    </div>
+                </ng-template>
+                <!-- --------------END Form Search Table------------------ -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>{{langs.get('no')[selectlang]}}</th>
+                        <th>{{langs.get('file_name')[selectlang]}}</th>
+                        <th>{{langs.get('modified_by')[selectlang]}}</th>
+                        <th>{{langs.get('modified_date')[selectlang]}}</th>
+                        <th>{{langs.get('delete')[this.selectlang]}}</th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                    <tr [pSelectableRow]="data">
+                        <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                        <td><span>{{langs.get('file_name')[selectlang]}}</span>{{data.document_name}}</td>
+                        <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.created_by}}</td>
+                        <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.created_date |
+                            date:'dd/MM/yyyy'}}</td>
+                        <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-trash"
+                                styleClass="p-button-danger" (click)="DeleteFile(data)"></p-button></td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div class="field col-12">
+            <p-button label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"></p-button>
+            &nbsp;
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('delete')[selectlang]}}"
+                class="p-button-danger" (click)="Delete()"></button>
+        </div>
+
+    </div>
+</p-dialog>
+<p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>

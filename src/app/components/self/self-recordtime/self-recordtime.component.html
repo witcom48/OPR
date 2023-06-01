@@ -60,7 +60,7 @@
                 [(selection)]="selectedreqdoc" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
                 [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-                [globalFilterFields]="['empleaveacc_annual','leave_name_th','leave_name_en','empleaveacc_used','empleaveacc_remain']"
+                [globalFilterFields]="['document_name','created_by','created_date']"
                 responsiveLayout="stack" [breakpoint]="'744px'">
                 <!-- Form Search Table -->
                 <ng-template pTemplate="caption">
@@ -120,7 +120,7 @@
         <p-table #dt1 [value]="trtimonsite_list" selectionMode="single" [(selection)]="selectedtrtimeonsite"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['timeleave_doc','worker_detail_en','worker_detail_th','timeleave_fromdate','timeleave_todate','timeleave_type','reason_th','reason_en','status','modified_by','modified_date']"
+            [globalFilterFields]="['timeonsite_doc','timeonsite_workdate','timeonsite_in','timeonsite_out','location_name_en','location_name_th','reason_name_th','reason_name_en','status_job','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">

@@ -18,7 +18,6 @@ declare var reqot: any;
   styleUrls: ['./self-overtime.component.scss']
 })
 export class SelfOvertimeComponent implements OnInit {
-  // @ViewChild('fileUploader') fileUploader:ElementRef | undefined;
   @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
   langs: any = reqot;
   selectlang: string = "EN";

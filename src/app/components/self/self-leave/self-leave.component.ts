@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { timeStamp } from 'console';
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
@@ -19,6 +19,7 @@ declare var reqleave: any;
   styleUrls: ['./self-leave.component.scss']
 })
 export class SelfLeaveComponent implements OnInit {
+  @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
   langs: any = reqleave;
   selectlang: string = "EN";
   leavetypedis: string = "leave_name_en"
@@ -281,6 +282,7 @@ export class SelfLeaveComponent implements OnInit {
         header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
+          this.fileUploader.nativeElement.value = null;
           this.Uploadfile = false;
           this.doUploadFile();
         },

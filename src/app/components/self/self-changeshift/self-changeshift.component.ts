@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
@@ -19,6 +19,7 @@ declare var reqshift: any;
   styleUrls: ['./self-changeshift.component.scss']
 })
 export class SelfChangeshiftComponent implements OnInit {
+  @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
   langs: any = reqshift;
   selectlang: string = "EN";
   displayManage: boolean = false;
@@ -276,6 +277,7 @@ export class SelfChangeshiftComponent implements OnInit {
         header: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
+          this.fileUploader.nativeElement.value = null;
           this.Uploadfile = false;
           this.doUploadFile();
         },
