@@ -14,6 +14,7 @@ import { SelfAreaComponent } from './self-area/self-area.component';
 import { SelfDaytypeComponent } from './self-daytype/self-daytype.component';
 import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
 import { SelfTopicComponent } from './self-topic/self-topic.component';
+import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { SelfTopicComponent } from './self-topic/self-topic.component';
         { path: 'req_daytype', component: SelfDaytypeComponent },
         { path: 'req_record', component: SelfRecordtimeComponent },
         { path: 'req_checkin', component: SelfCheckinComponent },
+        { path: 'req_reqdoc', component: SelfReqdocComponent },
 
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },

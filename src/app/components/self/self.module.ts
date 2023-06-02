@@ -58,6 +58,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { SelfDaytypeComponent } from './self-daytype/self-daytype.component';
 import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
 import { SelfTopicComponent } from './self-topic/self-topic.component';
+import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
 
 @NgModule({
 	imports: [
@@ -125,7 +126,8 @@ import { SelfTopicComponent } from './self-topic/self-topic.component';
               SelfAreaComponent,
               SelfDaytypeComponent,
               SelfCheckinComponent,
-              SelfTopicComponent
+              SelfTopicComponent,
+              SelfReqdocComponent
   ]
 })
 export class SelfModule { }
