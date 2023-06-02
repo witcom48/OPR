@@ -13,6 +13,7 @@ import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.co
 import { SelfAreaComponent } from './self-area/self-area.component';
 import { SelfDaytypeComponent } from './self-daytype/self-daytype.component';
 import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
+import { SelfTopicComponent } from './self-topic/self-topic.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
         { path: 'lineapprove', component: SelfLineapproveComponent },
         { path: 'account', component: SelfAccountComponent },
         { path: 'area', component: SelfAreaComponent },
+        { path: 'topic', component: SelfTopicComponent },
 
         { path: 'employee', component: SelfEmployeeComponent },
         { path: 'req_leave', component: SelfLeaveComponent },
