@@ -49,4 +49,6 @@ employee_code: any;
 
     position_name_th: string = "";
     position_name_en: string = "";
+
+    selected_Import: string = "";
   }

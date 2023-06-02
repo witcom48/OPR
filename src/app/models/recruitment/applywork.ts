@@ -26,5 +26,7 @@ export class ApplyworkModel {
     index: number = 0;
     select: boolean = false;
 
+    selected_Import: string = "";
+
 
 }

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
-import { ConfirmationService, MegaMenuItem,MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 
@@ -23,6 +23,13 @@ import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
 import { PositionService } from 'src/app/services/emp/policy/position.service';
 import { PositionModel } from 'src/app/models/employee/policy/position';
 
+
+interface ImportList {
+  name_th: string,
+  name_en: string,
+  code: string
+}
+
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
@@ -32,25 +39,56 @@ export class EmployeeListComponent implements OnInit {
 
 
   employee_list: EmployeeModel[] = [];
-  selectedemployee : EmployeeModel = new EmployeeModel();
+  selectedemployee: EmployeeModel = new EmployeeModel();
+
   items: MenuItem[] = [];
   edit_employee: boolean = false;
   new_employee: boolean = false;
 
+  ImportList: ImportList[] = [];
+
+
   constructor(
-    private employeeService : EmployeeService,
-    private router:Router,
+    private employeeService: EmployeeService,
+    private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
 
 
-    private initialService : InitialService,
-    private positionService : PositionService,
-    private emptypeService : EmptypeService,
+    private initialService: InitialService,
+    private positionService: PositionService,
+    private emptypeService: EmptypeService,
     private empstatusService: EmpstatusService,
     private empdetailService: EmpDetailService,
-    ) { }
+  ) {
+    this.ImportList = [
+      { name_th: 'ข้อมูลพนักงาน', name_en: 'Employee info', code: 'EMPLOYEE' },
+      { name_th: 'ข้อมูลที่อยู่พนักงาน', name_en: 'Employee Address', code: 'EMPADDRESS' },
+      { name_th: 'ข้อมูลบัตรพนักงาน', name_en: 'Employee Cards', code: 'EMPCARD' },
+      { name_th: 'ข้อมูลบัญชีธนาคาร', name_en: 'Employee Bank account', code: 'EMPBANK' },
+      { name_th: 'ข้อมูลครอบครัวพนักงาน', name_en: 'Employee Family', code: 'EMPFAMILY' },
+      { name_th: 'ข้อมูลโรงพยาบาล', name_en: 'Employee Hospital', code: 'EMPHOSPITAL' },
+      { name_th: 'ข้อมูลพนักงานต่างด้าว', name_en: 'Employee Foreigner', code: 'EMPFOREIGNER' },
+      { name_th: 'ข้อมูลสังกัดพนักงาน', name_en: 'Employee Department', code: 'EMPDEP' },
+      { name_th: 'ข้อมูลตำแหน่ง', name_en: 'Employee Position', code: 'EMPPOSITION' },
+      { name_th: 'ข้อมูลการศึกษา', name_en: 'Employee Education', code: 'EMPEDUCATION' },
+      { name_th: 'ข้อมูลการฝึกอบรม', name_en: 'Employee Training', code: 'EMPTRAINING' },
+      { name_th: 'ข้อมูลการประเมิน', name_en: 'Employee Assessment', code: 'EMPASSESSMENT' },
+      { name_th: 'ข้อมูลอาชญากรรม', name_en: 'Employee Criminal', code: 'EMPCRIMINAL' },
+      { name_th: 'ข้อมูลgเงินเดือนพนักงาน', name_en: 'Employee Salary', code: 'EMPSALARY' },
+      { name_th: 'ข้อมูลกองทุนสำรองฯ', name_en: 'Employee Provident', code: 'EMPPROVIDENT' },
+      { name_th: 'ข้อมูลสวัสดิการพนักงาน', name_en: 'Employee Benefits', code: 'EMPBENEFIT' },
+      { name_th: 'ข้อมูลค่าลดหย่อนพนักงาน', name_en: 'Employee Reduce', code: 'EMPREDUCE' },
+      { name_th: 'ข้อมูลสถานที่ปฏิบัติงาน', name_en: 'Employee Location', code: 'EMPLOCATION' },
+      { name_th: 'ข้อมูลกลุ่มพนักงาน', name_en: 'Employee Group', code: 'EMPGROUP' },
+      { name_th: 'ข้อมูลสาขาพนักงาน', name_en: 'Employee Branch', code: 'EMPBRANCH' },
+      { name_th: 'ข้อมูลอุปกรณ์สำนักงาน', name_en: 'Employee Supply', code: 'EMPSUPPLY' },
+      { name_th: 'ข้อมูลชุดของพนักงาน', name_en: 'Employee Uniform', code: 'EMPUNIFORM' },
+      { name_th: 'ข้อมูลผู้แนะนำของพนักงาน', name_en: 'Employee Suggest', code: 'EMPSUGGEST' },
+    ];
+
+  }
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -154,130 +192,88 @@ export class EmployeeListComponent implements OnInit {
 
     }
   }
-  
-  doLoadMenu(){
+
+  doLoadMenu() {
     this.items = [
-   
+
       {
-        label:'New',
-        icon:'pi pi-fw pi-plus',
+        label: 'New',
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.selectedemployee = new EmployeeModel();
           this.selectEmpManage();
           // this.new_employee= true;
           // this.edit_employee= false;
         }
-        
-      },    
+
+      },
       {
-          label:'Import',
-          icon:'pi pi-fw pi-file-import',      
-          command: (event) => {
-            this.showUpload()
-           
-          }    
-      },    
+        label: 'Import',
+        icon: 'pi pi-fw pi-file-import',
+        command: (event) => {
+          this.showUpload()
+
+        }
+      },
       {
-          label:'Export',
-          icon:'pi pi-fw pi-file-export',      
-          command: (event) => {
-            this.exportAsExcel()
-           
-          }    
+        label: 'Export',
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel()
+
+        }
       }
-      
+
     ];
 
   }
   //get data
-  initialList:  InitialModel[] = [];
-  doLoadInitialList(){
+  initialList: InitialModel[] = [];
+  doLoadInitialList() {
     this.initialService.initial_get().then((res) => {
       this.initialList = res;
     })
   }
   emptypeList: EmptypeModel[] = [];
-  doLoadEmptypeList(){
-    this.emptypeService.type_get().then((res)=>{
+  doLoadEmptypeList() {
+    this.emptypeService.type_get().then((res) => {
       this.emptypeList = res;
     })
   }
   statusList: EmpstatusModel[] = [];
-  doLoadEmpstatusList(){
-    this.empstatusService.status_get().then((res)=>{
+  doLoadEmpstatusList() {
+    this.empstatusService.status_get().then((res) => {
       this.statusList = res;
     })
   }
 
-  emppositionList : EmpPositionModel[]=[];
-  doLoadempposition(worker_code:string){
-    this.empdetailService.getworker_position(this.initial_current.CompCode,worker_code).then(async(res)=>{
+  emppositionList: EmpPositionModel[] = [];
+  doLoadempposition(worker_code: string) {
+    this.empdetailService.getworker_position(this.initial_current.CompCode, worker_code).then(async (res) => {
       this.emppositionList = await res;
     })
   }
-  positionList: PositionModel[]=[];
-  doloadposition(){
-    this.positionService.position_get().then(async(res)=>{
-      res.forEach((element: PositionModel)=>{
+  positionList: PositionModel[] = [];
+  doloadposition() {
+    this.positionService.position_get().then(async (res) => {
+      res.forEach((element: PositionModel) => {
       })
       this.positionList = await res
     })
   }
 
-  
+
 
   // selectedEmployee: EmployeeModel = new EmployeeModel;
-  workerCurrent:number = 0;
-  doLoadEmployee(){
-    this.employeeService.worker_get(this.initial_current.CompCode,"").then(async(res) =>{
+  workerCurrent: number = 0;
+  doLoadEmployee() {
+    this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
       await res.forEach((element: EmployeeModel) => {
         element.worker_hiredate = new Date(element.worker_hiredate)
       })
       this.employee_list = await res;
       this.workerCurrent = this.employee_list.length;
     });
-    
-    
-    // var tmp = new EmployeeModel();
-
-    // tmp.worker_id = "1";
-    // tmp.worker_code = "2022120001";
-    // tmp.worker_card = "2022120001";
-    // tmp.worker_initial = "นาย";
-    // tmp.worker_fname_th = "ศรัณย์";
-    // tmp.worker_lname_th = "ศรีห่วง";
-    // tmp.worker_type = "ประจำ";
-    // tmp.worker_position = "พนักงานทำความสะอาด";
-    // tmp.worker_hiredate = new Date(2022, 0, 1);
-
-    // tmp.approve_by = "hropr";
-    // tmp.modified_by = "hropr";
-
-    // tmp.worker_status = "อนุมัติ [3/3]";
-
-    // this.employee_list.push(tmp);
-
-    
-    // tmp = new EmployeeModel();
-
-    // tmp.worker_id = "2";
-    // tmp.worker_code = "2022120002";
-    // tmp.worker_card = "2022120002";
-    // tmp.worker_initial = "นาย";
-    // tmp.worker_fname_th = "สะอาด";
-    // tmp.worker_lname_th = "สุขสมบูรณ์";
-    // tmp.worker_type = "ประจำ";
-    // tmp.worker_position = "พนักงานทำความสะอาด";
-    // tmp.worker_hiredate = new Date(2022, 3, 1);
-
-    // tmp.approve_by = "hropr";
-    // tmp.modified_by = "hropr";
-
-    // tmp.worker_status = "อนุมัติ [3/3]";
-
-    // this.employee_list.push(tmp);
-
-    // tmp = new EmployeeModel();
   }
 
   confirmRecord() {
@@ -290,13 +286,14 @@ export class EmployeeListComponent implements OnInit {
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-      }
+      },
+      key: "myDialog"
     });
     console.log(this.selectedemployee);
   }
 
-  doRecordEmployee(){
-    
+  doRecordEmployee() {
+
     this.employeeService.worker_recordall(this.selectedemployee).then((res) => {
       console.log(res)
       let result = JSON.parse(res);
@@ -326,16 +323,16 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  doDeleteEmployee(){
+  doDeleteEmployee() {
     console.log(this.selectedemployee);
   }
 
-  close(){
-    this.new_employee=false
+  close() {
+    this.new_employee = false
     this.selectedemployee = new EmployeeModel()
   }
   onRowSelectEmployee(event: Event) {
-    this.edit_employee= true;
+    this.edit_employee = true;
     this.new_employee = true;
   }
 
@@ -344,31 +341,386 @@ export class EmployeeListComponent implements OnInit {
     this.fileToUpload = file.item(0);
   }
 
-  doUploadEmployee(){
-    console.log('Upload');
+  doUploadAll() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({
         message: "Confirm Upload file : " + this.fileToUpload.name,
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          const filename = "EMPLOYEE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+          const filename = this.selectedemployee.selected_Import + "_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
           const filetype = "xls";
+          
+          switch (this.selectedemployee.selected_Import) {
+            //impport employee
+            case 'EMPLOYEE':
+              this.employeeService.worker_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
 
-          this.employeeService.worker_import(this.fileToUpload, filename, filetype).then((res) => {
-            console.log(res)
-            let result = JSON.parse(res);
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp address
+            case 'EMPADDRESS':
+              this.empdetailService.empaddress_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
 
-            if (result.success) {
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-              this.doLoadEmployee();
-              this.edit_employee = false;
-              this.new_employee = false;
-            }
-            else {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-            }
-          });
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp card
+            case 'EMPCARD':
+              this.empdetailService.empcard_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp bank
+            case 'EMPBANK':
+              this.empdetailService.empbank_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            // import emp family
+            case 'EMPFAMILY':
+              this.empdetailService.empfamily_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp hospital
+            case 'EMPHOSPITAL':
+              this.empdetailService.emphospital_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp foreigner
+            case 'EMPFOREIGNER':
+              this.empdetailService.empforeigner_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp dep
+            case 'EMPDEP':
+              this.empdetailService.empdep_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp position
+            case 'EMPPOSITION':
+              this.empdetailService.empposition_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            // import emp education
+            case 'EMPEDUCATION':
+              this.empdetailService.empeducation_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp training
+            case 'EMPTRAINING':
+              this.empdetailService.emptraining_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp assessement
+            case 'EMPASSESSMENT':
+              this.empdetailService.empassessment_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp criminal
+            case 'EMPCRIMINAL':
+              this.empdetailService.empcriminal_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp salary
+            case 'EMPSALARY':
+              this.empdetailService.empsalary_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp provident
+            case 'EMPPROVIDENT':
+              this.empdetailService.empprovident_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp benefit
+            case 'EMPBENEFIT':
+              this.empdetailService.empbenefit_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp reduce
+            case 'EMPREDUCE':
+              this.empdetailService.empreduce_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp location
+            case 'EMPLOCATION':
+              this.empdetailService.emplocation_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp group
+            case 'EMPGROUP':
+              this.empdetailService.empgroup_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp branch
+            case 'EMPBRANCH':
+              this.empdetailService.empbranch_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp supply
+            case 'EMPSUPPLY':
+              this.empdetailService.empsupply_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp uniform
+            case 'EMPUNIFORM':
+              this.empdetailService.empuniform_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+            //import emp suggest
+            case 'EMPSUGGEST':
+              this.empdetailService.empsuggest_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadEmployee();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+          }
+
           this.displayUpload = false;
         },
         reject: () => {
@@ -396,9 +748,8 @@ export class EmployeeListComponent implements OnInit {
 
   @ViewChild('TABLE') table: ElementRef | any = null;
 
-  exportAsExcel()
-  {
-    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+  exportAsExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -406,17 +757,17 @@ export class EmployeeListComponent implements OnInit {
 
   }
 
-  selectEmpManage(){
+  selectEmpManage() {
 
     console.log(this.selectedemployee.worker_code)
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
-          "empcode": this.selectedemployee.worker_code
+        "empcode": this.selectedemployee.worker_code
       }
     };
 
-    this.router.navigate(["employee/manage"],  navigationExtras);
+    this.router.navigate(["employee/manage"], navigationExtras);
   }
 
 

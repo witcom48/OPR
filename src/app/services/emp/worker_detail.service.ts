@@ -294,8 +294,12 @@ export class EmpDetailService {
       item_data = item_data + "\"bank_id\":\"" + list[i].bank_id + "\"";
       item_data = item_data + ",\"bank_code\":\"" + list[i].bank_code + "\"";
       item_data = item_data + ",\"bank_account\":\"" + list[i].bank_account + "\"";
-      item_data = item_data + ",\"bank_percent\":\"" + list[i].bank_percent + "\"";
-      item_data = item_data + ",\"bank_cashpercent\":\"" + list[i].bank_cashpercent + "\"";
+      if(list[i].bank_percent){
+        item_data = item_data + ",\"bank_percent\":\"" + list[i].bank_percent + "\"";
+      }
+      if(list[i].bank_cashpercent){
+        item_data = item_data + ",\"bank_cashpercent\":\"" + list[i].bank_cashpercent + "\"";
+      }
       item_data = item_data + ",\"bank_bankname\":\"" + list[i].bank_bankname + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
@@ -1784,7 +1788,7 @@ export class EmpDetailService {
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpUniform?' + para, formData).toPromise()
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpUnifrom?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });

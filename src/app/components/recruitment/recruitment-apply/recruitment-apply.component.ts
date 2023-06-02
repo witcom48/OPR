@@ -225,6 +225,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doLoadmajorList();
         this.doLoadqualificationList();
         this.doLoadcourseList();
+        this.doLoadSuggestList();
 
         setTimeout(() => {
             this.doLoadMenu();
@@ -233,6 +234,8 @@ export class RecruitmentApplyComponent implements OnInit {
         setTimeout(() => {
             if (this.req_code != '') {
                 this.doLoadApplywork();
+            }else{
+                this.createReqID();
             }
         }, 400);
     }
@@ -854,7 +857,7 @@ export class RecruitmentApplyComponent implements OnInit {
                         this.doLoadReqassessmentList();
                         this.doLoadReqCriminalList();
 
-                        // this.doLoadReqSuggestList();
+                        this.doLoadReqSuggestList();
 
                     }, 300);
                 }
@@ -862,6 +865,14 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     //get data dropdown
+    //ผู้แนะนำ
+    suggest_List: EmployeeModel[] = [];
+    doLoadSuggestList() {
+        var tmp = new EmployeeModel();
+        this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
+            this.suggest_List = await res;
+        })
+    }
     // คำนำหน้า
     initialList: InitialModel[] = [];
     doLoadInitialList() {
@@ -1562,7 +1573,8 @@ export class RecruitmentApplyComponent implements OnInit {
             },
             reject: () => {
                 this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-            }
+            },
+            key: "myDialog"
         });
     }
 
@@ -1583,5 +1595,10 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_training = false; this.edit_reqtraining = false;
         this.new_assessment = false; this.edit_reqassessment = false;
         this.new_criminal = false; this.edit_reqcriminal = false;
+    }
+
+    newDateTime = new Date();
+    createReqID(){
+        this.selectedReqworker.worker_code = "REQ"+this.datePipe.transform(this.newDateTime, 'yyyyMMddHHmm');
     }
 }

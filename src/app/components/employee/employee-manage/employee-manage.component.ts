@@ -27,6 +27,12 @@ import { EmpAccumalateModel } from '../../../models/employee/manage/accumalate';
 import { PositionModel } from '../../../models/employee/policy/position';
 import { EmpSupplyModel } from 'src/app/models/employee/manage/empsupply';
 import { EmpUniformModel } from 'src/app/models/employee/manage/empuniform';
+import { InstituteModel } from 'src/app/models/system/policy/institute';
+import { CourseModel } from 'src/app/models/system/policy/course';
+import { FacultyModel } from 'src/app/models/system/policy/faculty';
+import { MajorModel } from 'src/app/models/system/policy/major';
+import { QualificationModel } from 'src/app/models/system/policy/qualification';
+import { ProvinceModel } from 'src/app/models/system/policy/province';
 
 //import service
 import { EmployeeService } from '../../../services/emp/worker.service';
@@ -67,6 +73,12 @@ import { GroupService } from 'src/app/services/emp/policy/group.service';
 import { GroupModel } from 'src/app/models/employee/policy/group';
 import { LevelModel } from 'src/app/models/system/policy/level';
 import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
+import { InstituteService } from 'src/app/services/system/policy/institute.service';
+import { FacultyService } from 'src/app/services/system/policy/faculty.service';
+import { MajorService } from 'src/app/services/system/policy/major.service';
+import { QualificationService } from 'src/app/services/system/policy/qualification.service';
+import { CourseService } from 'src/app/services/system/policy/course.service';
+import { ProvinceService } from 'src/app/services/system/policy/province.service';
 
 
 
@@ -236,16 +248,22 @@ export class EmployeeManageComponent implements OnInit {
     private empstatusService: EmpstatusService,
     private positionService: PositionService,
     private groupService: GroupService,
-    private locationService : LocationService,
-    private combranchService : CombranchService,
+    private locationService: LocationService,
+    private combranchService: CombranchService,
     private bloodtypeService: BloodtypeService,
     private religionService: ReligionService,
     private addresstypeService: AddresstypeService,
     private cardtypeService: CardtypeService,
-    private bankService : BankService,
-    private familytypeService : FamilyService,
+    private bankService: BankService,
+    private familytypeService: FamilyService,
     private hospitalService: HospitalService,
     private depService: PartService,
+    private instituteService: InstituteService,
+    private facultyService: FacultyService,
+    private majorService: MajorService,
+    private qualificationService: QualificationService,
+    private courseService: CourseService,
+    private provinceService: ProvinceService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -289,6 +307,14 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadFamilytypeList();
     this.doLoadHospitalList();
     this.doLoadDepLiat();
+
+    this.doLoadinstituteList();
+    this.doLoadfacultyList();
+    this.doLoadmajorList();
+    this.doLoadqualificationList();
+    this.doLoadcourseList();
+
+    this.doLoadprovinceList();
 
     this.doLoadSuggestList();
 
@@ -460,7 +486,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_education = 'ประวัติการศึกษา';
       this.title_supply = 'อุปกรณ์สำนักงาน';
       this.title_uniform = 'เครื่องแบบพนักงาน';
-      this,this.title_suggest = 'ผู้แนะนำ';
+      this, this.title_suggest = 'ผู้แนะนำ';
       this.title_training = 'ประวัติการอบรม';
       this.title_assessment = 'ประวัติการประเมิน';
       this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
@@ -620,13 +646,6 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
@@ -665,12 +684,6 @@ export class EmployeeManageComponent implements OnInit {
           if (this.selectedEmpcard != null) {
             this.empcard_remove()
           }
-        }
-      },
-      {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
         }
       },
       {
@@ -714,12 +727,6 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
@@ -757,13 +764,6 @@ export class EmployeeManageComponent implements OnInit {
           if (this.selectedEmpfamily != null) {
             this.empfamily_remove()
           }
-        }
-      },
-      {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
         }
       },
       {
@@ -807,13 +807,6 @@ export class EmployeeManageComponent implements OnInit {
           if (this.selectedEmphospital != null) {
             this.emphospital_remove()
           }
-        }
-      },
-      {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
         }
       },
       {
@@ -861,13 +854,6 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
@@ -911,20 +897,13 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
           console.log("EXPORT");
         }
       }]
-      //menu Group
+    //menu Group
     this.menu_empgroup = [
       {
         label: 'New',
@@ -958,13 +937,6 @@ export class EmployeeManageComponent implements OnInit {
           if (this.selectedEmpGroup != null) {
             this.empgroup_remove();
           }
-        }
-      },
-      {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
         }
       },
       {
@@ -1011,20 +983,13 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
           console.log("EXPORT");
         }
       }]
-      //menu Supply
+    //menu Supply
     this.menu_empsupply = [
       {
         label: 'New',
@@ -1061,13 +1026,6 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
@@ -1075,7 +1033,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       }]
 
-      //menu Uniform
+    //menu Uniform
     this.menu_empuniform = [
       {
         label: 'New',
@@ -1110,19 +1068,13 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
         }
       }]
 
-      //menu Suggest
+    //menu Suggest
     this.menu_empsuggest = [
       {
         label: 'New',
@@ -1156,7 +1108,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
 
     //menu training
     this.menu_emptraining = [
@@ -1192,13 +1144,6 @@ export class EmployeeManageComponent implements OnInit {
           if (this.selectedEmptraining != null) {
             this.emptraining_remove()
           }
-        }
-      },
-      {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
         }
       },
       {
@@ -1245,13 +1190,6 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
@@ -1292,13 +1230,6 @@ export class EmployeeManageComponent implements OnInit {
           if (this.selectedEmpcriminal != null) {
             this.empcriminal_remove()
           }
-        }
-      },
-      {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
         }
       },
       {
@@ -1345,13 +1276,6 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
@@ -1392,13 +1316,6 @@ export class EmployeeManageComponent implements OnInit {
           if (this.selectedEmpprovident != null) {
             this.empprovident_remove()
           }
-        }
-      },
-      {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
         }
       },
       {
@@ -1445,13 +1362,6 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
-        }
-      },
-      {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
@@ -1492,13 +1402,6 @@ export class EmployeeManageComponent implements OnInit {
           if (this.selectedEmpreduce != null) {
             this.empreduce_remove()
           }
-        }
-      },
-      {
-        label: 'Import',
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          console.log("IMPORT");
         }
       },
       {
@@ -1818,89 +1721,132 @@ export class EmployeeManageComponent implements OnInit {
       this.positionList = res;
     })
   }
-  groupList: GroupModel []= [];
-  doLoadGroupList(){
-    this.groupService.group_get().then((res)=>{
-      this.groupList=res;
+  groupList: GroupModel[] = [];
+  doLoadGroupList() {
+    this.groupService.group_get().then((res) => {
+      this.groupList = res;
     })
   }
   locationList: LocationModel[] = [];
-  doLoadLocationList(){
+  doLoadLocationList() {
     var tmp = new LocationModel();
-    this.locationService.location_get(tmp).then(async(res)=>{
-      this.locationList = await res ;
+    this.locationService.location_get(tmp).then(async (res) => {
+      this.locationList = await res;
     })
   }
   combranchList: CombranchModel[] = [];
-  doLoadCombranchList(){
+  doLoadCombranchList() {
     var tmp = new CombranchModel();
-    this.combranchService.combranch_get('').then(async(res)=>{
-      this.combranchList = await res ;
+    this.combranchService.combranch_get('').then(async (res) => {
+      this.combranchList = await res;
     })
   }
-  bloodtypeList: BloodtypeModel[]=[];
-  doLoadBloodtypeList(){
+  bloodtypeList: BloodtypeModel[] = [];
+  doLoadBloodtypeList() {
     var tmp = new BloodtypeModel();
-    this.bloodtypeService.bloodtype_get().then(async(res)=>{
-      this.bloodtypeList = await res ;
+    this.bloodtypeService.bloodtype_get().then(async (res) => {
+      this.bloodtypeList = await res;
     })
   }
-  religionList: ReligionModel[]=[];
-  doLoadReligionList(){
+  religionList: ReligionModel[] = [];
+  doLoadReligionList() {
     var tmp = new ReligionModel();
-    this.religionService.religion_get().then(async(res)=>{
-      this.religionList = await res ;
+    this.religionService.religion_get().then(async (res) => {
+      this.religionList = await res;
     })
   }
-  addresstypeList: AddresstypeModel[]=[];
-  doLoadAddresstypeList(){
+  addresstypeList: AddresstypeModel[] = [];
+  doLoadAddresstypeList() {
     var tmp = new AddresstypeModel();
-    this.addresstypeService.addresstype_get().then(async(res)=>{
-      this.addresstypeList = await res ;
+    this.addresstypeService.addresstype_get().then(async (res) => {
+      this.addresstypeList = await res;
     })
   }
-  cardtypeList: CardtypeModel[]=[];
-  doLoadCardtypeList(){
+  cardtypeList: CardtypeModel[] = [];
+  doLoadCardtypeList() {
     var tmp = new CardtypeModel();
-    this.cardtypeService.cardtype_get().then(async(res)=>{
-      this.cardtypeList = await res ;
+    this.cardtypeService.cardtype_get().then(async (res) => {
+      this.cardtypeList = await res;
     })
   }
-  bankList: BankModel[]=[];
-  doLoadBankList(){
+  bankList: BankModel[] = [];
+  doLoadBankList() {
     var tmp = new BankModel();
-    this.bankService.bank_get().then(async(res)=>{
-      this.bankList = await res ;
+    this.bankService.bank_get().then(async (res) => {
+      this.bankList = await res;
     })
   }
-  familytypeList: FamilyModel[]=[];
-  doLoadFamilytypeList(){
+  familytypeList: FamilyModel[] = [];
+  doLoadFamilytypeList() {
     var tmp = new FamilyModel();
-    this.familytypeService.family_get().then(async(res)=>{
-      this.familytypeList = await res ;
+    this.familytypeService.family_get().then(async (res) => {
+      this.familytypeList = await res;
     })
   }
-  hospitalList: HospitalModel[]=[];
-  doLoadHospitalList(){
+  hospitalList: HospitalModel[] = [];
+  doLoadHospitalList() {
     var tmp = new HospitalModel();
-    this.hospitalService.hospital_get().then(async(res)=>{
-      this.hospitalList = await res ;
+    this.hospitalService.hospital_get().then(async (res) => {
+      this.hospitalList = await res;
     })
   }
-  depList: PartModel[]=[];
-  doLoadDepLiat(){
+  depList: PartModel[] = [];
+  doLoadDepLiat() {
     var tmp = new LevelModel();
-    this.depService.dep_get(tmp).then(async(res)=>{
-      this.depList = await res ;
+    this.depService.dep_get(tmp).then(async (res) => {
+      this.depList = await res;
     })
   }
-  suggest_List: EmployeeModel []=[];
-  doLoadSuggestList(){
+  suggest_List: EmployeeModel[] = [];
+  doLoadSuggestList() {
     var tmp = new EmployeeModel();
-    this.employeeService.worker_get(this.initial_current.CompCode,"").then(async(res)=>{
+    this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
       this.suggest_List = await res;
     })
   }
+  //Institite
+  instituteList: InstituteModel[] = [];
+  doLoadinstituteList() {
+    this.instituteService.institute_get().then((res) => {
+      this.instituteList = res;
+    });
+  }
+  // Course
+  courseList: CourseModel[] = [];
+  doLoadcourseList() {
+    this.courseService.course_get().then((res) => {
+      this.courseList = res;
+    });
+  }
+  // Faculty
+  facultyList: FacultyModel[] = [];
+  doLoadfacultyList() {
+    this.facultyService.faculty_get().then((res) => {
+      this.facultyList = res;
+    });
+  }
+  //Major
+  majorList: MajorModel[] = [];
+  doLoadmajorList() {
+    this.majorService.major_get().then((res) => {
+      this.majorList = res;
+    });
+  }
+  //Qualification
+  qualificationList: QualificationModel[] = [];
+  doLoadqualificationList() {
+    this.qualificationService.qualification_get().then((res) => {
+      this.qualificationList = res;
+    });
+  }
+  //Province
+  provinceList: ProvinceModel[] = [];
+  doLoadprovinceList(){
+    this.provinceService.province_get().then((res) =>{
+      this.provinceList = res;
+    })
+  }
+
 
   //address
   empaddressList: EmpaddressModel[] = [];
@@ -2588,7 +2534,7 @@ export class EmployeeManageComponent implements OnInit {
     this.empdetailService.getworker_uniform(this.initial_current.CompCode, this.emp_code).then(async (res) => {
       await res.forEach((element: EmpUniformModel) => {
         element.empuniform_issuedate = new Date(element.empuniform_issuedate)
-        
+
       })
       console.log(res)
       this.empuniformList = await res;
@@ -2654,7 +2600,7 @@ export class EmployeeManageComponent implements OnInit {
     this.empdetailService.getworker_suggest(this.initial_current.CompCode, this.emp_code).then(async (res) => {
       await res.forEach((element: EmpSuggestModel) => {
         element.empsuggest_date = new Date(element.empsuggest_date)
-        
+
       })
       this.empsuggestList = await res;
       if (this.empsuggestList.length > 0) {
@@ -2907,8 +2853,8 @@ export class EmployeeManageComponent implements OnInit {
     });
   }
 
-  empresignrecord: []=[];
-  selectedEmpresign : EmpSalaryModel = new EmpSalaryModel();
+  empresignrecord: [] = [];
+  selectedEmpresign: EmpSalaryModel = new EmpSalaryModel();
   onRowSelectEmpresign(event: Event) { }
 
   //salary
@@ -3191,7 +3137,8 @@ export class EmployeeManageComponent implements OnInit {
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-      }
+      },
+      key: "myDialog"
     });
   }
 
@@ -3199,7 +3146,7 @@ export class EmployeeManageComponent implements OnInit {
   emplocationList: EmpLocationModel[] = [];
   selectedEmpLocation: EmpLocationModel = new EmpLocationModel();
   doLoadEmplocationList() {
-    this.empdetailService.getworker_location(this.initial_current.CompCode, this.emp_code).then(async(res) => {
+    this.empdetailService.getworker_location(this.initial_current.CompCode, this.emp_code).then(async (res) => {
       await res.forEach((element: EmpLocationModel) => {
         element.emplocation_startdate = new Date(element.emplocation_startdate)
         element.emplocation_enddate = new Date(element.emplocation_enddate)
@@ -3264,7 +3211,7 @@ export class EmployeeManageComponent implements OnInit {
   empbranchList: EmpBranchModel[] = [];
   selectedEmpbranch: EmpBranchModel = new EmpBranchModel();
   doLoadEmpbranchList() {
-    this.empdetailService.getworker_branch(this.initial_current.CompCode, this.emp_code).then(async(res) => {
+    this.empdetailService.getworker_branch(this.initial_current.CompCode, this.emp_code).then(async (res) => {
       await res.forEach((element: EmpBranchModel) => {
         element.empbranch_startdate = new Date(element.empbranch_startdate)
         element.empbranch_enddate = new Date(element.empbranch_enddate)

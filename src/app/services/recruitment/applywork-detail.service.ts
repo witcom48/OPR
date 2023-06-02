@@ -144,7 +144,7 @@ export class ApplyworkDetailService {
         return res;
       });
     }
-    public empaddress_import(file: File, file_name:string, file_type:string){
+    public reqaddress_import(file: File, file_name:string, file_type:string){
       const formData = new FormData();
       formData.append('file', file);
 
@@ -221,7 +221,7 @@ export class ApplyworkDetailService {
         return res;
       });
     }
-    public empcard_import(file: File, file_name:string, file_type:string){
+    public reqcard_import(file: File, file_name:string, file_type:string){
       const formData = new FormData();
       formData.append('file', file);
 
@@ -303,7 +303,7 @@ export class ApplyworkDetailService {
         return res;
       });
     }
-    public empeducation_import(file: File, file_name:string, file_type:string){
+    public reqeducation_import(file: File, file_name:string, file_type:string){
       const formData = new FormData();
       formData.append('file', file);
 
@@ -704,7 +704,7 @@ export class ApplyworkDetailService {
       para += "&token=" + this.initial_current.Token;
       para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqSuggest?' + para, formData).toPromise()
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadreqSuggest?' + para, formData).toPromise()
     .then((res) => {
       return res;
     });

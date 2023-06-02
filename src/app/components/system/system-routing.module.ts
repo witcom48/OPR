@@ -43,6 +43,8 @@ import { RoundComponent } from './system-manage/round/round.component';
 import { AddRounComponent } from './system-manage/round/add-roun/add-roun.component';
 import { CodestructureComponent } from './system-manage/codestructure/codestructure.component';
 import { AddYearComponent } from './system-manage/year/add-year/add-year.component';
+import { SystemSupplyComponent } from './system-policy/system-supply/system-supply.component';
+import { SystemUniformComponent } from './system-policy/system-uniform/system-uniform.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -74,6 +76,8 @@ import { AddYearComponent } from './system-manage/year/add-year/add-year.compone
         { path: 'system-AddCodestructure', component: AddCodestructureComponent },
         { path: 'Branch', component: BranchComponent },
         { path: 'sysbranch', component: SysBranchComponent },
+        { path: 'system-supply', component: SystemSupplyComponent },
+        { path: 'system-uniform', component: SystemUniformComponent },
 
         { path: 'course', component: SystemCourseComponent },
         { path: 'institute', component: SystemInstituteComponent },
