@@ -226,8 +226,8 @@ export class ProjectTimesheetComponent implements OnInit {
   selectedTimecard: TimecardsModel = new TimecardsModel();
   edit_timecard: boolean = false;
 
-  timein: string | null | undefined
-  timeout: string | null | undefined
+  timein: string = "00:00"
+  timeout: string = "00:00"
 
   doLoadTimecard(){    
     this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
@@ -243,9 +243,13 @@ export class ProjectTimesheetComponent implements OnInit {
     else{
       this.emp_name = this.selectedTimecard.worker_name_th
     }
+
+    var a = "qq"
+    var timecard_in = this.selectedTimecard.timecard_in.split(" ")
+    var timecard_out = this.selectedTimecard.timecard_out.split(" ")
    
-    this.timein = this.datePipe.transform(this.selectedTimecard.timecard_in, 'HH:mm')
-    this.timeout = this.datePipe.transform(this.selectedTimecard.timecard_out, 'HH:mm')
+    this.timein = timecard_in[1]
+    this.timeout = timecard_out[1]
 
   }
 
@@ -317,7 +321,7 @@ export class ProjectTimesheetComponent implements OnInit {
   selectedJobmain: RadiovalueModel = new RadiovalueModel;
   doLoadPolJobmain(){      
     this.jobmain_list = []   
-    this.projectDetailService.projobmain_get("").then(async (res) => {
+    this.projectDetailService.projobmain_get("", "").then(async (res) => {
       this.jobmain_list = await res;
     });   
   }
@@ -364,16 +368,15 @@ export class ProjectTimesheetComponent implements OnInit {
             this.messageService.add({severity:'error', summary: 'Error', detail: "Record Not Success.."});   
           }  
         })
-
-
-         
       },
       reject: () => {
         this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
-      }
+      },
+      key: "myDialog"
+
     });
   }
-
+  
 
   select_emp(){
     console.log(this.selectEmp.selectedEmployee.worker_code)

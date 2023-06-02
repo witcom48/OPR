@@ -8,26 +8,14 @@ export class ProjobmainModel {
     projobmain_name_th: string = "";
     projobmain_name_en: string = "";
     projobmain_type: string = "";
-    projobmain_shift: string = "";
-
-    projobmain_sun: boolean = false;
-    projobmain_mon: boolean = false;
-    projobmain_tue: boolean = false;
-    projobmain_wed: boolean = false;
-    projobmain_thu: boolean = false;
-    projobmain_fri: boolean = false;
-    projobmain_sat: boolean = false;
-   
-    projobmain_working: number = 0;
-    projobmain_hrsperday: number = 0;
-    projobmain_hrsot: number = 0;
-    projobmain_autoot: boolean = false;
-
+    
     projobmain_timepol: string = "";
     projobmain_slip: string = "";
     projobmain_uniform: string = "";
 
     project_code: string = "";
+
+    version: string = "";
 
     modified_by: string = "";
     modified_date: string = "";

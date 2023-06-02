@@ -53,8 +53,8 @@ export class TimecardsModel {
     //-- Display
     row: number = 0;
     col: number = 0;
-    timecard_in: string | null | undefined
-    timecard_out: string | null | undefined
+    timecard_in: string = "";
+    timecard_out: string = "";
     work_hrs: string = "";
     ot_hrs: string = "";
     late_hrs: string = "";

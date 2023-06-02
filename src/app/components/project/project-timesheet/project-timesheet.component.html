@@ -2,7 +2,7 @@
 <hr>
 <p-toast position="top-right"></p-toast> 
 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
 
 
 <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [style]="{width: '30vw'}" [position]="position">
@@ -156,8 +156,8 @@
                     <td>{{initial_current.Language=="TH"? timecard.worker_name_th : timecard.worker_name_en }}</td>                                
                     <td>{{timecard.shift_code}}</td>   
                     <td>{{timecard.timecard_daytype}}</td>       
-                    <td>{{timecard.timecard_in | date:'dd/MM/yyyy HH:mm'}}</td>       
-                    <td>{{timecard.timecard_out | date:'dd/MM/yyyy HH:mm'}}</td>  
+                    <td>{{timecard.timecard_in}}</td>       
+                    <td>{{timecard.timecard_out}}</td>  
                     <td>{{doConvertHHMM(timecard.timecard_before_min_app)}}</td>  
                     <td>{{doConvertHHMM(timecard.timecard_work1_min_app)}}</td>  
                     <td>{{doConvertHHMM(timecard.timecard_after_min_app)}}</td> 

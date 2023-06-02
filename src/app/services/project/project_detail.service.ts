@@ -22,6 +22,9 @@ import { ProjobmachineModel } from '../../models/project/project_jobmachine';
 
 import { ProjobshiftModel } from '../../models/project/project_jobshift';
 
+import { ProjobversionModel } from '../../models/project/project_jobversion';
+import { ProjobpolModel } from '../../models/project/project_jobpol';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -514,7 +517,7 @@ export class ProjectDetailService {
   }
 
   //-- Job main
-  public projobmain_get(project:string){
+  public projobmain_get(version:string, project:string){
 
     var filter = {
       device_name:'',
@@ -529,6 +532,7 @@ export class ProjectDetailService {
       project_codecentral:"",
       project_protype:"",
       project_probusiness:"",
+      version:version
     };
 
 
@@ -540,7 +544,7 @@ export class ProjectDetailService {
     });
   }
 
-  public projobmain_record(project:string, list:ProjobmainModel[]) {
+  public projobmain_record(version:string, project:string, list:ProjobmainModel[]) {
 
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
@@ -549,27 +553,16 @@ export class ProjectDetailService {
       item_data = item_data + ",\"projobmain_code\":\"" + list[i].projobmain_code + "\"";
       item_data = item_data + ",\"projobmain_name_th\":\"" + list[i].projobmain_name_th + "\"";
       item_data = item_data + ",\"projobmain_name_en\":\"" + list[i].projobmain_name_en + "\"";
-
-      item_data = item_data + ",\"projobmain_type\":\"" + list[i].projobmain_type + "\"";
-      item_data = item_data + ",\"projobmain_shift\":\"" + list[i].projobmain_shift + "\"";
-      item_data = item_data + ",\"projobmain_sun\":\"" + list[i].projobmain_sun + "\"";
-      item_data = item_data + ",\"projobmain_mon\":\"" + list[i].projobmain_mon + "\"";
-      item_data = item_data + ",\"projobmain_tue\":\"" + list[i].projobmain_tue + "\"";
-      item_data = item_data + ",\"projobmain_wed\":\"" + list[i].projobmain_wed + "\"";
-      item_data = item_data + ",\"projobmain_thu\":\"" + list[i].projobmain_thu + "\"";
-      item_data = item_data + ",\"projobmain_fri\":\"" + list[i].projobmain_fri + "\"";
-      item_data = item_data + ",\"projobmain_sat\":\"" + list[i].projobmain_sat + "\"";
-
-      item_data = item_data + ",\"projobmain_working\":\"" + list[i].projobmain_working + "\"";
-      item_data = item_data + ",\"projobmain_hrsperday\":\"" + list[i].projobmain_hrsperday + "\"";
-      item_data = item_data + ",\"projobmain_hrsot\":\"" + list[i].projobmain_hrsot + "\"";
-      item_data = item_data + ",\"projobmain_autoot\":\"" + list[i].projobmain_autoot + "\"";
-
+      item_data = item_data + ",\"projobmain_type\":\"" + list[i].projobmain_type + "\"";     
+      
       item_data = item_data + ",\"projobmain_timepol\":\"" + list[i].projobmain_timepol + "\"";
       item_data = item_data + ",\"projobmain_slip\":\"" + list[i].projobmain_slip + "\"";
       item_data = item_data + ",\"projobmain_uniform\":\"" + list[i].projobmain_uniform + "\"";
 
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
+
+      item_data = item_data + ",\"version\":\"" + version + "\"";
+
       item_data = item_data + "}" + ",";
     }
     if(item_data.length > 2)
@@ -591,11 +584,12 @@ export class ProjectDetailService {
     });
   }
 
-  public projobmain_delete(model:ProjobmainModel) {
+  public projobmain_delete(version:string, model:ProjobmainModel) {
     const data = {
       projobmain_id: model.projobmain_id,
       projobmain_code: model.projobmain_code,
       project_code: model.project_code,
+      version: version,
       modified_by: this.initial_current.Username
     };
 
@@ -619,7 +613,7 @@ export class ProjectDetailService {
   }
 
   //-- Job contract
-  public projobcontract_get(project:string, job:string){
+  public projobcontract_get(version:string, project:string, job:string){
 
     var filter = {
       device_name:'',
@@ -635,6 +629,7 @@ export class ProjectDetailService {
       project_protype:"",
       project_probusiness:"",
       job_code:job,
+      version:version
     };
 
 
@@ -646,22 +641,21 @@ export class ProjectDetailService {
     });
   }
 
-  public projobcontract_record(project:string, job:string, list:ProjobcontractModel[]) {
+  public projobcontract_record(version:string, project:string, job:string, list:ProjobcontractModel[]) {
 
-    console.log(job)
+    //console.log(job)
 
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"projobcontract_id\":\"" + list[i].projobcontract_id + "\"";
       item_data = item_data + ",\"projobcontract_ref\":\"" + list[i].projobcontract_ref + "\"";
-      item_data = item_data + ",\"projobcontract_date\":\"" + this.datePipe.transform(list[i].projobcontract_date) + "\"";
-      item_data = item_data + ",\"projobcontract_emp\":\"" + list[i].projobcontract_emp + "\"";
-      item_data = item_data + ",\"projobcontract_amount\":\"" + list[i].projobcontract_amount + "\"";
-      item_data = item_data + ",\"projobcontract_fromdate\":\"" + this.datePipe.transform(list[i].projobcontract_fromdate) + "\"";
-      item_data = item_data + ",\"projobcontract_todate\":\"" + this.datePipe.transform(list[i].projobcontract_todate) + "\"";
+      item_data = item_data + ",\"projobcontract_working\":\"" + list[i].projobcontract_working + "\"";
+      item_data = item_data + ",\"projobcontract_hrsperday\":\"" + list[i].projobcontract_hrsperday + "\"";
+      item_data = item_data + ",\"projobcontract_hrsot\":\"" + list[i].projobcontract_hrsot + "\"";
       item_data = item_data + ",\"projob_code\":\"" + job + "\"";
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
+      item_data = item_data + ",\"version\":\"" + version + "\"";
       item_data = item_data + "}" + ",";
     }
     if(item_data.length > 2)
@@ -674,6 +668,7 @@ export class ProjectDetailService {
       transaction_data:item_data,
       project_code:project,
       job_code:job,
+      version:version,
       modified_by:this.initial_current.Username
     };
 
@@ -683,12 +678,13 @@ export class ProjectDetailService {
     });
   }
 
-  public projobcontract_delete(model:ProjobcontractModel) {
+  public projobcontract_delete(version:string, model:ProjobcontractModel) {
     const data = {
       projobcontract_id: model.projobcontract_id,
       projobcontract_ref: model.projobcontract_ref,
       projob_code: model.projob_code,
       project_code: model.project_code,
+      version: version,
       modified_by: this.initial_current.Username
     };
 
@@ -712,7 +708,7 @@ export class ProjectDetailService {
   }
 
   //-- Job cost
-  public projobcost_get(project:string, job:string){
+  public projobcost_get(version:string, project:string, job:string){
 
     var filter = {
       device_name:'',
@@ -728,6 +724,7 @@ export class ProjectDetailService {
       project_protype:"",
       project_probusiness:"",
       job_code:job,
+      version:version
     };
 
 
@@ -739,7 +736,7 @@ export class ProjectDetailService {
     });
   }
 
-  public projobcost_record(project:string, job:string, list:ProjobcostModel[]) {
+  public projobcost_record(version:string, project:string, job:string, list:ProjobcostModel[]) {
 
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
@@ -748,10 +745,7 @@ export class ProjectDetailService {
       item_data = item_data + ",\"projobcost_code\":\"" + list[i].projobcost_code + "\"";
       item_data = item_data + ",\"projobcost_amount\":\"" + list[i].projobcost_amount + "\"";
 
-      item_data = item_data + ",\"projobcost_fromdate\":\"" + this.datePipe.transform(list[i].projobcost_fromdate) + "\"";
-      item_data = item_data + ",\"projobcost_todate\":\"" + this.datePipe.transform(list[i].projobcost_todate) + "\"";
-
-      item_data = item_data + ",\"projobcost_version\":\"" + list[i].projobcost_version + "\"";
+      
       item_data = item_data + ",\"projobcost_status\":\"" + list[i].projobcost_status + "\"";
 
       item_data = item_data + ",\"projob_code\":\"" + job + "\"";
@@ -760,6 +754,9 @@ export class ProjectDetailService {
 
       item_data = item_data + ",\"projob_code\":\"" + job + "\"";
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
+
+      item_data = item_data + ",\"version\":\"" + version + "\"";
+
       item_data = item_data + "}" + ",";
     }
     if(item_data.length > 2)
@@ -772,6 +769,7 @@ export class ProjectDetailService {
       transaction_data:item_data,
       project_code:project,
       job_code:job,
+      version:version,
       modified_by:this.initial_current.Username
     };
 
@@ -781,13 +779,13 @@ export class ProjectDetailService {
     });
   }
 
-  public projobcost_delete(model:ProjobcostModel) {
+  public projobcost_delete(version:string, model:ProjobcostModel) {
     const data = {
       projobcost_id: model.projobcost_id,
-      projobcost_code: model.projobcost_code,
-      projobcost_fromdate: this.datePipe.transform(model.projobcost_fromdate),
+      projobcost_code: model.projobcost_code,      
       projob_code: model.projob_code,
       project_code: model.project_code,
+      version:version,
       modified_by: this.initial_current.Username
     };
 
@@ -901,7 +899,7 @@ export class ProjectDetailService {
 
 
   //-- Job sub
-  public projobsub_get(project:string){
+  public projobsub_get(version:string, project:string){
 
     var filter = {
       device_name:'',
@@ -916,6 +914,7 @@ export class ProjectDetailService {
       project_codecentral:"",
       project_protype:"",
       project_probusiness:"",
+      version:version
     };
 
 
@@ -927,7 +926,7 @@ export class ProjectDetailService {
     });
   }
 
-  public projobsub_record(project:string, list:ProjobsubModel[]) {
+  public projobsub_record(version:string, project:string, list:ProjobsubModel[]) {
 
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
@@ -949,6 +948,7 @@ export class ProjectDetailService {
     var specificData = {
       transaction_data:item_data,
       project_code:project,
+      version:version,
       job_code:'',
       modified_by:this.initial_current.Username
     };
@@ -959,11 +959,12 @@ export class ProjectDetailService {
     });
   }
 
-  public projobsub_delete(model:ProjobsubModel) {
+  public projobsub_delete(version:string, model:ProjobsubModel) {
     const data = {
       projobsub_id: model.projobsub_id,
       projobsub_code: model.projobsub_code,
       project_code: model.project_code,
+      version:version,
       modified_by: this.initial_current.Username
     };
 
@@ -1192,7 +1193,7 @@ export class ProjectDetailService {
 
 
   //-- Job shift
-  public projobshift_get(project:string, job:string){
+  public projobshift_get(version:string, project:string, job:string){
 
     var filter = {
       device_name:'',
@@ -1208,6 +1209,7 @@ export class ProjectDetailService {
       project_protype:"",
       project_probusiness:"",
       job_code:job,
+      version:version,
     };
 
 
@@ -1219,14 +1221,14 @@ export class ProjectDetailService {
     });
   }
 
-  public projobshift_record(project:string, job:string, list:ProjobshiftModel[]) {
+  public projobshift_record(version:string, project:string, job:string, list:ProjobshiftModel[]) {
 
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
 
       item_data = item_data + "\"projobshift_id\":\"" + list[i].projobshift_id + "\"";
-      item_data = item_data + ",\"projobshift_shift\":\"" + list[i].projobshift_shift + "\"";
+      item_data = item_data + ",\"shift_code\":\"" + list[i].shift_code + "\"";
       item_data = item_data + ",\"projobshift_sun\":\"" + list[i].projobshift_sun + "\"";
       item_data = item_data + ",\"projobshift_mon\":\"" + list[i].projobshift_mon + "\"";
       item_data = item_data + ",\"projobshift_tue\":\"" + list[i].projobshift_tue + "\"";
@@ -1242,6 +1244,7 @@ export class ProjectDetailService {
 
       item_data = item_data + ",\"projob_code\":\"" + job + "\"";
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
+      item_data = item_data + ",\"version\":\"" + version + "\"";
       item_data = item_data + "}" + ",";
     }
     if(item_data.length > 2)
@@ -1263,12 +1266,13 @@ export class ProjectDetailService {
     });
   }
 
-  public projobshift_delete(model:ProjobshiftModel) {
+  public projobshift_delete(version:string, model:ProjobshiftModel) {
     const data = {
       projobshift_id: model.projobshift_id,
-      projobshift_shift: model.projobshift_shift,
+      shift_code: model.shift_code,
       projob_code: model.projob_code,
       project_code: model.project_code,
+      version:version,
       modified_by: this.initial_current.Username
     };
 
@@ -1286,6 +1290,130 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobshift?' + para, formData).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+
+  //-- Job version
+  public projobversion_get(project:string){
+
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company:"",
+      language:"",
+      project_code:project,
+      project_name_th:"",
+      project_name_en:"",
+      project_name_sub:"",
+      project_codecentral:"",
+      project_protype:"",
+      project_probusiness:"",
+      fromdate:"",
+      todate:""
+    };
+
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobversion_list', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      //console.log(res)
+      return message.data;
+    });
+  }
+
+  public projobversion_record(model:ProjobversionModel) {
+    const data = {
+      projobversion_id: model.projobversion_id,
+      version: model.version,
+      fromdate: this.datePipe.transform(model.fromdate),
+      todate: this.datePipe.transform(model.todate),
+      project_code: model.project_code,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobversion', data, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+
+  public projobversion_delete(model:ProjobversionModel) {
+    const data = {
+      projobversion_id: model.projobversion_id,
+      version: model.version,     
+      project_code: model.project_code,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobversion_del', data, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+
+  //-- Job policy
+  public projobpol_get(project:string, job:string){
+
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company:"",
+      language:"",
+      project_code:project,
+      project_name_th:"",
+      project_name_en:"",
+      project_name_sub:"",
+      project_codecentral:"",
+      project_protype:"",
+      project_probusiness:"",
+      fromdate:"",
+      todate:"",
+      job_code:job,
+    };
+
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobpol_list', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      //console.log(res)
+      return message.data;
+    });
+  }
+
+  public projobpol_record(project:string, job:string, list:ProjobpolModel[]) {
+
+    var model = list[0]
+
+    const data = {
+      projobpol_id: model.projobpol_id,
+      projobpol_type: model.projobpol_type,
+      projobpol_timepol: model.projobpol_timepol,
+      projobpol_slip: model.projobpol_slip,
+      projobpol_uniform: model.projobpol_uniform,
+      project_code: project,
+      projobmain_code: job,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobpol', data, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+
+  public projobpol_delete(model:ProjobpolModel) {
+    const data = {
+      projobpol_id: model.projobpol_id,       
+      project_code: model.project_code,
+      projobmain_code: model.projob_code,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobpol_del', data, this.options).toPromise()
     .then((res) => {
       return res;
     });
