@@ -10,6 +10,8 @@ export class ProjobsubModel {
     
     project_code: string = "";
 
+    version: string = "";
+
     modified_by: string = "";
     modified_date: string = "";
     index: number = 0;

@@ -70,12 +70,12 @@ export class ProjectMonitorComponent implements OnInit {
   title_working: {[key: string]: string} = {  EN: "Working",  TH: "มาทำงาน"}
   title_leave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
   title_absent: {[key: string]: string} = {  EN: "Absent",  TH: "ขาดงาน"}
-  title_cost: {[key: string]: string} = {  EN: "Code",  TH: "ต้นทุน"}
+  title_cost: {[key: string]: string} = {  EN: "Cost",  TH: "ต้นทุน"}
   title_actual: {[key: string]: string} = {  EN: "Actual",  TH: "ยอดจริง"}
 
-  title_project_total: {[key: string]: string} = {  EN: "Code",  TH: "จำนวนโครงการ"}
-  title_cost_total: {[key: string]: string} = {  EN: "Code",  TH: "จำนวนต้นทุน"}
-  title_actual_total: {[key: string]: string} = {  EN: "Code",  TH: "ยอดชำระ"}
+  title_project_total: {[key: string]: string} = {  EN: "Project",  TH: "จำนวนโครงการ"}
+  title_cost_total: {[key: string]: string} = {  EN: "Cost",  TH: "จำนวนต้นทุน"}
+  title_actual_total: {[key: string]: string} = {  EN: "Payment",  TH: "ยอดชำระ"}
 
   title_job_code: {[key: string]: string} = {  EN: "Job code",  TH: "รหัสงาน"}
   title_job_name: {[key: string]: string} = {  EN: "Job name",  TH: "ชื่องาน"}
@@ -157,7 +157,7 @@ export class ProjectMonitorComponent implements OnInit {
     this.doLoadMenu()
     this.doLoadProjectType()
     this.doLoadProjectBusiness()
-    this.doLoadPolJobmain()
+    //this.doLoadPolJobmain()
 
     //let dateString = '2023-01-10T00:00:00'
     //this.selectedDate_fillter = new Date(dateString);
@@ -403,12 +403,12 @@ export class ProjectMonitorComponent implements OnInit {
     return result;
   }
 
-  //
+  
   jobmain_list: ProjobmainModel[] = [];
   selectedJobmain: RadiovalueModel = new RadiovalueModel;
   doLoadPolJobmain(){      
     this.jobmain_list = []   
-    this.projectDetailService.projobmain_get("").then(async (res) => {
+    this.projectDetailService.projobmain_get("", "").then(async (res) => {
       this.jobmain_list = await res;
     });   
   }

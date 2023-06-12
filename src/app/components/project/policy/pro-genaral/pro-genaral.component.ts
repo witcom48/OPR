@@ -208,11 +208,27 @@
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
+
+            var ref = this.probusiness_list.length + 100           
             this.selectedProbusiness = new ProbusinessModel();
+            this.selectedProbusiness.probusiness_id = ref.toString()
+            
+            ref = this.protype_list.length + 100
             this.selectedProtype = new ProtypeModel();
+            this.selectedProtype.protype_id = ref.toString()
+
+            ref = this.prouniform_list.length + 100
             this.selectedProuniform = new ProuniformModel();
+            this.selectedProuniform.prouniform_id = ref.toString()
+
+            ref = this.proslip_list.length + 100
             this.selectedProslip = new ProslipModel();
+            this.selectedProslip.proslip_id = ref.toString()
+
+            ref = this.procost_list.length + 100
             this.selectedProcost = new ProcostModel();
+            this.selectedProcost.procost_id = ref.toString()
+
             this.new_data= true;
             this.edit_data= false;
           }     
@@ -283,7 +299,9 @@
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-          }
+          },
+          key: "myDialog"
+          
       });
     }
         
@@ -297,14 +315,15 @@
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-          }
+          },
+          key: "myDialog"
       });
     }
 
     doRecordGenaral(){
 
-      console.log('record')
-      console.log(this.selectedProcost)
+      //console.log('record')
+      //console.log(this.selectedProcost)
 
       switch ( this.page_type ) {
         case "probusiness":
