@@ -63,11 +63,11 @@
 
             <ng-template pTemplate="header">
                 <tr>
-                    <th>รหัส</th>
-                    <th>คำนำหน้า</th>
-                    <th>ชื่อ</th>
-                    <th>นามสกุล</th>
-                    <th>วันที่สมัคร</th>
+                    <th>{{title_code}}</th>
+                    <th>{{title_initial}}</th>
+                    <th>{{title_Fname}}</th>
+                    <th>{{title_Lname}}</th>
+                    <th>{{title_hiredate | date:'dd/MM/yyyy HH:mm'}}</th>
                     <!-- <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th> -->
                 </tr>

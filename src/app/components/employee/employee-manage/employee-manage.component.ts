@@ -285,7 +285,6 @@ export class EmployeeManageComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.emp_code = params['empcode'];
-      console.log(this.emp_code);
     });
 
     this.doGetInitialCurrent();
@@ -306,7 +305,8 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadBankList();
     this.doLoadFamilytypeList();
     this.doLoadHospitalList();
-    this.doLoadDepLiat();
+    this.doLoadDeplevel1List();
+    this.doLoadDeplevel2List();
 
     this.doLoadinstituteList();
     this.doLoadfacultyList();
@@ -429,9 +429,103 @@ export class EmployeeManageComponent implements OnInit {
 
   title_confirm_cancel: string = "You have cancelled";
 
+  title_locationname: string = "Location";
+  title_start: string = "Start Date";
+  title_end: string = "End Date";
+  title_description: string = "Description";
+  title_branchname: string = "Branch";
+  title_suggestname: string = "Suggest";
+  title_addresstype: string = "Address Type";
+  title_no: string = "No";
+  title_moo: string = "Moo";
+  title_soi: string = "Soi";
+  title_road: string = "Road";
+  title_tambon: string = "Sub-district / Sub-area";
+  title_amphur: string = " District / Area";
+  title_province: string = "Province";
+  title_zipcode: string = "Zipcode";
+  title_tel: string = "Tel.";
+  title_email: string = "Email";
+  title_line: string = "Line";
+  title_facebook: string = "Facebook";
+  title_cardcode: string = "Card No.";
+  title_issuedate: string = "Issue Date";
+  title_expiredate: string = "Expire Date";
+  title_cardtype: string = "Card Type";
+  title_bankname: string = "Bank Name";
+  title_bankname2: string = "Name";
+  title_bankcode :string = "Account";
+  title_bankper: string = "Bank(%)";
+  title_cashper: string = "Cash(%)";
+  title_familycode: string = "ID";
+  title_familytype: string = "Type";
+  title_hospitalname: string = "Hospital";
+  title_passport: string = "Passport";
+  title_entrydate: string = "Entry Date";
+  title_visa: string = "VISA";
+  title_workpermit: string = "Work Permit";
+  title_by: string = "By";
+  title_certino: string = "Certificate No";
+  title_certiexpire: string = "Certificate Expire"
+  title_other: string = "Other Doc.";
+  title_otherexpire: string = "Other Doc. Expire";
+  title_date: string = "Date";
+  title_lv1: string = "Level01";
+  title_lv2: string = "Level02";
+  title_lv3: string = "Level03";
+  title_lv4: string = "Level04";
+  title_lv5: string = "Level05";
+  title_lv6: string = "Level06";
+  title_reason: string = "Reason";
+  title_positionname: string = "Position";
+  title_groupname: string = "Group";
+  title_institute: string = "Institute";
+  title_faculty: string = "Faculty";
+  title_major: string = "Major";
+  title_qualification: string = "Qualification";
+  title_gpa: string = "GPA";
+  title_educationstart: string = "Start Date";
+  title_educationend: string = "Graduation Date";
+  title_supplyissue: string = "Issue Date";
+  title_supplyename: string = "Supply";
+  title_amount: string = "Amount";
+  title_return: string = "Return";
+  title_returndate: string = "Return Date";
+  title_uniformissue: string = "Issue Date";
+  title_uniformname: string = "Uniform";
+  title_uniformprice: string = "Price";
+  title_course: string = "Course";
+  title_coursestatus: string = "Status";
+  title_coursehour: string = "Hour";
+  title_cost: string = "Cost";
+  title_topic: string = "Topic";
+  title_count: string = "Count";
+  title_fromdate:string = "From Date";
+  title_todate:string = "To Date";
+  title_assessmentresult: string = "Result";
+  title_criminalresult: string = "Result";
+  title_incrementbath: string = "Increment(Bath)";
+  title_incrementper: string = "Increment(%)";
+  title_incomededuct: string = "Income/Deduct ID";
+  title_benefittype: string = "Type";
+  title_conditionpay: string = "Pay Condition";
+  title_period: string = "Period";
+  title_odd: string = "Odd Period";
+  title_even: string = "Even Period";
+  title_break: string = "Break";
+  title_breakreason: string = "Reason(Break)";
+  title_provident: string = "Provident";
+  title_pfno: string = "Pf No.";
+  title_pfentry: string = "Entry Date";
+  title_pfstart: string = "Start Date";
+  title_pfend: string = "End Date";
+  title_reducename: string = "Reduce";
+  title_pass:string = "Pass";
+  title_notpass:string = "Not Pass";
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
-      this.title_page = "ข้อมูลสถานที่ปฎิบัติงาน";
+      this.title_page = "ข้อมูลพนักงาน";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -486,7 +580,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_education = 'ประวัติการศึกษา';
       this.title_supply = 'อุปกรณ์สำนักงาน';
       this.title_uniform = 'เครื่องแบบพนักงาน';
-      this, this.title_suggest = 'ผู้แนะนำ';
+      this.title_suggest = 'ผู้แนะนำ';
       this.title_training = 'ประวัติการอบรม';
       this.title_assessment = 'ประวัติการประเมิน';
       this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
@@ -520,6 +614,98 @@ export class EmployeeManageComponent implements OnInit {
       this.title_confirm_no = "ยกเลิก";
       this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
 
+      this.title_locationname = "สถานที่";
+      this.title_start = "วันที่เริ่ม";
+      this.title_end = "วันที่สิ้นสุด";
+      this.title_description = "เพิ่มเติม";
+      this.title_branchname = "สาขา";
+      this.title_suggestname = "ผู้แนะนำ";
+      this.title_addresstype = "ประเภทที่อยู่อาศัย";
+      this.title_no = "เลขที่";
+      this.title_moo = "หมู่";
+      this.title_soi = "ซอย";
+      this.title_road = "ถนน";
+      this.title_tambon = "ตำบล/แขวง";
+      this.title_amphur = "อำเภอ/เขต";
+      this.title_province = "จังหวัด";
+      this.title_zipcode = "รหัสไปรษณีย์";
+      this.title_tel = "เบอร์โทรฯ";
+      this.title_email = "อีเมล";
+      this.title_line = "ไลน์";
+      this.title_facebook = "เฟสบุ๊ค";
+      this.title_cardcode = "เลขที่";
+      this.title_issuedate = "วันที่ออก";
+      this.title_expiredate = "วันที่หมดอายุ";
+      this.title_cardtype = "ประเภทบัตร";
+      this.title_bankname = "ธนาคาร";
+      this.title_bankname2 = "ชื่อบัญชี";
+      this.title_bankcode = "เลขที่บัญชี"
+      this.title_bankper = "โอนธนาคาร(%)";
+      this.title_cashper = "เงินสด(%)";
+      this.title_familycode = "รหัสประจำตัว";
+      this.title_familytype = "ประเภท";
+      this.title_hospitalname = "โรงพยาบาล";
+      this.title_passport = "หนังสือเดินทาง";
+      this.title_entrydate = "วันที่เข้าประเทศ";
+      this.title_workpermit = "ใบอนุญาติทำงาน";
+      this.title_by = "ออกโดย";
+      this.title_certino = "เลขที่เอกสารสำคัญ";
+      this.title_certiexpire = "วันที่เอกสารสำคัญหมดอายุ";
+      this.title_other = "เลขที่เอกสารอื่นๆ";
+      this.title_otherexpire = "วันที่หมดอายุของเอกสารอื่นๆ";
+      this.title_date = "วันที่";
+      this.title_lv1 = "ระดับ1"
+      this.title_lv2 = "ระดับ2";
+      this.title_lv3 = "ระดับ3";
+      this.title_lv4 = "ระดับ4";
+      this.title_lv5 = "ระดับ5";
+      this.title_lv6 = "ระดับ6";
+      this.title_reason = "เหตุผล";
+      this.title_positionname= "ตำแหน่ง";
+      this.title_groupname = "กลุ่มพนักงาน";
+      this.title_institute = "สถานบัน/สถานที่";
+      this.title_faculty = "คณะ";
+      this.title_major = "วิชาเอก";
+      this.title_qualification = "วุฒิการศึกษา";
+      this.title_gpa = "เกรดเฉลี่ย";
+      this.title_educationstart  = "วันที่เริ่ม";
+      this.title_educationend  = "วันที่จบ";
+      this.title_supplyissue  = "วันที่เบิก";
+      this.title_supplyename  = "อุปกรณื";
+      this.title_amount = "จำนวน";
+      this.title_return = "คืนอุปกรณ์";
+      this.title_returndate  = "วันที่คืนอุปกรณ์";
+      this.title_uniformissue  = "วันที่เบิก";
+      this.title_uniformname = "เครื่องแบบ";
+      this.title_uniformprice  = "ราคา";
+      this.title_course  = "หลักสูตร";
+      this.title_coursestatus  = "สถานะ";
+      this.title_coursehour = "จำนวนชั่วโมง";
+      this.title_fromdate = "จากวันที่";
+      this.title_todate = "ถึงวันที่";
+      this.title_cost = "ค่าใช้จ่าย";
+      this.title_topic = "หัวข้อ";
+      this.title_count = "ครั้งที่";
+      this.title_assessmentresult = "ผลการประเมิน";
+      this.title_criminalresult = "ผลการตรวจสอบ";
+      this.title_incrementbath = "อัตราปรับ(บาท)";
+      this.title_incrementper = "อัตราปรับ(%)";
+      this.title_incomededuct = "เงินได้/เงินหัก";
+      this.title_benefittype = "ประเภท";
+      this.title_conditionpay = "เงื่อนไขการจ่าย";
+      this.title_period = "งวด";
+      this.title_odd = "งวดแรก";
+      this.title_even = "งวดที่สอง";
+      this.title_break = "พักการจ่าย";
+      this.title_breakreason = "เหตุผล(พักการจ่าย)";
+      this.title_provident = "นโยบาย";
+      this.title_pfno = "รหัสกองทุนฯ";
+      this.title_pfentry = "วันที่เข้า";
+      this.title_pfstart = "วันที่เริ่ม";
+      this.title_pfend = "วันที่ออก";
+      this.title_reducename = "ลดหย่อน";
+      this.title_pass = "ผ่าน";
+      this.title_notpass = "ไม่ผ่าน";
     }
   }
 
@@ -538,7 +724,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Save',
         icon: 'pi pi-fw pi-save',
         command: (event) => {
-          // console.log('Save')
           this.confirmRecord()
         }
 
@@ -770,7 +955,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu hospital
@@ -779,7 +963,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_hospital = true
           var ref = this.emphospitalList.length + 100
@@ -792,7 +975,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmphospital != null) {
             this.edit_emphospital = true
@@ -813,7 +995,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
 
@@ -823,7 +1004,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_dep = true
           var ref = this.empdepList.length + 100
@@ -836,7 +1016,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpdep != null) {
             this.edit_empdep = true
@@ -857,7 +1036,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu Position
@@ -866,7 +1044,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_position = true
           var ref = this.emppositionList.length + 100
@@ -879,7 +1056,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpPosition != null) {
             this.edit_empposition = true
@@ -900,7 +1076,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu Group
@@ -909,7 +1084,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_group = true
           var ref = this.empgroupList.length + 100
@@ -922,7 +1096,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpGroup != null) {
             this.edit_empgroup = true
@@ -943,7 +1116,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu education
@@ -952,7 +1124,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_education = true
           var ref = this.empeducationList.length + 100
@@ -965,7 +1136,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpeducation != null) {
             this.edit_empeducation = true
@@ -986,7 +1156,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu Supply
@@ -995,7 +1164,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_supply = true
           var ref = this.empsupplyList.length + 100
@@ -1008,7 +1176,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpSupply != null) {
             this.edit_empsupply = true
@@ -1029,7 +1196,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
 
@@ -1116,7 +1282,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_training = true
           var ref = this.emptrainingList.length + 100
@@ -1129,7 +1294,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmptraining != null) {
             this.edit_emptraining = true
@@ -1150,7 +1314,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu assessment
@@ -1159,7 +1322,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_assessment = true
           var ref = this.empassessmentList.length + 100
@@ -1172,7 +1334,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpassessment != null) {
             this.edit_empassessment = true
@@ -1193,7 +1354,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu criminal
@@ -1202,7 +1362,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_criminal = true
           var ref = this.empcriminalList.length + 100
@@ -1215,7 +1374,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpcriminal != null) {
             this.edit_empcriminal = true
@@ -1236,7 +1394,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu salary
@@ -1245,7 +1402,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_salary = true
           var ref = this.empsalaryList.length + 100
@@ -1258,7 +1414,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpsalary != null) {
             this.edit_empsalary = true
@@ -1279,7 +1434,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu provident
@@ -1288,7 +1442,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_provident = true
           var ref = this.empprovidentList.length + 100
@@ -1301,7 +1454,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpprovident != null) {
             this.edit_empprovident = true
@@ -1322,7 +1474,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu benefit
@@ -1331,7 +1482,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_benefit = true
           var ref = this.empbenefitList.length + 100
@@ -1344,7 +1494,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpbenefit != null) {
             this.edit_empbenefit = true
@@ -1365,7 +1514,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
     //menu reduce
@@ -1374,7 +1522,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          console.log("NEW");
           this.clearManage()
           this.new_reduce = true
           var ref = this.empreduceList.length + 100
@@ -1387,7 +1534,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          console.log("EDIT");
           this.clearManage()
           if (this.selectedEmpreduce != null) {
             this.edit_empreduce = true
@@ -1408,7 +1554,6 @@ export class EmployeeManageComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          console.log("EXPORT");
         }
       }]
 
@@ -1790,12 +1935,22 @@ export class EmployeeManageComponent implements OnInit {
       this.hospitalList = await res;
     })
   }
-  depList: PartModel[] = [];
-  doLoadDepLiat() {
+  deplevel1List: PartModel[] = [];
+  doLoadDeplevel1List() {
     var tmp = new LevelModel();
+    tmp.level_code = "01";
     this.depService.dep_get(tmp).then(async (res) => {
-      this.depList = await res;
+      this.deplevel1List = await res;
     })
+  }
+  deplevel2List: PartModel[] = [];
+  doLoadDeplevel2List() {
+    var tmp = new LevelModel();
+    tmp.level_code = "02";
+    this.depService.dep_get(tmp).then(async (res) => {
+      this.deplevel2List = await res;
+    })
+
   }
   suggest_List: EmployeeModel[] = [];
   doLoadSuggestList() {
@@ -1841,8 +1996,8 @@ export class EmployeeManageComponent implements OnInit {
   }
   //Province
   provinceList: ProvinceModel[] = [];
-  doLoadprovinceList(){
-    this.provinceService.province_get().then((res) =>{
+  doLoadprovinceList() {
+    this.provinceService.province_get().then((res) => {
       this.provinceList = res;
     })
   }
@@ -2470,7 +2625,6 @@ export class EmployeeManageComponent implements OnInit {
         element.empsupply_issuedate = new Date(element.empsupply_issuedate)
         element.empsupply_returndate = new Date(element.empsupply_returndate)
       })
-      console.log(res)
       this.empsupplyList = await res;
       if (this.empsupplyList.length > 0) {
         this.selectedEmpSupply = this.empsupplyList[0];
@@ -2536,7 +2690,6 @@ export class EmployeeManageComponent implements OnInit {
         element.empuniform_issuedate = new Date(element.empuniform_issuedate)
 
       })
-      console.log(res)
       this.empuniformList = await res;
       if (this.empuniformList.length > 0) {
         this.selectedEmpUniform = this.empuniformList[0];

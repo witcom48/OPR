@@ -111,6 +111,7 @@ export class ApplyListComponent implements OnInit {
   title_Fname: string = "Firstname";
   title_Lname: string = "Surname";
   title_startdate: string = "Start Date";
+  title_hiredate:string = "Hire date"
   title_status: string = "Status";
   title_apprdate: string = "Approve Date";
   title_modified_by: string = "Edit by";
@@ -150,6 +151,7 @@ export class ApplyListComponent implements OnInit {
       this.title_Fname = "ชื่อ";
       this.title_Fname = "ชื่อนามสกุล";
       this.title_startdate = "วันที่เริ่มงาน";
+      this.title_hiredate = "วันที่พร้อมเริ่มงาน"
       this.title_status = "สถานะ";
       this.title_apprdate = "วันที่อนุมัติ";
       this.title_modified_by = "ผู้ทำรายการ";

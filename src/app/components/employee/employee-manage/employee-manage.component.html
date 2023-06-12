@@ -241,11 +241,11 @@
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                     <ng-template pTemplate="header">
                                         <tr>
-                                            <th>สถานที่ปฏิบัติงาน</th>
-                                            <th>วันที่เริ่ม</th>
-                                            <th>เพิ่มเติม</th>
-                                            <th>ผู้ทำรายการ</th>
-                                            <th>วันที่ทำรายการ</th>
+                                            <th>{{title_locationname}}</th>
+                                            <th>{{title_start}}</th>
+                                            <th>{{title_description}}</th>
+                                            <th>{{title_modified_by}}</th>
+                                            <th>{{title_modified_date}}</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-emplocation>
@@ -279,11 +279,11 @@
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                     <ng-template pTemplate="header">
                                         <tr>
-                                            <th>สาขา</th>
-                                            <th>วันที่เริ่ม</th>
-                                            <th>เพิ่มเติม</th>
-                                            <th>ผู้ทำรายการ</th>
-                                            <th>วันที่ทำรายการ</th>
+                                            <th>{{title_branchname}}</th>
+                                            <th>{{title_start}}</th>
+                                            <th>{{title_description}}</th>
+                                            <th>{{title_modified_by}}</th>
+                                            <th>{{title_modified_date}}</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-empbranch>
@@ -317,10 +317,10 @@
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                     <ng-template pTemplate="header">
                                         <tr>
-                                            <th>ผู้แนะนำ</th>
-                                            <th>เพิ่มเติม</th>
-                                            <th>ผู้ทำรายการ</th>
-                                            <th>วันที่ทำรายการ</th>
+                                            <th>{{title_suggestname}}</th>
+                                            <th>{{title_description}}</th>
+                                            <th>{{title_modified_by}}</th>
+                                            <th>{{title_modified_date}}</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-empsuggest>
@@ -401,18 +401,18 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>ประเภท</th>
-                                                <th>เลขที่</th>
-                                                <th>ซอย</th>
-                                                <th>ถนน</th>
-                                                <th>อำเภอ</th>
-                                                <th>ตำบล</th>
-                                                <th>จังหวัด</th>
-                                                <th>รหัสไปรษณีย์</th>
-                                                <th>เบอร์โทรศัพท์</th>
-                                                <th>อีเมล์</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_addresstype}}</th>
+                                                <th>{{title_no}}</th>
+                                                <th>{{title_soi}}</th>
+                                                <th>{{title_road}}</th>
+                                                <th>{{title_amphur}}</th>
+                                                <th>{{title_tambon}}</th>
+                                                <th>{{title_province}}</th>
+                                                <th>{{title_zipcode}}</th>
+                                                <th>{{title_tel}}</th>
+                                                <th>{{title_line}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empaddress>
@@ -449,12 +449,12 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>ประเภทบัตร</th>
-                                                <th>รหัสบัตร</th>
-                                                <th>วันที่เปิดบัตร</th>
-                                                <th>วันที่หมดอายุ</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_cardtype}}</th>
+                                                <th>{{title_cardcode}}</th>
+                                                <th>{{title_issuedate}}</th>
+                                                <th>{{title_expiredate}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empcard>
@@ -485,13 +485,13 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>ธนาคาร</th>
-                                                <th>เลขที่บัญชี</th>
-                                                <th>ชื่อบัญชี</th>
-                                                <th>ธนาคาร(%)</th>
-                                                <th>เงินสด(%)</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_bankname}}</th>
+                                                <th>{{title_bankcode}}</th>
+                                                <th>{{title_bankname2}}</th>
+                                                <th>{{title_bankper}}</th>
+                                                <th>{{title_cashper}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empbank>
@@ -523,12 +523,12 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>ประเภท</th>
-                                                <th>เลขที่บัตรประชาชน</th>
-                                                <th>ชื่อ</th>
-                                                <th>นามสกุล</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_familytype}}</th>
+                                                <th>{{title_familycode}}</th>
+                                                <th>{{title_fname_th}}</th>
+                                                <th>{{title_lname_th}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empfamily>
@@ -560,10 +560,10 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>โรงพยาบาล</th>
-                                                <th>วันที่มีผล</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_hospitalname}}</th>
+                                                <th>{{title_start}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-emphospital>
@@ -583,28 +583,28 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_foreigner}}">
                                     <div class="foreigner">
-                                        <h4>หนังสือเดินทาง</h4>
+                                        <h4>{{title_passport}}</h4>
                                         <div>
-                                            <label>เลขที่</label>
+                                            <label>{{title_no}}</label>
                                             <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_no"
                                                 maxlength="20">
                                         </div>
                                         <div style="grid-column: 1;">
-                                            <label>วันที่เข้าประเทศ</label>
+                                            <label>{{title_entrydate}}</label>
                                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                                 [(ngModel)]="selectedEmpforeigner.entry_date"><input
                                                     type="text"></p-calendar>
                                             <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.entry_date"> -->
                                         </div>
                                         <div style="grid-column: 1;">
-                                            <label>วันที่ออกหนังสือเดินทาง</label>
+                                            <label>{{title_issuedate}}</label>
                                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                                 [(ngModel)]="selectedEmpforeigner.passport_issue"><input
                                                     type="text"></p-calendar>
                                             <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_issue"> -->
                                         </div>
                                         <div>
-                                            <label>วันที่หมดอายุ</label>
+                                            <label>{{title_expiredate}}</label>
                                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                                 [(ngModel)]="selectedEmpforeigner.passport_expire"><input
                                                     type="text"></p-calendar>
@@ -613,21 +613,21 @@
                                         <div class="horizontal">
                                             <hr>
                                         </div>
-                                        <h4>VISA</h4>
+                                        <h4>{{title_visa}}</h4>
                                         <div>
-                                            <label>เลขที่</label>
+                                            <label>{{title_no}}</label>
                                             <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_no"
                                                 maxlength="20">
                                         </div>
                                         <div style="grid-column: 1;">
-                                            <label>วันที่ออก</label>
+                                            <label>{{title_issuedate}}</label>
                                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                                 [(ngModel)]="selectedEmpforeigner.visa_issue"><input
                                                     type="text"></p-calendar>
                                             <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_issue"> -->
                                         </div>
                                         <div>
-                                            <label>วันที่หมดอายุ</label>
+                                            <label>{{title_expiredate}}</label>
                                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                                 [(ngModel)]="selectedEmpforeigner.visa_expire"><input
                                                     type="text"></p-calendar>
@@ -636,26 +636,26 @@
                                         <div class="horizontal">
                                             <hr>
                                         </div>
-                                        <h4>Work Permit</h4>
+                                        <h4>{{title_workpermit}}</h4>
                                         <div>
-                                            <label>เลขที่</label>
+                                            <label>{{title_no}}</label>
                                             <input type="text" pInputText
                                                 [(ngModel)]="selectedEmpforeigner.workpermit_no" maxlength="20">
                                         </div>
                                         <div style="grid-column: 1;">
-                                            <label>ออกโดย</label>
+                                            <label>{{title_by}}</label>
                                             <input type="text" pInputText
                                                 [(ngModel)]="selectedEmpforeigner.workpermit_by">
                                         </div>
                                         <div style="grid-column: 1;">
-                                            <label>วันที่ออก</label>
+                                            <label>{{title_issuedate}}</label>
                                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                                 [(ngModel)]="selectedEmpforeigner.workpermit_issue"><input
                                                     type="text"></p-calendar>
                                             <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.workpermit_issue"> -->
                                         </div>
                                         <div>
-                                            <label>วันที่หมดอายุ</label>
+                                            <label>{{title_expiredate}}</label>
                                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                                 [(ngModel)]="selectedEmpforeigner.workpermit_expire"><input
                                                     type="text"></p-calendar>
@@ -665,24 +665,24 @@
                                             <hr>
                                         </div>
                                         <div>
-                                            <label>เลขที่เอกสารสำคัญ</label>
+                                            <label>{{title_certino}}</label>
                                             <input type="text" pInputText
                                                 [(ngModel)]="selectedEmpforeigner.certificate_no" maxlength="20">
                                         </div>
                                         <div>
-                                            <label>วันที่เอกสารสำคัญหมดอายุ</label>
+                                            <label>{{title_certiexpire}}</label>
                                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                                 [(ngModel)]="selectedEmpforeigner.certificate_expire"><input
                                                     type="text"></p-calendar>
                                             <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.certificate_expire"> -->
                                         </div>
                                         <div>
-                                            <label>เลขที่เอกสารอื่นๆ</label>
+                                            <label>{{title_other}}</label>
                                             <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.otherdoc_no"
                                                 maxlength="20">
                                         </div>
                                         <div>
-                                            <label>วันที่หมดอายุของเอกสารอื่นๆ</label>
+                                            <label>{{title_otherexpire}}</label>
                                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                                 [(ngModel)]="selectedEmpforeigner.otherdoc_expire"><input
                                                     type="text"></p-calendar>
@@ -718,13 +718,13 @@
 
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>วันที่มีผล</th>
-                                                <th>ระดับ 1</th>
-                                                <th>ระดับ 2</th>
-                                                <th>ระดับ 3</th>
-                                                <th>ระดับ 4</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_date}}</th>
+                                                <th>{{title_lv1}}</th>
+                                                <th>{{title_lv2}}</th>
+                                                <th>{{title_lv3}}</th>
+                                                <th>{{title_lv4}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empdep>
@@ -757,11 +757,11 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>วันที่มีผล</th>
-                                                <th>ตำแหน่ง</th>
-                                                <th>เหตุผล</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_date}}</th>
+                                                <th>{{title_positionname}}</th>
+                                                <th>{{title_reason}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empposition>
@@ -793,10 +793,10 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>วันที่มีผล</th>
-                                                <th>กลุ่มพนักงาน</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_date}}</th>
+                                                <th>{{title_groupname}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empgroup>
@@ -828,15 +828,15 @@
 
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>สถานศึกษา</th>
-                                                <th>วันที่เริ่ม</th>
-                                                <th>วันที่จบ</th>
-                                                <th>คณะ</th>
-                                                <th>วิชาเอก</th>
-                                                <th>วุฒิการศึกษา</th>
-                                                <th>เกรดเฉลี่ย</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_institute}}</th>
+                                                <th>{{title_educationstart}}</th>
+                                                <th>{{title_educationend}}</th>
+                                                <th>{{title_faculty}}</th>
+                                                <th>{{title_major}}</th>
+                                                <th>{{title_qualification}}</th>
+                                                <th>{{title_gpa}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empeducation>
@@ -871,14 +871,14 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>วันที่เบิก</th>
-                                                <th>อุปกรณ์</th>
-                                                <th>จำนวน</th>
-                                                <th>วันที่คืน</th>
-                                                <th>สถานะ</th>
-                                                <th>รายละเอียด</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_supplyissue}}</th>
+                                                <th>{{title_supplyename}}</th>
+                                                <th>{{title_amount}}</th>
+                                                <th>{{title_returndate}}</th>
+                                                <th>{{title_coursestatus}}</th>
+                                                <th>{{title_description}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empsupply>
@@ -912,13 +912,13 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>วันที่เบิก</th>
-                                                <th>ประเภทชุด</th>
-                                                <th>จำนวน</th>
-                                                <th>ราคา</th>
-                                                <th>รายละเอียด</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_uniformissue}}</th>
+                                                <th>{{title_uniformname}}</th>
+                                                <th>{{title_amount}}</th>
+                                                <th>{{title_uniformprice}}</th>
+                                                <th>{{title_description}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empuniform>
@@ -953,14 +953,14 @@
 
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>สถาบัน/สถานที่</th>
-                                                <th>หลักสูตร</th>
-                                                <th>ครั้งที่</th>
-                                                <th>จากวันที่</th>
-                                                <th>ถึงวันที่</th>
-                                                <th>ผลการอมรบ</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_institute}}</th>
+                                                <th>{{title_course}}</th>
+                                                <th>{{title_count}}</th>
+                                                <th>{{title_fromdate}}</th>
+                                                <th>{{title_todate}}</th>
+                                                <th>{{title_coursestatus}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-emptraining>
@@ -1004,14 +1004,14 @@
                                         </ng-template> -->
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>สถานที่</th>
-                                                <th>หัวข้อ</th>
-                                                <th>จากวันที่</th>
-                                                <th>ถึงวันที่</th>
-                                                <th>ครั้งที่</th>
-                                                <th>ผลการประเมิน</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_institute}}</th>
+                                                <th>{{title_topic}}</th>
+                                                <th>{{title_fromdate}}</th>
+                                                <th>{{title_todate}}</th>
+                                                <th>{{title_count}}</th>
+                                                <th>{{title_assessmentresult}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empassessment>
@@ -1055,13 +1055,13 @@
                                         </ng-template> -->
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>สถานที่</th>
-                                                <th>จากวันที่</th>
-                                                <th>ถึงวันที่</th>
-                                                <th>ครั้งที่</th>
-                                                <th>ผลการตรวจสอบ</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_institute}}</th>
+                                                <th>{{title_fromdate}}</th>
+                                                <th>{{title_todate}}</th>
+                                                <th>{{title_count}}</th>
+                                                <th>{{title_criminalresult}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empcriminal>
@@ -1103,9 +1103,9 @@
                                         </ng-template> -->
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>ครั้งที่</th>
-                                                <th>วันที่</th>
-                                                <th>เหตุผล</th>
+                                                <th>{{title_count}}</th>
+                                                <th>{{title_date}}</th>
+                                                <th>{{title_reason}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empresign>
@@ -1177,11 +1177,11 @@
                                         </ng-template> -->
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>วันที่มีผล</th>
-                                                <th>เงินเดือน/ค่าจ้าง</th>
-                                                <th>เหตุผล</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_date}}</th>
+                                                <th>{{title_amount}}</th>
+                                                <th>{{title_reason}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empsalary>
@@ -1221,13 +1221,13 @@
                                         </ng-template> -->
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>วันที่มีผล</th>
-                                                <th>ชื่อเงินได้/เงินหัก</th>
-                                                <th>จำนวนเงิน</th>
-                                                <th>เงื่อนไขการจ่าย</th>
-                                                <th>เหตุผล</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_date}}</th>
+                                                <th>{{title_incomededuct}}</th>
+                                                <th>{{title_amount}}</th>
+                                                <th>{{title_conditionpay}}</th>
+                                                <th>{{title_reason}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empbenefit>
@@ -1270,13 +1270,13 @@
                                         </ng-template> -->
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>แผนกองทุนฯ</th>
-                                                <th>วันที่เข้า</th>
-                                                <th>วันที่เริ่ม</th>
+                                                <th>{{title_provident}}</th>
+                                                <th>{{title_pfentry}}</th>
+                                                <th>{{title_pfstart}}</th>
                                                 <th>สะสม %</th>
                                                 <th>สมทบ %</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empprovident>
@@ -1318,10 +1318,10 @@
                                         </ng-template> -->
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>ประเภทค่าลดหย่อน</th>
-                                                <th>จำนวนเงิน</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_reducename}}</th>
+                                                <th>{{title_amount}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empreduce>
@@ -1457,7 +1457,7 @@
 <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
     <!-- Form Emp Address -->
     <div class="formatt" *ngIf="edit_empaddress==true || new_empaddress==true">
-        <label>ประเภท</label>
+        <label>{{title_addresstype}}</label>
         <p-dropdown placeholder="--" [options]="addresstypeList" optionValue="addresstype_code" [showClear]="true"
             [(ngModel)]="selectedEmpAddress.address_type" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1468,25 +1468,25 @@
             </ng-template>
         </p-dropdown>
 
-        <label>เลขที่</label>
+        <label>{{title_no}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_no">
 
-        <label>หมู่ที่</label>
+        <label>{{title_moo}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_moo">
 
-        <label>ซอย</label>
+        <label>{{title_soi}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_soi">
 
-        <label>ถนน</label>
+        <label>{{title_road}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_road">
 
-        <label>ตำบล</label>
+        <label>{{title_tambon}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_tambon">
 
-        <label>อำเภอ</label>
+        <label>{{title_amphur}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_amphur">
 
-        <label>จังหวัด</label>
+        <label>{{title_province}}</label>
         <p-dropdown placeholder="--" [options]="provinceList" optionValue="province_code" [showClear]="true"
             [(ngModel)]="selectedEmpAddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1497,19 +1497,19 @@
             </ng-template>
         </p-dropdown>
 
-        <label>รหัสไปรษณีย์</label>
+        <label>{{title_zipcode}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_zipcode">
 
-        <label>เบอร์โทรศัพท์</label>
+        <label>{{title_tel}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_tel">
 
-        <label>อีเมล์</label>
+        <label>{{title_email}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_email">
 
-        <label>Line</label>
+        <label>{{title_line}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_line">
 
-        <label>Facebook</label>
+        <label>{{title_facebook}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_facebook">
 
         <br>
@@ -1521,20 +1521,20 @@
     </div>
     <!-- Form Emp Card -->
     <div class="formatt" *ngIf="edit_empcard==true || new_card==true">
-        <label>เลขที่</label>
+        <label>{{title_cardcode}}</label>
         <input pInputText type="text" id="card_no" [(ngModel)]="selectedEmpcard.card_code">
 
-        <label>วันที่เปิดบัตร</label>
+        <label>{{title_issuedate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpcard.card_issue"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_issue"> -->
 
-        <label>วันที่หมดอายุ</label>
+        <label>{{title_expiredate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false" [(ngModel)]="selectedEmpcard.card_expire">
             <input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
 
-        <label>ประเภทบัตร</label>
+        <label>{{title_cardtype}}</label>
         <p-dropdown placeholder="--" [options]="cardtypeList" optionValue="cardtype_code" [showClear]="true"
             [(ngModel)]="selectedEmpcard.card_type" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1554,7 +1554,7 @@
     </div>
     <!-- Form Emp Bank -->
     <div class="formatt" *ngIf="edit_empbank==true || new_bank==true">
-        <label>ธนาคาร</label>
+        <label>{{title_bankname}}</label>
         <p-dropdown placeholder="--" [options]="bankList" optionValue="bank_code" [showClear]="true"
             [(ngModel)]="selectedEmpbank.bank_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1566,19 +1566,19 @@
         </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_code"> -->
 
-        <label>ชื่อบัญชี</label>
+        <label>{{title_bankname2}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_bankname">
 
-        <label>เลขที่บัญชี</label>
+        <label>{{title_bankcode}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_account">
 
-        <label>โอนธนาคาร(%)</label>
+        <label>{{title_bankper}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
             [(ngModel)]="selectedEmpbank.bank_percent" suffix="%">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_percent"> -->
 
-        <label>เงินสด(%)</label>
+        <label>{{title_cashper}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
             [(ngModel)]="selectedEmpbank.bank_cashpercent" suffix="%">
         </p-inputNumber>
@@ -1592,27 +1592,27 @@
     </div>
     <!-- Form Emp Family -->
     <div class="formatt" *ngIf="edit_empfamily==true || new_family==true">
-        <label>รหัสประจำตัว</label>
+        <label>{{title_familycode}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_code">
 
-        <label>ชื่อ(TH)</label>
+        <label>{{title_fname_th}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_fname_th">
 
-        <label>นามสกุล(TH)</label>
+        <label>{{title_lname_th}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_lname_th">
 
-        <label>ชื่อ(EN)</label>
+        <label>{{title_fname_en}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_fname_en">
 
-        <label>นามสกุล(EN)</label>
+        <label>{{title_lname_en}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_lname_en">
 
-        <label>วันเกิด</label>
+        <label>{{title_birthdate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpfamily.family_birthdate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_birthdate"> -->
 
-        <label>ประเภท</label>
+        <label>{{title_familytype}}</label>
         <p-dropdown appendTo="body" placeholder="--" [options]="familytypeList" optionValue="family_code"
             [showClear]="true" [(ngModel)]="selectedEmpfamily.family_type"
             [style]="{ width: '100%', overflow: 'visible' }">
@@ -1634,7 +1634,7 @@
 
     <!-- Form Emp Hospital -->
     <div class="formatt" *ngIf="edit_emphospital==true || new_hospital==true">
-        <label>โรงพยาบาล</label>
+        <label>{{title_hospitalname}}</label>
         <p-dropdown appendTo="body" placeholder="--" [options]="hospitalList" optionValue="hospital_code"
             [showClear]="true" [(ngModel)]="selectedEmphospital.emphospital_code"
             [style]="{ width: '100%', overflow: 'visible' }">
@@ -1647,7 +1647,7 @@
         </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_code"> -->
 
-        <label>วันที่</label>
+        <label>{{title_date}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmphospital.emphospital_date"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_date"> -->
@@ -1661,13 +1661,13 @@
 
     <!-- Form Emp Dep -->
     <div class="formatt" *ngIf="edit_empdep==true || new_dep==true">
-        <label>วันที่</label>
+        <label>{{title_date}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpdep.empdep_date"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_date"> -->
 
-        <label>ฝ่าย</label>
-        <p-dropdown placeholder="--" [options]="depList" optionValue="dep_code" [showClear]="true"
+        <label>{{title_lv1}}</label>
+        <p-dropdown placeholder="--" [options]="deplevel1List" optionValue="dep_code" [showClear]="true"
             [(ngModel)]="selectedEmpdep.empdep_level01" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
@@ -1678,17 +1678,24 @@
         </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level01"> -->
 
-        <label>แผนก</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level02"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        <label>{{title_lv2}}</label>
+        <p-dropdown placeholder="--" [options]="deplevel2List" optionValue="dep_code" [showClear]="true"
+            [(ngModel)]="selectedEmpdep.empdep_level02" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+            </ng-template>
+        </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level02"> -->
 
-        <label>สังกัด</label>
+        <label>{{title_lv3}}</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level03"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level03"> -->
 
-        <label>เหตุผล</label>
+        <label>{{title_reason}}</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_reason"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_reason"> -->
@@ -1701,12 +1708,12 @@
 
     <!-- Form Emp Position -->
     <div class="formatt" *ngIf="edit_empposition==true || new_position==true">
-        <label>วันที่</label>
+        <label>{{title_date}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpPosition.empposition_date"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_date"> -->
 
-        <label>ตำแหน่ง</label>
+        <label>{{title_positionname}}</label>
         <p-dropdown placeholder="--" [options]="positionList" optionValue="position_code" [showClear]="true"
             [(ngModel)]="selectedEmpPosition.empposition_position" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1718,7 +1725,7 @@
         </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_position"> -->
 
-        <label>เหตุผล</label>
+        <label>{{title_reason}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_reason">
 
         <br>
@@ -1730,11 +1737,11 @@
 
     <!-- Form Emp Group -->
     <div class="formatt" *ngIf="edit_empgroup==true || new_group==true">
-        <label>วันที่</label>
+        <label>{{title_date}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpGroup.empgroup_date"><input type="text"></p-calendar>
 
-        <label>กลุ่มพนักงาน</label>
+        <label>{{title_groupname}}</label>
         <p-dropdown placeholder="--" [options]="groupList" optionValue="group_code" [showClear]="true"
             [(ngModel)]="selectedEmpGroup.empgroup_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1753,7 +1760,7 @@
 
     <!-- Form Emp Education -->
     <div class="formatt" *ngIf="edit_empeducation==true || new_education==true">
-        <label>สถานศึกษา</label>
+        <label>{{title_institute}}</label>
         <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
             [(ngModel)]="selectedEmpeducation.institute_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1765,7 +1772,7 @@
         </p-dropdown>
 
 
-        <label>คณะ</label>
+        <label>{{title_faculty}}</label>
         <p-dropdown placeholder="--" [options]="facultyList" optionValue="faculty_code" [showClear]="true"
             [(ngModel)]="selectedEmpeducation.faculty_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1776,7 +1783,7 @@
             </ng-template>
         </p-dropdown>
 
-        <label>วิชาเอก</label>
+        <label>{{title_major}}</label>
         <p-dropdown placeholder="--" [options]="majorList" optionValue="major_code" [showClear]="true"
             [(ngModel)]="selectedEmpeducation.major_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1787,7 +1794,7 @@
             </ng-template>
         </p-dropdown>
 
-        <label>วุฒิการศึกษา</label>
+        <label>{{title_qualification}}</label>
         <p-dropdown placeholder="--" [options]="qualificationList" optionValue="qualification_code" [showClear]="true"
             [(ngModel)]="selectedEmpeducation.qualification_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1798,17 +1805,17 @@
             </ng-template>
         </p-dropdown>
 
-        <label>วันที่เริ่ม</label>
+        <label>{{title_educationstart}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpeducation.empeducation_start"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.empeducation_start"> -->
 
-        <label>วันที่จบ</label>
+        <label>{{title_educationend}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpeducation.empeducation_finish"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.empeducation_finish"> -->
 
-        <label>GPA</label>
+        <label>{{title_gpa}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="4"
             [(ngModel)]="selectedEmpeducation.empeducation_gpa" [minFractionDigits]="2" [maxFractionDigits]="2">
         </p-inputNumber>
@@ -1823,30 +1830,30 @@
 
     <!-- Form Emp Supply -->
     <div class="formatt" *ngIf="edit_empsupply==true || new_supply==true">
-        <label>วันที่เบิก</label>
+        <label>{{title_supplyissue}}</label>
         <p-calendar dateFormat="dd/mm/yy" [showIcon]="false" [(ngModel)]="selectedEmpSupply.empsupply_issuedate"><input
                 type="text"></p-calendar>
 
-        <label>อุปกรณ์</label>
+        <label>{{title_supplyename}}</label>
         <p-dropdown placeholder="--" [showClear]="true" [(ngModel)]="selectedEmpSupply.empsupply_code"
             [style]="{ width: '100%', overflow: 'visible' }">
         </p-dropdown>
 
-        <label>จำนวน</label>
+        <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
             [(ngModel)]="selectedEmpSupply.empsupply_qauntity" [minFractionDigits]="2" [maxFractionDigits]="2">
         </p-inputNumber>
 
-        <label>รายละเอียด</label>
+        <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpSupply.empsupply_note" pInputTextarea [autoResize]="true"></textarea>
 
         <div class="checkbreak">
             <p-checkbox name="selectedEmpSupply.empsupply_returnstatus"
                 [(ngModel)]="selectedEmpSupply.empsupply_returnstatus" [binary]="true"></p-checkbox> &nbsp;
-            <label>คืนอุปกรณ์</label>
+            <label>{{title_return}}</label>
         </div>
 
-        <label>วันที่คืน</label>
+        <label>{{title_returndate}}</label>
         <p-calendar dateFormat="dd/mm/yy" [showIcon]="false" [(ngModel)]="selectedEmpSupply.empsupply_returndate"><input
                 type="text"></p-calendar>
 
@@ -1858,26 +1865,26 @@
 
     <!-- Form Emp Uniform -->
     <div class="formatt" *ngIf="edit_empuniform==true || new_uniform==true">
-        <label>วันที่เบิก</label>
+        <label>{{title_supplyissue}}</label>
         <p-calendar dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpUniform.empuniform_issuedate"><input type="text"></p-calendar>
 
-        <label>เครื่องแบบ</label>
+        <label>{{title_uniformname}}</label>
         <p-dropdown placeholder="--" [showClear]="true" [(ngModel)]="selectedEmpUniform.empuniform_code"
             [style]="{ width: '100%', overflow: 'visible' }">
         </p-dropdown>
 
-        <label>จำนวน</label>
+        <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
             [(ngModel)]="selectedEmpUniform.empuniform_qauntity" [minFractionDigits]="2" [maxFractionDigits]="2">
         </p-inputNumber>
 
-        <label>ราคา</label>
+        <label>{{title_uniformprice}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
             [(ngModel)]="selectedEmpUniform.empuniform_amount" [minFractionDigits]="2" [maxFractionDigits]="2">
         </p-inputNumber>
 
-        <label>รายละเอียด</label>
+        <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpUniform.empuniform_note" pInputTextarea [autoResize]="true"></textarea>
 
         <br>
@@ -1889,7 +1896,7 @@
 
     <!-- Form Emp Suggest -->
     <div class="formatt" *ngIf="edit_empsuggest==true || new_suggest==true">
-        <label>ผู้แนะนำ</label>
+        <label>{{title_suggestname}}</label>
         <p-dropdown placeholder="--" [options]="suggest_List" optionValue="worker_code" [showClear]="true"
             [(ngModel)]="selectedEmpSuggest.empsuggest_code" [style]="{ width: '100%', overflow: 'visible' }"
             [filter]="true" filterBy="worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
@@ -1903,7 +1910,7 @@
             </ng-template>
         </p-dropdown>
 
-        <label>เพิ่มเติม</label>
+        <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpSuggest.empsuggest_note" pInputTextarea [autoResize]="true"></textarea>
 
         <br>
@@ -1915,7 +1922,7 @@
 
     <!-- Form Emp Training -->
     <div class="formatt" *ngIf="edit_emptraining==true || new_training==true">
-        <label>หลักสูตร</label>
+        <label>{{title_course}}</label>
         <p-dropdown placeholder="--" [options]="courseList" optionValue="course_code" [showClear]="true"
             [(ngModel)]="selectedEmptraining.course_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1926,7 +1933,7 @@
             </ng-template>
         </p-dropdown>
 
-        <label>สถานศึกษา</label>
+        <label>{{title_institute}}</label>
         <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
             [(ngModel)]="selectedEmptraining.institute_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1937,41 +1944,41 @@
             </ng-template>
         </p-dropdown>
 
-        <label>วันที่เริ่ม</label>
+        <label>{{title_educationstart}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmptraining.emptraining_start"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_start"> -->
 
-        <label>วันที่จบ</label>
+        <label>{{title_educationend}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmptraining.emptraining_finish"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_finish"> -->
 
-        <label>สถานะ</label>
+        <label>{{title_coursestatus}}</label>
         <div class="radio">
             <p-radioButton name="training_status" value="Y"
                 [(ngModel)]="selectedEmptraining.emptraining_status"></p-radioButton>&nbsp;
-            <label>Pass</label>
+            <label>{{title_pass}}</label>
             &nbsp;&nbsp;
             <p-radioButton name="training_status" value="N"
                 [(ngModel)]="selectedEmptraining.emptraining_status"></p-radioButton>&nbsp;
-            <label>Not Pass</label>
+            <label>{{title_notpass}}</label>
         </div>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_status"> -->
 
-        <label>จำนวนชั่วโมง</label>
+        <label>{{title_coursehour}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
             [(ngModel)]="selectedEmptraining.emptraining_hours">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_hours"> -->
 
-        <label>ค่าใช้จ่าย</label>
+        <label>{{title_cost}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency"
             [(ngModel)]="selectedEmptraining.emptraining_cost">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_cost"> -->
 
-        <label>รายละเอียด</label>
+        <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmptraining.emptraining_note" pInputTextarea [autoResize]="true"></textarea>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_note"> -->
 
@@ -1984,7 +1991,7 @@
 
     <!-- Form Emp Assessment -->
     <div class="formatt" *ngIf="edit_empassessment==true || new_assessment==true">
-        <label>สถานที่</label>
+        <label>{{title_institute}}</label>
         <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
             [(ngModel)]="selectedEmpassessment.empassessment_location" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1995,31 +2002,31 @@
             </ng-template>
         </p-dropdown>
 
-        <label>หัวข้อ</label>
+        <label>{{title_topic}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_topic">
 
-        <label>จากวันที่</label>
+        <label>{{title_fromdate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpassessment.empassessment_fromdate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_fromdate"> -->
 
-        <label>ถึงวันที่</label>
+        <label>{{title_todate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpassessment.empassessment_todate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_todate"> -->
 
-        <label>ครั้งที่</label>
+        <label>{{title_count}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_count">
 
-        <label>ผลการประเมิน</label>
+        <label>{{title_assessmentresult}}</label>
         <div class="radio">
             <p-radioButton name="assessment_result" value="Y"
                 [(ngModel)]="selectedEmpassessment.empassessment_result"></p-radioButton>&nbsp;
-            <label>Pass</label>
+            <label>{{title_pass}}</label>
             &nbsp;&nbsp;
             <p-radioButton name="assessment_result" value="N"
                 [(ngModel)]="selectedEmpassessment.empassessment_result"></p-radioButton>&nbsp;
-            <label>Not Pass</label>
+            <label>{{title_notpass}}</label>
         </div>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_result"> -->
 
@@ -2032,7 +2039,7 @@
 
     <!-- Form Emp Criminal -->
     <div class="formatt" *ngIf="edit_empcriminal==true || new_criminal==true">
-        <label>สถานที่</label>
+        <label>{{title_institute}}</label>
         <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
             [(ngModel)]="selectedEmpcriminal.empcriminal_location" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -2043,28 +2050,28 @@
             </ng-template>
         </p-dropdown>
 
-        <label>จากวันที่</label>
+        <label>{{title_fromdate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpcriminal.empcriminal_fromdate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_fromdate"> -->
 
-        <label>ถึงวันที่</label>
+        <label>{{title_todate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpcriminal.empcriminal_todate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_todate"> -->
 
-        <label>ครั้งที่</label>
+        <label>{{title_count}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_count">
 
-        <label>ผลการตรวจสอบ</label>
+        <label>{{title_criminalresult}}</label>
         <div class="radio">
             <p-radioButton name="criminal_result" value="Y"
                 [(ngModel)]="selectedEmpcriminal.empcriminal_result"></p-radioButton>&nbsp;
-            <label>Pass</label>
+            <label>{{title_pass}}</label>
             &nbsp;&nbsp;
             <p-radioButton name="criminal_result" value="N"
                 [(ngModel)]="selectedEmpcriminal.empcriminal_result"></p-radioButton>&nbsp;
-            <label>Not Pass</label>
+            <label>{{title_notpass}}</label>
         </div>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_result"> -->
 
@@ -2077,30 +2084,30 @@
 
     <!-- Form Emp Salary -->
     <div class="formatt" *ngIf="edit_empsalary==true || new_salary==true">
-        <label>อัตราปรับ(บาท)</label>
+        <label>{{title_incrementbath}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedEmpsalary.empsalary_incamount">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_incamount"> -->
 
-        <label>อัตราปรับ(%)</label>
+        <label>{{title_incrementper}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax" suffix="%"
             [(ngModel)]="selectedEmpsalary.empsalary_incpercent" [max]="100">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_incpercent"> -->
 
-        <label>จำนวน</label>
+        <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedEmpsalary.empsalary_amount">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_amount"> -->
 
-        <label>วันที่มีผล</label>
+        <label>{{title_date}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpsalary.empsalary_date"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_date"> -->
 
-        <label>เหตุผล</label>
+        <label>{{title_reason}}</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [(ngModel)]="selectedEmpsalary.empsalary_reason"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
@@ -2114,26 +2121,26 @@
 
     <!-- Form Emp provident -->
     <div class="formatt" *ngIf="edit_empprovident==true || new_provident==true">
-        <label>นโยบาย</label>
+        <label>{{title_provident}}</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [(ngModel)]="selectedEmpprovident.provident_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.provident_code"> -->
 
-        <label>รหัสกองทุนฯ</label>
+        <label>{{title_pfno}}</label>
         <input pInputText type="text" [(ngModel)]="selectedEmpprovident.empprovident_card">
 
-        <label>วันที่เข้า</label>
+        <label>{{title_pfentry}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpprovident.empprovident_entry"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_entry"> -->
 
-        <label>วันที่เริ่ม</label>
+        <label>{{title_pfstart}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpprovident.empprovident_start"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_start"> -->
 
-        <label>วันที่ออก</label>
+        <label>{{title_pfend}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpprovident.empprovident_end"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_end"> -->
@@ -2147,28 +2154,28 @@
 
     <!-- Form Emp benefit -->
     <div class="formatt" *ngIf="edit_empbenefit==true || new_benefit==true">
-        <label>เงินได้/เงินหัก</label>
+        <label>{{title_incomededuct}}</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpbenefit.item_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.item_code"> -->
 
-        <label>จำนวน</label>
+        <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedEmpbenefit.empbenefit_amount">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_amount"> -->
 
-        <label>วันที่เริ่ม</label>
+        <label>{{title_start}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpbenefit.empbenefit_startdate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_startdate"> -->
 
-        <label>วันที่สิ้นสุด</label>
+        <label>{{title_end}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpbenefit.empbenefit_enddate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_enddate"> -->
 
-        <label>ประเภท</label>
+        <label>{{title_benefittype}}</label>
         <div class="radio">
             <p-radioButton name="benefit_paytype" value="A"
                 [(ngModel)]="selectedEmpbenefit.empbenefit_paytype"></p-radioButton>&nbsp;
@@ -2180,7 +2187,7 @@
         </div>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_paytype"> -->
 
-        <label>เงื่อนไขการจ่าย</label>
+        <label>{{title_conditionpay}}</label>
         <p-dropdown [options]="conPay" placeholder="--" optionValue="value" [showClear]="true"
             [(ngModel)]="selectedEmpbenefit.empbenefit_conditionpay" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -2192,37 +2199,37 @@
         </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_conditionpay"> -->
 
-        <label>งวด</label>
+        <label>{{title_period}}</label>
         <div class="radio">
             <p-radioButton name="benefit_payfirst" value="Y"
                 [(ngModel)]="selectedEmpbenefit.empbenefit_payfirst"></p-radioButton>&nbsp;
-            <label>งวดแรก</label>
+            <label>{{title_odd}}</label>
             &nbsp;&nbsp;
             <p-radioButton name="benefit_payfirst" value="N"
                 [(ngModel)]="selectedEmpbenefit.empbenefit_payfirst"></p-radioButton>&nbsp;
-            <label>งวดที่สอง</label>
+            <label>{{title_even}}</label>
         </div>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_payfirst"> -->
 
-        <label>เหตุผล</label>
+        <label>{{title_reason}}</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [(ngModel)]="selectedEmpbenefit.empbenefit_reason"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_reason"> -->
 
-        <label>เพิ่มเติม</label>
+        <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpbenefit.empbenefit_note" pInputTextarea [autoResize]="true"></textarea>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_note"> -->
 
         <div class="checkbreak">
             <p-checkbox name="selectedEmpbenefit.empbenefit_break" [(ngModel)]="selectedEmpbenefit.empbenefit_break"
                 [binary]="true"></p-checkbox> &nbsp;
-            <label>พักการจ่าย</label>
+            <label>{{title_break}}</label>
         </div>
         <!-- <label>พักการจ่าย</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_break"> -->
         <div *ngIf="selectedEmpbenefit.empbenefit_break == true">
-            <label>เหตุผล(พักการจ่าย)</label>
+            <label>{{title_breakreason}}</label>
             <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
                 [(ngModel)]="selectedEmpbenefit.empbenefit_breakreason"
                 [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
@@ -2237,12 +2244,12 @@
 
     <!-- Form Emp Reduce -->
     <div class="formatt" *ngIf="edit_empreduce==true || new_reduce==true">
-        <label>ลดหย่อน</label>
+        <label>{{title_reducename}}</label>
         <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpreduce.reduce_type"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpreduce.reduce_type"> -->
 
-        <label>จำนวน</label>
+        <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedEmpreduce.empreduce_amount">
         </p-inputNumber>
@@ -2323,7 +2330,7 @@
 
     <!-- Form Emp Location -->
     <div class="formatt" *ngIf="edit_emplocation==true || new_emplocation==true">
-        <label>สถานที่ปฏิบัติงาน</label>
+        <label>{{title_locationname}}</label>
         <p-dropdown placeholder="--" [options]="locationList" optionValue="location_code" [showClear]="true"
             [(ngModel)]="selectedEmpLocation.location_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -2334,15 +2341,15 @@
             </ng-template>
         </p-dropdown>
 
-        <label>วันที่เริ่ม</label>
+        <label>{{title_start}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpLocation.emplocation_startdate"><input type="text"></p-calendar>
 
-        <label>วันที่สิ้นสุด</label>
+        <label>{{title_end}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpLocation.emplocation_enddate"><input type="text"></p-calendar>
 
-        <label>เพิ่มเติม</label>
+        <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpLocation.emplocation_note" pInputTextarea [autoResize]="true"></textarea>
 
         <br>
@@ -2355,7 +2362,7 @@
 
     <!-- Form Emp branch -->
     <div class="formatt" *ngIf="edit_empbranch==true || new_empbranch==true">
-        <label>สาขา</label>
+        <label>{{title_branchname}}</label>
         <p-dropdown placeholder="--" [options]="combranchList" optionValue="combranch_code" [showClear]="true"
             [(ngModel)]="selectedEmpbranch.branch_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -2366,15 +2373,15 @@
             </ng-template>
         </p-dropdown>
 
-        <label>วันที่เริ่ม</label>
+        <label>{{title_start}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpbranch.empbranch_startdate"><input type="text"></p-calendar>
 
-        <label>วันที่สิ้นสุด</label>
+        <label>{{title_end}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
             [(ngModel)]="selectedEmpbranch.empbranch_enddate"><input type="text"></p-calendar>
 
-        <label>เพิ่มเติม</label>
+        <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpbranch.empbranch_note" pInputTextarea [autoResize]="true"></textarea>
 
         <br>
@@ -2390,6 +2397,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
