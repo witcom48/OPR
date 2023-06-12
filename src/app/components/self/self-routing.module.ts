@@ -15,6 +15,7 @@ import { SelfDaytypeComponent } from './self-daytype/self-daytype.component';
 import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
 import { SelfTopicComponent } from './self-topic/self-topic.component';
 import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
+import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-leave.component';
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
         { path: 'req_checkin', component: SelfCheckinComponent },
         { path: 'req_reqdoc', component: SelfReqdocComponent },
 
-
+        { path: 'approve_leave', component: SelfApproveLeaveComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }

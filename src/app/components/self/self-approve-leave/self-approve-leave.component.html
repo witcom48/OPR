@@ -1,0 +1,281 @@
+<!-- Link Page -->
+<div class="path">
+    <span>{{langs.get('title')[selectlang]}}</span>
+    <div>
+        <i></i>
+        <a routerLink="/self/employee">{{langs.get('approve')[selectlang]}}</a>
+        <i></i>
+        <small>{{langs.get('title_leave')[selectlang]}}</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<p-dialog header="{{langs.get('manage')[selectlang]}}" [(visible)]="displayManage" [style]="{width: '40vw'}"
+    [position]="position" (onHide)="closeManage()">
+    <div class="formgrid grid align-items-end">
+
+        <div class="field col-12">
+            <div class="formgroup-inline">
+                <div class="field-radiobutton">
+                    <p-radioButton name="leavetype" value="F" [(ngModel)]="leavetype" inputId="leavetype"
+                        (ngModelChange)="ChangeType()" [disabled]="edit_data"></p-radioButton>
+                    <label for="leavetype">{{langs.get('full_day')[selectlang]}}</label>
+                </div>
+                <div class="field-radiobutton">
+                    <p-radioButton name="leavetype" value="H" [(ngModel)]="leavetype" inputId="leavetype"
+                        (ngModelChange)="ChangeType()" [disabled]="edit_data"></p-radioButton>
+                    <label for="leavetype">{{langs.get('half_day')[selectlang]}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="field col-12">
+            <div *ngIf="leavetype=='F'">
+                <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_fromdate" dateFormat="dd/mm/yy"
+                    inputId="date_from" [disabled]="edit_data"></p-calendar>
+                -
+                <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_todate" dateFormat="dd/mm/yy" inputId="date_to"
+                    (onSelect)="doLoadLeaveactualday()" [disabled]="edit_data"></p-calendar>
+                &nbsp;&nbsp;&nbsp;
+                <span
+                    [ngStyle]="{'color': (selectedtrtimeleave.timeleave_actualday <= day) ? 'green' : 'red'}">{{langs.get('actualday')[selectlang]}}
+                    {{selectedtrtimeleave.timeleave_actualday}} {{langs.get('day')[selectlang]}}</span>
+            </div>
+            <div *ngIf="leavetype=='H'" class="half">
+                <p-calendar [(ngModel)]="selectedtrtimeleave.timeleave_fromdate" dateFormat="dd/mm/yy"
+                    inputId="date_from" [disabled]="edit_data"></p-calendar>
+                &nbsp;&nbsp;&nbsp;
+                <div class="field col-12">
+                    <div class="formgroup-inline">
+                        <div class="field-radiobutton">
+                            <p-radioButton name="leavetype" value="H1" [(ngModel)]="selectedtrtimeleave.timeleave_type"
+                                inputId="leavetype" [disabled]="edit_data"></p-radioButton>
+                            <label for="leavetype">{{langs.get('morning')[selectlang]}}</label>
+                        </div>
+                        <div class="field-radiobutton">
+                            <p-radioButton name="leavetype" value="H2" [(ngModel)]="selectedtrtimeleave.timeleave_type"
+                                inputId="leavetype" [disabled]="edit_data"></p-radioButton>
+                            <label for="leavetype">{{langs.get('afternoon')[selectlang]}}</label>
+                        </div>
+                    </div>
+                </div>
+                <p-inputMask mask="99:99" [(ngModel)]="time_half" placeholder="HH:mm"
+                    [disabled]="edit_data"></p-inputMask>
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">{{langs.get('leavetype')[selectlang]}}</label>
+            <p-dropdown class="selectyaer" [options]="leaveacc_list" [(ngModel)]="selectedleave_type"
+                (onChange)="selectLeaveType()" optionLabel={{leavetypedis}} [disabled]="edit_data"></p-dropdown>
+            <!-- <p-dropdown placeholder="LS001 : ลาป่วย" optionLabel="name" [showClear]="true"
+                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+        </div>
+        <div class="field col-12 md:col-6">
+            <span style="color: green;">{{langs.get('remain')[selectlang]}} {{day}} {{langs.get('day')[selectlang]}}
+                {{hour}} {{langs.get('hour')[selectlang]}}</span>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="ppos_shift_code">{{langs.get('reason')[selectlang]}}</label>
+            <p-dropdown class="selectyaer" [options]="reason_list" [(ngModel)]="reasonselected"
+                (onChange)="selectLeavereason()" optionLabel={{reasonedis}} [disabled]="edit_data"></p-dropdown>
+        </div>
+
+        <div class="field col-12" style="display:flex;flex-direction: column;">
+            <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
+            <textarea [(ngModel)]="selectedtrtimeleave.timeleave_note" pInputTextarea [autoResize]="true"
+                [disabled]="edit_data"></textarea>
+            <!-- <input id="project_name_th" type="text"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"> -->
+        </div>
+
+        <div class="field col-12">
+            <!-- <p-menubar [model]="items_attfile"></p-menubar> -->
+            <p-table #dt3 [value]="selectedtrtimeleave.reqdoc_data" selectionMode="single"
+                [(selection)]="selectedreqdoc" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                [globalFilterFields]="['document_name','created_by','created_date']" responsiveLayout="stack"
+                [breakpoint]="'744px'">
+                <!-- Form Search Table -->
+                <ng-template pTemplate="caption">
+                    <div class="searchtable">
+                        <div>
+
+                        </div>
+                        <!-- <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt3.filterGlobal($any($event).target.value, 'contains')"
+                                placeholder="{{langs.get('search')[selectlang]}}" />
+                        </span> -->
+                    </div>
+                </ng-template>
+                <!-- --------------END Form Search Table------------------ -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>{{langs.get('no')[selectlang]}}</th>
+                        <th>{{langs.get('file_name')[selectlang]}}</th>
+                        <th>{{langs.get('modified_by')[selectlang]}}</th>
+                        <th>{{langs.get('modified_date')[selectlang]}}</th>
+                        <!-- <th>{{langs.get('delete')[this.selectlang]}}</th> -->
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                    <tr [pSelectableRow]="data">
+                        <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                        <td><span>{{langs.get('file_name')[selectlang]}}</span>{{data.document_name}}</td>
+                        <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.created_by}}</td>
+                        <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.created_date |
+                            date:'dd/MM/yyyy'}}</td>
+                        <!-- <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-trash" styleClass="p-button-danger"
+                                (click)="DeleteFile(data)" [disabled]="edit_data"></p-button></td> -->
+
+                    </tr>
+                </ng-template>
+            </p-table>
+            <!-- <p-table [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="100px"
+                [virtualScroll]="true" selectionMode="single" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ชื่อไฟล์</th>
+                        <th>ผู้ทำรายการ</th>
+                        <th>วันที่ทำรายการ</th>
+                    </tr>
+                </ng-template>
+            </p-table> -->
+        </div>
+        <div class="field col-12">
+            <p-button label="{{langs.get('save')[selectlang]}}" icon="pi pi-save"
+                (click)="Save(selectedtrtimeleave)"></p-button>
+            &nbsp;
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('delete')[selectlang]}}"
+                class="p-button-danger" (click)="Delete(selectedtrtimeleave)"></button>
+        </div>
+        <!-- <div class="field col-12">
+            <p-button label="บันทึก" icon="pi pi-save" (click)="Save()"></p-button>
+            &nbsp;
+            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary"
+                (click)="closeManage()"></button>
+        </div> -->
+
+    </div>
+</p-dialog>
+
+
+<div class="grid">
+
+    <div class="col-12">
+        <!-- <p-menubar [model]="items"></p-menubar> -->
+        <p-toolbar styleClass="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <!-- <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()"></button> -->
+                <div style="display: flex;gap: 10px;">
+                    <p-button label="{{langs.get('approve')[selectlang]}}" icon="pi pi-check" styleClass="p-button-primary" (click)="Saveall()"
+                        [disabled]="selectedtrtimeleaveall.length==0"></p-button>
+                    <p-button label="{{langs.get('notapprove')[selectlang]}}" icon="pi pi-times" styleClass="p-button-danger"
+                        (click)="Deleteall()" [disabled]="selectedtrtimeleaveall.length==0"></p-button>
+                </div>
+            </ng-template>
+
+            <!-- <ng-template pTemplate="right">
+                <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+            </ng-template> -->
+        </p-toolbar>
+        <p-table #dt1 [value]="trtimeleave_list" selectionMode="single" [(selection)]="selectedtrtimeleaveall"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['timeleave_doc','leave_detail_th','leave_detail_en','timeleave_fromdate','timeleave_todate','timeleave_type','reason_th','reason_en','status_job','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 4rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <!-- <th>{{langs.get('no')[selectlang]}}</th> -->
+                    <th>{{langs.get('name')[selectlang]}}</th>
+                    <th>{{langs.get('leavetype')[selectlang]}}</th>
+                    <th>{{langs.get('fromdate')[selectlang]}}</th>
+                    <th>{{langs.get('todate')[selectlang]}}</th>
+                    <th>{{langs.get('form_of_leave')[selectlang]}}</th>
+                    <th>{{langs.get('reason')[selectlang]}}</th>
+                    <!-- <th>{{langs.get('status')[selectlang]}}</th> -->
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
+                    <th>{{langs.get('approve')[selectlang]}}</th>
+                    <th>{{langs.get('notapprove')[selectlang]}}</th>
+                    <th>{{langs.get('verify')[selectlang]}}</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr class="tablenotselect">
+                    <td>
+                        <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                    </td>
+                    <!-- <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td> -->
+                    <td><span>{{langs.get('name')[selectlang]}}</span>{{selectlang
+                        =="EN"?data.worker_detail_en:data.worker_detail_th}}</td>
+                    <td><span>{{langs.get('leavetype')[selectlang]}}</span>{{selectlang
+                        =="EN"?data.leave_detail_en:data.leave_detail_th}}</td>
+                    <td><span>{{langs.get('fromdate')[selectlang]}}</span>{{data.timeleave_fromdate |
+                        date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{langs.get('todate')[selectlang]}}</span>{{data.timeleave_todate | date:'dd/MM/yyyy'}}
+                    </td>
+                    <td><span>{{langs.get('form_of_leave')[selectlang]}}</span>{{getFulltyupeLeave(data.timeleave_type)}}
+                    </td>
+                    <td><span>{{langs.get('reason')[selectlang]}}</span>{{selectlang
+                        =="EN"?data.reason_en:data.reason_th}}</td>
+                    <!-- <td><span>{{langs.get('status')[selectlang]}}</span>{{getFullStatus(data.status_job)}}</td> -->
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-check"
+                            styleClass="p-button-primary" (click)="Save(data)"
+                            [disabled]="selectedtrtimeleaveall.length>0"></p-button>
+                    </td>
+                    <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-times"
+                            styleClass="p-button-danger" (click)="Delete(data)"
+                            [disabled]="selectedtrtimeleaveall.length>0"></p-button>
+                    </td>
+                    <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-eye"
+                            styleClass="p-button-success" (click)="viwe(data)" [disabled]="edit_data"></p-button>
+                    </td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+
+<p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFileInputholidaylist($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>

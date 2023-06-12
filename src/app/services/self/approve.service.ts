@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { AppConfig } from '../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+
 import { InitialCurrent } from '../../config/initial_current';
-import { LeaveModels } from 'src/app/models/attendance/leave';
-import { cls_TRleave } from 'src/app/models/attendance/cls_TRleave';
+import { AccountModel } from 'src/app/models/self/account';
+import { ApproveModel } from 'src/app/models/self/approve';
 
 @Injectable({
     providedIn: 'root'
 })
-export class TRLeaveaccServices {
+export class ApproveServices {
 
     public config: AppConfig = new AppConfig();
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -43,19 +44,39 @@ export class TRLeaveaccServices {
         }
     }
 
-    public leaveacc_get(Leave: cls_TRleave) {
+    public approve_get(approve: ApproveModel) {
+        console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: Leave.company_code || this.initial_current.CompCode,
-            worker_code: Leave.worker_code,
-            year_code: Leave.year_code || this.initial_current.PR_Year,
+            company_code: approve.company_code || this.initial_current.CompCode,
+            job_type: approve.job_type
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/leaveacc_list', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/approve_list', data, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;
+            });
+    }
+
+    public approveJob(approve: ApproveModel) {
+        console.log('ATT002..');
+        let data = {
+            device_name: "phone",
+            ip: "127.0.0.1",
+            username: this.initial_current.Username,
+            company_code: approve.company_code || this.initial_current.CompCode,
+            job_type: approve.job_type,
+            approve_status: approve.approve_status,
+            job_id: approve.job_id,
+            lang: approve.lang || this.initial_current.Language
+        }
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/approve', data, this.options).toPromise()
+            .then((res) => {
+                console.log(res)
+                let message = JSON.parse(res);
+                return message;
             });
     }
 }

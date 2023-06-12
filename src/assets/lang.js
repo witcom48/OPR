@@ -792,7 +792,9 @@ var area = new Map([
 var reqleave = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
     ["title_leave", { TH: "ลา", EN: "Leave" }],
-    ["employee", { TH: "พนักงาน", EN: "Employee" }],
+    ["employee", { TH: "บันทึกเอกสาร", EN: "Request" }],
+    ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
+    ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
     ["workflow", { TH: "สายงานการอนุมัติ", EN: "Workflow" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
@@ -844,6 +846,12 @@ var reqleave = new Map([
     ["reject", { TH: "ปฏิเสธ", EN: "Reject" }],
     ["cumulative_leave", { TH: "วันลาสะสม", EN: "Cumulative leave" }],
     ["manage", { TH: "จัดการ", EN: "Manage" }],
+    ["verify", { TH: "ตรวจสอบ", EN: "verify" }],
+    ["name", { TH: "ชื่อ", EN: "Name" }],
+    ["conapprove", { TH: "ยันยันการอนุมัติเอกสาร", EN: "Confirm Aprrove" }],
+    ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
+    ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
+    ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
 ]);
 
 

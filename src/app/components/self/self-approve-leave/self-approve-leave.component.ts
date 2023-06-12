@@ -2,23 +2,27 @@ import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { timeStamp } from 'console';
+import { tmpdir } from 'os';
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { cls_TRleave } from 'src/app/models/attendance/cls_TRleave';
+import { ApproveModel } from 'src/app/models/self/approve';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeleaveModel } from 'src/app/models/self/cls_TRTimeleave';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { TRLeaveaccServices } from 'src/app/services/attendance/trleaveacc.service';
+import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqleave: any;
 @Component({
-  selector: 'app-self-leave',
-  templateUrl: './self-leave.component.html',
-  styleUrls: ['./self-leave.component.scss']
+  selector: 'app-self-approve-leave',
+  templateUrl: './self-approve-leave.component.html',
+  styleUrls: ['./self-approve-leave.component.scss']
 })
-export class SelfLeaveComponent implements OnInit {
+export class SelfApproveLeaveComponent implements OnInit {
+
   @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
   langs: any = reqleave;
   selectlang: string = "EN";
@@ -32,6 +36,7 @@ export class SelfLeaveComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
     private trleaveaccService: TRLeaveaccServices,
+    private approveService: ApproveServices,
     private timeleaveService: TimeleaveServices,
     private reasonService: ReasonsService,
     private router: Router,
@@ -50,6 +55,7 @@ export class SelfLeaveComponent implements OnInit {
   reasonselected: ReasonsModel = new ReasonsModel();
   trtimeleave_list: cls_TRTimeleaveModel[] = [];
   selectedtrtimeleave: cls_TRTimeleaveModel = new cls_TRTimeleaveModel();
+  selectedtrtimeleaveall: cls_TRTimeleaveModel[] = [];
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
@@ -68,15 +74,13 @@ export class SelfLeaveComponent implements OnInit {
     this.doGetInitialCurrent()
     this.doLoadMenu();
     this.doLoadTimeleave();
-    this.doLoadLeaveacc();
     this.doLoadReason();
   }
   doLoadTimeleave() {
     this.trtimeleave_list = [];
-    var tmp = new cls_TRTimeleaveModel();
-    tmp.timeleave_fromdate = new Date(`${this.initial_current.PR_Year}-01-01`)
-    tmp.timeleave_todate = new Date(`${this.initial_current.PR_Year}-12-31`)
-    this.timeleaveService.timeleave_get(tmp).then(async (res) => {
+    var tmp = new ApproveModel();
+    tmp.job_type = "LEA"
+    this.approveService.approve_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
         elm.timeleave_todate = new Date(elm.timeleave_todate)
@@ -85,12 +89,18 @@ export class SelfLeaveComponent implements OnInit {
     });
 
   }
-  doLoadLeaveacc() {
+  doLoadLeaveacc(userid: string) {
     this.leaveacc_list = [];
     var tmp = new cls_TRleave();
-    tmp.worker_code = this.initial_current.Username;
+    tmp.worker_code = userid;
     this.trleaveaccService.leaveacc_get(tmp).then(async (res) => {
       this.leaveacc_list = await res
+      res.forEach((obj: cls_TRleave) => {
+        if (obj.leave_code == this.selectedtrtimeleave.leave_code) {
+          this.selectedleave_type = obj;
+          this.selectLeaveType()
+        }
+      })
     });
   }
   doLoadLeaveactualday() {
@@ -115,7 +125,7 @@ export class SelfLeaveComponent implements OnInit {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadTimeleave();
-        this.doLoadLeaveacc();
+        // this.doLoadLeaveacc();
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -130,7 +140,7 @@ export class SelfLeaveComponent implements OnInit {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadTimeleave();
-        this.doLoadLeaveacc();
+        // this.doLoadLeaveacc();
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -172,26 +182,42 @@ export class SelfLeaveComponent implements OnInit {
       this.selectedreqdoc = new cls_MTReqdocumentModel();
     })
   }
+  async doApproveJob(data: ApproveModel) {
+    data.job_type = "LEA";
+    data.lang = this.selectlang;
+    await this.approveService.approveJob(data).then((res) => {
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadTimeleave();
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.leavetype = "F"
+    this.closeManage()
+  }
   doLoadMenu() {
 
     this.items = [
 
-      {
-        label: this.langs.get('new')[this.selectlang],
-        icon: 'pi pi-fw pi-plus',
-        command: (event) => {
-          this.leavetype = "F"
-          this.selectedtrtimeleave = new cls_TRTimeleaveModel();
-          this.selectedleave_type = this.leaveacc_list[0]
-          this.reasonselected = this.reason_list[0]
-          this.selectedtrtimeleave.leave_code = this.leaveacc_list[0].leave_code
-          this.selectedtrtimeleave.reason_code = this.reason_list[0].reason_code
-          this.time_half = "00:00"
-          this.selectLeaveType();
-          this.showManage();
-        }
+      // {
+      //   label: this.langs.get('new')[this.selectlang],
+      //   icon: 'pi pi-fw pi-plus',
+      //   command: (event) => {
+      //     this.leavetype = "F"
+      //     this.selectedtrtimeleave = new cls_TRTimeleaveModel();
+      //     this.selectedleave_type = this.leaveacc_list[0]
+      //     this.reasonselected = this.reason_list[0]
+      //     this.selectedtrtimeleave.leave_code = this.leaveacc_list[0].leave_code
+      //     this.selectedtrtimeleave.reason_code = this.reason_list[0].reason_code
+      //     this.time_half = "00:00"
+      //     this.selectLeaveType();
+      //     this.showManage();
+      //   }
 
-      },
+      // },
       // {
       //   label: 'Edit',
       //   icon: 'pi pi-fw pi-pencil',
@@ -314,6 +340,7 @@ export class SelfLeaveComponent implements OnInit {
     this.selectedtrtimeleave = new cls_TRTimeleaveModel();
     this.displayManage = false
     this.edit_data = false;
+    this.selectedtrtimeleaveall = []
   }
 
   selectLeavereason() {
@@ -322,28 +349,23 @@ export class SelfLeaveComponent implements OnInit {
   selectLeaveType() {
     this.selectedtrtimeleave.leave_code = this.selectedleave_type.leave_code;
     this.day = Math.floor(this.selectedleave_type.empleaveacc_remain)
-    this.hour = (this.selectedleave_type.empleaveacc_remain - Math.floor(this.selectedleave_type.empleaveacc_remain)) * 8
-  }
-  onRowSelect(event: Event) {
-    this.time_half = this.datePipe.transform(new Date(0, 0, 0, Math.floor(this.selectedtrtimeleave.timeleave_min / 60), Math.floor(this.selectedtrtimeleave.timeleave_min % 60)), 'HH:mm') || "00:00"
-    this.leaveacc_list.forEach((obj: cls_TRleave) => {
-      if (obj.leave_code == this.selectedtrtimeleave.leave_code) {
-        this.selectedleave_type = obj;
-      }
-    })
-    this.reason_list.forEach((obj: ReasonsModel) => {
-      if (obj.reason_code == this.selectedtrtimeleave.reason_code) {
-        this.reasonselected = obj;
-      }
-    })
-    if (this.selectedtrtimeleave.timeleave_type === "F") {
-      this.leavetype = "F"
-    } else {
-      this.leavetype = "H"
-    }
-    this.selectLeaveType()
+    this.hour = (this.selectedleave_type.empleaveacc_remain - Math.floor(this.selectedleave_type.empleaveacc_remain)) * 8;
     this.displayManage = true;
     this.edit_data = true;
+  }
+  onRowSelect(event: Event) {
+    // this.doLoadLeaveacc(this.selectedtrtimeleave.worker_code);
+    // this.time_half = this.datePipe.transform(new Date(0, 0, 0, Math.floor(this.selectedtrtimeleave.timeleave_min / 60), Math.floor(this.selectedtrtimeleave.timeleave_min % 60)), 'HH:mm') || "00:00"
+    // this.reason_list.forEach((obj: ReasonsModel) => {
+    //   if (obj.reason_code == this.selectedtrtimeleave.reason_code) {
+    //     this.reasonselected = obj;
+    //   }
+    // })
+    // if (this.selectedtrtimeleave.timeleave_type === "F") {
+    //   this.leavetype = "F"
+    // } else {
+    //   this.leavetype = "H"
+    // }
   }
   onRowSelectfile(event: Event) {
     this.doGetfileTimeleave(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
@@ -379,25 +401,82 @@ export class SelfLeaveComponent implements OnInit {
     }
     return status;
   }
-  Save() {
-    if (this.selectedtrtimeleave.timeleave_doc === "") {
-      this.selectedtrtimeleave.timeleave_doc = "LEAVE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+  Save(data: cls_TRTimeleaveModel) {
+    if (!this.selectedtrtimeleaveall.length) {
+      this.confirmationService.confirm({
+        message: this.langs.get('conapprove')[this.selectlang],
+        header: this.langs.get('condoc')[this.selectlang],
+        icon: 'pi pi-check',
+        accept: () => {
+          let tmp = new ApproveModel();
+          tmp.job_id = [data.jobtable_id];
+          tmp.approve_status = "A";
+          tmp.company_code = data.company_code;
+          this.doApproveJob(tmp)
+        },
+        reject: () => {
+
+        }
+      });
     }
-    if (this.selectedtrtimeleave.timeleave_type != "F") {
-      this.selectedtrtimeleave.timeleave_todate = this.selectedtrtimeleave.timeleave_fromdate;
-      var date1 = new Date(0, 0, 0, Number(this.time_half.split(":")[0]), Number(this.time_half.split(":")[1]), 0)
-      var hours_minutes = date1.getHours() * 60 + date1.getMinutes();
-      this.selectedtrtimeleave.timeleave_min = hours_minutes;
-      console.log(hours_minutes)
-      console.log(this.time_half)
+
+  }
+  Delete(data: cls_TRTimeleaveModel) {
+    if (!this.selectedtrtimeleaveall.length) {
+      this.confirmationService.confirm({
+        message: this.langs.get('connotapprove')[this.selectlang],
+        header: this.langs.get('connotdoc')[this.selectlang],
+        icon: 'pi pi-times',
+        accept: () => {
+          let tmp = new ApproveModel();
+          tmp.job_id = [data.jobtable_id];
+          tmp.approve_status = "C";
+          tmp.company_code = data.company_code;
+          this.doApproveJob(tmp)
+        },
+        reject: () => {
+
+        }
+      });
+    }
+  }
+  Saveall() {
+    if (this.selectedtrtimeleaveall.length) {
+      let tmp = new ApproveModel();
+      this.selectedtrtimeleaveall.forEach((data: cls_TRTimeleaveModel) => {
+        tmp.job_id.push(data.jobtable_id)
+        tmp.approve_status = "A";
+        tmp.company_code = data.company_code;
+      })
+      console.log(tmp)
+      this.doApproveJob(tmp)
+    }
+  }
+  Deleteall() {
+    if (this.selectedtrtimeleaveall.length) {
+      let tmp = new ApproveModel();
+      this.selectedtrtimeleaveall.forEach((data: cls_TRTimeleaveModel) => {
+        tmp.job_id.push(data.jobtable_id)
+        tmp.approve_status = "C";
+        tmp.company_code = data.company_code;
+      })
+      console.log(tmp)
+      this.doApproveJob(tmp)
+    }
+  }
+  viwe(data: cls_TRTimeleaveModel) {
+    this.selectedtrtimeleave = data;
+    this.doLoadLeaveacc(this.selectedtrtimeleave.worker_code);
+    this.time_half = this.datePipe.transform(new Date(0, 0, 0, Math.floor(this.selectedtrtimeleave.timeleave_min / 60), Math.floor(this.selectedtrtimeleave.timeleave_min % 60)), 'HH:mm') || "00:00"
+    this.reason_list.forEach((obj: ReasonsModel) => {
+      if (obj.reason_code == this.selectedtrtimeleave.reason_code) {
+        this.reasonselected = obj;
+      }
+    })
+    if (this.selectedtrtimeleave.timeleave_type === "F") {
+      this.leavetype = "F"
     } else {
-      this.selectedtrtimeleave.timeleave_min = (this.selectedtrtimeleave.timeleave_actualday * 480)
+      this.leavetype = "H"
     }
-    this.doRecordTimeleave([this.selectedtrtimeleave])
   }
-  Delete() {
-    this.doDeleteTimeleave(this.selectedtrtimeleave)
-  }
-
-
 }

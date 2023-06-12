@@ -59,6 +59,7 @@ import { SelfDaytypeComponent } from './self-daytype/self-daytype.component';
 import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
 import { SelfTopicComponent } from './self-topic/self-topic.component';
 import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
+import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-leave.component';
 
 @NgModule({
 	imports: [
@@ -127,7 +128,8 @@ import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
               SelfDaytypeComponent,
               SelfCheckinComponent,
               SelfTopicComponent,
-              SelfReqdocComponent
+              SelfReqdocComponent,
+              SelfApproveLeaveComponent
   ]
 })
 export class SelfModule { }

@@ -8,8 +8,8 @@ export class InitialCurrent {
     EmpType: string = "M";     
 
     Language: string = "EN";   
-    Username: string = "EMP01";  
-    Usertype: string = "U";  
+    Username: string = "Approve01";  
+    Usertype: string = "APR";  
     LastLogin: Date = new Date();  
 
     TA_FromDate: Date = new Date();

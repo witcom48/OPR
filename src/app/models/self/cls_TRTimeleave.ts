@@ -26,6 +26,7 @@ export class cls_TRTimeleaveModel {
   reason_en: string = "";
   status: number = 0;
   status_job: string = "";
+  jobtable_id: string = "";
 
   modified_by: string = "";
   modified_date: string = "";
