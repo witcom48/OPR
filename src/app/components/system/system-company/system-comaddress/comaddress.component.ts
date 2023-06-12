@@ -590,7 +590,7 @@ export class SystemComaddressComponent implements OnInit {
     if(this.comaddressList.length == 0){
       return
     }
-    this.companyDetailService.record_comddress(this.selectedCompany.company_code, this.comaddressList).then((res) => {
+    this.companyDetailService.record_comaddress(this.selectedCompany.company_code, this.comaddressList).then((res) => {
       let result = JSON.parse(res);
       if(result.success){
       }

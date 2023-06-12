@@ -3,10 +3,10 @@
 
 <!-- Link Page -->
 <div class="path">
-    <span>System</span>
+    <span>{{title_system}}</span>
     <div>
         <i></i>
-        <a routerLink="/system/sys-manage">Manage</a>
+        <a routerLink="/system/sys-manage">{{title_manage}}</a>
         <i></i>
         <small>{{title_page}}</small>
     </div>
@@ -28,7 +28,7 @@
         selectionMode="single" [(selection)]="selectedTRPolcode" (onRowSelect)="onRowSelectTRPolcode($event)" [rows]="12"
         [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
         currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['codestructure_code','polcode_lenght','polcode_text','polcode_order']">
+        [globalFilterFields]="['codestructure_code','codestructure_name_en','polcode_lenght','polcode_text','polcode_order']">
         <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -42,23 +42,25 @@
         <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                    <th>Code</th>
-                    <th>Detail</th>
-                    <th>Lenght</th>
-                    <th>Text</th>
+                    <th>{{title_code}}</th>
+                    <!-- <th>Detail</th> -->
+                    <th>{{title_lenght}}</th>
+                    <th>{{title_text}}</th>
+                    <th>{{title_order}}</th>
 
                  
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data>
+            <ng-template pTemplate="body" let-data >
                 <tr [pSelectableRow]="data">
-                        <td>{{data.codestructure_code}}</td>
-                        <td>{{data.polcode_lenght}}</td>
-                        <td>{{data.polcode_text}}</td>
-                        <td>{{data.polcode_order}}</td>
-                   
+                    <td>{{data.codestructure_code}}</td>
+                    <!-- <td>{{data.codestructure_name_en}}</td> -->
+                    <td>{{data.polcode_lenght}}</td>
+                    <td>{{data.polcode_text}}</td>
+                    <td>{{data.polcode_order}}</td>
                 </tr>
             </ng-template>
+            
         </p-table>
     </div>
     <!-- -----------------------END Table-------------------------- -->
@@ -67,7 +69,7 @@
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
 
-          <label>Code</label>
+          <label>{{title_code}}</label>
           <p-dropdown placeholder="--" [options]="codestructureList" optionValue="codestructure_code"
               [showClear]="true" [(ngModel)]="selectedTRPolcode.codestructure_code"
               [style]="{ width: '150%', overflow: 'visible' }">
@@ -81,28 +83,16 @@
               </ng-template>
           </p-dropdown>
 
-          <!-- <div class=" field col-5 ">
-            <label for="lastname2">Detail</label>
-            <p-inputNumber [showButtons]="true" inputId="minmax-buttons"
-                [step]="1" [(ngModel)]="selectedTRPolcode.polcode_lenght">
-            </p-inputNumber>
-        </div> -->
 
         
-          <label>Detail</label>
+          <label>{{title_lenght}}</label>
           <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_lenght">
 
-          <label>Lenght</label>
+          <label>{{title_text}}</label>
           <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_text">
 
-          <!-- <div class=" field col-12 ">
-            <label for="lastname2">Text</label>
-            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" 
-                [step]="1" [(ngModel)]="selectedTRPolcode.polcode_order">
-            </p-inputNumber>
-        </div> -->
-
-          <label>Text</label>
+    
+          <label>{{title_order}}</label>
           <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_order">
 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
@@ -128,6 +118,6 @@
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    rejectButtonStyleClass="p-button-text"  key="myDialog" ></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
 

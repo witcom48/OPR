@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- Link Page -->
 <div class="path">
-    <span>Payroll</span>
+    <span>{{title_payroll}}</span>
     <div>
         <i></i>
         <a routerLink="/payroll/policy">{{title_policy}}</a>
@@ -99,6 +99,6 @@
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
 

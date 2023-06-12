@@ -51,7 +51,8 @@ export class SystemFacultyComponent implements OnInit {
         this.router.navigateByUrl('');
       }
     }
-
+title_system:string = "System";
+  title_genaral:string = "Genaral";
     title_page:string = "Faculty";
     title_new:string = "New";
     title_edit:string = "Edit";
@@ -83,6 +84,8 @@ export class SystemFacultyComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
+         this.title_system= "ระบบ";
+        this.title_genaral= "ทั่วไป";
         this.title_page = "ข้อมูลสถานะพนักงาน";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
@@ -164,7 +167,8 @@ export class SystemFacultyComponent implements OnInit {
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-          }
+          },
+          key:"myDialog"
       });
     }
 
@@ -194,7 +198,8 @@ export class SystemFacultyComponent implements OnInit {
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-          }
+          },
+          key:"myDialog"
       });
     }
 

@@ -1,0 +1,31 @@
+ 
+    td {
+      &.de-item {
+        color: red;
+      }
+    }
+ 
+    tr.de-item td {
+        color: red;
+      }
+      
+    
+      .table_summary {
+        margin: 20px;
+        border-collapse: collapse;
+        color: #696969;
+        font-size: 18px;  
+      
+      .table_summary 
+        td {
+          padding: 20px;
+        }
+        
+        b {
+          margin-right: 10px;
+        }
+        span{
+            margin-right: 10px;
+        }
+      }
+ 
