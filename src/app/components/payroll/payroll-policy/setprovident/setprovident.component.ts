@@ -57,6 +57,7 @@ export class SetprovidentComponent implements OnInit {
     title_page: string = 'Set Provident Fund';
     title_new: string = 'New';
     title_name_policy: string = 'Policy';
+    title_payroll: string = 'Payroll';
 
     title_worker_code: string = 'Worker';
     title_type: string = 'Type';
@@ -102,6 +103,8 @@ export class SetprovidentComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+                                    this.title_payroll= 'บัญชีเงินเดือน';
+
             this.title_policy = 'นโยบาย';
             this.title_page = 'กำหนดสิทธิกองทุนสำรองฯ';
             this.title_name_policy= 'นโยบาย';

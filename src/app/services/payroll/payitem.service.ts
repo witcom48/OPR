@@ -60,8 +60,6 @@ export class PayitemService {
 
     public payitem_get(company:string, project:string, worker:string, payitem:string,  item:string ){     
     
-    
-     
         var filter = { 
           device_name:'',
           ip:"localhost",
@@ -69,16 +67,12 @@ export class PayitemService {
           company_code:  this.initial_current.CompCode,          
           language:this.initial_current.Language,
           worker_code:worker,
-        //   payitem_date:payitem,
           item_code:item, 
 
         };
-        
-    
         return this.http.post<any>(this.config.ApiPayrollModule + '/TRpayitem_list', filter, this.options).toPromise()   
         .then((res) => {
           let message = JSON.parse(res);
-          //console.log(res)
           return message.data;
         });
       }
@@ -159,33 +153,6 @@ export class PayitemService {
           });
       }
       
-      
-      
-    
-    // public payitem_record(model: PayitemModel) {
-    //     console.log('TRIT002..');
-    //     let data = {
-    //         device_name: "",
-    //         ip: "",
-    //         username: this.initial_current.Username,
-    //         company_code: model.company_code || this.initial_current.CompCode,
-    //         worker_code:model.worker_code,
-    //         item_code:model.item_code,
-    //         payitem_date:model.payitem_date,
-    //         payitem_amount:model.payitem_amount,
-    //         payitem_quantity:model.payitem_quantity,
-    //         payitem_paytype:model.payitem_paytype,
-    //         payitem_note:model.payitem_note,
-    //         modified_by: this.initial_current.Username,
-
-    //     }
-    //     return this.http.post<any>(this.config.ApiPayrollModule + '/TRpayitem', data, this.options).toPromise()
-    //         .then((res) => {
-    //             console.log(res)
-    //             let message = JSON.parse(res);
-    //             return message;
-    //         });
-    // }
     public payitem_delete(model: PayitemModel) {
         console.log('PAYTRIT003..');
         let data = {

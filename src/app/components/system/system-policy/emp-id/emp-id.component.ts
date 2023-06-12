@@ -27,7 +27,7 @@ export class EmpIDComponent implements OnInit {
       private codePolcodeService: CodePolcodeService,
       private codestructureService: CodestructureService,
 
-      
+
       private router:Router,
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
@@ -53,7 +53,8 @@ export class EmpIDComponent implements OnInit {
         this.router.navigateByUrl('');
       }
     }
-
+ title_system:string = "System";
+  title_manage:string = "Manage";
     title_page:string = "Structure code";
     title_new:string = "New";
     title_edit:string = "Edit";
@@ -62,6 +63,12 @@ export class EmpIDComponent implements OnInit {
     title_export:string = "Export";
     title_save:string = "Save";
     title_code:string = "Code";
+    title_lenght:string = "Lenght";
+    title_text:string = "Text";
+    title_order:string = "Order";
+
+
+
     title_name_th:string = "Description(Thai)";
     title_name_en:string = "Description(Eng)";
     title_detail:string = "Detail";
@@ -85,6 +92,8 @@ export class EmpIDComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
+         this.title_system= "ระบบ";
+        this.title_manage= "จัดการ";
         this.title_page = "รูปแบบรหัส";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
@@ -93,6 +102,10 @@ export class EmpIDComponent implements OnInit {
         this.title_export = "โอนออก";
         this.title_save = "บันทึก";
         this.title_code = "รหัส";
+        this.title_lenght = "ความยาว";
+        this.title_text	 = "ข้อความคงที่";	
+        this.title_order= "อันดับ";	
+
         this.title_name_th = "รายละเอียด(Thai)";
         this.title_name_en = "รายละเอียด(Eng)";
         this.title_detail = "รายละเอียด";
@@ -172,7 +185,9 @@ export class EmpIDComponent implements OnInit {
           },
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-          }
+          },
+          key:"myDialog"
+
       });
     }
 
@@ -293,4 +308,4 @@ export class EmpIDComponent implements OnInit {
     }
 
   }
-   
+

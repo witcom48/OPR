@@ -108,6 +108,18 @@ export class SysBranchComponent implements OnInit {
             this.router.navigateByUrl('');
         }
     }
+    title_codes: string = 'Code';
+    title_social_security_branch: string = 'Social Security Branch';
+    title_thai_name: string = 'Name (Thai)';
+    title_english_name: string = 'Name (Eng)';
+
+    title_card_type: string = 'Card Type';
+    title_card_code: string = 'Card Code';
+    title_card_opening_date: string = 'Card Opening Date';
+    title_expiration_date: string = 'Expiration Date';
+
+    Address_th: string = 'Address TH';
+    Address_en: string = 'Address EN';
 
     title_page: string = 'combranch';
     title_new: string = 'New';
@@ -186,8 +198,35 @@ export class SysBranchComponent implements OnInit {
 
     title_confirm_cancel: string = 'You have cancelled';
 
+    title_address_type: string = 'Type';
+    title_address_no: string = 'No';
+    title_address_moo: string = 'moo';
+    title_address_road: string = 'road';
+    title_address_soi: string = 'soi';
+    title_address_tambon: string = 'tambon';
+    title_address_amphur: string = 'amphur';
+    title_address_province: string = 'province';
+    title_address_zipcode: string = 'zipcode';
+    title_address_tel: string = 'tel';
+    title_address_email: string = 'email';
+    title_address_note: string = 'note';
+    title_address_line: string = 'line';
+    title_address_facebook: string = 'facebook';
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+
+            this.title_codes ='รหัสสาขา';
+            this.title_social_security_branch ='สาขาประกันสังคม'
+            this.title_thai_name ='ชื่อไทย';
+            this.title_english_name ='ชื่ออังกฤษ';
+
+            this.title_card_type ='ประเภทบัตร';
+            this.title_card_code ='รหัสบัตร';
+            this.title_card_opening_date ='วันที่เปิดบัตร';
+            this.title_expiration_date ='วันที่หมดอายุ';
+            this.Address_th ='ที่อยู่ ไทย';
+            this.Address_en ='ที่อยู่ อังกฤษ';
+
             this.title_page = 'ข้อมูลสถานที่ปฎิบัติงาน';
             this.title_new = 'เพิ่ม';
             this.title_edit = 'แก้ไข';
@@ -263,6 +302,21 @@ export class SysBranchComponent implements OnInit {
             this.title_confirm_yes = 'ใช่';
             this.title_confirm_no = 'ยกเลิก';
             this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
+
+            this.title_address_type= 'ประเภท';
+            this.title_address_no = 'เลขที่';
+            this.title_address_moo= 'หมู่ที่';
+            this.title_address_road= 'ถนน';
+            this.title_address_soi= 'ซอย';
+            this.title_address_tambon= 'ตำบล';
+            this.title_address_amphur= 'อำเภอ';
+            this.title_address_province= 'จังหวัด';
+            this.title_address_zipcode= 'รหัสไปรษณีย์';
+            this.title_address_tel= 'เบอร์โทรศัพท์';
+            this.title_address_email= 'อีเมล์';
+            this.title_address_note= 'note';
+            this.title_address_line= 'ไลน์';
+            this.title_address_facebook= 'เฟสบุ๊ค';
         }
     }
 
@@ -283,100 +337,6 @@ export class SysBranchComponent implements OnInit {
                     console.log('Save');
                     this.confirmRecord();
                 },
-            },
-        ];
-        //menu address
-        this.menu_comaddress = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.clearManage();
-                    this.new_comaddress = true;
-                    var ref = this.comaddressList.length + 100;
-                    this.selectedComaddress = new ComaddressModel();
-                    this.selectedComaddress.combranch_code = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.clearManage();
-                    if (this.selectedComaddress != null) {
-                        this.edit_comaddress = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedComaddress != null) {
-                        this.comaddresss_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
-            },
-        ];
-        //menu address en
-        this.menu_comaddresseen = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.clearManage();
-                    this.new_comaddresseen = true;
-                    var ref = this.comaddressList.length + 100;
-                    this.selectedComaddress = new ComaddressModel();
-                    this.selectedComaddress.company_code = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.clearManage();
-                    if (this.selectedComaddress != null) {
-                        this.edit_comaddresseen = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedComaddress != null) {
-                        this.comaddresss_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
             },
         ];
 
@@ -513,83 +473,32 @@ export class SysBranchComponent implements OnInit {
     //address
     comaddressList: ComaddressModel[] = [];
     selectedComaddress: ComaddressModel = new ComaddressModel();
+    
     doLoadComaddressList() {
-        this.combranchDetailService
-            .getcombranch_address(
-                this.initial_current.CompCode,
-                this.combranch_code
-            )
-            .then((res) => {
-                this.comaddressList = res;
-                if (this.comaddressList.length > 0) {
-                    this.selectedComaddress = this.comaddressList[0];
-                }
-            });
-    }
-    onRowSelectComaddress(event: Event) {}
-    comaddress_summit() {
-        this.comaddress_addItem(this.selectedComaddress);
-        this.new_comaddress = false;
-        this.edit_comaddress = false;
-        this.displayManage = false;
-
-        this.new_comaddresseen = false;
-        this.edit_comaddresseen = false;
-    }
-    comaddresss_remove() {
-        this.selectedComaddress.combranch_code = '9999';
-        this.comaddress_addItem(this.selectedComaddress);
-        this.new_comaddress = false;
-        this.edit_comaddress = false;
-
-        this.new_comaddresseen = false;
-        this.edit_comaddresseen = false;
-    }
-    comaddress_delete() {}
-    comaddress_cancel() {
-        this.new_comaddress = false;
-        this.edit_comaddress = false;
-
-        this.new_comaddresseen = false;
-        this.edit_comaddresseen = false;
-
-        this.displayManage = false;
-    }
-    comaddress_addItem(model: ComaddressModel) {
-        const itemNew: ComaddressModel[] = [];
-        for (let i = 0; i < this.comaddressList.length; i++) {
-            if (this.comaddressList[i].combranch_code == model.combranch_code) {
-                //-- Notting
-            } else {
-                itemNew.push(this.comaddressList[i]);
+        this.combranchDetailService.getcombranch_address(this.initial_current.CompCode, this.combranch_code)
+          .then((res: ComaddressModel[]) => {
+            this.comaddressList = res;
+            if (this.comaddressList.length > 0) {
+              this.selectedComaddress = this.comaddressList[0];
             }
-        }
-        //-- 9999 for delete
-        if (model.combranch_code != '9999') {
-            itemNew.push(model);
-        }
-        this.comaddressList = [];
-        this.comaddressList = itemNew;
-        this.comaddressList.sort(function (a, b) {
-            return parseInt(a.comaddressen_no) - parseInt(b.comaddressth_no);
-        });
-    }
-    record_comaddress() {
-        if (this.comaddressList.length == 0) {
-            return;
-        }
-        this.combranchDetailService
-            .record_comddress(
-                this.selectedCombranch.combranch_code,
-                this.comaddressList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
+          });
+      }
+      
+    
+      record_comaddress() {
+        this.selectedComaddress.comaddress_type = "1";
+        this.selectedComaddress.combranch_code = this.selectedCombranch.combranch_code;
+      
+        this.combranchDetailService.record_comddress(this.selectedComaddress.combranch_code, [this.selectedComaddress])
+          .then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+            } else {
+            }
+          });
+      }
+      
+
 
     //card
     comcardList: ComcardModel[] = [];
@@ -682,6 +591,7 @@ export class SysBranchComponent implements OnInit {
                     detail: this.title_confirm_cancel,
                 });
             },
+            key: "myDialog"
         });
     }
 
@@ -698,8 +608,7 @@ export class SysBranchComponent implements OnInit {
                     this.record_comaddress();
                     this.record_comcard();
                     this.doLoadCombranch();
-
-                    this.messageService.add({
+                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
                         detail: result.message,
@@ -719,6 +628,7 @@ export class SysBranchComponent implements OnInit {
     close() {
         this.new_combranch = false;
         this.selectedCombranch = new CombranchModel();
+        this.selectedComaddress= new ComaddressModel();
     }
 
     clearManage() {

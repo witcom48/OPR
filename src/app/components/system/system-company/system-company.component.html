@@ -1,5 +1,4 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
-<!-- <app-companys></app-companys> -->
 <div class="path">
     <span>System</span>
     <div>
@@ -9,14 +8,8 @@
         <small>{{title_page}}</small>
     </div>
 </div>
-<!-- <span style="font-size: 20px;">System</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>{{title_page}}</small> -->
 <hr>
-<!-- <app-system-bankaccount></app-system-bankaccount> -->
 
-<!-- <span style="font-size: 20px">System</span>&nbsp;
-<i class="pi pi-angle-right"></i>&nbsp;
-<small>{{ title_page }}</small>
-<hr /> -->
 <div>
     <p-menubar [model]="items"></p-menubar>
 </div>
@@ -44,11 +37,11 @@
                 <ng-template pTemplate="header">
                     <tr>
                     <tr>
-                        <th>รหัส</th>
-                        <th>ชื่อย่อ</th>
-                        <th>ชื่อบริษัท</th>
-                        <th>Edit by</th>
-                        <th>Edit date</th>
+                        <th>{{title_codes}}</th>
+                        <th>{{title_initials}}</th>
+                        <th>{{title_name}}</th>
+                        <th>{{title_modified_by}}</th>
+                        <th>{{title_modified_date}}</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
@@ -56,7 +49,6 @@
                         <td>{{data.company_code}}</td>
                         <td>{{data.company_initials}}</td>
                         <td>{{initial_current.Language == "TH"? data.company_name_th:data.company_name_en}}</td>
-                        <!-- <td>{{data.company_name_th}}</td> -->
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     </tr>
@@ -71,20 +63,21 @@
     <div class="formatt" *ngIf="new_company===true">
         <i (click)="close()"></i>
 
-        <label>รหัส</label>
-        <!-- <input pInputText type="text" [(ngModel)]="selectedCardtype.cardtype_code" maxlength="5"  [readonly]="edit_data" /> -->
+        <label>{{title_codes}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedcompany.company_code" maxlength="5"
             [readonly]="edit_company">
         <p>{{selectedcompany.company_code.length}}/5</p>
 
-        <label for="lastname2">ชื่อย่อ</label>
+        <label for="lastname2">{{title_initials}}</label>
         <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcompany.company_initials" [cols]="30" pInputTextarea
             [autoResize]="true"></textarea>
 
 
-        <label for="lastname2">ชื่อบริษัท</label>
+        <label for="lastname2">{{title_name}}</label>
         <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcompany.company_name_th" [cols]="30" pInputTextarea
             [autoResize]="true"></textarea>
+
+            
 
 
 
@@ -111,4 +104,4 @@
 
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    rejectButtonStyleClass="p-button-text"  key="myDialog"></p-confirmDialog>

@@ -40,6 +40,8 @@ export class ItemsComponent implements OnInit {
             this.router.navigateByUrl('');
         }
     }
+    title_payroll: string = 'Payroll';
+
     title_policy: string = 'Set Policy';
     title_page: string = 'Income / Deduct';
     title_new: string = 'New';
@@ -88,6 +90,8 @@ export class ItemsComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+                                    this.title_payroll= 'บัญชีเงินเดือน';
+
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'ชนิดเงินได้ / เงินหัก';
             this.title_new = 'เพิ่ม';

@@ -7,6 +7,9 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { SetPolicyAttModels } from 'src/app/models/attendance/setpolicyatt';
 import { SetPolicyAttServices } from 'src/app/services/attendance/setuppolicy.service';
+
+import * as xlsx from 'xlsx';
+
 interface Policy {
   name: string,
   code: string
@@ -62,41 +65,64 @@ export class TransferSsoComponent implements OnInit {
 
   process() {
     this.result_list = [];
+
     if (this.selectEmp.employee_dest.length > 0) {
-      this.SetPolicyAtt();
-      // this.confirmationService.confirm({
-      //   message: "SetUpPolicyAttence",
-      //   header: "SetUp",
-      //   icon: 'pi pi-exclamation-triangle',
-      //   accept: () => {
-      //     this.doRecordPlanholiday();
-      //   },
-      //   reject: () => {
-      //   }
-      // });
+      this.SetPolicyAtt().then((data) => {
+        const workbook = xlsx.utils.book_new();
+        const worksheet = xlsx.utils.json_to_sheet(data);
+        xlsx.utils.book_append_sheet(workbook, worksheet, 'Data');
+        const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+        this.saveExcelFile(excelBuffer, 'data.xlsx');
+      }).catch((error) => {
+        console.error(error);
+      });
     }
   }
 
   async SetPolicyAtt() {
-    var data = new SetPolicyAttModels();
-    data.pol_code = this.policyselect.code
+    const data = new SetPolicyAttModels();
+    data.pol_code = this.policyselect.code;
     data.pol_type = this.pol_type;
-    data.company_code = this.initial_current.CompCode
-    data.modified_by = this.initial_current.Username
+    data.company_code = this.initial_current.CompCode;
+    data.modified_by = this.initial_current.Username;
     data.emp_data = this.selectEmp.employee_dest;
+
     this.loading = true;
-    await this.setPolicyAttService.SetPolicyAtt_record(data).then((res) => {
-      console.log(res)
+
+    try {
+      const res = await this.setPolicyAttService.SetPolicyAtt_record(data);
+      console.log(res);
+
       if (res.success) {
-        console.log(res.message)
+        console.log(res.message);
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-      }
-      else {
+        return res.data; // Return the data received from the response
+      } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+        throw new Error(res.message); // Throw an error with the error message
       }
+    } catch (error) {
+      console.error(error);
+      throw error; // Throw the error object
+    } finally {
       this.loading = false;
-    });
+    }
   }
+
+  saveExcelFile(buffer: any, filename: string) {
+    const data: Blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    setTimeout(() => {
+      window.URL.revokeObjectURL(url);
+      link.remove();
+    }, 100);
+  }
+
 
   function(e: any) {
     var page = e.index;

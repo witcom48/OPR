@@ -64,6 +64,7 @@ export class CalculationperiodComponent implements OnInit {
         this.config.setTranslation(langcalendaren)
       }
     }
+    title_payroll: string = 'Payroll';
 
     title_policy: string = 'Set Policy';
     title_page: string = 'Calculation Period';
@@ -113,6 +114,8 @@ export class CalculationperiodComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+                        this.title_payroll= 'บัญชีเงินเดือน';
+
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'งวดการคำนวน';
             this.title_new = 'เพิ่ม';

@@ -80,6 +80,7 @@ export class CombranchDetailService {
       });
     }
     public record_comddress(combranch_code :string, list:ComaddressModel[]) {
+        console.log('CCAD001...')
 
       var item_data:string = "[";
       for (let i = 0; i < list.length; i++) {

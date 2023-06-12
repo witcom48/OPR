@@ -81,7 +81,7 @@ export class CompanyDetailService {
       return message.data;
     });
   }
-  public record_comddress(company_code :string, list:ComaddressModel[]) {
+  public record_comaddress(company_code :string, list:ComaddressModel[]) {
 
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
@@ -299,9 +299,8 @@ export class CompanyDetailService {
   }
   public delete_combank(model:CombankModel){
     const data = {
-    combank_id: model.combank_id,
-    company_code: model.company_code,
-    //   company_code: this.initial_current.CompCode,
+        combank_id: model.combank_id,
+    // company_code: model.company_code,
       modified_by: this.initial_current.Username
     };
 

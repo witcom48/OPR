@@ -59,6 +59,10 @@ export class BranchComponent implements OnInit {
             this.router.navigateByUrl('');
         }
     }
+    title_codes: string = 'Code';
+    title_social_security_branch: string = 'Social Security Branch';
+    title_name: string = 'Name';
+    title_english_name: string = 'Name (Eng)';
 
     title_page: string = 'combranch';
     title_num_emp: string = 'combranch';
@@ -99,6 +103,11 @@ export class BranchComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+            this.title_codes ='รหัสสาขา';
+            this.title_social_security_branch ='สาขาประกันสังคม'
+            this.title_name ='ชื่อสาขา';
+            this.title_english_name ='ชื่ออังกฤษ';
+            
             this.title_page = 'ข้อมูลพนักงาน';
             this.title_num_emp = 'จำนวนพนักงาน';
             this.title_new_emp = 'พนักงานใหม่';
@@ -185,6 +194,7 @@ export class BranchComponent implements OnInit {
                     detail: this.title_confirm_cancel,
                 });
             },
+            key: "myDialog"
         });
         console.log(this.selectedcombranch);
     }

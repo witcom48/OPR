@@ -57,6 +57,7 @@ export class TaxrateComponent implements OnInit {
             this.router.navigateByUrl('');
         }
     }
+    title_payroll: string = 'Payroll';
 
     title_policy: string = 'Set Policy';
     title_page: string = 'Taxrate';
@@ -101,6 +102,8 @@ export class TaxrateComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+                                    this.title_payroll= 'บัญชีเงินเดือน';
+
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'อัตราภาษี';
             this.title_new = 'เพิ่ม';
@@ -112,7 +115,7 @@ export class TaxrateComponent implements OnInit {
             this.title_From = 'จาก';
             this.title_To = 'ถึง';
             this.title_Tax = '%';
- this.title_no = 'อันดับ';
+            this.title_no = 'อันดับ';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';
@@ -192,6 +195,7 @@ export class TaxrateComponent implements OnInit {
                     detail: this.title_confirm_cancel,
                 });
             },
+            key:"myDialog"
         });
     }
 
@@ -232,6 +236,7 @@ export class TaxrateComponent implements OnInit {
                     detail: this.title_confirm_cancel,
                 });
             },
+            key:"myDialog"
         });
     }
 

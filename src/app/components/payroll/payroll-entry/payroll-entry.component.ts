@@ -122,7 +122,7 @@ export class PayrollEntryComponent implements OnInit {
     title_name_th: string = 'Name (Thai)';
     title_name_en: string = 'Name (Eng.)';
 
-    title_manage : string = 'ManageIncome/Deduct';
+    title_manage : string = 'Manage Income/Deduct';
     title_payroll: string = 'Payroll';
     title_by_income: string = 'By Income';
     title_employee: string = 'Employee';

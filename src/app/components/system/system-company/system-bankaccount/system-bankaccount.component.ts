@@ -705,7 +705,7 @@ export class SystemBankaccountComponent implements OnInit {
             return;
         }
         this.companyDetailService
-            .record_comddress(
+            .record_comaddress(
                 this.selectedCompany.company_code,
                 this.comaddressList
             )
@@ -776,7 +776,7 @@ export class SystemBankaccountComponent implements OnInit {
             return;
         }
         this.companyDetailService
-            .record_comddress(
+            .record_comaddress(
                 this.selectedCompany.company_code,
                 this.comaddressenList
             )
