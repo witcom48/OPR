@@ -4,12 +4,12 @@ export class InitialCurrent {
 
     }
 
-    CompCode: string = "xxx";   
+    CompCode: string = "OPR";   
     EmpType: string = "M";     
 
     Language: string = "EN";   
-    Username: string = "Not login";  
-    Usertype: string = "U";  
+    Username: string = "Approve01";  
+    Usertype: string = "APR";  
     LastLogin: Date = new Date();  
 
     TA_FromDate: Date = new Date();

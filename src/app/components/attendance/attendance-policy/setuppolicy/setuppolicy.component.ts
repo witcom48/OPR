@@ -81,6 +81,7 @@ export class SetuppolicyComponent implements OnInit {
     var data = new SetPolicyAttModels();
     data.pol_code = this.policyselect.code
     data.pol_type = this.pol_type;
+    data.year_code = this.initial_current.PR_Year
     data.company_code = this.initial_current.CompCode
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;

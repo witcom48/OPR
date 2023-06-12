@@ -10,24 +10,35 @@ import { SelfRecordtimeComponent } from './self-recordtime/self-recordtime.compo
 import { SelfWorkflowComponent } from './self-workflow/self-workflow.component';
 import { SelfAccountComponent } from './self-account/self-account.component';
 import { SelfLineapproveComponent } from './self-lineapprove/self-lineapprove.component';
+import { SelfAreaComponent } from './self-area/self-area.component';
+import { SelfDaytypeComponent } from './self-daytype/self-daytype.component';
+import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
+import { SelfTopicComponent } from './self-topic/self-topic.component';
+import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
+import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-leave.component';
 
 
 @NgModule({
-    imports: [RouterModule.forChild([ 
-       
+    imports: [RouterModule.forChild([
+
         { path: 'policy', component: SelfPolicyComponent },
 
         { path: 'workflow', component: SelfWorkflowComponent },
         { path: 'lineapprove', component: SelfLineapproveComponent },
         { path: 'account', component: SelfAccountComponent },
+        { path: 'area', component: SelfAreaComponent },
+        { path: 'topic', component: SelfTopicComponent },
 
         { path: 'employee', component: SelfEmployeeComponent },
         { path: 'req_leave', component: SelfLeaveComponent },
         { path: 'req_overtime', component: SelfOvertimeComponent },
         { path: 'req_shift', component: SelfChangeshiftComponent },
+        { path: 'req_daytype', component: SelfDaytypeComponent },
         { path: 'req_record', component: SelfRecordtimeComponent },
-       
+        { path: 'req_checkin', component: SelfCheckinComponent },
+        { path: 'req_reqdoc', component: SelfReqdocComponent },
 
+        { path: 'approve_leave', component: SelfApproveLeaveComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }
