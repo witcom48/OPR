@@ -859,6 +859,8 @@ var reqshift = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
     ["title_shfit", { TH: "เปลี่ยนกะการทำงาน", EN: "Change Shift" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
+    ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
+    ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
     ["workflow", { TH: "สายงานการอนุมัติ", EN: "Workflow" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
@@ -899,6 +901,12 @@ var reqshift = new Map([
     ["finish", { TH: "เสร็จ", EN: "Finish" }],
     ["reject", { TH: "ปฏิเสธ", EN: "Reject" }],
     ["manage", { TH: "จัดการ", EN: "Manage" }],
+    ["verify", { TH: "ตรวจสอบ", EN: "verify" }],
+    ["name", { TH: "ชื่อ", EN: "Name" }],
+    ["conapprove", { TH: "ยันยันการอนุมัติเอกสาร", EN: "Confirm Aprrove" }],
+    ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
+    ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
+    ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
 ]);
 
 

@@ -16,6 +16,7 @@ import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
 import { SelfTopicComponent } from './self-topic/self-topic.component';
 import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
 import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-leave.component';
+import { SelfApproveShiftComponent } from './self-approve-shift/self-approve-shift.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-lea
         { path: 'req_reqdoc', component: SelfReqdocComponent },
 
         { path: 'approve_leave', component: SelfApproveLeaveComponent },
+        { path: 'approve_shift', component: SelfApproveShiftComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }

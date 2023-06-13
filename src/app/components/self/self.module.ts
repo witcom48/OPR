@@ -60,6 +60,7 @@ import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
 import { SelfTopicComponent } from './self-topic/self-topic.component';
 import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
 import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-leave.component';
+import { SelfApproveShiftComponent } from './self-approve-shift/self-approve-shift.component';
 
 @NgModule({
 	imports: [
@@ -129,7 +130,8 @@ import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-lea
               SelfCheckinComponent,
               SelfTopicComponent,
               SelfReqdocComponent,
-              SelfApproveLeaveComponent
+              SelfApproveLeaveComponent,
+              SelfApproveShiftComponent
   ]
 })
 export class SelfModule { }
