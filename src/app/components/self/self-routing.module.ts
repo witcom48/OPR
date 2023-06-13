@@ -21,6 +21,7 @@ import { SelfApproveOvertimeComponent } from './self-approve-overtime/self-appro
 import { SelfApproveRecordtimeComponent } from './self-approve-recordtime/self-approve-recordtime.component';
 import { SelfApproveDaytypeComponent } from './self-approve-daytype/self-approve-daytype.component';
 import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve-checkin.component';
+import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-reqdoc.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve
         { path: 'approve_daytype', component: SelfApproveDaytypeComponent },
         { path: 'approve_record', component: SelfApproveRecordtimeComponent },
         { path: 'approve_checkin', component: SelfApproveCheckinComponent },
+        { path: 'approve_reqdoc', component: SelfApproveReqdocComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }

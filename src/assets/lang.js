@@ -1192,6 +1192,8 @@ var reqdoc = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
     ["title_req", { TH: "ขอแก้ไขข้อมูล", EN: "Req doc" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
+    ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
+    ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
     ["workflow", { TH: "สายงานการอนุมัติ", EN: "Workflow" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
@@ -1233,5 +1235,12 @@ var reqdoc = new Map([
     ["manage", { TH: "จัดการ", EN: "Manage" }],
     // ["location", { TH: "สถานที่ปฎิบัติงาน", EN: "Location" }],
     ["topic", { TH: "หัวข้อ", EN: "Topic" }],
+
+    ["verify", { TH: "ตรวจสอบ", EN: "verify" }],
+    ["name", { TH: "ชื่อ", EN: "Name" }],
+    ["conapprove", { TH: "ยันยันการอนุมัติเอกสาร", EN: "Confirm Aprrove" }],
+    ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
+    ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
+    ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
 
 ]);
