@@ -23,6 +23,7 @@ export class cls_TRTimeotModel {
     reason_code: string = "";
     status: number = 0;
     status_job: string = "";
+    jobtable_id:string="";
     modified_by: string = "";
     modified_date: string = "";
     flag: boolean = false;
