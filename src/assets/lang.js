@@ -1092,6 +1092,8 @@ var reqcheckin = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
     ["title_checkin", { TH: "เช็คอิน", EN: "Check in" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
+    ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
+    ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
     ["workflow", { TH: "สายงานการอนุมัติ", EN: "Workflow" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
@@ -1137,6 +1139,13 @@ var reqcheckin = new Map([
 
     ["time", { TH: "เวลา", EN: "Time" }],
     ["not_in", { TH: "ไม่อยู่ในพื้นที่ที่กำหนด", EN: "Not in the designated area" }],
+    
+    ["verify", { TH: "ตรวจสอบ", EN: "verify" }],
+    ["name", { TH: "ชื่อ", EN: "Name" }],
+    ["conapprove", { TH: "ยันยันการอนุมัติเอกสาร", EN: "Confirm Aprrove" }],
+    ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
+    ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
+    ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
 ]);
 
 var topic = new Map([

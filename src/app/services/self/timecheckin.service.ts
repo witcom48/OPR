@@ -53,7 +53,7 @@ export class TimecheckinServices {
             username: this.initial_current.Username,
             company_code: timecheckin.company_code || this.initial_current.CompCode,
             timecheckin_id: timecheckin.timecheckin_id,
-            worker_code: timecheckin.worker_code,
+            worker_code: timecheckin.worker_code || this.initial_current.Username,
             timecheckin_time: timecheckin.timecheckin_time,
             timecheckin_type: timecheckin.timecheckin_type,
             location_code: timecheckin.location_code,

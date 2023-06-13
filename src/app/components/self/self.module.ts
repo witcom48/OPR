@@ -64,6 +64,7 @@ import { SelfApproveShiftComponent } from './self-approve-shift/self-approve-shi
 import { SelfApproveOvertimeComponent } from './self-approve-overtime/self-approve-overtime.component';
 import { SelfApproveRecordtimeComponent } from './self-approve-recordtime/self-approve-recordtime.component';
 import { SelfApproveDaytypeComponent } from './self-approve-daytype/self-approve-daytype.component';
+import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve-checkin.component';
 
 @NgModule({
 	imports: [
@@ -137,7 +138,8 @@ import { SelfApproveDaytypeComponent } from './self-approve-daytype/self-approve
               SelfApproveShiftComponent,
               SelfApproveOvertimeComponent,
               SelfApproveRecordtimeComponent,
-              SelfApproveDaytypeComponent
+              SelfApproveDaytypeComponent,
+              SelfApproveCheckinComponent
   ]
 })
 export class SelfModule { }
