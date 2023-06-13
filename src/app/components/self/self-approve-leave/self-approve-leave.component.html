@@ -136,17 +136,6 @@
                     </tr>
                 </ng-template>
             </p-table>
-            <!-- <p-table [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="100px"
-                [virtualScroll]="true" selectionMode="single" [rows]="10" [showCurrentPageReport]="true"
-                [rowsPerPageOptions]="[10,25,50]" [paginator]="true">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>ชื่อไฟล์</th>
-                        <th>ผู้ทำรายการ</th>
-                        <th>วันที่ทำรายการ</th>
-                    </tr>
-                </ng-template>
-            </p-table> -->
         </div>
         <div class="field col-12">
             <p-button label="{{langs.get('approve')[selectlang]}}" icon="pi pi-check"
@@ -155,12 +144,6 @@
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('notapprove')[selectlang]}}"
                 class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedtrtimeleave)"></button>
         </div>
-        <!-- <div class="field col-12">
-            <p-button label="บันทึก" icon="pi pi-save" (click)="Save()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary"
-                (click)="closeManage()"></button>
-        </div> -->
 
     </div>
 </p-dialog>
