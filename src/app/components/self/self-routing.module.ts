@@ -18,6 +18,7 @@ import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
 import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-leave.component';
 import { SelfApproveShiftComponent } from './self-approve-shift/self-approve-shift.component';
 import { SelfApproveOvertimeComponent } from './self-approve-overtime/self-approve-overtime.component';
+import { SelfApproveRecordtimeComponent } from './self-approve-recordtime/self-approve-recordtime.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { SelfApproveOvertimeComponent } from './self-approve-overtime/self-appro
         { path: 'approve_leave', component: SelfApproveLeaveComponent },
         { path: 'approve_shift', component: SelfApproveShiftComponent },
         { path: 'approve_overtime', component: SelfApproveOvertimeComponent },
+        { path: 'approve_record', component: SelfApproveRecordtimeComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }

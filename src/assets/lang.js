@@ -973,6 +973,8 @@ var reqonsite = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
     ["title_onsite", { TH: "ลืมลงเวลา", EN: "Onsite" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
+    ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
+    ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
     ["workflow", { TH: "สายงานการอนุมัติ", EN: "Workflow" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
@@ -1014,6 +1016,13 @@ var reqonsite = new Map([
     ["location", { TH: "สถานที่ปฎิบัติงาน", EN: "Location" }],
     ["time_in", { TH: "เข้างาน", EN: "Time in" }],
     ["time_out", { TH: "ออกงาน", EN: "Time out" }],
+    
+    ["verify", { TH: "ตรวจสอบ", EN: "verify" }],
+    ["name", { TH: "ชื่อ", EN: "Name" }],
+    ["conapprove", { TH: "ยันยันการอนุมัติเอกสาร", EN: "Confirm Aprrove" }],
+    ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
+    ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
+    ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
 ]);
 
 var reqdaytype = new Map([
