@@ -149,11 +149,11 @@
             </p-table> -->
         </div>
         <div class="field col-12">
-            <p-button label="{{langs.get('save')[selectlang]}}" icon="pi pi-save"
+            <p-button label="{{langs.get('approve')[selectlang]}}" icon="pi pi-check"
                 (click)="Save(selectedtrtimeleave)"></p-button>
             &nbsp;
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('delete')[selectlang]}}"
-                class="p-button-danger" (click)="Delete(selectedtrtimeleave)"></button>
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('notapprove')[selectlang]}}"
+                class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedtrtimeleave)"></button>
         </div>
         <!-- <div class="field col-12">
             <p-button label="บันทึก" icon="pi pi-save" (click)="Save()"></p-button>
@@ -266,16 +266,3 @@
         </p-table>
     </div>
 </div>
-
-
-<p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
-    <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
-            (change)="handleFileInputholidaylist($any($event).target.files)">
-    </label>
-    <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
-    </ng-template>
-</p-dialog>
