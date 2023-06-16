@@ -3,9 +3,11 @@ import { ProjectModel } from '../../models/project/project';
 import { AppConfig } from '../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 import { InitialCurrent } from '../../config/initial_current';
 import { EmployeeModel } from 'src/app/models/employee/employee';
+import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +30,7 @@ export class EmployeeService {
     username: ''
   };
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private datePipe: DatePipe) {
     this.doGetInitialCurrent();
   }
 
@@ -142,5 +144,45 @@ export class EmployeeService {
       .then((res) => {
         return res;
       });
+  }
+
+  public worker_getbyfillter(fillter: FillterEmpModel){
+    
+    const fillterS = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      language: "",
+
+      company_code: fillter.company_code,
+      worker_id: fillter.worker_id,
+      worker_code: fillter.worker_code,
+      worker_card: fillter.worker_card,
+      worker_initial: fillter.worker_initial,
+      worker_fname_th: fillter.worker_fname_th,
+      worker_lname_th: fillter.worker_lname_th,
+      worker_fname_en: fillter.worker_fname_en,
+      worker_lname_en: fillter.worker_lname_en,
+      worker_emptype: fillter.worker_emptype,
+      worker_gender: fillter.worker_gender,
+
+      searchemp: fillter.searchemp,
+
+      include_resign: fillter.worker_resignstatus,
+
+      level_code: fillter.level_code,
+      dep_code: fillter.dep_code,
+      position_code: fillter.position_code,
+      group_code: fillter.group_code,
+      location_code: fillter.location_code,
+      date_fill: fillter.date_fill,
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_listbyfillter', fillterS, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+
   }
 }
