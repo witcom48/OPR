@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- Link Page -->
 <div class="path">
-    <span>Payroll</span>
+    <span>{{title_payroll}}</span>
     <div>
         <i></i>
         <a routerLink="/payroll/policy">{{title_policy}}</a>
@@ -154,7 +154,7 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>

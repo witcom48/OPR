@@ -64,6 +64,11 @@ import { QualificationService } from 'src/app/services/system/policy/qualificati
 import { CourseModel } from 'src/app/models/system/policy/course';
 import { CourseService } from 'src/app/services/system/policy/course.service';
 import { EmpaddressModel } from 'src/app/models/employee/manage/address';
+import { EmpcardModel } from 'src/app/models/employee/manage/card';
+import { EmpForeignerModel } from 'src/app/models/employee/manage/foreigner';
+import { EmpEducationModel } from 'src/app/models/employee/manage/education';
+import { EmpTrainingModel } from 'src/app/models/employee/manage/training';
+import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
 
 interface Taxmethod {
     name_th: string;
@@ -111,10 +116,10 @@ export class RecruitmentApplyComponent implements OnInit {
     conPay: ConPay[] = [];
     cardTypelist: Ctype[] = [];
 
-    //menu emplocation
-    menu_emplocation: MenuItem[] = [];
-    edit_emplocation: boolean = false;
-    new_emplocation: boolean = false;
+    //menu empsuggest
+    menu_reqsuggest: MenuItem[] = [];
+    edit_reqsuggest: boolean = false;
+    new_reqsuggest: boolean = false;
     ///////////////////////////////////menu reqaddress
     menu_reqaddress: MenuItem[] = [];
     edit_reqaddress: boolean = false;
@@ -135,6 +140,14 @@ export class RecruitmentApplyComponent implements OnInit {
     menu_reqtraining: MenuItem[] = [];
     edit_reqtraining: boolean = false;
     new_training: boolean = false;
+    ///////////////////////////////////menu reqassessment
+    menu_reqassessment: MenuItem[] = [];
+    edit_reqassessment: boolean = false;
+    new_assessment: boolean = false;
+    ///////////////////////////////////menu reqcriminal
+    menu_reqcriminal: MenuItem[] = [];
+    edit_reqcriminal: boolean = false;
+    new_criminal: boolean = false;
 
     displayManage: boolean = false;
 
@@ -212,6 +225,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doLoadmajorList();
         this.doLoadqualificationList();
         this.doLoadcourseList();
+        this.doLoadSuggestList();
 
         setTimeout(() => {
             this.doLoadMenu();
@@ -220,6 +234,8 @@ export class RecruitmentApplyComponent implements OnInit {
         setTimeout(() => {
             if (this.req_code != '') {
                 this.doLoadApplywork();
+            }else{
+                this.createReqID();
             }
         }, 400);
     }
@@ -234,176 +250,374 @@ export class RecruitmentApplyComponent implements OnInit {
         }
     }
 
-    title_page: string = 'Employee Management';
-    title_new: string = 'New';
-    title_edit: string = 'Edit';
-    title_delete: string = 'Delete';
-    title_import: string = 'Import';
-    title_export: string = 'Export';
-    title_save: string = 'Save';
-    title_code: string = 'Code';
+    title_page: string = "Recruiment Management";
+  title_new: string = "New";
+  title_edit: string = "Edit";
+  title_delete: string = "Delete";
+  title_import: string = "Import";
+  title_export: string = "Export";
+  title_save: string = "Save";
+  title_code: string = "Code";
 
-    title_summit: string = 'Summit';
-    title_cancel: string = 'Cancel';
+  title_summit: string = "Summit";
+  title_cancel: string = "Cancel";
 
-    title_genaral: string = 'Genaral';
-    title_empid: string = 'Employee ID';
-    title_cardid: string = 'Employee Card';
-    title_fname_th: string = 'First Name (Thai)';
-    title_lname_th: string = 'Last Name (Thai)';
-    title_fname_en: string = 'First Name (Eng.)';
-    title_lname_en: string = 'Last Name (Eng.)';
-    title_initial: string = 'Initial';
-    title_gender: string = 'Gender';
-    male_gender: string = 'Male';
-    female_gender: string = 'Female';
-    title_emplocation: string = 'Location';
-    title_empbranch: string = 'Branch';
-    title_type: string = 'Employee Type';
-    title_status: string = 'Employee Status';
-    title_birthdate: string = 'Birth Date';
-    title_startdate: string = 'Start Date';
-    title_hrs: string = 'Hour/Day';
-    title_probation: string = 'Probation';
-    title_probationdate: string = 'Probation Date';
-    title_probationenddate: string = 'Probation End';
-    title_resignstatus: string = 'Resign Status';
-    title_resigndate: string = 'Resign Date';
-    title_resignreason: string = 'Resign Reason';
+  title_genaral: string = "Genaral";
+  title_empid: string = "Employee ID";
+  title_cardid: string = "Employee Card";
+  title_fname_th: string = "First Name (Thai)";
+  title_lname_th: string = "Last Name (Thai)";
+  title_fname_en: string = "First Name (Eng.)";
+  title_lname_en: string = "Last Name (Eng.)";
+  title_initial: string = "Initial";
+  title_gender: string = "Gender";
+  male_gender: string = "Male";
+  female_gender: string = "Female";
+  title_emplocation: string = "Location";
+  title_empbranch: string = "Branch";
+  title_type: string = "Employee Type";
+  title_status: string = "Employee Status";
+  title_birthdate: string = "Birth Date";
+  title_startdate: string = "Start Date";
+  title_hrs: string = "Hour/Day";
+  title_probation: string = "Probation";
+  title_probationdate: string = "Probation Date";
+  title_probationenddate: string = "Probation End";
+  title_resignstatus: string = "Resign Status";
+  title_resigndate: string = "Resign Date";
+  title_resignreason: string = "Resign Reason";
 
-    title_personal: string = 'Personal';
-    title_religion: string = 'Religion';
-    title_blood: string = 'Blood';
-    title_weight: string = 'Weight';
-    title_height: string = 'Height';
-    title_address: string = 'Address';
-    title_card: string = 'Card';
-    title_bank: string = 'Bank';
-    title_family: string = 'Family';
-    title_hospital: string = 'Hospital';
-    title_foreigner: string = 'Foreigner';
+  title_personal: string = "Personal";
+  title_religion: string = "Religion";
+  title_blood: string = "Blood";
+  title_weight: string = "Weight";
+  title_height: string = "Height";
+  title_address: string = "Address";
+  title_card: string = "Card";
+  title_bank: string = "Bank";
+  title_family: string = "Family";
+  title_hospital: string = "Hospital";
+  title_foreigner: string = "Foreigner";
 
-    title_record: string = 'Record';
-    title_department: string = 'Department';
-    title_position: string = 'Position';
-    title_training: string = 'Training';
-    title_education: string = 'Education';
-    title_assessment: string = 'Assessment';
-    title_criminal: string = 'Criminal Record';
+  title_record: string = "Record";
+  title_department: string = "Department";
+  title_position: string = "Position";
+  title_empgroup: string = "Group";
+  title_training: string = "Training";
+  title_education: string = "Education";
+  title_supply: string = "Office Supply";
+  title_uniform: string = "Uniform";
+  title_suggest: string = "Suggest";
+  title_assessment: string = "Assessment";
+  title_criminal: string = "Criminal Record";
+  title_resignrecord: string = "Resign Record";
 
-    title_finance: string = 'Finance';
-    title_taxmethod: string = 'Tax Method';
-    title_salary: string = 'Salary';
-    title_benefit: string = 'Benefit';
-    title_fund: string = 'Provident Fund';
-    title_reduce: string = 'Reduces';
-    title_accumulate: string = 'Accumalate';
+  title_finance: string = "Finance";
+  title_taxmethod: string = "Tax Method";
+  title_salary: string = "Salary";
+  title_benefit: string = "Benefit";
+  title_fund: string = "Provident Fund";
+  title_reduce: string = "Reduces";
+  title_accumulate: string = "Accumalate";
 
-    title_tranfer: string = 'Tranfer record';
+  title_tranfer: string = "Tranfer record";
 
-    title_modified_by: string = 'Edit by';
-    title_modified_date: string = 'Edit date';
-    title_search: string = 'Search';
-    title_upload: string = 'Upload';
+  title_modified_by: string = "Edit by";
+  title_modified_date: string = "Edit date";
+  title_search: string = "Search";
+  title_upload: string = "Upload";
 
-    title_page_from: string = 'Showing';
-    title_page_to: string = 'to';
-    title_page_total: string = 'of';
-    title_page_record: string = 'entries';
+  title_page_from: string = "Showing";
+  title_page_to: string = "to";
+  title_page_total: string = "of";
+  title_page_record: string = "entries";
 
-    title_confirm: string = 'Are you sure?';
-    title_confirm_record: string = 'Confirm to record';
-    title_confirm_delete: string = 'Confirm to delete';
-    title_confirm_yes: string = 'Yes';
-    title_confirm_no: string = 'No';
+  title_confirm: string = "Are you sure?";
+  title_confirm_record: string = "Confirm to record";
+  title_confirm_delete: string = "Confirm to delete";
+  title_confirm_yes: string = "Yes";
+  title_confirm_no: string = "No";
 
-    title_confirm_cancel: string = 'You have cancelled';
+  title_confirm_cancel: string = "You have cancelled";
+
+  title_locationname: string = "Location";
+  title_start: string = "Start Date";
+  title_end: string = "End Date";
+  title_description: string = "Description";
+  title_branchname: string = "Branch";
+  title_suggestname: string = "Suggest";
+  title_addresstype: string = "Address Type";
+  title_no: string = "No";
+  title_moo: string = "Moo";
+  title_soi: string = "Soi";
+  title_road: string = "Road";
+  title_tambon: string = "Sub-district / Sub-area";
+  title_amphur: string = " District / Area";
+  title_province: string = "Province";
+  title_zipcode: string = "Zipcode";
+  title_tel: string = "Tel.";
+  title_email: string = "Email";
+  title_line: string = "Line";
+  title_facebook: string = "Facebook";
+  title_cardcode: string = "Card No.";
+  title_issuedate: string = "Issue Date";
+  title_expiredate: string = "Expire Date";
+  title_cardtype: string = "Card Type";
+  title_bankname: string = "Bank Name";
+  title_bankname2: string = "Name";
+  title_bankcode :string = "Account";
+  title_bankper: string = "Bank(%)";
+  title_cashper: string = "Cash(%)";
+  title_familycode: string = "ID";
+  title_familytype: string = "Type";
+  title_hospitalname: string = "Hospital";
+  title_passport: string = "Passport";
+  title_entrydate: string = "Entry Date";
+  title_visa: string = "VISA";
+  title_workpermit: string = "Work Permit";
+  title_by: string = "By";
+  title_certino: string = "Certificate No";
+  title_certiexpire: string = "Certificate Expire"
+  title_other: string = "Other Doc.";
+  title_otherexpire: string = "Other Doc. Expire";
+  title_date: string = "Date";
+  title_lv1: string = "Level01";
+  title_lv2: string = "Level02";
+  title_lv3: string = "Level03";
+  title_lv4: string = "Level04";
+  title_lv5: string = "Level05";
+  title_lv6: string = "Level06";
+  title_reason: string = "Reason";
+  title_positionname: string = "Position";
+  title_groupname: string = "Group";
+  title_institute: string = "Institute";
+  title_faculty: string = "Faculty";
+  title_major: string = "Major";
+  title_qualification: string = "Qualification";
+  title_gpa: string = "GPA";
+  title_educationstart: string = "Start Date";
+  title_educationend: string = "Graduation Date";
+  title_supplyissue: string = "Issue Date";
+  title_supplyename: string = "Supply";
+  title_amount: string = "Amount";
+  title_return: string = "Return";
+  title_returndate: string = "Return Date";
+  title_uniformissue: string = "Issue Date";
+  title_uniformname: string = "Uniform";
+  title_uniformprice: string = "Price";
+  title_course: string = "Course";
+  title_coursestatus: string = "Status";
+  title_coursehour: string = "Hour";
+  title_cost: string = "Cost";
+  title_topic: string = "Topic";
+  title_count: string = "Count";
+  title_fromdate:string = "From Date";
+  title_todate:string = "To Date";
+  title_assessmentresult: string = "Result";
+  title_criminalresult: string = "Result";
+  title_incrementbath: string = "Increment(Bath)";
+  title_incrementper: string = "Increment(%)";
+  title_incomededuct: string = "Income/Deduct ID";
+  title_benefittype: string = "Type";
+  title_conditionpay: string = "Pay Condition";
+  title_period: string = "Period";
+  title_odd: string = "Odd Period";
+  title_even: string = "Even Period";
+  title_break: string = "Break";
+  title_breakreason: string = "Reason(Break)";
+  title_provident: string = "Provident";
+  title_pfno: string = "Pf No.";
+  title_pfentry: string = "Entry Date";
+  title_pfstart: string = "Start Date";
+  title_pfend: string = "End Date";
+  title_reducename: string = "Reduce";
+  title_pass:string = "Pass";
+  title_notpass:string = "Not Pass";
+
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_page = 'ข้อมูลสถานที่ปฎิบัติงาน';
-            this.title_new = 'เพิ่ม';
-            this.title_edit = 'แก้ไข';
-            this.title_delete = 'ลบ';
-            this.title_import = 'นำเข้า';
-            this.title_export = 'โอนออก';
-            this.title_save = 'บันทึก';
+            this.title_page = "ข้อมูลผู้สมัคร";
+      this.title_new = "เพิ่ม";
+      this.title_edit = "แก้ไข";
+      this.title_delete = "ลบ";
+      this.title_import = "นำเข้า";
+      this.title_export = "โอนออก";
+      this.title_save = "บันทึก";
 
-            this.title_summit = 'บันทึก';
-            this.title_cancel = 'ยกเลิก';
+      this.title_summit = "บันทึก";
+      this.title_cancel = "ยกเลิก";
 
-            this.title_genaral = 'ข้อมูลทั่วไป';
-            this.title_code = 'รหัสพนักงาน';
-            this.title_cardid = 'รหัสบัตร';
-            this.title_fname_th = 'ชื่อจริง (ไทย)';
-            this.title_lname_th = 'นามสกุล (ไทย)';
-            this.title_fname_en = 'ชื่อจริง (อังกฤษ)';
-            this.title_lname_en = 'นามสกุล (อังกฤษ)';
-            this.title_initial = 'คำนำหน้า';
-            this.title_gender = 'เพศ';
-            this.male_gender = 'ชาย';
-            this.female_gender = 'หญิง';
-            this.title_emplocation = 'สถานที่ปฏิบัติงาน';
-            this.title_empbranch = 'สาขา';
-            this.title_type = 'ประเภทพนักงาน';
-            this.title_status = 'สถานะ';
-            this.title_birthdate = 'วันเกิด';
-            this.title_startdate = 'วันที่เริ่มงาน';
-            this.title_hrs = 'ชั่วโมงทำงาน';
-            this.title_probation = 'จำนวนวันทดลองงาน';
-            this.title_probationdate = 'วันที่เริ่มทดลองงาน';
-            this.title_probationenddate = 'วันที่สิ้นสุดทดลองงาน';
-            this.title_resignstatus = 'ลาออก';
-            this.title_resigndate = 'วันที่ลาออก';
-            this.title_resignreason = 'เหตุผลการลาออก';
+      this.title_genaral = 'ข้อมูลทั่วไป';
+      this.title_code = "รหัสพนักงาน";
+      this.title_cardid = "รหัสบัตร";
+      this.title_fname_th = "ชื่อจริง (ไทย)";
+      this.title_lname_th = "นามสกุล (ไทย)";
+      this.title_fname_en = "ชื่อจริง (อังกฤษ)";
+      this.title_lname_en = "นามสกุล (อังกฤษ)";
+      this.title_initial = "คำนำหน้า";
+      this.title_gender = "เพศ";
+      this.male_gender = "ชาย";
+      this.female_gender = "หญิง";
+      this.title_emplocation = "สถานที่ปฏิบัติงาน";
+      this.title_empbranch = "สาขา";
+      this.title_type = "ประเภทพนักงาน";
+      this.title_status = 'สถานะ';
+      this.title_birthdate = 'วันเกิด';
+      this.title_startdate = 'วันที่เริ่มงาน';
+      this.title_hrs = 'ชั่วโมงทำงาน';
+      this.title_probation = 'จำนวนวันทดลองงาน';
+      this.title_probationdate = 'วันที่เริ่มทดลองงาน';
+      this.title_probationenddate = 'วันที่สิ้นสุดทดลองงาน';
+      this.title_resignstatus = 'ลาออก';
+      this.title_resigndate = 'วันที่ลาออก';
+      this.title_resignreason = 'เหตุผลการลาออก';
 
-            this.title_personal = 'ข้อมูลส่วนตัว';
-            this.title_religion = 'ศาสนา';
-            this.title_blood = 'กรุ๊ปเลือด';
-            this.title_weight = 'นํ้าหนัก';
-            this.title_height = 'ส่วนสูง';
-            this.title_address = 'ที่อยู่';
-            this.title_card = 'ข้อมูลบัตร';
-            this.title_bank = 'ข้อมูลธนาคาร';
-            this.title_family = 'ข้อมูลครอบครัว';
-            this.title_hospital = 'ข้อมูลโรงพยาบาล';
-            this.title_foreigner = 'ข้อมูลพนักงานต่างด้าว';
+      this.title_personal = 'ข้อมูลส่วนตัว';
+      this.title_religion = 'ศาสนา';
+      this.title_blood = 'กรุ๊ปเลือด';
+      this.title_weight = 'นํ้าหนัก';
+      this.title_height = 'ส่วนสูง';
+      this.title_address = 'ที่อยู่';
+      this.title_card = 'ข้อมูลบัตร';
+      this.title_bank = 'ข้อมูลธนาคาร';
+      this.title_family = 'ข้อมูลครอบครัว';
+      this.title_hospital = 'ข้อมูลโรงพยาบาล';
+      this.title_foreigner = 'ข้อมูลพนักงานต่างด้าว';
 
-            this.title_record = 'ข้อมูลประวัติ';
-            this.title_department = 'สังกัด';
-            this.title_position = 'ตำแหน่ง';
-            this.title_education = 'ประวัติการศึกษา';
-            this.title_training = 'ประวัติการอบรม';
-            this.title_assessment = 'ประวัติการประเมิน';
-            this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
+      this.title_record = 'ข้อมูลประวัติ';
+      this.title_department = 'สังกัด';
+      this.title_position = 'ตำแหน่ง';
+      this.title_empgroup = 'กลุ่มพนักงาน';
+      this.title_education = 'ประวัติการศึกษา';
+      this.title_supply = 'อุปกรณ์สำนักงาน';
+      this.title_uniform = 'เครื่องแบบพนักงาน';
+      this.title_suggest = 'ผู้แนะนำ';
+      this.title_training = 'ประวัติการอบรม';
+      this.title_assessment = 'ประวัติการประเมิน';
+      this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
+      this.title_resignrecord = 'ประวัติการลาออก';
 
-            this.title_finance = 'การเงิน';
-            this.title_taxmethod = 'การคำนวนภาษี';
-            this.title_salary = 'เงินเดือน/ค่าจ้าง';
-            this.title_benefit = 'สวัสดิการ';
-            this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
-            this.title_reduce = 'ค่าลดหย่อน';
-            this.title_accumulate = 'รายได้สะสม/ภาษีสะสม';
+      this.title_finance = 'การเงิน';
+      this.title_taxmethod = 'การคำนวนภาษี';
+      this.title_salary = 'เงินเดือน/ค่าจ้าง';
+      this.title_benefit = 'สวัสดิการ';
+      this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
+      this.title_reduce = 'ค่าลดหย่อน';
+      this.title_accumulate = 'รายได้สะสม/ภาษีสะสม';
 
-            this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
+      this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
 
-            this.title_modified_by = 'ผู้ทำรายการ';
-            this.title_modified_date = 'วันที่ทำรายการ';
-            this.title_search = 'ค้นหา';
-            this.title_upload = 'อัพโหลด';
+      this.title_modified_by = "ผู้ทำรายการ";
+      this.title_modified_date = "วันที่ทำรายการ";
+      this.title_search = "ค้นหา";
+      this.title_upload = "อัพโหลด";
 
-            this.title_page_from = 'แสดง';
-            this.title_page_to = 'ถึง';
-            this.title_page_total = 'จาก';
-            this.title_page_record = 'รายการ';
+      this.title_page_from = "แสดง";
+      this.title_page_to = "ถึง";
+      this.title_page_total = "จาก";
+      this.title_page_record = "รายการ";
 
-            this.title_confirm = 'ยืนยันการทำรายการ';
-            this.title_confirm_record = 'คุณต้องการบันทึกการทำรายการ';
-            this.title_confirm_delete = 'คุณต้องการลบรายการ';
+      this.title_confirm = "ยืนยันการทำรายการ";
+      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
+      this.title_confirm_delete = "คุณต้องการลบรายการ";
 
-            this.title_confirm_yes = 'ใช่';
-            this.title_confirm_no = 'ยกเลิก';
-            this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
+      this.title_confirm_yes = "ใช่";
+      this.title_confirm_no = "ยกเลิก";
+      this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
+
+      this.title_locationname = "สถานที่";
+      this.title_start = "วันที่เริ่ม";
+      this.title_end = "วันที่สิ้นสุด";
+      this.title_description = "เพิ่มเติม";
+      this.title_branchname = "สาขา";
+      this.title_suggestname = "ผู้แนะนำ";
+      this.title_addresstype = "ประเภทที่อยู่อาศัย";
+      this.title_no = "เลขที่";
+      this.title_moo = "หมู่";
+      this.title_soi = "ซอย";
+      this.title_road = "ถนน";
+      this.title_tambon = "ตำบล/แขวง";
+      this.title_amphur = "อำเภอ/เขต";
+      this.title_province = "จังหวัด";
+      this.title_zipcode = "รหัสไปรษณีย์";
+      this.title_tel = "เบอร์โทรฯ";
+      this.title_email = "อีเมล";
+      this.title_line = "ไลน์";
+      this.title_facebook = "เฟสบุ๊ค";
+      this.title_cardcode = "เลขที่";
+      this.title_issuedate = "วันที่ออก";
+      this.title_expiredate = "วันที่หมดอายุ";
+      this.title_cardtype = "ประเภทบัตร";
+      this.title_bankname = "ธนาคาร";
+      this.title_bankname2 = "ชื่อบัญชี";
+      this.title_bankcode = "เลขที่บัญชี"
+      this.title_bankper = "โอนธนาคาร(%)";
+      this.title_cashper = "เงินสด(%)";
+      this.title_familycode = "รหัสประจำตัว";
+      this.title_familytype = "ประเภท";
+      this.title_hospitalname = "โรงพยาบาล";
+      this.title_passport = "หนังสือเดินทาง";
+      this.title_entrydate = "วันที่เข้าประเทศ";
+      this.title_workpermit = "ใบอนุญาติทำงาน";
+      this.title_by = "ออกโดย";
+      this.title_certino = "เลขที่เอกสารสำคัญ";
+      this.title_certiexpire = "วันที่เอกสารสำคัญหมดอายุ";
+      this.title_other = "เลขที่เอกสารอื่นๆ";
+      this.title_otherexpire = "วันที่หมดอายุของเอกสารอื่นๆ";
+      this.title_date = "วันที่";
+      this.title_lv1 = "ระดับ1"
+      this.title_lv2 = "ระดับ2";
+      this.title_lv3 = "ระดับ3";
+      this.title_lv4 = "ระดับ4";
+      this.title_lv5 = "ระดับ5";
+      this.title_lv6 = "ระดับ6";
+      this.title_reason = "เหตุผล";
+      this.title_positionname= "ตำแหน่ง";
+      this.title_groupname = "กลุ่มพนักงาน";
+      this.title_institute = "สถานบัน/สถานที่";
+      this.title_faculty = "คณะ";
+      this.title_major = "วิชาเอก";
+      this.title_qualification = "วุฒิการศึกษา";
+      this.title_gpa = "เกรดเฉลี่ย";
+      this.title_educationstart  = "วันที่เริ่ม";
+      this.title_educationend  = "วันที่จบ";
+      this.title_supplyissue  = "วันที่เบิก";
+      this.title_supplyename  = "อุปกรณื";
+      this.title_amount = "จำนวน";
+      this.title_return = "คืนอุปกรณ์";
+      this.title_returndate  = "วันที่คืนอุปกรณ์";
+      this.title_uniformissue  = "วันที่เบิก";
+      this.title_uniformname = "เครื่องแบบ";
+      this.title_uniformprice  = "ราคา";
+      this.title_course  = "หลักสูตร";
+      this.title_coursestatus  = "สถานะ";
+      this.title_coursehour = "จำนวนชั่วโมง";
+      this.title_fromdate = "จากวันที่";
+      this.title_todate = "ถึงวันที่";
+      this.title_cost = "ค่าใช้จ่าย";
+      this.title_topic = "หัวข้อ";
+      this.title_count = "ครั้งที่";
+      this.title_assessmentresult = "ผลการประเมิน";
+      this.title_criminalresult = "ผลการตรวจสอบ";
+      this.title_incrementbath = "อัตราปรับ(บาท)";
+      this.title_incrementper = "อัตราปรับ(%)";
+      this.title_incomededuct = "เงินได้/เงินหัก";
+      this.title_benefittype = "ประเภท";
+      this.title_conditionpay = "เงื่อนไขการจ่าย";
+      this.title_period = "งวด";
+      this.title_odd = "งวดแรก";
+      this.title_even = "งวดที่สอง";
+      this.title_break = "พักการจ่าย";
+      this.title_breakreason = "เหตุผล(พักการจ่าย)";
+      this.title_provident = "นโยบาย";
+      this.title_pfno = "รหัสกองทุนฯ";
+      this.title_pfentry = "วันที่เข้า";
+      this.title_pfstart = "วันที่เริ่ม";
+      this.title_pfend = "วันที่ออก";
+      this.title_reducename = "ลดหย่อน";
+      this.title_pass = "ผ่าน";
+      this.title_notpass = "ไม่ผ่าน";
         }
     }
 
@@ -421,22 +635,21 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: 'Save',
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
-                    // console.log('Save')
                     this.confirmRecord();
                 },
             },
         ];
-        //menu location
-        this.menu_emplocation = [
+        //menu suggest
+        this.menu_reqsuggest = [
             {
                 label: 'New',
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.clearManage();
-                    this.new_emplocation = true;
-                    var ref = this.emplocationList.length + 100;
-                    this.selectedEmpLocation = new EmpLocationModel();
-                    this.selectedEmpLocation.emplocation_id = ref.toString();
+                    this.new_reqsuggest = true;
+                    var ref = this.reqsuggestList.length + 100;
+                    this.selectedReqSuggest = new EmpSuggestModel();
+                    this.selectedReqSuggest.empsuggest_id = ref.toString();
                     this.showManage();
                 },
             },
@@ -445,8 +658,8 @@ export class RecruitmentApplyComponent implements OnInit {
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     this.clearManage();
-                    if (this.selectedEmpLocation != null) {
-                        this.edit_emplocation = true;
+                    if (this.selectedReqSuggest != null) {
+                        this.edit_reqsuggest = true;
                         this.showManage();
                     }
                 },
@@ -455,10 +668,15 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: 'Delete',
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedEmpLocation != null) {
-                        this.emplocation_remove();
+                    if (this.selectedReqSuggest != null) {
+                        this.reqsuggest_remove();
                     }
                 },
+            },
+            {
+                label: 'Export',
+                icon: 'pi pi-fw pi-file-export',
+                command: (event) => { },
             },
         ];
         //menu address
@@ -505,7 +723,7 @@ export class RecruitmentApplyComponent implements OnInit {
             {
                 label: 'Export',
                 icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
+                command: (event) => { },
             },
         ];
         //menu card
@@ -517,7 +735,7 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.clearManage();
                     this.new_card = true;
                     var ref = this.reqcardList.length + 100;
-                    this.selectedReqcard = new ReqcardModel();
+                    this.selectedReqcard = new EmpcardModel();
                     this.selectedReqcard.card_id = ref.toString();
                     this.showManage();
                 },
@@ -545,12 +763,12 @@ export class RecruitmentApplyComponent implements OnInit {
             {
                 label: 'Import',
                 icon: 'pi pi-fw pi-file-import',
-                command: (event) => {},
+                command: (event) => { },
             },
             {
                 label: 'Export',
                 icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
+                command: (event) => { },
             },
         ];
         //menu education
@@ -563,8 +781,8 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.clearManage();
                     this.new_education = true;
                     var ref = this.reqeducationList.length + 100;
-                    this.selectedReqeducation = new ReqEducationModel();
-                    this.selectedReqeducation.reqeducation_no = ref.toString();
+                    this.selectedReqeducation = new EmpEducationModel();
+                    this.selectedReqeducation.empeducation_no = ref.toString();
                     this.showManage();
                 },
             },
@@ -614,8 +832,8 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.clearManage();
                     this.new_training = true;
                     var ref = this.reqtrainingList.length + 100;
-                    this.selectedReqtraining = new ReqTrainingModel();
-                    this.selectedReqtraining.reqtraining_no = ref.toString();
+                    this.selectedReqtraining = new EmpTrainingModel();
+                    this.selectedReqtraining.emptraining_no = ref.toString();
                     this.showManage();
                 },
             },
@@ -655,13 +873,89 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
         ];
+
+        //Assessment
+        this.menu_reqassessment = [
+            {
+                label: 'New',
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    console.log('NEW');
+                    this.clearManage();
+                    this.new_assessment = true;
+                    var ref = this.reqassessmentList.length + 100;
+                    this.selectedReqassessment = new EmpAssessmentModel();
+                    this.selectedReqassessment.empassessment_id = ref.toString();
+                    this.showManage();
+                },
+            },
+            {
+                label: 'Edit',
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    console.log('EDIT');
+                    this.clearManage();
+                    if (this.selectedReqassessment != null) {
+                        this.edit_reqassessment = true;
+                        this.showManage();
+                    }
+                },
+            },
+            {
+                label: 'Delete',
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    if (this.selectedReqassessment != null) {
+                        this.reqassessment_remove();
+                    }
+                },
+            },
+        ];
+
+        //Criminal
+        this.menu_reqcriminal = [
+            {
+                label: 'New',
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    console.log('NEW');
+                    this.clearManage();
+                    this.new_criminal = true;
+                    var ref = this.reqCriminalList.length + 100;
+                    this.selectedReqCriminal = new EmpCriminalModel();
+                    this.selectedReqCriminal.empcriminal_id = ref.toString();
+                    this.showManage();
+                },
+            },
+            {
+                label: 'Edit',
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    console.log('EDIT');
+                    this.clearManage();
+                    if (this.selectedReqCriminal != null) {
+                        this.edit_reqcriminal = true;
+                        this.showManage();
+                    }
+                },
+            },
+            {
+                label: 'Delete',
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    if (this.selectedReqCriminal != null) {
+                        this.reqcriminal_remove();
+                    }
+                },
+            },
+        ];
     }
 
     tabChange(e: { index: any }) {
         var index = e.index;
         //
-        this.edit_emplocation = false;
-        this.new_emplocation = false;
+        this.edit_reqsuggest = false;
+        this.new_reqsuggest = false;
         //
         this.edit_reqaddress = false;
         this.new_reqaddress = false;
@@ -677,6 +971,12 @@ export class RecruitmentApplyComponent implements OnInit {
         //
         this.edit_reqtraining = false;
         this.new_training = false;
+        //
+        this.edit_reqassessment = false;
+        this.new_assessment = false;
+        //
+        this.edit_reqcriminal = false;
+        this.new_criminal = false;
 
         this.displayManage = false;
     }
@@ -686,8 +986,8 @@ export class RecruitmentApplyComponent implements OnInit {
         this.displayManage = true;
 
         if (this.initial_current.Language == 'EN') {
-            if (this.new_emplocation || this.edit_emplocation) {
-                this.manage_title = 'Location';
+            if (this.new_reqsuggest || this.edit_reqsuggest) {
+                this.manage_title = 'Suggest';
             } else if (this.new_reqaddress || this.edit_reqaddress) {
                 this.manage_title = 'Address';
             } else if (this.new_card || this.edit_reqcard) {
@@ -698,10 +998,14 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.manage_title = 'Education';
             } else if (this.new_training || this.edit_reqtraining) {
                 this.manage_title = 'Training';
+            } else if (this.new_assessment || this.edit_reqassessment) {
+                this.manage_title = 'Assessment';
+            } else if (this.new_criminal || this.edit_reqcriminal) {
+                this.manage_title = 'Criminal record';
             }
         } else {
-            if (this.new_emplocation || this.edit_emplocation) {
-                this.manage_title = 'สถานที่ปฏิบัติงาน';
+            if (this.new_reqsuggest || this.edit_reqsuggest) {
+                this.manage_title = 'ผู้แนะนำ';
             } else if (this.new_reqaddress || this.edit_reqaddress) {
                 this.manage_title = 'ที่อยู่';
             } else if (this.new_card || this.edit_reqcard) {
@@ -712,6 +1016,10 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.manage_title = 'ประวัติการศึกษา';
             } else if (this.new_training || this.edit_reqtraining) {
                 this.manage_title = 'ประวัติการอบรม';
+            } else if (this.new_assessment || this.edit_reqassessment) {
+                this.manage_title = 'ประวัติการประเมิน';
+            } else if (this.new_criminal || this.edit_reqcriminal) {
+                this.manage_title = 'ประวัติการตรวจสอบอาชญากรรม';
             }
         }
     }
@@ -728,7 +1036,7 @@ export class RecruitmentApplyComponent implements OnInit {
                     element.worker_hiredate = new Date(
                         element.worker_hiredate
                     );
-                    
+
                 });
 
                 reqworker_list = await res;
@@ -739,16 +1047,30 @@ export class RecruitmentApplyComponent implements OnInit {
                     setTimeout(() => {
                         this.doLoadReqaddressList();
                         this.doLoadReqcardList();
-                        
+                        this.doLoadReqForeigner();
+
                         this.doLoadReqeducationList();
                         this.doLoadReqtrainingList();
-                        
+
+                        this.doLoadReqassessmentList();
+                        this.doLoadReqCriminalList();
+
+                        this.doLoadReqSuggestList();
+
                     }, 300);
                 }
             });
     }
 
     //get data dropdown
+    //ผู้แนะนำ
+    suggest_List: EmployeeModel[] = [];
+    doLoadSuggestList() {
+        var tmp = new EmployeeModel();
+        this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
+            this.suggest_List = await res;
+        })
+    }
     // คำนำหน้า
     initialList: InitialModel[] = [];
     doLoadInitialList() {
@@ -792,7 +1114,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.provinceList = res;
         });
     }
-    // สถานศึกษา
+    // สถานศึกษา/อบรม
     instituteList: InstituteModel[] = [];
     doLoadinstituteList() {
         this.instituteService.institute_get().then((res) => {
@@ -844,7 +1166,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 }
             });
     }
-    onRowSelectReqAddress(event: Event) {}
+    onRowSelectReqAddress(event: Event) { }
     reqaddress_summit() {
         this.reqaddress_addItem(this.selectedReqAddress);
         this.new_reqaddress = false;
@@ -857,7 +1179,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_reqaddress = false;
         this.edit_reqaddress = false;
     }
-    reqaddress_delete() {}
+    reqaddress_delete() { }
     reqaddress_cancel() {
         this.new_reqaddress = false;
         this.edit_reqaddress = false;
@@ -902,13 +1224,13 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     //card
-    reqcardList: ReqcardModel[] = [];
-    selectedReqcard: ReqcardModel = new ReqcardModel();
+    reqcardList: EmpcardModel[] = [];
+    selectedReqcard: EmpcardModel = new EmpcardModel();
     doLoadReqcardList() {
         this.reqdetailService
             .getapplywork_card(this.initial_current.CompCode, this.req_code)
             .then(async (res) => {
-                await res.forEach((element: ReqcardModel) => {
+                await res.forEach((element: EmpcardModel) => {
                     element.card_issue = new Date(element.card_issue);
                     element.card_expire = new Date(element.card_expire);
                 });
@@ -919,7 +1241,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 }
             });
     }
-    onRowSelectReqCard(event: Event) {}
+    onRowSelectReqCard(event: Event) { }
     reqcard_summit() {
         this.reqcard_addItem(this.selectedReqcard);
         this.new_card = false;
@@ -932,14 +1254,14 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_card = false;
         this.edit_reqcard = false;
     }
-    reqcard_delete() {}
+    reqcard_delete() { }
     reqcard_cancel() {
         this.new_card = false;
         this.edit_reqcard = false;
         this.displayManage = false;
     }
-    reqcard_addItem(model: ReqcardModel) {
-        const itemNew: ReqcardModel[] = [];
+    reqcard_addItem(model: EmpcardModel) {
+        const itemNew: EmpcardModel[] = [];
         for (let i = 0; i < this.reqcardList.length; i++) {
             if (this.reqcardList[i].card_id == model.card_id) {
                 //-- Notting
@@ -963,7 +1285,7 @@ export class RecruitmentApplyComponent implements OnInit {
         }
         this.reqdetailService
             .record_reqcard(
-                this.selectedApplywork.applywork_code,
+                this.selectedReqworker.worker_code,
                 this.reqcardList
             )
             .then((res) => {
@@ -975,8 +1297,8 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     // reqforeigner
-    reqforeignerList: ReqForeignerModel[] = [];
-    selectedReqforeigner: ReqForeignerModel = new ReqForeignerModel();
+    reqforeignerList: EmpForeignerModel[] = [];
+    selectedReqforeigner: EmpForeignerModel = new EmpForeignerModel();
     doLoadReqForeigner() {
         this.reqdetailService
             .getapplywork_foreigner(
@@ -984,7 +1306,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.req_code
             )
             .then(async (res) => {
-                await res.forEach((element: ReqForeignerModel) => {
+                await res.forEach((element: EmpForeignerModel) => {
                     element.passport_issue = new Date(element.passport_issue);
                     element.passport_expire = new Date(element.passport_expire);
                     element.visa_issue = new Date(element.visa_issue);
@@ -1009,24 +1331,24 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     record_reqforeigner() {
         this.reqdetailService.record_reqforeigner(
-            this.selectedApplywork.applywork_code,
+            this.selectedReqworker.worker_code,
             this.selectedReqforeigner
         );
     }
 
     //education
-    reqeducationList: ReqEducationModel[] = [];
-    selectedReqeducation: ReqEducationModel = new ReqEducationModel();
+    reqeducationList: EmpEducationModel[] = [];
+    selectedReqeducation: EmpEducationModel = new EmpEducationModel();
     doLoadReqeducationList() {
         this.reqdetailService
             .getapply_education(this.initial_current.CompCode, this.req_code)
             .then(async (res) => {
-                await res.forEach((element: ReqEducationModel) => {
-                    element.reqeducation_start = new Date(
-                        element.reqeducation_start
+                await res.forEach((element: EmpEducationModel) => {
+                    element.empeducation_start = new Date(
+                        element.empeducation_start
                     );
-                    element.reqeducation_finish = new Date(
-                        element.reqeducation_finish
+                    element.empeducation_finish = new Date(
+                        element.empeducation_finish
                     );
                 });
                 this.reqeducationList = await res;
@@ -1035,7 +1357,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 }
             });
     }
-    onRowSelectReqeducation(event: Event) {}
+    onRowSelectReqeducation(event: Event) { }
     reqeducation_summit() {
         this.reqeducation_addItem(this.selectedReqeducation);
         this.new_education = false;
@@ -1043,23 +1365,23 @@ export class RecruitmentApplyComponent implements OnInit {
         this.displayManage = false;
     }
     reqeducation_remove() {
-        this.selectedReqeducation.reqeducation_no = '9999';
+        this.selectedReqeducation.empeducation_no = '9999';
         this.reqeducation_addItem(this.selectedReqeducation);
         this.new_education = false;
         this.edit_reqeducation = false;
     }
-    reqeducation_delete() {}
+    reqeducation_delete() { }
     reqeducation_cancel() {
         this.new_education = false;
         this.edit_reqeducation = false;
         this.displayManage = false;
     }
-    reqeducation_addItem(model: ReqEducationModel) {
-        const itemNew: ReqEducationModel[] = [];
+    reqeducation_addItem(model: EmpEducationModel) {
+        const itemNew: EmpEducationModel[] = [];
         for (let i = 0; i < this.reqeducationList.length; i++) {
             if (
-                this.reqeducationList[i].reqeducation_no ==
-                model.reqeducation_no
+                this.reqeducationList[i].empeducation_no ==
+                model.empeducation_no
             ) {
                 //-- Notting
             } else {
@@ -1067,13 +1389,13 @@ export class RecruitmentApplyComponent implements OnInit {
             }
         }
         //-- 9999 for delete
-        if (model.reqeducation_no != '9999') {
+        if (model.empeducation_no != '9999') {
             itemNew.push(model);
         }
         this.reqeducationList = [];
         this.reqeducationList = itemNew;
         this.reqeducationList.sort(function (a, b) {
-            return parseInt(a.reqeducation_no) - parseInt(b.reqeducation_no);
+            return parseInt(a.empeducation_no) - parseInt(b.empeducation_no);
         });
     }
     record_reqeducation() {
@@ -1082,8 +1404,7 @@ export class RecruitmentApplyComponent implements OnInit {
         }
         this.reqdetailService
             .record_reqeducation(
-                // this.selectedEmployee.worker_code,
-                this.selectedApplywork.applywork_code,
+                this.selectedReqworker.worker_code,
                 this.reqeducationList
             )
             .then((res) => {
@@ -1095,18 +1416,18 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     //training
-    reqtrainingList: ReqTrainingModel[] = [];
-    selectedReqtraining: ReqTrainingModel = new ReqTrainingModel();
+    reqtrainingList: EmpTrainingModel[] = [];
+    selectedReqtraining: EmpTrainingModel = new EmpTrainingModel();
     doLoadReqtrainingList() {
         this.reqdetailService
             .getapplywork_training(this.initial_current.CompCode, this.req_code)
             .then(async (res) => {
-                await res.forEach((element: ReqTrainingModel) => {
-                    element.reqtraining_start = new Date(
-                        element.reqtraining_start
+                await res.forEach((element: EmpTrainingModel) => {
+                    element.emptraining_start = new Date(
+                        element.emptraining_start
                     );
-                    element.reqtraining_finish = new Date(
-                        element.reqtraining_finish
+                    element.emptraining_finish = new Date(
+                        element.emptraining_finish
                     );
                 });
                 this.reqtrainingList = await res;
@@ -1115,7 +1436,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 }
             });
     }
-    onRowSelectReqtraining(event: Event) {}
+    onRowSelectReqtraining(event: Event) { }
     reqtraining_summit() {
         this.reqtraining_addItem(this.selectedReqtraining);
         this.new_training = false;
@@ -1123,22 +1444,22 @@ export class RecruitmentApplyComponent implements OnInit {
         this.displayManage = false;
     }
     reqtraining_remove() {
-        this.selectedReqtraining.reqtraining_no = '9999';
+        this.selectedReqtraining.emptraining_no = '9999';
         this.reqtraining_addItem(this.selectedReqtraining);
         this.new_education = false;
-        this.edit_reqeducation = false;
+        this.edit_reqtraining = false;
     }
-    reqtraining_delete() {}
+    reqtraining_delete() { }
     reqtraining_cancel() {
         this.new_training = false;
         this.edit_reqtraining = false;
         this.displayManage = false;
     }
-    reqtraining_addItem(model: ReqTrainingModel) {
-        const itemNew: ReqTrainingModel[] = [];
+    reqtraining_addItem(model: EmpTrainingModel) {
+        const itemNew: EmpTrainingModel[] = [];
         for (let i = 0; i < this.reqtrainingList.length; i++) {
             if (
-                this.reqtrainingList[i].reqtraining_no == model.reqtraining_no
+                this.reqtrainingList[i].emptraining_no == model.emptraining_no
             ) {
                 //-- Notting
             } else {
@@ -1146,13 +1467,13 @@ export class RecruitmentApplyComponent implements OnInit {
             }
         }
         //-- 9999 for delete
-        if (model.reqtraining_no != '9999') {
+        if (model.emptraining_no != '9999') {
             itemNew.push(model);
         }
         this.reqtrainingList = [];
         this.reqtrainingList = itemNew;
         this.reqtrainingList.sort(function (a, b) {
-            return parseInt(a.reqtraining_no) - parseInt(b.reqtraining_no);
+            return parseInt(a.emptraining_no) - parseInt(b.emptraining_no);
         });
     }
     record_reqtraining() {
@@ -1161,7 +1482,7 @@ export class RecruitmentApplyComponent implements OnInit {
         }
         this.reqdetailService
             .record_reqtraining(
-                this.selectedApplywork.applywork_code,
+                this.selectedReqworker.worker_code,
                 this.reqtrainingList
             )
             .then((res) => {
@@ -1172,76 +1493,75 @@ export class RecruitmentApplyComponent implements OnInit {
             });
     }
 
-
-    //emp location
-    emplocationList: EmpLocationModel[] = [];
-    selectedEmpLocation: EmpLocationModel = new EmpLocationModel();
-    doLoadEmplocationList() {
-        this.empdetailService
-            .getworker_location(this.initial_current.CompCode, this.req_code)
+    //assessment
+    reqassessmentList: EmpAssessmentModel[] = [];
+    selectedReqassessment: EmpAssessmentModel = new EmpAssessmentModel();
+    doLoadReqassessmentList() {
+        this.reqdetailService
+            .getapplywork_assessment(this.initial_current.CompCode, this.req_code)
             .then(async (res) => {
-                await res.forEach((element: EmpLocationModel) => {
-                    element.emplocation_startdate = new Date(
-                        element.emplocation_startdate
+                await res.forEach((element: EmpAssessmentModel) => {
+                    element.empassessment_fromdate = new Date(
+                        element.empassessment_fromdate
                     );
-                    element.emplocation_enddate = new Date(
-                        element.emplocation_enddate
+                    element.empassessment_todate = new Date(
+                        element.empassessment_todate
                     );
                 });
-                this.emplocationList = await res;
-                if (this.emplocationList.length > 0) {
-                    this.selectedEmpLocation = this.emplocationList[0];
+                this.reqassessmentList = await res;
+                if (this.reqassessmentList.length > 0) {
+                    this.selectedReqassessment = this.reqassessmentList[0];
                 }
             });
     }
-    onRowSelectEmpLocation(event: Event) {}
-    emplocation_summit() {
-        this.emplocation_addItem(this.selectedEmpLocation);
-        this.new_emplocation = false;
-        this.edit_emplocation = false;
+    onRowSelectReqassessment(event: Event) { }
+    reqassessment_summit() {
+        this.reqassessment_addItem(this.selectedReqassessment);
+        this.new_assessment = false;
+        this.edit_reqassessment = false;
         this.displayManage = false;
     }
-    emplocation_remove() {
-        this.selectedEmpLocation.emplocation_id = '9999';
-        this.emplocation_addItem(this.selectedEmpLocation);
-        this.new_emplocation = false;
-        this.edit_emplocation = false;
+    reqassessment_remove() {
+        this.selectedReqassessment.empassessment_id = '9999';
+        this.reqassessment_addItem(this.selectedReqassessment);
+        this.new_assessment = false;
+        this.edit_reqassessment = false;
     }
-    emplocation_delete() {}
-    emplocation_cancel() {
-        this.new_emplocation = false;
-        this.edit_emplocation = false;
+    reqassessment_delete() { }
+    reqassessment_cancel() {
+        this.new_assessment = false;
+        this.edit_reqassessment = false;
         this.displayManage = false;
     }
-    emplocation_addItem(model: EmpLocationModel) {
-        const itemNew: EmpLocationModel[] = [];
-        for (let i = 0; i < this.emplocationList.length; i++) {
+    reqassessment_addItem(model: EmpAssessmentModel) {
+        const itemNew: EmpAssessmentModel[] = [];
+        for (let i = 0; i < this.reqassessmentList.length; i++) {
             if (
-                this.emplocationList[i].emplocation_id == model.emplocation_id
+                this.reqassessmentList[i].empassessment_id == model.empassessment_id
             ) {
                 //-- Notting
             } else {
-                itemNew.push(this.emplocationList[i]);
+                itemNew.push(this.reqassessmentList[i]);
             }
         }
         //-- 9999 for delete
-        if (model.emplocation_id != '9999') {
+        if (model.empassessment_id != '9999') {
             itemNew.push(model);
         }
-        this.emplocationList = [];
-        this.emplocationList = itemNew;
-        this.emplocationList.sort(function (a, b) {
-            return parseInt(a.emplocation_id) - parseInt(b.emplocation_id);
+        this.reqassessmentList = [];
+        this.reqassessmentList = itemNew;
+        this.reqassessmentList.sort(function (a, b) {
+            return parseInt(a.empassessment_id) - parseInt(b.empassessment_id);
         });
     }
-    record_emplocation() {
-        if (this.emplocationList.length == 0) {
+    record_reqassessment() {
+        if (this.reqassessmentList.length == 0) {
             return;
         }
-        this.empdetailService
-            .record_emplocation(
+        this.reqdetailService
+            .record_reqassessment(
                 this.selectedReqworker.worker_code,
-                this.emplocationList
+                this.reqassessmentList
             )
             .then((res) => {
                 let result = JSON.parse(res);
@@ -1251,6 +1571,157 @@ export class RecruitmentApplyComponent implements OnInit {
             });
     }
 
+    //criminal
+    reqCriminalList: EmpCriminalModel[] = [];
+    selectedReqCriminal: EmpCriminalModel = new EmpCriminalModel();
+    doLoadReqCriminalList() {
+        this.reqdetailService
+            .getapplywork_criminal(this.initial_current.CompCode, this.req_code)
+            .then(async (res) => {
+                await res.forEach((element: EmpCriminalModel) => {
+                    element.empcriminal_fromdate = new Date(
+                        element.empcriminal_fromdate
+                    );
+                    element.empcriminal_todate = new Date(
+                        element.empcriminal_todate
+                    );
+                });
+                this.reqCriminalList = await res;
+                if (this.reqCriminalList.length > 0) {
+                    this.selectedReqCriminal = this.reqCriminalList[0];
+                }
+            });
+    }
+    onRowSelectReqcriminal(event: Event) { }
+    reqcriminal_summit() {
+        this.reqcriminal_addItem(this.selectedReqCriminal);
+        this.new_criminal = false;
+        this.edit_reqcriminal = false;
+        this.displayManage = false;
+    }
+    reqcriminal_remove() {
+        this.selectedReqCriminal.empcriminal_id = '9999';
+        this.reqcriminal_addItem(this.selectedReqCriminal);
+        this.new_criminal = false;
+        this.edit_reqcriminal = false;
+    }
+    reqcriminal_delete() { }
+    reqcriminal_cancel() {
+        this.new_criminal = false;
+        this.edit_reqcriminal = false;
+        this.displayManage = false;
+    }
+    reqcriminal_addItem(model: EmpCriminalModel) {
+        const itemNew: EmpCriminalModel[] = [];
+        for (let i = 0; i < this.reqCriminalList.length; i++) {
+            if (
+                this.reqCriminalList[i].empcriminal_id == model.empcriminal_id
+            ) {
+                //-- Notting
+            } else {
+                itemNew.push(this.reqCriminalList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.empcriminal_id != '9999') {
+            itemNew.push(model);
+        }
+        this.reqCriminalList = [];
+        this.reqCriminalList = itemNew;
+        this.reqCriminalList.sort(function (a, b) {
+            return parseInt(a.empcriminal_id) - parseInt(b.empcriminal_id);
+        });
+    }
+    record_reqcriminal() {
+        if (this.reqCriminalList.length == 0) {
+            return;
+        }
+        this.reqdetailService
+            .record_reqcriminal(
+                this.selectedReqworker.worker_code,
+                this.reqCriminalList
+            )
+            .then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                } else {
+                }
+            });
+    }
+
+    //suggest
+    reqsuggestList: EmpSuggestModel[] = [];
+    selectedReqSuggest: EmpSuggestModel = new EmpSuggestModel();
+    doLoadReqSuggestList() {
+        this.reqdetailService
+            .getapplywork_suggest(this.initial_current.CompCode, this.req_code)
+            .then(async (res) => {
+                await res.forEach((element: EmpSuggestModel) => {
+                    element.empsuggest_date = new Date(element.empsuggest_date)
+
+                });
+                this.reqsuggestList = await res;
+                if (this.reqsuggestList.length > 0) {
+                    this.selectedReqSuggest = this.reqsuggestList[0];
+                }
+            });
+    }
+    onRowSelectReqSuggest(event: Event) { }
+    reqsuggest_summit() {
+        this.reqsuggest_addItem(this.selectedReqSuggest);
+        this.new_reqsuggest = false;
+        this.edit_reqsuggest = false;
+        this.displayManage = false;
+    }
+    reqsuggest_remove() {
+        this.selectedReqSuggest.empsuggest_id = '9999';
+        this.reqsuggest_addItem(this.selectedReqSuggest);
+        this.new_reqsuggest = false;
+        this.edit_reqsuggest = false;
+    }
+    reqsuggest_delete() { }
+    reqsuggest_cancel() {
+        this.new_reqsuggest = false;
+        this.edit_reqsuggest = false;
+        this.displayManage = false;
+    }
+    reqsuggest_addItem(model: EmpSuggestModel) {
+        const itemNew: EmpSuggestModel[] = [];
+        for (let i = 0; i < this.reqsuggestList.length; i++) {
+            if (
+                this.reqsuggestList[i].empsuggest_id == model.empsuggest_id
+            ) {
+                //-- Notting
+            } else {
+                itemNew.push(this.reqsuggestList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.empsuggest_id != '9999') {
+            itemNew.push(model);
+        }
+        this.reqsuggestList = [];
+        this.reqsuggestList = itemNew;
+        this.reqsuggestList.sort(function (a, b) {
+            return parseInt(a.empsuggest_id) - parseInt(b.empsuggest_id);
+        });
+    }
+    record_reqsuggest() {
+        if (this.reqsuggestList.length == 0) {
+            return;
+        }
+        this.reqdetailService
+            .record_reqsuggest(
+                this.selectedReqworker.worker_code,
+                this.reqsuggestList
+            )
+            .then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                } else {
+                }
+            });
+    }
 
     doRecordApplywork() {
         this.applyworkService
@@ -1260,15 +1731,19 @@ export class RecruitmentApplyComponent implements OnInit {
 
                 if (result.success) {
                     //-- Transaction
-                    this.record_emplocation();
-                
+
                     this.record_reqaddress();
                     this.record_reqcard();
                     this.record_reqforeigner();
 
-                    
+
                     this.record_reqeducation();
                     this.record_reqtraining();
+
+                    this.record_reqassessment();
+                    this.record_reqcriminal();
+
+                    this.record_reqsuggest();
 
                     this.messageService.add({
                         severity: 'success',
@@ -1276,7 +1751,6 @@ export class RecruitmentApplyComponent implements OnInit {
                         detail: result.message,
                     });
                     this.router.navigateByUrl('recruitment/applylist');
-                    this.doLoadApplywork();
                 } else {
                     this.messageService.add({
                         severity: 'error',
@@ -1289,17 +1763,18 @@ export class RecruitmentApplyComponent implements OnInit {
 
     confirmRecord() {
         this.confirmationService.confirm({
-          message: this.title_confirm_record,
-          header: this.title_confirm,
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            this.doRecordApplywork()
-          },
-          reject: () => {
-            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-          }
+            message: this.title_confirm_record,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doRecordApplywork()
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
         });
-      }
+    }
 
     close() {
         this.new_applywork = false;
@@ -1307,20 +1782,21 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     clearManage() {
-        this.new_emplocation = false;
-        this.edit_emplocation = false;
-        
-        this.new_reqaddress = false;
-        this.edit_reqaddress = false;
-        this.new_card = false;
-        this.edit_reqcard = false;
-        
-        this.new_foreigner = false;
-        this.edit_reqforeigner = false;
-        
-        this.new_education = false;
-        this.edit_reqeducation = false;
-        this.new_training = false;
-        this.edit_reqtraining = false;
+        this.new_reqsuggest = false; this.edit_reqsuggest = false;
+
+        this.new_reqaddress = false; this.edit_reqaddress = false;
+        this.new_card = false; this.edit_reqcard = false;
+
+        this.new_foreigner = false; this.edit_reqforeigner = false;
+
+        this.new_education = false; this.edit_reqeducation = false;
+        this.new_training = false; this.edit_reqtraining = false;
+        this.new_assessment = false; this.edit_reqassessment = false;
+        this.new_criminal = false; this.edit_reqcriminal = false;
+    }
+
+    newDateTime = new Date();
+    createReqID(){
+        this.selectedReqworker.worker_code = "REQ"+this.datePipe.transform(this.newDateTime, 'yyyyMMddHHmm');
     }
 }

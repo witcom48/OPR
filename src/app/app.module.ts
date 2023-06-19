@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 import {ConfirmationService} from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 
 
@@ -23,7 +24,8 @@ import { ToastModule } from 'primeng/toast';
         AppLayoutModule,
         HttpClientModule,
         ConfirmDialogModule,
-        ToastModule
+        ToastModule,
+        LeafletModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

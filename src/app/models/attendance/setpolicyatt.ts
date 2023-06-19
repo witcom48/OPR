@@ -8,6 +8,7 @@ export class SetPolicyAttModels {
     pol_code: string = ""
     pol_type: string = ""
     pol_note: string = ""
+    year_code: string = ""
     emp_data: EmployeeModel[] = [];
     modified_by: string = ""
     modified_date!: Date;

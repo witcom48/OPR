@@ -127,6 +127,27 @@ export class CompanysComponent implements OnInit {
     title_save: string = 'Save';
     title_code: string = 'Code';
 
+    title_codes: string = 'Code';
+    title_initials: string = 'Initials';
+    title_thai_name: string = 'Name (Thai)';
+    title_english_name: string = 'Name (Eng)';
+
+    title_taxpayer_identification_no: string = 'Taxpayer Identification No';
+    title_provident_fund_no ='Provident Fund No'
+
+    title_juristic_id: string = 'Juristic Id';
+    title_hours_perday: string = 'Hours Perday';
+    title_min_age: string = 'Min Age';
+    title_max_age: string = 'Max Age';
+    title_sso_no: string = 'Social Security Number';
+    title_social_security_branch: string = 'Social Security Branch';
+    title_payout_rate: string = 'Payout Rate';
+    title_sso_company: string = 'SSO Company';
+    title_sso_employee: string = 'SSO Employee';
+    title_wage_rate: string = 'Wage rate';
+    title_min_wage: string = 'Min Wage';
+    title_max_wage: string = 'Max Wage';
+
     title_summit: string = 'Summit';
     title_cancel: string = 'Cancel';
 
@@ -147,6 +168,15 @@ export class CompanysComponent implements OnInit {
     title_resignstatus: string = 'Resign Status';
     title_resigndate: string = 'Resign Date';
     title_resignreason: string = 'Resign Reason';
+
+
+    title_card_type: string = 'Card Type';
+    title_card_code: string = 'Card Code';
+    title_card_opening_date: string = 'Card Opening Date';
+    title_expiration_date: string = 'Expiration Date';
+
+    title_banks: string = 'Bank';
+    title_number: string = 'Account Number';
 
     title_personal: string = 'Personal';
     title_religion: string = 'Religion';
@@ -196,6 +226,21 @@ export class CompanysComponent implements OnInit {
 
     title_confirm_cancel: string = 'You have cancelled';
 
+    title_address_type: string = 'Type';
+    title_address_no: string = 'No';
+    title_address_moo: string = 'moo';
+    title_address_road: string = 'road';
+    title_address_soi: string = 'soi';
+    title_address_tambon: string = 'tambon';
+    title_address_amphur: string = 'amphur';
+    title_address_province: string = 'province';
+    title_address_zipcode: string = 'zipcode';
+    title_address_tel: string = 'tel';
+    title_address_email: string = 'email';
+    title_address_note: string = 'note';
+    title_address_line: string = 'line';
+    title_address_facebook: string = 'facebook';
+
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = 'ข้อมูลสถานที่ปฎิบัติงาน';
@@ -205,6 +250,34 @@ export class CompanysComponent implements OnInit {
             this.title_import = 'นำเข้า';
             this.title_export = 'โอนออก';
             this.title_save = 'บันทึก';
+
+            this.title_codes ='รหัสบริษัท';
+            this.title_initials ='ชื่อย่อ';
+            this.title_thai_name ='ชื่อไทย';
+            this.title_english_name ='ชื่ออังกฤษ';
+
+            this.title_taxpayer_identification_no ='เลขประจำตัวผู้เสียภาษี'
+            this.title_juristic_id ='เลขทะเบียนนิติบุคคล'
+            this.title_provident_fund_no ='เลขกองทุนสำรองเลี้ยงชีพ'
+            this.title_hours_perday ='ชั่วโมงการทำงาน'
+            this.title_min_age ='อายุพนักงานน้อยสุด'
+            this.title_max_age ='อายุพนักงานมากสุด'
+            this.title_sso_no ='เลขประกันสังคม'
+            this.title_social_security_branch ='สาขาประกันสังคม'
+            this.title_payout_rate ='อัตราการจ่าย %'
+            this.title_sso_company ='ประกันสังคมส่วนบริษัท'
+            this.title_sso_employee ='ประกันสังคมส่วนพนักงาน'
+            this.title_wage_rate ='อัตราค่าจ้าง'
+            this.title_min_wage ='ค่าจ้างตํ่าสุด'
+            this.title_max_wage ='ค่าจ้างสูงสุด'
+
+
+            this.title_card_type ='ประเภทบัตร';
+            this.title_card_code ='รหัสบัตร';
+            this.title_card_opening_date ='วันที่เปิดบัตร';
+            this.title_expiration_date ='วันที่หมดอายุ';
+            
+
 
             this.title_summit = 'บันทึก';
             this.title_cancel = 'ยกเลิก';
@@ -238,6 +311,10 @@ export class CompanysComponent implements OnInit {
             this.title_family = 'ข้อมูลครอบครัว';
             this.title_hospital = 'ข้อมูลโรงพยาบาล';
             this.title_foreigner = 'ข้อมูลพนักงานต่างด้าว';
+
+            this.title_banks = 'ธนาคาร';
+            this.title_number = 'เลขที่บัญชี';
+             
 
             this.title_record = 'ข้อมูลประวัติ';
             this.title_department = 'สังกัด';
@@ -274,6 +351,21 @@ export class CompanysComponent implements OnInit {
             this.title_confirm_yes = 'ใช่';
             this.title_confirm_no = 'ยกเลิก';
             this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
+
+            this.title_address_type= 'ประเภท';
+            this.title_address_no = 'เลขที่';
+            this.title_address_moo= 'หมู่ที่';
+            this.title_address_road= 'ถนน';
+            this.title_address_soi= 'ซอย';
+            this.title_address_tambon= 'ตำบล';
+            this.title_address_amphur= 'อำเภอ';
+            this.title_address_province= 'จังหวัด';
+            this.title_address_zipcode= 'รหัสไปรษณีย์';
+            this.title_address_tel= 'เบอร์โทรศัพท์';
+            this.title_address_email= 'อีเมล์';
+            this.title_address_note= 'note';
+            this.title_address_line= 'ไลน์';
+            this.title_address_facebook= 'เฟสบุ๊ค';
         }
     }
 
@@ -296,150 +388,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
         ];
-        //menu address
-        this.menu_comaddress = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.clearManage();
-                    this.new_comaddress = true;
-                    var ref = this.comaddressList.length + 100;
-                    this.selectedComaddress = new ComaddressModel();
-                    this.selectedComaddress.company_code = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.clearManage();
-                    if (this.selectedComaddress != null) {
-                        this.edit_comaddress = true;
-
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedComaddress != null) {
-                        this.comaddresss_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
-            },
-        ];
-
-        //menu address
-        this.menu_comaddresseen = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.clearManage();
-                    this.new_comaddresseen = true;
-                    var ref = this.comaddressList.length + 100;
-                    this.selectedComaddress = new ComaddressModel();
-                    this.selectedComaddress.company_code = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.clearManage();
-                    if (this.selectedComaddress != null) {
-                        this.edit_comaddresseen = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedComaddress != null) {
-                        this.comaddresss_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
-            },
-        ];
-
-        //menu addressen
-        this.menu_comaddressen = [
-            {
-                label: 'New',
-                icon: 'pi pi-fw pi-plus',
-                command: (event) => {
-                    this.clearManage();
-                    this.new_comaddressen = true;
-                    var ref = this.comaddressenList.length + 100;
-                    this.selectedComaddress = new ComaddressModel();
-                    this.selectedComaddress.company_code = ref.toString();
-                    this.showManage();
-                },
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.clearManage();
-                    if (this.selectedComaddress != null) {
-                        this.edit_comaddressen = true;
-                        this.showManage();
-                    }
-                },
-            },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    if (this.selectedComaddress != null) {
-                        this.comaddresss_remove();
-                    }
-                },
-            },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
-            },
-        ];
+    
         //menu card
         this.menu_comcard = [
             {
@@ -597,9 +546,13 @@ export class CompanysComponent implements OnInit {
 
                 setTimeout(() => {
                     this.doLoadComaddressList();
-                    this.doLoadComaddressenList();
+                    // this.doLoadComaddressenList();
                     this.doLoadComcardList();
                     this.doLoadCombankList();
+                    this.doLoadbankList();
+                    this.doLoadcardList();
+                    this.doLoadaddressList();
+                    this.doLoadprovinceList();
                 }, 300);
             }
         });
@@ -645,144 +598,18 @@ export class CompanysComponent implements OnInit {
                 }
             });
     }
-    onRowSelectComaddress(event: Event) {}
-    comaddress_summit() {
-        this.comaddress_addItem(this.selectedComaddress);
-        this.new_comaddress = false;
-        this.edit_comaddress = false;
-
-        this.new_comaddresseen = false;
-        this.edit_comaddresseen = false;
-
-        this.displayManage = false;
-    }
-    comaddresss_remove() {
-        this.selectedComaddress.company_code = '9999';
-        this.comaddress_addItem(this.selectedComaddress);
-        this.new_comaddress = false;
-        this.edit_comaddress = false;
-
-        this.new_comaddresseen = false;
-        this.edit_comaddresseen = false;
-    }
-    comaddress_delete() {}
-    comaddress_cancel() {
-        this.new_comaddress = false;
-        this.edit_comaddress = false;
-
-        this.new_comaddresseen = false;
-        this.edit_comaddresseen = false;
-
-
-        this.displayManage = false;
-    }
-
-    comaddress_addItem(model: ComaddressModel) {
-        const itemNew: ComaddressModel[] = [];
-        for (let i = 0; i < this.comaddressList.length; i++) {
-            if (this.comaddressList[i].company_code == model.company_code) {
-                //-- Notting
-            } else {
-                itemNew.push(this.comaddressList[i]);
-            }
-        }
-        //-- 9999 for delete
-        if (model.company_code != '9999') {
-            itemNew.push(model);
-        }
-        this.comaddressList = [];
-        this.comaddressList = itemNew;
-        this.comaddressList.sort(function (a, b) {
-            return parseInt(a.comaddressth_no) - parseInt(b.comaddressth_no);
-        });
-    }
     record_comaddress() {
-        if (this.comaddressList.length == 0) {
-            return;
-        }
-        this.companyDetailService
-            .record_comddress(
-                this.selectedCompany.company_code,
-                this.comaddressList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
-
-    //addressen
-    comaddressenList: ComaddressModel[] = [];
-    selectedComaddressen: ComaddressModel = new ComaddressModel();
-
-    doLoadComaddressenList() {
-        this.companyDetailService
-            .getcompany_address(this.company_code, '')
-            .then((res) => {
-                this.comaddressenList = res;
-                if (this.comaddressenList.length > 0) {
-                    this.selectedComaddressen = this.comaddressenList[0];
-                }
-            });
-    }
-    onRowSelectComaddressen(event: Event) {}
-    comaddressen_summit() {
-        this.comaddressen_addItem(this.selectedComaddressen);
-
-        this.new_comaddressen = false;
-        this.edit_comaddressen = false;
-        this.displayManage = false;
-    }
-    comaddresssen_remove() {
-        this.selectedComaddressen.company_code = '9999';
-        this.comaddressen_addItem(this.selectedComaddressen);
-
-        this.new_comaddressen = false;
-        this.edit_comaddressen = false;
-    }
-    comaddressen_delete() {}
-    comaddressen_cancel() {
-        this.new_comaddressen = false;
-        this.edit_comaddressen = false;
-        this.displayManage = false;
-    }
-    comaddressen_addItem(model: ComaddressModel) {
-        const itemNew: ComaddressModel[] = [];
-        for (let i = 0; i < this.comaddressenList.length; i++) {
-            if (this.comaddressenList[i].company_code == model.company_code) {
-                //-- Notting
+        // this.selectedComaddress.comaddress_type = "1";
+        this.selectedComaddress.company_code = this.selectedCompany.company_code;
+      
+        this.companyDetailService.record_comaddress(this.selectedComaddress.company_code, [this.selectedComaddress])
+          .then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
             } else {
-                itemNew.push(this.comaddressenList[i]);
             }
-        }
-        //-- 9999 for delete
-        if (model.company_code != '9999') {
-            itemNew.push(model);
-        }
-        this.comaddressenList = [];
-        this.comaddressenList = itemNew;
-        this.comaddressenList.sort(function (a, b) {
-            return parseInt(a.comaddressen_no) - parseInt(b.comaddressen_no);
-        });
-    }
-    record_comaddressen() {
-        if (this.comaddressenList.length == 0) {
-            return;
-        }
-        this.companyDetailService
-            .record_comddress(
-                this.selectedCompany.company_code,
-                this.comaddressenList
-            )
-            .then((res) => {
-                let result = JSON.parse(res);
-                if (result.success) {
-                } else {
-                }
-            });
-    }
+          });
+      }
 
     //card
     comcardList: ComcardModel[] = [];
@@ -854,7 +681,6 @@ export class CompanysComponent implements OnInit {
             });
     }
 
-    // //bank
    //bank
    combankList: CombankModel[] = [];
    selectedCombank: CombankModel = new CombankModel();
@@ -876,7 +702,7 @@ export class CompanysComponent implements OnInit {
        this.displayManage = false;
    }
    combank_remove() {
-       this.selectedCombank.company_code = '9999';
+       this.selectedCombank.combank_id = '9999';
        this.combank_addItem(this.selectedCombank);
        this.new_bank = false;
        this.edit_combank = false;
@@ -902,9 +728,9 @@ export class CompanysComponent implements OnInit {
        }
        this.combankList = [];
        this.combankList = itemNew;
-       this.combankList.sort(function (a, b) {
-           return parseInt(a.combank_id) - parseInt(b.combank_id);
-       });
+       this.combankList.sort(function (a, b) { return parseInt(a.combank_id) - parseInt(b.combank_id); })
+
+ 
    }
    record_combank() {
        if (this.combankList.length == 0) {
@@ -919,69 +745,7 @@ export class CompanysComponent implements OnInit {
                }
            });
    }
-    // combankList: CombankModel[] = [];
-    // selectedCombank: CombankModel = new CombankModel();
-    // doLoadCombankList() {
-    //     this.companyDetailService
-    //         .getcompany_bank(this.initial_current.CompCode,this.company_code)
-    //         .then((res) => {
-    //             this.combankList = res;
-    //             if (this.combankList.length > 0) {
-    //                 this.selectedCombank = this.combankList[0];
-    //             }
-    //         });
-    // }
-    // onRowSelectCombank(event: Event) {}
-    // combank_summit() {
-    //     this.combank_addItem(this.selectedCombank);
-    //     this.new_bank = false;
-    //     this.edit_combank = false;
-    //     this.displayManage = false;
-    // }
-    // combank_remove() {
-    //     this.selectedCombank.combank_id = '9999';
-    //     this.combank_addItem(this.selectedCombank);
-    //     this.new_bank = false;
-    //     this.edit_combank = false;
-    // }
-    // combank_delete() {}
-    // combank_cancel() {
-    //     this.new_bank = false;
-    //     this.edit_combank = false;
-    //     this.displayManage = false;
-    // }
-    // combank_addItem(model: CombankModel) {
-    //     const itemNew: CombankModel[] = [];
-    //     for (let i = 0; i < this.combankList.length; i++) {
-    //         if (this.combankList[i].combank_id == model.combank_id) {
-    //             //-- Notting
-    //         } else {
-    //             itemNew.push(this.combankList[i]);
-    //         }
-    //     }
-    //     //-- 9999 for delete
-    //     if (model.combank_id != '9999') {
-    //         itemNew.push(model);
-    //     }
-    //     this.combankList = [];
-    //     this.combankList = itemNew;
-    //     this.combankList.sort(function (a, b) {
-    //         return parseInt(a.combank_id) - parseInt(b.combank_id);
-    //     });
-    // }
-    // record_combank() {
-    //     if (this.combankList.length == 0) {
-    //         return;
-    //     }
-    //     this.companyDetailService
-    //         .record_combank(this.selectedCompany.company_code, this.combankList)
-    //         .then((res) => {
-    //             let result = JSON.parse(res);
-    //             if (result.success) {
-    //             } else {
-    //             }
-    //         });
-    // }
+    
     confirmRecord() {
         this.confirmationService.confirm({
             message: this.title_confirm_record,
@@ -997,6 +761,7 @@ export class CompanysComponent implements OnInit {
                     detail: this.title_confirm_cancel,
                 });
             },
+            key: "myDialog"
         });
     }
 
@@ -1011,7 +776,6 @@ export class CompanysComponent implements OnInit {
                 if (result.success) {
                     //-- Transaction
                     this.record_comaddress();
-                    this.record_comaddressen();
                     this.record_comcard();
                     this.record_combank();
 
@@ -1035,8 +799,9 @@ export class CompanysComponent implements OnInit {
     close() {
         this.new_company = false;
         this.selectedCompany = new CompanyModel();
+        this.selectedComaddress= new ComaddressModel();
     }
-
+    
     clearManage() {
         this.new_comaddress = false;
         this.edit_comaddress = false;

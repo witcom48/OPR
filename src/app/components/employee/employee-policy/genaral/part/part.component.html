@@ -74,18 +74,6 @@
         <label>{{title_name_en}}</label>
         <textarea [(ngModel)]="selectedDep.dep_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <!-- <label>{{title_level}}</label>
-        <p-dropdown placeholder="--" [options]="levelList" optionValue="level_code" [showClear]="true"
-            [(ngModel)]="selectedDep.dep_level" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
-            </ng-template>
-        </p-dropdown>
-        <textarea [(ngModel)]="selectedDep.dep_level" pInputTextarea [autoResize]="true"></textarea> -->
-
         <label>{{title_parent}}</label>
         <!-- <p-dropdown placeholder="--" [options]="depParentList" optionValue="dep_code" [showClear]="true"
             [(ngModel)]="selectedDep.dep_parent" [style]="{ width: '100%', overflow: 'visible' }">
@@ -109,7 +97,7 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="doUploadDep()" label="{{title_upload}}"
@@ -121,5 +109,5 @@
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

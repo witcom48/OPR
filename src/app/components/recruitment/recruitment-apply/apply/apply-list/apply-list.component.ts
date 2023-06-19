@@ -18,6 +18,14 @@ import { ApplyworkModel } from 'src/app/models/recruitment/applywork';
 import { InitialModel } from 'src/app/models/employee/policy/initial';
 import { InitialService } from 'src/app/services/emp/policy/initial.service';
 import { EmployeeModel } from 'src/app/models/employee/employee';
+import { ApplyworkDetailService } from 'src/app/services/recruitment/applywork-detail.service';
+
+
+interface ImportList {
+  name_th: string,
+  name_en: string,
+  code: string
+}
 
 @Component({
   selector: 'app-apply-list',
@@ -33,9 +41,12 @@ export class ApplyListComponent implements OnInit {
   items: MenuItem[] = [];
   edit_applywork: boolean = false;
   new_applywork: boolean = false;
+  ImportList: ImportList[] = [];
+
 
   constructor(
     private applyworkService : ApplyworkService,
+    private applydetailService : ApplyworkDetailService,
     private router:Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -45,7 +56,19 @@ export class ApplyListComponent implements OnInit {
     private initialService : InitialService,
     private positionService : PositionService,
     private empdetailService: EmpDetailService,
-    ) { }
+    ) {
+      this.ImportList = [
+        { name_th:'ข้อมูลผู้สมัครงาน', name_en: 'Recruiment Info', code: 'REQWORKER'},
+        { name_th: 'ข้อมูลที่อยู่ผู้สมัครงาน', name_en: 'Recruiment Address', code: 'REQADDRESS' },
+        { name_th: 'ข้อมูลบัตรผู้สมัครงาน', name_en: 'Recruiment Cards', code: 'REQCARD' },
+        { name_th: 'ข้อมูลต่างด้าวของผู้สมัครงาน', name_en: 'Recruiment Foreigner', code: 'REQFOREIGNER' },
+        { name_th: 'ข้อมูลการศึกษาผู้สมัครงาน', name_en: 'Recruiment Education', code: 'REQEDUCATION' },
+        { name_th: 'ข้อมูลฝึกอบรมผู้สมัครงาน', name_en: 'Recruiment Training', code: 'REQTRAINING' },
+        { name_th: 'ข้อมูลการประเมินผู้สมัครงาน', name_en: 'Recruiment Assessment', code: 'REQASSESSMENT' },
+        { name_th: 'ข้อมูลตรวจสอบอาชญกรรม', name_en: 'Recruiment Criminal', code: 'REQCRIMINAL' },
+        { name_th: 'ข้อมูลผู้แนะนำผู้สมัครงาน', name_en: 'Recruiment Suggest', code: 'REQSUGGEST' },
+      ]
+     }
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -88,6 +111,7 @@ export class ApplyListComponent implements OnInit {
   title_Fname: string = "Firstname";
   title_Lname: string = "Surname";
   title_startdate: string = "Start Date";
+  title_hiredate:string = "Hire date"
   title_status: string = "Status";
   title_apprdate: string = "Approve Date";
   title_modified_by: string = "Edit by";
@@ -127,6 +151,7 @@ export class ApplyListComponent implements OnInit {
       this.title_Fname = "ชื่อ";
       this.title_Fname = "ชื่อนามสกุล";
       this.title_startdate = "วันที่เริ่มงาน";
+      this.title_hiredate = "วันที่พร้อมเริ่มงาน"
       this.title_status = "สถานะ";
       this.title_apprdate = "วันที่อนุมัติ";
       this.title_modified_by = "ผู้ทำรายการ";
@@ -216,7 +241,8 @@ applyworkCurrent:number = 0;
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-      }
+      },
+      key : "myDialog"
     });
   }
 
@@ -269,30 +295,166 @@ applyworkCurrent:number = 0;
   }
 
   doUploadApplywork(){
-    console.log('Upload');
     if (this.fileToUpload) {
       this.confirmationService.confirm({
         message: "Confirm Upload file : " + this.fileToUpload.name,
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          const filename = "Applywork_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+          const filename = this.selectedReqworker.selected_Import +"_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
           const filetype = "xls";
 
-          this.applyworkService.applywork_import(this.fileToUpload, filename, filetype).then((res) => {
-            console.log(res)
-            let result = JSON.parse(res);
+          switch(this.selectedReqworker.selected_Import){
+            //import recruiment
+            case 'REQWORKER':
+              this.applyworkService.reqworker_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadapplywork();
+                  this.edit_applywork = false;
+                  this.new_applywork = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              });
+              break;
 
-            if (result.success) {
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-              this.doLoadapplywork();
-              this.edit_applywork = false;
-              this.new_applywork = false;
-            }
-            else {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-            }
-          });
+            //import req address
+            case 'REQADDRESS':
+              this.applydetailService.reqaddress_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+    
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadapplywork();
+                  this.edit_applywork = false;
+                  this.new_applywork = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              });
+              break;
+
+            //import req card
+            case 'REQCARD':
+              this.applydetailService.reqcard_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+    
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadapplywork();
+                  this.edit_applywork = false;
+                  this.new_applywork = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              });
+              break;
+
+            //import req foreigner
+            case 'REQFOREIGNER':
+              this.applydetailService.reqforeigner_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+    
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadapplywork();
+                  this.edit_applywork = false;
+                  this.new_applywork = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              });
+              break;
+
+            //import req education
+            case 'REQEDUCATION':
+              this.applydetailService.reqeducation_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+    
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadapplywork();
+                  this.edit_applywork = false;
+                  this.new_applywork = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              });
+              break;
+
+            //import req training
+            case 'REQTRAINING':
+              this.applydetailService.reqtraining_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+    
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadapplywork();
+                  this.edit_applywork = false;
+                  this.new_applywork = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              });
+              break;
+
+            //import req assessment
+            case 'REQASSESSMENT':
+              this.applydetailService.reqassessment_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadapplywork();
+                  this.edit_applywork = false;
+                  this.new_applywork = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              });
+              break;
+              
+            //import req craiminal
+            case 'REQCRIMINAL':
+              this.applydetailService.reqcriminal_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadapplywork();
+                  this.edit_applywork = false;
+                  this.new_applywork = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              });
+              break;
+
+            //import req suggest
+            case 'REQSUGGEST':
+              this.applydetailService.reqsuggest_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doLoadapplywork();
+                  this.edit_applywork = false;
+                  this.new_applywork = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              });
+              break;
+          }
+          
           this.displayUpload = false;
         },
         reject: () => {

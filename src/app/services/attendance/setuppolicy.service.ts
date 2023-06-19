@@ -87,6 +87,7 @@ export class SetPolicyAttServices {
             pol_type: Setup.pol_type,
             pol_note: Setup.pol_note,
             emp_data: emplists,
+            year_code: Setup.year_code,
             modified_by: Setup.modified_by || this.initial_current.Username,
             flag: Setup.flag
         }

@@ -7,15 +7,10 @@
 
                 <!-- Tab Genaral -->
 
-                <!-- <ng-template pTemplate="header">
-                        <i class="pi pi-cog"></i>&nbsp;&nbsp;
-                        <span>{{title_genaral}}</span>
-                    </ng-template> -->
-
                 <div class="empinfo">
                     <div class="formgrid grid">
                         <div class="field col-12 md:col-6">
-                            <label for="firstname2">รหัสสขา</label><br>
+                            <label for="firstname2">{{title_codes}}</label><br>
                             <br />
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.combranch_code"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
@@ -24,7 +19,7 @@
                         </div>
 
                         <div class="field col-12 md:col-6">
-                            <label for="firstname2">สาขาประกันสังคม</label><br>
+                            <label for="firstname2">{{title_social_security_branch}}</label><br>
                             <br />
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.sso_combranch_no"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
@@ -32,14 +27,14 @@
                         </div>
 
                         <div class="field col-12 md:col-6">
-                            <label for="firstname2">ชื่อไทย </label><br>
+                            <label for="firstname2">{{title_thai_name}} </label><br>
                             <br />
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.combranch_name_th"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                         </div>
                         <div class="field col-12 md:col-6">
-                            <label for="firstname2">ชื่ออังกฤษ</label><br>
+                            <label for="firstname2">{{title_english_name}}</label><br>
                             <br />
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.combranch_name_en"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
@@ -51,127 +46,191 @@
                         <!-- Address -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_address}}">
-
+                                <p-accordionTab header="{{ title_address }}">
                                     <p-tabView (onChange)="tabChange($event)">
                                         <p-tabPanel>
                                             <ng-template pTemplate="header">
                                                 <i></i>&nbsp;&nbsp;
-                                                <span>Address TH</span>
+                                                <span>{{Address_th}}</span>
                                             </ng-template>
-
-                                            <p-menubar [model]="menu_comaddress"></p-menubar>
-                                            <p-table #dtAddress [value]="comaddressList" styleClass="p-datatable-sm"
-                                                [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
-                                                scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
-                                                [(selection)]="selectedComaddress"
-                                                (onRowSelect)="onRowSelectComaddress($event)" [rows]="10"
-                                                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                                [paginator]="true"
-                                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                                <ng-template pTemplate="header">
-                                                    <tr>
-                                                        <th>ประเภท</th>
-                                                        <th>เลขที่</th>
-                                                        <th>หมู่ที่</th>
-                                                        <th>ซอย</th>
-                                                        <th>ถนน</th>
-                                                        <th>ตำบล</th>
-                                                        <th>อำเภอ</th>
-                                                        <th>จังหวัด</th>
-                                                        <th>รหัสไปรษณีย์</th>
-                                                        <th>เบอร์โทรศัพท์</th>
-                                                        <!-- <th>อีเมล์</th>
-                                                        <th>ไลน์</th>
-                                                        <th>เฟสบุ๊ค</th> -->
-                                                        <th>ผู้ทำรายการ</th>
-                                                        <th>วันที่ทำรายการ</th>
-                                                    </tr>
-                                                </ng-template>
-                                                <ng-template pTemplate="body" let-data>
-                                                    <tr [pSelectableRow]="data">
-                                                        <td>{{data.comaddress_type}}</td>
-                                                        <td>{{data.comaddressth_no}}</td>
-                                                        <td>{{data.comaddressth_moo}}</td>
-                                                        <td>{{data.comaddressth_soi}}</td>
-                                                        <td>{{data.comaddressth_road}}</td>
-                                                        <td>{{data.comaddressth_tambon}}</td>
-                                                        <td>{{data.comaddressth_amphur}}</td>
-                                                        <td>{{data.provinceth_code}}</td>
-                                                        <td>{{data.comaddress_zipcode}}</td>
-                                                        <td>{{data.comaddress_tel}}</td>
-                                                        <!-- <td>{{data.comaddress_email}}</td>
-                                                        <td>{{data.comaddress_line}}</td>
-                                                        <td>{{data.comaddress_facebook}}</td> -->
-
-                                                        <td>{{data.modified_by}}</td>
-                                                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                                    </tr>
-                                                </ng-template>
-                                            </p-table>
+                                            <div class="formgrid grid">
+                                                <div class="field col-6">
+                                                    <label for="address_type">{{ title_address_type }}</label>
+                                                    <p-dropdown placeholder="--" [options]="addressList" optionValue="addresstype_code" [showClear]="true"
+                                                        [(ngModel)]="selectedComaddress.comaddress_type" [style]="{ width: '100%', overflow: 'visible' }">
+                                                        <ng-template let-item pTemplate="selectedItem">
+                                                            {{ initial_current.Language == 'TH' ? item.addresstype_name_th : item.addresstype_name_en }}
+                                                        </ng-template>
+                                                        <ng-template let-item pTemplate="item">
+                                                            {{ initial_current.Language == 'TH' ? item.addresstype_name_th : item.addresstype_name_en }}
+                                                        </ng-template>
+                                                    </p-dropdown>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_no">{{ title_address_no }}</label>
+                                                    <input id="address_no" type="text" [(ngModel)]="selectedComaddress.comaddressth_no"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_moo">{{ title_address_moo }}</label>
+                                                    <input id="address_moo" type="text" [(ngModel)]="selectedComaddress.comaddressth_moo"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_road">{{ title_address_road }}</label>
+                                                    <input id="address_road" type="text" [(ngModel)]="selectedComaddress.comaddressth_road"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_soi">{{ title_address_soi }}</label>
+                                                    <input id="address_soi" type="text" [(ngModel)]="selectedComaddress.comaddressth_soi"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_tambon">{{ title_address_tambon }}</label>
+                                                    <input id="address_tambon" type="text" [(ngModel)]="selectedComaddress.comaddressth_tambon"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_amphur">{{ title_address_amphur }}</label>
+                                                    <input id="address_amphur" type="text" [(ngModel)]="selectedComaddress.comaddressth_amphur"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_province">{{ title_address_province }}</label><br>
+                                                    
+                                                        <p-dropdown placeholder="--" [options]="provinceList" optionValue="province_code" [showClear]="true"
+                                                            [(ngModel)]="selectedComaddress.provinceth_code" [style]="{ width: '100%', overflow: 'visible' }">
+                                                            <ng-template let-item pTemplate="selectedItem">
+                                                                {{ initial_current.Language == 'TH' ? item.province_name_th : item.province_name_th }}
+                                                            </ng-template>
+                                                            <ng-template let-item pTemplate="item">
+                                                                {{ initial_current.Language == 'TH' ? item.province_name_th : item.province_name_th }}
+                                                            </ng-template>
+                                                        </p-dropdown>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_zipcode">{{ title_address_zipcode }}</label>
+                                                    <input id="address_zipcode" type="text" [(ngModel)]="selectedComaddress.comaddress_zipcode"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <div class="p-inputgroup">
+                                                        <span class="p-inputgroup-addon">{{ title_address_tel }}</span>
+                                                        <input type="text" pInputText placeholder="" [(ngModel)]="selectedComaddress.comaddress_tel">
+                                                    </div>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <div class="p-inputgroup">
+                                                        <span class="p-inputgroup-addon">{{ title_address_email }}</span>
+                                                        <input type="text" pInputText placeholder="" [(ngModel)]="selectedComaddress.comaddress_email">
+                                                    </div>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <div class="p-inputgroup">
+                                                        <span class="p-inputgroup-addon">{{ title_address_line }}</span>
+                                                        <input type="text" pInputText placeholder="" [(ngModel)]="selectedComaddress.comaddress_line">
+                                                    </div>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <div class="p-inputgroup">
+                                                        <span class="p-inputgroup-addon">{{ title_address_facebook }}</span>
+                                                        <input type="text" pInputText placeholder="" [(ngModel)]="selectedComaddress.comaddress_facebook">
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
                                         </p-tabPanel>
-
                                         <p-tabPanel>
                                             <ng-template pTemplate="header">
                                                 <i></i>&nbsp;&nbsp;
-                                                <span>Address EN</span>
+                                                <span>{{Address_en}}</span>
                                             </ng-template>
-                                            <p-menubar [model]="menu_comaddresseen"></p-menubar>
-                                            <p-table #dtAddress [value]="comaddressList" styleClass="p-datatable-sm"
-                                                [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
-                                                scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
-                                                [(selection)]="selectedComaddress"
-                                                (onRowSelect)="onRowSelectComaddress($event)" [rows]="10"
-                                                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                                [paginator]="true"
-                                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                                <ng-template pTemplate="header">
-                                                    <tr>
-                                                        <!-- <th>type</th> -->
-                                                        <th>no</th>
-                                                        <th>moo</th>
-                                                        <th>soi</th>
-                                                        <th>road</th>
-                                                        <th>tambon</th>
-                                                        <th>amphur</th>
-                                                        <th>province</th>
+                                            <div class="formgrid grid">
+                                                <div class="field col-6">
+                                                    <label for="address_no">{{ title_address_no }}</label>
+                                                    <input id="address_no" type="text" [(ngModel)]="selectedComaddress.comaddressen_no"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_moo">{{ title_address_moo }}</label>
+                                                    <input id="address_moo" type="text" [(ngModel)]="selectedComaddress.comaddressen_moo"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_road">{{ title_address_road }}</label>
+                                                    <input id="address_road" type="text" [(ngModel)]="selectedComaddress.comaddressen_road"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_soi">{{ title_address_soi }}</label>
+                                                    <input id="address_soi" type="text" [(ngModel)]="selectedComaddress.comaddressen_soi"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_tambon">{{ title_address_tambon }}</label>
+                                                    <input id="address_tambon" type="text" [(ngModel)]="selectedComaddress.comaddressen_tambon"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <label for="address_amphur">{{ title_address_amphur }}</label>
+                                                    <input id="address_amphur" type="text" [(ngModel)]="selectedComaddress.comaddressen_amphur"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
 
-                                                        <!-- <th>zipcode</th> -->
-                                                        <!-- <th>tel</th> -->
-                                                        <th>email</th>
-                                                        <th>line</th>
-                                                        <th>facebook</th>
-                                                        <th>modified_by</th>
-                                                        <th>modified_date</th>
-                                                    </tr>
-                                                </ng-template>
-                                                <ng-template pTemplate="body" let-data>
-                                                    <tr [pSelectableRow]="data">
-                                                        <!-- <td>{{data.comaddress_type}}</td> -->
-                                                        <td>{{data.comaddressen_no}}</td>
-                                                        <td>{{data.comaddressen_moo}}</td>
-                                                        <td>{{data.comaddressen_soi}}</td>
-                                                        <td>{{data.comaddressen_road}}</td>
-                                                        <td>{{data.comaddressen_tambon}}</td>
-                                                        <td>{{data.comaddressen_amphur}}</td>
-                                                        <td>{{data.provinceen_code}}</td>
+                                                <div class="field col-6">
+                                                    <label for="address_province">{{ title_address_province }}</label><br>
+                                                    
+                                                        <p-dropdown placeholder="--" [options]="provinceList" optionValue="province_code" [showClear]="true"
+                                                            [(ngModel)]="selectedComaddress.provinceth_code" [style]="{ width: '100%', overflow: 'visible' }">
+                                                            <ng-template let-item pTemplate="selectedItem">
+                                                                {{ initial_current.Language == 'EN' ? item.province_name_en : item.province_name_en }}
+                                                            </ng-template>
+                                                            <ng-template let-item pTemplate="item">
+                                                                {{ initial_current.Language == 'EN' ? item.province_name_en : item.province_name_en }}
+                                                            </ng-template>
+                                                        </p-dropdown>
+                                                </div>
 
-                                                        <!-- <td>{{data.comaddress_zipcode}}</td> -->
-                                                        <!-- <td>{{data.comaddress_tel}}</td> -->
-                                                        <td>{{data.comaddress_email}}</td>
-                                                        <td>{{data.comaddress_line}}</td>
-                                                        <td>{{data.comaddress_facebook}}</td>
-                                                        <td>{{data.modified_by}}</td>
-                                                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                                    </tr>
-                                                </ng-template>
-                                            </p-table>
+                                                 
+                                                <div class="field col-6">
+                                                    <label for="address_zipcode">{{ title_address_zipcode }}</label>
+                                                    <input id="address_zipcode" type="text" [(ngModel)]="selectedComaddress.comaddress_zipcode"
+                                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                                </div>
+                                                <div class="field col-6">
+                                                    <div class="p-inputgroup">
+                                                        <span class="p-inputgroup-addon">{{ title_address_tel }}</span>
+                                                        <input type="text" pInputText placeholder="" [(ngModel)]="selectedComaddress.comaddress_tel">
+                                                    </div>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <div class="p-inputgroup">
+                                                        <span class="p-inputgroup-addon">{{ title_address_email }}</span>
+                                                        <input type="text" pInputText placeholder="" [(ngModel)]="selectedComaddress.comaddress_email">
+                                                    </div>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <div class="p-inputgroup">
+                                                        <span class="p-inputgroup-addon">{{ title_address_line }}</span>
+                                                        <input type="text" pInputText placeholder="" [(ngModel)]="selectedComaddress.comaddress_line">
+                                                    </div>
+                                                </div>
+                                                <div class="field col-6">
+                                                    <div class="p-inputgroup">
+                                                        <span class="p-inputgroup-addon">{{ title_address_facebook }}</span>
+                                                        <input type="text" pInputText placeholder="" [(ngModel)]="selectedComaddress.comaddress_facebook">
+                                                    </div>
+                                                </div>
+                                                
+
+                                            </div>
                                         </p-tabPanel>
                                     </p-tabView>
-
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
+                        
                         <!-- card -->
                         <div class="field col-12">
                             <p-accordion>
@@ -186,22 +245,18 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>ประเภทบัตร</th>
-                                                <th>รหัสบัตร</th>
-                                                <th>วันที่เปิดบัตร</th>
-                                                <th>วันที่หมดอายุ</th>
-                                                <th>ผู้ทำรายการ</th>
-                                                <th>วันที่ทำรายการ</th>
+                                                <th>{{title_card_type}}</th>
+                                                <th>{{title_card_code}}</th>
+                                                <th>{{title_card_opening_date}}</th>
+                                                <th>{{title_expiration_date}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-data>
                                             <tr [pSelectableRow]="data">
                                                 <th>{{data.card_type }}</th>
-                                                <!-- <td>{{initial_current.Language == "TH"? data.cardtype_name_th:data.cardtype_name_en}}</td> -->
-
-                                                <!-- <th>{{data.company_code}}</th> -->
                                                 <th>{{data.comcard_code}}</th>
-
                                                 <th>{{data.comcard_issue| date:'dd/MM/yyyy'}}</th>
                                                 <th>{{data.comcard_expire | date:'dd/MM/yyyy'}}</th>
                                                 <th>{{data.modified_by}}</th>
@@ -219,178 +274,10 @@
 
                         <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
 
-                            <!-- Address -->
-                            <div class="formatt" *ngIf="edit_comaddress==true || new_comaddress==true">
-                                <label>ประเภท</label>
-
-
-                                <p-dropdown placeholder="--" [options]="addressList" optionValue="addresstype_code"
-                                    [showClear]="true" [(ngModel)]="selectedComaddress.comaddress_type"
-                                    [style]="{ width: '100%', overflow: 'visible' }">
-                                    <ng-template let-item pTemplate="selectedItem">
-                                        {{initial_current.Language=="TH"? item.addresstype_name_th :
-                                        item.addresstype_name_th}}
-                                    </ng-template>
-                                    <ng-template let-item pTemplate="item">
-                                        {{initial_current.Language=="TH"? item.addresstype_name_th :
-                                        item.addresstype_name_th}}
-                                    </ng-template>
-                                </p-dropdown>
-
-                                <label>เลขที่</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressth_no">
-
-                                <label>หมู่ที่</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressth_moo">
-
-                                <label>ซอย</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressth_soi">
-
-                                <label>ถนน</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressth_road">
-
-                                <label>ตำบล</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressth_tambon">
-
-                                <label>อำเภอ</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressth_amphur">
-
-                                <label>จังหวัด</label>
-                                <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code"
-                                    [showClear]="true" [(ngModel)]="selectedComaddress.provinceth_code"
-                                    [style]="{ width: '100%', overflow: 'visible' }">
-                                    <ng-template let-item pTemplate="selectedItem">
-                                        {{initial_current.Language=="TH"? item.province_name_th :
-                                        item.province_name_th}}
-                                    </ng-template>
-                                    <ng-template let-item pTemplate="item">
-                                        {{initial_current.Language=="TH"? item.province_name_th :
-                                        item.province_name_th}}
-                                    </ng-template>
-                                </p-dropdown>
-
-                                <label>รหัสไปรษณีย์</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_zipcode">
-
-                                <!-- <label>เบอร์โทรศัพท์</label>
-                                <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_tel"> -->
-
-                                <!-- <label>อีเมล์</label>
-                                <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_email">
-
-                                <label>Line</label>
-                                <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedComaddress.comaddress_line">
-
-                                <label>Facebook</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_facebook"> -->
-
-
-                                <br>
-                                <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
-                                    (click)="comaddress_summit()"></button>
-                                <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
-                                    class="p-button-danger" (click)="comaddress_cancel()"></button>
-
-                            </div>
-
-                            <div class="formatt" *ngIf="edit_comaddresseen==true || new_comaddresseen==true">
-
-
-                                <!-- <label>ประเภท</label>
-
-
-                                <p-dropdown placeholder="--" [options]="addressList" optionValue="addresstype_code"
-                                    [showClear]="true" [(ngModel)]="selectedComaddress.comaddress_type"
-                                    [style]="{ width: '100%', overflow: 'visible' }">
-                                    <ng-template let-item pTemplate="selectedItem">
-                                        {{initial_current.Language=="TH"? item.addresstype_name_en : item.addresstype_name_en}}
-                                    </ng-template>
-                                    <ng-template let-item pTemplate="item">
-                                        {{initial_current.Language=="TH"? item.addresstype_name_en : item.addresstype_name_en}}
-                                    </ng-template>
-                                </p-dropdown> -->
-
-                                <label>no</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressen_no">
-
-                                <label>moo</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressen_moo">
-
-                                <label>soi</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressen_soi">
-
-                                <label>road</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressen_road">
-
-                                <label>tambon</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressen_tambon">
-
-                                <label>amphur</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddressen_amphur">
-
-                                <label>province</label>
-                                <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code"
-                                    [showClear]="true" [(ngModel)]="selectedComaddress.provinceen_code"
-                                    [style]="{ width: '100%', overflow: 'visible' }">
-                                    <ng-template let-item pTemplate="selectedItem">
-                                        {{initial_current.Language=="TH"? item.province_name_en :
-                                        item.province_name_en}}
-                                    </ng-template>
-                                    <ng-template let-item pTemplate="item">
-                                        {{initial_current.Language=="TH"? item.province_name_en :
-                                        item.province_name_en}}
-                                    </ng-template>
-                                </p-dropdown>
-
-                                <label>tel</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_tel">
-
-                                <label>email</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_email">
-
-                                <label>line</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_line">
-
-                                <label>facebook</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_facebook">
-
-                                <!-- <label>province</label>
-                                <input pInputText type="text" id="ppos_code"
-                                    [(ngModel)]="selectedComaddress.comaddress_facebook"> -->
-
-                                <br>
-                                <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
-                                    (click)="comaddress_summit()"></button>
-                                <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
-                                    class="p-button-danger" (click)="comaddress_cancel()"></button>
-
-                            </div>
-
-
-
-
 
                             <div class="formatt" *ngIf="edit_comcard==true || new_card==true">
                                 <!-- Form Card -->
-                                <label>ประเภทบัตร</label>
+                                <label>{{title_card_type}}</label>
                                 <p-dropdown placeholder="--" [options]="cardList" optionValue="cardtype_code"
                                     [showClear]="true" [(ngModel)]="selectedComcard.card_type"
                                     [style]="{ width: '100%', overflow: 'visible' }">
@@ -404,14 +291,14 @@
                                     </ng-template>
                                 </p-dropdown>
 
-                                <label>เลขที่</label>
+                                <label>{{title_card_code}}</label>
                                 <input pInputText type="text" id="card_no" [(ngModel)]="selectedComcard.comcard_code">
 
-                                <label>วันที่เปิดบัตร</label>
+                                <label>{{title_card_opening_date}}</label>
                                 <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                     [(ngModel)]="selectedComcard.comcard_issue"><input type="text"></p-calendar>
 
-                                <label>วันที่หมดอายุ</label>
+                                <label>{{title_expiration_date}}</label>
                                 <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                                     [(ngModel)]="selectedComcard.comcard_expire">
                                     <input type="text"></p-calendar>
@@ -428,6 +315,6 @@
 
                 <!-- ConfirmDialog and toast Noti -->
                 <p-toast position="top-right"></p-toast>
-                <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-                    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+                <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+                    key="myDialog"></p-confirmDialog>
                 <!-- ----------------------END Confirm and Toast------------------------ -->

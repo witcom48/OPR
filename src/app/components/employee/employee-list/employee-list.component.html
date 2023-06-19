@@ -162,7 +162,7 @@
             [(ngModel)]="selectedemployee.worker_type"></p-dropdown> -->
 
         <label for="lastname2">{{title_position}} :</label>
-        <input pInputText type="text" id="ppos_code" [disabled]="true" >
+        <input pInputText type="text" id="ppos_code" [disabled]="true">
         <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
@@ -183,13 +183,26 @@
 
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <div>
+        <p-dropdown [options]="ImportList" optionValue="code" [showClear]="true"
+            [(ngModel)]="selectedemployee.selected_Import"
+            [style]="{ width: '100%', overflow: 'visible' }" appendTo="body" >
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+        </p-dropdown>
+        <br>
+    </div>
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadEmployee()" label="{{title_upload}}"
+        <p-button icon="pi pi-upload" (click)="doUploadAll()" label="{{title_upload}}"
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
@@ -198,5 +211,5 @@
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

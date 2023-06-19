@@ -12,6 +12,13 @@ import { ReqForeignerModel } from 'src/app/models/recruitment/applyforeigner';
 import { ReqCriminalModel } from 'src/app/models/recruitment/applycriminal';
 import { ReqAssessmentModel } from 'src/app/models/recruitment/appassessment';
 import { EmpaddressModel } from 'src/app/models/employee/manage/address';
+import { EmpcardModel } from 'src/app/models/employee/manage/card';
+import { EmpEducationModel } from 'src/app/models/employee/manage/education';
+import { EmpTrainingModel } from 'src/app/models/employee/manage/training';
+import { EmpAssessmentModel } from 'src/app/models/employee/manage/assessment';
+import { EmpCriminalModel } from 'src/app/models/employee/manage/criminal';
+import { EmpForeignerModel } from 'src/app/models/employee/manage/foreigner';
+import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
 
 @Injectable({
   providedIn: 'root'
@@ -137,7 +144,7 @@ export class ApplyworkDetailService {
         return res;
       });
     }
-    public empaddress_import(file: File, file_name:string, file_type:string){
+    public reqaddress_import(file: File, file_name:string, file_type:string){
       const formData = new FormData();
       formData.append('file', file);
 
@@ -160,7 +167,7 @@ export class ApplyworkDetailService {
         username:this.initial_current.Username,
         company_code:company,
         language:"",
-        applywork_code:code
+        worker_code:code
       };
 
       return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqcardlist', filter, this.options).toPromise()
@@ -170,7 +177,7 @@ export class ApplyworkDetailService {
         return message.data;
       });
     }
-    public record_reqcard(applywork_code :string, list:ReqcardModel[]){
+    public record_reqcard(worker_code :string, list:EmpcardModel[]){
       var item_data:string = "[";
       for (let i = 0; i < list.length; i++) {
         item_data = item_data + "{";
@@ -180,7 +187,7 @@ export class ApplyworkDetailService {
         item_data = item_data + ",\"card_issue\":\"" + this.datePipe.transform(list[i].card_issue) + "\"";
         item_data = item_data + ",\"card_expire\":\"" + this.datePipe.transform(list[i].card_expire) + "\"";
         item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-        item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
+        item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
         item_data = item_data + "}" + ",";
       }
       if(item_data.length > 2)
@@ -191,7 +198,7 @@ export class ApplyworkDetailService {
       console.log(item_data);
       var specificData = {
         transaction_data:item_data,
-        applywork_code:applywork_code,
+        worker_code:worker_code,
         company_code : this.initial_current.CompCode,
         modified_by:this.initial_current.Username
       };
@@ -201,10 +208,10 @@ export class ApplyworkDetailService {
         return res;
       });
     }
-    public delete_empcard(model:ReqcardModel){
+    public delete_empcard(model:EmpcardModel){
       const data = {
         card_id: model.card_id,
-        applywork_code: model.applywork_code,
+        worker_code: model.worker_code,
         company_code: this.initial_current.CompCode,
         modified_by: this.initial_current.Username
       };
@@ -214,7 +221,7 @@ export class ApplyworkDetailService {
         return res;
       });
     }
-    public empcard_import(file: File, file_name:string, file_type:string){
+    public reqcard_import(file: File, file_name:string, file_type:string){
       const formData = new FormData();
       formData.append('file', file);
 
@@ -239,7 +246,7 @@ export class ApplyworkDetailService {
         username:this.initial_current.Username,
         company_code:company,
         language:"",
-        applywork_code:code
+        worker_code:code
       };
 
       return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqeducationlist', filter, this.options).toPromise()
@@ -249,20 +256,20 @@ export class ApplyworkDetailService {
         return message.data;
       });
     }
-    public record_reqeducation(applywork_code :string, list:ReqEducationModel[]){
+    public record_reqeducation(worker_code :string, list:EmpEducationModel[]){
       var item_data:string = "[";
       for (let i = 0; i < list.length; i++) {
         item_data = item_data + "{";
-        item_data = item_data + "\"reqeducation_no\":\"" + list[i].reqeducation_no + "\"";
-        item_data = item_data + ",\"reqeducation_gpa\":\"" + list[i].reqeducation_gpa + "\"";
-        item_data = item_data + ",\"reqeducation_start\":\"" + this.datePipe.transform(list[i].reqeducation_start)  + "\"";
-        item_data = item_data + ",\"reqeducation_finish\":\"" + this.datePipe.transform(list[i].reqeducation_finish)  + "\"";
+        item_data = item_data + "\"empeducation_no\":\"" + list[i].empeducation_no + "\"";
+        item_data = item_data + ",\"empeducation_gpa\":\"" + list[i].empeducation_gpa + "\"";
+        item_data = item_data + ",\"empeducation_start\":\"" + this.datePipe.transform(list[i].empeducation_start)  + "\"";
+        item_data = item_data + ",\"empeducation_finish\":\"" + this.datePipe.transform(list[i].empeducation_finish)  + "\"";
         item_data = item_data + ",\"institute_code\":\"" + list[i].institute_code + "\"";
         item_data = item_data + ",\"faculty_code\":\"" + list[i].faculty_code + "\"";
         item_data = item_data + ",\"major_code\":\"" + list[i].major_code + "\"";
         item_data = item_data + ",\"qualification_code\":\"" + list[i].qualification_code + "\"";
         item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-        item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
+        item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
         item_data = item_data + "}" + ",";
       }
       if(item_data.length > 2)
@@ -273,7 +280,7 @@ export class ApplyworkDetailService {
 
       var specificData = {
         transaction_data:item_data,
-        applywork_code:applywork_code,
+        worker_code:worker_code,
         company_code : this.initial_current.CompCode,
         modified_by:this.initial_current.Username
       };
@@ -283,10 +290,10 @@ export class ApplyworkDetailService {
         return res;
       });
     }
-    public delete_empeducation(model:ReqEducationModel){
+    public delete_empeducation(model:EmpEducationModel){
       const data = {
-        reqeducation_no: model.reqeducation_no,
-        applywork_code: model.applywork_code,
+        empeducation_no: model.empeducation_no,
+        worker_code: model.worker_code,
         company_code: this.initial_current.CompCode,
         modified_by: this.initial_current.Username
       };
@@ -296,7 +303,7 @@ export class ApplyworkDetailService {
         return res;
       });
     }
-    public empeducation_import(file: File, file_name:string, file_type:string){
+    public reqeducation_import(file: File, file_name:string, file_type:string){
       const formData = new FormData();
       formData.append('file', file);
 
@@ -319,7 +326,7 @@ export class ApplyworkDetailService {
           username:this.initial_current.Username,
           company_code:company,
           language:"",
-          applywork_code:code
+          worker_code:code
         };
     
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqtraininglist', filter, this.options).toPromise()
@@ -329,23 +336,23 @@ export class ApplyworkDetailService {
           return message.data;
         });
       }
-      public record_reqtraining(applywork_code :string, list:ReqTrainingModel[]){
+      public record_reqtraining(worker_code :string, list:EmpTrainingModel[]){
         var item_data:string = "[";
         for (let i = 0; i < list.length; i++) {
           item_data = item_data + "{";
-          item_data = item_data + "\"reqtraining_no\":\"" + list[i].reqtraining_no + "\"";
-          item_data = item_data + ",\"reqtraining_start\":\"" + this.datePipe.transform(list[i].reqtraining_start)  + "\"";
-          item_data = item_data + ",\"reqtraining_finish\":\"" + this.datePipe.transform(list[i].reqtraining_finish)  + "\"";
-          item_data = item_data + ",\"reqtraining_status\":\"" + list[i].reqtraining_status + "\"";
-          item_data = item_data + ",\"reqtraining_hours\":\"" + list[i].reqtraining_hours + "\"";
-          item_data = item_data + ",\"reqtraining_cost\":\"" + list[i].reqtraining_cost + "\"";
-          item_data = item_data + ",\"reqtraining_note\":\"" + list[i].reqtraining_note + "\"";
+          item_data = item_data + "\"emptraining_no\":\"" + list[i].emptraining_no + "\"";
+          item_data = item_data + ",\"emptraining_start\":\"" + this.datePipe.transform(list[i].emptraining_start)  + "\"";
+          item_data = item_data + ",\"emptraining_finish\":\"" + this.datePipe.transform(list[i].emptraining_finish)  + "\"";
+          item_data = item_data + ",\"emptraining_status\":\"" + list[i].emptraining_status + "\"";
+          item_data = item_data + ",\"emptraining_hours\":\"" + list[i].emptraining_hours + "\"";
+          item_data = item_data + ",\"emptraining_cost\":\"" + list[i].emptraining_cost + "\"";
+          item_data = item_data + ",\"emptraining_note\":\"" + list[i].emptraining_note + "\"";
           item_data = item_data + ",\"institute_code\":\"" + list[i].institute_code + "\"";
           item_data = item_data + ",\"institute_other\":\"" + list[i].institute_other + "\"";
           item_data = item_data + ",\"course_code\":\"" + list[i].course_code + "\"";
           item_data = item_data + ",\"course_other\":\"" + list[i].course_other + "\"";
           item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-          item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
+          item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
           item_data = item_data + "}" + ",";
         }
         if(item_data.length > 2)
@@ -356,7 +363,7 @@ export class ApplyworkDetailService {
     
         var specificData = {
           transaction_data:item_data,
-          applywork_code:applywork_code,
+          worker_code:worker_code,
           company_code : this.initial_current.CompCode,
           modified_by:this.initial_current.Username
         };
@@ -366,10 +373,10 @@ export class ApplyworkDetailService {
           return res;
         });
       }
-      public delete_reqtraining(model:ReqTrainingModel){
+      public delete_reqtraining(model:EmpTrainingModel){
         const data = {
-          reqtraining_no: model.reqtraining_no,
-          applywork_code: model.applywork_code,
+          emptraining_no: model.emptraining_no,
+          worker_code: model.worker_code,
           company_code: this.initial_current.CompCode,
           modified_by: this.initial_current.Username
         };
@@ -395,7 +402,7 @@ export class ApplyworkDetailService {
 
 
   //req Assessment
-  public getapplywork__assessment(company:string, code:string){
+  public getapplywork_assessment(company:string, code:string){
 
     var filter = {
       device_name:'',
@@ -403,7 +410,7 @@ export class ApplyworkDetailService {
       username:this.initial_current.Username,
       company_code:company,
       language:"",
-      applywork_code:code
+      worker_code:code
     };
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqassessmentlist', filter, this.options).toPromise()
@@ -413,19 +420,19 @@ export class ApplyworkDetailService {
       return message.data;
     });
   }
-  public record_reqassessment(applywork_code :string, list:ReqAssessmentModel[]){
+  public record_reqassessment(worker_code :string, list:EmpAssessmentModel[]){
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"reqassessment_id\":\"" + list[i].reqassessment_id + "\"";
-      item_data = item_data + ",\"reqassessment_location\":\"" + list[i].reqassessment_location + "\"";
-      item_data = item_data + ",\"reqassessment_topic\":\"" + list[i].reqassessment_topic + "\"";
-      item_data = item_data + ",\"reqassessment_fromdate\":\"" + this.datePipe.transform(list[i].reqassessment_fromdate)  + "\"";
-      item_data = item_data + ",\"reqassessment_todate\":\"" + this.datePipe.transform(list[i].reqassessment_todate)  + "\"";
-      item_data = item_data + ",\"reqassessment_count\":\"" + list[i].reqassessment_count + "\"";
-      item_data = item_data + ",\"reqassessment_result\":\"" + list[i].reqassessment_result + "\"";
+      item_data = item_data + "\"empassessment_id\":\"" + list[i].empassessment_id + "\"";
+      item_data = item_data + ",\"empassessment_location\":\"" + list[i].empassessment_location + "\"";
+      item_data = item_data + ",\"empassessment_topic\":\"" + list[i].empassessment_topic + "\"";
+      item_data = item_data + ",\"empassessment_fromdate\":\"" + this.datePipe.transform(list[i].empassessment_fromdate)  + "\"";
+      item_data = item_data + ",\"empassessment_todate\":\"" + this.datePipe.transform(list[i].empassessment_todate)  + "\"";
+      item_data = item_data + ",\"empassessment_count\":\"" + list[i].empassessment_count + "\"";
+      item_data = item_data + ",\"empassessment_result\":\"" + list[i].empassessment_result + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-      item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";
     }
     if(item_data.length > 2)
@@ -436,7 +443,7 @@ export class ApplyworkDetailService {
 
     var specificData = {
       transaction_data:item_data,
-      applywork_code:applywork_code,
+      worker_code:worker_code,
       company_code : this.initial_current.CompCode,
       modified_by:this.initial_current.Username
     };
@@ -446,10 +453,10 @@ export class ApplyworkDetailService {
       return res;
     });
   }
-  public delete_reqassessment(model:ReqAssessmentModel){
+  public delete_reqassessment(model:EmpAssessmentModel){
     const data = {
-        reqassessment_id : model.reqassessment_id,
-        applywork_code: model.applywork_code,
+        empassessment_id : model.empassessment_id,
+        worker_code: model.worker_code,
       company_code: this.initial_current.CompCode,
       modified_by: this.initial_current.Username
     };
@@ -482,7 +489,7 @@ export class ApplyworkDetailService {
       username:this.initial_current.Username,
       company_code:company,
       language:"",
-      applywork_code:code
+      worker_code:code
     };
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqcriminallist', filter, this.options).toPromise()
@@ -492,18 +499,18 @@ export class ApplyworkDetailService {
       return message.data;
     });
   }
-  public record_reqcriminal(applywork_code :string, list:ReqCriminalModel[]){
+  public record_reqcriminal(worker_code :string, list:EmpCriminalModel[]){
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"reqcriminal_id\":\"" + list[i].reqcriminal_id + "\"";
-      item_data = item_data + ",\"reqcriminal_location\":\"" + list[i].reqcriminal_location + "\"";
-      item_data = item_data + ",\"reqcriminal_fromdate\":\"" + this.datePipe.transform(list[i].reqcriminal_fromdate)  + "\"";
-      item_data = item_data + ",\"reqcriminal_todate\":\"" + this.datePipe.transform(list[i].reqcriminal_todate)  + "\"";
-      item_data = item_data + ",\"reqcriminal_count\":\"" + list[i].reqcriminal_count + "\"";
-      item_data = item_data + ",\"reqcriminal_result\":\"" + list[i].reqcriminal_result + "\"";
+      item_data = item_data + "\"empcriminal_id\":\"" + list[i].empcriminal_id + "\"";
+      item_data = item_data + ",\"empcriminal_location\":\"" + list[i].empcriminal_location + "\"";
+      item_data = item_data + ",\"empcriminal_fromdate\":\"" + this.datePipe.transform(list[i].empcriminal_fromdate)  + "\"";
+      item_data = item_data + ",\"empcriminal_todate\":\"" + this.datePipe.transform(list[i].empcriminal_todate)  + "\"";
+      item_data = item_data + ",\"empcriminal_count\":\"" + list[i].empcriminal_count + "\"";
+      item_data = item_data + ",\"empcriminal_result\":\"" + list[i].empcriminal_result + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-      item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";
     }
     if(item_data.length > 2)
@@ -514,7 +521,7 @@ export class ApplyworkDetailService {
 
     var specificData = {
       transaction_data:item_data,
-      applywork_code:applywork_code,
+      worker_code:worker_code,
       company_code : this.initial_current.CompCode,
       modified_by:this.initial_current.Username
     };
@@ -524,10 +531,10 @@ export class ApplyworkDetailService {
       return res;
     });
   }
-  public delete_reqcriminal(model:ReqCriminalModel){
+  public delete_reqcriminal(model:EmpCriminalModel){
     const data = {
-        reqcriminal_id : model.reqcriminal_id,
-        applywork_code: model.applywork_code,
+        empcriminal_id : model.empcriminal_id,
+        worker_code: model.worker_code,
       company_code: this.initial_current.CompCode,
       modified_by: this.initial_current.Username
     };
@@ -559,7 +566,7 @@ export class ApplyworkDetailService {
       username:this.initial_current.Username,
       company_code:company,
       language:"",
-      applywork_code:code
+      worker_code:code
     };
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqforeignerlist', filter, this.options).toPromise()
@@ -569,10 +576,10 @@ export class ApplyworkDetailService {
       return message.data;
     });
   }
-  public record_reqforeigner(applywork_code :string, model:ReqForeignerModel){
+  public record_reqforeigner(worker_code :string, model:EmpForeignerModel){
     const data = {
       company_code: this.initial_current.CompCode,
-      applywork_code: applywork_code,
+      worker_code: worker_code,
       foreigner_id : model.foreigner_id,
       passport_no : model.passport_no,
       passport_issue : model.passport_issue,
@@ -598,10 +605,10 @@ export class ApplyworkDetailService {
       return res;
     });
   }
-  public delete_reqforeigner(model:ReqForeignerModel){
+  public delete_reqforeigner(model:EmpForeignerModel){
     const data = {
       foreigner_id: model.foreigner_id,
-      applywork_code: model.applywork_code,
+      worker_code: model.worker_code,
       company_code: this.initial_current.CompCode,
       modified_by: this.initial_current.Username
     };
@@ -625,84 +632,82 @@ export class ApplyworkDetailService {
     });
   }
 
+  //req Suggest
+  public getapplywork_suggest(company:string, code:string){
 
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:company,
+      language:"",
+      worker_code:code
+    };
 
-    //location
-    // public getworker_location(company:string, code:string){
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqsuggestlist', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      // console.log(res)
+      return message.data;
+    });
+  }
+  public record_reqsuggest(worker_code :string, list:EmpSuggestModel[]){
+    var item_data:string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"empsuggest_code\":\"" + list[i].empsuggest_code + "\"";
+      if (this.datePipe.transform(list[i].empsuggest_date)) {
+        item_data = item_data + ",\"empsuggest_date\":\"" + this.datePipe.transform(list[i].empsuggest_date) + "\"";
+      }
+      
+      item_data = item_data + ",\"empsuggest_note\":\"" + list[i].empsuggest_note + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if(item_data.length > 2)
+    {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
 
-    //   var filter = {
-    //     device_name:'',
-    //     ip:"localhost",
-    //     username:this.initial_current.Username,
-    //     company_code:company,
-    //     language:"",
-    //     applywork_code:code
-    //   };
+    var specificData = {
+      transaction_data:item_data,
+      worker_code:worker_code,
+      company_code : this.initial_current.CompCode,
+      modified_by:this.initial_current.Username
+    };
 
-    //   return this.http.post<any>(this.config.ApiRecruitmentModule + '/emplocationlist', filter, this.options).toPromise()
-    //   .then((res) => {
-    //     let message = JSON.parse(res);
-    //     // console.log(res)
-    //     return message.data;
-    //   });
-    // }
-    // public record_emplocation(applywork_code :string, list:EmpLocationModel[]){
-    //   var item_data:string = "[";
-    //   for (let i = 0; i < list.length; i++) {
-    //     item_data = item_data + "{";
-    //     item_data = item_data + "\"location_code\":\"" + list[i].location_code + "\"";
-    //     item_data = item_data + ",\"emplocation_startdate\":\"" + this.datePipe.transform(list[i].emplocation_startdate) + "\"";
-    //     item_data = item_data + ",\"emplocation_enddate\":\"" + this.datePipe.transform(list[i].emplocation_enddate) + "\"";
-    //     item_data = item_data + ",\"emplocation_note\":\"" + list[i].emplocation_note + "\"";
-    //     item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
-    //     item_data = item_data + ",\"applywork_code\":\"" + applywork_code + "\"";
-    //     item_data = item_data + "}" + ",";
-    //   }
-    //   if(item_data.length > 2)
-    //   {
-    //     item_data = item_data.substr(0, item_data.length - 1);
-    //   }
-    //   item_data = item_data + "]";
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqsuggest', specificData, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+  public delete_reqsuggest(model:EmpSuggestModel){
+    const data = {
+        empsuggest_id : model.empsuggest_id,
+        worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
 
-    //   var specificData = {
-    //     transaction_data:item_data,
-    //     applywork_code:applywork_code,
-    //     company_code : this.initial_current.CompCode,
-    //     modified_by:this.initial_current.Username
-    //   };
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqsuggest_del', data, this.options).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
+  public reqsuggest_import(file: File, file_name:string, file_type:string){
+    const formData = new FormData();
+    formData.append('file', file);
 
-    //   return this.http.post<any>(this.config.ApiRecruitmentModule + '/emplocation', specificData, this.options).toPromise()
-    //   .then((res) => {
-    //     return res;
-    //   });
-    // }
-    // public delete_emplocation(model:EmpLocationModel){
-    //   const data = {
-    //     location_code: model.location_code,
-    //     applywork_code: model.applywork_code,
-    //     company_code: this.initial_current.CompCode,
-    //     modified_by: this.initial_current.Username
-    //   };
+      var para = "fileName=" + file_name + "." + file_type;
+      para += "&token=" + this.initial_current.Token;
+      para += "&by=" + this.initial_current.Username;
 
-    //   return this.http.post<any>(this.config.ApiRecruitmentModule + '/emplocation_del', data, this.options).toPromise()
-    //   .then((res) => {
-    //     return res;
-    //   });
-    // }
-
-    // public emplocation_import(file: File, file_name:string, file_type:string){
-    //   const formData = new FormData();
-    //   formData.append('file', file);
-
-    //     var para = "fileName=" + file_name + "." + file_type;
-    //     para += "&token=" + this.initial_current.Token;
-    //     para += "&by=" + this.initial_current.Username;
-
-    //   return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadEmpLocation?' + para, formData).toPromise()
-    //   .then((res) => {
-    //     return res;
-    //   });
-    // }
-
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadreqSuggest?' + para, formData).toPromise()
+    .then((res) => {
+      return res;
+    });
+  }
 
   }

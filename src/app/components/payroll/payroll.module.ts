@@ -62,6 +62,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { SetbonusComponent } from './payroll-policy/setbonus/setbonus.component';
 import { SetitemsComponent } from './payroll-policy/setitems/setitems.component';
 import { SetprovidentComponent } from './payroll-policy/setprovident/setprovident.component';
+import { AppEntryComponent } from './payroll-entry/app-entry/app-entry.component';
+import { AppEntrysComponent } from './payroll-entry/app-entry/app-entrys/app-entrys.component';
 
 
 @NgModule({
@@ -84,7 +86,9 @@ import { SetprovidentComponent } from './payroll-policy/setprovident/setproviden
         TransferBonusComponent,
         SetbonusComponent,
         SetitemsComponent,
-        SetprovidentComponent
+        SetprovidentComponent,
+        AppEntryComponent,
+        AppEntrysComponent
     ],
     imports: [
         CommonModule,

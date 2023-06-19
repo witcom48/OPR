@@ -39,7 +39,7 @@ export class YearComponent implements OnInit {
   items: MenuItem[] = [];
   yearperiods_list: YearPeriodModels[] = [];
   yearperiods: YearPeriodModels = new YearPeriodModels()
-
+  year_type: string = "TAX"
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
@@ -55,13 +55,13 @@ export class YearComponent implements OnInit {
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
-    this.doLoadMenu()
     this.doLoadYear()
+    this.doLoadMenu()
   }
   doLoadYear() {
     this.yearperiods_list = [];
     var tmp = new YearPeriodModels();
-    tmp.year_group = "TAX"
+    tmp.year_group = this.year_type;
     this.yearService.year_get(tmp).then(async (res) => {
       await res.forEach((element: YearPeriodModels) => {
         element.year_fromdate = new Date(element.year_fromdate)
@@ -120,7 +120,9 @@ export class YearComponent implements OnInit {
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
-
+  selectYeartype() {
+    this.doLoadYear();
+  }
 
   doLoadMenu() {
 
@@ -190,6 +192,7 @@ export class YearComponent implements OnInit {
     this.doDeleteYear(this.yearperiods)
   }
   onRowSelect(event: any) {
+    this.year_type == this.yearperiods.year_group;
     this.new_data = true
     this.edit_data = true;
   }

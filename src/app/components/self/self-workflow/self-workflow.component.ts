@@ -51,17 +51,19 @@ export class SelfWorkflowComponent implements OnInit {
     this.selectlang = this.initial_current.Language;
   }
   ngOnInit(): void {
+    this.doGetInitialCurrent()
+    this.doLoadMenu()
+    this.doLoadWorkflow()
+    this.doLoadPositionlevel()
     this.TypeList = [
       { code: 'LEA', name: this.langs.get('leavereq')[this.selectlang] },
       { code: 'OT', name: this.langs.get('otreq')[this.selectlang] },
       { code: 'DAT', name: this.langs.get('daytypereq')[this.selectlang] },
       { code: 'SHT', name: this.langs.get('shiftreq')[this.selectlang] },
       { code: 'ONS', name: this.langs.get('onsitereq')[this.selectlang] },
+      { code: 'CI', name: this.langs.get('checkinreq')[this.selectlang] },
+      { code: 'REQ', name: this.langs.get('reqdocreq')[this.selectlang] },
     ];
-    this.doGetInitialCurrent()
-    this.doLoadMenu()
-    this.doLoadWorkflow()
-    this.doLoadPositionlevel()
   }
   doLoadWorkflow() {
     this.workflow_list = [];

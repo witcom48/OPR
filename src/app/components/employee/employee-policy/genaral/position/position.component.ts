@@ -159,7 +159,8 @@ export class PositionComponent implements OnInit {
         },
         reject: () => {
           this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-        }
+        },
+        key: "myDialog"
     });
   }
 
