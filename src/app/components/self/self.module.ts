@@ -66,6 +66,7 @@ import { SelfApproveRecordtimeComponent } from './self-approve-recordtime/self-a
 import { SelfApproveDaytypeComponent } from './self-approve-daytype/self-approve-daytype.component';
 import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve-checkin.component';
 import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-reqdoc.component';
+import { SelfApproveComponent } from './self-approve/self-approve.component';
 
 @NgModule({
 	imports: [
@@ -141,7 +142,8 @@ import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-r
               SelfApproveRecordtimeComponent,
               SelfApproveDaytypeComponent,
               SelfApproveCheckinComponent,
-              SelfApproveReqdocComponent
+              SelfApproveReqdocComponent,
+              SelfApproveComponent
   ]
 })
 export class SelfModule { }

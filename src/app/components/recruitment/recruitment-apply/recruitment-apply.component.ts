@@ -246,7 +246,7 @@ export class RecruitmentApplyComponent implements OnInit {
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
 

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
 import { AuthenService } from '../../../services/authen/authen.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,12 +13,14 @@ import { AuthenService } from '../../../services/authen/authen.service';
 })
 export class VerifyComponent implements OnInit {
 
-  constructor(private authenService: AuthenService) { }
+  constructor(
+    private authenService: AuthenService,
+    private router: Router,
+    ) { }
 
 
   loading: boolean = true;
   token: string = "";
-
   ngOnInit(): void {
 
     this.authenService.getToken().then((token) => {
@@ -31,6 +34,9 @@ export class VerifyComponent implements OnInit {
       console.log(initail_current.Token);
       
       localStorage.setItem(AppConfig.SESSIONInitial, initail_current.doGetJSONInitialCurrent());
+      if(initail_current.Token){
+        this.router.navigateByUrl('login');
+      }
 
     });
 

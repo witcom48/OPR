@@ -26,7 +26,7 @@ public initial_current: InitialCurrent = new InitialCurrent();
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
     title_genaral_system: string = 'Genaral system';
