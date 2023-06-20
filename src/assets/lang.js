@@ -1016,7 +1016,7 @@ var reqonsite = new Map([
     ["location", { TH: "สถานที่ปฎิบัติงาน", EN: "Location" }],
     ["time_in", { TH: "เข้างาน", EN: "Time in" }],
     ["time_out", { TH: "ออกงาน", EN: "Time out" }],
-    
+
     ["verify", { TH: "ตรวจสอบ", EN: "verify" }],
     ["name", { TH: "ชื่อ", EN: "Name" }],
     ["conapprove", { TH: "ยันยันการอนุมัติเอกสาร", EN: "Confirm Aprrove" }],
@@ -1079,7 +1079,7 @@ var reqdaytype = new Map([
     ["companyday", { TH: "วันหยุดบริษัท", EN: "Company day" }],
     ["leaveday", { TH: "วันลา", EN: "Leave day" }],
     ["absentday", { TH: "ขาดงาน", EN: "Absent day" }],
-        
+
     ["verify", { TH: "ตรวจสอบ", EN: "verify" }],
     ["name", { TH: "ชื่อ", EN: "Name" }],
     ["conapprove", { TH: "ยันยันการอนุมัติเอกสาร", EN: "Confirm Aprrove" }],
@@ -1139,7 +1139,7 @@ var reqcheckin = new Map([
 
     ["time", { TH: "เวลา", EN: "Time" }],
     ["not_in", { TH: "ไม่อยู่ในพื้นที่ที่กำหนด", EN: "Not in the designated area" }],
-    
+
     ["verify", { TH: "ตรวจสอบ", EN: "verify" }],
     ["name", { TH: "ชื่อ", EN: "Name" }],
     ["conapprove", { TH: "ยันยันการอนุมัติเอกสาร", EN: "Confirm Aprrove" }],
@@ -1243,4 +1243,13 @@ var reqdoc = new Map([
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
 
+]);
+
+
+var login = new Map([
+    ["login", { TH: "ลงชื่อเข้าใช้", EN: "Login" }],
+    ["company", { TH: "บริษัท", EN: "Company" }],
+    ["username", { TH: "ชื่อผู้ใช้", EN: "Username" }],
+    ["password", { TH: "รหัสผ่าน", EN: "Password" }],
+    ["incorrect", { TH: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", EN: "The username or password is incorrect." }],
 ]);

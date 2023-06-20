@@ -25,7 +25,7 @@ export class AppMenuComponent implements OnInit {
     }
     ngOnInit() {
         this.doGetInitialCurrent();
-        if (this.initial_current.Usertype == "Admin") {
+        if (this.initial_current.Usertype == "ADM") {
             this.model = [
                 // {
                 //     label: 'Home',
@@ -142,7 +142,7 @@ export class AppMenuComponent implements OnInit {
                 }
             ];
         }
-        if (this.initial_current.Usertype == "EMP") {
+        if (this.initial_current.Usertype == "Emp" ||this.initial_current.Usertype == "GRP" ) {
             this.model = [
                 {
                     label: 'Self Services',

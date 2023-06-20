@@ -76,11 +76,15 @@ export class SelfLeaveComponent implements OnInit {
     var tmp = new cls_TRTimeleaveModel();
     tmp.timeleave_fromdate = new Date(`${this.initial_current.PR_Year}-01-01`)
     tmp.timeleave_todate = new Date(`${this.initial_current.PR_Year}-12-31`)
+    tmp.company_code = this.initial_current.CompCode;
+    tmp.worker_code = this.initial_current.Username;
     this.timeleaveService.timeleave_get(tmp).then(async (res) => {
-      res.forEach((elm: any) => {
-        elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
-        elm.timeleave_todate = new Date(elm.timeleave_todate)
-      });
+      if (res) {
+        res.forEach((elm: any) => {
+          elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
+          elm.timeleave_todate = new Date(elm.timeleave_todate)
+        });
+      }
       this.trtimeleave_list = await res
     });
 
@@ -107,6 +111,7 @@ export class SelfLeaveComponent implements OnInit {
     let data = new ReasonsModel()
     data.reason_group = "LEAVE"
     this.reasonService.reason_get(data).then(async (res) => {
+      console.log(res)
       this.reason_list = await res;
     });
   }
