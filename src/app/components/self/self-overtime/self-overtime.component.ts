@@ -4,14 +4,18 @@ import { Router } from '@angular/router';
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { AccountModel } from 'src/app/models/self/account';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeotModel } from 'src/app/models/self/cls_TRTimeot';
+import { TRAccountModel } from 'src/app/models/self/traccount';
 import { LocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { AccountServices } from 'src/app/services/self/account.service';
 import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqot: any;
+interface Status { name: string, code: number }
 @Component({
   selector: 'app-self-overtime',
   templateUrl: './self-overtime.component.html',
@@ -23,6 +27,7 @@ export class SelfOvertimeComponent implements OnInit {
   selectlang: string = "EN";
   reasonedis: string = "reason_name_en"
   locatiodis: string = "location_name_en"
+  namedis: string = "worker_detail_en"
   displayManage: boolean = false;
   edit_data: boolean = false;
   position: string = "right";
@@ -37,6 +42,7 @@ export class SelfOvertimeComponent implements OnInit {
     private timeotService: TimeotServices,
     private reasonService: ReasonsService,
     private locationService: LocationService,
+    private accountServie: AccountServices,
     private router: Router,
   ) { }
   fileToUpload: File | any = null;
@@ -48,31 +54,65 @@ export class SelfOvertimeComponent implements OnInit {
   trtimeot_list: cls_TRTimeotModel[] = [];
   selectedtrtimeot: cls_TRTimeotModel = new cls_TRTimeotModel();
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
+  account_list: TRAccountModel[] = [];
+  account_list_source: TRAccountModel[] = [];
+  account_list_dest: TRAccountModel[] = [];
+  selectedAccount: TRAccountModel = new TRAccountModel();
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.reasonedis = "reason_name_th";
       this.locatiodis = "location_name_th"
+      this.namedis = "worker_detail_th"
 
+    }
+    if (this.initial_current.Usertype == "GRP") {
+      this.doLoadAccount();
+    } else {
+      this.doLoadTimeot();
     }
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu();
-    this.doLoadTimeot();
     this.doLoadReason();
     this.doLoadLocation();
+  }
+  Search() {
+    this.doLoadTimeot();
+  }
+  doLoadAccount() {
+    var tmp = new AccountModel();
+    tmp.account_user = this.initial_current.Username;
+    tmp.account_type = this.initial_current.Usertype;
+    this.accountServie.account_get(tmp).then(async (res) => {
+      res[0].worker_data.forEach((obj: TRAccountModel) => {
+        obj.worker_detail_en = obj.worker_code + " : " + obj.worker_detail_en;
+        obj.worker_detail_th = obj.worker_code + " : " + obj.worker_detail_th;
+      });
+      this.account_list = await res[0].worker_data;
+      this.selectedAccount = res[0].worker_data[0];
+      this.doLoadTimeot();
+    });
   }
   doLoadTimeot() {
     this.trtimeot_list = [];
     var tmp = new cls_TRTimeotModel();
-    tmp.timeot_workdate = new Date(`${this.initial_current.PR_Year}-01-01`)
-    tmp.timeot_todate = new Date(`${this.initial_current.PR_Year}-12-31`)
+    tmp.timeot_workdate = this.start_date;
+    tmp.timeot_todate = this.end_date;
+    tmp.status = this.status_select.code;
+    tmp.worker_code = this.selectedAccount.worker_code;
     this.timeotService.timeot_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timeot_workdate = new Date(elm.timeot_workdate)
@@ -162,11 +202,18 @@ export class SelfOvertimeComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          this.account_list_source = [];
+          this.account_list_dest = [];
           this.selectedtrtimeot = new cls_TRTimeotModel();
           this.reasonselected = this.reason_list[0]
           this.locationselected = this.location_list[0]
           this.selectedtrtimeot.reason_code = this.reason_list[0].reason_code
           this.selectedtrtimeot.location_code = this.location_list[0].location_code
+          if (this.initial_current.Usertype == "GRP") {
+            this.account_list.forEach((obj: TRAccountModel) => {
+              this.account_list_source.push(obj)
+            })
+          }
           this.showManage()
         }
 
@@ -332,18 +379,59 @@ export class SelfOvertimeComponent implements OnInit {
     }
   }
   Save() {
-    if (this.selectedtrtimeot.timeot_doc === "") {
-      this.selectedtrtimeot.timeot_doc = "OT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
-    }
-    this.selectedtrtimeot.timeot_beforemin = this.getMin(this.selectedtrtimeot.timeot_beforemin_hrs)
-    this.selectedtrtimeot.timeot_normalmin = this.getMin(this.selectedtrtimeot.timeot_normalmin_hrs)
-    this.selectedtrtimeot.timeot_breakmin = this.getMin(this.selectedtrtimeot.timeot_break_hrs)
-    this.selectedtrtimeot.timeot_aftermin = this.getMin(this.selectedtrtimeot.timeot_aftermin_hrs)
-    // console.log(this.selectedtrtimeot)
-    this.doRecordTimeot([this.selectedtrtimeot])
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_doc')[this.selectlang],
+      header: this.langs.get('title_ot')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.selectedtrtimeot.timeot_beforemin = this.getMin(this.selectedtrtimeot.timeot_beforemin_hrs)
+        this.selectedtrtimeot.timeot_normalmin = this.getMin(this.selectedtrtimeot.timeot_normalmin_hrs)
+        this.selectedtrtimeot.timeot_breakmin = this.getMin(this.selectedtrtimeot.timeot_break_hrs)
+        this.selectedtrtimeot.timeot_aftermin = this.getMin(this.selectedtrtimeot.timeot_aftermin_hrs)
+        if (this.initial_current.Usertype == "GRP" && !this.edit_data) {
+          let data_doc: cls_TRTimeotModel[] = []
+          this.account_list_dest.forEach((obj: TRAccountModel, index) => {
+            var tmp: cls_TRTimeotModel = new cls_TRTimeotModel();
+            tmp.timeot_id = this.selectedtrtimeot.timeot_id;
+            tmp.timeot_doc = "OT_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')) + index);
+            tmp.timeot_workdate = this.selectedtrtimeot.timeot_workdate;
+            tmp.timeot_todate = this.selectedtrtimeot.timeot_todate;
+            tmp.timeot_beforemin = this.selectedtrtimeot.timeot_beforemin;
+            tmp.timeot_normalmin = this.selectedtrtimeot.timeot_normalmin;
+            tmp.timeot_breakmin = this.selectedtrtimeot.timeot_breakmin;
+            tmp.timeot_aftermin = this.selectedtrtimeot.timeot_aftermin;
+            tmp.reason_code = this.selectedtrtimeot.reason_code;
+            tmp.location_code = this.selectedtrtimeot.location_code;
+            tmp.timeot_note = this.selectedtrtimeot.timeot_note;
+            tmp.worker_code = obj.worker_code;
+            tmp.company_code = obj.company_code;
+            tmp.reqdoc_data = this.selectedtrtimeot.reqdoc_data;
+            data_doc.push(tmp);
+          })
+          this.doRecordTimeot(data_doc);
+        } else {
+          if (this.selectedtrtimeot.timeot_doc === "") {
+            this.selectedtrtimeot.timeot_doc = "OT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+          }
+          // console.log(this.selectedtrtimeot)
+          this.doRecordTimeot([this.selectedtrtimeot])
+        }
+      },
+      reject: () => {
+      }
+    })
   }
   Delete() {
-    this.doDeleteTimeot(this.selectedtrtimeot)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtrtimeot.timeot_doc,
+      header: this.langs.get('title_ot')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimeot(this.selectedtrtimeot)
+      },
+      reject: () => {
+      }
+    });
   }
   getFullStatus(code: string) {
     let status = ""

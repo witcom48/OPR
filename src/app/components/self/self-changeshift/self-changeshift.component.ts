@@ -398,10 +398,11 @@ export class SelfChangeshiftComponent implements OnInit {
       header: this.langs.get('title_shfit')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        if (this.initial_current.Usertype == "GRP") {
+        if (this.initial_current.Usertype == "GRP" && !this.edit_data) {
           let data_doc: cls_TRTimeshiftModel[] = []
           this.account_list_dest.forEach((obj: TRAccountModel, index) => {
             var tmp: cls_TRTimeshiftModel = new cls_TRTimeshiftModel();
+            tmp.timeshift_id = this.selectedtrtimeshfit.timeshift_id;
             tmp.timeshift_doc = "SHIFT_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')) + index);
             tmp.timeshift_workdate = this.selectedtrtimeshfit.timeshift_workdate;
             tmp.timeshift_todate = this.selectedtrtimeshfit.timeshift_todate;
