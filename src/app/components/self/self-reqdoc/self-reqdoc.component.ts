@@ -4,13 +4,17 @@ import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { AccountModel } from 'src/app/models/self/account';
 import { cls_MTTopicModel } from 'src/app/models/self/cls_MTTopic';
 import { cls_TRReqdocModel } from 'src/app/models/self/cls_TRReqdoc';
 import { cls_TRReqdocattModel } from 'src/app/models/self/cls_TRReqdocatt';
 import { cls_TRReqempinfoModel } from 'src/app/models/self/cls_TRReqempinfo';
+import { TRAccountModel } from 'src/app/models/self/traccount';
+import { AccountServices } from 'src/app/services/self/account.service';
 import { ReqdocServices } from 'src/app/services/self/reqdoc.service';
 import { TopicServices } from 'src/app/services/self/topic.service';
 declare var reqdoc: any;
+interface Status { name: string, code: number }
 @Component({
   selector: 'app-self-reqdoc',
   templateUrl: './self-reqdoc.component.html',
@@ -21,6 +25,7 @@ export class SelfReqdocComponent implements OnInit {
   langs: any = reqdoc;
   selectlang: string = "EN";
   topicdis: string = "topic_name_en"
+  namedis: string = "worker_detail_en"
   position: string = "right";
   displayManage: boolean = false;
   edit_data: boolean = false;
@@ -32,6 +37,7 @@ export class SelfReqdocComponent implements OnInit {
     private router: Router,
     private reqdocService: ReqdocServices,
     private topicService: TopicServices,
+    private accountServie: AccountServices,
     private datePipe: DatePipe,
   ) { }
   fileToUpload: File | any = null;
@@ -45,16 +51,29 @@ export class SelfReqdocComponent implements OnInit {
   selectedreqdoc: cls_TRReqdocModel = new cls_TRReqdocModel();
   selectedreqdocinfo: cls_TRReqempinfoModel = new cls_TRReqempinfoModel();
   selectedreqdocfile: cls_TRReqdocattModel = new cls_TRReqdocattModel();
+  account_list: TRAccountModel[] = [];
+  selectedAccount: TRAccountModel = new TRAccountModel();
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.topicdis = "topic_name_th";
-
+      this.namedis = "worker_detail_th"
+    }
+    if (this.initial_current.Usertype == "GRP") {
+      this.doLoadAccount();
+    } else {
+      this.doLoadReqdoc();
     }
   }
   ngOnInit(): void {
@@ -63,12 +82,30 @@ export class SelfReqdocComponent implements OnInit {
     this.doLoadReqdoc();
     this.doLoadTopic();
   }
+  Search() {
+    this.doLoadReqdoc();
+  }
+  doLoadAccount() {
+    var tmp = new AccountModel();
+    tmp.account_user = this.initial_current.Username;
+    tmp.account_type = this.initial_current.Usertype;
+    this.accountServie.account_get(tmp).then(async (res) => {
+      res[0].worker_data.forEach((obj: TRAccountModel) => {
+        obj.worker_detail_en = obj.worker_code + " : " + obj.worker_detail_en;
+        obj.worker_detail_th = obj.worker_code + " : " + obj.worker_detail_th;
+      });
+      this.account_list = await res[0].worker_data;
+      this.selectedAccount = res[0].worker_data[0];
+      this.doLoadReqdoc();
+    });
+  }
   doLoadReqdoc() {
     this.reqdoc_list = [];
     let data = new cls_TRReqdocModel()
-    data.reqdoc_date = new Date(`${this.initial_current.PR_Year}-01-01`)
-    data.reqdoc_date_to = new Date(`${this.initial_current.PR_Year}-12-31`)
-    data.worker_code = this.initial_current.Username;
+    data.reqdoc_date = this.start_date
+    data.reqdoc_date_to = this.end_date;
+    data.status = this.status_select.code;
+    data.worker_code = this.selectedAccount.worker_code || this.initial_current.Username;
     this.reqdocService.reqdoc_get(data).then(async (res) => {
       res.forEach((element: cls_TRReqdocModel) => {
         element.reqdoc_date = new Date(element.reqdoc_date)
@@ -148,6 +185,9 @@ export class SelfReqdocComponent implements OnInit {
         command: (event) => {
           this.selectedreqdoc = new cls_TRReqdocModel();
           this.selectedtopic = this.topic_list[0]
+          if (this.initial_current.Usertype == "GRP") {
+            this.selectedreqdoc.worker_code = this.selectedAccount.worker_code;
+          }
           this.showManage()
         }
       },
@@ -300,14 +340,32 @@ export class SelfReqdocComponent implements OnInit {
     this.selectedreqdocinfo = new cls_TRReqempinfoModel();
   }
   async Save() {
-    if (this.selectedreqdoc.reqdoc_doc === "") {
-      this.selectedreqdoc.reqdoc_doc = "REQDOC_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
-    }
-    // console.log(this.selectedreqdoc)
-    this.doRecordReqdoc(this.selectedreqdoc)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_doc')[this.selectlang],
+      header: this.langs.get('title_req')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (this.selectedreqdoc.reqdoc_doc === "") {
+          this.selectedreqdoc.reqdoc_doc = "REQDOC_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        }
+        // console.log(this.selectedreqdoc)
+        this.doRecordReqdoc(this.selectedreqdoc)
+      },
+      reject: () => {
+      }
+    });
   }
   Delete() {
-    this.doDeleteReqdoc(this.selectedreqdoc)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedreqdoc.reqdoc_doc,
+      header: this.langs.get('title_req')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteReqdoc(this.selectedreqdoc)
+      },
+      reject: () => {
+      }
+    });
   }
   getTopicname(codes: string) {
     if (this.selectlang == "TH") {
