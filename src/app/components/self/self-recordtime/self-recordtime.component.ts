@@ -4,14 +4,18 @@ import { Router } from '@angular/router';
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { AccountModel } from 'src/app/models/self/account';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeonsiteModel } from 'src/app/models/self/cls_TRTimeonsite';
+import { TRAccountModel } from 'src/app/models/self/traccount';
 import { LocationModel } from 'src/app/models/system/policy/location';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { AccountServices } from 'src/app/services/self/account.service';
 import { TimeonsiteServices } from 'src/app/services/self/timeonsite';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqonsite: any;
+interface Status { name: string, code: number }
 @Component({
   selector: 'app-self-recordtime',
   templateUrl: './self-recordtime.component.html',
@@ -23,6 +27,7 @@ export class SelfRecordtimeComponent implements OnInit {
   selectlang: string = "EN";
   reasonedis: string = "reason_name_en"
   locatiodis: string = "location_name_en"
+  namedis: string = "worker_detail_en"
   displayManage: boolean = false;
   edit_data: boolean = false;
   position: string = "right";
@@ -36,6 +41,7 @@ export class SelfRecordtimeComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private reasonService: ReasonsService,
     private locationService: LocationService,
+    private accountServie: AccountServices,
     private datePipe: DatePipe,
     private router: Router,
   ) { }
@@ -48,17 +54,32 @@ export class SelfRecordtimeComponent implements OnInit {
   trtimonsite_list: cls_TRTimeonsiteModel[] = [];
   selectedtrtimeonsite: cls_TRTimeonsiteModel = new cls_TRTimeonsiteModel();
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
+  account_list: TRAccountModel[] = [];
+  account_list_source: TRAccountModel[] = [];
+  account_list_dest: TRAccountModel[] = [];
+  selectedAccount: TRAccountModel = new TRAccountModel();
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.reasonedis = "reason_name_th";
       this.locatiodis = "location_name_th"
-
+      this.namedis = "worker_detail_th"
+    }
+    if (this.initial_current.Usertype == "GRP") {
+      this.doLoadAccount();
+    } else {
+      this.doLoadTimeonsite();
     }
   }
   ngOnInit(): void {
@@ -66,7 +87,23 @@ export class SelfRecordtimeComponent implements OnInit {
     this.doLoadMenu();
     this.doLoadReason();
     this.doLoadLocation()
+  }
+  Search() {
     this.doLoadTimeonsite();
+  }
+  doLoadAccount() {
+    var tmp = new AccountModel();
+    tmp.account_user = this.initial_current.Username;
+    tmp.account_type = this.initial_current.Usertype;
+    this.accountServie.account_get(tmp).then(async (res) => {
+      res[0].worker_data.forEach((obj: TRAccountModel) => {
+        obj.worker_detail_en = obj.worker_code + " : " + obj.worker_detail_en;
+        obj.worker_detail_th = obj.worker_code + " : " + obj.worker_detail_th;
+      });
+      this.account_list = await res[0].worker_data;
+      this.selectedAccount = res[0].worker_data[0];
+      this.doLoadTimeonsite();
+    });
   }
   doLoadReason() {
     this.reason_list = [];
@@ -86,8 +123,10 @@ export class SelfRecordtimeComponent implements OnInit {
   doLoadTimeonsite() {
     this.trtimonsite_list = [];
     var tmp = new cls_TRTimeonsiteModel();
-    tmp.timeonsite_workdate = new Date(`${this.initial_current.PR_Year}-01-01`)
-    tmp.timeonstie_todate = new Date(`${this.initial_current.PR_Year}-12-31`)
+    tmp.timeonsite_workdate = this.start_date;
+    tmp.timeonstie_todate = this.end_date;
+    tmp.status = this.status_select.code;
+    tmp.worker_code = this.selectedAccount.worker_code;
     this.timeonsiteService.timeonsite_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timeonsite_workdate = new Date(elm.timeonsite_workdate)
@@ -162,11 +201,18 @@ export class SelfRecordtimeComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          this.account_list_source = [];
+          this.account_list_dest = [];
           this.selectedtrtimeonsite = new cls_TRTimeonsiteModel();
           this.reasonselected = this.reason_list[0]
           this.locationselected = this.location_list[0]
           this.selectedtrtimeonsite.reason_code = this.reason_list[0].reason_code
           this.selectedtrtimeonsite.location_code = this.location_list[0].location_code
+          if (this.initial_current.Usertype == "GRP") {
+            this.account_list.forEach((obj: TRAccountModel) => {
+              this.account_list_source.push(obj)
+            })
+          }
           this.showManage()
         }
 
@@ -313,14 +359,52 @@ export class SelfRecordtimeComponent implements OnInit {
     this.selectedtrtimeonsite.reason_code = this.reasonselected.reason_code;
   }
   Save() {
-    if (this.selectedtrtimeonsite.timeonsite_doc === "") {
-      this.selectedtrtimeonsite.timeonsite_doc = "ONSITE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
-    }
-    // console.log(this.selectedtrtimeonsite)
-    this.doRecordTimeonsite([this.selectedtrtimeonsite])
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_doc')[this.selectlang],
+      header: this.langs.get('title_onsite')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (this.initial_current.Usertype == "GRP" && !this.edit_data) {
+          let data_doc: cls_TRTimeonsiteModel[] = []
+          this.account_list_dest.forEach((obj: TRAccountModel, index) => {
+            var tmp: cls_TRTimeonsiteModel = new cls_TRTimeonsiteModel();
+            tmp.timeonsite_id = this.selectedtrtimeonsite.timeonsite_id;
+            tmp.timeonsite_doc = "ONSITE_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')) + index);
+            tmp.timeonsite_workdate = this.selectedtrtimeonsite.timeonsite_workdate;
+            tmp.timeonstie_todate = this.selectedtrtimeonsite.timeonstie_todate;
+            tmp.timeonsite_in = this.selectedtrtimeonsite.timeonsite_in;
+            tmp.timeonsite_out = this.selectedtrtimeonsite.timeonsite_out;
+            tmp.location_code = this.selectedtrtimeonsite.location_code;
+            tmp.reason_code = this.selectedtrtimeonsite.reason_code;
+            tmp.timeonsite_note = this.selectedtrtimeonsite.timeonsite_note;
+            tmp.reqdoc_data = this.selectedtrtimeonsite.reqdoc_data;
+            tmp.worker_code = obj.worker_code;
+            data_doc.push(tmp)
+          })
+          this.doRecordTimeonsite(data_doc)
+        } else {
+          if (this.selectedtrtimeonsite.timeonsite_doc === "") {
+            this.selectedtrtimeonsite.timeonsite_doc = "ONSITE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+          }
+          // console.log(this.selectedtrtimeonsite)
+          this.doRecordTimeonsite([this.selectedtrtimeonsite])
+        }
+      },
+      reject: () => {
+      }
+    });
   }
   Delete() {
-    this.doDeleteTimeonsite(this.selectedtrtimeonsite)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtrtimeonsite.timeonsite_doc,
+      header: this.langs.get('title_onsite')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimeonsite(this.selectedtrtimeonsite)
+      },
+      reject: () => {
+      }
+    });
   }
   getFullStatus(code: string) {
     let status = ""
