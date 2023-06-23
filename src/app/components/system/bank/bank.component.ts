@@ -228,9 +228,9 @@ export class BankComponent implements OnInit {
     this.new_data=false
     this.selectedBank = new BankModel()
   }
-  onRowSelectBank(event: Event) {
+  onRowSelectBank(event: any) {
     this.edit_data= true;
-    this.new_data= false;
+    this.new_data= true;
   }
 
 

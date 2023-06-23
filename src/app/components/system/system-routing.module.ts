@@ -45,6 +45,7 @@ import { CodestructureComponent } from './system-manage/codestructure/codestruct
 import { AddYearComponent } from './system-manage/year/add-year/add-year.component';
 import { SystemSupplyComponent } from './system-policy/system-supply/system-supply.component';
 import { SystemUniformComponent } from './system-policy/system-uniform/system-uniform.component';
+import { PolroundsComponent } from './system-manage/polrounds/polrounds.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -92,7 +93,9 @@ import { SystemUniformComponent } from './system-policy/system-uniform/system-un
         { path: 'sys-codestructure', component: CodestructureComponent },
         { path: 'year', component: YearComponent },
         { path: 'system-yearperiods', component: AddYearComponent },
+        { path: 'system-polrounds', component: PolroundsComponent },
 
+        
 
 
 

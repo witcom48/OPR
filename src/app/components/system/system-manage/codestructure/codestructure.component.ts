@@ -84,7 +84,7 @@ export class CodestructureComponent implements OnInit {
 
     doLoadLanguage(){
       if(this.initial_current.Language == "TH"){
-        this.title_page = "ข้อมูลโครงสร้างพนักงาน";
+        this.title_page = "กำหนดรหัสโครงสร้าง";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
@@ -92,8 +92,8 @@ export class CodestructureComponent implements OnInit {
         this.title_export = "โอนออก";
         this.title_save = "บันทึก";
         this.title_code = "รหัส";
-        this.title_name_th = "รายละเอียด(Thai)";
-        this.title_name_en = "รายละเอียด(Eng)";
+        this.title_name_th = "รายละเอียด(ไทย)";
+        this.title_name_en = "รายละเอียด(อังกฤษ)";
         this.title_detail = "รายละเอียด";
         this.title_modified_by = "ผู้ทำรายการ";
         this.title_modified_date = "วันที่ทำรายการ";

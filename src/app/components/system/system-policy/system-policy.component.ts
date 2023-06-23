@@ -54,7 +54,7 @@ public initial_current: InitialCurrent = new InitialCurrent();
 
     title_major: string = 'Major';
     title_qualification: string = 'Qualification';
-    
+
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_genaral_system= 'ระบบทั่วไป';
@@ -70,8 +70,8 @@ public initial_current: InitialCurrent = new InitialCurrent();
             this.title_ethnicity= 'เชื้อชาติ';
             this.title_bloodtype= 'กรุ๊ปเลือด';
             this.title_hospital= 'โรงพยาบาล';
-            this.title_location= 'ที่ตั้ง';
-            this.title_reduce= 'ลด';
+            this.title_location= 'สถานที่';
+            this.title_reduce= 'ค่าลดหย่อน';
             this.title_set_structure_code= 'กำหนดรหัสโครงสร้าง';
             this.title_training = 'การฝึกอบรม';
             this.title_course= 'คอร์ส';
@@ -80,7 +80,7 @@ public initial_current: InitialCurrent = new InitialCurrent();
             this.title_faculty= 'คณะ';
             this.title_major= 'วิชาเอก';
             this.title_qualification= 'คุณสมบัติ';
- 
+
         }
     }
 }

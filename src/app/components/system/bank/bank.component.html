@@ -24,7 +24,7 @@
             selectionMode="single" [(selection)]="selectedBank" (onRowSelect)="onRowSelectBank($event)" [rows]="12"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['bloodtype_code','bloodtype_name_th','bloodtype_name_en']">
+            [globalFilterFields]="['bank_code','bank_name_th','bank_name_en','modied_by','modied_date']">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -59,9 +59,8 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <div class="col-12 md:col-3">
-        <div class="formatt"*ngIf="edit_data===true || new_data===true">
-            <i (click)="close()"></i>
+    <div class="formatt" *ngIf="new_data==true">
+        <i (click)="close()"></i>
             <label>{{title_code}}</label>
             <input pInputText type="text" [(ngModel)]="selectedBank.bank_code" maxlength="5" [readonly]="edit_data" />
             <p>{{selectedBank.bank_code.length}}/5</p>
@@ -76,7 +75,7 @@
             <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
                 class="p-button-danger" (click)="confirmDelete()"></button>
         </div>
-    </div>
+  
     
     </div>
 

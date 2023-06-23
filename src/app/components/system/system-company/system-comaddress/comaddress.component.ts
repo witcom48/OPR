@@ -283,7 +283,7 @@ export class SystemComaddressComponent implements OnInit {
     //menumain
     this.toolbar_menu = [
       {
-        label: 'Back',
+        label: 'Backs',
         icon: 'pi-arrow-left',
         command: (event) => {
           this.router.navigateByUrl('system/company');

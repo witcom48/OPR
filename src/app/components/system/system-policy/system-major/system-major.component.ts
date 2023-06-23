@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
-import { Table } from 'primeng/table';
-import { MegaMenuItem,MenuItem } from 'primeng/api';
+  import {  MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
@@ -87,7 +85,7 @@ title_system:string = "System";
       if(this.initial_current.Language == "TH"){
          this.title_system= "ระบบ";
         this.title_genaral= "ทั่วไป";
-        this.title_page = "ข้อมูลสถานะพนักงาน";
+        this.title_page = "วิชาเอก";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
@@ -95,8 +93,8 @@ title_system:string = "System";
         this.title_export = "โอนออก";
         this.title_save = "บันทึก";
         this.title_code = "รหัส";
-        this.title_name_th = "รายละเอียด(Thai)";
-        this.title_name_en = "รายละเอียด(Eng)";
+        this.title_name_th = "รายละเอียด(ไทย)";
+        this.title_name_en = "รายละเอียด(อังกฤษ)";
         this.title_detail = "รายละเอียด";
         this.title_modified_by = "ผู้ทำรายการ";
         this.title_modified_date = "วันที่ทำรายการ";
@@ -169,7 +167,7 @@ title_system:string = "System";
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
           },
-          key:"myDialog" 
+          key:"myDialog"
       });
     }
 

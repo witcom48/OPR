@@ -79,20 +79,19 @@
 
 
         <label>{{title_Item}}</label>
-        <p-dropdown placeholder="--" [options]="ItemsList" optionValue="item_code"
-        [showClear]="true" [(ngModel)]="selectedBonus.item_code"
-        [style]="{ width: '100%', overflow: 'visible' }">
-        <ng-template let-item pTemplate="selectedItem">
-            {{initial_current.Language=="TH"? item.item_code :
-            item.item_code}}
-        </ng-template>
-        <ng-template let-item pTemplate="item">
-            {{initial_current.Language=="TH"? item.item_code :
-            item.item_code}}
-        </ng-template>
-    </p-dropdown>
+        <p-dropdown placeholder="--" [options]="ItemsList" optionValue="item_code" [showClear]="true"
+            [(ngModel)]="selectedBonus.item_code" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.item_code :
+                item.item_code}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.item_code :
+                item.item_code}}
+            </ng-template>
+        </p-dropdown>
 
-    
+
         <!-- <textarea [(ngModel)]="selectedBonus.item_code" pInputTextarea [autoResize]="true"></textarea> -->
 
 
@@ -121,8 +120,7 @@
                 </p-accordionTab>
             </p-accordion>
         </div>
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
-            (click)="Save()"></button>
+        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
             class="p-button-danger" (click)="Delete()"></button>
     </div>
@@ -130,8 +128,7 @@
 </div>
 
 
-<p-dialog header="{{title_Workage}}" [(visible)]="displayaddcondition" [maximizable]="true"
-    (onHide)="closedispaly()">
+<p-dialog header="{{title_Workage}}" [(visible)]="displayaddcondition" [maximizable]="true" (onHide)="closedispaly()">
     <div class="formatt">
         <label>{{title_From}}</label>
         <p-inputNumber [(ngModel)]="conditions.bonusrate_from" [useGrouping]="false"></p-inputNumber>
@@ -142,10 +139,9 @@
         <p-inputNumber [(ngModel)]="conditions.bonusrate_rate" [useGrouping]="false"></p-inputNumber>
     </div>
     <ng-template pTemplate="footer">
-        <button *ngIf="displayeditcondition" pButton type="button" label="{{title_delete}}"
-            icon="pi pi-trash" class="p-button-danger" (click)="Deletelate()"></button>
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
-            (click)="Savelate()"></button>
+        <button *ngIf="displayeditcondition" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="Deletelate()"></button>
+        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Savelate()"></button>
     </ng-template>
 </p-dialog>
 
@@ -154,7 +150,9 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>

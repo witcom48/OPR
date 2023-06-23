@@ -69,6 +69,9 @@ export class RoundComponent implements OnInit {
       tmp.rounds_group = "Currency"
       this.roundsService.rounds_get(tmp).then(async (res) => {
         this.rounds_list = await res;
+        await res.forEach((element: RoundsModel)=>{
+            this.rounds.rounds_group= element.rounds_group= "Currency"
+        })
       });
     }
     
