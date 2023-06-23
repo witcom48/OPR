@@ -5,14 +5,19 @@ import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'pri
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ShiftModels } from 'src/app/models/attendance/shift';
+import { AccountModel } from 'src/app/models/self/account';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeshiftModel } from 'src/app/models/self/cls_TRTimeshift';
+import { TRAccountModel } from 'src/app/models/self/traccount';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { ShiftServices } from 'src/app/services/attendance/shift.service';
 import { TimecardService } from 'src/app/services/attendance/timecards.service';
+import { AccountServices } from 'src/app/services/self/account.service';
+import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 import { TimeShiftServices } from 'src/app/services/self/timeshift.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqshift: any;
+interface Status { name: string, code: number }
 @Component({
   selector: 'app-self-changeshift',
   templateUrl: './self-changeshift.component.html',
@@ -28,6 +33,7 @@ export class SelfChangeshiftComponent implements OnInit {
   position: string = "right";
   reasonedis: string = "reason_name_en"
   shfitdis: string = "shift_name_en"
+  namedis: string = "worker_detail_en"
   items: MenuItem[] = [];
   items_attfile: MenuItem[] = [];
   constructor(
@@ -38,6 +44,7 @@ export class SelfChangeshiftComponent implements OnInit {
     private shiftService: ShiftServices,
     private timeshiftService: TimeShiftServices,
     private timecardService: TimecardService,
+    private accountServie: AccountServices,
     private router: Router,
   ) { }
   reason_list: ReasonsModel[] = [];
@@ -48,30 +55,64 @@ export class SelfChangeshiftComponent implements OnInit {
   trtimeshfit_list: cls_TRTimeshiftModel[] = [];
   selectedtrtimeshfit: cls_TRTimeshiftModel = new cls_TRTimeshiftModel();
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
+  account_list: TRAccountModel[] = [];
+  account_list_source: TRAccountModel[] = [];
+  account_list_dest: TRAccountModel[] = [];
+  selectedAccount: TRAccountModel = new TRAccountModel();
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.reasonedis = "reason_name_th"
       this.shfitdis = "shift_name_th"
+      this.namedis = "worker_detail_th"
+    }
+    if (this.initial_current.Usertype == "GRP") {
+      this.doLoadAccount();
+    } else {
+      this.doLoadTimeshift();
     }
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu();
-    this.doLoadTimeshift();
     this.doLoadReason();
     this.doLoadShfit();
+  }
+  Search() {
+    this.doLoadTimeshift();
+  }
+  doLoadAccount() {
+    var tmp = new AccountModel();
+    tmp.account_user = this.initial_current.Username;
+    tmp.account_type = this.initial_current.Usertype;
+    this.accountServie.account_get(tmp).then(async (res) => {
+      res[0].worker_data.forEach((obj: TRAccountModel) => {
+        obj.worker_detail_en = obj.worker_code + " : " + obj.worker_detail_en;
+        obj.worker_detail_th = obj.worker_code + " : " + obj.worker_detail_th;
+      });
+      this.account_list = await res[0].worker_data;
+      this.selectedAccount = res[0].worker_data[0];
+      this.doLoadTimeshift();
+    });
   }
   doLoadTimeshift() {
     this.trtimeshfit_list = [];
     var tmp = new cls_TRTimeshiftModel();
-    tmp.timeshift_workdate = new Date(`${this.initial_current.PR_Year}-01-01`)
-    tmp.timeshift_todate = new Date(`${this.initial_current.PR_Year}-12-31`)
+    tmp.timeshift_workdate = this.start_date;
+    tmp.timeshift_todate = this.end_date;
+    tmp.status = this.status_select.code;
+    tmp.worker_code = this.selectedAccount.worker_code;
     this.timeshiftService.timeshift_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timeshift_workdate = new Date(elm.timeshift_workdate)
@@ -174,12 +215,21 @@ export class SelfChangeshiftComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          this.account_list_source = [];
+          this.account_list_dest = [];
           this.selectedtrtimeshfit = new cls_TRTimeshiftModel();
           this.shift_newselected = this.shift_new_list[0]
           this.reasonselected = this.reason_list[0]
           this.selectedtrtimeshfit.timeshift_new = this.shift_new_list[0].shift_code
           this.selectedtrtimeshfit.reason_code = this.reason_list[0].reason_code
-          this.doLoadShfitOld();
+          if (this.initial_current.Usertype == "GRP") {
+            this.account_list.forEach((obj: TRAccountModel) => {
+              this.account_list_source.push(obj)
+            })
+          } else {
+            this.doLoadShfitOld();
+          }
+
           this.showManage()
         }
 
@@ -325,6 +375,9 @@ export class SelfChangeshiftComponent implements OnInit {
   closeManage() {
     this.selectedtrtimeshfit = new cls_TRTimeshiftModel();
     this.displayManage = false
+    console.log(this.account_list_source)
+    // this.account_list_dest = [];
+    // this.account_list_source = [];
 
   }
 
@@ -340,14 +393,51 @@ export class SelfChangeshiftComponent implements OnInit {
 
   }
   Save() {
-    if (this.selectedtrtimeshfit.timeshift_doc === "") {
-      this.selectedtrtimeshfit.timeshift_doc = "SHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
-    }
-    // console.log(this.selectedtrtimeshfit)
-    this.doRecordTimeshift([this.selectedtrtimeshfit])
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_doc')[this.selectlang],
+      header: this.langs.get('title_shfit')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (this.initial_current.Usertype == "GRP") {
+          let data_doc: cls_TRTimeshiftModel[] = []
+          this.account_list_dest.forEach((obj: TRAccountModel, index) => {
+            var tmp: cls_TRTimeshiftModel = new cls_TRTimeshiftModel();
+            tmp.timeshift_doc = "SHIFT_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')) + index);
+            tmp.timeshift_workdate = this.selectedtrtimeshfit.timeshift_workdate;
+            tmp.timeshift_todate = this.selectedtrtimeshfit.timeshift_todate;
+            tmp.timeshift_new = this.selectedtrtimeshfit.timeshift_new;
+            tmp.reason_code = this.selectedtrtimeshfit.reason_code;
+            tmp.timeshift_note = this.selectedtrtimeshfit.timeshift_note;
+            tmp.reqdoc_data = this.selectedtrtimeshfit.reqdoc_data;
+            tmp.worker_code = obj.worker_code;
+            data_doc.push(tmp)
+          })
+          this.doRecordTimeshift(data_doc)
+        } else {
+          if (this.selectedtrtimeshfit.timeshift_doc === "") {
+            this.selectedtrtimeshfit.timeshift_doc = "SHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+          }
+          // console.log(this.selectedtrtimeshfit)
+          this.doRecordTimeshift([this.selectedtrtimeshfit])
+        }
+      },
+      reject: () => {
+      }
+    });
   }
   Delete() {
-    this.doDeleteTimeshfit(this.selectedtrtimeshfit)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtrtimeshfit.timeshift_doc,
+      header: this.langs.get('title_shfit')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimeshfit(this.selectedtrtimeshfit)
+      },
+      reject: () => {
+      }
+    });
+    // this.account_list_dest = [];
+    // this.account_list_source = [];
   }
   getFullStatus(code: string) {
     let status = ""
