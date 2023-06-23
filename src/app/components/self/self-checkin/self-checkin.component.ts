@@ -12,7 +12,11 @@ import { TimecheckinServices } from 'src/app/services/self/timecheckin.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { AreaServices } from 'src/app/services/self/area.service';
 import { MTAreaModel } from 'src/app/models/self/MTArea';
+import { TRAccountModel } from 'src/app/models/self/traccount';
+import { AccountModel } from 'src/app/models/self/account';
+import { AccountServices } from 'src/app/services/self/account.service';
 declare var reqcheckin: any;
+interface Status { name: string, code: number }
 interface Area {
   lat: number,
   long: number,
@@ -33,6 +37,7 @@ export class SelfCheckinComponent implements OnInit {
   langs: any = reqcheckin;
   selectlang: string = "EN";
   locatiodis: string = "location_name_en"
+  namedis: string = "worker_detail_en"
   position: string = "right";
   displayManage: boolean = false;
   edit_data: boolean = false;
@@ -43,6 +48,7 @@ export class SelfCheckinComponent implements OnInit {
     private locationService: LocationService,
     private areaService: AreaServices,
     private datePipe: DatePipe,
+    private accountServie: AccountServices,
     private router: Router,
   ) { }
   fileToUpload: File | any = null;
@@ -62,16 +68,31 @@ export class SelfCheckinComponent implements OnInit {
   timecheckin_list: cls_TRTimecheckinModel[] = [];
   selectedtimecheckin: cls_TRTimecheckinModel = new cls_TRTimecheckinModel();
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
+  account_list: TRAccountModel[] = [];
+  account_list_source: TRAccountModel[] = [];
+  account_list_dest: TRAccountModel[] = [];
+  selectedAccount: TRAccountModel = new TRAccountModel();
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.locatiodis = "location_name_th"
-
+      this.namedis = "worker_detail_th"
+    }
+    if (this.initial_current.Usertype == "GRP") {
+      this.doLoadAccount();
+    } else {
+      this.doLoadTimecheckin();
     }
   }
   ngOnInit(): void {
@@ -82,11 +103,32 @@ export class SelfCheckinComponent implements OnInit {
     this.doLoadArea();
     // setInterval(this.getLocation, 1000);
   }
+  Search() {
+    this.doLoadTimecheckin();
+    this.doLoadArea();
+  }
+  doLoadAccount() {
+    var tmp = new AccountModel();
+    tmp.account_user = this.initial_current.Username;
+    tmp.account_type = this.initial_current.Usertype;
+    this.accountServie.account_get(tmp).then(async (res) => {
+      res[0].worker_data.forEach((obj: TRAccountModel) => {
+        obj.worker_detail_en = obj.worker_code + " : " + obj.worker_detail_en;
+        obj.worker_detail_th = obj.worker_code + " : " + obj.worker_detail_th;
+      });
+      this.account_list = await res[0].worker_data;
+      this.selectedAccount = res[0].worker_data[0];
+      this.doLoadTimecheckin();
+      this.doLoadArea();
+    });
+  }
   doLoadTimecheckin() {
     this.timecheckin_list = [];
     var tmp = new cls_TRTimecheckinModel();
-    tmp.timecheckin_workdate = new Date(`${this.initial_current.PR_Year}-01-01`)
-    tmp.timecheckin_todate = new Date(`${this.initial_current.PR_Year}-12-31`)
+    tmp.timecheckin_workdate = this.start_date;
+    tmp.timecheckin_todate = this.end_date;
+    tmp.status = this.status_select.code;
+    tmp.worker_code = this.selectedAccount.worker_code;
     this.timecheckinService.timecheckin_get(tmp).then(async (res) => {
       res.forEach((elm: any) => {
         elm.timecheckin_workdate = new Date(elm.timecheckin_workdate)
@@ -105,7 +147,7 @@ export class SelfCheckinComponent implements OnInit {
   doLoadArea() {
     this.circledata = [];
     let data = new MTAreaModel()
-    data.worker_code = this.initial_current.Username;
+    data.worker_code = this.selectedAccount.worker_code
     this.areaService.area_get(data).then(async (res) => {
       res.forEach((obj: MTAreaModel) => {
         if (obj.area_data.length) {
@@ -180,9 +222,16 @@ export class SelfCheckinComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          this.account_list_source = [];
+          this.account_list_dest = [];
           this.selectedtimecheckin = new cls_TRTimecheckinModel();
           this.locationselected = this.location_list[0]
           this.selectedtimecheckin.location_code = this.location_list[0].location_code
+          if (this.initial_current.Usertype == "GRP") {
+            this.account_list.forEach((obj: TRAccountModel) => {
+              this.account_list_source.push(obj)
+            })
+          }
           this.showManage()
         }
       },
@@ -340,41 +389,106 @@ export class SelfCheckinComponent implements OnInit {
     });
   }
   async Save() {
-    if (this.selectedtimecheckin.timecheckin_doc === "") {
-      this.selectedtimecheckin.timecheckin_doc = "CHECKIN_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
-      this.selectedtimecheckin.timecheckin_time = this.datePipe.transform(new Date(), 'HH:mm') || "00:00"
-      this.selectedtimecheckin.timecheckin_lat = this.lat;
-      this.selectedtimecheckin.timecheckin_long = this.long;
-    }
-    let checkdistance = false;
-    await this.circledata.forEach((element: any) => {
-      if (this.calcCrow(this.lat, this.long, element._latlng.lat, element._latlng.lng) < element.options.radius) {
-        checkdistance = true;
-        this.selectedtimecheckin.location_code = element.options.attribution;
-        return
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_doc')[this.selectlang],
+      header: this.langs.get('title_checkin')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: async () => {
+        if (this.initial_current.Usertype == "GRP" && !this.edit_data) {
+          this.selectedtimecheckin.timecheckin_time = this.datePipe.transform(new Date(), 'HH:mm') || "00:00"
+          this.selectedtimecheckin.timecheckin_lat = this.lat;
+          this.selectedtimecheckin.timecheckin_long = this.long;
+          let data_doc: cls_TRTimecheckinModel[] = []
+          this.account_list_dest.forEach((obj: TRAccountModel, index) => {
+            var tmp: cls_TRTimecheckinModel = new cls_TRTimecheckinModel();
+            tmp.timecheckin_id = this.selectedtimecheckin.timecheckin_id;
+            tmp.timecheckin_doc = "CHECKIN_" + (Number(this.datePipe.transform(new Date(), 'yyyyMMddHHmmss')) + index);
+            tmp.timecheckin_workdate = this.selectedtimecheckin.timecheckin_workdate;
+            tmp.timecheckin_todate = this.selectedtimecheckin.timecheckin_todate;
+            tmp.timecheckin_lat = this.selectedtimecheckin.timecheckin_lat;
+            tmp.timecheckin_time = this.selectedtimecheckin.timecheckin_time;
+            tmp.timecheckin_long = this.selectedtimecheckin.timecheckin_long;
+            tmp.location_code = this.selectedtimecheckin.location_code;
+            tmp.timecheckin_type = this.selectedtimecheckin.timecheckin_type;
+            tmp.timecheckin_note = this.selectedtimecheckin.timecheckin_note;
+            tmp.reqdoc_data = this.selectedtimecheckin.reqdoc_data;
+            tmp.worker_code = obj.worker_code;
+            data_doc.push(tmp)
+          })
+          let checkdistance = false;
+          await this.circledata.forEach((element: any) => {
+            if (this.calcCrow(this.lat, this.long, element._latlng.lat, element._latlng.lng) < element.options.radius) {
+              checkdistance = true;
+              this.selectedtimecheckin.location_code = element.options.attribution;
+              return
+            }
+          });
+          if (!checkdistance) {
+            this.confirmationService.confirm({
+              message: this.langs.get('confirm_doc')[this.selectlang],
+              header: this.langs.get('title_checkin')[this.selectlang],
+              icon: 'pi pi-exclamation-triangle',
+              accept: () => {
+                // console.log(this.selectedtimecheckin)
+              },
+              reject: () => {
+
+              }
+            });
+          } else {
+            // console.log(this.selectedtimecheckin)
+            this.doRecordTimecheckin(data_doc)
+          }
+        } else {
+          if (this.selectedtimecheckin.timecheckin_doc === "") {
+            this.selectedtimecheckin.timecheckin_doc = "CHECKIN_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+            this.selectedtimecheckin.timecheckin_time = this.datePipe.transform(new Date(), 'HH:mm') || "00:00"
+            this.selectedtimecheckin.timecheckin_lat = this.lat;
+            this.selectedtimecheckin.timecheckin_long = this.long;
+          }
+          let checkdistance = false;
+          await this.circledata.forEach((element: any) => {
+            if (this.calcCrow(this.lat, this.long, element._latlng.lat, element._latlng.lng) < element.options.radius) {
+              checkdistance = true;
+              this.selectedtimecheckin.location_code = element.options.attribution;
+              return
+            }
+          });
+          if (!checkdistance) {
+            this.confirmationService.confirm({
+              message: this.langs.get('confirm_delete_doc')[this.selectlang],
+              header: this.langs.get('title_checkin')[this.selectlang],
+              icon: 'pi pi-exclamation-triangle',
+              accept: () => {
+                // console.log(this.selectedtimecheckin)
+              },
+              reject: () => {
+
+              }
+            });
+          } else {
+            // console.log(this.selectedtimecheckin)
+            this.doRecordTimecheckin([this.selectedtimecheckin])
+          }
+        }
+      },
+      reject: () => {
       }
     });
-    if (!checkdistance) {
-      this.confirmationService.confirm({
-        message: this.langs.get('not_in')[this.selectlang],
-        header: this.langs.get('title_checkin')[this.selectlang],
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          // console.log(this.selectedtimecheckin)
-        },
-        reject: () => {
-
-        }
-      });
-    } else {
-      // console.log(this.selectedtimecheckin)
-      this.doRecordTimecheckin([this.selectedtimecheckin])
-    }
     // console.log(this.selectedtrtimeonsite)
     // this.doRecordTimecheckin([this.selectedtimecheckin])
   }
   Delete() {
-    this.doDeleteTimecheckin(this.selectedtimecheckin)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtimecheckin.timecheckin_doc,
+      header: this.langs.get('title_checkin')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimecheckin(this.selectedtimecheckin)
+      },
+      reject: () => {
+      }
+    });
   }
   showManage() {
     this.typeselected = this.type_list[0];

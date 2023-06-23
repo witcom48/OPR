@@ -1118,6 +1118,8 @@ var reqcheckin = new Map([
     ["import", { TH: "นำเข้า", EN: "Import" }],
     ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],
     ["confirm_delete", { TH: "ยืนยันลบไฟล์ : ", EN: "Confirm Delete file : " }],
+    ["confirm_delete_doc", { TH: "ยืนยันลบเอกสาร : ", EN: "Confirm Delete Doc : " }],
+    ["confirm_doc", { TH: "ยืนยันบันทึกเอกสารเช็คอิน : ", EN: "Confirm Checkin doc" }],
     ["export", { TH: "ส่งออกไฟล์", EN: "Export" }],
     ["showing", { TH: "แสดง", EN: "Showing" }],
     ["to", { TH: "ถึง", EN: "to" }],
@@ -1166,6 +1168,7 @@ var reqcheckin = new Map([
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
     ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
+    ["employee_select", { TH: "พนักงาน (ที่เลือก)", EN: "Employee (Selected)" }],
 ]);
 
 var topic = new Map([
