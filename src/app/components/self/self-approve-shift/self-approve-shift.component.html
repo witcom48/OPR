@@ -135,7 +135,8 @@
                     <th style="width: 4rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-
+                    <th>{{langs.get('shift_doc')[selectlang]}}</th>
+                    <th>{{langs.get('worker_code')[selectlang]}}</th>
                     <th>{{langs.get('name')[selectlang]}}</th>
                     <th>{{langs.get('date')[selectlang]}}</th>
                     <th>{{langs.get('shift_old')[selectlang]}}</th>
@@ -154,6 +155,8 @@
                     <td>
                         <p-tableCheckbox [value]="data"></p-tableCheckbox>
                     </td>
+                    <td><span>{{langs.get('shift_doc')[selectlang]}}</span>{{data.timeshift_doc}}</td>
+                    <td><span>{{langs.get('worker_code')[selectlang]}}</span>{{data.worker_code}}</td>
                     <td><span>{{langs.get('name')[selectlang]}}</span>{{selectlang
                         =="EN"?data.worker_detail_en:data.worker_detail_th}}</td>
                     <td><span>{{langs.get('date')[selectlang]}}</span>{{data.timeshift_workdate| date:'dd/MM/yyyy'}}

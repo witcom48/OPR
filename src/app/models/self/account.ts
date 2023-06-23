@@ -13,7 +13,6 @@ export class AccountModel {
   account_level: number = 1;
   account_email: string = "";
   account_email_alert: boolean = false;
-
   account_line: string = "";
   account_line_alert: boolean = false;
 

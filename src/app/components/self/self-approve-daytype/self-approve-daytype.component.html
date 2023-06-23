@@ -51,7 +51,8 @@
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
                     <!-- <th>{{langs.get('no')[selectlang]}}</th> -->
-                    <!-- <th>{{langs.get('daytype_doc')[selectlang]}}</th> -->
+                    <th>{{langs.get('daytype_doc')[selectlang]}}</th>
+                    <th>{{langs.get('worker_code')[selectlang]}}</th>
                     <th>{{langs.get('name')[selectlang]}}</th>
                     <th>{{langs.get('date')[selectlang]}}</th>
                     <th>{{langs.get('daytype_old')[selectlang]}}</th>
@@ -73,8 +74,9 @@
                     <td>
                         <p-tableCheckbox [value]="data"></p-tableCheckbox>
                     </td>
-                    <!-- <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
-                    <td><span>{{langs.get('daytype_doc')[selectlang]}}</span>{{data.timedaytype_doc}}</td> -->
+                    <!-- <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td> -->
+                    <td><span>{{langs.get('daytype_doc')[selectlang]}}</span>{{data.timedaytype_doc}}</td>
+                    <td><span>{{langs.get('worker_code')[selectlang]}}</span>{{data.worker_code}}</td>
                     <td><span>{{langs.get('name')[selectlang]}}</span>{{selectlang
                         =="EN"?data.worker_detail_en:data.worker_detail_th}}</td>
                     <td><span>{{langs.get('date')[selectlang]}}</span>{{data.timedaytype_workdate| date:'dd/MM/yyyy'}}
@@ -98,7 +100,7 @@
                             [disabled]="selectedtimedaytypeall.length>0"></p-button>
                     </td>
                     <td><span>{{langs.get('verify')[selectlang]}}</span><p-button icon="pi pi-eye"
-                            styleClass="p-button-success" (click)="viwe(data)" ></p-button>
+                            styleClass="p-button-success" (click)="viwe(data)"></p-button>
 
                 </tr>
             </ng-template>
@@ -138,20 +140,21 @@
         <div class="field col-12 md:col-6">
             <label for="ppos_shift_code">{{langs.get('daytype_new')[selectlang]}}</label>
             <p-dropdown class="selectyaer" [options]="daytype_list" [(ngModel)]="daytype_newselected"
-                (onChange)="selectdaytypenew()" optionLabel={{daytypeedis}}  [disabled]="edit_data"></p-dropdown>
+                (onChange)="selectdaytypenew()" optionLabel={{daytypeedis}} [disabled]="edit_data"></p-dropdown>
 
         </div>
 
         <div class="field col-12 md:col-6">
             <label for="ppos_shift_code">{{langs.get('reason')[selectlang]}}</label>
             <p-dropdown class="selectyaer" [options]="reason_list" [(ngModel)]="reasonselected"
-                (onChange)="selectDaytypereason()" optionLabel={{reasonedis}}  [disabled]="edit_data"></p-dropdown>
+                (onChange)="selectDaytypereason()" optionLabel={{reasonedis}} [disabled]="edit_data"></p-dropdown>
 
         </div>
 
         <div class="field col-12" style="display:flex;flex-direction: column;">
             <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
-            <textarea [(ngModel)]="selectedtimedaytype.timedaytype_note" pInputTextarea [autoResize]="true"  [disabled]="edit_data"></textarea>
+            <textarea [(ngModel)]="selectedtimedaytype.timedaytype_note" pInputTextarea [autoResize]="true"
+                [disabled]="edit_data"></textarea>
 
         </div>
 

@@ -800,6 +800,8 @@ var reqleave = new Map([
     ["import", { TH: "นำเข้า", EN: "Import" }],
     ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],
     ["confirm_delete", { TH: "ยืนยันลบไฟล์ : ", EN: "Confirm Delete file : " }],
+    ["confirm_delete_doc", { TH: "ยืนยันลบเอกสาร : ", EN: "Confirm Delete Doc : " }],
+    ["confirm_doc", { TH: "ยืนยันบันทึกเอกสารการลา : ", EN: "Confirm record Leave doc" }],
     ["export", { TH: "ส่งออกไฟล์", EN: "Export" }],
     ["showing", { TH: "แสดง", EN: "Showing" }],
     ["to", { TH: "ถึง", EN: "to" }],
@@ -852,6 +854,7 @@ var reqleave = new Map([
     ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
+    ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
 ]);
 
 
@@ -907,6 +910,7 @@ var reqshift = new Map([
     ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
+    ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
 ]);
 
 
@@ -967,6 +971,7 @@ var reqot = new Map([
     ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
+    ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
 ]);
 
 var reqonsite = new Map([
@@ -1023,6 +1028,7 @@ var reqonsite = new Map([
     ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
+    ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
 ]);
 
 var reqdaytype = new Map([
@@ -1086,6 +1092,7 @@ var reqdaytype = new Map([
     ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
+    ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
 ]);
 
 var reqcheckin = new Map([
@@ -1146,6 +1153,7 @@ var reqcheckin = new Map([
     ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
+    ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
 ]);
 
 var topic = new Map([
@@ -1242,6 +1250,7 @@ var reqdoc = new Map([
     ["connotapprove", { TH: "ยันยันการไม่อนุมัติเอกสาร", EN: "Confirm not aprrove" }],
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
+    ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
 
 ]);
 

@@ -305,8 +305,9 @@ export class SelfAccountComponent implements OnInit {
         company_code: this.initial_current.CompCode,
         account_user: this.selectedAccount.account_user,
         account_type: this.selectuserType.code,
-        worker_code: obj.worker_code
-
+        worker_code: obj.worker_code,
+        worker_detail_th: obj.worker_fname_en,
+        worker_detail_en: obj.worker_fname_en
       })
     })
     this.doRecordAccout(this.selectedAccount)

@@ -76,23 +76,23 @@ export class VerifyComponent implements OnInit {
             this.initail_current.Usertype = obj.account_type;
           }
           if (obj.account_type == "GRP") {
-            this.selectaccount = obj.worker_data[0];
+            this.initail_current.Username = obj.account_user
+            this.initail_current.Usertype = obj.account_type;
             // this.initail_current.Username = obj.worker_data[0].worker_code;
             // this.initail_current.Usertype = obj.worker_data[0].account_type;
-            this.displaygroupManage = true;
-            this.displayManage = false;
+            // this.displaygroupManage = true;
+            // this.displayManage = false;
           }
           if (obj.account_type == "ADM") {
             this.initail_current.Username = obj.account_user;
             this.initail_current.Usertype = obj.account_type;
           }
-          if (obj.account_type != "GRP") {
-            localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
-            if (this.initail_current.Token) {
-              window.location.href = "";
-              // this.router.navigateByUrl('');
-            }
+          localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+          if (this.initail_current.Token) {
+            window.location.href = "";
+            // this.router.navigateByUrl('');
           }
+
         });
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('incorrect')[this.selectlang] })

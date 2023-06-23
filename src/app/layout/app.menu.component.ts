@@ -135,7 +135,7 @@ export class AppMenuComponent implements OnInit {
                     label: 'Self Services',
                     items: [
                         //{ label: 'Policy', routerLink: ['/self/policy'] },
-                        { label: 'Employee', routerLink: ['/self/employee'] },
+                        // { label: 'Employee', routerLink: ['/self/employee'] },
                         { label: 'Manager', routerLink: ['/self/approve'] },
                         { label: 'Reports', routerLink: ['/self/reports'] },
                     ]

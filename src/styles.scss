@@ -162,6 +162,13 @@ th {
   }
 }
 
+.searchtable1{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
 .tabledata {
   display: grid;
   grid-template-columns: 1fr 0fr;
@@ -211,6 +218,13 @@ th {
 
     input {
       width: 100% !important;
+    }
+  }
+
+  .searchinput {
+    min-width: 80vw;
+    ul {
+      width: 80vw;
     }
   }
 }
