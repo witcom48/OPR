@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <p-menubar [model]="toolbar_menu"></p-menubar>
-<p-card header="Employee Management" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+<p-card header="{{title_page}}" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
     <div class="grid">
         <div class="col-12 md:col-9">
             <p-tabView (onChange)="tabChange($event)">
@@ -13,19 +13,19 @@
                     </ng-template>
 
                     <div class="empinfo">
-                        <p-image src="../../../../assets/images/people.png" alt="Image" width="150"
-                            height="150"></p-image>
 
-                        <p-button class="upload" label="Upload Images"></p-button>
-
+                        <p-image [src]="base64Image" id="imgWorker" name="imgWorker" alt="Image" width="150" height="150"></p-image>
+                        <p-fileUpload class="upload" mode="basic" chooseLabel="Upload Images" name="demo[]"
+                            accept="image/*" (onUpload)="handleFileInput($any($event).target.files)"></p-fileUpload>
                         <div>
-                            <label for="firstname2">{{title_code}} :</label>
-                            <input pInputText id="firstname2" type="text" [(ngModel)]="selectedEmployee.worker_code">
+                            <label for="code">{{title_code}} :</label>
+                            <input pInputText id="code" type="text" [(ngModel)]="selectedEmployee.worker_code"
+                                [disabled]="!methodEdit">
                         </div>
 
                         <div>
-                            <label for="lastname2">{{title_cardid}} :</label>
-                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedEmployee.worker_card">
+                            <label for="cardid">{{title_cardid}} :</label>
+                            <input pInputText id="cardid" type="text" [(ngModel)]="selectedEmployee.worker_card">
                         </div>
                         <div></div>
                         <div>
@@ -117,7 +117,7 @@
                             <label for="lastname2">{{title_type}} :</label>
                             <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code"
                                 [showClear]="true" [(ngModel)]="selectedEmployee.worker_type"
-                                [style]="{ width: '100%', overflow: 'visible' }">
+                                [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doChangeSelectEmptype()">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
                                 </ng-template>

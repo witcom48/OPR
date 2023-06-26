@@ -10,7 +10,7 @@ import { VerifyComponent } from './components/authen/verify/verify.component';
             {
                 path: '', component: AppLayoutComponent,
                 children: [
-                    { path: '', component: VerifyComponent },
+                    // { path: '', component: VerifyComponent },
                     { path: 'project', loadChildren: () => import('./components/project/project.module').then(m => m.ProjectModule) },
                     { path: 'employee', loadChildren: () => import('./components/employee/employee.module').then(m => m.EmployeeModule) },
                     { path: 'attendance', loadChildren: () => import('./components/attendance/attendance.module').then(m => m.AttendanceModule) },
@@ -22,7 +22,7 @@ import { VerifyComponent } from './components/authen/verify/verify.component';
 
                 ]
             },
-
+            { path: 'login', component: VerifyComponent, },
             // { path: 'notfound', component: NotfoundComponent },
 
 

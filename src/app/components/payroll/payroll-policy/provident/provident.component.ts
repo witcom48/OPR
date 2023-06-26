@@ -46,7 +46,7 @@ export class ProvidentComponent implements OnInit {
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current.Token) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
     title_payroll: string = 'Payroll';

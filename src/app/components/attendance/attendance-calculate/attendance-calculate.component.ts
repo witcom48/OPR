@@ -24,24 +24,22 @@ export class AttendanceCalculateComponent implements OnInit {
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
 
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to process";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
+  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
+  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
+  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
+  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
+  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
+  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
 
-  title_confirm_cancel:string = "You have cancelled";
-
-  title_submit:string = "Submit";
-  title_cancel:string = "Cancel";
-
-  labSalary:string = "Salary";
-  labLeave:string = "Leave";
-  labAbsent:string = "Absent";
-  labLate:string = "Late";
-  labOvertime:string = "Overtime";
-  labDiligence:string = "Diligence";
-  labAllowance:string = "Allowance";
+  title_submit: {[key: string]: string} = {  EN: "Submit",  TH: "คุณยกเลิกการทำรายการ"}
+  title_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "คุณยกเลิกการทำรายการ"}
+  labSalary: {[key: string]: string} = {  EN: "Salary",  TH: "เงินเดือน"}
+  labLeave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
+  labAbsent: {[key: string]: string} = {  EN: "Absent",  TH: "ขาดงาน"}
+  labLate: {[key: string]: string} = {  EN: "Late",  TH: "สาย"}
+  labOvertime: {[key: string]: string} = {  EN: "Overtime",  TH: "ล่วงเวลา"}
+  labDiligence: {[key: string]: string} = {  EN: "Diligence",  TH: "เบี้ยขยัน"}
+  labAllowance: {[key: string]: string} = {  EN: "Allowance",  TH: "เงินค่าเวลา"}
 
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -63,28 +61,13 @@ export class AttendanceCalculateComponent implements OnInit {
   doGetInitialCurrent(){    
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }       
   }
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
       
-      this.title_confirm = "ยืนยันการทำรายการ";
-      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
-      this.title_confirm_delete = "คุณต้องการลบรายการ";
-
-      this.title_confirm_yes = "ใช่";
-      this.title_confirm_no = "ยกเลิก";
-      this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-
-      this.labSalary = "เงินเดือน";
-      this.labLeave = "ลางาน";
-      this.labAbsent = "ขาดงาน";
-      this.labLate = "สาย";
-      this.labOvertime = "ล่วงเวลา";
-      this.labDiligence = "เบี้ยขยัน";
-      this.labAllowance = "เงินค่าเวลา";
     }
   }
 
@@ -187,8 +170,8 @@ export class AttendanceCalculateComponent implements OnInit {
     
 
     this.confirmationService.confirm({
-      message: this.title_confirm_record,
-      header: this.title_confirm,
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         //console.log(this.selectEmp.employee_dest.length)
@@ -206,12 +189,10 @@ export class AttendanceCalculateComponent implements OnInit {
             this.messageService.add({severity:'error', summary: 'Error', detail: "Record Not Success.."});   
           }  
         })
-
-
          
       },
       reject: () => {
-        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
       }
     });
   }

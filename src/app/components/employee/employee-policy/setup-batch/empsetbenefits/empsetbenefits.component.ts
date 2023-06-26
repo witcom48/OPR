@@ -7,7 +7,9 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
 import { SetBenefitsModel } from 'src/app/models/employee/policy/batch/setbenefits';
+import { ItemsModel } from 'src/app/models/payroll/items';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
+import { ItemService } from 'src/app/services/payroll/item.service';
 import { TaskService } from 'src/app/services/task.service';
 
 interface Policy {
@@ -31,22 +33,38 @@ export class EmpsetbenefitsComponent implements OnInit {
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
   
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to process";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
-
-  title_confirm_cancel:string = "You have cancelled";
-
-  title_submit:string = "Submit";
-  title_cancel:string = "Cancel";
+  //
+  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_startdate:{ [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
+  title_enddate:{ [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
+  title_incomededuct:{ [key: string]: string } = { EN: "Income/Deduct", TH: "เงินได้/เงินหัก" };
+  title_amount:{ [key: string]: string } = { EN: "Amount", TH: "จำนวน" };
+  title_type:{ [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+  title_fullamount:{ [key: string]: string } = { EN: "Amount", TH: "เต็มจำนวน" };
+  title_byday:{ [key: string]: string } = { EN: "Working Day", TH: "ตามวันที่ทำงาน" };
+  title_reason:{ [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
+  title_note:{ [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
+  title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
+  title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
+  //
+  title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" };
+  title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
+  title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
+  title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
+  title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
+  title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
 
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
   loading: boolean = false;
   index: number = 0;
   result_list: Result[] = [];
+  edit_data: boolean = false;
   
   constructor(
     private messageService: MessageService,
@@ -54,23 +72,48 @@ export class EmpsetbenefitsComponent implements OnInit {
     private taskService: TaskService,
     private router:Router,
     private setempdetailService: SetEmpDetailService,
+
+    private itemService : ItemService,
   ) { }
 
   new_data: boolean = false;
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
+
+    //dropdown
+    this.doloaditemList();
   }
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }
+  }
+
+  //dropdown
+  itemList: ItemsModel[] = [];
+  doloaditemList(){
+    var tmp = new ItemsModel();
+    this.itemService.item_get(tmp).then((res)=>{
+      this.itemList = res;
+    })
   }
 
   selectedEmpBenefits: EmpBenefitsModel = new EmpBenefitsModel();
   empbenefitsList: EmpBenefitsModel[] = [];
+
+  setbenefitList: SetBenefitsModel[] = [];
+  doLoadsetbenefitList() {
+    this.setbenefitList = [];
+    var tmp = new SetBenefitsModel();
+    tmp.item_code = this.selectedEmpBenefits.item_code
+    tmp.empbenefit_amount = this.selectedEmpBenefits.empbenefit_amount
+    this.setempdetailService.SetBenefit_get(tmp).then(async (res) => {
+      this.setbenefitList = await res;
+    });
+  }
 
   process(){
     this.result_list = [];
@@ -86,6 +129,7 @@ export class EmpsetbenefitsComponent implements OnInit {
     data.empbenefit_startdate = this.selectedEmpBenefits.empbenefit_startdate;
     data.empbenefit_enddate = this.selectedEmpBenefits.empbenefit_enddate;
     data.empbenefit_reason = this.selectedEmpBenefits.empbenefit_reason;
+    data.empbenefit_note = this.selectedEmpBenefits.empbenefit_note;
     data.empbenefit_paytype = this.selectedEmpBenefits.empbenefit_paytype;
     data.empbenefit_break = this.selectedEmpBenefits.empbenefit_break;
     data.empbenefit_breakreason = this.selectedEmpBenefits.empbenefit_breakreason;
@@ -101,6 +145,9 @@ export class EmpsetbenefitsComponent implements OnInit {
       if (res.success) {
         console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadsetbenefitList();
+        this.edit_data = false;
+        this.new_data;
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });

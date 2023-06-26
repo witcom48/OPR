@@ -3,7 +3,7 @@
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
-        <a routerLink="/self/employee">{{langs.get('approve')[selectlang]}}</a>
+        <a routerLink="/self/approve">{{langs.get('approve')[selectlang]}}</a>
         <i></i>
         <small>{{langs.get('title_leave')[selectlang]}}</small>
     </div>
@@ -136,31 +136,14 @@
                     </tr>
                 </ng-template>
             </p-table>
-            <!-- <p-table [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="100px"
-                [virtualScroll]="true" selectionMode="single" [rows]="10" [showCurrentPageReport]="true"
-                [rowsPerPageOptions]="[10,25,50]" [paginator]="true">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>ชื่อไฟล์</th>
-                        <th>ผู้ทำรายการ</th>
-                        <th>วันที่ทำรายการ</th>
-                    </tr>
-                </ng-template>
-            </p-table> -->
         </div>
         <div class="field col-12">
-            <p-button label="{{langs.get('save')[selectlang]}}" icon="pi pi-save"
+            <p-button label="{{langs.get('approve')[selectlang]}}" icon="pi pi-check"
                 (click)="Save(selectedtrtimeleave)"></p-button>
             &nbsp;
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('delete')[selectlang]}}"
-                class="p-button-danger" (click)="Delete(selectedtrtimeleave)"></button>
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('notapprove')[selectlang]}}"
+                class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedtrtimeleave)"></button>
         </div>
-        <!-- <div class="field col-12">
-            <p-button label="บันทึก" icon="pi pi-save" (click)="Save()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="ปิด" class="p-button-outlined p-button-secondary"
-                (click)="closeManage()"></button>
-        </div> -->
 
     </div>
 </p-dialog>
@@ -172,8 +155,6 @@
         <!-- <p-menubar [model]="items"></p-menubar> -->
         <p-toolbar styleClass="mb-4 gap-2">
             <ng-template pTemplate="left">
-                <!-- <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()"></button> -->
                 <div style="display: flex;gap: 10px;">
                     <p-button label="{{langs.get('approve')[selectlang]}}" icon="pi pi-check" styleClass="p-button-primary" (click)="Saveall()"
                         [disabled]="selectedtrtimeleaveall.length==0"></p-button>
@@ -181,11 +162,6 @@
                         (click)="Deleteall()" [disabled]="selectedtrtimeleaveall.length==0"></p-button>
                 </div>
             </ng-template>
-
-            <!-- <ng-template pTemplate="right">
-                <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
-                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
-            </ng-template> -->
         </p-toolbar>
         <p-table #dt1 [value]="trtimeleave_list" selectionMode="single" [(selection)]="selectedtrtimeleaveall"
             (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
@@ -212,6 +188,8 @@
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
                     <!-- <th>{{langs.get('no')[selectlang]}}</th> -->
+                    <th>{{langs.get('leave_doc')[selectlang]}}</th>
+                    <th>{{langs.get('worker_code')[selectlang]}}</th>
                     <th>{{langs.get('name')[selectlang]}}</th>
                     <th>{{langs.get('leavetype')[selectlang]}}</th>
                     <th>{{langs.get('fromdate')[selectlang]}}</th>
@@ -233,6 +211,8 @@
                         <p-tableCheckbox [value]="data"></p-tableCheckbox>
                     </td>
                     <!-- <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td> -->
+                    <td><span>{{langs.get('leave_doc')[selectlang]}}</span>{{data.timeleave_doc}}</td>
+                    <td><span>{{langs.get('worker_code')[selectlang]}}</span>{{data.worker_code}}</td>
                     <td><span>{{langs.get('name')[selectlang]}}</span>{{selectlang
                         =="EN"?data.worker_detail_en:data.worker_detail_th}}</td>
                     <td><span>{{langs.get('leavetype')[selectlang]}}</span>{{selectlang
@@ -249,15 +229,15 @@
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
                         date:'dd/MM/yyyy'}}</td>
-                    <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-check"
+                    <td><span>{{langs.get('approve')[selectlang]}}</span><p-button icon="pi pi-check"
                             styleClass="p-button-primary" (click)="Save(data)"
                             [disabled]="selectedtrtimeleaveall.length>0"></p-button>
                     </td>
-                    <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-times"
+                    <td><span>{{langs.get('notapprove')[selectlang]}}</span><p-button icon="pi pi-times"
                             styleClass="p-button-danger" (click)="Delete(data)"
                             [disabled]="selectedtrtimeleaveall.length>0"></p-button>
                     </td>
-                    <td><span>{{langs.get('delete')[selectlang]}}</span><p-button icon="pi pi-eye"
+                    <td><span>{{langs.get('verify')[selectlang]}}</span><p-button icon="pi pi-eye"
                             styleClass="p-button-success" (click)="viwe(data)" [disabled]="edit_data"></p-button>
                     </td>
 
@@ -266,16 +246,3 @@
         </p-table>
     </div>
 </div>
-
-
-<p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
-    <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
-            (change)="handleFileInputholidaylist($any($event).target.files)">
-    </label>
-    <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
-    </ng-template>
-</p-dialog>

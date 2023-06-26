@@ -1,0 +1,28 @@
+.formfliter{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin: 0px 15px 20px 15px;
+    
+
+    .checkselect{
+        display: grid;
+        grid-template-columns: 140px 1fr 140px 1fr;
+        align-items: baseline;
+        gap: 10px;
+
+        .leveldep{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+    .searchemp{
+        display: grid;
+        grid-template-columns: 150px 1fr 1fr ;
+        align-items: baseline;
+    }
+    
+
+}

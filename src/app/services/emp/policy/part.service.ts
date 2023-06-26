@@ -63,11 +63,9 @@ export class PartService {
       language:"",
       level_code: model.level_code
     }
-    console.log('DEP001..');
     return this.http.post<any>(this.config.ApiEmployeeModule + '/dep_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
       return message.data;
     });
   }

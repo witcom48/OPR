@@ -20,4 +20,8 @@ export class EmpTrainingModel {
 
     index: number = 0;
     select: boolean = false;
+
+    //show only
+    worker_detail_th : string = "";
+    worker_detail_en : string = "";
   }

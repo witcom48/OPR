@@ -30,7 +30,7 @@ import { AttendanceLocationComponent } from './attendance-policy/attendance-loca
 import { TimeallowanceComponent } from './attendance-policy/timeallowance/timeallowance.component';
 import { SetTimeallowanceComponent } from './attendance-policy/set-timeallowance/set-timeallowance.component';
 
-
+import { SetAttpayComponent } from './attendance-policy/set-attpay/set-attpay.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -63,6 +63,8 @@ import { SetTimeallowanceComponent } from './attendance-policy/set-timeallowance
         { path: 'policy/timeallowance', component: TimeallowanceComponent },
         { path: 'policy/settimeallowance', component: SetTimeallowanceComponent },
         { path: 'manage/changeshift', component: ChangeshiftComponent },
+
+        { path: 'policy/setattpay', component: SetAttpayComponent },
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

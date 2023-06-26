@@ -110,7 +110,7 @@ export class EmployeeListComponent implements OnInit {
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }
   }
 
@@ -168,7 +168,7 @@ export class EmployeeListComponent implements OnInit {
       this.title_emptype = "ประเภทพนักงาน";
       this.title_position = "ตำแหน่ง";
       this.title_Fname = "ชื่อ";
-      this.title_Fname = "ชื่อนามสกุล";
+      this.title_Lname = "นามสกุล";
       this.title_startdate = "วันที่เริ่มงาน";
       this.title_status = "สถานะ";
       this.title_apprdate = "วันที่อนุมัติ";
@@ -197,7 +197,7 @@ export class EmployeeListComponent implements OnInit {
     this.items = [
 
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.selectedemployee = new EmployeeModel();
@@ -208,7 +208,7 @@ export class EmployeeListComponent implements OnInit {
 
       },
       {
-        label: 'Import',
+        label: this.title_import,
         icon: 'pi pi-fw pi-file-import',
         command: (event) => {
           this.showUpload()
@@ -216,7 +216,7 @@ export class EmployeeListComponent implements OnInit {
         }
       },
       {
-        label: 'Export',
+        label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
           this.exportAsExcel()

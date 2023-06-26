@@ -16,7 +16,6 @@ $gutter: 1rem; //for primeflex grid system
 // body {
 //   overflow: hidden;
 // }
-
 i {
   font-family: 'primeicons';
   speak-as: none;
@@ -163,6 +162,13 @@ th {
   }
 }
 
+.searchtable1{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
 .tabledata {
   display: grid;
   grid-template-columns: 1fr 0fr;
@@ -209,8 +215,16 @@ th {
 
   .reqtimeot {
     width: 100%;
+
     input {
       width: 100% !important;
+    }
+  }
+
+  .searchinput {
+    min-width: 80vw;
+    ul {
+      width: 80vw;
     }
   }
 }
