@@ -91,7 +91,7 @@
         this.doLoadLanguage()
         this.doLoadMenu()
         this.doLoadGenaral()
-      }, 300);
+      }, 500);
   
       
     }
