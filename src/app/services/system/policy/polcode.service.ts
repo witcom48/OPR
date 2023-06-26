@@ -70,17 +70,29 @@ export class PolcodeService {
         // getMTPolcodeList(com_code: string, pol_type: string): Observable<any> {
         console.log('3..');
         // const parameter = '?com=' + com_code + '&type=' + pol_type;
-        return this.http.get(this.config.ApiSystemModule + '/getMTPolcode' ).pipe(map((res) => res));
+        return this.http.get(this.config.ApiSystemModule + '/getMTPolcode').pipe(map((res) => res));
     }
 
-    getNewCode(
-        com_code: string,
-        pol_type: string,
-        emptype: string
-    ): Observable<any> {
-        console.log('4..');
-        const parameter ='?com=' + com_code + '&type=' + pol_type + '&emptype=' + emptype;
-        return this.http.get(this.config.ApiSystemModule + '/getNewCode' + parameter).pipe(map((res) => res));
+    getNewCode(com_code: string, pol_type: string, emptype: string) {
+        var filter = {
+            device_name: '',
+            ip: 'localhost',
+            username: this.initial_current.Username,
+            language: '',
+            com: com_code,
+            type: pol_type,
+            emptype: emptype,
+        };
+        return this.http
+            .post<any>(
+                this.config.ApiSystemModule + '/getnewcode',
+                filter,
+                this.options
+            )
+            .toPromise()
+            .then((res) => {
+                return res;
+            });
     }
 
     getTRPolcodeList(pol_id: string): Observable<any> {
@@ -104,10 +116,11 @@ export class PolcodeService {
         return this.http
             .post<any>(
                 this.config.ApiSystemModule + '/getTRPolcode',
-                filter,this.options).toPromise().then((res) => {let message = JSON.parse(res);
-                console.log(res);
-                return message.data;
-            });
+                filter, this.options).toPromise().then((res) => {
+                    let message = JSON.parse(res);
+                    console.log(res);
+                    return message.data;
+                });
     }
 
 
@@ -175,7 +188,7 @@ export class PolcodeService {
         var para = 'fileName=' + file_name + '.' + file_type;
         para += '&token=' + this.initial_current.Token;
         para += '&by=' + this.initial_current.Username;
-        return this.http.post<any>(this.config.ApiSystemModule + '/doUploadComcard?' + para,formData).toPromise().then((res) => {
+        return this.http.post<any>(this.config.ApiSystemModule + '/doUploadComcard?' + para, formData).toPromise().then((res) => {
             return res;
         });
     }

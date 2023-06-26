@@ -19,7 +19,7 @@
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
-            <span>Process</span>
+            <span>{{title_process[initial_current.Language]}}</span>
         </ng-template>
 
         <div class="formgrid grid align-items-end">
@@ -29,22 +29,29 @@
             </div>
             <div class="provident field col-12 md:col-8">
                 <div>
-                    <label>รหัสกองทุนฯ</label>
+                    <label>{{title_pfno[initial_current.Language]}}</label>
                     <input pInputText type="text" [(ngModel)]="selectedEmpProvident.empprovident_card">
                 </div>
                 <div style="grid-column: 1/2">
-                    <label>นโยบาย</label>
-                    <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
-                        [(ngModel)]="selectedEmpProvident.provident_code"
-                        [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    <label>{{title_pf[initial_current.Language]}}</label>
+                    <p-dropdown placeholder="--" [options]="providentList" optionValue="provident_code"
+                        [showClear]="true" [(ngModel)]="selectedEmpProvident.provident_code"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
+                        </ng-template>
+                    </p-dropdown>
                 </div>
                 <div style="grid-column: 1/2">
-                    <label>วันที่เข้า</label>
+                    <label>{{title_entry[initial_current.Language]}}</label>
                     <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                         [(ngModel)]="selectedEmpProvident.empprovident_entry"><input type="text"></p-calendar>
                 </div>
                 <div>
-                    <label>วันที่เริ่ม</label>
+                    <label>{{title_startdate[initial_current.Language]}}</label>
                     <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                         [(ngModel)]="selectedEmpProvident.empprovident_start"><input type="text"></p-calendar>
                 </div>
@@ -54,27 +61,79 @@
                         [(ngModel)]="selectedEmpProvident.empprovident_end"><input type="text"></p-calendar>
                 </div> -->
             </div>
-            <div class="field col-12 md:col-6">
-                <p-button label="Process" (click)="process()"></p-button>
+            <div *ngIf="!loading" class="field col-12 md:col-6">
+                <p-button label="{{title_btnprocess[initial_current.Language]}}" (click)="process()"></p-button>
             </div>
-
+            <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
         </div>
     </p-tabPanel>
 
     <p-tabPanel>
         <ng-template pTemplate="header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
-            <span>Result</span>
+            <span>{{title_result[initial_current.Language]}}</span>
         </ng-template>
 
-        <div class="formgrid grid align-items-end">
+        <!-- <div class="formgrid grid align-items-end">
 
             <div class="field col-12">
                 <app-task></app-task>
             </div>
 
+        </div> -->
+
+        <div>
+            <p-table *ngIf="new_data==true" #dt2 [value]="setprovidentList" styleClass="p-datatable-sm"
+                [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
+                selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                [globalFilterFields]="['worker_detail','company_code','worker_code','provident_code','modified_by','modified_date']"
+
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                placeholder="Search keyword" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{title_no[initial_current.Language]}}</th>
+                        <th>{{title_code[initial_current.Language]}}</th>
+                        <th>{{title_worker[initial_current.Language]}}</th>
+                        <th>{{title_pf[initial_current.Language]}}</th>
+                        <th>{{title_modified_by[initial_current.Language]}}</th>
+                        <th>{{title_modified_date[initial_current.Language]}}</th>
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex">
+                    <tr [pSelectableRow]="data">
+                        <td>{{i+1}}</td>
+                        <td>{{data.worker_code}}</td>
+                        <td>{{initial_current.Language == "TH"? data.worker_detail_th:data.worker_detail_en}}</td>
+                        <!-- <td>{{data.worker_detail}}</td> -->
+                        <td>{{data.provident_code}}</td>
+                        <td>{{data.modified_by}}</td>
+                        <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
+                        <!-- <td>
+                            <button *ngIf="new_data==true" pButton type="button" class="pi pi-trash p-button-danger" (click)="Delete(data)"></button>
+                        </td> -->
+                    </tr>
+                </ng-template>
+
+            </p-table>
         </div>
 
     </p-tabPanel>
 
 </p-tabView>
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

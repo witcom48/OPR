@@ -51,7 +51,7 @@ export class SystemQualificationComponent implements OnInit {
     doGetInitialCurrent(){
       this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
       if (!this.initial_current) {
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('login');
       }
     }
 title_system:string = "System";
@@ -89,7 +89,7 @@ title_system:string = "System";
       if(this.initial_current.Language == "TH"){
         this.title_system= "ระบบ";
         this.title_genaral= "ทั่วไป";
-        this.title_page = "ข้อมูลสถานะพนักงาน";
+        this.title_page = "คุณสมบัติ";
         this.title_new = "เพิ่ม";
         this.title_edit = "แก้ไข";
         this.title_delete = "ลบ";
@@ -97,8 +97,8 @@ title_system:string = "System";
         this.title_export = "โอนออก";
         this.title_save = "บันทึก";
         this.title_code = "รหัส";
-        this.title_name_th = "รายละเอียด(Thai)";
-        this.title_name_en = "รายละเอียด(Eng)";
+        this.title_name_th = "รายละเอียด(ไทย)";
+        this.title_name_en = "รายละเอียด(อังกฤษ)";
         this.title_detail = "รายละเอียด";
         this.title_modified_by = "ผู้ทำรายการ";
         this.title_modified_date = "วันที่ทำรายการ";

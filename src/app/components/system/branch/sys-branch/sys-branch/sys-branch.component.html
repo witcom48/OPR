@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <p-menubar [model]="toolbar_menu"></p-menubar>
-<p-card header="Branch" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+<p-card header="{{title_branch}}" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
     <div class="grid">
         <div class="col-12 md:col-9">
             <p-tabView (onChange)="tabChange($event)">
@@ -232,7 +232,7 @@
                         </div>
                         
                         <!-- card -->
-                        <div class="field col-12">
+                        <!-- <div class="field col-12">
                             <p-accordion>
                                 <p-accordionTab header="{{title_card}}">
                                     <p-menubar [model]="menu_comcard"></p-menubar>
@@ -266,7 +266,7 @@
                                     </p-table>
                                 </p-accordionTab>
                             </p-accordion>
-                        </div>
+                        </div> -->
 
 
 

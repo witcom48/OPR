@@ -20,7 +20,7 @@
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
-            <span>Process</span>
+            <span>{{title_process[initial_current.Language]}}</span>
         </ng-template>
 
         <div class="formgrid grid align-items-end">
@@ -30,53 +30,61 @@
             </div>
             <div class="benefits field col-12 md:col-7">
                 <div>
-                    <label>วันที่เริ่ม</label>
+                    <label>{{title_startdate[initial_current.Language]}}</label>
                     <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                         [(ngModel)]="selectedEmpBenefits.empbenefit_startdate"><input type="text"></p-calendar>
                 </div>
                 <div>
-                    <label>วันที่สิ้นสุด</label>
+                    <label>{{title_enddate[initial_current.Language]}}</label>
                     <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                         [(ngModel)]="selectedEmpBenefits.empbenefit_enddate"><input type="text"></p-calendar>
                 </div>
                 <div class="item">
-                    <label>เงินได้/เงินหัก</label>
-                    <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
-                        [(ngModel)]="selectedEmpBenefits.item_code"
-                        [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    <label>{{title_incomededuct[initial_current.Language]}}</label>
+                    <p-dropdown placeholder="--" [options]="itemList" optionValue="item_code"
+                        [showClear]="true" [(ngModel)]="selectedEmpBenefits.item_code"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                        </ng-template>
+                    </p-dropdown>
                 </div>
                 <div>
-                    <label>จำนวน</label>
+                    <label>{{title_amount[initial_current.Language]}}</label>
                     <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
                         [maxFractionDigits]="2" [(ngModel)]="selectedEmpBenefits.empbenefit_amount">
                     </p-inputNumber>
                 </div>
                 <div style="grid-column: 1/3;">
-                    <label>ประเภท</label>
+                    <label>{{title_type[initial_current.Language]}}</label>
                     <div class="radio">
                         <p-radioButton name="benefit_paytype" value="A"
                             [(ngModel)]="selectedEmpBenefits.empbenefit_paytype"></p-radioButton>&nbsp;
-                        <label>เต็มจำนวน</label>
+                        <label>{{title_fullamount[initial_current.Language]}}</label>
                         &nbsp;&nbsp;
                         <p-radioButton name="benefit_paytype" value="D"
                             [(ngModel)]="selectedEmpBenefits.empbenefit_paytype"></p-radioButton>&nbsp;
-                        <label>ตามวันที่ทำงาน</label>
+                        <label>{{title_byday[initial_current.Language]}}</label>
                     </div>
                 </div>
                 <div>
-                    <label>เหตุผล</label>
+                    <label>{{title_reason[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
                         [(ngModel)]="selectedEmpBenefits.empbenefit_reason"
                         [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                 </div>
                 <div style="grid-column: 1/2;">
-                    <label>เพิ่มเติม</label>
+                    <label>{{title_note[initial_current.Language]}}</label>
                     <textarea [(ngModel)]="selectedEmpBenefits.empbenefit_note" pInputTextarea></textarea>
                 </div>
             </div>
-            <div class="field col-12 md:col-6">
-                <p-button label="Process" (click)="process()"></p-button>
+            <div *ngIf="!loading" class="field col-12 md:col-6">
+                <p-button label="{{title_btnprocess[initial_current.Language]}}" (click)="process()"></p-button>
             </div>
+            <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
 
         </div>
     </p-tabPanel>
@@ -84,15 +92,61 @@
     <p-tabPanel>
         <ng-template pTemplate="header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
-            <span>Result</span>
+            <span>{{title_result[initial_current.Language]}}</span>
         </ng-template>
 
-        <div class="formgrid grid align-items-end">
+        <!-- <div class="formgrid grid align-items-end">
 
             <div class="field col-12">
                 <app-task></app-task>
             </div>
 
+        </div> -->
+
+        <div>
+            <p-table *ngIf="new_data==true" #dt2 [value]="setbenefitList" styleClass="p-datatable-sm"
+                [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
+                selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                [globalFilterFields]="['worker_detail','company_code','worker_code','item_code','modified_by','modified_date']"
+
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                placeholder="Search keyword" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{title_no[initial_current.Language]}}</th>
+                        <th>{{title_code[initial_current.Language]}}</th>
+                        <th>{{title_worker[initial_current.Language]}}</th>
+                        <th>{{title_incomededuct[initial_current.Language]}}</th>
+                        <th>{{title_modified_by[initial_current.Language]}}</th>
+                        <th>{{title_modified_date[initial_current.Language]}}</th>
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex">
+                    <tr [pSelectableRow]="data">
+                        <td>{{i+1}}</td>
+                        <td>{{data.worker_code}}</td>
+                        <td>{{initial_current.Language == "TH"? data.worker_detail_th:data.worker_detail_en}}</td>
+                        <!-- <td>{{data.worker_detail}}</td> -->
+                        <td>{{data.item_code}}</td>
+                        <td>{{data.modified_by}}</td>
+                        <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
+                        <!-- <td>
+                            <button *ngIf="new_data==true" pButton type="button" class="pi pi-trash p-button-danger" (click)="Delete(data)"></button>
+                        </td> -->
+                    </tr>
+                </ng-template>
+
+            </p-table>
         </div>
 
     </p-tabPanel>

@@ -99,6 +99,7 @@ export class CompanysComponent implements OnInit {
 
         setTimeout(() => {
             this.doLoadMenu();
+            this.doLoadLanguage();
         }, 100);
 
         setTimeout(() => {
@@ -114,11 +115,11 @@ export class CompanysComponent implements OnInit {
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
 
-    title_page: string = 'company';
+    title_page_Company: string = 'Company';
     title_new: string = 'New';
     title_edit: string = 'Edit';
     title_delete: string = 'Delete';
@@ -126,7 +127,7 @@ export class CompanysComponent implements OnInit {
     title_export: string = 'Export';
     title_save: string = 'Save';
     title_code: string = 'Code';
-
+    title_back: string = 'ฺBack';
     title_codes: string = 'Code';
     title_initials: string = 'Initials';
     title_thai_name: string = 'Name (Thai)';
@@ -208,6 +209,9 @@ export class CompanysComponent implements OnInit {
 
     title_tranfer: string = 'Tranfer record';
 
+    title_address_th = 'Address (Thai)';
+    title_address_en = 'Address (Eng)';
+
     title_modified_by: string = 'Edit by';
     title_modified_date: string = 'Edit date';
     title_search: string = 'Search';
@@ -225,7 +229,7 @@ export class CompanysComponent implements OnInit {
     title_confirm_no: string = 'No';
 
     title_confirm_cancel: string = 'You have cancelled';
-
+ 
     title_address_type: string = 'Type';
     title_address_no: string = 'No';
     title_address_moo: string = 'moo';
@@ -243,14 +247,14 @@ export class CompanysComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_page = 'ข้อมูลสถานที่ปฎิบัติงาน';
+            this.title_page_Company = 'ข้อมูลบริษัท';
             this.title_new = 'เพิ่ม';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';
             this.title_export = 'โอนออก';
             this.title_save = 'บันทึก';
-
+            this.title_back= 'กลับ';
             this.title_codes ='รหัสบริษัท';
             this.title_initials ='ชื่อย่อ';
             this.title_thai_name ='ชื่อไทย';
@@ -352,6 +356,11 @@ export class CompanysComponent implements OnInit {
             this.title_confirm_no = 'ยกเลิก';
             this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
 
+            this.title_address_th = 'ที่อยู่(ไทย)';
+            this.title_address_en = 'ที่อยู่(อังกฤษ)';
+
+             
+           
             this.title_address_type= 'ประเภท';
             this.title_address_no = 'เลขที่';
             this.title_address_moo= 'หมู่ที่';
@@ -373,14 +382,14 @@ export class CompanysComponent implements OnInit {
         //menumain
         this.toolbar_menu = [
             {
-                label: 'Back',
+                label: this.title_back,
                 icon: 'pi-arrow-left',
                 command: (event) => {
                     this.router.navigateByUrl('system/company');
                 },
             },
             {
-                label: 'Save',
+                label:this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
                     console.log('Save');
@@ -392,7 +401,7 @@ export class CompanysComponent implements OnInit {
         //menu card
         this.menu_comcard = [
             {
-                label: 'New',
+                label:this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.clearManage();
@@ -404,7 +413,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: 'Edit',
+                label: this.title_edit ,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     this.clearManage();
@@ -415,7 +424,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: 'Delete',
+                label: this.title_delete ,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedComcard != null) {
@@ -424,12 +433,12 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: 'Import',
+                label: this.title_import ,
                 icon: 'pi pi-fw pi-file-import',
                 command: (event) => {},
             },
             {
-                label: 'Export',
+                label: this.title_export ,
                 icon: 'pi pi-fw pi-file-export',
                 command: (event) => {},
             },
@@ -437,7 +446,7 @@ export class CompanysComponent implements OnInit {
         //menu bank
         this.menu_combank = [
             {
-                label: 'New',
+               label:this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.clearManage();
@@ -449,7 +458,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: 'Edit',
+                label: this.title_edit ,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     this.clearManage();
@@ -460,7 +469,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: 'Delete',
+                label: this.title_delete ,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedCombank != null) {
@@ -469,12 +478,12 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: 'Import',
+                 label: this.title_import ,
                 icon: 'pi pi-fw pi-file-import',
                 command: (event) => {},
             },
             {
-                label: 'Export',
+                label: this.title_export ,
                 icon: 'pi pi-fw pi-file-export',
                 command: (event) => {},
             },

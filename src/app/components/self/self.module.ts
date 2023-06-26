@@ -60,6 +60,13 @@ import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
 import { SelfTopicComponent } from './self-topic/self-topic.component';
 import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
 import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-leave.component';
+import { SelfApproveShiftComponent } from './self-approve-shift/self-approve-shift.component';
+import { SelfApproveOvertimeComponent } from './self-approve-overtime/self-approve-overtime.component';
+import { SelfApproveRecordtimeComponent } from './self-approve-recordtime/self-approve-recordtime.component';
+import { SelfApproveDaytypeComponent } from './self-approve-daytype/self-approve-daytype.component';
+import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve-checkin.component';
+import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-reqdoc.component';
+import { SelfApproveComponent } from './self-approve/self-approve.component';
 
 @NgModule({
 	imports: [
@@ -129,7 +136,14 @@ import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-lea
               SelfCheckinComponent,
               SelfTopicComponent,
               SelfReqdocComponent,
-              SelfApproveLeaveComponent
+              SelfApproveLeaveComponent,
+              SelfApproveShiftComponent,
+              SelfApproveOvertimeComponent,
+              SelfApproveRecordtimeComponent,
+              SelfApproveDaytypeComponent,
+              SelfApproveCheckinComponent,
+              SelfApproveReqdocComponent,
+              SelfApproveComponent
   ]
 })
 export class SelfModule { }

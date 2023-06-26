@@ -56,13 +56,15 @@ export class BranchComponent implements OnInit {
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
     title_codes: string = 'Code';
     title_social_security_branch: string = 'Social Security Branch';
     title_name: string = 'Name';
     title_english_name: string = 'Name (Eng)';
+    title_system:string = "System";
+    title_manage: string = 'Manage';
 
     title_page: string = 'combranch';
     title_num_emp: string = 'combranch';
@@ -107,8 +109,10 @@ export class BranchComponent implements OnInit {
             this.title_social_security_branch ='สาขาประกันสังคม'
             this.title_name ='ชื่อสาขา';
             this.title_english_name ='ชื่ออังกฤษ';
-            
-            this.title_page = 'ข้อมูลพนักงาน';
+            this.title_system= "ระบบ";
+            this.title_manage='จัดการ';
+
+            this.title_page = 'ข้อมูลสาขา';
             this.title_num_emp = 'จำนวนพนักงาน';
             this.title_new_emp = 'พนักงานใหม่';
             this.title_resign_emp = 'พนักงานลาออก';
@@ -150,7 +154,7 @@ export class BranchComponent implements OnInit {
     doLoadMenu() {
         this.items = [
             {
-                label: 'New',
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.selectedcombranch = new CombranchModel();
@@ -158,14 +162,14 @@ export class BranchComponent implements OnInit {
                 },
             },
             {
-                label: 'Import',
+                label: this.title_import,
                 icon: 'pi pi-fw pi-file-import',
                 command: (event) => {
                     this.showUpload();
                 },
             },
             {
-                label: 'Export',
+                label: this.title_export,
                 icon: 'pi pi-fw pi-file-export',
                 command: (event) => {
                     this.exportAsExcel();

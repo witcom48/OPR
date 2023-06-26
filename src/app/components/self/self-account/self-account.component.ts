@@ -71,7 +71,7 @@ export class SelfAccountComponent implements OnInit {
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
   }
@@ -305,8 +305,9 @@ export class SelfAccountComponent implements OnInit {
         company_code: this.initial_current.CompCode,
         account_user: this.selectedAccount.account_user,
         account_type: this.selectuserType.code,
-        worker_code: obj.worker_code
-
+        worker_code: obj.worker_code,
+        worker_detail_th: obj.worker_fname_en,
+        worker_detail_en: obj.worker_fname_en
       })
     })
     this.doRecordAccout(this.selectedAccount)

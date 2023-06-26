@@ -1,0 +1,215 @@
+<!-- Link Page -->
+<div class="path">
+    <span>{{langs.get('title')[selectlang]}}</span>
+    <div>
+        <i></i>
+        <a routerLink="/self/approve">{{langs.get('employee')[selectlang]}}</a>
+        <i></i>
+        <small>{{langs.get('title_req')[selectlang]}}</small>
+    </div>
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<div class="grid">
+    <div class="col-12">
+        <!-- <p-menubar [model]="items"></p-menubar> --> <p-toolbar styleClass="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <div style="display: flex;gap: 10px;">
+                    <p-button label="{{langs.get('approve')[selectlang]}}" icon="pi pi-check"
+                        styleClass="p-button-primary" (click)="Saveall()"
+                        [disabled]="selectedreqdocall.length==0"></p-button>
+                    <p-button label="{{langs.get('notapprove')[selectlang]}}" icon="pi pi-times"
+                        styleClass="p-button-danger" (click)="Deleteall()"
+                        [disabled]="selectedreqdocall.length==0"></p-button>
+                </div>
+            </ng-template>
+        </p-toolbar>
+
+        <p-table #dt1 [value]="reqdoc_list" selectionMode="single" [(selection)]="selectedreqdocall"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['reqdoc_doc','reqdoc_date','status_job','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 4rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th>{{langs.get('reqdoc_doc')[selectlang]}}</th>
+                    <th>{{langs.get('worker_code')[selectlang]}}</th>
+                    <th>{{langs.get('name')[selectlang]}}</th>
+                    <th>{{langs.get('date')[selectlang]}}</th>
+                    <th>{{langs.get('modified_by')[selectlang]}}</th>
+                    <th>{{langs.get('modified_date')[selectlang]}}</th>
+                    <th>{{langs.get('approve')[selectlang]}}</th>
+                    <th>{{langs.get('notapprove')[selectlang]}}</th>
+                    <th>{{langs.get('verify')[selectlang]}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr class="tablenotselect">
+                    <td>
+                        <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                    </td>
+                    <td><span>{{langs.get('reqdoc_doc')[selectlang]}}</span>{{data.reqdoc_doc}}</td>
+                    <td><span>{{langs.get('worker_code')[selectlang]}}</span>{{data.worker_code}}</td>
+                    <td><span>{{langs.get('name')[selectlang]}}</span>{{selectlang
+                        =="EN"?data.worker_detail_en:data.worker_detail_th}}</td>
+                    <td><span>{{langs.get('date')[selectlang]}}</span>{{data.reqdoc_date| date:'dd/MM/yyyy'}}
+                    </td>
+                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{langs.get('approve')[selectlang]}}</span><p-button icon="pi pi-check"
+                            styleClass="p-button-primary" (click)="Save(data)"
+                            [disabled]="selectedreqdocall.length>0"></p-button>
+                    </td>
+                    <td><span>{{langs.get('notapprove')[selectlang]}}</span><p-button icon="pi pi-times"
+                            styleClass="p-button-danger" (click)="Delete(data)"
+                            [disabled]="selectedreqdocall.length>0"></p-button>
+                    </td>
+                    <td><span>{{langs.get('verify')[selectlang]}}</span><p-button icon="pi pi-eye"
+                            styleClass="p-button-success" (click)="viwe(data)"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<p-dialog header="{{langs.get('manage')[selectlang]}}" [(visible)]="displayManage" [style]="{width: '50vw'}"
+    [position]="position" (onHide)="closeManage()">
+    <div class="formgrid grid align-items-end">
+
+
+        <div class="field col-12 md:col-6" style="margin-top: 2%;">
+            <p-calendar [(ngModel)]="selectedreqdoc.reqdoc_date" dateFormat="dd/mm/yy" inputId="date_from"
+                [disabled]="edit_data"></p-calendar>
+        </div>
+        <div class="field col-12" style="display:flex;flex-direction: column;">
+            <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
+            <textarea [(ngModel)]="selectedreqdoc.reqdoc_note" pInputTextarea [autoResize]="true"  [disabled]="edit_data"></textarea>
+        </div>
+        <div class="field col-12">
+            <label style="font-weight: bold;" for="project_name_th">{{langs.get('topic')[selectlang]}}</label>
+            <!-- <p-menubar [model]="items_attinfo"></p-menubar> -->
+            <p-table #dt3 [value]="selectedreqdoc.reqempinfo_data" selectionMode="single"
+                [(selection)]="selectedreqdocinfo" (onRowSelect)="onRowSelecttopic($event)" [rows]="10"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                [globalFilterFields]="['document_name','created_by','created_date']" responsiveLayout="stack"
+                [breakpoint]="'744px'">
+                <!-- Form Search Table -->
+                <ng-template pTemplate="caption">
+                    <div class="searchtable">
+                        <div>
+
+                        </div>
+
+                    </div>
+                </ng-template>
+                <!-- --------------END Form Search Table------------------ -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>{{langs.get('no')[selectlang]}}</th>
+                        <th>{{langs.get('topic')[selectlang]}}</th>
+                        <th>{{langs.get('description')[selectlang]}}</th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                    <tr class="tablenotselect">
+                        <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                        <td><span>{{langs.get('topic')[selectlang]}}</span>{{getTopicname(data.topic_code)}}</td>
+                        <td><span>{{langs.get('description')[selectlang]}}</span>{{data.reqempinfo_detail}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="field col-12">
+            <label style="font-weight: bold;" for="project_name_th">{{langs.get('file')[selectlang]}}</label>
+            <!-- <p-menubar [model]="items_attfile"></p-menubar> -->
+            <p-table #dt3 [value]="selectedreqdoc.reqdocatt_data" selectionMode="single"
+                [(selection)]="selectedreqdocfile" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                [globalFilterFields]="['reqdoc_att_file_name','created_by','created_date']" responsiveLayout="stack"
+                [breakpoint]="'744px'">
+                <!-- Form Search Table -->
+                <ng-template pTemplate="caption">
+                    <div class="searchtable">
+                        <div>
+
+                        </div>
+
+                    </div>
+                </ng-template>
+                <!-- --------------END Form Search Table------------------ -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>{{langs.get('no')[selectlang]}}</th>
+                        <th>{{langs.get('file_name')[selectlang]}}</th>
+                        <th>{{langs.get('modified_by')[selectlang]}}</th>
+                        <th>{{langs.get('modified_date')[selectlang]}}</th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                    <tr [pSelectableRow]="data">
+                        <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                        <td><span>{{langs.get('file_name')[selectlang]}}</span>{{data.reqdoc_att_file_name}}</td>
+                        <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.created_by}}</td>
+                        <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.created_date |
+                            date:'dd/MM/yyyy'}}</td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div class="field col-12">
+            <p-button label="{{langs.get('approve')[selectlang]}}" icon="pi pi-check"
+                (click)="Save(selectedreqdoc)"></p-button>
+            &nbsp;
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('notapprove')[selectlang]}}"
+                class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedreqdoc)"></button>
+        </div>
+
+    </div>
+</p-dialog>
+<p-dialog header="{{langs.get('topic')[selectlang]}}" [(visible)]="Uploadinfo" [style]="{width: '50vw'}"
+    (onHide)="closeManageinfo()">
+    <div class="formgrid grid align-items-end">
+
+        <div class="field col-12">
+            <label for="ppos_shift_code">{{langs.get('type')[selectlang]}}</label>
+            <p-dropdown class="selectyaer" [options]="topic_list" [(ngModel)]="selectedtopic" (onChange)="selecttopic()"
+                optionLabel={{topicdis}}></p-dropdown>
+        </div>
+
+        <div class="field col-12" style="display:flex;flex-direction: column;">
+            <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
+            <textarea [(ngModel)]="selectedreqdocinfo.reqempinfo_detail" pInputTextarea [autoResize]="true"></textarea>
+        </div>
+        <div class="field col-12">
+            <p-button label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Saveinfo()"></p-button>
+            &nbsp;
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('delete')[selectlang]}}"
+                class="p-button-danger" (click)="Deleteinfo()"></button>
+        </div>
+
+    </div>
+</p-dialog>

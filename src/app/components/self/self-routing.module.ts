@@ -16,6 +16,13 @@ import { SelfCheckinComponent } from './self-checkin/self-checkin.component';
 import { SelfTopicComponent } from './self-topic/self-topic.component';
 import { SelfReqdocComponent } from './self-reqdoc/self-reqdoc.component';
 import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-leave.component';
+import { SelfApproveShiftComponent } from './self-approve-shift/self-approve-shift.component';
+import { SelfApproveOvertimeComponent } from './self-approve-overtime/self-approve-overtime.component';
+import { SelfApproveRecordtimeComponent } from './self-approve-recordtime/self-approve-recordtime.component';
+import { SelfApproveDaytypeComponent } from './self-approve-daytype/self-approve-daytype.component';
+import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve-checkin.component';
+import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-reqdoc.component';
+import { SelfApproveComponent } from './self-approve/self-approve.component';
 
 
 @NgModule({
@@ -38,7 +45,14 @@ import { SelfApproveLeaveComponent } from './self-approve-leave/self-approve-lea
         { path: 'req_checkin', component: SelfCheckinComponent },
         { path: 'req_reqdoc', component: SelfReqdocComponent },
 
+        { path: 'approve', component: SelfApproveComponent },
         { path: 'approve_leave', component: SelfApproveLeaveComponent },
+        { path: 'approve_shift', component: SelfApproveShiftComponent },
+        { path: 'approve_overtime', component: SelfApproveOvertimeComponent },
+        { path: 'approve_daytype', component: SelfApproveDaytypeComponent },
+        { path: 'approve_record', component: SelfApproveRecordtimeComponent },
+        { path: 'approve_checkin', component: SelfApproveCheckinComponent },
+        { path: 'approve_reqdoc', component: SelfApproveReqdocComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }

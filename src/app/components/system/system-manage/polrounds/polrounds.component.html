@@ -1,0 +1,294 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<!-- <app-companys></app-companys> -->
+
+<!-- <app-system-bankaccount></app-system-bankaccount> -->
+<div class="path">
+    <span>{{title_system[initial_current.Language]}}</span>
+    <div>
+        <i></i>
+        <a routerLink="/system/sys-manage">{{title_tab_Manage[initial_current.Language]}}</a>
+        <i></i>
+        <small>{{title_tab_Pol[initial_current.Language]}}</small>
+    </div>
+</div>
+<hr />
+
+<div class=" grid  field col-12 md:col-9 ">
+    <div class=" field col-12 md:col-12  ">
+        <label class="font">{{title_tab_Currency[initial_current.Language]}}</label>
+    </div>
+
+    <div class="field col-12 md:col-6  center">
+        <label>{{title_tab_PF[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]="selectedPF"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' } ">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :item.rounds_name_en}}
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_OTDAY[initial_current.Language]}} </label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedOTDAY"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_SSO[initial_current.Language]}} </label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedSSO"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-6 center">
+        <label> {{title_tab_OTSUM[initial_current.Language]}} </label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedOTSUM"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_TAX[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedTAX"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_WDAY[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedWDAY"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_AB[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedAB"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_WSUM[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedWSUM"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_LV[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selecteLV"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_NP[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selecteNP"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-12 expand ">
+        <label>{{title_tab_LT[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selecteLT"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th :
+                item.rounds_name_en}}
+
+            </ng-template>
+        </p-dropdown><br>
+        <br />
+        
+    </div>
+
+     
+    <div class=" field col-12 md:col-12  ">
+        <label class="font">{{title_tab_TitleTime[initial_current.Language]}}</label>
+    </div>
+
+    <div class="field col-12 md:col-6  center">
+        <label>{{title_tab_TLT[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="rounds_list" optionValue="rounds_code" [(ngModel)]=" selecteTLT"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_TOT[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="rounds_list" optionValue="rounds_code" [(ngModel)]=" selecteTOT"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_TLV[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="rounds_list" optionValue="rounds_code" [(ngModel)]=" selecteTLV"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-6 center">
+        <label>{{title_tab_TWK[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="rounds_list" optionValue="rounds_code" [(ngModel)]=" selecteTWK"
+            [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
+                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+            </ng-template>
+        </p-dropdown>
+    </div>
+    <div class="field col-12 md:col-6 center"></div><br><br />
+    <div class="field col-12 md:col-12 ">
+        <button pButton type="button" label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+    </div>
+</div>
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"  key="myDialog" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>

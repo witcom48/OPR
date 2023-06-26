@@ -26,7 +26,7 @@
         selectionMode="single" [(selection)]="selectedAddresstype" (onRowSelect)="onRowSelectAddresstype($event)" [rows]="12"
         [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
         currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['family_code','family_name_th','family_name_en']">
+        [globalFilterFields]="['addresstype_code','addresstype_name_th','addresstype_name_en']">
         <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">

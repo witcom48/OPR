@@ -52,7 +52,7 @@ export class TaskComponent implements OnInit {
   doGetInitialCurrent(){    
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }       
   }
 

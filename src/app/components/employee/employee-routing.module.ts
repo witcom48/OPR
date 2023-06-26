@@ -20,6 +20,7 @@ import { EmpsetbenefitsComponent } from './employee-policy/setup-batch/empsetben
 import { EmployeePartComponent } from './employee-policy/genaral/employee-part/employee-part.component';
 import { EmployeePositionComponent } from './employee-policy/genaral/employee-position/employee-position.component';
 import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group/employee-group.component';
+import { EmpsettrainingComponent } from './employee-policy/setup-batch/empsettraining/empsettraining.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -40,6 +41,7 @@ import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group
         //policy/batch
         { path: 'policy/batch/empposition',component:EmpsetpositionComponent},
         { path: 'policy/batch/empdep',component:EmpsetdepComponent},
+        { path: 'policy/batch/emptraining',component:EmpsettrainingComponent},
         { path: 'policy/batch/empsalary', component:EmpsetsalaryComponent},
         { path: 'policy/batch/empgroup', component:EmpsetgroupComponent},
         { path: 'policy/batch/emplocation', component:EmpsetlocationComponent},

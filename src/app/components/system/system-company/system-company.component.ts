@@ -67,7 +67,7 @@ export class SystemCompanyComponent implements OnInit {
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
     title_codes: string = 'Code';
@@ -75,7 +75,9 @@ export class SystemCompanyComponent implements OnInit {
     title_initials: string = 'Initials';
     title_thai_name: string = 'Name (Thai)';
     title_english_name: string = 'Name (Eng)';
+    title_manage: string = 'Manage';
 
+    title_system:string = "System";
     title_page: string = 'Company';
     title_num_emp: string = 'Company';
     title_new_emp: string = 'New';
@@ -115,17 +117,18 @@ export class SystemCompanyComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-
+            this.title_manage='จัดการ';
             this.title_codes ='รหัสบริษัท';
             this.title_name ='ชื่อบริษัท';
             this.title_initials ='ชื่อย่อ';
             this.title_thai_name ='ชื่อไทย';
             this.title_english_name ='ชื่ออังกฤษ';
-
-            this.title_page = 'ข้อมูลพนักงาน';
+            this.title_system= "ระบบ";
+            this.title_page = 'ข้อมูลบริษัท';
             this.title_num_emp = 'จำนวนพนักงาน';
             this.title_new_emp = 'พนักงานใหม่';
             this.title_resign_emp = 'พนักงานลาออก';
+
             this.title_new = 'เพิ่ม';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
@@ -164,7 +167,7 @@ export class SystemCompanyComponent implements OnInit {
     doLoadMenu() {
         this.items = [
             {
-                label: 'New',
+                label:this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.selectedcompany = new CompanyModel();
@@ -172,14 +175,14 @@ export class SystemCompanyComponent implements OnInit {
                 },
             },
             {
-                label: 'Import',
+                label:this.title_import,
                 icon: 'pi pi-fw pi-file-import',
                 command: (event) => {
                     this.showUpload();
                 },
             },
             {
-                label: 'Export',
+                label:this.title_export,
                 icon: 'pi pi-fw pi-file-export',
                 command: (event) => {
                     this.exportAsExcel();

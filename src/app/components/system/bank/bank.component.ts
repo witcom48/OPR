@@ -53,7 +53,7 @@ export class BankComponent implements OnInit {
   doGetInitialCurrent(){
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }
   }
   title_system:string = "System";
@@ -228,9 +228,9 @@ export class BankComponent implements OnInit {
     this.new_data=false
     this.selectedBank = new BankModel()
   }
-  onRowSelectBank(event: Event) {
+  onRowSelectBank(event: any) {
     this.edit_data= true;
-    this.new_data= false;
+    this.new_data= true;
   }
 
 

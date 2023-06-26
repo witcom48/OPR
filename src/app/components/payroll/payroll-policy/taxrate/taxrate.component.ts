@@ -54,7 +54,7 @@ export class TaxrateComponent implements OnInit {
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
     title_payroll: string = 'Payroll';
