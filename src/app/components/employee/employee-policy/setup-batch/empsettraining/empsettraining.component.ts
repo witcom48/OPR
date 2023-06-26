@@ -5,9 +5,13 @@ import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/se
 import { TaskComponent } from 'src/app/components/usercontrol/task/task.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
-import { EmpSalaryModel } from 'src/app/models/employee/manage/salary';
-import { SetSalaryModel } from 'src/app/models/employee/policy/batch/setsalary';
+import { EmpTrainingModel } from 'src/app/models/employee/manage/training';
+import { SetTrainingModel } from 'src/app/models/employee/policy/batch/settraining';
+import { CourseModel } from 'src/app/models/system/policy/course';
+import { InstituteModel } from 'src/app/models/system/policy/institute';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
+import { CourseService } from 'src/app/services/system/policy/course.service';
+import { InstituteService } from 'src/app/services/system/policy/institute.service';
 import { TaskService } from 'src/app/services/task.service';
 
 interface Policy {
@@ -22,11 +26,11 @@ interface Result {
 }
 
 @Component({
-  selector: 'app-empsetsalary',
-  templateUrl: './empsetsalary.component.html',
-  styleUrls: ['./empsetsalary.component.scss']
+  selector: 'app-empsettraining',
+  templateUrl: './empsettraining.component.html',
+  styleUrls: ['./empsettraining.component.scss']
 })
-export class EmpsetsalaryComponent implements OnInit {
+export class EmpsettrainingComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
@@ -35,12 +39,16 @@ export class EmpsetsalaryComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
-  title_incbath: { [key: string]: string } = { EN: "Increment(Bath)", TH: "อัตราปรับ(บาท)" };
-  title_incper: { [key: string]: string } = { EN: "Increment(%)", TH: "อัตราปรับ(%)" };
-  title_quality: { [key: string]: string } = { EN: "Quality", TH: "จำนวน" };
-  title_amount: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" };
-  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
-  title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
+  title_course: { [key: string]: string } = { EN: "Course", TH: "หลักสูตร" };
+  title_coursestatus: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
+  title_coursehour: { [key: string]: string } = { EN: "Hour", TH: "ชั่วโมง" };
+  title_institute: { [key: string]: string } = { EN: "Institute", TH: "สถานบัน/สถานที่" };
+  title_startdate: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
+  title_graduationdate: { [key: string]: string } = { EN: "Graduation Date", TH: "วันที่จบ" };
+  title_pass: { [key: string]: string } = { EN: "Pass", TH: "ผ่าน" };
+  title_notpass: { [key: string]: string } = { EN: "Not Pass", TH: "ไม่ผ่าน" };
+  title_cost: { [key: string]: string } = { EN: "Cost", TH: "ค่าใช้จ่าย" };
+  title_note: { [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
   title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
@@ -53,9 +61,6 @@ export class EmpsetsalaryComponent implements OnInit {
   title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
-
-  title_submit: string = "Submit";
-  title_cancel: string = "Cancel";
 
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
@@ -70,61 +75,86 @@ export class EmpsetsalaryComponent implements OnInit {
     private taskService: TaskService,
     private router: Router,
     private setempdetailService: SetEmpDetailService,
+
+    private instituteService: InstituteService,
+    private courseService: CourseService,
   ) { }
 
   new_data: boolean = false;
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
+
+    this.doLoadcourseList();
+    this.doLoadinstituteList();
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
-      this.router.navigateByUrl('login');
+      this.router.navigateByUrl('');
     }
   }
 
+  //dropdown
+  //Institite
+  instituteList: InstituteModel[] = [];
+  doLoadinstituteList() {
+    this.instituteService.institute_get().then((res) => {
+      this.instituteList = res;
+    });
+  }
+  // Course
+  courseList: CourseModel[] = [];
+  doLoadcourseList() {
+    this.courseService.course_get().then((res) => {
+      this.courseList = res;
+    });
+  }
 
-  selectedEmpSalary: EmpSalaryModel = new EmpSalaryModel();
-  empsalaryList: EmpSalaryModel[] = [];
+  selectedEmptraining: EmpTrainingModel = new EmpTrainingModel();
+  emptrainingList: EmpTrainingModel[] = [];
 
-  setsalaryList: SetSalaryModel[] = [];
-  doLoadsalaryList() {
-    this.setsalaryList = [];
-    var tmp = new SetSalaryModel();
-    tmp.empsalary_amount = this.selectedEmpSalary.empsalary_amount;
-    tmp.empsalary_date = this.selectedEmpSalary.empsalary_date;
-    this.setempdetailService.SetSalary_get(tmp).then(async (res) => {
-      this.setsalaryList = await res;
+  settrainingList: SetTrainingModel[] = [];
+  doLoadtrainingList() {
+    this.settrainingList = [];
+    var tmp = new SetTrainingModel();
+    tmp.course_code = this.selectedEmptraining.course_code
+    this.setempdetailService.SetTraining_get(tmp).then(async (res) => {
+      this.settrainingList = await res;
     });
   }
 
   process() {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
-      this.Setbatchsalary();
+      this.Setbatchtraining();
     }
   }
 
-  async Setbatchsalary() {
-    var data = new SetSalaryModel();
-    data.empsalary_amount = this.selectedEmpSalary.empsalary_amount;
-    data.empsalary_incamount = this.selectedEmpSalary.empsalary_incamount;
-    data.empsalary_incpercent = this.selectedEmpSalary.empsalary_incpercent;
-    data.empsalary_date = this.selectedEmpSalary.empsalary_date;
-    data.empsalary_reason = this.selectedEmpSalary.empsalary_reason;
+  async Setbatchtraining() {
+    var data = new SetTrainingModel();
+    data.institute_code = this.selectedEmptraining.institute_code;
+    data.institute_other = this.selectedEmptraining.institute_other;
+    data.course_code = this.selectedEmptraining.course_code;
+    data.course_other = this.selectedEmptraining.course_other;
+    data.emptraining_start = this.selectedEmptraining.emptraining_start;
+    data.emptraining_finish = this.selectedEmptraining.emptraining_finish;
+    data.emptraining_status = this.selectedEmptraining.emptraining_status;
+    data.emptraining_hours = this.selectedEmptraining.emptraining_hours;
+    data.emptraining_cost = this.selectedEmptraining.emptraining_cost;
+    data.emptraining_note = this.selectedEmptraining.emptraining_note;
     data.company_code = this.initial_current.CompCode
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
-    console.log(data)
-    await this.setempdetailService.SetSalary_record(data).then((res) => {
+    await this.setempdetailService.SetTraining_record(data).then((res) => {
+      console.log(res)
       if (res.success) {
         console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadsalaryList();
+        this.doLoadtrainingList();
         this.edit_data = false;
         this.new_data;
       }
@@ -134,7 +164,6 @@ export class EmpsetsalaryComponent implements OnInit {
       this.loading = false;
     });
   }
-
 
   function(e: any) {
     var page = e.index;

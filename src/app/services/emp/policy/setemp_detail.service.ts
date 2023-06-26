@@ -12,6 +12,7 @@ import { SetLocationModel } from 'src/app/models/employee/policy/batch/setlocati
 import { SetPositionModel } from 'src/app/models/employee/policy/batch/setposition';
 import { SetProvidentModel } from 'src/app/models/employee/policy/batch/setprovident';
 import { SetSalaryModel } from 'src/app/models/employee/policy/batch/setsalary';
+import { SetTrainingModel } from 'src/app/models/employee/policy/batch/settraining';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class SetEmpDetailService {
     this.doGetInitialCurrent();
   }
 
-  doGetInitialCurrent(){
+  doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (this.initial_current) {
       this.httpHeaders = new HttpHeaders({
@@ -54,19 +55,52 @@ export class SetEmpDetailService {
       };
 
       this.basicRequest = {
-        device_name:'',
-        ip:"localhost",
-        username:this.initial_current.Username
+        device_name: '',
+        ip: "localhost",
+        username: this.initial_current.Username
       };
 
     }
-    else{
+    else {
       this.router.navigateByUrl('login');
     }
   }
 
   //set Position
-  public SetPosition_record(Setup: SetPositionModel){
+  public SetPosition_get(Setup: SetPositionModel) {
+    let emplists: any = [];
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: '',
+      ip: '127.0.0.1',
+      username: this.initial_current.Username,
+
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      empposition_position: Setup.empposition_position,
+      empposition_date: Setup.empposition_date,
+      emp_data: emplists,
+
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    };
+    return this.http
+      .post<any>(
+        this.config.ApiEmployeeModule + '/batchpositionlist',
+        data,
+        this.options
+      )
+      .toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public SetPosition_record(Setup: SetPositionModel) {
     let emplists: any = []
     Setup.emp_data.forEach((res: EmployeeModel) => {
       let ss = {
@@ -94,7 +128,40 @@ export class SetEmpDetailService {
   }
 
   //set group
-  public SetGroup_record(Setup: SetGroupModel){
+  public SetGroup_get(Setup: SetGroupModel) {
+    let emplists: any = [];
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: '',
+      ip: '127.0.0.1',
+      username: this.initial_current.Username,
+
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      empgroup_code: Setup.empgroup_code,
+      empgroup_date: Setup.empgroup_date,
+      emp_data: emplists,
+
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    };
+    return this.http
+      .post<any>(
+        this.config.ApiEmployeeModule + '/batchgrouplist',
+        data,
+        this.options
+      )
+      .toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public SetGroup_record(Setup: SetGroupModel) {
     let emplists: any = []
     Setup.emp_data.forEach((res: EmployeeModel) => {
       let ss = {
@@ -121,7 +188,40 @@ export class SetEmpDetailService {
   }
 
   //set dep
-  public SetDep_record(Setup: SetDepModel){
+  public SetDep_get(Setup: SetDepModel) {
+    let emplists: any = [];
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: '',
+      ip: '127.0.0.1',
+      username: this.initial_current.Username,
+
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      empdep_date : Setup.empdep_date ,
+      empdep_level01: Setup.empdep_level01,
+      emp_data: emplists,
+
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    };
+    return this.http
+      .post<any>(
+        this.config.ApiEmployeeModule + '/batchdeplist',
+        data,
+        this.options
+      )
+      .toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public SetDep_record(Setup: SetDepModel) {
     let emplists: any = []
     Setup.emp_data.forEach((res: EmployeeModel) => {
       let ss = {
@@ -159,7 +259,40 @@ export class SetEmpDetailService {
   }
 
   //set location
-  public SetLocation_record(Setup: SetLocationModel){
+  public SetLocation_get(Setup: SetLocationModel) {
+    let emplists: any = [];
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: '',
+      ip: '127.0.0.1',
+      username: this.initial_current.Username,
+
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      location_code : Setup.location_code ,
+      emplocation_startdate: Setup.emplocation_startdate,
+      emp_data: emplists,
+
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    };
+    return this.http
+      .post<any>(
+        this.config.ApiEmployeeModule + '/batchlocationlist',
+        data,
+        this.options
+      )
+      .toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public SetLocation_record(Setup: SetLocationModel) {
     let emplists: any = []
     Setup.emp_data.forEach((res: EmployeeModel) => {
       let ss = {
@@ -187,8 +320,41 @@ export class SetEmpDetailService {
       });
   }
 
-   //set salary
-   public SetSalary_record(Setup: SetSalaryModel){
+  //set salary
+  public SetSalary_get(Setup: SetSalaryModel) {
+    let emplists: any = [];
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: '',
+      ip: '127.0.0.1',
+      username: this.initial_current.Username,
+
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      empsalary_date : Setup.empsalary_date ,
+      empsalary_amount : Setup.empsalary_amount,
+      emp_data: emplists,
+
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    };
+    return this.http
+      .post<any>(
+        this.config.ApiEmployeeModule + '/batchsalarylist',
+        data,
+        this.options
+      )
+      .toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public SetSalary_record(Setup: SetSalaryModel) {
     let emplists: any = []
     Setup.emp_data.forEach((res: EmployeeModel) => {
       let ss = {
@@ -218,7 +384,40 @@ export class SetEmpDetailService {
   }
 
   //set provident
-  public SetProvident_record(Setup: SetProvidentModel){
+  public SetProvident_get(Setup: SetProvidentModel) {
+    let emplists: any = [];
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: '',
+      ip: '127.0.0.1',
+      username: this.initial_current.Username,
+
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      provident_code : Setup.provident_code ,
+      empprovident_card: Setup.empprovident_card,
+      emp_data: emplists,
+
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    };
+    return this.http
+      .post<any>(
+        this.config.ApiEmployeeModule + '/batchprovidentlist',
+        data,
+        this.options
+      )
+      .toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public SetProvident_record(Setup: SetProvidentModel) {
     let emplists: any = []
     Setup.emp_data.forEach((res: EmployeeModel) => {
       let ss = {
@@ -248,7 +447,40 @@ export class SetEmpDetailService {
   }
 
   //set benefits
-  public SetBenefits_record(Setup: SetBenefitsModel){
+  public SetBenefit_get(Setup: SetBenefitsModel) {
+    let emplists: any = [];
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: '',
+      ip: '127.0.0.1',
+      username: this.initial_current.Username,
+
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      item_code : Setup.item_code ,
+      empbenefit_amount: Setup.empbenefit_amount,
+      emp_data: emplists,
+
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    };
+    return this.http
+      .post<any>(
+        this.config.ApiEmployeeModule + '/batchbenefitlist',
+        data,
+        this.options
+      )
+      .toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public SetBenefits_record(Setup: SetBenefitsModel) {
     let emplists: any = []
     Setup.emp_data.forEach((res: EmployeeModel) => {
       let ss = {
@@ -283,4 +515,72 @@ export class SetEmpDetailService {
         return message;
       });
   }
+
+  //set training
+  public SetTraining_get(Setup: SetTrainingModel) {
+    let emplists: any = [];
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: '',
+      ip: '127.0.0.1',
+      username: this.initial_current.Username,
+
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      course_code : Setup.course_code ,
+      emp_data: emplists,
+
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    };
+    return this.http
+      .post<any>(
+        this.config.ApiEmployeeModule + '/batchtraininglist',
+        data,
+        this.options
+      )
+      .toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public SetTraining_record(Setup: SetTrainingModel) {
+    let emplists: any = []
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: "",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      emptraining_start: this.datePipe.transform(Setup.emptraining_start),
+      emptraining_finish: this.datePipe.transform(Setup.emptraining_finish),
+      emptraining_status: Setup.emptraining_status,
+      emptraining_hours: Setup.emptraining_hours,
+      emptraining_cost: Setup.emptraining_cost,
+      emptraining_note: Setup.emptraining_note,
+      institute_code: Setup.institute_code,
+      institute_other: Setup.institute_other,
+      course_code: Setup.course_code,
+      course_other: Setup.course_other,
+
+      emp_data: emplists,
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    }
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchtraining', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message;
+      });
+  }
+
 }

@@ -39,6 +39,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {CheckboxModule} from 'primeng/checkbox';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { FileUploadModule } from 'primeng/fileupload';
 
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeManageComponent } from './employee-manage/employee-manage.component';
@@ -63,6 +65,7 @@ import { EmpsetbenefitsComponent } from './employee-policy/setup-batch/empsetben
 import { EmployeePartComponent } from './employee-policy/genaral/employee-part/employee-part.component';
 import { EmployeePositionComponent } from './employee-policy/genaral/employee-position/employee-position.component';
 import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group/employee-group.component';
+import { EmpsettrainingComponent } from './employee-policy/setup-batch/empsettraining/empsettraining.component';
 
 
 @NgModule({
@@ -106,7 +109,9 @@ import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group
 		RadioButtonModule,
 		CheckboxModule,
 		SystemModule,
-		UsercontrolModule
+		UsercontrolModule,
+		ProgressBarModule,
+		FileUploadModule,
 
 
 
@@ -132,7 +137,8 @@ import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group
     EmpsetbenefitsComponent,
     EmployeePartComponent,
     EmployeePositionComponent,
-    EmployeeGroupComponent
+    EmployeeGroupComponent,
+    EmpsettrainingComponent
   ]
 })
 export class EmployeeModule { }

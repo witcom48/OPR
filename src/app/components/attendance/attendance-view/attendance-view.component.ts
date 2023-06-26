@@ -243,10 +243,10 @@ export class AttendanceViewComponent implements OnInit {
   edit_timecard: boolean = false;
   doLoadTimecard(){
 
-    let dateString = '2023-01-01T00:00:00'
+    let dateString = '2023-06-01T00:00:00'
     var FromDate = new Date(dateString);
 
-    dateString = '2023-01-31T00:00:00'
+    dateString = '2023-06-30T00:00:00'
     var ToDate = new Date(dateString);
 
     this.timecardService.timecard_get(this.initial_current.CompCode, "", this.worker_code, FromDate, ToDate).then((res) =>{
