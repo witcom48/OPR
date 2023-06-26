@@ -5,11 +5,13 @@ import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/se
 import { TaskComponent } from 'src/app/components/usercontrol/task/task.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
-import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
-import { SetBenefitsModel } from 'src/app/models/employee/policy/batch/setbenefits';
-import { ItemsModel } from 'src/app/models/payroll/items';
+import { EmpTrainingModel } from 'src/app/models/employee/manage/training';
+import { SetTrainingModel } from 'src/app/models/employee/policy/batch/settraining';
+import { CourseModel } from 'src/app/models/system/policy/course';
+import { InstituteModel } from 'src/app/models/system/policy/institute';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
-import { ItemService } from 'src/app/services/payroll/item.service';
+import { CourseService } from 'src/app/services/system/policy/course.service';
+import { InstituteService } from 'src/app/services/system/policy/institute.service';
 import { TaskService } from 'src/app/services/task.service';
 
 interface Policy {
@@ -24,28 +26,29 @@ interface Result {
 }
 
 @Component({
-  selector: 'app-empsetbenefits',
-  templateUrl: './empsetbenefits.component.html',
-  styleUrls: ['./empsetbenefits.component.scss']
+  selector: 'app-empsettraining',
+  templateUrl: './empsettraining.component.html',
+  styleUrls: ['./empsettraining.component.scss']
 })
-export class EmpsetbenefitsComponent implements OnInit {
+export class EmpsettrainingComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
-  
+
   //
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
-  title_startdate:{ [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
-  title_enddate:{ [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
-  title_incomededuct:{ [key: string]: string } = { EN: "Income/Deduct", TH: "เงินได้/เงินหัก" };
-  title_amount:{ [key: string]: string } = { EN: "Amount", TH: "จำนวน" };
-  title_type:{ [key: string]: string } = { EN: "Type", TH: "ประเภท" };
-  title_fullamount:{ [key: string]: string } = { EN: "Amount", TH: "เต็มจำนวน" };
-  title_byday:{ [key: string]: string } = { EN: "Working Day", TH: "ตามวันที่ทำงาน" };
-  title_reason:{ [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
-  title_note:{ [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
+  title_course: { [key: string]: string } = { EN: "Course", TH: "หลักสูตร" };
+  title_coursestatus: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
+  title_coursehour: { [key: string]: string } = { EN: "Hour", TH: "ชั่วโมง" };
+  title_institute: { [key: string]: string } = { EN: "Institute", TH: "สถานบัน/สถานที่" };
+  title_startdate: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
+  title_graduationdate: { [key: string]: string } = { EN: "Graduation Date", TH: "วันที่จบ" };
+  title_pass: { [key: string]: string } = { EN: "Pass", TH: "ผ่าน" };
+  title_notpass: { [key: string]: string } = { EN: "Not Pass", TH: "ไม่ผ่าน" };
+  title_cost: { [key: string]: string } = { EN: "Cost", TH: "ค่าใช้จ่าย" };
+  title_note: { [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
   title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
@@ -65,15 +68,16 @@ export class EmpsetbenefitsComponent implements OnInit {
   index: number = 0;
   result_list: Result[] = [];
   edit_data: boolean = false;
-  
+
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
-    private router:Router,
+    private router: Router,
     private setempdetailService: SetEmpDetailService,
 
-    private itemService : ItemService,
+    private instituteService: InstituteService,
+    private courseService: CourseService,
   ) { }
 
   new_data: boolean = false;
@@ -81,9 +85,10 @@ export class EmpsetbenefitsComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent();
 
-    //dropdown
-    this.doloaditemList();
+    this.doLoadcourseList();
+    this.doLoadinstituteList();
   }
+
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
@@ -93,59 +98,63 @@ export class EmpsetbenefitsComponent implements OnInit {
   }
 
   //dropdown
-  itemList: ItemsModel[] = [];
-  doloaditemList(){
-    var tmp = new ItemsModel();
-    this.itemService.item_get(tmp).then((res)=>{
-      this.itemList = res;
-    })
+  //Institite
+  instituteList: InstituteModel[] = [];
+  doLoadinstituteList() {
+    this.instituteService.institute_get().then((res) => {
+      this.instituteList = res;
+    });
   }
-
-  selectedEmpBenefits: EmpBenefitsModel = new EmpBenefitsModel();
-  empbenefitsList: EmpBenefitsModel[] = [];
-
-  setbenefitList: SetBenefitsModel[] = [];
-  doLoadsetbenefitList() {
-    this.setbenefitList = [];
-    var tmp = new SetBenefitsModel();
-    tmp.item_code = this.selectedEmpBenefits.item_code
-    tmp.empbenefit_amount = this.selectedEmpBenefits.empbenefit_amount
-    this.setempdetailService.SetBenefit_get(tmp).then(async (res) => {
-      this.setbenefitList = await res;
+  // Course
+  courseList: CourseModel[] = [];
+  doLoadcourseList() {
+    this.courseService.course_get().then((res) => {
+      this.courseList = res;
     });
   }
 
-  process(){
+  selectedEmptraining: EmpTrainingModel = new EmpTrainingModel();
+  emptrainingList: EmpTrainingModel[] = [];
+
+  settrainingList: SetTrainingModel[] = [];
+  doLoadtrainingList() {
+    this.settrainingList = [];
+    var tmp = new SetTrainingModel();
+    tmp.course_code = this.selectedEmptraining.course_code
+    this.setempdetailService.SetTraining_get(tmp).then(async (res) => {
+      this.settrainingList = await res;
+    });
+  }
+
+  process() {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
-      this.Setbatchbenefits();
+      this.Setbatchtraining();
     }
   }
 
-  async Setbatchbenefits(){
-    var data = new SetBenefitsModel();
-    data.item_code = this.selectedEmpBenefits.item_code;
-    data.empbenefit_amount = this.selectedEmpBenefits.empbenefit_amount;
-    data.empbenefit_startdate = this.selectedEmpBenefits.empbenefit_startdate;
-    data.empbenefit_enddate = this.selectedEmpBenefits.empbenefit_enddate;
-    data.empbenefit_reason = this.selectedEmpBenefits.empbenefit_reason;
-    data.empbenefit_note = this.selectedEmpBenefits.empbenefit_note;
-    data.empbenefit_paytype = this.selectedEmpBenefits.empbenefit_paytype;
-    data.empbenefit_break = this.selectedEmpBenefits.empbenefit_break;
-    data.empbenefit_breakreason = this.selectedEmpBenefits.empbenefit_breakreason;
-    data.empbenefit_conditionpay = this.selectedEmpBenefits.empbenefit_conditionpay;
-    data.empbenefit_payfirst = this.selectedEmpBenefits.empbenefit_payfirst;
+  async Setbatchtraining() {
+    var data = new SetTrainingModel();
+    data.institute_code = this.selectedEmptraining.institute_code;
+    data.institute_other = this.selectedEmptraining.institute_other;
+    data.course_code = this.selectedEmptraining.course_code;
+    data.course_other = this.selectedEmptraining.course_other;
+    data.emptraining_start = this.selectedEmptraining.emptraining_start;
+    data.emptraining_finish = this.selectedEmptraining.emptraining_finish;
+    data.emptraining_status = this.selectedEmptraining.emptraining_status;
+    data.emptraining_hours = this.selectedEmptraining.emptraining_hours;
+    data.emptraining_cost = this.selectedEmptraining.emptraining_cost;
+    data.emptraining_note = this.selectedEmptraining.emptraining_note;
     data.company_code = this.initial_current.CompCode
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
-    console.log(data)
-    await this.setempdetailService.SetBenefits_record(data).then((res) => {
+    await this.setempdetailService.SetTraining_record(data).then((res) => {
       console.log(res)
       if (res.success) {
         console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadsetbenefitList();
+        this.doLoadtrainingList();
         this.edit_data = false;
         this.new_data;
       }

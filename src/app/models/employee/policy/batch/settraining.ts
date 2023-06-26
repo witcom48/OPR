@@ -1,8 +1,11 @@
-export class EmpTrainingModel {
+import { EmployeeModel } from "../../employee";
+
+export class SetTrainingModel {
     constructor() {
+
     }
     company_code: string = "";
-    worker_code: string = "";
+    
     emptraining_no: string= "";
     emptraining_start!: Date;
     emptraining_finish!: Date;
@@ -14,14 +17,9 @@ export class EmpTrainingModel {
     institute_other: string= "";
     course_code: string= "";
     course_other: string= "";
-
-    modified_by: string= "";
-    modified_date: string= "";
-
-    index: number = 0;
-    select: boolean = false;
-
-    //show only
-    worker_detail_th : string = "";
-    worker_detail_en : string = "";
-  }
+    
+    emp_data: EmployeeModel[] = [];
+    modified_by: string = "";
+    modified_date!: Date;
+    flag: boolean = false;
+}

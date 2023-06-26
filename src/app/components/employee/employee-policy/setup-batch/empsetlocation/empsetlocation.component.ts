@@ -33,22 +33,33 @@ export class EmpsetlocationComponent implements OnInit {
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
 
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to process";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
-
-  title_confirm_cancel:string = "You have cancelled";
-
-  title_submit:string = "Submit";
-  title_cancel:string = "Cancel";
+  //
+  title_process: {[key:string] : string} = {EN: "Process",  TH: "การทำงาน"};
+  title_result: {[key:string] : string} = {EN: "Result",  TH: "ผลลัพธ์"};
+  title_btnprocess: {[key:string] : string} = {EN: "Process",  TH: "ดำเนินการ"};
+  title_location: {[key:string] : string} = {EN: "Location",  TH: "สถาที่ปฎิบัติงาน"};
+  title_fromdate: {[key:string] : string} = {EN: "From Date",  TH: "วันที่เริ่ม"};
+  title_todate: {[key:string] : string} = {EN: "To Date",  TH: "วันที่สิ้นสุด"};
+  title_note: {[key:string] : string} = {EN: "Description",  TH: "เพิ่มเติม"};
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
+  title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
+  title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
+  //
+  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"};
+  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
+  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
+  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
+  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
+  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
   
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
   loading: boolean = false;
   index: number = 0;
   result_list: Result[] = [];
+  edit_data: boolean = false;
   
   constructor(
     private messageService: MessageService,
@@ -88,6 +99,17 @@ export class EmpsetlocationComponent implements OnInit {
   selectedEmpLocation: EmpLocationModel = new EmpLocationModel();
   emplocationList: EmpLocationModel[]=[];
 
+  setlocationList: SetLocationModel[] = [];
+  doLoadsetlocationList() {
+    this.setlocationList = [];
+    var tmp = new SetLocationModel();
+    tmp.location_code = this.selectedEmpLocation.location_code
+    tmp.emplocation_startdate = this.selectedEmpLocation.emplocation_startdate
+    this.setempdetailService.SetLocation_get(tmp).then(async (res) => {
+      this.setlocationList = await res;
+    });
+  }
+
   process(){
     this.result_list = [];
     if(this.selectEmp.employee_dest.length >0){
@@ -108,6 +130,9 @@ export class EmpsetlocationComponent implements OnInit {
     await this.setempdetailService.SetLocation_record(data).then((res)=>{
       if (res.success){
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadsetlocationList();
+        this.edit_data = false;
+        this.new_data;
       }else{
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }

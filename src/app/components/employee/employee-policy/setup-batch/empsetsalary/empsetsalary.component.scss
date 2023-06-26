@@ -1,0 +1,21 @@
+.salary{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
+    
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 1vw;
+        min-width: 150px;
+
+        .radio{
+            grid-column: 2/4;
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+}
+
+

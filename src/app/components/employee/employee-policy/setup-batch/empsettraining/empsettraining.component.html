@@ -1,4 +1,4 @@
-<!-- <p>empsetprovident works!</p> -->
+<!-- <p>empsettraining works!</p> -->
 <!-- Link Page -->
 <div class="path">
     <span>Employee</span>
@@ -6,7 +6,7 @@
         <i></i>
         <a routerLink="/employee/policy">Policy</a>
         <i></i>
-        <small>Provident</small>
+        <small>Training</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -27,39 +27,71 @@
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
             </div>
-            <div class="provident field col-12 md:col-8">
+            <div class="training field col-12 md:col-8">
                 <div>
-                    <label>{{title_pfno[initial_current.Language]}}</label>
-                    <input pInputText type="text" [(ngModel)]="selectedEmpProvident.empprovident_card">
-                </div>
-                <div style="grid-column: 1/2">
-                    <label>{{title_pf[initial_current.Language]}}</label>
-                    <p-dropdown placeholder="--" [options]="providentList" optionValue="provident_code"
-                        [showClear]="true" [(ngModel)]="selectedEmpProvident.provident_code"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                    <label>{{title_course[initial_current.Language]}}</label>
+                    <p-dropdown placeholder="--" [options]="courseList" optionValue="course_code" [showClear]="true"
+                        [(ngModel)]="selectedEmptraining.course_code" [style]="{ width: '100%', overflow: 'visible' }">
                         <ng-template let-item pTemplate="selectedItem">
-                            {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
+                            {{initial_current.Language=="TH"? item.course_name_th : item.course_name_en}}
                         </ng-template>
                         <ng-template let-item pTemplate="item">
-                            {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
+                            {{initial_current.Language=="TH"? item.course_name_th : item.course_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div>
+                    <label>{{title_institute[initial_current.Language]}}</label>
+                    <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code"
+                        [showClear]="true" [(ngModel)]="selectedEmptraining.institute_code"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
                         </ng-template>
                     </p-dropdown>
                 </div>
                 <div style="grid-column: 1/2">
-                    <label>{{title_entry[initial_current.Language]}}</label>
-                    <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                        [(ngModel)]="selectedEmpProvident.empprovident_entry"><input type="text"></p-calendar>
-                </div>
-                <div>
                     <label>{{title_startdate[initial_current.Language]}}</label>
                     <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                        [(ngModel)]="selectedEmpProvident.empprovident_start"><input type="text"></p-calendar>
+                        [(ngModel)]="selectedEmptraining.emptraining_start"><input type="text"></p-calendar>
                 </div>
-                <!-- <div>
-                    <label>วันที่ออก</label>
-                    <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
-                        [(ngModel)]="selectedEmpProvident.empprovident_end"><input type="text"></p-calendar>
-                </div> -->
+                <div>
+                    <label>{{title_graduationdate[initial_current.Language]}}</label>
+                    <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                        [(ngModel)]="selectedEmptraining.emptraining_finish"><input type="text"></p-calendar>
+                </div>
+                <div>
+                    <label>{{title_coursestatus[initial_current.Language]}}</label>
+                    <div class="radio">
+                        <p-radioButton name="training_status" value="Y"
+                            [(ngModel)]="selectedEmptraining.emptraining_status"></p-radioButton>&nbsp;
+                        <label>{{title_pass[initial_current.Language]}}</label>
+                        &nbsp;&nbsp;
+                        <p-radioButton name="training_status" value="N"
+                            [(ngModel)]="selectedEmptraining.emptraining_status"></p-radioButton>&nbsp;
+                        <label>{{title_notpass[initial_current.Language]}}</label>
+                    </div>
+                </div>
+                <div style="grid-column: 1/2">
+                    <label>{{title_coursehour[initial_current.Language]}}</label>
+                    <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
+                        [(ngModel)]="selectedEmptraining.emptraining_hours">
+                    </p-inputNumber>
+                </div>
+                <div>
+                    <label>{{title_cost[initial_current.Language]}}</label>
+                    <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency"
+                        [(ngModel)]="selectedEmptraining.emptraining_cost">
+                    </p-inputNumber>
+                </div>
+                <div style="grid-column: 1/2">
+                    <label>{{title_note[initial_current.Language]}}</label>
+                    <textarea [(ngModel)]="selectedEmptraining.emptraining_note" pInputTextarea
+                        [autoResize]="true"></textarea>
+                </div>
             </div>
             <div *ngIf="!loading" class="field col-12 md:col-6">
                 <p-button label="{{title_btnprocess[initial_current.Language]}}" (click)="process()"></p-button>
@@ -83,11 +115,11 @@
         </div> -->
 
         <div>
-            <p-table *ngIf="new_data==true" #dt2 [value]="setprovidentList" styleClass="p-datatable-sm"
+            <p-table *ngIf="new_data==true" #dt2 [value]="settrainingList" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
                 selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                 [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                [globalFilterFields]="['worker_detail','company_code','worker_code','provident_code','modified_by','modified_date']"
+                [globalFilterFields]="['worker_detail','company_code','worker_code','course_code','modified_by','modified_date']"
 
                 <ng-template pTemplate="caption">
                     <div class="flex">
@@ -104,7 +136,7 @@
                         <th>{{title_no[initial_current.Language]}}</th>
                         <th>{{title_code[initial_current.Language]}}</th>
                         <th>{{title_worker[initial_current.Language]}}</th>
-                        <th>{{title_pf[initial_current.Language]}}</th>
+                        <th>{{title_course[initial_current.Language]}}</th>
                         <th>{{title_modified_by[initial_current.Language]}}</th>
                         <th>{{title_modified_date[initial_current.Language]}}</th>
                     </tr>
@@ -116,7 +148,7 @@
                         <td>{{data.worker_code}}</td>
                         <td>{{initial_current.Language == "TH"? data.worker_detail_th:data.worker_detail_en}}</td>
                         <!-- <td>{{data.worker_detail}}</td> -->
-                        <td>{{data.provident_code}}</td>
+                        <td>{{data.course_code}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
                         <!-- <td>

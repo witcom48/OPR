@@ -7,7 +7,7 @@ export class InitialCurrent {
     CompCode: string = "OPR";   
     EmpType: string = "M";     
 
-    Language: string = "EN";   
+    Language: string = "TH";   
     Username: string = "EMP01";  
     Usertype: string = "EMP";  
     LastLogin: Date = new Date();  

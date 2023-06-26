@@ -146,6 +146,36 @@ export class EmployeeService {
       });
   }
 
+  //image
+  public doGetImages(com_code: string, worker_code: string) {
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: com_code,
+      language: "",
+      worker_code: worker_code
+    };
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doGetWorkerImages', filter, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  uploadImages(file: File, com: string, worker: string) {
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "ref_to=" + com  + "." + worker ;
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadWorker?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+
+  }
+
   public worker_getbyfillter(fillter: FillterEmpModel){
     
     const fillterS = {

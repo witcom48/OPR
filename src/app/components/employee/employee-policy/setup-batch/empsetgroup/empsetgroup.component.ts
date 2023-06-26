@@ -33,29 +33,39 @@ export class EmpsetgroupComponent implements OnInit {
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
 
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to process";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
+  //
+  title_process: {[key:string] : string} = {EN: "Process",  TH: "การทำงาน"};
+  title_result: {[key:string] : string} = {EN: "Result",  TH: "ผลลัพธ์"};
+  title_btnprocess: {[key:string] : string} = {EN: "Process",  TH: "ดำเนินการ"};
+  title_date:{[key:string] : string} = {EN: "Date",  TH: "วันที่มีผล"};
+  title_group:{[key:string] : string} = {EN: "Group",  TH: "กลุ่มพนักงาน"};
+  title_reason: {[key:string] : string} = {EN: "Reason",  TH: "เหตุผล"};
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
+  title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
+  title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
+  //
+  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"};
+  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
+  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
+  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
+  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
+  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
 
-  title_confirm_cancel:string = "You have cancelled";
-
-  title_submit:string = "Submit";
-  title_cancel:string = "Cancel";
-  
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
   loading: boolean = false;
   index: number = 0;
   result_list: Result[] = [];
+  edit_data: boolean = false;
 
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
-    private router:Router,
-    private groupService : GroupService,
+    private router: Router,
+    private groupService: GroupService,
     private setempdetailService: SetEmpDetailService,
   ) { }
 
@@ -69,18 +79,18 @@ export class EmpsetgroupComponent implements OnInit {
     this.doLoadGroupList();
   }
 
-public initial_current: InitialCurrent = new InitialCurrent();
+  public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('');
     }
   }
-  
+
   //get group
-  groupList: GroupModel[]=[];
-  doLoadGroupList(){
-    this.groupService.group_get().then(async(res)=>{
+  groupList: GroupModel[] = [];
+  doLoadGroupList() {
+    this.groupService.group_get().then(async (res) => {
       this.groupList = await res;
     })
   }
@@ -88,14 +98,25 @@ public initial_current: InitialCurrent = new InitialCurrent();
   selectedEmpGroup: EmpGroupModel = new EmpGroupModel();
   empgroupList: EmpGroupModel[] = [];
 
-  process(){
+  setgroupList: SetGroupModel[] = [];
+  doLoadsetgroupList() {
+    this.setgroupList = [];
+    var tmp = new SetGroupModel();
+    tmp.empgroup_code = this.selectedEmpGroup.empgroup_code
+    tmp.empgroup_date = this.selectedEmpGroup.empgroup_date
+    this.setempdetailService.SetGroup_get(tmp).then(async (res) => {
+      this.setgroupList = await res;
+    });
+  }
+
+  process() {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchgroup();
     }
   }
 
-  async Setbatchgroup(){
+  async Setbatchgroup() {
     var data = new SetGroupModel();
     data.empgroup_date = this.selectedEmpGroup.empgroup_date;
     data.empgroup_code = this.selectedEmpGroup.empgroup_code;
@@ -108,6 +129,9 @@ public initial_current: InitialCurrent = new InitialCurrent();
       if (res.success) {
         console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadsetgroupList();
+        this.edit_data = false;
+        this.new_data;
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });

@@ -30,29 +30,45 @@ export class EmpsetsalaryComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
-  
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to process";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
 
-  title_confirm_cancel:string = "You have cancelled";
+  //
+  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_incbath: { [key: string]: string } = { EN: "Increment(Bath)", TH: "อัตราปรับ(บาท)" };
+  title_incper: { [key: string]: string } = { EN: "Increment(%)", TH: "อัตราปรับ(%)" };
+  title_quality: { [key: string]: string } = { EN: "Quality", TH: "จำนวน" };
+  title_amount: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" };
+  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
+  title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
+  title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
+  title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
+  //
+  title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" };
+  title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
+  title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
+  title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
+  title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
+  title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
 
-  title_submit:string = "Submit";
-  title_cancel:string = "Cancel";
+  title_submit: string = "Submit";
+  title_cancel: string = "Cancel";
 
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
   loading: boolean = false;
   index: number = 0;
   result_list: Result[] = [];
+  edit_data: boolean = false;
 
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
-    private router:Router,
+    private router: Router,
     private setempdetailService: SetEmpDetailService,
   ) { }
 
@@ -74,14 +90,25 @@ export class EmpsetsalaryComponent implements OnInit {
   selectedEmpSalary: EmpSalaryModel = new EmpSalaryModel();
   empsalaryList: EmpSalaryModel[] = [];
 
-  process(){
+  setsalaryList: SetSalaryModel[] = [];
+  doLoadsalaryList() {
+    this.setsalaryList = [];
+    var tmp = new SetSalaryModel();
+    tmp.empsalary_amount = this.selectedEmpSalary.empsalary_amount;
+    tmp.empsalary_date = this.selectedEmpSalary.empsalary_date;
+    this.setempdetailService.SetSalary_get(tmp).then(async (res) => {
+      this.setsalaryList = await res;
+    });
+  }
+
+  process() {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchsalary();
     }
   }
 
-  async Setbatchsalary(){
+  async Setbatchsalary() {
     var data = new SetSalaryModel();
     data.empsalary_amount = this.selectedEmpSalary.empsalary_amount;
     data.empsalary_incamount = this.selectedEmpSalary.empsalary_incamount;
@@ -94,10 +121,12 @@ export class EmpsetsalaryComponent implements OnInit {
     this.loading = true;
     console.log(data)
     await this.setempdetailService.SetSalary_record(data).then((res) => {
-      console.log(res)
       if (res.success) {
         console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadsalaryList();
+        this.edit_data = false;
+        this.new_data;
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });

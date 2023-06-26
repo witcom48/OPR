@@ -55,7 +55,7 @@
                     </ng-template>
                 </p-dropdown>
                 <p-dropdown placeholder="--" [options]="deplevelList" optionValue="dep_code" [showClear]="true"
-                    [(ngModel)]="selectedDep" (onChange)="doChangeSelectDep()" [disabled]="!fillterDep"
+                    [(ngModel)]="selectedDep" (onChange)="doChangeSelectDep()" [disabled]="!fillterLevel"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
@@ -66,7 +66,7 @@
                 </p-dropdown>
             </div>
             <!-- resign -->
-            <div>
+            <div style="grid-column: 3/5;">
                 <p-checkbox name="resign" [binary]="true" (onChange)="doGetDataFillter()"></p-checkbox>&nbsp;
                 <label>{{title_resign}}</label>
             </div>

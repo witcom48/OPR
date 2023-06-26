@@ -43,7 +43,7 @@ export class SelectEmpComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.doGetInitialCurrent()
+    this.doGetInitialCurrent();
 
     //dropdown
     this.doLoadlevelList();
@@ -56,6 +56,7 @@ export class SelectEmpComponent implements OnInit {
     setTimeout(() => {
       // this.doLoadEmployee()
       this.doGetDataFillter();
+      this.doLoadLanguage();
     }, 300);
 
   }
@@ -140,7 +141,7 @@ export class SelectEmpComponent implements OnInit {
 
     fillter.company_code = this.initial_current.CompCode;
     //fillter dep
-    if(this.fillterDep){
+    if(this.fillterLevel){
       fillter.level_code = this.selectedLevel;
       fillter.dep_code = this.selectedDep;
     }else{
@@ -202,16 +203,14 @@ export class SelectEmpComponent implements OnInit {
   selectedLevel:string = "";
   fillterLevel: boolean = false;
   doChangeSelectLevel(){
-    this.fillterDep = true;
     this.doLoadDeplevelList();
   }
 
   //-- Dep master
   selectedDep:string = "";
-  fillterDep: boolean = false;
   doChangeSelectDep() {
 
-    if(this.fillterDep){
+    if(this.fillterLevel){
       this.doGetDataFillter();
     }
   }

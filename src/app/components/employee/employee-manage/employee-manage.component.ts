@@ -79,6 +79,8 @@ import { MajorService } from 'src/app/services/system/policy/major.service';
 import { QualificationService } from 'src/app/services/system/policy/qualification.service';
 import { CourseService } from 'src/app/services/system/policy/course.service';
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
+import { PolcodeService } from 'src/app/services/system/policy/polcode.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 
@@ -109,6 +111,8 @@ interface Ctype {
   styleUrls: ['./employee-manage.component.scss']
 })
 export class EmployeeManageComponent implements OnInit {
+
+  methodEdit: boolean = false;
 
   emp_code: string = "";
   manage_title: string = ""
@@ -241,6 +245,7 @@ export class EmployeeManageComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
     private empdetailService: EmpDetailService,
+    private sanitizer: DomSanitizer,
 
     //service
     private initialService: InitialService,
@@ -264,6 +269,7 @@ export class EmployeeManageComponent implements OnInit {
     private qualificationService: QualificationService,
     private courseService: CourseService,
     private provinceService: ProvinceService,
+    private polcodeService: PolcodeService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -319,12 +325,15 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadSuggestList();
 
     setTimeout(() => {
+      this.doLoadLanguage();
       this.doLoadMenu();
     }, 100);
 
     setTimeout(() => {
       if (this.emp_code != "") {
         this.doLoadEmployee()
+      }else{
+        this.doGetNewCode();
       }
 
     }, 400);
@@ -346,6 +355,7 @@ export class EmployeeManageComponent implements OnInit {
   title_import: string = "Import";
   title_export: string = "Export";
   title_save: string = "Save";
+  title_back:string = "Back";
   title_code: string = "Code";
 
   title_summit: string = "Summit";
@@ -532,6 +542,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_import = "นำเข้า";
       this.title_export = "โอนออก";
       this.title_save = "บันทึก";
+      this.title_back = "ย้อนกลับ";
 
       this.title_summit = "บันทึก";
       this.title_cancel = "ยกเลิก";
@@ -714,14 +725,14 @@ export class EmployeeManageComponent implements OnInit {
     //menumain
     this.toolbar_menu = [
       {
-        label: 'Back',
+        label: this.title_back,
         icon: 'pi-arrow-left',
         command: (event) => {
           this.router.navigateByUrl('employee/list');
         }
       },
       {
-        label: 'Save',
+        label: this.title_save,
         icon: 'pi pi-fw pi-save',
         command: (event) => {
           this.confirmRecord()
@@ -731,7 +742,7 @@ export class EmployeeManageComponent implements OnInit {
     //menu location
     this.menu_emplocation = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -743,7 +754,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -754,7 +765,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpLocation != null) {
@@ -765,7 +776,7 @@ export class EmployeeManageComponent implements OnInit {
     //menu branch
     this.menu_empbranch = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -777,7 +788,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -788,7 +799,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpbranch != null) {
@@ -799,7 +810,7 @@ export class EmployeeManageComponent implements OnInit {
     //menu address
     this.menu_empaddress = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -811,7 +822,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -822,7 +833,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpAddress != null) {
@@ -830,17 +841,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-
-        }
-      }];
+      ];
     //menu card
     this.menu_empcard = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -852,7 +857,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -863,7 +868,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpcard != null) {
@@ -871,16 +876,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }];
+      ];
     //menu bank
     this.menu_empbank = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -892,7 +892,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -903,7 +903,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpbank != null) {
@@ -911,16 +911,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }];
+      ];
     //menu family
     this.menu_empfamily = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -932,7 +927,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -943,7 +938,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpfamily != null) {
@@ -951,16 +946,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      ]
     //menu hospital
     this.menu_emphospital = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -972,7 +962,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -983,7 +973,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmphospital != null) {
@@ -991,17 +981,12 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      ]
 
     //menu Dep
     this.menu_empdep = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1013,7 +998,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1024,7 +1009,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpdep != null) {
@@ -1032,16 +1017,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      ]
     //menu Position
     this.menu_empposition = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1053,7 +1033,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1064,7 +1044,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpPosition != null) {
@@ -1072,16 +1052,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      ]
     //menu Group
     this.menu_empgroup = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1093,7 +1068,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1104,7 +1079,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpGroup != null) {
@@ -1112,16 +1087,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      ]
     //menu education
     this.menu_empeducation = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1133,7 +1103,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1144,7 +1114,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpeducation != null) {
@@ -1152,16 +1122,17 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      // {
+      //   label: 'Export',
+      //   icon: 'pi pi-fw pi-file-export',
+      //   command: (event) => {
+      //   }
+      // }
+    ]
     //menu Supply
     this.menu_empsupply = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1173,7 +1144,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1184,7 +1155,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpSupply != null) {
@@ -1192,17 +1163,12 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      ]
 
     //menu Uniform
     this.menu_empuniform = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1214,7 +1180,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1225,7 +1191,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpUniform != null) {
@@ -1233,17 +1199,12 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      ]
 
     //menu Suggest
     this.menu_empsuggest = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1255,7 +1216,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1266,7 +1227,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpSuggest != null) {
@@ -1279,7 +1240,7 @@ export class EmployeeManageComponent implements OnInit {
     //menu training
     this.menu_emptraining = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1291,7 +1252,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1302,7 +1263,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmptraining != null) {
@@ -1310,16 +1271,17 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      // {
+      //   label: 'Export',
+      //   icon: 'pi pi-fw pi-file-export',
+      //   command: (event) => {
+      //   }
+      // }
+    ]
     //menu assessment
     this.menu_empassessment = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1331,7 +1293,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1342,7 +1304,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpassessment != null) {
@@ -1350,16 +1312,17 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      // {
+      //   label: 'Export',
+      //   icon: 'pi pi-fw pi-file-export',
+      //   command: (event) => {
+      //   }
+      // }
+    ]
     //menu criminal
     this.menu_empcriminal = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1371,7 +1334,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1382,7 +1345,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpcriminal != null) {
@@ -1390,16 +1353,17 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      // {
+      //   label: this.title_export,
+      //   icon: 'pi pi-fw pi-file-export',
+      //   command: (event) => {
+      //   }
+      // }
+    ]
     //menu salary
     this.menu_empsalary = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1411,7 +1375,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1422,7 +1386,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpsalary != null) {
@@ -1430,16 +1394,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+    ]
     //menu provident
     this.menu_empprovident = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1451,7 +1410,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1462,7 +1421,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpprovident != null) {
@@ -1470,16 +1429,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+    ]
     //menu benefit
     this.menu_empbenefit = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1491,7 +1445,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1502,7 +1456,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpbenefit != null) {
@@ -1510,16 +1464,11 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      ]
     //menu reduce
     this.menu_empreduce = [
       {
-        label: 'New',
+        label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
@@ -1531,7 +1480,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Edit',
+        label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
@@ -1542,7 +1491,7 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
       {
-        label: 'Delete',
+        label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
           if (this.selectedEmpreduce != null) {
@@ -1550,12 +1499,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      {
-        label: 'Export',
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-        }
-      }]
+      ]
 
   }
 
@@ -1792,6 +1736,22 @@ export class EmployeeManageComponent implements OnInit {
     }
   }
 
+  base64Image = '../../../../assets/images/people.png'
+  transform() {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
+  }
+
+  doLoadImage() {
+    this.employeeService.doGetImages(this.initial_current.CompCode, this.selectedEmployee.worker_code).then((res) => {
+      let resultJSON = JSON.parse(res);
+
+      if (resultJSON.result == "1") {
+        this.base64Image = resultJSON.data;
+        //console.log(this.base64Image);
+      }
+    });
+  }
+
   doLoadEmployee() {
     var employee_list: EmployeeModel[] = [];
     this.employeeService.worker_get(this.initial_current.CompCode, this.emp_code).then(async (res) => {
@@ -1804,11 +1764,15 @@ export class EmployeeManageComponent implements OnInit {
       })
 
       employee_list = await res;
+      this.methodEdit = true;
 
       if (employee_list.length > 0) {
         this.selectedEmployee = employee_list[0]
 
         setTimeout(() => {
+          //
+          this.doLoadImage();
+          //
           this.doLoadEmplocationList();
           this.doLoadEmpbranchList();
 
@@ -1854,6 +1818,12 @@ export class EmployeeManageComponent implements OnInit {
       this.emptypeList = res;
     })
   }
+  doChangeSelectEmptype(){
+    if (this.methodEdit == false) {
+      this.doGetNewCode();
+    }
+  }
+
   statusList: EmpstatusModel[] = [];
   doLoadEmpstatusList() {
     this.empstatusService.status_get().then((res) => {
@@ -3425,12 +3395,26 @@ export class EmployeeManageComponent implements OnInit {
     });
   }
 
+  doGetNewCode() {
+    this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedEmployee.worker_type).then((res) => {
+      let result = JSON.parse(res);
+      
+      if(result.success){
+        this.selectedEmployee.worker_code = result.data;
+        this.selectedEmployee.worker_card = result.data;
+      }
+    });
+  }
+
   doRecordEmployee() {
 
     this.employeeService.worker_recordall(this.selectedEmployee).then((res) => {
       let result = JSON.parse(res);
 
       if (result.success) {
+
+        //image
+        this.uploadImages();
 
         //-- Transaction
         this.record_emplocation();
@@ -3472,6 +3456,29 @@ export class EmployeeManageComponent implements OnInit {
   close() {
     this.new_employee = false;
     this.selectedEmployee = new EmployeeModel();
+  }
+
+  fileToUpload: File | any = null;  
+  handleFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+  }
+
+  uploadImages() {
+
+    const filename = "XXX";
+    const filetype = "jpg";
+
+    this.employeeService.uploadImages(this.fileToUpload, this.initial_current.CompCode, this.selectedEmployee.worker_code).then((res) => {
+      let resultJSON = JSON.parse(res);
+      if (resultJSON.result == "1") {
+
+        setTimeout(() => {
+          this.doLoadImage();
+        }, 500);
+
+      }
+    });
+
   }
 
 

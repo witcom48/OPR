@@ -206,7 +206,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.queryParams.subscribe((params) => {
+        this.route.queryParams.subscribe((params) => { 
             this.req_code = params['applycode'];
             console.log(this.req_code);
         });
@@ -228,6 +228,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doLoadSuggestList();
 
         setTimeout(() => {
+            this.doLoadLanguage();
             this.doLoadMenu();
         }, 100);
 
@@ -257,6 +258,7 @@ export class RecruitmentApplyComponent implements OnInit {
   title_import: string = "Import";
   title_export: string = "Export";
   title_save: string = "Save";
+  title_back:string = "Back";
   title_code: string = "Code";
 
   title_summit: string = "Summit";
@@ -444,7 +446,7 @@ export class RecruitmentApplyComponent implements OnInit {
       this.title_import = "นำเข้า";
       this.title_export = "โอนออก";
       this.title_save = "บันทึก";
-
+      this.title_back = "ย้อนกลับ";
       this.title_summit = "บันทึก";
       this.title_cancel = "ยกเลิก";
 
@@ -625,14 +627,14 @@ export class RecruitmentApplyComponent implements OnInit {
         //menumain
         this.toolbar_menu = [
             {
-                label: 'Back',
+                label: this.title_back,
                 icon: 'pi-arrow-left',
                 command: (event) => {
                     this.router.navigateByUrl('recruitment/applylist');
                 },
             },
             {
-                label: 'Save',
+                label: this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
                     this.confirmRecord();
@@ -642,7 +644,7 @@ export class RecruitmentApplyComponent implements OnInit {
         //menu suggest
         this.menu_reqsuggest = [
             {
-                label: 'New',
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.clearManage();
@@ -654,7 +656,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Edit',
+                label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     this.clearManage();
@@ -665,7 +667,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Delete',
+                label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedReqSuggest != null) {
@@ -673,16 +675,11 @@ export class RecruitmentApplyComponent implements OnInit {
                     }
                 },
             },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => { },
-            },
         ];
         //menu address
         this.menu_reqaddress = [
             {
-                label: 'New',
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.clearManage();
@@ -694,7 +691,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Edit',
+                label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     this.clearManage();
@@ -705,7 +702,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Delete',
+                label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedReqAddress != null) {
@@ -713,23 +710,11 @@ export class RecruitmentApplyComponent implements OnInit {
                     }
                 },
             },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => { },
-            },
         ];
         //menu card
         this.menu_reqcard = [
             {
-                label: 'New',
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.clearManage();
@@ -741,7 +726,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Edit',
+                label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     this.clearManage();
@@ -752,7 +737,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Delete',
+                label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedReqcard != null) {
@@ -760,21 +745,11 @@ export class RecruitmentApplyComponent implements OnInit {
                     }
                 },
             },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => { },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => { },
-            },
         ];
         //menu education
         this.menu_reqeducation = [
             {
-                label: 'New',
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     console.log('NEW');
@@ -787,7 +762,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Edit',
+                label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     console.log('EDIT');
@@ -799,7 +774,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Delete',
+                label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedReqeducation != null) {
@@ -807,25 +782,11 @@ export class RecruitmentApplyComponent implements OnInit {
                     }
                 },
             },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
         ];
         //menu training
         this.menu_reqtraining = [
             {
-                label: 'New',
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     console.log('NEW');
@@ -838,7 +799,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Edit',
+                label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     console.log('EDIT');
@@ -850,7 +811,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Delete',
+                label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedReqtraining != null) {
@@ -858,26 +819,12 @@ export class RecruitmentApplyComponent implements OnInit {
                     }
                 },
             },
-            {
-                label: 'Import',
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => {
-                    console.log('IMPORT');
-                },
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => {
-                    console.log('EXPORT');
-                },
-            },
         ];
 
         //Assessment
         this.menu_reqassessment = [
             {
-                label: 'New',
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     console.log('NEW');
@@ -890,7 +837,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Edit',
+                label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     console.log('EDIT');
@@ -902,7 +849,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Delete',
+                label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedReqassessment != null) {
@@ -915,7 +862,7 @@ export class RecruitmentApplyComponent implements OnInit {
         //Criminal
         this.menu_reqcriminal = [
             {
-                label: 'New',
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     console.log('NEW');
@@ -928,7 +875,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Edit',
+                label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     console.log('EDIT');
@@ -940,7 +887,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
             {
-                label: 'Delete',
+                label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedReqCriminal != null) {
