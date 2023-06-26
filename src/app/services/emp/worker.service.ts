@@ -169,7 +169,7 @@ export class EmployeeService {
 
     var para = "ref_to=" + com  + "." + worker ;
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadWorker?' + para, formData).toPromise()
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadWorkerImages?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });

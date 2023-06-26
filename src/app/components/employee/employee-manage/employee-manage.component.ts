@@ -1735,7 +1735,6 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
-
   base64Image = '../../../../assets/images/people.png'
   transform() {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
@@ -1747,7 +1746,6 @@ export class EmployeeManageComponent implements OnInit {
 
       if (resultJSON.result == "1") {
         this.base64Image = resultJSON.data;
-        //console.log(this.base64Image);
       }
     });
   }
@@ -3461,13 +3459,18 @@ export class EmployeeManageComponent implements OnInit {
   fileToUpload: File | any = null;  
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+
+    this.uploadImages();
   }
+
+  
 
   uploadImages() {
 
     const filename = "XXX";
     const filetype = "jpg";
 
+    console.log(this.fileToUpload);
     this.employeeService.uploadImages(this.fileToUpload, this.initial_current.CompCode, this.selectedEmployee.worker_code).then((res) => {
       let resultJSON = JSON.parse(res);
       if (resultJSON.result == "1") {

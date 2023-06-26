@@ -66,6 +66,7 @@ import { EmployeePartComponent } from './employee-policy/genaral/employee-part/e
 import { EmployeePositionComponent } from './employee-policy/genaral/employee-position/employee-position.component';
 import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group/employee-group.component';
 import { EmpsettrainingComponent } from './employee-policy/setup-batch/empsettraining/empsettraining.component';
+import { EmpsetassessmentComponent } from './employee-policy/setup-batch/empsetassessment/empsetassessment.component';
 
 
 @NgModule({
@@ -138,7 +139,8 @@ import { EmpsettrainingComponent } from './employee-policy/setup-batch/empsettra
     EmployeePartComponent,
     EmployeePositionComponent,
     EmployeeGroupComponent,
-    EmpsettrainingComponent
+    EmpsettrainingComponent,
+    EmpsetassessmentComponent
   ]
 })
 export class EmployeeModule { }

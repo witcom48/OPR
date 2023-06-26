@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmployeeModel } from 'src/app/models/employee/employee';
+import { SetAssessmentModel } from 'src/app/models/employee/policy/batch/setassessment';
 import { SetBenefitsModel } from 'src/app/models/employee/policy/batch/setbenefits';
 import { SetDepModel } from 'src/app/models/employee/policy/batch/setdep';
 import { SetGroupModel } from 'src/app/models/employee/policy/batch/setgroup';
@@ -577,6 +578,70 @@ export class SetEmpDetailService {
       modified_by: Setup.modified_by || this.initial_current.Username,
     }
     return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchtraining', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message;
+      });
+  }
+
+  //set assessment
+  public SetAssessment_get(Setup: SetAssessmentModel) {
+    let emplists: any = [];
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: '',
+      ip: '127.0.0.1',
+      username: this.initial_current.Username,
+
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      empassessment_location : Setup.empassessment_location ,
+      empassessment_fromdate : Setup.empassessment_fromdate,
+      emp_data: emplists,
+
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    };
+    return this.http
+      .post<any>(
+        this.config.ApiEmployeeModule + '/batchassessmentlist',
+        data,
+        this.options
+      )
+      .toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public SetAssessment_record(Setup: SetAssessmentModel) {
+    let emplists: any = []
+    Setup.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code
+      }
+      emplists.push(ss)
+    })
+    let data = {
+      device_name: "",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: Setup.company_code || this.initial_current.CompCode,
+      empassessment_location: Setup.empassessment_location,
+      empassessment_topic: Setup.empassessment_topic,
+      empassessment_fromdate: this.datePipe.transform(Setup.empassessment_fromdate),
+      empassessment_todate: this.datePipe.transform(Setup.empassessment_todate),
+      empassessment_count: Setup.empassessment_count,
+      empassessment_result: Setup.empassessment_result,
+    
+      emp_data: emplists,
+      modified_by: Setup.modified_by || this.initial_current.Username,
+    }
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchassessment', data, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         return message;
