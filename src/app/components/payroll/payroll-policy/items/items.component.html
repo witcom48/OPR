@@ -26,8 +26,8 @@
             (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['item_code','item_name_en','item_name_th','modified_by','modified_date']" responsiveLayout="stack"
-            [breakpoint]="'744px'">
+            [globalFilterFields]="['item_code','item_name_en','item_name_th','modified_by','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -43,7 +43,7 @@
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                <th>{{title_no}}</th>
+                    <th>{{title_no}}</th>
 
                     <th>{{title_code}}</th>
                     <th>{{title_detail_en}}</th>
@@ -172,16 +172,18 @@
                 <label>40(1)(2)</label>
             </div>
 
+        </div>
+        <!-- <label>{{title_Account}}</label>
+            <textarea [(ngModel)]="selectedMTItem.item_account" pInputTextarea [autoResize]="true"></textarea> -->
 
-            <div >
-                <label>{{title_Account}}</label>
-                <textarea [(ngModel)]="selectedMTItem.item_account" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
+        <div class="formatt">
+            <label>{{title_Account}}</label>
+            <textarea [(ngModel)]="selectedMTItem.item_account" pInputTextarea [autoResize]="true"></textarea>
         </div>
 
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
-            (click)="Save()"></button>
+
+
+        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
             class="p-button-danger" (click)="Delete()"></button>
     </div>
@@ -198,7 +200,9 @@
 <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
