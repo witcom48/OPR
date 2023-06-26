@@ -2,13 +2,8 @@ export class AppConfig {
   constructor() {
 
   }
-<<<<<<< HEAD
-   UrlApi: string = "http://localhost:32208"
-  //UrlApi: string = "http://161.82.218.95:8806"
-=======
-  UrlApi: string = "http://localhost:32208"
-  // UrlApi: string = "http://161.82.218.95:8806"
->>>>>>> 8763e194965ad6acf5390bbe6bba995bef736920
+  //  UrlApi: string = "http://localhost:32208"
+  UrlApi: string = "http://161.82.218.95:8806"
 
   ApiMainModule: string = this.UrlApi + "/BpcOpr.svc/BpcOpr";
   ApiSystemModule: string = this.UrlApi + "/Module_System/ModuleSystem.svc/System";
