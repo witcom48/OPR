@@ -70,6 +70,9 @@ export class AddRounComponent implements OnInit {
       tmp.rounds_group = "Time"
       this.roundsService.rounds_get(tmp).then(async (res) => {
         this.rounds_list = await res;
+        await res.forEach((element: RoundsModel)=>{
+          this.rounds.rounds_group= element.rounds_group= "Time"
+      })
       });
     }
     

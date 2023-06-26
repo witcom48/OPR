@@ -21,6 +21,7 @@ var langcalendaren = {
 
 var yearperiod = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
+    ["System", { TH: "ระบบ", EN: "System " }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
     ["yearperiod", { TH: "ปีการจ่าย", EN: "Year Period" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
@@ -59,13 +60,13 @@ var rounddecimal = new Map([
     ["nameth", { TH: "ชื่อ ไทย", EN: "Name " }],
     ["nameen", { TH: "ชื่อ อังกฤษ ", EN: "Name " }],
     ["rounddecimal", { TH: "การปัดเศษ", EN: "Round Decimal" }],
-    ["currency", { TH: "Currency", EN: "Currency" }],
+    ["currency", { TH: "ทศนิยม", EN: "Currency" }],
     ["from", { TH: "จาก", EN: "From" }],
     ["tod", { TH: "ถึง", EN: "To" }],
     ["round", { TH: "ปัดเศษ", EN: "Round" }],
     ["timee", { TH: "เวลา", EN: "Time" }],
-    ["decimal", { TH: "Round Decimal", EN: "Round Decimal" }],
-    ["roundTime", { TH: "Round Time", EN: "Round Time" }],
+    ["decimal", { TH: "ทศนิยม", EN: "Round Decimal" }],
+    ["roundTime", { TH: "เวลา", EN: "Round Time" }],
     ["group", { TH: "กลุ่ม", EN: "Group" }],
     ["manage", { TH: "จัดการ", EN: "Manage" }],
 

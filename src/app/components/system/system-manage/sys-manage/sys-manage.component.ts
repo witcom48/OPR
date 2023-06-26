@@ -41,7 +41,7 @@ export class SysManageComponent implements OnInit {
       title_rounding: string = 'Rounding';
       title_round_decimal: string = 'Round Decimal';
       title_round_time: string = 'Round Time';
-      
+      title_round_polrounds: string = 'Currency Rounding';
       doLoadLanguage() {
           if (this.initial_current.Language == 'TH') {
               this.title_system_manage= 'System Manage';
@@ -55,7 +55,8 @@ export class SysManageComponent implements OnInit {
               this.title_rounding= 'การปัดเศษ';
               this.title_round_decimal= 'ทศนิยม';
               this.title_round_time= 'รอบเวลา';
-
+              this.title_round_polrounds= 'กำหนดรูปแบบการปัดเศษ';
+              
              
    
           }

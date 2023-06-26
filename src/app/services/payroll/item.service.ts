@@ -92,6 +92,7 @@ export class ItemService {
             item_calsso:model.item_calsso  ? "Y" : "N",
             item_calot:model.item_calot  ? "Y" : "N",
             item_contax:model.item_contax  ? "Y" : "N",
+            item_allowance:model.item_allowance  ? "Y" : "N",
 
             item_section:model.item_section,
             item_rate:model.item_rate,

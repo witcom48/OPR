@@ -106,8 +106,8 @@ export class EmpIDComponent implements OnInit {
         this.title_text	 = "ข้อความคงที่";	
         this.title_order= "อันดับ";	
 
-        this.title_name_th = "รายละเอียด(Thai)";
-        this.title_name_en = "รายละเอียด(Eng)";
+        this.title_name_th = "รายละเอียด(ไทย)";
+        this.title_name_en = "รายละเอียด(อังกฤษ)";
         this.title_detail = "รายละเอียด";
         this.title_modified_by = "ผู้ทำรายการ";
         this.title_modified_date = "วันที่ทำรายการ";

@@ -40,8 +40,8 @@ export class ItemsComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
     }
-    title_payroll: string = 'Payroll';
 
+    title_payroll: string = 'Payroll';
     title_policy: string = 'Set Policy';
     title_page: string = 'Income / Deduct';
     title_new: string = 'New';
@@ -54,6 +54,7 @@ export class ItemsComponent implements OnInit {
     title_Calpf: string = 'Calculate PF.';
     title_Calot: string = 'Calculate OT.';
     title_Calsso: string = 'Calculate SSO.';
+    title_Allowance: string = 'Calculate Allowance.';
     title_Contax: string = 'With holding tax';
     title_Section: string = 'Section';
     title_Rate: string = 'Rate';
@@ -90,8 +91,7 @@ export class ItemsComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-                                    this.title_payroll= 'บัญชีเงินเดือน';
-
+            this.title_payroll= 'บัญชีเงินเดือน';
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'ชนิดเงินได้ / เงินหัก';
             this.title_new = 'เพิ่ม';
@@ -103,6 +103,8 @@ export class ItemsComponent implements OnInit {
             this.title_Calpf = 'คำนวณกองทุนฯ';
             this.title_Calot = 'คำนวณโอที';
             this.title_Calsso = 'คำนวณประกันสังคม';
+            this.title_Allowance = 'คำนวณเงินค่าเวลา';
+
             this.title_Contax = 'หัก ณ ที่จ่าย';
             this.title_Section = 'มาตรา';
             this.title_Rate = 'อัตรา';
@@ -154,10 +156,13 @@ export class ItemsComponent implements OnInit {
                 element.item_calsso = element.item_calsso == 'Y' ? true : false;
                 element.item_calot = element.item_calot == 'Y' ? true : false;
                 element.item_contax = element.item_contax == 'Y' ? true : false;
+                element.item_allowance = element.item_allowance == 'Y' ? true : false;
             });
             this.MTItem_list = await res;
         });
     }
+
+
     async doRecordMTItem(data: ItemsModel) {
         await this.itemService.item_record(data).then((res) => {
             console.log(res);

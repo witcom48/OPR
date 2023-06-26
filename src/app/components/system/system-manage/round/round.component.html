@@ -26,7 +26,7 @@
             [globalFilterFields]="['rounds_code','rounds_name_en','rounds_name_th','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
-            <ng-template pTemplate="caption">
+            <!-- <ng-template pTemplate="caption">
                 <div class="searchtable">
                     <div class="input_radio">
                         <input name="notification" type="radio" id="RadioGroup1_0" value="Course" checked="checked" />
@@ -40,7 +40,7 @@
                             placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
-            </ng-template>
+            </ng-template> -->
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
@@ -77,6 +77,16 @@
     <div class="formatt" *ngIf="new_data===true">
         <i (click)="close()"></i>
 
+        <div>
+
+            <input type="radio" name="fav_language" value="Currency" [(ngModel)]="rounds.rounds_group">
+            <label>{{langs.get('currency')[selectlang]}}</label>
+
+            <input type="radio" name="fav_language" value="Time" [(ngModel)]="rounds.rounds_group">
+            <label>{{langs.get('timee')[selectlang]}}</label>
+        </div> 
+       
+
         <label>{{langs.get('code')[selectlang]}}</label>
         <input pInputText type="text" [(ngModel)]="rounds.rounds_code" maxlength="4" disabled="{{edit_data}}" />
         <p>{{rounds.rounds_code.length}}/4</p>
@@ -96,14 +106,7 @@
         <label>{{langs.get('round')[selectlang]}}</label>
         <textarea [(ngModel)]="rounds.rounds_result" pInputTextarea [autoResize]="true"></textarea>
 
-        <div>
-
-            <input type="radio" name="fav_language" value="Currency" [(ngModel)]="rounds.rounds_group">
-            <label>{{langs.get('currency')[selectlang]}}</label>
-
-            <input type="radio" name="fav_language" value="Time" [(ngModel)]="rounds.rounds_group">
-            <label>{{langs.get('timee')[selectlang]}}</label>
-        </div>
+        
 
 
         <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"

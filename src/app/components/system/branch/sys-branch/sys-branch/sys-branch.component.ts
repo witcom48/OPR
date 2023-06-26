@@ -90,6 +90,7 @@ export class SysBranchComponent implements OnInit {
 
         setTimeout(() => {
             this.doLoadMenu();
+            this.doLoadLanguage();
         }, 100);
 
         setTimeout(() => {
@@ -112,7 +113,7 @@ export class SysBranchComponent implements OnInit {
     title_social_security_branch: string = 'Social Security Branch';
     title_thai_name: string = 'Name (Thai)';
     title_english_name: string = 'Name (Eng)';
-
+    title_branch: string = 'Branch';
     title_card_type: string = 'Card Type';
     title_card_code: string = 'Card Code';
     title_card_opening_date: string = 'Card Opening Date';
@@ -195,7 +196,7 @@ export class SysBranchComponent implements OnInit {
     title_confirm_delete: string = 'Confirm to delete';
     title_confirm_yes: string = 'Yes';
     title_confirm_no: string = 'No';
-
+    title_back: string = 'Back';
     title_confirm_cancel: string = 'You have cancelled';
 
     title_address_type: string = 'Type';
@@ -214,8 +215,9 @@ export class SysBranchComponent implements OnInit {
     title_address_facebook: string = 'facebook';
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-
+            this.title_back ='กลับ';
             this.title_codes ='รหัสสาขา';
+            this.title_branch='ข้อมูลสาขา';
             this.title_social_security_branch ='สาขาประกันสังคม'
             this.title_thai_name ='ชื่อไทย';
             this.title_english_name ='ชื่ออังกฤษ';
@@ -324,14 +326,14 @@ export class SysBranchComponent implements OnInit {
         //menumain
         this.toolbar_menu = [
             {
-                label: 'Back',
+                label: this.title_back,
                 icon: 'pi-arrow-left',
                 command: (event) => {
                     this.router.navigateByUrl('system/Branch');
                 },
             },
             {
-                label: 'Save',
+                label: this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
                     console.log('Save');

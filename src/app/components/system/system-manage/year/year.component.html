@@ -19,9 +19,9 @@
                 <div class="searchtable">
                     <div class="input_radio">
                         <input type="radio" name="fav_year" value="TAX" [(ngModel)]="year_type" (change)="selectYeartype()">
-                          <label>TAX</label>
+                          <label>{{langs.get('tax')[selectlang]}} </label>
                         <input type="radio" name="fav_year" value="LEAVE" [(ngModel)]="year_type" (change)="selectYeartype()">
-                          <label>Leave</label>
+                          <label>{{langs.get('leave')[selectlang]}} </label>
                         <!-- <input name="notification" type="radio" id="RadioGroup1_0" value="Course" checked="checked" />
                         <label>TAX</label>
                         <input routerLink="../../system/system-yearperiods" type="radio" name="individual" value="Time">

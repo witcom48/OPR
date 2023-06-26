@@ -39,7 +39,7 @@
         <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                    <!-- <th>{{title_code}}</th> -->
+                    <th>{{title_code}}</th>
                         <th>{{title_name_th}}</th>
                         <th>{{title_name_en}}</th>
                         <th>{{title_modified_by}}</th>
@@ -48,7 +48,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-data>
                 <tr [pSelectableRow]="data">
-                    <!-- <td>{{data.course_code}}</td> -->
+                    <td>{{data.major_code}}</td>
                         <td>{{data.major_name_th}}</td>
                         <td>{{data.major_name_en}}</td>
                         <td>{{data.modified_by}}</td>
