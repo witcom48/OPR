@@ -1351,24 +1351,24 @@
                         <textarea [rows]="2" id="protimepol_name_en" [(ngModel)]="selectedProtimepol.protimepol_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                     </div>
                     <div class="field col-12">
-                        <label for="selectedProtimepol_ot">{{title_timepol_ot[initial_current.Language]}}</label><br>
-                        <p-dropdown [options]="polot_list_cbb" [(ngModel)]="selectedProtimepol_ot" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        <label for="selectedProtimepol_ot">{{title_timepol_ot[initial_current.Language]}}</label><br>                       
+                        <p-dropdown [options]="polot_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_ot" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>                   
                     </div>
                     <div class="field col-12">
-                        <label for="selectedProtimepol_allw">{{title_timepol_allw[initial_current.Language]}}</label><br>
-                        <p-dropdown [options]="polallw_list_cbb" [(ngModel)]="selectedProtimepol_allw" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        <label for="selectedProtimepol_allw">{{title_timepol_allw[initial_current.Language]}}</label><br>                        
+                        <p-dropdown [options]="polallw_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_allw" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>         
                     </div>
                     <div class="field col-12">
-                        <label for="selectedProtimepol_dg">{{title_timepol_dg[initial_current.Language]}}</label><br>
-                        <p-dropdown [options]="poldg_list_cbb" [(ngModel)]="selectedProtimepol_dg" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        <label for="selectedProtimepol_dg">{{title_timepol_dg[initial_current.Language]}}</label><br>                        
+                        <p-dropdown [options]="poldg_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_dg" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> 
                     </div>
                     <div class="field col-12">
                         <label for="selectedProtimepol_lv">{{title_timepol_lv[initial_current.Language]}}</label><br>
-                        <p-dropdown [options]="pollv_list_cbb" [(ngModel)]="selectedProtimepol_lv" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        <p-dropdown [options]="pollv_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_lv" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> 
                     </div>
                     <div class="field col-12">
                         <label for="selectedProtimepol_lt">{{title_timepol_lt[initial_current.Language]}}</label><br>
-                        <p-dropdown [options]="pollt_list_cbb" [(ngModel)]="selectedProtimepol_lt" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        <p-dropdown [options]="pollt_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_lt" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> 
                     </div>
                     <div class="field col-12">
                         <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="protimepol_summit()"></p-button>

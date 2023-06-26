@@ -57,6 +57,21 @@ import { RadiovalueModel } from '../../../models/project/radio_value';
 import { ShiftServices } from 'src/app/services/attendance/shift.service';
 import { ShiftModels } from 'src/app/models/attendance/shift';
 
+import { OvertimeModels } from 'src/app/models/attendance/overtime';
+import { OTServices } from 'src/app/services/attendance/rateot.service';
+
+import { cls_MTPlantimeallw } from 'src/app/models/attendance/cls_MTPlantimeallw';
+import { TimeAllowanceServices } from 'src/app/services/attendance/timeallowance.service';
+
+import { DiligenceModels } from 'src/app/models/attendance/diligence';
+import { DiligenceServices } from 'src/app/services/attendance/diligence.service';
+
+import { LeaveplanModels } from 'src/app/models/attendance/leave_plan';
+import { PlanleaveServices } from 'src/app/services/attendance/planleave.service';
+
+import { LateModels } from 'src/app/models/attendance/late';
+import { LateServices } from 'src/app/services/attendance/late.service';
+
 @Component({
   selector: 'app-project-manage',
   templateUrl: './project-manage.component.html',
@@ -75,6 +90,8 @@ export class ProjectManageComponent implements OnInit {
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
   protype_list: ProtypeModel[] = [];
+
+  //#region "My Menu"
 
   menu_procontact: MenuItem[] = [];
   edit_procontact: boolean = false;
@@ -135,7 +152,9 @@ export class ProjectManageComponent implements OnInit {
   //
   edit_projobversion: boolean = false;
   new_projobversion: boolean = false;
+  //#endregion "My Menu"
 
+  //#region "Language"
   title_tab_genaral: {[key: string]: string} = {  EN: "Genaral",  TH: "ข้อมูลทั่วไป"}
   title_tab_contract: {[key: string]: string} = {  EN: "Contract",  TH: "ข้อมูลสัญญา"}
   title_tab_policy: {[key: string]: string} = {  EN: "Policy",  TH: "นโยบาย"}
@@ -301,6 +320,8 @@ export class ProjectManageComponent implements OnInit {
   title_emp_total: {[key: string]: string} = {  EN: "Total emp",  TH: "จำนวนพนักงาน"}
   title_amount_total: {[key: string]: string} = {  EN: "Total amount",  TH: "ราคารวม"}
 
+  //#endregion "Language"
+
 
   constructor(
     private router:Router,
@@ -316,7 +337,12 @@ export class ProjectManageComponent implements OnInit {
     private shiftServices: ShiftServices,
     private initialService: InitialService,
     private positionService:PositionService,
-    private empstatusService:EmpstatusService
+    private empstatusService:EmpstatusService,
+    private otservices:OTServices,
+    private timeallwservices:TimeAllowanceServices,
+    private diligenceServices:DiligenceServices,
+    private planleaveService:PlanleaveServices,
+    private lateServices:LateServices,
 
   ) {
 
@@ -578,13 +604,7 @@ export class ProjectManageComponent implements OnInit {
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
-            if(this.selectedProtimepol != null){
-
-              this.doLoadSelectedProtimepol_ot(this.selectedProtimepol.protimepol_ot)
-              this.doLoadSelectedProtimepol_allw(this.selectedProtimepol.protimepol_allw)
-              this.doLoadSelectedProtimepol_dg(this.selectedProtimepol.protimepol_dg)
-              this.doLoadSelectedProtimepol_lv(this.selectedProtimepol.protimepol_lv)
-              this.doLoadSelectedProtimepol_lt(this.selectedProtimepol.protimepol_lt)
+            if(this.selectedProtimepol != null){             
 
               this.edit_protimepol = true
 
@@ -1638,131 +1658,84 @@ export class ProjectManageComponent implements OnInit {
   }
 
   //-- Project time policy
+  polot_list: any[] = [];
+  selectedProtimepol_ot: OvertimeModels = new OvertimeModels;
+  doLoadPolOT(){    
+    var tmp = new OvertimeModels();
+    this.otservices.ot_get(tmp).then(async (res) => {
+      await res.forEach((element: OvertimeModels) => {
+        this.polot_list.push(
+          {            
+            name: this.initial_current.Language == "EN" ? element.rateot_name_en : element.rateot_name_th,
+            code: element.rateot_code
+          }
+        )
+      });      
+    });
+  }
+  
 
-  polot_list_cbb: RadiovalueModel[] = [];
-  selectedProtimepol_ot: RadiovalueModel = new RadiovalueModel;
-  doLoadPolOT(){
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();
-      tmp.value = "OT";
-      tmp.text = "Overtime";
-      this.polot_list_cbb.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();
-      tmp.value = "OT";
-      tmp.text = "ล่วงเวลา";
-      this.polot_list_cbb.push(tmp);
-    }
-  }
-  doLoadSelectedProtimepol_ot(value:string){
-    for (let i = 0; i < this.polot_list_cbb.length; i++) {
-      if(this.polot_list_cbb[i].value==value ){
-        this.selectedProtimepol_ot = this.polot_list_cbb[i];
-        break;
-      }
-    }
-  }
+  polallw_list: any[] = [];  
+  doLoadPolAllw(){    
+    var tmp = new cls_MTPlantimeallw();
+    this.timeallwservices.timeallow_get(tmp).then(async (res) => {
+      await res.forEach((element: cls_MTPlantimeallw) => {
+        this.polallw_list.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.plantimeallw_name_en : element.plantimeallw_name_th,
+            code: element.plantimeallw_code
+          }
+        )
+      });      
+    });    
+  }  
 
-  polallw_list_cbb: RadiovalueModel[] = [];
-  selectedProtimepol_allw: RadiovalueModel = new RadiovalueModel;
-  doLoadPolAllw(){
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();
-      tmp.value = "M001";
-      tmp.text = "Monthly Allw";
-      this.polallw_list_cbb.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();
-      tmp.value = "M001";
-      tmp.text = "รายเดือน";
-      this.polallw_list_cbb.push(tmp);
-    }
-  }
-  doLoadSelectedProtimepol_allw(value:string){
-    for (let i = 0; i < this.polallw_list_cbb.length; i++) {
-      if(this.polallw_list_cbb[i].value==value ){
-        this.selectedProtimepol_allw = this.polallw_list_cbb[i];
-        break;
-      }
-    }
-  }
-
-  poldg_list_cbb: RadiovalueModel[] = [];
-  selectedProtimepol_dg: RadiovalueModel = new RadiovalueModel;
+  poldg_list: any[] = [];   
   doLoadPolDg(){
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();
-      tmp.value = "DG001";
-      tmp.text = "Monthly DG";
-      this.poldg_list_cbb.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();
-      tmp.value = "DG001";
-      tmp.text = "รายเดือน";
-      this.poldg_list_cbb.push(tmp);
-    }
-  }
-  doLoadSelectedProtimepol_dg(value:string){
-    for (let i = 0; i < this.poldg_list_cbb.length; i++) {
-      if(this.poldg_list_cbb[i].value==value ){
-        this.selectedProtimepol_dg = this.poldg_list_cbb[i];
-        break;
-      }
-    }
-  }
+    var tmp = new DiligenceModels();
+    this.diligenceServices.diligence_get(tmp).then(async (res) => {
+      await res.forEach((element: DiligenceModels) => {
+        this.poldg_list.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.diligence_name_en : element.diligence_name_th,
+            code: element.diligence_code
+          }
+        )
+      });      
+    });
+  }  
 
-  pollv_list_cbb: RadiovalueModel[] = [];
-  selectedProtimepol_lv: RadiovalueModel = new RadiovalueModel;
+  pollv_list: any[] = [];     
   doLoadPolLv(){
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();
-      tmp.value = "LV001";
-      tmp.text = "Monthly Leave";
-      this.pollv_list_cbb.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();
-      tmp.value = "LV001";
-      tmp.text = "รายเดือน";
-      this.pollv_list_cbb.push(tmp);
-    }
+    var tmp = new LeaveplanModels();
+    this.planleaveService.planleave_get(tmp).then(async (res) => {
+      res.forEach((element: LeaveplanModels) => {
+        this.pollv_list.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.planleave_name_en : element.planleave_name_th,
+            code: element.planleave_code
+          }
+        )
+      });      
+    });
   }
-  doLoadSelectedProtimepol_lv(value:string){
-    for (let i = 0; i < this.pollv_list_cbb.length; i++) {
-      if(this.pollv_list_cbb[i].value==value ){
-        this.selectedProtimepol_lv = this.pollv_list_cbb[i];
-        break;
-      }
-    }
-  }
+  
 
-  pollt_list_cbb: RadiovalueModel[] = [];
-  selectedProtimepol_lt: RadiovalueModel = new RadiovalueModel;
+  pollt_list: any[] = [];     
   doLoadPolLt(){
-    if(this.initial_current.Language == "EN"){
-      var tmp = new RadiovalueModel();
-      tmp.value = "LT001";
-      tmp.text = "Monthly Late";
-      this.pollt_list_cbb.push(tmp);
-    }
-    else{
-      var tmp = new RadiovalueModel();
-      tmp.value = "LT001";
-      tmp.text = "รายเดือน";
-      this.pollt_list_cbb.push(tmp);
-    }
+    var tmp = new LateModels();
+    this.lateServices.late_get(tmp).then(async (res) => {
+      await res.forEach((element: LateModels) => {
+        this.pollt_list.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.late_name_en : element.late_name_th,
+            code: element.late_code
+          }
+        )
+      });     
+    });
   }
-  doLoadSelectedProtimepol_lt(value:string){
-    for (let i = 0; i < this.pollt_list_cbb.length; i++) {
-      if(this.pollt_list_cbb[i].value==value ){
-        this.selectedProtimepol_lt = this.pollt_list_cbb[i];
-        break;
-      }
-    }
-  }
+  
 
   protimepol_list: ProtimepolModel[] = [];
   selectedProtimepol: ProtimepolModel = new ProtimepolModel();
@@ -1777,12 +1750,6 @@ export class ProjectManageComponent implements OnInit {
   onRowSelectProtimepol(event: Event) {
   }
   protimepol_summit() {
-
-    this.selectedProtimepol.protimepol_ot = this.selectedProtimepol_ot.value
-    this.selectedProtimepol.protimepol_allw = this.selectedProtimepol_allw.value
-    this.selectedProtimepol.protimepol_dg = this.selectedProtimepol_dg.value
-    this.selectedProtimepol.protimepol_lv = this.selectedProtimepol_lv.value
-    this.selectedProtimepol.protimepol_lt = this.selectedProtimepol_lt.value
 
     this.protimepol_addItem(this.selectedProtimepol)
     this.new_protimepol = false
