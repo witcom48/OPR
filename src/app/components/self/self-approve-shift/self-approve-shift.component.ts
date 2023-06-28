@@ -6,6 +6,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ShiftModels } from 'src/app/models/attendance/shift';
 import { ApproveModel } from 'src/app/models/self/approve';
+import { ApproveTotalModel } from 'src/app/models/self/approveTotal';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeshiftModel } from 'src/app/models/self/cls_TRTimeshift';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
@@ -15,7 +16,7 @@ import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeShiftServices } from 'src/app/services/self/timeshift.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqshift: any;
-
+interface Status { name: string, code: number }
 @Component({
   selector: 'app-self-approve-shift',
   templateUrl: './self-approve-shift.component.html',
@@ -54,12 +55,20 @@ export class SelfApproveShiftComponent implements OnInit {
   selectedtrtimeshfit: cls_TRTimeshiftModel = new cls_TRTimeshiftModel();
   selectedtrtimeshfitall: cls_TRTimeshiftModel[] = [];
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
+  approveTotal: ApproveTotalModel[] = [];
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
+  status_doc: boolean = false
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.reasonedis = "reason_name_th"
@@ -73,15 +82,27 @@ export class SelfApproveShiftComponent implements OnInit {
     this.doLoadReason();
     this.doLoadShfit();
   }
+  Search() {
+    if (this.status_select.code) {
+      this.status_doc = true;
+    } else {
+      this.status_doc = false;
+    }
+    this.doLoadTimeshift();
+  }
   doLoadTimeshift() {
     this.trtimeshfit_list = [];
     var tmp = new ApproveModel();
     tmp.job_type = "SHT"
+    tmp.fromdate = this.start_date;
+    tmp.todate = this.end_date;
+    tmp.status = this.status_select.code;
     this.approveService.approve_get(tmp).then(async (res) => {
-      res.forEach((elm: any) => {
+      res.data.forEach((elm: any) => {
         elm.timeshift_workdate = new Date(elm.timeshift_workdate)
       });
-      this.trtimeshfit_list = await res
+      this.trtimeshfit_list = await res.data
+      this.approveTotal = await res.total;
     });
   }
   doLoadReason() {
@@ -215,7 +236,7 @@ export class SelfApproveShiftComponent implements OnInit {
 
   }
   Save(data: cls_TRTimeshiftModel) {
-    if (!this.selectedtrtimeshfitall.length) {
+    if (!this.selectedtrtimeshfitall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('conapprove')[this.selectlang],
         header: this.langs.get('condoc')[this.selectlang],
@@ -235,7 +256,7 @@ export class SelfApproveShiftComponent implements OnInit {
 
   }
   Delete(data: cls_TRTimeshiftModel) {
-    if (!this.selectedtrtimeshfitall.length) {
+    if (!this.selectedtrtimeshfitall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('connotapprove')[this.selectlang],
         header: this.langs.get('connotdoc')[this.selectlang],
@@ -254,7 +275,7 @@ export class SelfApproveShiftComponent implements OnInit {
     }
   }
   Saveall() {
-    if (this.selectedtrtimeshfitall.length) {
+    if (this.selectedtrtimeshfitall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('conapprove')[this.selectlang],
         header: this.langs.get('condoc')[this.selectlang],
@@ -276,7 +297,7 @@ export class SelfApproveShiftComponent implements OnInit {
     }
   }
   Deleteall() {
-    if (this.selectedtrtimeshfitall.length) {
+    if (this.selectedtrtimeshfitall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('connotapprove')[this.selectlang],
         header: this.langs.get('connotdoc')[this.selectlang],

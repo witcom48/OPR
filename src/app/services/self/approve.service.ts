@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { InitialCurrent } from '../../config/initial_current';
 import { AccountModel } from 'src/app/models/self/account';
 import { ApproveModel } from 'src/app/models/self/approve';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +21,7 @@ export class ApproveServices {
         headers: this.httpHeaders
     };
 
-    constructor(private http: HttpClient, private router: Router) {
+    constructor(private http: HttpClient, private router: Router, private datePipe: DatePipe,) {
         this.doGetInitialCurrent();
     }
 
@@ -51,12 +52,15 @@ export class ApproveServices {
             ip: "127.0.0.1",
             username: this.initial_current.Username,
             company_code: approve.company_code || this.initial_current.CompCode,
-            job_type: approve.job_type
+            job_type: approve.job_type,
+            status: approve.status,
+            fromdate: this.datePipe.transform(approve.fromdate, 'yyyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_FromDate, 'yyy-MM-dd'),
+            todate: this.datePipe.transform(approve.todate, 'yyyy-MM-dd') || this.datePipe.transform(this.initial_current.PR_ToDate, 'yyy-MM-dd'),
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/approve_list', data, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                return message.data;
+                return message;
             });
     }
 
