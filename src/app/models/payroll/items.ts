@@ -17,6 +17,7 @@ export class ItemsModel {
     item_calpf: string= "";
     item_calot: string= "";
     item_calsso: string= "";
+    item_allowance: string= "";
     item_contax: string= "";
     item_section: string= "";
     item_rate: number = 0.00 ;

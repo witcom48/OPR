@@ -52,7 +52,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
     doGetInitialCurrent(){
       this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
       if (!this.initial_current) {
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('login');
       }
     }
 title_system:string = "System";
@@ -65,7 +65,7 @@ title_system:string = "System";
     title_export:string = "Export";
     title_save:string = "Save";
     title_code:string = "Code";
-    
+
     title_name_th:string = "Description(Thai)";
     title_name_en:string = "Description(Eng)";
     title_company:string = "Company";
@@ -99,8 +99,8 @@ title_system:string = "System";
         this.title_export = "โอนออก";
         this.title_save = "บันทึก";
         this.title_code = "รหัส";
-        this.title_name_th = "รายละเอียด(Thai)";
-        this.title_name_en = "รายละเอียด(Eng)";
+        this.title_name_th = "รายละเอียด(ไทย)";
+        this.title_name_en = "รายละเอียด(อังกฤษ)";
         this.title_modified_by = "ผู้ทำรายการ";
         this.title_modified_date = "วันที่ทำรายการ";
         this.title_search = "ค้นหา";
@@ -188,7 +188,7 @@ title_system:string = "System";
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
        }
-  
+
 
       });
     }
@@ -225,10 +225,13 @@ title_system:string = "System";
 
       });
     }
-
+    close(){
+        this.new_data=false
+        this.selectedLevel = new LevelModel()
+      }
     onRowSelectLevel(event: Event) {
       this.edit_data= true;
-      this.new_data= false;
+      this.new_data= true;
     }
 
 

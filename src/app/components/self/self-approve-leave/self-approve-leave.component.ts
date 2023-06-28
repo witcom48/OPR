@@ -61,7 +61,7 @@ export class SelfApproveLeaveComponent implements OnInit {
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
@@ -120,61 +120,6 @@ export class SelfApproveLeaveComponent implements OnInit {
       this.reason_list = await res;
     });
   }
-  async doRecordTimeleave(data: cls_TRTimeleaveModel[]) {
-    await this.timeleaveService.timeleave_record(data).then((res) => {
-      if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadTimeleave();
-        // this.doLoadLeaveacc();
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-      }
-
-    });
-    this.leavetype = "F"
-    this.closeManage()
-  }
-  async doDeleteTimeleave(data: cls_TRTimeleaveModel) {
-    await this.timeleaveService.timeleave_delete(data).then((res) => {
-      if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadTimeleave();
-        // this.doLoadLeaveacc();
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-      }
-
-    });
-    this.closeManage()
-  }
-  doUploadFile() {
-    const filename = "LEAVE_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
-    const filetype = this.fileToUpload.name.split(".")[1];
-    this.timeleaveService.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
-      if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.selectedtrtimeleave.reqdoc_data = this.selectedtrtimeleave.reqdoc_data.concat({
-          company_code: this.selectedtrtimeleave.company_code || this.initial_current.CompCode,
-          document_id: 0,
-          job_id: this.selectedtrtimeleave.timeleave_id.toString(),
-          job_type: 'LEA',
-          document_name: filename + "." + filetype,
-          document_type: this.fileToUpload.type,
-          document_path: res.message,
-          created_by: this.initial_current.Username,
-          created_date: new Date().toISOString()
-        })
-        this.Uploadfile = false;
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-      }
-      this.fileToUpload = null;
-    });
-  }
   async doGetfileTimeleave(file_path: string, type: string) {
     this.timeleaveService.get_file(file_path).then((res) => {
       var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
@@ -201,34 +146,6 @@ export class SelfApproveLeaveComponent implements OnInit {
   doLoadMenu() {
 
     this.items = [
-
-      // {
-      //   label: this.langs.get('new')[this.selectlang],
-      //   icon: 'pi pi-fw pi-plus',
-      //   command: (event) => {
-      //     this.leavetype = "F"
-      //     this.selectedtrtimeleave = new cls_TRTimeleaveModel();
-      //     this.selectedleave_type = this.leaveacc_list[0]
-      //     this.reasonselected = this.reason_list[0]
-      //     this.selectedtrtimeleave.leave_code = this.leaveacc_list[0].leave_code
-      //     this.selectedtrtimeleave.reason_code = this.reason_list[0].reason_code
-      //     this.time_half = "00:00"
-      //     this.selectLeaveType();
-      //     this.showManage();
-      //   }
-
-      // },
-      // {
-      //   label: 'Edit',
-      //   icon: 'pi pi-fw pi-pencil',
-      //   command: (event) => {
-      //     console.log('Edit')
-      //   }
-      // },
-      // {
-      //   label: 'Delete',
-      //   icon: 'pi pi-fw pi-trash',
-      // },
       {
         label: this.langs.get('import')[this.selectlang],
         icon: 'pi pi-fw pi-file-import',
@@ -250,79 +167,9 @@ export class SelfApproveLeaveComponent implements OnInit {
           this.Uploadfile = true;
         }
       },
-      // {
-      //   label: 'เพิ่มไฟล์แนบ',
-      //   icon: 'pi pi-fw pi-plus',
-      //   command: (event) => {
-      //     console.log('Edit')
-      //   }
-      // },
-      // {
-      //   label: 'ลบ',
-      //   icon: 'pi pi-fw pi-trash',
-      // }
-
 
     ];
 
-  }
-  DeleteFile(data: cls_MTReqdocumentModel) {
-    this.confirmationService.confirm({
-      message: this.langs.get('confirm_delete')[this.selectlang] + data.document_name,
-      header: this.langs.get('delete')[this.selectlang],
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        console.log(data)
-        if (data.document_id) {
-          this.timeleaveService.delete_file(data).then((res) => {
-            if (res.success) {
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-            } else {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-            }
-          })
-        } else {
-          this.selectedtrtimeleave.reqdoc_data = this.selectedtrtimeleave.reqdoc_data.filter((item) => {
-            return item !== data;
-          });
-        }
-        this.timeleaveService.deletefilepath_file(data.document_path).then((res) => {
-          if (res.success) {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-            this.selectedtrtimeleave.reqdoc_data = this.selectedtrtimeleave.reqdoc_data.filter((item) => {
-              return item !== data;
-            });
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-          }
-        })
-      },
-      reject: () => {
-
-      }
-    });
-  }
-  Uploadfiledoc() {
-    if (this.fileToUpload) {
-      this.confirmationService.confirm({
-        message: this.langs.get('confirm_upload')[this.selectlang] + this.fileToUpload.name,
-        header: this.langs.get('import')[this.selectlang],
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.fileUploader.nativeElement.value = null;
-          this.Uploadfile = false;
-          this.doUploadFile();
-        },
-        reject: () => {
-          this.Uploadfile = false;
-        }
-      });
-    } else {
-      this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
-    }
-  }
-  handleFileInputholidaylist(file: FileList) {
-    this.fileToUpload = file.item(0);
   }
   showManage() {
     this.displayManage = true
@@ -354,18 +201,6 @@ export class SelfApproveLeaveComponent implements OnInit {
     this.edit_data = true;
   }
   onRowSelect(event: Event) {
-    // this.doLoadLeaveacc(this.selectedtrtimeleave.worker_code);
-    // this.time_half = this.datePipe.transform(new Date(0, 0, 0, Math.floor(this.selectedtrtimeleave.timeleave_min / 60), Math.floor(this.selectedtrtimeleave.timeleave_min % 60)), 'HH:mm') || "00:00"
-    // this.reason_list.forEach((obj: ReasonsModel) => {
-    //   if (obj.reason_code == this.selectedtrtimeleave.reason_code) {
-    //     this.reasonselected = obj;
-    //   }
-    // })
-    // if (this.selectedtrtimeleave.timeleave_type === "F") {
-    //   this.leavetype = "F"
-    // } else {
-    //   this.leavetype = "H"
-    // }
   }
   onRowSelectfile(event: Event) {
     this.doGetfileTimeleave(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
@@ -387,20 +222,7 @@ export class SelfApproveLeaveComponent implements OnInit {
     }
     return day;
   }
-  getFullStatus(code: string) {
-    let status = ""
-    switch (code) {
-      case "W":
-        status = this.langs.get('wait')[this.selectlang];
-        break;
-      case "F":
-        status = this.langs.get('finish')[this.selectlang];
-        break;
-      case "C":
-        status = this.langs.get('reject')[this.selectlang];
-    }
-    return status;
-  }
+
   Save(data: cls_TRTimeleaveModel) {
     if (!this.selectedtrtimeleaveall.length) {
       this.confirmationService.confirm({
@@ -442,26 +264,46 @@ export class SelfApproveLeaveComponent implements OnInit {
   }
   Saveall() {
     if (this.selectedtrtimeleaveall.length) {
-      let tmp = new ApproveModel();
-      this.selectedtrtimeleaveall.forEach((data: cls_TRTimeleaveModel) => {
-        tmp.job_id.push(data.jobtable_id)
-        tmp.approve_status = "A";
-        tmp.company_code = data.company_code;
-      })
-      console.log(tmp)
-      this.doApproveJob(tmp)
+      this.confirmationService.confirm({
+        message: this.langs.get('conapprove')[this.selectlang],
+        header: this.langs.get('condoc')[this.selectlang],
+        icon: 'pi pi-check',
+        accept: () => {
+          let tmp = new ApproveModel();
+          this.selectedtrtimeleaveall.forEach((data: cls_TRTimeleaveModel) => {
+            tmp.job_id.push(data.jobtable_id)
+            tmp.approve_status = "A";
+            tmp.company_code = data.company_code;
+          })
+          console.log(tmp)
+          this.doApproveJob(tmp)
+        },
+        reject: () => {
+
+        }
+      });
     }
   }
   Deleteall() {
     if (this.selectedtrtimeleaveall.length) {
-      let tmp = new ApproveModel();
-      this.selectedtrtimeleaveall.forEach((data: cls_TRTimeleaveModel) => {
-        tmp.job_id.push(data.jobtable_id)
-        tmp.approve_status = "C";
-        tmp.company_code = data.company_code;
-      })
-      console.log(tmp)
-      this.doApproveJob(tmp)
+      this.confirmationService.confirm({
+        message: this.langs.get('connotapprove')[this.selectlang],
+        header: this.langs.get('connotdoc')[this.selectlang],
+        icon: 'pi pi-times',
+        accept: () => {
+          let tmp = new ApproveModel();
+          this.selectedtrtimeleaveall.forEach((data: cls_TRTimeleaveModel) => {
+            tmp.job_id.push(data.jobtable_id)
+            tmp.approve_status = "C";
+            tmp.company_code = data.company_code;
+          })
+          console.log(tmp)
+          this.doApproveJob(tmp)
+        },
+        reject: () => {
+
+        }
+      });
     }
   }
   viwe(data: cls_TRTimeleaveModel) {

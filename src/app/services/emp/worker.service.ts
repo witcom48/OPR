@@ -167,7 +167,7 @@ export class EmployeeService {
     const formData = new FormData();
     formData.append('file', file);
 
-    var para = "ref_to=" + com  + "." + worker ;
+    var para = "ref_to=" + com  + "." + worker +"."+ this.initial_current.Username ;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadWorkerImages?' + para, formData).toPromise()
       .then((res) => {

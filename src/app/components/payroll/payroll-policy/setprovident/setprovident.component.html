@@ -18,7 +18,7 @@
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
-            <span>Process</span>
+            <span>{{title_Process}}</span>
         </ng-template>
 
         <div class="formgrid grid align-items-end">
@@ -28,7 +28,7 @@
             </div>
             <div class="field col-12 md:col-6">
                 <div>
-                    <label>Policy</label>
+                    <label>{{title_system_Policy}}</label>
                     <p-dropdown placeholder="--" [options]="TRpolProvidentList" optionValue="provident_code" [showClear]="true"
                         [(ngModel)]="selectedTRpolProvident.paypolprovident_code"
                         [style]="{ width: '100%', overflow: 'visible' }">
@@ -50,7 +50,7 @@
     <p-tabPanel>
         <ng-template pTemplate="header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
-            <span>Result</span>
+            <span>{{title_Result}}</span>
         </ng-template>
         <div>
             <p-table *ngIf="new_data==true" #dt2 [value]="SetProvident_List" styleClass="p-datatable-sm"

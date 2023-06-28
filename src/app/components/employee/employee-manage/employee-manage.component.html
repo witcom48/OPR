@@ -14,9 +14,12 @@
 
                     <div class="empinfo">
 
-                        <p-image [src]="base64Image" id="imgWorker" name="imgWorker" alt="Image" width="150" height="150"></p-image>
-                        <p-fileUpload class="upload" mode="basic" chooseLabel="Upload Images" name="demo[]"
-                            accept="image/*" (onUpload)="handleFileInput($any($event).target.files)"></p-fileUpload>
+                        <p-image [src]="base64Image" id="imgWorker" name="imgWorker" alt="Image" width="175"
+                            height="175"></p-image>
+                        <!-- <p-fileUpload class="upload" mode="basic" chooseLabel="Upload Images" [maxFileSize]="1000000"
+                            accept="image/*" cancelIcon="true" [customUpload]="true"
+                            (onSelect)="onselectFile($event)"></p-fileUpload> -->
+                        <input class="upload" type="file" id="file" (change)="onselectFile($event)">
                         <div>
                             <label for="code">{{title_code}} :</label>
                             <input pInputText id="code" type="text" [(ngModel)]="selectedEmployee.worker_code"

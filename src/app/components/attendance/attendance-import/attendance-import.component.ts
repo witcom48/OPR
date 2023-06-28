@@ -34,35 +34,33 @@ export class AttendanceImportComponent implements OnInit {
   @ViewChild('importFile') importFile:any  
   @ViewChild(TaskComponent) taskView: any;
 
-  public labNew:string = "New";
-  public labBack:string = "Back";
-  public labSave:string = "Save";
-  
-  public labModyfiedBy:string = "Modyfied by";
-  public labModyfiedDate:string = "Modyfied date";
 
-  public labTitle:string = "Setup format import time";
-  public labChooseFile:string = "Choose File";
-  public labFormat:string = "Format date";
-  public labCard:string = "Card no.";
-  public labDate:string = "Date";
-  public labHours:string = "Hours";
-  public labMinute:string = "Minute";
-  public labFunction:string = "Function";
-  public labMachine:string = "Machine";
-  public labStart:string = "Start";
-  public labLenght:string = "Lenght";
+  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
+  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
+  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
+  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
+  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
+  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
 
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to record";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
+  title_btn_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
+  title_btn_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
+  title_btn_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+  title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
+  title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
 
-  title_confirm_cancel:string = "You have cancelled";
+  labTitle: {[key: string]: string} = {  EN: "Setup format import time",  TH: "ตั้งค่ารูปแบบไฟล์นำเข้าเวลา"}
+  labChooseFile: {[key: string]: string} = {  EN: "Choose File",  TH: "เลือกไฟล์"}
+  labFormat: {[key: string]: string} = {  EN: "Format date",  TH: "รูปแบบวันที่"}
+  labCard: {[key: string]: string} = {  EN: "Card no.",  TH: "รหัสบัตร"}
+  labDate: {[key: string]: string} = {  EN: "Date",  TH: "วันที่"}
+  labHours: {[key: string]: string} = {  EN: "Hours",  TH: "ชั่วโมง"}
+  labMinute: {[key: string]: string} = {  EN: "Minute",  TH: "นาที"}
+  labFunction: {[key: string]: string} = {  EN: "Function",  TH: "สถานะเข้า-ออก"}
+  labMachine: {[key: string]: string} = {  EN: "Machine",  TH: "หมายเลขเครื่อง"}
+  labStart: {[key: string]: string} = {  EN: "Start",  TH: "เริ่ม"}
+  labLenght: {[key: string]: string} = {  EN: "Lenght",  TH: "ความยาว"}
+  labExample: {[key: string]: string} = {  EN: "Example",  TH: "ตัวอย่าง"}
 
-  title_submit:string = "Submit";
-  title_cancel:string = "Cancel";
 
   public examInput:string = "";
   public examCard:string = "";
@@ -95,51 +93,25 @@ export class AttendanceImportComponent implements OnInit {
   doGetInitialCurrent(){    
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }       
   }
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.labTitle = "ตั้งค่ารูปแบบไฟล์นำเข้าเวลา";
-
-      this.labChooseFile = "เลือกไฟล์";
-
-      this.labNew = "เพิ่ม";
-      this.labBack = "ย้อนกลับ";
-      this.labSave = "บันทึก";
-
-      this.labFormat = "รูปแบบวันที่";
-      this.labCard = "รหัสบัตร";
-      this.labDate = "วันที่";
-      this.labHours = "ชั่วโมง";
-      this.labMinute = "นาที";
-      this.labFunction = "สถานะเข้า-ออก";
-      this.labMachine = "หมายเลขเครื่อง";
-      this.labStart = "เริ่ม";
-      this.labLenght = "ความยาว";
-      
-      this.labModyfiedBy = "ผู้ทำรายการ";
-      this.labModyfiedDate = "วันที่ทำรายการ";
-
-      this.title_confirm = "ยืนยันการทำรายการ";
-      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
-      this.title_confirm_delete = "คุณต้องการลบรายการ";
-
-      this.title_confirm_yes = "ใช่";
-      this.title_confirm_no = "ยกเลิก";
-      this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
+         
     }
   }
 
 
-  dateformatList: RadiovalueModel[] = [
-    {value: 'dd/MM/yyyy', text: 'dd/MM/yyyy', text_th:'', text_en:''},
-    {value: 'ddMMyyyy', text: 'ddMMyyyy', text_th:'', text_en:''},
-    {value: 'ddMMyy', text: 'ddMMyy', text_th:'', text_en:''},
-    {value: 'dd-MM-yyyy', text: 'dd-MM-yyyy', text_th:'', text_en:''},
-    {value: 'dd-MM-yy', text: 'dd-MM-yy', text_th:'', text_en:''},
-    {value: 'yyyy-MM-dd', text: 'yyyy-MM-dd', text_th:'', text_en:''}
+  dateformatList: any[] = [
+    {code: 'dd/MM/yyyy', text: 'dd/MM/yyyy'},
+    {code: 'ddMMyyyy', text: 'ddMMyyyy'},
+    {code: 'ddMMyy', text: 'ddMMyy'},
+    {code: 'dd-MM-yyyy', text: 'dd-MM-yyyy'},
+    {code: 'dd-MM-yy', text: 'dd-MM-yy'},
+    {code: 'yyyyMMdd', text: 'yyyyMMdd'},
+    {code: 'yyyy-MM-dd', text: 'yyyy-MM-dd'}
  ];
 
   timeformat_list: TimeinputformatModel[] = [];
@@ -243,8 +215,8 @@ export class AttendanceImportComponent implements OnInit {
 
   confirmRecord() {
     this.confirmationService.confirm({
-        message: this.title_confirm_record,
-        header: this.title_confirm,
+        message: this.title_confirm_record[this.initial_current.Language],
+        header: this.title_confirm[this.initial_current.Language],
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
 
@@ -267,8 +239,9 @@ export class AttendanceImportComponent implements OnInit {
           })
         },
         reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-        }
+          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
+        },
+        key: "myDialog"
     });
   }
 
@@ -288,12 +261,11 @@ export class AttendanceImportComponent implements OnInit {
     if(this.fileToImport==null){
       return
     }
-
-            
+ 
 
     this.confirmationService.confirm({
-      message: this.title_confirm_record,
-      header: this.title_confirm,
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         
@@ -352,7 +324,7 @@ export class AttendanceImportComponent implements OnInit {
          
       },
       reject: () => {
-        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
       }
     });
   }

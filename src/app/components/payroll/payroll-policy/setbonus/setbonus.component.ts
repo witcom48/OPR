@@ -104,11 +104,18 @@ export class SetbonusComponent implements OnInit {
     title_submit: string = 'Submit';
     title_cancel: string = 'Cancel';
 
+    title_system_Policy: string = 'Policy';
+    title_Process: string = 'Process';
+    title_Result: string = 'Result';
+ 
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-                                    this.title_payroll= 'บัญชีเงินเดือน';
-
+            this.title_payroll= 'บัญชีเงินเดือน';
+            this.title_system_Policy= 'นโยบาย';
+            this.title_Process= 'กระบวนการ';
+            this.title_Result= 'ผลลัพธ์';
+            
             this.title_policy = 'นโยบาย';
             this.title_page = 'กำหนดนโยบายโบนัส';
             this.title_name_policy= 'นโยบาย';
@@ -159,7 +166,7 @@ export class SetbonusComponent implements OnInit {
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
 

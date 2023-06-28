@@ -73,12 +73,12 @@ export class CompanyService {
             .post<any>(
                 this.config.ApiSystemModule + '/company_list',
                 filter,
-                this.options
+                // this.options
             )
             .toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                console.log(res);
+                // console.log(res);
                 return message.data;
             });
     }

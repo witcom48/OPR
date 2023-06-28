@@ -16,8 +16,8 @@
 
 
         <div class="field col-12" style="margin-top: 2%;">
-            <p-calendar [(ngModel)]="selectedtrtimeot.timeot_workdate" dateFormat="dd/mm/yy"
-                inputId="date_from" [disabled]="edit_data"></p-calendar>
+            <p-calendar [(ngModel)]="selectedtrtimeot.timeot_workdate" dateFormat="dd/mm/yy" inputId="date_from"
+                [disabled]="edit_data"></p-calendar>
             <!-- -
             <p-calendar [(ngModel)]="date_to" dateFormat="dd/mm/yy" inputId="date_to"></p-calendar> -->
         </div>
@@ -71,14 +71,30 @@
             <input id="project_name_th" type="text"
                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"> -->
         </div>
-
+        <div class="field col-12" *ngIf="!edit_data&&initial_current.Usertype == 'GRP'">
+            <p-pickList [source]="account_list_source" [target]="account_list_dest"
+                sourceFilterPlaceholder="{{langs.get('search')[selectlang]}}"
+                targetFilterPlaceholder="{{langs.get('search')[selectlang]}}" [showSourceControls]="false"
+                [showTargetControls]="false" sourceHeader="{{langs.get('employee')[selectlang]}}"
+                targetHeader="{{langs.get('employee_select')[selectlang]}}"
+                filterBy="worker_detail_th,worker_detail_en">
+                <ng-template let-data pTemplate="item">
+                    <div>
+                        <div style="font-size:14px;float:left;">
+                            {{selectlang=="TH"? data.worker_detail_th :
+                            data.worker_detail_en}}
+                        </div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+        </div>
         <div class="field col-12">
             <p-menubar [model]="items_attfile"></p-menubar>
             <p-table #dt3 [value]="selectedtrtimeot.reqdoc_data" selectionMode="single" [(selection)]="selectedreqdoc"
                 (onRowSelect)="onRowSelectfile($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-                [globalFilterFields]="['document_name','created_by','created_date']"
-                responsiveLayout="stack" [breakpoint]="'744px'">
+                [globalFilterFields]="['document_name','created_by','created_date']" responsiveLayout="stack"
+                [breakpoint]="'744px'">
                 <!-- Form Search Table -->
                 <ng-template pTemplate="caption">
                     <div class="searchtable">
@@ -145,13 +161,30 @@
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
-                <div class="searchtable">
-                    <div>
-
+                <div class="searchtable1">
+                    <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
+                        <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;"
+                            *ngIf="initial_current.Usertype == 'GRP'">
+                            {{langs.get('name')[selectlang]}} :
+                            <p-dropdown class="searchinput" [options]="account_list" [(ngModel)]="selectedAccount"
+                                (onChange)="Search()" optionLabel="{{namedis}}" [filter]="true"
+                                filterBy="{{namedis}}"></p-dropdown>
+                        </div>
+                        {{langs.get('fromdate')[selectlang]}} :
+                        <p-calendar class="searchinput" [(ngModel)]="start_date" dateFormat="dd/mm/yy"
+                            inputId="date_from"></p-calendar>
+                        {{langs.get('todate')[selectlang]}} :
+                        <p-calendar class="searchinput" [(ngModel)]="end_date" dateFormat="dd/mm/yy"
+                            inputId="date_from"></p-calendar>
+                        {{langs.get('status')[selectlang]}} :
+                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                            optionLabel="name"></p-dropdown>
+                        <p-button icon="pi pi-search" (click)="Search()"></p-button>
                     </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
+                        <input class="searchinput" pInputText type="text"
+                            (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
                             placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
@@ -203,7 +236,8 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" #fileUploader accept="" required (change)="handleFileInputholidaylist($any($event).target.files)">
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFileInputholidaylist($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>

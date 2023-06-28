@@ -69,6 +69,7 @@ import { EmpForeignerModel } from 'src/app/models/employee/manage/foreigner';
 import { EmpEducationModel } from 'src/app/models/employee/manage/education';
 import { EmpTrainingModel } from 'src/app/models/employee/manage/training';
 import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
+import { DomSanitizer } from '@angular/platform-browser';
 
 interface Taxmethod {
     name_th: string;
@@ -161,7 +162,7 @@ export class RecruitmentApplyComponent implements OnInit {
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private datePipe: DatePipe,
-        private empdetailService: EmpDetailService,
+        private sanitizer: DomSanitizer,
 
         //service
         private initialService: InitialService,
@@ -206,7 +207,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.queryParams.subscribe((params) => { 
+        this.route.queryParams.subscribe((params) => {
             this.req_code = params['applycode'];
             console.log(this.req_code);
         });
@@ -235,7 +236,7 @@ export class RecruitmentApplyComponent implements OnInit {
         setTimeout(() => {
             if (this.req_code != '') {
                 this.doLoadApplywork();
-            }else{
+            } else {
                 this.createReqID();
             }
         }, 400);
@@ -247,379 +248,379 @@ export class RecruitmentApplyComponent implements OnInit {
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
 
     title_page: string = "Recruiment Management";
-  title_new: string = "New";
-  title_edit: string = "Edit";
-  title_delete: string = "Delete";
-  title_import: string = "Import";
-  title_export: string = "Export";
-  title_save: string = "Save";
-  title_back:string = "Back";
-  title_code: string = "Code";
+    title_new: string = "New";
+    title_edit: string = "Edit";
+    title_delete: string = "Delete";
+    title_import: string = "Import";
+    title_export: string = "Export";
+    title_save: string = "Save";
+    title_back: string = "Back";
+    title_code: string = "Code";
 
-  title_summit: string = "Summit";
-  title_cancel: string = "Cancel";
+    title_summit: string = "Summit";
+    title_cancel: string = "Cancel";
 
-  title_genaral: string = "Genaral";
-  title_empid: string = "Employee ID";
-  title_cardid: string = "Employee Card";
-  title_fname_th: string = "First Name (Thai)";
-  title_lname_th: string = "Last Name (Thai)";
-  title_fname_en: string = "First Name (Eng.)";
-  title_lname_en: string = "Last Name (Eng.)";
-  title_initial: string = "Initial";
-  title_gender: string = "Gender";
-  male_gender: string = "Male";
-  female_gender: string = "Female";
-  title_emplocation: string = "Location";
-  title_empbranch: string = "Branch";
-  title_type: string = "Employee Type";
-  title_status: string = "Employee Status";
-  title_birthdate: string = "Birth Date";
-  title_startdate: string = "Start Date";
-  title_hrs: string = "Hour/Day";
-  title_probation: string = "Probation";
-  title_probationdate: string = "Probation Date";
-  title_probationenddate: string = "Probation End";
-  title_resignstatus: string = "Resign Status";
-  title_resigndate: string = "Resign Date";
-  title_resignreason: string = "Resign Reason";
+    title_genaral: string = "Genaral";
+    title_empid: string = "Employee ID";
+    title_cardid: string = "Employee Card";
+    title_fname_th: string = "First Name (Thai)";
+    title_lname_th: string = "Last Name (Thai)";
+    title_fname_en: string = "First Name (Eng.)";
+    title_lname_en: string = "Last Name (Eng.)";
+    title_initial: string = "Initial";
+    title_gender: string = "Gender";
+    male_gender: string = "Male";
+    female_gender: string = "Female";
+    title_emplocation: string = "Location";
+    title_empbranch: string = "Branch";
+    title_type: string = "Employee Type";
+    title_status: string = "Employee Status";
+    title_birthdate: string = "Birth Date";
+    title_startdate: string = "Start Date";
+    title_hrs: string = "Hour/Day";
+    title_probation: string = "Probation";
+    title_probationdate: string = "Probation Date";
+    title_probationenddate: string = "Probation End";
+    title_resignstatus: string = "Resign Status";
+    title_resigndate: string = "Resign Date";
+    title_resignreason: string = "Resign Reason";
 
-  title_personal: string = "Personal";
-  title_religion: string = "Religion";
-  title_blood: string = "Blood";
-  title_weight: string = "Weight";
-  title_height: string = "Height";
-  title_address: string = "Address";
-  title_card: string = "Card";
-  title_bank: string = "Bank";
-  title_family: string = "Family";
-  title_hospital: string = "Hospital";
-  title_foreigner: string = "Foreigner";
+    title_personal: string = "Personal";
+    title_religion: string = "Religion";
+    title_blood: string = "Blood";
+    title_weight: string = "Weight";
+    title_height: string = "Height";
+    title_address: string = "Address";
+    title_card: string = "Card";
+    title_bank: string = "Bank";
+    title_family: string = "Family";
+    title_hospital: string = "Hospital";
+    title_foreigner: string = "Foreigner";
 
-  title_record: string = "Record";
-  title_department: string = "Department";
-  title_position: string = "Position";
-  title_empgroup: string = "Group";
-  title_training: string = "Training";
-  title_education: string = "Education";
-  title_supply: string = "Office Supply";
-  title_uniform: string = "Uniform";
-  title_suggest: string = "Suggest";
-  title_assessment: string = "Assessment";
-  title_criminal: string = "Criminal Record";
-  title_resignrecord: string = "Resign Record";
+    title_record: string = "Record";
+    title_department: string = "Department";
+    title_position: string = "Position";
+    title_empgroup: string = "Group";
+    title_training: string = "Training";
+    title_education: string = "Education";
+    title_supply: string = "Office Supply";
+    title_uniform: string = "Uniform";
+    title_suggest: string = "Suggest";
+    title_assessment: string = "Assessment";
+    title_criminal: string = "Criminal Record";
+    title_resignrecord: string = "Resign Record";
 
-  title_finance: string = "Finance";
-  title_taxmethod: string = "Tax Method";
-  title_salary: string = "Salary";
-  title_benefit: string = "Benefit";
-  title_fund: string = "Provident Fund";
-  title_reduce: string = "Reduces";
-  title_accumulate: string = "Accumalate";
+    title_finance: string = "Finance";
+    title_taxmethod: string = "Tax Method";
+    title_salary: string = "Salary";
+    title_benefit: string = "Benefit";
+    title_fund: string = "Provident Fund";
+    title_reduce: string = "Reduces";
+    title_accumulate: string = "Accumalate";
 
-  title_tranfer: string = "Tranfer record";
+    title_tranfer: string = "Tranfer record";
 
-  title_modified_by: string = "Edit by";
-  title_modified_date: string = "Edit date";
-  title_search: string = "Search";
-  title_upload: string = "Upload";
+    title_modified_by: string = "Edit by";
+    title_modified_date: string = "Edit date";
+    title_search: string = "Search";
+    title_upload: string = "Upload";
 
-  title_page_from: string = "Showing";
-  title_page_to: string = "to";
-  title_page_total: string = "of";
-  title_page_record: string = "entries";
+    title_page_from: string = "Showing";
+    title_page_to: string = "to";
+    title_page_total: string = "of";
+    title_page_record: string = "entries";
 
-  title_confirm: string = "Are you sure?";
-  title_confirm_record: string = "Confirm to record";
-  title_confirm_delete: string = "Confirm to delete";
-  title_confirm_yes: string = "Yes";
-  title_confirm_no: string = "No";
+    title_confirm: string = "Are you sure?";
+    title_confirm_record: string = "Confirm to record";
+    title_confirm_delete: string = "Confirm to delete";
+    title_confirm_yes: string = "Yes";
+    title_confirm_no: string = "No";
 
-  title_confirm_cancel: string = "You have cancelled";
+    title_confirm_cancel: string = "You have cancelled";
 
-  title_locationname: string = "Location";
-  title_start: string = "Start Date";
-  title_end: string = "End Date";
-  title_description: string = "Description";
-  title_branchname: string = "Branch";
-  title_suggestname: string = "Suggest";
-  title_addresstype: string = "Address Type";
-  title_no: string = "No";
-  title_moo: string = "Moo";
-  title_soi: string = "Soi";
-  title_road: string = "Road";
-  title_tambon: string = "Sub-district / Sub-area";
-  title_amphur: string = " District / Area";
-  title_province: string = "Province";
-  title_zipcode: string = "Zipcode";
-  title_tel: string = "Tel.";
-  title_email: string = "Email";
-  title_line: string = "Line";
-  title_facebook: string = "Facebook";
-  title_cardcode: string = "Card No.";
-  title_issuedate: string = "Issue Date";
-  title_expiredate: string = "Expire Date";
-  title_cardtype: string = "Card Type";
-  title_bankname: string = "Bank Name";
-  title_bankname2: string = "Name";
-  title_bankcode :string = "Account";
-  title_bankper: string = "Bank(%)";
-  title_cashper: string = "Cash(%)";
-  title_familycode: string = "ID";
-  title_familytype: string = "Type";
-  title_hospitalname: string = "Hospital";
-  title_passport: string = "Passport";
-  title_entrydate: string = "Entry Date";
-  title_visa: string = "VISA";
-  title_workpermit: string = "Work Permit";
-  title_by: string = "By";
-  title_certino: string = "Certificate No";
-  title_certiexpire: string = "Certificate Expire"
-  title_other: string = "Other Doc.";
-  title_otherexpire: string = "Other Doc. Expire";
-  title_date: string = "Date";
-  title_lv1: string = "Level01";
-  title_lv2: string = "Level02";
-  title_lv3: string = "Level03";
-  title_lv4: string = "Level04";
-  title_lv5: string = "Level05";
-  title_lv6: string = "Level06";
-  title_reason: string = "Reason";
-  title_positionname: string = "Position";
-  title_groupname: string = "Group";
-  title_institute: string = "Institute";
-  title_faculty: string = "Faculty";
-  title_major: string = "Major";
-  title_qualification: string = "Qualification";
-  title_gpa: string = "GPA";
-  title_educationstart: string = "Start Date";
-  title_educationend: string = "Graduation Date";
-  title_supplyissue: string = "Issue Date";
-  title_supplyename: string = "Supply";
-  title_amount: string = "Amount";
-  title_return: string = "Return";
-  title_returndate: string = "Return Date";
-  title_uniformissue: string = "Issue Date";
-  title_uniformname: string = "Uniform";
-  title_uniformprice: string = "Price";
-  title_course: string = "Course";
-  title_coursestatus: string = "Status";
-  title_coursehour: string = "Hour";
-  title_cost: string = "Cost";
-  title_topic: string = "Topic";
-  title_count: string = "Count";
-  title_fromdate:string = "From Date";
-  title_todate:string = "To Date";
-  title_assessmentresult: string = "Result";
-  title_criminalresult: string = "Result";
-  title_incrementbath: string = "Increment(Bath)";
-  title_incrementper: string = "Increment(%)";
-  title_incomededuct: string = "Income/Deduct ID";
-  title_benefittype: string = "Type";
-  title_conditionpay: string = "Pay Condition";
-  title_period: string = "Period";
-  title_odd: string = "Odd Period";
-  title_even: string = "Even Period";
-  title_break: string = "Break";
-  title_breakreason: string = "Reason(Break)";
-  title_provident: string = "Provident";
-  title_pfno: string = "Pf No.";
-  title_pfentry: string = "Entry Date";
-  title_pfstart: string = "Start Date";
-  title_pfend: string = "End Date";
-  title_reducename: string = "Reduce";
-  title_pass:string = "Pass";
-  title_notpass:string = "Not Pass";
+    title_locationname: string = "Location";
+    title_start: string = "Start Date";
+    title_end: string = "End Date";
+    title_description: string = "Description";
+    title_branchname: string = "Branch";
+    title_suggestname: string = "Suggest";
+    title_addresstype: string = "Address Type";
+    title_no: string = "No";
+    title_moo: string = "Moo";
+    title_soi: string = "Soi";
+    title_road: string = "Road";
+    title_tambon: string = "Sub-district / Sub-area";
+    title_amphur: string = " District / Area";
+    title_province: string = "Province";
+    title_zipcode: string = "Zipcode";
+    title_tel: string = "Tel.";
+    title_email: string = "Email";
+    title_line: string = "Line";
+    title_facebook: string = "Facebook";
+    title_cardcode: string = "Card No.";
+    title_issuedate: string = "Issue Date";
+    title_expiredate: string = "Expire Date";
+    title_cardtype: string = "Card Type";
+    title_bankname: string = "Bank Name";
+    title_bankname2: string = "Name";
+    title_bankcode: string = "Account";
+    title_bankper: string = "Bank(%)";
+    title_cashper: string = "Cash(%)";
+    title_familycode: string = "ID";
+    title_familytype: string = "Type";
+    title_hospitalname: string = "Hospital";
+    title_passport: string = "Passport";
+    title_entrydate: string = "Entry Date";
+    title_visa: string = "VISA";
+    title_workpermit: string = "Work Permit";
+    title_by: string = "By";
+    title_certino: string = "Certificate No";
+    title_certiexpire: string = "Certificate Expire"
+    title_other: string = "Other Doc.";
+    title_otherexpire: string = "Other Doc. Expire";
+    title_date: string = "Date";
+    title_lv1: string = "Level01";
+    title_lv2: string = "Level02";
+    title_lv3: string = "Level03";
+    title_lv4: string = "Level04";
+    title_lv5: string = "Level05";
+    title_lv6: string = "Level06";
+    title_reason: string = "Reason";
+    title_positionname: string = "Position";
+    title_groupname: string = "Group";
+    title_institute: string = "Institute";
+    title_faculty: string = "Faculty";
+    title_major: string = "Major";
+    title_qualification: string = "Qualification";
+    title_gpa: string = "GPA";
+    title_educationstart: string = "Start Date";
+    title_educationend: string = "Graduation Date";
+    title_supplyissue: string = "Issue Date";
+    title_supplyename: string = "Supply";
+    title_amount: string = "Amount";
+    title_return: string = "Return";
+    title_returndate: string = "Return Date";
+    title_uniformissue: string = "Issue Date";
+    title_uniformname: string = "Uniform";
+    title_uniformprice: string = "Price";
+    title_course: string = "Course";
+    title_coursestatus: string = "Status";
+    title_coursehour: string = "Hour";
+    title_cost: string = "Cost";
+    title_topic: string = "Topic";
+    title_count: string = "Count";
+    title_fromdate: string = "From Date";
+    title_todate: string = "To Date";
+    title_assessmentresult: string = "Result";
+    title_criminalresult: string = "Result";
+    title_incrementbath: string = "Increment(Bath)";
+    title_incrementper: string = "Increment(%)";
+    title_incomededuct: string = "Income/Deduct ID";
+    title_benefittype: string = "Type";
+    title_conditionpay: string = "Pay Condition";
+    title_period: string = "Period";
+    title_odd: string = "Odd Period";
+    title_even: string = "Even Period";
+    title_break: string = "Break";
+    title_breakreason: string = "Reason(Break)";
+    title_provident: string = "Provident";
+    title_pfno: string = "Pf No.";
+    title_pfentry: string = "Entry Date";
+    title_pfstart: string = "Start Date";
+    title_pfend: string = "End Date";
+    title_reducename: string = "Reduce";
+    title_pass: string = "Pass";
+    title_notpass: string = "Not Pass";
 
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = "ข้อมูลผู้สมัคร";
-      this.title_new = "เพิ่ม";
-      this.title_edit = "แก้ไข";
-      this.title_delete = "ลบ";
-      this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
-      this.title_save = "บันทึก";
-      this.title_back = "ย้อนกลับ";
-      this.title_summit = "บันทึก";
-      this.title_cancel = "ยกเลิก";
+            this.title_new = "เพิ่ม";
+            this.title_edit = "แก้ไข";
+            this.title_delete = "ลบ";
+            this.title_import = "นำเข้า";
+            this.title_export = "โอนออก";
+            this.title_save = "บันทึก";
+            this.title_back = "ย้อนกลับ";
+            this.title_summit = "บันทึก";
+            this.title_cancel = "ยกเลิก";
 
-      this.title_genaral = 'ข้อมูลทั่วไป';
-      this.title_code = "รหัสพนักงาน";
-      this.title_cardid = "รหัสบัตร";
-      this.title_fname_th = "ชื่อจริง (ไทย)";
-      this.title_lname_th = "นามสกุล (ไทย)";
-      this.title_fname_en = "ชื่อจริง (อังกฤษ)";
-      this.title_lname_en = "นามสกุล (อังกฤษ)";
-      this.title_initial = "คำนำหน้า";
-      this.title_gender = "เพศ";
-      this.male_gender = "ชาย";
-      this.female_gender = "หญิง";
-      this.title_emplocation = "สถานที่ปฏิบัติงาน";
-      this.title_empbranch = "สาขา";
-      this.title_type = "ประเภทพนักงาน";
-      this.title_status = 'สถานะ';
-      this.title_birthdate = 'วันเกิด';
-      this.title_startdate = 'วันที่เริ่มงาน';
-      this.title_hrs = 'ชั่วโมงทำงาน';
-      this.title_probation = 'จำนวนวันทดลองงาน';
-      this.title_probationdate = 'วันที่เริ่มทดลองงาน';
-      this.title_probationenddate = 'วันที่สิ้นสุดทดลองงาน';
-      this.title_resignstatus = 'ลาออก';
-      this.title_resigndate = 'วันที่ลาออก';
-      this.title_resignreason = 'เหตุผลการลาออก';
+            this.title_genaral = 'ข้อมูลทั่วไป';
+            this.title_code = "รหัสพนักงาน";
+            this.title_cardid = "รหัสบัตร";
+            this.title_fname_th = "ชื่อจริง (ไทย)";
+            this.title_lname_th = "นามสกุล (ไทย)";
+            this.title_fname_en = "ชื่อจริง (อังกฤษ)";
+            this.title_lname_en = "นามสกุล (อังกฤษ)";
+            this.title_initial = "คำนำหน้า";
+            this.title_gender = "เพศ";
+            this.male_gender = "ชาย";
+            this.female_gender = "หญิง";
+            this.title_emplocation = "สถานที่ปฏิบัติงาน";
+            this.title_empbranch = "สาขา";
+            this.title_type = "ประเภทพนักงาน";
+            this.title_status = 'สถานะ';
+            this.title_birthdate = 'วันเกิด';
+            this.title_startdate = 'วันที่เริ่มงาน';
+            this.title_hrs = 'ชั่วโมงทำงาน';
+            this.title_probation = 'จำนวนวันทดลองงาน';
+            this.title_probationdate = 'วันที่เริ่มทดลองงาน';
+            this.title_probationenddate = 'วันที่สิ้นสุดทดลองงาน';
+            this.title_resignstatus = 'ลาออก';
+            this.title_resigndate = 'วันที่ลาออก';
+            this.title_resignreason = 'เหตุผลการลาออก';
 
-      this.title_personal = 'ข้อมูลส่วนตัว';
-      this.title_religion = 'ศาสนา';
-      this.title_blood = 'กรุ๊ปเลือด';
-      this.title_weight = 'นํ้าหนัก';
-      this.title_height = 'ส่วนสูง';
-      this.title_address = 'ที่อยู่';
-      this.title_card = 'ข้อมูลบัตร';
-      this.title_bank = 'ข้อมูลธนาคาร';
-      this.title_family = 'ข้อมูลครอบครัว';
-      this.title_hospital = 'ข้อมูลโรงพยาบาล';
-      this.title_foreigner = 'ข้อมูลพนักงานต่างด้าว';
+            this.title_personal = 'ข้อมูลส่วนตัว';
+            this.title_religion = 'ศาสนา';
+            this.title_blood = 'กรุ๊ปเลือด';
+            this.title_weight = 'นํ้าหนัก';
+            this.title_height = 'ส่วนสูง';
+            this.title_address = 'ที่อยู่';
+            this.title_card = 'ข้อมูลบัตร';
+            this.title_bank = 'ข้อมูลธนาคาร';
+            this.title_family = 'ข้อมูลครอบครัว';
+            this.title_hospital = 'ข้อมูลโรงพยาบาล';
+            this.title_foreigner = 'ข้อมูลพนักงานต่างด้าว';
 
-      this.title_record = 'ข้อมูลประวัติ';
-      this.title_department = 'สังกัด';
-      this.title_position = 'ตำแหน่ง';
-      this.title_empgroup = 'กลุ่มพนักงาน';
-      this.title_education = 'ประวัติการศึกษา';
-      this.title_supply = 'อุปกรณ์สำนักงาน';
-      this.title_uniform = 'เครื่องแบบพนักงาน';
-      this.title_suggest = 'ผู้แนะนำ';
-      this.title_training = 'ประวัติการอบรม';
-      this.title_assessment = 'ประวัติการประเมิน';
-      this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
-      this.title_resignrecord = 'ประวัติการลาออก';
+            this.title_record = 'ข้อมูลประวัติ';
+            this.title_department = 'สังกัด';
+            this.title_position = 'ตำแหน่ง';
+            this.title_empgroup = 'กลุ่มพนักงาน';
+            this.title_education = 'ประวัติการศึกษา';
+            this.title_supply = 'อุปกรณ์สำนักงาน';
+            this.title_uniform = 'เครื่องแบบพนักงาน';
+            this.title_suggest = 'ผู้แนะนำ';
+            this.title_training = 'ประวัติการอบรม';
+            this.title_assessment = 'ประวัติการประเมิน';
+            this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
+            this.title_resignrecord = 'ประวัติการลาออก';
 
-      this.title_finance = 'การเงิน';
-      this.title_taxmethod = 'การคำนวนภาษี';
-      this.title_salary = 'เงินเดือน/ค่าจ้าง';
-      this.title_benefit = 'สวัสดิการ';
-      this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
-      this.title_reduce = 'ค่าลดหย่อน';
-      this.title_accumulate = 'รายได้สะสม/ภาษีสะสม';
+            this.title_finance = 'การเงิน';
+            this.title_taxmethod = 'การคำนวนภาษี';
+            this.title_salary = 'เงินเดือน/ค่าจ้าง';
+            this.title_benefit = 'สวัสดิการ';
+            this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
+            this.title_reduce = 'ค่าลดหย่อน';
+            this.title_accumulate = 'รายได้สะสม/ภาษีสะสม';
 
-      this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
+            this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
 
-      this.title_modified_by = "ผู้ทำรายการ";
-      this.title_modified_date = "วันที่ทำรายการ";
-      this.title_search = "ค้นหา";
-      this.title_upload = "อัพโหลด";
+            this.title_modified_by = "ผู้ทำรายการ";
+            this.title_modified_date = "วันที่ทำรายการ";
+            this.title_search = "ค้นหา";
+            this.title_upload = "อัพโหลด";
 
-      this.title_page_from = "แสดง";
-      this.title_page_to = "ถึง";
-      this.title_page_total = "จาก";
-      this.title_page_record = "รายการ";
+            this.title_page_from = "แสดง";
+            this.title_page_to = "ถึง";
+            this.title_page_total = "จาก";
+            this.title_page_record = "รายการ";
 
-      this.title_confirm = "ยืนยันการทำรายการ";
-      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
-      this.title_confirm_delete = "คุณต้องการลบรายการ";
+            this.title_confirm = "ยืนยันการทำรายการ";
+            this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
+            this.title_confirm_delete = "คุณต้องการลบรายการ";
 
-      this.title_confirm_yes = "ใช่";
-      this.title_confirm_no = "ยกเลิก";
-      this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
+            this.title_confirm_yes = "ใช่";
+            this.title_confirm_no = "ยกเลิก";
+            this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
 
-      this.title_locationname = "สถานที่";
-      this.title_start = "วันที่เริ่ม";
-      this.title_end = "วันที่สิ้นสุด";
-      this.title_description = "เพิ่มเติม";
-      this.title_branchname = "สาขา";
-      this.title_suggestname = "ผู้แนะนำ";
-      this.title_addresstype = "ประเภทที่อยู่อาศัย";
-      this.title_no = "เลขที่";
-      this.title_moo = "หมู่";
-      this.title_soi = "ซอย";
-      this.title_road = "ถนน";
-      this.title_tambon = "ตำบล/แขวง";
-      this.title_amphur = "อำเภอ/เขต";
-      this.title_province = "จังหวัด";
-      this.title_zipcode = "รหัสไปรษณีย์";
-      this.title_tel = "เบอร์โทรฯ";
-      this.title_email = "อีเมล";
-      this.title_line = "ไลน์";
-      this.title_facebook = "เฟสบุ๊ค";
-      this.title_cardcode = "เลขที่";
-      this.title_issuedate = "วันที่ออก";
-      this.title_expiredate = "วันที่หมดอายุ";
-      this.title_cardtype = "ประเภทบัตร";
-      this.title_bankname = "ธนาคาร";
-      this.title_bankname2 = "ชื่อบัญชี";
-      this.title_bankcode = "เลขที่บัญชี"
-      this.title_bankper = "โอนธนาคาร(%)";
-      this.title_cashper = "เงินสด(%)";
-      this.title_familycode = "รหัสประจำตัว";
-      this.title_familytype = "ประเภท";
-      this.title_hospitalname = "โรงพยาบาล";
-      this.title_passport = "หนังสือเดินทาง";
-      this.title_entrydate = "วันที่เข้าประเทศ";
-      this.title_workpermit = "ใบอนุญาติทำงาน";
-      this.title_by = "ออกโดย";
-      this.title_certino = "เลขที่เอกสารสำคัญ";
-      this.title_certiexpire = "วันที่เอกสารสำคัญหมดอายุ";
-      this.title_other = "เลขที่เอกสารอื่นๆ";
-      this.title_otherexpire = "วันที่หมดอายุของเอกสารอื่นๆ";
-      this.title_date = "วันที่";
-      this.title_lv1 = "ระดับ1"
-      this.title_lv2 = "ระดับ2";
-      this.title_lv3 = "ระดับ3";
-      this.title_lv4 = "ระดับ4";
-      this.title_lv5 = "ระดับ5";
-      this.title_lv6 = "ระดับ6";
-      this.title_reason = "เหตุผล";
-      this.title_positionname= "ตำแหน่ง";
-      this.title_groupname = "กลุ่มพนักงาน";
-      this.title_institute = "สถานบัน/สถานที่";
-      this.title_faculty = "คณะ";
-      this.title_major = "วิชาเอก";
-      this.title_qualification = "วุฒิการศึกษา";
-      this.title_gpa = "เกรดเฉลี่ย";
-      this.title_educationstart  = "วันที่เริ่ม";
-      this.title_educationend  = "วันที่จบ";
-      this.title_supplyissue  = "วันที่เบิก";
-      this.title_supplyename  = "อุปกรณื";
-      this.title_amount = "จำนวน";
-      this.title_return = "คืนอุปกรณ์";
-      this.title_returndate  = "วันที่คืนอุปกรณ์";
-      this.title_uniformissue  = "วันที่เบิก";
-      this.title_uniformname = "เครื่องแบบ";
-      this.title_uniformprice  = "ราคา";
-      this.title_course  = "หลักสูตร";
-      this.title_coursestatus  = "สถานะ";
-      this.title_coursehour = "จำนวนชั่วโมง";
-      this.title_fromdate = "จากวันที่";
-      this.title_todate = "ถึงวันที่";
-      this.title_cost = "ค่าใช้จ่าย";
-      this.title_topic = "หัวข้อ";
-      this.title_count = "ครั้งที่";
-      this.title_assessmentresult = "ผลการประเมิน";
-      this.title_criminalresult = "ผลการตรวจสอบ";
-      this.title_incrementbath = "อัตราปรับ(บาท)";
-      this.title_incrementper = "อัตราปรับ(%)";
-      this.title_incomededuct = "เงินได้/เงินหัก";
-      this.title_benefittype = "ประเภท";
-      this.title_conditionpay = "เงื่อนไขการจ่าย";
-      this.title_period = "งวด";
-      this.title_odd = "งวดแรก";
-      this.title_even = "งวดที่สอง";
-      this.title_break = "พักการจ่าย";
-      this.title_breakreason = "เหตุผล(พักการจ่าย)";
-      this.title_provident = "นโยบาย";
-      this.title_pfno = "รหัสกองทุนฯ";
-      this.title_pfentry = "วันที่เข้า";
-      this.title_pfstart = "วันที่เริ่ม";
-      this.title_pfend = "วันที่ออก";
-      this.title_reducename = "ลดหย่อน";
-      this.title_pass = "ผ่าน";
-      this.title_notpass = "ไม่ผ่าน";
+            this.title_locationname = "สถานที่";
+            this.title_start = "วันที่เริ่ม";
+            this.title_end = "วันที่สิ้นสุด";
+            this.title_description = "เพิ่มเติม";
+            this.title_branchname = "สาขา";
+            this.title_suggestname = "ผู้แนะนำ";
+            this.title_addresstype = "ประเภทที่อยู่อาศัย";
+            this.title_no = "เลขที่";
+            this.title_moo = "หมู่";
+            this.title_soi = "ซอย";
+            this.title_road = "ถนน";
+            this.title_tambon = "ตำบล/แขวง";
+            this.title_amphur = "อำเภอ/เขต";
+            this.title_province = "จังหวัด";
+            this.title_zipcode = "รหัสไปรษณีย์";
+            this.title_tel = "เบอร์โทรฯ";
+            this.title_email = "อีเมล";
+            this.title_line = "ไลน์";
+            this.title_facebook = "เฟสบุ๊ค";
+            this.title_cardcode = "เลขที่";
+            this.title_issuedate = "วันที่ออก";
+            this.title_expiredate = "วันที่หมดอายุ";
+            this.title_cardtype = "ประเภทบัตร";
+            this.title_bankname = "ธนาคาร";
+            this.title_bankname2 = "ชื่อบัญชี";
+            this.title_bankcode = "เลขที่บัญชี"
+            this.title_bankper = "โอนธนาคาร(%)";
+            this.title_cashper = "เงินสด(%)";
+            this.title_familycode = "รหัสประจำตัว";
+            this.title_familytype = "ประเภท";
+            this.title_hospitalname = "โรงพยาบาล";
+            this.title_passport = "หนังสือเดินทาง";
+            this.title_entrydate = "วันที่เข้าประเทศ";
+            this.title_workpermit = "ใบอนุญาติทำงาน";
+            this.title_by = "ออกโดย";
+            this.title_certino = "เลขที่เอกสารสำคัญ";
+            this.title_certiexpire = "วันที่เอกสารสำคัญหมดอายุ";
+            this.title_other = "เลขที่เอกสารอื่นๆ";
+            this.title_otherexpire = "วันที่หมดอายุของเอกสารอื่นๆ";
+            this.title_date = "วันที่";
+            this.title_lv1 = "ระดับ1"
+            this.title_lv2 = "ระดับ2";
+            this.title_lv3 = "ระดับ3";
+            this.title_lv4 = "ระดับ4";
+            this.title_lv5 = "ระดับ5";
+            this.title_lv6 = "ระดับ6";
+            this.title_reason = "เหตุผล";
+            this.title_positionname = "ตำแหน่ง";
+            this.title_groupname = "กลุ่มพนักงาน";
+            this.title_institute = "สถานบัน/สถานที่";
+            this.title_faculty = "คณะ";
+            this.title_major = "วิชาเอก";
+            this.title_qualification = "วุฒิการศึกษา";
+            this.title_gpa = "เกรดเฉลี่ย";
+            this.title_educationstart = "วันที่เริ่ม";
+            this.title_educationend = "วันที่จบ";
+            this.title_supplyissue = "วันที่เบิก";
+            this.title_supplyename = "อุปกรณื";
+            this.title_amount = "จำนวน";
+            this.title_return = "คืนอุปกรณ์";
+            this.title_returndate = "วันที่คืนอุปกรณ์";
+            this.title_uniformissue = "วันที่เบิก";
+            this.title_uniformname = "เครื่องแบบ";
+            this.title_uniformprice = "ราคา";
+            this.title_course = "หลักสูตร";
+            this.title_coursestatus = "สถานะ";
+            this.title_coursehour = "จำนวนชั่วโมง";
+            this.title_fromdate = "จากวันที่";
+            this.title_todate = "ถึงวันที่";
+            this.title_cost = "ค่าใช้จ่าย";
+            this.title_topic = "หัวข้อ";
+            this.title_count = "ครั้งที่";
+            this.title_assessmentresult = "ผลการประเมิน";
+            this.title_criminalresult = "ผลการตรวจสอบ";
+            this.title_incrementbath = "อัตราปรับ(บาท)";
+            this.title_incrementper = "อัตราปรับ(%)";
+            this.title_incomededuct = "เงินได้/เงินหัก";
+            this.title_benefittype = "ประเภท";
+            this.title_conditionpay = "เงื่อนไขการจ่าย";
+            this.title_period = "งวด";
+            this.title_odd = "งวดแรก";
+            this.title_even = "งวดที่สอง";
+            this.title_break = "พักการจ่าย";
+            this.title_breakreason = "เหตุผล(พักการจ่าย)";
+            this.title_provident = "นโยบาย";
+            this.title_pfno = "รหัสกองทุนฯ";
+            this.title_pfentry = "วันที่เข้า";
+            this.title_pfstart = "วันที่เริ่ม";
+            this.title_pfend = "วันที่ออก";
+            this.title_reducename = "ลดหย่อน";
+            this.title_pass = "ผ่าน";
+            this.title_notpass = "ไม่ผ่าน";
         }
     }
 
@@ -970,6 +971,20 @@ export class RecruitmentApplyComponent implements OnInit {
             }
         }
     }
+    base64Image: any = '../../../../assets/images/people.png'
+    transform() {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
+    }
+
+    doLoadImage() {
+        this.applyworkService.doGetReqImages(this.initial_current.CompCode, this.selectedReqworker.worker_code).then((res) => {
+            let resultJSON = JSON.parse(res);
+
+            if (resultJSON.result == "1") {
+                this.base64Image = resultJSON.data;
+            }
+        });
+    }
 
     doLoadApplywork() {
         var reqworker_list: EmployeeModel[] = [];
@@ -992,6 +1007,9 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.selectedReqworker = reqworker_list[0];
 
                     setTimeout(() => {
+                        //
+                        this.doLoadImage();
+                        //
                         this.doLoadReqaddressList();
                         this.doLoadReqcardList();
                         this.doLoadReqForeigner();
@@ -1692,6 +1710,9 @@ export class RecruitmentApplyComponent implements OnInit {
 
                     this.record_reqsuggest();
 
+                    //image
+                    this.uploadImages();
+
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
@@ -1728,6 +1749,38 @@ export class RecruitmentApplyComponent implements OnInit {
         this.selectedApplywork = new ApplyworkModel();
     }
 
+    fileToUpload: File | any = null;
+
+    onselectFile(event: any) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+            // Set image src
+            this.base64Image = e.target.result;
+        }
+        reader.readAsDataURL(event.target.files[0])
+        this.fileToUpload = event.target.files.item(0);
+
+    }
+
+    uploadImages() {
+
+        const filename = "XXX";
+        const filetype = "jpg";
+
+        this.applyworkService.uploadReqImages(this.fileToUpload, this.initial_current.CompCode, this.selectedReqworker.worker_code).then((res) => {
+            let resultJSON = JSON.parse(res);
+            if (resultJSON.result == "1") {
+
+                setTimeout(() => {
+                    this.doLoadImage();
+                }, 500);
+
+            }
+        });
+
+    }
+
+
     clearManage() {
         this.new_reqsuggest = false; this.edit_reqsuggest = false;
 
@@ -1743,7 +1796,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     newDateTime = new Date();
-    createReqID(){
-        this.selectedReqworker.worker_code = "REQ"+this.datePipe.transform(this.newDateTime, 'yyyyMMddHHmm');
+    createReqID() {
+        this.selectedReqworker.worker_code = "REQ" + this.datePipe.transform(this.newDateTime, 'yyyyMMddHHmm');
     }
 }

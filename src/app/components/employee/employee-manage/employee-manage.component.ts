@@ -332,7 +332,7 @@ export class EmployeeManageComponent implements OnInit {
     setTimeout(() => {
       if (this.emp_code != "") {
         this.doLoadEmployee()
-      }else{
+      } else {
         this.doGetNewCode();
       }
 
@@ -344,7 +344,7 @@ export class EmployeeManageComponent implements OnInit {
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }
   }
 
@@ -355,7 +355,7 @@ export class EmployeeManageComponent implements OnInit {
   title_import: string = "Import";
   title_export: string = "Export";
   title_save: string = "Save";
-  title_back:string = "Back";
+  title_back: string = "Back";
   title_code: string = "Code";
 
   title_summit: string = "Summit";
@@ -464,7 +464,7 @@ export class EmployeeManageComponent implements OnInit {
   title_cardtype: string = "Card Type";
   title_bankname: string = "Bank Name";
   title_bankname2: string = "Name";
-  title_bankcode :string = "Account";
+  title_bankcode: string = "Account";
   title_bankper: string = "Bank(%)";
   title_cashper: string = "Cash(%)";
   title_familycode: string = "ID";
@@ -510,8 +510,8 @@ export class EmployeeManageComponent implements OnInit {
   title_cost: string = "Cost";
   title_topic: string = "Topic";
   title_count: string = "Count";
-  title_fromdate:string = "From Date";
-  title_todate:string = "To Date";
+  title_fromdate: string = "From Date";
+  title_todate: string = "To Date";
   title_assessmentresult: string = "Result";
   title_criminalresult: string = "Result";
   title_incrementbath: string = "Increment(Bath)";
@@ -530,8 +530,8 @@ export class EmployeeManageComponent implements OnInit {
   title_pfstart: string = "Start Date";
   title_pfend: string = "End Date";
   title_reducename: string = "Reduce";
-  title_pass:string = "Pass";
-  title_notpass:string = "Not Pass";
+  title_pass: string = "Pass";
+  title_notpass: string = "Not Pass";
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -672,25 +672,25 @@ export class EmployeeManageComponent implements OnInit {
       this.title_lv5 = "ระดับ5";
       this.title_lv6 = "ระดับ6";
       this.title_reason = "เหตุผล";
-      this.title_positionname= "ตำแหน่ง";
+      this.title_positionname = "ตำแหน่ง";
       this.title_groupname = "กลุ่มพนักงาน";
       this.title_institute = "สถานบัน/สถานที่";
       this.title_faculty = "คณะ";
       this.title_major = "วิชาเอก";
       this.title_qualification = "วุฒิการศึกษา";
       this.title_gpa = "เกรดเฉลี่ย";
-      this.title_educationstart  = "วันที่เริ่ม";
-      this.title_educationend  = "วันที่จบ";
-      this.title_supplyissue  = "วันที่เบิก";
-      this.title_supplyename  = "อุปกรณื";
+      this.title_educationstart = "วันที่เริ่ม";
+      this.title_educationend = "วันที่จบ";
+      this.title_supplyissue = "วันที่เบิก";
+      this.title_supplyename = "อุปกรณื";
       this.title_amount = "จำนวน";
       this.title_return = "คืนอุปกรณ์";
-      this.title_returndate  = "วันที่คืนอุปกรณ์";
-      this.title_uniformissue  = "วันที่เบิก";
+      this.title_returndate = "วันที่คืนอุปกรณ์";
+      this.title_uniformissue = "วันที่เบิก";
       this.title_uniformname = "เครื่องแบบ";
-      this.title_uniformprice  = "ราคา";
-      this.title_course  = "หลักสูตร";
-      this.title_coursestatus  = "สถานะ";
+      this.title_uniformprice = "ราคา";
+      this.title_course = "หลักสูตร";
+      this.title_coursestatus = "สถานะ";
       this.title_coursehour = "จำนวนชั่วโมง";
       this.title_fromdate = "จากวันที่";
       this.title_todate = "ถึงวันที่";
@@ -841,7 +841,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ];
+    ];
     //menu card
     this.menu_empcard = [
       {
@@ -876,7 +876,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ];
+    ];
     //menu bank
     this.menu_empbank = [
       {
@@ -911,7 +911,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ];
+    ];
     //menu family
     this.menu_empfamily = [
       {
@@ -946,7 +946,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
     //menu hospital
     this.menu_emphospital = [
       {
@@ -981,7 +981,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
 
     //menu Dep
     this.menu_empdep = [
@@ -1017,7 +1017,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
     //menu Position
     this.menu_empposition = [
       {
@@ -1052,7 +1052,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
     //menu Group
     this.menu_empgroup = [
       {
@@ -1087,7 +1087,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
     //menu education
     this.menu_empeducation = [
       {
@@ -1163,7 +1163,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
 
     //menu Uniform
     this.menu_empuniform = [
@@ -1199,7 +1199,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
 
     //menu Suggest
     this.menu_empsuggest = [
@@ -1464,7 +1464,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
     //menu reduce
     this.menu_empreduce = [
       {
@@ -1499,7 +1499,7 @@ export class EmployeeManageComponent implements OnInit {
           }
         }
       },
-      ]
+    ]
 
   }
 
@@ -1735,7 +1735,7 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
-  base64Image = '../../../../assets/images/people.png'
+  base64Image: any = '../../../../assets/images/people.png'
   transform() {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
   }
@@ -1816,7 +1816,7 @@ export class EmployeeManageComponent implements OnInit {
       this.emptypeList = res;
     })
   }
-  doChangeSelectEmptype(){
+  doChangeSelectEmptype() {
     if (this.methodEdit == false) {
       this.doGetNewCode();
     }
@@ -3396,8 +3396,8 @@ export class EmployeeManageComponent implements OnInit {
   doGetNewCode() {
     this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedEmployee.worker_type).then((res) => {
       let result = JSON.parse(res);
-      
-      if(result.success){
+
+      if (result.success) {
         this.selectedEmployee.worker_code = result.data;
         this.selectedEmployee.worker_card = result.data;
       }
@@ -3410,9 +3410,6 @@ export class EmployeeManageComponent implements OnInit {
       let result = JSON.parse(res);
 
       if (result.success) {
-
-        //image
-        this.uploadImages();
 
         //-- Transaction
         this.record_emplocation();
@@ -3441,6 +3438,9 @@ export class EmployeeManageComponent implements OnInit {
         this.record_empprovident();
         this.record_empreduce();
 
+        //image
+        this.uploadImages();
+
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
         this.router.navigateByUrl('employee/list');
       }
@@ -3456,21 +3456,31 @@ export class EmployeeManageComponent implements OnInit {
     this.selectedEmployee = new EmployeeModel();
   }
 
-  fileToUpload: File | any = null;  
-  handleFileInput(file: FileList) {
-    this.fileToUpload = file.item(0);
-
-    this.uploadImages();
+  fileToUpload: File | any = null;
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
   }
 
-  
+  onselectFile(event: any) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      // Set image src
+      this.base64Image = e.target.result;
+    }
+    reader.readAsDataURL(event.target.files[0])
+    // reader.readAsDataURL(event.files[0]);
+    // console.log(event.target.files.item(0))
+    this.fileToUpload = event.target.files.item(0);
+
+  }
+
+
 
   uploadImages() {
 
     const filename = "XXX";
     const filetype = "jpg";
 
-    console.log(this.fileToUpload);
     this.employeeService.uploadImages(this.fileToUpload, this.initial_current.CompCode, this.selectedEmployee.worker_code).then((res) => {
       let resultJSON = JSON.parse(res);
       if (resultJSON.result == "1") {

@@ -30,9 +30,10 @@
                 <div class="searchtable">
                     <div class="input_radio">
                         <input routerLink="../../system/system-yearperiod" type="radio" name="individual" value="Time">
-                        <label>TAX</label>
+                        <label>{{langs.get('TAX')[selectlang]}}</label>
+                        
                         <input name="notification" type="radio" id="RadioGroup1_0" value="Course" checked="checked" />
-                        <label>Leave</label>
+                        <label>{{langs.get('Leave')[selectlang]}}</label>
                     </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>

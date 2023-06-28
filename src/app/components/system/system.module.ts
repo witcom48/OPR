@@ -82,6 +82,7 @@ import { CodestructureComponent } from './system-manage/codestructure/codestruct
 import { AddYearComponent } from './system-manage/year/add-year/add-year.component';
 import { SystemSupplyComponent } from './system-policy/system-supply/system-supply.component';
 import { SystemUniformComponent } from './system-policy/system-uniform/system-uniform.component';
+import { PolroundsComponent } from './system-manage/polrounds/polrounds.component';
 
 @NgModule({
     imports: [
@@ -167,6 +168,7 @@ import { SystemUniformComponent } from './system-policy/system-uniform/system-un
         AddYearComponent,
         SystemSupplyComponent,
         SystemUniformComponent,
+        PolroundsComponent,
     ],
     exports: [YearComponent, ReasonComponent, LocationComponent],
 })

@@ -20,13 +20,30 @@
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
-                <div class="searchtable">
-                    <div>
-
+                <div class="searchtable1">
+                    <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
+                        <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;"
+                            *ngIf="initial_current.Usertype == 'GRP'">
+                            {{langs.get('name')[selectlang]}} :
+                            <p-dropdown class="searchinput" [options]="account_list" [(ngModel)]="selectedAccount"
+                                (onChange)="Search()" optionLabel="{{namedis}}" [filter]="true"
+                                filterBy="{{namedis}}"></p-dropdown>
+                        </div>
+                        {{langs.get('fromdate')[selectlang]}} :
+                        <p-calendar class="searchinput" [(ngModel)]="start_date" dateFormat="dd/mm/yy"
+                            inputId="date_from"></p-calendar>
+                        {{langs.get('todate')[selectlang]}} :
+                        <p-calendar class="searchinput" [(ngModel)]="end_date" dateFormat="dd/mm/yy"
+                            inputId="date_from"></p-calendar>
+                        {{langs.get('status')[selectlang]}} :
+                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                            optionLabel="name"></p-dropdown>
+                        <p-button icon="pi pi-search" (click)="Search()"></p-button>
                     </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
+                        <input class="searchinput" pInputText type="text"
+                            (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
                             placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>

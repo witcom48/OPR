@@ -25,7 +25,7 @@
         selectionMode="single" [(selection)]="selectedcodestructure" (onRowSelect)="onRowSelectCodestructure($event)" [rows]="12"
         [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
         currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['major_code','major_name_th','major_name_en']">
+        [globalFilterFields]="['codestructure_code','codestructure_name_th','codestructure_name_en']">
         <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">

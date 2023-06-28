@@ -12,13 +12,14 @@
                     </ng-template>
 
                     <div class="empinfo">
-                        <p-image src="../../../../assets/images/people.png" alt="Image" width="150"
-                            height="150"></p-image>
-                        <p-button class="upload" label="Upload Images"></p-button>
-
+                        <p-image [src]="base64Image" id="imgReq" name="imgReq" alt="Image" width="175"
+                            height="175"></p-image>
+                        <!-- <p-button class="upload" label="Upload Images"></p-button> -->
+                        <input class="upload" type="file" id="file" (change)="onselectFile($event)">
                         <div>
                             <label for="Fname1"> {{title_code}} :</label>
-                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedReqworker.worker_code" [disabled]="true">
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedReqworker.worker_code"
+                                [disabled]="true">
                         </div>
 
                         <div style="grid-column: 1;">
@@ -543,13 +544,13 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_criminal}}">
                                     <p-menubar [model]="menu_reqcriminal"></p-menubar>
-                                    <p-table #dt12 [value]="reqCriminalList" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}"
-                                        [scrollable]="true" scrollHeight="200px" [virtualScroll]="true"
-                                        selectionMode="single" 
+                                    <p-table #dt12 [value]="reqCriminalList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
                                         [(selection)]="selectedReqCriminal"
-                                        (onRowSelect)="onRowSelectReqcriminal($event)"
-                                        [rows]="10" [showCurrentPageReport]="true"
-                                        [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                                        (onRowSelect)="onRowSelectReqcriminal($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="caption">
                                             <div class="flex">
@@ -918,8 +919,7 @@
     <div class="formatt" *ngIf="edit_reqcriminal==true || new_criminal==true">
         <label>{{title_institute}}</label>
         <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-            [(ngModel)]="selectedReqCriminal.empcriminal_location"
-            [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqCriminal.empcriminal_location" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
             </ng-template>
@@ -960,14 +960,16 @@
     <!-- Form Req Suggest -->
     <div class="formatt" *ngIf="edit_reqsuggest==true || new_reqsuggest==true">
         <label>{{title_suggestname}}</label>
-        <p-dropdown placeholder="--" [options]="suggest_List" optionValue="worker_code"  [showClear]="true"
+        <p-dropdown placeholder="--" [options]="suggest_List" optionValue="worker_code" [showClear]="true"
             [(ngModel)]="selectedReqSuggest.empsuggest_code" [style]="{ width: '100%', overflow: 'visible' }"
             [filter]="true" filterBy="worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th : item.worker_fname_en +" "+item.worker_lname_en}}
+                {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th : item.worker_fname_en
+                +" "+item.worker_lname_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th : item.worker_fname_en +" "+item.worker_lname_en}}
+                {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th : item.worker_fname_en
+                +" "+item.worker_lname_en}}
             </ng-template>
         </p-dropdown>
 
@@ -975,7 +977,8 @@
         <textarea [(ngModel)]="selectedReqSuggest.empsuggest_note" pInputTextarea [autoResize]="true"></textarea>
 
         <br>
-        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="reqsuggest_summit()"></button>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="reqsuggest_summit()"></button>
         <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
             (click)="reqsuggest_cancel()"></button>
     </div>
@@ -983,6 +986,6 @@
 </p-dialog>
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

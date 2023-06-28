@@ -44,6 +44,7 @@ import { DialogModule } from 'primeng/dialog';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { PickListModule } from 'primeng/picklist';
 import { CheckboxModule } from 'primeng/checkbox';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
 	imports: [
@@ -85,7 +86,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 		DialogModule,
 		RadioButtonModule,
 		PickListModule,
-		CheckboxModule
+		CheckboxModule,
+		PasswordModule
 
 
 		

@@ -1,0 +1,26 @@
+.loginform {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .lang {
+        padding-top: 6%;
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        cursor: pointer;
+        .color{
+            color: #0549f4;
+        }
+    }
+}
+
+::ng-deep {
+    .p-password-input {
+        width: 100%;
+    }
+
+    .p-password {
+        width: 100%;
+    }
+}

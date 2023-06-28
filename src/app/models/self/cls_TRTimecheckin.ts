@@ -18,6 +18,7 @@ export class cls_TRTimecheckinModel {
     location_code: string = "";
     status: number = 0;
     status_job: string = "";
+    jobtable_id:string="";
     modified_by: string = "";
     modified_date: string = "";
     flag: boolean = false;

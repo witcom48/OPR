@@ -6,13 +6,17 @@ import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'pri
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { cls_TRleave } from 'src/app/models/attendance/cls_TRleave';
+import { AccountModel } from 'src/app/models/self/account';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeleaveModel } from 'src/app/models/self/cls_TRTimeleave';
+import { TRAccountModel } from 'src/app/models/self/traccount';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { TRLeaveaccServices } from 'src/app/services/attendance/trleaveacc.service';
+import { AccountServices } from 'src/app/services/self/account.service';
 import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqleave: any;
+interface Status { name: string, code: number }
 @Component({
   selector: 'app-self-leave',
   templateUrl: './self-leave.component.html',
@@ -24,6 +28,7 @@ export class SelfLeaveComponent implements OnInit {
   selectlang: string = "EN";
   leavetypedis: string = "leave_name_en"
   reasonedis: string = "reason_name_en"
+  namedis: string = "worker_detail_en"
   day: number = 0;
   hour: number = 0;
   time_half: string = "00:00"
@@ -34,6 +39,7 @@ export class SelfLeaveComponent implements OnInit {
     private trleaveaccService: TRLeaveaccServices,
     private timeleaveService: TimeleaveServices,
     private reasonService: ReasonsService,
+    private accountServie: AccountServices,
     private router: Router,
   ) { }
   edit_data: boolean = false
@@ -51,36 +57,75 @@ export class SelfLeaveComponent implements OnInit {
   trtimeleave_list: cls_TRTimeleaveModel[] = [];
   selectedtrtimeleave: cls_TRTimeleaveModel = new cls_TRTimeleaveModel();
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
+  account_list: TRAccountModel[] = [];
+  selectedAccount: TRAccountModel = new TRAccountModel();
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.leavetypedis = "leave_name_th"
       this.reasonedis = "reason_name_th"
+      this.namedis = "worker_detail_th"
+    }
+    if (this.initial_current.Usertype == "GRP") {
+      this.doLoadAccount();
+    } else {
+      this.doLoadTimeleave();
+      this.doLoadLeaveacc();
     }
   }
   ngOnInit(): void {
     console.log(this.datePipe.transform(new Date(0, 0, 0, 3, 0), 'HH:mm'))
     this.doGetInitialCurrent()
     this.doLoadMenu();
-    this.doLoadTimeleave();
-    this.doLoadLeaveacc();
     this.doLoadReason();
+  }
+  Search() {
+    this.doLoadTimeleave();
+    if (this.initial_current.Usertype == "GRP") {
+      this.doLoadLeaveacc();
+    }
+  }
+  doLoadAccount() {
+    var tmp = new AccountModel();
+    tmp.account_user = this.initial_current.Username;
+    tmp.account_type = this.initial_current.Usertype;
+    this.accountServie.account_get(tmp).then(async (res) => {
+      res[0].worker_data.forEach((obj: TRAccountModel) => {
+        obj.worker_detail_en = obj.worker_code + " : " + obj.worker_detail_en;
+        obj.worker_detail_th = obj.worker_code + " : " + obj.worker_detail_th;
+      });
+      this.account_list = await res[0].worker_data;
+      this.selectedAccount = res[0].worker_data[0];
+      this.doLoadTimeleave();
+      this.doLoadLeaveacc();
+    });
   }
   doLoadTimeleave() {
     this.trtimeleave_list = [];
     var tmp = new cls_TRTimeleaveModel();
-    tmp.timeleave_fromdate = new Date(`${this.initial_current.PR_Year}-01-01`)
-    tmp.timeleave_todate = new Date(`${this.initial_current.PR_Year}-12-31`)
+    tmp.timeleave_fromdate = this.start_date;
+    tmp.timeleave_todate = this.end_date;
+    tmp.company_code = this.initial_current.CompCode;
+    tmp.worker_code = this.selectedAccount.worker_code || this.initial_current.Username;
+    tmp.status = this.status_select.code;
     this.timeleaveService.timeleave_get(tmp).then(async (res) => {
-      res.forEach((elm: any) => {
-        elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
-        elm.timeleave_todate = new Date(elm.timeleave_todate)
-      });
+      if (res) {
+        res.forEach((elm: any) => {
+          elm.timeleave_fromdate = new Date(elm.timeleave_fromdate)
+          elm.timeleave_todate = new Date(elm.timeleave_todate)
+        });
+      }
       this.trtimeleave_list = await res
     });
 
@@ -88,7 +133,7 @@ export class SelfLeaveComponent implements OnInit {
   doLoadLeaveacc() {
     this.leaveacc_list = [];
     var tmp = new cls_TRleave();
-    tmp.worker_code = this.initial_current.Username;
+    tmp.worker_code = this.selectedAccount.worker_code || this.initial_current.Username;
     this.trleaveaccService.leaveacc_get(tmp).then(async (res) => {
       this.leaveacc_list = await res
     });
@@ -107,6 +152,7 @@ export class SelfLeaveComponent implements OnInit {
     let data = new ReasonsModel()
     data.reason_group = "LEAVE"
     this.reasonService.reason_get(data).then(async (res) => {
+      console.log(res)
       this.reason_list = await res;
     });
   }
@@ -189,6 +235,9 @@ export class SelfLeaveComponent implements OnInit {
           this.time_half = "00:00"
           this.selectLeaveType();
           this.showManage();
+          if (this.initial_current.Usertype == "GRP") {
+            this.selectedtrtimeleave.worker_code = this.selectedAccount.worker_code;
+          }
         }
 
       },
@@ -380,23 +429,41 @@ export class SelfLeaveComponent implements OnInit {
     return status;
   }
   Save() {
-    if (this.selectedtrtimeleave.timeleave_doc === "") {
-      this.selectedtrtimeleave.timeleave_doc = "LEAVE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
-    }
-    if (this.selectedtrtimeleave.timeleave_type != "F") {
-      this.selectedtrtimeleave.timeleave_todate = this.selectedtrtimeleave.timeleave_fromdate;
-      var date1 = new Date(0, 0, 0, Number(this.time_half.split(":")[0]), Number(this.time_half.split(":")[1]), 0)
-      var hours_minutes = date1.getHours() * 60 + date1.getMinutes();
-      this.selectedtrtimeleave.timeleave_min = hours_minutes;
-      console.log(hours_minutes)
-      console.log(this.time_half)
-    } else {
-      this.selectedtrtimeleave.timeleave_min = (this.selectedtrtimeleave.timeleave_actualday * 480)
-    }
-    this.doRecordTimeleave([this.selectedtrtimeleave])
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_doc')[this.selectlang],
+      header: this.langs.get('title_leave')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (this.selectedtrtimeleave.timeleave_doc === "") {
+          this.selectedtrtimeleave.timeleave_doc = "LEAVE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        }
+        if (this.selectedtrtimeleave.timeleave_type != "F") {
+          this.selectedtrtimeleave.timeleave_todate = this.selectedtrtimeleave.timeleave_fromdate;
+          var date1 = new Date(0, 0, 0, Number(this.time_half.split(":")[0]), Number(this.time_half.split(":")[1]), 0)
+          var hours_minutes = date1.getHours() * 60 + date1.getMinutes();
+          this.selectedtrtimeleave.timeleave_min = hours_minutes;
+          console.log(hours_minutes)
+          console.log(this.time_half)
+        } else {
+          this.selectedtrtimeleave.timeleave_min = (this.selectedtrtimeleave.timeleave_actualday * 480)
+        }
+        this.doRecordTimeleave([this.selectedtrtimeleave])
+      },
+      reject: () => {
+      }
+    });
   }
   Delete() {
-    this.doDeleteTimeleave(this.selectedtrtimeleave)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete_doc')[this.selectlang] + this.selectedtrtimeleave.timeleave_doc,
+      header: this.langs.get('title_leave')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimeleave(this.selectedtrtimeleave)
+      },
+      reject: () => {
+      }
+    });
   }
 
 

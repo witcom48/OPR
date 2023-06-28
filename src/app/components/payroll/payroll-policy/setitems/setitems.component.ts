@@ -56,7 +56,9 @@ export class SetitemsComponent implements OnInit {
         this.doLoadItemList();
     }
     title_payroll: string = 'Payroll';
-
+    title_system_Policy: string = 'Policy';
+    title_Process: string = 'Process';
+    title_Result: string = 'Result';
     title_policy: string = 'Set Policy';
     title_page: string = 'Set Income / Deduct';
     title_new: string = 'New';
@@ -106,8 +108,12 @@ export class SetitemsComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-                                    this.title_payroll= 'บัญชีเงินเดือน';
+            this.title_system_Policy= 'นโยบาย';
+            this.title_Process= 'กระบวนการ';
+            this.title_payroll= 'บัญชีเงินเดือน';
+            this.title_Result= 'ผลลัพธ์';
 
+            
             this.title_policy = 'นโยบาย';
             this.title_page = 'กำหนดสิทธิเงินได้/เงินหัก';
             this.title_name_policy= 'นโยบาย';
@@ -155,7 +161,7 @@ export class SetitemsComponent implements OnInit {
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
         );
         if (!this.initial_current) {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('login');
         }
     }
 

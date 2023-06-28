@@ -228,4 +228,34 @@ export class ApplyworkService {
                 return res;
             });
     }
+
+    //image
+  public doGetReqImages(com_code: string, worker_code: string) {
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: com_code,
+      language: "",
+      worker_code: worker_code
+    };
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqimages', filter, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  uploadReqImages(file: File, com: string, worker: string) {
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "ref_to=" + com  + "." + worker +"."+ this.initial_current.Username ;
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqImages?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+
+  }
 }

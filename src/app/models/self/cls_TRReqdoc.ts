@@ -20,6 +20,7 @@ export class cls_TRReqdocModel {
     reqdocatt_data: cls_TRReqdocattModel[] = [];
 
     status_job: string = "";
+    jobtable_id:string = "";
     worker_detail_th: string = "";
     worker_detail_en: string = "";
 }
