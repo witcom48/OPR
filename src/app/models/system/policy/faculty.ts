@@ -1,7 +1,7 @@
 export class FacultyModel {
     constructor() {
     }
-        faculty_id: string = "1";
+        faculty_id: string = "0";
         faculty_code: string = "";
         faculty_name_th: string = "";
         faculty_name_en: string = "";

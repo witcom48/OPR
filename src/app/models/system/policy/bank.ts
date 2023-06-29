@@ -3,7 +3,7 @@ export class BankModel {
              
     }
     
-    bank_id: string = "1";
+    bank_id: string = "0";
     bank_code: string = "";
     bank_name_th: string = "";
     bank_name_en: string = "";    

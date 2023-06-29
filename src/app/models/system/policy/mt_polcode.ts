@@ -3,7 +3,7 @@ export class MTPolcodeModel {
     }
 
     company_code: string = "";
-    polcode_id: string = "1";
+    polcode_id: string = "0";
     polcode_type: string = "";
 
     modified_by: string = "";

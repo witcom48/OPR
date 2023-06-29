@@ -3,7 +3,7 @@ export class FamilyModel {
 
     }
 
-    family_id: string = "1";
+    family_id: string = "0";
     family_code: string = "";
     family_name_th: string = "";
     family_name_en: string = "";

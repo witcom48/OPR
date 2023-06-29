@@ -57,7 +57,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
     }
 title_system:string = "System";
   title_genaral:string = "Genaral";
-    title_page:string = "Level";
+    title_page:string = "Employee Level";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";

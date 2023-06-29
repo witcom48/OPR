@@ -3,7 +3,7 @@ export class BloodtypeModel {
 
     }
 
-    bloodtype_id: string = "1";
+    bloodtype_id: string = "0";
     bloodtype_code: string = "";
     bloodtype_name_th: string = "";
     bloodtype_name_en: string = "";

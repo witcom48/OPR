@@ -62,7 +62,7 @@
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
             <label>{{title_code}}</label>
-            <input pInputText type="text" [(ngModel)]="selectedBank.bank_code" maxlength="5" [readonly]="edit_data" />
+            <input pInputText type="text" [(ngModel)]="selectedBank.bank_code" maxlength="5" disabled="{{edit_data}}" />
             <p>{{selectedBank.bank_code.length}}/5</p>
 
             <label>{{title_name_th}}</label>

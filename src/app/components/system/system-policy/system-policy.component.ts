@@ -32,7 +32,7 @@ public initial_current: InitialCurrent = new InitialCurrent();
     title_genaral_system: string = 'Genaral system';
     title_links: string = 'Links';
     title_genaral: string = 'Genaral';
-    title_level: string = 'Level';
+    title_level: string = 'Employee Level';
     title_bank: string = 'Bank';
     title_card_Type: string = 'Card Type';
     title_family_Type: string = 'Family Type';
@@ -43,7 +43,7 @@ public initial_current: InitialCurrent = new InitialCurrent();
     title_bloodtype: string = 'Bloodtype';
     title_hospital: string = 'Hospital';
     title_location: string = 'Location';
-    title_reduce: string = 'Reduce';
+    title_reduce: string = 'Allowance';
     title_set_structure_code: string = 'Set Structure code';
     title_training: string = 'Training';
 

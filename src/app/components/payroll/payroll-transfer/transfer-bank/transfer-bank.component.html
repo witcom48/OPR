@@ -17,11 +17,12 @@
 <p-toast position="top-right"></p-toast>
 
 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
 
 
-<p-tabView  [(activeIndex)]="index" (onChange)="function($event)">
+<p-tabView [(activeIndex)]="index" (onChange)="function($event)">
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
@@ -33,13 +34,25 @@
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
             </div>
+            <!-- <div>
+                <label>BANK</label>
+                <p-dropdown placeholder="--" [options]="bank_list" optionValue="bank_code"
+                    [showClear]="true" [(ngModel)]="selectedBank"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div> -->
 
             <div class="field col-12 md:col-6">
                 <div>
                     <label>BANK</label>
                     <p-dropdown placeholder="--" [options]="bank_list" optionValue="bank_code" [showClear]="true"
-                       
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [showClear]="true" [(ngModel)]="selectedBank" [style]="{ width: '100%', overflow: 'visible' }">
                         <ng-template let-item pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
                         </ng-template>
@@ -51,12 +64,12 @@
             </div>
             <div class="field col-12 md:col-6">
 
-            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
-            [(ngModel)]="effdate"  name="effdate" (ngModelChange)="updateEffdate()">
-                            <input type="text"></p-calendar>
-            
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false" [(ngModel)]="effdate"
+                    name="effdate" (ngModelChange)="updateEffdate()">
+                    <input type="text"></p-calendar>
+
             </div>
-            
+
             <div class="field col-12 md:col-6">
                 <p-button label="Process" (click)="process()"></p-button>
             </div>

@@ -3,7 +3,7 @@ export class AddresstypeModel {
 
     }
 
-    addresstype_id: string = "1";
+    addresstype_id: string = "0";
     addresstype_code: string = "";
     addresstype_name_th: string = "";
     addresstype_name_en: string = "";

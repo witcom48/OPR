@@ -164,6 +164,13 @@ export class TaskService {
     });
   }  
 
+  public get_file(file_path: string) {
+    var para = "file_path=" + file_path;
+    return this.http.post<any>(this.config.ApiSelfServicesModule + '/doGetMTReqdoc?' + para, this.options).toPromise()
+        .then((res) => {
+            return res;
+        });
+}
 
   public task_delete(task:TaskModel) {    
     const data = {

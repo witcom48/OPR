@@ -3,7 +3,7 @@ export class HospitalModel {
 
     }
 
-    hospital_id: string = "1";
+    hospital_id: string = "0";
     hospital_code: string = "";
     hospital_name_th: string = "";
     hospital_name_en: string = "";

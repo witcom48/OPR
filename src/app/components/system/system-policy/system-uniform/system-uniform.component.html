@@ -60,7 +60,7 @@
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedUniform.uniform_code" maxlength="5"  [readonly]="edit_data" />
+        <input pInputText type="text" [(ngModel)]="selectedUniform.uniform_code" maxlength="5"  disabled="{{edit_data}}" />
 
         <label>{{title_name_th}}</label>
         <textarea [(ngModel)]="selectedUniform.uniform_name_th" pInputTextarea [autoResize]="true"></textarea>

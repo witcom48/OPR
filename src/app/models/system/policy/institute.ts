@@ -1,6 +1,6 @@
 export class InstituteModel {
     constructor() {}
-    institute_id: string = '1';
+    institute_id: string = '0';
     institute_code: string = '';
     institute_name_th: string = '';
     institute_name_en: string = '';

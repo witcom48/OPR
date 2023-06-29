@@ -1,6 +1,6 @@
 export class MajorModel {
     constructor() {}
-    major_id: string = '1';
+    major_id: string = '0';
     major_code: string = '';
     major_name_th: string = '';
     major_name_en: string = '';
