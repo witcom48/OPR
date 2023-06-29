@@ -5,6 +5,7 @@ import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'pri
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ApproveModel } from 'src/app/models/self/approve';
+import { ApproveTotalModel } from 'src/app/models/self/approveTotal';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeotModel } from 'src/app/models/self/cls_TRTimeot';
 import { LocationModel } from 'src/app/models/system/policy/location';
@@ -14,7 +15,7 @@ import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqot: any;
-
+interface Status { name: string, code: number }
 @Component({
   selector: 'app-self-approve-overtime',
   templateUrl: './self-approve-overtime.component.html',
@@ -53,12 +54,20 @@ export class SelfApproveOvertimeComponent implements OnInit {
   selectedtrtimeot: cls_TRTimeotModel = new cls_TRTimeotModel();
   selectedtrtimeotall: cls_TRTimeotModel[] = [];
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
+  approveTotal: ApproveTotalModel[] = [];
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
+  status_doc: boolean = false
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.reasonedis = "reason_name_th";
@@ -73,15 +82,27 @@ export class SelfApproveOvertimeComponent implements OnInit {
     this.doLoadReason();
     this.doLoadLocation();
   }
+  Search() {
+    if (this.status_select.code) {
+      this.status_doc = true;
+    } else {
+      this.status_doc = false;
+    }
+    this.doLoadTimeot();
+  }
   doLoadTimeot() {
     this.trtimeot_list = [];
     var tmp = new ApproveModel();
     tmp.job_type = "OT"
+    tmp.fromdate = this.start_date;
+    tmp.todate = this.end_date;
+    tmp.status = this.status_select.code;
     this.approveService.approve_get(tmp).then(async (res) => {
-      res.forEach((elm: any) => {
+      res.data.forEach((elm: any) => {
         elm.timeot_workdate = new Date(elm.timeot_workdate)
       });
-      this.trtimeot_list = await res
+      this.trtimeot_list = await res.data
+      this.approveTotal = await res.total;
     });
     // var tmp = new cls_TRTimeotModel();
     // tmp.timeot_workdate = new Date(`${this.initial_current.PR_Year}-01-01`)
@@ -361,7 +382,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
   }
 
   Save(data: cls_TRTimeotModel) {
-    if (!this.selectedtrtimeotall.length) {
+    if (!this.selectedtrtimeotall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('conapprove')[this.selectlang],
         header: this.langs.get('condoc')[this.selectlang],
@@ -381,7 +402,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
 
   }
   Delete(data: cls_TRTimeotModel) {
-    if (!this.selectedtrtimeotall.length) {
+    if (!this.selectedtrtimeotall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('connotapprove')[this.selectlang],
         header: this.langs.get('connotdoc')[this.selectlang],
@@ -400,7 +421,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
     }
   }
   Saveall() {
-    if (this.selectedtrtimeotall.length) {
+    if (this.selectedtrtimeotall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('conapprove')[this.selectlang],
         header: this.langs.get('condoc')[this.selectlang],
@@ -422,7 +443,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
     }
   }
   Deleteall() {
-    if (this.selectedtrtimeotall.length) {
+    if (this.selectedtrtimeotall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('connotapprove')[this.selectlang],
         header: this.langs.get('connotdoc')[this.selectlang],

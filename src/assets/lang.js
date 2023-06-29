@@ -856,6 +856,10 @@ var reqleave = new Map([
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
     ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
+    ["doc_wait", { TH: "เอกสารรออนุมัติทั้งหมด", EN: "Doc. Count Waiting" }],
+    ["doc_approve", { TH: "ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Approved" }],
+    ["doc_notapprove", { TH: "ไม่ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Not approved" }],
+    ["doc_all", { TH: "จำนวนเอกสารทั้งหมด", EN: "Doc. Count All" }],
 ]);
 
 
@@ -915,6 +919,10 @@ var reqshift = new Map([
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
     ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
     ["employee_select", { TH: "พนักงาน (ที่เลือก)", EN: "Employee (Selected)" }],
+    ["doc_wait", { TH: "เอกสารรออนุมัติทั้งหมด", EN: "Doc. Count Waiting" }],
+    ["doc_approve", { TH: "ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Approved" }],
+    ["doc_notapprove", { TH: "ไม่ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Not approved" }],
+    ["doc_all", { TH: "จำนวนเอกสารทั้งหมด", EN: "Doc. Count All" }],
 ]);
 
 
@@ -979,6 +987,10 @@ var reqot = new Map([
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
     ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
     ["employee_select", { TH: "พนักงาน (ที่เลือก)", EN: "Employee (Selected)" }],
+    ["doc_wait", { TH: "เอกสารรออนุมัติทั้งหมด", EN: "Doc. Count Waiting" }],
+    ["doc_approve", { TH: "ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Approved" }],
+    ["doc_notapprove", { TH: "ไม่ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Not approved" }],
+    ["doc_all", { TH: "จำนวนเอกสารทั้งหมด", EN: "Doc. Count All" }],
 ]);
 
 var reqonsite = new Map([
@@ -1039,6 +1051,10 @@ var reqonsite = new Map([
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
     ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
     ["employee_select", { TH: "พนักงาน (ที่เลือก)", EN: "Employee (Selected)" }],
+    ["doc_wait", { TH: "เอกสารรออนุมัติทั้งหมด", EN: "Doc. Count Waiting" }],
+    ["doc_approve", { TH: "ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Approved" }],
+    ["doc_notapprove", { TH: "ไม่ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Not approved" }],
+    ["doc_all", { TH: "จำนวนเอกสารทั้งหมด", EN: "Doc. Count All" }],
 ]);
 
 var reqdaytype = new Map([
@@ -1106,6 +1122,10 @@ var reqdaytype = new Map([
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
     ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
     ["employee_select", { TH: "พนักงาน (ที่เลือก)", EN: "Employee (Selected)" }],
+    ["doc_wait", { TH: "เอกสารรออนุมัติทั้งหมด", EN: "Doc. Count Waiting" }],
+    ["doc_approve", { TH: "ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Approved" }],
+    ["doc_notapprove", { TH: "ไม่ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Not approved" }],
+    ["doc_all", { TH: "จำนวนเอกสารทั้งหมด", EN: "Doc. Count All" }],
 ]);
 
 var reqcheckin = new Map([
@@ -1170,6 +1190,10 @@ var reqcheckin = new Map([
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
     ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
     ["employee_select", { TH: "พนักงาน (ที่เลือก)", EN: "Employee (Selected)" }],
+    ["doc_wait", { TH: "เอกสารรออนุมัติทั้งหมด", EN: "Doc. Count Waiting" }],
+    ["doc_approve", { TH: "ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Approved" }],
+    ["doc_notapprove", { TH: "ไม่ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Not approved" }],
+    ["doc_all", { TH: "จำนวนเอกสารทั้งหมด", EN: "Doc. Count All" }],
 ]);
 
 var topic = new Map([
@@ -1269,6 +1293,10 @@ var reqdoc = new Map([
     ["condoc", { TH: "อนุมัติเอกสาร", EN: "Aprrove Doc" }],
     ["connotdoc", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve Doc" }],
     ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
+    ["doc_wait", { TH: "เอกสารรออนุมัติทั้งหมด", EN: "Doc. Count Waiting" }],
+    ["doc_approve", { TH: "ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Approved" }],
+    ["doc_notapprove", { TH: "ไม่ผ่านการอนุมัติทั้งหมด", EN: "Doc. Count Not approved" }],
+    ["doc_all", { TH: "จำนวนเอกสารทั้งหมด", EN: "Doc. Count All" }],
 
 ]);
 
