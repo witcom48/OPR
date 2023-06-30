@@ -177,6 +177,8 @@ export class PolroundsComponent implements OnInit {
         tmp.rounds_group = 'Currency';
         this.roundsService.rounds_get(tmp).then(async (res) => {
             this.round_list = await res;
+            this.round_list.unshift(tmp)
+
         });
     }
     doLoadMTRoundstimeList() {
@@ -185,6 +187,8 @@ export class PolroundsComponent implements OnInit {
         tmp.rounds_group = 'time';
         this.roundsService.rounds_get(tmp).then(async (res) => {
             this.rounds_list = await res;
+            this.rounds_list.unshift(tmp)
+
         });
     }
 

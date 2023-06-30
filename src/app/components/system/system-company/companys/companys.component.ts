@@ -21,6 +21,7 @@ import { AddresstypeService } from 'src/app/services/system/policy/addresstype.s
 import { AddresstypeModel } from 'src/app/models/system/policy/addresstype';
 import { ProvinceModel } from 'src/app/models/system/policy/province';
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
     selector: 'app-companys',
     templateUrl: './companys.component.html',
@@ -75,6 +76,7 @@ export class CompanysComponent implements OnInit {
         private confirmationService: ConfirmationService,
         private datePipe: DatePipe,
         private companyDetailService: CompanyDetailService,
+        private sanitizer: DomSanitizer,
 
         //service
         private bankService: BankService,
@@ -543,6 +545,41 @@ export class CompanysComponent implements OnInit {
         }
     }
 
+
+    base65Image: any = '../../../../assets/images/people.png'
+    base64Image: any = '../../../../assets/images/people.png'
+    transform() {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
+    }
+  
+    doLoadImage() {
+        
+      this.companyService.doGetImages(this.initial_current.CompCode).then((res) => {
+        
+        let resultJSON = JSON.parse(res);
+        console.log(resultJSON.data_maps)
+        if (resultJSON.result == "1") {
+          this.base64Image = resultJSON.data;
+          
+
+        }
+      });
+    }
+
+
+   
+    doLoadImagemaps() {
+      this.companyService.doGetImagesmaps(this.initial_current.CompCode)
+        .then((res) => {
+          let resultJSON = JSON.parse(res);
+          console.log(resultJSON.data_maps);
+          if (resultJSON.result == "1") {
+            this.base65Image = resultJSON.data_maps;
+          }
+        });
+    }
+
+
     doLoadCompany() {
         var Company_list: CompanyModel[] = [];
         this.companyService.company_get(this.company_code).then(async (res) => {
@@ -562,6 +599,11 @@ export class CompanysComponent implements OnInit {
                     this.doLoadcardList();
                     this.doLoadaddressList();
                     this.doLoadprovinceList();
+
+                    this.doLoadImage();
+                    this.doLoadImagemaps();
+                    // this.uploadImages();
+                    
                 }, 300);
             }
         });
@@ -788,6 +830,10 @@ export class CompanysComponent implements OnInit {
                     this.record_comcard();
                     this.record_combank();
 
+                    //image
+                    this.uploadImages();
+                    this.uploadImagesmaps();
+
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
@@ -811,6 +857,82 @@ export class CompanysComponent implements OnInit {
         this.selectedComaddress= new ComaddressModel();
     }
     
+  
+    fileToUpload: File | any = null;
+    handleFileInput(files: FileList) {
+      this.fileToUpload = files.item(0);
+    }
+  
+    onselectFile(event: any) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          // Set image src
+          this.base64Image = e.target.result;
+          this.base65Image = e.target.result;
+        };
+      
+        if (event.target.files && event.target.files.length > 0) {
+          reader.readAsDataURL(event.target.files[0]);
+          this.fileToUpload = event.target.files.item(0);
+        }
+    }
+
+    fileToUploads: File | any = null;
+    handleFileInputs(files: FileList) {
+      this.fileToUpload = files.item(0);
+    }
+  
+    onselectFiles(event: any) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          // Set image src
+           this.base65Image = e.target.result;
+        };
+      
+        if (event.target.files && event.target.files.length > 0) {
+          reader.readAsDataURL(event.target.files[0]);
+          this.fileToUpload = event.target.files.item(0);
+        }
+    }
+  
+    
+  uploadImages() {
+
+    const filename = "XXX";
+    const filetype = "jpg";
+
+    this.companyService.uploadImages(this.fileToUpload, this.initial_current.CompCode ).then((res) => {
+      let resultJSON = JSON.parse(res);
+      if (resultJSON.result == "1") {
+
+        setTimeout(() => {
+          this.doLoadImage();
+        }, 500);
+
+      }
+    });
+
+    
+  }
+
+  uploadImagesmaps() {
+
+    const filename = "XXX";
+    const filetype = "jpg";
+
+    this.companyService.uploadImagesmaps(this.fileToUpload, this.initial_current.CompCode ).then((res) => {
+      let resultJSON = JSON.parse(res);
+      if (resultJSON.result == "1") {
+
+        setTimeout(() => {
+          this.doLoadImagemaps();
+        }, 500);
+
+      }
+    });
+
+  }
+
     clearManage() {
         this.new_comaddress = false;
         this.edit_comaddress = false;
