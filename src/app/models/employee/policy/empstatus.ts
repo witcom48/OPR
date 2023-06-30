@@ -3,7 +3,7 @@ export class EmpstatusModel {
      
     }
     
-    status_id: string = "1";
+    status_id: string = "0";
     status_code: string = "";
     status_name_th: string = "";
     status_name_en: string = "";    

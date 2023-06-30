@@ -3,7 +3,7 @@ export class EmpSalaryModel {
     }
     company_code: string = "";
     worker_code: string = "";
-    empsalary_id: string= "";
+    empsalary_id: string= "0";
     empsalary_amount: number = 0;
     empsalary_date!: Date;
     empsalary_reason: string= "";

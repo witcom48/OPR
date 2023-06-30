@@ -3,7 +3,7 @@ export class PartModel {
      
     }
     
-    dep_id: string = "1";
+    dep_id: string = "0";
     dep_code: string = "";
     dep_name_th: string = "";
     dep_name_en: string = "";  

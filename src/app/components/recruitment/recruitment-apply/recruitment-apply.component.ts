@@ -214,6 +214,7 @@ export class RecruitmentApplyComponent implements OnInit {
 
         this.doGetInitialCurrent();
 
+        this.doLoadLanguage();
         // Dropdown
         this.doLoadInitialList();
         this.doLoadReligionList();
@@ -229,7 +230,6 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doLoadSuggestList();
 
         setTimeout(() => {
-            this.doLoadLanguage();
             this.doLoadMenu();
         }, 100);
 
@@ -282,6 +282,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_status: string = "Employee Status";
     title_birthdate: string = "Birth Date";
     title_startdate: string = "Start Date";
+    title_hiredate: string = "Hire Date";
     title_hrs: string = "Hour/Day";
     title_probation: string = "Probation";
     title_probationdate: string = "Probation Date";
@@ -468,6 +469,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_status = 'สถานะ';
             this.title_birthdate = 'วันเกิด';
             this.title_startdate = 'วันที่เริ่มงาน';
+            this.title_hiredate = 'วันที่พร้อมเริ่มงาน';
             this.title_hrs = 'ชั่วโมงทำงาน';
             this.title_probation = 'จำนวนวันทดลองงาน';
             this.title_probationdate = 'วันที่เริ่มทดลองงาน';

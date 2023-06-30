@@ -93,13 +93,13 @@ export class EmployeeListComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent();
 
+    this.doLoadLanguage()
 
     this.doLoadInitialList();
     this.doLoadEmptypeList();
     this.doLoadEmpstatusList();
 
     setTimeout(() => {
-      this.doLoadLanguage()
       this.doLoadMenu()
       this.doLoadEmployee()
     }, 500);
@@ -128,6 +128,7 @@ export class EmployeeListComponent implements OnInit {
   title_initial: string = "Initial";
   title_emptype: string = "Type";
   title_position: string = "Position";
+  title_name: string = "Name";
   title_Fname: string = "Firstname";
   title_Lname: string = "Surname";
   title_startdate: string = "Start Date";
@@ -161,12 +162,13 @@ export class EmployeeListComponent implements OnInit {
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
       this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
+      this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
       this.title_code = "รหัสพนักงาน";
       this.title_initial = "คำนำหน้า";
       this.title_emptype = "ประเภทพนักงาน";
       this.title_position = "ตำแหน่ง";
+      this.title_name = "ชื่อ-นามสกุล";
       this.title_Fname = "ชื่อ";
       this.title_Lname = "นามสกุล";
       this.title_startdate = "วันที่เริ่มงาน";

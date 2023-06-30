@@ -3,7 +3,7 @@ export class EmpBenefitsModel {
     }
     company_code: string = "";
     worker_code: string = "";
-    empbenefit_id: string= "";
+    empbenefit_id: string= "0";
     empbenefit_amount: string= "";
     empbenefit_startdate!: Date;
     empbenefit_enddate!: Date;

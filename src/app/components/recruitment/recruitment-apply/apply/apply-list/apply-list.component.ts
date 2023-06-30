@@ -73,13 +73,13 @@ export class ApplyListComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent();
 
+    this.doLoadLanguage()
 
     this.doLoadInitialList();
     // this.doLoadEmptypeList();
     // this.doLoadEmpstatusList();
 
     setTimeout(() => {
-      this.doLoadLanguage()
       this.doLoadMenu()
       this.doLoadapplywork()
     }, 500);
@@ -109,6 +109,7 @@ export class ApplyListComponent implements OnInit {
   title_emptype: string = "Type";
   title_position: string = "Position";
   title_Fname: string = "Firstname";
+  title_name:string= "Name";
   title_Lname: string = "Surname";
   title_startdate: string = "Start Date";
   title_hiredate:string = "Hire date"
@@ -142,14 +143,14 @@ export class ApplyListComponent implements OnInit {
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
       this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
+      this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
       this.title_code = "รหัสพนักงาน";
       this.title_initial = "คำนำหน้า";
       this.title_emptype = "ประเภทพนักงาน";
       this.title_position = "ตำแหน่ง";
       this.title_Fname = "ชื่อ";
-      this.title_Fname = "ชื่อนามสกุล";
+      this.title_name = "ชื่อ-นามสกุล";
       this.title_startdate = "วันที่เริ่มงาน";
       this.title_hiredate = "วันที่พร้อมเริ่มงาน"
       this.title_status = "สถานะ";
@@ -179,7 +180,7 @@ export class ApplyListComponent implements OnInit {
     this.items = [
 
       {
-        label:'New',
+        label:this.title_new,
         icon:'pi pi-fw pi-plus',
         command: (event) => {
           this.selectedApplywork = new ApplyworkModel();
@@ -189,7 +190,7 @@ export class ApplyListComponent implements OnInit {
 
       },
       {
-          label:'Import',
+          label:this.title_import,
           icon:'pi pi-fw pi-file-import',
           command: (event) => {
             this.showUpload()
@@ -197,7 +198,7 @@ export class ApplyListComponent implements OnInit {
           }
       },
       {
-          label:'Export',
+          label:this.title_export,
           icon:'pi pi-fw pi-file-export',
           command: (event) => {
             this.exportAsExcel()

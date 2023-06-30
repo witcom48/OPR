@@ -45,7 +45,7 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="reqworkerList" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true"
+        <p-table #dt2 [value]="reqworkerList" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true"
             scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqworker"
             (onRowSelect)="onRowSelectApplywork($event)" dataKey="worker_code" [rows]="10" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
@@ -64,12 +64,12 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th>{{title_code}}</th>
-                    <th>{{title_initial}}</th>
-                    <th>{{title_Fname}}</th>
-                    <th>{{title_Lname}}</th>
+                    <!-- <th>{{title_initial}}</th> -->
+                    <th>{{title_name}}</th>
+                    <!-- <th>{{title_Lname}}</th> -->
                     <th>{{title_hiredate}}</th>
-                    <!-- <th>{{title_modified_by}}</th>
-                    <th>{{title_modified_date}}</th> -->
+                    <th>{{title_modified_by}}</th>
+                    <th>{{title_modified_date}}</th>
                 </tr>
 
 
@@ -77,12 +77,13 @@
             <ng-template pTemplate="body" let-data>
                 <tr [pSelectableRow]="data">
                     <td>{{data.worker_code}}</td>
-                     <td>{{data.worker_initial}}</td>
-                    <td>{{initial_current.Language == "TH"? data.worker_fname_th:data.worker_fname_en}}</td>
-                    <td>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td>
-                    <td>{{data.worker_hiredate | date:'dd/MM/yyyy HH:mm'}}</td>
-                    <!-- <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td> -->
+                     <!-- <td>{{data.worker_initial}}</td> -->
+                    <td>{{initial_current.Language == "TH"? data.initial_name_th+" "+data.worker_fname_th+"
+                        "+data.worker_lname_th:data.initial_name_en+" "+data.worker_fname_en+" "+data.worker_lname_en}}</td>
+                    <!-- <td>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td> -->
+                    <td>{{data.worker_hiredate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{data.modified_by}}</td>
+                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
             </ng-template>
 

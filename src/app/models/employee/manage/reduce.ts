@@ -3,7 +3,7 @@ export class EmpReduceModel {
     }
     company_code: string = "";
     worker_code: string = "";
-    empreduce_id: string= "";
+    empreduce_id: string= "0";
     reduce_type: string= "";
     empreduce_amount: string= "";
   

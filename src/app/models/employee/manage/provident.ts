@@ -3,7 +3,7 @@ export class EmpProvidentModel {
     }
     company_code: string = "";
     worker_code: string = "";
-    empprovident_id: string = "";
+    empprovident_id: string = "0";
     provident_code: string= "";
     empprovident_card: string= "";
     empprovident_entry!: Date;

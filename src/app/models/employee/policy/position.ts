@@ -3,7 +3,7 @@ export class PositionModel {
 
   }
 
-  position_id: string = "1";
+  position_id: string = "0";
   position_code: string = "";
   position_name_th: string = "";
   position_name_en: string = "";

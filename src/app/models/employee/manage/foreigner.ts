@@ -3,7 +3,7 @@ export class EmpForeignerModel {
     }
     company_code: string= "";
     worker_code: string= "";
-    foreigner_id: string= "1";
+    foreigner_id: string= "0";
     passport_no: string= "";
     passport_issue!: Date;
     passport_expire!: Date;

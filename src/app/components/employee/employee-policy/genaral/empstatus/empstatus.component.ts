@@ -34,8 +34,9 @@ export class EmpstatusComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     
+    this.doLoadLanguage()
+    
     setTimeout(() => {
-      this.doLoadLanguage()
       this.doLoadMenu()
       this.doLoadStatus()
     }, 500);
@@ -46,7 +47,7 @@ export class EmpstatusComponent implements OnInit {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
-    }       
+    }
   }
 
   title_page:string = "Emp Status";
@@ -85,7 +86,7 @@ export class EmpstatusComponent implements OnInit {
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
       this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
+      this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
       this.title_code = "รหัส";
       this.title_name_th = "ชื่อไทย";

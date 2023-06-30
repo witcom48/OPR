@@ -3,7 +3,7 @@ export class EmpFamilyModel {
     }
     company_code: string= "";
     worker_code: string= "";
-    family_id: string= "1";
+    family_id: string= "0";
     family_code: string= "";
     family_type: string= "";
     family_fname_th: string= "";

@@ -3,7 +3,7 @@ export class EmptypeModel {
      
     }
     
-    type_id: string = "1";
+    type_id: string = "0";
     type_code: string = "";
     type_name_th: string = "";
     type_name_en: string = "";

@@ -3,7 +3,7 @@ export class EmpbankModel {
     }
     company_code: string= "";
     worker_code: string= "";
-    bank_id: string= "1";
+    bank_id: string= "0";
     bank_code: string= "";
     bank_account: string= "";
     bank_percent: string= "";

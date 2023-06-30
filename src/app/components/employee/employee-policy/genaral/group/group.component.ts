@@ -33,9 +33,8 @@ export class GroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.doGetInitialCurrent()
-    
+    this.doLoadLanguage()
     setTimeout(() => {
-      this.doLoadLanguage()
       this.doLoadMenu()
       this.doLoadGroup()
     }, 500);
@@ -85,7 +84,7 @@ export class GroupComponent implements OnInit {
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
       this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
+      this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
       this.title_code = "รหัส";
       this.title_name_th = "ชื่อไทย";

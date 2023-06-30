@@ -41,11 +41,11 @@ export class PartComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     
+    this.doLoadLanguage()
     this.doLoadLevelList();
     this.doLoadParent();
     
     setTimeout(() => {
-      this.doLoadLanguage()
       this.doLoadMenu()
       this.doLoadDep()
     }, 500);
@@ -97,7 +97,7 @@ export class PartComponent implements OnInit {
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
       this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
+      this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
       this.title_code = "รหัส";
       this.title_name_th = "ชื่อไทย";

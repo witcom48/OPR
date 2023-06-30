@@ -3,7 +3,7 @@ export class EmpHospitalModel {
     }
     company_code: string= "";
     worker_code: string= "";
-    emphospital_id: string= "1";
+    emphospital_id: string= "0";
     emphospital_code: string= "";
     emphospital_date!: Date;
 

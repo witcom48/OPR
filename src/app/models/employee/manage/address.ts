@@ -5,7 +5,7 @@ export class EmpaddressModel {
 
     company_code: string = "";
     worker_code: string = "";
-    address_id: string = "1";
+    address_id: string = "0";
     address_type: string = "";
     address_no: string = "";
     address_moo: string = "";

@@ -3,7 +3,7 @@ export class EmpAssessmentModel {
     }
     company_code: string= "";
     worker_code: string= "";
-    empassessment_id: string= "1";
+    empassessment_id: string= "0";
     empassessment_location: string= "";
     empassessment_topic: string= "";
     empassessment_fromdate!: Date;

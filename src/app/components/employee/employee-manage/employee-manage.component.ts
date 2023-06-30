@@ -295,6 +295,7 @@ export class EmployeeManageComponent implements OnInit {
 
     this.doGetInitialCurrent();
 
+    this.doLoadLanguage();
     // Dropdown
     this.doLoadInitialList();
     this.doLoadEmptypeList();
@@ -325,7 +326,6 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadSuggestList();
 
     setTimeout(() => {
-      this.doLoadLanguage();
       this.doLoadMenu();
     }, 100);
 
@@ -540,7 +540,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
       this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
+      this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
       this.title_back = "ย้อนกลับ";
 
@@ -1995,7 +1995,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_empaddress = false
     this.edit_empaddress = false
   }
-  empaddress_delete() { }
+  empaddress_delete() { 
+    var tmp: EmpaddressModel = new EmpaddressModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empaddress(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empaddress_cancel() {
     this.new_empaddress = false
     this.edit_empaddress = false
@@ -2021,15 +2027,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empaddress() {
     if (this.empaddressList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empaddress(this.selectedEmployee.worker_code, this.empaddressList).then((res) => {
+      this.empaddress_delete();
+    }else{
+      this.empdetailService.record_empaddress(this.selectedEmployee.worker_code, this.empaddressList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //card
@@ -2062,7 +2070,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_card = false
     this.edit_empcard = false
   }
-  empcard_delete() { }
+  empcard_delete() { 
+    var tmp: EmpcardModel = new EmpcardModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empcard(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empcard_cancel() {
     this.new_card = false
     this.edit_empcard = false
@@ -2088,15 +2102,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empcard() {
     if (this.empcardList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empcard(this.selectedEmployee.worker_code, this.empcardList).then((res) => {
+      this.empcard_delete();
+    }else{
+      this.empdetailService.record_empcard(this.selectedEmployee.worker_code, this.empcardList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //bank
@@ -2124,7 +2140,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_bank = false
     this.edit_empbank = false
   }
-  empbank_delete() { }
+  empbank_delete() { 
+    var tmp: EmpbankModel = new EmpbankModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empbank(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empbank_cancel() {
     this.new_bank = false
     this.edit_empbank = false
@@ -2150,15 +2172,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empbank() {
     if (this.empbankList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empbank(this.selectedEmployee.worker_code, this.empbankList).then((res) => {
+      this.empbank_delete();
+    }else{
+      this.empdetailService.record_empbank(this.selectedEmployee.worker_code, this.empbankList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //family
@@ -2188,7 +2212,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_bank = false
     this.edit_empbank = false
   }
-  empfamily_delete() { }
+  empfamily_delete() { 
+    var tmp: EmpFamilyModel = new EmpFamilyModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empfamily(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empfamily_cancel() {
     this.new_family = false
     this.edit_empfamily = false
@@ -2214,15 +2244,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empfamily() {
     if (this.empfamilyList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empfamily(this.selectedEmployee.worker_code, this.empfamilyList).then((res) => {
+      this.empfamily_delete();
+    }else{
+      this.empdetailService.record_empfamily(this.selectedEmployee.worker_code, this.empfamilyList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //hospital
@@ -2252,7 +2284,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_hospital = false
     this.edit_emphospital = false
   }
-  emphospital_delete() { }
+  emphospital_delete() { 
+    var tmp: EmpHospitalModel = new EmpHospitalModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_emphospital(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   emphospital_cancel() {
     this.new_hospital = false
     this.edit_emphospital = false
@@ -2278,17 +2316,20 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_emphospital() {
     if (this.emphospitalList.length == 0) {
-      return
-    }
-    this.empdetailService.record_emphospital(this.selectedEmployee.worker_code, this.emphospitalList).then((res) => {
+      this.emphospital_delete();
+    }else{
+      this.empdetailService.record_emphospital(this.selectedEmployee.worker_code, this.emphospitalList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
+  //foreigner
   empforeignerList: EmpForeignerModel[] = [];
   selectedEmpforeigner: EmpForeignerModel = new EmpForeignerModel();
   doLoadEmpForeigner() {
@@ -2341,7 +2382,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_dep = false
     this.edit_empdep = false
   }
-  empdep_delete() { }
+  empdep_delete() { 
+    var tmp: EmpDepModel = new EmpDepModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empdep(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empdep_cancel() {
     this.new_dep = false
     this.edit_empdep = false
@@ -2367,15 +2414,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empdep() {
     if (this.empdepList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empdep(this.selectedEmployee.worker_code, this.empdepList).then((res) => {
+      this.empdep_delete();
+    }else{
+      this.empdetailService.record_empdep(this.selectedEmployee.worker_code, this.empdepList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
 
@@ -2416,7 +2465,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_position = false
     this.edit_empposition = false
   }
-  empposition_delete() { }
+  empposition_delete() { 
+    var tmp: EmpPositionModel = new EmpPositionModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empposition(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empposition_cancel() {
     this.new_position = false
     this.edit_empposition = false
@@ -2442,15 +2497,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empposition() {
     if (this.emppositionList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empposition(this.selectedEmployee.worker_code, this.emppositionList).then((res) => {
+      this.empposition_delete();
+    }else{
+      this.empdetailService.record_empposition(this.selectedEmployee.worker_code, this.emppositionList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //emp group
@@ -2482,7 +2539,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_group = false
     this.edit_empgroup = false
   }
-  empgroup_delete() { }
+  empgroup_delete() { 
+    var tmp: EmpGroupModel = new EmpGroupModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empgroup(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empgroup_cancel() {
     this.new_group = false
     this.edit_empgroup = false
@@ -2508,15 +2571,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empgroup() {
     if (this.empgroupList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empgroup(this.selectedEmployee.worker_code, this.empgroupList).then((res) => {
+      this.empgroup_delete();
+    }else{
+      this.empdetailService.record_empgroup(this.selectedEmployee.worker_code, this.empgroupList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //education
@@ -2547,7 +2612,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_education = false
     this.edit_empeducation = false
   }
-  empeducation_delete() { }
+  empeducation_delete() { 
+    var tmp: EmpEducationModel = new EmpEducationModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empeducation(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empeducation_cancel() {
     this.new_education = false
     this.edit_empeducation = false
@@ -2573,15 +2644,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empeducation() {
     if (this.empeducationList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empeducation(this.selectedEmployee.worker_code, this.empeducationList).then((res) => {
+      this.empeducation_delete();
+    }else{
+      this.empdetailService.record_empeducation(this.selectedEmployee.worker_code, this.empeducationList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //emp supply
@@ -2612,7 +2685,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_supply = false
     this.edit_empsupply = false
   }
-  empsupply_delete() { }
+  empsupply_delete() { 
+    var tmp: EmpSupplyModel = new EmpSupplyModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empsupply(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empsupply_cancel() {
     this.new_supply = false
     this.edit_empsupply = false
@@ -2638,15 +2717,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empsupply() {
     if (this.empsupplyList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empsupply(this.selectedEmployee.worker_code, this.empsupplyList).then((res) => {
+      this.empsupply_delete();
+    }else{
+      this.empdetailService.record_empsupply(this.selectedEmployee.worker_code, this.empsupplyList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //emp uniform
@@ -2677,7 +2758,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_uniform = false
     this.edit_empuniform = false
   }
-  empuniform_delete() { }
+  empuniform_delete() { 
+    var tmp: EmpUniformModel = new EmpUniformModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empuniform(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empuniform_cancel() {
     this.new_uniform = false
     this.edit_empuniform = false
@@ -2703,15 +2790,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empuniform() {
     if (this.empuniformList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empuniform(this.selectedEmployee.worker_code, this.empuniformList).then((res) => {
+      this.empuniform_delete();
+    }else{
+      this.empdetailService.record_empuniform(this.selectedEmployee.worker_code, this.empuniformList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //emp suggest
@@ -2742,7 +2831,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_suggest = false
     this.edit_empsuggest = false
   }
-  empsuggest_delete() { }
+  empsuggest_delete() { 
+    var tmp: EmpSuggestModel = new EmpSuggestModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empsuggest(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empsuggest_cancel() {
     this.new_suggest = false
     this.edit_empsuggest = false
@@ -2768,15 +2863,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empsuggest() {
     if (this.empsuggestList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empsuggest(this.selectedEmployee.worker_code, this.empsuggestList).then((res) => {
+      this.empsuggest_delete();
+    }else{
+      this.empdetailService.record_empsuggest(this.selectedEmployee.worker_code, this.empsuggestList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //training
@@ -2807,7 +2904,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_education = false
     this.edit_empeducation = false
   }
-  emptraining_delete() { }
+  emptraining_delete() { 
+    var tmp: EmpTrainingModel = new EmpTrainingModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_emptraining(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   emptraining_cancel() {
     this.new_training = false
     this.edit_emptraining = false
@@ -2833,15 +2936,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_emptraining() {
     if (this.emptrainingList.length == 0) {
-      return
-    }
-    this.empdetailService.record_emptraining(this.selectedEmployee.worker_code, this.emptrainingList).then((res) => {
+      this.emptraining_delete();
+    }else{
+      this.empdetailService.record_emptraining(this.selectedEmployee.worker_code, this.emptrainingList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //Assessment
@@ -2872,7 +2977,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_assessment = false
     this.edit_empassessment = false
   }
-  empassessment_delete() { }
+  empassessment_delete() { 
+    var tmp: EmpAssessmentModel = new EmpAssessmentModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empassessment(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empassessment_cancel() {
     this.new_assessment = false
     this.edit_empassessment = false
@@ -2898,15 +3009,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empassessment() {
     if (this.empassessmentList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empassessment(this.selectedEmployee.worker_code, this.empassessmentList).then((res) => {
+      this.empassessment_delete();
+    }else{
+      this.empdetailService.record_empassessment(this.selectedEmployee.worker_code, this.empassessmentList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //Criminal
@@ -2937,7 +3050,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_criminal = false
     this.edit_empcriminal = false
   }
-  empcriminal_delete() { }
+  empcriminal_delete() { 
+    var tmp: EmpCriminalModel = new EmpCriminalModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empcriminal(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empcriminal_cancel() {
     this.new_criminal = false
     this.edit_empcriminal = false
@@ -2963,15 +3082,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empcriminal() {
     if (this.empcriminalList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empcriminal(this.selectedEmployee.worker_code, this.empcriminalList).then((res) => {
+      this.empcriminal_delete();
+    }else{
+      this.empdetailService.record_empcriminal(this.selectedEmployee.worker_code, this.empcriminalList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   empresignrecord: [] = [];
@@ -3006,7 +3127,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_salary = false
     this.edit_empsalary = false
   }
-  empsalary_delete() { }
+  empsalary_delete() { 
+    var tmp: EmpSalaryModel = new EmpSalaryModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empsalary(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empsalary_cancel() {
     this.new_salary = false
     this.edit_empsalary = false
@@ -3032,15 +3159,18 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empsalary() {
     if (this.empsalaryList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empsalary(this.selectedEmployee.worker_code, this.empsalaryList).then((res) => {
+      console.log(this.empsalaryList)
+      this.empsalary_delete();
+    }else {
+      this.empdetailService.record_empsalary(this.selectedEmployee.worker_code, this.empsalaryList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //Provident
@@ -3072,7 +3202,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_provident = false
     this.edit_empprovident = false
   }
-  empprovident_delete() { }
+  empprovident_delete() { 
+    var tmp: EmpProvidentModel = new EmpProvidentModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empprovident(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empprovident_cancel() {
     this.new_provident = false
     this.edit_empprovident = false
@@ -3098,15 +3234,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empprovident() {
     if (this.empprovidentList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empprovident(this.selectedEmployee.worker_code, this.empprovidentList).then((res) => {
+      this.empprovident_delete();
+    }else {
+      this.empdetailService.record_empprovident(this.selectedEmployee.worker_code, this.empprovidentList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //benefit
@@ -3124,7 +3262,13 @@ export class EmployeeManageComponent implements OnInit {
       }
     })
   }
-  onRowSelectEmpbenefit(event: Event) { }
+  onRowSelectEmpbenefit(event: Event) { 
+    var tmp: EmpBenefitsModel = new EmpBenefitsModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empbenefit(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empbenefit_summit() {
     this.empbenefit_addItem(this.selectedEmpbenefit)
     this.new_benefit = false
@@ -3137,7 +3281,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_benefit = false
     this.edit_empbenefit = false
   }
-  empbenefit_delete() { }
+  empbenefit_delete() { 
+    var tmp: EmpBenefitsModel = new EmpBenefitsModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empbenefit(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empbenefit_cancel() {
     this.new_benefit = false
     this.edit_empbenefit = false
@@ -3163,15 +3313,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empbenefit() {
     if (this.empbenefitList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empbenefit(this.selectedEmployee.worker_code, this.empbenefitList).then((res) => {
+      this.empbenefit_delete();
+    }else{
+      this.empdetailService.record_empbenefit(this.selectedEmployee.worker_code, this.empbenefitList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //reduce
@@ -3199,7 +3351,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_reduce = false
     this.edit_empreduce = false
   }
-  empreduce_delete() { }
+  empreduce_delete() { 
+    var tmp: EmpReduceModel = new EmpReduceModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empreduce(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empreduce_cancel() {
     this.new_reduce = false
     this.edit_empreduce = false
@@ -3225,15 +3383,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empreduce() {
     if (this.empreduceList.length == 0) {
-      return
-    }
-    this.empdetailService.record_empreduce(this.selectedEmployee.worker_code, this.empreduceList).then((res) => {
+      this.empreduce_delete()
+    }else{
+      this.empdetailService.record_empreduce(this.selectedEmployee.worker_code, this.empreduceList).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       }
       else {
       }
     });
+    }
+    
   }
 
   //accumalate
@@ -3291,7 +3451,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_emplocation = false
     this.edit_emplocation = false
   }
-  emplocation_delete() { }
+  emplocation_delete() {
+    var tmp: EmpLocationModel = new EmpLocationModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_emplocation(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   emplocation_cancel() {
     this.new_emplocation = false
     this.edit_emplocation = false
@@ -3317,15 +3483,16 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_emplocation() {
     if (this.emplocationList.length == 0) {
-      return
+      this.emplocation_delete()
+    } else {
+      this.empdetailService.record_emplocation(this.selectedEmployee.worker_code, this.emplocationList).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    this.empdetailService.record_emplocation(this.selectedEmployee.worker_code, this.emplocationList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
   }
 
   //emp branch
@@ -3356,7 +3523,13 @@ export class EmployeeManageComponent implements OnInit {
     this.new_empbranch = false
     this.edit_empbranch = false
   }
-  empbranch_delete() { }
+  empbranch_delete() {
+    var tmp: EmpBranchModel = new EmpBranchModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empbranch(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   empbranch_cancel() {
     this.new_empbranch = false
     this.edit_empbranch = false
@@ -3382,15 +3555,17 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empbranch() {
     if (this.empbranchList.length == 0) {
-      return
+      this.empbranch_delete();
+    }else{
+      this.empdetailService.record_empbranch(this.selectedEmployee.worker_code, this.empbranchList).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    this.empdetailService.record_empbranch(this.selectedEmployee.worker_code, this.empbranchList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+    
   }
 
   doGetNewCode() {

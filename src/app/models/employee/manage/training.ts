@@ -3,7 +3,7 @@ export class EmpTrainingModel {
     }
     company_code: string = "";
     worker_code: string = "";
-    emptraining_no: string= "";
+    emptraining_no: string= "0";
     emptraining_start!: Date;
     emptraining_finish!: Date;
     emptraining_status: string= "";

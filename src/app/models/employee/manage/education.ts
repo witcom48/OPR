@@ -3,7 +3,7 @@ export class EmpEducationModel {
     }
     company_code: string = "";
     worker_code: string = "";
-    empeducation_no: string= ""
+    empeducation_no: string= "0";
     empeducation_gpa: string= "";
     empeducation_start!: Date;
     empeducation_finish!: Date;

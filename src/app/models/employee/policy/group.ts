@@ -3,7 +3,7 @@ export class GroupModel {
      
     }
     
-    group_id: string = "1";
+    group_id: string = "0";
     group_code: string = "";
     group_name_th: string = "";
     group_name_en: string = "";

@@ -3,7 +3,7 @@ export class EmpcardModel {
     }
     company_code: string = "";
     worker_code: string = "";
-    card_id: string= "1";
+    card_id: string= "0";
     card_code: string= "";
     card_type: string= "";
     card_issue!: Date;

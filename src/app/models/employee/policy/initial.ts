@@ -3,7 +3,7 @@ export class InitialModel {
      
     }
     
-    initial_id: string = "1";
+    initial_id: string = "0";
     initial_code: string = "";
     initial_name_th: string = "";
     initial_name_en: string = "";

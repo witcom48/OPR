@@ -5,7 +5,7 @@ export class EmpPositionModel {
     }
     company_code: string= "";
     worker_code: string= "";
-    empposition_id: string= "";
+    empposition_id: string= "0";
     empposition_date!: Date;
     empposition_position: string= "";
     empposition_reason: string= "";

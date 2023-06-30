@@ -3,7 +3,7 @@ export class EmpCriminalModel {
     }
     company_code: string= "";
     worker_code: string= "";
-    empcriminal_id: string= "1";
+    empcriminal_id: string= "0";
     empcriminal_location: string= "";
     empcriminal_fromdate!: Date;
     empcriminal_todate!: Date;
