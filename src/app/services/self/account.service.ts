@@ -50,6 +50,7 @@ export class AccountServices {
             ip: "127.0.0.1",
             username: this.initial_current.Username,
             company_code: account.company_code || this.initial_current.CompCode,
+            account_id:account.account_id,
             account_user: account.account_user,
             account_type: account.account_type
         }
@@ -67,6 +68,7 @@ export class AccountServices {
             ip: "127.0.0.1",
             username: this.initial_current.Username,
             company_code: account.company_code || this.initial_current.CompCode,
+            account_id:account.account_id,
             account_user: account.account_user,
             account_pwd: account.account_pwd,
             account_type: account.account_type,
@@ -94,6 +96,7 @@ export class AccountServices {
             ip: "127.0.0.1",
             username: this.initial_current.Username,
             company_code: account.company_code || this.initial_current.CompCode,
+            account_id:account.account_id,
             account_user: account.account_user,
             account_type: account.account_type
 
