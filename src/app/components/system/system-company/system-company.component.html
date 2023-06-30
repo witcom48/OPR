@@ -73,8 +73,12 @@
             [autoResize]="true"></textarea>
 
 
-        <label for="lastname2">{{title_name}}</label>
+        <label for="lastname2">{{title_thai_name}}</label>
         <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcompany.company_name_th" [cols]="30" pInputTextarea
+            [autoResize]="true"></textarea>
+
+            <label for="lastname2">{{title_english_name}}</label>
+        <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcompany.company_name_en" [cols]="30" pInputTextarea
             [autoResize]="true"></textarea>
 
             
