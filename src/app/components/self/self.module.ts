@@ -67,6 +67,8 @@ import { SelfApproveDaytypeComponent } from './self-approve-daytype/self-approve
 import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve-checkin.component';
 import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-reqdoc.component';
 import { SelfApproveComponent } from './self-approve/self-approve.component';
+import { SelfConsentComponent } from './self-consent/self-consent.component';
+import { EditorModule } from 'primeng/editor';
 
 @NgModule({
 	imports: [
@@ -111,7 +113,8 @@ import { SelfApproveComponent } from './self-approve/self-approve.component';
 		CheckboxModule,
 		PasswordModule,
 		UsercontrolModule,
-		LeafletModule
+		LeafletModule,
+		EditorModule
 
 
 
@@ -143,7 +146,8 @@ import { SelfApproveComponent } from './self-approve/self-approve.component';
               SelfApproveDaytypeComponent,
               SelfApproveCheckinComponent,
               SelfApproveReqdocComponent,
-              SelfApproveComponent
+              SelfApproveComponent,
+              SelfConsentComponent
   ]
 })
 export class SelfModule { }
