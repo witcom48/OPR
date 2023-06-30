@@ -69,6 +69,7 @@ var rounddecimal = new Map([
     ["roundTime", { TH: "เวลา", EN: "Round Time" }],
     ["group", { TH: "กลุ่ม", EN: "Group" }],
     ["manage", { TH: "จัดการ", EN: "Manage" }],
+    ["system", { TH: "ระบบ", EN: "System" }],
 
 
 
@@ -203,7 +204,11 @@ var locationpage = new Map([
     ["location", { TH: "สถานที่", EN: "Location" }],
     ["detail", { TH: "รายละเอียด", EN: "Detail" }],
     ["lat", { TH: "ละติจูด", EN: "Latitude" }],
-    ["long", { TH: "ลองจิจูด", EN: "Longitude " }],
+    ["long", { TH: "ลองจิจูด", EN: "Longitude " }], 
+    ["system", { TH: "ระบบ", EN: "System " }],
+    ["genaral", { TH: "ทั่วไป", EN: "Genaral " }],
+
+
 ]);
 var planholiday = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
