@@ -29,6 +29,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class CompanysComponent implements OnInit {
     company_code: string = '';
+    comaddress_type: string = '';
     manage_title: string = '';
 
     toolbar_menu: MenuItem[] = [];
@@ -134,7 +135,9 @@ export class CompanysComponent implements OnInit {
     title_initials: string = 'Initials';
     title_thai_name: string = 'Name (Thai)';
     title_english_name: string = 'Name (Eng)';
+    title_map: string = 'Map';
 
+    
     title_taxpayer_identification_no: string = 'Taxpayer Identification No';
     title_provident_fund_no ='Provident Fund No'
 
@@ -234,18 +237,18 @@ export class CompanysComponent implements OnInit {
  
     title_address_type: string = 'Type';
     title_address_no: string = 'No';
-    title_address_moo: string = 'moo';
-    title_address_road: string = 'road';
-    title_address_soi: string = 'soi';
-    title_address_tambon: string = 'tambon';
-    title_address_amphur: string = 'amphur';
-    title_address_province: string = 'province';
-    title_address_zipcode: string = 'zipcode';
-    title_address_tel: string = 'tel';
-    title_address_email: string = 'email';
-    title_address_note: string = 'note';
-    title_address_line: string = 'line';
-    title_address_facebook: string = 'facebook';
+    title_address_moo: string = 'Moo';
+    title_address_road: string = 'Road';
+    title_address_soi: string = 'Soi';
+    title_address_tambon: string = 'Tambon';
+    title_address_amphur: string = 'Amphur';
+    title_address_province: string = 'Province';
+    title_address_zipcode: string = 'Zipcode';
+    title_address_tel: string = 'Tel';
+    title_address_email: string = 'Email';
+    title_address_note: string = 'Note';
+    title_address_line: string = 'Line';
+    title_address_facebook: string = 'Facebook';
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
@@ -261,7 +264,8 @@ export class CompanysComponent implements OnInit {
             this.title_initials ='ชื่อย่อ';
             this.title_thai_name ='ชื่อไทย';
             this.title_english_name ='ชื่ออังกฤษ';
-
+            this.title_map ='แผนที่';
+            
             this.title_taxpayer_identification_no ='เลขประจำตัวผู้เสียภาษี'
             this.title_juristic_id ='เลขทะเบียนนิติบุคคล'
             this.title_provident_fund_no ='เลขกองทุนสำรองเลี้ยงชีพ'
@@ -550,34 +554,45 @@ export class CompanysComponent implements OnInit {
     base64Image: any = '../../../../assets/images/people.png'
     transform() {
       return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
+    //   return this.sanitizer.bypassSecurityTrustResourceUrl(this.base65Image);
     }
+
+    transforms() {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(this.base65Image);
+      }
   
-    doLoadImage() {
-        
-      this.companyService.doGetImages(this.initial_current.CompCode).then((res) => {
-        
-        let resultJSON = JSON.parse(res);
-        console.log(resultJSON.data_maps)
-        if (resultJSON.result == "1") {
-          this.base64Image = resultJSON.data;
-          
-
-        }
-      });
-    }
-
-
-   
-    doLoadImagemaps() {
-      this.companyService.doGetImagesmaps(this.initial_current.CompCode)
-        .then((res) => {
+      doLoadImage() {
+        this.companyService.doGetImages(this.selectedCompany.company_code).then((res) => {  
           let resultJSON = JSON.parse(res);
-          console.log(resultJSON.data_maps);
+          console.log(resultJSON.data);
           if (resultJSON.result == "1") {
-            this.base65Image = resultJSON.data_maps;
+            this.base64Image = resultJSON.data;
           }
         });
-    }
+      }
+      
+      doLoadImagemaps() {
+        this.companyService.doGetImagesmaps(this.selectedCompany.company_code).then((res) => {
+          let resultJSON = JSON.parse(res);
+          console.log(resultJSON.data_maps); // ตรวจสอบผลลัพธ์ที่ได้รับ
+      
+          if (resultJSON.result == "1") {
+            this.base65Image = resultJSON.data;
+          }
+        });
+      }
+      
+   
+    // doLoadImagemaps() {
+    //   this.companyService.doGetImagesmaps(this.initial_current.CompCode).then((res) => {
+    //       let resultJSON = JSON.parse(res);
+    //       console.log(resultJSON.data_maps);
+
+    //       if (resultJSON.result == "1") {
+    //         this.base65Image = resultJSON.data_maps;
+    //       }
+    //     });
+    // }
 
 
     doLoadCompany() {
@@ -640,8 +655,10 @@ export class CompanysComponent implements OnInit {
     selectedComaddress: ComaddressModel = new ComaddressModel();
 
     doLoadComaddressList() {
+        console.log("testadd")
+        console.log(this.comaddressList)
         this.companyDetailService
-            .getcompany_address(this.company_code, '')
+            .getcompany_address(this.company_code, this.comaddress_type)
             .then((res) => {
                 this.comaddressList = res;
                 if (this.comaddressList.length > 0) {
@@ -776,6 +793,8 @@ export class CompanysComponent implements OnInit {
        //-- 9999 for delete
        if (model.combank_id != '9999') {
            itemNew.push(model);
+           console.log("test66")
+           console.log(model.combank_id)
        }
        this.combankList = [];
        this.combankList = itemNew;
@@ -839,7 +858,7 @@ export class CompanysComponent implements OnInit {
                         summary: 'Success',
                         detail: result.message,
                     });
-                      this.router.navigateByUrl('system/company');
+                    //   this.router.navigateByUrl('system/company');
                     this.doLoadCompany();
                 } else {
                     this.messageService.add({
@@ -868,7 +887,6 @@ export class CompanysComponent implements OnInit {
         reader.onload = (e: any) => {
           // Set image src
           this.base64Image = e.target.result;
-          this.base65Image = e.target.result;
         };
       
         if (event.target.files && event.target.files.length > 0) {
@@ -877,23 +895,6 @@ export class CompanysComponent implements OnInit {
         }
     }
 
-    fileToUploads: File | any = null;
-    handleFileInputs(files: FileList) {
-      this.fileToUpload = files.item(0);
-    }
-  
-    onselectFiles(event: any) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          // Set image src
-           this.base65Image = e.target.result;
-        };
-      
-        if (event.target.files && event.target.files.length > 0) {
-          reader.readAsDataURL(event.target.files[0]);
-          this.fileToUpload = event.target.files.item(0);
-        }
-    }
   
     
   uploadImages() {
@@ -901,37 +902,57 @@ export class CompanysComponent implements OnInit {
     const filename = "XXX";
     const filetype = "jpg";
 
-    this.companyService.uploadImages(this.fileToUpload, this.initial_current.CompCode ).then((res) => {
+    this.companyService.uploadImages(this.fileToUpload, this.selectedCompany.company_code).then((res) => {
       let resultJSON = JSON.parse(res);
       if (resultJSON.result == "1") {
+        this.doLoadImage();
 
-        setTimeout(() => {
-          this.doLoadImage();
-        }, 500);
+        // setTimeout(() => {
+        //   this.doLoadImage();
+        // }, 500);
 
       }
     });
 
     
   }
+//////
 
-  uploadImagesmaps() {
+//////
+fileToUploadsmaps: File | any = null;
 
-    const filename = "XXX";
-    const filetype = "jpg";
+handleFileInputsmaps(files: FileList) {
+  this.fileToUploadsmaps = files.item(0);
+}
 
-    this.companyService.uploadImagesmaps(this.fileToUpload, this.initial_current.CompCode ).then((res) => {
-      let resultJSON = JSON.parse(res);
-      if (resultJSON.result == "1") {
+onselectFilesmaps(event: any) {
+  const reader = new FileReader();
+  reader.onload = (e: any) => {
+    // Set image src
+    this.base65Image = e.target.result;
+  };
 
-        setTimeout(() => {
-          this.doLoadImagemaps();
-        }, 500);
-
-      }
-    });
-
+  if (event.target.files && event.target.files.length > 0) {
+    reader.readAsDataURL(event.target.files[0]);
+    this.fileToUploadsmaps = event.target.files.item(0);
   }
+}
+
+uploadImagesmaps() {
+  const filename = "XXX";
+  const filetype = "jpg";
+
+  this.companyService.uploadImagesmaps(this.fileToUploadsmaps, this.selectedCompany.company_code).then((res) => {
+    let resultJSON = JSON.parse(res);
+    if (resultJSON.result == "1") {
+        this.doLoadImagemaps();
+    //   setTimeout(() => {
+    //     this.doLoadImagemaps();
+    //   }, 500);
+    }
+  });
+}
+
 
     clearManage() {
         this.new_comaddress = false;

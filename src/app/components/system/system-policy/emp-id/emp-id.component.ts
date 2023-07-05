@@ -192,6 +192,7 @@ export class EmpIDComponent implements OnInit {
     }
 
     doRecordTRPolcode(){
+      // console.log(this.selectedTRPolcode)
       this.codePolcodeService.TRPolcode_record(this.selectedTRPolcode).then((res) => {
        console.log(res)
        let result = JSON.parse(res);

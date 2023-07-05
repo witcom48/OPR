@@ -15,10 +15,8 @@ export class SysManageComponent implements OnInit {
   
     ngOnInit(): void {
       this.doGetInitialCurrent();
-  
-      setTimeout(() => {
-          this.doLoadLanguage();
-      }, 500);
+      this.doLoadLanguage();
+      
   }
   
   public initial_current: InitialCurrent = new InitialCurrent();

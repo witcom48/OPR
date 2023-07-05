@@ -226,8 +226,8 @@ export class SysBranchComponent implements OnInit {
             this.title_card_code ='รหัสบัตร';
             this.title_card_opening_date ='วันที่เปิดบัตร';
             this.title_expiration_date ='วันที่หมดอายุ';
-            this.Address_th ='ที่อยู่ ไทย';
-            this.Address_en ='ที่อยู่ อังกฤษ';
+            this.Address_th ='ที่อยู่ (ไทย)';
+            this.Address_en ='ที่อยู่ (อังกฤษ)';
 
             this.title_page = 'ข้อมูลสถานที่ปฎิบัติงาน';
             this.title_new = 'เพิ่ม';
@@ -488,7 +488,7 @@ export class SysBranchComponent implements OnInit {
       
     
       record_comaddress() {
-        this.selectedComaddress.comaddress_type = "1";
+        // this.selectedComaddress.comaddres_type = "1";
         this.selectedComaddress.combranch_code = this.selectedCombranch.combranch_code;
       
         this.combranchDetailService.record_comddress(this.selectedComaddress.combranch_code, [this.selectedComaddress])
@@ -615,7 +615,7 @@ export class SysBranchComponent implements OnInit {
                         summary: 'Success',
                         detail: result.message,
                     });
-                    this.router.navigateByUrl('system/Branch');
+                    // this.router.navigateByUrl('system/Branch');
 
                 } else {
                     this.messageService.add({

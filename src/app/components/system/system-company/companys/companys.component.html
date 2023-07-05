@@ -13,51 +13,77 @@
                         <span>{{title_genaral}}</span>
                     </ng-template>
 
-       
+
                     <div class="formgrid grid align-items-end">
                         <div class="field col-12 md:col-3">
                             <p-image [src]="base64Image" id="imgCompany" name="imgCompany" alt="Image" width="175"
-                                height="175"></p-image>
+                                height="160"></p-image>
                         </div>
                         <div class="field col-12 md:col-4">
-                            <input class="upload" type="file" id="file" (change)="onselectFile($event)">
+                            <input class="no-border" type="file" id="file" (change)="onselectFile($event)">
                         </div>
+
+
 
                         <div class="field col-12 md:col-7"></div>
 
-
+                        <div class="field col-6 custom-height">
+                            <label for="address_amphur">{{ title_codes}}</label>
+                            <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_code"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+                        <!-- 
                         <div class="field col-12 md:col-6">
-                            <label for="firstname2">{{title_codes}}</label><br>
-                            <br />
+                            <label for="firstname2" class="block mb-2">{{title_codes}}</label>
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_code"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                maxlength="5" [readonly]="company_code" [cols]="30" pInputTextarea [autoResize]="true">
+                                maxlength="5" [readonly]="company_code" [cols]="30" pInputTextarea [autoResize]="true"
+                                style="display: block; width: 100%;">
                             </textarea>
+                        </div> -->
 
+                        <div class="field col-6 custom-height">
+                            <label for="address_amphur">{{ title_initials}}</label>
+                            <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_initials"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </div>
-                        <div class="field col-12 md:col-6">
+
+                        <!-- <div class="field col-12 md:col-6">
                             <label for="firstname2">{{title_initials}}</label><br>
                             <br />
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_initials"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                         </div> -->
+                        <div class="field col-6 custom-height">
+                            <label for="address_amphur">{{ title_thai_name}}</label>
+                            <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_name_th"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </div>
-
-                        <div class="field col-12 md:col-6">
+                        <!-- <div class="field col-12 md:col-6">
                             <label for="firstname2">{{title_thai_name}}</label><br>
                             <br />
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_name_th"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        </div> -->
+
+                        <div class="field col-6 custom-height">
+                            <label for="address_amphur">{{ title_english_name}}</label>
+                            <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_name_en"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </div>
 
-                        <div class="field col-12 md:col-6">
+
+
+
+                        <!-- <div class="field col-12 md:col-6">
                             <label for="firstname2">{{title_english_name}}</label><br>
                             <br />
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_name_en"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- Address -->
                     <div class="field col-12">
@@ -70,11 +96,11 @@
                                             <span>{{title_address_th}}</span>
                                         </ng-template>
                                         <div class="formgrid grid">
-                                            <div class="field col-6">
+                                            <div class=" field col-6">
                                                 <label for="address_type">{{ title_address_type }}</label>
                                                 <p-dropdown placeholder="--" [options]="addressList"
                                                     optionValue="addresstype_code" [showClear]="true"
-                                                    [(ngModel)]="selectedComaddress.comaddress_type"
+                                                    [(ngModel)]="selectedComaddress.comaddres_type"
                                                     [style]="{ width: '100%', overflow: 'visible' }">
                                                     <ng-template let-item pTemplate="selectedItem">
                                                         {{ initial_current.Language == 'TH' ? item.addresstype_name_th :
@@ -86,48 +112,48 @@
                                                     </ng-template>
                                                 </p-dropdown>
                                             </div>
-                                            <div class="field col-6">
+                                            <div class="field col-6 height">
                                                 <label for="address_no">{{ title_address_no }}</label>
                                                 <input id="address_no" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressth_no"
+                                                    [(ngModel)]="selectedComaddress.comaddres_noth"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
+                                            <div class="field col-6 height">
                                                 <label for="address_moo">{{ title_address_moo }}</label>
                                                 <input id="address_moo" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressth_moo"
+                                                    [(ngModel)]="selectedComaddress.comaddres_mooth"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
+                                            <div class="field col-6 height">
                                                 <label for="address_road">{{ title_address_road }}</label>
                                                 <input id="address_road" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressth_road"
+                                                    [(ngModel)]="selectedComaddress.comaddres_roadth"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
+                                            <div class="field col-6 height">
                                                 <label for="address_soi">{{ title_address_soi }}</label>
                                                 <input id="address_soi" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressth_soi"
+                                                    [(ngModel)]="selectedComaddress.comaddres_soith"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
+                                            <div class="field col-6 height">
                                                 <label for="address_tambon">{{ title_address_tambon }}</label>
                                                 <input id="address_tambon" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressth_tambon"
+                                                    [(ngModel)]="selectedComaddress.comaddres_tambonth"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
+                                            <div class="field col-6 height">
                                                 <label for="address_amphur">{{ title_address_amphur }}</label>
                                                 <input id="address_amphur" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressth_amphur"
+                                                    [(ngModel)]="selectedComaddress.comaddres_amphurth"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
+                                            <div class="field col-6 ">
                                                 <label for="address_province">{{ title_address_province }}</label><br>
 
                                                 <p-dropdown placeholder="--" [options]="provinceList"
                                                     optionValue="province_code" [showClear]="true"
-                                                    [(ngModel)]="selectedComaddress.provinceth_code"
+                                                    [(ngModel)]="selectedComaddress.province_code"
                                                     [style]="{ width: '100%', overflow: 'visible' }">
                                                     <ng-template let-item pTemplate="selectedItem">
                                                         {{ initial_current.Language == 'TH' ? item.province_name_th :
@@ -139,39 +165,39 @@
                                                     </ng-template>
                                                 </p-dropdown>
                                             </div>
-                                            <div class="field col-6">
-                                                <label for="address_zipcode">{{ title_address_zipcode }}</label>
+                                            <div class="field col-6 height">
+                                                <label for="address_zipcode ">{{ title_address_zipcode }}</label>
                                                 <input id="address_zipcode" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddress_zipcode"
+                                                    [(ngModel)]="selectedComaddress.comaddres_zipcode"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <div class="p-inputgroup">
-                                                    <span class="p-inputgroup-addon">{{ title_address_tel }}</span>
-                                                    <input type="text" pInputText placeholder=""
-                                                        [(ngModel)]="selectedComaddress.comaddress_tel">
-                                                </div>
+
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur ">{{ title_address_tel }}</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_tel"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <div class="p-inputgroup">
-                                                    <span class="p-inputgroup-addon">{{ title_address_email }}</span>
-                                                    <input type="text" pInputText placeholder=""
-                                                        [(ngModel)]="selectedComaddress.comaddress_email">
-                                                </div>
+
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">{{ title_address_email}}</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_email"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <div class="p-inputgroup">
-                                                    <span class="p-inputgroup-addon">{{ title_address_line }}</span>
-                                                    <input type="text" pInputText placeholder=""
-                                                        [(ngModel)]="selectedComaddress.comaddress_line">
-                                                </div>
+
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">{{ title_address_line }}</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_line"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <div class="p-inputgroup">
-                                                    <span class="p-inputgroup-addon">{{ title_address_facebook }}</span>
-                                                    <input type="text" pInputText placeholder=""
-                                                        [(ngModel)]="selectedComaddress.comaddress_facebook">
-                                                </div>
+
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">{{ title_address_facebook}}</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_facebook"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
 
                                         </div>
@@ -181,49 +207,66 @@
                                             <i></i>&nbsp;&nbsp;
                                             <span>{{title_address_en}}</span>
                                         </ng-template>
+
                                         <div class="formgrid grid">
                                             <div class="field col-6">
-                                                <label for="address_no">{{ title_address_no }}</label>
+                                                <label for="address_type">Type</label>
+                                                <p-dropdown placeholder="--" [options]="addressList"
+                                                    optionValue="addresstype_code" [showClear]="true"
+                                                    [(ngModel)]="selectedComaddress.comaddres_type"
+                                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                                    <ng-template let-item pTemplate="selectedItem">
+                                                        {{ initial_current.Language == 'EN' ? item.addresstype_name_en :
+                                                        item.addresstype_name_en }}
+                                                    </ng-template>
+                                                    <ng-template let-item pTemplate="item">
+                                                        {{ initial_current.Language == 'EN' ? item.addresstype_name_en :
+                                                        item.addresstype_name_en }}
+                                                    </ng-template>
+                                                </p-dropdown>
+                                            </div>
+                                            <div class="field col-6 height">
+                                                <label for="address_no">No</label>
                                                 <input id="address_no" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressen_no"
+                                                    [(ngModel)]="selectedComaddress.comaddres_noen"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <label for="address_moo">{{ title_address_moo }}</label>
+                                            <div class="field col-6 height">
+                                                <label for="address_moo">Moo</label>
                                                 <input id="address_moo" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressen_moo"
+                                                    [(ngModel)]="selectedComaddress.comaddres_mooen"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <label for="address_road">{{ title_address_road }}</label>
+                                            <div class="field col-6 height">
+                                                <label for="address_road">Road</label>
                                                 <input id="address_road" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressen_road"
+                                                    [(ngModel)]="selectedComaddress.comaddres_roaden"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <label for="address_soi">{{ title_address_soi }}</label>
+                                            <div class="field col-6 height">
+                                                <label for="address_soi">Soi</label>
                                                 <input id="address_soi" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressen_soi"
+                                                    [(ngModel)]="selectedComaddress.comaddres_soien"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <label for="address_tambon">{{ title_address_tambon }}</label>
+                                            <div class="field col-6 height">
+                                                <label for="address_tambon">Tambon</label>
                                                 <input id="address_tambon" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressen_tambon"
+                                                    [(ngModel)]="selectedComaddress.comaddres_tambonen"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <label for="address_amphur">{{ title_address_amphur }}</label>
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">Amphur</label>
                                                 <input id="address_amphur" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddressen_amphur"
+                                                    [(ngModel)]="selectedComaddress.comaddres_amphuren"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <label for="address_province">{{ title_address_province }}</label><br>
+                                            <div class="field col-6 ">
+                                                <label for="address_province">Province</label><br>
 
                                                 <p-dropdown placeholder="--" [options]="provinceList"
                                                     optionValue="province_code" [showClear]="true"
-                                                    [(ngModel)]="selectedComaddress.provinceth_code"
+                                                    [(ngModel)]="selectedComaddress.province_code"
                                                     [style]="{ width: '100%', overflow: 'visible' }">
                                                     <ng-template let-item pTemplate="selectedItem">
                                                         {{ initial_current.Language == 'EN' ? item.province_name_en :
@@ -235,39 +278,38 @@
                                                     </ng-template>
                                                 </p-dropdown>
                                             </div>
-                                            <div class="field col-6">
-                                                <label for="address_zipcode">{{ title_address_zipcode }}</label>
+                                            <div class="field col-6 height">
+                                                <label for="address_zipcode">Zipcode</label>
                                                 <input id="address_zipcode" type="text"
-                                                    [(ngModel)]="selectedComaddress.comaddress_zipcode"
+                                                    [(ngModel)]="selectedComaddress.comaddres_zipcode"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <div class="p-inputgroup">
-                                                    <span class="p-inputgroup-addon">{{ title_address_tel }}</span>
-                                                    <input type="text" pInputText placeholder=""
-                                                        [(ngModel)]="selectedComaddress.comaddress_tel">
-                                                </div>
+
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">Tel</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_tel"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <div class="p-inputgroup">
-                                                    <span class="p-inputgroup-addon">{{ title_address_email }}</span>
-                                                    <input type="text" pInputText placeholder=""
-                                                        [(ngModel)]="selectedComaddress.comaddress_email">
-                                                </div>
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">Email</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_email"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <div class="p-inputgroup">
-                                                    <span class="p-inputgroup-addon">{{ title_address_line }}</span>
-                                                    <input type="text" pInputText placeholder=""
-                                                        [(ngModel)]="selectedComaddress.comaddress_line">
-                                                </div>
+
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">Line</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_line"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
-                                            <div class="field col-6">
-                                                <div class="p-inputgroup">
-                                                    <span class="p-inputgroup-addon">{{ title_address_facebook }}</span>
-                                                    <input type="text" pInputText placeholder=""
-                                                        [(ngModel)]="selectedComaddress.comaddress_facebook">
-                                                </div>
+
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">Facebook</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_facebook"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
 
 
@@ -299,32 +341,52 @@
 
 
 
-                            <div class="formgrid grid">
-                                <div class="center field col-12 md:col-5">
+                            <div class="formgrid grid ">
+
+                                <div class="center field col-12 md:col-5 custom-height">
+                                    <label for="address_amphur">{{ title_taxpayer_identification_no}}</label>
+                                    <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.sso_tax_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                </div>
+
+
+                                <!-- <div class="center field col-12 md:col-5">
                                     <label for="firstname2">{{title_taxpayer_identification_no}}</label><br>
                                     <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.sso_tax_no"
                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                         maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div> -->
+                                <div class="center field col-12 md:col-5 custom-height">
+                                    <label for="address_amphur">{{ title_juristic_id}}</label>
+                                    <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.citizen_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                 </div>
-
-
+                                <!-- 
                                 <div class="center field col-12 md:col-5">
                                     <label for="firstname2">{{title_juristic_id}}</label><br>
                                     <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.citizen_no"
                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                         maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div> -->
+
+                                <div class="  field col-12 "></div>
+
+
+                                <div class="center field col-12 md:col-5 custom-height">
+                                    <label for="address_amphur">{{ title_provident_fund_no}}</label>
+                                    <input id="address_amphur" type="text"
+                                        [(ngModel)]="selectedCompany.provident_fund_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                 </div>
 
-                                <div class="field col-12 md:col-12"></div>
-
-                                <div class="center field col-12 md:col-5">
+                                <!-- <div class="center field col-12 md:col-5">
                                     <label for=" firstname2">{{title_provident_fund_no}}</label><br>
 
                                     <textarea [rows]="2" id="ppos_detailen"
                                         [(ngModel)]="selectedCompany.provident_fund_no"
                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                         maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div>
+                                </div> -->
 
                                 <!-- <div class=" field col-12 md:col-5">
                                     <label for="firstname2">เลขกองทุนสำรองเลี้ยงชีพ</label><br>
@@ -336,13 +398,26 @@
 
                                 <!-- <div class="field col-12 md:col-5"></div> -->
 
-                                <div class="center field col-5 ">
+                                <!-- <div class="field col-6 custom-height">
+                                    <label for="address_amphur">{{ title_hours_perday}}</label>
+                                    <input id="address_amphur" type="text"
+                                        [(ngModel)]="selectedCompany.hrs_perday"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                </div> -->
+                                <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+                                <!-- <div class="center field col-5 ">
                                     <label for="lastname2">{{title_hours_perday}}</label>
                                     <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
                                         [max]="120" [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
                                     </p-inputNumber>
-                                </div>
+                                </div> -->
 
+
+                                <div class="center field col-12 md:col-5 custom-height">
+                                    <label for="address_amphur">{{ title_sso_no}}</label>
+                                    <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.sso_security_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                </div>
 
 
 
@@ -350,11 +425,86 @@
                                 <div class="field col-12 md:col-12"></div>
 
 
+
+                                <!-- <div class="center field col-12 md:col-5">
+                                    <label for="firstname2">{{title_sso_no}}</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen"
+                                        [(ngModel)]="selectedCompany.sso_security_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="13" pInputTextarea [autoResize]="true"></textarea>
+                                </div> -->
+
+
+
+                                <div class="  field col-12 "></div>
+
+                                <div class="center field col-12 md:col-5 custom-height">
+                                    <label for="address_amphur">{{ title_social_security_branch}}</label>
+                                    <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.sso_branch_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                </div>
+
+
+                                <!-- <div class="center field col-12 md:col-5">
+                                    <label for=" firstname2">{{title_provident_fund_no}}</label><br>
+
+                                    <textarea [rows]="2" id="ppos_detailen"
+                                        [(ngModel)]="selectedCompany.provident_fund_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div> -->
+
+                                <!-- <div class=" field col-12 md:col-5">
+                                    <label for="firstname2">เลขกองทุนสำรองเลี้ยงชีพ</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.provident_fund_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                </div> -->
+
+
+                                <!-- <div class="field col-12 md:col-5"></div> -->
+
+                                <!-- <div class="field col-6 custom-height">
+                                    <label for="address_amphur">{{ title_hours_perday}}</label>
+                                    <input id="address_amphur" type="text"
+                                        [(ngModel)]="selectedCompany.hrs_perday"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                </div> -->
+                                <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+                                <!-- <div class="center field col-5 ">
+                                    <label for="lastname2">{{title_hours_perday}}</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="120" [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
+                                    </p-inputNumber>
+                                </div> -->
+
+                                <div class="center field col-5  ">
+                                    <label for="lastname2">{{title_hours_perday}}</label>
+                                    <p-inputNumber      mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="120" [step]="0.5"  [(ngModel)]="selectedCompany.hrs_perday">
+                                    </p-inputNumber>
+                                </div>
+
+                                
+
+                                <!-- <div class="center field col-12 md:col-5">
+                                    <label for=" firstname2">{{title_social_security_branch}}</label><br>
+                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.sso_branch_no"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                        maxlength="50" [cols]="6" pInputTextarea [autoResize]="true"></textarea>
+                                </div> -->
+
+                                <div class="field col-12 md:col-12"></div>
+
+
+
                                 <div class="center field col-5 ">
                                     <label for="lastname2">{{title_min_age}}</label>
-                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [min]="18" [max]="60" [step]="1" [(ngModel)]="selectedCompany.sso_min_age">
+                                    <p-inputNumber class="custom-size" mode="decimal" [showButtons]="true"
+                                        inputId="minmax-buttons" [min]="18" [max]="60" [step]="1"
+                                        [(ngModel)]="selectedCompany.sso_min_age">
                                     </p-inputNumber>
+
                                 </div>
 
 
@@ -366,24 +516,6 @@
                                         [min]="18" [max]="60" [step]="1" [(ngModel)]="selectedCompany.sso_max_age">
                                     </p-inputNumber>
                                 </div>
-
-                                <div class="field col-12 md:col-12"></div>
-
-                                <div class="center field col-12 md:col-5">
-                                    <label for="firstname2">{{title_sso_no}}</label><br>
-                                    <textarea [rows]="2" id="ppos_detailen"
-                                        [(ngModel)]="selectedCompany.sso_security_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="13" pInputTextarea [autoResize]="true"></textarea>
-                                </div>
-                                <div class="center field col-12 md:col-5">
-                                    <label for=" firstname2">{{title_social_security_branch}}</label><br>
-                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.sso_branch_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="6" pInputTextarea [autoResize]="true"></textarea>
-                                </div>
-
-
 
                                 <div class="field col-12 md:col-12"></div>
 
@@ -518,21 +650,22 @@
                 <p-tabPanel>
                     <ng-template pTemplate="header">
                         <i class="pi-map"></i>&nbsp;&nbsp;
-                        <span>แผนที่</span>
+                        <span>{{title_map}}</span>
                     </ng-template>
-                    <app-system-bankaccount></app-system-bankaccount>
-                    <!-- <div class="formgrid grid align-items-end">
-                        <div class="field col-12 md:col-12">
-                            <p-image [src]="base65Image" id="imgmaps" name="imgmaps" alt="Image" width="500"
-                        height="400"></p-image>
+
+                    <!-- <app-system-bankaccount></app-system-bankaccount> -->
+
+                    <div class="formgrids grid align-items-end">
+                        <div class="field col-12 md:col-12 right image-container">
+                            <p-image [src]="base65Image" id="image" name="image" alt="Image" width="500"
+                                height="400"></p-image>
                         </div>
-                        <div class="field col-12 md:col-4">
-                            <input class="upload" type="file" id="file" (change)="onselectFiles($event)">
-                        </div>
-                        <div class="field col-12 md:col-6"></div>
-                    </div> -->
+                    </div>
 
 
+                    <div class="field col-12 md:col-4   bottom">
+                        <input class="no-border upload" type="file" id="file" (change)="onselectFilesmaps($event)">
+                    </div>
 
 
                     <!-- start -->

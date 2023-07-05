@@ -287,8 +287,10 @@ export class SystemCompanyComponent implements OnInit {
         this.selectedcompany = new CompanyModel();
     }
     onRowSelectCompany(event: Event) {
-        this.edit_company = true;
-        this.new_company = true;
+        
+        this.selectComManage();
+        // this.edit_company = true;
+        // this.new_company = true;
     }
 
     fileToUpload: File | any = null;

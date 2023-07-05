@@ -68,7 +68,7 @@ export class CombranchDetailService {
             company_code:company,
             language:"",
             combranch_code:code,
-            comaddress_type:"",
+            comaddres_type:"",
 
           };
 
@@ -85,31 +85,32 @@ export class CombranchDetailService {
       var item_data:string = "[";
       for (let i = 0; i < list.length; i++) {
         item_data = item_data + "{";
-        item_data = item_data + "\"comaddress_type\":\"" + list[i].comaddress_type + "\"";
+        item_data = item_data + "\"comaddres_type\":\"" + list[i].comaddres_type + "\"";
         item_data = item_data + ",\"combranch_code\":\"" + combranch_code + "\"";
 
-        item_data = item_data + ",\"comaddressth_no\":\"" + list[i].comaddressth_no + "\"";
-        item_data = item_data + ",\"comaddressth_moo\":\"" + list[i].comaddressth_moo + "\"";
-        item_data = item_data + ",\"comaddressth_soi\":\"" + list[i].comaddressth_soi + "\"";
-        item_data = item_data + ",\"comaddressth_road\":\"" + list[i].comaddressth_road + "\"";
-        item_data = item_data + ",\"comaddressth_tambon\":\"" + list[i].comaddressth_tambon + "\"";
-        item_data = item_data + ",\"comaddressth_amphur\":\"" + list[i].comaddressth_amphur + "\"";
-        item_data = item_data + ",\"provinceth_code\":\"" + list[i].provinceth_code + "\"";
+        item_data = item_data + ",\"comaddres_noth\":\"" + list[i].comaddres_noth + "\"";
+        item_data = item_data + ",\"comaddres_mooth\":\"" + list[i].comaddres_mooth + "\"";
+        item_data = item_data + ",\"comaddres_soith\":\"" + list[i].comaddres_soith + "\"";
+        item_data = item_data + ",\"comaddres_roadth\":\"" + list[i].comaddres_roadth+ "\"";
+        item_data = item_data + ",\"comaddres_tambonth\":\"" + list[i].comaddres_tambonth + "\"";
+        item_data = item_data + ",\"comaddres_amphurth\":\"" + list[i].comaddres_amphurth + "\"";
+ 
+        item_data = item_data + ",\"comaddres_noen\":\"" + list[i].comaddres_noen + "\"";
+        item_data = item_data + ",\"comaddres_mooen\":\"" + list[i].comaddres_mooen + "\"";
+        item_data = item_data + ",\"comaddres_soien\":\"" + list[i].comaddres_soien + "\"";
+        item_data = item_data + ",\"comaddres_roaden\":\"" + list[i].comaddres_roaden + "\"";
+        item_data = item_data + ",\"comaddres_tambonen\":\"" + list[i].comaddres_tambonen + "\"";
+        item_data = item_data + ",\"comaddres_amphuren\":\"" + list[i].comaddres_amphuren + "\"";
 
-        item_data = item_data + ",\"comaddressen_no\":\"" + list[i].comaddressen_no + "\"";
-        item_data = item_data + ",\"comaddressen_moo\":\"" + list[i].comaddressen_moo + "\"";
-        item_data = item_data + ",\"comaddressen_soi\":\"" + list[i].comaddressen_soi + "\"";
-        item_data = item_data + ",\"comaddressen_road\":\"" + list[i].comaddressen_road + "\"";
-        item_data = item_data + ",\"comaddressen_tambon\":\"" + list[i].comaddressen_tambon + "\"";
-        item_data = item_data + ",\"comaddressen_amphur\":\"" + list[i].comaddressen_amphur + "\"";
-        item_data = item_data + ",\"comaddress_zipcode\":\"" + list[i].comaddress_zipcode + "\"";
-        item_data = item_data + ",\"provinceen_code\":\"" + list[i].provinceen_code + "\"";
+        item_data = item_data + ",\"comaddres_zipcode\":\"" + list[i].comaddres_zipcode + "\"";
+
+        item_data = item_data + ",\"province_code\":\"" + list[i].province_code + "\"";
 
 
-        item_data = item_data + ",\"comaddress_tel\":\"" + list[i].comaddress_tel + "\"";
-        item_data = item_data + ",\"comaddress_email\":\"" + list[i].comaddress_email + "\"";
-        item_data = item_data + ",\"comaddress_line\":\"" + list[i].comaddress_line + "\"";
-        item_data = item_data + ",\"comaddress_facebook\":\"" + list[i].comaddress_facebook + "\"";
+        item_data = item_data + ",\"comaddres_tel\":\"" + list[i].comaddres_tel + "\"";
+        item_data = item_data + ",\"comaddres_email\":\"" + list[i].comaddres_email + "\"";
+        item_data = item_data + ",\"comaddres_line\":\"" + list[i].comaddres_line + "\"";
+        item_data = item_data + ",\"comaddres_facebook\":\"" + list[i].comaddres_facebook + "\"";
         item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
 
         // item_data = item_data + ",\"company_code\":\"" + company_code + "\"";
