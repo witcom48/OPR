@@ -65,135 +65,150 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Holiday -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
+    <form (ngSubmit)="Save()" #Form="ngForm">
+        <div class="formatt" *ngIf="new_data==true">
+            <i (click)="close()"></i>
 
-        <label>{{langs.get('code')[selectlang]}}.</label>
-        <input pInputText type="text" [(ngModel)]="shiftplans.planshift_code" maxlength="10" disabled="{{edit_data}}" />
-        <p>{{shiftplans.planshift_code.length}}/10</p>
+            <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="shiftplans.planshift_code" maxlength="10"
+                disabled="{{edit_data}}" name="code" #code="ngModel" required />
+            <p>{{shiftplans.planshift_code.length}}/10</p>
 
-        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
-        <textarea [(ngModel)]="shiftplans.planshift_name_en" pInputTextarea [autoResize]="true"></textarea>
+            <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="shiftplans.planshift_name_en" pInputTextarea [autoResize]="true"
+                name="planshift_name_en" #planshift_name_en="ngModel" required></textarea>
 
-        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
-        <textarea [(ngModel)]="shiftplans.planshift_name_th" pInputTextarea [autoResize]="true"></textarea>
-        <div #TABLELIST>
-            <p-accordion>
-                <p-accordionTab header="{{langs.get('schedule')[selectlang]}}">
-                    <p-menubar [model]="items_holiday"></p-menubar>
-                    <p-table [value]="shiftplans.planschedule" styleClass="p-datatable-sm"
-                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
-                        [virtualScroll]="true" selectionMode="single" [(selection)]="planschedule_listselect">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>{{langs.get('no')[selectlang]}}</th>
-                                <th>{{langs.get('shfit')[selectlang]}}</th>
-                                <th>{{langs.get('fromdate')[selectlang]}}</th>
-                                <th>{{langs.get('todate')[selectlang]}}</th>
-                                <th>{{langs.get('sun')[selectlang]}}</th>
-                                <th>{{langs.get('mon')[selectlang]}}</th>
-                                <th>{{langs.get('tue')[selectlang]}}</th>
-                                <th>{{langs.get('web')[selectlang]}}</th>
-                                <th>{{langs.get('thu')[selectlang]}}</th>
-                                <th>{{langs.get('fri')[selectlang]}}</th>
-                                <th>{{langs.get('sat')[selectlang]}}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-data let-i="rowIndex">
-                            <tr [pSelectableRow]="data">
-                                <td>{{i+1}}</td>
-                                <td>{{data.shift_code}}</td>
-                                <td>{{data.planschedule_fromdate | date:'dd/MM/yyyy'}}</td>
-                                <td>{{data.planschedule_todate | date:'dd/MM/yyyy'}}</td>
-                                <td>{{data.planschedule_sun_off?"Y":"N"}}</td>
-                                <td>{{data.planschedule_mon_off?"Y":"N"}}</td>
-                                <td>{{data.planschedule_tue_off?"Y":"N"}}</td>
-                                <td>{{data.planschedule_wed_off?"Y":"N"}}</td>
-                                <td>{{data.planschedule_thu_off?"Y":"N"}}</td>
-                                <td>{{data.planschedule_fri_off?"Y":"N"}}</td>
-                                <td>{{data.planschedule_sat_off?"Y":"N"}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p-accordionTab>
-            </p-accordion>
+            <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="shiftplans.planshift_name_th" pInputTextarea [autoResize]="true"
+                name="planshift_name_th" #planshift_name_th="ngModel" required></textarea>
+            <div #TABLELIST>
+                <p-accordion>
+                    <p-accordionTab header="{{langs.get('schedule')[selectlang]}}">
+                        <p-menubar [model]="items_holiday"></p-menubar>
+                        <p-table [value]="shiftplans.planschedule" styleClass="p-datatable-sm"
+                            (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                            [virtualScroll]="true" selectionMode="single" [(selection)]="planschedule_listselect">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{langs.get('no')[selectlang]}}</th>
+                                    <th>{{langs.get('shfit')[selectlang]}}</th>
+                                    <th>{{langs.get('fromdate')[selectlang]}}</th>
+                                    <th>{{langs.get('todate')[selectlang]}}</th>
+                                    <th>{{langs.get('sun')[selectlang]}}</th>
+                                    <th>{{langs.get('mon')[selectlang]}}</th>
+                                    <th>{{langs.get('tue')[selectlang]}}</th>
+                                    <th>{{langs.get('web')[selectlang]}}</th>
+                                    <th>{{langs.get('thu')[selectlang]}}</th>
+                                    <th>{{langs.get('fri')[selectlang]}}</th>
+                                    <th>{{langs.get('sat')[selectlang]}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                                <tr [pSelectableRow]="data">
+                                    <td>{{i+1}}</td>
+                                    <td>{{data.shift_code}}</td>
+                                    <td>{{data.planschedule_fromdate | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{data.planschedule_todate | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{data.planschedule_sun_off?"Y":"N"}}</td>
+                                    <td>{{data.planschedule_mon_off?"Y":"N"}}</td>
+                                    <td>{{data.planschedule_tue_off?"Y":"N"}}</td>
+                                    <td>{{data.planschedule_wed_off?"Y":"N"}}</td>
+                                    <td>{{data.planschedule_thu_off?"Y":"N"}}</td>
+                                    <td>{{data.planschedule_fri_off?"Y":"N"}}</td>
+                                    <td>{{data.planschedule_sat_off?"Y":"N"}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+            <button pButton type="submit" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+                [disabled]="!Form.form.valid"></button>
+            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                (click)="Delete()" icon="pi pi-trash" class="p-button-danger"></button>
         </div>
-        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
-            (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
-            icon="pi pi-trash" class="p-button-danger"></button>
-    </div>
+    </form>
     <!-- --------------End form Input Data ------------------ -->
 </div>
 
-
-<p-dialog class="displayaddholiday" header="{{langs.get('uploadinfo')[selectlang]}}" [(visible)]="displayaddholiday"
-    [maximizable]="true" (onHide)="closedispaly()">
-    <div class="formatt">
-        <label>{{langs.get('shfit')[selectlang]}}</label>
-        <p-dropdown *ngIf="selectlang=='EN'" class="selectyaer" [options]="ShiftList" [(ngModel)]="selectedshift"
-            optionLabel="shift_name_en"></p-dropdown>
-        <p-dropdown *ngIf="selectlang=='TH'" class="selectyaer" [options]="ShiftList" [(ngModel)]="selectedshift"
-            optionLabel="shift_name_th"></p-dropdown>
-        <!-- <p-dropdown class="selectyaer" [options]="ShiftList" [(ngModel)]="selectedshift"
+<form (ngSubmit)="Saveplanschedule()" #Form2="ngForm">
+    <p-dialog class="displayaddholiday" header="{{langs.get('uploadinfo')[selectlang]}}" [(visible)]="displayaddholiday"
+        [maximizable]="true" (onHide)="closedispaly()">
+        <div class="formatt">
+            <label>{{langs.get('shfit')[selectlang]}}<span style="color: red;"> *</span></label>
+            <p-dropdown *ngIf="selectlang=='EN'" class="selectyaer" [options]="ShiftList" [(ngModel)]="selectedshift"
+                optionLabel="shift_name_en" [ngModelOptions]="{standalone: true}"></p-dropdown>
+            <p-dropdown *ngIf="selectlang=='TH'" class="selectyaer" [options]="ShiftList" [(ngModel)]="selectedshift"
+                optionLabel="shift_name_th" [ngModelOptions]="{standalone: true}"></p-dropdown>
+            <!-- <p-dropdown class="selectyaer" [options]="ShiftList" [(ngModel)]="selectedshift"
             optionLabel="shift_name_en"></p-dropdown> -->
-        <label>{{langs.get('fromdate')[selectlang]}}</label>
-        <p-calendar appendTo="body" [(ngModel)]="planschedule_listselect.planschedule_fromdate"
-            dateFormat="dd/mm/yy"><input type="text"></p-calendar>
-        <label>{{langs.get('todate')[selectlang]}}</label>
-        <p-calendar appendTo="body" [(ngModel)]="planschedule_listselect.planschedule_todate"
-            dateFormat="dd/mm/yy"><input type="text"></p-calendar>
-        <div class="checkday">
+            <label>{{langs.get('fromdate')[selectlang]}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" [(ngModel)]="planschedule_listselect.planschedule_fromdate"
+                dateFormat="dd/mm/yy" name="planschedule_fromdate" #planschedule_fromdate="ngModel"><input
+                    type="text"></p-calendar>
+            <label>{{langs.get('todate')[selectlang]}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" [(ngModel)]="planschedule_listselect.planschedule_todate" dateFormat="dd/mm/yy"
+                name="planschedule_todate" #planschedule_todate="ngModel"><input type="text"></p-calendar>
+            <div class="checkday">
 
-            <div>
-                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_sun_off">
-                  <label>{{langs.get('sunday')[selectlang]}}</label>
-            </div>
+                <div>
+                    <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_sun_off"
+                        name="planschedule_sun_off" #planschedule_sun_off="ngModel">
+                      <label>{{langs.get('sunday')[selectlang]}}</label>
+                </div>
 
-            <div>
-                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_mon_off">
-                  <label>{{langs.get('monday')[selectlang]}}</label>
-            </div>
+                <div>
+                    <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_mon_off"
+                        name="planschedule_mon_off" #planschedule_mon_off="ngModel">
+                      <label>{{langs.get('monday')[selectlang]}}</label>
+                </div>
 
 
-            <div>
-                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_tue_off">
-                  <label>{{langs.get('tuesday')[selectlang]}}</label>
-            </div>
-            <div>
+                <div>
+                    <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_tue_off"
+                        name="planschedule_tue_off" #planschedule_tue_off="ngModel">
+                      <label>{{langs.get('tuesday')[selectlang]}}</label>
+                </div>
+                <div>
 
-                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_wed_off">
-                  <label>{{langs.get('wednesday')[selectlang]}}</label>
+                    <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_wed_off"
+                        name="planschedule_wed_off" #planschedule_wed_off="ngModel">
+                      <label>{{langs.get('wednesday')[selectlang]}}</label>
 
-            </div>
-            <div>
-                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_thu_off">
-                  <label>{{langs.get('thursday')[selectlang]}}</label>
-            </div>
-            <div>
-                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_fri_off">
-                  <label>{{langs.get('friday')[selectlang]}}</label>
-            </div>
-            <div>
+                </div>
+                <div>
+                    <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_thu_off"
+                        name="planschedule_thu_off" #planschedule_thu_off="ngModel">
+                      <label>{{langs.get('thursday')[selectlang]}}</label>
+                </div>
+                <div>
+                    <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_fri_off"
+                        name="planschedule_fri_off" #planschedule_fri_off="ngModel">
+                      <label>{{langs.get('friday')[selectlang]}}</label>
+                </div>
+                <div>
 
-                <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_sat_off">
-                  <label>{{langs.get('saturday')[selectlang]}}</label>
+                    <input type="checkbox" value="N" [(ngModel)]="planschedule_listselect.planschedule_sat_off"
+                        name="planschedule_sat_off" #planschedule_sat_off="ngModel">
+                      <label>{{langs.get('saturday')[selectlang]}}</label>
+                </div>
             </div>
         </div>
-    </div>
-    <ng-template pTemplate="footer">
-        <button *ngIf="displayeditholiday" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="Deleteplanschedule()"></button>
-        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Saveplanschedule()"></button>
-    </ng-template>
-</p-dialog>
-
+        <ng-template pTemplate="footer">
+            <button *ngIf="displayeditholiday" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                icon="pi pi-trash" class="p-button-danger" (click)="Deleteplanschedule()"></button>
+            <button pButton type="submit" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"></button>
+        </ng-template>
+    </p-dialog>
+</form>
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>

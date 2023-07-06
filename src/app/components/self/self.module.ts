@@ -32,8 +32,8 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
-import {ChartModule} from 'primeng/chart';
-import {ImageModule} from 'primeng/image';
+import { ChartModule } from 'primeng/chart';
+import { ImageModule } from 'primeng/image';
 import { PasswordModule } from 'primeng/password';
 
 import { ToastModule } from 'primeng/toast';
@@ -67,6 +67,9 @@ import { SelfApproveDaytypeComponent } from './self-approve-daytype/self-approve
 import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve-checkin.component';
 import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-reqdoc.component';
 import { SelfApproveComponent } from './self-approve/self-approve.component';
+import { SelfConsentComponent } from './self-consent/self-consent.component';
+import { EditorModule } from 'primeng/editor';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
 	imports: [
@@ -111,39 +114,43 @@ import { SelfApproveComponent } from './self-approve/self-approve.component';
 		CheckboxModule,
 		PasswordModule,
 		UsercontrolModule,
-		LeafletModule
+		LeafletModule,
+		EditorModule,
+		PdfViewerModule
 
 
 
 
-		
+
+
 	],
 	declarations: [
-   
-  
-  
-    SelfPolicyComponent,
-              SelfLeaveComponent,
-              SelfEmployeeComponent,
-              SelfOvertimeComponent,
-              SelfChangeshiftComponent,
-              SelfRecordtimeComponent,
-              SelfWorkflowComponent,
-              SelfAccountComponent,
-              SelfLineapproveComponent,
-              SelfAreaComponent,
-              SelfDaytypeComponent,
-              SelfCheckinComponent,
-              SelfTopicComponent,
-              SelfReqdocComponent,
-              SelfApproveLeaveComponent,
-              SelfApproveShiftComponent,
-              SelfApproveOvertimeComponent,
-              SelfApproveRecordtimeComponent,
-              SelfApproveDaytypeComponent,
-              SelfApproveCheckinComponent,
-              SelfApproveReqdocComponent,
-              SelfApproveComponent
-  ]
+
+
+
+		SelfPolicyComponent,
+		SelfLeaveComponent,
+		SelfEmployeeComponent,
+		SelfOvertimeComponent,
+		SelfChangeshiftComponent,
+		SelfRecordtimeComponent,
+		SelfWorkflowComponent,
+		SelfAccountComponent,
+		SelfLineapproveComponent,
+		SelfAreaComponent,
+		SelfDaytypeComponent,
+		SelfCheckinComponent,
+		SelfTopicComponent,
+		SelfReqdocComponent,
+		SelfApproveLeaveComponent,
+		SelfApproveShiftComponent,
+		SelfApproveOvertimeComponent,
+		SelfApproveRecordtimeComponent,
+		SelfApproveDaytypeComponent,
+		SelfApproveCheckinComponent,
+		SelfApproveReqdocComponent,
+		SelfApproveComponent,
+		SelfConsentComponent
+	]
 })
 export class SelfModule { }

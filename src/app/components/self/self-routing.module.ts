@@ -23,6 +23,7 @@ import { SelfApproveDaytypeComponent } from './self-approve-daytype/self-approve
 import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve-checkin.component';
 import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-reqdoc.component';
 import { SelfApproveComponent } from './self-approve/self-approve.component';
+import { SelfConsentComponent } from './self-consent/self-consent.component';
 
 
 @NgModule({
@@ -53,6 +54,8 @@ import { SelfApproveComponent } from './self-approve/self-approve.component';
         { path: 'approve_record', component: SelfApproveRecordtimeComponent },
         { path: 'approve_checkin', component: SelfApproveCheckinComponent },
         { path: 'approve_reqdoc', component: SelfApproveReqdocComponent },
+
+        { path: 'consent', component: SelfConsentComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }

@@ -25,7 +25,7 @@ export class DiligenceModels {
     diligence_after_min: Number = 0;
 
     diligence_passpro: boolean = false;
-    diligence_wrongcondition: string = "";
+    diligence_wrongcondition: string = "1";
     diligence_someperiod: boolean = false;
     diligence_someperiod_first: string = "N";
 

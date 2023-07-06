@@ -13,6 +13,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
 import { ToastModule } from 'primeng/toast';
+import { EditorModule } from 'primeng/editor';
 
 @NgModule({
 	imports: [		
@@ -27,7 +28,8 @@ import { ToastModule } from 'primeng/toast';
 		MultiSelectModule,
 		InputTextareaModule,
 		InputTextModule,
-		ToastModule
+		ToastModule,
+		EditorModule
 	]
 })
 export class PrimengModule { }
