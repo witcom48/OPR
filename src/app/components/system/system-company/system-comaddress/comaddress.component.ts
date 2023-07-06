@@ -308,7 +308,7 @@ export class SystemComaddressComponent implements OnInit {
           this.new_comaddress = true
           var ref = this.comaddressList.length + 100
           this.selectedComaddress = new ComaddressModel()
-          this.selectedComaddress.comaddress_type = ref.toString()
+          this.selectedComaddress.comaddres_type = ref.toString()
           this.showManage()
         }
       },
@@ -557,7 +557,7 @@ export class SystemComaddressComponent implements OnInit {
     this.displayManage = false
   }
   comaddresss_remove() {
-    this.selectedComaddress.comaddress_type = "9999";
+    this.selectedComaddress.comaddres_type = "9999";
     this.comaddress_addItem(this.selectedComaddress)
     this.new_comaddress = false
     this.edit_comaddress= false
@@ -571,7 +571,7 @@ export class SystemComaddressComponent implements OnInit {
   comaddress_addItem(model:ComaddressModel){
     const itemNew:ComaddressModel[] = [];
     for (let i = 0; i < this.comaddressList.length; i++) {
-      if(this.comaddressList[i].comaddress_type==model.comaddress_type ){
+      if(this.comaddressList[i].comaddres_type==model.comaddres_type ){
         //-- Notting
       }
       else{
@@ -579,12 +579,12 @@ export class SystemComaddressComponent implements OnInit {
       }
     }
     //-- 9999 for delete
-    if(model.comaddress_type != "9999"){
+    if(model.comaddres_type != "9999"){
       itemNew.push(model);
     }
     this.comaddressList = [];
     this.comaddressList = itemNew;
-    this.comaddressList.sort(function(a, b) { return parseInt(a.comaddressen_no) - parseInt(b.comaddressth_no); })
+    this.comaddressList.sort(function(a, b) { return parseInt(a.comaddres_noen) - parseInt(b.comaddres_noth); })
   }
   record_comaddress(){
     if(this.comaddressList.length == 0){

@@ -4,7 +4,7 @@ export class TRPolcodeModel {
 
 
 
-polcode_id: string = "1";
+polcode_id: string = "0";
 codestructure_code: string = "";
 polcode_lenght: string = "0";
 polcode_text: string = "";

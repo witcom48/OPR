@@ -5,29 +5,29 @@ export class ComaddressModel {
 
     company_code: string = "";
     combranch_code: string = "";
-    comaddress_type: string = "";
+    comaddres_type: string = "";
 
-    comaddressth_no: string = "";
-    comaddressth_moo: string = "";
-    comaddressth_soi: string = "";
-    comaddressth_road: string = "";
-    comaddressth_tambon: string = "";
-    comaddressth_amphur: string = "";
-    provinceth_code: string = "";
+    comaddres_noth: string = "";
+    comaddres_mooth: string = "";
+    comaddres_soith: string = "";
+    comaddres_roadth: string = "";
+    comaddres_tambonth: string = "";
+    comaddres_amphurth: string = "";
 
-    comaddressen_no: string = "";
-    comaddressen_moo: string = "";
-    comaddressen_soi: string = "";
-    comaddressen_road: string = "";
-    comaddressen_tambon: string = "";
-    comaddressen_amphur: string = "";
-    comaddress_zipcode: string = "";
-    provinceen_code: string = "";
+    comaddres_noen: string = "";
+    comaddres_mooen: string = "";
+    comaddres_soien: string = "";
+    comaddres_roaden: string = "";
+    comaddres_tambonen: string = "";
+    comaddres_amphuren: string = "";
 
-    comaddress_tel: string = "";
-    comaddress_email: string = "";
-    comaddress_line: string = "";
-    comaddress_facebook : string = "";
+    comaddres_zipcode: string = "";
+    province_code: string = "";
+
+    comaddres_tel: string = "";
+    comaddres_email: string = "";
+    comaddres_line: string = "";
+    comaddres_facebook : string = "";
 
     modified_by: string = "";
     modified_date: string = "";

@@ -276,8 +276,9 @@ export class BranchComponent implements OnInit {
         this.selectedcombranch = new CombranchModel();
     }
     onRowSelectCombranch(event: Event) {
-        this.edit_combranch = true;
-        this.new_combranch = true;
+        this.selectComManage()
+        // this.edit_combranch = true;
+        // this.new_combranch = true;
     }
 
     fileToUpload: File | any = null;

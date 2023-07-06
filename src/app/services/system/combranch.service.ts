@@ -81,7 +81,8 @@ export class CombranchService {
     public combranch_record(model: CombranchModel) {
         console.log('CBR002..');
         const data = {
-            company_code: model.company_code,
+            // company_code: model.company_code,
+            company_code: this.initial_current.CompCode,
             combranch_id: model.combranch_id,
             sso_combranch_no: model.sso_combranch_no,
             combranch_code: model.combranch_code,

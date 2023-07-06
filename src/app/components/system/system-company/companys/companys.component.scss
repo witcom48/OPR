@@ -10,12 +10,72 @@ p-dropdown{
 
 }
 
+.field.col-6 {
+    width: 50%;
+    padding: 0 5px;
+}
+.field.col-6.height input {
+    height: 40px;  
+}
+.custom-height input {
+    height: 55px;  
+}
+
+.custom-size {
+    height: 40px;  
+ 
+    width: 300px;
+}
+.custom-input {
+    width: 300px; /* แทนที่ด้วยความยาวที่ต้องการ */
+}
+
+.formgrids {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        align-items: center;
+    }
+    .image-container {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .right {
+        margin-left: 150px;
+    }
+.no-border {
+    border: none;
+    outline: none;
+    background: none;
+}
+
+ 
+    .field {
+        position: relative;
+    }
+
+    .no-border {
+        border: none;
+        outline: none;
+        background: none;
+    }
+
+    .no-file {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        font-size: 0;
+        opacity: 0;
+    }
+ 
+
+ 
 
 .table_summary_{
     border-collapse: collapse;
 }
 
-.table_summary_ td{
+.table_summarys{
     padding: 5px;
     border: 0px solid #ccc;
 }
@@ -146,6 +206,10 @@ p-dropdown{
     font-weight: bold;
     font-size: 15px;
 }
+
+
+
+
 // //////////////////////////////////////////////////////////////////////////////////////////////////////
 // <div class="col-12">
 // <p-accordion>
