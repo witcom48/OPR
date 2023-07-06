@@ -6,7 +6,7 @@
         <i></i>
         <a routerLink="/employee/policy">Policy</a>
         <i></i>
-        <small>Set Part</small>
+        <small>Set Employee Details</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -28,14 +28,14 @@
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
             </div>
-            <div class="field col-12 md:col-7">
+            <div class="batch">
                 <div>
                     <label>{{title_date[initial_current.Language]}}</label>
-                    <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                    <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                         [(ngModel)]="selectedEmpDep.empdep_date"><input type="text"></p-calendar>
                 </div>
-                <br>
-                <div>
+                <!-- Department -->
+                <div style="grid-column: 1;">
                     <label>{{title_level01[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" [options]="dep1List" optionValue="dep_code" [showClear]="true"
                         [(ngModel)]="selectedEmpDep.empdep_level01" [style]="{ width: '100%', overflow: 'visible' }">
@@ -47,7 +47,6 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-                <br>
                 <div>
                     <label>{{title_level02[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" [options]="dep2List" optionValue="dep_code" [showClear]="true"
@@ -60,7 +59,6 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-                <br>
                 <div>
                     <label>{{title_level03[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" [options]="dep3List" optionValue="dep_code" [showClear]="true"
@@ -73,7 +71,6 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-                <br>
                 <div>
                     <label>{{title_level04[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" [options]="dep4List" optionValue="dep_code" [showClear]="true"
@@ -86,7 +83,6 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-                <br>
                 <div>
                     <label>{{title_level05[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" [options]="dep5List" optionValue="dep_code" [showClear]="true"
@@ -99,11 +95,43 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
+                <!-- Position -->
+                <div style="grid-column: 1;">
+                    <label>{{title_position[initial_current.Language]}}</label>
+                    <p-dropdown placeholder="--" [options]="positionList" optionValue="position_code" [showClear]="true"
+                        [(ngModel)]="selectedempPosition"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <!-- Group -->
+                <div>
+                    <label>{{title_group[initial_current.Language]}}</label>
+                    <p-dropdown placeholder="--" [options]="groupList" optionValue="group_code" [showClear]="true"
+                        [(ngModel)]="selectedgroupcode"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.group_name_th : item.group_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.group_name_th : item.group_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <!-- Reason -->
+
             </div>
-            <div *ngIf="!loading" class="field col-12 md:col-6">
+            <div *ngIf="!loading" class="field col-12 md:col-6" style="width: 100%;">
                 <p-button label="{{title_btnprocess[initial_current.Language]}}" (click)="process()"></p-button>
             </div>
-            <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+            <div *ngIf="loading" class="field col-12 md:col-6">
+            <p-progressBar  mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+            </div>
 
         </div>
     </p-tabPanel>

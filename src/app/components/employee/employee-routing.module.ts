@@ -49,6 +49,8 @@ import { EmpsetassessmentComponent } from './employee-policy/setup-batch/empseta
         { path: 'policy/batch/empprovident',component:EmpsetprovidentComponent},
         { path: 'policy/batch/empbenefits',component:EmpsetbenefitsComponent},
         { path: 'policy/batch/empassessment',component:EmpsetassessmentComponent},
+        { path: 'policy/batch/empdetail',component:EmpsetdepComponent},
+
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 

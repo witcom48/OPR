@@ -43,7 +43,7 @@ export class PartComponent implements OnInit {
     
     this.doLoadLanguage()
     this.doLoadLevelList();
-    this.doLoadParent();
+    this.doloadParentLevel();
     
     setTimeout(() => {
       this.doLoadMenu()
@@ -71,6 +71,7 @@ export class PartComponent implements OnInit {
   title_name_en:string = "Name (Eng.)";
   title_detail:string = "Detail";
   title_level:string = "Level";
+  title_parentlevel:string = "Parent Level";
   title_parent:string = "Parent";
   title_modified_by:string = "Edit by";
   title_modified_date:string = "Edit date";
@@ -104,7 +105,8 @@ export class PartComponent implements OnInit {
       this.title_name_en = "ชื่ออังกฤษ";
       this.title_detail = "รายละเอียด";
       this.title_level = "ระดับ";
-      this.title_parent = "ภายใต้";
+      this.title_parentlevel = "ภายใต้ระดับ";
+      this.title_parent = "ภายใต้สังกัด";
       this.title_modified_by = "ผู้ทำรายการ";
       this.title_modified_date = "วันที่ทำรายการ";
       this.title_search = "ค้นหา";
@@ -174,18 +176,26 @@ export class PartComponent implements OnInit {
     });
   }
 
+  //parent level
+  parentlevelList: LevelModel[]=[];
+  selectParentLevel : string = '';
+  doloadParentLevel(){
+    this.levelService.level_get().then(async(res)=>{
+      this.parentlevelList = await res;
+    })
+  }
+  doChangeSelectLevel(){
+    this.doLoadParent();
+  }
+
+  //parent dep
   depParentList: PartModel[]=[];
   doLoadParent(){
-    // var parent = 0;
-    // if(this.selectedDep.dep_parent == "01"){
-
-    // }else{
-    //   var parent = Number(this.selectedDep.dep_level) + 1;
-    // }
-    // var level = "0" + parent.toString();
-    // this.partService.dep_get(level).then(async(res)=>{
-    //   this.depParentList = await res;
-    // })
+    var tmp = new LevelModel();
+    tmp.level_code = this.selectedDep.parent_level;
+    this.partService.dep_get(tmp).then(async (res) => {
+      this.depParentList = await res;
+    })
   }
 
   confirmRecord() {
@@ -213,7 +223,6 @@ export class PartComponent implements OnInit {
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
       this.doLoadDep();
-      this.doLoadParent();
      }
      else{
       this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -261,6 +270,7 @@ export class PartComponent implements OnInit {
   onRowSelectDep(event: any) {
     this.edit_data= true;
     this.new_data= true;
+    this.doLoadParent();
   }
   selectlevel() {
     this.doLoadDep();
@@ -321,7 +331,7 @@ export class PartComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_part.xlsx');
+    XLSX.writeFile(wb, 'Export_grouplevel.xlsx');
 
   }
 

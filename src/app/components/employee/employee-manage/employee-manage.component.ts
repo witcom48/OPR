@@ -768,9 +768,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpLocation != null) {
-            this.emplocation_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpLocation != null) {
+                this.emplocation_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },];
     //menu branch
@@ -802,9 +814,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpbranch != null) {
-            this.empbranch_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpbranch != null) {
+                this.empbranch_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },];
     //menu address
@@ -836,9 +860,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpAddress != null) {
-            this.empaddress_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpAddress != null) {
+                this.empaddress_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ];
@@ -871,9 +907,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpcard != null) {
-            this.empcard_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpcard != null) {
+                this.empcard_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ];
@@ -906,9 +954,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpbank != null) {
-            this.empbank_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpbank != null) {
+                this.empbank_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ];
@@ -941,9 +1001,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpfamily != null) {
-            this.empfamily_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpfamily != null) {
+                this.empfamily_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -976,9 +1048,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmphospital != null) {
-            this.emphospital_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmphospital != null) {
+                this.emphospital_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1012,9 +1096,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpdep != null) {
-            this.empdep_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpdep != null) {
+                this.empdep_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1047,9 +1143,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpPosition != null) {
-            this.empposition_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpPosition != null) {
+                this.empposition_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1082,9 +1190,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpGroup != null) {
-            this.empgroup_remove();
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpGroup != null) {
+                this.empgroup_remove();
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1117,9 +1237,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpeducation != null) {
-            this.empeducation_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpeducation != null) {
+                this.empeducation_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
       // {
@@ -1158,9 +1290,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpSupply != null) {
-            this.empsupply_remove();
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpSupply != null) {
+                this.empsupply_remove();
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1194,9 +1338,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpUniform != null) {
-            this.empuniform_remove();
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpUniform != null) {
+                this.empuniform_remove();
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1230,9 +1386,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpSuggest != null) {
-            this.empsuggest_remove();
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpSuggest != null) {
+                this.empsuggest_remove();
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1266,9 +1434,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmptraining != null) {
-            this.emptraining_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmptraining != null) {
+                this.emptraining_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
       // {
@@ -1307,9 +1487,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpassessment != null) {
-            this.empassessment_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpassessment != null) {
+                this.empassessment_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
       // {
@@ -1348,9 +1540,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpcriminal != null) {
-            this.empcriminal_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpcriminal != null) {
+                this.empcriminal_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
       // {
@@ -1389,9 +1593,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpsalary != null) {
-            this.empsalary_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpsalary != null) {
+                this.empsalary_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1424,9 +1640,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpprovident != null) {
-            this.empprovident_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpprovident != null) {
+                this.empprovident_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1459,9 +1687,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpbenefit != null) {
-            this.empbenefit_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpbenefit != null) {
+                this.empbenefit_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1494,9 +1734,21 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_delete,
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedEmpreduce != null) {
-            this.empreduce_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpreduce != null) {
+                this.empreduce_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
         }
       },
     ]
@@ -1995,7 +2247,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_empaddress = false
     this.edit_empaddress = false
   }
-  empaddress_delete() { 
+  empaddress_delete() {
     var tmp: EmpaddressModel = new EmpaddressModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empaddress(tmp).then((res) => {
@@ -2028,16 +2280,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empaddress() {
     if (this.empaddressList.length == 0) {
       this.empaddress_delete();
-    }else{
+    } else {
       this.empdetailService.record_empaddress(this.selectedEmployee.worker_code, this.empaddressList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //card
@@ -2070,7 +2322,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_card = false
     this.edit_empcard = false
   }
-  empcard_delete() { 
+  empcard_delete() {
     var tmp: EmpcardModel = new EmpcardModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empcard(tmp).then((res) => {
@@ -2103,16 +2355,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empcard() {
     if (this.empcardList.length == 0) {
       this.empcard_delete();
-    }else{
+    } else {
       this.empdetailService.record_empcard(this.selectedEmployee.worker_code, this.empcardList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //bank
@@ -2140,7 +2392,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_bank = false
     this.edit_empbank = false
   }
-  empbank_delete() { 
+  empbank_delete() {
     var tmp: EmpbankModel = new EmpbankModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empbank(tmp).then((res) => {
@@ -2173,16 +2425,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empbank() {
     if (this.empbankList.length == 0) {
       this.empbank_delete();
-    }else{
+    } else {
       this.empdetailService.record_empbank(this.selectedEmployee.worker_code, this.empbankList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //family
@@ -2212,7 +2464,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_bank = false
     this.edit_empbank = false
   }
-  empfamily_delete() { 
+  empfamily_delete() {
     var tmp: EmpFamilyModel = new EmpFamilyModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empfamily(tmp).then((res) => {
@@ -2245,16 +2497,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empfamily() {
     if (this.empfamilyList.length == 0) {
       this.empfamily_delete();
-    }else{
+    } else {
       this.empdetailService.record_empfamily(this.selectedEmployee.worker_code, this.empfamilyList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //hospital
@@ -2284,7 +2536,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_hospital = false
     this.edit_emphospital = false
   }
-  emphospital_delete() { 
+  emphospital_delete() {
     var tmp: EmpHospitalModel = new EmpHospitalModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_emphospital(tmp).then((res) => {
@@ -2317,16 +2569,16 @@ export class EmployeeManageComponent implements OnInit {
   record_emphospital() {
     if (this.emphospitalList.length == 0) {
       this.emphospital_delete();
-    }else{
+    } else {
       this.empdetailService.record_emphospital(this.selectedEmployee.worker_code, this.emphospitalList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //foreigner
@@ -2382,7 +2634,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_dep = false
     this.edit_empdep = false
   }
-  empdep_delete() { 
+  empdep_delete() {
     var tmp: EmpDepModel = new EmpDepModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empdep(tmp).then((res) => {
@@ -2415,16 +2667,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empdep() {
     if (this.empdepList.length == 0) {
       this.empdep_delete();
-    }else{
+    } else {
       this.empdetailService.record_empdep(this.selectedEmployee.worker_code, this.empdepList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
 
@@ -2465,7 +2717,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_position = false
     this.edit_empposition = false
   }
-  empposition_delete() { 
+  empposition_delete() {
     var tmp: EmpPositionModel = new EmpPositionModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empposition(tmp).then((res) => {
@@ -2498,16 +2750,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empposition() {
     if (this.emppositionList.length == 0) {
       this.empposition_delete();
-    }else{
+    } else {
       this.empdetailService.record_empposition(this.selectedEmployee.worker_code, this.emppositionList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //emp group
@@ -2539,7 +2791,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_group = false
     this.edit_empgroup = false
   }
-  empgroup_delete() { 
+  empgroup_delete() {
     var tmp: EmpGroupModel = new EmpGroupModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empgroup(tmp).then((res) => {
@@ -2572,16 +2824,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empgroup() {
     if (this.empgroupList.length == 0) {
       this.empgroup_delete();
-    }else{
+    } else {
       this.empdetailService.record_empgroup(this.selectedEmployee.worker_code, this.empgroupList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //education
@@ -2612,7 +2864,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_education = false
     this.edit_empeducation = false
   }
-  empeducation_delete() { 
+  empeducation_delete() {
     var tmp: EmpEducationModel = new EmpEducationModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empeducation(tmp).then((res) => {
@@ -2645,16 +2897,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empeducation() {
     if (this.empeducationList.length == 0) {
       this.empeducation_delete();
-    }else{
+    } else {
       this.empdetailService.record_empeducation(this.selectedEmployee.worker_code, this.empeducationList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //emp supply
@@ -2685,7 +2937,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_supply = false
     this.edit_empsupply = false
   }
-  empsupply_delete() { 
+  empsupply_delete() {
     var tmp: EmpSupplyModel = new EmpSupplyModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empsupply(tmp).then((res) => {
@@ -2718,16 +2970,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empsupply() {
     if (this.empsupplyList.length == 0) {
       this.empsupply_delete();
-    }else{
+    } else {
       this.empdetailService.record_empsupply(this.selectedEmployee.worker_code, this.empsupplyList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //emp uniform
@@ -2758,7 +3010,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_uniform = false
     this.edit_empuniform = false
   }
-  empuniform_delete() { 
+  empuniform_delete() {
     var tmp: EmpUniformModel = new EmpUniformModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empuniform(tmp).then((res) => {
@@ -2791,16 +3043,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empuniform() {
     if (this.empuniformList.length == 0) {
       this.empuniform_delete();
-    }else{
+    } else {
       this.empdetailService.record_empuniform(this.selectedEmployee.worker_code, this.empuniformList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //emp suggest
@@ -2831,7 +3083,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_suggest = false
     this.edit_empsuggest = false
   }
-  empsuggest_delete() { 
+  empsuggest_delete() {
     var tmp: EmpSuggestModel = new EmpSuggestModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empsuggest(tmp).then((res) => {
@@ -2864,16 +3116,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empsuggest() {
     if (this.empsuggestList.length == 0) {
       this.empsuggest_delete();
-    }else{
+    } else {
       this.empdetailService.record_empsuggest(this.selectedEmployee.worker_code, this.empsuggestList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //training
@@ -2904,7 +3156,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_education = false
     this.edit_empeducation = false
   }
-  emptraining_delete() { 
+  emptraining_delete() {
     var tmp: EmpTrainingModel = new EmpTrainingModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_emptraining(tmp).then((res) => {
@@ -2937,16 +3189,16 @@ export class EmployeeManageComponent implements OnInit {
   record_emptraining() {
     if (this.emptrainingList.length == 0) {
       this.emptraining_delete();
-    }else{
+    } else {
       this.empdetailService.record_emptraining(this.selectedEmployee.worker_code, this.emptrainingList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //Assessment
@@ -2977,7 +3229,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_assessment = false
     this.edit_empassessment = false
   }
-  empassessment_delete() { 
+  empassessment_delete() {
     var tmp: EmpAssessmentModel = new EmpAssessmentModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empassessment(tmp).then((res) => {
@@ -3010,16 +3262,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empassessment() {
     if (this.empassessmentList.length == 0) {
       this.empassessment_delete();
-    }else{
+    } else {
       this.empdetailService.record_empassessment(this.selectedEmployee.worker_code, this.empassessmentList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //Criminal
@@ -3050,7 +3302,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_criminal = false
     this.edit_empcriminal = false
   }
-  empcriminal_delete() { 
+  empcriminal_delete() {
     var tmp: EmpCriminalModel = new EmpCriminalModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empcriminal(tmp).then((res) => {
@@ -3083,16 +3335,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empcriminal() {
     if (this.empcriminalList.length == 0) {
       this.empcriminal_delete();
-    }else{
+    } else {
       this.empdetailService.record_empcriminal(this.selectedEmployee.worker_code, this.empcriminalList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   empresignrecord: [] = [];
@@ -3127,7 +3379,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_salary = false
     this.edit_empsalary = false
   }
-  empsalary_delete() { 
+  empsalary_delete() {
     var tmp: EmpSalaryModel = new EmpSalaryModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empsalary(tmp).then((res) => {
@@ -3161,16 +3413,16 @@ export class EmployeeManageComponent implements OnInit {
     if (this.empsalaryList.length == 0) {
       console.log(this.empsalaryList)
       this.empsalary_delete();
-    }else {
+    } else {
       this.empdetailService.record_empsalary(this.selectedEmployee.worker_code, this.empsalaryList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //Provident
@@ -3202,7 +3454,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_provident = false
     this.edit_empprovident = false
   }
-  empprovident_delete() { 
+  empprovident_delete() {
     var tmp: EmpProvidentModel = new EmpProvidentModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empprovident(tmp).then((res) => {
@@ -3235,16 +3487,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empprovident() {
     if (this.empprovidentList.length == 0) {
       this.empprovident_delete();
-    }else {
+    } else {
       this.empdetailService.record_empprovident(this.selectedEmployee.worker_code, this.empprovidentList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //benefit
@@ -3262,7 +3514,7 @@ export class EmployeeManageComponent implements OnInit {
       }
     })
   }
-  onRowSelectEmpbenefit(event: Event) { 
+  onRowSelectEmpbenefit(event: Event) {
     var tmp: EmpBenefitsModel = new EmpBenefitsModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empbenefit(tmp).then((res) => {
@@ -3281,7 +3533,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_benefit = false
     this.edit_empbenefit = false
   }
-  empbenefit_delete() { 
+  empbenefit_delete() {
     var tmp: EmpBenefitsModel = new EmpBenefitsModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empbenefit(tmp).then((res) => {
@@ -3314,16 +3566,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empbenefit() {
     if (this.empbenefitList.length == 0) {
       this.empbenefit_delete();
-    }else{
+    } else {
       this.empdetailService.record_empbenefit(this.selectedEmployee.worker_code, this.empbenefitList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //reduce
@@ -3351,7 +3603,7 @@ export class EmployeeManageComponent implements OnInit {
     this.new_reduce = false
     this.edit_empreduce = false
   }
-  empreduce_delete() { 
+  empreduce_delete() {
     var tmp: EmpReduceModel = new EmpReduceModel();
     tmp.worker_code = this.selectedEmployee.worker_code
     this.empdetailService.delete_empreduce(tmp).then((res) => {
@@ -3384,16 +3636,16 @@ export class EmployeeManageComponent implements OnInit {
   record_empreduce() {
     if (this.empreduceList.length == 0) {
       this.empreduce_delete()
-    }else{
+    } else {
       this.empdetailService.record_empreduce(this.selectedEmployee.worker_code, this.empreduceList).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-      }
-      else {
-      }
-    });
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
     }
-    
+
   }
 
   //accumalate
@@ -3403,25 +3655,7 @@ export class EmployeeManageComponent implements OnInit {
     this.edit_empaccumalate = true;
     this.new_accumalate = true;
   }
-  closeAcc() {
-    this.new_accumalate = false;
-    this.selectedEmpaccumalate = new EmpAccumalateModel();
-  }
 
-  confirmRecord() {
-    this.confirmationService.confirm({
-      message: this.title_confirm_record,
-      header: this.title_confirm,
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.doRecordEmployee()
-      },
-      reject: () => {
-        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-      },
-      key: "myDialog"
-    });
-  }
 
   //emp location
   emplocationList: EmpLocationModel[] = [];
@@ -3556,7 +3790,7 @@ export class EmployeeManageComponent implements OnInit {
   record_empbranch() {
     if (this.empbranchList.length == 0) {
       this.empbranch_delete();
-    }else{
+    } else {
       this.empdetailService.record_empbranch(this.selectedEmployee.worker_code, this.empbranchList).then((res) => {
         let result = JSON.parse(res);
         if (result.success) {
@@ -3565,7 +3799,28 @@ export class EmployeeManageComponent implements OnInit {
         }
       });
     }
-    
+
+  }
+
+  closeAcc() {
+    this.new_accumalate = false;
+    this.selectedEmpaccumalate = new EmpAccumalateModel();
+  }
+
+  //Confirm
+  confirmRecord() {
+    this.confirmationService.confirm({
+      message: this.title_confirm_record,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doRecordEmployee()
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
   }
 
   doGetNewCode() {

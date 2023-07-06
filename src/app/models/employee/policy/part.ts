@@ -9,6 +9,7 @@ export class PartModel {
     dep_name_en: string = "";  
     dep_parent: string = ""; 
     dep_level: string = ""; 
+    parent_level:string = "";
     company_code: string = "";
     modified_by: string = "";
     modified_date: string = "";

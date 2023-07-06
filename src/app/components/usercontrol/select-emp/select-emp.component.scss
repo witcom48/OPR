@@ -1,28 +1,50 @@
-.formfliter{
+.formfliter {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
     margin: 0px 15px 20px 15px;
-    
 
-    .checkselect{
+
+    .checkselect {
         display: grid;
-        grid-template-columns: 140px 1fr 140px 1fr;
+        grid-template-columns: 1fr 1fr;
         align-items: baseline;
         gap: 10px;
 
-        .leveldep{
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .select {
+            // display: flex;
+            // flex-wrap: wrap;
+            // flex-direction: column;
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 5px;
+            
+        }
+        .resign{
+            align-self: center;
         }
     }
-    .searchemp{
-        display: grid;
-        grid-template-columns: 150px 1fr 1fr ;
-        align-items: baseline;
-    }
-    
+}
 
+@media (max-width: 700px) {
+    .formfliter {
+        .checkselect {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            width: 100%;
+            align-items: unset;
+
+            .select{
+                display: flex;
+                flex-direction: column;
+                align-self: unset;
+            }
+            .resign{
+                align-self: unset;
+            }
+        }
+
+    }
 }

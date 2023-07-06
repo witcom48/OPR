@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
-<table class="table_head" style="width: 100%;">
+<table class="table_head" >
     <tr>
         <td align="left">
             <h4>{{this.title_page}}</h4>
@@ -43,12 +43,13 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="employee_list" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true"
-            scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedemployee"
+        <p-table #dt2 [value]="employee_list" 
+            selectionMode="single" [(selection)]="selectedemployee"
             (onRowSelect)="onRowSelectEmployee($event)" dataKey="worker_code" [rows]="10" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['worker_code','worker_initial','worker_fnamename_th','worker_lnamename_th','worker_type','worker_position','worker_hiredate']">
+            [globalFilterFields]="['worker_code','worker_initial','worker_fnamename_th','worker_lnamename_th','worker_type','worker_position','worker_hiredate']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
             <ng-template pTemplate="caption">
                 <div class="flex">
                     <span class="p-input-icon-left ml-auto">
@@ -59,16 +60,16 @@
                 </div>
             </ng-template>
 
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th>{{title_code}}</th>
                     <!-- <th>{{title_initial}}</th> -->
                     <th>{{title_name}}</th>
                     <!-- <th>{{title_Lname}}</th> -->
                     <th>{{title_emptype}}</th>
-                    <!-- <th>{{title_position}}</th> -->
+                    <th>{{title_position}}</th>
                     <th>{{title_startdate}}</th>
-                    <!-- <th>{{title_status}}</th> -->
+                    <th>{{title_status}}</th>
                     <!-- <th>{{title_apprdate}}</th> -->
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
@@ -96,21 +97,21 @@
                 </tr> -->
 
             </ng-template>
-            <ng-template pTemplate="body" let-data>
+            <ng-template pTemplate="body" let-data let-columns="columns">
                 <tr [pSelectableRow]="data">
-                    <td>{{data.worker_code}}</td>
+                    <td data-title="title_code">{{data.worker_code}}</td>
                     <!-- <td>{{initial_current.Language == "TH"? data.initial_name_th:data.initial_name_en}}</td> -->
-                    <td>{{initial_current.Language == "TH"? data.initial_name_th+" "+data.worker_fname_th+"
+                    <td><span>{{title_name}}</span>{{initial_current.Language == "TH"? data.initial_name_th+" "+data.worker_fname_th+"
                         "+data.worker_lname_th:data.initial_name_en+" "+data.worker_fname_en+" "+data.worker_lname_en}}
                     </td>
                     <!-- <td>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td> -->
-                    <td>{{data.worker_type}}</td>
-                    <!-- <td>{{data.worker_position}}</td> -->
-                    <td>{{data.worker_hiredate | date:'dd/MM/yyyy '}}</td>
-                    <!-- <td>{{data.worker_status}}</td> -->
+                    <td><span>{{title_emptype}}</span>{{data.worker_type}}</td>
+                    <td><span>{{title_position}}</span>{{initial_current.Language == "TH"? data.position_name_th : data.position_name_en}}</td>
+                    <td><span>{{title_startdate}}</span>{{data.worker_hiredate | date:'dd/MM/yyyy '}}</td>
+                    <td><span>{{title_status}}</span>{{data.worker_status}}</td>
                     <!-- <td>{{data.approve_date | date:'dd/MM/yyyy HH:mm'}}</td> -->
-                    <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td><span>{{title_modified_by}}</span>{{data.modified_by}}</td>
+                    <td><span>{{title_modified_date}}</span>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
                 </tr>
             </ng-template>
 

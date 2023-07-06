@@ -6,7 +6,7 @@
         <i></i>
         <a routerLink="/employee/policy">Policy</a>
         <i></i>
-        <small>Emp Status</small>
+        <small>Employee Status</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -21,11 +21,12 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="status_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+        <p-table #dt2 [value]="status_list"
         selectionMode="single" [(selection)]="selectedStatus" (onRowSelect)="onRowSelectStatus($event)" [rows]="12"
         [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
         currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['status_code','status_name_en','status_name_th','modied_by','modied_date']">
+        [globalFilterFields]="['status_code','status_name_en','status_name_th','modied_by','modied_date']"
+        responsiveLayout="stack" [breakpoint]="'744px'" >
         <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -37,7 +38,7 @@
                 </div>
             </ng-template>
         <!-- --------------END Form Search Table------------------ -->
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" let-columns >
                 <tr>
                     <th>{{title_code}}</th>
                     <th>{{title_name_th}}</th>
@@ -46,13 +47,13 @@
                     <th>{{title_modified_date}}</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data>
+            <ng-template pTemplate="body" let-data let-i="rowIndex"  let-columns="columns">
                 <tr [pSelectableRow]="data">
-                    <td>{{data.status_code}}</td>
-                    <td>{{data.status_name_th}}</td>
-                    <td>{{data.status_name_en}}</td>
-                    <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td><span>{{title_code}}</span>{{data.status_code}}</td>
+                    <td><span>{{title_name_th}}</span>{{data.status_name_th}}</td>
+                    <td><span>{{title_name_en}}</span>{{data.status_name_en}}</td>
+                    <td><span>{{title_modified_by}}</span>{{data.modified_by}}</td>
+                    <td><span>{{title_modified_date}}</span>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
             </ng-template>
         </p-table>

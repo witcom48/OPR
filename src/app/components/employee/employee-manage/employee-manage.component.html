@@ -22,13 +22,13 @@
                         <input class="upload" type="file" id="file" (change)="onselectFile($event)">
                         <div>
                             <label for="code">{{title_code}} :</label>
-                            <input pInputText id="code" type="text" [(ngModel)]="selectedEmployee.worker_code"
-                                [disabled]="!methodEdit">
+                            <input pInputText id="code" type="text" class="p-inputtext-sm" [(ngModel)]="selectedEmployee.worker_code"
+                                [disabled]="methodEdit">
                         </div>
 
                         <div>
                             <label for="cardid">{{title_cardid}} :</label>
-                            <input pInputText id="cardid" type="text" [(ngModel)]="selectedEmployee.worker_card">
+                            <input pInputText id="cardid" type="text" class="p-inputtext-sm" [(ngModel)]="selectedEmployee.worker_card">
                         </div>
                         <div></div>
                         <div>
@@ -412,8 +412,6 @@
                                                 <th>{{title_tambon}}</th>
                                                 <th>{{title_province}}</th>
                                                 <th>{{title_zipcode}}</th>
-                                                <th>{{title_tel}}</th>
-                                                <th>{{title_line}}</th>
                                                 <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
                                             </tr>
@@ -428,8 +426,6 @@
                                                 <td>{{empaddress.address_tambon}}</td>
                                                 <td>{{empaddress.province_code}}</td>
                                                 <td>{{empaddress.address_zipcode}}</td>
-                                                <td>{{empaddress.address_tel}}</td>
-                                                <td>{{empaddress.address_email}}</td>
                                                 <td>{{empaddress.modified_by}}</td>
                                                 <td>{{empaddress.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
