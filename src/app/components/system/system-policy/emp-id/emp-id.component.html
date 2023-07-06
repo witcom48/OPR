@@ -70,9 +70,9 @@
         <i (click)="close()"></i>
 
           <label>{{title_code}}</label>
-          <p-dropdown placeholder="--" [options]="codestructureList" optionValue="codestructure_code"
+          <p-dropdown  placeholder="--" [options]="codestructureList" optionValue="codestructure_code"
               [showClear]="true" [(ngModel)]="selectedTRPolcode.codestructure_code"
-              [style]="{ width: '150%', overflow: 'visible' }">
+              [style]="{ width: '150%', overflow: 'visible' }" >
               <ng-template let-item pTemplate="selectedItem">
                   {{initial_current.Language=="TH"? item.codestructure_name_th :
                   item.codestructure_name_en}}

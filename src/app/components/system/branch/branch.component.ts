@@ -27,7 +27,7 @@ export class BranchComponent implements OnInit {
     items: MenuItem[] = [];
     edit_combranch: boolean = false;
     new_combranch: boolean = false;
-
+    isHovered = false;
     constructor(
         private combranchService: CombranchService,
         private router: Router,
@@ -228,49 +228,57 @@ export class BranchComponent implements OnInit {
             });
     }
 
-    confirmDelete() {
+    confirmDelete(data: any) {
         this.confirmationService.confirm({
-            message: this.title_confirm_delete,
-            header: this.title_confirm,
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.doDeleteCombranch();
-            },
-            reject: () => {
-                this.messageService.add({
-                    severity: 'warn',
-                    summary: 'Cancelled',
-                    detail: this.title_confirm_cancel,
-                });
-            },
-        });
-    }
-    doDeleteCombranch() {
-        console.log(this.selectedcombranch);
-
-        this.combranchService
-            .combranch_delete(this.selectedcombranch)
-            .then((res) => {
-                console.log(res);
-                let result = JSON.parse(res);
-
-                if (result.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: result.message,
-                    });
-                    this.doLoadCombranch();
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: result.message,
-                    });
-                }
+          message: 'คุณต้องการลบข้อมูลบริษัทนี้ใช่หรือไม่?',
+          header: 'ยืนยันการลบ',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.doDeleteCombranch(data);
+          },
+          reject: () => {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'ยกเลิก',
+              detail: 'ยกเลิกการลบข้อมูล',
             });
-    }
-
+          },
+        });
+      }
+      
+      doDeleteCombranch(data: any) {
+        console.log(data);
+      
+        this.combranchService.combranch_delete(data).then((res) => {
+          console.log(res);
+          let result = JSON.parse(res);
+      
+          if (result.success) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'สำเร็จ',
+              detail: result.message,
+            });
+            this.doLoadCombranch();
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'ผิดพลาด',
+              detail: result.message,
+            });
+          }
+        });
+      }
+      
+// ฟังก์ชันที่ถูกเรียกเมื่อเมาส์อยู่บนปุ่ม
+onButtonHover() {
+    this.isHovered = true;
+  }
+  
+  // ฟังก์ชันที่ถูกเรียกเมื่อเมาส์ออกจากปุ่ม
+  onButtonLeave() {
+    this.isHovered = false;
+  }
     close() {
         this.new_combranch = false;
         this.selectedcombranch = new CombranchModel();
