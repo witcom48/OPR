@@ -1,7 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {ConfirmationService,MegaMenuItem,MenuItem,MessageService,
+import {
+    ConfirmationService, MegaMenuItem, MenuItem, MessageService,
 } from 'primeng/api';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
@@ -84,7 +85,7 @@ export class CompanysComponent implements OnInit {
         private cardtypeService: CardtypeService,
         private addresstypeService: AddresstypeService,
         private provinceService: ProvinceService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
@@ -137,9 +138,9 @@ export class CompanysComponent implements OnInit {
     title_english_name: string = 'Name (Eng)';
     title_map: string = 'Map';
 
-    
+
     title_taxpayer_identification_no: string = 'Taxpayer Identification No';
-    title_provident_fund_no ='Provident Fund No'
+    title_provident_fund_no = 'Provident Fund No'
 
     title_juristic_id: string = 'Juristic Id';
     title_hours_perday: string = 'Hours Perday';
@@ -234,7 +235,7 @@ export class CompanysComponent implements OnInit {
     title_confirm_no: string = 'No';
 
     title_confirm_cancel: string = 'You have cancelled';
- 
+
     title_address_type: string = 'Type';
     title_address_no: string = 'No';
     title_address_moo: string = 'Moo';
@@ -259,34 +260,34 @@ export class CompanysComponent implements OnInit {
             this.title_import = 'นำเข้า';
             this.title_export = 'โอนออก';
             this.title_save = 'บันทึก';
-            this.title_back= 'กลับ';
-            this.title_codes ='รหัสบริษัท';
-            this.title_initials ='ชื่อย่อ';
-            this.title_thai_name ='ชื่อไทย';
-            this.title_english_name ='ชื่ออังกฤษ';
-            this.title_map ='แผนที่';
-            
-            this.title_taxpayer_identification_no ='เลขประจำตัวผู้เสียภาษี'
-            this.title_juristic_id ='เลขทะเบียนนิติบุคคล'
-            this.title_provident_fund_no ='เลขกองทุนสำรองเลี้ยงชีพ'
-            this.title_hours_perday ='ชั่วโมงการทำงาน'
-            this.title_min_age ='อายุพนักงานน้อยสุด'
-            this.title_max_age ='อายุพนักงานมากสุด'
-            this.title_sso_no ='เลขประกันสังคม'
-            this.title_social_security_branch ='สาขาประกันสังคม'
-            this.title_payout_rate ='อัตราการจ่าย %'
-            this.title_sso_company ='ประกันสังคมส่วนบริษัท'
-            this.title_sso_employee ='ประกันสังคมส่วนพนักงาน'
-            this.title_wage_rate ='อัตราค่าจ้าง'
-            this.title_min_wage ='ค่าจ้างตํ่าสุด'
-            this.title_max_wage ='ค่าจ้างสูงสุด'
+            this.title_back = 'กลับ';
+            this.title_codes = 'รหัสบริษัท';
+            this.title_initials = 'ชื่อย่อ';
+            this.title_thai_name = 'ชื่อไทย';
+            this.title_english_name = 'ชื่ออังกฤษ';
+            this.title_map = 'แผนที่';
+
+            this.title_taxpayer_identification_no = 'เลขประจำตัวผู้เสียภาษี'
+            this.title_juristic_id = 'เลขทะเบียนนิติบุคคล'
+            this.title_provident_fund_no = 'เลขกองทุนสำรองเลี้ยงชีพ'
+            this.title_hours_perday = 'ชั่วโมงการทำงาน'
+            this.title_min_age = 'อายุพนักงานน้อยสุด'
+            this.title_max_age = 'อายุพนักงานมากสุด'
+            this.title_sso_no = 'เลขประกันสังคม'
+            this.title_social_security_branch = 'สาขาประกันสังคม'
+            this.title_payout_rate = 'อัตราการจ่าย %'
+            this.title_sso_company = 'ประกันสังคมส่วนบริษัท'
+            this.title_sso_employee = 'ประกันสังคมส่วนพนักงาน'
+            this.title_wage_rate = 'อัตราค่าจ้าง'
+            this.title_min_wage = 'ค่าจ้างตํ่าสุด'
+            this.title_max_wage = 'ค่าจ้างสูงสุด'
 
 
-            this.title_card_type ='ประเภทบัตร';
-            this.title_card_code ='รหัสบัตร';
-            this.title_card_opening_date ='วันที่เปิดบัตร';
-            this.title_expiration_date ='วันที่หมดอายุ';
-            
+            this.title_card_type = 'ประเภทบัตร';
+            this.title_card_code = 'รหัสบัตร';
+            this.title_card_opening_date = 'วันที่เปิดบัตร';
+            this.title_expiration_date = 'วันที่หมดอายุ';
+
 
 
             this.title_summit = 'บันทึก';
@@ -324,7 +325,7 @@ export class CompanysComponent implements OnInit {
 
             this.title_banks = 'ธนาคาร';
             this.title_number = 'เลขที่บัญชี';
-             
+
 
             this.title_record = 'ข้อมูลประวัติ';
             this.title_department = 'สังกัด';
@@ -365,22 +366,22 @@ export class CompanysComponent implements OnInit {
             this.title_address_th = 'ที่อยู่(ไทย)';
             this.title_address_en = 'ที่อยู่(อังกฤษ)';
 
-             
-           
-            this.title_address_type= 'ประเภท';
+
+
+            this.title_address_type = 'ประเภท';
             this.title_address_no = 'เลขที่';
-            this.title_address_moo= 'หมู่ที่';
-            this.title_address_road= 'ถนน';
-            this.title_address_soi= 'ซอย';
-            this.title_address_tambon= 'ตำบล';
-            this.title_address_amphur= 'อำเภอ';
-            this.title_address_province= 'จังหวัด';
-            this.title_address_zipcode= 'รหัสไปรษณีย์';
-            this.title_address_tel= 'เบอร์โทรศัพท์';
-            this.title_address_email= 'อีเมล์';
-            this.title_address_note= 'note';
-            this.title_address_line= 'ไลน์';
-            this.title_address_facebook= 'เฟสบุ๊ค';
+            this.title_address_moo = 'หมู่ที่';
+            this.title_address_road = 'ถนน';
+            this.title_address_soi = 'ซอย';
+            this.title_address_tambon = 'ตำบล';
+            this.title_address_amphur = 'อำเภอ';
+            this.title_address_province = 'จังหวัด';
+            this.title_address_zipcode = 'รหัสไปรษณีย์';
+            this.title_address_tel = 'เบอร์โทรศัพท์';
+            this.title_address_email = 'อีเมล์';
+            this.title_address_note = 'note';
+            this.title_address_line = 'ไลน์';
+            this.title_address_facebook = 'เฟสบุ๊ค';
         }
     }
 
@@ -395,7 +396,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label:this.title_save,
+                label: this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
                     console.log('Save');
@@ -403,11 +404,11 @@ export class CompanysComponent implements OnInit {
                 },
             },
         ];
-    
+
         //menu card
         this.menu_comcard = [
             {
-                label:this.title_new,
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.clearManage();
@@ -419,7 +420,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: this.title_edit ,
+                label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     this.clearManage();
@@ -430,7 +431,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: this.title_delete ,
+                label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedComcard != null) {
@@ -439,20 +440,20 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: this.title_import ,
+                label: this.title_import,
                 icon: 'pi pi-fw pi-file-import',
-                command: (event) => {},
+                command: (event) => { },
             },
             {
-                label: this.title_export ,
+                label: this.title_export,
                 icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
+                command: (event) => { },
             },
         ];
         //menu bank
         this.menu_combank = [
             {
-               label:this.title_new,
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.clearManage();
@@ -464,7 +465,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: this.title_edit ,
+                label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     this.clearManage();
@@ -475,7 +476,7 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                label: this.title_delete ,
+                label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
                     if (this.selectedCombank != null) {
@@ -484,14 +485,14 @@ export class CompanysComponent implements OnInit {
                 },
             },
             {
-                 label: this.title_import ,
+                label: this.title_import,
                 icon: 'pi pi-fw pi-file-import',
-                command: (event) => {},
+                command: (event) => { },
             },
             {
-                label: this.title_export ,
+                label: this.title_export,
                 icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
+                command: (event) => { },
             },
         ];
     }
@@ -553,36 +554,36 @@ export class CompanysComponent implements OnInit {
     base65Image: any = '../../../../assets/images/people.png'
     base64Image: any = '../../../../assets/images/people.png'
     transform() {
-      return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
-    //   return this.sanitizer.bypassSecurityTrustResourceUrl(this.base65Image);
+        return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
+        //   return this.sanitizer.bypassSecurityTrustResourceUrl(this.base65Image);
     }
 
     transforms() {
         return this.sanitizer.bypassSecurityTrustResourceUrl(this.base65Image);
-      }
-  
-      doLoadImage() {
-        this.companyService.doGetImages(this.selectedCompany.company_code).then((res) => {  
-          let resultJSON = JSON.parse(res);
-          console.log(resultJSON.data);
-          if (resultJSON.result == "1") {
-            this.base64Image = resultJSON.data;
-          }
+    }
+
+    doLoadImage() {
+        this.companyService.doGetImages(this.selectedCompany.company_code).then((res) => {
+            let resultJSON = JSON.parse(res);
+            console.log(resultJSON.data);
+            if (resultJSON.result == "1") {
+                this.base64Image = resultJSON.data;
+            }
         });
-      }
-      
-      doLoadImagemaps() {
+    }
+
+    doLoadImagemaps() {
         this.companyService.doGetImagesmaps(this.selectedCompany.company_code).then((res) => {
-          let resultJSON = JSON.parse(res);
-          console.log(resultJSON.data_maps); // ตรวจสอบผลลัพธ์ที่ได้รับ
-      
-          if (resultJSON.result == "1") {
-            this.base65Image = resultJSON.data;
-          }
+            let resultJSON = JSON.parse(res);
+            console.log(resultJSON.data_maps); // ตรวจสอบผลลัพธ์ที่ได้รับ
+
+            if (resultJSON.result == "1") {
+                this.base65Image = resultJSON.data;
+            }
         });
-      }
-      
-   
+    }
+
+
     // doLoadImagemaps() {
     //   this.companyService.doGetImagesmaps(this.initial_current.CompCode).then((res) => {
     //       let resultJSON = JSON.parse(res);
@@ -598,7 +599,7 @@ export class CompanysComponent implements OnInit {
     doLoadCompany() {
         var Company_list: CompanyModel[] = [];
         this.companyService.company_get(this.company_code).then(async (res) => {
-            await res.forEach((element: CompanyModel) => {});
+            await res.forEach((element: CompanyModel) => { });
 
             Company_list = await res;
 
@@ -610,6 +611,7 @@ export class CompanysComponent implements OnInit {
                     // this.doLoadComaddressenList();
                     this.doLoadComcardList();
                     this.doLoadCombankList();
+
                     this.doLoadbankList();
                     this.doLoadcardList();
                     this.doLoadaddressList();
@@ -618,7 +620,7 @@ export class CompanysComponent implements OnInit {
                     this.doLoadImage();
                     this.doLoadImagemaps();
                     // this.uploadImages();
-                    
+
                 }, 300);
             }
         });
@@ -669,15 +671,15 @@ export class CompanysComponent implements OnInit {
     record_comaddress() {
         // this.selectedComaddress.comaddress_type = "1";
         this.selectedComaddress.company_code = this.selectedCompany.company_code;
-      
+
         this.companyDetailService.record_comaddress(this.selectedComaddress.company_code, [this.selectedComaddress])
-          .then((res) => {
-            let result = JSON.parse(res);
-            if (result.success) {
-            } else {
-            }
-          });
-      }
+            .then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                } else {
+                }
+            });
+    }
 
     //card
     comcardList: ComcardModel[] = [];
@@ -697,7 +699,7 @@ export class CompanysComponent implements OnInit {
                 }
             });
     }
-    onRowSelectComcard(event: Event) {}
+    onRowSelectComcard(event: Event) { }
     comcard_summit() {
         this.comcard_addItem(this.selectedComcard);
         this.new_card = false;
@@ -710,7 +712,7 @@ export class CompanysComponent implements OnInit {
         this.new_card = false;
         this.edit_comcard = false;
     }
-    comcard_delete() {}
+    comcard_delete() { }
     comcard_cancel() {
         this.new_card = false;
         this.edit_comcard = false;
@@ -749,73 +751,82 @@ export class CompanysComponent implements OnInit {
             });
     }
 
-   //bank
-   combankList: CombankModel[] = [];
-   selectedCombank: CombankModel = new CombankModel();
-   doLoadCombankList() {
-       this.companyDetailService
-           .getcompany_bank(this.initial_current.CompCode, this.company_code)
-           .then((res) => {
-               this.combankList = res;
-               if (this.combankList.length > 0) {
-                   this.selectedCombank = this.combankList[0];
-               }
-           });
-   }
-   onRowSelectCombank(event: Event) {}
-   combank_summit() {
-       this.combank_addItem(this.selectedCombank);
-       this.new_bank = false;
-       this.edit_combank = false;
-       this.displayManage = false;
-   }
-   combank_remove() {
-       this.selectedCombank.combank_id = '9999';
-       this.combank_addItem(this.selectedCombank);
-       this.new_bank = false;
-       this.edit_combank = false;
-   }
-   combank_delete() {}
-   combank_cancel() {
-       this.new_bank = false;
-       this.edit_combank = false;
-       this.displayManage = false;
-   }
-   combank_addItem(model: CombankModel) {
-       const itemNew: CombankModel[] = [];
-       for (let i = 0; i < this.combankList.length; i++) {
-           if (this.combankList[i].combank_id == model.combank_id) {
-               //-- Notting
-           } else {
-               itemNew.push(this.combankList[i]);
-           }
-       }
-       //-- 9999 for delete
-       if (model.combank_id != '9999') {
-           itemNew.push(model);
-           console.log("test66")
-           console.log(model.combank_id)
-       }
-       this.combankList = [];
-       this.combankList = itemNew;
-       this.combankList.sort(function (a, b) { return parseInt(a.combank_id) - parseInt(b.combank_id); })
+    //bank
+    combankList: CombankModel[] = [];
+    selectedCombank: CombankModel = new CombankModel();
+    doLoadCombankList() {
+        this.companyDetailService
+            .getcompany_bank(this.initial_current.CompCode, this.company_code)
+            .then((res) => {
+                this.combankList = res;
+                if (this.combankList.length > 0) {
+                    this.selectedCombank = this.combankList[0];
+                }
+            });
+    }
 
- 
-   }
-   record_combank() {
-       if (this.combankList.length == 0) {
-           return;
-       }
-       this.companyDetailService
-           .record_combank(this.selectedCompany.company_code, this.combankList)
-           .then((res) => {
-               let result = JSON.parse(res);
-               if (result.success) {
-               } else {
-               }
-           });
-   }
-    
+    combank_delete() {
+        var tmp: CombankModel = new CombankModel();
+        tmp.combank_bankcode = this.selectedCombank.combank_bankcode
+        this.companyDetailService.delete_combank(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
+
+    onRowSelectCombank(event: Event) { }
+    combank_summit() {
+        this.combank_addItem(this.selectedCombank);
+        this.new_bank = false;
+        this.edit_combank = false;
+        this.displayManage = false;
+    }
+    combank_remove() {
+        this.selectedCombank.combank_id = '9999';
+        this.combank_addItem(this.selectedCombank);
+        this.new_bank = false;
+        this.edit_combank = false;
+    }
+    //    combank_delete() {}
+    combank_cancel() {
+        this.new_bank = false;
+        this.edit_combank = false;
+        this.displayManage = false;
+    }
+    combank_addItem(model: CombankModel) {
+        const itemNew: CombankModel[] = [];
+        for (let i = 0; i < this.combankList.length; i++) {
+            if (this.combankList[i].combank_id == model.combank_id) {
+                //-- Notting
+            } else {
+                itemNew.push(this.combankList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.combank_id != '9999') {
+            itemNew.push(model);
+            console.log("test66")
+            console.log(model.combank_id)
+        }
+        this.combankList = [];
+        this.combankList = itemNew;
+        this.combankList.sort(function (a, b) { return parseInt(a.combank_id) - parseInt(b.combank_id); })
+
+
+    }
+    record_combank() {
+        if (this.combankList.length == 0) {
+            this.combank_delete();
+        }
+        this.companyDetailService
+            .record_combank(this.selectedCompany.company_code, this.combankList)
+            .then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                } else {
+                }
+            });
+    }
+
     confirmRecord() {
         this.confirmationService.confirm({
             message: this.title_confirm_record,
@@ -858,7 +869,7 @@ export class CompanysComponent implements OnInit {
                         summary: 'Success',
                         detail: result.message,
                     });
-                    //   this.router.navigateByUrl('system/company');
+                    this.router.navigateByUrl('system/company');
                     this.doLoadCompany();
                 } else {
                     this.messageService.add({
@@ -873,85 +884,85 @@ export class CompanysComponent implements OnInit {
     close() {
         this.new_company = false;
         this.selectedCompany = new CompanyModel();
-        this.selectedComaddress= new ComaddressModel();
+        this.selectedComaddress = new ComaddressModel();
     }
-    
-  
+
+
     fileToUpload: File | any = null;
     handleFileInput(files: FileList) {
-      this.fileToUpload = files.item(0);
+        this.fileToUpload = files.item(0);
     }
-  
+
     onselectFile(event: any) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          // Set image src
-          this.base64Image = e.target.result;
+            // Set image src
+            this.base64Image = e.target.result;
         };
-      
+
         if (event.target.files && event.target.files.length > 0) {
-          reader.readAsDataURL(event.target.files[0]);
-          this.fileToUpload = event.target.files.item(0);
+            reader.readAsDataURL(event.target.files[0]);
+            this.fileToUpload = event.target.files.item(0);
         }
     }
 
-  
-    
-  uploadImages() {
 
-    const filename = "XXX";
-    const filetype = "jpg";
 
-    this.companyService.uploadImages(this.fileToUpload, this.selectedCompany.company_code).then((res) => {
-      let resultJSON = JSON.parse(res);
-      if (resultJSON.result == "1") {
-        this.doLoadImage();
+    uploadImages() {
 
-        // setTimeout(() => {
-        //   this.doLoadImage();
-        // }, 500);
+        const filename = "XXX";
+        const filetype = "jpg";
 
-      }
-    });
+        this.companyService.uploadImages(this.fileToUpload, this.selectedCompany.company_code).then((res) => {
+            let resultJSON = JSON.parse(res);
+            if (resultJSON.result == "1") {
+                this.doLoadImage();
 
-    
-  }
-//////
+                // setTimeout(() => {
+                //   this.doLoadImage();
+                // }, 500);
 
-//////
-fileToUploadsmaps: File | any = null;
+            }
+        });
 
-handleFileInputsmaps(files: FileList) {
-  this.fileToUploadsmaps = files.item(0);
-}
 
-onselectFilesmaps(event: any) {
-  const reader = new FileReader();
-  reader.onload = (e: any) => {
-    // Set image src
-    this.base65Image = e.target.result;
-  };
-
-  if (event.target.files && event.target.files.length > 0) {
-    reader.readAsDataURL(event.target.files[0]);
-    this.fileToUploadsmaps = event.target.files.item(0);
-  }
-}
-
-uploadImagesmaps() {
-  const filename = "XXX";
-  const filetype = "jpg";
-
-  this.companyService.uploadImagesmaps(this.fileToUploadsmaps, this.selectedCompany.company_code).then((res) => {
-    let resultJSON = JSON.parse(res);
-    if (resultJSON.result == "1") {
-        this.doLoadImagemaps();
-    //   setTimeout(() => {
-    //     this.doLoadImagemaps();
-    //   }, 500);
     }
-  });
-}
+    //////
+
+    //////
+    fileToUploadsmaps: File | any = null;
+
+    handleFileInputsmaps(files: FileList) {
+        this.fileToUploadsmaps = files.item(0);
+    }
+
+    onselectFilesmaps(event: any) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+            // Set image src
+            this.base65Image = e.target.result;
+        };
+
+        if (event.target.files && event.target.files.length > 0) {
+            reader.readAsDataURL(event.target.files[0]);
+            this.fileToUploadsmaps = event.target.files.item(0);
+        }
+    }
+
+    uploadImagesmaps() {
+        const filename = "XXX";
+        const filetype = "jpg";
+
+        this.companyService.uploadImagesmaps(this.fileToUploadsmaps, this.selectedCompany.company_code).then((res) => {
+            let resultJSON = JSON.parse(res);
+            if (resultJSON.result == "1") {
+                this.doLoadImagemaps();
+                //   setTimeout(() => {
+                //     this.doLoadImagemaps();
+                //   }, 500);
+            }
+        });
+    }
 
 
     clearManage() {

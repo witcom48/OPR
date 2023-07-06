@@ -2,7 +2,7 @@ export class CombranchModel {
     constructor() {
     }
     company_code: string = "";
-    combranch_id: string = "1";
+    combranch_id: string = "0";
     sso_combranch_no: string = "";
 
     combranch_code: string = "";

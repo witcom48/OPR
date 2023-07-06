@@ -54,7 +54,7 @@ export class SelectEmpComponent implements OnInit {
 
     console.log(window.location.hash.split("/").pop())
     setTimeout(() => {
-      // this.doLoadEmployee()
+      this.doLoadEmployee()
       this.doGetDataFillter();
       this.doLoadLanguage();
     }, 300);

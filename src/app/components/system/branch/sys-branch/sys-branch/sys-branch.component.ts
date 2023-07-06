@@ -615,7 +615,7 @@ export class SysBranchComponent implements OnInit {
                         summary: 'Success',
                         detail: result.message,
                     });
-                    // this.router.navigateByUrl('system/Branch');
+                    this.router.navigateByUrl('system/Branch');
 
                 } else {
                     this.messageService.add({

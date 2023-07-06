@@ -6,7 +6,7 @@ export class ProvidentModel {
 
     constructor() {}
     company_code: string= "";
-    provident_id: string= "1";
+    provident_id: string= "0";
     provident_code: string = "";
     provident_name_th: string= "";
     provident_name_en: string= "";

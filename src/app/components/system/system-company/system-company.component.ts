@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component,Input, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
 import {
@@ -34,7 +34,7 @@ export class SystemCompanyComponent implements OnInit {
     items: MenuItem[] = [];
     edit_company: boolean = false;
     new_company: boolean = false;
-
+    isHovered = false;
     constructor(
         private companyService: CompanyService,
         private router: Router,
@@ -45,7 +45,7 @@ export class SystemCompanyComponent implements OnInit {
         private initialService: InitialService,
         private emptypeService: EmptypeService,
         private empstatusService: EmpstatusService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
@@ -72,13 +72,13 @@ export class SystemCompanyComponent implements OnInit {
     }
     title_codes: string = 'Code';
     title_name: string = 'Name';
-    
+
     title_initials: string = 'Initials';
     title_thai_name: string = 'Name (Thai)';
     title_english_name: string = 'Name (Eng)';
     title_manage: string = 'Manage';
 
-    title_system:string = "System";
+    title_system: string = "System";
     title_page: string = 'Company';
     title_num_emp: string = 'Company';
     title_new_emp: string = 'New';
@@ -118,13 +118,13 @@ export class SystemCompanyComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_manage='จัดการ';
-            this.title_codes ='รหัสบริษัท';
-            this.title_name ='ชื่อบริษัท';
-            this.title_initials ='ชื่อย่อ';
-            this.title_thai_name ='ชื่อไทย';
-            this.title_english_name ='ชื่ออังกฤษ';
-            this.title_system= "ระบบ";
+            this.title_manage = 'จัดการ';
+            this.title_codes = 'รหัสบริษัท';
+            this.title_name = 'ชื่อบริษัท';
+            this.title_initials = 'ชื่อย่อ';
+            this.title_thai_name = 'ชื่อไทย';
+            this.title_english_name = 'ชื่ออังกฤษ';
+            this.title_system = "ระบบ";
             this.title_page = 'ข้อมูลบริษัท';
             this.title_num_emp = 'จำนวนพนักงาน';
             this.title_new_emp = 'พนักงานใหม่';
@@ -168,7 +168,7 @@ export class SystemCompanyComponent implements OnInit {
     doLoadMenu() {
         this.items = [
             {
-                label:this.title_new,
+                label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.selectedcompany = new CompanyModel();
@@ -176,14 +176,14 @@ export class SystemCompanyComponent implements OnInit {
                 },
             },
             {
-                label:this.title_import,
+                label: this.title_import,
                 icon: 'pi pi-fw pi-file-import',
                 command: (event) => {
                     this.showUpload();
                 },
             },
             {
-                label:this.title_export,
+                label: this.title_export,
                 icon: 'pi pi-fw pi-file-export',
                 command: (event) => {
                     this.exportAsExcel();
@@ -242,52 +242,94 @@ export class SystemCompanyComponent implements OnInit {
             });
     }
 
-    confirmDelete() {
+    confirmDelete(data: any) {
         this.confirmationService.confirm({
             message: this.title_confirm_delete,
             header: this.title_confirm,
             icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.doDeleteCompany();
-            },
-            reject: () => {
-                this.messageService.add({
-                    severity: 'warn',
-                    summary: 'Cancelled',
-                    detail: this.title_confirm_cancel,
-                });
-            },
+          accept: () => {
+            this.deleteCompany(data);
+          },
+          reject: () => {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Cancelled',
+              detail: this.title_confirm_cancel,
+            });
+          },
         });
-    }
-    doDeleteCompany() {
-        console.log(this.selectedcompany);
-
-        this.companyService.company_delete(this.selectedcompany).then((res) => {
-            console.log(res);
-            let result = JSON.parse(res);
-
-            if (result.success) {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: result.message,
-                });
-                this.doLoadCompany();
-            } else {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: result.message,
-                });
-            }
+      }
+      
+      deleteCompany(data: any) {
+        console.log(data);
+      
+        this.companyService.company_delete(data).then((res) => {
+          console.log(res);
+          let result = JSON.parse(res);
+      
+          if (result.success) {
+            this.messageService.add({
+             severity: 'success',
+              summary: 'Success',
+             detail: result.message,
+            });
+            this.doLoadCompany();
+          } else {
+            this.messageService.add({
+             severity: 'error',
+              summary: 'Error',
+              detail: result.message,
+            });
+          }
         });
-    }
+      }
+      
+    // confirmDelete() {
+    //     this.confirmationService.confirm({
+    //         message: this.title_confirm_delete,
+    //         header: this.title_confirm,
+    //         icon: 'pi pi-exclamation-triangle',
+    //         accept: () => {
+    //             this.doDeleteCompany();
+    //         },
+    //         reject: () => {
+    //             this.messageService.add({
+    //                 severity: 'warn',
+    //                 summary: 'Cancelled',
+    //                 detail: this.title_confirm_cancel,
+    //             });
+    //         },
+    //     });
+    // }
+    // doDeleteCompany() {
+    //     console.log(this.selectedcompany);
+
+    //     this.companyService.company_delete(this.selectedcompany).then((res) => {
+    //         console.log(res);
+    //         let result = JSON.parse(res);
+
+    //         if (result.success) {
+    //             this.messageService.add({
+    //                 severity: 'success',
+    //                 summary: 'Success',
+    //                 detail: result.message,
+    //             });
+    //             this.doLoadCompany();
+    //         } else {
+    //             this.messageService.add({
+    //                 severity: 'error',
+    //                 summary: 'Error',
+    //                 detail: result.message,
+    //             });
+    //         }
+    //     });
+    // }
     close() {
         this.new_company = false;
         this.selectedcompany = new CompanyModel();
     }
     onRowSelectCompany(event: Event) {
-        
+
         this.selectComManage();
         // this.edit_company = true;
         // this.new_company = true;
@@ -298,6 +340,15 @@ export class SystemCompanyComponent implements OnInit {
         this.fileToUpload = file.item(0);
     }
 
+// ฟังก์ชันที่ถูกเรียกเมื่อเมาส์อยู่บนปุ่ม
+onButtonHover() {
+    this.isHovered = true;
+  }
+  
+  // ฟังก์ชันที่ถูกเรียกเมื่อเมาส์ออกจากปุ่ม
+  onButtonLeave() {
+    this.isHovered = false;
+  }
     doUploadCompany() {
         console.log('Upload');
         if (this.fileToUpload) {

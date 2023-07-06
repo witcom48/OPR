@@ -61,7 +61,7 @@ export class EmployeeService {
   }
 
   public worker_get(company: string, code: string) {
-
+    console.log(company,code,"TESTTTTT")
     var filter = {
       device_name: '',
       ip: "localhost",

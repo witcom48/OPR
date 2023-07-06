@@ -6,7 +6,7 @@ export class ItemsModel {
 
     constructor() {}
     company_code: string= "";
-    item_id: string = "1";
+    item_id: string = "0";
     item_code: string= "";
     item_name_th: string= "";
     item_name_en: string= "";

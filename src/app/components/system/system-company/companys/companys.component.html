@@ -30,10 +30,10 @@
                         <div class="field col-6 custom-height">
                             <label for="address_amphur">{{ title_codes}}</label>
                             <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_code"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            [readonly]="company_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </div>
-                        <!-- 
-                        <div class="field col-12 md:col-6">
+                        
+                        <!-- <div class="field col-12 md:col-6">
                             <label for="firstname2" class="block mb-2">{{title_codes}}</label>
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_code"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
@@ -497,18 +497,22 @@
                                 <div class="field col-12 md:col-12"></div>
 
 
+                                <div class="center field col-12 md:col-5">
+                                    <label for="lastname2">{{title_min_age}}</label>
+                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_min_age">
+                                    </p-inputNumber>
+                                </div>
 
-                                <div class="center field col-5 ">
+
+                                <!-- <div class="center field col-5 ">
                                     <label for="lastname2">{{title_min_age}}</label>
                                     <p-inputNumber class="custom-size" mode="decimal" [showButtons]="true"
                                         inputId="minmax-buttons" [min]="18" [max]="60" [step]="1"
                                         [(ngModel)]="selectedCompany.sso_min_age">
                                     </p-inputNumber>
 
-                                </div>
-
-
-
+                                </div> -->
 
                                 <div class="center field col-5 ">
                                     <label for="lastname2">{{title_max_age}}</label>
