@@ -30,6 +30,7 @@
     "i": "^0.3.7",
     "inputmask": "^5.0.7",
     "leaflet": "^1.9.3",
+    "ng2-pdf-viewer": "^9.1.5",
     "npm": "^9.2.0",
     "primeflex": "^3.2.0",
     "primeicons": "6.0.1",
