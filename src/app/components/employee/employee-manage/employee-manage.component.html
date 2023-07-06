@@ -1,8 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <p-menubar [model]="toolbar_menu"></p-menubar>
 <p-card header="{{title_page}}" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
-    <div class="grid">
-        <div class="col-12 md:col-9">
+    <div >
+        <div >
             <p-tabView (onChange)="tabChange($event)">
 
                 <!-- Tab Genaral -->
@@ -22,13 +22,14 @@
                         <input class="upload" type="file" id="file" (change)="onselectFile($event)">
                         <div>
                             <label for="code">{{title_code}} :</label>
-                            <input pInputText id="code" type="text" class="p-inputtext-sm" [(ngModel)]="selectedEmployee.worker_code"
-                                [disabled]="methodEdit">
+                            <input pInputText id="code" type="text" class="p-inputtext-sm"
+                                [(ngModel)]="selectedEmployee.worker_code" [disabled]="methodEdit">
                         </div>
 
                         <div>
                             <label for="cardid">{{title_cardid}} :</label>
-                            <input pInputText id="cardid" type="text" class="p-inputtext-sm" [(ngModel)]="selectedEmployee.worker_card">
+                            <input pInputText id="cardid" type="text" class="p-inputtext-sm"
+                                [(ngModel)]="selectedEmployee.worker_card">
                         </div>
                         <div></div>
                         <div>
@@ -389,6 +390,53 @@
                             <p-inputNumber mode="decimal" inputId="minmax-buttons" [min]="0" [max]="999"
                                 [(ngModel)]="selectedEmployee.worker_weight">
                             </p-inputNumber>
+                        </div>
+
+                        <div class="field col-6">
+                            <label>{{title_military[initial_current.Language]}}</label><br>
+                            <p-dropdown [options]="militarystatus" optionValue="code" [showClear]="true"
+                                [(ngModel)]="selectedEmployee.worker_military"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_contact[initial_current.Language]}}">
+                                    <div class="contact">
+                                        <div>
+                                            <label>{{title_tel}}</label>
+                                            <input pInputText id="tel" type="text" class="p-inputtext-sm"
+                                                [(ngModel)]="selectedEmployee.worker_tel">
+                                        </div>
+
+                                        <div>
+                                            <label>{{title_email}}</label>
+                                            <input pInputText id="email" type="text" class="p-inputtext-sm"
+                                                [(ngModel)]="selectedEmployee.worker_email">
+                                        </div>
+
+                                        <div>
+                                            <label>{{title_line}}</label>
+                                            <input pInputText id="line" type="text" class="p-inputtext-sm"
+                                                [(ngModel)]="selectedEmployee.worker_line">
+                                        </div>
+
+                                        <div>
+                                            <label>{{title_facebook}}</label>
+                                            <input pInputText id="facebook" type="text" class="p-inputtext-sm"
+                                                [(ngModel)]="selectedEmployee.worker_facebook">
+                                        </div>
+                                    </div>
+
+                                </p-accordionTab>
+                            </p-accordion>
                         </div>
                         <!-- Address -->
                         <div class="field col-12">
@@ -1498,19 +1546,6 @@
 
         <label>{{title_zipcode}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_zipcode">
-
-        <label>{{title_tel}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_tel">
-
-        <label>{{title_email}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_email">
-
-        <label>{{title_line}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_line">
-
-        <label>{{title_facebook}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_facebook">
-
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
             (click)="empaddress_summit()"></button>

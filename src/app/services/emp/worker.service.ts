@@ -108,6 +108,12 @@ export class EmployeeService {
       worker_probationday: model.worker_probationday,
       hrs_perday: model.hrs_perday,
       worker_taxmethod: model.worker_taxmethod,
+      worker_tel: model.worker_tel,
+      worker_email: model.worker_email,
+      worker_line: model.worker_line,
+      worker_facebook: model.worker_facebook,
+      worker_military: model.worker_military,
+      
       modified_by: this.initial_current.Username
     };
 

@@ -66,6 +66,27 @@
         padding: 1vw;
         min-width: 150px;
     }
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 1vw;
+        min-width: 150px;
+    }
+}
+
+.contact{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
+
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 1vw;
+        min-width: 150px;
+    }
 }
 
 .foreigner{

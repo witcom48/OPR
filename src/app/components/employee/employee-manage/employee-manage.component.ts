@@ -103,6 +103,11 @@ interface Ctype {
   name_en: string,
   code: string
 }
+interface Milit {
+  name_th: string,
+  name_en: string,
+  code: string
+}
 
 
 @Component({
@@ -132,6 +137,7 @@ export class EmployeeManageComponent implements OnInit {
   taxM: Taxmethod[] = [];
   conPay: ConPay[] = [];
   cardTypelist: Ctype[] = [];
+  militarystatus: Milit[]=[];
 
   //menu emplocation
   menu_emplocation: MenuItem[] = [];
@@ -281,9 +287,16 @@ export class EmployeeManageComponent implements OnInit {
       { name_th: 'งวดเว้นงวด', name_en: 'Switch Period', value: 'H' },
     ]
     this.cardTypelist = [
-      { name_th: 'เลขที่ประจำตัวนิติบุคคล', name_en: '	Citizen ID', code: 'CID' },
+      { name_th: 'เลขที่ประจำตัวนิติบุคคล', name_en: 'Citizen ID', code: 'CID' },
       { name_th: 'บัตรประชาชน', name_en: 'National ID', code: 'NTID' },
       { name_th: 'ประกันสังคม', name_en: 'Social', code: 'SSO' },
+    ]
+    this.militarystatus = [
+      { name_th: 'ไม่มี', name_en: 'No', code: '0' },
+      { name_th: 'หนีทหาร', name_en: 'Disappear Soldier', code: 'A' },
+      { name_th: 'ได้รับการยกเว้น', name_en: 'Exempted', code: 'E' },
+      { name_th: 'ยังไม่เกณฑ์ทหาร', name_en: 'Non', code: 'N' },
+      { name_th: 'ผ่านการเกณฑ์ทหารแล้ว', name_en: 'Pass military service', code: 'P' },
     ]
   }
 
@@ -532,6 +545,10 @@ export class EmployeeManageComponent implements OnInit {
   title_reducename: string = "Reduce";
   title_pass: string = "Pass";
   title_notpass: string = "Not Pass";
+
+  //
+  title_contact: { [key: string]: string } = { EN: "Contact", TH: "ข้อมูลติดต่อ" };
+  title_military: { [key: string]: string } = { EN: "Military Staus", TH: "สถานภาพทางทหาร" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
