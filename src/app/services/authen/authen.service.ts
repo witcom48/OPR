@@ -28,7 +28,7 @@ export class AuthenService {
         'Authorization': this.initial_current.Token
       });
 
-      this.options = {
+      this.options2 = {
         headers: this.httpHeaders
       };
     }
@@ -46,14 +46,16 @@ export class AuthenService {
   options = {
     headers: this.httpHeaders
   };
-
+  options2 = {
+    headers: this.httpHeaders
+  };
   public getToken(com: string, user: string, pass: string) {
     console.log('ATH001..');
 
     var data = {
       company_code: com,
       usname: user,
-      pwd: pass
+      pwd: pass,
     };
 
     return this.http.post<any>(this.config.ApiMainModule + '/doAuthen', data, this.options).toPromise()
@@ -72,7 +74,7 @@ export class AuthenService {
       usname: this.initial_current.Username
     };
 
-    return this.http.post<any>(this.config.ApiMainModule + '/doCheckToken', data, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiMainModule + '/doCheckToken', data, this.options2).toPromise()
       // .then((res) => <PrjectModel[]>res.data)
       .then((res) => {
         let message = JSON.parse(res);
