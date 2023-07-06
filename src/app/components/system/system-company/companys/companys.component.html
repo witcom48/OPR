@@ -12,15 +12,18 @@
                         <i class="pi pi-cog"></i>&nbsp;&nbsp;
                         <span>{{title_genaral}}</span>
                     </ng-template>
+
+       
                     <div class="formgrid grid align-items-end">
                         <div class="field col-12 md:col-3">
-                            <p-image src="../../../../assets/images/bpc.jpg" alt="Image" width="150"
-                                height="150"></p-image>
+                            <p-image [src]="base64Image" id="imgCompany" name="imgCompany" alt="Image" width="175"
+                                height="175"></p-image>
                         </div>
-                        <div class="field col-12 md:col-2">
-                            <p-button label="Upload Logo"></p-button>
+                        <div class="field col-12 md:col-4">
+                            <input class="upload" type="file" id="file" (change)="onselectFile($event)">
                         </div>
-                        <div class="field col-12 md:col-6"></div>
+
+                        <div class="field col-12 md:col-7"></div>
 
 
                         <div class="field col-12 md:col-6">
@@ -498,22 +501,36 @@
                     </div>
                 </p-tabPanel>
 
-
+                <!-- <div class="field col-12 md:col-3">
+                    <p-image [src]="base64Image" id="imgCompany" name="imgCompany" alt="Image" width="175"
+                        height="175"></p-image>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <input class="upload" type="file" id="file" (change)="onselectFile($event)">
+                </div> -->
+                <!-- <div class="field col-12 md:col-3">
+                    <p-image [src]="base64Image" id="imgCompany" name="imgCompany" alt="Image" width="175"
+                        height="175"></p-image>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <input class="upload" type="file" id="file" (change)="onselectFile($event)">
+                </div> -->
                 <p-tabPanel>
                     <ng-template pTemplate="header">
                         <i class="pi-map"></i>&nbsp;&nbsp;
                         <span>แผนที่</span>
                     </ng-template>
-                    <div class="formgrid grid align-items-end">
+                    <app-system-bankaccount></app-system-bankaccount>
+                    <!-- <div class="formgrid grid align-items-end">
                         <div class="field col-12 md:col-12">
-                            <p-image src="../../../../assets/images/bpc.jpg" alt="Image" width="400"
-                                height="400"></p-image>
+                            <p-image [src]="base65Image" id="imgmaps" name="imgmaps" alt="Image" width="500"
+                        height="400"></p-image>
                         </div>
-                        <div class="field col-12 md:col-2">
-                            <p-button label="Upload Logo"></p-button>
+                        <div class="field col-12 md:col-4">
+                            <input class="upload" type="file" id="file" (change)="onselectFiles($event)">
                         </div>
                         <div class="field col-12 md:col-6"></div>
-                    </div>
+                    </div> -->
 
 
 

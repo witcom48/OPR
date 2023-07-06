@@ -4,7 +4,7 @@ export class EmpIDModel {
 
     }
 
-    empid_id: string = "1";
+    empid_id: string = "0";
     empid_code: string = "";
     empid_name_th: string = "";
     empid_name_en: string = "";

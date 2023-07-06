@@ -3,7 +3,7 @@ export class ReligionModel {
 
     }
 
-    religion_id: string = "1";
+    religion_id: string = "0";
     religion_code: string = "";
     religion_name_th: string = "";
     religion_name_en: string = "";

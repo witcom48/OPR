@@ -148,6 +148,104 @@ export class CompanyService {
             });
     }
 
+    //comimage
+    //image
+  public doGetImages(com_code: string ) {
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: com_code,
+      language: "",
+      
+    };
+    return this.http.post<any>(this.config.ApiSystemModule + '/doGetImageslogo', filter, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  uploadImages(file: File, com: string ) {
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "ref_to=" + com   +"."+ this.initial_current.Username ;
+
+    return this.http.post<any>(this.config.ApiSystemModule + '/doUploadImageslogo?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+
+  }
+
+  ///
+  //image
+  public doGetImagesmaps(com_code: string ) {
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: com_code,
+      language: "",
+      
+    };
+    return this.http.post<any>(this.config.ApiSystemModule + '/doGetImagesmaps', filter, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  uploadImagesmaps(file: File, com: string ) {
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "ref_to=" + com   +"."+ this.initial_current.Username ;
+
+    return this.http.post<any>(this.config.ApiSystemModule + '/doUploadImagesmaps?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+
+  }
+  ////
+    // public doGetImages(com_code: string) {
+    //     const filter = {
+    //       device_name: '',
+    //       ip: 'localhost',
+    //       username: this.initial_current.Username,
+    //       company_code: com_code,
+    //       language: ''
+    //       // comimages_id: id
+    //     };
+      
+    //     return this.http
+    //       .post<any>(`${this.config.ApiSystemModule}/doGetImageslogo`, filter, this.options)
+    //       .toPromise()
+    //       .then((res) => {
+    //         return res;
+    //       });
+    //   }
+      
+    //   uploadImages(file: File, com: string, files: File) {
+    //     const formData = new FormData();
+    //     formData.append('file', file);
+      
+    //     const formDatas = new FormData();
+    //     formDatas.append('file', files);
+      
+    //     const para = `ref_to=${com}.${this.initial_current.Username}`;
+      
+    //     return this.http
+    //       .post<any>(`${this.config.ApiSystemModule}/doUploadImageslogo?${para}`, formData)
+    //       .toPromise()
+    //       .then((res) => {
+    //         return res;
+    //       });
+    //   }
+      
+
     public company_import(file: File, file_name: string, file_type: string) {
         const formData = new FormData();
         formData.append('file', file);

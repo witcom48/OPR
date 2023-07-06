@@ -17,10 +17,10 @@
                 <div style="display: flex;gap: 10px;">
                     <p-button label="{{langs.get('approve')[selectlang]}}" icon="pi pi-check"
                         styleClass="p-button-primary" (click)="Saveall()"
-                        [disabled]="selectedreqdocall.length==0"></p-button>
+                        [disabled]="selectedreqdocall.length==0 || status_doc"></p-button>
                     <p-button label="{{langs.get('notapprove')[selectlang]}}" icon="pi pi-times"
                         styleClass="p-button-danger" (click)="Deleteall()"
-                        [disabled]="selectedreqdocall.length==0"></p-button>
+                        [disabled]="selectedreqdocall.length==0 || status_doc"></p-button>
                 </div>
             </ng-template>
         </p-toolbar>
@@ -32,13 +32,23 @@
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
-                <div class="searchtable">
-                    <div>
-
+                <div class="searchtable1">
+                    <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
+                        {{langs.get('fromdate')[selectlang]}} :
+                        <p-calendar class="searchinput" [(ngModel)]="start_date" dateFormat="dd/mm/yy"
+                            inputId="date_from"></p-calendar>
+                        {{langs.get('todate')[selectlang]}} :
+                        <p-calendar class="searchinput" [(ngModel)]="end_date" dateFormat="dd/mm/yy"
+                            inputId="date_from"></p-calendar>
+                        {{langs.get('status')[selectlang]}} :
+                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                            optionLabel="name"></p-dropdown>
+                        <p-button icon="pi pi-search" (click)="Search()"></p-button>
                     </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
+                        <input class="searchinput" pInputText type="text"
+                            (input)="dt1.filterGlobal($any($event).target.value, 'contains')"
                             placeholder="{{langs.get('search')[selectlang]}}" />
                     </span>
                 </div>
@@ -76,15 +86,37 @@
                         date:'dd/MM/yyyy'}}</td>
                     <td><span>{{langs.get('approve')[selectlang]}}</span><p-button icon="pi pi-check"
                             styleClass="p-button-primary" (click)="Save(data)"
-                            [disabled]="selectedreqdocall.length>0"></p-button>
+                            [disabled]="selectedreqdocall.length>0 || status_doc"></p-button>
                     </td>
                     <td><span>{{langs.get('notapprove')[selectlang]}}</span><p-button icon="pi pi-times"
                             styleClass="p-button-danger" (click)="Delete(data)"
-                            [disabled]="selectedreqdocall.length>0"></p-button>
+                            [disabled]="selectedreqdocall.length>0 || status_doc"></p-button>
                     </td>
                     <td><span>{{langs.get('verify')[selectlang]}}</span><p-button icon="pi pi-eye"
                             styleClass="p-button-success" (click)="viwe(data)"></p-button>
                     </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <p-table #dt2 [value]="approveTotal" responsiveLayout="stack" [breakpoint]="'744px'"
+            styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>{{langs.get('doc_wait')[selectlang]}}</th>
+                    <th>{{langs.get('doc_approve')[selectlang]}}</th>
+                    <th>{{langs.get('doc_notapprove')[selectlang]}}</th>
+                    <th>{{langs.get('doc_all')[selectlang]}}</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr class="tablenotselect">
+                    <td><span>{{langs.get('doc_wait')[selectlang]}}</span>{{data.docapprove_wait}}
+                    </td>
+                    <td><span>{{langs.get('doc_approve')[selectlang]}}</span>{{data.docapprove_approve}}</td>
+                    <td><span>{{langs.get('doc_notapprove')[selectlang]}}</span>{{data.docapprove_reject}}</td>
+                    <td><span>{{langs.get('doc_all')[selectlang]}}</span>{{data.docapprove_all}}</td>
+
                 </tr>
             </ng-template>
         </p-table>
@@ -101,7 +133,8 @@
         </div>
         <div class="field col-12" style="display:flex;flex-direction: column;">
             <label for="project_name_th">{{langs.get('note')[selectlang]}}</label>
-            <textarea [(ngModel)]="selectedreqdoc.reqdoc_note" pInputTextarea [autoResize]="true"  [disabled]="edit_data"></textarea>
+            <textarea [(ngModel)]="selectedreqdoc.reqdoc_note" pInputTextarea [autoResize]="true"
+                [disabled]="edit_data"></textarea>
         </div>
         <div class="field col-12">
             <label style="font-weight: bold;" for="project_name_th">{{langs.get('topic')[selectlang]}}</label>
@@ -182,10 +215,10 @@
 
         <div class="field col-12">
             <p-button label="{{langs.get('approve')[selectlang]}}" icon="pi pi-check"
-                (click)="Save(selectedreqdoc)"></p-button>
+                (click)="Save(selectedreqdoc)"  [disabled]="status_doc"></p-button>
             &nbsp;
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('notapprove')[selectlang]}}"
-                class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedreqdoc)"></button>
+                class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedreqdoc)"  [disabled]="status_doc"></button>
         </div>
 
     </div>

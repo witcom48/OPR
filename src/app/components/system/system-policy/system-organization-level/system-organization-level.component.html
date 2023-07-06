@@ -62,10 +62,11 @@
     <!-- Form input or Edit Data -->
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
-
+        
         <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedLevel.level_code" maxlength="5" [readonly]="edit_data" />
-        <p>{{selectedLevel.level_code.length}}/5</p>
+        <input pInputText type="text" [(ngModel)]="selectedLevel.level_code" maxlength="2" disabled="{{edit_data}}" />
+        <p>{{selectedLevel.level_code.length}}/2</p>
+
 
         <label>{{title_name_th}}</label>
         <textarea [(ngModel)]="selectedLevel.level_name_th" pInputTextarea [autoResize]="true"></textarea>

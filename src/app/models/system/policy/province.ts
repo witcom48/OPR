@@ -3,7 +3,7 @@ export class ProvinceModel {
 
     }
 
-    province_id: string = "1";
+    province_id: string = "0";
     province_code: string = "";
     province_name_th: string = "";
     province_name_en: string = "";

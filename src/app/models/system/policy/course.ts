@@ -1,7 +1,7 @@
 export class CourseModel {
     constructor() {
     }
-        course_id: string = "1";
+        course_id: string = "0";
         course_code: string = "";
         course_name_th: string = "";
         course_name_en: string = "";

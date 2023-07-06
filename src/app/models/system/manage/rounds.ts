@@ -4,7 +4,7 @@ export class RoundsModel {
 
     }
 
-    rounds_id: string = "1";
+    rounds_id: string = "0";
     rounds_code: string = "";
     rounds_name_th: string = "";
     rounds_name_en: string = "";

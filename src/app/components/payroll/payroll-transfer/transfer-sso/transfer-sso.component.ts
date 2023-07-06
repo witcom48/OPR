@@ -64,7 +64,7 @@ export class TransferSsoComponent implements OnInit {
 
         ///Service
         private bankService: BankService
-    ) {}
+    ) { }
 
     timesheet_list: PrjectEmpdailyModel[] = [];
     timesheet_dest: PrjectEmpdailyModel[] = [];
@@ -118,56 +118,44 @@ export class TransferSsoComponent implements OnInit {
 
     process() {
         console.log(this.selectedBank);
-    
+
         if (this.selectEmp.employee_dest.length == 0) {
             let message = "Please select an employee";
-        
+
             this.doPrintMessage(message, "1");
             return;
         }
-        let dialogRef = alert("Your message goes here");
-        // let dialogRef = this.dialog.open(AppConfig, {
-        //     disableClose: false
-        //   });
-        // dialogRef.result.then((result) => {
-        //     if (result) {
-    
+
+
         // Step 1: Task master
         this.task.company_code = this.initial_current.CompCode;
         this.task.task_type = 'TRN_SSO';
         this.task.task_status = 'W';
-    
+
         // Step 2: Task detail
         let process = this.selectedBank;
         process += this.fillauto ? '|AUTO' : '|COMPARE';
-    
+
         let fromDate = new Date('2023-01-10T00:00:00');
         let toDate = new Date('2023-01-11T00:00:00');
-    
+
         this.taskDetail.taskdetail_process = 'SSO';
         this.taskDetail.taskdetail_process = process;
         this.taskDetail.taskdetail_fromdate = fromDate;
         this.taskDetail.taskdetail_todate = toDate;
         this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
-    
         // Step 3: Task whose
         this.taskWhoseList = [];
-    
-   
- 
-    
         this.confirmationService.confirm({
             message: this.title_confirm_record,
             header: this.title_confirm,
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                // this.list_paytran = 1;
-            
                 this.taskService
                     .task_record(this.task, this.taskDetail, this.selectEmp.employee_dest)
                     .then((res) => {
                         let result = JSON.parse(res);
-            
+
                         if (result.success) {
                             // Show success message
                             this.messageService.add({
@@ -175,16 +163,32 @@ export class TransferSsoComponent implements OnInit {
                                 summary: 'Success',
                                 detail: 'Record Success..',
                             });
-            
+
                             console.log("test result_link");
                             console.log(result.result_link);
-            
+
                             let link = result.result_link;
-            
-                            if (link !== '') {
-                                // Download the file
-                                console.log("test downloadFile");
-                                this.downloadFile(link);
+
+                            if (link !== "") {
+                                console.log(this.initial_current + '/File/' + link + "/");
+                                console.log(link.split("\\").pop())
+                                this.taskService.get_file(link).then((res) => {
+
+                                    const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
+                                    const fileName: string = link.split("\\").pop();
+                                    const objectUrl: string = URL.createObjectURL(blob);
+                                    const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
+
+                                    a.href = objectUrl;
+                                    a.download = fileName;
+                                    document.body.appendChild(a);
+                                    a.click();
+
+                                    document.body.removeChild(a);
+                                    URL.revokeObjectURL(objectUrl);
+
+                                })
+
                             }
                         } else {
                             this.messageService.add({
@@ -196,7 +200,7 @@ export class TransferSsoComponent implements OnInit {
                         }
                     });
             },
-            
+
             reject: () => {
                 this.messageService.add({
                     severity: 'warn',
@@ -205,42 +209,13 @@ export class TransferSsoComponent implements OnInit {
                 });
             },
         });
-    
- 
+
+
     }
-    
-    downloadFile(link: RequestInfo | URL) {
-        fetch(link)
-            .then((response) => response.blob())
-            .then((blob) => {
 
-                const url = URL.createObjectURL(blob);
-
-                // สร้างลิงก์สำหรับดาวน์โหลด
-                const downloadLink = document.createElement('a');
-                downloadLink.href = url;
-                downloadLink.download = link+'.txt'; 
-
-             
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-
-
-                document.body.removeChild(downloadLink);
-
-                 
-                URL.revokeObjectURL(url);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
- 
-
-
-    doLoadTask(){
-      this.taskView.taskType = "TRN_SSO";
-      this.taskView.doLoadTask();
+    doLoadTask() {
+        this.taskView.taskType = "TRN_SSO";
+        this.taskView.doLoadTask();
     }
 
     public effdate: Date = new Date();
@@ -261,11 +236,12 @@ export class TransferSsoComponent implements OnInit {
         }
     }
 
-    doPrintMessage(message:string, status:string){
+    doPrintMessage(message: string, status: string) {
         const dialogRef = this['dialog'].open(this.messageService, {
-          width: '500px',
-          data: {message: message
-          }
+            width: '500px',
+            data: {
+                message: message
+            }
         });
-      }
     }
+}

@@ -72,6 +72,7 @@ export class SystemCompanyComponent implements OnInit {
     }
     title_codes: string = 'Code';
     title_name: string = 'Name';
+    
     title_initials: string = 'Initials';
     title_thai_name: string = 'Name (Thai)';
     title_english_name: string = 'Name (Eng)';

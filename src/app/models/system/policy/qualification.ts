@@ -1,6 +1,6 @@
 export class QualificationModel {
     constructor() {}
-    qualification_id: string = '1';
+    qualification_id: string = '0';
     qualification_code: string = '';
     qualification_name_th: string = '';
     qualification_name_en: string = '';

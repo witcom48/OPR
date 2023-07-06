@@ -6,6 +6,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { DaytypeModels } from 'src/app/models/attendance/daytype';
 import { ApproveModel } from 'src/app/models/self/approve';
+import { ApproveTotalModel } from 'src/app/models/self/approveTotal';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimedaytypeModel } from 'src/app/models/self/cls_TRTimedaytype';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
@@ -14,6 +15,7 @@ import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeDaytypeServices } from 'src/app/services/self/timedaytype.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 declare var reqdaytype: any;
+interface Status { name: string, code: number }
 @Component({
   selector: 'app-self-approve-daytype',
   templateUrl: './self-approve-daytype.component.html',
@@ -50,12 +52,20 @@ export class SelfApproveDaytypeComponent implements OnInit {
   selectedtimedaytype: cls_TRTimedaytypeModel = new cls_TRTimedaytypeModel();
   selectedtimedaytypeall: cls_TRTimedaytypeModel[] = [];
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
+  approveTotal: ApproveTotalModel[] = [];
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
+  status_doc: boolean = false
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.reasonedis = "reason_name_th"
@@ -69,16 +79,28 @@ export class SelfApproveDaytypeComponent implements OnInit {
     this.doLoadReason();
     this.doLoadPolDaytype();
   }
+  Search() {
+    if (this.status_select.code) {
+      this.status_doc = true;
+    } else {
+      this.status_doc = false;
+    }
+    this.doLoadTimedaytype();
+  }
   doLoadTimedaytype() {
     this.timedaytype_list = [];
     this.selectedtimedaytypeall = [];
     var tmp = new ApproveModel();
     tmp.job_type = "DAT"
+    tmp.fromdate = this.start_date;
+    tmp.todate = this.end_date;
+    tmp.status = this.status_select.code;
     this.approveService.approve_get(tmp).then(async (res) => {
-      res.forEach((elm: any) => {
+      res.data.forEach((elm: any) => {
         elm.timedaytype_workdate = new Date(elm.timedaytype_workdate)
       });
-      this.timedaytype_list = await res
+      this.timedaytype_list = await res.data;
+      this.approveTotal = await res.total;
     });
   }
   doLoadPolDaytype() {
@@ -190,7 +212,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
   onRowSelect(event: Event) {
   }
   Save(data: cls_TRTimedaytypeModel) {
-    if (!this.selectedtimedaytypeall.length) {
+    if (!this.selectedtimedaytypeall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('conapprove')[this.selectlang],
         header: this.langs.get('condoc')[this.selectlang],
@@ -210,7 +232,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
 
   }
   Delete(data: cls_TRTimedaytypeModel) {
-    if (!this.selectedtimedaytypeall.length) {
+    if (!this.selectedtimedaytypeall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('connotapprove')[this.selectlang],
         header: this.langs.get('connotdoc')[this.selectlang],
@@ -229,7 +251,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
     }
   }
   Saveall() {
-    if (this.selectedtimedaytypeall.length) {
+    if (this.selectedtimedaytypeall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('conapprove')[this.selectlang],
         header: this.langs.get('condoc')[this.selectlang],
@@ -251,7 +273,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
     }
   }
   Deleteall() {
-    if (this.selectedtimedaytypeall.length) {
+    if (this.selectedtimedaytypeall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('connotapprove')[this.selectlang],
         header: this.langs.get('connotdoc')[this.selectlang],

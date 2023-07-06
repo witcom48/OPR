@@ -62,7 +62,7 @@
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEthnicity.ethnicity_code" maxlength="5"  [readonly]="edit_data" />
+        <input pInputText type="text" [(ngModel)]="selectedEthnicity.ethnicity_code" maxlength="5"  disabled="{{edit_data}}" />
         <p>{{selectedEthnicity.ethnicity_code.length}}/5</p>
 
         <label>{{title_name_th}}</label>

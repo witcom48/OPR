@@ -14,7 +14,9 @@ import { AreaServices } from 'src/app/services/self/area.service';
 import { MTAreaModel } from 'src/app/models/self/MTArea';
 import { ApproveModel } from 'src/app/models/self/approve';
 import { ApproveServices } from 'src/app/services/self/approve.service';
+import { ApproveTotalModel } from 'src/app/models/self/approveTotal';
 declare var reqcheckin: any;
+interface Status { name: string, code: number }
 interface Area {
   lat: number,
   long: number,
@@ -66,12 +68,20 @@ export class SelfApproveCheckinComponent implements OnInit {
   selectedtimecheckin: cls_TRTimecheckinModel = new cls_TRTimecheckinModel();
   selectedtimecheckinall: cls_TRTimecheckinModel[] = []
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
+  approveTotal: ApproveTotalModel[] = [];
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  status_list: Status[] = [{ name: this.langs.get('wait')[this.selectlang], code: 0 }, { name: this.langs.get('finish')[this.selectlang], code: 3 }, { name: this.langs.get('reject')[this.selectlang], code: 4 }];
+  status_select: Status = { name: this.langs.get('wait')[this.selectlang], code: 0 }
+  status_doc: boolean = false
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.start_date = new Date(`${this.initial_current.PR_Year}-01-01`);
+    this.end_date = new Date(`${this.initial_current.PR_Year}-12-31`);
     this.selectlang = this.initial_current.Language;
     if (this.initial_current.Language == "TH") {
       this.locatiodis = "location_name_th"
@@ -85,15 +95,27 @@ export class SelfApproveCheckinComponent implements OnInit {
     this.doLoadLocation();
     // setInterval(this.getLocation, 1000);
   }
+  Search() {
+    if (this.status_select.code) {
+      this.status_doc = true;
+    } else {
+      this.status_doc = false;
+    }
+    this.doLoadTimecheckin();
+  }
   doLoadTimecheckin() {
     this.timecheckin_list = [];
     var tmp = new ApproveModel();
     tmp.job_type = "CI"
+    tmp.fromdate = this.start_date;
+    tmp.todate = this.end_date;
+    tmp.status = this.status_select.code;
     this.approveService.approve_get(tmp).then(async (res) => {
-      res.forEach((elm: any) => {
+      res.data.forEach((elm: any) => {
         elm.timecheckin_workdate = new Date(elm.timecheckin_workdate)
       });
-      this.timecheckin_list = await res
+      this.timecheckin_list = await res.data
+      this.approveTotal = await res.total;
     });
   }
   doLoadLocation() {
@@ -258,7 +280,7 @@ export class SelfApproveCheckinComponent implements OnInit {
     });
   }
   Save(data: cls_TRTimecheckinModel) {
-    if (!this.selectedtimecheckinall.length) {
+    if (!this.selectedtimecheckinall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('conapprove')[this.selectlang],
         header: this.langs.get('condoc')[this.selectlang],
@@ -278,7 +300,7 @@ export class SelfApproveCheckinComponent implements OnInit {
 
   }
   Delete(data: cls_TRTimecheckinModel) {
-    if (!this.selectedtimecheckinall.length) {
+    if (!this.selectedtimecheckinall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('connotapprove')[this.selectlang],
         header: this.langs.get('connotdoc')[this.selectlang],
@@ -297,7 +319,7 @@ export class SelfApproveCheckinComponent implements OnInit {
     }
   }
   Saveall() {
-    if (this.selectedtimecheckinall.length) {
+    if (this.selectedtimecheckinall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('conapprove')[this.selectlang],
         header: this.langs.get('condoc')[this.selectlang],
@@ -319,7 +341,7 @@ export class SelfApproveCheckinComponent implements OnInit {
     }
   }
   Deleteall() {
-    if (this.selectedtimecheckinall.length) {
+    if (this.selectedtimecheckinall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('connotapprove')[this.selectlang],
         header: this.langs.get('connotdoc')[this.selectlang],

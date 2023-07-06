@@ -5,6 +5,8 @@ export class AppConfig {
   UrlApi: string = "http://localhost:32208"
   // UrlApi: string = "http://161.82.218.95:8806"
 
+ 
+
   ApiMainModule: string = this.UrlApi + "/BpcOpr.svc/BpcOpr";
   ApiSystemModule: string = this.UrlApi + "/Module_System/ModuleSystem.svc/System";
   ApiAttendanceModule: string = this.UrlApi + "/Module_Attendance/ModuleAttendance.svc/Attendance";

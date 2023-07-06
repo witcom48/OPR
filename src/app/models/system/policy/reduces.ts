@@ -26,7 +26,7 @@ export class ReducesModel {
 
 
 
-      reduce_id: string = "1";
+      reduce_id: string = "0";
       reduce_code: string = "";
       reduce_name_th: string = "";
       reduce_name_en: string = "";

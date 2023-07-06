@@ -7,6 +7,7 @@ export class AccountModel {
 
   }
   company_code: string = "";
+  account_id: number = 0;
   account_user: string = "";
   account_pwd: string = "";
   account_type: string = "";

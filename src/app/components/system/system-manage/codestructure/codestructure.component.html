@@ -64,7 +64,7 @@
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedcodestructure.codestructure_code" maxlength="5"  [readonly]="edit_data" />
+        <input pInputText type="text" [(ngModel)]="selectedcodestructure.codestructure_code" maxlength="5" disabled="{{edit_data}}"/>
         <p>{{selectedcodestructure.codestructure_code.length}}/5</p>
 
         <label>{{title_name_th}}</label>

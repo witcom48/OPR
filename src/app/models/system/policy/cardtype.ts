@@ -3,7 +3,7 @@ export class CardtypeModel {
 
     }
 
-    cardtype_id: string = "1";
+    cardtype_id: string = "0";
     cardtype_code: string = "";
     cardtype_name_th: string = "";
     cardtype_name_en: string = "";
