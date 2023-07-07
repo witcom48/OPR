@@ -16,7 +16,8 @@
 
     <div #topbarmenu class="layout-topbar-menu"
         [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <p-dropdown [options]="lang_list" [(ngModel)]="langselect" optionLabel="name" (onChange)="SelectLang()"></p-dropdown>
+        <p-dropdown [options]="lang_list" [(ngModel)]="langselect" optionLabel="name"
+            (onChange)="SelectLang()"></p-dropdown>
         <button class="p-link layout-topbar-button">
             <i class="pi pi-calendar"></i>
             <span>Calendar</span>
@@ -35,3 +36,18 @@
         </button>
     </div>
 </div>
+
+<p-dialog header="PDPA" [(visible)]="displayManage" [style]="{width: '70vw'}">
+    <div style="display: flex;flex-direction: column;justify-content: center;gap: 20px;">
+        <pdf-viewer [src]="src" [rotation]="0" [original-size]="true" [show-all]="true" [fit-to-page]="true" [zoom]="0"
+            [stick-to-page]="true" [render-text]="true" [autoresize]="true" [zoom-scale]="'page-fit'"
+            [show-borders]="false" style="height: 70vh;"></pdf-viewer>
+        <!-- <button>คลิกเพื่อแจ้งหนังสือยินยอมฯ</button> -->
+        <div style="gap: 10px; display: flex; justify-content:center;">
+            <button pButton type="button" label="{{langs.get('agree')[selectlang]}}"
+                (click)="recodePDPA(true)"></button>
+            <button pButton type="button" label="{{langs.get('not_agree')[selectlang]}}" class="p-button-danger"
+                (click)="recodePDPA(false)"></button>
+        </div>
+    </div>
+</p-dialog>
