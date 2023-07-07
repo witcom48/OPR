@@ -70,6 +70,7 @@ import { SelfApproveComponent } from './self-approve/self-approve.component';
 import { SelfConsentComponent } from './self-consent/self-consent.component';
 import { EditorModule } from 'primeng/editor';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SelfEmpConsentComponent } from './self-emp-consent/self-emp-consent.component';
 
 @NgModule({
 	imports: [
@@ -150,7 +151,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 		SelfApproveCheckinComponent,
 		SelfApproveReqdocComponent,
 		SelfApproveComponent,
-		SelfConsentComponent
+		SelfConsentComponent,
+  SelfEmpConsentComponent
 	]
 })
 export class SelfModule { }
