@@ -84,7 +84,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 
 
-
+import { ItemsModel } from 'src/app/models/payroll/items';
+import { ItemService } from 'src/app/services/payroll/item.service';
 
 
 
@@ -276,6 +277,9 @@ export class EmployeeManageComponent implements OnInit {
     private courseService: CourseService,
     private provinceService: ProvinceService,
     private polcodeService: PolcodeService,
+
+    private itemService: ItemService,
+
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -337,6 +341,8 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadprovinceList();
 
     this.doLoadSuggestList();
+
+    this.doLoadItemsList()
 
     setTimeout(() => {
       this.doLoadMenu();
@@ -3968,6 +3974,29 @@ export class EmployeeManageComponent implements OnInit {
     this.new_reduce = false; this.edit_empreduce = false;
     this.new_accumalate = false; this.edit_empaccumalate = false;
     this.new_tranfer = false; this.edit_emptranfer = false;
+  }
+
+  //-- Aeb add 10/07/2023
+  benefit_list: any[] = [];
+   
+  doLoadItemsList(){    
+    var tmp = new ItemsModel();
+    this.itemService.item_get(tmp).then(async (res) => {
+      await res.forEach((element: ItemsModel) => {
+
+        this.doAddOption(this.benefit_list, element)
+      });      
+    });
+
+  }
+
+  doAddOption(list: any[], element: ItemsModel){
+    list.push(
+      {            
+        name: this.initial_current.Language == "EN" ? element.item_name_en : element.item_name_th,
+        code: element.item_code
+      }
+    )
   }
 
 }

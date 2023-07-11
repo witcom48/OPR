@@ -103,7 +103,7 @@ export class AppMenuComponent implements OnInit {
                     label: 'Payroll',
                     items: [
                         { label: 'Policy', routerLink: ['/payroll/policy'] },
-                        { label: 'Calculate Money', routerLink: ['/payroll/calculate'] },
+                        { label: 'Calculate', routerLink: ['/payroll/calculate'] },
                         { label: 'Income / Deduct', routerLink: ['/payroll/entry'] },
                         { label: 'Calculate Tax', routerLink: ['/payroll/caltax'] },
                         { label: 'View Calculate', routerLink: ['/payroll/view'] },
