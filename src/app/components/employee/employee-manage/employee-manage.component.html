@@ -2189,9 +2189,12 @@
     <!-- Form Emp benefit -->
     <div class="formatt" *ngIf="edit_empbenefit==true || new_benefit==true">
         <label>{{title_incomededuct}}</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpbenefit.item_code"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.item_code"> -->
+        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpbenefit.item_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+
+            <p-dropdown [options]="benefit_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedEmpbenefit.item_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+
+
 
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
