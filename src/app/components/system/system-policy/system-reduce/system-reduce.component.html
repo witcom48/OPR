@@ -22,11 +22,11 @@
     <!-- Table Show Data -->
     <div #TABLE>
         <p-table #dt2 [value]="reduce_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-        selectionMode="single" [(selection)]="selectedReduce" (onRowSelect)="onRowSelectReduce($event)" [rows]="12"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['reduce_code','reduce_name_th','reduce_name_en','reduce_amount', 'reduce_percent', 'reduce_percent_max']">
-        <!-- Form Search Table -->
+            selectionMode="single" [(selection)]="selectedReduce" (onRowSelect)="onRowSelectReduce($event)" [rows]="12"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+            [globalFilterFields]="['reduce_code','reduce_name_th','reduce_name_en','reduce_amount', 'reduce_percent', 'reduce_percent_max']">
+            <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
                     <span class="p-input-icon-left ml-auto">
@@ -36,32 +36,32 @@
                     </span>
                 </div>
             </ng-template>
-        <!-- --------------END Form Search Table------------------ -->
+            <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
                     <th>{{title_code}}</th>
-                        <th>{{title_name_th}}</th>
-                        <th>{{title_name_en}}</th>
+                    <th>{{title_name_th}}</th>
+                    <th>{{title_name_en}}</th>
 
-                        <th>{{title_amount}}</th>
-                        <th>{{title_percent}}</th>
-                        <th>{{title_percent_max}}</th>
+                    <th>{{title_amount}}</th>
+                    <th>{{title_percent}}</th>
+                    <th>{{title_percent_max}}</th>
 
-                        <th>{{title_modified_by}}</th>
-                        <th>{{title_modified_date}}</th>
+                    <th>{{title_modified_by}}</th>
+                    <th>{{title_modified_date}}</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data>
                 <tr [pSelectableRow]="data">
-                        <td>{{data.reduce_code}}</td>
-                        <td>{{data.reduce_name_th}}</td>
-                        <td>{{data.reduce_name_en}}</td>
-                        <td>{{data.reduce_amount}}</td>
-                        <td>{{data.reduce_percent}}</td>
-                        <td>{{data.reduce_percent_max}}</td>
+                    <td>{{data.reduce_code}}</td>
+                    <td>{{data.reduce_name_th}}</td>
+                    <td>{{data.reduce_name_en}}</td>
+                    <td>{{data.reduce_amount}}</td>
+                    <td>{{data.reduce_percent}}</td>
+                    <td>{{data.reduce_percent_max}}</td>
 
-                        <td>{{data.modified_by}}</td>
-                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{data.modified_by}}</td>
+                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
             </ng-template>
         </p-table>
@@ -69,7 +69,53 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data===true">
+    <form #Form="ngForm">
+        <div class="formatt" *ngIf="new_data">
+            <i (click)="close()"></i>
+
+            <label>{{title_code}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedReduce.reduce_code" maxlength="10" [disabled]="edit_data"
+                name="code" #code="ngModel" required />
+            <p>{{selectedReduce.reduce_code.length}}/5</p>
+
+
+            <label>{{title_name_th}}<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="selectedReduce.reduce_name_th" pInputTextarea [autoResize]="true" name="reduce_name_th"
+                #late_name_th="ngModel" required></textarea>
+
+            <label>{{title_name_en}}<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="selectedReduce.reduce_name_en" pInputTextarea [autoResize]="true" name="reduce_name_en"
+                #late_name_en="ngModel" required></textarea>
+
+            <!-- <label>{{title_amount}}</label>
+            <textarea [(ngModel)]="selectedReduce.reduce_amount" pInputTextarea [autoResize]="true"></textarea> -->
+            <label>{{title_amount}}<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="selectedReduce.reduce_amount" pInputTextarea [autoResize]="true" name="reduce_amount"
+                #late_reduce_amount="ngModel" required></textarea>
+
+            <!-- <label>{{title_percent}}</label>
+            <textarea [(ngModel)]="selectedReduce.reduce_percent" pInputTextarea [autoResize]="true"></textarea> -->
+            <label>{{title_percent}}<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="selectedReduce.reduce_percent" pInputTextarea [autoResize]="true"
+                name="reduce_percent" #late_reduce_percent="ngModel" required></textarea>
+
+
+            <!-- <label>{{title_percent_max}}</label>
+            <textarea [(ngModel)]="selectedReduce.reduce_percent_max" pInputTextarea [autoResize]="true"></textarea> -->
+            <label>{{title_percent_max}}<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="selectedReduce.reduce_percent_max" pInputTextarea [autoResize]="true"
+                name="reduce_percent_max" #late_reduce_percent_max="ngModel" required></textarea>
+
+
+            <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"
+                [disabled]="!Form.form.valid"></button>
+
+            <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                class="p-button p-button-danger" (click)="confirmDelete()"></button>
+        </div>
+    </form>
+
+    <!-- <div class="formatt" *ngIf="new_data===true">
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
@@ -92,7 +138,7 @@
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
             class="p-button-danger" (click)="confirmDelete()"></button>
-    </div>
+    </div> -->
 </div>
 
 <!-- Dialog Choose File Import -->
@@ -100,7 +146,9 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="doUploadReduce()" label="{{title_upload}}"
@@ -111,7 +159,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
-

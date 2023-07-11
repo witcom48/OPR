@@ -141,7 +141,7 @@ export class CompanysComponent implements OnInit {
 
     title_taxpayer_identification_no: string = 'Taxpayer Identification No';
     title_provident_fund_no = 'Provident Fund No'
-
+    title_provident_fund = 'Provident Fund '
     title_juristic_id: string = 'Juristic Id';
     title_hours_perday: string = 'Hours Perday';
     title_min_age: string = 'Min Age';
@@ -263,21 +263,22 @@ export class CompanysComponent implements OnInit {
             this.title_back = 'กลับ';
             this.title_codes = 'รหัสบริษัท';
             this.title_initials = 'ชื่อย่อ';
-            this.title_thai_name = 'ชื่อไทย';
-            this.title_english_name = 'ชื่ออังกฤษ';
+            this.title_thai_name = 'ชื่อ (ไทย)';
+            this.title_english_name = 'ชื่อ (อังกฤษ)';
             this.title_map = 'แผนที่';
 
             this.title_taxpayer_identification_no = 'เลขประจำตัวผู้เสียภาษี'
             this.title_juristic_id = 'เลขทะเบียนนิติบุคคล'
             this.title_provident_fund_no = 'เลขกองทุนสำรองเลี้ยงชีพ'
+            this.title_provident_fund = 'กองทุนสำรองเลี้ยงชีพ'
             this.title_hours_perday = 'ชั่วโมงการทำงาน'
             this.title_min_age = 'อายุพนักงานน้อยสุด'
             this.title_max_age = 'อายุพนักงานมากสุด'
             this.title_sso_no = 'เลขประกันสังคม'
             this.title_social_security_branch = 'สาขาประกันสังคม'
             this.title_payout_rate = 'อัตราการจ่าย %'
-            this.title_sso_company = 'ประกันสังคมส่วนบริษัท'
-            this.title_sso_employee = 'ประกันสังคมส่วนพนักงาน'
+            this.title_sso_company = 'ประกันสังคมสมทบ %'
+            this.title_sso_employee = 'ประกันสังคมสะสม %'
             this.title_wage_rate = 'อัตราค่าจ้าง'
             this.title_min_wage = 'ค่าจ้างตํ่าสุด'
             this.title_max_wage = 'ค่าจ้างสูงสุด'
@@ -657,7 +658,7 @@ export class CompanysComponent implements OnInit {
     selectedComaddress: ComaddressModel = new ComaddressModel();
 
     doLoadComaddressList() {
-        console.log("testadd")
+        
         console.log(this.comaddressList)
         this.companyDetailService
             .getcompany_address(this.company_code, this.comaddress_type)

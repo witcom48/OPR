@@ -72,6 +72,7 @@ export class TransferBankComponent implements OnInit {
   selectedDate: PrjectEmpdailyModel = new PrjectEmpdailyModel;
   policyselect!: Policy;
   new_data: boolean = false;
+  effdate: Date | undefined; // ประกาศตัวแปร effdate ในคอมโพเนนต์
   @ViewChild('dt2') table: Table | undefined;
   ngOnInit(): void {
 
@@ -213,9 +214,10 @@ export class TransferBankComponent implements OnInit {
           summary: 'Cancelled',
           detail: this.title_confirm_cancel,
         });
+       
       },
+      key:"myDialog"
     });
-
 
   }
 
@@ -223,12 +225,18 @@ export class TransferBankComponent implements OnInit {
   //   this.taskView.taskType = "TRN_BANK";
   //   this.taskView.doLoadTask();
   // }
-
-  public effdate: Date = new Date();
+  
 
   updateEffdate() {
-    this.effdate = new Date();
+    // ฟังก์ชันนี้จะถูกเรียกเมื่อมีการเปลี่ยนแปลงค่าในปฏิทิน
+    console.log(this.effdate); // ตัวอย่างการใช้งานเพื่อดูค่าที่เลือกในปฏิทิน
   }
+
+  // public effdate: Date = new Date();
+
+  // updateEffdate() {
+  //   this.effdate = new Date();
+  // }
 
   doPrintMessage(message: string, status: string) {
     const dialogRef = this.dialog.open(this.messageService, {

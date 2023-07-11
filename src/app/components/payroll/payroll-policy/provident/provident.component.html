@@ -41,7 +41,7 @@
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                <th>{{title_no}}</th>
+                    <th>{{title_no}}</th>
 
                     <th>{{title_code}}</th>
                     <th>{{title_detail_th}}</th>
@@ -69,7 +69,8 @@
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedProvident.provident_code" maxlength="10" disabled="{{edit_data}}" />
+        <input pInputText type="text" [(ngModel)]="selectedProvident.provident_code" maxlength="10"
+            disabled="{{edit_data}}" />
         <p>{{selectedProvident.provident_code.length}}/10</p>
 
         <label>{{title_detail_th}}</label>
@@ -108,8 +109,7 @@
                 </p-accordionTab>
             </p-accordion>
         </div>
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
-            (click)="Save()"></button>
+        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
             class="p-button-danger" (click)="Delete()"></button>
     </div>
@@ -117,8 +117,7 @@
 </div>
 
 
-<p-dialog header="{{title_Workage}}" [(visible)]="displayaddcondition" [maximizable]="true"
-    (onHide)="closedispaly()">
+<p-dialog header="{{title_Workage}}" [(visible)]="displayaddcondition" [maximizable]="true" (onHide)="closedispaly()">
     <div class="formatt">
         <label>{{title_From}}</label>
         <p-inputNumber [(ngModel)]="selectedProvidentWorka.workage_from" [useGrouping]="false"></p-inputNumber>
@@ -131,10 +130,9 @@
         <p-inputNumber [(ngModel)]="selectedProvidentWorka.rate_com" [useGrouping]="false"></p-inputNumber>
     </div>
     <ng-template pTemplate="footer">
-        <button *ngIf="displayeditcondition" pButton type="button" label="{{title_delete}}"
-            icon="pi pi-trash" class="p-button-danger" (click)="Deletelate()"></button>
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
-            (click)="Savelate()"></button>
+        <button *ngIf="displayeditcondition" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button-danger" (click)="Deletelate()"></button>
+        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Savelate()"></button>
     </ng-template>
 </p-dialog>
 
@@ -143,7 +141,9 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>

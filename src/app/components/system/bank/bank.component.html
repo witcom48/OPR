@@ -59,26 +59,31 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
-            <label>{{title_code}}</label>
-            <input pInputText type="text" [(ngModel)]="selectedBank.bank_code" maxlength="5" disabled="{{edit_data}}" />
-            <p>{{selectedBank.bank_code.length}}/5</p>
-
-            <label>{{title_name_th}}</label>
-            <textarea [(ngModel)]="selectedBank.bank_name_th" pInputTextarea [autoResize]="true"></textarea>
-
-            <label>{{title_name_en}}</label>
-            <textarea [(ngModel)]="selectedBank.bank_name_en" pInputTextarea [autoResize]="true"></textarea>
-
-            <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
-            <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                class="p-button-danger" (click)="confirmDelete()"></button>
+    <form (ngSubmit)="confirmRecord()" #Form="ngForm">
+        <div class="formatt" *ngIf="new_data">
+          <i (click)="close()"></i>
+      
+          <label>{{title_code}}<span style="color: red;"> *</span></label>
+          <input pInputText type="text" [(ngModel)]="selectedBank.bank_code" maxlength="10" [disabled]="edit_data"
+            name="code" #code="ngModel" required />
+          <p>{{selectedBank.bank_code.length}}/10</p>
+      
+          <label>{{title_name_th}}<span style="color: red;"> *</span></label>
+          <textarea [(ngModel)]="selectedBank.bank_name_th" pInputTextarea [autoResize]="true" name="bank_name_th"
+            #late_name_th="ngModel" required></textarea>
+      
+          <label>{{title_name_en}}<span style="color: red;"> *</span></label>
+          <textarea [(ngModel)]="selectedBank.bank_name_en" pInputTextarea [autoResize]="true" name="bank_name_en"
+            #late_name_en="ngModel" required></textarea>
+      
+          <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"
+            [disabled]="!Form.form.valid"  ></button>
+      
+          <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button p-button-danger" (click)="confirmDelete()"></button>
         </div>
-  
-    
-    </div>
-
+      </form>
+      
     <!-- Dialog Choose File Import -->
     <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
         <label class="drop-container">

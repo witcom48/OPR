@@ -57,7 +57,33 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <div class="formatt" *ngIf="new_data===true">
+    <form #Form="ngForm">
+        <div class="formatt" *ngIf="new_data">
+            <i (click)="close()"></i>
+            <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+            
+            <input pInputText type="text" [(ngModel)]="reasons.reason_code" maxlength="5"
+                [disabled]="edit_data" name="code" #code="ngModel" required />
+                <p>{{reasons.reason_code.length}}/5</p>
+
+                <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="reasons.reason_name_en" pInputTextarea [autoResize]="true"
+                name="bank_name_th" #late_name_th="ngModel" required></textarea>
+
+                <label>{{langs.get('description')[selectlang]}} (Thai.)<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="reasons.reason_name_th" pInputTextarea [autoResize]="true"
+                name="bank_name_en" #late_name_en="ngModel" required></textarea>
+
+            <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Save()"
+                [disabled]="!Form.form.valid"></button>
+
+            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash"
+                class="p-button p-button-danger" (click)="Delete()"></button>
+        </div>
+    </form>
+
+
+    <!-- <div class="formatt" *ngIf="new_data===true">
         <i (click)="close()"></i>
 
         <label>{{langs.get('code')[selectlang]}}</label>
@@ -73,7 +99,7 @@
         <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"(click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
         icon="pi pi-trash" class="p-button-danger"></button>
-    </div>
+    </div> -->
     <!-- --------------End form Input Data ------------------ -->
 </div>
 

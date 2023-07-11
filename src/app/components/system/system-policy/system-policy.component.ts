@@ -41,7 +41,7 @@ public initial_current: InitialCurrent = new InitialCurrent();
     title_bloodtype: string = 'Bloodtype';
     title_hospital: string = 'Hospital';
     title_location: string = 'Location';
-    title_reduce: string = 'Allowance';
+    title_reduce: string = 'Reduces';
     title_set_structure_code: string = 'Set Structure code';
     title_training: string = 'Training';
 

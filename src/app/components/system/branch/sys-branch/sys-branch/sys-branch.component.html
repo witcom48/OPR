@@ -9,37 +9,90 @@
 
                 <div class="empinfo">
                     <div class="formgrid grid">
-                        <div class="field col-12 md:col-6">
-                            <label for="firstname2">{{title_codes}}</label><br>
-                            <br />
+                         
+                        <div class="  field col-12 md:col-6 custom-height">
+                            <label>{{ title_codes}}  </label>
+                            <input pInputText type="text" [(ngModel)]="selectedCombranch.combranch_code" maxlength="5"
+                                [readonly]="combranch_code" name="code" #code="ngModel" required
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <p>{{selectedCombranch.combranch_code.length}}/5</p>
+
+                        </div>
+
+                        <!-- <div class="  field col-12 md:col-6 custom-height">
+                            <label >{{ title_codes}}<span style="color: red;"> *</span></label>
+                            <input pInputText type="text" [(ngModel)]="selectedCombranch.combranch_code" maxlength="13"
+                                 name="combranch_code" #combranch_code="ngModel" required
+                            class="text-base text-color  surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            <p>{{selectedCombranch.combranch_code.length}}/5</p>
+
+                        </div> -->
+
+                            <!-- <div class="field col-12 md:col-6 custom-height">
+                                <label>{{ title_codes}}<span style="color: red;"> *</span></label>
+                                <input pInputText type="text" [(ngModel)]="selectedCombranch.combranch_code" [readonly]="combranch_code"
+                                    maxlength="13" name="combranch_code" #combranch_code="ngModel" required
+                                    class="text-base text-color  surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <p>{{selectedCombranch.combranch_code.length}}/5</p>
+
+                            </div> -->
+                            <!-- 
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.combranch_code"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                maxlength="5"   [readonly]="combranch_code" [cols]="30" pInputTextarea
+                                maxlength="5" [readonly]="combranch_code" [cols]="30" pInputTextarea
                                 [autoResize]="true"></textarea>
+                            <p>{{selectedCombranch.combranch_code.length}}/5</p> -->
+
+                         
+
+                        <div class="field col-12 md:col-6 custom-height">
+                            <label>{{ title_social_security_branch}} </label>
+                            <input pInputText type="text" [(ngModel)]="selectedCombranch.sso_combranch_no"
+                                maxlength="13" name="sso_combranch_no" #sso_combranch_no="ngModel" required
+                                class="text-base text-color  surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            <p>{{selectedCombranch.sso_combranch_no.length}}/13</p>
+
                         </div>
 
-                        <div class="field col-12 md:col-6">
+                        <!-- <div class="field col-12 md:col-6">
                             <label for="firstname2">{{title_social_security_branch}}</label><br>
-                            <br />
+
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.sso_combranch_no"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                        </div>
+                                maxlength="13" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
 
+                            <p>{{selectedCombranch.sso_combranch_no.length}}/13</p>
+                        </div> -->
+
+                        <div class="field col-12 md:col-6 custom-height">
+                            <label>{{ title_thai_name}} </label>
+                            <input pInputText type="text" [(ngModel)]="selectedCombranch.combranch_name_th"
+                                maxlength="13" name="combranch_name_th" #combranch_name_th="ngModel" required
+                                class="text-base text-color  surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </div>
+                        <!-- 
                         <div class="field col-12 md:col-6">
                             <label for="firstname2">{{title_thai_name}} </label><br>
-                            <br />
+
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.combranch_name_th"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                        </div> -->
+
+                        <div class="field col-12 md:col-6 custom-height">
+                            <label>{{ title_english_name}} </label>
+                            <input pInputText type="text" [(ngModel)]="selectedCombranch.combranch_name_en"
+                                maxlength="13" name="combranch_name_en" #combranch_name_en="ngModel" required
+                                class="text-base text-color  surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </div>
-                        <div class="field col-12 md:col-6">
+
+                        <!-- <div class="field col-12 md:col-6">
                             <label for="firstname2">{{title_english_name}}</label><br>
-                            <br />
+
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCombranch.combranch_name_en"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                        </div>
+                        </div> -->
 
                         <!-- Address -->
                         <div class="field col-12 ">
@@ -153,7 +206,7 @@
                                                         [(ngModel)]="selectedComaddress.comaddres_line"
                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                                 </div>
-                                                
+
                                                 <div class="field col-6 height">
                                                     <label for="address_amphur">{{ title_address_facebook}}</label>
                                                     <input id="address_amphur" type="text"
@@ -162,7 +215,7 @@
                                                 </div>
 
 
-                                                 
+
 
                                             </div>
                                         </p-tabPanel>
@@ -246,7 +299,7 @@
                                                         </ng-template>
                                                     </p-dropdown>
                                                 </div>
-                                                
+
                                                 <div class="field col-6 height">
                                                     <label for="address_zipcode">Zipcode</label>
                                                     <input id="address_zipcode" type="text"
@@ -274,15 +327,15 @@
                                                         [(ngModel)]="selectedComaddress.comaddres_line"
                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                                 </div>
-                                                
+
                                                 <div class="field col-6 height">
                                                     <label for="address_amphur">Facebook</label>
                                                     <input id="address_amphur" type="text"
                                                         [(ngModel)]="selectedComaddress.comaddres_facebook"
                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                                 </div>
-                                                
-                                                 
+
+
 
 
                                             </div>

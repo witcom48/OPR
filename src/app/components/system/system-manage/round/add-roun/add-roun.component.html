@@ -79,7 +79,60 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data rounds  -->
-    <div class="formatt" *ngIf="new_data===true">
+    <form #Form="ngForm">
+        <div class="formatt" *ngIf="new_data">
+            <i (click)="close()"></i>
+
+            <div>
+                <input type="radio" name="fav_language" value="Time" [(ngModel)]="rounds.rounds_group" required>
+                <label>{{langs.get('timee')[selectlang]}}</label>
+                
+                <input type="radio" name="fav_language" value="Currency" [(ngModel)]="rounds.rounds_group" required>
+                <label>{{langs.get('currency')[selectlang]}}</label>
+
+               
+                <span style="color: red;"> *</span>
+            </div>
+
+            <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="rounds.rounds_code" maxlength="10" [disabled]="edit_data"
+                name="rounds_code" required />
+            <p>{{rounds.rounds_code.length}}/4</p>
+
+
+            <label>{{langs.get('nameth')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="rounds.rounds_name_th" pInputTextarea [autoResize]="true" name="rounds_name_th"
+                required></textarea>
+
+            <label>{{langs.get('nameen')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="rounds.rounds_name_en" pInputTextarea [autoResize]="true" name="rounds_name_en"
+                required></textarea>
+
+
+            <label>{{langs.get('from')[selectlang]}}<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="rounds.rounds_from" pInputTextarea [autoResize]="true" name="rounds_from"
+                required></textarea>
+
+
+            <label>{{langs.get('to')[selectlang]}} <span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="rounds.rounds_to" pInputTextarea [autoResize]="true" name="rounds_to"
+                required></textarea>
+
+
+            <label>{{langs.get('round')[selectlang]}}<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="rounds.rounds_result" pInputTextarea [autoResize]="true" name="rounds_result"
+                required></textarea>
+
+
+            <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Save()"
+                [disabled]="!Form.form.valid"></button>
+
+            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                icon="pi pi-trash" class="p-button p-button-danger" (click)="Delete()"></button>
+        </div>
+    </form>
+
+    <!-- <div class="formatt" *ngIf="new_data===true">
         <i (click)="close()"></i>
 
         <div  >
@@ -117,7 +170,7 @@
             (click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
             icon="pi pi-trash" class="p-button-danger"></button>
-    </div>
+    </div> -->
     <!-- --------------End form Input Data ------------------ -->
 </div>
 

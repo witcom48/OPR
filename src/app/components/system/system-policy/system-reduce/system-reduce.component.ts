@@ -56,7 +56,7 @@ export class SystemReduceComponent implements OnInit {
     }
 title_system:string = "System";
   title_genaral:string = "Genaral";
-    title_page:string = "Allowance";
+    title_page:string = "Reduces";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";

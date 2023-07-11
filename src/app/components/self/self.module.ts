@@ -116,7 +116,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 		UsercontrolModule,
 		LeafletModule,
 		EditorModule,
-		PdfViewerModule
+		PdfViewerModule,
 
 
 

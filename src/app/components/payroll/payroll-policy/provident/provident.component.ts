@@ -21,7 +21,7 @@ export class ProvidentComponent implements OnInit {
         private providentService: ProvidentService,
 
         private router: Router
-    ) {}
+    ) { }
     @ViewChild('TABLE') table: ElementRef | any = null;
     new_data: boolean = false;
     edit_data: boolean = false;
@@ -49,8 +49,8 @@ export class ProvidentComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
     }
-    title_payroll: string = 'Payroll';
 
+    title_payroll: string = 'Payroll';
     title_policy: string = 'Set Policy';
     title_page: string = 'Provident Fund';
     title_new: string = 'New';
@@ -96,8 +96,7 @@ export class ProvidentComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_payroll= 'บัญชีเงินเดือน';
-
+            this.title_payroll = 'บัญชีเงินเดือน';
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'กองทุนสำรองเลี้ยงชีพ';
             this.title_new = 'เพิ่ม';
@@ -111,7 +110,7 @@ export class ProvidentComponent implements OnInit {
             this.title_To = 'ถึง';
             this.title_Rateemp = 'พนักงาน (%)';
             this.title_Ratecom = 'สมทบ (%)';
- this.title_no = 'อันดับ';
+            this.title_no = 'อันดับ';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';
@@ -141,7 +140,6 @@ export class ProvidentComponent implements OnInit {
             this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
         }
     }
-
     ngOnInit(): void {
         this.doLoadLanguage();
 
@@ -149,6 +147,8 @@ export class ProvidentComponent implements OnInit {
         this.doLoadMenu();
         this.doLoadLate();
     }
+
+
 
     doLoadLate() {
         this.provident_list = [];
@@ -350,7 +350,7 @@ export class ProvidentComponent implements OnInit {
     exportAsExcel() {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
             this.table.nativeElement
-        ); 
+        );
         for (var i in ws) {
             if (i.startsWith('!') || i.charAt(1) !== '1') {
                 continue;

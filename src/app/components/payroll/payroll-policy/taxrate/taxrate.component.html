@@ -65,17 +65,17 @@
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
 
-      
         <label>{{title_From}}</label>
-        <textarea [(ngModel)]="selectedTaxrate.taxrate_from" pInputTextarea [autoResize]="true"></textarea>
+        <textarea matInput placeholder="Amount" [(ngModel)]="selectedTaxrate.taxrate_from"  pInputTextarea [autoResize]="true" (change)="setFormatFrom($event)" [ngModelOptions]="{updateOn: 'blur'}"></textarea>
 
 
         <label>{{title_To}}</label>
-        <textarea [(ngModel)]="selectedTaxrate.taxrate_to" pInputTextarea [autoResize]="true"></textarea>
+        <textarea matInput placeholder="Amount" [(ngModel)]="selectedTaxrate.taxrate_to"  pInputTextarea [autoResize]="true" (change)="setFormatTo($event)" [ngModelOptions]="{updateOn: 'blur'}"></textarea>
 
+ 
         <label>{{title_Tax}}</label>
-        <textarea [(ngModel)]="selectedTaxrate.taxrate_tax" pInputTextarea [autoResize]="true"></textarea>
-
+        <textarea matInput placeholder="Amount" [(ngModel)]="selectedTaxrate.taxrate_tax" pInputTextarea [autoResize]="true" (change)="setFormatTax($event)" [ngModelOptions]="{updateOn: 'blur'}"></textarea>
+ 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
             class="p-button-danger" (click)="confirmDelete()"></button>

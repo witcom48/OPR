@@ -66,39 +66,72 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
-
-          <label>{{title_code}}</label>
-          <p-dropdown  placeholder="--" [options]="codestructureList" optionValue="codestructure_code"
-              [showClear]="true" [(ngModel)]="selectedTRPolcode.codestructure_code"
-              [style]="{ width: '150%', overflow: 'visible' }" >
-              <ng-template let-item pTemplate="selectedItem">
-                  {{initial_current.Language=="TH"? item.codestructure_name_th :
-                  item.codestructure_name_en}}
-              </ng-template>
-              <ng-template let-item pTemplate="item">
-                  {{initial_current.Language=="TH"? item.codestructure_name_th :
-                  item.codestructure_name_en}}
-              </ng-template>
+    <!-- <form #Form="ngForm">
+        <div class="formatt" *ngIf="new_data">
+          <i (click)="close()"></i>
+      
+          <label>{{title_code}}<span style="color: red;"> *</span></label>
+          <p-dropdown placeholder="--" [options]="codestructureList" optionValue="codestructure_code" [showClear]="true"
+            [(ngModel)]="selectedTRPolcode.codestructure_code" [disabled]="edit_data" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+              {{initial_current.Language === 'TH' ? item.codestructure_name_th : item.codestructure_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+              {{initial_current.Language === 'TH' ? item.codestructure_name_th : item.codestructure_name_en}}
+            </ng-template>
           </p-dropdown>
-
-
-        
-          <label>{{title_lenght}}</label>
-          <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_lenght">
-
-          <label>{{title_text}}</label>
-          <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_text">
-
-    
-          <label>{{title_order}}</label>
-          <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_order">
-
+      
+          <label>{{title_lenght}}<span style="color: red;"> *</span></label>
+          <input pInputText type="text" [(ngModel)]="selectedTRPolcode.polcode_lenght" name="polcode_lenght"
+            #polcode_lenght="ngModel" required />
+      
+          <label>{{title_text}}<span style="color: red;"> *</span></label>
+          <textarea [(ngModel)]="selectedTRPolcode.polcode_text" pInputTextarea [autoResize]="true" name="polcode_text"
+            #polcode_text="ngModel" required></textarea>
+      
+          <label>{{title_order}}<span style="color: red;"> *</span></label>
+          <textarea [(ngModel)]="selectedTRPolcode.polcode_order" pInputTextarea [autoResize]="true" name="polcode_order"
+            #polcode_order="ngModel" required></textarea>
+      
+          <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"
+            [disabled]="!Form.form.valid"></button>
+      
+          <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+            class="p-button p-button-danger" (click)="confirmDelete()"></button>
+        </div>
+      </form> -->
+      <div class="formatt" *ngIf="new_data">
+        <i (click)="close()"></i>
+      
+        <label>{{title_code}}<span style="color: red;"> *</span></label>
+        <p-dropdown placeholder="--" [options]="codestructureList" optionValue="codestructure_code" [showClear]="true"
+          [(ngModel)]="selectedTRPolcode.codestructure_code" [style]="{ width: '100%', overflow: 'visible' }">
+          <ng-template let-item pTemplate="selectedItem">
+            {{initial_current.Language === 'TH' ? item.codestructure_name_th : item.codestructure_name_en}}
+          </ng-template>
+          <ng-template let-item pTemplate="item">
+            {{initial_current.Language === 'TH' ? item.codestructure_name_th : item.codestructure_name_en}}
+          </ng-template>
+        </p-dropdown>
+      
+        <label>{{title_lenght}}<span style="color: red;"> *</span></label>
+        <input pInputText type="text" [(ngModel)]="selectedTRPolcode.polcode_lenght" name="polcode_lenght"
+          required />
+      
+        <label>{{title_text}}<span style="color: red;"> *</span></label>
+        <input pInputText type="text" [(ngModel)]="selectedTRPolcode.polcode_text" name="polcode_text"
+          required />
+      
+        <label>{{title_order}}<span style="color: red;"> *</span></label>
+        <input pInputText type="text" [(ngModel)]="selectedTRPolcode.polcode_order" name="polcode_order"
+          required />
+      
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+      
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="confirmDelete()"></button>
-    </div>
+          class="p-button-danger" (click)="confirmDelete()"></button>
+      </div>
+      
 </div>
 
 <!-- Dialog Choose File Import -->
