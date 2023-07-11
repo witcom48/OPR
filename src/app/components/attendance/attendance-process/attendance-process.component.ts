@@ -110,15 +110,15 @@ export class AttendanceProcessComponent implements OnInit {
     }
 
     let dateString = '2023-01-10T00:00:00'
-    var FromDate = new Date(dateString);
+    // var FromDate = new Date(dateString);
 
     dateString = '2023-01-11T00:00:00'
-    var ToDate = new Date(dateString);
+    // var ToDate = new Date(dateString);
     
     
     this.taskDetail.taskdetail_process = process;
-    this.taskDetail.taskdetail_fromdate = FromDate;
-    this.taskDetail.taskdetail_todate = ToDate;
+    this.taskDetail.taskdetail_fromdate  = this.initial_current.TA_FromDate;
+    this.taskDetail.taskdetail_todate = this.initial_current.TA_ToDate;
     this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
 
     //-- Step 3 Task whose

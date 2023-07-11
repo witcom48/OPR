@@ -9,6 +9,11 @@ import { CompanyModel } from 'src/app/models/system/company';
 import { AccountModel } from 'src/app/models/self/account';
 import { TRAccountModel } from 'src/app/models/self/traccount';
 import { MessageService } from 'primeng/api';
+import { YearService } from 'src/app/services/system/policy/year.service';
+import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
+import { PeriodsModels } from 'src/app/models/payroll/periods';
+import { DatePipe } from '@angular/common';
 
 declare var login: any;
 @Component({
@@ -24,6 +29,9 @@ export class VerifyComponent implements OnInit {
     private router: Router,
     private companyService: CompanyService,
     private messageService: MessageService,
+    private yearService: YearService,
+    private periodsService: PeriodsServices,
+    private datePipe: DatePipe,
   ) { }
 
   displayManage: boolean = true;
@@ -33,13 +41,54 @@ export class VerifyComponent implements OnInit {
   user: string = "";
   pass: string = "";
   comdis: string = "company_name_en";
+  perioddis: string = "period_name_en"
+  localdis: string = "en-US";
+  emp_type: string = "M"
   company_list: CompanyModel[] = [];
+  yearperiods_list: YearPeriodModels[] = [];
+  periods_list: PeriodsModels[] = [];
+  yearperiods_select: YearPeriodModels = new YearPeriodModels();
+  periods_select: PeriodsModels = new PeriodsModels();
   comselected: CompanyModel = new CompanyModel();
   account_list: AccountModel = new AccountModel();
   selectaccount: TRAccountModel = new TRAccountModel();
   initail_current: InitialCurrent = new InitialCurrent();
   ngOnInit(): void {
     this.doLoadLocation();
+  }
+  doLoadYear(com: string) {
+    this.yearperiods_list = [];
+    var tmp = new YearPeriodModels();
+    tmp.year_group = "TAX";
+    tmp.company_code = com;
+    this.yearService.year_get(tmp).then(async (res) => {
+      await res.forEach((element: YearPeriodModels) => {
+        element.year_fromdate = new Date(element.year_fromdate)
+        element.year_todate = new Date(element.year_todate)
+      });
+      this.yearperiods_list = await res;
+      this.yearperiods_select = res[0];
+      this.displaygroupManage = true;
+      this.displayManage = false;
+      this.doPeriod(com);
+    });
+  }
+  doPeriod(com: string) {
+    this.periods_list = [];
+    var tmp = new PeriodsModels();
+    tmp.year_code = this.yearperiods_select.year_code;
+    tmp.company_code = com;
+    tmp.emptype_code = this.emp_type;
+    this.periodsService.period_get(tmp).then(async (res) => {
+      res.forEach((obj: PeriodsModels) => {
+        obj.period_name_en = this.datePipe.transform(obj.period_from, 'dd') + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy') + ")";
+        obj.period_name_th = this.datePipe.transform(obj.period_from, 'dd') + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy', "", 'th-TH') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy', "", 'th-TH') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy', "", 'th-TH') + ")"
+      });
+      console.log(res)
+      this.periods_list = await res;
+      this.periods_select = await res[0]
+      // console.log(this.datePipe.transform(this.periods_select.period_from, 'dd') + " - " + this.datePipe.transform(this.periods_select.period_payment, 'dd MMM yyyy', "", this.localdis) + "(" + this.datePipe.transform(this.periods_select.period_from, 'dd MMM yyyy', "", this.localdis) + " - " + this.datePipe.transform(this.periods_select.period_to, 'dd MMM yyyy', "", this.localdis) + ")")
+    });
   }
   doLoadLocation() {
     this.company_list = [];
@@ -86,12 +135,18 @@ export class VerifyComponent implements OnInit {
           if (obj.account_type == "ADM") {
             this.initail_current.Username = obj.account_user;
             this.initail_current.Usertype = obj.account_type;
+            this.doLoadYear(this.comselected.company_code)
+          } else {
+            localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+            if (this.initail_current.Token) {
+              window.location.href = "";
+              // this.router.navigateByUrl('');
+            }
           }
-          localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
-          if (this.initail_current.Token) {
-            window.location.href = "";
-            // this.router.navigateByUrl('');
-          }
+          // if (this.initail_current.Token) {
+          //   window.location.href = "";
+          //   // this.router.navigateByUrl('');
+          // }
 
         });
       } else {
@@ -102,22 +157,52 @@ export class VerifyComponent implements OnInit {
   selectcom() {
 
   }
+  selectEmptype() {
+    this.doPeriod(this.comselected.company_code)
+  }
+  selectyear() {
+    console.log(this.yearperiods_select.year_code)
+    this.doPeriod(this.comselected.company_code);
+  }
+  selectperiod() {
+    console.log(this.periods_select.period_from)
+  }
   changelang(lang: string) {
     this.selectlang = lang;
     if (lang == "TH") {
       this.comdis = "company_name_th";
+      this.perioddis = "period_name_th"
+      this.localdis = "th-TH";
     } else {
       this.comdis = "company_name_en";
+      this.localdis = "en-US";
+      this.perioddis = "period_name_en"
     }
 
   }
   selectuser() {
-    this.initail_current.Username = this.selectaccount.worker_code;
-    this.initail_current.Usertype = this.selectaccount.account_type;
+    this.initail_current.PR_Year = this.yearperiods_select.year_code;
+    this.initail_current.PR_FromDate = new Date(this.periods_select.period_from);
+    this.initail_current.PR_ToDate = new Date(this.periods_select.period_to);
+    this.initail_current.PR_PayDate = new Date(this.periods_select.period_payment);
+    this.initail_current.PR_Enable = this.periods_select.period_dayonperiod == "1" ? true : false;
+    this.initail_current.EmpType = this.emp_type;
+
+    this.initail_current.TA_Enable = this.periods_select.period_dayonperiod == "1" ? true : false;
+    this.initail_current.TA_FromDate = new Date(this.periods_select.period_from);
+    this.initail_current.TA_ToDate = new Date(this.periods_select.period_to);
+
     localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
     if (this.initail_current.Token) {
       window.location.href = "";
       // this.router.navigateByUrl('');
     }
+    // this.initail_current.Username = this.selectaccount.worker_code;
+    // this.initail_current.Usertype = this.selectaccount.account_type;
+    // localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+    // if (this.initail_current.Token) {
+    //   window.location.href = "";
+    //   // this.router.navigateByUrl('');
+    // }
   }
 }

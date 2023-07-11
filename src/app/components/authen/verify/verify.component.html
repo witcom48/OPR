@@ -18,13 +18,26 @@
     </div>
 </p-dialog>
 
-<p-dialog header="{{langs.get('login')[selectlang]}}" [(visible)]="displaygroupManage"
-    [style]="{width: '30vw'}" [draggable]="false" [closable]="false">
+<p-dialog header="{{langs.get('login')[selectlang]}}" [(visible)]="displaygroupManage" [style]="{width: '30vw'}"
+    [draggable]="false" [closable]="false">
     <div class="loginform">
-        <label>{{langs.get('username')[selectlang]}}</label>
-        <p-dropdown appendTo="body" class="selectyaer" [options]="account_list.worker_data" [(ngModel)]="selectaccount"
-            (onChange)="selectcom()" optionLabel="worker_code"></p-dropdown>
-        <button pButton type="button" label="{{langs.get('login')[selectlang]}}" icon="pi pi-lock"
+        <label>{{langs.get('year')[selectlang]}}</label>
+        <p-dropdown appendTo="body" class="selectyaer" [options]="yearperiods_list" [(ngModel)]="yearperiods_select"
+            (onChange)="selectyear()" optionLabel="year_code"></p-dropdown>
+        <div class="input_radio">
+            <input type="radio" name="fav_year" value="M" [(ngModel)]="emp_type" (change)="selectEmptype()">
+              <label>{{langs.get('monthly')[selectlang]}} </label>
+            <input type="radio" name="fav_year" value="D" [(ngModel)]="emp_type" (change)="selectEmptype()">
+              <label>{{langs.get('daily')[selectlang]}} </label>
+            <!-- <input name="notification" type="radio" id="RadioGroup1_0" value="Course" checked="checked" />
+                <label>TAX</label>
+                <input routerLink="../../system/system-yearperiods" type="radio" name="individual" value="Time">
+                <label>Leave</label> -->
+        </div>
+        <label>{{langs.get('period')[selectlang]}}</label>
+        <p-dropdown appendTo="body" class="selectyaer" [options]="periods_list" [(ngModel)]="periods_select"
+            (onChange)="selectperiod()" optionLabel={{perioddis}}></p-dropdown>
+        <button pButton type="button" label="{{langs.get('confirm')[selectlang]}}"
             (click)="selectuser()"></button>
     </div>
 </p-dialog>

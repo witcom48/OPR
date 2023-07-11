@@ -5,19 +5,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
 
 import { DatePipe } from '@angular/common';
-
+import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
-import {ConfirmationService} from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { EditorModule } from 'primeng/editor';
-
+import localeth from '@angular/common/locales/th';
+registerLocaleData(localeth);
 
 @NgModule({
     declarations: [
-        AppComponent, 
+        AppComponent,
     ],
     imports: [
         AppRoutingModule,
@@ -30,7 +31,7 @@ import { EditorModule } from 'primeng/editor';
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
-        MessageService, DatePipe,ConfirmationService
+        MessageService, DatePipe, ConfirmationService
     ],
     bootstrap: [AppComponent]
 })

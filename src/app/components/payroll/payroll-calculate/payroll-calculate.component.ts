@@ -110,8 +110,8 @@ export class PayrollCalculateComponent implements OnInit {
     this.taskDetail.taskdetail_process = process;
     this.taskDetail.taskdetail_fromdate = this.initial_current.TA_FromDate;
     this.taskDetail.taskdetail_todate = this.initial_current.TA_ToDate;
-    //this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
-    this.taskDetail.taskdetail_paydate = FromDate;
+    this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
+    // this.taskDetail.taskdetail_paydate = FromDate;
 
     //-- Step 3 Task whose
     this.taskWhoseList = [];

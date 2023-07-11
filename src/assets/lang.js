@@ -1311,6 +1311,11 @@ var login = new Map([
     ["company", { TH: "บริษัท", EN: "Company" }],
     ["username", { TH: "ชื่อผู้ใช้", EN: "Username" }],
     ["password", { TH: "รหัสผ่าน", EN: "Password" }],
+    ["year", { TH: "ปี", EN: "Year" }],
+    ["monthly", { TH: "รายเดือน", EN: "Monthly" }],
+    ["daily", { TH: "รายวัน", EN: "Daily" }],
+    ["period", { TH: "งวดการจ่าย", EN: "Period" }],
+    ["confirm", { TH: "ยืนยัน", EN: "Confirm" }],
     ["incorrect", { TH: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", EN: "The username or password is incorrect." }],
 ]);
 
