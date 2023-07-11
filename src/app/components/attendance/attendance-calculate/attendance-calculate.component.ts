@@ -193,7 +193,8 @@ export class AttendanceCalculateComponent implements OnInit {
       },
       reject: () => {
         this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
-      }
+      },
+      key: "myDialog"
     });
   }
 
