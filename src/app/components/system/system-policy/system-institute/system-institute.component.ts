@@ -37,9 +37,9 @@ export class SystemInstituteComponent implements OnInit {
 
     ngOnInit(): void {
       this.doGetInitialCurrent()
-
+      this.doLoadLanguage()
       setTimeout(() => {
-        this.doLoadLanguage()
+        
         this.doLoadMenu()
         this.doLoadInstitute()
       }, 500);

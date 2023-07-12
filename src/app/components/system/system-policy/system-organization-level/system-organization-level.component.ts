@@ -38,9 +38,9 @@ export class SystemOrganizationLevelComponent implements OnInit {
     ngOnInit(): void {
 
       this.doGetInitialCurrent()
-
-      setTimeout(() => {
         this.doLoadLanguage()
+      setTimeout(() => {
+        
         this.doLoadMenu()
         this.doLoadLevel()
       }, 500);

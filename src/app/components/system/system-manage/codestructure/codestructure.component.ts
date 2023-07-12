@@ -37,9 +37,9 @@ export class CodestructureComponent implements OnInit {
 
     ngOnInit(): void {
       this.doGetInitialCurrent()
-
+      this.doLoadLanguage()
       setTimeout(() => {
-        this.doLoadLanguage()
+       
         this.doLoadMenu()
         this.doLoadCodestructure()
       }, 500);

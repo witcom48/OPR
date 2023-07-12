@@ -21,7 +21,7 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="periods_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+        <p-table #dt2 [value]="periods_list" [scrollable]="true" scrollHeight="80vh" [virtualScroll]="true"
             selectionMode="single" [(selection)]="selectedPeriods" (onRowSelect)="onRowSelect($event)" [rows]="12"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
@@ -52,7 +52,7 @@
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="title_search" />
+                            placeholder={{title_search}} />
                     </span>
                 </div>
             </ng-template>
@@ -61,8 +61,9 @@
                 <tr>
                     <th>{{title_no}}</th>
                     <th>{{title_code}}</th>
-                    <th>{{title_detail_en}}</th>
                     <th>{{title_detail_th}}</th>
+                    <th>{{title_detail_en}}</th>
+                   
                     <th>{{title_fromdate}}</th>
                     <th>{{title_todate}}</th>
                     <th>{{title_payment}}</th>
@@ -76,8 +77,9 @@
                 <tr [pSelectableRow]="data">
                     <td><span>{{title_no}}</span>{{i+1}}</td>
                     <td>{{data.period_no}}</td>
-                    <td>{{data.period_name_en}}</td>
                     <td>{{data.period_name_th}}</td>
+                    <td>{{data.period_name_en}}</td>
+                    
                     <td>{{data.period_from | date:'dd/MM/yyyy'}}</td>
                     <td>{{data.period_to | date:'dd/MM/yyyy'}}</td>
                     <td>{{data.period_payment | date:'dd/MM/yyyy'}}
@@ -97,11 +99,11 @@
         <input pInputText type="text" [(ngModel)]="selectedPeriods.period_no" maxlength="2" disabled="{{edit_data}}" />
         <p>{{selectedPeriods.period_no.length}}/2</p>
 
-        <label>{{title_detail_en}}</label>
-        <textarea [(ngModel)]="selectedPeriods.period_name_en" pInputTextarea [autoResize]="true"></textarea>
-
         <label>{{title_detail_th}}</label>
         <textarea [(ngModel)]="selectedPeriods.period_name_th" pInputTextarea [autoResize]="true"></textarea>
+
+        <label>{{title_detail_en}}</label>
+        <textarea [(ngModel)]="selectedPeriods.period_name_en" pInputTextarea [autoResize]="true"></textarea>
 
         <label>{{title_fromdate}}</label>
         <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_from" dateFormat="dd/mm/yy"><input

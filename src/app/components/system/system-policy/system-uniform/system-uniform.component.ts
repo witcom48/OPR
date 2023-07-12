@@ -37,9 +37,9 @@ export class SystemUniformComponent implements OnInit {
 
   ngOnInit(): void {
     this.doGetInitialCurrent()
-
+    this.doLoadLanguage()
     setTimeout(() => {
-      this.doLoadLanguage()
+      
       this.doLoadMenu()
       this.doLoadUniform()
     }, 500);

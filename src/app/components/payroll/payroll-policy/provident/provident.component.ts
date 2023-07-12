@@ -1,13 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ProvidentModel } from 'src/app/models/payroll/provident';
 import { ProvidentWorkageModel } from 'src/app/models/payroll/provident_workage';
 import { ProvidentService } from 'src/app/services/payroll/provident.service';
 import * as XLSX from 'xlsx';
+
 @Component({
     selector: 'app-provident',
     templateUrl: './provident.component.html',
@@ -19,8 +20,9 @@ export class ProvidentComponent implements OnInit {
         private confirmationService: ConfirmationService,
         private datePipe: DatePipe,
         private providentService: ProvidentService,
-
-        private router: Router
+        private router: Router,
+ 
+    
     ) { }
     @ViewChild('TABLE') table: ElementRef | any = null;
     new_data: boolean = false;
@@ -96,7 +98,7 @@ export class ProvidentComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_payroll = 'บัญชีเงินเดือน';
+            this.title_payroll = 'บัญชี';
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'กองทุนสำรองเลี้ยงชีพ';
             this.title_new = 'เพิ่ม';

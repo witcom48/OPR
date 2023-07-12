@@ -40,11 +40,11 @@ export class BranchComponent implements OnInit {
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
-
+        this.doLoadLanguage();
 
 
         setTimeout(() => {
-            this.doLoadLanguage();
+         
             this.doLoadMenu();
             this.doLoadCombranch();
         }, 500);
@@ -59,14 +59,14 @@ export class BranchComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
     }
-    title_codes: string = 'Code';
-    title_social_security_branch: string = 'Social Security Branch';
-    title_name: string = 'Name';
+    title_codes: string = 'Branch Id';
+    title_social_security_branch: string = 'Social Security Branch No.';
+    title_name: string = 'Branch Name';
     title_english_name: string = 'Name (Eng)';
     title_system:string = "System";
     title_manage: string = 'Manage';
 
-    title_page: string = 'combranch';
+    title_page: string = 'Branch';
     title_num_emp: string = 'combranch';
     title_new_emp: string = 'New';
     title_resign_emp: string = 'Resign';

@@ -36,9 +36,9 @@ export class SystemEthnicityComponent implements OnInit {
 
     ngOnInit(): void {
       this.doGetInitialCurrent()
-
+      this.doLoadLanguage()
       setTimeout(() => {
-        this.doLoadLanguage()
+        
         this.doLoadMenu()
         this.doLoadEthnicity()
       }, 500);

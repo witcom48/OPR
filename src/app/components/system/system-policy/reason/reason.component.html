@@ -7,9 +7,9 @@
 <div class="tabledata">
     <!-- Table Show Data Time Period -->
     <div #TABLE>
-        <p-table #dt2 [value]="reason_list"
-            selectionMode="single" [(selection)]="reasons" (onRowSelect)="onRowSelect($event)" [rows]="12"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+        <p-table #dt2 [value]="reason_list" selectionMode="single" [(selection)]="reasons"
+            (onRowSelect)="onRowSelect($event)" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
             [globalFilterFields]="['reason_code','reason_name_en','reason_name_th','period_payment','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
@@ -31,7 +31,7 @@
                 </div>
             </ng-template>
             <!-- --------------END Form Search Table------------------ -->
-            <ng-template pTemplate="header"  let-columns>
+            <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th>{{langs.get('no')[selectlang]}}</th>
                     <th>{{langs.get('code')[selectlang]}}</th>
@@ -41,7 +41,7 @@
 
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data let-i="rowIndex"  let-columns="columns">
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
                     <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
                     <td><span>{{langs.get('code')[selectlang]}}</span>{{data.reason_code}}</td>
@@ -61,24 +61,24 @@
         <div class="formatt" *ngIf="new_data">
             <i (click)="close()"></i>
             <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
-            
-            <input pInputText type="text" [(ngModel)]="reasons.reason_code" maxlength="5"
-                [disabled]="edit_data" name="code" #code="ngModel" required />
-                <p>{{reasons.reason_code.length}}/5</p>
 
-                <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
-            <textarea [(ngModel)]="reasons.reason_name_en" pInputTextarea [autoResize]="true"
-                name="bank_name_th" #late_name_th="ngModel" required></textarea>
+            <input pInputText type="text" [(ngModel)]="reasons.reason_code" maxlength="5" [disabled]="edit_data"
+                name="code" #code="ngModel" required />
+            <p>{{reasons.reason_code.length}}/5</p>
+            <label>{{langs.get('descriptionth')[selectlang]}} <span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="reasons.reason_name_th" pInputTextarea [autoResize]="true" name="bank_name_en"
+                #late_name_en="ngModel" required></textarea>
+            <label>{{langs.get('descriptionen')[selectlang]}} <span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="reasons.reason_name_en" pInputTextarea [autoResize]="true" name="bank_name_th"
+                #late_name_th="ngModel" required></textarea>
 
-                <label>{{langs.get('description')[selectlang]}} (Thai.)<span style="color: red;"> *</span></label>
-            <textarea [(ngModel)]="reasons.reason_name_th" pInputTextarea [autoResize]="true"
-                name="bank_name_en" #late_name_en="ngModel" required></textarea>
+
 
             <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Save()"
                 [disabled]="!Form.form.valid"></button>
 
-            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash"
-                class="p-button p-button-danger" (click)="Delete()"></button>
+            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                icon="pi pi-trash" class="p-button p-button-danger" (click)="Delete()"></button>
         </div>
     </form>
 
@@ -107,7 +107,9 @@
 <p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
     <label class="drop-container">
         <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>

@@ -114,15 +114,14 @@ export class CalculationperiodComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-                        this.title_payroll= 'บัญชีเงินเดือน';
-
+            this.title_payroll= 'บัญชี';
             this.title_policy = 'กำหนดนโยบาย';
-            this.title_page = 'งวดการคำนวน';
+            this.title_page = 'กำหนดงวด';
             this.title_new = 'เพิ่ม';
             this.title_type = 'ประเภท';
 
             this.title_monthly = 'เดือน';
-            this.title_daily = 'วัน';
+            this.title_daily = 'วันที่จ่าย';
             this.title_payment = 'การชำระเงิน'
             this.title_fromdate = 'จากวันที่'
             this.title_todate= 'ถึงวันที่';

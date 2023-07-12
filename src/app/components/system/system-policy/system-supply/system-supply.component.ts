@@ -37,9 +37,9 @@ export class SystemSupplyComponent implements OnInit {
 
   ngOnInit(): void {
     this.doGetInitialCurrent()
-
+    this.doLoadLanguage()
     setTimeout(() => {
-      this.doLoadLanguage()
+      
       this.doLoadMenu()
       this.doLoadSupply()
     }, 500);
@@ -52,7 +52,8 @@ export class SystemSupplyComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
   }
-
+ title_system: string = 'System';
+    title_genaral: string = 'Genaral';
   title_page: string = "Supply Office";
   title_new: string = "New";
   title_edit: string = "Edit";
@@ -84,6 +85,8 @@ export class SystemSupplyComponent implements OnInit {
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_system = 'ระบบ';
+            this.title_genaral = 'ทั่วไป';
       this.title_page = "อุปกรณ์สำนักงาน";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";

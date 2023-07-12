@@ -40,9 +40,9 @@ export class SystemReligionComponent implements OnInit {
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
-
-        setTimeout(() => {
             this.doLoadLanguage();
+        setTimeout(() => {
+            
             this.doLoadMenu();
             this.doLoadReligion();
         }, 500);

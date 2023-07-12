@@ -102,7 +102,7 @@ export class TaxrateComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_payroll= 'บัญชีเงินเดือน';
+            this.title_payroll= 'บัญชี';
 
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'อัตราภาษี';

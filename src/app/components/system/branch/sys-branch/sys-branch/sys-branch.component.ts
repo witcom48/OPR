@@ -87,10 +87,10 @@ export class SysBranchComponent implements OnInit {
         this.doLoadcardList();
         this.doLoadaddressList();
         this.doLoadprovinceList();
-
+        this.doLoadLanguage();
         setTimeout(() => {
             this.doLoadMenu();
-            this.doLoadLanguage();
+            
         }, 100);
 
         setTimeout(() => {

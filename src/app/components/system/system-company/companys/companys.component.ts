@@ -100,10 +100,10 @@ export class CompanysComponent implements OnInit {
         this.doLoadcardList();
         this.doLoadaddressList();
         this.doLoadprovinceList();
-
+        this.doLoadLanguage();
         setTimeout(() => {
             this.doLoadMenu();
-            this.doLoadLanguage();
+            
         }, 100);
 
         setTimeout(() => {
@@ -485,16 +485,16 @@ export class CompanysComponent implements OnInit {
                     }
                 },
             },
-            {
-                label: this.title_import,
-                icon: 'pi pi-fw pi-file-import',
-                command: (event) => { },
-            },
-            {
-                label: this.title_export,
-                icon: 'pi pi-fw pi-file-export',
-                command: (event) => { },
-            },
+            // {
+            //     label: this.title_import,
+            //     icon: 'pi pi-fw pi-file-import',
+            //     command: (event) => { },
+            // },
+            // {
+            //     label: this.title_export,
+            //     icon: 'pi pi-fw pi-file-export',
+            //     command: (event) => { },
+            // },
         ];
     }
 
@@ -661,7 +661,7 @@ export class CompanysComponent implements OnInit {
         
         console.log(this.comaddressList)
         this.companyDetailService
-            .getcompany_address(this.company_code, this.comaddress_type)
+            .getcompany_address(this.selectedCompany.company_code,  this.comaddress_type)
             .then((res) => {
                 this.comaddressList = res;
                 if (this.comaddressList.length > 0) {
@@ -757,7 +757,7 @@ export class CompanysComponent implements OnInit {
     selectedCombank: CombankModel = new CombankModel();
     doLoadCombankList() {
         this.companyDetailService
-            .getcompany_bank(this.initial_current.CompCode, this.company_code)
+            .getcompany_bank(this.selectedCompany.company_code, this.company_code)
             .then((res) => {
                 this.combankList = res;
                 if (this.combankList.length > 0) {

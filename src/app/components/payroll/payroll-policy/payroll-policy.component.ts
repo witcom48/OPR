@@ -46,10 +46,10 @@ public initial_current: InitialCurrent = new InitialCurrent();
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_system_payroll= 'นโยบายเงินเดือน';
+            this.title_system_payroll= 'นโยบาย';
             this.title_system_Policy= 'นโยบาย';
 
-            this.title_Calculation = 'งวดการคำนวน';
+            this.title_Calculation = 'กำหนดงวด';
             this.title_Taxrate = 'อัตราภาษี';
             this.title_IncomeDeduct = 'ชนิดเงินได้ / เงินหัก';
             this.title_Provident_Fund = 'กองทุนสำรองเลี้ยงชีพ';

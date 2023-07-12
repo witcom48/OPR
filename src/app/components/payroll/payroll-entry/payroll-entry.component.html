@@ -74,7 +74,7 @@
                                     <th>{{title_quantity}}</th>
                                     <th>{{title_bank_transfer_cash}}</th>
                                     <th>{{title_note}}</th>
-                                    <th>{{title_date}}</th>
+                                    <!-- <th>{{title_date}}</th> -->
                                     <th>{{title_modified_by}}</th>
                                     <th>{{title_modified_date}}</th>
                                 </tr>
@@ -91,7 +91,7 @@
                                     <td>{{data.payitem_quantity | number}}</td>
                                     <td>{{data.payitem_paytype}}</td>
                                     <td>{{data.payitem_note}}</td>
-                                    <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td>
+                                    <!-- <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td> -->
                                     <td>{{data.modified_by}}</td>
                                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                 </tr>
@@ -143,9 +143,10 @@
                         <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea>
 
                         <label>{{title_date}}</label>
-                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                        <!-- <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="payitems.payitem_date">
-                            <input type="text"></p-calendar>
+                            <input type="text"></p-calendar> -->
+
                         <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
                             (click)="Save()"></button>
                         <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}"
@@ -275,7 +276,7 @@
                                     <th>{{title_quantity}}</th>
                                     <th>{{title_bank_transfer_cash}}</th>
                                     <th>{{title_note}}</th>
-                                    <th>{{title_date}}</th>
+                                    <!-- <th>{{title_date}}</th> -->
                                     <th>{{title_modified_by}}</th>
                                     <th>{{title_modified_date}}</th>
                                 </tr>
@@ -292,7 +293,7 @@
                                     <td>{{data.payitem_quantity | number}}</td>
                                     <td>{{data.payitem_paytype}}</td>
                                     <td>{{data.payitem_note}}</td>
-                                    <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td>
+                                    <!-- <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td> -->
                                     <td>{{data.modified_by}}</td>
                                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                 </tr>
@@ -345,10 +346,10 @@
                         <label>{{title_note}}</label>
                         <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea>
 
-                        <label>{{title_date}}</label>
+                        <!-- <label>{{title_date}}</label>
                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="payitems.payitem_date">
-                            <input type="text"></p-calendar>
+                            <input type="text"></p-calendar> -->
                         <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
                             (click)="Save()"></button>
                         <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}"

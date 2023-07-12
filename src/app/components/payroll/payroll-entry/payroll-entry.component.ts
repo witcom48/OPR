@@ -179,7 +179,7 @@ export class PayrollEntryComponent implements OnInit {
         if (this.initial_current.Language == 'TH') {
             this.title_page = 'ข้อมูลทั่วไป';
             this.title_manage  = 'บันทึกเงินได้/เงินหัก';
-            this.title_payroll = 'บัญชีเงินเดือน ';
+            this.title_payroll = 'บัญชี ';
             this.title_by_income= 'ตามรายได้ ';
             this.title_codeitem= 'รหัสเงินหัก ';
             this.title_employee= 'พนักงาน ';
@@ -337,19 +337,16 @@ export class PayrollEntryComponent implements OnInit {
     doSetDetailWorker() {
         this.workerDetail = this.worker_list[this.worker_index];
         this.worker_code = this.workerDetail.worker_code;
-        if (this.initial_current.Language == 'EN') {
+        if (this.initial_current.Language === 'EN') {
             this.worker_name =
-                this.workerDetail.worker_fname_en +
-                ' ' +
-                this.workerDetail.worker_lname_en;
+                this.workerDetail.worker_fname_en + ' ' + this.workerDetail.worker_lname_en;
         } else {
             this.worker_name =
-                this.workerDetail.worker_fname_th +
-                ' ' +
-                this.workerDetail.worker_lname_th;
+                this.workerDetail.worker_fname_th + ' ' + this.workerDetail.worker_lname_th;
         }
         this.doLoadPayitem();
     }
+    
 
     //get  data dropdown
     Items_List: ItemsModel[] = [];
@@ -366,7 +363,7 @@ export class PayrollEntryComponent implements OnInit {
         tmp.worker_code = this.workerDetail.worker_code;
 
         try {
-            const res = await this.payitemService.payitem_get(this.initial_current.CompCode,'',this.worker_code,'',this.item);
+            const res = await this.payitemService.payitem_get(this.initial_current.CompCode,  this.initial_current.PR_PayDate ,this.worker_code,'',this.item);
             const inItems = res.filter((item: { item_type: string }) => item.item_type === 'IN');
             const deItems = res.filter((item: { item_type: string }) => item.item_type === 'DE');
             this.payitem_list = [...inItems, ...deItems];
@@ -377,6 +374,7 @@ export class PayrollEntryComponent implements OnInit {
     }
     async doRecordPayitem(data: PayitemModel) {
         data.worker_code = this.workerDetail.worker_code;
+        data.payitem_date = this.initial_current.PR_PayDate;
 
         try {
             const res = await this.payitemService.payitem_record(data);
