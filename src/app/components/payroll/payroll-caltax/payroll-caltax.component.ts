@@ -101,7 +101,7 @@ export class PayrollCaltaxComponent implements OnInit {
     //-- Step 2 Task detail
     
     let dateString = '2023-01-28T00:00:00'
-    var FromDate = new Date(dateString);
+    // var FromDate = new Date(dateString);
 
     // dateString = '2023-01-11T00:00:00'
     // var ToDate = new Date(dateString);
@@ -110,8 +110,8 @@ export class PayrollCaltaxComponent implements OnInit {
     this.taskDetail.taskdetail_process = process;
     this.taskDetail.taskdetail_fromdate = this.initial_current.TA_FromDate;
     this.taskDetail.taskdetail_todate = this.initial_current.TA_ToDate;
-    //this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
-    this.taskDetail.taskdetail_paydate = FromDate;
+    this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
+    // this.taskDetail.taskdetail_paydate = FromDate;
 
     //-- Step 3 Task whose
     this.taskWhoseList = [];

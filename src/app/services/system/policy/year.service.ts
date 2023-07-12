@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ProjectModel } from '../../../models/project/project';
 import { AppConfig } from '../../../config/config';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { InitialCurrent } from '../../../config/initial_current';
 import { ReligionModel } from 'src/app/models/system/policy/religion';
 import { YearPeriodModels } from 'src/app/models/system/policy/yearperiod';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class YearService {
 
@@ -32,7 +32,7 @@ export class YearService {
                 'Content-Type': 'application/json; charset=utf-8',
                 'Accept': 'application/json',
                 'Cache-Control': 'no-cache',
-                'Authorization': this.initial_current.Token
+                'Authorization': this.initial_current.Token || ""
             });
 
             this.options = {

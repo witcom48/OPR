@@ -25,7 +25,7 @@ export class AuthenService {
         'Content-Type': 'application/json; charset=utf-8',
         'Accept': 'application/json',
         'Cache-Control': 'no-cache',
-        'Authorization': this.initial_current.Token
+        'Authorization': this.initial_current.Token || ""
       });
 
       this.options2 = {
