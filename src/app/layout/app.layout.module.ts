@@ -17,9 +17,11 @@ import { AppFooterComponent } from './app.footer.component';
 import { AppConfigModule } from './config/config.module';
 import { AppSidebarComponent } from "./app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
-
+import { DialogModule } from 'primeng/dialog';
 import { MenuModule } from 'primeng/menu';
+import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
     declarations: [
@@ -44,7 +46,10 @@ import { DropdownModule } from 'primeng/dropdown';
         RouterModule,
         AppConfigModule,
         MenuModule,
-        DropdownModule
+        DropdownModule,
+        PdfViewerModule,
+        DialogModule,
+        ButtonModule
     ],
     exports: [AppLayoutComponent]
 })

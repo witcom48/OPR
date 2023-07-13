@@ -24,6 +24,7 @@ import { SelfApproveCheckinComponent } from './self-approve-checkin/self-approve
 import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-reqdoc.component';
 import { SelfApproveComponent } from './self-approve/self-approve.component';
 import { SelfConsentComponent } from './self-consent/self-consent.component';
+import { SelfEmpConsentComponent } from './self-emp-consent/self-emp-consent.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { SelfConsentComponent } from './self-consent/self-consent.component';
         { path: 'approve_reqdoc', component: SelfApproveReqdocComponent },
 
         { path: 'consent', component: SelfConsentComponent },
+        { path: 'empconsent', component: SelfEmpConsentComponent },
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }
