@@ -9,6 +9,7 @@ export class PositionModel {
   position_name_en: string = "";
   position_level: number = 0;
   company_code: string = "";
+  notused : boolean = false;
   modified_by: string = "";
   modified_date: string = "";
   index: number = 0;

@@ -8,37 +8,37 @@
 
     
     <div class="col-12 md:col-3">
-        <b>Genaral</b>
-        <a routerLink="../../employee/policy/location">Location</a>
-        <a routerLink="../../employee/policy/part">Group Level</a>
-        <a routerLink="../../employee/policy/position">Position</a>        
-        <a routerLink="../../employee/policy/group">Group</a>     
-        <a routerLink="../../employee/policy/initial">Title</a> 
-        <a routerLink="../../employee/policy/emptype">Employee Type</a> 
-        <a routerLink="../../employee/policy/empstatus">Employee Status</a>     
+        <b>{{title_general[initial_current.Language]}}</b>
+        <a routerLink="../../employee/policy/location">{{title_location[initial_current.Language]}}</a>
+        <a routerLink="../../employee/policy/part">{{title_dep[initial_current.Language]}}</a>
+        <a routerLink="../../employee/policy/position">{{title_position[initial_current.Language]}}</a>        
+        <a routerLink="../../employee/policy/group">{{title_group[initial_current.Language]}}</a>     
+        <a routerLink="../../employee/policy/initial">{{title_initial[initial_current.Language]}}</a> 
+        <a routerLink="../../employee/policy/emptype">{{title_emptype[initial_current.Language]}}</a> 
+        <a routerLink="../../employee/policy/empstatus">{{title_empstatus[initial_current.Language]}}</a>     
        
     </div>
 
-    <div class="col-12 md:col-3">
+    <!-- <div class="col-12 md:col-3">
         <b>Setup</b>
         <a >Wage</a>      
         <a >Provident Fund</a>
         <a >SSO.</a> 
         <a >Location</a>
         <a >Group</a>  
-    </div>
+    </div> -->
 
     <div class="col-12 md:col-3">
-        <b>Batch</b>
+        <b>{{title_setbatch[initial_current.Language]}}</b>
         <!-- <a routerLink="../../employee/policy/batch/empposition">Position</a> -->
-        <a routerLink="../../employee/policy/batch/empdetail">Employee Details</a>
-        <a routerLink="../../employee/policy/batch/empassessment">Assessment</a>
-        <a routerLink="../../employee/policy/batch/emptraining">Training</a>
-        <a routerLink="../../employee/policy/batch/empsalary">Adjust Salary</a>
+        <a routerLink="../../employee/policy/batch/empdetail">{{title_setdetail[initial_current.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/empassessment">{{title_setassessment[initial_current.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/emptraining">{{title_settraining[initial_current.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/empsalary">{{title_setsalary[initial_current.Language]}}</a>
         <!-- <a routerLink="../../employee/policy/batch/empgroup">Group</a> -->
-        <a routerLink="../../employee/policy/batch/emplocation">Location</a>
-        <a routerLink="../../employee/policy/batch/empprovident">Provident</a>
-        <a routerLink="../../employee/policy/batch/empbenefits">Benefits</a>
+        <a routerLink="../../employee/policy/batch/emplocation">{{title_setlocation[initial_current.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/empprovident">{{title_setprovident[initial_current.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/empbenefits">{{title_setbenefit[initial_current.Language]}}</a>
         <!-- <b>Payroll</b>
         <a >Income / Deduct</a>  
         <a >Period</a>       

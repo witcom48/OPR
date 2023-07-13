@@ -1,8 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <p-menubar [model]="toolbar_menu"></p-menubar>
 <p-card header="{{title_page}}" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
-    <div >
-        <div >
+    <div>
+        <div>
             <p-tabView (onChange)="tabChange($event)">
 
                 <!-- Tab Genaral -->
@@ -247,6 +247,7 @@
                                         <tr>
                                             <th>{{title_locationname}}</th>
                                             <th>{{title_start}}</th>
+                                            <th>{{title_end}}</th>
                                             <th>{{title_description}}</th>
                                             <th>{{title_modified_by}}</th>
                                             <th>{{title_modified_date}}</th>
@@ -254,8 +255,9 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-emplocation>
                                         <tr [pSelectableRow]="emplocation">
-                                            <td>{{emplocation.location_code}}</td>
+                                            <td>{{doGetLocationDetail(emplocation.location_code)}}</td>
                                             <td>{{emplocation.emplocation_startdate | date:'dd/MM/yyyy'}}</td>
+                                            <td>{{emplocation.emplocation_enddate | date:'dd/MM/yyyy'}}</td>
                                             <td>{{emplocation.emplocation_note}}</td>
                                             <td>{{emplocation.modified_by}}</td>
                                             <td>{{emplocation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -285,6 +287,7 @@
                                         <tr>
                                             <th>{{title_branchname}}</th>
                                             <th>{{title_start}}</th>
+                                            <th>{{title_end}}</th>
                                             <th>{{title_description}}</th>
                                             <th>{{title_modified_by}}</th>
                                             <th>{{title_modified_date}}</th>
@@ -292,8 +295,9 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-empbranch>
                                         <tr [pSelectableRow]="empbranch">
-                                            <td>{{empbranch.branch_code}}</td>
+                                            <td>{{doGetBranchDetail(empbranch.branch_code)}}</td>
                                             <td>{{empbranch.empbranch_startdate | date:'dd/MM/yyyy'}}</td>
+                                            <td>{{empbranch.empbranch_enddate | date:'dd/MM/yyyy'}}</td>
                                             <td>{{empbranch.empbranch_note}}</td>
                                             <td>{{empbranch.modified_by}}</td>
                                             <td>{{empbranch.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -453,27 +457,29 @@
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_addresstype}}</th>
-                                                <th>{{title_no}}</th>
+                                                <!-- <th>{{title_no}}</th>
                                                 <th>{{title_soi}}</th>
                                                 <th>{{title_road}}</th>
                                                 <th>{{title_amphur}}</th>
                                                 <th>{{title_tambon}}</th>
                                                 <th>{{title_province}}</th>
-                                                <th>{{title_zipcode}}</th>
+                                                <th>{{title_zipcode}}</th> -->
+                                                <th>{{title_address}}</th>
                                                 <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empaddress>
                                             <tr [pSelectableRow]="empaddress">
-                                                <td>{{empaddress.address_type}}</td>
-                                                <td>{{empaddress.address_no}}</td>
+                                                <td>{{doGetAddtypeDetail(empaddress.address_type)}}</td>
+                                                <!-- <td>{{empaddress.address_no}}</td>
                                                 <td>{{empaddress.address_soi}}</td>
                                                 <td>{{empaddress.address_road}}</td>
                                                 <td>{{empaddress.address_amphur}}</td>
                                                 <td>{{empaddress.address_tambon}}</td>
                                                 <td>{{empaddress.province_code}}</td>
-                                                <td>{{empaddress.address_zipcode}}</td>
+                                                <td>{{empaddress.address_zipcode}}</td> -->
+                                                <td>{{empaddress.address_no}} {{empaddress.address_moo}} {{empaddress.address_soi}} {{empaddress.address_road}} {{empaddress.address_amphur}} {{empaddress.address_tambon}} {{doGetProvinceDetail(empaddress.province_code)}} {{empaddress.address_zipcode}}</td>
                                                 <td>{{empaddress.modified_by}}</td>
                                                 <td>{{empaddress.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -506,7 +512,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empcard>
                                             <tr [pSelectableRow]="empcard">
-                                                <td>{{empcard.card_type}}</td>
+                                                <td>{{doGetCardDetail(empcard.card_type)}}</td>
                                                 <td>{{empcard.card_code}}</td>
                                                 <td>{{empcard.card_issue | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empcard.card_expire | date:'dd/MM/yyyy'}}</td>
@@ -543,7 +549,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empbank>
                                             <tr [pSelectableRow]="empbank">
-                                                <td>{{empbank.bank_code}}</td>
+                                                <td>{{doGetBankDetail(empbank.bank_code)}}</td>
                                                 <td>{{empbank.bank_account}}</td>
                                                 <td>{{empbank.bank_bankname}}</td>
                                                 <td>{{empbank.bank_percent}}</td>
@@ -580,7 +586,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empfamily>
                                             <tr [pSelectableRow]="empfamily">
-                                                <td>{{empfamily.family_type}}</td>
+                                                <td>{{doGetFamilyDetail(empfamily.family_type)}}</td>
                                                 <td>{{empfamily.family_code}}</td>
                                                 <td>{{empfamily.family_fname_th}}</td>
                                                 <td>{{empfamily.family_lname_th}}</td>
@@ -615,7 +621,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-emphospital>
                                             <tr [pSelectableRow]="emphospital">
-                                                <td>{{emphospital.emphospital_code}}</td>
+                                                <td>{{doGetHospitalDetail(emphospital.emphospital_code)}}</td>
                                                 <td>{{emphospital.emphospital_date | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{emphospital.modified_by}}</td>
                                                 <td>{{emphospital.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -777,8 +783,8 @@
                                         <ng-template pTemplate="body" let-empdep>
                                             <tr [pSelectableRow]="empdep">
                                                 <td>{{empdep.empdep_date | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empdep.empdep_level01}}</td>
-                                                <td>{{empdep.empdep_level02}}</td>
+                                                <td>{{doGetDepL1Detail(empdep.empdep_level01)}}</td>
+                                                <td>{{doGetDepL2Detail(empdep.empdep_level02)}}</td>
                                                 <td>{{empdep.empdep_level03}}</td>
                                                 <td>{{empdep.empdep_level04}}</td>
                                                 <td>{{empdep.modified_by}}</td>
@@ -814,8 +820,9 @@
                                         <ng-template pTemplate="body" let-empposition>
                                             <tr [pSelectableRow]="empposition">
                                                 <td>{{empposition.empposition_date | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{initial_current.Language == "TH"?
-                                                    empposition.position_name_th:empposition.position_name_en}}</td>
+                                                <!-- <td>{{initial_current.Language == "TH"?
+                                                    empposition.position_name_th:empposition.position_name_en}}</td> -->
+                                                <td>{{doGetPositionDetail(empposition.empposition_position)}}</td>
                                                 <td>{{empposition.empposition_reason}}</td>
                                                 <td>{{empposition.modified_by}}</td>
                                                 <td>{{empposition.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -849,7 +856,7 @@
                                         <ng-template pTemplate="body" let-empgroup>
                                             <tr [pSelectableRow]="empgroup">
                                                 <td>{{empgroup.empgroup_date | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empgroup.empgroup_code}}</td>
+                                                <td>{{doGetGroupDetail(empgroup.empgroup_code)}}</td>
                                                 <td>{{empgroup.modified_by}}</td>
                                                 <td>{{empgroup.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -888,12 +895,12 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empeducation>
                                             <tr [pSelectableRow]="empeducation">
-                                                <td>{{empeducation.institute_code}}</td>
+                                                <td>{{doGetInstituteDetail(empeducation.institute_code)}}</td>
                                                 <td>{{empeducation.empeducation_start | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empeducation.empeducation_finish | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empeducation.faculty_code}}</td>
-                                                <td>{{empeducation.major_code}}</td>
-                                                <td>{{empeducation.qualification_code}}</td>
+                                                <td>{{doGetFacultyDetail(empeducation.faculty_code)}}</td>
+                                                <td>{{doGetMajorDetail(empeducation.major_code)}}</td>
+                                                <td>{{doGetQualificationDetail(empeducation.qualification_code)}}</td>
                                                 <td>{{empeducation.empeducation_gpa}}</td>
                                                 <td>{{empeducation.modified_by}}</td>
                                                 <td>{{empeducation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -931,7 +938,7 @@
                                         <ng-template pTemplate="body" let-empsupply>
                                             <tr [pSelectableRow]="empsupply">
                                                 <td>{{empsupply.empsupply_issuedate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empsupply.empsupply_code}}</td>
+                                                <td>{{doGetSupplyDetail(empsupply.empsupply_code)}}</td>
                                                 <td>{{empsupply.empsupply_qauntity}}</td>
                                                 <td>{{empsupply.empsupply_returndate | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empsupply.empsupply_returnstatus}}</td>
@@ -971,7 +978,7 @@
                                         <ng-template pTemplate="body" let-empuniform>
                                             <tr [pSelectableRow]="empuniform">
                                                 <td>{{empuniform.empuniform_issuedate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empuniform.empuniform_code}}</td>
+                                                <td>{{doGetUniformDetail(empuniform.empuniform_code)}}</td>
                                                 <td>{{empuniform.empuniform_qauntity}}</td>
                                                 <td>{{empuniform.empuniform_amount}}</td>
                                                 <td>{{empuniform.empuniform_note}}</td>
@@ -1012,8 +1019,8 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-emptraining>
                                             <tr [pSelectableRow]="emptraining">
-                                                <td>{{emptraining.institute_code}}</td>
-                                                <td>{{emptraining.course_code}}</td>
+                                                <td>{{doGetInstituteDetail(emptraining.institute_code)}}</td>
+                                                <td>{{doGetCourseDetail(emptraining.course_code)}}</td>
                                                 <td>{{emptraining.course_other}}</td>
                                                 <td>{{emptraining.emptraining_start | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{emptraining.emptraining_finish | date:'dd/MM/yyyy'}}</td>
@@ -1026,7 +1033,7 @@
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
-                        <!-- Assessment -->
+                        <!-- Assessment/Appraisal -->
                         <div class="field col-12">
                             <p-accordion>
                                 <p-accordionTab header="{{title_assessment}}">
@@ -1063,7 +1070,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empassessment>
                                             <tr [pSelectableRow]="empassessment">
-                                                <td>{{empassessment.empassessment_location}}</td>
+                                                <td>{{doGetInstituteDetail(empassessment.empassessment_location)}}</td>
                                                 <td>{{empassessment.empassessment_topic}}</td>
                                                 <td>{{empassessment.empassessment_fromdate | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empassessment.empassessment_todate | date:'dd/MM/yyyy'}}</td>
@@ -1113,7 +1120,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empcriminal>
                                             <tr [pSelectableRow]="empcriminal">
-                                                <td>{{empcriminal.empcriminal_location}}</td>
+                                                <td>{{doGetInstituteDetail(empcriminal.empcriminal_location)}}</td>
                                                 <td>{{empcriminal.empcriminal_fromdate | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empcriminal.empcriminal_todate | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empcriminal.empcriminal_count}}</td>
@@ -1173,7 +1180,7 @@
                 </p-tabPanel>
                 <!-- tab Record-->
 
-                <!-- tab Finance-->
+                <!-- tab Finance//Payroll-->
                 <p-tabPanel>
                     <ng-template pTemplate="header">
                         <i class="pi pi-money-bill"></i>&nbsp;&nbsp;
@@ -1280,7 +1287,7 @@
                                         <ng-template pTemplate="body" let-empbenefit>
                                             <tr [pSelectableRow]="empbenefit">
                                                 <td>{{empbenefit.empbenefit_startdate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empbenefit.item_code}}</td>
+                                                <td>{{doGetitemDetail(empbenefit.item_code)}}</td>
                                                 <td>{{empbenefit.empbenefit_amount}}</td>
                                                 <td>{{empbenefit.empbenefit_conditionpay}}</td>
                                                 <td>{{empbenefit.empbenefit_reason}}</td>
@@ -1328,7 +1335,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empprovident>
                                             <tr [pSelectableRow]="empprovident">
-                                                <td>{{empprovident.provident_code}}</td>
+                                                <td>{{doGetProvidentDetail(empprovident.provident_code)}}</td>
                                                 <td>{{empprovident.empprovident_entry| date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empprovident.empprovident_start| date:'dd/MM/yyyy'}}</td>
                                                 <td></td>
@@ -1373,7 +1380,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empreduce>
                                             <tr [pSelectableRow]="empreduce">
-                                                <td>{{empreduce.reduce_type}}</td>
+                                                <td>{{doGetReduceDetail(empreduce.reduce_type)}}</td>
                                                 <td>{{empreduce.empreduce_amount}}</td>
                                                 <td>{{empreduce.modified_by}}</td>
                                                 <td>{{empreduce.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -1559,12 +1566,12 @@
         <input pInputText type="text" id="card_no" [(ngModel)]="selectedEmpcard.card_code">
 
         <label>{{title_issuedate}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpcard.card_issue"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_issue"> -->
 
         <label>{{title_expiredate}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false" [(ngModel)]="selectedEmpcard.card_expire">
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="selectedEmpcard.card_expire">
             <input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
 
@@ -1642,7 +1649,7 @@
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_lname_en">
 
         <label>{{title_birthdate}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpfamily.family_birthdate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_birthdate"> -->
 
@@ -1682,7 +1689,7 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_code"> -->
 
         <label>{{title_date}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmphospital.emphospital_date"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_date"> -->
 
@@ -1696,7 +1703,7 @@
     <!-- Form Emp Dep -->
     <div class="formatt" *ngIf="edit_empdep==true || new_dep==true">
         <label>{{title_date}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpdep.empdep_date"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_date"> -->
 
@@ -1743,7 +1750,7 @@
     <!-- Form Emp Position -->
     <div class="formatt" *ngIf="edit_empposition==true || new_position==true">
         <label>{{title_date}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpPosition.empposition_date"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_date"> -->
 
@@ -1772,7 +1779,7 @@
     <!-- Form Emp Group -->
     <div class="formatt" *ngIf="edit_empgroup==true || new_group==true">
         <label>{{title_date}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpGroup.empgroup_date"><input type="text"></p-calendar>
 
         <label>{{title_groupname}}</label>
@@ -1840,12 +1847,12 @@
         </p-dropdown>
 
         <label>{{title_educationstart}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpeducation.empeducation_start"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.empeducation_start"> -->
 
         <label>{{title_educationend}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpeducation.empeducation_finish"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpeducation.empeducation_finish"> -->
 
@@ -1865,13 +1872,22 @@
     <!-- Form Emp Supply -->
     <div class="formatt" *ngIf="edit_empsupply==true || new_supply==true">
         <label>{{title_supplyissue}}</label>
-        <p-calendar dateFormat="dd/mm/yy" [showIcon]="false" [(ngModel)]="selectedEmpSupply.empsupply_issuedate"><input
+        <p-calendar dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="selectedEmpSupply.empsupply_issuedate"><input
                 type="text"></p-calendar>
 
         <label>{{title_supplyename}}</label>
-        <p-dropdown placeholder="--" [showClear]="true" [(ngModel)]="selectedEmpSupply.empsupply_code"
-            [style]="{ width: '100%', overflow: 'visible' }">
+        <p-dropdown placeholder="--" [options]="supplyList" optionValue="supply_code" [showClear]="true"
+            [(ngModel)]="selectedEmpSupply.empsupply_code" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.supply_name_th : item.supply_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.supply_name_th : item.supply_name_en}}
+            </ng-template>
         </p-dropdown>
+        <!-- <p-dropdown placeholder="--" [showClear]="true" [(ngModel)]="selectedEmpSupply.empsupply_code"
+            [style]="{ width: '100%', overflow: 'visible' }">
+        </p-dropdown> -->
 
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
@@ -1900,13 +1916,22 @@
     <!-- Form Emp Uniform -->
     <div class="formatt" *ngIf="edit_empuniform==true || new_uniform==true">
         <label>{{title_supplyissue}}</label>
-        <p-calendar dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpUniform.empuniform_issuedate"><input type="text"></p-calendar>
 
         <label>{{title_uniformname}}</label>
-        <p-dropdown placeholder="--" [showClear]="true" [(ngModel)]="selectedEmpUniform.empuniform_code"
-            [style]="{ width: '100%', overflow: 'visible' }">
+        <p-dropdown placeholder="--" [options]="uniformList" optionValue="uniform_code" [showClear]="true"
+            [(ngModel)]="selectedEmpUniform.empuniform_code" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.uniform_name_th : item.uniform_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.uniform_name_th : item.uniform_name_en}}
+            </ng-template>
         </p-dropdown>
+        <!-- <p-dropdown placeholder="--" [showClear]="true" [(ngModel)]="selectedEmpUniform.empuniform_code"
+            [style]="{ width: '100%', overflow: 'visible' }">
+        </p-dropdown> -->
 
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
@@ -1979,12 +2004,12 @@
         </p-dropdown>
 
         <label>{{title_educationstart}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmptraining.emptraining_start"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_start"> -->
 
         <label>{{title_educationend}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmptraining.emptraining_finish"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmptraining.emptraining_finish"> -->
 
@@ -2040,12 +2065,12 @@
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_topic">
 
         <label>{{title_fromdate}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpassessment.empassessment_fromdate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_fromdate"> -->
 
         <label>{{title_todate}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpassessment.empassessment_todate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_todate"> -->
 
@@ -2085,12 +2110,12 @@
         </p-dropdown>
 
         <label>{{title_fromdate}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpcriminal.empcriminal_fromdate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_fromdate"> -->
 
         <label>{{title_todate}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpcriminal.empcriminal_todate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_todate"> -->
 
@@ -2137,7 +2162,7 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_amount"> -->
 
         <label>{{title_date}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpsalary.empsalary_date"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_date"> -->
 
@@ -2156,26 +2181,34 @@
     <!-- Form Emp provident -->
     <div class="formatt" *ngIf="edit_empprovident==true || new_provident==true">
         <label>{{title_provident}}</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+        <p-dropdown placeholder="--" [options]="providentList" optionValue="provident_code" [showClear]="true"
+            [(ngModel)]="selectedEmpprovident.provident_code" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
+            </ng-template>
+        </p-dropdown>
+        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [(ngModel)]="selectedEmpprovident.provident_code"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.provident_code"> -->
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
         <label>{{title_pfno}}</label>
         <input pInputText type="text" [(ngModel)]="selectedEmpprovident.empprovident_card">
 
         <label>{{title_pfentry}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpprovident.empprovident_entry"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_entry"> -->
 
         <label>{{title_pfstart}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpprovident.empprovident_start"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_start"> -->
 
         <label>{{title_pfend}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpprovident.empprovident_end"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_end"> -->
 
@@ -2189,9 +2222,17 @@
     <!-- Form Emp benefit -->
     <div class="formatt" *ngIf="edit_empbenefit==true || new_benefit==true">
         <label>{{title_incomededuct}}</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpbenefit.item_code"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.item_code"> -->
+        <p-dropdown placeholder="--" [options]="ItemList" optionValue="item_code" [showClear]="true"
+            [(ngModel)]="selectedEmpbenefit.item_code" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+            </ng-template>
+        </p-dropdown>
+        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpbenefit.item_code"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
@@ -2200,12 +2241,12 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_amount"> -->
 
         <label>{{title_start}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpbenefit.empbenefit_startdate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_startdate"> -->
 
         <label>{{title_end}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpbenefit.empbenefit_enddate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_enddate"> -->
 
@@ -2279,9 +2320,17 @@
     <!-- Form Emp Reduce -->
     <div class="formatt" *ngIf="edit_empreduce==true || new_reduce==true">
         <label>{{title_reducename}}</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpreduce.reduce_type"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpreduce.reduce_type"> -->
+        <p-dropdown placeholder="--" [options]="reduceList" optionValue="reduce_code" [showClear]="true"
+            [(ngModel)]="selectedEmpreduce.reduce_type" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.reduce_name_th : item.reduce_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.reduce_name_th : item.reduce_name_en}}
+            </ng-template>
+        </p-dropdown>
+        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpreduce.reduce_type"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
@@ -2376,11 +2425,11 @@
         </p-dropdown>
 
         <label>{{title_start}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpLocation.emplocation_startdate"><input type="text"></p-calendar>
 
         <label>{{title_end}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpLocation.emplocation_enddate"><input type="text"></p-calendar>
 
         <label>{{title_description}}</label>
@@ -2408,11 +2457,11 @@
         </p-dropdown>
 
         <label>{{title_start}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpbranch.empbranch_startdate"><input type="text"></p-calendar>
 
         <label>{{title_end}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpbranch.empbranch_enddate"><input type="text"></p-calendar>
 
         <label>{{title_description}}</label>

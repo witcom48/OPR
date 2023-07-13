@@ -63,6 +63,11 @@
         <label>{{title_name_en}}</label>
         <textarea [(ngModel)]="selectedPosition.position_name_en" pInputTextarea [autoResize]="true"></textarea>
 
+        <div>
+            <p-checkbox [(ngModel)]="selectedPosition.notused" [binary]="true"></p-checkbox> &nbsp;
+            <label>{{title_notused[initial_current.Language]}}</label>
+        </div>
+
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
             class="p-button-danger" (click)="confirmDelete()"></button>

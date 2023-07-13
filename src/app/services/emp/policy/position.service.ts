@@ -74,6 +74,7 @@ export class PositionService {
       position_code: model.position_code,
       position_name_th: model.position_name_th,
       position_name_en: model.position_name_en,
+      notused: model.notused,
       company_code: this.initial_current.CompCode,
       modified_by: this.initial_current.Username
     };

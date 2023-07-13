@@ -6,7 +6,7 @@ export class EmpTrainingModel {
     emptraining_no: string= "0";
     emptraining_start!: Date;
     emptraining_finish!: Date;
-    emptraining_status: string= "";
+    emptraining_status: string= "Y";
     emptraining_hours: string= "";
     emptraining_cost: string= "";
     emptraining_note: string= "";

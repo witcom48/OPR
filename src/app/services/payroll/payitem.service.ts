@@ -67,6 +67,7 @@ export class PayitemService {
           company_code:  this.initial_current.CompCode,          
           language:this.initial_current.Language,
           worker_code:worker,
+          item_type: payitem,
           item_code:item, 
 
         };

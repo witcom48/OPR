@@ -710,7 +710,7 @@ export class EmpDetailService {
       company_code: this.initial_current.CompCode,
       modified_by: this.initial_current.Username
     };
-
+    console.log(data)
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empposition_del', data, this.options).toPromise()
       .then((res) => {
         return res;
@@ -1656,7 +1656,8 @@ export class EmpDetailService {
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"empsupply_code\":\"" + list[i].empsupply_code + "\"";
+      item_data = item_data + "\"empsupply_id\":\"" + list[i].empsupply_id + "\"";
+      item_data = item_data + ",\"empsupply_code\":\"" + list[i].empsupply_code + "\"";
       item_data = item_data + ",\"empsupply_qauntity\":\"" + list[i].empsupply_qauntity + "\"";
       item_data = item_data + ",\"empsupply_issuedate\":\"" + this.datePipe.transform(list[i].empsupply_issuedate) + "\"";
       item_data = item_data + ",\"empsupply_note\":\"" + list[i].empsupply_note + "\"";
@@ -1736,7 +1737,8 @@ export class EmpDetailService {
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"empuniform_code\":\"" + list[i].empuniform_code + "\"";
+      item_data = item_data + "\"empuniform_id\":\"" + list[i].empuniform_id + "\"";
+      item_data = item_data + ",\"empuniform_code\":\"" + list[i].empuniform_code + "\"";
       item_data = item_data + ",\"empuniform_qauntity\":\"" + list[i].empuniform_qauntity + "\"";
       item_data = item_data + ",\"empuniform_amount\":\"" + list[i].empuniform_amount + "\"";
       item_data = item_data + ",\"empuniform_issuedate\":\"" + this.datePipe.transform(list[i].empuniform_issuedate) + "\"";
@@ -1813,7 +1815,8 @@ export class EmpDetailService {
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"empsuggest_code\":\"" + list[i].empsuggest_code + "\"";
+      item_data = item_data + "\"empsuggest_id\":\"" + list[i].empsuggest_id + "\"";
+      item_data = item_data + ",\"empsuggest_code\":\"" + list[i].empsuggest_code + "\"";
       if (this.datePipe.transform(list[i].empsuggest_date)) {
         item_data = item_data + ",\"empsuggest_date\":\"" + this.datePipe.transform(list[i].empsuggest_date) + "\"";
       }

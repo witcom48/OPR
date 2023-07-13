@@ -81,6 +81,16 @@ import { CourseService } from 'src/app/services/system/policy/course.service';
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
 import { PolcodeService } from 'src/app/services/system/policy/polcode.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SupplyModel } from 'src/app/models/system/policy/supply';
+import { UniformModel } from 'src/app/models/system/policy/uniform';
+import { SupplyService } from 'src/app/services/system/policy/supply.service';
+import { UniformService } from 'src/app/services/system/policy/uniform.service';
+import { ItemsModel } from 'src/app/models/payroll/items';
+import { ItemService } from 'src/app/services/payroll/item.service';
+import { ReducesModel } from 'src/app/models/system/policy/reduces';
+import { ReduceService } from 'src/app/services/system/policy/reduce.service';
+import { ProvidentModel } from 'src/app/models/payroll/provident';
+import { ProvidentService } from 'src/app/services/payroll/provident.service';
 
 
 
@@ -98,11 +108,11 @@ interface ConPay {
   name_en: string,
   value: string
 }
-interface Ctype {
-  name_th: string,
-  name_en: string,
-  code: string
-}
+// interface Ctype {
+//   name_th: string,
+//   name_en: string,
+//   code: string
+// }
 interface Milit {
   name_th: string,
   name_en: string,
@@ -136,8 +146,8 @@ export class EmployeeManageComponent implements OnInit {
 
   taxM: Taxmethod[] = [];
   conPay: ConPay[] = [];
-  cardTypelist: Ctype[] = [];
-  militarystatus: Milit[]=[];
+  // cardTypelist: Ctype[] = [];
+  militarystatus: Milit[] = [];
 
   //menu emplocation
   menu_emplocation: MenuItem[] = [];
@@ -276,6 +286,11 @@ export class EmployeeManageComponent implements OnInit {
     private courseService: CourseService,
     private provinceService: ProvinceService,
     private polcodeService: PolcodeService,
+    private supplyService: SupplyService,
+    private uniformService: UniformService,
+    private itemService: ItemService,
+    private providentService: ProvidentService,
+    private reduceService: ReduceService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -286,11 +301,11 @@ export class EmployeeManageComponent implements OnInit {
       { name_th: 'ต่องวด', name_en: 'Per Period', value: 'F' },
       { name_th: 'งวดเว้นงวด', name_en: 'Switch Period', value: 'H' },
     ]
-    this.cardTypelist = [
-      { name_th: 'เลขที่ประจำตัวนิติบุคคล', name_en: 'Citizen ID', code: 'CID' },
-      { name_th: 'บัตรประชาชน', name_en: 'National ID', code: 'NTID' },
-      { name_th: 'ประกันสังคม', name_en: 'Social', code: 'SSO' },
-    ]
+    // this.cardTypelist = [
+    //   { name_th: 'เลขที่ประจำตัวนิติบุคคล', name_en: 'Citizen ID', code: 'CID' },
+    //   { name_th: 'บัตรประชาชน', name_en: 'National ID', code: 'NTID' },
+    //   { name_th: 'ประกันสังคม', name_en: 'Social', code: 'SSO' },
+    // ]
     this.militarystatus = [
       { name_th: 'ไม่มี', name_en: 'No', code: '0' },
       { name_th: 'หนีทหาร', name_en: 'Disappear Soldier', code: 'A' },
@@ -337,6 +352,12 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadprovinceList();
 
     this.doLoadSuggestList();
+
+    this.doLoadSupplyList();
+    this.doLoadUniformList();
+    this.doLoadItemList();
+    this.doLoadProvidentList();
+    this.doLoadReduceList();
 
     setTimeout(() => {
       this.doLoadMenu();
@@ -420,11 +441,11 @@ export class EmployeeManageComponent implements OnInit {
   title_supply: string = "Office Supply";
   title_uniform: string = "Uniform";
   title_suggest: string = "Suggest";
-  title_assessment: string = "Assessment";
+  title_assessment: string = "Appraisal";
   title_criminal: string = "Criminal Record";
   title_resignrecord: string = "Resign Record";
 
-  title_finance: string = "Finance";
+  title_finance: string = "Payroll";
   title_taxmethod: string = "Tax Method";
   title_salary: string = "Salary";
   title_benefit: string = "Benefit";
@@ -475,7 +496,7 @@ export class EmployeeManageComponent implements OnInit {
   title_issuedate: string = "Issue Date";
   title_expiredate: string = "Expire Date";
   title_cardtype: string = "Card Type";
-  title_bankname: string = "Bank Name";
+  title_bankname: string = "Bank";
   title_bankname2: string = "Name";
   title_bankcode: string = "Account";
   title_bankper: string = "Bank(%)";
@@ -1906,7 +1927,7 @@ export class EmployeeManageComponent implements OnInit {
         this.manage_title = "Training"
       }
       else if (this.new_assessment || this.edit_empassessment) {
-        this.manage_title = "Assessment"
+        this.manage_title = "Appraisal"
       }
       else if (this.new_criminal || this.edit_empcriminal) {
         this.manage_title = "Criminal"
@@ -2236,6 +2257,45 @@ export class EmployeeManageComponent implements OnInit {
   doLoadprovinceList() {
     this.provinceService.province_get().then((res) => {
       this.provinceList = res;
+    })
+  }
+  //drop supply
+  supplyList: SupplyModel[] = [];
+  doLoadSupplyList() {
+    this.supplyService.supply_get().then((res) => {
+      this.supplyList = res;
+    })
+  }
+
+  //drop uniform
+  uniformList: UniformModel[] = [];
+  doLoadUniformList() {
+    this.uniformService.uniform_get().then((res) => {
+      this.uniformList = res;
+    })
+  }
+  //drop item
+  ItemList: ItemsModel[] = [];
+  doLoadItemList() {
+    var tmp = new ItemsModel();
+    this.itemService.item_get(tmp).then((res) => {
+      this.ItemList = res;
+    })
+  }
+  //drop provident
+  providentList: ProvidentModel[] = [];
+  doLoadProvidentList() {
+    var tmp = new ProvidentModel();
+    this.providentService.provident_get(tmp).then((res) => {
+      this.providentList = res;
+    })
+  }
+  //drop reduce
+  reduceList: ReducesModel[] = [];
+  doLoadReduceList() {
+    var tmp = new ReducesModel();
+    this.reduceService.reduce_get().then((res) => {
+      this.reduceList = res;
     })
   }
 
@@ -2736,7 +2796,8 @@ export class EmployeeManageComponent implements OnInit {
   }
   empposition_delete() {
     var tmp: EmpPositionModel = new EmpPositionModel();
-    tmp.worker_code = this.selectedEmployee.worker_code
+    tmp.worker_code = this.selectedEmployee.worker_code;
+    tmp.empposition_id = "";
     this.empdetailService.delete_empposition(tmp).then((res) => {
       let result = JSON.parse(res);
     });
@@ -3941,7 +4002,298 @@ export class EmployeeManageComponent implements OnInit {
 
   }
 
+  //get location name
+  doGetLocationDetail(locationCode: string): any {
+    for (let i = 0; i < this.locationList.length; i++) {
+      if (this.locationList[i].location_code == locationCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.locationList[i].location_name_th;
+        }
+        else {
+          return this.locationList[i].location_name_en;
+        }
+      }
+    }
+  }
+  //get branch name
+  doGetBranchDetail(branchCode: string): any {
+    for (let i = 0; i < this.combranchList.length; i++) {
+      if (this.combranchList[i].combranch_code == branchCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.combranchList[i].combranch_name_th;
+        }
+        else {
+          return this.combranchList[i].combranch_name_en;
+        }
+      }
+    }
+  }
+  //get address name
+  doGetAddtypeDetail(AddtypeCode: string): any {
+    for (let i = 0; i < this.addresstypeList.length; i++) {
+      if (this.addresstypeList[i].addresstype_code == AddtypeCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.addresstypeList[i].addresstype_name_th;
+        }
+        else {
+          return this.addresstypeList[i].addresstype_name_en;
+        }
+      }
+    }
+  }
+  //get card name
+  doGetCardDetail(CardCode: string): any {
+    for (let i = 0; i < this.cardtypeList.length; i++) {
+      if (this.cardtypeList[i].cardtype_code == CardCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.cardtypeList[i].cardtype_name_th;
+        }
+        else {
+          return this.cardtypeList[i].cardtype_name_en;
+        }
+      }
+    }
+  }
+  //get bank name
+  doGetBankDetail(BankCode: string): any {
+    for (let i = 0; i < this.bankList.length; i++) {
+      if (this.bankList[i].bank_code == BankCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.bankList[i].bank_name_th;
+        }
+        else {
+          return this.bankList[i].bank_name_en;
+        }
+      }
+    }
+  }
 
+  //get family name
+  doGetFamilyDetail(FamtypeCode: string): any {
+    for (let i = 0; i < this.familytypeList.length; i++) {
+      if (this.familytypeList[i].family_code == FamtypeCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.familytypeList[i].family_name_th;
+        }
+        else {
+          return this.familytypeList[i].family_name_en;
+        }
+      }
+    }
+  }
+
+  //get hopital name
+  doGetHospitalDetail(HospitalCode: string): any {
+    for (let i = 0; i < this.hospitalList.length; i++) {
+      if (this.hospitalList[i].hospital_code == HospitalCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.hospitalList[i].hospital_name_th;
+        }
+        else {
+          return this.hospitalList[i].hospital_name_en;
+        }
+      }
+    }
+  }
+
+  //get dep1 name
+  doGetDepL1Detail(depCode: string): any {
+    for (let i = 0; i < this.deplevel1List.length; i++) {
+      if (this.deplevel1List[i].dep_code == depCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.deplevel1List[i].dep_name_th;
+        }
+        else {
+          return this.deplevel1List[i].dep_name_en;
+        }
+      }
+    }
+  }
+  //get dep2 name
+  doGetDepL2Detail(depCode: string): any {
+    for (let i = 0; i < this.deplevel2List.length; i++) {
+      if (this.deplevel2List[i].dep_code == depCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.deplevel2List[i].dep_name_th;
+        }
+        else {
+          return this.deplevel2List[i].dep_name_en;
+        }
+      }
+    }
+  }
+
+  //get position name
+  doGetPositionDetail(PositionCode: string): any {
+    for (let i = 0; i < this.positionList.length; i++) {
+      if (this.positionList[i].position_code == PositionCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.positionList[i].position_name_th;
+        }
+        else {
+          return this.positionList[i].position_name_en;
+        }
+      }
+    }
+  }
+
+  //get group name
+  doGetGroupDetail(GroupCode: string): any {
+    for (let i = 0; i < this.groupList.length; i++) {
+      if (this.groupList[i].group_code == GroupCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.groupList[i].group_name_th;
+        }
+        else {
+          return this.groupList[i].group_name_en;
+        }
+      }
+    }
+  }
+  //get Institute name
+  doGetInstituteDetail(InstituteCode: string): any {
+    for (let i = 0; i < this.instituteList.length; i++) {
+      if (this.instituteList[i].institute_code == InstituteCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.instituteList[i].institute_name_th;
+        }
+        else {
+          return this.instituteList[i].institute_name_en;
+        }
+      }
+    }
+  }
+  //get faculty name
+  doGetFacultyDetail(FacultyCode: string): any {
+    for (let i = 0; i < this.facultyList.length; i++) {
+      if (this.facultyList[i].faculty_code == FacultyCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.facultyList[i].faculty_name_th;
+        }
+        else {
+          return this.facultyList[i].faculty_name_en;
+        }
+      }
+    }
+  }
+  //get major name
+  doGetMajorDetail(MajorCode: string): any {
+    for (let i = 0; i < this.majorList.length; i++) {
+      if (this.majorList[i].major_code == MajorCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.majorList[i].major_name_th;
+        }
+        else {
+          return this.majorList[i].major_name_en;
+        }
+      }
+    }
+  }
+  //get qualification name
+  doGetQualificationDetail(QualificationCode: string): any {
+    for (let i = 0; i < this.qualificationList.length; i++) {
+      if (this.qualificationList[i].qualification_code == QualificationCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.qualificationList[i].qualification_name_th;
+        }
+        else {
+          return this.qualificationList[i].qualification_name_en;
+        }
+      }
+    }
+  }
+  //get supply name
+  doGetSupplyDetail(SupplyCode: string): any {
+    for (let i = 0; i < this.supplyList.length; i++) {
+      if (this.supplyList[i].supply_code == SupplyCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.supplyList[i].supply_name_th;
+        }
+        else {
+          return this.supplyList[i].supply_name_en;
+        }
+      }
+    }
+  }
+
+  //get unifrom name
+  doGetUniformDetail(UniformCode: string): any {
+    for (let i = 0; i < this.uniformList.length; i++) {
+      if (this.uniformList[i].uniform_code == UniformCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.uniformList[i].uniform_name_th;
+        }
+        else {
+          return this.uniformList[i].uniform_name_en;
+        }
+      }
+    }
+  }
+  //get course name
+  doGetCourseDetail(CourseCode: string): any {
+    for (let i = 0; i < this.courseList.length; i++) {
+      if (this.courseList[i].course_code == CourseCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.courseList[i].course_name_th;
+        }
+        else {
+          return this.courseList[i].course_name_en;
+        }
+      }
+    }
+  }
+  //get item name
+  doGetitemDetail(itemCode: string): any {
+    for (let i = 0; i < this.ItemList.length; i++) {
+      if (this.ItemList[i].item_code == itemCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.ItemList[i].item_name_th;
+        }
+        else {
+          return this.ItemList[i].item_name_en;
+        }
+      }
+    }
+  }
+  //get provident name
+  doGetProvidentDetail(ProvidentCode: string): any {
+    for (let i = 0; i < this.providentList.length; i++) {
+      if (this.providentList[i].provident_code == ProvidentCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.providentList[i].provident_name_th;
+        }
+        else {
+          return this.providentList[i].provident_name_en;
+        }
+      }
+    }
+  }
+  //get reduce name
+  doGetReduceDetail(ReduceCode: string): any {
+    for (let i = 0; i < this.reduceList.length; i++) {
+      if (this.reduceList[i].reduce_code == ReduceCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.reduceList[i].reduce_name_th;
+        }
+        else {
+          return this.reduceList[i].reduce_name_en;
+        }
+      }
+    }
+  }
+  //get province name
+  doGetProvinceDetail(ProvinceCode: string): any {
+    for (let i = 0; i < this.provinceList.length; i++) {
+      if (this.provinceList[i].province_code == ProvinceCode) {
+        if (this.initial_current.Language == "TH") {
+          return this.provinceList[i].province_name_th;
+        }
+        else {
+          return this.provinceList[i].province_name_en;
+        }
+      }
+    }
+  }
 
   clearManage() {
     this.new_emplocation = false; this.edit_emplocation = false;
