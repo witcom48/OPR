@@ -172,7 +172,7 @@ export class CodestructureComponent implements OnInit {
 
     doRecordCodestructure(){
       this.codestructureService.codestructure_record(this.selectedcodestructure).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -202,7 +202,7 @@ export class CodestructureComponent implements OnInit {
 
     doDeleteCodestructure(){
       this.codestructureService.codestructure_delete(this.selectedcodestructure).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -244,7 +244,7 @@ export class CodestructureComponent implements OnInit {
             const filetype = "xls";
 
             this.codestructureService.codestructure_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

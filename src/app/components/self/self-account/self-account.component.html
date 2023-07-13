@@ -228,6 +228,21 @@
             </p-pickList>
         </div>
 
+        <!-- PickList component for selecting Modules  (ADM) -->
+        <div class="field col-12" *ngIf="selectedAccountType.code == 'ADM'">
+            <p-pickList [source]="availableModules" [target]="selectedModules"
+                sourceHeader="{{ accountLanguages.get('module')[selectedLanguage] }}"
+                targetHeader="{{ accountLanguages.get('module_select')[selectedLanguage] }}"
+                [sourceStyle]="{'height':'15rem'}" [targetStyle]="{ height: '15rem' }" [metaKeySelection]="false"
+                [showSourceControls]="false" [showTargetControls]="false">
+                <ng-template let-data pTemplate="item">
+                    <div>
+                        <div style="font-size:14px;float:left;">{{ data.name }}</div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+        </div>
+
         <div class="field col-12">
             <!-- Save button -->
             <p-button label="{{ accountLanguages.get('save')[selectedLanguage] }}" icon="pi pi-save"

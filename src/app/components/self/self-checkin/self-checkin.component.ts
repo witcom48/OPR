@@ -194,7 +194,7 @@ export class SelfCheckinComponent implements OnInit {
     const filename = "CHECKIN_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
     this.timecheckinService.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.selectedtimecheckin.reqdoc_data = this.selectedtimecheckin.reqdoc_data.concat({
@@ -342,7 +342,7 @@ export class SelfCheckinComponent implements OnInit {
         // this.callApi(longitude, latitude);
       });
     } else {
-      console.log("No support for geolocation")
+      // console.log("No support for geolocation")
     }
   }
   async setMap() {
@@ -429,14 +429,14 @@ export class SelfCheckinComponent implements OnInit {
               header: this.langs.get('title_checkin')[this.selectlang],
               icon: 'pi pi-exclamation-triangle',
               accept: () => {
-                // console.log(this.selectedtimecheckin)
+                // // console.log(this.selectedtimecheckin)
               },
               reject: () => {
 
               }
             });
           } else {
-            // console.log(this.selectedtimecheckin)
+            // // console.log(this.selectedtimecheckin)
             this.doRecordTimecheckin(data_doc)
           }
         } else {
@@ -460,14 +460,14 @@ export class SelfCheckinComponent implements OnInit {
               header: this.langs.get('title_checkin')[this.selectlang],
               icon: 'pi pi-exclamation-triangle',
               accept: () => {
-                // console.log(this.selectedtimecheckin)
+                // // console.log(this.selectedtimecheckin)
               },
               reject: () => {
 
               }
             });
           } else {
-            // console.log(this.selectedtimecheckin)
+            // // console.log(this.selectedtimecheckin)
             this.doRecordTimecheckin([this.selectedtimecheckin])
           }
         }
@@ -475,7 +475,7 @@ export class SelfCheckinComponent implements OnInit {
       reject: () => {
       }
     });
-    // console.log(this.selectedtrtimeonsite)
+    // // console.log(this.selectedtrtimeonsite)
     // this.doRecordTimecheckin([this.selectedtimecheckin])
   }
   Delete() {

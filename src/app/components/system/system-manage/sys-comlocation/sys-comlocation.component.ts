@@ -188,14 +188,14 @@ export class SysComlocationComponent implements OnInit {
                 });
             },
         });
-        console.log(this.selectedcomlocation);
+        // console.log(this.selectedcomlocation);
     }
 
     doRecordComlocation() {
         this.comlocationService
             .comlocation_record(this.selectedcomlocation)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let result = JSON.parse(res);
 
                 if (result.success) {
@@ -234,12 +234,12 @@ export class SysComlocationComponent implements OnInit {
         });
     }
     doDeleteComlocation() {
-        console.log(this.selectedcomlocation);
+        // console.log(this.selectedcomlocation);
 
         this.comlocationService
             .comlocation_delete(this.selectedcomlocation)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let result = JSON.parse(res);
 
                 if (result.success) {
@@ -274,7 +274,7 @@ export class SysComlocationComponent implements OnInit {
     }
 
     doUploadComlocation() {
-        console.log('Upload');
+        // console.log('Upload');
         if (this.fileToUpload) {
             this.confirmationService.confirm({
                 message: 'Confirm Upload file : ' + this.fileToUpload.name,
@@ -289,7 +289,7 @@ export class SysComlocationComponent implements OnInit {
                     this.comlocationService
                         .comlocation_import(this.fileToUpload, filename, filetype)
                         .then((res) => {
-                            console.log(res);
+                            // console.log(res);
                             let result = JSON.parse(res);
 
                             if (result.success) {
@@ -346,7 +346,7 @@ export class SysComlocationComponent implements OnInit {
     }
 
     selectComManage() {
-        console.log(this.selectedcomlocation.comlocation_code);
+        // console.log(this.selectedcomlocation.comlocation_code);
 
         let navigationExtras: NavigationExtras = {
             queryParams: {

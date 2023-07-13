@@ -125,7 +125,7 @@ export class SelfTopicComponent implements OnInit {
     this.selectedtopic = new cls_MTTopicModel()
   }
   Save() {
-    // console.log(this.selectedtopic)
+    // // console.log(this.selectedtopic)
     this.doRecordTopic(this.selectedtopic)
   }
   Delete() {

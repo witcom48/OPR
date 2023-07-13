@@ -174,7 +174,7 @@ title_system:string = "System";
 
     doRecordEthnicity(){
       this.ethnicityService.ethnicity_record(this.selectedEthnicity).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -205,7 +205,7 @@ title_system:string = "System";
 
     doDeleteEthnicity(){
       this.ethnicityService.ethnicity_delete(this.selectedEthnicity).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -247,7 +247,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.ethnicityService.ethnicity_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

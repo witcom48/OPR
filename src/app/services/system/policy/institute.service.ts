@@ -58,18 +58,18 @@ export class InstituteService {
     }
 
     public institute_get(){
-      console.log('INS001..');
+      // console.log('INS001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/institute_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public institute_record(model:InstituteModel) {
-      console.log('INS002..');
+      // console.log('INS002..');
       const data = {
         institute_id: model.institute_id,
         institute_code: model.institute_code,
@@ -81,13 +81,13 @@ export class InstituteService {
       return this.http.post<any>(this.config.ApiSystemModule + '/institute', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public institute_delete(model:InstituteModel) {
-      console.log('INS003..');
+      // console.log('INS003..');
       const data = {
         institute_id: model.institute_id,
         institute_code: model.institute_code,

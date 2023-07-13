@@ -46,7 +46,7 @@ export class TimeDaytypeServices {
     }
 
     public timedaytype_get(timesdaytype: cls_TRTimedaytypeModel) {
-        console.log('Self011..');
+        // console.log('Self011..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -66,7 +66,7 @@ export class TimeDaytypeServices {
     }
 
     public timedaytype_record(timedaytypes: cls_TRTimedaytypeModel[]) {
-        console.log('Self011..');
+        // console.log('Self011..');
         var daytype_datas: any = []
         timedaytypes.forEach((timesdaytype: cls_TRTimedaytypeModel) => {
             let datas = {
@@ -95,13 +95,13 @@ export class TimeDaytypeServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timedaytype', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public timedaytype_delete(timedaytype: cls_TRTimedaytypeModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -112,13 +112,13 @@ export class TimeDaytypeServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timedaytype_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public file_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 
@@ -134,7 +134,7 @@ export class TimeDaytypeServices {
     }
 
     public get_file(file_path: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doGetMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
@@ -142,7 +142,7 @@ export class TimeDaytypeServices {
             });
     }
     public deletefilepath_file(file_path: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doDeleteMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
@@ -150,7 +150,7 @@ export class TimeDaytypeServices {
             });
     }
     public delete_file(file: cls_MTReqdocumentModel) {
-        console.log('Self011..');
+        // console.log('Self011..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",

@@ -46,7 +46,7 @@ export class SetShiftServices {
 
 
     public SetShift_record(Setup: SetShiftModels) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let emplists: any = []
         Setup.transaction_data.forEach((res: EmployeeModel) => {
             let ss = {
@@ -64,10 +64,10 @@ export class SetShiftServices {
             transaction_data: emplists,
             modified_by: Setup.modified_by || this.initial_current.Username
         }
-        console.log(data)
+        // console.log(data)
         return this.http.post<any>(this.config.ApiAttendanceModule + '/SetBatchPlanshift', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

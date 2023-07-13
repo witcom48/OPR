@@ -178,7 +178,7 @@ title_system:string = "System";
 
     doRecordlevel(){
       this.levelService.level_record(this.selectedLevel).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -210,7 +210,7 @@ title_system:string = "System";
 
     doDeleteLevel(){
       this.levelService.level_delete(this.selectedLevel).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -250,7 +250,7 @@ title_system:string = "System";
 
 
       this.levelService.level_import(this.fileToUpload, filename, filetype).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){

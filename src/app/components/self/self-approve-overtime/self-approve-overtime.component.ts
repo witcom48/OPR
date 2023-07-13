@@ -166,7 +166,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
     const filename = "OT_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
     this.timeotService.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.selectedtrtimeot.reqdoc_data = this.selectedtrtimeot.reqdoc_data.concat({
@@ -224,7 +224,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
       //   label: 'Edit',
       //   icon: 'pi pi-fw pi-pencil',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -258,7 +258,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
       //   label: 'เพิ่มไฟล์แนบ',
       //   icon: 'pi pi-fw pi-plus',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -433,7 +433,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
             tmp.approve_status = "A";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {
@@ -455,7 +455,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
             tmp.approve_status = "C";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {

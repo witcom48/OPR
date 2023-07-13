@@ -78,7 +78,7 @@ export class AddRounComponent implements OnInit {
     
     async doRecordRounds(data: RoundsModel) {
       await this.roundsService.rounds_record(data).then((res) => {
-        console.log(res)
+        // console.log(res)
         if (res.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
           this.doLoadRounds()
@@ -93,7 +93,7 @@ export class AddRounComponent implements OnInit {
     }
     async doDeleteRounds(data: RoundsModel) {
       await this.roundsService.rounds_delete(data).then((res) => {
-        console.log(res)
+        // console.log(res)
         if (res.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
           this.doLoadRounds()
@@ -110,7 +110,7 @@ export class AddRounComponent implements OnInit {
       const filename = "Rounds_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
       this.roundsService.rounds_import(this.fileToUpload, filename, filetype).then((res) => {
-        console.log(res)
+        // console.log(res)
         if (res.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
           this.doLoadRounds();
@@ -186,11 +186,11 @@ export class AddRounComponent implements OnInit {
       this.rounds = new RoundsModel()
     }
     changeParentCount(val: string) {
-      console.log(val)
+      // console.log(val)
     }
     Save() {
       this.doRecordRounds(this.rounds)
-      console.log(this.rounds)
+      // console.log(this.rounds)
     }
     Delete() {
       this.doDeleteRounds(this.rounds)

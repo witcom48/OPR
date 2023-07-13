@@ -60,18 +60,18 @@ export class EthnicityService {
     }
 
     public ethnicity_get(){
-      console.log('ENT001..');
+      // console.log('ENT001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/ethnicity_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public ethnicity_record(model:EthnicityModel) {
-      console.log('ENT002..');
+      // console.log('ENT002..');
       const data = {
         ethnicity_id: model.ethnicity_id,
         ethnicity_code: model.ethnicity_code,
@@ -83,13 +83,13 @@ export class EthnicityService {
       return this.http.post<any>(this.config.ApiSystemModule + '/ethnicity', data, this.options).toPromise()
       .then((res) => {
 
-        //console.log(res)
+        //// console.log(res)
         return res;
       });
     }
 
     public ethnicity_delete(model:EthnicityModel) {
-      console.log('ENT002..');
+      // console.log('ENT002..');
       const data = {
         ethnicity_id: model.ethnicity_id,
         ethnicity_code: model.ethnicity_code,

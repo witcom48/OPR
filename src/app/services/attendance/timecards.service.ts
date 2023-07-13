@@ -79,7 +79,7 @@ export class TimecardService {
     return this.http.post<any>(this.config.ApiAttendanceModule + '/timecard_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        //console.log(res)
+        //// console.log(res)
         return message.data;
       });
   }
@@ -168,7 +168,7 @@ export class TimecardService {
     return this.http.get<any>(this.config.ApiAttendanceModule + '/daytype_list').toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
   }

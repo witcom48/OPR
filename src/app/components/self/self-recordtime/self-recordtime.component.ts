@@ -171,7 +171,7 @@ export class SelfRecordtimeComponent implements OnInit {
     const filename = "ONSITE_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
     this.timeonsiteService.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.selectedtrtimeonsite.reqdoc_data = this.selectedtrtimeonsite.reqdoc_data.concat({
@@ -221,7 +221,7 @@ export class SelfRecordtimeComponent implements OnInit {
       //   label: 'Edit',
       //   icon: 'pi pi-fw pi-pencil',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -255,7 +255,7 @@ export class SelfRecordtimeComponent implements OnInit {
       //   label: 'เพิ่มไฟล์แนบ',
       //   icon: 'pi pi-fw pi-plus',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -386,7 +386,7 @@ export class SelfRecordtimeComponent implements OnInit {
           if (this.selectedtrtimeonsite.timeonsite_doc === "") {
             this.selectedtrtimeonsite.timeonsite_doc = "ONSITE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
           }
-          // console.log(this.selectedtrtimeonsite)
+          // // console.log(this.selectedtrtimeonsite)
           this.doRecordTimeonsite([this.selectedtrtimeonsite])
         }
       },

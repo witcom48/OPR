@@ -44,7 +44,7 @@ export class TimeAllowanceServices {
     }
 
     public timeallow_get(TimeAllow: cls_MTPlantimeallw) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -61,7 +61,7 @@ export class TimeAllowanceServices {
     }
 
     public timeallow_record(TimeAllow: cls_MTPlantimeallw) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -79,13 +79,13 @@ export class TimeAllowanceServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/plantimeallw', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public timeallow_delete(TimeAllow: cls_MTPlantimeallw) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -96,7 +96,7 @@ export class TimeAllowanceServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/plantimeallw_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -104,7 +104,7 @@ export class TimeAllowanceServices {
 
 
     public timeallow_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 

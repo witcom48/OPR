@@ -125,7 +125,7 @@ export class HolidayComponent implements OnInit {
     const filename = "PLANHOLIDAY_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.planholidayService.planholiday_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPlanholiday();
@@ -310,7 +310,7 @@ export class HolidayComponent implements OnInit {
     this.displayeditholiday = true
   }
   selectYear() {
-    console.log(this.selectedyear)
+    // console.log(this.selectedyear)
     this.doLoadPlanholiday();
   }
   exportAsExcel() {

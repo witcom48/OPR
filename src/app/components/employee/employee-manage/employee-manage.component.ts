@@ -3434,7 +3434,7 @@ export class EmployeeManageComponent implements OnInit {
   }
   record_empsalary() {
     if (this.empsalaryList.length == 0) {
-      console.log(this.empsalaryList)
+      // console.log(this.empsalaryList)
       this.empsalary_delete();
     } else {
       this.empdetailService.record_empsalary(this.selectedEmployee.worker_code, this.empsalaryList).then((res) => {
@@ -3922,7 +3922,7 @@ export class EmployeeManageComponent implements OnInit {
     }
     reader.readAsDataURL(event.target.files[0])
     // reader.readAsDataURL(event.files[0]);
-    // console.log(event.target.files.item(0))
+    // // console.log(event.target.files.item(0))
     this.fileToUpload = event.target.files.item(0);
 
   }

@@ -72,7 +72,7 @@ export class PdpaFileServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/pdpafile', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -87,7 +87,7 @@ export class PdpaFileServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/pdpafile_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -108,7 +108,7 @@ export class PdpaFileServices {
     }
 
     public get_file(file_path: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doGetMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {

@@ -129,7 +129,7 @@ export class EmpsetprovidentComponent implements OnInit {
     this.loading = true;
     await this.setempdetailService.SetProvident_record(data).then((res) => {
       if (res.success) {
-        console.log(res.message)
+        // console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetprovidentList();
         this.edit_data = false;

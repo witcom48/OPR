@@ -58,7 +58,7 @@ export class ComaddressService {
     }
 
     public comaddress_get() {
-        console.log('CCAD001..');
+        // console.log('CCAD001..');
 
         return this.http
             .post<any>(
@@ -69,13 +69,13 @@ export class ComaddressService {
             .toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                console.log(res);
+                // console.log(res);
                 return message.data;
             });
     }
 
     public comaddress_record(model: ComaddressModel) {
-        console.log('CCAD002..');
+        // console.log('CCAD002..');
         const data = {
             company_code: model.company_code,
             combranch_code: model.combranch_code,
@@ -116,13 +116,13 @@ export class ComaddressService {
             )
             .toPromise()
             .then((res) => {
-                //console.log(res)
+                //// console.log(res)
                 return res;
             });
     }
 
     public comaddress_delete(model: ComaddressModel) {
-        console.log('CCAD003..');
+        // console.log('CCAD003..');
         const data = {
             company_code:model.company_code,
             combranch_code:model.combranch_code,

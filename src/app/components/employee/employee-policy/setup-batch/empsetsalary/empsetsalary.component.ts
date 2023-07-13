@@ -119,10 +119,10 @@ export class EmpsetsalaryComponent implements OnInit {
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
-    console.log(data)
+    // console.log(data)
     await this.setempdetailService.SetSalary_record(data).then((res) => {
       if (res.success) {
-        console.log(res.message)
+        // console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsalaryList();
         this.edit_data = false;

@@ -75,7 +75,7 @@
       this.route.queryParams.subscribe(params => {
         this.page_type = params['type'];     
         
-        console.log(this.page_type);
+        // console.log(this.page_type);
       });
       
 
@@ -322,8 +322,8 @@
 
     doRecordGenaral(){
 
-      //console.log('record')
-      //console.log(this.selectedProcost)
+      //// console.log('record')
+      //// console.log(this.selectedProcost)
 
       switch ( this.page_type ) {
         case "probusiness":

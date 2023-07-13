@@ -46,7 +46,7 @@ export class ApproveServices {
     }
 
     public approve_get(approve: ApproveModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -65,7 +65,7 @@ export class ApproveServices {
     }
 
     public approveJob(approve: ApproveModel) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -78,7 +78,7 @@ export class ApproveServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/approve', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

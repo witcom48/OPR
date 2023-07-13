@@ -122,7 +122,7 @@ export class PayrollCaltaxComponent implements OnInit {
       header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        //console.log(this.selectEmp.employee_dest.length)
+        //// console.log(this.selectEmp.employee_dest.length)
 
         this.taskService.task_record(this.task, this.taskDetail, this.selectEmp.employee_dest).then((res) => {       
           let result = JSON.parse(res);  

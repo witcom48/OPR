@@ -57,18 +57,18 @@ export class PositionService {
   }
 
   public position_get(){
-    console.log('PST001..');
+    // console.log('PST001..');
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/position_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
 
   public position_record(model:PositionModel) {
-    console.log('PST002..');
+    // console.log('PST002..');
     const data = {
       position_id: model.position_id,
       position_code: model.position_code,
@@ -85,7 +85,7 @@ export class PositionService {
   }
 
   public position_delete(model:PositionModel) {
-    console.log('LCT003..');
+    // console.log('LCT003..');
     const data = {
         position_id: model.position_id,
         position_code: model.position_code,

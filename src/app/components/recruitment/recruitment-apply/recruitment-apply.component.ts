@@ -209,7 +209,7 @@ export class RecruitmentApplyComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
             this.req_code = params['applycode'];
-            console.log(this.req_code);
+            // console.log(this.req_code);
         });
 
         this.doGetInitialCurrent();
@@ -755,7 +755,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    console.log('NEW');
+                    // console.log('NEW');
                     this.clearManage();
                     this.new_education = true;
                     var ref = this.reqeducationList.length + 100;
@@ -768,7 +768,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
-                    console.log('EDIT');
+                    // console.log('EDIT');
                     this.clearManage();
                     if (this.selectedReqeducation != null) {
                         this.edit_reqeducation = true;
@@ -792,7 +792,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    console.log('NEW');
+                    // console.log('NEW');
                     this.clearManage();
                     this.new_training = true;
                     var ref = this.reqtrainingList.length + 100;
@@ -805,7 +805,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
-                    console.log('EDIT');
+                    // console.log('EDIT');
                     this.clearManage();
                     if (this.selectedReqtraining != null) {
                         this.edit_reqtraining = true;
@@ -830,7 +830,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    console.log('NEW');
+                    // console.log('NEW');
                     this.clearManage();
                     this.new_assessment = true;
                     var ref = this.reqassessmentList.length + 100;
@@ -843,7 +843,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
-                    console.log('EDIT');
+                    // console.log('EDIT');
                     this.clearManage();
                     if (this.selectedReqassessment != null) {
                         this.edit_reqassessment = true;
@@ -868,7 +868,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    console.log('NEW');
+                    // console.log('NEW');
                     this.clearManage();
                     this.new_criminal = true;
                     var ref = this.reqCriminalList.length + 100;
@@ -881,7 +881,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
-                    console.log('EDIT');
+                    // console.log('EDIT');
                     this.clearManage();
                     if (this.selectedReqCriminal != null) {
                         this.edit_reqcriminal = true;

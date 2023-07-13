@@ -170,7 +170,7 @@ export class ProjectListComponent implements OnInit {
 
   doLoadMaster(){
     this.genaralService.probusiness_get().then((res) => {
-      //console.log(res)
+      //// console.log(res)
       this.probusiness_list = res;     
     });
 
@@ -185,7 +185,7 @@ export class ProjectListComponent implements OnInit {
 
   selectProject(){
 
-    console.log(this.selectedProject.project_code)
+    // console.log(this.selectedProject.project_code)
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -225,7 +225,7 @@ export class ProjectListComponent implements OnInit {
   doLoadProject(){
     
     this.projectService.project_get(this.initial_current.CompCode, "").then((res) => {
-      //console.log(res)
+      //// console.log(res)
       this.project_list = res;     
     });
   }

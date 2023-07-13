@@ -314,7 +314,7 @@ export class AttendanceViewComponent implements OnInit {
   }
 
   onChangeWork1(){
-    console.log(this.work1)
+    // console.log(this.work1)
   }
 
   pad(num:number, size:number): string {

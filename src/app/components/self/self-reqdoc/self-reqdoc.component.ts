@@ -157,7 +157,7 @@ export class SelfReqdocComponent implements OnInit {
     const filename = "REQDOC_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
     this.reqdocService.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.selectedreqdoc.reqdocatt_data = this.selectedreqdoc.reqdocatt_data.concat({
@@ -348,7 +348,7 @@ export class SelfReqdocComponent implements OnInit {
         if (this.selectedreqdoc.reqdoc_doc === "") {
           this.selectedreqdoc.reqdoc_doc = "REQDOC_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
         }
-        // console.log(this.selectedreqdoc)
+        // // console.log(this.selectedreqdoc)
         this.doRecordReqdoc(this.selectedreqdoc)
       },
       reject: () => {

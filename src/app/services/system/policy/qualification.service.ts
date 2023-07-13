@@ -57,18 +57,18 @@ export class QualificationService {
     }
 
     public qualification_get(){
-      console.log('QUA001..');
+      // console.log('QUA001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/qualification_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public qualification_record(model:QualificationModel) {
-      console.log('QUA002..');
+      // console.log('QUA002..');
       const data = {
         qualification_id: model.qualification_id,
         qualification_code: model.qualification_code,
@@ -80,13 +80,13 @@ export class QualificationService {
       return this.http.post<any>(this.config.ApiSystemModule + '/qualification', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public qualification_delete(model:QualificationModel) {
-      console.log('QUA003..');
+      // console.log('QUA003..');
       const data = {
         qualification_id: model.qualification_id,
         qualification_code: model.qualification_code,
@@ -169,7 +169,7 @@ export class QualificationService {
 //     }
 
 //     public qualification_get() {
-//         console.log('QUAR001..');
+//         // console.log('QUAR001..');
 
 //         return this.http
 //             .post<any>(
@@ -180,13 +180,13 @@ export class QualificationService {
 //             .toPromise()
 //             .then((res) => {
 //                 let message = JSON.parse(res);
-//                 console.log(res);
+//                 // console.log(res);
 //                 return message.data;
 //             });
 //     }
 
 //     public  qualification_record(model: QualificationModel) {
-//         console.log('QUAR002..');
+//         // console.log('QUAR002..');
 //         const data = {
 //             qualification_id:model.qualification_id,
 //       qualification_code:model.qualification_code,
@@ -204,13 +204,13 @@ export class QualificationService {
 //             )
 //             .toPromise()
 //             .then((res) => {
-//                 console.log(res);
+//                 // console.log(res);
 //                 return res;
 //             });
 //     }
 
 //     public qualification_delete(model: QualificationModel) {
-//         console.log('QUAR003..');
+//         // console.log('QUAR003..');
 //         const data = {
 //             qualification_id: model.qualification_id,
 //             company_code: model.company_code,

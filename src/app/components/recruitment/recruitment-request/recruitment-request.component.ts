@@ -38,7 +38,7 @@ export class RecruitmentRequestComponent implements OnInit {
 //           label:'Export',
 //           icon:'pi pi-fw pi-file-export',
 //           command: (event) => {
-//             console.log('Edit')
+//             // console.log('Edit')
 //         }
 //       }
 //       ,
@@ -46,7 +46,7 @@ export class RecruitmentRequestComponent implements OnInit {
 //           label:'Import',
 //           icon:'pi pi-fw pi-file-import',
 //           command: (event) => {
-//             console.log('Edit')
+//             // console.log('Edit')
 //         }
 //       }
 //     ];
@@ -63,7 +63,7 @@ export class RecruitmentRequestComponent implements OnInit {
 //           label:'Edit',
 //           icon:'pi pi-fw pi-pencil',
 //           command: (event) => {
-//             console.log('Edit')
+//             // console.log('Edit')
 //         }
 //       }
 
@@ -254,7 +254,7 @@ confirmRecord() {
 
 doRecordRequest(){
   this.requestService.request_record(this.selectedRequest).then((res) => {
-   console.log(res)
+   // console.log(res)
    let result = JSON.parse(res);
 
    if(result.success){
@@ -284,7 +284,7 @@ confirmDelete() {
 
 doDeleteRequest(){
   this.requestService.request_delete(this.selectedRequest).then((res) => {
-   console.log(res)
+   // console.log(res)
    let result = JSON.parse(res);
 
    if(result.success){
@@ -321,7 +321,7 @@ doUploadRequest(){
 
 
   this.requestService.request_import(this.fileToUpload, filename, filetype).then((res) => {
-   console.log(res)
+   // console.log(res)
    let result = JSON.parse(res);
 
    if(result.success){

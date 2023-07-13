@@ -165,7 +165,7 @@ export class SelfChangeshiftComponent implements OnInit {
     const filename = "SHIFT_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
     this.timeshiftService.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.selectedtrtimeshfit.reqdoc_data = this.selectedtrtimeshfit.reqdoc_data.concat({
@@ -238,7 +238,7 @@ export class SelfChangeshiftComponent implements OnInit {
       //   label: 'Edit',
       //   icon: 'pi pi-fw pi-pencil',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -272,7 +272,7 @@ export class SelfChangeshiftComponent implements OnInit {
       //   label: 'เพิ่มไฟล์แนบ',
       //   icon: 'pi pi-fw pi-plus',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -290,7 +290,7 @@ export class SelfChangeshiftComponent implements OnInit {
       header: this.langs.get('delete')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        console.log(data)
+        // console.log(data)
         if (data.document_id) {
           this.timeshiftService.delete_file(data).then((res) => {
             if (res.success) {
@@ -375,7 +375,7 @@ export class SelfChangeshiftComponent implements OnInit {
   closeManage() {
     this.selectedtrtimeshfit = new cls_TRTimeshiftModel();
     this.displayManage = false
-    console.log(this.account_list_source)
+    // console.log(this.account_list_source)
     // this.account_list_dest = [];
     // this.account_list_source = [];
 
@@ -418,7 +418,7 @@ export class SelfChangeshiftComponent implements OnInit {
           if (this.selectedtrtimeshfit.timeshift_doc === "") {
             this.selectedtrtimeshfit.timeshift_doc = "SHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
           }
-          // console.log(this.selectedtrtimeshfit)
+          // // console.log(this.selectedtrtimeshfit)
           this.doRecordTimeshift([this.selectedtrtimeshfit])
         }
       },

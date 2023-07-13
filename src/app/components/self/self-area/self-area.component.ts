@@ -199,7 +199,7 @@ export class SelfAreaComponent implements OnInit {
         // this.callApi(longitude, latitude);
       });
     } else {
-      console.log("No support for geolocation")
+      // console.log("No support for geolocation")
     }
   }
   async setMap() {
@@ -349,7 +349,7 @@ export class SelfAreaComponent implements OnInit {
 
       })
     })
-    // console.log(this.areas)
+    // // console.log(this.areas)
     this.doRecordArea(this.areas)
   }
   Delete() {

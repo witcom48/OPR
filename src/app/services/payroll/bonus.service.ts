@@ -42,7 +42,7 @@ export class BonusService {
     }
 
     public bonus_get(model: BonusModel) {
-        console.log('PAYB001..');
+        // console.log('PAYB001..');
         let data = {
             device_name: "",
             ip: "",
@@ -66,7 +66,7 @@ export class BonusService {
     }
 
     public bonus_record(model: BonusModel) {
-        console.log('PAYB002..');
+        // console.log('PAYB002..');
         let data = {
             device_name: "",
             ip: "",
@@ -84,13 +84,13 @@ export class BonusService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/bonus', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public bonus_delete(model: BonusModel) {
-        console.log('PAYB003..');
+        // console.log('PAYB003..');
         let data = {
             device_name: "",
             ip: "",
@@ -102,7 +102,7 @@ export class BonusService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/bonus_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -110,7 +110,7 @@ export class BonusService {
 
 
     public bonus_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYB004..');
+        // console.log('PAYB004..');
         const formData = new FormData();
         formData.append('file', file);
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 import { Router } from '@angular/router';
@@ -10,98 +10,113 @@ import { cls_TRPdpaModel } from '../models/self/cls_TRPdpa';
 import { cls_MTPdpafileModel } from '../models/self/cls_MTPdpafile';
 import { PdpaFileServices } from '../services/self/pdpafile';
 declare var consent: any;
-interface Lang {
-    name: string,
-    code: string
+interface Language {
+    name: string;
+    code: string;
 }
+
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html'
 })
-export class AppTopBarComponent {
-    langs: any = consent;
-    selectlang: string = "EN";
-    src: string = '';
-    displayManage: boolean = false;
-    items!: MenuItem[];
-    lang_list: Lang[] = [{ name: "EN", code: "EN" }, { name: "TH", code: "TH" }]
-    langselect: any;
+export class AppTopBarComponent implements OnInit {
+    consentLanguages: any = consent;
+    selectedLanguageCode: string = "EN";
+    pdpaFileSrc: string = '';
+    isManageDisplayed = false;
+    menuItems: MenuItem[] = [];
+    supportedLanguages: Language[] = [
+        { name: "English", code: "EN" },
+        { name: "Thai", code: "TH" }
+    ];
+    selectedLanguage: any;
+
     @ViewChild('menubutton') menuButton!: ElementRef;
-
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
-
     @ViewChild('topbarmenu') menu!: ElementRef;
+
+    initialData: InitialCurrent = new InitialCurrent();
 
     constructor(
         public layoutService: LayoutService,
         private router: Router,
-        private authenService: AuthenService,
-        private pdpaServices: PdpaServices,
-        private pdpafileServices: PdpaFileServices
+        private authService: AuthenService,
+        private pdpaService: PdpaServices,
+        private pdpaFileService: PdpaFileServices
     ) { }
-    public initial_current: InitialCurrent = new InitialCurrent();
-    doGetInitialCurrent() {
-        this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
-        this.selectlang = this.initial_current.Language;
-        if (!this.initial_current.Token) {
+
+    ngOnInit() {
+        // Fetch initial data and check token validity on component initialization
+        this.fetchInitialData();
+        this.checkTokenValidity();
+    }
+
+    // Fetches initial data and handles the language selection
+    fetchInitialData() {
+        this.initialData = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+        this.selectedLanguageCode = this.initialData.Language;
+        if (!this.initialData.Token) {
             this.router.navigateByUrl('login');
         }
-        if (this.initial_current.Language == "TH") {
-            this.langselect = { name: "TH", code: "TH" }
-        } else {
-            this.langselect = { name: "EN", code: "EN" }
-        }
+        this.selectedLanguage = this.supportedLanguages.find(lang => lang.code === this.selectedLanguageCode);
 
-        if (this.initial_current.Usertype == "Emp") {
+        if (this.initialData.Usertype == "Emp") {
             this.checkPDPA();
         }
     }
-    checkToken() {
-        this.authenService.checkToken().then((res) => {
+
+    // Checks the validity of the authentication token
+    checkTokenValidity() {
+        this.authService.checkToken().then((res) => {
             if (!res.success) {
-                this.router.navigateByUrl('login')
+                this.router.navigateByUrl('login');
             }
-        })
-    }
-    checkPDPA() {
-        var tem = new cls_TRPdpaModel();
-        tem.worker_code = this.initial_current.Username
-        this.pdpaServices.pdpa_get(tem).then((res) => {
-            if (!res.length) {
-                this.doLoadPdpafile();
-            }
-        })
-    }
-    recodePDPA(status: boolean) {
-        var tem = new cls_TRPdpaModel();
-        tem.worker_code = this.initial_current.Username
-        tem.status = status;
-        console.log(tem)
-        this.pdpaServices.pdpa_record(tem).then((res) => {
-            this.displayManage = false;
-        })
-    }
-    doLoadPdpafile() {
-        var tmp = new cls_MTPdpafileModel();
-        this.pdpafileServices.pdpafile_get(tmp).then(async (res) => {
-            this.pdpafileServices.get_file(res[0].document_path).then((res) => {
-                var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: res[0].document_type }));
-                this.src = url;
-                this.displayManage = true;
-            })
         });
     }
-    ngOnInit() {
-        this.doGetInitialCurrent();
-        this.checkToken();
+
+    // Checks if the user has agreed to PDPA
+    checkPDPA() {
+        const pdpaModel = new cls_TRPdpaModel();
+        pdpaModel.worker_code = this.initialData.Username;
+        this.pdpaService.pdpa_get(pdpaModel).then((res) => {
+            if (!res.length) {
+                this.loadPdpaFile();
+            }
+        });
     }
+
+    // Records the user's PDPA status
+    recordPDPAStatus(status: boolean) {
+        const pdpaModel = new cls_TRPdpaModel();
+        pdpaModel.worker_code = this.initialData.Username;
+        pdpaModel.status = status;
+        this.pdpaService.pdpa_record(pdpaModel).then(() => {
+            this.isManageDisplayed = false;
+        });
+    }
+
+    // Loads the PDPA file
+    loadPdpaFile() {
+        const pdpaFileModel = new cls_MTPdpafileModel();
+        this.pdpaFileService.pdpafile_get(pdpaFileModel).then(async (res) => {
+            this.pdpaFileService.get_file(res[0].document_path).then((res) => {
+                const url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: res[0].document_type }));
+                this.pdpaFileSrc = url;
+                this.isManageDisplayed = true;
+            });
+        });
+    }
+
+    // Logs out the user
     logout() {
         localStorage.clear();
-        this.router.navigateByUrl('login')
+        this.router.navigateByUrl('login');
     }
-    SelectLang() {
-        this.initial_current.Language = this.langselect.code;
-        localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initial_current));
+
+    // Selects a language and updates the page
+    selectLanguage(langCode: string) {
+        this.initialData.Language = langCode;
+        localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
         window.location.reload();
     }
 }

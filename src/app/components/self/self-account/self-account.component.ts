@@ -16,8 +16,9 @@ import { AccountDepModel } from 'src/app/models/self/accountdep';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
+import { AccountModuleModel } from 'src/app/models/self/accountmodule';
 declare var account: any;
-
+interface Modules { name: string, code: string }
 @Component({
   selector: 'app-self-account',
   templateUrl: './self-account.component.html',
@@ -29,6 +30,17 @@ export class SelfAccountComponent implements OnInit {
   accountLanguages: any = account;
 
   selectedLanguage: string = 'EN';
+  modulesList: Modules[] = [
+    { name: 'SELF SERVICES', code: 'SELF' },
+    { name: 'PROJECT', code: 'PRO' },
+    { name: 'EMPLOYEE', code: 'EMP' },
+    { name: 'RECRUITMENT', code: 'REQ' },
+    { name: 'ATTENDANCE', code: 'ATT' },
+    { name: 'PAYROLL', code: 'PAY' },
+    { name: 'SYSTEM', code: 'SYS' },
+  ];
+  availableModules: Modules[] = [];
+  selectedModules: Modules[] = [];
   accountTypes: any[] = [];
   selectedAccountType: any = { name: '', code: '' };
   menuItems: MenuItem[] = [];
@@ -101,9 +113,11 @@ export class SelfAccountComponent implements OnInit {
           this.selectedPositions = [];
           this.selectedDepartments = [];
           this.selectedEmployees = [];
+          this.selectedModules = [];
           this.availablePositions = [...this.positionList];
           this.availableDepartments = [...this.departmentList];
           this.availableEmployees = [...this.employeeList];
+          this.availableModules = [...this.modulesList];
           this.selectedAccount = new AccountModel();
         }
       },
@@ -232,9 +246,11 @@ export class SelfAccountComponent implements OnInit {
     this.selectedPositions = [];
     this.selectedDepartments = [];
     this.selectedEmployees = [];
+    this.selectedModules = [];
     this.availablePositions = [];
     this.availableDepartments = [];
     this.availableEmployees = [];
+    this.availableModules = [];
 
     this.selectedAccountType = this.accountTypes.find(({ code }) => code === this.selectedAccount.account_type);
 
@@ -279,6 +295,19 @@ export class SelfAccountComponent implements OnInit {
       }
     });
 
+    this.selectedAccount.module_data.forEach((obj: AccountModuleModel) => {
+      const module = this.modulesList.find((elm: Modules) => obj.module_code === elm.code);
+      if (module) {
+        this.selectedModules.push(module);
+      }
+    });
+
+    this.modulesList.forEach((elm: Modules) => {
+      if (!this.selectedModules.includes(elm)) {
+        this.availableModules.push(elm);
+      }
+    });
+
     this.isDisplayingManagement = true;
     this.isEditing = true;
   }
@@ -307,6 +336,13 @@ export class SelfAccountComponent implements OnInit {
       worker_code: obj.worker_code,
       worker_detail_th: obj.worker_fname_en,
       worker_detail_en: obj.worker_fname_en
+    }));
+
+    this.selectedAccount.module_data = this.selectedModules.map((obj: Modules) => ({
+      company_code: this.initialCurrent.CompCode,
+      account_user: this.selectedAccount.account_user,
+      account_type: this.selectedAccountType.code,
+      module_code: obj.code
     }));
 
     this.recordAccount(this.selectedAccount);

@@ -379,7 +379,7 @@ export class ProjectTimesheetComponent implements OnInit {
   
 
   select_emp(){
-    console.log(this.selectEmp.selectedEmployee.worker_code)
+    // console.log(this.selectEmp.selectedEmployee.worker_code)
 
     this.selectedTimecard.company_code = this.selectEmp.selectedEmployee.company_code
     this.selectedTimecard.worker_code = this.selectEmp.selectedEmployee.worker_code

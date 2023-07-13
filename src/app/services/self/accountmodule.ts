@@ -4,13 +4,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../config/initial_current';
-import { SetPolicyAttModels } from 'src/app/models/attendance/setpolicyatt';
-import { EmployeeModel } from 'src/app/models/employee/employee';
+import { AccountModuleModel } from 'src/app/models/self/accountmodule';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SetPolicyAttServices {
+export class AccountModuleServices {
 
     public config: AppConfig = new AppConfig();
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -44,80 +43,54 @@ export class SetPolicyAttServices {
         }
     }
 
-    public SetPolicyAtt_get(Setup: SetPolicyAttModels) {
+    public accountmodule_get(accountmodule: AccountModuleModel) {
         // console.log('ATT001..');
-        let emplists: any = []
-        Setup.emp_data.forEach((res: EmployeeModel) => {
-            let ss = {
-                worker_code: res.worker_code
-            }
-            emplists.push(ss)
-        })
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: Setup.company_code || this.initial_current.CompCode,
-            pol_code: Setup.pol_code,
-            pol_type: Setup.pol_type,
-            emp_data: emplists
+            company_code: accountmodule.company_code || this.initial_current.CompCode,
+            account_user: accountmodule.account_user || this.initial_current.Username,
+            account_type: accountmodule.account_type,
+            module_code: accountmodule.module_code
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/SetPolicyAtt_list', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/accountmodule_list', data, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;
             });
     }
 
-    public SetPolicyAtt_record(Setup: SetPolicyAttModels) {
+    public accountmodule_record(accountmodule: AccountModuleModel) {
         // console.log('ATT002..');
-        let emplists: any = []
-        Setup.emp_data.forEach((res: EmployeeModel) => {
-            let ss = {
-                worker_code: res.worker_code
-            }
-            emplists.push(ss)
-        })
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: Setup.company_code || this.initial_current.CompCode,
-            pol_code: Setup.pol_code,
-            pol_type: Setup.pol_type,
-            pol_note: Setup.pol_note,
-            emp_data: emplists,
-            year_code: Setup.year_code,
-            modified_by: Setup.modified_by || this.initial_current.Username,
-            flag: Setup.flag
+            company_code: accountmodule.company_code || this.initial_current.CompCode,
+            account_user: accountmodule.account_user || this.initial_current.Username,
+            account_type: accountmodule.account_type,
+            module_code: accountmodule.module_code
         }
-        // console.log(data)
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/SetPolicyAtt', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/accountmodule', data, this.options).toPromise()
             .then((res) => {
                 // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
-    public SetPolicyAtt_delete(Setup: SetPolicyAttModels) {
+    public accountmodule_delete(accountmodule: AccountModuleModel) {
         // console.log('ATT003..');
-        let emplists: any = []
-        Setup.emp_data.forEach((res: EmployeeModel) => {
-            let ss = {
-                worker_code: res.worker_code
-            }
-            emplists.push(ss)
-        })
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: Setup.company_code || this.initial_current.CompCode,
-            pol_code: Setup.pol_code,
-            pol_type: Setup.pol_type,
-            emp_data: emplists
+            company_code: accountmodule.company_code || this.initial_current.CompCode,
+            account_user: accountmodule.account_user || this.initial_current.Username,
+            account_type: accountmodule.account_type,
+            module_code: accountmodule.module_code
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/SetPolicyAtt_del', data, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiSelfServicesModule + '/accountmodule_del', data, this.options).toPromise()
             .then((res) => {
                 // console.log(res)
                 let message = JSON.parse(res);

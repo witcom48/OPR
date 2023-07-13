@@ -175,7 +175,7 @@ title_system:string = "System";
 
     doRecordInstitute(){
       this.instituteService.institute_record(this.selectedInstitute).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -206,7 +206,7 @@ title_system:string = "System";
 
     doDeleteInstitute(){
       this.instituteService.institute_delete(this.selectedInstitute).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -248,7 +248,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.instituteService.institute_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

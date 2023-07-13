@@ -42,7 +42,7 @@ export class ProvidentService {
     }
 
     public provident_get(model: ProvidentModel) {
-        console.log('PAYP001..');
+        // console.log('PAYP001..');
         let data = {
             device_name: "",
             ip: "",
@@ -66,7 +66,7 @@ export class ProvidentService {
     }
 
     public provident_record(model: ProvidentModel) {
-        console.log('PAYP002..');
+        // console.log('PAYP002..');
         let data = {
             device_name: "",
             ip: "",
@@ -84,13 +84,13 @@ export class ProvidentService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/MTProvident', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public provident_delete(model: ProvidentModel) {
-        console.log('PAYP003..');
+        // console.log('PAYP003..');
         let data = {
             device_name: "",
             ip: "",
@@ -102,7 +102,7 @@ export class ProvidentService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/MTProvident_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -110,7 +110,7 @@ export class ProvidentService {
 
 
     public provident_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYP004..');
+        // console.log('PAYP004..');
         const formData = new FormData();
         formData.append('file', file);
 

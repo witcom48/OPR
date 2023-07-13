@@ -65,7 +65,7 @@ export class DiligenceComponent implements OnInit {
   }
   async doRecordDiligence(data: DiligenceModels) {
     await this.diligenceServices.diligence_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadDiligence()
@@ -81,7 +81,7 @@ export class DiligenceComponent implements OnInit {
 
   async doDeleteDiligence(data: DiligenceModels) {
     await this.diligenceServices.diligence_delete(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadDiligence()
@@ -99,7 +99,7 @@ export class DiligenceComponent implements OnInit {
     const filename = "DILIGENCE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.diligenceServices.diligence_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadDiligence();
@@ -165,7 +165,7 @@ export class DiligenceComponent implements OnInit {
   onRowSelectList(event: any) {
     this.displayaddstep = true
     this.displayeditstep = true
-    console.log(this.diligencestep)
+    // console.log(this.diligencestep)
   }
   showUpload() {
     this.displayUpload = true;
@@ -194,11 +194,11 @@ export class DiligenceComponent implements OnInit {
     this.diligences = new DiligenceModels()
   }
   Save() {
-    // console.log(this.diligencestep)
+    // // console.log(this.diligencestep)
     this.doRecordDiligence(this.diligences)
   }
   Savestep() {
-    console.log(this.diligencestep)
+    // console.log(this.diligencestep)
     if (!this.displayeditstep) {
       this.diligences.steppay_data = this.diligences.steppay_data.concat({
         company_code: this.initial_current.CompCode,

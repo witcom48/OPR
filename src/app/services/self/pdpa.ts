@@ -72,7 +72,7 @@ export class PdpaServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/pdpa', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -87,7 +87,7 @@ export class PdpaServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/pdpa_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

@@ -79,7 +79,7 @@ export class PayitemService {
 
 
       public payitem_record(model: PayitemModel) {
-        console.log('TRIT002..');
+        // console.log('TRIT002..');
         let data = {
           device_name: '',
           ip: '',
@@ -100,17 +100,17 @@ export class PayitemService {
           .post<any>(this.config.ApiPayrollModule + '/TRpayitem', data, this.options)
           .toPromise()
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             let message = JSON.parse(res);
             return message;
           })
           .catch((error) => {
-            console.log('An error occurred while recording payitem:', error);
+            // console.log('An error occurred while recording payitem:', error);
             throw error;
           });
       }
       public setpayitems_record(worker_code: string, model: PayitemModel) {
-        console.log('TRIT002.1..');
+        // console.log('TRIT002.1..');
       
         let emplists: any = [];
         model.item_data.forEach((res: ItemsModel) => {
@@ -147,14 +147,14 @@ export class PayitemService {
           )
           .toPromise()
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             let message = JSON.parse(res);
             return message;
           });
       }
       
     public payitem_delete(model: PayitemModel) {
-        console.log('PAYTRIT003..');
+        // console.log('PAYTRIT003..');
         let data = {
             device_name: "",
             ip: "",
@@ -173,7 +173,7 @@ export class PayitemService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/TRpayitem_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -181,7 +181,7 @@ export class PayitemService {
 
 
     public payitem_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYTRIT004..');
+        // console.log('PAYTRIT004..');
         const formData = new FormData();
         formData.append('file', file);
 
@@ -200,7 +200,7 @@ export class PayitemService {
         return this.http.get<any>(this.config.ApiPayrollModule + '/TRpayitem_list').toPromise()   
         .then((res) => {
           let message = JSON.parse(res);
-          console.log(res)
+          // console.log(res)
           return message;
         });
       }

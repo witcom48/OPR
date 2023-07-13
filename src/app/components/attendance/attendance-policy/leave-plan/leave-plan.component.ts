@@ -172,7 +172,7 @@ export class LeavePlanComponent implements OnInit {
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          console.log(this.fileToUpload)
+          // console.log(this.fileToUpload)
           this.displayUpload = false;
           this.doUploadPlanleave()
         },
@@ -201,11 +201,11 @@ export class LeavePlanComponent implements OnInit {
     this.leaveplans = new LeaveplanModels()
   }
   Save() {
-    // console.log(this.leaveplans)
+    // // console.log(this.leaveplans)
     this.doRecordPlanleave(this.leaveplans)
   }
   Delete() {
-    // console.log(this.leaveplans)
+    // // console.log(this.leaveplans)
     this.doDeletePlanleave(this.leaveplans)
   }
   onRowSelect(event: any) {
