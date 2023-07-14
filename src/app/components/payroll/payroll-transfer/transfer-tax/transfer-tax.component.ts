@@ -128,14 +128,19 @@ export class TransferTaxComponent implements OnInit {
       let process = this.selectedBank;
       process += this.fillauto ? '|AUTO' : '|COMPARE';
 
-      let fromDate = new Date('2023-01-10T00:00:00');
-      let toDate = new Date('2023-01-11T00:00:00');
+      let fromDate = this.effdate;
+      let toDate = this.effdate;
 
-      this.taskDetail.taskdetail_process = 'SSO';
-      this.taskDetail.taskdetail_process = process;
-      this.taskDetail.taskdetail_fromdate = fromDate;
-      this.taskDetail.taskdetail_todate = toDate;
+      this.taskDetail.taskdetail_process = 'TAX';
+      this.taskDetail.taskdetail_process = process; 
+      this.taskDetail.taskdetail_fromdate = this.initial_current.PR_FromDate;
+      this.taskDetail.taskdetail_todate = this.initial_current.PR_ToDate;
       this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
+
+
+    //   this.taskDetail.taskdetail_fromdate = this.initial_current.PR_FromDate;
+    //   this.taskDetail.taskdetail_todate  = this.initial_current.PR_ToDate;
+    //   this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
       // Step 3: Task whose
       this.taskWhoseList = [];
       this.confirmationService.confirm({

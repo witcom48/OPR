@@ -332,7 +332,7 @@ export class AppEntrysComponent implements OnInit {
         tmp.worker_code = this.worker_code;
 
         try {
-          const res = await this.payitemService.payitem_get(this.initial_current.CompCode,  this.initial_current.PR_PayDate ,this.worker_code,'',this.item);
+          const res = await this.payitemService.payitem_get(this.initial_current.CompCode,  this.initial_current.PR_PayDate ,tmp.worker_code,'',tmp.item_code);
 
           return res;
         } catch (error) {

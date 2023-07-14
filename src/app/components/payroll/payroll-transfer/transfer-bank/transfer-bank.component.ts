@@ -65,6 +65,7 @@ export class TransferBankComponent implements OnInit {
 
   ) { }
 
+ 
 
   timesheet_list: PrjectEmpdailyModel[] = [];
   timesheet_dest: PrjectEmpdailyModel[] = [];
@@ -72,7 +73,7 @@ export class TransferBankComponent implements OnInit {
   selectedDate: PrjectEmpdailyModel = new PrjectEmpdailyModel;
   policyselect!: Policy;
   new_data: boolean = false;
-  effdate: Date | undefined; // ประกาศตัวแปร effdate ในคอมโพเนนต์
+  // effdate: Date | undefined; // ประกาศตัวแปร effdate ในคอมโพเนนต์
   @ViewChild('dt2') table: Table | undefined;
   ngOnInit(): void {
 
@@ -122,47 +123,51 @@ export class TransferBankComponent implements OnInit {
   public taskWhoseList: TaskWhoseModel[] = [];
 
   public fillauto: boolean = false;
-
-  process() {
+  
+  public effdate : Date = new Date();
+  updateEffdate(event: any): void {
+    console.log('Selected date:', this.effdate);
+  }
+  
+  process(): void {
     console.log(this.selectedBank);
-
-    if (this.selectEmp.employee_dest.length == 0) {
+  
+    if (this.selectEmp.employee_dest.length === 0) {
       let message = "Please select an employee";
-
       this.doPrintMessage(message, "1");
       return;
     }
-
-
+  
     // Step 1: Task master
     this.task.company_code = this.initial_current.CompCode;
     this.task.task_type = 'TRN_BANK';
     this.task.task_status = 'W';
-
+  
     // Step 2: Task detail
     let process = this.selectedBank;
     process += this.fillauto ? '|AUTO' : '|COMPARE';
-
-    let fromDate = new Date('2023-01-10T00:00:00');
-    let toDate = new Date('2023-01-11T00:00:00');
-
+  
+    let fromDate = this.effdate;
+    let toDate = this.effdate;
+  
     this.taskDetail.taskdetail_process = 'BANK';
     this.taskDetail.taskdetail_process = process;
     this.taskDetail.taskdetail_fromdate = fromDate;
     this.taskDetail.taskdetail_todate = toDate;
     this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
+  
     // Step 3: Task whose
     this.taskWhoseList = [];
+  
     this.confirmationService.confirm({
       message: this.title_confirm_record,
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.taskService
-          .task_record(this.task, this.taskDetail, this.selectEmp.employee_dest)
+        this.taskService.task_record(this.task, this.taskDetail, this.selectEmp.employee_dest)
           .then((res) => {
             let result = JSON.parse(res);
-
+  
             if (result.success) {
               // Show success message
               this.messageService.add({
@@ -170,32 +175,30 @@ export class TransferBankComponent implements OnInit {
                 summary: 'Success',
                 detail: 'Record Success..',
               });
-
+  
               console.log("test result_link");
               console.log(result.result_link);
-
+  
               let link = result.result_link;
-
+  
               if (link !== "") {
                 console.log(this.initial_current + '/File/' + link + "/");
-                console.log(link.split("\\").pop())
+                console.log(link.split("\\").pop());
+  
                 this.taskService.get_file(link).then((res) => {
-
                   const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
                   const fileName: string = link.split("\\").pop();
                   const objectUrl: string = URL.createObjectURL(blob);
                   const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
-
+  
                   a.href = objectUrl;
                   a.download = fileName;
                   document.body.appendChild(a);
                   a.click();
-
+  
                   document.body.removeChild(a);
                   URL.revokeObjectURL(objectUrl);
-
-                })
-
+                });
               }
             } else {
               this.messageService.add({
@@ -207,35 +210,21 @@ export class TransferBankComponent implements OnInit {
             }
           });
       },
-
       reject: () => {
         this.messageService.add({
           severity: 'warn',
           summary: 'Cancelled',
           detail: this.title_confirm_cancel,
         });
-       
       },
-      key:"myDialog"
+      key: "myDialog"
     });
-
   }
-
-  // doLoadTask(){
-  //   this.taskView.taskType = "TRN_BANK";
-  //   this.taskView.doLoadTask();
-  // }
   
 
-  updateEffdate() {
-    // ฟังก์ชันนี้จะถูกเรียกเมื่อมีการเปลี่ยนแปลงค่าในปฏิทิน
-    console.log(this.effdate); // ตัวอย่างการใช้งานเพื่อดูค่าที่เลือกในปฏิทิน
-  }
 
-  // public effdate: Date = new Date();
-
-  // updateEffdate() {
-  //   this.effdate = new Date();
+  // updateEffdate(event: string | number | Date) {
+  //   this.effdate = new Date(event);
   // }
 
   doPrintMessage(message: string, status: string) {
