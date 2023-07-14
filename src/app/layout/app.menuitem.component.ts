@@ -73,14 +73,14 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
                 }
                 else {
                     if (value.key !== this.key && !value.key.startsWith(this.key + '-')) {
-                        this.active = false;
+                        // this.active = false;
                     }
                 }
             });
         });
 
         this.menuResetSubscription = this.menuService.resetSource$.subscribe(() => {
-            this.active = false;
+            // this.active = false;
         });
 
         this.router.events.pipe(filter(event => event instanceof NavigationEnd))
@@ -131,7 +131,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         return this.root ? 'expanded' : (this.active ? 'expanded' : 'collapsed');
     }
 
-    @HostBinding('class.active-menuitem') 
+    @HostBinding('class.active-menuitem')
     get activeClass() {
         return this.active && !this.root;
     }

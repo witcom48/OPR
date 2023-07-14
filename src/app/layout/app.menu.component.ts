@@ -9,7 +9,7 @@ import { AppConfig } from '../config/config';
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent implements OnInit {
-    menuItems: any[] = []; // Array to store menu items
+    menuItems: any[] = [{ label: '', items: [] }]; // Array to store menu items
 
     constructor(
         private router: Router,
@@ -58,7 +58,7 @@ export class AppMenuComponent implements OnInit {
             .then((res: AccountModuleModel[]) => {
                 if (this.hasModule(res, 'SELF')) {
                     // User has access to the SELF module
-                    this.menuItems.push({
+                    this.menuItems[0].items.push({
                         label: 'Self Services',
                         items: [
                             { label: 'Employee', routerLink: ['/self/employee'] },
@@ -70,7 +70,7 @@ export class AppMenuComponent implements OnInit {
 
                 if (this.hasModule(res, 'PRO')) {
                     // User has access to the PRO module
-                    this.menuItems.push({
+                    this.menuItems[0].items.push({
                         label: 'Project',
                         items: [
                             { label: 'Policy', routerLink: ['/project/policy'] },
@@ -84,7 +84,7 @@ export class AppMenuComponent implements OnInit {
                 }
                 if (this.hasModule(res, 'EMP')) {
                     // User has access to the EMP module
-                    this.menuItems.push({
+                    this.menuItems[0].items.push({
                         label: 'Employee',
                         items: [
                             { label: 'Policy', routerLink: ['/employee/policy'] },
@@ -97,7 +97,7 @@ export class AppMenuComponent implements OnInit {
 
                 if (this.hasModule(res, 'REQ')) {
                     // User has access to the REQ module
-                    this.menuItems.push({
+                    this.menuItems[0].items.push({
                         label: 'Recruitment',
                         items: [
                             { label: 'Policy', routerLink: ['/recruitment/policy'] },
@@ -112,7 +112,7 @@ export class AppMenuComponent implements OnInit {
 
                 if (this.hasModule(res, 'ATT')) {
                     // User has access to the ATT module
-                    this.menuItems.push({
+                    this.menuItems[0].items.push({
                         label: 'Attendance',
                         items: [
                             { label: 'Policy', routerLink: ['/attendance/policy'] },
@@ -130,7 +130,7 @@ export class AppMenuComponent implements OnInit {
 
                 if (this.hasModule(res, 'PAY')) {
                     // User has access to the PAY module
-                    this.menuItems.push(
+                    this.menuItems[0].items.push(
                         {
                             label: 'Payroll',
                             items: [
@@ -149,7 +149,7 @@ export class AppMenuComponent implements OnInit {
 
                 if (this.hasModule(res, 'SYS')) {
                     // User has access to the SYS module
-                    this.menuItems.push(
+                    this.menuItems[0].items.push(
                         {
                             label: 'System',
                             items: [
