@@ -45,6 +45,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { PickListModule } from 'primeng/picklist';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PasswordModule } from 'primeng/password';
+import { PolapproveComponent } from './polapprove/polapprove.component';
 
 @NgModule({
 	imports: [
@@ -98,7 +99,8 @@ import { PasswordModule } from 'primeng/password';
   
     VerifyComponent,
                  SecAccountComponent,
-                 SecMenuComponent
+                 SecMenuComponent,
+                 PolapproveComponent
   ]
 })
 export class AuthenModule { }

@@ -24,6 +24,15 @@ import { PositionService } from '../../../services/emp/policy/position.service';
 import { LevelService } from 'src/app/services/system/policy/level.service';
 import { LevelModel } from 'src/app/models/system/policy/level';
 
+import { CompanyModel } from 'src/app/models/system/company';
+import { CompanyService } from 'src/app/services/system/company.service';
+
+import { ProjectModel } from '../../../models/project/project';
+import { ProjectService } from '../../../services/project/project.service';
+
+import { PartModel } from '../../../models/employee/policy/part';
+import { PartService } from '../../../services/emp/policy/part.service';
+
 @Component({
   selector: 'app-sec-account',
   templateUrl: './sec-account.component.html',
@@ -61,7 +70,9 @@ export class SecAccountComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
     private positionService: PositionService,
-    private levelService: LevelService,
+    private partService: PartService,
+    private companyService:CompanyService,
+    private projectService:ProjectService
     ) { }
 
   ngOnInit(): void {
@@ -69,7 +80,11 @@ export class SecAccountComponent implements OnInit {
     this.doLoadMenu()
 
     setTimeout(() => {     
+      this.doLoadProject()
       this.doLoadPosition()
+      this.doLoadCompany()
+      this.doLoadDep()
+
     }, 500);
   }
 
@@ -130,26 +145,105 @@ export class SecAccountComponent implements OnInit {
 
   }
 
+  company_list : CompanyModel[] = [];
+  company_list_dest : CompanyModel[] = [];
+  doLoadCompany(){
+    this.companyService.company_get("").then((res) => {
+     this.company_list = res;     
+    });
+  }
+
+  project_list : ProjectModel[] = [];
+  project_list_dest : ProjectModel[] = [];
+  doLoadProject(){
+    this.projectService.project_get("", "").then((res) => {
+     this.project_list = res;     
+    });
+  }
+
   position_list : PositionModel[] = [];
   position_list_dest : PositionModel[] = [];
-  selectedPosition : PositionModel = new PositionModel();
   doLoadPosition(){
     this.positionService.position_get().then((res) => {
      this.position_list = res;     
     });
   }
 
-  dep1_list : PositionModel[] = [];
-  dep1_list_dest : PositionModel[] = [];
-  selectedDep1 : PositionModel = new PositionModel();
+  dep_list : PartModel[] = [];
 
-  dep2_list : PositionModel[] = [];
-  dep2_list_dest : PositionModel[] = [];
-  selectedDep2 : PositionModel = new PositionModel();
+  dep1_list : PartModel[] = [];
+  dep1_list_dest : PartModel[] = [];  
 
-  dep3_list : PositionModel[] = [];
-  dep3_list_dest : PositionModel[] = [];
-  selectedDep3 : PositionModel = new PositionModel();
+  dep2_list : PartModel[] = [];
+  dep2_list_dest : PartModel[] = [];  
+
+  dep3_list : PartModel[] = [];
+  dep3_list_dest : PartModel[] = [];
+
+  dep4_list : PartModel[] = [];
+  dep4_list_dest : PartModel[] = [];
+
+  dep5_list : PartModel[] = [];
+  dep5_list_dest : PartModel[] = [];
+  
+  async doLoadDep(){    
+    var tmp = new LevelModel();    
+    await this.partService.dep_get(tmp).then((res) => {
+      this.dep_list = res;     
+    });
+
+    setTimeout(() => {     
+      this.doGetLevel1()      
+    }, 500);
+  }
+
+  doGetLevel1(){  
+
+    this.dep1_list = [];
+    this.dep2_list = [];
+    this.dep3_list = [];
+    this.dep4_list = [];
+    this.dep5_list = [];
+
+    this.dep1_list_dest = [];
+    this.dep2_list_dest = [];
+    this.dep3_list_dest = [];
+    this.dep4_list_dest = [];
+    this.dep5_list_dest = [];
+    
+    for (let i = 0; i < this.dep_list.length; i++) { 
+      if(this.dep_list[i].dep_level=="01" ){
+        this.dep1_list.push(this.dep_list[i]);  
+      }      
+      
+    }   
+  }  
+
+  
+
+
+  doGetLevel2(){        
+
+    console.log(this.dep1_list_dest.length)
+
+    this.dep2_list = [];
+    this.dep2_list_dest = [];
+    for (let i = 0; i < this.dep1_list_dest.length; i++) {
+
+      var dep = this.dep1_list_dest[i].dep_code;
+
+      for (let j = 0; j < this.dep_list.length; j++) { 
+        if(this.dep_list[j].dep_level=="02" &&  this.dep_list[j].dep_parent == dep){
+          this.dep2_list.push(this.dep_list[j]);  
+        }      
+        
+      }  
+    }    
+  }
+
+
+  
+
   
 
 
