@@ -30,7 +30,9 @@
     <div class="col-12 ">
 
         <div class="formgrid grid">
+            
             <div class="field col-12">
+                <h5>{{title_incomelist[initial_current.Language]}}</h5>
                 <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100%'}" [scrollable]="true"
                     [value]="payitemINList" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
                     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
@@ -60,6 +62,7 @@
             </div>
 
             <div class="field col-12">
+                <h5>{{title_deductlist[initial_current.Language]}}</h5>
                 <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100%'}" [scrollable]="true"
                     [value]="payitemDEList" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
                     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
@@ -86,6 +89,41 @@
                         </tr>
                     </ng-template>
                 </p-table>
+            </div>
+
+            <div class="field col-12">
+                
+                <div class="accordion">
+                    <p-accordion>
+                        <p-accordionTab header="{{title_ssolist[initial_current.Language]}}">
+                            <div class="contact">
+                                <div>
+                                    <label>{{title_ssoemprate[initial_current.Language]}}</label>
+                                    <input pInputText id="tel" type="text" class="p-inputtext-sm"
+                                        >
+                                </div>
+
+                                <div>
+                                    <label>{{title_ssoempamount[initial_current.Language]}}</label>
+                                    <input pInputText id="email" type="text" class="p-inputtext-sm"
+                                        >
+                                </div>
+
+                                <div>
+                                    <label>{{title_ssocomrate[initial_current.Language]}}</label>
+                                    <input pInputText id="line" type="text" class="p-inputtext-sm"
+                                        >
+                                </div>
+
+                                <div>
+                                    <label>{{title_ssocomamount[initial_current.Language]}}</label>
+                                    <input pInputText id="facebook" type="text" class="p-inputtext-sm"
+                                        >
+                                </div>
+                            </div>
+
+                        </p-accordionTab>
+                    </p-accordion>
             </div>
 
             <div class="field col-12">

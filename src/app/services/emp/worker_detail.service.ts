@@ -917,6 +917,7 @@ export class EmpDetailService {
       item_data = item_data + ",\"institute_other\":\"" + list[i].institute_other + "\"";
       item_data = item_data + ",\"course_code\":\"" + list[i].course_code + "\"";
       item_data = item_data + ",\"course_other\":\"" + list[i].course_other + "\"";
+      item_data = item_data + ",\"emptraining_count\":\"" + list[i].emptraining_count + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

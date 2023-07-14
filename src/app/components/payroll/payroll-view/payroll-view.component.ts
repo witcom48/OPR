@@ -32,11 +32,19 @@ export class PayrollViewComponent implements OnInit {
   title_payroll: { [key: string]: string } = { EN: "Payroll", TH: "Payroll" };
   title_page: { [key: string]: string } = { EN: "View Calculate", TH: "ตรวจสอบการคำนวน" };
   title_income: { [key: string]: string } = { EN: "Income", TH: "เงินได้" };
+  title_incomelist: { [key: string]: string } = { EN: "Income List", TH: "รายการเงินได้" };
   title_deduct: { [key: string]: string } = { EN: "Deduct", TH: "เงินหัก" };
+  title_deductlist: { [key: string]: string } = { EN: "Deduct List", TH: "รายการเงินหัก" };
   title_incomename: { [key: string]: string } = { EN: "Income Name", TH: "ชื่อเงินได้" };
   title_deductname: { [key: string]: string } = { EN: "Deduct Name", TH: "ชื่อเงินหัก" };
   title_amount: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" };
   title_quantity: { [key: string]: string } = { EN: "Quantity", TH: "ปริมาณ" };
+
+  title_ssolist: { [key: string]: string } = { EN: "Social", TH: "ประกันสังคม" };
+  title_ssoemprate: { [key: string]: string } = { EN: "Employee rate", TH: "อัตราประกันสังคม (พนักงาน)" };
+  title_ssoempamount: { [key: string]: string } = { EN: "Employee amount", TH: "ประกันสังคม (พนักงาน)" };
+  title_ssocomrate: { [key: string]: string } = { EN: "Company rate", TH: "อัตราประกันสังคม (สมทบ)" };
+  title_ssocomamount: { [key: string]: string } = { EN: "Company amount", TH: "ประกันสังคม (สมทบ)" };
 
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
@@ -164,33 +172,5 @@ export class PayrollViewComponent implements OnInit {
     
   }
 
-  // openSearchEmp(): void {
-  //   const dialogRef = this.dialog.open(SearchempPopupComponent, {
-  //     width: '500px',
-  //     height: '550px',
-  //     data: {worker_code: ''      
-  //     }
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if(result.worker_code != ""){
-
-  //       let select = result.worker_code;
-  //       this.doGetIndexWorker(select);     
-
-  //     }
-  //   });
-  // }
-
-  // doGetIndexWorker(worker_code:string){    
-  //   for (let i = 0; i < this.worker_list.length; i++) {
-  //     if(this.worker_list[i].worker_code==worker_code ){
-  //       this.worker_index = i;
-  //       break;
-  //     }      
-  //   }
-
-  //   this.doSetDetailWorker();
-
-  // }
 
 }

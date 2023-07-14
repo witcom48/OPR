@@ -359,6 +359,8 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadProvidentList();
     this.doLoadReduceList();
 
+    this.doLoadItemsList();
+
     setTimeout(() => {
       this.doLoadMenu();
     }, 100);
@@ -570,6 +572,8 @@ export class EmployeeManageComponent implements OnInit {
   //
   title_contact: { [key: string]: string } = { EN: "Contact", TH: "ข้อมูลติดต่อ" };
   title_military: { [key: string]: string } = { EN: "Military Staus", TH: "สถานภาพทางทหาร" };
+  title_cm: { [key: string]: string } = { EN: "c.m.", TH: "ซ.ม." };
+  title_kg: { [key: string]: string } = { EN: "k.g.", TH: "ก.ก." };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -4321,5 +4325,29 @@ export class EmployeeManageComponent implements OnInit {
     this.new_accumalate = false; this.edit_empaccumalate = false;
     this.new_tranfer = false; this.edit_emptranfer = false;
   }
+
+  //-- Aeb add 10/07/2023
+  benefit_list: any[] = [];
+   
+  doLoadItemsList(){    
+    var tmp = new ItemsModel();
+    this.itemService.item_get(tmp).then(async (res) => {
+      await res.forEach((element: ItemsModel) => {
+
+        this.doAddOption(this.benefit_list, element)
+      });      
+    });
+
+  }
+
+  doAddOption(list: any[], element: ItemsModel){
+    list.push(
+      {            
+        name: this.initial_current.Language == "EN" ? element.item_name_en : element.item_name_th,
+        code: element.item_code
+      }
+    )
+  }
+
 
 }

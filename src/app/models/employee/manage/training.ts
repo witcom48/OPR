@@ -10,6 +10,9 @@ export class EmpTrainingModel {
     emptraining_hours: string= "";
     emptraining_cost: string= "";
     emptraining_note: string= "";
+
+    emptraining_count: string= "";
+
     institute_code: string= "";
     institute_other: string= "";
     course_code: string= "";
