@@ -64,6 +64,7 @@ import { SetitemsComponent } from './payroll-policy/setitems/setitems.component'
 import { SetprovidentComponent } from './payroll-policy/setprovident/setprovident.component';
 import { AppEntryComponent } from './payroll-entry/app-entry/app-entry.component';
 import { AppEntrysComponent } from './payroll-entry/app-entry/app-entrys/app-entrys.component';
+import { PayrollSummaryComponent } from './payroll-summary/payroll-summary.component';
 
 
 @NgModule({
@@ -88,7 +89,9 @@ import { AppEntrysComponent } from './payroll-entry/app-entry/app-entrys/app-ent
         SetitemsComponent,
         SetprovidentComponent,
         AppEntryComponent,
-        AppEntrysComponent
+        AppEntrysComponent,
+        PayrollSummaryComponent,
+        
     ],
     imports: [
         CommonModule,

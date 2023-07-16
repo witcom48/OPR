@@ -90,6 +90,8 @@ export class ProjectListComponent implements OnInit {
   title_total_emp: {[key: string]: string} = {  EN: "Total Emp.",  TH: "จำนวนพนักงาน"}
   title_total_cost: {[key: string]: string} = {  EN: "Cost",  TH: "ต้นทุน"}
 
+  title_manage: {[key: string]: string} = {  EN: "Manage",  TH: "จัดการข้อมูล"}
+
   total_project:number = 0
   new_project:number = 0
   total_emp:number = 0
@@ -144,8 +146,21 @@ export class ProjectListComponent implements OnInit {
           this.selectedProtype = new ProtypeModel();    
           this.new_data= true;
           this.edit_data= false;
-          
+          this.showManage()
         }     
+      }
+      ,
+      {
+          label:this.title_edit[this.initial_current.Language],
+          icon:'pi pi-fw pi-pencil',
+          command: (event) => {
+            
+            if(this.selectedProject != null){
+              this.new_data= false;
+              this.edit_data = true
+              this.showManage()
+            }
+        }
       }
       ,    
       {
@@ -153,7 +168,7 @@ export class ProjectListComponent implements OnInit {
           icon:'pi pi-fw pi-file-import',       
           command: (event) => {
             this.showUpload()
-           
+            this.showManage()
           }        
       }
       ,    
@@ -185,7 +200,7 @@ export class ProjectListComponent implements OnInit {
 
   selectProject(){
 
-    console.log(this.selectedProject.project_code)
+    //console.log(this.selectedProject.project_code)
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -244,6 +259,8 @@ export class ProjectListComponent implements OnInit {
             if(result.success){
               this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
               this.doLoadProject()
+
+              this.displayManage = false
             }
             else{
               this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -266,7 +283,8 @@ export class ProjectListComponent implements OnInit {
             let result = JSON.parse(res);  
             if(result.success){
               this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-              this.doLoadProject()       
+              this.doLoadProject()    
+                 
             }
             else{
               this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -318,6 +336,17 @@ export class ProjectListComponent implements OnInit {
       }  
     });
        
+  }
+
+  displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
+
+  }
+
+  close_manage(){
+    this.displayManage = false
   }
 
   

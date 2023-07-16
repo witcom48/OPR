@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Router } from '@angular/router';
@@ -72,12 +72,17 @@ import { PlanleaveServices } from 'src/app/services/attendance/planleave.service
 import { LateModels } from 'src/app/models/attendance/late';
 import { LateServices } from 'src/app/services/attendance/late.service';
 
+import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
+
+
 @Component({
   selector: 'app-project-manage',
   templateUrl: './project-manage.component.html',
   styleUrls: ['./project-manage.component.scss']
 })
 export class ProjectManageComponent implements OnInit {
+
+  @ViewChild(SearchEmpComponent) selectEmp: any;
 
   manage_title: string = ""
   toolbar_menu: MenuItem[] = [];
@@ -173,6 +178,7 @@ export class ProjectManageComponent implements OnInit {
   title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
   title_search: {[key: string]: string} = {  EN: "Search",  TH: "ค้นหา"}
   title_upload: {[key: string]: string} = {  EN: "Upload",  TH: "อัพโหลด"}
+  title_btn_select: {[key: string]: string} = {  EN: "Select",  TH: "เลือก"}
   //
   title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
   title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
@@ -320,6 +326,9 @@ export class ProjectManageComponent implements OnInit {
   title_emp_total: {[key: string]: string} = {  EN: "Total emp",  TH: "จำนวนพนักงาน"}
   title_amount_total: {[key: string]: string} = {  EN: "Total amount",  TH: "ราคารวม"}
 
+  title_regular: {[key: string]: string} = {  EN: "Regular",  TH: "ประจำ"}
+  title_temporary: {[key: string]: string} = {  EN: "Temporary",  TH: "ชั่วคราว"}
+
   //#endregion "Language"
 
 
@@ -460,7 +469,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -507,7 +516,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -554,7 +563,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -595,19 +604,19 @@ export class ProjectManageComponent implements OnInit {
           this.new_protimepol = true
           this.selectedProtimepol = new ProtimepolModel()
           this.selectedProtimepol.protimepol_id = this.protimepol_list.length + 1
-
+          this.showManage()
         }
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
             if(this.selectedProtimepol != null){             
 
               this.edit_protimepol = true
-
+              this.showManage()
             }
         }
       }
@@ -648,17 +657,19 @@ export class ProjectManageComponent implements OnInit {
           this.selectedProjobcontract = new ProjobcontractModel()
           this.projobcost_list = []
           this.selectedProjobcost = new ProjobcostModel()
+          this.showManage()
         }
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
             if(this.selectedProjobmain != null){
               this.edit_projobmain = true
               this.projobmain_loadtran()
+              this.showManage()
             }
         }
         ,disabled: this.disable_projobmain,
@@ -717,7 +728,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -765,7 +776,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -814,7 +825,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -863,7 +874,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -912,7 +923,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -954,17 +965,18 @@ export class ProjectManageComponent implements OnInit {
           var ref = this.projobsub_list.length + 100
           this.selectedProjobsub = new ProjobsubModel()
           this.selectedProjobsub.projobsub_id = ref.toString()
-
+          this.showManage()
         }
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
             if(this.selectedProjobsub != null){
               this.edit_projobsub = true
+              this.showManage()
             }
         }
       }
@@ -1014,7 +1026,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -1062,7 +1074,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -1105,13 +1117,14 @@ export class ProjectManageComponent implements OnInit {
           var ref = this.projobemp_list.length + 100
           this.selectedProjobemp = new ProjobempModel()
           this.selectedProjobemp.projobemp_id = ref.toString()
+          this.selectedProjobemp.projobemp_type = "R"
 
           this.showManage()
         }
       }
       ,
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             this.clearManage()
@@ -1170,9 +1183,7 @@ export class ProjectManageComponent implements OnInit {
           //this.doLoadProjobsub()
 
           this.doLoadProjobemp()
-
           this.doLoadProtimepol()
-
 
         }, 300);
       }
@@ -1881,7 +1892,7 @@ export class ProjectManageComponent implements OnInit {
 
       this.menu_projobmain[1] =
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
             if(this.selectedProjobmain != null){
@@ -1909,6 +1920,8 @@ export class ProjectManageComponent implements OnInit {
   projobmain_cancel() {
     this.edit_projobmain= false
     this.new_projobmain= false
+
+    this.displayManage = false
   }
   projobmain_addItem(model:ProjobmainModel){
     const itemNew:ProjobmainModel[] = [];
@@ -2820,6 +2833,9 @@ export class ProjectManageComponent implements OnInit {
   //-- Project emp
   projobemp_list: ProjobempModel[] = [];
   selectedProjobemp: ProjobempModel = new ProjobempModel();
+
+  selectedProjobemp_name:string = ""
+
   doLoadProjobemp(){
     this.projectDetailService.projobemp_get(this.project_code).then((res) => {
       this.projobemp_list = res;
@@ -2829,7 +2845,7 @@ export class ProjectManageComponent implements OnInit {
     });
   }
   onRowSelectProjobemp(event: Event) {
-
+    this.selectedProjobemp_name = this.selectedProjobemp.projobemp_emp + " : " + this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp)
   }
   projobemp_summit() {
 
@@ -2911,9 +2927,47 @@ export class ProjectManageComponent implements OnInit {
       key: "myDialog"
     });
 
+  }
 
+  projobemp_type: any[] = [];
+  doLoadJobemptype(){
+    this.projobemp_type.push(
+      {            
+        name: this.initial_current.Language == "EN" ? "Regular" : "ประจำ",
+        code: "R"
+      }
+    )
+    this.projobemp_type.push(
+      {            
+        name: this.initial_current.Language == "EN" ? "Temporary" : "ชั่วคราว",
+        code: "T"
+      }
+    )
+  }
+
+  searchEmp: boolean = false;
+  open_searchemp(){
+    this.searchEmp = true
+  }
+
+  close_searchemp(){
+    this.searchEmp = false
+  }
+
+  select_emp(){
+    
+    let select  = this.selectEmp.selectedEmployee.worker_code
+    if(select != ""){
+      
+      this.selectedProjobemp.projobemp_emp = select
+      this.selectedProjobemp_name = this.selectedProjobemp.projobemp_emp + " : " + this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp)
+      this.searchEmp = false      
+    }
 
   }
+
+
+
 
   //-- Project working
   projobworking_list: ProjobworkingModel[] = [];
@@ -3061,4 +3115,9 @@ export class ProjectManageComponent implements OnInit {
 
 
 
+}
+
+interface Combobox {
+  name: string,
+  code: string
 }

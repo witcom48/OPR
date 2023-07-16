@@ -47,7 +47,7 @@ export class AppMenuComponent implements OnInit {
                 {
                     label: 'Project',
                     items: [
-                        { label: 'Policy', routerLink: ['/project/policy'] },
+                        { label: 'Policy >>', routerLink: ['/project/policy'] },
                         { label: 'Project', routerLink: ['/project/list'] },
                         { label: 'Monitor', routerLink: ['/project/monitor'] },
                         { label: 'Timesheet', routerLink: ['/project/timesheet'] },
@@ -55,17 +55,17 @@ export class AppMenuComponent implements OnInit {
 
                         // { label: 'จัดการข้อมูลกองทุนฯ', routerLink: ['/project/pf'] },
 
-                        { label: 'Reports', routerLink: ['/project/reports'] },
+                        { label: 'Reports >>', routerLink: ['/project/reports'] },
                     ]
                 }
                 ,
                 {
                     label: 'Employee',
                     items: [
-                        { label: 'Policy', routerLink: ['/employee/policy'] },
+                        { label: 'Policy >>', routerLink: ['/employee/policy'] },
                         { label: 'Employee info', routerLink: ['/employee/list'] },
                         { label: 'Monitor', routerLink: ['/employee/monitor'] },
-                        { label: 'Reports', routerLink: ['/employee/reports'] },
+                        { label: 'Reports >>', routerLink: ['/employee/reports'] },
 
                         // { label: 'Select Emp', routerLink: ['/usercontrol/selectemp'] },
 
@@ -75,41 +75,46 @@ export class AppMenuComponent implements OnInit {
                 {
                     label: 'Recruitment',
                     items: [
-                        { label: 'Policy', routerLink: ['/recruitment/policy'] },
+                        { label: 'Policy >>', routerLink: ['/recruitment/policy'] },
                         { label: 'Request', routerLink: ['/recruitment/request'] },
                         // { label: 'Apply work', routerLink: ['/recruitment/apply'] },
                         { label: 'Apply work', routerLink: ['/recruitment/applylist'] },
                         { label: 'Approval list', routerLink: ['/recruitment/approve'] },
-                        { label: 'Reports', routerLink: ['/recruitment/reports'] },
+                        { label: 'Reports >>', routerLink: ['/recruitment/reports'] },
                     ]
                 }
                 ,
                 {
                     label: 'Attendance',
                     items: [
-                        { label: 'Policy', routerLink: ['/attendance/policy'] },
+                        { label: 'Policy >>', routerLink: ['/attendance/policy'] },
                         { label: 'Manage', routerLink: ['/attendance/manage'] },
                         // { label: 'Self Services', routerLink: ['/attendance/self'] },
                         { label: 'Import Time', routerLink: ['/attendance/import'] },
-                        { label: 'Processing Time', routerLink: ['/attendance/process'] },
-                        { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'] },
+                        { label: 'Summarizes Time', routerLink: ['/attendance/process'] },
+                        
                         { label: 'View Time', routerLink: ['/attendance/view'] },
+                        { label: 'Calculate Time', routerLink: ['/attendance/calculate'] },
+
+                        { label: 'Summary', routerLink: ['/attendance/summary'] },
+
                         // { label: 'Approval list', routerLink: ['/attendance/approve'] },
-                        { label: 'Reports', routerLink: ['/attendance/reports'] },
+                        { label: 'Reports >>', routerLink: ['/attendance/reports'] },
                     ]
                 }
                 ,
                 {
                     label: 'Payroll',
                     items: [
-                        { label: 'Policy', routerLink: ['/payroll/policy'] },
+                        { label: 'Policy >>', routerLink: ['/payroll/policy'] },
                         { label: 'Calculate', routerLink: ['/payroll/calculate'] },
                         { label: 'Income / Deduct', routerLink: ['/payroll/entry'] },
                         { label: 'Calculate Tax', routerLink: ['/payroll/caltax'] },
                         { label: 'View Calculate', routerLink: ['/payroll/view'] },
-                        { label: 'Transfer', routerLink: ['/payroll/transfer'] },
+                        { label: 'Summary', routerLink: ['/payroll/summary'] },
+                        { label: 'Transfer >>', routerLink: ['/payroll/transfer'] },
                         { label: 'Approval list', routerLink: ['/payroll/approve'] },
-                        { label: 'Reports', routerLink: ['/payroll/reports'] },
+                        { label: 'Reports >>', routerLink: ['/payroll/reports'] },
                     ]
                 }
                 ,

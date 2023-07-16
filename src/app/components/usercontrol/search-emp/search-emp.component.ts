@@ -19,10 +19,18 @@ import { EmployeeService } from 'src/app/services/emp/worker.service';
 })
 export class SearchEmpComponent implements OnInit {
 
-  title_page_from:string = "Showing";
-  title_page_to:string = "to";
-  title_page_total:string = "of";
-  title_page_record:string = "entries";
+  title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
+  title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
+  title_page_total: {[key: string]: string} = {  EN: "of",  TH: "จาก"}
+  title_page_record: {[key: string]: string} = {  EN: "entries",  TH: "รายการ"}
+
+  title_search: {[key: string]: string} = {  EN: "Search",  TH: "ค้นหา"}
+
+  title_id: {[key: string]: string} = {  EN: "ID",  TH: "รหัสพนักงาน"}
+  title_firstname: {[key: string]: string} = {  EN: "Firstname",  TH: "ชื่อ"}
+  title_lastname: {[key: string]: string} = {  EN: "Lastname",  TH: "นามสกุล"}
+  title_position: {[key: string]: string} = {  EN: "Position",  TH: "ตำแหน่งงาน"}
+  title_emptype: {[key: string]: string} = {  EN: "Emptype",  TH: "ประเภทพนักงาน"}
 
   constructor(private employeeService: EmployeeService,
    

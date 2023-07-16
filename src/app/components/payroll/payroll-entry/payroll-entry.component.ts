@@ -19,6 +19,8 @@ import { ItemsModel } from 'src/app/models/payroll/items';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
 
+import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
+
 interface Type {
     name: string;
     code: string;
@@ -40,6 +42,8 @@ interface Result {
 })
 export class PayrollEntryComponent implements OnInit {
 
+
+    @ViewChild(SearchEmpComponent) searchEmp_popup: any;
 
     style_input_real: string = "[style]=\"{'width':'80px'}\\";
 
@@ -94,7 +98,7 @@ export class PayrollEntryComponent implements OnInit {
                     this.worker_index = 0;
                     this.doSetDetailWorker();
                     
-                }, 1500); 
+                }, 1000); 
             })
             .catch((error) => {
                 console.error(error);
@@ -109,6 +113,10 @@ export class PayrollEntryComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
     }
+
+    title_btn_select: {[key: string]: string} = {  EN: "Select",  TH: "เลือก"}
+    title_btn_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+
     title_page: string = 'Geanral';
     title_new: string = 'New';
     title_edit: string = 'Edit';
@@ -264,10 +272,6 @@ export class PayrollEntryComponent implements OnInit {
                     this.edit_data = false;
                     this.showManage();
                 },
-            },
-            {
-                label: 'Add copy',
-                icon: 'pi pi-fw pi-copy',
             },
             {
                 label: this.title_delete,
@@ -581,6 +585,40 @@ export class PayrollEntryComponent implements OnInit {
 
         XLSX.writeFile(wb, 'Export_Reason.xlsx');
     }
+
+
+    position: string = "right";
+    searchEmp: boolean = false;
+    open_searchemp(){
+        this.searchEmp = true
+    }
+
+    close_searchemp(){
+        this.searchEmp = false
+    }
+
+    select_emp(){
+        
+        let select = this.searchEmp_popup.selectedEmployee.worker_code
+        if(select != ""){
+        this.doGetIndexWorker(select)
+        this.searchEmp = false      
+        }
+
+    }
+
+    doGetIndexWorker(worker_code:string){
+        for (let i = 0; i < this.worker_list.length; i++) {
+            if(this.worker_list[i].worker_code==worker_code ){
+                this.worker_index = i;
+                break;
+            }
+        }
+
+        this.doSetDetailWorker();
+
+    }
+
 }
 
 //   toolbar_menu: MenuItem[] = [];

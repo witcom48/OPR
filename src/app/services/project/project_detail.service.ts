@@ -1020,6 +1020,7 @@ export class ProjectDetailService {
       projobemp_emp: model.projobemp_emp,
       projobemp_fromdate: this.datePipe.transform(model.projobemp_fromdate),
       projobemp_todate: this.datePipe.transform(model.projobemp_todate),
+      projobemp_type: model.projobemp_type,
       projobemp_status: model.projobemp_status,
       projob_code: model.projob_code,
       project_code: model.project_code,
@@ -1044,6 +1045,7 @@ export class ProjectDetailService {
       item_data = item_data + ",\"projobemp_emp\":\"" + list[i].projobemp_emp + "\"";
       item_data = item_data + ",\"projobemp_fromdate\":\"" + this.datePipe.transform(list[i].projobemp_fromdate) + "\"";
       item_data = item_data + ",\"projobemp_todate\":\"" + this.datePipe.transform(list[i].projobemp_todate) + "\"";
+      item_data = item_data + ",\"projobemp_type\":\"" + list[i].projobemp_type + "\"";
       item_data = item_data + ",\"projobemp_status\":\"" + list[i].projobemp_status + "\"";
 
       item_data = item_data + ",\"projob_code\":\"" + list[i].projob_code + "\"";

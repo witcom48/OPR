@@ -2,30 +2,44 @@
 <hr>
 <p-toast position="top-right"></p-toast> 
 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+
+<p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
+    <div class="grid">
+        <div class="col-12">
+            <app-search-emp></app-search-emp>
+        </div>
+        <div class="col-12">
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-save" (click)="select_emp()"></p-button> 
+            &nbsp;
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}" class="p-button-secondary" (click)="close_searchemp()"></button>                      
+        </div>
+    </div>
+</p-dialog>
 
 <p-dialog header="{{date_work | date:'dd/MM/yyyy'}}" [(visible)]="displayManage" [style]="{width: '45vw'}" [position]="position">
     <div class="formgrid grid align-items-end" *ngIf="edit_timecard==true">            
        
         <div class="field col-12 md:col-6">
-            <label for="selectedShift">Project</label><br>
-            <label for="selectedShift">PRO001</label><br>
+            <b><label>{{title_project[initial_current.Language]}}</label></b><br>
+            <label>PRO001</label><br>
         </div>
         <div class="field col-12 md:col-6">
-            <label for="selectedShift">Job</label><br>
+            <b><label>{{title_job[initial_current.Language]}}</label></b><br>
+            <label></label><br>
         </div>
 
         <div class="field col-12 md:col-6">
-            <label for="selectedShift">กะการทำงาน</label><br>
+            <label for="selectedShift">{{title_shift[initial_current.Language]}}</label><br>
             <p-dropdown [options]="shift_list" [(ngModel)]="selectedShift" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         </div>  
 
         <div class="field col-12 md:col-6">
-            <label for="selectedShift">ประเภทวัน</label><br>
+            <label for="selectedShift">{{title_daytype[initial_current.Language]}}</label><br>
             <p-dropdown [options]="daytype_list" [(ngModel)]="selectedDaytype" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         </div>  
         
-        <div class="field col-12 p-2">โอทีก่อนเข้างาน</div>  
+        <div class="field col-12 p-2">{{title_beforeot[initial_current.Language]}}</div>  
 
         <div class="field col-12 md:col-8">
             <div class="grid">
@@ -48,7 +62,7 @@
             </div>   
         </div>
 
-        <div class="field col-12 p-2">เข้างานช่วงที่ 1</div>
+        <div class="field col-12 p-2">{{title_in[initial_current.Language]}} 1</div>
         <div class="field col-12 md:col-8">
             <div class="grid">
                 <div class="col-6 ">
@@ -70,7 +84,7 @@
             </div>   
         </div>        
 
-        <div class="field col-12 p-2">เข้างานช่วงที่ 2</div> 
+        <div class="field col-12 p-2">{{title_out[initial_current.Language]}} 2</div> 
         <div class="field col-12 md:col-8">
             <div class="grid">
                 <div class="col-6 ">
@@ -92,7 +106,7 @@
             </div>   
         </div>
 
-        <div class="field col-12 p-2">พักเบรก</div>  
+        <div class="field col-12 p-2">{{title_break[initial_current.Language]}}</div>  
         <div class="field col-12 md:col-8">
             <div class="grid">
                 <div class="col-6 ">
@@ -114,7 +128,7 @@
             </div>   
         </div>
 
-        <div class="field col-12 p-2">โอทีหลังเลิกงาน</div> 
+        <div class="field col-12 p-2">{{title_afterot[initial_current.Language]}}</div> 
         <div class="field col-12 md:col-8">
             <div class="grid">
                 <div class="col-6 ">
@@ -140,10 +154,10 @@
         <div class="field col-12 md:col-8">           
             <div class="grid">
                 <div class="col-6 p-2" >
-                    สาย
+                    {{title_late[initial_current.Language]}}
                 </div>
                 <div class="col-6 p-2">
-                    ลางาน
+                    {{title_leave[initial_current.Language]}}
                 </div>
                 <div class="col-3 ">
                     <p-inputMask mask="99:99" [(ngModel)]="late" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
@@ -162,30 +176,30 @@
         <div class="field col-12 md:col-4">
             <div class="field-checkbox">
                 <p-checkbox [binary]="true" [(ngModel)]="selectedTimecard.timecard_lock" inputId="timecard_lock"></p-checkbox>
-                <label for="timecard_lock">ล็อค</label>
+                <label for="timecard_lock">{{title_lock[initial_current.Language]}}</label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <p-checkbox [binary]="true" [(ngModel)]="selectedTimecard.timecard_deduct" inputId="timecard_deduct"></p-checkbox>
-                <label for="timecard_deduct">หักเงิน</label>
+                <label for="timecard_deduct">{{title_deduct[initial_current.Language]}}</label>
             </div>
         </div>
         
         <div class="field col-12">
             <p-accordion>
-                <p-accordionTab header="เอกสาร" > </p-accordionTab>
+                <p-accordionTab header="{{title_document[initial_current.Language]}}" > </p-accordionTab>
                   
             </p-accordion>
         </div>
          
         <div class="field col-12">
-            <p-button label="บันทึก" icon="pi pi-save" (click)="timecard_summit()"></p-button>  
+            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="timecard_summit()"></p-button>  
             &nbsp;
-            <button pButton pRipple type="button" label="ปิด" class="p-button-secondary" (click)="timecard_cancel()"></button>            
+            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-secondary" (click)="timecard_cancel()"></button>            
         </div>
     </div>
 </p-dialog>
 
 <div class="grid">
-    <div class="col-12">    
+    <!-- <div class="col-12">    
         <div class="grid">
             <div class="field col-12 md:col-5">
                 <table style="width: 100%">
@@ -255,38 +269,63 @@
                 </table>  
             </div>
         </div>   
+    </div> -->
+
+    <div class="col-6">
+        <table style="width: 100%">
+            <tr>
+                <td style="width: 20px;">
+                    <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
+                </td>
+                <td style="width: 150px;">
+                    <input id="lastname2" type="text" value="{{worker_code}}" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                </td>
+                <td style="width: 20px;">
+                    <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
+                </td>
+                <td style="width: 20px;">
+                    <i class="pi pi-search" (click)="open_searchemp()"></i>
+                </td>
+                <td style="width: 250px;" align="left">
+                    <input id="lastname2" type="text" value="{{worker_name}}" style="width: 250px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-6">
+        &nbsp;
     </div>
 
     <div class="col-12">
         <p-menubar [model]="menu_timecard"></p-menubar>        
-        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '170rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="timecard_workdate"
+        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '190rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="timecard_workdate"
         [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']"
         >
             <ng-template pTemplate="header">
                 <tr>  
-                    <th>วันที่</th> 
-                    <th>Project</th> 
-                    <th>Job</th>                       
-                    <th style="width: 100px;">กะการทำงาน</th>
-                    <th style="width: 100px;">ประเภทวัน</th>   
-                    <th>เวลาเข้า</th>
-                    <th>เวลาออก</th>                                    
-                    <th>โอทีก่อนเข้างาน</th>   
-                    <th>โอทีก่อนเข้างาน (อนุมัติ)</th>   
-                    <th>เวลาทำงาน</th>   
-                    <th>เวลาทำงาน (อนุมัติ)</th>                    
-                    <th>โอทีหลังเลิกงาน</th>   
-                    <th>โอทีหลังเลิกงาน (อนุมัติ)</th>                       
-                    <th>สาย</th>   
-                    <th>สาย (อนุมัติ)</th>
-                    <th>ลางาน</th>   
-                    <th>ลางาน (อนุมัติ)</th>
-                    <th style="width: 200px;">ผู้ทำรายการ</th>
-                    <th>วันที่ทำรายการ</th>                                                                 
+                    <th>{{title_date[initial_current.Language]}}</th> 
+                    <th>{{title_project[initial_current.Language]}}</th> 
+                    <th>{{title_job[initial_current.Language]}}</th>                       
+                    <th style="width: 100px;">{{title_shift[initial_current.Language]}}</th>
+                    <th style="width: 100px;">{{title_daytype[initial_current.Language]}}</th>   
+                    <th>{{title_normalin[initial_current.Language]}}</th>
+                    <th>{{title_normalout[initial_current.Language]}}</th>                                    
+                    <th>{{title_beforeot[initial_current.Language]}}</th>   
+                    <th>{{title_beforeot[initial_current.Language]}} ({{title_approve[initial_current.Language]}})</th>   
+                    <th>{{title_work[initial_current.Language]}}</th>   
+                    <th>{{title_work[initial_current.Language]}} ({{title_approve[initial_current.Language]}})</th>                    
+                    <th>{{title_afterot[initial_current.Language]}}</th>   
+                    <th>{{title_afterot[initial_current.Language]}} ({{title_approve[initial_current.Language]}})</th>                       
+                    <th>{{title_late[initial_current.Language]}}</th>   
+                    <th>{{title_late[initial_current.Language]}} ({{title_approve[initial_current.Language]}})</th>
+                    <th>{{title_leave[initial_current.Language]}}</th>   
+                    <th>{{title_leave[initial_current.Language]}} ({{title_approve[initial_current.Language]}})</th>
+                    <th style="width: 200px;">{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>                                                                 
                 </tr>	
-                <tr>  
+                <!-- <tr>  
                     <th></th>     
                     <th></th> 
                     <th></th>                       
@@ -328,7 +367,7 @@
                         <p-columnFilter type="text" field="modified_by"></p-columnFilter>
                     </th>
                     <th></th>                                                                 
-                </tr>	                
+                </tr>	                 -->
             </ng-template>
 
             <ng-template pTemplate="body" let-timecard>
@@ -356,10 +395,7 @@
             </ng-template>    
         </p-table>
     </div>
-    <div class="col-3">      
-        
-
-    </div>
+    
 
 
 

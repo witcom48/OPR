@@ -15,7 +15,7 @@
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
             </div>            
-            <div class="field col-12 md:col-7">
+            <div class="field col-12 md:col-12">
                 <div style="display: inline" >
                     
                     <input type="checkbox"  [(ngModel)]="selectedSalary" name="selectedSalary"/> {{labSalary[initial_current.Language]}}
@@ -28,7 +28,7 @@
                 </div>
             </div>
             
-            <div class="field col-12 md:col-3">
+            <div class="field col-12">
                 <p-button label="Process" (click)="process()"></p-button>
             </div>
         </div>
