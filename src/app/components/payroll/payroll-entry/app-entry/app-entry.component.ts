@@ -157,7 +157,7 @@ export class AppEntryComponent implements OnInit {
   title_note: string = 'Note';
   title_quantity: string = 'Quantity';
   title_no: string = 'No.';
-  title_date: string = 'Date.';
+  title_date: string = 'Date';
   title_bank: string = 'Bank.';
   title_cash: string = 'Cash.';
   title_total: string = 'Total';
@@ -206,7 +206,7 @@ export class AppEntryComponent implements OnInit {
       this.title_codeitem = 'รหัสเงินหัก ';
       this.title_employee = 'พนักงาน ';
       this.title_protype = 'ประเภท';
-      this.title_date = 'วันที่';
+      this.title_date = 'วันที่จ่าย';
       this.title_codes = 'รหัสเงินได้';
       this.title_code = 'รหัส';
       this.title_details = 'รายละเอียด';

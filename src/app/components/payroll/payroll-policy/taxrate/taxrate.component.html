@@ -66,15 +66,18 @@
         <i (click)="close()"></i>
 
         <label>{{title_From}}</label>
-        <textarea matInput placeholder="Amount" [(ngModel)]="selectedTaxrate.taxrate_from"  pInputTextarea [autoResize]="true" (change)="setFormatFrom($event)" [ngModelOptions]="{updateOn: 'blur'}"></textarea>
-
-
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_from">
+        </p-inputNumber>
         <label>{{title_To}}</label>
-        <textarea matInput placeholder="Amount" [(ngModel)]="selectedTaxrate.taxrate_to"  pInputTextarea [autoResize]="true" (change)="setFormatTo($event)" [ngModelOptions]="{updateOn: 'blur'}"></textarea>
-
- 
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_to">
+        </p-inputNumber>
         <label>{{title_Tax}}</label>
-        <textarea matInput placeholder="Amount" [(ngModel)]="selectedTaxrate.taxrate_tax" pInputTextarea [autoResize]="true" (change)="setFormatTax($event)" [ngModelOptions]="{updateOn: 'blur'}"></textarea>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_tax">
+        </p-inputNumber>
+
  
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"

@@ -143,9 +143,9 @@ export class ProvidentComponent implements OnInit {
         }
     }
     ngOnInit(): void {
-        this.doLoadLanguage();
 
         this.doGetInitialCurrent();
+        this.doLoadLanguage();
         this.doLoadMenu();
         this.doLoadLate();
     }

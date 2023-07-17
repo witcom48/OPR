@@ -48,10 +48,11 @@ export class SetbonusComponent implements OnInit {
         private setbonusService: SetbonusService
     ) {}
     new_data: boolean = false;
+    
     ngOnInit(): void {
         this.doGetInitialCurrent();
-        this.doLoadLanguage();
         this.doLoadSetBonusList();
+        this.doLoadLanguage();
         //dropdown
         this.doLoadTRBonusList();
         

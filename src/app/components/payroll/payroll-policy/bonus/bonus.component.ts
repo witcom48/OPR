@@ -145,10 +145,11 @@ export class BonusComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.doLoadLanguage();
         this.doLoadItemsList();
 
         this.doGetInitialCurrent();
+        this.doLoadLanguage();
+
         this.doLoadMenu();
         this.doLoadLate();
     }

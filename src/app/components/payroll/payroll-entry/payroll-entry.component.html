@@ -74,7 +74,7 @@
                                     <th>{{title_quantity}}</th>
                                     <th>{{title_bank_transfer_cash}}</th>
                                     <th>{{title_note}}</th>
-                                    <!-- <th>{{title_date}}</th> -->
+                                    <th>{{title_date}}</th>
                                     <th>{{title_modified_by}}</th>
                                     <th>{{title_modified_date}}</th>
                                 </tr>
@@ -91,7 +91,7 @@
                                     <td>{{data.payitem_quantity | number}}</td>
                                     <td>{{data.payitem_paytype}}</td>
                                     <td>{{data.payitem_note}}</td>
-                                    <!-- <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td> -->
+                                    <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td>
                                     <td>{{data.modified_by}}</td>
                                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                 </tr>
@@ -140,9 +140,11 @@
                         </div>
 
                         <label>{{title_note}}</label>
-                        <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea>
+                        <input pInputText type="text" [(ngModel)]="payitems.payitem_note"  />
 
-                        <label>{{title_date}}</label>
+                        <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
+
+                        <!-- <label>{{title_date}}</label> -->
                         <!-- <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="payitems.payitem_date">
                             <input type="text"></p-calendar> -->
@@ -276,7 +278,7 @@
                                     <th>{{title_quantity}}</th>
                                     <th>{{title_bank_transfer_cash}}</th>
                                     <th>{{title_note}}</th>
-                                    <!-- <th>{{title_date}}</th> -->
+                                    <th>{{title_date}}</th>
                                     <th>{{title_modified_by}}</th>
                                     <th>{{title_modified_date}}</th>
                                 </tr>
@@ -293,7 +295,7 @@
                                     <td>{{data.payitem_quantity | number}}</td>
                                     <td>{{data.payitem_paytype}}</td>
                                     <td>{{data.payitem_note}}</td>
-                                    <!-- <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td> -->
+                                    <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td>
                                     <td>{{data.modified_by}}</td>
                                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                 </tr>
@@ -344,7 +346,9 @@
                         </div>
 
                         <label>{{title_note}}</label>
-                        <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea>
+                        <input pInputText type="text" [(ngModel)]="payitems.payitem_note"  />
+
+                        <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
 
                         <!-- <label>{{title_date}}</label>
                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
