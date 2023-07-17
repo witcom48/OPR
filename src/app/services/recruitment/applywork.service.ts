@@ -58,7 +58,7 @@ export class ApplyworkService {
     }
 
     public applywork_get(company: string, code: string) {
-        console.log('APW001..');
+        // console.log('APW001..');
 
         var filter = {
             device_name: '',
@@ -78,13 +78,13 @@ export class ApplyworkService {
             .toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                console.log(res);
+                // console.log(res);
                 return message.data;
             });
     }
 
     public applywork_recordall(model: ApplyworkModel) {
-        console.log('APW002..');
+        // console.log('APW002..');
         const data = {
             company_code: this.initial_current.CompCode,
             applywork_id: model.applywork_id,
@@ -117,7 +117,7 @@ export class ApplyworkService {
     }
 
     public applywork_delete(model: ApplyworkModel) {
-        console.log('APW003..');
+        // console.log('APW003..');
         const data = {
             applywork_id: model.applywork_id,
             applywork_code: model.applywork_code,
@@ -169,7 +169,7 @@ export class ApplyworkService {
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqworker_list', filter, this.options).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                // console.log(res)
+                // // console.log(res)
                 return message.data;
             });
     }

@@ -162,7 +162,7 @@ export class BonusComponent implements OnInit {
     }
     async doRecordLate(data: BonusModel) {
         await this.bonusService.bonus_record(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -183,7 +183,7 @@ export class BonusComponent implements OnInit {
     }
     async doDeleteLate(data: BonusModel) {
         await this.bonusService.bonus_delete(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -209,7 +209,7 @@ export class BonusComponent implements OnInit {
         this.bonusService
             .bonus_import(this.fileToUpload, filename, filetype)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.success) {
                     this.messageService.add({
                         severity: 'success',
@@ -320,7 +320,7 @@ export class BonusComponent implements OnInit {
         this.conditions = new BonusrateModel();
     }
     Save() {
-        console.log(this.selectedBonus);
+        // console.log(this.selectedBonus);
         this.doRecordLate(this.selectedBonus);
     }
     Savelate() {
@@ -354,7 +354,7 @@ export class BonusComponent implements OnInit {
     onRowSelectList(event: any) {
         this.displayaddcondition = true;
         this.displayeditcondition = true;
-        console.log(this.conditions);
+        // console.log(this.conditions);
     }
     onRowSelect(event: any) {
         this.new_data = true;

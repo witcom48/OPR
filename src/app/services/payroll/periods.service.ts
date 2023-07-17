@@ -44,7 +44,7 @@ export class PeriodsServices {
     }
 
     public period_get(Period: PeriodsModels) {
-        console.log('PAYPE001..');
+        // console.log('PAYPE001..');
         let data = {
             "device_name": "phone",
             "ip": "127.0.0.1",
@@ -63,7 +63,7 @@ export class PeriodsServices {
     }
 
     public period_record(Period: PeriodsModels) {
-        console.log('PAYPE002..');
+        // console.log('PAYPE002..');
         let data = {
             "device_name": "phone",
             "ip": "127.0.0.1",
@@ -85,13 +85,13 @@ export class PeriodsServices {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/periods', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public period_delete(Period: PeriodsModels) {
-        console.log('PAYPE003..');
+        // console.log('PAYPE003..');
         let data = {
             "device_name": "phone",
             "ip": "127.0.0.1",
@@ -101,7 +101,7 @@ export class PeriodsServices {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/periods_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -109,7 +109,7 @@ export class PeriodsServices {
 
 
     public period_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYPE004..');
+        // console.log('PAYPE004..');
         const formData = new FormData();
         formData.append('file', file);
 

@@ -61,7 +61,7 @@ export class EmployeeService {
   }
 
   public worker_get(company: string, code: string) {
-    console.log(company,code,"TESTTTTT")
+    // console.log(company,code,"TESTTTTT")
     var filter = {
       device_name: '',
       ip: "localhost",
@@ -74,13 +74,13 @@ export class EmployeeService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        // console.log(res)
+        // // console.log(res)
         return message.data;
       });
   }
 
   public worker_recordall(model: EmployeeModel) {
-    console.log('WKR002..');
+    // console.log('WKR002..');
     const data = {
       company_code: this.initial_current.CompCode,
       worker_id: model.worker_id,
@@ -124,7 +124,7 @@ export class EmployeeService {
   }
 
   public worker_delete(model: EmployeeModel) {
-    console.log('WKR003..');
+    // console.log('WKR003..');
     const data = {
       worker_id: model.worker_id,
       worker_code: model.worker_code,

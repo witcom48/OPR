@@ -58,18 +58,18 @@ export class CodestructureService {
     }
 
     public codestructure_get(){
-      console.log('CODE001..');
+      // console.log('CODE001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/codestructure_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public codestructure_record(model:CodestructureModel) {
-      console.log('CODE002..');
+      // console.log('CODE002..');
       const data = {
         codestructure_code: model.codestructure_code,
         codestructure_name_th: model.codestructure_name_th,
@@ -80,13 +80,13 @@ export class CodestructureService {
       return this.http.post<any>(this.config.ApiSystemModule + '/codestructure', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public codestructure_delete(model:CodestructureModel) {
-      console.log('CODE003..');
+      // console.log('CODE003..');
       const data = {
         codestructure_code: model.codestructure_code,
         modified_by: this.initial_current.Username

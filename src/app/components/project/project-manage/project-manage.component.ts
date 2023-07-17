@@ -362,7 +362,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.project_code = params['project'];
-      console.log(this.project_code);
+      // console.log(this.project_code);
     });
 
     this.doGetInitialCurrent()
@@ -1193,7 +1193,7 @@ export class ProjectManageComponent implements OnInit {
 
   doLoadMaster(){
     this.genaralService.probusiness_get().then((res) => {
-      //console.log(res)
+      //// console.log(res)
       this.probusiness_list = res;
     });
 
@@ -1574,7 +1574,7 @@ export class ProjectManageComponent implements OnInit {
   }
   procontract_addItem(model:ProcontractModel){
 
-    console.log(model.procontract_ref)
+    // console.log(model.procontract_ref)
 
     const itemNew:ProcontractModel[] = [];
     for (let i = 0; i < this.procontract_list.length; i++) {
@@ -2290,7 +2290,7 @@ export class ProjectManageComponent implements OnInit {
 
 
         // var date_tmp = new Date(this.projobcost_list[i].projobcost_todate)
-        // //console.log(date_tmp)
+        // //// console.log(date_tmp)
 
         // if(this.projobcost_list[i].projobcost_code==model.projobcost_code && date_tmp.getTime() > model.projobcost_fromdate.getTime()){
 

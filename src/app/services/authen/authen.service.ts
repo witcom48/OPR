@@ -50,7 +50,7 @@ export class AuthenService {
     headers: this.httpHeaders
   };
   public getToken(com: string, user: string, pass: string) {
-    console.log('ATH001..');
+    // console.log('ATH001..');
 
     var data = {
       company_code: com,
@@ -62,13 +62,13 @@ export class AuthenService {
       // .then((res) => <PrjectModel[]>res.data)
       .then((res) => {
         let message = JSON.parse(res);
-        //console.log(res)
-        //console.log(message.message)
+        //// console.log(res)
+        //// console.log(message.message)
         return message;
       });
   }
   public checkToken() {
-    console.log('ATH002..');
+    // console.log('ATH002..');
 
     var data = {
       usname: this.initial_current.Username
@@ -78,8 +78,8 @@ export class AuthenService {
       // .then((res) => <PrjectModel[]>res.data)
       .then((res) => {
         let message = JSON.parse(res);
-        //console.log(res)
-        //console.log(message.message)
+        //// console.log(res)
+        //// console.log(message.message)
         return message;
       });
   }

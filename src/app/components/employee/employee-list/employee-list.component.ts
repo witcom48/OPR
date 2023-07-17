@@ -291,13 +291,13 @@ export class EmployeeListComponent implements OnInit {
       },
       key: "myDialog"
     });
-    console.log(this.selectedemployee);
+    // console.log(this.selectedemployee);
   }
 
   doRecordEmployee() {
 
     this.employeeService.worker_recordall(this.selectedemployee).then((res) => {
-      console.log(res)
+      // console.log(res)
       let result = JSON.parse(res);
 
       if (result.success) {
@@ -326,7 +326,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   doDeleteEmployee() {
-    console.log(this.selectedemployee);
+    // console.log(this.selectedemployee);
   }
 
   close() {
@@ -761,7 +761,7 @@ export class EmployeeListComponent implements OnInit {
 
   selectEmpManage() {
 
-    console.log(this.selectedemployee.worker_code)
+    // console.log(this.selectedemployee.worker_code)
 
     let navigationExtras: NavigationExtras = {
       queryParams: {

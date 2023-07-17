@@ -92,7 +92,7 @@ export class SystemBankaccountComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
             this.company_code = params['companycode'];
-            console.log(this.company_code);
+            // console.log(this.company_code);
         });
 
         this.doGetInitialCurrent();
@@ -398,7 +398,7 @@ export class SystemBankaccountComponent implements OnInit {
                 label:this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
-                    console.log('Save');
+                    // console.log('Save');
                     this.confirmRecord();
                 },
             },
@@ -564,7 +564,7 @@ export class SystemBankaccountComponent implements OnInit {
       this.companyService.doGetImagesmaps(this.initial_current.CompCode)
         .then((res) => {
           let resultJSON = JSON.parse(res);
-          console.log(resultJSON.data_maps);
+          // console.log(resultJSON.data_maps);
           if (resultJSON.result == "1") {
             this.base65Image = resultJSON.data_maps;
           }
@@ -810,7 +810,7 @@ export class SystemBankaccountComponent implements OnInit {
         this.companyService
             .company_recordall(this.selectedCompany)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
 
                 let result = JSON.parse(res);
 

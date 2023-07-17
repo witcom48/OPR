@@ -134,7 +134,7 @@ export class EmpsetpositionComponent implements OnInit {
     this.loading = true;
     await this.setempdetailService.SetPosition_record(data).then((res) => {
       if (res.success) {
-        console.log(res.message)
+        // console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetpositionList();
         this.edit_data = false;

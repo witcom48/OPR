@@ -1,35 +1,24 @@
-
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
-import { Table } from 'primeng/table';
-import { MegaMenuItem, MenuItem } from 'primeng/api';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { DatePipe } from '@angular/common';
-import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
-import * as XLSX from 'xlsx';
-
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
-
-import { ProgenaralService } from '../../../services/project/pro_genaral.service';
-
+import { MenuItem, MessageService } from 'primeng/api';
 import { AccountModel } from '../../../models/self/account';
 import { PositionModel } from '../../../models/employee/policy/position';
+import { PartModel } from '../../../models/employee/policy/part';
+import { EmployeeModel } from '../../../models/employee/employee';
+import { TRAccountModel } from '../../../models/self/traccount';
+import { LevelModel } from '../../../models/system/policy/level';
+import { AccountServices } from '../../../services/self/account.service';
 import { PositionService } from '../../../services/emp/policy/position.service';
-
-import { LevelService } from 'src/app/services/system/policy/level.service';
-import { PartService } from 'src/app/services/emp/policy/part.service';
-import { PartModel } from 'src/app/models/employee/policy/part';
-import { AccountServices } from 'src/app/services/self/account.service';
+import { PartService } from '../../../services/emp/policy/part.service';
+import { EmployeeService } from '../../../services/emp/worker.service';
 import { AccountPosModel } from 'src/app/models/self/accountpos';
 import { AccountDepModel } from 'src/app/models/self/accountdep';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
-import { EmployeeModel } from 'src/app/models/employee/employee';
-import { EmployeeService } from 'src/app/services/emp/worker.service';
-import { TRAccountModel } from 'src/app/models/self/traccount';
-import { LevelModel } from 'src/app/models/system/policy/level';
+import { InitialCurrent } from 'src/app/config/initial_current';
+import { AppConfig } from 'src/app/config/config';
+import { AccountModuleModel } from 'src/app/models/self/accountmodule';
 declare var account: any;
+interface Modules { name: string, code: string }
 @Component({
   selector: 'app-self-account',
   templateUrl: './self-account.component.html',
@@ -37,282 +26,330 @@ declare var account: any;
 })
 export class SelfAccountComponent implements OnInit {
   @ViewChild(SelectEmpComponent) selectEmp: any;
-  langs: any = account;
-  selectlang: string = "EN";
-  constructor(private messageService: MessageService,
-    private confirmationService: ConfirmationService,
-    private datePipe: DatePipe,
+
+  accountLanguages: any = account;
+
+  selectedLanguage: string = 'EN';
+  modulesList: Modules[] = [
+    { name: 'SELF SERVICES', code: 'SELF' },
+    { name: 'PROJECT', code: 'PRO' },
+    { name: 'EMPLOYEE', code: 'EMP' },
+    { name: 'RECRUITMENT', code: 'REQ' },
+    { name: 'ATTENDANCE', code: 'ATT' },
+    { name: 'PAYROLL', code: 'PAY' },
+    { name: 'SYSTEM', code: 'SYS' },
+  ];
+  availableModules: Modules[] = [];
+  selectedModules: Modules[] = [];
+  accountTypes: any[] = [];
+  selectedAccountType: any = { name: '', code: '' };
+  menuItems: MenuItem[] = [];
+  isEditing: boolean = false;
+  isAccountManagement: boolean = false;
+  isDisplayingManagement: boolean = false;
+  accountList: AccountModel[] = [];
+  selectedAccount: AccountModel = new AccountModel();
+  positionList: PositionModel[] = [];
+  availablePositions: PositionModel[] = [];
+  selectedPositions: PositionModel[] = [];
+  departmentList: PartModel[] = [];
+  availableDepartments: PartModel[] = [];
+  selectedDepartments: PartModel[] = [];
+  employeeList: EmployeeModel[] = [];
+  availableEmployees: EmployeeModel[] = [];
+  selectedEmployees: EmployeeModel[] = [];
+  selectedPosition: PositionModel = new PositionModel();
+  positionAlignment: string = 'right';
+  initialCurrent: InitialCurrent = new InitialCurrent();
+
+  constructor(
+    private messageService: MessageService,
     private router: Router,
     private positionService: PositionService,
-    private accountServie: AccountServices,
-    private depService: PartService,
-    private empService: EmployeeService,
+    private accountService: AccountServices,
+    private departmentService: PartService,
+    private employeeService: EmployeeService
   ) { }
-  TypeList: any[] = []
-  selectuserType: any = { name: "", code: "" }
-  items_menu: MenuItem[] = [];
-  edit_data: boolean = false;
-  account_manage: boolean = false;
-  displayManage: boolean = false;
-  account_list: AccountModel[] = [];
-  selectedAccount: AccountModel = new AccountModel();
-  position_list: PositionModel[] = [];
-  position_list_source: PositionModel[] = [];
-  position_list_dest: PositionModel[] = [];
-  dep_list: PartModel[] = [];
-  dep_list_source: PartModel[] = [];
-  dep_list_dest: PartModel[] = [];
-  emp_list: EmployeeModel[] = [];
-  emp_list_source: EmployeeModel[] = [];
-  emp_list_dest: EmployeeModel[] = [];
-  selectedPosition: PositionModel = new PositionModel();
-  position: string = "right";
-  public initial_current: InitialCurrent = new InitialCurrent();
-  doGetInitialCurrent() {
-    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
-    if (!this.initial_current.Token) {
-      this.router.navigateByUrl('login');
-    }
-    this.selectlang = this.initial_current.Language;
-  }
 
   ngOnInit(): void {
-    this.doGetInitialCurrent()
-    this.doLoadMenu()
-    this.doLoadAccount()
-    this.doLoadPosition()
-    this.doLoadDepartment()
-    this.doLoadType()
-    this.doLoadEmployee()
+    this.loadInitialCurrent();
+    this.loadMenu();
+    this.loadAccounts();
+    this.loadPositions();
+    this.loadDepartments();
+    this.loadAccountTypes();
+    this.loadEmployees();
   }
-  doLoadType() {
-    this.TypeList = [{ name: this.langs.get('employee')[this.selectlang], code: "Emp" },
-    { name: this.langs.get('approve')[this.selectlang], code: "APR" },
-    { name: this.langs.get('group')[this.selectlang], code: "GRP" },
-    { name: this.langs.get('admin')[this.selectlang], code: "ADM" },]
-  }
-  doLoadMenu() {
 
-    this.items_menu = [
+  // Loads the initial current settings, checks for token presence, and sets the selected language
+  loadInitialCurrent(): void {
+    this.initialCurrent = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initialCurrent.Token) {
+      this.router.navigateByUrl('login');
+    }
+    this.selectedLanguage = this.initialCurrent.Language;
+  }
+
+  // Loads the available account types
+  loadAccountTypes(): void {
+    this.accountTypes = [
+      { name: this.accountLanguages.get('employee')[this.selectedLanguage], code: 'Emp' },
+      { name: this.accountLanguages.get('approve')[this.selectedLanguage], code: 'APR' },
+      { name: this.accountLanguages.get('group')[this.selectedLanguage], code: 'GRP' },
+      { name: this.accountLanguages.get('admin')[this.selectedLanguage], code: 'ADM' }
+    ];
+  }
+
+  // Loads the menu items for the Table
+  loadMenu(): void {
+    this.menuItems = [
       {
-        label: this.langs.get('new')[this.selectlang],
+        label: this.accountLanguages.get('new')[this.selectedLanguage],
         icon: 'pi pi-fw pi-plus',
-        command: (event) => {
-          this.displayManage = true
-          this.edit_data = false;
-          this.selectuserType = this.TypeList[0]
-          this.position_list_dest = []
-          this.dep_list_dest = []
-          this.emp_list_dest = []
-          this.position_list_source = this.position_list;
-          this.dep_list_source = this.dep_list;
-          this.emp_list_source = this.emp_list;
+        command: () => {
+          this.isDisplayingManagement = true;
+          this.isEditing = false;
+          this.selectedAccountType = this.accountTypes[0];
+          this.selectedPositions = [];
+          this.selectedDepartments = [];
+          this.selectedEmployees = [];
+          this.selectedModules = [];
+          this.availablePositions = [...this.positionList];
+          this.availableDepartments = [...this.departmentList];
+          this.availableEmployees = [...this.employeeList];
+          this.availableModules = [...this.modulesList];
           this.selectedAccount = new AccountModel();
         }
-      }
-      ,
+      },
       {
-        label: this.langs.get('import')[this.selectlang],
+        label: this.accountLanguages.get('import')[this.selectedLanguage],
         icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-
+        command: () => {
+          // Handle import command
         }
-      }
-      ,
+      },
       {
-        label: this.langs.get('export')[this.selectlang],
+        label: this.accountLanguages.get('export')[this.selectedLanguage],
         icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-
+        command: () => {
+          // Handle export command
         }
       }
     ];
   }
-  selectType() {
-    this.selectedAccount.account_type = this.selectuserType.code
-    this.emp_list_dest = [];
-    this.emp_list_source = []
-    this.emp_list.forEach((obj: EmployeeModel) => {
-      this.emp_list_source.push(obj)
-    })
+
+  // Handles the selection of an account type
+  selectAccountType(): void {
+    this.selectedAccount.account_type = this.selectedAccountType.code;
+    this.selectedEmployees = [];
+    this.availableEmployees = [...this.employeeList];
   }
-  close() {
-    this.displayManage = false
+
+  // Closes the account management section
+  closeManagement(): void {
+    this.isDisplayingManagement = false;
     this.selectedAccount = new AccountModel();
   }
-  doLoadAccount() {
-    var tmp = new AccountModel();
-    this.accountServie.account_get(tmp).then(async (res) => {
-      this.account_list = await res;
+
+  // Loads the list of accounts
+  loadAccounts(): void {
+    this.accountList = [];
+    const tmp = new AccountModel();
+    this.accountService.account_get(tmp).then(async (res) => {
+      this.accountList = await res;
     });
   }
-  doLoadPosition() {
+
+  // Loads the list of positions
+  loadPositions(): void {
     this.positionService.position_get().then(async (res) => {
-      this.position_list = await res;
+      this.positionList = await res;
     });
   }
-  doLoadDepartment() {
-    var tmp = new LevelModel();
-    this.depService.dep_get(tmp).then(async (res) => {
-      this.dep_list = await res;
-    });
-  }
-  doLoadEmployee() {
-    this.empService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
-      this.emp_list = await res;
-    });
-  }
-  async doRecordAccout(data: AccountModel) {
-    data.account_type = this.selectuserType.code;
-    await this.accountServie.account_record(data).then((res) => {
-      if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadAccount()
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-      }
 
+  // Loads the list of departments
+  loadDepartments(): void {
+    const tmp = new LevelModel();
+    this.departmentService.dep_get(tmp).then(async (res) => {
+      this.departmentList = await res;
     });
-    this.displayManage = false;
-    this.edit_data = false;
   }
-  async doDeleteAccount(data: AccountModel) {
-    await this.accountServie.account_delete(data).then((res) => {
-      if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadAccount()
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-      }
 
+  // Loads the list of employees
+  loadEmployees(): void {
+    this.employeeService.worker_get(this.initialCurrent.CompCode, '').then(async (res) => {
+      this.employeeList = await res;
     });
-    this.displayManage = false;
-    this.edit_data = false;
   }
-  teset(event: any) {
-    this.emp_list_dest.forEach((obj: EmployeeModel) => {
-      this.emp_list_source.push(obj)
-      this.emp_list_dest = [];
-    })
-    this.emp_list_source = this.emp_list_source.filter((res: EmployeeModel) => {
-      return res.worker_code !== event.items[0].worker_code
-    })
-    this.emp_list_dest.push(event.items[0])
+
+  // Records an account
+  async recordAccount(data: AccountModel): Promise<void> {
+    data.account_type = this.selectedAccountType.code;
+    const res = await this.accountService.account_record(data);
+    if (res.success) {
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+      this.loadAccounts();
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+    }
+    this.isDisplayingManagement = false;
+    this.isEditing = false;
+  }
+
+  // Deletes an account
+  async dodeleteAccount(data: AccountModel): Promise<void> {
+    const res = await this.accountService.account_delete(data);
+    if (res.success) {
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+      this.loadAccounts();
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+    }
+    this.isDisplayingManagement = false;
+    this.isEditing = false;
+  }
+
+  // Adds an employee to the selected employees list
+  addEmployee(event: any): void {
+    this.selectedEmployees.forEach((obj: EmployeeModel) => {
+      this.availableEmployees.push(obj);
+      this.selectedEmployees = [];
+    });
+    this.availableEmployees = this.availableEmployees.filter((res: EmployeeModel) => {
+      return res.worker_code !== event.items[0].worker_code;
+    });
+    this.selectedEmployees.push(event.items[0]);
     event.items = [];
   }
-  teset2(event: any) {
-    this.emp_list_dest.forEach((obj: EmployeeModel) => {
-      this.emp_list_source.push(obj)
-      this.emp_list_dest = [];
-    })
+
+  // Removes an employee from the selected employees list
+  removeEmployee(event: any): void {
+    this.selectedEmployees.forEach((obj: EmployeeModel) => {
+      this.availableEmployees.push(obj);
+      this.selectedEmployees = [];
+    });
     event.items = [];
   }
-  teset3(event: any) {
-    // console.log(event)
-    // this.emp_list_dest = []
-    // this.emp_list_source = []
-    // var i = 0;
-    // this.emp_list.forEach((obj: EmployeeModel) => {
-    //   if(i==0){
 
-    //   }else{
-
-    //   }
-
-    // })
-    // this.emp_list_dest.push(this.emp_list_source[0])
-
+  // Resets the selected employees list
+  resetEmployee(event: any): void {
     event.items = [];
   }
-  teset4(event: any) {
-    console.log(event)
+
+  // Resets the selected positions or departments
+  reset(event: any): void {
     event.items = [];
   }
-  onRowSelectAccount(event: Event) {
-    this.position_list_dest = []
-    this.dep_list_dest = []
-    this.emp_list_dest = []
-    this.position_list_source = []
-    this.dep_list_source = []
-    this.emp_list_source = []
-    this.selectuserType = this.TypeList.find(({ code }) => code === this.selectedAccount.account_type);
-    this.selectedAccount.position_data.filter((obj: AccountPosModel) => {
-      this.position_list.filter((elm: PositionModel) => {
-        if (obj.position_code === elm.position_code) {
-          this.position_list_dest.push(elm)
-        }
-      })
-    })
-    this.position_list.filter((elm: PositionModel) => {
-      if (!this.position_list_dest.includes(elm)) {
-        this.position_list_source.push(elm)
-      }
-    })
-    this.selectedAccount.dep_data.filter((obj: AccountDepModel) => {
-      this.dep_list.filter((elm: PartModel) => {
-        if (obj.dep_code === elm.dep_code && obj.level_code === elm.dep_level) {
-          this.dep_list_dest.push(elm)
-        }
-      })
-    })
-    this.dep_list.filter((elm: PartModel) => {
-      if (!this.dep_list_dest.includes(elm)) {
-        this.dep_list_source.push(elm)
-      }
-    })
-    this.selectedAccount.worker_data.filter((obj: TRAccountModel) => {
-      this.emp_list.filter((elm: EmployeeModel) => {
-        if (obj.worker_code === elm.worker_code) {
-          console.log("emp", elm)
-          this.emp_list_dest.push(elm)
-        }
-      })
-    })
-    this.emp_list.filter((elm: EmployeeModel) => {
-      if (!this.emp_list_dest.includes(elm)) {
-        this.emp_list_source.push(elm)
-      }
-    })
-    this.displayManage = true
-    this.edit_data = true
-  }
-  Save() {
-    this.selectedAccount.position_data = [];
-    this.selectedAccount.dep_data = [];
-    this.selectedAccount.worker_data = []
-    this.position_list_dest.forEach((obj: PositionModel) => {
-      this.selectedAccount.position_data.push({
-        company_code: this.initial_current.CompCode,
-        account_user: this.selectedAccount.account_user,
-        account_type: this.selectuserType.code,
-        position_code: obj.position_code
-      })
-    })
-    this.dep_list_dest.forEach((obj: PartModel) => {
-      this.selectedAccount.dep_data.push({
-        company_code: this.initial_current.CompCode,
-        account_user: this.selectedAccount.account_user,
-        account_type: this.selectuserType.code,
-        level_code: obj.dep_level,
-        dep_code: obj.dep_code
 
-      })
-    })
-    this.emp_list_dest.forEach((obj: EmployeeModel) => {
-      this.selectedAccount.worker_data.push({
-        company_code: this.initial_current.CompCode,
-        account_user: this.selectedAccount.account_user,
-        account_type: this.selectuserType.code,
-        worker_code: obj.worker_code,
-        worker_detail_th: obj.worker_fname_en,
-        worker_detail_en: obj.worker_fname_en
-      })
-    })
-    this.doRecordAccout(this.selectedAccount)
+  // Handles the selection of an account
+  onAccountSelection(event: Event): void {
+    this.selectedPositions = [];
+    this.selectedDepartments = [];
+    this.selectedEmployees = [];
+    this.selectedModules = [];
+    this.availablePositions = [];
+    this.availableDepartments = [];
+    this.availableEmployees = [];
+    this.availableModules = [];
+
+    this.selectedAccountType = this.accountTypes.find(({ code }) => code === this.selectedAccount.account_type);
+
+    this.selectedAccount.position_data.forEach((obj: AccountPosModel) => {
+      const position = this.positionList.find((elm: PositionModel) => obj.position_code === elm.position_code);
+      if (position) {
+        this.selectedPositions.push(position);
+      }
+    });
+
+    this.positionList.forEach((elm: PositionModel) => {
+      if (!this.selectedPositions.includes(elm)) {
+        this.availablePositions.push(elm);
+      }
+    });
+
+    this.selectedAccount.dep_data.forEach((obj: AccountDepModel) => {
+      const department = this.departmentList.find((elm: PartModel) =>
+        obj.dep_code === elm.dep_code && obj.level_code === elm.dep_level
+      );
+      if (department) {
+        this.selectedDepartments.push(department);
+      }
+    });
+
+    this.departmentList.forEach((elm: PartModel) => {
+      if (!this.selectedDepartments.includes(elm)) {
+        this.availableDepartments.push(elm);
+      }
+    });
+
+    this.selectedAccount.worker_data.forEach((obj: TRAccountModel) => {
+      const employee = this.employeeList.find((elm: EmployeeModel) => obj.worker_code === elm.worker_code);
+      if (employee) {
+        this.selectedEmployees.push(employee);
+      }
+    });
+
+    this.employeeList.forEach((elm: EmployeeModel) => {
+      if (!this.selectedEmployees.includes(elm)) {
+        this.availableEmployees.push(elm);
+      }
+    });
+
+    this.selectedAccount.module_data.forEach((obj: AccountModuleModel) => {
+      const module = this.modulesList.find((elm: Modules) => obj.module_code === elm.code);
+      if (module) {
+        this.selectedModules.push(module);
+      }
+    });
+
+    this.modulesList.forEach((elm: Modules) => {
+      if (!this.selectedModules.includes(elm)) {
+        this.availableModules.push(elm);
+      }
+    });
+
+    this.isDisplayingManagement = true;
+    this.isEditing = true;
   }
-  Delete() {
-    this.doDeleteAccount(this.selectedAccount)
+
+  // Saves the account changes
+  saveAccount(): void {
+    this.selectedAccount.position_data = this.selectedPositions.map((obj: PositionModel) => ({
+      company_code: this.initialCurrent.CompCode,
+      account_user: this.selectedAccount.account_user,
+      account_type: this.selectedAccountType.code,
+      position_code: obj.position_code
+    }));
+
+    this.selectedAccount.dep_data = this.selectedDepartments.map((obj: PartModel) => ({
+      company_code: this.initialCurrent.CompCode,
+      account_user: this.selectedAccount.account_user,
+      account_type: this.selectedAccountType.code,
+      level_code: obj.dep_level,
+      dep_code: obj.dep_code
+    }));
+
+    this.selectedAccount.worker_data = this.selectedEmployees.map((obj: EmployeeModel) => ({
+      company_code: this.initialCurrent.CompCode,
+      account_user: this.selectedAccount.account_user,
+      account_type: this.selectedAccountType.code,
+      worker_code: obj.worker_code,
+      worker_detail_th: obj.worker_fname_en,
+      worker_detail_en: obj.worker_fname_en
+    }));
+
+    this.selectedAccount.module_data = this.selectedModules.map((obj: Modules) => ({
+      company_code: this.initialCurrent.CompCode,
+      account_user: this.selectedAccount.account_user,
+      account_type: this.selectedAccountType.code,
+      module_code: obj.code
+    }));
+
+    this.recordAccount(this.selectedAccount);
+  }
+
+  // Deletes the account
+  deleteAccount(): void {
+    this.dodeleteAccount(this.selectedAccount);
   }
 }

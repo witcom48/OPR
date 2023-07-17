@@ -136,9 +136,9 @@ export class EmpsetassessmentComponent implements OnInit {
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
     await this.setempdetailService.SetAssessment_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
-        console.log(res.message)
+        // console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadtrainingList();
         this.edit_data = false;

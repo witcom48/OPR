@@ -61,7 +61,7 @@ export class SetbonusService {
     }
 
     public SetBonus_get(worker_detail: string, Setup: SetBonusModel) {
-        console.log('PAYTRB001..');
+        // console.log('PAYTRB001..');
 
         let emplists: any = [];
         Setup.bonus_data.forEach((res: BonusModel) => {
@@ -97,7 +97,7 @@ export class SetbonusService {
     }
 
     public SetBonus_record(worker_code: string, Setup: SetBonusModel) {
-        console.log('PAYTRB002..');
+        // console.log('PAYTRB002..');
 
         let emplists: any = [];
         Setup.bonus_data.forEach((res: BonusModel) => {
@@ -128,14 +128,14 @@ export class SetbonusService {
             )
             .toPromise()
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let message = JSON.parse(res);
                 return message;
             });
     }
 
     public SetBonus_delete( Setup: SetBonusModel) {
-        console.log('PAYTRB003..');
+        // console.log('PAYTRB003..');
         let data = {
             device_name: '',
             ip: '127.0.0.1',
@@ -150,7 +150,7 @@ export class SetbonusService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/setbonus_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -158,7 +158,7 @@ export class SetbonusService {
 
 
     public SetBonus_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYTRB005..');
+        // console.log('PAYTRB005..');
         const formData = new FormData();
         formData.append('file', file);
 

@@ -44,7 +44,7 @@ export class DiligenceServices {
     }
 
     public diligence_get(Diligence: DiligenceModels) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -61,7 +61,7 @@ export class DiligenceServices {
     }
 
     public diligence_record(Diligence: DiligenceModels) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -89,16 +89,16 @@ export class DiligenceServices {
             flag: Diligence.flag,
             steppay_data: Diligence.steppay_data
         }
-        console.log(data)
+        // console.log(data)
         return this.http.post<any>(this.config.ApiAttendanceModule + '/diligence', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public diligence_delete(Diligence: DiligenceModels) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -109,7 +109,7 @@ export class DiligenceServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/diligence_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -117,7 +117,7 @@ export class DiligenceServices {
 
 
     public diligence_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 

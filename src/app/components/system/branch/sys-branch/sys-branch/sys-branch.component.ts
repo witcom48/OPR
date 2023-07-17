@@ -78,7 +78,7 @@ export class SysBranchComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
             this.combranch_code = params['combranchcode'];
-            console.log(this.combranch_code);
+            // console.log(this.combranch_code);
         });
 
         this.doGetInitialCurrent();
@@ -336,7 +336,7 @@ export class SysBranchComponent implements OnInit {
                 label: this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
-                    console.log('Save');
+                    // console.log('Save');
                     this.confirmRecord();
                 },
             },
@@ -438,7 +438,7 @@ export class SysBranchComponent implements OnInit {
                 await res.forEach((element: CombranchModel) => {});
 
                 Combranch_list = await res;
-                console.log(res);
+                // console.log(res);
 
                 if (Combranch_list.length > 0) {
                     this.selectedCombranch = Combranch_list[0];
@@ -601,7 +601,7 @@ export class SysBranchComponent implements OnInit {
         this.combranchService
             .combranch_record(this.selectedCombranch)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
 
                 let result = JSON.parse(res);
 

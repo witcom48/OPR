@@ -211,13 +211,13 @@ export class PartComponent implements OnInit {
         },
         key:"myDialog"
     });
-    console.log(this.selectedDep)
+    // console.log(this.selectedDep)
   }
 
   async doRecordDep(data: PartModel){
     data.dep_level = this.selectedLevel.level_code
     await this.partService.dep_record(data).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -247,7 +247,7 @@ export class PartComponent implements OnInit {
 
   doDeleteDep(){
     this.partService.dep_delete(this.selectedDep).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -293,7 +293,7 @@ export class PartComponent implements OnInit {
           const filetype = "xls";
 
           this.partService.dep_import(this.fileToUpload, filename, filetype).then((res) => {
-            console.log(res)
+            // console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {

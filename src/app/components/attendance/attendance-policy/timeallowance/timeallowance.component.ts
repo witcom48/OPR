@@ -87,7 +87,7 @@ export class TimeallowanceComponent implements OnInit {
   }
   async doRecordPlanAllow(data: cls_MTPlantimeallw) {
     await this.timeallow.timeallow_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPlanAllow()
@@ -102,7 +102,7 @@ export class TimeallowanceComponent implements OnInit {
   }
   async doDeletePlanAllow(data: cls_MTPlantimeallw) {
     await this.timeallow.timeallow_delete(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPlanAllow()
@@ -119,7 +119,7 @@ export class TimeallowanceComponent implements OnInit {
     const filename = "ALLOWANCE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.timeallow.timeallow_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPlanAllow();
@@ -206,7 +206,7 @@ export class TimeallowanceComponent implements OnInit {
     }
   }
   selecteddropdown() {
-    console.log(this.selectedtype)
+    // console.log(this.selectedtype)
     this.tr_timeallw.timeallw_type = this.selectedtype.code
   }
   selectedWH() {
@@ -243,7 +243,7 @@ export class TimeallowanceComponent implements OnInit {
     this.tr_timeallw = new cls_TRTimeallw();
   }
   Save() {
-    console.log(this.allowance)
+    // console.log(this.allowance)
     this.doRecordPlanAllow(this.allowance)
   }
   Savelate() {
@@ -283,7 +283,7 @@ export class TimeallowanceComponent implements OnInit {
     this.displayaddtrallow = true
     this.displayedittrallow = true
     this.selectedtype = { code: this.tr_timeallw.timeallw_type, name: this.typetrallow.find((item: Type) => item.code == this.tr_timeallw.timeallw_type)?.name || "" }
-    console.log(this.tr_timeallw)
+    // console.log(this.tr_timeallw)
   }
   onRowSelect(event: any) {
     this.new_data = true

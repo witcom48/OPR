@@ -61,18 +61,18 @@ export class BloodtypeService {
   }
 
   public bloodtype_get(){
-    console.log('BLD001..');
+    // console.log('BLD001..');
 
     return this.http.post<any>(this.config.ApiSystemModule + '/bloodtype_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
 
   public bloodtype_record(model:BloodtypeModel) {
-    console.log('BLD002..');
+    // console.log('BLD002..');
     const data = {
         bloodtype_id: model.bloodtype_id,
         bloodtype_code: model.bloodtype_code,
@@ -84,13 +84,13 @@ export class BloodtypeService {
     return this.http.post<any>(this.config.ApiSystemModule + '/bloodtype', data, this.options).toPromise()
     .then((res) => {
 
-      //console.log(res)
+      //// console.log(res)
       return res;
     });
   }
 
   public bloodtype_delete(model:BloodtypeModel) {
-    console.log('BLD002..');
+    // console.log('BLD002..');
     const data = {
         bloodtype_id: model.bloodtype_id,
         bloodtype_code: model.bloodtype_code,

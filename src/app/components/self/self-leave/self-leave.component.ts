@@ -85,7 +85,7 @@ export class SelfLeaveComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    console.log(this.datePipe.transform(new Date(0, 0, 0, 3, 0), 'HH:mm'))
+    // console.log(this.datePipe.transform(new Date(0, 0, 0, 3, 0), 'HH:mm'))
     this.doGetInitialCurrent()
     this.doLoadMenu();
     this.doLoadReason();
@@ -152,7 +152,7 @@ export class SelfLeaveComponent implements OnInit {
     let data = new ReasonsModel()
     data.reason_group = "LEAVE"
     this.reasonService.reason_get(data).then(async (res) => {
-      console.log(res)
+      // console.log(res)
       this.reason_list = await res;
     });
   }
@@ -189,7 +189,7 @@ export class SelfLeaveComponent implements OnInit {
     const filename = "LEAVE_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
     this.timeleaveService.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.selectedtrtimeleave.reqdoc_data = this.selectedtrtimeleave.reqdoc_data.concat({
@@ -245,7 +245,7 @@ export class SelfLeaveComponent implements OnInit {
       //   label: 'Edit',
       //   icon: 'pi pi-fw pi-pencil',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -277,7 +277,7 @@ export class SelfLeaveComponent implements OnInit {
       //   label: 'เพิ่มไฟล์แนบ',
       //   icon: 'pi pi-fw pi-plus',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -295,7 +295,7 @@ export class SelfLeaveComponent implements OnInit {
       header: this.langs.get('delete')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        console.log(data)
+        // console.log(data)
         if (data.document_id) {
           this.timeleaveService.delete_file(data).then((res) => {
             if (res.success) {
@@ -442,8 +442,8 @@ export class SelfLeaveComponent implements OnInit {
           var date1 = new Date(0, 0, 0, Number(this.time_half.split(":")[0]), Number(this.time_half.split(":")[1]), 0)
           var hours_minutes = date1.getHours() * 60 + date1.getMinutes();
           this.selectedtrtimeleave.timeleave_min = hours_minutes;
-          console.log(hours_minutes)
-          console.log(this.time_half)
+          // console.log(hours_minutes)
+          // console.log(this.time_half)
         } else {
           this.selectedtrtimeleave.timeleave_min = (this.selectedtrtimeleave.timeleave_actualday * 480)
         }

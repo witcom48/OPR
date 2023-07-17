@@ -178,7 +178,7 @@
 //     public fillauto: boolean = false;
 
 //     process() {
-//         console.log(this.selectedBank);
+//         // console.log(this.selectedBank);
     
 //         if (this.selectEmp.employee_dest.length == 0) {
 //             let message = "Please select an employee";
@@ -232,14 +232,14 @@
 //                                         detail: 'Record Success..',
 //                                     });
     
-//                                     console.log("test result_link");
-//                                     console.log(result.result_link);
+//                                     // console.log("test result_link");
+//                                     // console.log(result.result_link);
     
 //                                     let link = result.result_link;
     
 //                                     if (link !== '') {
 //                                         // Download the file
-//                                         console.log("test downloadFile");
+//                                         // console.log("test downloadFile");
 //                                         this.downloadFile(link);
 //                                     }
 //                                 } else {

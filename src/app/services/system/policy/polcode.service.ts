@@ -62,13 +62,13 @@ export class PolcodeService {
     }
 
     getStructureList(): Observable<any> {
-        console.log('2..');
+        // console.log('2..');
         return this.http.get(this.config.ApiSystemModule + '/getSYSCodestructureList').pipe(map((res) => res));
     }
 
     getMTPolcodeList(): Observable<any> {
         // getMTPolcodeList(com_code: string, pol_type: string): Observable<any> {
-        console.log('3..');
+        // console.log('3..');
         // const parameter = '?com=' + com_code + '&type=' + pol_type;
         return this.http.get(this.config.ApiSystemModule + '/getMTPolcode').pipe(map((res) => res));
     }
@@ -96,7 +96,7 @@ export class PolcodeService {
     }
 
     getTRPolcodeList(pol_id: string): Observable<any> {
-        console.log('5..');
+        // console.log('5..');
 
         const parameter = '?id=' + pol_id;
         return this.http.get(this.config.ApiSystemModule + '/getTRPolcode' + parameter).pipe(map((res) => res));
@@ -104,7 +104,7 @@ export class PolcodeService {
 
     // MTPolcodeModel / TRPolcodeModel
     public getempid_polItems(id: string) {
-        console.log('1..');
+        // console.log('1..');
 
         var filter = {
             device_name: '',
@@ -118,7 +118,7 @@ export class PolcodeService {
                 this.config.ApiSystemModule + '/getTRPolcode',
                 filter, this.options).toPromise().then((res) => {
                     let message = JSON.parse(res);
-                    console.log(res);
+                    // console.log(res);
                     return message.data;
                 });
     }
@@ -129,7 +129,7 @@ export class PolcodeService {
         polDetail: MTPolcodeModel,
         polItems: TRPolcodeModel[]
     ) {
-        console.log('6..');
+        // console.log('6..');
         var item_data: string = '[';
         for (let i = 0; i < polItems.length; i++) {
             item_data = item_data + '{';
@@ -144,7 +144,7 @@ export class PolcodeService {
             item_data = item_data.substr(0, item_data.length - 1);
         }
         item_data = item_data + ']';
-        console.log(item_data);
+        // console.log(item_data);
         var specificData = {
             company_code: polDetail.company_code,
             polcode_id: polDetail.polcode_id,
@@ -182,7 +182,7 @@ export class PolcodeService {
             });
     }
     public empid_import(file: File, file_name: string, file_type: string) {
-        console.log('7..');
+        // console.log('7..');
         const formData = new FormData();
         formData.append('file', file);
         var para = 'fileName=' + file_name + '.' + file_type;

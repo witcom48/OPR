@@ -57,18 +57,18 @@ export class EmptypeService {
   }
 
   public type_get(){
-    console.log('ETP001..');
+    // console.log('ETP001..');
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/type_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
 
   public type_record(model:EmptypeModel) {
-    console.log('ETP002..');
+    // console.log('ETP002..');
     const data = {
         type_id: model.type_id,
         type_code: model.type_code,
@@ -84,7 +84,7 @@ export class EmptypeService {
   }
 
   public type_delete(model:EmptypeModel) {
-    console.log('ETP003..');
+    // console.log('ETP003..');
     const data = {
         type_id: model.type_id,
         type_code: model.type_code,

@@ -212,7 +212,7 @@ export class SystemComcardComponent implements OnInit {
         this.comcardService
             .comcard_record(this.selectedComcard)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let result = JSON.parse(res);
 
                 if (result.success) {
@@ -254,7 +254,7 @@ export class SystemComcardComponent implements OnInit {
         this.comcardService
             .comcard_delete(this.selectedComcard)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let result = JSON.parse(res);
 
                 if (result.success) {
@@ -296,7 +296,7 @@ export class SystemComcardComponent implements OnInit {
         this.comcardService
             .comcard_import(this.fileToUpload, filename, filetype)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let result = JSON.parse(res);
 
                 if (result.success) {

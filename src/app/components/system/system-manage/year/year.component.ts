@@ -72,7 +72,7 @@ export class YearComponent implements OnInit {
   }
   async doRecordYear(data: YearPeriodModels) {
     await this.yearService.year_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadYear()
@@ -87,7 +87,7 @@ export class YearComponent implements OnInit {
   }
   async doDeleteYear(data: YearPeriodModels) {
     await this.yearService.year_delete(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadYear()
@@ -104,7 +104,7 @@ export class YearComponent implements OnInit {
     const filename = "YEAR_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.yearService.year_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadYear();
@@ -182,11 +182,11 @@ export class YearComponent implements OnInit {
     this.yearperiods = new YearPeriodModels()
   }
   changeParentCount(val: string) {
-    console.log(val)
+    // console.log(val)
   }
   Save() {
     this.doRecordYear(this.yearperiods)
-    // console.log(this.yearperiods)
+    // // console.log(this.yearperiods)
   }
   Delete() {
     this.doDeleteYear(this.yearperiods)

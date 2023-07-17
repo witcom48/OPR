@@ -58,18 +58,18 @@ export class FamilyService {
     }
 
     public family_get(){
-      console.log('FML001..');
+      // console.log('FML001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/family_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public family_record(model:FamilyModel) {
-      console.log('FML002..');
+      // console.log('FML002..');
       const data = {
         family_id: model.family_id,
         family_code: model.family_code,
@@ -82,13 +82,13 @@ export class FamilyService {
       return this.http.post<any>(this.config.ApiSystemModule + '/family', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public family_delete(model:FamilyModel) {
-      console.log('FML002..');
+      // console.log('FML002..');
       const data = {
             family_id: model.family_id,
             family_code: model.family_code,

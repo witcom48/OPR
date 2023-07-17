@@ -58,18 +58,18 @@ export class InitialService {
   }
 
   public initial_get(){
-    console.log('INT001..');
+    // console.log('INT001..');
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/initial_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
 
   public initial_record(model:InitialModel) {
-    console.log('INT002..');
+    // console.log('INT002..');
     const data = {
         initial_id: model.initial_id,
         initial_code: model.initial_code,
@@ -85,7 +85,7 @@ export class InitialService {
   }
 
   public initial_delete(model:InitialModel) {
-    console.log('INT003..');
+    // console.log('INT003..');
     const data = {
         initial_id: model.initial_id,
         initial_code: model.initial_code,

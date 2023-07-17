@@ -373,7 +373,7 @@ export class PayrollEntryComponent implements OnInit {
             const deItems = res.filter((item: { item_type: string }) => item.item_type === 'DE');
             this.payitem_list = [...inItems, ...deItems];
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
         this.doSummaryByEmp();
     }
@@ -390,7 +390,7 @@ export class PayrollEntryComponent implements OnInit {
                 });
                 await this.doLoadPayitem();
                 this.doSetDetailWorker();
-                console.log(this.payitem_list);
+                // console.log(this.payitem_list);
             } else {
                 this.messageService.add({
                     severity: 'error',
@@ -432,7 +432,7 @@ export class PayrollEntryComponent implements OnInit {
     async doDeletePayitem(data: PayitemModel) {
         try {
           const res = await this.payitemService.payitem_delete(data);
-          console.log(res);
+          // console.log(res);
           if (res.success) {
             this.messageService.add({
               severity: 'success',
@@ -440,7 +440,7 @@ export class PayrollEntryComponent implements OnInit {
               detail: res.message,
             });
             await Promise.all([this.doLoadPayitem(), this.doSetDetailWorker()]);
-            console.log(this.payitem_list);
+            // console.log(this.payitem_list);
 
             this.new_data = false;
             this.edit_data = false;
@@ -452,7 +452,7 @@ export class PayrollEntryComponent implements OnInit {
             });
           }
         } catch (error) {
-          console.log('An error occurred while deleting payitem:', error);
+          // console.log('An error occurred while deleting payitem:', error);
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
@@ -643,7 +643,7 @@ export class PayrollEntryComponent implements OnInit {
 //           label:'Export',
 //           icon:'pi pi-fw pi-file-export',
 //           command: (event) => {
-//             console.log('Edit')
+//             // console.log('Edit')
 //         }
 //       }
 //       ,
@@ -651,7 +651,7 @@ export class PayrollEntryComponent implements OnInit {
 //           label:'Import',
 //           icon:'pi pi-fw pi-file-import',
 //           command: (event) => {
-//             console.log('Edit')
+//             // console.log('Edit')
 //         }
 //       }
 //     ];
@@ -667,7 +667,7 @@ export class PayrollEntryComponent implements OnInit {
 //     label:'Edit',
 //     icon:'pi pi-fw pi-pencil',
 //     command: (event) => {
-//       console.log('Edit')
+//       // console.log('Edit')
 //   }
 // }
 // ,

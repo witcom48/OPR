@@ -83,7 +83,7 @@ export class SystemComaddressComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.company_code = params['companycode'];
-      console.log(this.company_code);
+      // console.log(this.company_code);
     });
 
     this.doGetInitialCurrent();
@@ -293,7 +293,7 @@ export class SystemComaddressComponent implements OnInit {
         label: 'Save',
         icon: 'pi pi-fw pi-save',
         command: (event) => {
-          // console.log('Save')
+          // // console.log('Save')
           this.confirmRecord()
         }
 
@@ -336,7 +336,7 @@ export class SystemComaddressComponent implements OnInit {
         label: 'Import',
         icon: 'pi pi-fw pi-file-import',
         command: (event) => {
-          console.log("IMPORT");
+          // console.log("IMPORT");
         }
       },
       {

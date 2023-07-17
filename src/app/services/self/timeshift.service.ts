@@ -46,7 +46,7 @@ export class TimeShiftServices {
     }
 
     public timeshift_get(timeshfit: cls_TRTimeshiftModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -66,7 +66,7 @@ export class TimeShiftServices {
     }
 
     public timeshift_record(timeshfits: cls_TRTimeshiftModel[]) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         var shfit_datas: any = []
         timeshfits.forEach((timeshfit: cls_TRTimeshiftModel) => {
             let datas = {
@@ -95,13 +95,13 @@ export class TimeShiftServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeshift', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public timeshft_delete(timeshift: cls_TRTimeshiftModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -111,13 +111,13 @@ export class TimeShiftServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeshift_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public file_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 
@@ -133,7 +133,7 @@ export class TimeShiftServices {
     }
 
     public get_file(file_path: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doGetMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
@@ -141,7 +141,7 @@ export class TimeShiftServices {
             });
     }
     public deletefilepath_file(file_path: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doDeleteMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
@@ -149,7 +149,7 @@ export class TimeShiftServices {
             });
     }
     public delete_file(file: cls_MTReqdocumentModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",

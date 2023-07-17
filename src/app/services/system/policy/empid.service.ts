@@ -58,7 +58,7 @@ export class EmpidService {
     }
 
     public empid_get() {
-        console.log('EID001..');
+        // console.log('EID001..');
 
         return this.http
             .post<any>(
@@ -69,13 +69,13 @@ export class EmpidService {
             .toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                console.log(res);
+                // console.log(res);
                 return message.data;
             });
     }
 
     public empid_record(model: EmpIDModel) {
-        console.log('EID002..');
+        // console.log('EID002..');
         const data = {
             empid_id: model.empid_id,
             empid_code: model.empid_code,
@@ -92,13 +92,13 @@ export class EmpidService {
             )
             .toPromise()
             .then((res) => {
-                //console.log(res)
+                //// console.log(res)
                 return res;
             });
     }
 
     public empid_delete(model: EmpIDModel) {
-        console.log('EID002..');
+        // console.log('EID002..');
         const data = {
             empid_id: model.empid_id,
             empid_code: model.empid_code,

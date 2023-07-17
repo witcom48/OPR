@@ -60,18 +60,18 @@ export class HospitalService {
     }
 
     public hospital_get(){
-      console.log('HPT001..');
+      // console.log('HPT001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/hospital_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public hospital_record(model:HospitalModel) {
-      console.log('HPT002..');
+      // console.log('HPT002..');
       const data = {
         hospital_id: model.hospital_id,
         hospital_code: model.hospital_code,
@@ -83,13 +83,13 @@ export class HospitalService {
       return this.http.post<any>(this.config.ApiSystemModule + '/hospital', data, this.options).toPromise()
       .then((res) => {
 
-        //console.log(res)
+        //// console.log(res)
         return res;
       });
     }
 
     public hospital_delete(model:HospitalModel) {
-      console.log('HPT002..');
+      // console.log('HPT002..');
       const data = {
         hospital_id: model.hospital_id,
         hospital_code: model.hospital_code,

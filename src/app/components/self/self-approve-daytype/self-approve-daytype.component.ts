@@ -106,7 +106,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
   doLoadPolDaytype() {
     this.daytype_list = []
     this.timecardService.daytype_get().then(async (res) => {
-      console.log(res)
+      // console.log(res)
       this.daytype_list = await res;
     });
   }
@@ -120,7 +120,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
   }
   doLoadDaytypeOld() {
     this.timecardService.timecard_get(this.initial_current.CompCode, "", this.initial_current.Username, this.selectedtimedaytype.timedaytype_workdate, this.selectedtimedaytype.timedaytype_todate).then(async (res) => {
-      console.log(res[0])
+      // console.log(res[0])
       this.selectedtimedaytype.timedaytype_old = res[0].timecard_daytype;
     });
   }
@@ -200,7 +200,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
 
   }
   selectdaytypenew() {
-    console.log(this.daytype_newselected.daytype_code)
+    // console.log(this.daytype_newselected.daytype_code)
     this.selectedtimedaytype.timedaytype_new = this.daytype_newselected.daytype_code
   }
   selectDaytypereason() {
@@ -263,7 +263,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
             tmp.approve_status = "A";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {
@@ -285,7 +285,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
             tmp.approve_status = "C";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {

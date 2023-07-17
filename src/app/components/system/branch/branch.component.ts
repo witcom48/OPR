@@ -200,14 +200,14 @@ export class BranchComponent implements OnInit {
             },
             key: "myDialog"
         });
-        console.log(this.selectedcombranch);
+        // console.log(this.selectedcombranch);
     }
 
     doRecordCombranch() {
         this.combranchService
             .combranch_record(this.selectedcombranch)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let result = JSON.parse(res);
 
                 if (result.success) {
@@ -247,10 +247,10 @@ export class BranchComponent implements OnInit {
       }
       
       doDeleteCombranch(data: any) {
-        console.log(data);
+        // console.log(data);
       
         this.combranchService.combranch_delete(data).then((res) => {
-          console.log(res);
+          // console.log(res);
           let result = JSON.parse(res);
       
           if (result.success) {
@@ -295,7 +295,7 @@ onButtonHover() {
     }
 
     doUploadCombranch() {
-        console.log('Upload');
+        // console.log('Upload');
         if (this.fileToUpload) {
             this.confirmationService.confirm({
                 message: 'Confirm Upload file : ' + this.fileToUpload.name,
@@ -310,7 +310,7 @@ onButtonHover() {
                     this.combranchService
                         .combranch_import(this.fileToUpload, filename, filetype)
                         .then((res) => {
-                            console.log(res);
+                            // console.log(res);
                             let result = JSON.parse(res);
 
                             if (result.success) {
@@ -367,7 +367,7 @@ onButtonHover() {
     }
 
     selectComManage() {
-        console.log(this.selectedcombranch.combranch_code);
+        // console.log(this.selectedcombranch.combranch_code);
 
         let navigationExtras: NavigationExtras = {
             queryParams: {

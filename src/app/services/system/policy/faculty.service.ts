@@ -58,18 +58,18 @@ export class FacultyService {
     }
 
     public faculty_get(){
-      console.log('FAC001..');
+      // console.log('FAC001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/faculty_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public faculty_record(model:FacultyModel) {
-      console.log('FAC002..');
+      // console.log('FAC002..');
       const data = {
         faculty_id: model.faculty_id,
         faculty_code: model.faculty_code,
@@ -81,13 +81,13 @@ export class FacultyService {
       return this.http.post<any>(this.config.ApiSystemModule + '/faculty', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public faculty_delete(model:FacultyModel) {
-      console.log('FAC003..');
+      // console.log('FAC003..');
       const data = {
         faculty_id: model.faculty_id,
         faculty_code: model.faculty_code,

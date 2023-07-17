@@ -62,18 +62,18 @@ export class EmpstatusService {
   }
 
   public status_get(){
-    console.log('STT001..');
+    // console.log('STT001..');
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/status_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
 
   public status_record(model:EmpstatusModel) {
-    console.log('STT002..');
+    // console.log('STT002..');
     const data = {
         status_id: model.status_id,
         status_code: model.status_code,
@@ -89,7 +89,7 @@ export class EmpstatusService {
   }
 
   public status_delete(model:EmpstatusModel) {
-    console.log('STT003..');
+    // console.log('STT003..');
     const data = {
         status_id: model.status_id,
         status_code: model.status_code,

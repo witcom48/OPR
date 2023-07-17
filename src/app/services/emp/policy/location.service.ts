@@ -58,18 +58,18 @@ export class LocationService {
   }
 
   public location_get(){
-    console.log('LCT001..');
+    // console.log('LCT001..');
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/location_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
 
   public location_record(model:LocationModel) {
-    console.log('LCT002..');
+    // console.log('LCT002..');
     const data = {
       location_id: model.location_id,
       location_code: model.location_code,
@@ -86,7 +86,7 @@ export class LocationService {
   }
 
   public location_delete(model:LocationModel) {
-    console.log('LCT003..');
+    // console.log('LCT003..');
     const data = {
       location_id: model.location_id,
       location_code: model.location_code,

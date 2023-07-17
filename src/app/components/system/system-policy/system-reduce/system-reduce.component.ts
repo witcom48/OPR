@@ -185,7 +185,7 @@ title_system:string = "System";
 
     doRecordReduce(){
       this.reduceService.reduce_record(this.selectedReduce).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -216,7 +216,7 @@ title_system:string = "System";
 
     doDeleteReduce() {
         this.reduceService.reduce_delete(this.selectedReduce).then((res) => {
-          console.log(res);
+          // console.log(res);
           let result = JSON.parse(res);
 
           if (result.success) {
@@ -257,7 +257,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.reduceService.reduce_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

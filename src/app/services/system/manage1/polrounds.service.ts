@@ -58,7 +58,7 @@ export class PolroundsService {
     }
 
     public polround_get(company_code : string) {
-        console.log('POLR001..');
+        // console.log('POLR001..');
         var filter = {
             device_name:'',
             ip:"localhost",
@@ -75,13 +75,13 @@ export class PolroundsService {
             .toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                console.log(res);
+                // console.log(res);
                 return message.data;
             });
     }
 
     public polround_record(model: MTPolroundsModel) {
-        console.log('POLR002..');
+        // console.log('POLR002..');
         const data = {
             company_code: this.initial_current.CompCode,
             polround_pf: model.polround_pf,
@@ -111,13 +111,13 @@ export class PolroundsService {
             )
             .toPromise()
             .then((res) => {
-                //console.log(res)
+                //// console.log(res)
                 return res;
             });
     }
 
     public polround_delete(model: MTPolroundsModel) {
-        console.log('POLR003..');
+        // console.log('POLR003..');
         const data = {
             company_code: this.initial_current.CompCode,
             polround_pf: model.polround_pf,

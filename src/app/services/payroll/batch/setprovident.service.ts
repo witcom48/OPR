@@ -62,7 +62,7 @@ import { ProvidentModel } from 'src/app/models/payroll/provident';
 
      //set SetProvident
      public SetProvident_get( Setup: SetProvidentModel) {
-        console.log('PAYTRPP001..');
+        // console.log('PAYTRPP001..');
 
         let emplists: any = [];
         Setup.provident_data.forEach((res: ProvidentModel) => {
@@ -98,7 +98,7 @@ import { ProvidentModel } from 'src/app/models/payroll/provident';
     }
 
     public SetProvident_record( Setup: SetProvidentModel) {
-        console.log('PAYTRPP002..');
+        // console.log('PAYTRPP002..');
         let emplists: any = [];
         Setup.provident_data.forEach((res: ProvidentModel) => {
             let ss = {
@@ -128,13 +128,13 @@ import { ProvidentModel } from 'src/app/models/payroll/provident';
             )
             .toPromise()
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public SetProvident_delete(  Setup: SetProvidentModel) {
-        console.log('PAYTRPP003..');
+        // console.log('PAYTRPP003..');
         let data = {
             device_name: '',
             ip: '127.0.0.1',
@@ -151,14 +151,14 @@ import { ProvidentModel } from 'src/app/models/payroll/provident';
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/setpolprovident_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
 
     public SetProvident_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYTRPP004..');
+        // console.log('PAYTRPP004..');
         const formData = new FormData();
         formData.append('file', file);
 
