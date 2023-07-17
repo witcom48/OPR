@@ -14,12 +14,28 @@
             <input type="text" id="account_user" [(ngModel)]="selectedAccount.account_user" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
 
         </div>
+
+        <div class="field col-12 md:col-6">
+            <div class="field-checkbox">
+                <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_line_alert" inputId="account_line_alert"></p-checkbox>
+                <label for="account_line_alert">ใช้งาน</label>
+            </div>
+        </div>
+
         <div class="field col-12 md:col-6">
             <label for="account_pass">{{title_pass}}</label>     
             <br>                      
             <input type="text" id="account_pass" [(ngModel)]="selectedAccount.account_pwd" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
 
         </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="account_pass">Re.{{title_pass}}</label>     
+            <br>                      
+            <input type="text" id="account_pass" [(ngModel)]="selectedAccount.account_pwd" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+
+        </div>
+
         <div class="field col-12 md:col-6">
             <label for="workflow_name_en">{{title_type}}</label>     
             <br>     
@@ -67,92 +83,95 @@
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
         </div>
         <div class="field col-12 md:col-6">
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_line_alert" inputId="account_line_alert"></p-checkbox>
-                <label for="account_line_alert">ใช้งาน</label>
-            </div>
+            &nbsp;
         </div>
 
         <div class="field col-12">
-            <p-pickList [source]="position_list" [target]="position_list_dest" sourceHeader="Company List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
+            <p-pickList [source]="project_list" [target]="project_list_dest" sourceHeader="Project List" targetHeader="Selected" [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                <ng-template let-model pTemplate="item">
                     <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
+                        <div style="font-size:14px;float:left;">{{model.project_code}} - {{initial_current.Language=="TH"? model.project_name_th : model.project_name_en}}</div>
                     </div>
                 </ng-template>
             </p-pickList>      
         </div>
 
         <div class="field col-12">
-            <p-pickList [source]="position_list" [target]="position_list_dest" sourceHeader="Project List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
+            <p-pickList [source]="company_list" [target]="company_list_dest" sourceHeader="Company List" targetHeader="Selected" [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                <ng-template let-model pTemplate="item">
                     <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
+                        <div style="font-size:14px;float:left;">{{model.company_code}} - {{initial_current.Language=="TH"? model.company_name_th : model.company_name_en}}</div>
                     </div>
                 </ng-template>
             </p-pickList>      
         </div>
 
         <div class="field col-12">
-            <p-pickList [source]="position_list" [target]="position_list_dest" sourceHeader="Position List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
+            <p-tabView >
+                <p-tabPanel  [selected]="true">
+                    <ng-template pTemplate = "header">                       
+                        <span>Level 1</span>
+                    </ng-template>
+                    <p-pickList [source]="dep1_list" [target]="dep1_list_dest" sourceHeader="Department" targetHeader="Selected" [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}" (onMoveToTarget)="doGetLevel2()" (onMoveToSource)="doGetLevel2()" (onMoveAllToTarget)="doGetLevel2()" (onMoveAllToSource)="doGetLevel2()">
+                        <ng-template let-model pTemplate="item">
+                            <div>            
+                                <div style="font-size:14px;float:left;">{{model.dep_code}} - {{initial_current.Language=="TH"? model.dep_name_th : model.dep_name_en}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>     
+                </p-tabPanel>
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">                       
+                        <span>Level 2</span>
+                    </ng-template>
+                    <p-pickList [source]="dep2_list" [target]="dep2_list_dest" sourceHeader="Department" targetHeader="Selected" [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                        <ng-template let-model pTemplate="item">
+                            <div>            
+                                <div style="font-size:14px;float:left;">{{model.dep_code}} - {{initial_current.Language=="TH"? model.dep_name_th : model.dep_name_en}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>     
+                </p-tabPanel>
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">                       
+                        <span>Level 3</span>
+                    </ng-template>
+                    <p-pickList [source]="dep3_list" [target]="dep3_list_dest" sourceHeader="Department" targetHeader="Selected" [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                        <ng-template let-model pTemplate="item">
+                            <div>            
+                                <div style="font-size:14px;float:left;">{{model.dep_code}} - {{initial_current.Language=="TH"? model.dep_name_th : model.dep_name_en}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>     
+                </p-tabPanel>
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">                       
+                        <span>Level 4</span>
+                    </ng-template>
+                    <p-pickList [source]="dep4_list" [target]="dep4_list_dest" sourceHeader="Department" targetHeader="Selected" [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                        <ng-template let-model pTemplate="item">
+                            <div>            
+                                <div style="font-size:14px;float:left;">{{model.dep_code}} - {{initial_current.Language=="TH"? model.dep_name_th : model.dep_name_en}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>     
+                </p-tabPanel>
+                <p-tabPanel >
+                    <ng-template pTemplate = "header">                       
+                        <span>Level 5</span>
+                    </ng-template>
+                    <p-pickList [source]="dep5_list" [target]="dep5_list_dest" sourceHeader="Department" targetHeader="Selected" [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                        <ng-template let-model pTemplate="item">
+                            <div>            
+                                <div style="font-size:14px;float:left;">{{model.dep_code}} - {{initial_current.Language=="TH"? model.dep_name_th : model.dep_name_en}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>     
+                </p-tabPanel>
 
-        <div class="field col-12">
-            <p-pickList [source]="dep1_list" [target]="dep1_list_dest" sourceHeader="Level 1 List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
+            </p-tabView>
 
-        <div class="field col-12">
-            <p-pickList [source]="dep2_list" [target]="dep2_list_dest" sourceHeader="Level 2 List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
-
-        <div class="field col-12">
-            <p-pickList [source]="dep3_list" [target]="dep3_list_dest" sourceHeader="Level 3 List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
-
-        <div class="field col-12">
-            <p-pickList [source]="dep3_list" [target]="dep3_list_dest" sourceHeader="Level 4 List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
-
-        <div class="field col-12">
-            <p-pickList [source]="dep3_list" [target]="dep3_list_dest" sourceHeader="Level 5 List" targetHeader="Selected">
-                <ng-template let-position pTemplate="item">
-                    <div>            
-                        <div style="font-size:14px;float:left;">{{position.position_code}} - {{initial_current.Language=="TH"? position.position_name_th : position.position_name_en}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>      
-        </div>
-        
+        </div>        
 
         <div class="field col-12">
             <p-button label="{{title_save}}" icon="pi pi-save" ></p-button>
@@ -168,7 +187,7 @@
 <p-menubar [model]="items_menu"></p-menubar >
 <div class="grid">
     <div class="col-12 md:col-9" #TABLE>
-        <p-table #dt2  [value]="account_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedAccount" (onRowSelect)="onRowSelectAccount($event)" dataKey="account_user"
+        <p-table #dt2  [value]="account_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '40rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedAccount" (onRowSelect)="onRowSelectAccount($event)" dataKey="account_user"
                 
                 [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
                 [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"

@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,7 +7,9 @@
         <i></i>
         <small>{{langs.get('playholiday')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
+
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
 <!-- Menu New Import Export Data -->
@@ -72,8 +74,8 @@
         <div class="formatt" *ngIf="new_data==true">
             <i (click)="close()"></i>
             <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
-            <input pInputText type="text" required [(ngModel)]="holidays.planholiday_code" maxlength="10" name="code" #code="ngModel"
-                disabled="{{edit_data}}">
+            <input pInputText type="text" required [(ngModel)]="holidays.planholiday_code" maxlength="10" name="code"
+                #code="ngModel" disabled="{{edit_data}}">
             <p>{{holidays.planholiday_code.length}}/10</p>
             <!-- <div [hidden]="code.valid || code.pristine" style="color: red;">
                 Code is required
@@ -125,11 +127,11 @@
 </div>
 
 <form (ngSubmit)="Saveholiday()" #Form2="ngForm">
-<p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddholiday" (onHide)="closedispaly()">
+    <p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddholiday" (onHide)="closedispaly()">
         <div class="formatt">
             <label>{{langs.get('date')[selectlang]}}<span style="color: red;"> *</span></label>
             <p-calendar appendTo="body" [(ngModel)]="holiday_listselect.holiday_date" dateFormat="dd/mm/yy"
-                name="holiday_date" #holiday_date="ngModel" ><input type="text"></p-calendar>
+                name="holiday_date" #holiday_date="ngModel"><input type="text"></p-calendar>
 
             <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
             <textarea [(ngModel)]="holiday_listselect.holiday_name_en" pInputTextarea [autoResize]="true"
@@ -154,7 +156,7 @@
             <button pButton type="submit" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
                 [disabled]="!Form2.form.valid"></button>
         </ng-template>
-</p-dialog>
+    </p-dialog>
 </form>
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">

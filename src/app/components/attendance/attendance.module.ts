@@ -160,9 +160,9 @@ import { SetAttpayComponent } from './attendance-policy/set-attpay/set-attpay.co
 		AttendanceReasonComponent,
 		AttendanceLocationComponent,
 		SetuppolicyComponent,
-  TimeallowanceComponent,
-  SetTimeallowanceComponent,
-  SetAttpayComponent,
+		TimeallowanceComponent,
+		SetTimeallowanceComponent,
+		SetAttpayComponent,
 	],
 	exports: [],
 })

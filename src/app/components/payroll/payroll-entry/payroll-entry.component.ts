@@ -93,7 +93,8 @@ export class PayrollEntryComponent implements OnInit {
                 setTimeout(() => {
                     this.worker_index = 0;
                     this.doSetDetailWorker();
-                }, 1500);
+                    
+                }, 1500); 
             })
             .catch((error) => {
                 console.error(error);
@@ -363,7 +364,7 @@ export class PayrollEntryComponent implements OnInit {
         tmp.worker_code = this.workerDetail.worker_code;
 
         try {
-            const res = await this.payitemService.payitem_get(this.initial_current.CompCode,'',this.worker_code,'',this.item);
+            const res = await this.payitemService.payitem_get(this.initial_current.CompCode, '', this.worker_code,'', this.item, this.initial_current.PR_PayDate);
             const inItems = res.filter((item: { item_type: string }) => item.item_type === 'IN');
             const deItems = res.filter((item: { item_type: string }) => item.item_type === 'DE');
             this.payitem_list = [...inItems, ...deItems];

@@ -32,8 +32,8 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
-import {ChartModule} from 'primeng/chart';
-import {ImageModule} from 'primeng/image';
+import { ChartModule } from 'primeng/chart';
+import { ImageModule } from 'primeng/image';
 import { VerifyComponent } from './verify/verify.component';
 import { SecAccountComponent } from './sec-account/sec-account.component';
 import { SecMenuComponent } from './sec-menu/sec-menu.component';
@@ -45,6 +45,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { PickListModule } from 'primeng/picklist';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PasswordModule } from 'primeng/password';
+import { PolapproveComponent } from './polapprove/polapprove.component';
 
 @NgModule({
 	imports: [
@@ -90,15 +91,16 @@ import { PasswordModule } from 'primeng/password';
 		PasswordModule
 
 
-		
+
 	],
 	declarations: [
-   
-  
-  
-    VerifyComponent,
-                 SecAccountComponent,
-                 SecMenuComponent
-  ]
+
+
+
+		VerifyComponent,
+		SecAccountComponent,
+		SecMenuComponent,
+		PolapproveComponent
+	]
 })
 export class AuthenModule { }

@@ -298,6 +298,9 @@ export class AppEntryComponent implements OnInit {
 
     doGetItemList() {
         var tmp = new ItemsModel();
+
+        tmp.item_type = "IN"
+
         this.itemService.item_get(tmp).then((res) => {
             this.Items_Lists = res;
             if (this.Items_Lists.length > 0) {
@@ -328,7 +331,8 @@ export class AppEntryComponent implements OnInit {
           const res = await this.payitemService.payitem_get(
             this.initial_current.CompCode,'',
             tmp.worker_code,'',
-            tmp.item_code
+            tmp.item_code,
+            this.initial_current.PR_PayDate
           );
 
           return res;
