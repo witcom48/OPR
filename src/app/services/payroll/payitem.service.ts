@@ -58,7 +58,7 @@ export class PayitemService {
       } 
     }
 
-    public payitem_get(company:string, project:string, worker:string, payitem:string,  item:string ){     
+    public payitem_get(company:string, project:string, worker:string, payitem:string,  item:string, paydate:Date ){     
     
         var filter = { 
           device_name:'',
@@ -69,6 +69,8 @@ export class PayitemService {
           worker_code:worker,
           item_type: payitem,
           item_code:item, 
+
+          payitem_date:this.datePipe.transform(paydate, 'yyyy-MM-dd')
 
         };
         return this.http.post<any>(this.config.ApiPayrollModule + '/TRpayitem_list', filter, this.options).toPromise()   

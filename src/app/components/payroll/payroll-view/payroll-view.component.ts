@@ -7,9 +7,12 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { ItemsModel } from 'src/app/models/payroll/items';
 import { PayitemModel } from 'src/app/models/payroll/payitem';
+import { PaytranModel } from 'src/app/models/payroll/paytran';
+import { PaytranAccModel } from 'src/app/models/payroll/paytranacc';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { PayitemService } from 'src/app/services/payroll/payitem.service';
+import { PaytranService } from 'src/app/services/payroll/paytran.service';
 
 interface Type {
   name: string;
@@ -31,6 +34,7 @@ export class PayrollViewComponent implements OnInit {
 
   title_payroll: { [key: string]: string } = { EN: "Payroll", TH: "Payroll" };
   title_page: { [key: string]: string } = { EN: "View Calculate", TH: "ตรวจสอบการคำนวน" };
+  title_tax: { [key: string]: string } = { EN: "Tax", TH: "ภาษี" };
   title_income: { [key: string]: string } = { EN: "Income", TH: "เงินได้" };
   title_incomelist: { [key: string]: string } = { EN: "Income List", TH: "รายการเงินได้" };
   title_deduct: { [key: string]: string } = { EN: "Deduct", TH: "เงินหัก" };
@@ -39,13 +43,60 @@ export class PayrollViewComponent implements OnInit {
   title_deductname: { [key: string]: string } = { EN: "Deduct Name", TH: "ชื่อเงินหัก" };
   title_amount: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" };
   title_quantity: { [key: string]: string } = { EN: "Quantity", TH: "ปริมาณ" };
-
+  //
   title_ssolist: { [key: string]: string } = { EN: "Social", TH: "ประกันสังคม" };
   title_ssoemprate: { [key: string]: string } = { EN: "Employee rate", TH: "อัตราประกันสังคม (พนักงาน)" };
   title_ssoempamount: { [key: string]: string } = { EN: "Employee amount", TH: "ประกันสังคม (พนักงาน)" };
   title_ssocomrate: { [key: string]: string } = { EN: "Company rate", TH: "อัตราประกันสังคม (สมทบ)" };
   title_ssocomamount: { [key: string]: string } = { EN: "Company amount", TH: "ประกันสังคม (สมทบ)" };
-
+  //
+  title_pflist: { [key: string]: string } = { EN: "Provident Fund", TH: "กองทุนสำรองเลี้ยงชีพ" };
+  title_pfemp: { [key: string]: string } = { EN: "Employee", TH: "กองทุนสำรองเลี้ยงชีพ (พนักงาน)" };
+  title_pfcom: { [key: string]: string } = { EN: "Company", TH: "กองทุนสำรองเลี้ยงชีพ (สมทบ)" };
+  //
+  title_totallist: { [key: string]: string } = { EN: "Summary", TH: "ยอดรวม" };
+  title_totaltax: { [key: string]: string } = { EN: "Tax", TH: "ภาษี" };
+  title_totalincome: { [key: string]: string } = { EN: "Total income", TH: "รวมเงินได้" };
+  title_totaldeduct: { [key: string]: string } = { EN: "Total deduct", TH: "รวมเงินหัก" };
+  title_totalnetpay: { [key: string]: string } = { EN: "Netpay", TH: "ยอดสุทธิ" };
+  //
+  title_tranferlist: { [key: string]: string } = { EN: "Transfer", TH: "รูปแบบการจ่าย" };
+  title_tranferC: { [key: string]: string } = { EN: "Cash", TH: "เงินสด" };
+  title_tranferB: { [key: string]: string } = { EN: "Bank", TH: "โอนธนาคาร" };
+  //
+  title_sectionlist: { [key: string]: string } = { EN: "Income and Tax Under Section", TH: "เงินได้และภาษีแยกตามมาตรา" };
+  title_section: { [key: string]: string } = { EN: "Section", TH: "มาตรา" };
+  title_401: { [key: string]: string } = { EN: "Section 40 (1)", TH: "มาตรา 40 (1)" };
+  title_4013: { [key: string]: string } = { EN: "Section 40 (1) withholding 3%", TH: "มาตรา 40 (1) หัก ณ ที่จ่าย 3%" };
+  title_402: { [key: string]: string } = { EN: "Section 40 (2)", TH: "มาตรา (2)" };
+  title_4012: { [key: string]: string } = { EN: "Section 40 (1)(2)", TH: "มาตรา 40 (1)(2)" };
+  //
+  title_reducelist: { [key: string]: string } = { EN: "Reduces", TH: "รายการค่าลดหย่อน" };
+  title_reduceid: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
+  title_reducename: { [key: string]: string } = { EN: "Detail", TH: "รายละเอียด" };
+  title_reduceamount: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" };
+  //
+  title_accumulatelist: { [key: string]: string } = { EN: "Accumulate", TH: "รายการสะสม" };
+  title_incometax: { [key: string]: string } = { EN: "Income Inc. Tax", TH: "เงินได้คำนวณภาษี" };
+  title_incomenotax: { [key: string]: string } = { EN: "Income Not Inc. Tax", TH: "เงินได้ไม่คำนวณภาษี" };
+  title_deducttax: { [key: string]: string } = { EN: "Deduct Inc. Tax", TH: "เงินหักคำนวณภาษี" };
+  title_deductnotax: { [key: string]: string } = { EN: "Deduct Not Inc. Tax", TH: "เงินหักไม่คำนวณภาษี" };
+  
+  title_in401: { [key: string]: string } = { EN: "40 (1)", TH: "มาตรา 40 (1)" };
+  title_in4013: { [key: string]: string } = { EN: "40 (1) withholding 3%", TH: "40 (1) หัก ณ ที่จ่าย 3%" };
+  title_in402: { [key: string]: string } = { EN: "40 (2)", TH: "(2)" };
+  title_in4012: { [key: string]: string } = { EN: "40 (1)(2)", TH: "40 (1)(2)" };
+  
+  title_tax401: { [key: string]: string } = { EN: "Tax 40 (1)", TH: "ภาษี 40 (1)" };
+  title_tax4013: { [key: string]: string } = { EN: "Tax 40 (1) withholding 3%", TH: "ภาษี 40 (1) หัก ณ ที่จ่าย 3%" };
+  title_tax402: { [key: string]: string } = { EN: "Tax 40 (2)", TH: "ภาษี (2)" };
+  title_tax4012: { [key: string]: string } = { EN: "Tax 40 (1)(2)", TH: "ภาษี 40 (1)(2)" };
+ 
+  title_AccssoEmp: { [key: string]: string } = { EN: "Accumulate SSO(Emp.)", TH: "ประกันสังคมสะสม" };
+  title_AccssoCom: { [key: string]: string } = { EN: "Accumulate SSO(Com.)", TH: "ประกันสังคมสมทบ" };
+  title_AccpfEmp: { [key: string]: string } = { EN: "Accumulate PF(Com.)", TH: "กองทุนฯสะสม" };
+  title_AccpfCom: { [key: string]: string } = { EN: "Accumulate PF(Com.)", TH: "กองทุนฯสมทบ" };
+  //
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
 
@@ -58,6 +109,7 @@ export class PayrollViewComponent implements OnInit {
 
     private payitemService: PayitemService,
     private itemService: ItemService,
+    private paytranService: PaytranService,
   ) { }
 
   SetItems_List: PayitemModel[] = [];
@@ -71,8 +123,6 @@ export class PayrollViewComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent();
 
-    console.log(this.initial_current.PR_PayDate)
-
     Promise.all([this.doLoadEmployee(), this.doLoadPayitem()])
       .then(() => {
         setTimeout(() => {
@@ -83,6 +133,13 @@ export class PayrollViewComponent implements OnInit {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  doReload(){
+    this.doLoadPayitem();
+    this.doLoadPaytran();
+    // this.doLoadPayreduce();
+    this.doLoadPaytranAcc();
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
@@ -141,7 +198,7 @@ export class PayrollViewComponent implements OnInit {
         ' ' +
         this.workerDetail.worker_lname_th;
     }
-    this.doLoadPayitem();
+    this.doReload();
   }
 
   Items_List: ItemsModel[] = [];
@@ -162,15 +219,105 @@ export class PayrollViewComponent implements OnInit {
       return;
     }
 
-    this.payitemService.payitem_get(this.initial_current.CompCode,'',this.worker_code,'IN','').then((res)=>{
+    this.payitemService.payitem_get(this.initial_current.CompCode,'',this.worker_code,'IN','',this.initial_current.PR_PayDate).then((res)=>{
       this.payitemINList = res;
     })
 
-    this.payitemService.payitem_get(this.initial_current.CompCode,'',this.worker_code,'DE','').then((res)=>{
+    this.payitemService.payitem_get(this.initial_current.CompCode,'',this.worker_code,'DE','',this.initial_current.PR_PayDate).then((res)=>{
       this.payitemDEList = res;
     })
     
   }
+  
+  // Paytran
+  paytranList:PaytranModel[] = [];
+  paytranDetail:PaytranModel = new PaytranModel();
 
+  paytranAccList:PaytranAccModel[] = [];
+  paytranDetailAcc:PaytranAccModel = new PaytranAccModel();
+
+  public paytranTaxTotal:number = 0;
+
+  doLoadPaytran(){
+
+    this.paytranTaxTotal = 0;
+    this.paytranDetail = new PaytranModel();
+
+    if(this.worker_code == ""){
+      return;
+    }
+
+    this.paytranList = []; 
+    this.paytranService.paytran_get(this.initial_current.CompCode,this.worker_code, this.initial_current.PR_PayDate, this.initial_current.PR_PayDate).then((res) =>{      
+      
+      this.paytranList = res;      
+      
+      if(this.paytranList.length > 0){
+        this.paytranDetail = this.paytranList[0];
+
+
+        this.paytranDetail.paytran_netpay = this.paytranDetail.paytran_netpay_b + this.paytranDetail.paytran_netpay_c;
+
+        this.paytranTaxTotal = this.paytranDetail.paytran_tax_401 + this.paytranDetail.paytran_tax_4013 + this.paytranDetail.paytran_tax_402I + this.paytranDetail.paytran_tax_4012;
+      }
+          
+    }); 
+  }
+
+  doLoadPaytranAcc(){
+    this.paytranTaxTotal = 0;
+    this.paytranDetailAcc = new PaytranAccModel();
+
+    if(this.worker_code == ""){
+      return;
+    }
+
+    this.paytranAccList = []; 
+    this.paytranService.paytranacc_get(this.initial_current.CompCode,this.worker_code, this.initial_current.PR_Year, this.initial_current.PR_PayDate).then((res) =>{      
+      
+      this.paytranAccList = res;      
+      
+      if(this.paytranAccList.length > 0){
+        this.paytranDetailAcc = this.paytranAccList[0];
+      }
+      
+      //console.log(response);      
+    }); 
+  }
+
+  // setFormatAmountSSO($event)
+  // {
+  //   $event.target.value = parseFloat($event.target.value).toFixed(2);
+  //   this.paytranDetail.paytran_ssoemp = $event.target.value;
+  // }
+
+  // setFormatAmountPF($event)
+  // {
+  //   $event.target.value = parseFloat($event.target.value).toFixed(2);
+  //   this.paytranDetail.paytran_pfemp = $event.target.value;
+  // }
+
+  // setFormatAmountTax($event)
+  // {
+  //   $event.target.value = parseFloat($event.target.value).toFixed(2);
+  //   this.paytranTaxTotal = $event.target.value;
+  // }
+
+  //-- Payreduce
+  // public payreduceList:PayreduceModel[];
+ 
+  // doLoadPayreduce(){
+  //   this.payreduceList = [];     
+  //   if(this.worker_code == ""){
+  //     return;
+  //   }
+  //   this.payreduceService.getList(this.initial_current.CompCode, this.worker_code, this.initial_current.PayDate).subscribe((response) =>{      
+      
+  //     let resultJSON = JSON.parse(response);      
+  //     this.payreduceList = resultJSON.data; 
+                  
+  //   }); 
+  // }
+  
 
 }

@@ -30,9 +30,10 @@
     <div class="col-12 ">
 
         <div class="formgrid grid">
-            
-            <div class="field col-12">
-                <h5>{{title_incomelist[initial_current.Language]}}</h5>
+
+            <!-- <div class="field col-12"> -->
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_incomelist[initial_current.Language]}}">
+
                 <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100%'}" [scrollable]="true"
                     [value]="payitemINList" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
                     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
@@ -59,10 +60,11 @@
                         </tr>
                     </ng-template>
                 </p-table>
-            </div>
+            </p-panel>
+            <!-- </div> -->
 
-            <div class="field col-12">
-                <h5>{{title_deductlist[initial_current.Language]}}</h5>
+            <!-- <div class="field col-12"> -->
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_deductlist[initial_current.Language]}}">
                 <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100%'}" [scrollable]="true"
                     [value]="payitemDEList" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
                     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
@@ -89,73 +91,228 @@
                         </tr>
                     </ng-template>
                 </p-table>
-            </div>
+            </p-panel>
+            <!-- </div> -->
 
-            <div class="field col-12">
-                
-                <div class="accordion">
-                    <p-accordion>
-                        <p-accordionTab header="{{title_ssolist[initial_current.Language]}}">
-                            <div class="contact">
-                                <div>
-                                    <label>{{title_ssoemprate[initial_current.Language]}}</label>
-                                    <input pInputText id="tel" type="text" class="p-inputtext-sm"
-                                        >
-                                </div>
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_ssolist[initial_current.Language]}}">
+                <div class="panelform">
+                    <div>
+                        <label>{{title_ssoemprate[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_ssorateemp | number:'1.2-2'">
+                    </div>
 
-                                <div>
-                                    <label>{{title_ssoempamount[initial_current.Language]}}</label>
-                                    <input pInputText id="email" type="text" class="p-inputtext-sm"
-                                        >
-                                </div>
+                    <div>
+                        <label>{{title_ssoempamount[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_ssoemp | number:'1.2-2'">
+                    </div>
 
-                                <div>
-                                    <label>{{title_ssocomrate[initial_current.Language]}}</label>
-                                    <input pInputText id="line" type="text" class="p-inputtext-sm"
-                                        >
-                                </div>
+                    <div>
+                        <label>{{title_ssocomrate[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_ssoratecom | number:'1.2-2'">
+                    </div>
 
-                                <div>
-                                    <label>{{title_ssocomamount[initial_current.Language]}}</label>
-                                    <input pInputText id="facebook" type="text" class="p-inputtext-sm"
-                                        >
-                                </div>
-                            </div>
+                    <div>
+                        <label>{{title_ssocomamount[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_ssocom | number:'1.2-2'">
+                    </div>
+                </div>
+            </p-panel>
 
-                        </p-accordionTab>
-                    </p-accordion>
-            </div>
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_pflist[initial_current.Language]}}">
+                <div class="panelform">
+                    <div>
+                        <label>{{title_pfemp[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_pfcom | number:'1.2-2'">
+                    </div>
 
-            <div class="field col-12">
+                    <div>
+                        <label>{{title_pfcom[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_pfemp | number:'1.2-2'">
+                    </div>
+
+                </div>
+            </p-panel>
+
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_totallist[initial_current.Language]}}">
+                <div class="panelform">
+                    <div>
+                        <label>{{title_totaltax[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranTaxTotal | number:'1.2-2'">
+                    </div>
+
+                    <div>
+                        <label>{{title_totaldeduct[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_deduct_total | number:'1.2-2'">
+                    </div>
+
+                    <div>
+                        <label>{{title_totalincome[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_income_total | number:'1.2-2'">
+                    </div>
+
+                    <div>
+                        <label>{{title_totalnetpay[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_netpay | number:'1.2-2'">
+                    </div>
+                </div>
+            </p-panel>
+
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_tranferlist[initial_current.Language]}}">
+                <div class="panelform">
+                    <div>
+                        <label>{{title_tranferC[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_netpay_c | number:'1.2-2'">
+                    </div>
+
+                    <div>
+                        <label>{{title_tranferB[initial_current.Language]}}</label>
+                        <input pInputText type="text" class="p-inputtext-sm"
+                        [ngModel]="paytranDetail.paytran_netpay_b | number:'1.2-2'">
+                    </div>
+
+                </div>
+            </p-panel>
+
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_sectionlist[initial_current.Language]}}">
+                <p-table styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100%'}" [rows]="4" >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 60%;">{{title_section[initial_current.Language]}}</th>
+                            <th>{{title_income[initial_current.Language]}}</th>
+                            <th>{{title_deduct[initial_current.Language]}}</th>
+                            <th>{{title_tax[initial_current.Language]}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body">
+                        <tr>
+                            <td>
+                                <!-- {{title_401[initial_current.Language]}} -->
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                1
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td>
+                                <label>{{title_4013[initial_current.Language]}}</label>
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                2
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>{{title_402[initial_current.Language]}}</label>
+                            </td>
+                            <td>
+                                3
+                            </td>
+                            <td>
+                                3
+                            </td>
+                            <td>
+                                3
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>{{title_4012[initial_current.Language]}}</label>
+                            </td>
+                            <td>
+                                4
+                            </td>
+                            <td>
+                                4
+                            </td>
+                            <td>
+                                4
+                            </td>
+                        </tr> -->
+                    </ng-template>
+                </p-table>
+            </p-panel>
+
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_reducelist[initial_current.Language]}}">
+                <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100%'}" [scrollable]="true"
+                    [value]="payitemDEList" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 20%;">{{title_reduceid[initial_current.Language]}}</th>
+                            <th>{{title_reducename[initial_current.Language]}}</th>
+                            <th style="width: 30%;">{{title_reduceamount[initial_current.Language]}}</th>
+                            
+                        </tr>
+
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data>
+                        <tr>
+                            <td>{{data.item_code}}</td>
+                            <td>{{data.item_detail}}</td>
+                            <td>{{data.payitem_amount | number}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-panel>
+
+            <p-panel class="field col-12" header="{{title_accumulatelist[initial_current.Language]}}">
                 <p-table #dt17 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '150rem'}" [scrollable]="true"
                     scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"
                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>เงินได้คำนวณภาษี</th>
-                            <th>เงินได้ไม่คำนวณภาษี</th>
-                            <th>เงินหักคำนวณภาษี</th>
-                            <th>เงินหักไม่คำนวณภาษี</th>
-                            <th>40(1)</th>
-                            <th>40(1) ร้อยละ 3</th>
-                            <th>40(1)(2)</th>
-                            <th>40(2)</th>
-                            <th>ภาษี 40(1)</th>
-                            <th>ภาษี 40(1) ร้อยละ 3</th>
-                            <th>ภาษี 40(1)(2)</th>
-                            <th>ภาษี 40(2)</th>
-                            <th>ประกันสังคมสะสม</th>
-                            <th>ประกันสังคมสมทบ</th>
-                            <th>กองทุนฯสะสม</th>
-                            <th>กองทุนฯสมทบ</th>
+                            <th>{{title_incometax[initial_current.Language]}}</th>
+                            <th>{{title_incomenotax[initial_current.Language]}}</th>
+                            <th>{{title_deducttax[initial_current.Language]}}</th>
+                            <th>{{title_deductnotax[initial_current.Language]}}</th>
+                            <th>{{title_in401[initial_current.Language]}}</th>
+                            <th>{{title_in4013[initial_current.Language]}}</th>
+                            <th>{{title_in402[initial_current.Language]}}</th>
+                            <th>{{title_in4012[initial_current.Language]}}</th>
+                            <th>{{title_tax401[initial_current.Language]}}</th>
+                            <th>{{title_tax4013[initial_current.Language]}}</th>
+                            <th>{{title_tax402[initial_current.Language]}}</th>
+                            <th>{{title_tax4012[initial_current.Language]}}</th>
+                            <th>{{title_AccssoEmp[initial_current.Language]}}</th>
+                            <th>{{title_AccssoCom[initial_current.Language]}}</th>
+                            <th>{{title_AccpfEmp[initial_current.Language]}}</th>
+                            <th>{{title_AccpfCom[initial_current.Language]}}</th>
                             <th>{{title_modified_by[initial_current.Language]}}</th>
                             <th>{{title_modified_date[initial_current.Language]}}</th>
                         </tr>
 
                     </ng-template>
+                    <ng-template pTemplate="body">
+                        
+
+                    </ng-template>
                 </p-table>
-            </div>
+            </p-panel>
 
         </div>
 
