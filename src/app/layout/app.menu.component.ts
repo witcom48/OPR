@@ -28,9 +28,9 @@ export class AppMenuComponent implements OnInit {
         }
 
         // Generate menu items based on user's role (UserType)
-        if (initialSessionData.UserType === "APR") {
+        if (initialSessionData.Usertype === "APR") {
             // User is a manager
-            this.menuItems = [
+            this.menuItems[0].items = [
                 {
                     label: 'Self Services',
                     items: [
@@ -41,9 +41,9 @@ export class AppMenuComponent implements OnInit {
             ];
         }
 
-        if (initialSessionData.UserType === "Emp" || initialSessionData.UserType === "GRP") {
+        if (initialSessionData.Usertype === "Emp" || initialSessionData.Usertype === "GRP") {
             // User is an employee or a group member
-            this.menuItems = [
+            this.menuItems[0].items = [
                 {
                     label: 'Self Services',
                     items: [
@@ -139,6 +139,7 @@ export class AppMenuComponent implements OnInit {
                                 { label: 'Income / Deduct', routerLink: ['/payroll/entry'] },
                                 { label: 'Calculate Tax', routerLink: ['/payroll/caltax'] },
                                 { label: 'View Calculate', routerLink: ['/payroll/view'] },
+                                { label: 'Summary', routerLink: ['/payroll/summary'] },
                                 { label: 'Transfer', routerLink: ['/payroll/transfer'] },
                                 { label: 'Approval list', routerLink: ['/payroll/approve'] },
                                 { label: 'Reports', routerLink: ['/payroll/reports'] },

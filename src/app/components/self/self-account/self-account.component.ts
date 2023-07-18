@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { AccountModel } from '../../../models/self/account';
@@ -25,7 +25,7 @@ interface Modules { name: string, code: string }
   styleUrls: ['./self-account.component.scss']
 })
 export class SelfAccountComponent implements OnInit {
-  @ViewChild(SelectEmpComponent) selectEmp: any;
+  @Input() TypeNotShow: string = "'ADM'";
 
   accountLanguages: any = account;
 
@@ -155,6 +155,7 @@ export class SelfAccountComponent implements OnInit {
   loadAccounts(): void {
     this.accountList = [];
     const tmp = new AccountModel();
+    tmp.typenotin = `${this.TypeNotShow}`;
     this.accountService.account_get(tmp).then(async (res) => {
       this.accountList = await res;
     });

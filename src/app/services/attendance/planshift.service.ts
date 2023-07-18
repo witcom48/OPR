@@ -66,7 +66,7 @@ export class PlanshiftServices {
         let planschedule: any = []
         ShiftPlan.planschedule.forEach((res: PlanscheduleModels) => {
             let ss = {
-                "company_code": ShiftPlan.company_code,
+                "company_code": ShiftPlan.company_code || this.initial_current.CompCode,
                 "planshift_code": ShiftPlan.planshift_code,
                 "planschedule_fromdate": res.planschedule_fromdate,
                 "planschedule_todate": res.planschedule_todate,

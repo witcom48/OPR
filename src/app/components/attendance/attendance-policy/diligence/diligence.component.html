@@ -99,7 +99,7 @@
                     <div>
                         <label>{{langs.get('times')[selectlang]}}</label>
                         <p-inputNumber [(ngModel)]="diligences.diligence_punchcard_times" [useGrouping]="false"
-                            [disabled]="!diligences.diligence_punchcard_times" name="diligence_punchcard_times"
+                            [disabled]="!diligences.diligence_punchcard" name="diligence_punchcard_times"
                             #diligence_punchcard_times="ngModel"></p-inputNumber>
                     </div>
                     <div>
@@ -112,8 +112,8 @@
             </div>
             <div class="inputincheckbox">
                 <div class="inputcheckbox">
-                    <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_late" name="diligence_late"
-                        #diligence_late="ngModel">
+                    <input type="checkbox" value="N" [(ngModel)]="diligences.diligence_late"
+                    name="diligence_lates" #diligence_lates="ngModel">
                       <label>{{langs.get('late')[selectlang]}}</label>
                 </div>
                 <div class="inputvalue">
