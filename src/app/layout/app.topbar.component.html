@@ -1,23 +1,32 @@
 <div class="layout-topbar">
+    <!-- Application logo and version -->
     <a class="layout-topbar-logo" routerLink="">
-
         <span>HR-Operation</span>
         <small style="margin-left: 10px; font-size: 12px; font-weight: 200;">version 1.0</small>
     </a>
 
-    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+    <!-- Toggle menu button -->
+    <button class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
         <i class="pi pi-bars"></i>
     </button>
 
-    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
-        (click)="layoutService.showProfileSidebar()">
+    <!-- Show profile sidebar button -->
+    <button class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
-    <div #topbarmenu class="layout-topbar-menu"
+    <!-- Menu items -->
+    <div class="layout-topbar-menu"
         [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <p-dropdown [options]="lang_list" [(ngModel)]="langselect" optionLabel="name"
-            (onChange)="SelectLang()"></p-dropdown>
+        <!-- Language selection -->
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <span [ngStyle]="{'color': (initialData.Language == 'TH') ? 'white' : 'gray'}" style="cursor: pointer;"
+                (click)="selectLanguage('TH')">TH</span> |
+            <span [ngStyle]="{'color': (initialData.Language == 'EN') ? 'white' : 'gray'}" style="cursor: pointer;"
+                (click)="selectLanguage('EN')">EN</span>
+        </div>
+
+        <!-- Menu buttons -->
         <button class="p-link layout-topbar-button">
             <i class="pi pi-calendar"></i>
             <span>Calendar</span>
@@ -32,22 +41,27 @@
         </button>
         <button class="p-link layout-topbar-button" (click)="logout()">
             <i class="pi pi-sign-out"></i>
-            <span>logout</span>
+            <span>Logout</span>
         </button>
     </div>
 </div>
 
-<p-dialog header="PDPA" [(visible)]="displayManage" [style]="{width: '70vw'}">
-    <div style="display: flex;flex-direction: column;justify-content: center;gap: 20px;">
-        <pdf-viewer [src]="src" [rotation]="0" [original-size]="true" [show-all]="true" [fit-to-page]="true" [zoom]="0"
-            [stick-to-page]="true" [render-text]="true" [autoresize]="true" [zoom-scale]="'page-fit'"
+<p-dialog header="PDPA" [(visible)]="isManageDisplayed" [style]="{width: '70vw'}">
+    <div style="display: flex; flex-direction: column; justify-content: center; gap: 20px;">
+        <!-- PDF viewer -->
+        <pdf-viewer [src]="pdpaFileSrc" [rotation]="0" [original-size]="true" [show-all]="true" [fit-to-page]="true"
+            [zoom]="0" [stick-to-page]="true" [render-text]="true" [autoresize]="true" [zoom-scale]="'page-fit'"
             [show-borders]="false" style="height: 70vh;"></pdf-viewer>
-        <!-- <button>คลิกเพื่อแจ้งหนังสือยินยอมฯ</button> -->
+
+        <!-- Consent buttons -->
         <div style="gap: 10px; display: flex; justify-content:center;">
-            <button pButton type="button" label="{{langs.get('agree')[selectlang]}}"
-                (click)="recodePDPA(true)"></button>
-            <button pButton type="button" label="{{langs.get('not_agree')[selectlang]}}" class="p-button-danger"
-                (click)="recodePDPA(false)"></button>
+            <!-- Agree button -->
+            <button pButton type="button" [label]="consentLanguages.get('agree')[selectedLanguageCode]"
+                (click)="recordPDPAStatus(true)"></button>
+
+            <!-- Not agree button -->
+            <button pButton type="button" [label]="consentLanguages.get('not_agree')[selectedLanguageCode]"
+                class="p-button-danger" (click)="recordPDPAStatus(false)"></button>
         </div>
     </div>
 </p-dialog>

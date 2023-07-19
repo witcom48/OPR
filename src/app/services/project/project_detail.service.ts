@@ -100,7 +100,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/proaddress_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -182,7 +182,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/procontact_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -272,7 +272,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/procontract_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -360,7 +360,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/proresponsible_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -447,7 +447,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/protimepol_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -539,7 +539,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobmain_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -636,14 +636,14 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobcontract_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
 
   public projobcontract_record(version:string, project:string, job:string, list:ProjobcontractModel[]) {
 
-    //console.log(job)
+    //// console.log(job)
 
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
@@ -731,7 +731,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobcost_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -831,7 +831,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobmachine_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -921,7 +921,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobsub_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -1009,7 +1009,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobemp_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -1020,6 +1020,7 @@ export class ProjectDetailService {
       projobemp_emp: model.projobemp_emp,
       projobemp_fromdate: this.datePipe.transform(model.projobemp_fromdate),
       projobemp_todate: this.datePipe.transform(model.projobemp_todate),
+      projobemp_type: model.projobemp_type,
       projobemp_status: model.projobemp_status,
       projob_code: model.projob_code,
       project_code: model.project_code,
@@ -1027,7 +1028,7 @@ export class ProjectDetailService {
       modified_by: this.initial_current.Username
     };
 
-    console.log(this.config.ApiProjectModule)
+    // console.log(this.config.ApiProjectModule)
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobemp', data, this.options).toPromise()
     .then((res) => {
@@ -1044,6 +1045,7 @@ export class ProjectDetailService {
       item_data = item_data + ",\"projobemp_emp\":\"" + list[i].projobemp_emp + "\"";
       item_data = item_data + ",\"projobemp_fromdate\":\"" + this.datePipe.transform(list[i].projobemp_fromdate) + "\"";
       item_data = item_data + ",\"projobemp_todate\":\"" + this.datePipe.transform(list[i].projobemp_todate) + "\"";
+      item_data = item_data + ",\"projobemp_type\":\"" + list[i].projobemp_type + "\"";
       item_data = item_data + ",\"projobemp_status\":\"" + list[i].projobemp_status + "\"";
 
       item_data = item_data + ",\"projob_code\":\"" + list[i].projob_code + "\"";
@@ -1121,7 +1123,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobworking_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -1216,7 +1218,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobshift_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -1319,7 +1321,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobversion_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -1379,7 +1381,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobpol_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }

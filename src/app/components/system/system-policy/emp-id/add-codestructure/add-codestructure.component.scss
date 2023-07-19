@@ -38,7 +38,7 @@
 //   ngOnInit(): void {
 //       this.route.queryParams.subscribe((params) => {
 //           // this.combranch_code = params['combranchcode'];
-//           console.log(this.codestructure_code);
+//           // console.log(this.codestructure_code);
 //       });
 
 //       this.doGetInitialCurrent();
@@ -161,7 +161,7 @@
 //               label: 'Save',
 //               icon: 'pi pi-fw pi-save',
 //               command: (event) => {
-//                   console.log('Save');
+//                   // console.log('Save');
 //                   this.confirmRecord();
 //               },
 //           },
@@ -251,7 +251,7 @@
 //               await res.forEach((element: CodestructureModel) => {});
 
 //               codestructure_list = await res;
-//               console.log(res);
+//               // console.log(res);
 
 //               if (codestructure_list.length > 0) {
 //                   this.selectedCodestructure = codestructure_list[0];
@@ -368,7 +368,7 @@
 //       this.codestructureService
 //           .codestructure_record(this.selectedCodestructure)
 //           .then((res) => {
-//               console.log(res);
+//               // console.log(res);
 
 //               let result = JSON.parse(res);
 

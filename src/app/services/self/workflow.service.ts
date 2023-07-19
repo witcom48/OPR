@@ -44,7 +44,7 @@ export class WorkflowServices {
     }
 
     public workflow_get(workflow: WorkflowModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -62,7 +62,7 @@ export class WorkflowServices {
     }
 
     public workflow_record(workflow: WorkflowModel) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -85,13 +85,13 @@ export class WorkflowServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/workflow', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public workflow_delete(workflow: WorkflowModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -104,7 +104,7 @@ export class WorkflowServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/workflow_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -112,7 +112,7 @@ export class WorkflowServices {
 
 
     public workflow_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 
@@ -127,7 +127,7 @@ export class WorkflowServices {
             });
     }
     public workflow_getposition_level(workflow: WorkflowModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",

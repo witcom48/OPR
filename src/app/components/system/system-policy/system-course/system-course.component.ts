@@ -173,7 +173,7 @@ title_system:string = "System";
 
     doRecordCourse(){
       this.courseService.course_record(this.selectedCourse).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -204,7 +204,7 @@ title_system:string = "System";
 
     doDeleteCourse(){
       this.courseService.course_delete(this.selectedCourse).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -246,7 +246,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.courseService.course_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {
@@ -441,7 +441,7 @@ title_system:string = "System";
 
 //     doRecordCourse(){
 //       this.courseService.course_recordall(this.selectedCourse).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -471,7 +471,7 @@ title_system:string = "System";
 
 //     doDeleteCourse(){
 //       this.courseService.course_delete(this.selectedCourse).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -513,7 +513,7 @@ title_system:string = "System";
 //             const filetype = "xls";
 
 //             this.courseService.course_import(this.fileToUpload, filename, filetype).then((res) => {
-//               console.log(res)
+//               // console.log(res)
 //               let result = JSON.parse(res);
 
 //               if (result.success) {

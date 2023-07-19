@@ -42,7 +42,7 @@ export class LocationService {
     }
 
     public location_get(Location: LocationModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -59,7 +59,7 @@ export class LocationService {
     }
 
     public location_record(Location: LocationModel) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -75,16 +75,16 @@ export class LocationService {
             modified_by: this.initial_current.Username,
             flag: Location.flag
         }
-        console.log(data)
+        // console.log(data)
         return this.http.post<any>(this.config.ApiSystemModule + '/location', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public location_delete(Location: LocationModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -94,7 +94,7 @@ export class LocationService {
         }
         return this.http.post<any>(this.config.ApiSystemModule + '/location_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -102,7 +102,7 @@ export class LocationService {
 
 
     public location_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 

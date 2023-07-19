@@ -1,17 +1,11 @@
-import { EmployeeModel } from "../employee/employee";
-import { ItemsModel } from "./items";
 
 export class PaytranModel {
-    constructor() { }
-
+    constructor() {}
+  
     company_code: string = "";
     worker_code: string = "1";
-
-
-    item_data: ItemsModel[] = [];
-    emp_data: EmployeeModel[] = [];
-
-    paytran_date!: Date;
+  
+    paytran_date: Date = new Date();
 
     paytran_ssoemp: number = 0;
     paytran_ssocom: number = 0;
@@ -25,13 +19,13 @@ export class PaytranModel {
     paytran_deduct_401: number = 0;
     paytran_tax_401: number = 0;
 
-    paytran_income_4013: number = 0;
-    paytran_deduct_4013: number = 0;
-    paytran_tax_4013: number = 0;
-
     paytran_income_4012: number = 0;
     paytran_deduct_4012: number = 0;
     paytran_tax_4012: number = 0;
+
+    paytran_income_4013: number = 0;
+    paytran_deduct_4013: number = 0;
+    paytran_tax_4013: number = 0;
 
     paytran_income_402I: number = 0;
     paytran_deduct_402I: number = 0;
@@ -47,6 +41,7 @@ export class PaytranModel {
     paytran_income_total: number = 0;
     paytran_deduct_total: number = 0;
 
+    paytran_netpay: number = 0;
     paytran_netpay_b: number = 0;
     paytran_netpay_c: number = 0;
 
@@ -56,11 +51,16 @@ export class PaytranModel {
     select: boolean = false;
     flag: boolean = false;
 
-    //-- Show only
     worker_detail: string = "";
+
     paytran_salary: number = 0;
-    paytran_tax_total: number = 0;
-    paytran_netpay: number = 0;
+    paytran_overtime: number = 0;
+    paytran_diligence: number = 0;
 
+    paytran_absent: number = 0;
+    paytran_late: number = 0;
+    paytran_leave: number = 0;
 
-}
+ 
+  }
+  

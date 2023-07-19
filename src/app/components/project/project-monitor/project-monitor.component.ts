@@ -130,7 +130,7 @@ export class ProjectMonitorComponent implements OnInit {
   doLoadTimesheet(project: string){
     //this.displayManage = true
 
-    //console.log(project)
+    //// console.log(project)
 
     this.selectedProject(project)
 
@@ -179,7 +179,7 @@ export class ProjectMonitorComponent implements OnInit {
           label:'Export',
           icon:'pi pi-fw pi-file-export',
           command: (event) => {
-            console.log('Edit')
+            // console.log('Edit')
         }        
       },    
     ];
@@ -196,7 +196,7 @@ export class ProjectMonitorComponent implements OnInit {
           label:'Edit',
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
-            console.log('Edit')
+            // console.log('Edit')
         }        
       },    
       {

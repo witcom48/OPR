@@ -79,7 +79,7 @@ export class ProjectService {
     return this.http.post<any>(this.config.ApiProjectModule + '/project_list', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -104,7 +104,7 @@ export class ProjectService {
       modified_by: this.initial_current.Username
     };    
 
-    console.log(this.config.ApiProjectModule)
+    // console.log(this.config.ApiProjectModule)
 
     return this.http.post<any>(this.config.ApiProjectModule + '/project', data, this.options).toPromise()   
     .then((res) => {      
@@ -162,7 +162,7 @@ export class ProjectService {
     return this.http.post<any>(this.config.ApiProjectModule + '/project_monitor', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -190,7 +190,7 @@ export class ProjectService {
     return this.http.post<any>(this.config.ApiProjectModule + '/job_monitor', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }

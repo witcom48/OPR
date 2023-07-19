@@ -45,7 +45,7 @@ export class SetPolicyAttServices {
     }
 
     public SetPolicyAtt_get(Setup: SetPolicyAttModels) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let emplists: any = []
         Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
@@ -70,7 +70,7 @@ export class SetPolicyAttServices {
     }
 
     public SetPolicyAtt_record(Setup: SetPolicyAttModels) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let emplists: any = []
         Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
@@ -91,16 +91,16 @@ export class SetPolicyAttServices {
             modified_by: Setup.modified_by || this.initial_current.Username,
             flag: Setup.flag
         }
-        console.log(data)
+        // console.log(data)
         return this.http.post<any>(this.config.ApiAttendanceModule + '/SetPolicyAtt', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public SetPolicyAtt_delete(Setup: SetPolicyAttModels) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let emplists: any = []
         Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
@@ -119,7 +119,7 @@ export class SetPolicyAttServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/SetPolicyAtt_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

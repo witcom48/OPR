@@ -123,7 +123,7 @@ export class TransferBankComponent implements OnInit {
   public fillauto: boolean = false;
 
   process() {
-    console.log(this.selectedBank);
+    // console.log(this.selectedBank);
 
     if (this.selectEmp.employee_dest.length == 0) {
       let message = "Please select an employee";
@@ -170,14 +170,14 @@ export class TransferBankComponent implements OnInit {
                 detail: 'Record Success..',
               });
 
-              console.log("test result_link");
-              console.log(result.result_link);
+              // console.log("test result_link");
+              // console.log(result.result_link);
 
               let link = result.result_link;
 
               if (link !== "") {
-                console.log(this.initial_current + '/File/' + link + "/");
-                console.log(link.split("\\").pop())
+                // console.log(this.initial_current + '/File/' + link + "/");
+                // console.log(link.split("\\").pop())
                 this.taskService.get_file(link).then((res) => {
 
                   const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });

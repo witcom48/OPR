@@ -71,7 +71,7 @@ export class PartService {
   }
 
   public dep_record(model:PartModel) {
-    console.log('DEP002..');
+    // console.log('DEP002..');
     const data = {
       dep_id: model.dep_id,
       dep_code: model.dep_code,
@@ -92,7 +92,7 @@ export class PartService {
   }
 
   public dep_delete(model:PartModel) {
-    console.log('DEP003..');
+    // console.log('DEP003..');
     const data = {
       dep_id: model.dep_id,
       dep_code: model.dep_code,

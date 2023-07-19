@@ -167,7 +167,7 @@ export class GroupComponent implements OnInit {
 
   doRecordGroup(){
     this.groupService.group_record(this.selectedGroup).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -197,7 +197,7 @@ export class GroupComponent implements OnInit {
 
   doDeleteGroup(){
     this.groupService.group_delete(this.selectedGroup).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -238,7 +238,7 @@ export class GroupComponent implements OnInit {
           const filetype = "xls";
 
           this.groupService.group_import(this.fileToUpload, filename, filetype).then((res) => {
-            console.log(res)
+            // console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {

@@ -62,7 +62,7 @@ export class CombankService {
     }
 
     public combank_get() {
-        console.log('CBK001..');
+        // console.log('CBK001..');
 
         return this.http
             .post<any>(
@@ -73,13 +73,13 @@ export class CombankService {
             .toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                console.log(res);
+                // console.log(res);
                 return message.data;
             });
     }
 
     public combank_record(model: CombankModel) {
-        console.log('CBK002..');
+        // console.log('CBK002..');
         const data = {
             combankcompany_code_id: model.company_code,
             combank_id: model.combank_id,
@@ -96,13 +96,13 @@ export class CombankService {
             )
             .toPromise()
             .then((res) => {
-                //console.log(res)
+                //// console.log(res)
                 return res;
             });
     }
 
     public combank_delete(model: CombankModel) {
-        console.log('CBK002..');
+        // console.log('CBK002..');
         const data = {
             combank_id: model.combank_id,
             company_code: model.company_code,

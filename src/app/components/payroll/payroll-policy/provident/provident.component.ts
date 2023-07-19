@@ -159,7 +159,7 @@ export class ProvidentComponent implements OnInit {
     }
     async doRecordLate(data: ProvidentModel) {
         await this.providentService.provident_record(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -180,7 +180,7 @@ export class ProvidentComponent implements OnInit {
     }
     async doDeleteLate(data: ProvidentModel) {
         await this.providentService.provident_delete(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -206,7 +206,7 @@ export class ProvidentComponent implements OnInit {
         this.providentService
             .provident_import(this.fileToUpload, filename, filetype)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.success) {
                     this.messageService.add({
                         severity: 'success',
@@ -307,7 +307,7 @@ export class ProvidentComponent implements OnInit {
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
     Save() {
-        console.log(this.selectedProvident);
+        // console.log(this.selectedProvident);
         this.doRecordLate(this.selectedProvident);
     }
     Savelate() {
@@ -341,7 +341,7 @@ export class ProvidentComponent implements OnInit {
     onRowSelectList(event: any) {
         this.displayaddcondition = true;
         this.displayeditcondition = true;
-        console.log(this.selectedProvidentWorka);
+        // console.log(this.selectedProvidentWorka);
     }
     onRowSelect(event: any) {
         this.new_data = true;

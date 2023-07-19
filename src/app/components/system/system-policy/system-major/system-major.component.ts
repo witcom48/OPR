@@ -173,7 +173,7 @@ title_system:string = "System";
 
     doRecordMajor(){
       this.majorService.major_record(this.selectedMajor).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -204,7 +204,7 @@ title_system:string = "System";
 
     doDeleteMajor(){
       this.majorService.major_delete(this.selectedMajor).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -246,7 +246,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.majorService.major_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

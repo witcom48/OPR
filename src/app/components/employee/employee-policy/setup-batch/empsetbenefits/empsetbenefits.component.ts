@@ -139,11 +139,11 @@ export class EmpsetbenefitsComponent implements OnInit {
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
-    console.log(data)
+    // console.log(data)
     await this.setempdetailService.SetBenefits_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
-        console.log(res.message)
+        // console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetbenefitList();
         this.edit_data = false;

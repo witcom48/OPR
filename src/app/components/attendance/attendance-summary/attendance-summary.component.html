@@ -1,0 +1,268 @@
+<span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Summary</small>
+<hr>
+<p-toast position="top-right"></p-toast> 
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+
+<p-dialog header="" [(visible)]="displayManage" [style]="{width: '45vw'}" [position]="position">
+    <div class="formgrid grid align-items-end" *ngIf="edit_timecard==true">  
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
+    <div class="grid">
+        <div class="col-12">
+            <app-search-emp></app-search-emp>
+        </div>
+        <div class="col-12">
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-save" (click)="select_emp()"></p-button> 
+            &nbsp;
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}" class="p-button-secondary" (click)="close_searchemp()"></button>                      
+        </div>
+    </div>
+</p-dialog>
+
+<p-tabView >
+    <p-tabPanel  [selected]="true">
+        <ng-template pTemplate = "header">                       
+            <span>{{title_byemp[initial_current.Language]}}</span>
+        </ng-template>
+        <div class="grid">   
+            <div class="col-6">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 20px;">
+                            <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
+                        </td>
+                        <td style="width: 150px;">
+                            <input id="lastname2" type="text" value="{{worker_code}}" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                        </td>
+                        <td style="width: 20px;">
+                            <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
+                        </td>
+                        <td style="width: 20px;">
+                            <i class="pi pi-search" (click)="open_searchemp()"></i>
+                        </td>
+                        <td style="width: 250px;" align="left">
+                            <input id="lastname2" type="text" value="{{worker_name}}" style="width: 250px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-6">
+                &nbsp;
+            </div>        
+            <div class="col-12">
+                <p-menubar [model]="menu_byemp"></p-menubar>     
+                <div #TABLE>
+                <p-table #dtEmp [value]="wageday_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '200rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedWageday" (onRowSelect)="onRowSelected($event)" dataKey="wageday_date"
+                [rows]="31" [showCurrentPageReport]="true" [rowsPerPageOptions]="[31,50,100]" 
+                [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+                [globalFilterFields]="['modified_by']"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>  
+                            <th>{{title_date[initial_current.Language]}}</th> 
+                            <th>{{title_wage[initial_current.Language]}}</th> 
+        
+                            <th>{{title_wageday_before[initial_current.Language]}}</th>                       
+                            <th>{{title_wageday_normal[initial_current.Language]}}</th>       
+                            <th>{{title_wageday_break[initial_current.Language]}}</th>       
+                            <th>{{title_wageday_after[initial_current.Language]}}</th>       
+        
+                            <th>{{title_wageday_before[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>                       
+                            <th>{{title_wageday_normal[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>       
+                            <th>{{title_wageday_break[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>       
+                            <th>{{title_wageday_after[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>      
+                            
+                            <th>OT1</th>                       
+                            <th>OT1.5</th>       
+                            <th>OT2</th>       
+                            <th>OT3</th>     
+                            
+                            <th>OT1 ({{title_time[initial_current.Language]}})</th>                       
+                            <th>OT1.5 ({{title_time[initial_current.Language]}})</th>       
+                            <th>OT2 ({{title_time[initial_current.Language]}})</th>       
+                            <th>OT3 ({{title_time[initial_current.Language]}})</th>     
+        
+                            <th>{{title_late[initial_current.Language]}}</th>                       
+                            <th>{{title_leave[initial_current.Language]}}</th>       
+                            <th>{{title_absent[initial_current.Language]}}</th>       
+                            <th>{{title_allowance[initial_current.Language]}}</th>     
+        
+                            <th>{{title_late[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>                       
+                            <th>{{title_leave[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>       
+                            <th>{{title_absent[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>                           
+                            
+                            <th style="width: 200px;">{{title_modified_by[initial_current.Language]}}</th>
+                            <th>{{title_modified_date[initial_current.Language]}}</th>                                                                 
+                        </tr>	
+                       
+                    </ng-template>
+                    <ng-template pTemplate="body" let-wageday>
+                        <tr [pSelectableRow]="wageday" >        
+                            <td>{{wageday.wageday_date | date:'dd/MM/yyyy'}}</td>                                
+                            <td>{{wageday.wageday_wage | number:'1.2-2'}}</td>  
+        
+                            <td>{{wageday.wageday_before_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.wageday_normal_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.wageday_break_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.wageday_after_amount | number:'1.2-2'}}</td>  
+        
+                            <td>{{doConvertHHMM(wageday.wageday_before_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.wageday_normal_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.wageday_break_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.wageday_after_min)}}</td>    
+        
+                            <td>{{wageday.ot1_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.ot15_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.ot2_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.ot3_amount | number:'1.2-2'}}</td>  
+        
+                            <td>{{doConvertHHMM(wageday.ot1_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.ot15_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.ot2_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.ot3_min)}}</td>   
+        
+                            <td>{{wageday.late_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.leave_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.absent_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.allowance_amount | number:'1.2-2'}}</td>  
+        
+                            <td>{{doConvertHHMM(wageday.late_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.leave_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.absent_min)}}</td>  
+                                         
+                            <td>{{wageday.modified_by}}</td>      
+                            <td>{{wageday.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        </tr>
+                    </ng-template>    
+                </p-table>
+                </div>
+            </div>
+        </div>
+    </p-tabPanel>
+
+    <p-tabPanel>
+        <ng-template pTemplate = "header">                       
+            <span>{{title_bydate[initial_current.Language]}}</span>
+        </ng-template>
+        <div class="grid">
+            <div class="field col-12 md:col-2 ">   
+                <label for="ppos_shift_code">From</label>                
+                <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy"  [showTime]="false" (onSelect)="doLoadDataByDate()" inputId="selectedFromdate"  ></p-calendar>
+           
+            </div>
+            <div class="field col-12 md:col-2 ">   
+                <label for="ppos_shift_code">To</label>                
+                <p-calendar [(ngModel)]="selectedTodate" dateFormat="dd/mm/yy"  [showTime]="false" (onSelect)="doLoadDataByDate()" inputId="selectedTodate"  ></p-calendar>
+           
+            </div>
+            <div class="field col-12 md:col-8 ">&nbsp;</div>
+            <div class="col-12">
+                <p-menubar [model]="menu_bydate"></p-menubar>     
+                <div #TABLE2>
+                <p-table #dtDate [value]="wageday2_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '250rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedWageday2" dataKey="wageday_date"
+                [rows]="50" [showCurrentPageReport]="true" [rowsPerPageOptions]="[50,100,200]" 
+                [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+                [globalFilterFields]="['worker_code', 'worker_detail']"
+                >
+                    <ng-template pTemplate="caption">
+                        <div class="flex">
+                            <span class="p-input-icon-left ml-auto">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="dtDate.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search[initial_current.Language]}}" />
+                            </span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="header">
+                        <tr>  
+                            <th>{{title_empid[initial_current.Language]}}</th> 
+                            <th>{{title_empname[initial_current.Language]}}</th> 
+
+                            <th>{{title_date[initial_current.Language]}}</th> 
+                            <th>{{title_wage[initial_current.Language]}}</th> 
+        
+                            <th>{{title_wageday_before[initial_current.Language]}}</th>                       
+                            <th>{{title_wageday_normal[initial_current.Language]}}</th>       
+                            <th>{{title_wageday_break[initial_current.Language]}}</th>       
+                            <th>{{title_wageday_after[initial_current.Language]}}</th>       
+        
+                            <th>{{title_wageday_before[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>                       
+                            <th>{{title_wageday_normal[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>       
+                            <th>{{title_wageday_break[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>       
+                            <th>{{title_wageday_after[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>      
+                            
+                            <th>OT1</th>                       
+                            <th>OT1.5</th>       
+                            <th>OT2</th>       
+                            <th>OT3</th>     
+                            
+                            <th>OT1 ({{title_time[initial_current.Language]}})</th>                       
+                            <th>OT1.5 ({{title_time[initial_current.Language]}})</th>       
+                            <th>OT2 ({{title_time[initial_current.Language]}})</th>       
+                            <th>OT3 ({{title_time[initial_current.Language]}})</th>     
+        
+                            <th>{{title_late[initial_current.Language]}}</th>                       
+                            <th>{{title_leave[initial_current.Language]}}</th>       
+                            <th>{{title_absent[initial_current.Language]}}</th>       
+                            <th>{{title_allowance[initial_current.Language]}}</th>     
+        
+                            <th>{{title_late[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>                       
+                            <th>{{title_leave[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>       
+                            <th>{{title_absent[initial_current.Language]}} ({{title_time[initial_current.Language]}})</th>                           
+                            
+                            <th style="width: 200px;">{{title_modified_by[initial_current.Language]}}</th>
+                            <th>{{title_modified_date[initial_current.Language]}}</th>                                                                 
+                        </tr>	
+                       
+                    </ng-template>
+                    <ng-template pTemplate="body" let-wageday>
+                        <tr [pSelectableRow]="wageday" >        
+                                                        
+                            <td>{{wageday.worker_code}}</td>   
+                            <td>{{wageday.worker_detail}}</td>   
+                            <td>{{wageday.wageday_date | date:'dd/MM/yyyy'}}</td>  
+                            <td>{{wageday.wageday_wage | number:'1.2-2'}}</td>  
+        
+                            <td>{{wageday.wageday_before_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.wageday_normal_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.wageday_break_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.wageday_after_amount | number:'1.2-2'}}</td>  
+        
+                            <td>{{doConvertHHMM(wageday.wageday_before_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.wageday_normal_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.wageday_break_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.wageday_after_min)}}</td>    
+        
+                            <td>{{wageday.ot1_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.ot15_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.ot2_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.ot3_amount | number:'1.2-2'}}</td>  
+        
+                            <td>{{doConvertHHMM(wageday.ot1_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.ot15_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.ot2_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.ot3_min)}}</td>   
+        
+                            <td>{{wageday.late_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.leave_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.absent_amount | number:'1.2-2'}}</td>  
+                            <td>{{wageday.allowance_amount | number:'1.2-2'}}</td>  
+        
+                            <td>{{doConvertHHMM(wageday.late_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.leave_min)}}</td>    
+                            <td>{{doConvertHHMM(wageday.absent_min)}}</td>  
+                                         
+                            <td>{{wageday.modified_by}}</td>      
+                            <td>{{wageday.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        </tr>
+                    </ng-template>    
+                </p-table>
+                </div>
+            </div>
+        </div>
+    </p-tabPanel>
+</p-tabView>
+

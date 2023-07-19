@@ -168,7 +168,7 @@ export class EmptypeComponent implements OnInit {
 
   doRecordType(){
     this.typeService.type_record(this.selectedType).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -198,7 +198,7 @@ export class EmptypeComponent implements OnInit {
 
   doDeleteType(){
     this.typeService.type_delete(this.selectedType).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -239,7 +239,7 @@ export class EmptypeComponent implements OnInit {
           const filetype = "xls";
 
           this.typeService.type_import(this.fileToUpload, filename, filetype).then((res) => {
-            console.log(res)
+            // console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {

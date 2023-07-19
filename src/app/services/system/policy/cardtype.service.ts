@@ -59,18 +59,18 @@ export class CardtypeService {
     }
 
     public cardtype_get(){
-      console.log('CRD001..');
+      // console.log('CRD001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/cardtype_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public cardtype_record(model:CardtypeModel) {
-      console.log('CRD002..');
+      // console.log('CRD002..');
       const data = {
         cardtype_id: model.cardtype_id,
         cardtype_code: model.cardtype_code,
@@ -83,13 +83,13 @@ export class CardtypeService {
       return this.http.post<any>(this.config.ApiSystemModule + '/cardtype', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public cardtype_delete(model:CardtypeModel) {
-      console.log('CRD002..');
+      // console.log('CRD002..');
       const data = {
         cardtype_id: model.cardtype_id,
         cardtype_code: model.cardtype_code,

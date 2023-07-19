@@ -48,7 +48,7 @@ export class TimeleaveServices {
     }
 
     public timeleave_get(timeleave: cls_TRTimeleaveModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -68,7 +68,7 @@ export class TimeleaveServices {
     }
 
     public timeleave_record(timeleaves: cls_TRTimeleaveModel[]) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         var leave_datas: any = []
         timeleaves.forEach((timeleave: cls_TRTimeleaveModel) => {
             let datas = {
@@ -93,7 +93,7 @@ export class TimeleaveServices {
             }
             leave_datas.push(datas)
         })
-        console.log(leave_datas)
+        // console.log(leave_datas)
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -103,13 +103,13 @@ export class TimeleaveServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public timeleave_delete(timeleave: cls_TRTimeleaveModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -119,13 +119,13 @@ export class TimeleaveServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public timeleaveactualday_get(timeleave: cls_TRTimeleaveModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -144,7 +144,7 @@ export class TimeleaveServices {
     }
 
     public file_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 
@@ -160,7 +160,7 @@ export class TimeleaveServices {
     }
 
     public get_file(file_path: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doGetMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
@@ -168,7 +168,7 @@ export class TimeleaveServices {
             });
     }
     public deletefilepath_file(file_path: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doDeleteMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
@@ -176,7 +176,7 @@ export class TimeleaveServices {
             });
     }
     public delete_file(file: cls_MTReqdocumentModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",

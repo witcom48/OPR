@@ -112,7 +112,7 @@ export class TaskComponent implements OnInit {
   }
 
   onChange(event: Event) {
-    //console.log('event :' + event);
+    //// console.log('event :' + event);
     this.doLoadTask()
   }
 

@@ -59,7 +59,7 @@ public config: AppConfig = new AppConfig();
     }
 
     public comcard_get() {
-        console.log('CDD001..');
+        // console.log('CDD001..');
 
         return this.http
             .post<any>(
@@ -70,13 +70,13 @@ public config: AppConfig = new AppConfig();
             .toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                console.log(res);
+                // console.log(res);
                 return message.data;
             });
     }
 
     public comcard_record(model: ComcardModel) {
-        console.log('CDD002..');
+        // console.log('CDD002..');
         const data = {
             company_code: model.company_code,
             comcard_id: model.comcard_id,
@@ -95,13 +95,13 @@ public config: AppConfig = new AppConfig();
             )
             .toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 return res;
             });
     }
 
     public comcard_delete(model: ComcardModel) {
-        console.log('CDD002..');
+        // console.log('CDD002..');
         const data = {
             comcard_id: model.comcard_id,
             company_code: model.company_code,

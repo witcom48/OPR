@@ -44,7 +44,7 @@ export class ShiftServices {
     }
 
     public shift_get(Shift: ShiftModels) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -61,7 +61,7 @@ export class ShiftServices {
     }
 
     public shift_record(Shift: ShiftModels) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -101,13 +101,13 @@ export class ShiftServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/shift', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public shift_delete(Shift: ShiftModels) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -118,7 +118,7 @@ export class ShiftServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/shift_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -126,7 +126,7 @@ export class ShiftServices {
 
 
     public shift_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 

@@ -19,6 +19,8 @@ import { ItemsModel } from 'src/app/models/payroll/items';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
 
+import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
+
 interface Type {
     name: string;
     code: string;
@@ -40,6 +42,8 @@ interface Result {
 })
 export class PayrollEntryComponent implements OnInit {
 
+
+    @ViewChild(SearchEmpComponent) searchEmp_popup: any;
 
     style_input_real: string = "[style]=\"{'width':'80px'}\\";
 
@@ -94,7 +98,7 @@ export class PayrollEntryComponent implements OnInit {
                     this.worker_index = 0;
                     this.doSetDetailWorker();
                     
-                }, 1500); 
+                }, 1000); 
             })
             .catch((error) => {
                 console.error(error);
@@ -109,6 +113,10 @@ export class PayrollEntryComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
     }
+
+    title_btn_select: {[key: string]: string} = {  EN: "Select",  TH: "เลือก"}
+    title_btn_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+
     title_page: string = 'Geanral';
     title_new: string = 'New';
     title_edit: string = 'Edit';
@@ -266,10 +274,6 @@ export class PayrollEntryComponent implements OnInit {
                 },
             },
             {
-                label: 'Add copy',
-                icon: 'pi pi-fw pi-copy',
-            },
-            {
                 label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
@@ -369,7 +373,7 @@ export class PayrollEntryComponent implements OnInit {
             const deItems = res.filter((item: { item_type: string }) => item.item_type === 'DE');
             this.payitem_list = [...inItems, ...deItems];
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
         this.doSummaryByEmp();
     }
@@ -386,7 +390,7 @@ export class PayrollEntryComponent implements OnInit {
                 });
                 await this.doLoadPayitem();
                 this.doSetDetailWorker();
-                console.log(this.payitem_list);
+                // console.log(this.payitem_list);
             } else {
                 this.messageService.add({
                     severity: 'error',
@@ -428,7 +432,7 @@ export class PayrollEntryComponent implements OnInit {
     async doDeletePayitem(data: PayitemModel) {
         try {
           const res = await this.payitemService.payitem_delete(data);
-          console.log(res);
+          // console.log(res);
           if (res.success) {
             this.messageService.add({
               severity: 'success',
@@ -436,7 +440,7 @@ export class PayrollEntryComponent implements OnInit {
               detail: res.message,
             });
             await Promise.all([this.doLoadPayitem(), this.doSetDetailWorker()]);
-            console.log(this.payitem_list);
+            // console.log(this.payitem_list);
 
             this.new_data = false;
             this.edit_data = false;
@@ -448,7 +452,7 @@ export class PayrollEntryComponent implements OnInit {
             });
           }
         } catch (error) {
-          console.log('An error occurred while deleting payitem:', error);
+          // console.log('An error occurred while deleting payitem:', error);
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
@@ -581,6 +585,40 @@ export class PayrollEntryComponent implements OnInit {
 
         XLSX.writeFile(wb, 'Export_Reason.xlsx');
     }
+
+
+    position: string = "right";
+    searchEmp: boolean = false;
+    open_searchemp(){
+        this.searchEmp = true
+    }
+
+    close_searchemp(){
+        this.searchEmp = false
+    }
+
+    select_emp(){
+        
+        let select = this.searchEmp_popup.selectedEmployee.worker_code
+        if(select != ""){
+        this.doGetIndexWorker(select)
+        this.searchEmp = false      
+        }
+
+    }
+
+    doGetIndexWorker(worker_code:string){
+        for (let i = 0; i < this.worker_list.length; i++) {
+            if(this.worker_list[i].worker_code==worker_code ){
+                this.worker_index = i;
+                break;
+            }
+        }
+
+        this.doSetDetailWorker();
+
+    }
+
 }
 
 //   toolbar_menu: MenuItem[] = [];
@@ -605,7 +643,7 @@ export class PayrollEntryComponent implements OnInit {
 //           label:'Export',
 //           icon:'pi pi-fw pi-file-export',
 //           command: (event) => {
-//             console.log('Edit')
+//             // console.log('Edit')
 //         }
 //       }
 //       ,
@@ -613,7 +651,7 @@ export class PayrollEntryComponent implements OnInit {
 //           label:'Import',
 //           icon:'pi pi-fw pi-file-import',
 //           command: (event) => {
-//             console.log('Edit')
+//             // console.log('Edit')
 //         }
 //       }
 //     ];
@@ -629,7 +667,7 @@ export class PayrollEntryComponent implements OnInit {
 //     label:'Edit',
 //     icon:'pi pi-fw pi-pencil',
 //     command: (event) => {
-//       console.log('Edit')
+//       // console.log('Edit')
 //   }
 // }
 // ,

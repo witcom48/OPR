@@ -205,13 +205,13 @@ export class SetbonusComponent implements OnInit {
         data.bonus_data = this.selectEmp.employee_dest;
 
         this.loading = true;
-        console.log(data);
+        // console.log(data);
         await this.setbonusService
             .SetBonus_record('', data)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.success) {
-                    console.log(res.message);
+                    // console.log(res.message);
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
@@ -240,9 +240,9 @@ export class SetbonusComponent implements OnInit {
 
     async doDeleteLate(data: SetBonusModel) {
         this.loading = true;
-        console.log(data);
+        // console.log(data);
         await this.setbonusService.SetBonus_delete(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             this.SetBonus_List = this.SetBonus_List.filter(
                 (item) => item !== data
             );

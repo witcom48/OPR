@@ -56,7 +56,7 @@ export class LocationComponent implements OnInit {
   }
   async doRecordLocation(data: LocationModel) {
     await this.locationService.location_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLocation()
@@ -71,7 +71,7 @@ export class LocationComponent implements OnInit {
   }
   async doDeleteLocation(data: LocationModel) {
     await this.locationService.location_delete(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLocation()
@@ -88,7 +88,7 @@ export class LocationComponent implements OnInit {
     const filename = "LOCATION_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.locationService.location_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLocation();
@@ -162,7 +162,7 @@ export class LocationComponent implements OnInit {
     this.locations = new LocationModel()
   }
   Save() {
-    console.log(this.locations)
+    // console.log(this.locations)
     this.doRecordLocation(this.locations)
   }
   Delete() {

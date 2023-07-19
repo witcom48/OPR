@@ -174,7 +174,7 @@ title_system:string = "System";
 
     doRecordFaculty(){
       this.facultyService.faculty_record(this.selectedFaculty).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -205,7 +205,7 @@ title_system:string = "System";
 
     doDeleteFaculty(){
       this.facultyService.faculty_delete(this.selectedFaculty).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -247,7 +247,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.facultyService.faculty_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

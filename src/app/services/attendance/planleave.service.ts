@@ -45,7 +45,7 @@ export class PlanleaveServices {
     }
 
     public planleave_get(Leaveplane: LeaveplanModels) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -62,7 +62,7 @@ export class PlanleaveServices {
     }
 
     public planleave_record(Leaveplane: LeaveplanModels) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let leavelists: any = []
         Leaveplane.leavelists.forEach((res: LeaveModels) => {
             let ss = {
@@ -87,13 +87,13 @@ export class PlanleaveServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/planleave', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public planleave_delete(Leaveplane: LeaveplanModels) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -104,7 +104,7 @@ export class PlanleaveServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/planleave_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -112,7 +112,7 @@ export class PlanleaveServices {
 
 
     public planleave_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 

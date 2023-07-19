@@ -19,7 +19,7 @@ import { LayoutService } from './service/app.layout.service';
 				<i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
 			</a>
 			<a *ngIf="(item.routerLink && !item.items) && item.visible !== false" (click)="itemClick($event)" [ngClass]="item.class" 
-			   [routerLink]="item.routerLink" routerLinkActive="active-route" [routerLinkActiveOptions]="item.routerLinkActiveOptions||{ paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
+			   [routerLink]="item.routerLink" routerLinkActive="active-route"
                [fragment]="item.fragment" [queryParamsHandling]="item.queryParamsHandling" [preserveFragment]="item.preserveFragment" 
                [skipLocationChange]="item.skipLocationChange" [replaceUrl]="item.replaceUrl" [state]="item.state" [queryParams]="item.queryParams"
                [attr.target]="item.target" tabindex="0" pRipple>
@@ -28,7 +28,7 @@ import { LayoutService } from './service/app.layout.service';
 				<i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
 			</a>
 
-			<ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation">
+			<ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation(item.items)">
 				<ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
 					<li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass"></li>
 				</ng-template>
@@ -73,14 +73,14 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
                 }
                 else {
                     if (value.key !== this.key && !value.key.startsWith(this.key + '-')) {
-                        this.active = false;
+                        // this.active = false;
                     }
                 }
             });
         });
 
         this.menuResetSubscription = this.menuService.resetSource$.subscribe(() => {
-            this.active = false;
+            // this.active = false;
         });
 
         this.router.events.pipe(filter(event => event instanceof NavigationEnd))
@@ -127,11 +127,11 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         this.menuService.onMenuStateChange({ key: this.key });
     }
 
-    get submenuAnimation() {
+    submenuAnimation(status: any) {
         return this.root ? 'expanded' : (this.active ? 'expanded' : 'collapsed');
     }
 
-    @HostBinding('class.active-menuitem') 
+    @HostBinding('class.active-menuitem')
     get activeClass() {
         return this.active && !this.root;
     }

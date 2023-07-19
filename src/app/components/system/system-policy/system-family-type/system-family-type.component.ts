@@ -175,7 +175,7 @@ title_system:string = "System";
 
     doRecordFamily(){
       this.familyService.family_record(this.selectedFamily).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -206,7 +206,7 @@ title_system:string = "System";
 
     doDeleteFamily(){
       this.familyService.family_delete(this.selectedFamily).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -248,7 +248,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.familyService.family_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

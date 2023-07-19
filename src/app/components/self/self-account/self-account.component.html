@@ -1,214 +1,261 @@
 <!-- Link Page -->
+<!-- Displays navigation path with account-related information -->
 <div class="path">
-    <span>{{langs.get('title')[selectlang]}}</span>
+    <span>{{ accountLanguages.get('title')[selectedLanguage] }}</span>
     <div>
         <i></i>
-        <a routerLink="/self/approve">{{langs.get('employee')[selectlang]}}</a>
+        <!-- Link to the "/self/approve" route -->
+        <a routerLink="/self/approve">{{ accountLanguages.get('employee')[selectedLanguage] }}</a>
         <i></i>
-        <small>{{langs.get('account')[selectlang]}}</small>
+        <small>{{ accountLanguages.get('account')[selectedLanguage] }}</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
 <hr>
+
 <!-- Menu New Import Export Data -->
-<div>
-    <p-menubar [model]="items_menu"></p-menubar>
-</div>
+<!-- Displays a menu bar using the "p-menubar" component -->
+<p-menubar [model]="menuItems"></p-menubar>
+
 <!-- ----------------END MENU----------------- -->
+
 <div class="tabledata">
     <!-- Table Show Data Year Period -->
     <div #TABLE>
-        <p-table #dt2 [value]="account_list" selectionMode="single" [(selection)]="selectedAccount"
-            (onRowSelect)="onRowSelectAccount($event)" [rows]="10" [showCurrentPageReport]="true"
-            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['account_user','account_type','modified_by','modified_date']"
+        <!-- Displays a table using the "p-table" component -->
+        <p-table #dt2 [value]="accountList" selectionMode="single" [(selection)]="selectedAccount"
+            (onRowSelect)="onAccountSelection($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+            currentPageReportTemplate="{{ accountLanguages.get('showing')[selectedLanguage] }} {first} {{ accountLanguages.get('to')[selectedLanguage] }} {last} {{ accountLanguages.get('of')[selectedLanguage] }}  {totalRecords} {{ accountLanguages.get('entries')[selectedLanguage] }}"
+            [globalFilterFields]="['account_user', 'account_type', 'modified_by', 'modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
+
             <!-- Form Search Table -->
+            <!-- Caption section for filtering/searching -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
-                    <div>
-
-                    </div>
+                    <div></div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
+                        <!-- Global search input field -->
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="{{langs.get('search')[selectlang]}}" />
+                            placeholder="{{ accountLanguages.get('search')[selectedLanguage] }}" />
                     </span>
                 </div>
             </ng-template>
             <!-- --------------END Form Search Table------------------ -->
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th>{{langs.get('no')[selectlang]}}</th>
-                    <th>{{langs.get('username')[selectlang]}}</th>
-                    <!-- <th>{{langs.get('description')[selectlang]}}</th> -->
-                    <th>{{langs.get('type')[selectlang]}}</th>
-                    <th>{{langs.get('modified_by')[selectlang]}}</th>
-                    <th>{{langs.get('modified_date')[selectlang]}}</th>
 
+            <ng-template pTemplate="header" let-columns>
+                <!-- Table header row -->
+                <tr>
+                    <th>{{ accountLanguages.get('no')[selectedLanguage] }}</th>
+                    <th>{{ accountLanguages.get('username')[selectedLanguage] }}</th>
+                    <!-- <th>{{ accountLanguages.get('description')[selectedLanguage] }}</th> -->
+                    <th>{{ accountLanguages.get('type')[selectedLanguage] }}</th>
+                    <th>{{ accountLanguages.get('modified_by')[selectedLanguage] }}</th>
+                    <th>{{ accountLanguages.get('modified_date')[selectedLanguage] }}</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
-                <tr [pSelectableRow]="data">
-                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
-                    <td><span>{{langs.get('username')[selectlang]}}</span>{{data.account_user}}</td>
-                    <td><span>{{langs.get('type')[selectlang]}}</span>{{data.account_type}}</td>
-                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
-                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
-                        date:'dd/MM/yyyy'}}</td>
 
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <!-- Table body row -->
+                <tr [pSelectableRow]="data">
+                    <td><span>{{ accountLanguages.get('no')[selectedLanguage] }}</span>{{ i + 1 }}</td>
+                    <td><span>{{ accountLanguages.get('username')[selectedLanguage] }}</span>{{ data.account_user }}
+                    </td>
+                    <td><span>{{ accountLanguages.get('type')[selectedLanguage] }}</span>{{ data.account_type }}</td>
+                    <td><span>{{ accountLanguages.get('modified_by')[selectedLanguage] }}</span>{{ data.modified_by }}
+                    </td>
+                    <td>
+                        <span>{{ accountLanguages.get('modified_date')[selectedLanguage] }}</span>
+                        <!-- Formats the date -->
+                        {{ data.modified_date | date: 'dd/MM/yyyy' }}
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
     </div>
-    <!-- -----------------------END Table-------------------------- -->
-    <p-dialog header="{{langs.get('manage')[selectlang]}}" [(visible)]="displayManage"
-        [style]="{width: '50vw',height:'100vh'}" [position]="position" (onHide)="close()">
-        <!-- <div class="formgrid grid align-items-end" *ngIf="account_manage"> -->
-        <div class="formgrid grid align-items-end">
-            <span class="spn_title_edit"></span>
+</div>
+<!-- -----------------------END Table-------------------------- -->
 
-            <div class="field col-12 md:col-6">
-                <label for="account_user">{{langs.get('username')[selectlang]}}</label>
-                <br>
-                <input type="text" id="account_user" [(ngModel)]="selectedAccount.account_user"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    disabled="{{edit_data}}">
+<p-dialog header="{{ accountLanguages.get('manage')[selectedLanguage] }}" [(visible)]="isDisplayingManagement"
+    [style]="{ width: '50vw', height: '100vh' }" [position]="positionAlignment" (onHide)="closeManagement()">
+    <div class="formgrid grid align-items-end">
+        <span class="spn_title_edit"></span>
 
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="account_pwd">{{langs.get('password')[selectlang]}}</label>
-                <br>
-                <!-- <p-password [(ngModel)]="selectedAccount.account_pwd" [toggleMask]="true" [feedback]="false"></p-password> -->
-                <input type="text" id="account_pwd" [(ngModel)]="selectedAccount.account_pwd"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        <div class="field col-12 md:col-6">
+            <label for="account_user">{{ accountLanguages.get('username')[selectedLanguage] }}</label>
+            <br>
+            <!-- Input field for account username -->
+            <!-- <input pInputText type="text" id="account_user" [(ngModel)]="selectedAccount.account_user" [disabled]="isEditing"> -->
+            <input type="text" id="account_user" [(ngModel)]="selectedAccount.account_user"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                [disabled]="isEditing">
+        </div>
 
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="workflow_name_en">{{langs.get('type')[selectlang]}}</label>
-                <br>
-                <p-dropdown [options]="TypeList" optionLabel="name" [showClear]="true" [(ngModel)]="selectuserType"
-                    [disabled]="edit_data" (onChange)="selectType()"
-                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-            </div>
-            <div class="field col-12 md:col-6">
-                <label for="minmax-buttons">{{langs.get('stepuser')[selectlang]}}</label><br>
-                <p-inputNumber [(ngModel)]="selectedAccount.account_level" mode="decimal" [showButtons]="true"
-                    inputId="minmax-buttons" [min]="1" [max]="5">
-                </p-inputNumber>
-            </div>
-
-            <div class="field col-12 md:col-6">
-                <label for="account_email">{{langs.get('email')[selectlang]}}</label>
-                <br>
-                <input type="text" id="account_email" [(ngModel)]="selectedAccount.account_email"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-
-            </div>
-            <div class="field col-12 md:col-6">
-                <div class="field-checkbox">
-                    <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_email_alert"
-                        inputId="account_email_alert"></p-checkbox>
-                    <label for="account_email_alert">{{langs.get('noti')[selectlang]}}</label>
-                </div>
-            </div>
-
-            <div class="field col-12 md:col-6">
-                <label for="account_line">{{langs.get('line')[selectlang]}}</label>
-                <br>
-                <input type="text" id="account_line" [(ngModel)]="selectedAccount.account_line"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-
-            </div>
-            <div class="field col-12 md:col-6">
-                <div class="field-checkbox">
-                    <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_line_alert"
-                        inputId="account_line_alert"></p-checkbox>
-                    <label for="account_line_alert">{{langs.get('noti')[selectlang]}}</label>
-                </div>
-            </div>
-            <div class="field col-12" *ngIf="selectuserType.code=='Emp'">
-                <p-pickList [source]="emp_list_source" [target]="emp_list_dest" [metaKeySelection]="true"
-                    sourceFilterPlaceholder="{{langs.get('search')[selectlang]}}"
-                    targetFilterPlaceholder="{{langs.get('search')[selectlang]}}" [showSourceControls]="false"
-                    [showTargetControls]="false" sourceHeader="{{langs.get('employee')[selectlang]}}"
-                    targetHeader="{{langs.get('employee_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
-                    [targetStyle]="{ height: '15rem' }"
-                    filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en"
-                    (onSourceSelect)="teset($event)" (onTargetSelect)="teset2($event)"
-                    (onMoveAllToTarget)="teset3($event)" (onMoveAllToSource)="teset2($event)">
-                    <ng-template let-emp pTemplate="item">
-                        <div>
-                            <div style="font-size:14px;float:left;">{{emp.worker_code}} -
-                                {{selectlang=="TH"? emp.worker_fname_th +' '+ emp.worker_lname_th :
-                                emp.worker_fname_en +' '+ emp.worker_lname_en}}
-                            </div>
-                        </div>
-                    </ng-template>
-                </p-pickList>
-            </div>
-            <div class="field col-12" *ngIf="selectuserType.code=='GRP'">
-                <p-pickList [source]="emp_list_source" [target]="emp_list_dest" [metaKeySelection]="false"
-                    sourceFilterPlaceholder="{{langs.get('search')[selectlang]}}"
-                    targetFilterPlaceholder="{{langs.get('search')[selectlang]}}" [showSourceControls]="false"
-                    [showTargetControls]="false" sourceHeader="{{langs.get('employee')[selectlang]}}"
-                    targetHeader="{{langs.get('employee_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
-                    [targetStyle]="{ height: '15rem' }"
-                    filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
-                    <ng-template let-emp pTemplate="item">
-                        <div>
-                            <div style="font-size:14px;float:left;">{{emp.worker_code}} -
-                                {{selectlang=="TH"? emp.worker_fname_th +' '+ emp.worker_lname_th :
-                                emp.worker_fname_en +' '+ emp.worker_lname_en}}
-                            </div>
-                        </div>
-                    </ng-template>
-                </p-pickList>
-            </div>
-            <div class="field col-12" *ngIf="selectuserType.code=='APR'">
-                <p-pickList [source]="position_list_source" [target]="position_list_dest" [metaKeySelection]="false"
-                    [showSourceControls]="false" [showTargetControls]="false"
-                    sourceHeader="{{langs.get('position')[selectlang]}}"
-                    targetHeader="{{langs.get('position_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
-                    [targetStyle]="{ height: '15rem' }">
-                    <ng-template let-position pTemplate="item">
-                        <div>
-                            <div style="font-size:14px;float:left;">{{position.position_code}} -
-                                {{selectlang=="TH"? position.position_name_th :
-                                position.position_name_en}}
-                            </div>
-                        </div>
-                    </ng-template>
-                </p-pickList>
-            </div>
-            <div class="field col-12" *ngIf="selectuserType.code=='APR'">
-                <p-pickList [source]="dep_list_source" [target]="dep_list_dest"
-                    sourceHeader="{{langs.get('dep')[selectlang]}}"
-                    targetHeader="{{langs.get('dep_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
-                    [targetStyle]="{ height: '15rem' }" [metaKeySelection]="false" [showSourceControls]="false"
-                    [showTargetControls]="false">
-                    <ng-template let-dep pTemplate="item">
-                        <div>
-                            <div style="font-size:14px;float:left;">{{dep.dep_code}} -
-                                {{selectlang=="TH"? dep.dep_name_th :
-                                dep.dep_name_en}}
-                            </div>
-                        </div>
-                    </ng-template>
-                </p-pickList>
-            </div>
-            <div class="field col-12">
-                <p-button label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"></p-button>
-                &nbsp;
-                <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('delete')[selectlang]}}"
-                    class="p-button-danger" (click)="Delete()"></button>
-            </div>
+        <div class="field col-12 md:col-6">
+            <label for="account_pwd">{{ accountLanguages.get('password')[selectedLanguage] }}</label>
+            <br>
+            <!-- Input field for account password -->
+            <input type="text" id="account_pwd" [(ngModel)]="selectedAccount.account_pwd"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
 
         </div>
 
-    </p-dialog>
+        <!-- Dropdown field for account type -->
+        <div class="field col-12 md:col-6">
+            <label for="account_type">{{ accountLanguages.get('type')[selectedLanguage] }}</label>
+            <br>
+            <p-dropdown [options]="accountTypes" optionLabel="name" [showClear]="true" [(ngModel)]="selectedAccountType"
+                [disabled]="isEditing" (onChange)="selectAccountType()"
+                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
 
-    <p-toast position="top-right"></p-toast>
-    <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-        rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+        <div class="field col-12 md:col-6">
+            <label for="account_level">{{ accountLanguages.get('stepuser')[selectedLanguage] }}</label>
+            <br>
+            <!-- Input field for account level -->
+            <p-inputNumber [(ngModel)]="selectedAccount.account_level" mode="decimal" [showButtons]="true"
+                inputId="account_level" [min]="1" [max]="5"></p-inputNumber>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="account_email">{{ accountLanguages.get('email')[selectedLanguage] }}</label>
+            <br>
+            <!-- Input field for account email -->
+            <input type="text" id="account_email" [(ngModel)]="selectedAccount.account_email"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <div class="field-checkbox">
+                <!-- Checkbox for email notification -->
+                <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_email_alert"
+                    inputId="account_email_alert"></p-checkbox>
+                <label for="account_email_alert">{{ accountLanguages.get('noti')[selectedLanguage] }}</label>
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="account_line">{{ accountLanguages.get('line')[selectedLanguage] }}</label>
+            <br>
+            <!-- Input field for Line ID -->
+            <input type="text" id="account_line" [(ngModel)]="selectedAccount.account_line"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <div class="field-checkbox">
+                <!-- Checkbox for Line notification -->
+                <p-checkbox [binary]="true" [(ngModel)]="selectedAccount.account_line_alert"
+                    inputId="account_line_alert"></p-checkbox>
+                <label for="account_line_alert">{{ accountLanguages.get('noti')[selectedLanguage] }}</label>
+            </div>
+        </div>
+
+        <!-- PickList component for selecting employees -->
+        <div class="field col-12" *ngIf="selectedAccountType.code == 'Emp'">
+            <p-pickList [source]="availableEmployees" [target]="selectedEmployees" [metaKeySelection]="true"
+                sourceFilterPlaceholder="{{ accountLanguages.get('search')[selectedLanguage] }}"
+                targetFilterPlaceholder="{{ accountLanguages.get('search')[selectedLanguage] }}"
+                [showSourceControls]="false" [showTargetControls]="false"
+                sourceHeader="{{ accountLanguages.get('employee')[selectedLanguage] }}"
+                targetHeader="{{ accountLanguages.get('employee_select')[selectedLanguage] }}"
+                [sourceStyle]="{'height':'15rem'}" [targetStyle]="{ height: '15rem' }"
+                filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en"
+                (onSourceSelect)="addEmployee($event)" (onTargetSelect)="removeEmployee($event)"
+                (onMoveAllToTarget)="resetEmployee($event)" (onMoveAllToSource)="removeEmployee($event)">
+                <ng-template let-emp pTemplate="item">
+                    <div>
+                        <div style="font-size:14px;float:left;">{{ emp.worker_code }} -
+                            {{ selectedLanguage == 'TH' ? emp.worker_fname_th + ' ' + emp.worker_lname_th :
+                            emp.worker_fname_en + ' ' + emp.worker_lname_en }}</div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+        </div>
+
+        <!-- PickList component for selecting employees (GRP) -->
+        <div class="field col-12" *ngIf="selectedAccountType.code == 'GRP'">
+            <p-pickList [source]="availableEmployees" [target]="selectedEmployees" [metaKeySelection]="false"
+                sourceFilterPlaceholder="{{ accountLanguages.get('search')[selectedLanguage] }}"
+                targetFilterPlaceholder="{{ accountLanguages.get('search')[selectedLanguage] }}"
+                [showSourceControls]="false" [showTargetControls]="false"
+                sourceHeader="{{ accountLanguages.get('employee')[selectedLanguage] }}"
+                targetHeader="{{ accountLanguages.get('employee_select')[selectedLanguage] }}"
+                [sourceStyle]="{'height':'15rem'}" [targetStyle]="{ height: '15rem' }"
+                filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
+                <ng-template let-emp pTemplate="item">
+                    <div>
+                        <div style="font-size:14px;float:left;">{{ emp.worker_code }} -
+                            {{ selectedLanguage == 'TH' ? emp.worker_fname_th + ' ' + emp.worker_lname_th :
+                            emp.worker_fname_en + ' ' + emp.worker_lname_en }}</div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+        </div>
+
+        <!-- PickList component for selecting positions (APR) -->
+        <div class="field col-12" *ngIf="selectedAccountType.code == 'APR'">
+            <p-pickList [source]="availablePositions" [target]="selectedPositions" [metaKeySelection]="false"
+                [showSourceControls]="false" [showTargetControls]="false"
+                sourceHeader="{{ accountLanguages.get('position')[selectedLanguage] }}"
+                targetHeader="{{ accountLanguages.get('position_select')[selectedLanguage] }}"
+                [sourceStyle]="{'height':'15rem'}" [targetStyle]="{ height: '15rem' }">
+                <ng-template let-position pTemplate="item">
+                    <div>
+                        <div style="font-size:14px;float:left;">{{ position.position_code }} -
+                            {{ selectedLanguage == 'TH' ? position.position_name_th : position.position_name_en }}
+                        </div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+        </div>
+
+        <!-- PickList component for selecting departments (APR) -->
+        <div class="field col-12" *ngIf="selectedAccountType.code == 'APR'">
+            <p-pickList [source]="availableDepartments" [target]="selectedDepartments"
+                sourceHeader="{{ accountLanguages.get('dep')[selectedLanguage] }}"
+                targetHeader="{{ accountLanguages.get('dep_select')[selectedLanguage] }}"
+                [sourceStyle]="{'height':'15rem'}" [targetStyle]="{ height: '15rem' }" [metaKeySelection]="false"
+                [showSourceControls]="false" [showTargetControls]="false">
+                <ng-template let-dep pTemplate="item">
+                    <div>
+                        <div style="font-size:14px;float:left;">{{ dep.dep_code }} -
+                            {{ selectedLanguage == 'TH' ? dep.dep_name_th : dep.dep_name_en }}</div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+        </div>
+
+        <!-- PickList component for selecting Modules  (ADM) -->
+        <div class="field col-12" *ngIf="selectedAccountType.code == 'ADM'">
+            <p-pickList [source]="availableModules" [target]="selectedModules"
+                sourceHeader="{{ accountLanguages.get('module')[selectedLanguage] }}"
+                targetHeader="{{ accountLanguages.get('module_select')[selectedLanguage] }}"
+                [sourceStyle]="{'height':'15rem'}" [targetStyle]="{ height: '15rem' }" [metaKeySelection]="false"
+                [showSourceControls]="false" [showTargetControls]="false">
+                <ng-template let-data pTemplate="item">
+                    <div>
+                        <div style="font-size:14px;float:left;">{{ data.name }}</div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+        </div>
+
+        <div class="field col-12">
+            <!-- Save button -->
+            <p-button label="{{ accountLanguages.get('save')[selectedLanguage] }}" icon="pi pi-save"
+                (click)="saveAccount()"></p-button>
+            &nbsp;
+            <!-- Delete button (visible when editing) -->
+            <button *ngIf="isEditing" pButton pRipple type="button"
+                label="{{ accountLanguages.get('delete')[selectedLanguage] }}" class="p-button-danger"
+                (click)="deleteAccount()"></button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{ width: '50vw' }" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>

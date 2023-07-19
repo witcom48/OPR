@@ -121,9 +121,9 @@ export class SetShiftComponent implements OnInit {
     data.transaction_data = this.selectEmp.employee_dest;
     this.loading = true;
     await this.setshiftServices.SetShift_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.result == "1") {
-        console.log(res.result_text)
+        // console.log(res.result_text)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.result_text });
       }
       else {

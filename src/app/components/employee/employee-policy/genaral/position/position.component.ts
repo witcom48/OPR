@@ -168,7 +168,7 @@ export class PositionComponent implements OnInit {
 
   doRecordPosition(){
     this.positionService.position_record(this.selectedPosition).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -198,7 +198,7 @@ export class PositionComponent implements OnInit {
 
   doDeletePosition(){
     this.positionService.position_delete(this.selectedPosition).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -239,7 +239,7 @@ export class PositionComponent implements OnInit {
           const filetype = "xls";
 
           this.positionService.position_import(this.fileToUpload, filename, filetype).then((res) => {
-            console.log(res)
+            // console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {

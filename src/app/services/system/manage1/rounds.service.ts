@@ -44,7 +44,7 @@ export class RoundsService {
     }
 
     public rounds_get(Rounds: RoundsModel) {
-        console.log('ROUND001..');
+        // console.log('ROUND001..');
         let data = {
             device_name: "Desktop",
             ip: "127.0.0.1",
@@ -73,7 +73,7 @@ export class RoundsService {
     }
 
     public rounds_record(Rounds: RoundsModel) {
-        console.log('ROUND002..');
+        // console.log('ROUND002..');
         let data = {
             device_name: "Desktop",
             ip: "127.0.0.1",
@@ -95,13 +95,13 @@ export class RoundsService {
         }
         return this.http.post<any>(this.config.ApiSystemModule + '/rounds', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public rounds_delete(Rounds: RoundsModel) {
-        console.log('ROUND003..');
+        // console.log('ROUND003..');
         let data = {
             device_name: "Desktop",
             ip: "127.0.0.1",
@@ -123,7 +123,7 @@ export class RoundsService {
         }
         return this.http.post<any>(this.config.ApiSystemModule + '/rounds_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -131,7 +131,7 @@ export class RoundsService {
 
 
     public rounds_import(file: File, file_name: string, file_type: string) {
-        console.log('ROUND004..');
+        // console.log('ROUND004..');
         const formData = new FormData();
         formData.append('file', file);
 

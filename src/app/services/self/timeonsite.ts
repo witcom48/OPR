@@ -46,7 +46,7 @@ export class TimeonsiteServices {
     }
 
     public timeonsite_get(timeonstie: cls_TRTimeonsiteModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -67,7 +67,7 @@ export class TimeonsiteServices {
     }
 
     public timeonsite_record(timeonsites: cls_TRTimeonsiteModel[]) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         var onsite_datas: any = []
         timeonsites.forEach((timeonsite: cls_TRTimeonsiteModel) => {
             let datas = {
@@ -97,13 +97,13 @@ export class TimeonsiteServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeonsite', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public timeonsite_delete(timeonsites: cls_TRTimeonsiteModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -114,13 +114,13 @@ export class TimeonsiteServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeonsite_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public file_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 
@@ -136,7 +136,7 @@ export class TimeonsiteServices {
     }
 
     public get_file(file_path: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doGetMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
@@ -144,7 +144,7 @@ export class TimeonsiteServices {
             });
     }
     public deletefilepath_file(file_path: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doDeleteMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
@@ -152,7 +152,7 @@ export class TimeonsiteServices {
             });
     }
     public delete_file(file: cls_MTReqdocumentModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",

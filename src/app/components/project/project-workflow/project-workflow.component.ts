@@ -37,7 +37,7 @@ export class ProjectWorkflowComponent implements OnInit {
           label:'Export',
           icon:'pi pi-fw pi-file-export',
           command: (event) => {
-            console.log('Edit')
+            // console.log('Edit')
         }        
       },    
     ];
@@ -54,7 +54,7 @@ export class ProjectWorkflowComponent implements OnInit {
           label:'Edit',
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
-            console.log('Edit')
+            // console.log('Edit')
         }        
       },    
       {

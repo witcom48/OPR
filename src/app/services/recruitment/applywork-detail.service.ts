@@ -85,7 +85,7 @@ export class ApplyworkDetailService {
       return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqadd_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        // console.log(res)
+        // // console.log(res)
         return message.data;
       });
     }
@@ -173,7 +173,7 @@ export class ApplyworkDetailService {
       return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqcardlist', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
@@ -195,7 +195,7 @@ export class ApplyworkDetailService {
         item_data = item_data.substr(0, item_data.length - 1);
       }
       item_data = item_data + "]";
-      console.log(item_data);
+      // console.log(item_data);
       var specificData = {
         transaction_data:item_data,
         worker_code:worker_code,
@@ -252,7 +252,7 @@ export class ApplyworkDetailService {
       return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqeducationlist', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        // console.log(res)
+        // // console.log(res)
         return message.data;
       });
     }
@@ -332,7 +332,7 @@ export class ApplyworkDetailService {
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqtraininglist', filter, this.options).toPromise()
         .then((res) => {
           let message = JSON.parse(res);
-          // console.log(res)
+          // // console.log(res)
           return message.data;
         });
       }
@@ -416,7 +416,7 @@ export class ApplyworkDetailService {
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqassessmentlist', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      // console.log(res)
+      // // console.log(res)
       return message.data;
     });
   }
@@ -495,7 +495,7 @@ export class ApplyworkDetailService {
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqcriminallist', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      // console.log(res)
+      // // console.log(res)
       return message.data;
     });
   }
@@ -572,7 +572,7 @@ export class ApplyworkDetailService {
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqforeignerlist', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
@@ -647,7 +647,7 @@ export class ApplyworkDetailService {
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqsuggestlist', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      // console.log(res)
+      // // console.log(res)
       return message.data;
     });
   }

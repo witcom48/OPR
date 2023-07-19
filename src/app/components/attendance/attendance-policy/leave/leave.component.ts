@@ -179,7 +179,7 @@ export class LeaveComponent implements OnInit {
   onRowSelectList(event: any) {
     this.displayaddworkage = true
     this.displayeditworkage = true
-    console.log(this.workages)
+    // console.log(this.workages)
   }
   showUpload() {
     this.displayUpload = true;
@@ -210,14 +210,14 @@ export class LeaveComponent implements OnInit {
     this.leaves = new LeaveModels()
   }
   Save() {
-    // console.log(this.leaves)
+    // // console.log(this.leaves)
     this.doRecordLeave(this.leaves)
   }
   Delete() {
     this.doDeletedLeave(this.leaves)
   }
   Saveworkages() {
-    // console.log(this.workages)
+    // // console.log(this.workages)
     this.leaves.leave_workage = this.leaves.leave_workage.concat({
       company_code: this.initial_current.CompCode,
       leave_code: this.leaves.leave_code,

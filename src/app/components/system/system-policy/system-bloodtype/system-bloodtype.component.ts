@@ -176,7 +176,7 @@ title_system:string = "System";
 
     doRecordBloodtype(){
       this.bloodtypeService.bloodtype_record(this.selectedBloodtype).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -207,7 +207,7 @@ title_system:string = "System";
 
     doDeleteBloodtype(){
       this.bloodtypeService.bloodtype_delete(this.selectedBloodtype).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -249,7 +249,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.bloodtypeService.bloodtype_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {
@@ -428,7 +428,7 @@ title_system:string = "System";
 //       this.bloodtypeService.bloodtype_get().then((res) => {
 //        this.bloodtype_list = res;
 //       });
-//       console.log(this.bloodtypeService);
+//       // console.log(this.bloodtypeService);
 //     }
 
 //     confirmRecord() {
@@ -447,7 +447,7 @@ title_system:string = "System";
 
 //     doRecordBloodtype(){
 //       this.bloodtypeService.bloodtype_record(this.selectedBloodtype).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -477,7 +477,7 @@ title_system:string = "System";
 
 //     doDeleteBloodtype(){
 //       this.bloodtypeService.bloodtype_delete(this.selectedBloodtype).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -514,7 +514,7 @@ title_system:string = "System";
 
 
 //       this.bloodtypeService.bloodtype_import(this.fileToUpload, filename, filetype).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){

@@ -201,7 +201,7 @@ export class TaxrateComponent implements OnInit {
 
     doRecordTaxrate() {
         this.taxrateService.taxrate_record(this.selectedTaxrate).then((res) => {
-            console.log(res);
+            // console.log(res);
             let result = JSON.parse(res);
 
             if (result.success) {
@@ -242,7 +242,7 @@ export class TaxrateComponent implements OnInit {
 
     doDeleteTaxrate() {
         this.taxrateService.taxrate_delete(this.selectedTaxrate).then((res) => {
-            console.log(res);
+            // console.log(res);
             let result = JSON.parse(res);
 
             if (result.success) {
@@ -293,7 +293,7 @@ export class TaxrateComponent implements OnInit {
                     this.taxrateService
                         .taxrate_import(this.fileToUpload, filename, filetype)
                         .then((res) => {
-                            console.log(res);
+                            // console.log(res);
                             let result = JSON.parse(res);
 
                             if (result.success) {

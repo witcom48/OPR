@@ -97,7 +97,7 @@ export class SelfApproveReqdocComponent implements OnInit {
       res.data.forEach((element: any) => {
         element.reqdoc_date = new Date(element.reqdoc_date)
       });
-      console.log(res)
+      // console.log(res)
       this.reqdoc_list = await res.data
       this.approveTotal = await res.total;
     });
@@ -312,7 +312,7 @@ export class SelfApproveReqdocComponent implements OnInit {
             tmp.approve_status = "A";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {
@@ -334,7 +334,7 @@ export class SelfApproveReqdocComponent implements OnInit {
             tmp.approve_status = "C";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {

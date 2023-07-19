@@ -169,7 +169,7 @@ export class EmpstatusComponent implements OnInit {
 
   doRecordStatus(){
     this.statusService.status_record(this.selectedStatus).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -199,7 +199,7 @@ export class EmpstatusComponent implements OnInit {
 
   doDeleteStatus(){
     this.statusService.status_delete(this.selectedStatus).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -241,7 +241,7 @@ export class EmpstatusComponent implements OnInit {
           const filetype = "xls";
 
           this.statusService.status_import(this.fileToUpload, filename, filetype).then((res) => {
-            console.log(res)
+            // console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {

@@ -63,7 +63,7 @@ export class SupplyService {
     return this.http.post<any>(this.config.ApiSystemModule + '/supply_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }

@@ -59,18 +59,18 @@ export class CourseService {
     }
 
     public course_get(){
-      console.log('COURSE001..');
+      // console.log('COURSE001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/course_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public course_record(model:CourseModel) {
-      console.log('COURSE002..');
+      // console.log('COURSE002..');
       const data = {
         course_id: model.course_id,
         course_code: model.course_code,
@@ -82,13 +82,13 @@ export class CourseService {
       return this.http.post<any>(this.config.ApiSystemModule + '/course', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public course_delete(model:CourseModel) {
-      console.log('COURSE00..');
+      // console.log('COURSE00..');
       const data = {
         course_id: model.course_id,
         course_code: model.course_code,
@@ -172,7 +172,7 @@ export class CourseService {
 //     }
 
 //     public course_get(code: string) {
-//         console.log('COURSE001..');
+//         // console.log('COURSE001..');
 
 //         var filter = {
 //             device_name: '',
@@ -194,13 +194,13 @@ export class CourseService {
 //             .toPromise()
 //             .then((res) => {
 //                 let message = JSON.parse(res);
-//                 console.log(res);
+//                 // console.log(res);
 //                 return message.data;
 //             });
 //     }
 
 //     public course_recordall(model: CourseModel) {
-//         console.log('COURSE002..');
+//         // console.log('COURSE002..');
 //         const data = {
 //             // company_code: this.initial_current.CompCode,
 
@@ -226,7 +226,7 @@ export class CourseService {
 //     }
 
 //     public course_delete(model: CourseModel) {
-//         console.log('COURSE003..');
+//         // console.log('COURSE003..');
 //         const data = {
 //             course_id: model.course_id,
 //             ourse_code: model.course_code,
@@ -317,7 +317,7 @@ export class CourseService {
 //     }
 //     // getMTCourseList
 //     public course_get() {
-//         console.log('COURSE001..');
+//         // console.log('COURSE001..');
 
 //         return this.http
 //             .post<any>(
@@ -328,13 +328,13 @@ export class CourseService {
 //             .toPromise()
 //             .then((res) => {
 //                 let message = JSON.parse(res);
-//                 console.log(res);
+//                 // console.log(res);
 //                 return message.data;
 //             });
 //     }
 
 //     public course_record(model: CourseModel) {
-//         console.log('COURSE002..');
+//         // console.log('COURSE002..');
 //         const data = {
 //             course_id: model.course_id,
 //             course_code: model.course_code,
@@ -353,13 +353,13 @@ export class CourseService {
 //             )
 //             .toPromise()
 //             .then((res) => {
-//                 console.log(res);
+//                 // console.log(res);
 //                 return res;
 //             });
 //     }
 
 //     public course_delete(model: CourseModel) {
-//         console.log('COURSE003..');
+//         // console.log('COURSE003..');
 //         const data = {
 //             course_id: model.course_id,
 //             company_code: model.company_code,

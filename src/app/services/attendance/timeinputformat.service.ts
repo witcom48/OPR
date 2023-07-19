@@ -72,7 +72,7 @@ export class TimeinputformatService {
     return this.http.post<any>(this.config.ApiAttendanceModule + '/timeformat_list', filter, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }

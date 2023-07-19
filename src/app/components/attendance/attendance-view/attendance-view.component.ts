@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { MegaMenuItem,MenuItem } from 'primeng/api';
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 
@@ -20,6 +20,9 @@ import { DaytypeModels } from 'src/app/models/attendance/daytype';
 import { ShiftModels } from 'src/app/models/attendance/shift';
 import { ShiftServices } from 'src/app/services/attendance/shift.service';
 
+import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
+
+
 @Component({
   selector: 'app-attendance-view',
   templateUrl: './attendance-view.component.html',
@@ -27,53 +30,72 @@ import { ShiftServices } from 'src/app/services/attendance/shift.service';
 })
 export class AttendanceViewComponent implements OnInit {
 
-  title_page:string = "Geanral";
-  title_new:string = "New";
-  title_edit:string = "Edit";
-  title_delete:string = "Delete";
-  title_import:string = "Import";
-  title_export:string = "Export";
-  title_save:string = "Save";
-  title_more:string = "More";
-  title_code:string = "Code";
-  title_name_th:string = "Name (Thai)";
-  title_name_en:string = "Name (Eng.)";
+  @ViewChild(SearchEmpComponent) selectEmp: any;
 
-  title_projectcode:string = "Code";
-  title_projectname:string = "Name";
-  title_protype:string = "Type";
-  title_probusiness:string = "Business";
-  title_fromdate:string = "From";
-  title_todate:string = "To";
-  title_manpower:string = "Manpower";
-  title_cost:string = "Cost";
-  title_status:string = "Status";
+  title_page: {[key: string]: string} = {  EN: "Time Information",  TH: "ข้อมูลเวลา"}
+  title_new: {[key: string]: string} = {  EN: "New",  TH: "เพิ่ม"}
+  title_edit: {[key: string]: string} = {  EN: "Edit",  TH: "แก้ไข"}
+  title_delete: {[key: string]: string} = {  EN: "Delete",  TH: "ลบ"}
+  title_btn_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
+  title_btn_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
+  title_btn_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+  title_btn_select: {[key: string]: string} = {  EN: "Select",  TH: "เลือก"}
+  title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
+  title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
+  title_search: {[key: string]: string} = {  EN: "Search",  TH: "ค้นหา"}
+
+  //
+  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
+  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
+  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
+  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
+  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
+  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
+  //
+  title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
+  title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
+  title_page_total: {[key: string]: string} = {  EN: "of",  TH: "จาก"}
+  title_page_record: {[key: string]: string} = {  EN: "entries",  TH: "รายการ"}
+
+  //
+  title_import: {[key: string]: string} = {  EN: "Import",  TH: "นำเข้า"}
+  title_export: {[key: string]: string} = {  EN: "Export",  TH: "โอนออก"}
+  title_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
+  title_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+  title_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
+  title_more: {[key: string]: string} = {  EN: "More",  TH: "เพิ่มเติม"}
+  title_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัส"}
+  title_name_th: {[key: string]: string} = {  EN: "Name (Thai)",  TH: "ชื่อไทย"}
+  title_name_en: {[key: string]: string} = {  EN: "Name (Eng.)",  TH: "ชื่ออังกฤษ"}
+
+
+  title_date: {[key: string]: string} = {  EN: "Date",  TH: "วันที่"}
+  title_project: {[key: string]: string} = {  EN: "Project",  TH: "โครงการ"}
+  title_job: {[key: string]: string} = {  EN: "Job",  TH: "งาน"}
+  title_shift: {[key: string]: string} = {  EN: "Shift",  TH: "กะการทำงาน"}
+  title_daytype: {[key: string]: string} = {  EN: "Daytype",  TH: "ประเภทวัน"}
+  title_normalin: {[key: string]: string} = {  EN: "IN",  TH: "เวลาเข้า"}
+  title_normalout: {[key: string]: string} = {  EN: "OUT",  TH: "เวลาออก"}
   
-  title_modified_by:string = "Edit by";
-  title_modified_date:string = "Edit date";
-  title_search:string = "Search";
-  title_upload:string = "Upload";
+  title_in: {[key: string]: string} = {  EN: "In",  TH: "เข้างาน"}
+  title_out: {[key: string]: string} = {  EN: "Out",  TH: "ออกงาน"}
+  title_work: {[key: string]: string} = {  EN: "Work",  TH: "เวลาทำงาน"}
 
-  title_page_from:string = "Showing";
-  title_page_to:string = "to";
-  title_page_total:string = "of";
-  title_page_record:string = "entries";
+  title_break: {[key: string]: string} = {  EN: "Break",  TH: "พักเบรค"}
 
-  title_confirm:string = "Are you sure?";
-  title_confirm_record:string = "Confirm to record";
-  title_confirm_delete:string = "Confirm to delete";
-  title_confirm_yes:string = "Yes";
-  title_confirm_no:string = "No";
+  title_beforeot: {[key: string]: string} = {  EN: "OT In.",  TH: "โอทีก่อนเข้างาน"}
+  title_afterot: {[key: string]: string} = {  EN: "OT Out.",  TH: "โอทีหลังเลิกงาน"}
+  title_late: {[key: string]: string} = {  EN: "Late",  TH: "สาย"}
+  title_leave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
+  title_approve: {[key: string]: string} = {  EN: "Approve",  TH: "อนุมัติ"}
 
-  title_confirm_cancel:string = "You have cancelled";
-
-  title_submit:string = "Submit";
-  title_cancel:string = "Cancel";
+  title_lock: {[key: string]: string} = {  EN: "Lock",  TH: "ล็อค"}
+  title_deduct: {[key: string]: string} = {  EN: "Deduct",  TH: "หักเงิน"}
+  title_document: {[key: string]: string} = {  EN: "Document",  TH: "เอกสาร"}
+    
 
   style_input_real:string = "[style]=\"{'width':'80px'}\\";
-
-
-  
+ 
 
   menu_timecard: MenuItem[] = [];
 
@@ -99,12 +121,15 @@ export class AttendanceViewComponent implements OnInit {
       this.doLoadPolShift()
     }, 100);
 
+
+    
+
     setTimeout(() => {
       
       this.worker_index = 0;
       this.doSetDetailWorker();
 
-    }, 500);
+    }, 1000);
 
   }
 
@@ -118,74 +143,21 @@ export class AttendanceViewComponent implements OnInit {
 
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
-      this.title_page = "ข้อมูลทั่วไป";
-      this.title_new = "เพิ่ม";
-      this.title_edit = "แก้ไข";
-      this.title_delete = "ลบ";
-      this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
-      this.title_save = "บันทึก";
-      this.title_more = "เพิ่มเติม";
-      this.title_code = "รหัส";
-      this.title_name_th = "ชื่อไทย";
-      this.title_name_en = "ชื่ออังกฤษ";
-      this.title_modified_by = "ผู้ทำรายการ";
-      this.title_modified_date = "วันที่ทำรายการ";
-      this.title_search = "ค้นหา";
-      this.title_upload = "อัพโหลด";
+    
 
-      this.title_page_from = "แสดง";
-      this.title_page_to = "ถึง";
-      this.title_page_total = "จาก";
-      this.title_page_record = "รายการ";
-
-      this.title_confirm = "ยืนยันการทำรายการ";
-      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
-      this.title_confirm_delete = "คุณต้องการลบรายการ";
-
-      this.title_confirm_yes = "ใช่";
-      this.title_confirm_no = "ยกเลิก";
-      this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-
-      this.title_projectcode = "โครงการ";
-      this.title_projectname = "ชื่อโครงการ";
-      this.title_probusiness = "ประเภทธุรกิจ";
-      this.title_protype = "ประเภทงาน";
-      this.title_fromdate = "จากวันที่";
-      this.title_todate = "ถึงวันที่";
-      this.title_manpower = "จำนวนพนักงาน";
-      this.title_cost = "ต้นทุน";
-      this.title_status = "สถานะ";
-      
-      this.title_submit = "ตกลง";
-      this.title_cancel = "ปิด";      
     }
   }
 
   doLoadMenu(){
     this.menu_timecard = [   
       {
-          label:'Edit',
+          label:this.title_edit[this.initial_current.Language],
           icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            // this.clearManage()
-            // if(this.selectedProcontact != null){
-            //   this.edit_procontact = true
-            //   this.showManage()  
-            // }      
+          command: (event) => {           
             this.showManage()       
         }        
       } 
-      ,
-      {
-          label:this.title_import,
-          icon:'pi pi-fw pi-file-import',          
-      }
-      ,    
-      {
-          label:this.title_export,
-          icon:'pi pi-fw pi-file-export',          
-      }
+     
       
     ];
   }
@@ -314,7 +286,7 @@ export class AttendanceViewComponent implements OnInit {
   }
 
   onChangeWork1(){
-    console.log(this.work1)
+    // console.log(this.work1)
   }
 
   pad(num:number, size:number): string {
@@ -342,8 +314,8 @@ export class AttendanceViewComponent implements OnInit {
 
   timecard_summit(){
     this.confirmationService.confirm({
-      message: this.title_confirm_record,
-      header: this.title_confirm,
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
 
@@ -387,8 +359,10 @@ export class AttendanceViewComponent implements OnInit {
          
       },
       reject: () => {
-        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
+        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
       }
+      ,
+        key: "myDialog"
     });
   }
 
@@ -458,6 +432,37 @@ export class AttendanceViewComponent implements OnInit {
         break;         
       }                      
     }
+  }
+
+  searchEmp: boolean = false;
+  open_searchemp(){
+    this.searchEmp = true
+  }
+
+  close_searchemp(){
+    this.searchEmp = false
+  }
+
+  select_emp(){
+    
+    let select = this.selectEmp.selectedEmployee.worker_code
+    if(select != ""){
+      this.doGetIndexWorker(select)
+      this.searchEmp = false      
+    }
+
+  }
+
+  doGetIndexWorker(worker_code:string){
+    for (let i = 0; i < this.worker_list.length; i++) {
+      if(this.worker_list[i].worker_code==worker_code ){
+        this.worker_index = i;
+        break;
+      }
+    }
+
+    this.doSetDetailWorker();
+
   }
 
 }

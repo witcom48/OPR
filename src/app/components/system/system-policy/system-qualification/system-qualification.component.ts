@@ -177,7 +177,7 @@ title_system:string = "System";
 
     doRecordQualification(){
       this.qualificationService.qualification_record(this.selectedQualification).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -208,7 +208,7 @@ title_system:string = "System";
 
     doDeleteQualification(){
       this.qualificationService.qualification_delete(this.selectedQualification).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -250,7 +250,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.qualificationService.qualification_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

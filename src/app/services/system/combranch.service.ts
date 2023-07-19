@@ -56,7 +56,7 @@ export class CombranchService {
     }
 
     public combranch_get(code: string) {
-        console.log('CBR001..');
+        // console.log('CBR001..');
 
         var filter = {
             device_name: '',
@@ -71,7 +71,7 @@ export class CombranchService {
 
         return this.http
         .post<any>(this.config.ApiSystemModule + '/combranch_list',filter,this.options).toPromise()
-        .then((res) => {let message = JSON.parse(res);console.log(res);
+        .then((res) => {let message = JSON.parse(res);// console.log(res);
             return message.data;
         });
 
@@ -79,7 +79,7 @@ export class CombranchService {
     }
 
     public combranch_record(model: CombranchModel) {
-        console.log('CBR002..');
+        // console.log('CBR002..');
         const data = {
             // company_code: model.company_code,
             company_code: this.initial_current.CompCode,
@@ -99,13 +99,13 @@ export class CombranchService {
             )
             .toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 return res;
             });
     }
 
     public combranch_delete(model: CombranchModel) {
-        console.log('CBR003..');
+        // console.log('CBR003..');
         const data = {
             company_code: model.company_code,
             sso_combranch_no: model.sso_combranch_no,

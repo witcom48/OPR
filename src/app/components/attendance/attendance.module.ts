@@ -78,6 +78,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { TimeallowanceComponent } from './attendance-policy/timeallowance/timeallowance.component';
 import { SetTimeallowanceComponent } from './attendance-policy/set-timeallowance/set-timeallowance.component';
 import { SetAttpayComponent } from './attendance-policy/set-attpay/set-attpay.component';
+import { AttendanceSummaryComponent } from './attendance-summary/attendance-summary.component';
 
 
 @NgModule({
@@ -160,9 +161,10 @@ import { SetAttpayComponent } from './attendance-policy/set-attpay/set-attpay.co
 		AttendanceReasonComponent,
 		AttendanceLocationComponent,
 		SetuppolicyComponent,
-  TimeallowanceComponent,
-  SetTimeallowanceComponent,
-  SetAttpayComponent,
+		TimeallowanceComponent,
+		SetTimeallowanceComponent,
+		SetAttpayComponent,
+		AttendanceSummaryComponent,
 	],
 	exports: [],
 })

@@ -60,18 +60,18 @@ export class AddresstypeService {
     }
 
     public addresstype_get(){
-      console.log('ADD001..');
+      // console.log('ADD001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/addresstype_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public addresstype_record(model:AddresstypeModel) {
-      console.log('ADD002..');
+      // console.log('ADD002..');
       const data = {
         addresstype_id: model.addresstype_id,
         addresstype_code: model.addresstype_code,
@@ -83,13 +83,13 @@ export class AddresstypeService {
       return this.http.post<any>(this.config.ApiSystemModule + '/addresstype', data, this.options).toPromise()
       .then((res) => {
 
-        //console.log(res)
+        //// console.log(res)
         return res;
       });
     }
 
     public addresstype_delete(model:AddresstypeModel) {
-      console.log('ADD003..');
+      // console.log('ADD003..');
       const data = {
         addresstype_id: model.addresstype_id,
         addresstype_code: model.addresstype_code,

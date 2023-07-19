@@ -249,7 +249,7 @@ applyworkCurrent:number = 0;
 
   doRecordApplywork(){
     this.applyworkService.reqworker_record(this.selectedReqworker).then((res) => {
-      console.log(res)
+      // console.log(res)
       let result = JSON.parse(res);
 
       if (result.success) {
@@ -278,7 +278,7 @@ applyworkCurrent:number = 0;
   }
 
   doDeleteApplywork(){
-    console.log(this.selectedApplywork);
+    // console.log(this.selectedApplywork);
   }
 
   close(){

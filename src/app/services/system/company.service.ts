@@ -57,7 +57,7 @@ export class CompanyService {
     }
 
     public company_get(code: string) {
-        console.log('CPN001..');
+        // console.log('CPN001..');
 
         var filter = {
             device_name: '',
@@ -78,13 +78,13 @@ export class CompanyService {
             .toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
-                // console.log(res);
+                // // console.log(res);
                 return message.data;
             });
     }
 
     public company_recordall(model: CompanyModel) {
-        console.log('CPN002..');
+        // console.log('CPN002..');
         const data = {
             // company_code: this.initial_current.CompCode,
 
@@ -129,7 +129,7 @@ export class CompanyService {
     }
 
     public company_delete(model: CompanyModel) {
-        console.log('CPN003..');
+        // console.log('CPN003..');
         const data = {
             company_id: model.company_id,
             company_code: model.company_code,

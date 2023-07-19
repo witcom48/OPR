@@ -65,7 +65,7 @@ export class SelfConsentComponent implements OnInit {
   doLoadPdpa() {
     var tmp = new cls_TRPdpaModel();
     this.pdpaServices.pdpa_get(tmp).then(async (res) => {
-      console.log(res)
+      // console.log(res)
       this.pdpa_list = await res;
     });
   }
@@ -85,7 +85,7 @@ export class SelfConsentComponent implements OnInit {
     const filename = "PDPA_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
     this.pdpafileServices.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         var tem = new cls_MTPdpafileModel();

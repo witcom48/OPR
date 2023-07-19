@@ -156,14 +156,14 @@ export class TransferTaxComponent implements OnInit {
                               detail: 'Record Success..',
                           });
 
-                          console.log("test result_link");
-                          console.log(result.result_link);
+                          // console.log("test result_link");
+                          // console.log(result.result_link);
 
                           let link = result.result_link;
 
                           if (link !== "") {
-                              console.log(this.initial_current + '/File/' + link + "/");
-                              console.log(link.split("\\").pop())
+                              // console.log(this.initial_current + '/File/' + link + "/");
+                              // console.log(link.split("\\").pop())
                               this.taskService.get_file(link).then((res) => {
 
                                   const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });

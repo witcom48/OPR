@@ -65,7 +65,7 @@ export class SetitemsService {
 
      //set SetItems
      public SetItems_get( Setup: SetItemModel) {
-        console.log('PAYTRPI001..');
+        // console.log('PAYTRPI001..');
 
         let emplists: any = [];
         Setup.items_data.forEach((res: ItemsModel) => {
@@ -101,7 +101,7 @@ export class SetitemsService {
     }
 
     public SetItems_record( Setup: SetItemModel) {
-        console.log('PAYTRPI002..');
+        // console.log('PAYTRPI002..');
         let emplists: any = [];
         Setup.items_data.forEach((res: ItemsModel) => {
             let ss = {
@@ -130,14 +130,14 @@ export class SetitemsService {
             )
             .toPromise()
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let message = JSON.parse(res);
                 return message;
             });
     }
 
     public SetItems_delete( Setup: SetItemModel) {
-        console.log('PAYTRPI003..');
+        // console.log('PAYTRPI003..');
         let data = {
             device_name: '',
             ip: '127.0.0.1',
@@ -153,14 +153,14 @@ export class SetitemsService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/paypolitem_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
 
     public SetItems_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYTRPI004..');
+        // console.log('PAYTRPI004..');
         const formData = new FormData();
         formData.append('file', file);
 

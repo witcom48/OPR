@@ -60,18 +60,18 @@ export class ReduceService {
     }
 
     public reduce_get(){
-      console.log('RED001..');
+      // console.log('RED001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/reduce_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public reduce_record(model:ReducesModel) {
-      console.log('RED002..');
+      // console.log('RED002..');
       const data = {
         reduce_id:model.reduce_id,
         reduce_code:model.reduce_code,
@@ -89,13 +89,13 @@ export class ReduceService {
       return this.http.post<any>(this.config.ApiSystemModule + '/reduce', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public reduce_delete(model:ReducesModel) {
-      console.log('RED002..');
+      // console.log('RED002..');
       const data = {
         reduce_id: model.reduce_id,
         reduce_code: model.reduce_code,

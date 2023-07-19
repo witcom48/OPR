@@ -32,8 +32,8 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
-import {ChartModule} from 'primeng/chart';
-import {ImageModule} from 'primeng/image';
+import { ChartModule } from 'primeng/chart';
+import { ImageModule } from 'primeng/image';
 import { VerifyComponent } from './verify/verify.component';
 import { SecAccountComponent } from './sec-account/sec-account.component';
 import { SecMenuComponent } from './sec-menu/sec-menu.component';
@@ -91,16 +91,16 @@ import { PolapproveComponent } from './polapprove/polapprove.component';
 		PasswordModule
 
 
-		
+
 	],
 	declarations: [
-   
-  
-  
-    VerifyComponent,
-                 SecAccountComponent,
-                 SecMenuComponent,
-                 PolapproveComponent
-  ]
+
+
+
+		VerifyComponent,
+		SecAccountComponent,
+		SecMenuComponent,
+		PolapproveComponent
+	]
 })
 export class AuthenModule { }

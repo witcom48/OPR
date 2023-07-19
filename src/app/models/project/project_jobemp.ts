@@ -7,7 +7,8 @@ export class ProjobempModel {
     projobemp_emp: string = "";   
     projobemp_fromdate: Date = new Date();
     projobemp_todate: Date = new Date();    
-    projobemp_status: string = "";
+    projobemp_type: string = "F";
+    projobemp_status: string = "W";
     
     projob_code: string = "";
     project_code: string = "";

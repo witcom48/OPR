@@ -1,23 +1,33 @@
 <div class="grid">
     <div class="col-12">
-    <p-table #dtEmpSearch [value]="worker_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmployee" (onRowSelect)="onRowSelectEmployee($event)" dataKey="worker_code"
-        [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-       
+    <p-table #dtEmpSearch [value]="worker_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="180px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmployee" (onRowSelect)="onRowSelectEmployee($event)" dataKey="worker_code"
+        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,20,30]" 
+        [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+        [globalFilterFields]="['worker_code','worker_fname_th','worker_fname_en','worker_lname_th','worker_lname_en','project_end']"
         >
+
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dtEmpSearch.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search[initial_current.Language]}}" />
+                    </span>
+                </div>
+            </ng-template>
+
             <ng-template pTemplate="header">
                 <tr>  
-                    <th>รหัสพนักงาน</th>     
-                    <th>ชื่อ</th>
-                    <th>นามสกุล</th>                                    
-                    <th>ตำแหน่ง</th>   
-                    <th>ประเภทพักงาน</th>                                                                     
+                    <th>{{title_id[initial_current.Language]}}</th>     
+                    <th>{{title_firstname[initial_current.Language]}}</th>
+                    <th>{{title_lastname[initial_current.Language]}}</th>                                    
+                    <!-- <th>{{title_position[initial_current.Language]}}</th>   
+                    <th>{{title_emptype[initial_current.Language]}}</th>                                                                      -->
                 </tr>	                	                
             </ng-template>
 
             <ng-template pTemplate="body" let-worker>
                 <tr [pSelectableRow]="worker" >        
-                    <td>{{worker.worker_code}}</td>     
+                    <td >{{worker.worker_code}}</td>     
                     <td>
                         <div *ngIf="this.initial_current.Language == 'TH'">
                             {{worker.worker_fname_th}}
@@ -33,10 +43,7 @@
                         <div *ngIf="this.initial_current.Language != 'TH'">
                             {{worker.worker_lname_en}}
                         </div>
-                    </td>     
-                    
-                    <td></td>   
-                    <td></td>      
+                    </td>                         
                 </tr>
             </ng-template>    
         </p-table>

@@ -172,7 +172,7 @@ export class SelfOvertimeComponent implements OnInit {
     const filename = "OT_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
     this.timeotService.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.selectedtrtimeot.reqdoc_data = this.selectedtrtimeot.reqdoc_data.concat({
@@ -222,7 +222,7 @@ export class SelfOvertimeComponent implements OnInit {
       //   label: 'Edit',
       //   icon: 'pi pi-fw pi-pencil',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -256,7 +256,7 @@ export class SelfOvertimeComponent implements OnInit {
       //   label: 'เพิ่มไฟล์แนบ',
       //   icon: 'pi pi-fw pi-plus',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -413,7 +413,7 @@ export class SelfOvertimeComponent implements OnInit {
           if (this.selectedtrtimeot.timeot_doc === "") {
             this.selectedtrtimeot.timeot_doc = "OT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
           }
-          // console.log(this.selectedtrtimeot)
+          // // console.log(this.selectedtrtimeot)
           this.doRecordTimeot([this.selectedtrtimeot])
         }
       },

@@ -177,7 +177,7 @@ title_system:string = "System";
 
     doRecordHospital(){
       this.hospitalService.hospital_record(this.selectedHospital).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -208,7 +208,7 @@ title_system:string = "System";
 
     doDeleteHospital(){
       this.hospitalService.hospital_delete(this.selectedHospital).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -249,7 +249,7 @@ title_system:string = "System";
             const filehospital = "xls";
 
             this.hospitalService.hospital_import(this.fileToUpload, filename, filehospital).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {
@@ -425,7 +425,7 @@ title_system:string = "System";
 //       this.hospitalService.hospital_get().then((res) => {
 //        this.hospital_list = res;
 //       });
-//       console.log(this.hospitalService);
+//       // console.log(this.hospitalService);
 //     }
 
 //     confirmRecord() {
@@ -447,7 +447,7 @@ title_system:string = "System";
 //   }
 //     doRecordHospital(){
 //       this.hospitalService.hospital_record(this.selectedHospital).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -477,7 +477,7 @@ title_system:string = "System";
 
 //     doDeleteHospital(){
 //       this.hospitalService.hospital_delete(this.selectedHospital).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -514,7 +514,7 @@ title_system:string = "System";
 
 
 //       this.hospitalService.hospital_import(this.fileToUpload, filename, filetype).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
