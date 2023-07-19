@@ -44,13 +44,13 @@ export class AccountServices {
     }
 
     public account_get(account: AccountModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
             company_code: account.company_code || this.initial_current.CompCode,
-            account_id:account.account_id,
+            account_id: account.account_id,
             account_user: account.account_user,
             account_type: account.account_type
         }
@@ -62,13 +62,13 @@ export class AccountServices {
     }
 
     public account_record(account: AccountModel) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
             company_code: account.company_code || this.initial_current.CompCode,
-            account_id:account.account_id,
+            account_id: account.account_id,
             account_user: account.account_user,
             account_pwd: account.account_pwd,
             account_type: account.account_type,
@@ -80,30 +80,31 @@ export class AccountServices {
             flag: account.flag,
             positonn_data: account.position_data,
             dep_data: account.dep_data,
-            worker_data:account.worker_data
+            worker_data: account.worker_data,
+            module_data: account.module_data
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/account', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public account_delete(account: AccountModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
             company_code: account.company_code || this.initial_current.CompCode,
-            account_id:account.account_id,
+            account_id: account.account_id,
             account_user: account.account_user,
             account_type: account.account_type
 
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/account_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

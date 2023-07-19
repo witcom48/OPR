@@ -84,10 +84,10 @@ export class VerifyComponent implements OnInit {
         obj.period_name_en = this.datePipe.transform(obj.period_from, 'dd') + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy') + ")";
         obj.period_name_th = this.datePipe.transform(obj.period_from, 'dd') + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy', "", 'th-TH') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy', "", 'th-TH') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy', "", 'th-TH') + ")"
       });
-      console.log(res)
+      // console.log(res)
       this.periods_list = await res;
       this.periods_select = await res[0]
-      // console.log(this.datePipe.transform(this.periods_select.period_from, 'dd') + " - " + this.datePipe.transform(this.periods_select.period_payment, 'dd MMM yyyy', "", this.localdis) + "(" + this.datePipe.transform(this.periods_select.period_from, 'dd MMM yyyy', "", this.localdis) + " - " + this.datePipe.transform(this.periods_select.period_to, 'dd MMM yyyy', "", this.localdis) + ")")
+      // // console.log(this.datePipe.transform(this.periods_select.period_from, 'dd') + " - " + this.datePipe.transform(this.periods_select.period_payment, 'dd MMM yyyy', "", this.localdis) + "(" + this.datePipe.transform(this.periods_select.period_from, 'dd MMM yyyy', "", this.localdis) + " - " + this.datePipe.transform(this.periods_select.period_to, 'dd MMM yyyy', "", this.localdis) + ")")
     });
   }
   doLoadLocation() {
@@ -103,9 +103,9 @@ export class VerifyComponent implements OnInit {
   }
 
   doLogin() {
-    console.log(this.comselected.company_code)
-    console.log(this.user)
-    console.log(this.pass)
+    // console.log(this.comselected.company_code)
+    // console.log(this.user)
+    // console.log(this.pass)
     this.initail_current = new InitialCurrent()
     this.authenService.getToken(this.comselected.company_code, this.user, this.pass).then((res) => {
       if (res.success) {
@@ -161,11 +161,11 @@ export class VerifyComponent implements OnInit {
     this.doPeriod(this.comselected.company_code)
   }
   selectyear() {
-    console.log(this.yearperiods_select.year_code)
+    // console.log(this.yearperiods_select.year_code)
     this.doPeriod(this.comselected.company_code);
   }
   selectperiod() {
-    console.log(this.periods_select.period_from)
+    // console.log(this.periods_select.period_from)
   }
   changelang(lang: string) {
     this.selectlang = lang;

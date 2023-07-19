@@ -48,7 +48,7 @@ export class ReqdocServices {
     }
 
     public reqdoc_get(reqdoc: cls_TRReqdocModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -68,7 +68,7 @@ export class ReqdocServices {
     }
 
     public reqdoc_record(reqdoc: cls_TRReqdocModel) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -85,13 +85,13 @@ export class ReqdocServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/reqdoc', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public reqdoc_delete(reqdoc: cls_TRReqdocModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -101,7 +101,7 @@ export class ReqdocServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/reqdoc_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

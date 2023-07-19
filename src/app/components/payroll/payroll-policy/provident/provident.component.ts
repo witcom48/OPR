@@ -21,8 +21,8 @@ export class ProvidentComponent implements OnInit {
         private datePipe: DatePipe,
         private providentService: ProvidentService,
         private router: Router,
- 
-    
+
+
     ) { }
     @ViewChild('TABLE') table: ElementRef | any = null;
     new_data: boolean = false;
@@ -161,7 +161,7 @@ export class ProvidentComponent implements OnInit {
     }
     async doRecordLate(data: ProvidentModel) {
         await this.providentService.provident_record(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -182,7 +182,7 @@ export class ProvidentComponent implements OnInit {
     }
     async doDeleteLate(data: ProvidentModel) {
         await this.providentService.provident_delete(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -208,7 +208,7 @@ export class ProvidentComponent implements OnInit {
         this.providentService
             .provident_import(this.fileToUpload, filename, filetype)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.success) {
                     this.messageService.add({
                         severity: 'success',
@@ -283,6 +283,7 @@ export class ProvidentComponent implements OnInit {
                     this.displayUpload = false;
                     this.doUploadLate();
                 },
+                key:"myDialog",
                 reject: () => {
                     this.displayUpload = false;
                 },
@@ -309,13 +310,11 @@ export class ProvidentComponent implements OnInit {
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
     Save() {
-        console.log(this.selectedProvident);
-        this.doRecordLate(this.selectedProvident);
+         this.doRecordLate(this.selectedProvident);
     }
     Savelate() {
         if (!this.displayeditcondition) {
-            this.selectedProvident.providentWorkage_data =
-                this.selectedProvident.providentWorkage_data.concat({
+            this.selectedProvident.providentWorkage_data = this.selectedProvident.providentWorkage_data.concat({
                     company_code: this.initial_current.CompCode,
                     provident_code: this.selectedProvident.provident_code,
                     workage_from: this.selectedProvidentWorka.workage_from,
@@ -328,22 +327,26 @@ export class ProvidentComponent implements OnInit {
         this.displayeditcondition = false;
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
+    
     Delete() {
         this.doDeleteLate(this.selectedProvident);
     }
     Deletelate() {
-        this.selectedProvident.providentWorkage_data =
-            this.selectedProvident.providentWorkage_data.filter((item) => {
+        this.selectedProvident.providentWorkage_data = this.selectedProvident.providentWorkage_data.filter(
+            (item) => {
                 return item !== this.selectedProvidentWorka;
-            });
+            }
+        );
         this.displayaddcondition = false;
         this.displayeditcondition = false;
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
+
+    
     onRowSelectList(event: any) {
         this.displayaddcondition = true;
         this.displayeditcondition = true;
-        console.log(this.selectedProvidentWorka);
+        // console.log(this.selectedProvidentWorka);
     }
     onRowSelect(event: any) {
         this.new_data = true;

@@ -25,6 +25,7 @@ import { SetprovidentComponent } from './payroll-policy/setprovident/setproviden
 import { AppEntryComponent } from './payroll-entry/app-entry/app-entry.component';
 import { AppEntrysComponent } from './payroll-entry/app-entry/app-entrys/app-entrys.component';
 
+import { PayrollSummaryComponent } from './payroll-summary/payroll-summary.component';
 
 
 @NgModule({
@@ -42,6 +43,8 @@ import { AppEntrysComponent } from './payroll-entry/app-entry/app-entrys/app-ent
         { path: 'pay-provident', component: ProvidentComponent },
         { path: 'pay-bonus', component: BonusComponent },
         { path: 'calculationperiod', component: CalculationperiodComponent },
+
+        { path: 'summary', component: PayrollSummaryComponent },
 
 
         { path: 'transferbank', component: TransferBankComponent },

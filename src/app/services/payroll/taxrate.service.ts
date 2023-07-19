@@ -58,19 +58,19 @@ export class TaxrateService {
     }
 
     public taxrate_get(){
-      console.log('PAYT001..');
+      // console.log('PAYT001..');
 
       return this.http.post<any>(this.config.ApiPayrollModule + '/TRTaxrate_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
 
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public taxrate_record(model:TaxrateModel) {
-      console.log('PAYT002..');
+      // console.log('PAYT002..');
       const data = {
 
         company_code: this.initial_current.CompCode,
@@ -84,13 +84,13 @@ export class TaxrateService {
       return this.http.post<any>(this.config.ApiPayrollModule + '/TRTaxrate', data, this.options).toPromise()
       .then((res) => {
 
-        // console.log(res)
+        // // console.log(res)
         return res;
       });
     }
 
     public taxrate_delete(model:TaxrateModel) {
-      console.log('PAYT003..');
+      // console.log('PAYT003..');
       const data = {
         company_code: this.initial_current.CompCode,
         taxrate_id: model.taxrate_id,

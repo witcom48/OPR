@@ -60,18 +60,18 @@ export class ReligionService {
     }
 
     public religion_get(){
-      console.log('RLG001..');
+      // console.log('RLG001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/religion_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public religion_record(model:ReligionModel) {
-      console.log('RLG002..');
+      // console.log('RLG002..');
       const data = {
         religion_id: model.religion_id,
         religion_code: model.religion_code,
@@ -83,13 +83,13 @@ export class ReligionService {
       return this.http.post<any>(this.config.ApiSystemModule + '/religion', data, this.options).toPromise()
       .then((res) => {
 
-        //console.log(res)
+        //// console.log(res)
         return res;
       });
     }
 
     public religion_delete(model:ReligionModel) {
-      console.log('RLG002..');
+      // console.log('RLG002..');
       const data = {
         religion_id: model.religion_id,
         religion_code: model.religion_code,

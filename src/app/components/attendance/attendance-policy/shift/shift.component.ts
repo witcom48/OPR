@@ -76,7 +76,7 @@ export class ShiftComponent implements OnInit {
   }
   async doDeleteShift(data: ShiftModels) {
     await this.shiftService.shift_delete(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadShift()
@@ -93,7 +93,7 @@ export class ShiftComponent implements OnInit {
     const filename = "SHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.shiftService.shift_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadShift();
@@ -190,7 +190,7 @@ export class ShiftComponent implements OnInit {
     this.shifts = new ShiftModels()
   }
   Save() {
-    console.log(this.shifts)
+    // console.log(this.shifts)
     this.doRecordShift(this.shifts)
   }
   Delete() {
@@ -266,7 +266,7 @@ export class ShiftComponent implements OnInit {
 
   }
   exportAsExcel() {
-    console.log(XLSX.utils.table_to_sheet(this.table.nativeElement))
+    // console.log(XLSX.utils.table_to_sheet(this.table.nativeElement))
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
     for (var i in ws) {
       if (i.startsWith("!") || i.charAt(1) !== "1") {
@@ -284,7 +284,7 @@ export class ShiftComponent implements OnInit {
     }
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    console.log(wb)
+    // console.log(wb)
     XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
 
   }

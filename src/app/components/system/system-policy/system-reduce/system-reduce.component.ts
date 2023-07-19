@@ -121,8 +121,8 @@ title_system:string = "System";
         this.title_confirm_yes = "ใช่";
         this.title_confirm_no = "ยกเลิก";
         this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-        this.title_amount = "จำนวน";
-        this.title_percent = "เปอร์เซ็นต์";
+        this.title_amount = "จำนวนเงิน";
+        this.title_percent = "เปอร์เซ็นต์ ของเงินได้ ";
         this.title_percent_max = "เปอร์เซ็นต์ สูงสุด";
 
 
@@ -185,7 +185,7 @@ title_system:string = "System";
 
     doRecordReduce(){
       this.reduceService.reduce_record(this.selectedReduce).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -216,7 +216,7 @@ title_system:string = "System";
 
     doDeleteReduce() {
         this.reduceService.reduce_delete(this.selectedReduce).then((res) => {
-          console.log(res);
+          // console.log(res);
           let result = JSON.parse(res);
 
           if (result.success) {
@@ -257,7 +257,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.reduceService.reduce_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

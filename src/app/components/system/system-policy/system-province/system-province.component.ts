@@ -171,7 +171,7 @@ title_system:string = "System";
 
     doRecordProvince(){
       this.provinceService.province_record(this.selectedProvince).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -202,7 +202,7 @@ title_system:string = "System";
 
     doDeleteProvince(){
       this.provinceService.province_delete(this.selectedProvince).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -244,7 +244,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.provinceService.province_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {
@@ -438,7 +438,7 @@ title_system:string = "System";
 
 //     doRecordProvince(){
 //       this.provinceService.province_record(this.selectedProvince).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -468,7 +468,7 @@ title_system:string = "System";
 
 //     doDeleteProvince(){
 //       this.provinceService.province_delete(this.selectedProvince).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -505,7 +505,7 @@ title_system:string = "System";
 
 
 //       this.provinceService.province_import(this.fileToUpload, filename, filetype).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){

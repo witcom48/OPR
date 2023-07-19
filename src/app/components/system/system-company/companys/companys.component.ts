@@ -90,7 +90,7 @@ export class CompanysComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
             this.company_code = params['companycode'];
-            console.log(this.company_code);
+            // console.log(this.company_code);
         });
 
         this.doGetInitialCurrent();
@@ -400,7 +400,7 @@ export class CompanysComponent implements OnInit {
                 label: this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
-                    console.log('Save');
+                    // console.log('Save');
                     this.confirmRecord();
                 },
             },
@@ -566,7 +566,7 @@ export class CompanysComponent implements OnInit {
     doLoadImage() {
         this.companyService.doGetImages(this.selectedCompany.company_code).then((res) => {
             let resultJSON = JSON.parse(res);
-            console.log(resultJSON.data);
+            // console.log(resultJSON.data);
             if (resultJSON.result == "1") {
                 this.base64Image = resultJSON.data;
             }
@@ -576,7 +576,7 @@ export class CompanysComponent implements OnInit {
     doLoadImagemaps() {
         this.companyService.doGetImagesmaps(this.selectedCompany.company_code).then((res) => {
             let resultJSON = JSON.parse(res);
-            console.log(resultJSON.data_maps); // ตรวจสอบผลลัพธ์ที่ได้รับ
+            // console.log(resultJSON.data_maps); // ตรวจสอบผลลัพธ์ที่ได้รับ
 
             if (resultJSON.result == "1") {
                 this.base65Image = resultJSON.data;
@@ -588,7 +588,7 @@ export class CompanysComponent implements OnInit {
     // doLoadImagemaps() {
     //   this.companyService.doGetImagesmaps(this.initial_current.CompCode).then((res) => {
     //       let resultJSON = JSON.parse(res);
-    //       console.log(resultJSON.data_maps);
+    //       // console.log(resultJSON.data_maps);
 
     //       if (resultJSON.result == "1") {
     //         this.base65Image = resultJSON.data_maps;
@@ -658,8 +658,8 @@ export class CompanysComponent implements OnInit {
     selectedComaddress: ComaddressModel = new ComaddressModel();
 
     doLoadComaddressList() {
-        
-        console.log(this.comaddressList)
+        // console.log("testadd")
+        // console.log(this.comaddressList)
         this.companyDetailService
             .getcompany_address(this.selectedCompany.company_code,  this.comaddress_type)
             .then((res) => {
@@ -805,8 +805,8 @@ export class CompanysComponent implements OnInit {
         //-- 9999 for delete
         if (model.combank_id != '9999') {
             itemNew.push(model);
-            console.log("test66")
-            console.log(model.combank_id)
+            // console.log("test66")
+            // console.log(model.combank_id)
         }
         this.combankList = [];
         this.combankList = itemNew;
@@ -851,7 +851,7 @@ export class CompanysComponent implements OnInit {
         this.companyService
             .company_recordall(this.selectedCompany)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
 
                 let result = JSON.parse(res);
 

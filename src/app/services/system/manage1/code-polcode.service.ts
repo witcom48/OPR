@@ -60,7 +60,7 @@ export class CodePolcodeService {
     }
 
     public TRPolcode_get(){
-      console.log('CBR001..');
+      // console.log('CBR001..');
 
       var filter = {
         device_name:'',
@@ -74,13 +74,13 @@ export class CodePolcodeService {
       return this.http.post<any>(this.config.ApiSystemModule + '/TRPolcode_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public TRPolcode_record(model:TRPolcodeModel) {
-      console.log('CBR002..');
+      // console.log('CBR002..');
       const data = {
         polcode_id: model.polcode_id,
         codestructure_code: model.codestructure_code,
@@ -93,13 +93,13 @@ export class CodePolcodeService {
       return this.http.post<any>(this.config.ApiSystemModule + '/TRPolcode', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public TRPolcode_delete(model:TRPolcodeModel) {
-      console.log('CBR003..');
+      // console.log('CBR003..');
       const data = {
         codestructure_code: model.codestructure_code,
         polcode_id: model.polcode_id,
@@ -178,7 +178,7 @@ export class CodePolcodeService {
 
 //     //TRPolcode
 //     public getTRPolcode_TRPolcode( code:string){
-//         console.log('CBR001..');
+//         // console.log('CBR001..');
 
 //         var filter = {
 //             device_name:'',
@@ -191,12 +191,12 @@ export class CodePolcodeService {
 //       return this.http.post<any>(this.config.ApiSystemModule + '/TRPolcode_list', filter, this.options).toPromise()
 //       .then((res) => {
 //         let message = JSON.parse(res);
-//         console.log(res)
+//         // console.log(res)
 //         return message.data;
 //       });
 //     }
 //     public record_TRPolcode( combranch_code :string, list:TRPolcodeModel[]){
-//         console.log('CBR002..');
+//         // console.log('CBR002..');
 
 //       var item_data:string = "[";
 //       for (let i = 0; i < list.length; i++) {
@@ -214,7 +214,7 @@ export class CodePolcodeService {
 //         item_data = item_data.substr(0, item_data.length - 1);
 //       }
 //       item_data = item_data + "]";
-//       console.log(item_data);
+//       // console.log(item_data);
 
 //       var specificData = {
 //         transaction_data:item_data,
@@ -230,7 +230,7 @@ export class CodePolcodeService {
 //       });
 //     }
 //     public delete_TRPolcode(model:TRPolcodeModel){
-//         console.log('CBR003..');
+//         // console.log('CBR003..');
 
 //       const data = {
 //         polcode_id: model.polcode_id,
@@ -244,7 +244,7 @@ export class CodePolcodeService {
 //       });
 //     }
 //     public TRPolcode_import(file: File, file_name:string, file_type:string){
-//         console.log('CBR004..');
+//         // console.log('CBR004..');
 
 //       const formData = new FormData();
 //       formData.append('file', file);

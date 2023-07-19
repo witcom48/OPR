@@ -61,18 +61,18 @@ export class RequestService {
     }
 
     public request_get(){
-      console.log('REQ001..');
+      // console.log('REQ001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/request_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public request_record(model:RequestModel) {
-      console.log('REQ002..');
+      // console.log('REQ002..');
       const data = {
         request_id: model.request_id,
         request_code: model.request_code,
@@ -94,13 +94,13 @@ export class RequestService {
       return this.http.post<any>(this.config.ApiSystemModule + '/request', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public request_delete(model:RequestModel) {
-      console.log('REQ002..');
+      // console.log('REQ002..');
       const data = {
         request_id: model.request_id,
         request_code: model.request_code,

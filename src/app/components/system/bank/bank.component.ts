@@ -91,7 +91,7 @@ export class BankComponent implements OnInit {
     if(this.initial_current.Language == "TH"){
         this.title_system= "ระบบ";
         this.title_genaral= "ทั่วไป";
-      this.title_page = "ข้อมูลธนาคาร";
+      this.title_page = "ธนาคาร";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -178,7 +178,7 @@ export class BankComponent implements OnInit {
 
   doRecordBank(){
     this.bankService.bank_record(this.selectedBank).then((res) => {
-     //console.log(res)
+     //// console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -209,7 +209,7 @@ export class BankComponent implements OnInit {
 
   doDeleteBank(){
     this.bankService.bank_delete(this.selectedBank).then((res) => {
-     //console.log(res)
+     //// console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -249,7 +249,7 @@ export class BankComponent implements OnInit {
 
 
     this.bankService.bank_import(this.fileToUpload, filename, filetype).then((res) => {
-     //console.log(res)
+     //// console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){

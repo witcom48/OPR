@@ -45,7 +45,7 @@ export class SelfEmpConsentComponent implements OnInit {
     var tmp = new cls_TRPdpaModel();
     tmp.worker_code = this.initial_current.Username;
     this.pdpaServices.pdpa_get(tmp).then(async (res) => {
-      console.log(res)
+      // console.log(res)
       this.pdpa_list = await res;
     });
   }

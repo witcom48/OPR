@@ -44,7 +44,7 @@ export class AreaServices {
     }
 
     public area_get(area: MTAreaModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -63,7 +63,7 @@ export class AreaServices {
     }
 
     public area_record(area: MTAreaModel) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -80,13 +80,13 @@ export class AreaServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/area', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public area_delete(area: MTAreaModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -97,7 +97,7 @@ export class AreaServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/area_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

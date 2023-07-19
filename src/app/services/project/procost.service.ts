@@ -63,7 +63,7 @@ export class ProcostService {
         return this.http.post<any>(this.config.ApiProjectModule + '/procost_list', this.basicRequest, this.options).toPromise()   
     .then((res) => {
       let message = JSON.parse(res);
-      //console.log(res)
+      //// console.log(res)
       return message.data;
     });
   }
@@ -83,7 +83,7 @@ export class ProcostService {
       modified_by: this.initial_current.Username
     };    
 
-    //console.log(this.config.ApiProjectModule)
+    //// console.log(this.config.ApiProjectModule)
 
     return this.http.post<any>(this.config.ApiProjectModule + '/procost', data, this.options).toPromise()   
     .then((res) => {      

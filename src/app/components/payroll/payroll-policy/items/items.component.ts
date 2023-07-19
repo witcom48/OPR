@@ -165,7 +165,7 @@ export class ItemsComponent implements OnInit {
 
     async doRecordMTItem(data: ItemsModel) {
         await this.itemService.item_record(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -187,7 +187,7 @@ export class ItemsComponent implements OnInit {
 
     async doDeleteMTItem(data: ItemsModel) {
         await this.itemService.item_delete(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -214,7 +214,7 @@ export class ItemsComponent implements OnInit {
         this.itemService
             .item_import(this.fileToUpload, filename, filetype)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.success) {
                     this.messageService.add({
                         severity: 'success',
@@ -266,7 +266,7 @@ export class ItemsComponent implements OnInit {
     }
 
     onRowSelectList(event: any) {
-        console.log(this.selectedMTItem);
+        // console.log(this.selectedMTItem);
     }
     showUpload() {
         this.displayUpload = true;
@@ -281,6 +281,7 @@ export class ItemsComponent implements OnInit {
                     this.displayUpload = false;
                     this.doUploadMTItem();
                 },
+                key:"myDialog",
                 reject: () => {
                     this.displayUpload = false;
                 },

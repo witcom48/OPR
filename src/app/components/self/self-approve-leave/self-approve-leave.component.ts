@@ -80,7 +80,7 @@ export class SelfApproveLeaveComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    console.log(this.datePipe.transform(new Date(0, 0, 0, 3, 0), 'HH:mm'))
+    // console.log(this.datePipe.transform(new Date(0, 0, 0, 3, 0), 'HH:mm'))
     this.doGetInitialCurrent()
     this.doLoadMenu();
     this.doLoadTimeleave();
@@ -297,7 +297,7 @@ export class SelfApproveLeaveComponent implements OnInit {
             tmp.approve_status = "A";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {
@@ -319,7 +319,7 @@ export class SelfApproveLeaveComponent implements OnInit {
             tmp.approve_status = "C";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {

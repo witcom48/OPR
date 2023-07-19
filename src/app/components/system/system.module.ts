@@ -169,7 +169,7 @@ import { PolroundsComponent } from './system-manage/polrounds/polrounds.componen
         SystemSupplyComponent,
         SystemUniformComponent,
         PolroundsComponent,
-    ],
+     ],
     exports: [YearComponent, ReasonComponent, LocationComponent],
 })
 export class SystemModule {}

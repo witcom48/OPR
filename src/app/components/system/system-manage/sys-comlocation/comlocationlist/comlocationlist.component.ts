@@ -80,7 +80,7 @@ export class ComlocationlistComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
             this.comlocation_code = params['comlocationcode'];
-            console.log(this.comlocation_code);
+            // console.log(this.comlocation_code);
         });
 
         this.doGetInitialCurrent();
@@ -282,7 +282,7 @@ export class ComlocationlistComponent implements OnInit {
                 label: 'Save',
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
-                    console.log('Save');
+                    // console.log('Save');
                     this.confirmRecord();
                 },
             },
@@ -325,7 +325,7 @@ export class ComlocationlistComponent implements OnInit {
                 label: 'Import',
                 icon: 'pi pi-fw pi-file-import',
                 command: (event) => {
-                    console.log('IMPORT');
+                    // console.log('IMPORT');
                 },
             },
             {
@@ -372,7 +372,7 @@ export class ComlocationlistComponent implements OnInit {
                 label: 'Import',
                 icon: 'pi pi-fw pi-file-import',
                 command: (event) => {
-                    console.log('IMPORT');
+                    // console.log('IMPORT');
                 },
             },
             {
@@ -432,7 +432,7 @@ export class ComlocationlistComponent implements OnInit {
                 await res.forEach((element: ComlocationModel) => {});
 
                 Comlocation_list = await res;
-                console.log(res);
+                // console.log(res);
 
                 if (Comlocation_list.length > 0) {
                     this.selectedComlocation = Comlocation_list[0];
@@ -570,7 +570,7 @@ export class ComlocationlistComponent implements OnInit {
         this.comlocationService
             .comlocation_record(this.selectedComlocation)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
 
                 let result = JSON.parse(res);
 

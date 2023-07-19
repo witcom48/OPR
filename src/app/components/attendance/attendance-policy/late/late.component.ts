@@ -58,7 +58,7 @@ export class LateComponent implements OnInit {
   }
   async doRecordLate(data: LateModels) {
     await this.lateService.late_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLate()
@@ -73,7 +73,7 @@ export class LateComponent implements OnInit {
   }
   async doDeleteLate(data: LateModels) {
     await this.lateService.late_delete(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLate()
@@ -90,7 +90,7 @@ export class LateComponent implements OnInit {
     const filename = "LATE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.lateService.late_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLate();
@@ -186,7 +186,7 @@ export class LateComponent implements OnInit {
     this.conditions = new LateconditionModels();
   }
   Save() {
-    console.log(this.lates)
+    // console.log(this.lates)
     this.doRecordLate(this.lates)
   }
   Savelate() {
@@ -218,7 +218,7 @@ export class LateComponent implements OnInit {
   onRowSelectList(event: any) {
     this.displayaddcondition = true
     this.displayeditcondition = true
-    console.log(this.conditions)
+    // console.log(this.conditions)
   }
   onRowSelect(event: any) {
     this.new_data = true

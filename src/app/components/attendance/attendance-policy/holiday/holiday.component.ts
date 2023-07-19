@@ -32,6 +32,8 @@ export class HolidayComponent implements OnInit {
   ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   @ViewChild('TABLELIST') tablelist: ElementRef | any = null;
+  itemslike: MenuItem[] = [];
+  home: any;
   yaerList: Year[] = [];
   selectedyear!: Year;
   new_data: boolean = false
@@ -54,7 +56,6 @@ export class HolidayComponent implements OnInit {
     }
     this.selectlang = this.initial_current.Language;
   }
-
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu()
@@ -125,7 +126,7 @@ export class HolidayComponent implements OnInit {
     const filename = "PLANHOLIDAY_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.planholidayService.planholiday_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPlanholiday();
@@ -176,7 +177,11 @@ export class HolidayComponent implements OnInit {
     }
   }
   doLoadMenu() {
+    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+      label: this.langs.get('playholiday')[this.selectlang], styleClass: 'activelike'
+    }];
 
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],
@@ -310,7 +315,7 @@ export class HolidayComponent implements OnInit {
     this.displayeditholiday = true
   }
   selectYear() {
-    console.log(this.selectedyear)
+    // console.log(this.selectedyear)
     this.doLoadPlanholiday();
   }
   exportAsExcel() {

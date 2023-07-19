@@ -3,7 +3,7 @@
     <span>{{title_system}}</span>
     <div>
         <i></i>
-        <a routerLink="/system/genaral">{{title_genaral}}</a>
+        <a routerLink="/system/general">{{title_genaral}}</a>
         <i></i>
         <small>{{title_page}}</small>
     </div>
@@ -82,24 +82,7 @@
     </form>
 
 
-    <!-- Form input or Edit Data -->
-    <!-- <div class="formatt" *ngIf="new_data===true">
-        <i (click)="close()"></i>
-
-        <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedBloodtype.bloodtype_code" maxlength="5"  disabled="{{edit_data}}"  />
-        <p>{{selectedBloodtype.bloodtype_code.length}}/5</p>
-
-        <label>{{title_name_th}}</label>
-        <textarea [(ngModel)]="selectedBloodtype.bloodtype_name_th" pInputTextarea [autoResize]="true"></textarea>
-
-        <label>{{title_name_en}}</label>
-        <textarea [(ngModel)]="selectedBloodtype.bloodtype_name_en" pInputTextarea [autoResize]="true"></textarea>
-
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="confirmDelete()"></button>
-    </div> -->
+     
 </div>
 
 <!-- Dialog Choose File Import -->

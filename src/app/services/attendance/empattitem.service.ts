@@ -44,7 +44,7 @@ export class EmpAttItemServices {
     }
 
     public EmpAttItem_get(Setup: EmpattitemModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let emplists: any = []
         Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
@@ -67,7 +67,7 @@ export class EmpAttItemServices {
     }
 
     public EmpAttItem_record(Setup: EmpattitemModel) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let emplists: any = []
         Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
@@ -90,16 +90,16 @@ export class EmpAttItemServices {
             emp_data: emplists,            
             modified_by: Setup.modified_by || this.initial_current.Username,            
         }
-        console.log(data)
+        // console.log(data)
         return this.http.post<any>(this.config.ApiAttendanceModule + '/polattpays', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public EmpAttItem_delete(Setup: EmpattitemModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let emplists: any = []
         Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
@@ -116,7 +116,7 @@ export class EmpAttItemServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/polattpay_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

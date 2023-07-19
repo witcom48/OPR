@@ -104,7 +104,7 @@ export class SelfWorkflowComponent implements OnInit {
     }
     data.totalapprove = totalapp;
     data.workflow_type = this.selectedtype.code;
-    console.log(data)
+    // console.log(data)
     await this.workflowService.workflow_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -134,7 +134,7 @@ export class SelfWorkflowComponent implements OnInit {
   }
 
   teset(event: any) {
-    console.log(event)
+    // console.log(event)
     var data = event.items;
     event.items = []
     var arr = this.position_level_source.filter((obj: PositionModel) => {
@@ -149,7 +149,7 @@ export class SelfWorkflowComponent implements OnInit {
   teset2(event: any) {
     var data = event.items;
     event.items = []
-    console.log(event)
+    // console.log(event)
     var arr = this.position_level_target.filter((obj: PositionModel) => {
       if (obj.position_level === data.slice(-1)[0].position_level) {
         this.position_level_source.push(obj)
@@ -193,7 +193,7 @@ export class SelfWorkflowComponent implements OnInit {
     ];
   }
   selectType() {
-    console.log(this.selectedtype)
+    // console.log(this.selectedtype)
     this.selectedWorkflow.workflow_type = this.selectedtype.code;
   }
   onRowSelect(event: Event) {

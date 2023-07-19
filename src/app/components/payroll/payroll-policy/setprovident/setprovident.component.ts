@@ -197,11 +197,11 @@ export class SetprovidentComponent implements OnInit {
         data.provident_data = this.selectEmp.employee_dest;
 
         this.loading = true;
-        console.log(data);
+        // console.log(data);
         await this.setprovidentService.SetProvident_record(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
-                console.log(res.message);
+                // console.log(res.message);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
@@ -229,9 +229,9 @@ export class SetprovidentComponent implements OnInit {
 
     async doDeleteLate(data: SetProvidentModel) {
         this.loading = true;
-        console.log(data);
+        // console.log(data);
         await this.setprovidentService.SetProvident_delete(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             this.SetProvident_List = this.SetProvident_List.filter(
                 (item) => item !== data
             );

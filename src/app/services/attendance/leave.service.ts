@@ -43,7 +43,7 @@ export class LeaveServices {
     }
 
     public leave_get(Leave: LeaveModels) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -60,7 +60,7 @@ export class LeaveServices {
     }
 
     public leave_record(Leave: LeaveModels) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -85,16 +85,16 @@ export class LeaveServices {
             flag: Leave.flag,
             leave_workage: Leave.leave_workage
         }
-        console.log(data)
+        // console.log(data)
         return this.http.post<any>(this.config.ApiAttendanceModule + '/leave', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public leave_delete(Leave: LeaveModels) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -105,7 +105,7 @@ export class LeaveServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/leave_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -113,7 +113,7 @@ export class LeaveServices {
 
 
     public leave_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 

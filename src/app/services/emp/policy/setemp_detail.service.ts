@@ -122,7 +122,7 @@ export class SetEmpDetailService {
     }
     return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchposition', data, this.options).toPromise()
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         let message = JSON.parse(res);
         return message;
       });
@@ -182,7 +182,7 @@ export class SetEmpDetailService {
     }
     return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchgroup', data, this.options).toPromise()
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         let message = JSON.parse(res);
         return message;
       });
@@ -253,7 +253,7 @@ export class SetEmpDetailService {
     }
     return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchdep', data, this.options).toPromise()
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         let message = JSON.parse(res);
         return message;
       });
@@ -315,7 +315,7 @@ export class SetEmpDetailService {
     }
     return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchlocation', data, this.options).toPromise()
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         let message = JSON.parse(res);
         return message;
       });
@@ -378,7 +378,7 @@ export class SetEmpDetailService {
     }
     return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchsalary', data, this.options).toPromise()
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         let message = JSON.parse(res);
         return message;
       });
@@ -441,7 +441,7 @@ export class SetEmpDetailService {
     }
     return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchprovident', data, this.options).toPromise()
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         let message = JSON.parse(res);
         return message;
       });
@@ -511,7 +511,7 @@ export class SetEmpDetailService {
     }
     return this.http.post<any>(this.config.ApiEmployeeModule + '/setbatchbenefit', data, this.options).toPromise()
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         let message = JSON.parse(res);
         return message;
       });

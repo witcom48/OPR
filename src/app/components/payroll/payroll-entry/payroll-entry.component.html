@@ -3,6 +3,19 @@
 <i class="pi pi-angle-right"></i>&nbsp; <span>{{title_manage}}</span>
 <hr>
 
+<p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
+    <div class="grid">
+        <div class="col-12">
+            <app-search-emp></app-search-emp>
+        </div>
+        <div class="col-12">
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-save" (click)="select_emp()"></p-button> 
+            &nbsp;
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}" class="p-button-secondary" (click)="close_searchemp()"></button>                      
+        </div>
+    </div>
+</p-dialog>
+
 <p-tabView>
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
@@ -13,7 +26,7 @@
         <p-tabView>
             <p-tabPanel [selected]="true">
                 <ng-template pTemplate="header">
-                    <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                    <i class="pi pi-user"></i>&nbsp;&nbsp;
                     <span>{{title_employee}}</span>
                 </ng-template>
                 <table style="width: 600px;">
@@ -24,19 +37,19 @@
                         <td style="width: 150px;">
                             <input id="lastname2" type="text" [value]="worker_code" name="worker_code"
                                 style="text-align: center;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
                         </td>
                         <td style="width: 20px;">
                             <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
                         </td>
                         <td style="width: 20px;">
-                            <i class="pi pi-search" ></i>
+                            <i class="pi pi-search" (click)="open_searchemp()"></i>
                         </td>
 
 
                         <td style="width: 250px;" align="left">
                             <input id="lastname2" type="text" [value]="worker_name" style="width: 250px;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
                         </td>
                     </tr>
                 </table>
@@ -215,7 +228,7 @@
         <p-tabView>
             <p-tabPanel [selected]="true">
                 <ng-template pTemplate="header">
-                    <i class="pi pi-cog"></i>&nbsp;&nbsp;
+                    <i class="pi pi-user"></i>&nbsp;&nbsp;
                     <span>{{title_employee}}</span>
                 </ng-template>
 
@@ -227,17 +240,17 @@
                         <td style="width: 150px;">
                             <input id="lastname2" type="text" [value]="worker_code" name="worker_code"
                                 style="text-align: center;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
                         </td>
                         <td style="width: 20px;">
                             <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
                         </td>
                         <td style="width: 20px;">
-                            <i class="pi pi-search"></i>
+                            <i class="pi pi-search" (click)="open_searchemp()"></i>
                         </td>
                         <td style="width: 250px;" align="left">
                             <input id="lastname2" type="text" [value]="worker_name" style="width: 250px;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
                         </td>
                     </tr>
                 </table>

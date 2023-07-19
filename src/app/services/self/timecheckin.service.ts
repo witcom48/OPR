@@ -46,7 +46,7 @@ export class TimecheckinServices {
     }
 
     public timecheckin_get(timecheckin: cls_TRTimecheckinModel) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -69,7 +69,7 @@ export class TimecheckinServices {
     }
 
     public timecheckin_record(timecheckins: cls_TRTimecheckinModel[]) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         var checkin_datas: any = []
         timecheckins.forEach((timecheckins: cls_TRTimecheckinModel) => {
             let datas = {
@@ -100,13 +100,13 @@ export class TimecheckinServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timecheckin', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public timecheckin_delete(timecheckin: cls_TRTimecheckinModel) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -120,7 +120,7 @@ export class TimecheckinServices {
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/timecheckin_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });

@@ -44,7 +44,7 @@ export class LateServices {
     }
 
     public late_get(Late: LateModels) {
-        console.log('ATT001..');
+        // console.log('ATT001..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -61,7 +61,7 @@ export class LateServices {
     }
 
     public late_record(Late: LateModels) {
-        console.log('ATT002..');
+        // console.log('ATT002..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -77,13 +77,13 @@ export class LateServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/late', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public late_delete(Late: LateModels) {
-        console.log('ATT003..');
+        // console.log('ATT003..');
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -94,7 +94,7 @@ export class LateServices {
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/late_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -102,7 +102,7 @@ export class LateServices {
 
 
     public late_import(file: File, file_name: string, file_type: string) {
-        console.log('ATT004..');
+        // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 

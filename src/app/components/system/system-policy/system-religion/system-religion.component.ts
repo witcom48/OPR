@@ -180,7 +180,7 @@ export class SystemReligionComponent implements OnInit {
         this.religionService
             .religion_record(this.selectedReligion)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let result = JSON.parse(res);
 
                 if (result.success) {
@@ -223,7 +223,7 @@ export class SystemReligionComponent implements OnInit {
         this.religionService
             .religion_delete(this.selectedReligion)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let result = JSON.parse(res);
 
                 if (result.success) {
@@ -274,7 +274,7 @@ export class SystemReligionComponent implements OnInit {
                     this.religionService
                         .religion_import(this.fileToUpload, filename, filetype)
                         .then((res) => {
-                            console.log(res);
+                            // console.log(res);
                             let result = JSON.parse(res);
 
                             if (result.success) {
@@ -481,7 +481,7 @@ export class SystemReligionComponent implements OnInit {
 
 //     doRecordReligion(){
 //       this.religionService.religion_record(this.selectedReligion).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -511,7 +511,7 @@ export class SystemReligionComponent implements OnInit {
 
 //     doDeleteReligion(){
 //       this.religionService.religion_delete(this.selectedReligion).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){
@@ -545,7 +545,7 @@ export class SystemReligionComponent implements OnInit {
 //       const filetype = "xls";
 
 //       this.religionService.religion_import(this.fileToUpload, filename, filetype).then((res) => {
-//        console.log(res)
+//        // console.log(res)
 //        let result = JSON.parse(res);
 
 //        if(result.success){

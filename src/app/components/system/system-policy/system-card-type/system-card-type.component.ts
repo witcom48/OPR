@@ -174,7 +174,7 @@ title_system:string = "System";
 
     doRecordCardtype(){
       this.cardtypeService.cardtype_record(this.selectedCardtype).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -205,7 +205,7 @@ title_system:string = "System";
 
     doDeleteCardtype(){
       this.cardtypeService.cardtype_delete(this.selectedCardtype).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -247,7 +247,7 @@ title_system:string = "System";
             const filetype = "xls";
 
             this.cardtypeService.cardtype_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

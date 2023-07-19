@@ -229,7 +229,7 @@ export class SelfApproveCheckinComponent implements OnInit {
         // this.callApi(longitude, latitude);
       });
     } else {
-      console.log("No support for geolocation")
+      // console.log("No support for geolocation")
     }
   }
   async setMap() {
@@ -331,7 +331,7 @@ export class SelfApproveCheckinComponent implements OnInit {
             tmp.approve_status = "A";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {
@@ -353,7 +353,7 @@ export class SelfApproveCheckinComponent implements OnInit {
             tmp.approve_status = "C";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {

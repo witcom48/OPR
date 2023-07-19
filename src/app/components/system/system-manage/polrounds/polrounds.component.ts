@@ -174,7 +174,7 @@ export class PolroundsComponent implements OnInit {
     doLoadMTRoundscurrencyList() {
         this.round_list = [];
         var tmp = new RoundsModel();
-        tmp.rounds_group = 'Currency';
+        tmp.round_group = 'Currency';
         this.roundsService.rounds_get(tmp).then(async (res) => {
             this.round_list = await res;
             this.round_list.unshift(tmp)
@@ -184,7 +184,7 @@ export class PolroundsComponent implements OnInit {
     doLoadMTRoundstimeList() {
         this.rounds_list = [];
         var tmp = new RoundsModel();
-        tmp.rounds_group = 'time';
+        tmp.round_group = 'time';
         this.roundsService.rounds_get(tmp).then(async (res) => {
             this.rounds_list = await res;
             this.rounds_list.unshift(tmp)
@@ -234,21 +234,6 @@ export class PolroundsComponent implements OnInit {
             },
             key: "myDialog"
         });
-        console.log(this.selectedPF);
-        console.log(this.selectedSSO);
-        console.log(this.selectedTAX);
-        console.log(this.selectedWDAY);
-        console.log(this.selectedWSUM);
-        console.log(this.selectedOTDAY);
-        console.log(this.selectedOTSUM);
-        console.log(this.selectedAB);
-        console.log(this.selecteLT);
-        console.log(this.selecteLV);
-        console.log(this.selecteNP);
-        console.log(this.selecteTLT);
-        console.log(this.selecteTOT);
-        console.log(this.selecteTWK);
-        console.log(this.selecteTLV);
     }
 
     doRecordComlocation() {
@@ -270,7 +255,7 @@ export class PolroundsComponent implements OnInit {
         polround.polround_timeworking = this.selecteTWK;
 
         this.polroundsService.polround_record(polround).then((res) => {
-            console.log(res);
+            // console.log(res);
             let result = JSON.parse(res);
        
             if (result.success) {
@@ -313,7 +298,7 @@ export class PolroundsComponent implements OnInit {
     }
 
     selectComManage() {
-        console.log(this.selectedcomlocation.comlocation_code);
+        // console.log(this.selectedcomlocation.comlocation_code);
 
         let navigationExtras: NavigationExtras = {
             queryParams: {

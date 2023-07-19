@@ -4,7 +4,7 @@
     <span>{{title_system}}</span>
     <div>
         <i></i>
-        <a routerLink="/system/genaral">{{title_genaral}}</a>
+        <a routerLink="/system/general">{{title_genaral}}</a>
         <i></i>
         <small>{{title_page}}</small>
     </div>
@@ -67,7 +67,7 @@
             <label>{{title_code}}<span style="color: red;"> *</span></label>
             <input pInputText type="text" [(ngModel)]="selectedFaculty.faculty_code" maxlength="10"
                 [disabled]="edit_data" name="code" #code="ngModel" required />
-                <p>{{selectedFaculty.faculty_code.length}}/5</p>
+                <p>{{selectedFaculty.faculty_code.length}}/10</p>
 
             <label>{{title_name_th}}<span style="color: red;"> *</span></label>
             <textarea [(ngModel)]="selectedFaculty.faculty_name_th" pInputTextarea [autoResize]="true"

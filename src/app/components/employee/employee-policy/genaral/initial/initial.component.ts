@@ -168,7 +168,7 @@ export class InitialComponent implements OnInit {
 
   doRecordInitial(){
     this.initialService.initial_record(this.selectedInitial).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -198,7 +198,7 @@ export class InitialComponent implements OnInit {
 
   doDeleteInitial(){
     this.initialService.initial_delete(this.selectedInitial).then((res) => {
-     console.log(res)
+     // console.log(res)
      let result = JSON.parse(res);
 
      if(result.success){
@@ -239,7 +239,7 @@ export class InitialComponent implements OnInit {
           const filetype = "xls";
 
           this.initialService.initial_import(this.fileToUpload, filename, filetype).then((res) => {
-            console.log(res)
+            // console.log(res)
             let result = JSON.parse(res);
 
             if (result.success) {

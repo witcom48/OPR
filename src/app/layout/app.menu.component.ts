@@ -1,160 +1,175 @@
-import { OnInit } from '@angular/core';
-import { Component } from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
-import { InitialCurrent } from '../config/initial_current';
-import { AppConfig } from '../config/config';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountModuleServices } from '../services/self/accountmodule';
+import { AccountModuleModel } from '../models/self/accountmodule';
+import { AppConfig } from '../config/config';
 
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent implements OnInit {
+    menuItems: any[] = [{ label: '', items: [] }]; // Array to store menu items
 
-    model: any[] = [];
     constructor(
-        public layoutService: LayoutService,
         private router: Router,
+        private accountModuleService: AccountModuleServices
     ) { }
-    public initial_current: InitialCurrent = new InitialCurrent();
-    doGetInitialCurrent() {
-        this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
-        if (!this.initial_current.Token) {
-            this.router.navigateByUrl('login');
-        }
-    }
+
     ngOnInit() {
-        this.doGetInitialCurrent();
-        if (this.initial_current.Usertype == "ADM") {
-            this.model = [
-                // {
-                //     label: 'Home',
-                //     items: [
-                //         { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
-                //     ]
-                // }
-                // ,
-                {
-                    label: 'Self Services',
-                    items: [
-                        //{ label: 'Policy', routerLink: ['/self/policy'] },
-                        { label: 'Employee', routerLink: ['/self/employee'] },
-                        { label: 'Manager', routerLink: ['/self/approve'] },
-                        { label: 'Reports', routerLink: ['/self/reports'] },
-                    ]
-                }
-                ,
-                {
-                    label: 'Project',
-                    items: [
-                        { label: 'Policy', routerLink: ['/project/policy'] },
-                        { label: 'Project', routerLink: ['/project/list'] },
-                        { label: 'Monitor', routerLink: ['/project/monitor'] },
-                        { label: 'Timesheet', routerLink: ['/project/timesheet'] },
-                        { label: 'Approval list', routerLink: ['/project/approve'] },
+        // Retrieve initial session data from local storage
+        const initialSessionData = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
 
-                        // { label: 'จัดการข้อมูลกองทุนฯ', routerLink: ['/project/pf'] },
-
-                        { label: 'Reports', routerLink: ['/project/reports'] },
-                    ]
-                }
-                ,
-                {
-                    label: 'Employee',
-                    items: [
-                        { label: 'Policy', routerLink: ['/employee/policy'] },
-                        { label: 'Employee info', routerLink: ['/employee/list'] },
-                        { label: 'Monitor', routerLink: ['/employee/monitor'] },
-                        { label: 'Reports', routerLink: ['/employee/reports'] },
-
-                        // { label: 'Select Emp', routerLink: ['/usercontrol/selectemp'] },
-
-                    ]
-                }
-                ,
-                {
-                    label: 'Recruitment',
-                    items: [
-                        { label: 'Policy', routerLink: ['/recruitment/policy'] },
-                        { label: 'Request', routerLink: ['/recruitment/request'] },
-                        // { label: 'Apply work', routerLink: ['/recruitment/apply'] },
-                        { label: 'Apply work', routerLink: ['/recruitment/applylist'] },
-                        { label: 'Approval list', routerLink: ['/recruitment/approve'] },
-                        { label: 'Reports', routerLink: ['/recruitment/reports'] },
-                    ]
-                }
-                ,
-                {
-                    label: 'Attendance',
-                    items: [
-                        { label: 'Policy', routerLink: ['/attendance/policy'] },
-                        { label: 'Manage', routerLink: ['/attendance/manage'] },
-                        // { label: 'Self Services', routerLink: ['/attendance/self'] },
-                        { label: 'Import Time', routerLink: ['/attendance/import'] },
-                        { label: 'Processing Time', routerLink: ['/attendance/process'] },
-                        { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'] },
-                        { label: 'View Time', routerLink: ['/attendance/view'] },
-                        // { label: 'Approval list', routerLink: ['/attendance/approve'] },
-                        { label: 'Reports', routerLink: ['/attendance/reports'] },
-                    ]
-                }
-                ,
-                {
-                    label: 'Payroll',
-                    items: [
-                        { label: 'Policy', routerLink: ['/payroll/policy'] },
-                        { label: 'Calculate', routerLink: ['/payroll/calculate'] },
-                        { label: 'Income / Deduct', routerLink: ['/payroll/entry'] },
-                        { label: 'Calculate Tax', routerLink: ['/payroll/caltax'] },
-                        { label: 'View Calculate', routerLink: ['/payroll/view'] },
-                        { label: 'Transfer', routerLink: ['/payroll/transfer'] },
-                        { label: 'Approval list', routerLink: ['/payroll/approve'] },
-                        { label: 'Reports', routerLink: ['/payroll/reports'] },
-                    ]
-                }
-                ,
-                {
-                    label: 'System',
-                    items: [
-                        { label: 'Manage', routerLink: ['/system/sys-manage'] },
-                        { label: 'Genaral', routerLink: ['/system/genaral'] },
-                       
-                        // { label: 'Company', routerLink: ['/system/company'] },
-                        // { label: 'Branch', routerLink: ['/system/Branch'] },
-                        { label: 'Security', routerLink: ['/system/security'] },
-                        { label: 'Notification', routerLink: ['/system/notification'] },
-                        { label: 'Reports', routerLink: ['/system/reports'] },
-                    ]
-                }
-
-
-            ];
+        // Check if a valid token exists
+        if (!initialSessionData.Token) {
+            // If not, navigate to the login page and return
+            this.router.navigateByUrl('login');
+            return;
         }
-        if (this.initial_current.Usertype == "APR") {
-            this.model = [
+
+        // Generate menu items based on user's role (UserType)
+        if (initialSessionData.UserType === "APR") {
+            // User is a manager
+            this.menuItems = [
                 {
                     label: 'Self Services',
                     items: [
-                        //{ label: 'Policy', routerLink: ['/self/policy'] },
-                        // { label: 'Employee', routerLink: ['/self/employee'] },
                         { label: 'Manager', routerLink: ['/self/approve'] },
                         { label: 'Reports', routerLink: ['/self/reports'] },
                     ]
                 }
             ];
         }
-        if (this.initial_current.Usertype == "Emp" ||this.initial_current.Usertype == "GRP" ) {
-            this.model = [
+
+        if (initialSessionData.UserType === "Emp" || initialSessionData.UserType === "GRP") {
+            // User is an employee or a group member
+            this.menuItems = [
                 {
                     label: 'Self Services',
                     items: [
-                        //{ label: 'Policy', routerLink: ['/self/policy'] },
                         { label: 'Employee', routerLink: ['/self/employee'] },
-                        // { label: 'Manager', routerLink: ['/self/approve'] },
-                        // { label: 'Reports', routerLink: ['/self/reports'] },
                     ]
                 }
             ];
         }
+
+        // Retrieve available modules for the user
+        this.accountModuleService.accountmodule_get(new AccountModuleModel())
+            .then((res: AccountModuleModel[]) => {
+                if (this.hasModule(res, 'SELF')) {
+                    // User has access to the SELF module
+                    this.menuItems[0].items.push({
+                        label: 'Self Services',
+                        items: [
+                            { label: 'Employee', routerLink: ['/self/employee'] },
+                            { label: 'Manager', routerLink: ['/self/approve'] },
+                            { label: 'Reports', routerLink: ['/self/reports'] },
+                        ]
+                    });
+                }
+
+                if (this.hasModule(res, 'PRO')) {
+                    // User has access to the PRO module
+                    this.menuItems[0].items.push({
+                        label: 'Project',
+                        items: [
+                            { label: 'Policy', routerLink: ['/project/policy'] },
+                            { label: 'Project', routerLink: ['/project/list'] },
+                            { label: 'Monitor', routerLink: ['/project/monitor'] },
+                            { label: 'Timesheet', routerLink: ['/project/timesheet'] },
+                            { label: 'Approval list', routerLink: ['/project/approve'] },
+                            { label: 'Reports', routerLink: ['/project/reports'] },
+                        ]
+                    });
+                }
+                if (this.hasModule(res, 'EMP')) {
+                    // User has access to the EMP module
+                    this.menuItems[0].items.push({
+                        label: 'Employee',
+                        items: [
+                            { label: 'Policy', routerLink: ['/employee/policy'] },
+                            { label: 'Employee info', routerLink: ['/employee/list'] },
+                            { label: 'Monitor', routerLink: ['/employee/monitor'] },
+                            { label: 'Reports', routerLink: ['/employee/reports'] },
+                        ]
+                    });
+                }
+
+                if (this.hasModule(res, 'REQ')) {
+                    // User has access to the REQ module
+                    this.menuItems[0].items.push({
+                        label: 'Recruitment',
+                        items: [
+                            { label: 'Policy', routerLink: ['/recruitment/policy'] },
+                            { label: 'Request', routerLink: ['/recruitment/request'] },
+                            // { label: 'Apply work', routerLink: ['/recruitment/apply'] },
+                            { label: 'Apply work', routerLink: ['/recruitment/applylist'] },
+                            { label: 'Approval list', routerLink: ['/recruitment/approve'] },
+                            { label: 'Reports', routerLink: ['/recruitment/reports'] },
+                        ]
+                    });
+                }
+
+                if (this.hasModule(res, 'ATT')) {
+                    // User has access to the ATT module
+                    this.menuItems[0].items.push({
+                        label: 'Attendance',
+                        items: [
+                            { label: 'Policy', routerLink: ['/attendance/policy'] },
+                            { label: 'Manage', routerLink: ['/attendance/manage'] },
+                            // { label: 'Self Services', routerLink: ['/attendance/self'] },
+                            { label: 'Import Time', routerLink: ['/attendance/import'] },
+                            { label: 'Processing Time', routerLink: ['/attendance/process'] },
+                            { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'] },
+                            { label: 'View Time', routerLink: ['/attendance/view'] },
+                            // { label: 'Approval list', routerLink: ['/attendance/approve'] },
+                            { label: 'Reports', routerLink: ['/attendance/reports'] },
+                        ]
+                    });
+                }
+
+                if (this.hasModule(res, 'PAY')) {
+                    // User has access to the PAY module
+                    this.menuItems[0].items.push(
+                        {
+                            label: 'Payroll',
+                            items: [
+                                { label: 'Policy', routerLink: ['/payroll/policy'] },
+                                { label: 'Calculate', routerLink: ['/payroll/calculate'] },
+                                { label: 'Income / Deduct', routerLink: ['/payroll/entry'] },
+                                { label: 'Calculate Tax', routerLink: ['/payroll/caltax'] },
+                                { label: 'View Calculate', routerLink: ['/payroll/view'] },
+                                { label: 'Transfer', routerLink: ['/payroll/transfer'] },
+                                { label: 'Approval list', routerLink: ['/payroll/approve'] },
+                                { label: 'Reports', routerLink: ['/payroll/reports'] },
+                            ]
+                        }
+                    );
+                }
+
+                if (this.hasModule(res, 'SYS')) {
+                    // User has access to the SYS module
+                    this.menuItems[0].items.push(
+                        {
+                            label: 'System',
+                            items: [
+                                { label: 'Manage', routerLink: ['/system/sys-manage'] },
+                                { label: 'Genaral', routerLink: ['/system/general'] },
+                                { label: 'Security', routerLink: ['/system/security'] },
+                                { label: 'Notification', routerLink: ['/system/notification'] },
+                                { label: 'Reports', routerLink: ['/system/reports'] },
+                            ]
+                        }
+                    );
+                }
+
+                // Add more module checks and menu items here...
+
+            });
+    }
+
+    private hasModule(modules: AccountModuleModel[], moduleCode: string): boolean {
+        // Check if a module with the given moduleCode exists in the modules array
+        return modules.some((item: AccountModuleModel) => item.module_code === moduleCode);
     }
 }

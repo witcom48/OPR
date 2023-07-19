@@ -238,7 +238,7 @@ export class CalculationperiodComponent implements OnInit {
       const filename = "PERIOD_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
       const filetype = "xls";
       this.periodsService.period_import(this.fileToUpload, filename, filetype).then((res) => {
-        console.log(res)
+        // console.log(res)
         if (res.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
           this.doLoadPeriod();
@@ -301,6 +301,7 @@ export class CalculationperiodComponent implements OnInit {
             this.displayUpload = false;
             this.doUploadPeriod()
           },
+          key:"myDialog",
           reject: () => {
             this.displayUpload = false;
           }

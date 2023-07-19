@@ -171,7 +171,7 @@ export class SystemAddressTypeComponent implements OnInit {
 
     doRecordAddresstype(){
       this.addresstypeService.addresstype_record(this.selectedAddresstype).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -202,7 +202,7 @@ export class SystemAddressTypeComponent implements OnInit {
 
     doDeleteAddresstype(){
       this.addresstypeService.addresstype_delete(this.selectedAddresstype).then((res) => {
-       console.log(res)
+       // console.log(res)
        let result = JSON.parse(res);
 
        if(result.success){
@@ -244,7 +244,7 @@ export class SystemAddressTypeComponent implements OnInit {
             const filetype = "xls";
 
             this.addresstypeService.addresstype_import(this.fileToUpload, filename, filetype).then((res) => {
-              console.log(res)
+              // console.log(res)
               let result = JSON.parse(res);
 
               if (result.success) {

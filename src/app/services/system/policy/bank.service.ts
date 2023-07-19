@@ -60,18 +60,18 @@ export class BankService {
   }
 
   public bank_get(){
-    console.log('SYS001..');
+    // console.log('SYS001..');
 
     return this.http.post<any>(this.config.ApiSystemModule + '/bank_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
 
   public bank_record(model:BankModel) {
-    console.log('SYS002..');
+    // console.log('SYS002..');
     const data = {
       bank_id: model.bank_id,
       bank_code: model.bank_code,
@@ -83,13 +83,13 @@ export class BankService {
     return this.http.post<any>(this.config.ApiSystemModule + '/bank', data, this.options).toPromise()
     .then((res) => {
 
-      //console.log(res)
+      //// console.log(res)
       return res;
     });
   }
 
   public bank_delete(model:BankModel) {
-    console.log('SYS002..');
+    // console.log('SYS002..');
     const data = {
       bank_id: model.bank_id,
       bank_code: model.bank_code,

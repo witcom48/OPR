@@ -58,18 +58,18 @@ export class GroupService {
   }
 
   public group_get(){
-    console.log('GRP001..');
+    // console.log('GRP001..');
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/group_list', this.basicRequest, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
-      console.log(res)
+      // console.log(res)
       return message.data;
     });
   }
 
   public group_record(model:GroupModel) {
-    console.log('GRP002..');
+    // console.log('GRP002..');
     const data = {
         group_id: model.group_id,
         group_code: model.group_code,
@@ -86,7 +86,7 @@ export class GroupService {
   }
 
   public group_delete(model:GroupModel) {
-    console.log('GRP003..');
+    // console.log('GRP003..');
     const data = {
         group_id: model.group_id,
         group_code: model.group_code,

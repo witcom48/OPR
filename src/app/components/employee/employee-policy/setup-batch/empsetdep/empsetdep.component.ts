@@ -268,9 +268,9 @@ export class EmpsetdepComponent implements OnInit {
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
     await this.setempdetailService.SetGroup_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
-        // console.log(res.message)
+        // // console.log(res.message)
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetgroupList();
         this.new_data;
@@ -292,7 +292,7 @@ export class EmpsetdepComponent implements OnInit {
     data.emp_data = this.selectEmp.employee_dest;
     await this.setempdetailService.SetPosition_record(data).then((res) => {
       if (res.success) {
-        // console.log(res.message)
+        // // console.log(res.message)
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetpositionList();
         this.new_data;

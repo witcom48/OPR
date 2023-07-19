@@ -200,11 +200,11 @@ export class SetitemsComponent implements OnInit {
         data.items_data = this.selectEmp.employee_dest;
 
         this.loading = true;
-        console.log(data);
+        // console.log(data);
         await this.setitemsService.SetItems_record(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.success) {
-                console.log(res.message);
+                // console.log(res.message);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
@@ -231,9 +231,9 @@ export class SetitemsComponent implements OnInit {
 
     async doDeleteLate(data: SetItemModel) {
         this.loading = true;
-        console.log(data);
+        // console.log(data);
         await this.setitemsService.SetItems_delete(data).then((res) => {
-            console.log(res);
+            // console.log(res);
             this.SetItems_List = this.SetItems_List.filter(
                 (item) => item !== data
             );

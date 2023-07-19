@@ -75,12 +75,12 @@ export class CombranchDetailService {
       return this.http.post<any>(this.config.ApiSystemModule + '/comaddress_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
     public record_comddress(combranch_code :string, list:ComaddressModel[]) {
-        console.log('CCAD001...')
+        // console.log('CCAD001...')
 
       var item_data:string = "[";
       for (let i = 0; i < list.length; i++) {
@@ -181,7 +181,7 @@ export class CombranchDetailService {
       return this.http.post<any>(this.config.ApiSystemModule + '/comcard_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
@@ -203,7 +203,7 @@ export class CombranchDetailService {
         item_data = item_data.substr(0, item_data.length - 1);
       }
       item_data = item_data + "]";
-      console.log(item_data);
+      // console.log(item_data);
 
       var specificData = {
         transaction_data:item_data,

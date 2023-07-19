@@ -757,6 +757,8 @@ var account = new Map([
     ["position_select", { TH: "ตำแหน่งาน (ที่เลือก)", EN: "Position (Selected)" }],
     ["dep", { TH: "แผนก", EN: "Department List" }],
     ["dep_select", { TH: "แผนก (ที่เลือก)", EN: "Department (Selected)" }],
+    ["module", { TH: "โมดูล", EN: "Module List" }],
+    ["module_select", { TH: "โมดูล (ที่เลือก)", EN: "Module (Selected)" }],
     ["manage", { TH: "จัดการ", EN: "Manage" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["approve", { TH: "ผู้อนุมัติ", EN: "Approve" }],

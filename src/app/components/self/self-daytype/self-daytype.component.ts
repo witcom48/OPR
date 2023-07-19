@@ -121,7 +121,7 @@ export class SelfDaytypeComponent implements OnInit {
   doLoadPolDaytype() {
     this.daytype_list = []
     this.timecardService.daytype_get().then(async (res) => {
-      console.log(res)
+      // console.log(res)
       this.daytype_list = await res;
     });
   }
@@ -161,7 +161,7 @@ export class SelfDaytypeComponent implements OnInit {
   }
   doLoadDaytypeOld() {
     this.timecardService.timecard_get(this.initial_current.CompCode, "", this.initial_current.Username, this.selectedtimedaytype.timedaytype_workdate, this.selectedtimedaytype.timedaytype_todate).then(async (res) => {
-      console.log(res[0])
+      // console.log(res[0])
       this.selectedtimedaytype.timedaytype_old = res[0].timecard_daytype;
       // this.daytype_list.forEach((obj: DaytypeModels) => {
       //   if (obj.daytype_code == res[0].daytype_code) {
@@ -183,7 +183,7 @@ export class SelfDaytypeComponent implements OnInit {
     const filename = "DAYTYPE_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
     const filetype = this.fileToUpload.name.split(".")[1];
     this.timedaytypeService.file_import(this.fileToUpload, filename, filetype).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.selectedtimedaytype.reqdoc_data = this.selectedtimedaytype.reqdoc_data.concat({
@@ -245,7 +245,7 @@ export class SelfDaytypeComponent implements OnInit {
       //   label: 'Edit',
       //   icon: 'pi pi-fw pi-pencil',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -279,7 +279,7 @@ export class SelfDaytypeComponent implements OnInit {
       //   label: 'เพิ่มไฟล์แนบ',
       //   icon: 'pi pi-fw pi-plus',
       //   command: (event) => {
-      //     console.log('Edit')
+      //     // console.log('Edit')
       //   }
       // },
       // {
@@ -311,7 +311,7 @@ export class SelfDaytypeComponent implements OnInit {
     }
   }
   selectdaytypenew() {
-    console.log(this.daytype_newselected.daytype_code)
+    // console.log(this.daytype_newselected.daytype_code)
     this.selectedtimedaytype.timedaytype_new = this.daytype_newselected.daytype_code
   }
   selectDaytypereason() {
@@ -323,7 +323,7 @@ export class SelfDaytypeComponent implements OnInit {
       header: this.langs.get('delete')[this.selectlang],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        console.log(data)
+        // console.log(data)
         if (data.document_id) {
           this.timedaytypeService.delete_file(data).then((res) => {
             if (res.success) {
@@ -411,7 +411,7 @@ export class SelfDaytypeComponent implements OnInit {
           if (this.selectedtimedaytype.timedaytype_doc === "") {
             this.selectedtimedaytype.timedaytype_doc = "DAYTYPE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
           }
-          // console.log(this.selectedtimedaytype)
+          // // console.log(this.selectedtimedaytype)
           this.doRecordTimedaytype([this.selectedtimedaytype])
         }
       },

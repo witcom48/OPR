@@ -42,21 +42,13 @@ export class BonusService {
     }
 
     public bonus_get(model: BonusModel) {
-        console.log('PAYB001..');
-        let data = {
+         let data = {
             device_name: "",
             ip: "",
             username: this.initial_current.Username,
             company_code: model.company_code || this.initial_current.CompCode,
             bonus_id: model.bonus_id,
             bonus_code: model.bonus_code,
-            // bonus_name_th: model.bonus_name_th,
-            // bonus_name_en: model.bonus_name_en,
-            // item_code: model.item_code,
-
-            // modified_by: this.initial_current.Username,
-            // flag: model.flag,
-            // bonus_data: model.bonus_data
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/bonus_list', data, this.options).toPromise()
             .then((res) => {
@@ -66,8 +58,7 @@ export class BonusService {
     }
 
     public bonus_record(model: BonusModel) {
-        console.log('PAYB002..');
-        let data = {
+         let data = {
             device_name: "",
             ip: "",
             username: this.initial_current.Username,
@@ -84,14 +75,12 @@ export class BonusService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/bonus', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
-                let message = JSON.parse(res);
+                 let message = JSON.parse(res);
                 return message;
             });
     }
     public bonus_delete(model: BonusModel) {
-        console.log('PAYB003..');
-        let data = {
+         let data = {
             device_name: "",
             ip: "",
             username: this.initial_current.Username,
@@ -102,16 +91,14 @@ export class BonusService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/bonus_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
-                let message = JSON.parse(res);
+                 let message = JSON.parse(res);
                 return message;
             });
     }
 
 
     public bonus_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYB004..');
-        const formData = new FormData();
+         const formData = new FormData();
         formData.append('file', file);
 
         var para = "fileName=" + file_name + "." + file_type;

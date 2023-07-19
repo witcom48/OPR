@@ -215,14 +215,14 @@ export class SystemCompanyComponent implements OnInit {
             },
             key: 'myDialog',
         });
-        console.log(this.selectedcompany);
+        // console.log(this.selectedcompany);
     }
 
     doRecordCompany() {
         this.companyService
             .company_recordall(this.selectedcompany)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 let result = JSON.parse(res);
 
                 if (result.success) {
@@ -261,10 +261,10 @@ export class SystemCompanyComponent implements OnInit {
       }
       
       deleteCompany(data: any) {
-        console.log(data);
+        // console.log(data);
       
         this.companyService.company_delete(data).then((res) => {
-          console.log(res);
+          // console.log(res);
           let result = JSON.parse(res);
       
           if (result.success) {
@@ -302,10 +302,10 @@ export class SystemCompanyComponent implements OnInit {
     //     });
     // }
     // doDeleteCompany() {
-    //     console.log(this.selectedcompany);
+    //     // console.log(this.selectedcompany);
 
     //     this.companyService.company_delete(this.selectedcompany).then((res) => {
-    //         console.log(res);
+    //         // console.log(res);
     //         let result = JSON.parse(res);
 
     //         if (result.success) {
@@ -350,7 +350,7 @@ onButtonHover() {
     this.isHovered = false;
   }
     doUploadCompany() {
-        console.log('Upload');
+        // console.log('Upload');
         if (this.fileToUpload) {
             this.confirmationService.confirm({
                 message: 'Confirm Upload file : ' + this.fileToUpload.name,
@@ -365,7 +365,7 @@ onButtonHover() {
                     this.companyService
                         .company_import(this.fileToUpload, filename, filetype)
                         .then((res) => {
-                            console.log(res);
+                            // console.log(res);
                             let result = JSON.parse(res);
 
                             if (result.success) {
@@ -422,7 +422,7 @@ onButtonHover() {
     }
 
     selectComManage() {
-        console.log(this.selectedcompany.company_code);
+        // console.log(this.selectedcompany.company_code);
 
         let navigationExtras: NavigationExtras = {
             queryParams: {

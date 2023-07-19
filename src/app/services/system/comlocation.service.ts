@@ -56,7 +56,7 @@ export class ComlocationService {
     }
 
     public comlocation_get(code: string) {
-        console.log('COLO001..');
+        // console.log('COLO001..');
 
         var filter = {
             device_name: '',
@@ -78,7 +78,7 @@ export class ComlocationService {
         .toPromise()
         .then((res) => {
             let message = JSON.parse(res);
-            console.log(res);
+            // console.log(res);
             return message.data;
         });
 
@@ -86,7 +86,7 @@ export class ComlocationService {
     }
 
     public comlocation_record(model: ComlocationModel) {
-        console.log('COLO002..');
+        // console.log('COLO002..');
         const data = {
             company_code: model.company_code,
             comlocation_id: model.comlocation_id,
@@ -104,13 +104,13 @@ export class ComlocationService {
             )
             .toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 return res;
             });
     }
 
     public comlocation_delete(model: ComlocationModel) {
-        console.log('COLO003..');
+        // console.log('COLO003..');
         const data = {
             company_code: model.company_code,
             comlocation_code: model.comlocation_code,

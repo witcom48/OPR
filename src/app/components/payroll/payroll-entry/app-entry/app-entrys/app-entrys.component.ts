@@ -354,7 +354,7 @@ export class AppEntrysComponent implements OnInit {
         this.doLoaditem()
           .then((res) => {
             this.item_list = res;
-            console.log(this.item_list);
+            // console.log(this.item_list);
             this.doSummaryByEmp();
           })
           .catch((error) => {
@@ -390,11 +390,11 @@ export class AppEntrysComponent implements OnInit {
         data.item_data = this.selectEmp.employee_dest;
 
         this.loading = true;
-        console.log(data);
+        // console.log(data);
         await this.payitemService.setpayitems_record('',data).then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.success) {
-            console.log(res.message);
+            // console.log(res.message);
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
@@ -402,7 +402,7 @@ export class AppEntrysComponent implements OnInit {
             });
             this.doLoaditem();
             this.doSetDetailItem();
-            console.log(this.payitem_list); 
+            // console.log(this.payitem_list); 
 
             this.edit_data = false;
           } else {
@@ -542,9 +542,9 @@ export class AppEntrysComponent implements OnInit {
       async doDeleteLate(data: PayitemModel) {
         try {
           this.loading = true;
-          console.log(data);
+          // console.log(data);
           const res = await this.payitemService.payitem_delete(data);
-          console.log(res);
+          // console.log(res);
           if (res.success) {
             this.messageService.add({
               severity: 'success',
@@ -553,7 +553,7 @@ export class AppEntrysComponent implements OnInit {
             });
             await this.doLoaditem();
             this.doSetDetailItem();
-            console.log(this.payitem_list); 
+            // console.log(this.payitem_list); 
             this.edit_data = false;
             this.new_data = false;
           } else {

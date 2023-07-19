@@ -130,7 +130,7 @@ export class AttendanceProcessComponent implements OnInit {
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        //console.log(this.selectEmp.employee_dest.length)
+        //// console.log(this.selectEmp.employee_dest.length)
 
         this.taskService.task_record(this.task, this.taskDetail, this.selectEmp.employee_dest).then((res) => {       
           let result = JSON.parse(res);  
@@ -151,7 +151,8 @@ export class AttendanceProcessComponent implements OnInit {
       },
       reject: () => {
         this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-      }
+      },
+      key: "myDialog"
     });
   }
 

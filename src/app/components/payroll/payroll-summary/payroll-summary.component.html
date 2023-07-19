@@ -1,0 +1,157 @@
+<span style="font-size: 20px;">Payroll</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Summary</small>
+<hr>
+<p-toast position="top-right"></p-toast> 
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+
+<p-dialog header="" [(visible)]="displayManage" [style]="{width: '45vw'}" [position]="position">
+    <div class="formgrid grid align-items-end" >  
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
+    <div class="grid">
+        <div class="col-12">
+            <app-search-emp></app-search-emp>
+        </div>
+        <div class="col-12">
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-save" (click)="select_emp()"></p-button> 
+            &nbsp;
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}" class="p-button-secondary" (click)="close_searchemp()"></button>                      
+        </div>
+    </div>
+</p-dialog>
+
+<div class="grid">            
+    <div class="col-12">
+        <p-menubar [model]="menu_byemp"></p-menubar>     
+        <div #TABLE>
+        <p-table #dtDate [value]="paytran_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '300rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedPaytran" dataKey="worker_code"
+        [rows]="30" [showCurrentPageReport]="true" [rowsPerPageOptions]="[30,50,100]" 
+        [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+        [globalFilterFields]="['worker_code', 'worker_detail']"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dtDate.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search[initial_current.Language]}}" />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>  
+                    <th>{{title_empid[initial_current.Language]}}</th> 
+                    <th>{{title_empname[initial_current.Language]}}</th> 
+
+                    <th>{{title_salary[initial_current.Language]}}</th> 
+                    <th>{{title_overtime[initial_current.Language]}}</th> 
+                    <th>{{title_diligence[initial_current.Language]}}</th> 
+                    <th>{{title_other[initial_current.Language]}} {{title_income[initial_current.Language]}}</th> 
+                    <th>{{title_totalincome[initial_current.Language]}}</th>   
+
+                    <th>{{title_absent[initial_current.Language]}}</th>
+                    <th>{{title_late[initial_current.Language]}}</th>
+                    <th>{{title_leave[initial_current.Language]}}</th>
+                    <th>{{title_tax[initial_current.Language]}}</th>   
+                    <th>{{title_pf[initial_current.Language]}} {{title_emp[initial_current.Language]}}</th> 
+                    <th>{{title_sso[initial_current.Language]}} {{title_emp[initial_current.Language]}}</th>   
+                    <th>{{title_other[initial_current.Language]}} {{title_deduct[initial_current.Language]}}</th>
+                    <th>{{title_totaldeduct[initial_current.Language]}}</th>   
+
+                    <th>{{title_netpay[initial_current.Language]}}</th>                       
+                    <th>{{title_bank[initial_current.Language]}}</th>                       
+                    <th>{{title_cash[initial_current.Language]}}</th>   
+
+                    <th>{{title_income[initial_current.Language]}} 40(1)</th> 
+                    <th>{{title_deduct[initial_current.Language]}} 40(1)</th> 
+                    <th>{{title_tax[initial_current.Language]}} 40(1)</th> 
+
+                    <th>{{title_income[initial_current.Language]}} 40(1)(2)</th> 
+                    <th>{{title_deduct[initial_current.Language]}} 40(1)(2)</th> 
+                    <th>{{title_tax[initial_current.Language]}} 40(1)(2)</th> 
+
+                    <th>{{title_income[initial_current.Language]}} 40(1)(3)</th> 
+                    <th>{{title_deduct[initial_current.Language]}} 40(1)(3)</th> 
+                    <th>{{title_tax[initial_current.Language]}} 40(1)(3)</th> 
+
+                    <th>{{title_income[initial_current.Language]}} 40(2)I</th> 
+                    <th>{{title_deduct[initial_current.Language]}} 40(2)I</th> 
+                    <th>{{title_tax[initial_current.Language]}} 40(2)I</th> 
+
+                    <th>{{title_income[initial_current.Language]}} 40(2)O</th> 
+                    <th>{{title_deduct[initial_current.Language]}} 40(2)O</th> 
+                    <th>{{title_tax[initial_current.Language]}} 40(2)O</th> 
+
+                    <th>{{title_income[initial_current.Language]}} {{title_notax[initial_current.Language]}}</th> 
+                    <th>{{title_deduct[initial_current.Language]}} {{title_notax[initial_current.Language]}}</th>                  
+
+                    <th>{{title_pf[initial_current.Language]}} {{title_com[initial_current.Language]}}</th> 
+                    <th>{{title_sso[initial_current.Language]}} {{title_com[initial_current.Language]}}</th>                       
+                    
+                    <th style="width: 120px;">{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>                                                                 
+                </tr>	
+                
+            </ng-template>
+            <ng-template pTemplate="body" let-paytran>
+                <tr [pSelectableRow]="paytran" >        
+                                                
+                    <td>{{paytran.worker_code}}</td>   
+                    <td>{{paytran.worker_detail}}</td>   
+                  
+                    <td>{{paytran.paytran_salary | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_overtime | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_diligence | number:'1.2-2'}}</td>  
+                    <td>{{(paytran.paytran_income_total -(paytran.paytran_salary+paytran.paytran_overtime+paytran.paytran_diligence) ) | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_income_total | number:'1.2-2'}}</td>  
+
+                    <td>{{paytran.paytran_absent | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_late | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_leave | number:'1.2-2'}}</td>  
+                    <td>{{(paytran.paytran_tax_401+paytran.paytran_tax_4012+paytran.paytran_tax_4013+paytran.paytran_tax_402I+paytran.paytran_tax_402O) | number:'1.2-2'}}</td> 
+                    <td>{{paytran.paytran_pfemp | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_ssoemp | number:'1.2-2'}}</td>  
+                    <td>{{(paytran.paytran_deduct_total - (paytran.paytran_pfemp + paytran.paytran_ssoemp + paytran.paytran_tax_401+paytran.paytran_tax_4012+paytran.paytran_tax_4013+paytran.paytran_tax_402I+paytran.paytran_tax_402O) ) | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_deduct_total | number:'1.2-2'}}</td>  
+
+                    <td>{{(paytran.paytran_netpay_b + paytran.paytran_netpay_c) | number:'1.2-2'}}</td>        
+                    <td>{{paytran.paytran_netpay_b | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_netpay_c | number:'1.2-2'}}</td>      
+
+                    <td>{{paytran.paytran_income_401 | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_deduct_401 | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_tax_401 | number:'1.2-2'}}</td>  
+
+                    <td>{{paytran.paytran_income_4012 | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_deduct_4012 | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_tax_4012 | number:'1.2-2'}}</td>  
+
+                    <td>{{paytran.paytran_income_4013 | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_deduct_4013 | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_tax_4013 | number:'1.2-2'}}</td>  
+
+                    <td>{{paytran.paytran_income_402I | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_deduct_402I | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_tax_402I | number:'1.2-2'}}</td>  
+
+                    <td>{{paytran.paytran_income_402O | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_deduct_402O | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_tax_402O | number:'1.2-2'}}</td>  
+
+                    <td>{{paytran.paytran_income_notax | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_deduct_notax | number:'1.2-2'}}</td>  
+
+                    <td>{{paytran.paytran_pfcom | number:'1.2-2'}}</td>  
+                    <td>{{paytran.paytran_ssocom | number:'1.2-2'}}</td> 
+
+                    <td>{{paytran.modified_by}}</td>      
+                    <td>{{paytran.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>    
+        </p-table>
+        </div>
+    </div>
+</div>
+

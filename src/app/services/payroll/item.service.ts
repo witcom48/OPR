@@ -42,7 +42,7 @@ export class ItemService {
     }
 
     public item_get(model: ItemsModel) {
-        console.log('PAYT001..');
+        // console.log('PAYT001..');
         let data = {
             device_name: "",
             ip: "",
@@ -76,7 +76,7 @@ export class ItemService {
     }
 
     public item_record(model: ItemsModel) {
-        console.log('PAYT002..');
+        // console.log('PAYT002..');
         let data = {
             device_name: "",
             ip: "",
@@ -104,13 +104,13 @@ export class ItemService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/MTItem', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
     }
     public item_delete(model: ItemsModel) {
-        console.log('PAYT003..');
+        // console.log('PAYT003..');
         let data = {
             device_name: "",
             ip: "",
@@ -140,7 +140,7 @@ export class ItemService {
         }
         return this.http.post<any>(this.config.ApiPayrollModule + '/MTItem_del', data, this.options).toPromise()
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let message = JSON.parse(res);
                 return message;
             });
@@ -148,7 +148,7 @@ export class ItemService {
 
 
     public item_import(file: File, file_name: string, file_type: string) {
-        console.log('PAYT004..');
+        // console.log('PAYT004..');
         const formData = new FormData();
         formData.append('file', file);
 

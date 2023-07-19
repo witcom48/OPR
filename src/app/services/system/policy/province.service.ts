@@ -60,18 +60,18 @@ export class ProvinceService {
     }
 
     public province_get(){
-      console.log('PRV001..');
+      // console.log('PRV001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/province_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public province_record(model:ProvinceModel) {
-      console.log('PRV002..');
+      // console.log('PRV002..');
       const data = {
         province_id: model.province_id,
         province_code: model.province_code,
@@ -83,13 +83,13 @@ export class ProvinceService {
       return this.http.post<any>(this.config.ApiSystemModule + '/province', data, this.options).toPromise()
       .then((res) => {
 
-        //console.log(res)
+        //// console.log(res)
         return res;
       });
     }
 
     public province_delete(model:ProvinceModel) {
-      console.log('PRV002..');
+      // console.log('PRV002..');
       const data = {
         province_id: model.province_id,
         province_code: model.province_code,

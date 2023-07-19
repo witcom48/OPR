@@ -52,7 +52,7 @@ export class SelectEmpComponent implements OnInit {
     this.doLoadPositionList();
     this.doLoadEmptypeList();
 
-    console.log(window.location.hash.split("/").pop())
+    // console.log(window.location.hash.split("/").pop())
     setTimeout(() => {
       this.doLoadEmployee()
       this.doGetDataFillter();
@@ -230,7 +230,7 @@ export class SelectEmpComponent implements OnInit {
   doChangeSearchemp(event: any){
     if(this.fillterSearchemp){
       this.doGetDataFillter();
-      // console.log(this.selectedSearchemp)
+      // // console.log(this.selectedSearchemp)
     }
   }
 }

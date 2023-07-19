@@ -20,16 +20,16 @@
 
     <div class="field col-12 md:col-6  center">
         <label>{{title_tab_PF[initial_current.Language]}}</label>
-        <p-dropdown   [options]="round_list" optionValue="rounds_code" [(ngModel)]="selectedPF"
+        <p-dropdown   [options]="round_list" optionValue="round_code" [(ngModel)]="selectedPF"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' } ">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :item.round_name_en}}
             </ng-template>
         </p-dropdown>
     </div>
@@ -37,17 +37,17 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_OTDAY[initial_current.Language]}} </label>
-        <p-dropdown  [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedOTDAY"
+        <p-dropdown  [options]="round_list" optionValue="round_code" [(ngModel)]=" selectedOTDAY"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown>
@@ -56,17 +56,17 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_SSO[initial_current.Language]}} </label>
-        <p-dropdown  [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedSSO"
+        <p-dropdown  [options]="round_list" optionValue="round_code" [(ngModel)]=" selectedSSO"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown>
@@ -74,17 +74,17 @@
 
     <div class="field col-12 md:col-6 center">
         <label> {{title_tab_OTSUM[initial_current.Language]}} </label>
-        <p-dropdown  [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedOTSUM"
+        <p-dropdown  [options]="round_list" optionValue="round_code" [(ngModel)]=" selectedOTSUM"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown>
@@ -92,17 +92,17 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_TAX[initial_current.Language]}}</label>
-        <p-dropdown  [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedTAX"
+        <p-dropdown  [options]="round_list" optionValue="round_code" [(ngModel)]=" selectedTAX"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown>
@@ -110,17 +110,17 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_WDAY[initial_current.Language]}}</label>
-        <p-dropdown  [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedWDAY"
+        <p-dropdown  [options]="round_list" optionValue="round_code" [(ngModel)]=" selectedWDAY"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown>
@@ -128,17 +128,17 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_AB[initial_current.Language]}}</label>
-        <p-dropdown  [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedAB"
+        <p-dropdown  [options]="round_list" optionValue="round_code" [(ngModel)]=" selectedAB"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown>
@@ -146,17 +146,17 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_WSUM[initial_current.Language]}}</label>
-        <p-dropdown [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selectedWSUM"
+        <p-dropdown [options]="round_list" optionValue="round_code" [(ngModel)]=" selectedWSUM"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown>
@@ -164,17 +164,17 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_LV[initial_current.Language]}}</label>
-        <p-dropdown  [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selecteLV"
+        <p-dropdown  [options]="round_list" optionValue="round_code" [(ngModel)]=" selecteLV"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown>
@@ -182,17 +182,17 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_NP[initial_current.Language]}}</label>
-        <p-dropdown  [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selecteNP"
+        <p-dropdown  [options]="round_list" optionValue="round_code" [(ngModel)]=" selecteNP"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown>
@@ -200,17 +200,17 @@
 
     <div class="field col-12 md:col-12 expand ">
         <label>{{title_tab_LT[initial_current.Language]}}</label>
-        <p-dropdown  [options]="round_list" optionValue="rounds_code" [(ngModel)]=" selecteLT"
+        <p-dropdown  [options]="round_list" optionValue="round_code" [(ngModel)]=" selecteLT"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
 
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th :
-                item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th :
+                item.round_name_en}}
 
             </ng-template>
         </p-dropdown><br>
@@ -225,15 +225,15 @@
 
     <div class="field col-12 md:col-6  center">
         <label>{{title_tab_TLT[initial_current.Language]}}</label>
-        <p-dropdown  [options]="rounds_list" optionValue="rounds_code" [(ngModel)]=" selecteTLT"
+        <p-dropdown  [options]="rounds_list" optionValue="round_code" [(ngModel)]=" selecteTLT"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
         </p-dropdown>
     </div>
@@ -241,15 +241,15 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_TOT[initial_current.Language]}}</label>
-        <p-dropdown  [options]="rounds_list" optionValue="rounds_code" [(ngModel)]=" selecteTOT"
+        <p-dropdown  [options]="rounds_list" optionValue="round_code" [(ngModel)]=" selecteTOT"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
         </p-dropdown>
     </div>
@@ -257,30 +257,30 @@
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_TLV[initial_current.Language]}}</label>
-        <p-dropdown  [options]="rounds_list" optionValue="rounds_code" [(ngModel)]=" selecteTLV"
+        <p-dropdown  [options]="rounds_list" optionValue="round_code" [(ngModel)]=" selecteTLV"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
         </p-dropdown>
     </div>
 
     <div class="field col-12 md:col-6 center">
         <label>{{title_tab_TWK[initial_current.Language]}}</label>
-        <p-dropdown  [options]="rounds_list" optionValue="rounds_code" [(ngModel)]=" selecteTWK"
+        <p-dropdown  [options]="rounds_list" optionValue="round_code" [(ngModel)]=" selecteTWK"
             [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.rounds_code : item.rounds_code}} -
-                {{initial_current.Language=="TH"? item.rounds_name_th : item.rounds_name_en}}
+                {{initial_current.Language=="TH"? item.round_code : item.round_code}} -
+                {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
             </ng-template>
         </p-dropdown>
     </div>

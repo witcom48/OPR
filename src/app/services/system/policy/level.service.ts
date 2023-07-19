@@ -58,18 +58,18 @@ export class LevelService {
     }
 
     public level_get(){
-      console.log('LVL001..');
+      // console.log('LVL001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/level_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public level_record(model:LevelModel) {
-      console.log('LVL002..');
+      // console.log('LVL002..');
       const data = {
         level_id: model.level_id,
         level_code: model.level_code,
@@ -84,13 +84,13 @@ export class LevelService {
       return this.http.post<any>(this.config.ApiSystemModule + '/level', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public level_delete(model:LevelModel) {
-      console.log('LVL002..');
+      // console.log('LVL002..');
       const data = {
             level_id: model.level_id,
             level_code: model.level_code,

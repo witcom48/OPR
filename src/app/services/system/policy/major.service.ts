@@ -58,18 +58,18 @@ export class MajorService {
     }
 
     public major_get(){
-      console.log('MAJ001..');
+      // console.log('MAJ001..');
 
       return this.http.post<any>(this.config.ApiSystemModule + '/major_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        console.log(res)
+        // console.log(res)
         return message.data;
       });
     }
 
     public major_record(model:MajorModel) {
-      console.log('MAJ002..');
+      // console.log('MAJ002..');
       const data = {
         major_id: model.major_id,
         major_code: model.major_code,
@@ -81,13 +81,13 @@ export class MajorService {
       return this.http.post<any>(this.config.ApiSystemModule + '/major', data, this.options).toPromise()
       .then((res) => {
 
-        console.log(res)
+        // console.log(res)
         return res;
       });
     }
 
     public major_delete(model:MajorModel) {
-      console.log('MAJ003..');
+      // console.log('MAJ003..');
       const data = {
         major_id: model.major_id,
         major_code: model.major_code,

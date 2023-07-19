@@ -256,7 +256,7 @@ export class SelfApproveRecordtimeComponent implements OnInit {
             tmp.approve_status = "A";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {
@@ -278,7 +278,7 @@ export class SelfApproveRecordtimeComponent implements OnInit {
             tmp.approve_status = "C";
             tmp.company_code = data.company_code;
           })
-          console.log(tmp)
+          // console.log(tmp)
           this.doApproveJob(tmp)
         },
         reject: () => {

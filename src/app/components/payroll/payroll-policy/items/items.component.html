@@ -73,8 +73,8 @@
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedMTItem.item_code" maxlength="10" disabled="{{edit_data}}" />
-        <p>{{selectedMTItem.item_code.length}}/10</p>
+        <input pInputText type="text" [(ngModel)]="selectedMTItem.item_code" maxlength="20" disabled="{{edit_data}}" />
+        <p>{{selectedMTItem.item_code.length}}/20</p>
 
 
         <label>{{title_detail_en}}</label>
@@ -166,7 +166,7 @@
 
             <div>
                 <input type="radio" name="item" value="3" [(ngModel)]="selectedMTItem.item_section">
-                <label>40(2)</label>
+                <label>40(3)</label>
             </div>
 
             <div>
@@ -187,7 +187,7 @@
 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="Delete()"></button>
+        key="myDialog"  class="p-button-danger" (click)="Delete()"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>

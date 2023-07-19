@@ -144,7 +144,7 @@ export class AttendanceImportComponent implements OnInit {
     
 
     this.timeinputformatService.doReadSimpleTimeinput(this.fileToUpload, filename, filetype).then((res) =>{       
-      console.log(res)
+      // console.log(res)
       let result = JSON.parse(res);  
       if(result.success){
         this.examInput = result.data;
@@ -180,32 +180,32 @@ export class AttendanceImportComponent implements OnInit {
   }
 
   onChangeFormatCard(val: any){
-    //console.log(val);
+    //// console.log(val);
     this.examCard = this.examInput.substr(this.formatDetail.card_start, this.formatDetail.card_lenght);    
   }
 
   onChangeFormatDate(event: any){
-    //console.log(event.target.value);
+    //// console.log(event.target.value);
     this.examDate = this.examInput.substr(this.formatDetail.date_start, this.formatDetail.date_lenght);    
   }
 
   onChangeFormatHours(event: any){
-    //console.log(event.target.value);
+    //// console.log(event.target.value);
     this.examHours = this.examInput.substr(this.formatDetail.hours_start, this.formatDetail.hours_lenght);    
   }
 
   onChangeFormatMinute(event: any){
-    //console.log(event.target.value);
+    //// console.log(event.target.value);
     this.examMinute = this.examInput.substr(this.formatDetail.minute_start, this.formatDetail.minute_lenght);    
   }
 
   onChangeFormatFunction(event: any){
-    //console.log(event.target.value);
+    //// console.log(event.target.value);
     this.examFunction = this.examInput.substr(this.formatDetail.function_start, this.formatDetail.function_lenght);    
   }
 
   onChangeFormatMachine(event: any){
-    //console.log(event.target.value);
+    //// console.log(event.target.value);
     this.examMachine = this.examInput.substr(this.formatDetail.machine_start, this.formatDetail.machine_lenght);    
   }
 
@@ -280,7 +280,7 @@ export class AttendanceImportComponent implements OnInit {
 
         //-- Step 1 Import File
         this.timeinputformatService.uploadTimeScan(this.fileToImport, filename, filetype).then((res) =>{       
-          console.log(res)
+          // console.log(res)
           let result = JSON.parse(res);  
           if(result.success){
             

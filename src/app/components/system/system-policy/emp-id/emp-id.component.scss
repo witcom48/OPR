@@ -252,7 +252,7 @@ p {
 //     ngOnInit(): void {
 //         this.route.queryParams.subscribe((params) => {
 //             this.combranch_code = params['combranchcode'];
-//             console.log(this.combranch_code);
+//             // console.log(this.combranch_code);
 //         });
 
 //         this.doGetInitialCurrent();
@@ -454,7 +454,7 @@ p {
 //                 label: 'Save',
 //                 icon: 'pi pi-fw pi-save',
 //                 command: (event) => {
-//                     console.log('Save');
+//                     // console.log('Save');
 //                     this.confirmRecord();
 //                 },
 //             },
@@ -556,7 +556,7 @@ p {
 //                 await res.forEach((element: CombranchModel) => {});
 
 //                 Combranch_list = await res;
-//                 console.log(res);
+//                 // console.log(res);
 
 //                 if (Combranch_list.length > 0) {
 //                     this.selectedCombranch = Combranch_list[0];
@@ -689,7 +689,7 @@ p {
 //         this.combranchService
 //             .combranch_record(this.selectedCombranch)
 //             .then((res) => {
-//                 console.log(res);
+//                 // console.log(res);
 
 //                 let result = JSON.parse(res);
 

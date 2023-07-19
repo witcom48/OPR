@@ -60,7 +60,7 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th>{{title_no}}</th>
-                    <th>{{title_code}}</th>
+                    <!-- <th>{{title_code}}</th> -->
                     <th>{{title_detail_th}}</th>
                     <th>{{title_detail_en}}</th>
                    
@@ -75,7 +75,7 @@
                 <tr [pSelectableRow]="data">
 
                 <tr [pSelectableRow]="data">
-                    <td><span>{{title_no}}</span>{{i+1}}</td>
+                    <!-- <td><span>{{title_no}}</span>{{i+1}}</td> -->
                     <td>{{data.period_no}}</td>
                     <td>{{data.period_name_th}}</td>
                     <td>{{data.period_name_en}}</td>
@@ -95,7 +95,7 @@
     <div class="formatt" *ngIf="new_data==true">
         <i (click)="close()"></i>
 
-        <label>{{title_code}}</label>
+        <label>{{title_no}}</label>
         <input pInputText type="text" [(ngModel)]="selectedPeriods.period_no" maxlength="2" disabled="{{edit_data}}" />
         <p>{{selectedPeriods.period_no.length}}/2</p>
 
@@ -146,5 +146,5 @@
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+key="myDialog" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
