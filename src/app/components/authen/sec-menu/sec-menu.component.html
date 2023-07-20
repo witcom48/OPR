@@ -1,1 +1,25 @@
-<p>sec-menu works!</p>
+<p-accordion>
+    <p-accordionTab header="Attendance">
+        <div style="display:flex;gap: 8px;padding-bottom: 8px;">
+            <p-checkbox name="groupname" value="Y" label="Add" [(ngModel)]="attadding"></p-checkbox>
+            <p-checkbox name="groupname" value="Y" label="Edit" [(ngModel)]="attedit"></p-checkbox>
+            <p-checkbox name="groupname" value="Y" label="Delete" [(ngModel)]="attdelete"></p-checkbox>
+            <p-checkbox name="groupname" value="Y" label="Viwe Saraly" [(ngModel)]="attsalary"></p-checkbox>
+        </div>
+        <p-tree [value]="filesatt" selectionMode="checkbox" class="w-full md:w-30rem"
+            [(selection)]="selectedFilesatt"></p-tree>
+    </p-accordionTab>
+</p-accordion>
+<p-accordion>
+    <p-accordionTab header="Employee">
+        <div style="display:flex;gap: 8px;padding-bottom: 8px;">
+            <p-checkbox name="groupname" value="Y" label="Add" [(ngModel)]="empadding"></p-checkbox>
+            <p-checkbox name="groupname" value="Y" label="Edit" [(ngModel)]="empedit"></p-checkbox>
+            <p-checkbox name="groupname" value="Y" label="Delete" [(ngModel)]="empdelete"></p-checkbox>
+            <p-checkbox name="groupname" value="Y" label="Viwe Saraly" [(ngModel)]="empsalary"></p-checkbox>
+        </div>
+        <p-tree [value]="filesemp" selectionMode="checkbox" class="w-full md:w-30rem"
+            [(selection)]="selectedFilesemp"></p-tree>
+    </p-accordionTab>
+</p-accordion>
+<button pButton type="button" (click)="sumit()">Submit</button>
