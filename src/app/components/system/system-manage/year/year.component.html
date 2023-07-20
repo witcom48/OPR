@@ -76,12 +76,14 @@
         <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" disabled="{{edit_data}}" />
         <p>{{yearperiods.year_code.length}}/4</p>
 
-        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
-        <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"></textarea>
+       
 
-        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
+        <label>{{langs.get('descriptionth')[selectlang]}} </label>
         <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"></textarea>
-
+        
+        <label>{{langs.get('descriptionen')[selectlang]}}  </label>
+        <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"></textarea>
+        
         <label>{{langs.get('fromdate')[selectlang]}}</label>
         <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"><input
                 type="text"></p-calendar>

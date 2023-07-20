@@ -49,10 +49,10 @@ export class SysManageComponent implements OnInit {
               this.title_branch= 'ข้อมูลสาขา';
               this.title_reason= 'เหตุผล';
               this.title_structure_code= 'โครงสร้างรหัสพนักงาน';
-              this.title_year_period= 'งวดปี';
+              this.title_year_period= 'ปี';
               this.title_rounding= 'การปัดเศษ';
               this.title_round_decimal= 'ทศนิยม';
-              this.title_round_time= 'รอบเวลา';
+              this.title_round_time= 'เวลา';
               this.title_round_polrounds= 'กำหนดรูปแบบการปัดเศษ';
               
              
