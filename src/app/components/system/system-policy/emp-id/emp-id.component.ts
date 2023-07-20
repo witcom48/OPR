@@ -22,6 +22,9 @@ export class EmpIDComponent implements OnInit {
 
     TRPolcode_list : TRPolcodeModel[] = [];
     selectedTRPolcode : TRPolcodeModel = new TRPolcodeModel();
+    getLanguage() : string {    
+      return this.initial_current.Language;
+    }
 
     constructor(
       private codePolcodeService: CodePolcodeService,
@@ -37,6 +40,7 @@ export class EmpIDComponent implements OnInit {
     ngOnInit(): void {
       this.doGetInitialCurrent()
       this.doLoadLanguage()
+     
       setTimeout(() => {
         
         this.doLoadMenu()
@@ -240,6 +244,14 @@ export class EmpIDComponent implements OnInit {
       });
     }
 
+    getStructureDetail(strucCode: string): string {
+      const foundStructure = this.codestructureList.find(item => item.codestructure_code === strucCode);
+      if (foundStructure) {
+        return this.getLanguage() === 'TH' ? foundStructure.codestructure_name_th : foundStructure.codestructure_name_en;
+      }
+      return '';
+    }
+    
     close(){
       this.new_data=false
       this.selectedTRPolcode = new TRPolcodeModel()
@@ -291,6 +303,7 @@ export class EmpIDComponent implements OnInit {
       }
     }
 
+    
     displayUpload: boolean = false;
     showUpload() {
       this.displayUpload = true;

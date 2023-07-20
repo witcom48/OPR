@@ -101,7 +101,7 @@ export class BonusComponent implements OnInit {
         if (this.initial_current.Language == 'TH') {
             this.title_payroll= 'บัญชี';
             this.title_policy = 'กำหนดนโยบาย';
-            this.title_page = 'โบนัท';
+            this.title_page = 'โบนัส';
             this.title_new = 'เพิ่ม';
             this.title_type = 'ประเภท';
             this.title_regular = 'รูปแบบ';
