@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 
@@ -9,6 +10,8 @@ import { InitialCurrent } from 'src/app/config/initial_current';
   styleUrls: ['./employee-policy.component.scss']
 })
 export class EmployeePolicyComponent implements OnInit {
+
+  title_emp: { [key: string]: string } = { EN: "Employee", TH: "พนักงาน" };
 
   //general
   title_general: { [key: string]: string } = { EN: "Genaral", TH: "ทั่วไป" };
@@ -34,8 +37,16 @@ export class EmployeePolicyComponent implements OnInit {
     private router: Router
   ) { }
 
+  public ttt: string = "TH";
+  itemslike: MenuItem[] = [];
+  home: any;
+
   ngOnInit(): void {
     this.doGetInitialCurrent();
+
+    this.itemslike = [{ label: this.title_emp[this.initial_current.Language], routerLink: '/employee/policy', styleClass: 'activelike' }];
+
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();

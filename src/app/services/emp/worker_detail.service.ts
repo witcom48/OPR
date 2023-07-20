@@ -378,6 +378,8 @@ export class EmpDetailService {
       item_data = item_data + ",\"family_birthdate\":\"" + this.datePipe.transform(list[i].family_birthdate, 'yyyy-MM-dd HH:mm:ss') + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + ",\"family_occupation\":\"" + list[i].family_occupation + "\"";
+      item_data = item_data + ",\"family_tel\":\"" + list[i].family_tel + "\"";
       item_data = item_data + "}" + ",";
     }
     if (item_data.length > 2) {
@@ -1823,6 +1825,7 @@ export class EmpDetailService {
       }
       
       item_data = item_data + ",\"empsuggest_note\":\"" + list[i].empsuggest_note + "\"";
+      item_data = item_data + ",\"empsuggest_amount\":\"" + list[i].empsuggest_amount + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

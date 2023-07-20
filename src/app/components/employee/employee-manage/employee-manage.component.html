@@ -605,6 +605,8 @@
                                             <th>{{title_familycode}}</th>
                                             <th>{{title_fname_th}}</th>
                                             <th>{{title_lname_th}}</th>
+                                            <th>{{title_familyocc[initial_current.Language]}}</th>
+                                            <th>{{title_familytel[initial_current.Language]}}</th>
                                             <th>{{title_modified_by}}</th>
                                             <th>{{title_modified_date}}</th>
                                         </tr>
@@ -615,6 +617,8 @@
                                             <td>{{empfamily.family_code}}</td>
                                             <td>{{empfamily.family_fname_th}}</td>
                                             <td>{{empfamily.family_lname_th}}</td>
+                                            <td>{{empfamily.family_occupation}}</td>
+                                            <td>{{empfamily.family_tel}}</td>
                                             <td>{{empfamily.modified_by}}</td>
                                             <td>{{empfamily.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
@@ -668,27 +672,27 @@
                                 <div class="foreigner">
                                     <h4>{{title_passport}}</h4>
                                     <div>
-                                        <label>{{title_no}}</label>
+                                        <label>{{title_no}}<span style="color: red;"> *</span></label>
                                         <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_no"
                                             maxlength="20">
                                     </div>
-                                    <div style="grid-column: 1;">
-                                        <label>{{title_entrydate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                    <div>
+                                        <label>{{title_entrydate}}<span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.entry_date"><input
                                                 type="text"></p-calendar>
                                         <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.entry_date"> -->
                                     </div>
-                                    <div style="grid-column: 1;">
-                                        <label>{{title_issuedate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                    <div>
+                                        <label>{{title_issuedate}}<span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.passport_issue"><input
                                                 type="text"></p-calendar>
                                         <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_issue"> -->
                                     </div>
                                     <div>
-                                        <label>{{title_expiredate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_expiredate}}<span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.passport_expire"><input
                                                 type="text"></p-calendar>
                                         <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_expire"> -->
@@ -698,20 +702,20 @@
                                     </div>
                                     <h4>{{title_visa}}</h4>
                                     <div>
-                                        <label>{{title_no}}</label>
+                                        <label>{{title_no}}<span style="color: red;"> *</span></label>
                                         <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_no"
                                             maxlength="20">
                                     </div>
-                                    <div style="grid-column: 1;">
-                                        <label>{{title_issuedate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                    <div>
+                                        <label>{{title_issuedate}}<span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.visa_issue"><input
                                                 type="text"></p-calendar>
                                         <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_issue"> -->
                                     </div>
                                     <div>
-                                        <label>{{title_expiredate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_expiredate}}<span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.visa_expire"><input
                                                 type="text"></p-calendar>
                                         <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_expire">  -->
@@ -721,24 +725,24 @@
                                     </div>
                                     <h4>{{title_workpermit}}</h4>
                                     <div>
-                                        <label>{{title_no}}</label>
+                                        <label>{{title_no}}<span style="color: red;"> *</span></label>
                                         <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.workpermit_no"
                                             maxlength="20">
                                     </div>
-                                    <div style="grid-column: 1;">
-                                        <label>{{title_by}}</label>
+                                    <div>
+                                        <label>{{title_by}}<span style="color: red;"> *</span></label>
                                         <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.workpermit_by">
                                     </div>
-                                    <div style="grid-column: 1;">
-                                        <label>{{title_issuedate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                    <div>
+                                        <label>{{title_issuedate}}<span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.workpermit_issue"><input
                                                 type="text"></p-calendar>
                                         <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.workpermit_issue"> -->
                                     </div>
                                     <div>
-                                        <label>{{title_expiredate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_expiredate}}<span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.workpermit_expire"><input
                                                 type="text"></p-calendar>
                                         <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.workpermit_expire"> -->
@@ -753,7 +757,7 @@
                                     </div>
                                     <div>
                                         <label>{{title_certiexpire}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.certificate_expire"><input
                                                 type="text"></p-calendar>
                                         <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.certificate_expire"> -->
@@ -765,7 +769,7 @@
                                     </div>
                                     <div>
                                         <label>{{title_otherexpire}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.otherdoc_expire"><input
                                                 type="text"></p-calendar>
                                         <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.otherdoc_expire"> -->
@@ -1308,6 +1312,7 @@
                                                 <th>{{title_amount}}</th>
                                                 <th>{{title_conditionpay}}</th>
                                                 <th>{{title_reason}}</th>
+                                                <th>{{title_break}}</th>
                                                 <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
                                             </tr>
@@ -1319,6 +1324,7 @@
                                                 <td>{{empbenefit.empbenefit_amount}}</td>
                                                 <td>{{empbenefit.empbenefit_conditionpay}}</td>
                                                 <td>{{empbenefit.empbenefit_reason}}</td>
+                                                <td>{{empbenefit.empbenefit_break}}</td>
                                                 <td>{{empbenefit.modified_by}}</td>
                                                 <td>{{empbenefit.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -1355,8 +1361,10 @@
                                                 <th>{{title_provident}}</th>
                                                 <th>{{title_pfentry}}</th>
                                                 <th>{{title_pfstart}}</th>
+                                                <th>{{title_pfend}}</th>
                                                 <th>สะสม %</th>
                                                 <th>สมทบ %</th>
+                                                <th>{{title_pfend}}</th>
                                                 <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
                                             </tr>
@@ -1366,6 +1374,7 @@
                                                 <td>{{doGetProvidentDetail(empprovident.provident_code)}}</td>
                                                 <td>{{empprovident.empprovident_entry| date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empprovident.empprovident_start| date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empprovident.empprovident_end| date:'dd/MM/yyyy'}}</td>
                                                 <td></td>
                                                 <td></td>
                                                 <td>{{empprovident.modified_by}}</td>
@@ -1539,7 +1548,7 @@
 <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
     <!-- Form Emp Address -->
     <div class="formatt" *ngIf="edit_empaddress==true || new_empaddress==true">
-        <label>{{title_addresstype}}</label>
+        <label>{{title_addresstype}}<span style="color: red;"> *</span></label>
         <p-dropdown placeholder="--" [options]="addresstypeList" optionValue="addresstype_code" [showClear]="true"
             [(ngModel)]="selectedEmpAddress.address_type" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1551,22 +1560,22 @@
         </p-dropdown>
 
         <label>{{title_no}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_no">
+        <input pInputText type="text"  [(ngModel)]="selectedEmpAddress.address_no">
 
         <label>{{title_moo}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_moo">
+        <input pInputText type="text"  [(ngModel)]="selectedEmpAddress.address_moo">
 
         <label>{{title_soi}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_soi">
+        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_soi">
 
         <label>{{title_road}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_road">
+        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_road">
 
         <label>{{title_tambon}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_tambon">
+        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_tambon">
 
         <label>{{title_amphur}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_amphur">
+        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_amphur">
 
         <label>{{title_province}}</label>
         <p-dropdown placeholder="--" [options]="provinceList" optionValue="province_code" [showClear]="true"
@@ -1580,7 +1589,7 @@
         </p-dropdown>
 
         <label>{{title_zipcode}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpAddress.address_zipcode">
+        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_zipcode">
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
             (click)="empaddress_summit()"></button>
@@ -1590,7 +1599,7 @@
     </div>
     <!-- Form Emp Card -->
     <div class="formatt" *ngIf="edit_empcard==true || new_card==true">
-        <label>{{title_cardcode}}</label>
+        <label>{{title_cardcode}}<span style="color: red;"> *</span></label>
         <input pInputText type="text" id="card_no" [(ngModel)]="selectedEmpcard.card_code">
 
         <label>{{title_issuedate}}</label>
@@ -1603,7 +1612,7 @@
             <input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
 
-        <label>{{title_cardtype}}</label>
+        <label>{{title_cardtype}}<span style="color: red;"> *</span></label>
         <p-dropdown placeholder="--" [options]="cardtypeList" optionValue="cardtype_code" [showClear]="true"
             [(ngModel)]="selectedEmpcard.card_type" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
@@ -1636,10 +1645,10 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_code"> -->
 
         <label>{{title_bankname2}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_bankname">
+        <input pInputText type="text" [(ngModel)]="selectedEmpbank.bank_bankname">
 
         <label>{{title_bankcode}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_account">
+        <input pInputText type="text" [(ngModel)]="selectedEmpbank.bank_account">
 
         <label>{{title_bankper}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
@@ -1661,27 +1670,27 @@
     </div>
     <!-- Form Emp Family -->
     <div class="formatt" *ngIf="edit_empfamily==true || new_family==true">
-        <label>{{title_familycode}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_code">
+        <label>{{title_familycode}}<span style="color: red;"> *</span></label>
+        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_code">
 
         <label>{{title_fname_th}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_fname_th">
+        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_fname_th">
 
         <label>{{title_lname_th}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_lname_th">
+        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_lname_th">
 
         <label>{{title_fname_en}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_fname_en">
+        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_fname_en">
 
         <label>{{title_lname_en}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_lname_en">
+        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_lname_en">
 
         <label>{{title_birthdate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpfamily.family_birthdate"><input type="text"></p-calendar>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_birthdate"> -->
 
-        <label>{{title_familytype}}</label>
+        <label>{{title_familytype}}<span style="color: red;"> *</span></label>
         <p-dropdown appendTo="body" placeholder="--" [options]="familytypeList" optionValue="family_code"
             [showClear]="true" [(ngModel)]="selectedEmpfamily.family_type"
             [style]="{ width: '100%', overflow: 'visible' }">
@@ -1693,6 +1702,12 @@
             </ng-template>
         </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_type"> -->
+        
+        <label>{{title_familyocc[initial_current.Language]}}</label>
+        <input pInputText type="text"[(ngModel)]="selectedEmpfamily.family_occupation">
+
+        <label>{{title_familytel[initial_current.Language]}}</label>
+        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_tel" max="10">
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empfamily_summit()"></button>
@@ -1795,7 +1810,7 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_position"> -->
 
         <label>{{title_reason}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_reason">
+        <input pInputText type="text" [(ngModel)]="selectedEmpPosition.empposition_reason">
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
@@ -1951,10 +1966,10 @@
         <p-dropdown placeholder="--" [options]="uniformList" optionValue="uniform_code" [showClear]="true"
             [(ngModel)]="selectedEmpUniform.empuniform_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.uniform_name_th : item.uniform_name_en}}
+                {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.uniform_name_th : item.uniform_name_en}}
+                {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
             </ng-template>
         </p-dropdown>
         <!-- <p-dropdown placeholder="--" [showClear]="true" [(ngModel)]="selectedEmpUniform.empuniform_code"
@@ -1996,6 +2011,11 @@
                 +" "+item.worker_lname_en}}
             </ng-template>
         </p-dropdown>
+
+        <label>{{title_amount}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency"
+            [(ngModel)]="selectedEmpSuggest.empsuggest_amount">
+        </p-inputNumber>
 
         <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpSuggest.empsuggest_note" pInputTextarea [autoResize]="true"></textarea>
@@ -2095,7 +2115,7 @@
         </p-dropdown>
 
         <label>{{title_topic}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_topic">
+        <input pInputText type="text" [(ngModel)]="selectedEmpassessment.empassessment_topic">
 
         <label>{{title_fromdate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
@@ -2108,7 +2128,7 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_todate"> -->
 
         <label>{{title_count}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpassessment.empassessment_count">
+        <input pInputText type="text" [(ngModel)]="selectedEmpassessment.empassessment_count">
 
         <label>{{title_assessmentresult}}</label>
         <div class="radio">
@@ -2153,7 +2173,7 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_todate"> -->
 
         <label>{{title_count}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcriminal.empcriminal_count">
+        <input pInputText type="text" [(ngModel)]="selectedEmpcriminal.empcriminal_count">
 
         <label>{{title_criminalresult}}</label>
         <div class="radio">

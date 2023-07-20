@@ -91,6 +91,8 @@ import { ReducesModel } from 'src/app/models/system/policy/reduces';
 import { ReduceService } from 'src/app/services/system/policy/reduce.service';
 import { ProvidentModel } from 'src/app/models/payroll/provident';
 import { ProvidentService } from 'src/app/services/payroll/provident.service';
+import { ProuniformModel } from 'src/app/models/project/policy/pro_genaral';
+import { ProgenaralService } from 'src/app/services/project/pro_genaral.service';
 
 
 
@@ -291,6 +293,8 @@ export class EmployeeManageComponent implements OnInit {
     private itemService: ItemService,
     private providentService: ProvidentService,
     private reduceService: ReduceService,
+
+    private genaralService: ProgenaralService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -574,6 +578,9 @@ export class EmployeeManageComponent implements OnInit {
   title_military: { [key: string]: string } = { EN: "Military Staus", TH: "สถานภาพทางทหาร" };
   title_cm: { [key: string]: string } = { EN: "c.m.", TH: "ซ.ม." };
   title_kg: { [key: string]: string } = { EN: "k.g.", TH: "ก.ก." };
+
+  title_familyocc: { [key: string]: string } = { EN: "Occupation", TH: "อาชีพ" };
+  title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรฯ" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -2272,9 +2279,9 @@ export class EmployeeManageComponent implements OnInit {
   }
 
   //drop uniform
-  uniformList: UniformModel[] = [];
+  uniformList : ProuniformModel[] = [];
   doLoadUniformList() {
-    this.uniformService.uniform_get().then((res) => {
+    this.genaralService.prouniform_get().then((res) => {
       this.uniformList = res;
     })
   }
@@ -4223,12 +4230,12 @@ export class EmployeeManageComponent implements OnInit {
   //get unifrom name
   doGetUniformDetail(UniformCode: string): any {
     for (let i = 0; i < this.uniformList.length; i++) {
-      if (this.uniformList[i].uniform_code == UniformCode) {
+      if (this.uniformList[i].prouniform_code == UniformCode) {
         if (this.initial_current.Language == "TH") {
-          return this.uniformList[i].uniform_name_th;
+          return this.uniformList[i].prouniform_name_th;
         }
         else {
-          return this.uniformList[i].uniform_name_en;
+          return this.uniformList[i].prouniform_name_en;
         }
       }
     }

@@ -79,6 +79,10 @@ export class EmpstatusComponent implements OnInit {
 
   title_confirm_cancel:string = "You have cancelled";
 
+  title_emp: { [key: string]: string } = { EN: "Employee", TH: "พนักงาน" };
+  title_policy: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" };
+  title_empstatus: { [key: string]: string } = { EN: "Employee Status", TH: "สถานะพนักงาน" };
+
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
       this.title_page = "ข้อมูลสถานะพนักงาน";

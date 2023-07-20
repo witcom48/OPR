@@ -1,12 +1,12 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- Link Page -->
 <div class="path">
-    <span>Employee</span>
+    <span>{{title_emp[initial_current.Language]}}</span>
     <div>
         <i></i>
-        <a routerLink="/employee/policy">Policy</a>
+        <a routerLink="/employee/policy">{{title_policy[initial_current.Language]}}</a>
         <i></i>
-        <small>Title</small>
+        <small>{{title_initial[initial_current.Language]}}</small>
     </div>
 </div>
 <!-- ---------END Link Page----------- -->
@@ -76,7 +76,7 @@
 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="confirmDelete()"></button>
+            class="btndel" (click)="confirmDelete()"></button>
     </div>
 </div>
 
