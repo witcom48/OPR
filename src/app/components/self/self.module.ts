@@ -118,17 +118,7 @@ import { SeftAccountManageComponent } from './seft-account-manage/seft-account-m
 		UsercontrolModule,
 		LeafletModule,
 		EditorModule,
-<<<<<<< HEAD
 		PdfViewerModule
-=======
-		PdfViewerModule,
-
-
-
-
-
-
->>>>>>> fd5465cd94d483b8531a2087da0606c0a7ffcc84
 	],
 	declarations: [
 		SelfPolicyComponent,
