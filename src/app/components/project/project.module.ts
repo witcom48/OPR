@@ -52,6 +52,8 @@ import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component'
 
 
 import { UsercontrolModule } from '../usercontrol/usercontrol.module';
+import { ProjectTransferComponent } from './project-transfer/project-transfer.component';
+import { ProjectCompareComponent } from './project-compare/project-compare.component';
 
 @NgModule({
 	imports: [
@@ -98,6 +100,6 @@ import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 
 		
 	],
-	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent]
+	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent, ProjectTransferComponent, ProjectCompareComponent]
 })
 export class ProjectModule { }

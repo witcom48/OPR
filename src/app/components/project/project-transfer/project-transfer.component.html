@@ -1,0 +1,193 @@
+<span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Transfer</small>
+<hr>
+
+<p-toast position="top-right"></p-toast> 
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-tabView >
+    
+    <p-tabPanel [selected]="true">
+        <ng-template pTemplate = "header">
+            <i class="pi pi-users"></i>&nbsp;&nbsp;
+            <span>Man power</span>
+        </ng-template>        
+        <p-scrollPanel [style]="{width: '100%', height: '650px'}" >
+            <p-table #dtManpower [value]="project_monitor" styleClass="p-datatable-sm"
+                [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
+                selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [(selection)]="selectedProjectMonitor"
+                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dtManpower.filterGlobal($any($event).target.value, 'contains')"
+                                placeholder="Search keyword" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th></th>                        
+                        <th>{{title_project_code[initial_current.Language]}}</th>
+                        <th>{{title_project_name[initial_current.Language]}}</th>     
+                        <th>{{title_emp_total[initial_current.Language]}}</th>
+                        <th>{{title_staff_regular[initial_current.Language]}}</th>
+                        <th>{{title_staff_temp[initial_current.Language]}}</th>
+                        <th>{{title_staff_resign[initial_current.Language]}}</th>
+                        <th>{{title_staff_total[initial_current.Language]}}</th>
+                        <th>{{title_staff_diff[initial_current.Language]}}</th>
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-project let-i="rowIndex">
+                    <tr [pSelectableRow]="project">
+                        <td>{{i+1}}</td>
+                        <td>{{project.project_code}}</td>
+                        <td style="text-align: left;">{{initial_current.Language=="TH"? project.project_name_th : project.project_name_en}}</td>                           
+                        <td style="text-align: center;">{{project.project_manpower}}</td>
+                        <td style="text-align: center;">{{project.project_staff_regular}}</td>
+                        <td style="text-align: center;">{{project.project_staff_temp}}</td>
+                        <td style="text-align: center;">{{project.project_staff_resign}}</td>
+                        <td style="text-align: center;">{{project.project_staff_regular + project.project_staff_temp}}</td>
+                        <td style="text-align: center;">{{project.project_manpower - (project.project_staff_regular + project.project_staff_temp)}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </p-scrollPanel>
+
+    </p-tabPanel>
+    
+    <p-tabPanel  >
+        <ng-template pTemplate = "header">
+            <i class="pi pi-cog"></i>&nbsp;&nbsp;
+            <span>Transfer</span>
+        </ng-template>
+        
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-select-emp></app-select-emp>
+            </div>            
+
+            <div class="col-12 md:col-6">
+                <label for="selectedProtimepol_ot">Project</label><br>                       
+                <p-dropdown [options]="project_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedProject" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doGetLastVersion()"></p-dropdown>
+
+            </div>
+            <div class="col-12 md:col-6">
+                <label for="selectedProtimepol_ot">Job</label><br>                       
+                <p-dropdown [options]="job_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedJob" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+
+            </div>
+
+            <div class="pt-3 col-6 md:col-3">
+                <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy" inputId="selectedFromdate"></p-calendar>
+            </div>
+            <div class="pt-3 col-6 md:col-3">
+                <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedToDate" dateFormat="dd/mm/yy" inputId="selectedToDate"></p-calendar>
+            </div>
+
+            <div class="col-12 md:col-6">
+
+                <table>
+                    <tr>
+                        <td>
+                            <input type="radio" name="regular" value="R" [(ngModel)]="selectedType">
+                            <label>{{title_regular[initial_current.Language]}}</label>
+                        </td>
+                        <td></td>
+                        <td>
+                            <input type="radio" name="regular" value="T" [(ngModel)]="selectedType">
+                            <label>{{title_temporary[initial_current.Language]}}</label>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+    
+            
+
+
+            <div class="pt-3 col-12">
+                <p-button label="Process" (click)="process()"></p-button>
+            </div>
+            
+        </div>
+    </p-tabPanel>
+        
+    <p-tabPanel >
+        <ng-template pTemplate = "header">
+            <i class="pi pi-list"></i>&nbsp;&nbsp;
+            <span>History</span>
+        </ng-template>        
+        <div class="formgrid grid align-items-end">
+                     
+            <div class="pt-3 col-6 md:col-3">
+                <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy" inputId="selectedFromdate"></p-calendar>
+            </div>
+            <div class="col-6 md:col-3">
+                <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedToDate" dateFormat="dd/mm/yy" inputId="selectedToDate"></p-calendar>
+            </div>   
+            <div class="pt-3 col-6">
+                &nbsp;
+            </div>        
+        </div>
+        <p></p>
+        <p-scrollPanel [style]="{width: '100%', height: '650px'}" >
+            <p-table #dtJobemp [value]="projobemp_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobemp" (onRowSelect)="onRowSelectProjobemp($event)" dataKey="projobemp_id"
+                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{title_project_code[initial_current.Language]}}</th>
+                        <th>{{title_project_name[initial_current.Language]}}</th>
+                        <th>{{title_staff_jobcode[initial_current.Language]}}</th>
+                        <th>{{title_staff_jobname[initial_current.Language]}}</th>
+                        <th>{{title_staff_empcode[initial_current.Language]}}</th>
+                        <th>{{title_staff_empname[initial_current.Language]}}</th>
+                        <th>{{title_staff_empstatus[initial_current.Language]}}</th>
+                        <th>{{title_staff_fromadate[initial_current.Language]}}</th>
+                        <th>{{title_staff_todate[initial_current.Language]}}</th>
+                        <th>{{title_staff_status[initial_current.Language]}}</th>
+                        <th>{{title_staff_apprdate[initial_current.Language]}}</th>
+                        <th>{{title_modified_by[initial_current.Language]}}</th>
+                        <th>{{title_modified_date[initial_current.Language]}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-emp>
+                    <tr [pSelectableRow]="emp">
+                        <td>{{emp.project_code}}</td>
+                        <td>{{doGetProjectDetail(emp.project_code)}}</td>
+                        <td>{{emp.projob_code}}</td>
+                        <td>{{doGetProjobmainDetail(emp.projob_code)}}</td>
+                        <td>{{emp.projobemp_emp}}</td>
+                        <td>{{doGetEmployeeDetail(emp.projobemp_emp)}}</td>
+                        <td>{{doGetJobemptypeDetail(emp.projobemp_type)}}</td>
+                        <td>{{emp.projobemp_fromdate | date:'dd/MM/yyyy '}}</td>
+                        <td>{{emp.projobemp_todate | date:'dd/MM/yyyy '}}</td>
+                        <td>{{emp.projobemp_status}}</td>
+                        <td></td>
+                        <td>{{emp.modified_by}}</td>
+                        <td>{{emp.modified_date | date:'dd/MM/yyyy '}}</td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+
+        </p-scrollPanel>
+
+    </p-tabPanel>
+
+</p-tabView>
+
+

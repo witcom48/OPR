@@ -77,6 +77,10 @@ export class AppMenuComponent implements OnInit {
                             { label: 'Project', routerLink: ['/project/list'] },
                             { label: 'Monitor', routerLink: ['/project/monitor'] },
                             { label: 'Timesheet', routerLink: ['/project/timesheet'] },
+
+                            { label: 'Cost comparison', routerLink: ['/project/compare'] },
+                            { label: 'Transfer record', routerLink: ['/project/transfer'] },
+
                             { label: 'Approval list', routerLink: ['/project/approve'] },
                             { label: 'Reports', routerLink: ['/project/reports'] },
                         ]
@@ -120,8 +124,9 @@ export class AppMenuComponent implements OnInit {
                             // { label: 'Self Services', routerLink: ['/attendance/self'] },
                             { label: 'Import Time', routerLink: ['/attendance/import'] },
                             { label: 'Processing Time', routerLink: ['/attendance/process'] },
-                            { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'] },
                             { label: 'View Time', routerLink: ['/attendance/view'] },
+                            { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'] },
+                            { label: 'Summary', routerLink: ['/attendance/summary'] },
                             // { label: 'Approval list', routerLink: ['/attendance/approve'] },
                             { label: 'Reports', routerLink: ['/attendance/reports'] },
                         ]
