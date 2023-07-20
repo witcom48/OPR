@@ -78,6 +78,10 @@ export class InitialComponent implements OnInit {
 
   title_confirm_cancel:string = "You have cancelled";
 
+  title_emp: { [key: string]: string } = { EN: "Employee", TH: "พนักงาน" };
+  title_policy: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" };
+  title_initial: { [key: string]: string } = { EN: "Title Name", TH: "คำนำหน้าชื่อ" };
+
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
       this.title_page = "ข้อมูลคำนำหน้า";

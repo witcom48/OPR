@@ -11,6 +11,7 @@ export class PartModel {
     dep_level: string = ""; 
     parent_level:string = "";
     company_code: string = "";
+    notused : boolean = false;
     modified_by: string = "";
     modified_date: string = "";
     index: number = 0;

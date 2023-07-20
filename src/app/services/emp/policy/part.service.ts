@@ -80,6 +80,7 @@ export class PartService {
       dep_parent: model.dep_parent,
       dep_level: model.dep_level,
       parent_level: model.parent_level,
+      notused: model.notused,
       company_code: this.initial_current.CompCode,
       modified_by: this.initial_current.Username
     };

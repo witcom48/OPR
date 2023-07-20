@@ -378,6 +378,8 @@ export class EmpDetailService {
       item_data = item_data + ",\"family_birthdate\":\"" + this.datePipe.transform(list[i].family_birthdate, 'yyyy-MM-dd HH:mm:ss') + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + ",\"family_occupation\":\"" + list[i].family_occupation + "\"";
+      item_data = item_data + ",\"family_tel\":\"" + list[i].family_tel + "\"";
       item_data = item_data + "}" + ",";
     }
     if (item_data.length > 2) {
@@ -710,7 +712,7 @@ export class EmpDetailService {
       company_code: this.initial_current.CompCode,
       modified_by: this.initial_current.Username
     };
-
+    console.log(data)
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empposition_del', data, this.options).toPromise()
       .then((res) => {
         return res;
@@ -917,6 +919,7 @@ export class EmpDetailService {
       item_data = item_data + ",\"institute_other\":\"" + list[i].institute_other + "\"";
       item_data = item_data + ",\"course_code\":\"" + list[i].course_code + "\"";
       item_data = item_data + ",\"course_other\":\"" + list[i].course_other + "\"";
+      item_data = item_data + ",\"emptraining_count\":\"" + list[i].emptraining_count + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";
@@ -1656,7 +1659,8 @@ export class EmpDetailService {
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"empsupply_code\":\"" + list[i].empsupply_code + "\"";
+      item_data = item_data + "\"empsupply_id\":\"" + list[i].empsupply_id + "\"";
+      item_data = item_data + ",\"empsupply_code\":\"" + list[i].empsupply_code + "\"";
       item_data = item_data + ",\"empsupply_qauntity\":\"" + list[i].empsupply_qauntity + "\"";
       item_data = item_data + ",\"empsupply_issuedate\":\"" + this.datePipe.transform(list[i].empsupply_issuedate) + "\"";
       item_data = item_data + ",\"empsupply_note\":\"" + list[i].empsupply_note + "\"";
@@ -1736,7 +1740,8 @@ export class EmpDetailService {
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"empuniform_code\":\"" + list[i].empuniform_code + "\"";
+      item_data = item_data + "\"empuniform_id\":\"" + list[i].empuniform_id + "\"";
+      item_data = item_data + ",\"empuniform_code\":\"" + list[i].empuniform_code + "\"";
       item_data = item_data + ",\"empuniform_qauntity\":\"" + list[i].empuniform_qauntity + "\"";
       item_data = item_data + ",\"empuniform_amount\":\"" + list[i].empuniform_amount + "\"";
       item_data = item_data + ",\"empuniform_issuedate\":\"" + this.datePipe.transform(list[i].empuniform_issuedate) + "\"";
@@ -1813,12 +1818,14 @@ export class EmpDetailService {
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"empsuggest_code\":\"" + list[i].empsuggest_code + "\"";
+      item_data = item_data + "\"empsuggest_id\":\"" + list[i].empsuggest_id + "\"";
+      item_data = item_data + ",\"empsuggest_code\":\"" + list[i].empsuggest_code + "\"";
       if (this.datePipe.transform(list[i].empsuggest_date)) {
         item_data = item_data + ",\"empsuggest_date\":\"" + this.datePipe.transform(list[i].empsuggest_date) + "\"";
       }
       
       item_data = item_data + ",\"empsuggest_note\":\"" + list[i].empsuggest_note + "\"";
+      item_data = item_data + ",\"empsuggest_amount\":\"" + list[i].empsuggest_amount + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

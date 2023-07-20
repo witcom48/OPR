@@ -58,7 +58,7 @@ export class PayitemService {
       } 
     }
 
-    public payitem_get(company:string, payitem_date : Date,   worker:string, payitem:string,  item_code:string ){     
+    public payitem_get(company:string, payitem_date : Date,   worker:string, payitem:string,  item_code:string){     
     
         var filter = { 
           device_name:'',
@@ -67,9 +67,8 @@ export class PayitemService {
           company_code:  this.initial_current.CompCode,          
           language:this.initial_current.Language,
           payitem_date:this.datePipe.transform(payitem_date),
-
-          item_type:payitem,
           worker_code:worker,
+          item_type: payitem,
           item_code:item_code, 
 
         };

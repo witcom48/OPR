@@ -165,7 +165,7 @@
             [(ngModel)]="selectedemployee.worker_type"></p-dropdown> -->
 
         <label for="lastname2">{{title_position}} :</label>
-        <input pInputText type="text" id="ppos_code" [disabled]="true">
+        <input pInputText type="text" id="ppos_code" [disabled]="true" [(ngModel)]="initial_current.Language== 'TH'? selectedemployee.position_name_th : selectedemployee.position_name_en">
         <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
@@ -178,7 +178,7 @@
         <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectEmpManage()"
             class="p-button-secondary"></button>
         <button pButton type="button" label="บันทึก" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <button *ngIf="edit_employee" pButton type="button" label="ลบ" icon="pi pi-trash" class="p-button-danger"
+        <button *ngIf="edit_employee" pButton type="button" label="ลบ" icon="pi pi-trash" class="btndel"
             (click)="confirmDelete()"></button>
 
     </div>

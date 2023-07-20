@@ -18,4 +18,7 @@ export class EmpFamilyModel {
 
     index: number = 0;
     select: boolean = false;
+
+    family_occupation: string= "";
+    family_tel: string= "";
 }

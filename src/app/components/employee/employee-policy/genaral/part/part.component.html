@@ -9,9 +9,9 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="dep_list"
-            selectionMode="single" [(selection)]="selectedDep" (onRowSelect)="onRowSelectDep($event)" [rows]="12"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+        <p-table #dt2 [value]="dep_list" selectionMode="single" [(selection)]="selectedDep"
+            (onRowSelect)="onRowSelectDep($event)" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
             [globalFilterFields]="['dep_code','dep_name_en','dep_name_th','modified_by','modified_date']"
             responsiveLayout="stack" [breakpoint]="'744px'">
@@ -50,7 +50,7 @@
                     <th>{{title_modified_date}}</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data let-i="rowIndex"  let-columns="columns">
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
                     <td><span>{{title_code}}</span>{{data.dep_code}}</td>
                     <td><span>{{title_name_th}}</span>{{data.dep_name_th}}</td>
@@ -81,7 +81,8 @@
 
         <label>{{title_parentlevel}}</label>
         <p-dropdown placeholder="--" [options]="parentlevelList" optionValue="level_code" [showClear]="true"
-            [(ngModel)]="selectedDep.parent_level" (onChange)="doChangeSelectLevel()" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedDep.parent_level" (onChange)="doChangeSelectLevel()"
+            [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
             </ng-template>
@@ -89,7 +90,7 @@
                 {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
             </ng-template>
         </p-dropdown>
-        
+
         <label>{{title_parent}}</label>
         <p-dropdown placeholder="--" [options]="depParentList" optionValue="dep_code" [showClear]="true"
             [(ngModel)]="selectedDep.dep_parent" [style]="{ width: '100%', overflow: 'visible' }">
@@ -101,10 +102,14 @@
             </ng-template>
         </p-dropdown>
         <!-- <textarea [(ngModel)]="selectedDep.dep_parent" pInputTextarea [autoResize]="true"></textarea> -->
+        <div>
+            <p-checkbox [(ngModel)]="selectedDep.notused" [binary]="true"></p-checkbox> &nbsp;
+            <label>{{title_notused[initial_current.Language]}}</label>
+        </div>
 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="confirmDelete()"></button>
+            class="btndel" (click)="confirmDelete()"></button>
     </div>
 </div>
 
@@ -113,7 +118,9 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="doUploadDep()" label="{{title_upload}}"
@@ -124,6 +131,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

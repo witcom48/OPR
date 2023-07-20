@@ -78,6 +78,10 @@ export class EmptypeComponent implements OnInit {
 
   title_confirm_cancel:string = "You have cancelled";
 
+  title_emp: { [key: string]: string } = { EN: "Employee", TH: "พนักงาน" };
+  title_policy: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" };
+  title_emptype: { [key: string]: string } = { EN: "Employee Type", TH: "ประเภทพนักงาน" };
+
   doLoadLanguage(){
     if(this.initial_current.Language == "TH"){
       this.title_page = "ข้อมูลประเภทพนักงาน";

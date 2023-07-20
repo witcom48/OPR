@@ -1,0 +1,15 @@
+.p-panel .p-panel-content{
+    padding: 0;
+}
+
+.panelform{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 1vw;
+    }
+}
