@@ -18,9 +18,9 @@ import * as XLSX from 'xlsx';
 import { ItemsModel } from 'src/app/models/payroll/items';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
-
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 
+ 
 interface Type {
     name: string;
     code: string;
@@ -46,6 +46,8 @@ export class PayrollEntryComponent implements OnInit {
     @ViewChild(SearchEmpComponent) searchEmp_popup: any;
 
     style_input_real: string = "[style]=\"{'width':'80px'}\\";
+    dialog: any;
+    dataSource: any;
 
     constructor(
         private employeeService: EmployeeService,
@@ -141,7 +143,7 @@ export class PayrollEntryComponent implements OnInit {
     title_note: string = 'Note';
     title_quantity: string = 'Quantity';
     title_no: string = 'No.';
-    title_date: string = 'Date.';
+    title_date: string = 'Date';
     title_bank: string = 'Bank.';
     title_cash: string = 'Cash.';
     title_total: string = 'Total';
@@ -185,12 +187,12 @@ export class PayrollEntryComponent implements OnInit {
         if (this.initial_current.Language == 'TH') {
             this.title_page = 'ข้อมูลทั่วไป';
             this.title_manage  = 'บันทึกเงินได้/เงินหัก';
-            this.title_payroll = 'บัญชีเงินเดือน ';
+            this.title_payroll = 'บัญชี ';
             this.title_by_income= 'ตามรายได้ ';
             this.title_codeitem= 'รหัสเงินหัก ';
             this.title_employee= 'พนักงาน ';
             this.title_protype = 'ประเภท';
-            this.title_date = 'วันที่';
+            this.title_date = 'วันที่จ่าย';
             this.title_codes = 'รหัสเงินได้';
             this.title_code = 'รหัส';
             this.title_details = 'รายละเอียด';
@@ -339,19 +341,16 @@ export class PayrollEntryComponent implements OnInit {
     doSetDetailWorker() {
         this.workerDetail = this.worker_list[this.worker_index];
         this.worker_code = this.workerDetail.worker_code;
-        if (this.initial_current.Language == 'EN') {
+        if (this.initial_current.Language === 'EN') {
             this.worker_name =
-                this.workerDetail.worker_fname_en +
-                ' ' +
-                this.workerDetail.worker_lname_en;
+                this.workerDetail.worker_fname_en + ' ' + this.workerDetail.worker_lname_en;
         } else {
             this.worker_name =
-                this.workerDetail.worker_fname_th +
-                ' ' +
-                this.workerDetail.worker_lname_th;
+                this.workerDetail.worker_fname_th + ' ' + this.workerDetail.worker_lname_th;
         }
         this.doLoadPayitem();
     }
+    
 
     //get  data dropdown
     Items_List: ItemsModel[] = [];
@@ -368,7 +367,7 @@ export class PayrollEntryComponent implements OnInit {
         tmp.worker_code = this.workerDetail.worker_code;
 
         try {
-            const res = await this.payitemService.payitem_get(this.initial_current.CompCode, '', this.worker_code,'', this.item, this.initial_current.PR_PayDate);
+            const res = await this.payitemService.payitem_get(this.initial_current.CompCode,  this.initial_current.PR_PayDate ,this.worker_code,'',this.item);
             const inItems = res.filter((item: { item_type: string }) => item.item_type === 'IN');
             const deItems = res.filter((item: { item_type: string }) => item.item_type === 'DE');
             this.payitem_list = [...inItems, ...deItems];
@@ -379,6 +378,7 @@ export class PayrollEntryComponent implements OnInit {
     }
     async doRecordPayitem(data: PayitemModel) {
         data.worker_code = this.workerDetail.worker_code;
+        data.payitem_date = this.initial_current.PR_PayDate;
 
         try {
             const res = await this.payitemService.payitem_record(data);
@@ -559,6 +559,43 @@ export class PayrollEntryComponent implements OnInit {
         location.reload();
     }
 
+
+    applyFilterByEmp(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.firstPage();
+        }
+      }
+      
+    openSearchEmp(): void {
+        const dialogRef = this.dialog.open(SearchEmpComponent, {
+          width: '500px',
+          height: '550px',
+          data: {worker_code: ''
+          }
+        });
+        dialogRef.afterClosed().subscribe((result: { worker_code: string; }) => {
+          if(result.worker_code != ""){
+    
+            let select = result.worker_code;
+            this.doGetIndexWorkers(select);
+    
+          }
+        });
+      }
+      doGetIndexWorkers(worker_code:string){
+        for (let i = 0; i < this.worker_list.length; i++) {
+          if(this.worker_list[i].worker_code==worker_code ){
+            this.worker_index = i;
+            break;
+          }
+        }
+    
+        this.doSetDetailWorker();
+    
+      }
+      
     exportAsExcel() {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
             this.table.nativeElement
@@ -620,79 +657,3 @@ export class PayrollEntryComponent implements OnInit {
     }
 
 }
-
-//   toolbar_menu: MenuItem[] = [];
-//   items: MenuItem[] = [];
-//   items_tab: MenuItem[] = [];
-
-//   constructor() { }
-
-//   ngOnInit(): void {
-
-//     this.doLoadSimple()
-//   }
-
-//   doLoadSimple(){
-//     this.toolbar_menu = [
-//       {
-//         label:'Save',
-//         icon:'pi pi-fw pi-save',
-
-//       },
-//       {
-//           label:'Export',
-//           icon:'pi pi-fw pi-file-export',
-//           command: (event) => {
-//             // console.log('Edit')
-//         }
-//       }
-//       ,
-//       {
-//           label:'Import',
-//           icon:'pi pi-fw pi-file-import',
-//           command: (event) => {
-//             // console.log('Edit')
-//         }
-//       }
-//     ];
-
-// this.items = [
-
-//   {
-//     label:'New',
-//     icon:'pi pi-fw pi-plus',
-
-//   },
-// {
-//     label:'Edit',
-//     icon:'pi pi-fw pi-pencil',
-//     command: (event) => {
-//       // console.log('Edit')
-//   }
-// }
-// ,
-// {
-//     label:'Add copy',
-//     icon:'pi pi-fw pi-copy',
-// }
-// ,
-// {
-//     label:'Delete',
-//     icon:'pi pi-fw pi-trash',
-// }
-// ,
-//   {
-//       label:'Import',
-//       icon:'pi pi-fw pi-file-import',
-//   }
-//   ,
-//   {
-//       label:'Export',
-//       icon:'pi pi-fw pi-file-export',
-//   }
-
-// ];
-
-//   }
-
-// }

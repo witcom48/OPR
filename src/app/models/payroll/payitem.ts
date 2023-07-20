@@ -7,7 +7,7 @@ export class PayitemModel {
     company_code: string = "";
     worker_code: string = "1";
     item_code: string = "";
-    payitem_date: string = "";
+    payitem_date!: Date ;
     payitem_amount: string = "";
     payitem_quantity: string = "";
     payitem_paytype: string = "";

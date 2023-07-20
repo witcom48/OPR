@@ -1,19 +1,35 @@
+import { TRRoundsModel } from "./tr_rounds";
+
 export class RoundsModel {
 
     constructor() {
 
     }
+    round_id: string = "0";
+    round_code: string = "";
+    round_name_th: string = "";
+    round_name_en: string = "";
 
-    rounds_id: string = "0";
-    rounds_code: string = "";
-    rounds_name_th: string = "";
-    rounds_name_en: string = "";
-    rounds_from: string = "0";
-    rounds_to:  string = "0";
-    rounds_result: string = "0";
-    rounds_group: string = "";
+    round_group: string = "";
+
+
+
+    round_data: TRRoundsModel[] = [];
 
     modified_by: string = "";
     modified_date: string = "";
+    index: number = 0;
+    select: boolean = false;
     flag: boolean = false;
+
+
+
 }
+
+
+
+
+    // modified_by: string = "";
+    // modified_date: string = "";
+    // flag: boolean = false;
+// }

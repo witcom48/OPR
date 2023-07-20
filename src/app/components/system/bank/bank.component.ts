@@ -39,9 +39,9 @@ export class BankComponent implements OnInit {
   ngOnInit(): void {
 
     this.doGetInitialCurrent()
-
+ this.doLoadLanguage()
     setTimeout(() => {
-      this.doLoadLanguage()
+     
       this.doLoadMenu()
       this.doLoadBank()
     }, 500);
@@ -91,7 +91,7 @@ export class BankComponent implements OnInit {
     if(this.initial_current.Language == "TH"){
         this.title_system= "ระบบ";
         this.title_genaral= "ทั่วไป";
-      this.title_page = "ข้อมูลธนาคาร";
+      this.title_page = "ธนาคาร";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";

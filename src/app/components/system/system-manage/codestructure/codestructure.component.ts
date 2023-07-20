@@ -37,9 +37,9 @@ export class CodestructureComponent implements OnInit {
 
     ngOnInit(): void {
       this.doGetInitialCurrent()
-
+      this.doLoadLanguage()
       setTimeout(() => {
-        this.doLoadLanguage()
+       
         this.doLoadMenu()
         this.doLoadCodestructure()
       }, 500);
@@ -163,10 +163,11 @@ export class CodestructureComponent implements OnInit {
           accept: () => {
             this.doRecordCodestructure()
           },
+          key:"myDialog",
           reject: () => {
             this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
           },
-          key:"myDialog"
+          
       });
     }
 

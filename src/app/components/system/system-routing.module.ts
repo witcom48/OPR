@@ -50,7 +50,7 @@ import { PolroundsComponent } from './system-manage/polrounds/polrounds.componen
 @NgModule({
     imports: [RouterModule.forChild([
 
-        { path: 'genaral', component: SystemPolicyComponent },
+        { path: 'general', component: SystemPolicyComponent },
         { path: 'company', component: SystemCompanyComponent },
         { path: 'security', component: SystemSecurityComponent },
         { path: 'notification', component: SystemNotificationComponent },

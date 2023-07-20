@@ -63,15 +63,21 @@
                 </div>
             </div>
             <div class="field col-12 md:col-6">
-
-                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false" [(ngModel)]="effdate"
-                    name="effdate" (ngModelChange)="updateEffdate()">
-                    <input type="text"></p-calendar>
-
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="effdate" name="effdate"
+                    (ngModelChange)="updateEffdate($event)"></p-calendar>
             </div>
 
+
+            <!-- <div class="field col-12 md:col-6">
+              
+
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="effdate"
+                name="effdate" (ngModelChange)="updateEffdate($event)"><input type="text"></p-calendar>
+              
+            </div> -->
+
             <div class="field col-12 md:col-6">
-                <p-button label="Process" (click)="process()"></p-button>
+                <p-button label="Process" (click)="process()" key="myDialog"></p-button>
             </div>
 
         </div>
@@ -94,3 +100,9 @@
     </p-tabPanel>
 
 </p-tabView>
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

@@ -136,8 +136,8 @@ export class TransferSsoComponent implements OnInit {
         let process = this.selectedBank;
         process += this.fillauto ? '|AUTO' : '|COMPARE';
 
-        let fromDate = new Date('2023-01-10T00:00:00');
-        let toDate = new Date('2023-01-11T00:00:00');
+        let fromDate = new Date(this.initial_current.PR_PayDate);
+        let toDate = new Date(this.initial_current.PR_PayDate);
 
         this.taskDetail.taskdetail_process = 'SSO';
         this.taskDetail.taskdetail_process = process;

@@ -37,9 +37,11 @@ export class YearComponent implements OnInit {
   fileToUpload: File | any = null;
   displayUpload: boolean = false;
   items: MenuItem[] = [];
+
   yearperiods_list: YearPeriodModels[] = [];
   yearperiods: YearPeriodModels = new YearPeriodModels()
   year_type: string = "TAX"
+  
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
@@ -169,6 +171,7 @@ export class YearComponent implements OnInit {
           this.displayUpload = false;
           this.doUploadYear()
         },
+        key:"myDialog",
         reject: () => {
           this.displayUpload = false;
         }

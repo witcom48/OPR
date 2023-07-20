@@ -36,9 +36,9 @@ export class SystemCardTypeComponent implements OnInit {
 
     ngOnInit(): void {
       this.doGetInitialCurrent()
-
+      this.doLoadLanguage()
       setTimeout(() => {
-        this.doLoadLanguage()
+        
         this.doLoadMenu()
         this.doLoadCardtype()
       }, 500);

@@ -99,9 +99,9 @@ export class BonusComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_payroll= 'บัญชีเงินเดือน';
+            this.title_payroll= 'บัญชี';
             this.title_policy = 'กำหนดนโยบาย';
-            this.title_page = 'โบนัท';
+            this.title_page = 'โบนัส';
             this.title_new = 'เพิ่ม';
             this.title_type = 'ประเภท';
             this.title_regular = 'รูปแบบ';
@@ -145,10 +145,11 @@ export class BonusComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.doLoadLanguage();
         this.doLoadItemsList();
 
         this.doGetInitialCurrent();
+        this.doLoadLanguage();
+
         this.doLoadMenu();
         this.doLoadLate();
     }
@@ -294,6 +295,7 @@ export class BonusComponent implements OnInit {
                     this.displayUpload = false;
                     this.doUploadLate();
                 },
+                key:"myDialog",
                 reject: () => {
                     this.displayUpload = false;
                 },

@@ -112,7 +112,7 @@ export class ReligionService {
         para += "&token=" + this.initial_current.Token;
         para += "&by=" + this.initial_current.Username;
 
-      return this.http.post<any>(this.config.ApiSystemModule + '/doUploadProvince?' + para, formData).toPromise()
+      return this.http.post<any>(this.config.ApiSystemModule + '/doUploadReligion?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });

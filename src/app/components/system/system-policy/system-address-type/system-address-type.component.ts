@@ -33,9 +33,9 @@ export class SystemAddressTypeComponent implements OnInit {
 
     ngOnInit(): void {
       this.doGetInitialCurrent()
-
+      this.doLoadLanguage()
       setTimeout(() => {
-        this.doLoadLanguage()
+        
         this.doLoadMenu()
         this.doLoadAddresstype()
       }, 500);

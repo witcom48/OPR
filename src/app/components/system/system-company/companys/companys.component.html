@@ -28,11 +28,23 @@
                         <div class="field col-12 md:col-7"></div>
 
                         <div class="field col-6 custom-height">
-                            <label for="address_amphur">{{ title_codes}}</label>
-                            <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_code"
-                            [readonly]="company_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            <label>{{ title_codes}}<span style="color: red;"> *</span></label>
+                            <input pInputText type="text" [(ngModel)]="selectedCompany.company_code" maxlength="5"
+                                [readonly]="company_code" name="code" #code="ngModel" required
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            <p>{{selectedCompany.company_code.length}}/5</p>
+
                         </div>
-                        
+                        <div class="field col-6 custom-height"></div>
+                        <!--                       <div class="field col-6 custom-height">
+                            <label>{{ title_codes}}<span style="color: red;"> *</span></label>
+                            <input pInputText type="text" [(ngModel)]="selectedCompany.company_code" maxlength="10"
+                                disabled="{{company_code}}" name="code" #code="ngModel" required />
+                            <p>{{selectedCompany.company_code.length}}/10</p>
+                            <div class="field col-6 custom-height"></div>
+                        </div> -->
+
+
                         <!-- <div class="field col-12 md:col-6">
                             <label for="firstname2" class="block mb-2">{{title_codes}}</label>
                             <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_code"
@@ -42,11 +54,11 @@
                             </textarea>
                         </div> -->
 
-                        <div class="field col-6 custom-height">
+                        <!-- <div class="field col-6 custom-height">
                             <label for="address_amphur">{{ title_initials}}</label>
                             <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_initials"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div>
+                        </div> -->
 
                         <!-- <div class="field col-12 md:col-6">
                             <label for="firstname2">{{title_initials}}</label><br>
@@ -56,9 +68,11 @@
                                 maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                          </div> -->
                         <div class="field col-6 custom-height">
-                            <label for="address_amphur">{{ title_thai_name}}</label>
-                            <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_name_th"
+                            <label>{{ title_thai_name}}<span style="color: red;"> *</span></label>
+                            <input pInputText type="text" [(ngModel)]="selectedCompany.company_name_th"
+                                name="company_name_th" #company_name_th="ngModel" required
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
                         </div>
                         <!-- <div class="field col-12 md:col-6">
                             <label for="firstname2">{{title_thai_name}}</label><br>
@@ -69,8 +83,9 @@
                         </div> -->
 
                         <div class="field col-6 custom-height">
-                            <label for="address_amphur">{{ title_english_name}}</label>
-                            <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_name_en"
+                            <label>{{ title_english_name}}<span style="color: red;"> *</span></label>
+                            <input pInputText type="text" [(ngModel)]="selectedCompany.company_name_en"
+                                name="company_name_en" #company_name_en="ngModel" required
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </div>
 
@@ -104,11 +119,11 @@
                                                     [style]="{ width: '100%', overflow: 'visible' }">
                                                     <ng-template let-item pTemplate="selectedItem">
                                                         {{ initial_current.Language == 'TH' ? item.addresstype_name_th :
-                                                        item.addresstype_name_en }}
+                                                        item.addresstype_name_th }}
                                                     </ng-template>
                                                     <ng-template let-item pTemplate="item">
                                                         {{ initial_current.Language == 'TH' ? item.addresstype_name_th :
-                                                        item.addresstype_name_en }}
+                                                        item.addresstype_name_th }}
                                                     </ng-template>
                                                 </p-dropdown>
                                             </div>
@@ -341,228 +356,167 @@
 
 
 
-                            <div class="formgrid grid ">
-
-                                <div class="center field col-12 md:col-5 custom-height">
-                                    <label for="address_amphur">{{ title_taxpayer_identification_no}}</label>
-                                    <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.sso_tax_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                </div>
 
 
-                                <!-- <div class="center field col-12 md:col-5">
+                            <div class="field col-12 md:col-12">
+                                <h1 for="lastname2">ประกันสังคม</h1>
+                            </div>
+                            <div class="center field col-12 md:col-5 custom-height">
+                                <label>{{ title_sso_no}}<span style="color: red;"> *</span></label>
+                                <input pInputText type="text" [(ngModel)]="selectedCompany.sso_security_no"
+                                    maxlength="13" name="sso_security_no" #sso_security_no="ngModel" required
+                                    class="text-base text-color  surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <!-- <p>{{selectedCompany.sso_security_no.length}}/13</p> -->
+
+                            </div>
+
+
+                            <div class="center field col-12 md:col-5 custom-height">
+                                <label>{{ title_social_security_branch}}<span style="color: red;"> *</span></label>
+                                <input pInputText type="text" [(ngModel)]="selectedCompany.sso_branch_no" maxlength="6"
+                                    name="sso_branch_no" #sso_branch_no="ngModel" required
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <!-- <p>{{selectedCompany.sso_branch_no.length}}/6</p> -->
+                            </div>
+
+
+                            <div class="center field col-12 md:col-5">
+                                <label>{{title_sso_company}}<span style="color: red;"> *</span></label>
+                                <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                    name="sso_com_rate" #sso_com_rate="ngModel" [max]="100000" [step]="0.5"
+                                    [(ngModel)]="selectedCompany.sso_com_rate">
+                                </p-inputNumber>
+                            </div>
+
+
+                            <div class="center field col-12 md:col-5">
+                                <label for="lastname2">{{title_sso_employee}}<span style="color: red;"> *</span></label>
+                                <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                    name="sso_emp_rate" #sso_emp_rate="ngModel" [max]="100000" [step]="0.5"
+                                    [(ngModel)]="selectedCompany.sso_emp_rate">
+                                </p-inputNumber>
+                            </div>
+
+
+                            <div class="center field col-12 md:col-5">
+                                <label for="lastname2">{{title_min_wage}}<span style="color: red;"> *</span></label>
+                                <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                    name="sso_min_wage" #sso_min_wage="ngModel" [max]="100000" [step]="0.5"
+                                    [(ngModel)]="selectedCompany.sso_min_wage">
+                                </p-inputNumber>
+                            </div>
+
+
+                            <div class="center field col-12 md:col-5">
+                                <label for="lastname2">{{title_max_wage}}<span style="color: red;"> *</span></label>
+                                <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                    name="sso_max_wage" #sso_max_wage="ngModel" [max]="100000" [step]="0.5"
+                                    [(ngModel)]="selectedCompany.sso_max_wage">
+                                </p-inputNumber>
+                            </div>
+                            <div class="horizontal">
+                                <hr>
+                            </div>
+
+                            <!-- <hr
+                                    style="border-color: rgb(210, 210, 210); border-width: 0.01px; margin-top: 10px; width: 100%;"> -->
+
+                            <hr
+                                style="border-color: rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 100%;">
+
+                            <div class="field col-12 md:col-12">
+                                <h1 for="lastname2">ภาษี</h1>
+                            </div>
+                            <div class="center field col-12 md:col-5 custom-height">
+                                <label>{{ title_taxpayer_identification_no}}<span style="color: red;"> *</span></label>
+                                <input type="text" [(ngModel)]="selectedCompany.sso_tax_no" maxlength="13" pInputText
+                                    name="sso_tax_no" #sso_tax_no="ngModel" required
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <!-- <p>{{selectedCompany.sso_tax_no.length}}/13</p> -->
+                            </div>
+
+
+                            <!-- <div class="center field col-12 md:col-5">
                                     <label for="firstname2">{{title_taxpayer_identification_no}}</label><br>
                                     <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.sso_tax_no"
                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                         maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
                                 </div> -->
-                                <div class="center field col-12 md:col-5 custom-height">
-                                    <label for="address_amphur">{{ title_juristic_id}}</label>
-                                    <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.citizen_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                </div>
-                                <!-- 
-                                <div class="center field col-12 md:col-5">
-                                    <label for="firstname2">{{title_juristic_id}}</label><br>
-                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.citizen_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div> -->
-
-                                <div class="  field col-12 "></div>
-
-
-                                <div class="center field col-12 md:col-5 custom-height">
-                                    <label for="address_amphur">{{ title_provident_fund_no}}</label>
-                                    <input id="address_amphur" type="text"
-                                        [(ngModel)]="selectedCompany.provident_fund_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                </div>
-
-                                <!-- <div class="center field col-12 md:col-5">
-                                    <label for=" firstname2">{{title_provident_fund_no}}</label><br>
-
-                                    <textarea [rows]="2" id="ppos_detailen"
-                                        [(ngModel)]="selectedCompany.provident_fund_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div> -->
-
-                                <!-- <div class=" field col-12 md:col-5">
-                                    <label for="firstname2">เลขกองทุนสำรองเลี้ยงชีพ</label><br>
-                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.provident_fund_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div> -->
-
-
-                                <!-- <div class="field col-12 md:col-5"></div> -->
-
-                                <!-- <div class="field col-6 custom-height">
-                                    <label for="address_amphur">{{ title_hours_perday}}</label>
-                                    <input id="address_amphur" type="text"
-                                        [(ngModel)]="selectedCompany.hrs_perday"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                </div> -->
-                                <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
-                                <!-- <div class="center field col-5 ">
-                                    <label for="lastname2">{{title_hours_perday}}</label>
-                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [max]="120" [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
-                                    </p-inputNumber>
-                                </div> -->
-
-
-                                <div class="center field col-12 md:col-5 custom-height">
-                                    <label for="address_amphur">{{ title_sso_no}}</label>
-                                    <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.sso_security_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                </div>
-
-
-
-
-                                <div class="field col-12 md:col-12"></div>
-
-
-
-                                <!-- <div class="center field col-12 md:col-5">
-                                    <label for="firstname2">{{title_sso_no}}</label><br>
-                                    <textarea [rows]="2" id="ppos_detailen"
-                                        [(ngModel)]="selectedCompany.sso_security_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="13" pInputTextarea [autoResize]="true"></textarea>
-                                </div> -->
-
-
-
-                                <div class="  field col-12 "></div>
-
-                                <div class="center field col-12 md:col-5 custom-height">
-                                    <label for="address_amphur">{{ title_social_security_branch}}</label>
-                                    <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.sso_branch_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                </div>
-
-
-                                <!-- <div class="center field col-12 md:col-5">
-                                    <label for=" firstname2">{{title_provident_fund_no}}</label><br>
-
-                                    <textarea [rows]="2" id="ppos_detailen"
-                                        [(ngModel)]="selectedCompany.provident_fund_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div> -->
-
-                                <!-- <div class=" field col-12 md:col-5">
-                                    <label for="firstname2">เลขกองทุนสำรองเลี้ยงชีพ</label><br>
-                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.provident_fund_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                                </div> -->
-
-
-                                <!-- <div class="field col-12 md:col-5"></div> -->
-
-                                <!-- <div class="field col-6 custom-height">
-                                    <label for="address_amphur">{{ title_hours_perday}}</label>
-                                    <input id="address_amphur" type="text"
-                                        [(ngModel)]="selectedCompany.hrs_perday"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                </div> -->
-                                <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
-                                <!-- <div class="center field col-5 ">
-                                    <label for="lastname2">{{title_hours_perday}}</label>
-                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [max]="120" [step]="0.5" [(ngModel)]="selectedCompany.hrs_perday">
-                                    </p-inputNumber>
-                                </div> -->
-
-                                <div class="center field col-5  ">
-                                    <label for="lastname2">{{title_hours_perday}}</label>
-                                    <p-inputNumber      mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [max]="120" [step]="0.5"  [(ngModel)]="selectedCompany.hrs_perday">
-                                    </p-inputNumber>
-                                </div>
-
-                                
-
-                                <!-- <div class="center field col-12 md:col-5">
-                                    <label for=" firstname2">{{title_social_security_branch}}</label><br>
-                                    <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.sso_branch_no"
-                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                        maxlength="50" [cols]="6" pInputTextarea [autoResize]="true"></textarea>
-                                </div> -->
-
-                                <div class="field col-12 md:col-12"></div>
-
-
-                                <div class="center field col-12 md:col-5">
-                                    <label for="lastname2">{{title_min_age}}</label>
-                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_min_age">
-                                    </p-inputNumber>
-                                </div>
-
-
-                                <!-- <div class="center field col-5 ">
-                                    <label for="lastname2">{{title_min_age}}</label>
-                                    <p-inputNumber class="custom-size" mode="decimal" [showButtons]="true"
-                                        inputId="minmax-buttons" [min]="18" [max]="60" [step]="1"
-                                        [(ngModel)]="selectedCompany.sso_min_age">
-                                    </p-inputNumber>
-
-                                </div> -->
-
-                                <div class="center field col-5 ">
-                                    <label for="lastname2">{{title_max_age}}</label>
-                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [min]="18" [max]="60" [step]="1" [(ngModel)]="selectedCompany.sso_max_age">
-                                    </p-inputNumber>
-                                </div>
-
-                                <div class="field col-12 md:col-12"></div>
-
-                                <div class="field col-12 md:col-12">
-                                    <h1 for="lastname2">{{title_payout_rate}}</h1>
-                                </div>
-
-                                <div class="center field col-12 md:col-5">
-                                    <label for="lastname2">{{title_sso_company}}</label>
-                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_com_rate">
-                                    </p-inputNumber>
-                                </div>
-
-
-                                <div class="center field col-12 md:col-5">
-                                    <label for="lastname2">{{title_sso_employee}}</label>
-                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_emp_rate">
-                                    </p-inputNumber>
-                                </div>
-
-
-                                <div class="field col-12 md:col-12"></div>
-
-                                <div class="field col-12 md:col-12">
-                                    <h1 for="lastname2">{{title_wage_rate}}</h1>
-                                </div>
-                                <div class="center field col-12 md:col-5">
-                                    <label for="lastname2">{{title_min_wage}}</label>
-                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_min_wage">
-                                    </p-inputNumber>
-                                </div>
-
-
-                                <div class="center field col-12 md:col-5">
-                                    <label for="lastname2">{{title_max_wage}}</label>
-                                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
-                                        [max]="100000" [step]="0.5" [(ngModel)]="selectedCompany.sso_max_wage">
-                                    </p-inputNumber>
-                                </div>
+                            <div class="center field col-12 md:col-5 custom-height">
+                                <label>{{ title_juristic_id}}<span style="color: red;"> *</span></label>
+                                <input type="text" [(ngModel)]="selectedCompany.citizen_no" maxlength="13" pInputText
+                                    name="citizen_no" #citizen_no="ngModel" required
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <!-- <p>{{selectedCompany.citizen_no.length}}/13</p> -->
                             </div>
+
+                            <div class="center field col-12 md:col-5 custom-height"></div>
+                            <hr
+                                style="border-color: rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 100%;">
+
+                            <div class="field col-12 md:col-12">
+                                <h1 for="lastname2">{{title_provident_fund}}</h1>
+                            </div>
+                            <div class="center field col-12 md:col-5 custom-height">
+                                <label>{{ title_provident_fund_no}}</label>
+                                <input type="text" [(ngModel)]="selectedCompany.provident_fund_no" maxlength="30"
+                                    pInputText name="provident_fund_no" #provident_fund_no="ngModel" required
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            </div>
+                            <div class="center field col-12 md:col-5 custom-height"></div>
+                            <hr
+                                style="border-color: rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 100%;">
+
+
+
+
+
+                            <div class="field col-12 md:col-12">
+                                <h1 for="lastname2">อายุพนักงาน</h1>
+                            </div>
+                            <div class="center field col-5 ">
+                                <label for="lastname2">{{title_max_age}}<span style="color: red;"> *</span></label>
+                                <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="18"
+                                    [max]="60" [step]="1" name="sso_max_age" #sso_max_age="ngModel"
+                                    [(ngModel)]="selectedCompany.sso_max_age">
+                                </p-inputNumber>
+                            </div>
+
+
+                            <div class="center field col-12 md:col-12">
+                                <label for="lastname2">{{title_min_age}}<span style="color: red;"> *</span></label>
+                                <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
+                                    [max]="100000" [step]="0.5" name="sso_min_age" #sso_min_age="ngModel"
+                                    [(ngModel)]="selectedCompany.sso_min_age">
+                                </p-inputNumber>
+                            </div>
+
+                            <div class="center field col-12 md:col-5 custom-height"></div>
+                            <hr
+                                style="border-color: rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 100%;">
+
+
+                            <div class="field col-12 md:col-12">
+                                <h1 for="lastname2">{{title_hours_perday}}</h1>
+                            </div>
+
+                            <div class="center col-12 md:col-5">
+                                <label for="lastname2">ชั่วโมง/วัน<span style="color: red;"> *</span></label>
+                                <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
+                                    [step]="0.5" name="hrs_perday" #hrs_perday="ngModel"
+                                    [(ngModel)]="selectedCompany.hrs_perday">
+                                </p-inputNumber>
+                            </div>
+                            <div class="center field col-12 md:col-5 custom-height"></div>
+
+
+
+
+
+
+
+
+
                         </div>
                         <!-- card -->
                         <!-- <div class="col-12">

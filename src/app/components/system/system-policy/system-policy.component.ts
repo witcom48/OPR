@@ -27,6 +27,8 @@ public initial_current: InitialCurrent = new InitialCurrent();
             this.router.navigateByUrl('login');
         }
     }
+  title_Supply: string = "Supply Office";
+
     title_genaral_system: string = 'Genaral system';
     title_links: string = 'Links';
     title_genaral: string = 'Genaral';
@@ -41,7 +43,7 @@ public initial_current: InitialCurrent = new InitialCurrent();
     title_bloodtype: string = 'Bloodtype';
     title_hospital: string = 'Hospital';
     title_location: string = 'Location';
-    title_reduce: string = 'Allowance';
+    title_reduce: string = 'Reduces';
     title_set_structure_code: string = 'Set Structure code';
     title_training: string = 'Training';
 
@@ -55,6 +57,8 @@ public initial_current: InitialCurrent = new InitialCurrent();
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+            this.title_Supply = "อุปกรณ์สำนักงาน";
+
             this.title_genaral_system= 'ระบบทั่วไป';
             this.title_links= 'ลิงค์';
             this.title_genaral= 'ทั่วไป';

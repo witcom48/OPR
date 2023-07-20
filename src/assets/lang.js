@@ -23,7 +23,7 @@ var yearperiod = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["System", { TH: "ระบบ", EN: "System " }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
-    ["yearperiod", { TH: "ปีการจ่าย", EN: "Year Period" }],
+    ["yearperiod", { TH: "ปี", EN: "Year Period" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
     ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],
@@ -36,9 +36,11 @@ var yearperiod = new Map([
     ["no", { TH: "อันดับ", EN: "No." }],
     ["code", { TH: "รหัส", EN: "Code" }],
     ["description", { TH: "รายละเอียด", EN: "Description" }],
+    ["descriptionth", { TH: "รายละเอียด (ไทย)", EN: "Description (Thai) " }],
+    ["descriptionen", { TH: "รายละเอียด (อังกฤษ)", EN: "Description (Eng)" }],
     ["type", { TH: "ประเภท", EN: "Type" }],
-    ["modified_by", { TH: "ผู้ทำรายการ", EN: "Modified by" }],
-    ["modified_date", { TH: "วันที่ทำรายการ", EN: "Modified date" }],
+    ["modified_by", { TH: "ผู้ทำรายการ", EN: "Edit by" }],
+    ["modified_date", { TH: "วันที่ทำรายการ", EN: "Edit date" }],
     ["fromdate", { TH: "จากวันที่", EN: "FromDate" }],
     ["todate", { TH: "ถึงวันที่", EN: "ToDate" }],
     ["tax", { TH: "ภาษี", EN: "TAX" }],
@@ -50,6 +52,9 @@ var yearperiod = new Map([
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
     ["manage", { TH: "จัดการ", EN: "Manage" }],
 
+    ["descriptionth", { TH: "รายละเอียด (ไทย)", EN: "Description (Thai) " }],
+    ["descriptionen", { TH: "รายละเอียด (อังกฤษ)", EN: "Description (Eng)" }],
+
 ]);
 
 
@@ -59,13 +64,19 @@ var rounddecimal = new Map([
     ["code", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
     ["nameth", { TH: "ชื่อ ไทย", EN: "Name " }],
     ["nameen", { TH: "ชื่อ อังกฤษ ", EN: "Name " }],
+    ["descriptionth", { TH: "รายละเอียด (ไทย)", EN: "Description (Thai) " }],
+    ["descriptionen", { TH: "รายละเอียด (อังกฤษ)", EN: "Description (Eng)" }],
+
+    ["description", { TH: "รายละเอียด", EN: "Description" }],
+
     ["rounddecimal", { TH: "การปัดเศษ", EN: "Round Decimal" }],
+    
     ["currency", { TH: "ทศนิยม", EN: "Currency" }],
     ["from", { TH: "จาก", EN: "From" }],
     ["tod", { TH: "ถึง", EN: "To" }],
     ["round", { TH: "ปัดเศษ", EN: "Round" }],
     ["timee", { TH: "เวลา", EN: "Time" }],
-    ["decimal", { TH: "ทศนิยม", EN: "Round Decimal" }],
+    ["decimal", { TH: "ทศนิยม", EN: " Decimal Rounding" }],
     ["roundTime", { TH: "เวลา", EN: "Round Time" }],
     ["group", { TH: "กลุ่ม", EN: "Group" }],
     ["manage", { TH: "จัดการ", EN: "Manage" }],
@@ -90,8 +101,8 @@ var rounddecimal = new Map([
     ["code", { TH: "รหัส", EN: "Code" }],
     ["description", { TH: "รายละเอียด", EN: "Description" }],
     ["type", { TH: "ประเภท", EN: "Type" }],
-    ["modified_by", { TH: "ผู้ทำรายการ", EN: "Modified by" }],
-    ["modified_date", { TH: "วันที่ทำรายการ", EN: "Modified date" }],
+    ["modified_by", { TH: "ผู้ทำรายการ", EN: "Edit by" }],
+    ["modified_date", { TH: "วันที่ทำรายการ", EN: "Edit date" }],
 
     ["tax", { TH: "ภาษี", EN: "TAX" }],
     ["leave", { TH: "ลา", EN: "Leave" }],
@@ -155,6 +166,8 @@ var reason = new Map([
     ["no", { TH: "อันดับ", EN: "No." }],
     ["code", { TH: "รหัส", EN: "Code" }],
     ["description", { TH: "รายละเอียด", EN: "Description" }],
+    ["descriptionth", { TH: "รายละเอียด (ไทย)", EN: "Description (Thai) " }],
+    ["descriptionen", { TH: "รายละเอียด (อังกฤษ)", EN: "Description (Eng)" }],
     ["type", { TH: "ประเภท", EN: "Type" }],
     ["modified_by", { TH: "ผู้ทำรายการ", EN: "Modified by" }],
     ["modified_date", { TH: "วันที่ทำรายการ", EN: "Modified date" }],

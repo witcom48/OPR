@@ -18,7 +18,7 @@ p-dropdown{
     height: 40px;  
 }
 .custom-height input {
-    height: 55px;  
+    height: 40px;  
 }
 
 .custom-size {
@@ -27,7 +27,7 @@ p-dropdown{
     width: 300px;
 }
 .custom-input {
-    width: 300px; /* แทนที่ด้วยความยาวที่ต้องการ */
+    width: 200px; /* แทนที่ด้วยความยาวที่ต้องการ */
 }
 
 .formgrids {
@@ -68,7 +68,14 @@ p-dropdown{
         opacity: 0;
     }
  
-
+    .empinfo2{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        flex-wrap: wrap;
+    
+        .horizontal{
+            grid-column: 1/3;
+        }}
  
 
 .table_summary_{
@@ -207,6 +214,9 @@ p-dropdown{
     font-size: 15px;
 }
 
+p {
+    font-size: 12px;
+}
 
 
 

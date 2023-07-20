@@ -111,7 +111,7 @@ export class AppEntrysComponent implements OnInit {
                 this.worker_index = 0;
                 this.doSetDetailItem();
 
-              }, 500);
+              }, 1500);
             })
             .catch((error) => {
               console.error(error);
@@ -152,7 +152,7 @@ export class AppEntrysComponent implements OnInit {
     title_note: string = 'Note';
     title_quantity: string = 'Quantity';
     title_no: string = 'No.';
-    title_date: string = 'Date.';
+    title_date: string = 'Date';
     title_bank: string = 'Bank.';
     title_cash: string = 'Cash.';
     title_total: string = 'Total';
@@ -196,12 +196,12 @@ export class AppEntrysComponent implements OnInit {
         if (this.initial_current.Language == 'TH') {
             this.title_page = 'ข้อมูลทั่วไป';
             this.title_manage  = 'บันทึกเงินได้/เงินหัก';
-            this.title_payroll = 'บัญชีเงินเดือน ';
+            this.title_payroll = 'บัญชี';
             this.title_by_income= 'ตามรายได้ ';
             this.title_codeitem= 'รหัสเงินหัก ';
             this.title_employee= 'พนักงาน ';
             this.title_protype = 'ประเภท';
-            this.title_date = 'วันที่';
+            this.title_date = 'วันที่จ่าย';
             this.title_codes = 'รหัสเงินได้';
             this.title_code = 'รหัส';
             this.title_details = 'รายละเอียด';
@@ -293,18 +293,25 @@ export class AppEntrysComponent implements OnInit {
             });
     }
 
+    // doGetItemList() {
+    //     var tmp = new ItemsModel();
+    //     this.itemService.item_get(tmp).then((res) => {
+    //         this.Items_Lists = res;
+    //         if (this.Items_Lists.length > 0) {
+    //             this.doSetDetailItem();
+    //         }
+    //     });
+    // }
     doGetItemList() {
-        var tmp = new ItemsModel();
+      var tmp = new ItemsModel();
+      this.itemService.item_get(tmp).then((res) => {
+          this.Items_Lists = res.filter((item: { item_type: string }) => item.item_type === 'DE');
 
-        tmp.item_type = "DE"
-
-        this.itemService.item_get(tmp).then((res) => {
-            this.Items_Lists = res;
-            if (this.Items_Lists.length > 0) {
-                this.doSetDetailItem();
-            }
-        });
-    }
+          if (this.Items_Lists.length > 0) {
+              this.doSetDetailItem();
+          }
+      });
+  }
 
     doNextItem() {
         if (this.item_index < this.Items_Lists.length - 1) {
@@ -325,12 +332,7 @@ export class AppEntrysComponent implements OnInit {
         tmp.worker_code = this.worker_code;
 
         try {
-          const res = await this.payitemService.payitem_get(
-            this.initial_current.CompCode,'',
-            tmp.worker_code,'',
-            tmp.item_code,
-            this.initial_current.PR_PayDate
-          );
+          const res = await this.payitemService.payitem_get(this.initial_current.CompCode,  this.initial_current.PR_PayDate ,tmp.worker_code,'',tmp.item_code);
 
           return res;
         } catch (error) {
@@ -374,9 +376,10 @@ export class AppEntrysComponent implements OnInit {
         data.company_code = this.initial_current.CompCode;
         data.emp_data = this.selectEmp.employee_dest;
         data.worker_code = this.workerDetail.worker_code;
+        data.payitem_date = this.initial_current.PR_PayDate;
 
         data.item_code = this.itemDetail.item_code;
-        data.payitem_date = this.payitems.payitem_date;
+        // data.payitem_date = this.payitems.payitem_date;
         data.payitem_amount = this.payitems.payitem_amount;
         data.payitem_quantity = this.payitems.payitem_quantity;
         data.payitem_paytype = this.payitems.payitem_paytype;

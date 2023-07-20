@@ -48,10 +48,11 @@ export class SetbonusComponent implements OnInit {
         private setbonusService: SetbonusService
     ) {}
     new_data: boolean = false;
+    
     ngOnInit(): void {
         this.doGetInitialCurrent();
-        this.doLoadLanguage();
         this.doLoadSetBonusList();
+        this.doLoadLanguage();
         //dropdown
         this.doLoadTRBonusList();
         
@@ -111,7 +112,7 @@ export class SetbonusComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_payroll= 'บัญชีเงินเดือน';
+            this.title_payroll= 'บัญชี';
             this.title_system_Policy= 'นโยบาย';
             this.title_Process= 'กระบวนการ';
             this.title_Result= 'ผลลัพธ์';

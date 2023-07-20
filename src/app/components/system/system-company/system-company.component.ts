@@ -49,13 +49,13 @@ export class SystemCompanyComponent implements OnInit {
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
-
+        this.doLoadLanguage();
         //   this.doLoadInitialList();
         //   this.doLoadEmptypeList();
         //   this.doLoadEmpstatusList();
 
         setTimeout(() => {
-            this.doLoadLanguage();
+            
             this.doLoadMenu();
             this.doLoadCompany();
         }, 500);

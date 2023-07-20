@@ -160,7 +160,7 @@ export class AppMenuComponent implements OnInit {
                             label: 'System',
                             items: [
                                 { label: 'Manage', routerLink: ['/system/sys-manage'] },
-                                { label: 'General', routerLink: ['/system/general'] },
+                                { label: 'Genaral', routerLink: ['/system/general'] },
                                 { label: 'Security', routerLink: ['/system/security'] },
                                 { label: 'Notification', routerLink: ['/system/notification'] },
                                 { label: 'Reports', routerLink: ['/system/reports'] },

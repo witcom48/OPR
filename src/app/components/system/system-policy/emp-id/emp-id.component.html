@@ -3,13 +3,13 @@
 
 <!-- Link Page -->
 <div class="path">
-    <span>{{title_system}}</span>
-    <div>
-        <i></i>
-        <a routerLink="/system/sys-manage">{{title_manage}}</a>
-        <i></i>
-        <small>{{title_page}}</small>
-    </div>
+  <span>{{title_system}}</span>
+  <div>
+    <i></i>
+    <a routerLink="/system/sys-manage">{{title_manage}}</a>
+    <i></i>
+    <small>{{title_page}}</small>
+  </div>
 </div>
 <!-- ---------END Link Page----------- -->
 <hr>
@@ -19,105 +19,110 @@
 
 
 <div class="tabledata">
-    <!-- Table Show Data -->
-    <div #TABLE>
-        <div>
-            <p-menubar [model]="items"></p-menubar>
+  <!-- Table Show Data -->
+  <div #TABLE>
+    <div>
+      <p-menubar [model]="items"></p-menubar>
+    </div>
+    <p-table #dt2 [value]="TRPolcode_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+      selectionMode="single" [(selection)]="selectedTRPolcode" (onRowSelect)="onRowSelectTRPolcode($event)" [rows]="12"
+      [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+      currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+      [globalFilterFields]="['codestructure_code','codestructure_name_en','polcode_lenght','polcode_text','polcode_order']">
+      <!-- Form Search Table -->
+      <ng-template pTemplate="caption">
+        <div class="searchtable">
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+              placeholder="{{title_search}}" />
+          </span>
         </div>
-        <p-table #dt2 [value]="TRPolcode_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-        selectionMode="single" [(selection)]="selectedTRPolcode" (onRowSelect)="onRowSelectTRPolcode($event)" [rows]="12"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['codestructure_code','codestructure_name_en','polcode_lenght','polcode_text','polcode_order']">
-        <!-- Form Search Table -->
-            <ng-template pTemplate="caption">
-                <div class="searchtable">
-                    <span class="p-input-icon-left ml-auto">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="{{title_search}}" />
-                    </span>
-                </div>
-            </ng-template>
-        <!-- --------------END Form Search Table------------------ -->
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>{{title_code}}</th>
-                    <!-- <th>Detail</th> -->
-                    <th>{{title_lenght}}</th>
-                    <th>{{title_text}}</th>
-                    <th>{{title_order}}</th>
+      </ng-template>
+      <!-- --------------END Form Search Table------------------ -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{title_code}}</th>
+          <th>{{title_detail}}</th>
+          <th>{{title_lenght}}</th>
+          <th>{{title_text}}</th>
+ 
 
-                 
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-data >
-                <tr [pSelectableRow]="data">
-                    <td>{{data.codestructure_code}}</td>
-                    <!-- <td>{{data.codestructure_name_en}}</td> -->
-                    <td>{{data.polcode_lenght}}</td>
-                    <td>{{data.polcode_text}}</td>
-                    <td>{{data.polcode_order}}</td>
-                </tr>
-            </ng-template>
-            
-        </p-table>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr [pSelectableRow]="data">
+          <td>{{ data.codestructure_code }}</td>
+          <td>{{ getStructureDetail(data.codestructure_code) }}</td>
+          <td>{{ data.polcode_lenght }}</td>
+          <td>{{ data.polcode_text }}</td>
+        </tr>
+      </ng-template>
+      
+      
+      
+
+    </p-table>
+  </div>
+  <!-- -----------------------END Table-------------------------- -->
+
+ 
+    <div class="formatt" *ngIf="new_data">
+      <i (click)="close()"></i>
+
+      <label>{{title_detail}} </label>
+      <p-dropdown placeholder="--" [options]="codestructureList" optionValue="codestructure_code" [showClear]="true"
+        [(ngModel)]="selectedTRPolcode.codestructure_code" [style]="{ width: '100%', overflow: 'visible' }">
+        <ng-template let-item pTemplate="selectedItem">
+          {{initial_current.Language === 'TH' ? item.codestructure_name_th : item.codestructure_name_en}}
+        </ng-template>
+        <ng-template let-item pTemplate="item">
+          {{initial_current.Language === 'TH' ? item.codestructure_name_th : item.codestructure_name_en}}
+        </ng-template>
+      </p-dropdown>
+
+      <label>{{title_lenght}} </label>
+      <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+        [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTRPolcode.polcode_lenght" name="polcode_lenght">
+      </p-inputNumber>
+
+
+      <label>{{title_text}} </label>
+      <input pInputText type="text" [(ngModel)]="selectedTRPolcode.polcode_text" name="polcode_text" required />
+
+      <label>{{title_order}} </label>
+      <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+        [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTRPolcode.polcode_order" name="polcode_order"
+         >
+      </p-inputNumber>
+
+
+      <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+
+      <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+        class="p-button-danger" (click)="confirmDelete()"></button>
     </div>
-    <!-- -----------------------END Table-------------------------- -->
-
-    <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
-
-          <label>{{title_code}}</label>
-          <p-dropdown  placeholder="--" [options]="codestructureList" optionValue="codestructure_code"
-              [showClear]="true" [(ngModel)]="selectedTRPolcode.codestructure_code"
-              [style]="{ width: '150%', overflow: 'visible' }" >
-              <ng-template let-item pTemplate="selectedItem">
-                  {{initial_current.Language=="TH"? item.codestructure_name_th :
-                  item.codestructure_name_en}}
-              </ng-template>
-              <ng-template let-item pTemplate="item">
-                  {{initial_current.Language=="TH"? item.codestructure_name_th :
-                  item.codestructure_name_en}}
-              </ng-template>
-          </p-dropdown>
-
-
-        
-          <label>{{title_lenght}}</label>
-          <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_lenght">
-
-          <label>{{title_text}}</label>
-          <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_text">
-
-    
-          <label>{{title_order}}</label>
-          <input pInputText type="text" id="polcode_lenght" [(ngModel)]="selectedTRPolcode.polcode_order">
-
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="confirmDelete()"></button>
-    </div>
+ 
 </div>
 
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
-    <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
-    </label>
-    <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadTRPolcode()" label="{{title_upload}}"
-            styleClass="p-button-text"></p-button>
-    </ng-template>
+  <label class="drop-container">
+    <span class="drop-title">Drop files here</span>
+    or
+    <input type="file"
+      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      required (change)="handleFileInput($any($event).target.files)">
+  </label>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-upload" (click)="doUploadTRPolcode()" label="{{title_upload}}"
+      styleClass="p-button-text"></p-button>
+  </ng-template>
 </p-dialog>
 <!-- -----------------End Dialog Choose File-------------------- -->
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"  key="myDialog" ></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+  key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
-

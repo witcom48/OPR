@@ -108,7 +108,7 @@ export class SetprovidentComponent implements OnInit {
               this.title_system_Policy= 'นโยบาย';
             this.title_Process= 'กระบวนการ';
             this.title_Result= 'ผลลัพธ์';
-            this.title_payroll= 'บัญชีเงินเดือน';
+            this.title_payroll= 'บัญชี';
 
             this.title_policy = 'นโยบาย';
             this.title_page = 'กำหนดสิทธิกองทุนสำรองฯ';
