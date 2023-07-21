@@ -46,7 +46,6 @@
                     <th>{{title_name_en}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
-                    <th>{{title_delete}}</th>
 
                 </tr>
             </ng-template>
@@ -58,7 +57,7 @@
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     <td>
-                        <button pButton type="button" class="pi pi-trash gray-button " (click)="confirmDeletes(data)">
+                        <button pButton type="button" class="pi pi-trash gray-button  " (click)="confirmDeletes(data)">
                         </button>
 
                     </td>

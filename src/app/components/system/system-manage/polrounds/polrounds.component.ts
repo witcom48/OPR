@@ -56,6 +56,7 @@ export class PolroundsComponent implements OnInit {
     public selecteTLV: string = '';
     public selecteTOT: string = '';
     public selecteTWK: string = '';
+    public selecteloan: string = '';
 
     title_system: { [key: string]: string } = { EN: 'System', TH: 'ระบบ' };
     title_tab_Manage: { [key: string]: string } = {
@@ -93,6 +94,14 @@ export class PolroundsComponent implements OnInit {
         EN: 'Wage/Day',
         TH: 'ค่าแรงแบบวัน',
     };
+
+    title_tab_Loan: { [key: string]: string } = { EN: 'Loan', TH: 'สินเชื่อ' };
+    title_tab_Loans: { [key: string]: string } = {
+        EN: 'Loan',
+        TH: 'สินเชื่อ',
+    };
+
+    
     title_tab_AB: { [key: string]: string } = { EN: 'Absent', TH: 'ค่าขาดงาน' };
     title_tab_WSUM: { [key: string]: string } = {
         EN: 'Wage/Salary',
@@ -209,12 +218,15 @@ export class PolroundsComponent implements OnInit {
                     this.selectedOTSUM = element.polround_ot_summary;
                     this.selectedAB = element.polround_absent;
                     this.selecteLT = element.polround_late;
+                    this.selecteloan= element.polround_loan;
                     this.selecteLV = element.polround_leave;
                     this.selecteNP = element.polround_netpay;
                     this.selecteTLT = element.polround_timelate;
                     this.selecteTLV = element.polround_timeleave;
                     this.selecteTOT = element.polround_timeot;
                     this.selecteTWK = element.polround_timeworking;
+                    
+                    
                 });
                 this.polrounds_list = await res;
             });
@@ -247,6 +259,8 @@ export class PolroundsComponent implements OnInit {
         polround.polround_ot_summary = this.selectedOTSUM;
         polround.polround_absent = this.selectedAB;
         polround.polround_late = this.selecteLT;
+        polround.polround_loan = this.selecteloan ;
+
         polround.polround_leave = this.selecteLV;
         polround.polround_netpay = this.selecteNP;
         polround.polround_timelate = this.selecteTLT;
