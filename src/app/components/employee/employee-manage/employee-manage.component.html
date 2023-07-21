@@ -602,11 +602,11 @@
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_familytype}}</th>
-                                            <th>{{title_familycode}}</th>
-                                            <th>{{title_fname_th}}</th>
-                                            <th>{{title_lname_th}}</th>
+                                            <th>{{title_familynameth[initial_current.Language]}}</th>
+                                            <th>{{title_familynameen[initial_current.Language]}}</th>
                                             <th>{{title_familyocc[initial_current.Language]}}</th>
                                             <th>{{title_familytel[initial_current.Language]}}</th>
+                                            <th>{{title_familyaddress[initial_current.Language]}}</th>
                                             <th>{{title_modified_by}}</th>
                                             <th>{{title_modified_date}}</th>
                                         </tr>
@@ -614,11 +614,11 @@
                                     <ng-template pTemplate="body" let-empfamily>
                                         <tr [pSelectableRow]="empfamily">
                                             <td>{{doGetFamilyDetail(empfamily.family_type)}}</td>
-                                            <td>{{empfamily.family_code}}</td>
-                                            <td>{{empfamily.family_fname_th}}</td>
-                                            <td>{{empfamily.family_lname_th}}</td>
+                                            <td>{{empfamily.family_fname_th+" "+empfamily.family_lname_th}}</td>
+                                            <td>{{empfamily.family_fname_en+" "+empfamily.family_lname_en}}</td>
                                             <td>{{empfamily.family_occupation}}</td>
                                             <td>{{empfamily.family_tel}}</td>
+                                            <td>{{empfamily.family_address}}</td>
                                             <td>{{empfamily.modified_by}}</td>
                                             <td>{{empfamily.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
@@ -1670,8 +1670,8 @@
     </div>
     <!-- Form Emp Family -->
     <div class="formatt" *ngIf="edit_empfamily==true || new_family==true">
-        <label>{{title_familycode}}<span style="color: red;"> *</span></label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_code">
+        <!-- <label>{{title_familycode}}<span style="color: red;"> *</span></label>
+        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_code"> -->
 
         <label>{{title_fname_th}}</label>
         <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_fname_th">
@@ -1685,10 +1685,9 @@
         <label>{{title_lname_en}}</label>
         <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_lname_en">
 
-        <label>{{title_birthdate}}</label>
+        <!-- <label>{{title_birthdate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedEmpfamily.family_birthdate"><input type="text"></p-calendar>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_birthdate"> -->
+            [(ngModel)]="selectedEmpfamily.family_birthdate"><input type="text"></p-calendar> -->
 
         <label>{{title_familytype}}<span style="color: red;"> *</span></label>
         <p-dropdown appendTo="body" placeholder="--" [options]="familytypeList" optionValue="family_code"
@@ -1708,6 +1707,9 @@
 
         <label>{{title_familytel[initial_current.Language]}}</label>
         <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_tel" max="10">
+
+        <label>{{title_familyaddress[initial_current.Language]}}</label>
+        <textarea [(ngModel)]="selectedEmpfamily.family_address" pInputTextarea [autoResize]="true"></textarea>
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empfamily_summit()"></button>

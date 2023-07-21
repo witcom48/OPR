@@ -9,7 +9,7 @@ export class EmpAssessmentModel {
     empassessment_fromdate!: Date;
     empassessment_todate!: Date;
     empassessment_count: string= "";
-    empassessment_result: string= "";
+    empassessment_result: string= "Y";
 
     modified_by: string= "";
     modified_date: string= "";

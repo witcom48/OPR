@@ -326,7 +326,22 @@ export class EmployeeListComponent implements OnInit {
   }
 
   doDeleteEmployee() {
-    // console.log(this.selectedemployee);
+    var tmp:EmployeeModel = new EmployeeModel();
+    tmp.worker_code = this.selectedemployee.worker_code
+    tmp.worker_id = this.selectedemployee.worker_id
+    this.employeeService.worker_delete(tmp).then((res)=>{
+      let result = JSON.parse(res);
+
+      if(result.success){
+        this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
+        this.doLoadEmployee();
+        this.edit_employee= false;
+        this.new_employee= false;
+       }
+       else{
+        this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
+       }
+    })
   }
 
   close() {

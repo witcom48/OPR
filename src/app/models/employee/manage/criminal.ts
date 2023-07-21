@@ -8,7 +8,7 @@ export class EmpCriminalModel {
     empcriminal_fromdate!: Date;
     empcriminal_todate!: Date;
     empcriminal_count: string= "";
-    empcriminal_result: string= "";
+    empcriminal_result: string= "Y";
 
 
     modified_by: string= "";

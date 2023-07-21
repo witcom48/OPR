@@ -581,6 +581,9 @@ export class EmployeeManageComponent implements OnInit {
 
   title_familyocc: { [key: string]: string } = { EN: "Occupation", TH: "อาชีพ" };
   title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรฯ" };
+  title_familyaddress: { [key: string]: string } = { EN: "Address", TH: "ที่อยู่" };
+  title_familynameth: { [key: string]: string } = { EN: "Name(Eng.)", TH: "ชื่อ(อังกฤษ)" };
+  title_familynameen: { [key: string]: string } = { EN: "Name(Thai)", TH: "ชื่อ(ไทย)" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -2692,6 +2695,10 @@ export class EmployeeManageComponent implements OnInit {
     })
   }
   record_empforeigner() {
+    if (this.empforeignerList.length == 0) {
+    } else {
+        
+    }
     this.empdetailService.record_empforeigner(this.selectedEmployee.worker_code, this.selectedEmpforeigner)
   }
 
