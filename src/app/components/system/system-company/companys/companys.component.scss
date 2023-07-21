@@ -163,7 +163,11 @@ p-dropdown{
     padding: 5px;
     border: 0px solid #ccc;
 }
-
+.p-dialog-content::ng-deep {
+    overflow-y: hidden;
+    padding: 20px 0.5rem 4rem 0.5rem;
+  }
+  
 
 .main_div {
     text-align:left;

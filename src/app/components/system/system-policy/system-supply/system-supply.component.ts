@@ -126,6 +126,7 @@ export class SystemSupplyComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          this.showManage()
           this.selectedSupply = new SupplyModel();
           this.new_data = true;
           this.edit_data = false;
@@ -180,6 +181,9 @@ export class SystemSupplyComponent implements OnInit {
       if (result.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
         this.doLoadSupply()
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -187,7 +191,49 @@ export class SystemSupplyComponent implements OnInit {
 
     });
   }
+//
+confirmDeletes(data: any) {
+  this.confirmationService.confirm({
+    message: this.title_confirm_delete,
+    header: this.title_confirm,
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.doDeleteSupplys(data);
+    },
 
+    reject: () => {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Cancelled',
+        detail: this.title_confirm_cancel,
+      });
+    },
+  });
+}
+
+doDeleteSupplys(data: any) {
+  this.supplyService.supply_delete(data).then((res) => {
+    let result = JSON.parse(res);
+    if (result.success) {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: result.message,
+      });
+      this.doLoadSupply();
+      this.edit_data = false;
+      this.new_data = false;
+      this.displayManage = false
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: result.message,
+      });
+    }
+  });
+}
+//
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete,
@@ -211,6 +257,7 @@ export class SystemSupplyComponent implements OnInit {
         this.doLoadSupply();
         this.edit_data = false;
         this.new_data = false;
+        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -226,6 +273,7 @@ export class SystemSupplyComponent implements OnInit {
   onRowSelectSupply(event: any) {
     this.edit_data = true;
     this.new_data = true;
+    this.displayManage = true
   }
 
   fileToUpload: File | any = null;
@@ -273,7 +321,11 @@ export class SystemSupplyComponent implements OnInit {
   showUpload() {
     this.displayUpload = true;
   }
-
+  displayManage: boolean = false;
+    position: string = "right";
+    showManage() {
+      this.displayManage = true
+    }
   @ViewChild('TABLE') table: ElementRef | any = null;
 
   exportAsExcel() {

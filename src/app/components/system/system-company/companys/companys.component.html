@@ -36,37 +36,7 @@
 
                         </div>
                         <div class="field col-6 custom-height"></div>
-                        <!--                       <div class="field col-6 custom-height">
-                            <label>{{ title_codes}}<span style="color: red;"> *</span></label>
-                            <input pInputText type="text" [(ngModel)]="selectedCompany.company_code" maxlength="10"
-                                disabled="{{company_code}}" name="code" #code="ngModel" required />
-                            <p>{{selectedCompany.company_code.length}}/10</p>
-                            <div class="field col-6 custom-height"></div>
-                        </div> -->
 
-
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="firstname2" class="block mb-2">{{title_codes}}</label>
-                            <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_code"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                maxlength="5" [readonly]="company_code" [cols]="30" pInputTextarea [autoResize]="true"
-                                style="display: block; width: 100%;">
-                            </textarea>
-                        </div> -->
-
-                        <!-- <div class="field col-6 custom-height">
-                            <label for="address_amphur">{{ title_initials}}</label>
-                            <input id="address_amphur" type="text" [(ngModel)]="selectedCompany.company_initials"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                        </div> -->
-
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="firstname2">{{title_initials}}</label><br>
-                            <br />
-                            <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_initials"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                         </div> -->
                         <div class="field col-6 custom-height">
                             <label>{{ title_thai_name}}<span style="color: red;"> *</span></label>
                             <input pInputText type="text" [(ngModel)]="selectedCompany.company_name_th"
@@ -89,16 +59,6 @@
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                         </div>
 
-
-
-
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="firstname2">{{title_english_name}}</label><br>
-                            <br />
-                            <textarea [rows]="2" id="ppos_detailen" [(ngModel)]="selectedCompany.company_name_en"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                maxlength="50" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-                        </div> -->
                     </div>
                     <!-- Address -->
                     <div class="field col-12">
@@ -359,7 +319,7 @@
 
 
                             <div class="field col-12 md:col-12">
-                                <h1 for="lastname2">ประกันสังคม</h1>
+                                <h1 for="lastname2">{{title_sso}}</h1>
                             </div>
                             <div class="center field col-12 md:col-5 custom-height">
                                 <label>{{ title_sso_no}}<span style="color: red;"> *</span></label>
@@ -425,7 +385,7 @@
                                 style="border-color: rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 100%;">
 
                             <div class="field col-12 md:col-12">
-                                <h1 for="lastname2">ภาษี</h1>
+                                <h1 for="lastname2">{{title_tax}}</h1>
                             </div>
                             <div class="center field col-12 md:col-5 custom-height">
                                 <label>{{ title_taxpayer_identification_no}}<span style="color: red;"> *</span></label>
@@ -472,15 +432,9 @@
 
 
                             <div class="field col-12 md:col-12">
-                                <h1 for="lastname2">อายุพนักงาน</h1>
+                                <h1 for="lastname2">{{title_employee_age}}</h1>
                             </div>
-                            <div class="center field col-5 ">
-                                <label for="lastname2">{{title_max_age}}<span style="color: red;"> *</span></label>
-                                <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="18"
-                                    [max]="60" [step]="1" name="sso_max_age" #sso_max_age="ngModel"
-                                    [(ngModel)]="selectedCompany.sso_max_age">
-                                </p-inputNumber>
-                            </div>
+                            
 
 
                             <div class="center field col-12 md:col-12">
@@ -488,6 +442,13 @@
                                 <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
                                     [max]="100000" [step]="0.5" name="sso_min_age" #sso_min_age="ngModel"
                                     [(ngModel)]="selectedCompany.sso_min_age">
+                                </p-inputNumber>
+                            </div>
+                            <div class="center field col-5 ">
+                                <label for="lastname2">{{title_max_age}}<span style="color: red;"> *</span></label>
+                                <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="18"
+                                    [max]="60" [step]="1" name="sso_max_age" #sso_max_age="ngModel"
+                                    [(ngModel)]="selectedCompany.sso_max_age">
                                 </p-inputNumber>
                             </div>
 
@@ -501,7 +462,7 @@
                             </div>
 
                             <div class="center col-12 md:col-5">
-                                <label for="lastname2">ชั่วโมง/วัน<span style="color: red;"> *</span></label>
+                                <label for="lastname2">{{title_hours_perday}}<span style="color: red;"> *</span></label>
                                 <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
                                     [step]="0.5" name="hrs_perday" #hrs_perday="ngModel"
                                     [(ngModel)]="selectedCompany.hrs_perday">
@@ -630,11 +591,11 @@
                 </p-tabPanel>
 
 
-                <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
+                <!-- <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position"> -->
 
 
 
-                    <!-- <div class="formatt" *ngIf="edit_comcard==true || new_card==true">
+                <!-- <div class="formatt" *ngIf="edit_comcard==true || new_card==true">
                         <label>ประเภทบัตร</label>
                         <div>
                             <label for="lastname2">{{title_card_type}} :</label>
@@ -669,8 +630,11 @@
 
                     </div> -->
 
-                    <!-- Form Bank -->
-                    <div class="formatt" *ngIf="edit_combank==true || new_bank==true">
+                <!-- Form Bank -->
+                <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
+                    [position]="position">
+
+                    <div class="formatt p-dialog-content" *ngIf="edit_combank==true || new_bank==true">
                         <div>
                             <label for="lastname2">{{title_banks}}:</label>
                             <p-dropdown placeholder="--" [options]="bankList" optionValue="bank_code" [showClear]="true"
@@ -699,7 +663,8 @@
                     </div>
 
                 </p-dialog>
-
+                <div *ngIf="displayManage" style="z-index: 1084;"
+                class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
                 <!-- ConfirmDialog and toast Noti -->
                 <p-toast position="top-right"></p-toast>
                 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"

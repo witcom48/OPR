@@ -60,6 +60,9 @@ export class LocationComponent implements OnInit {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLocation()
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -75,6 +78,9 @@ export class LocationComponent implements OnInit {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLocation()
+        this.edit_data= false;
+        this.new_data= false;
+        this.displayManage= false;
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -111,6 +117,7 @@ export class LocationComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
+          this.showManage()
           this.locations = new LocationModel();
           this.new_data = true;
           this.edit_data = false;
@@ -157,6 +164,13 @@ export class LocationComponent implements OnInit {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
   }
+  
+  displayManage: boolean = false;
+    position: string = "right";
+    showManage() {
+      this.displayManage = true
+    }
+
   close() {
     this.new_data = false
     this.locations = new LocationModel()
@@ -171,6 +185,7 @@ export class LocationComponent implements OnInit {
   onRowSelect(event: any) {
     this.new_data = true
     this.edit_data = true;
+    this.displayManage= true;
   }
   exportAsExcel() {
 

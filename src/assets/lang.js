@@ -43,8 +43,10 @@ var yearperiod = new Map([
     ["modified_date", { TH: "วันที่ทำรายการ", EN: "Edit date" }],
     ["fromdate", { TH: "จากวันที่", EN: "FromDate" }],
     ["todate", { TH: "ถึงวันที่", EN: "ToDate" }],
-    ["tax", { TH: "ภาษี", EN: "TAX" }],
+    ["tax", { TH: "ภาษี", EN: "Tax" }],
     ["leave", { TH: "ลา", EN: "Leave" }],
+    
+
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
     ["upload", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
@@ -55,6 +57,8 @@ var yearperiod = new Map([
     ["descriptionth", { TH: "รายละเอียด (ไทย)", EN: "Description (Thai) " }],
     ["descriptionen", { TH: "รายละเอียด (อังกฤษ)", EN: "Description (Eng)" }],
 
+    ["accounts", { TH: "บัญชี", EN: "Account" }],
+    ["budgets", { TH: "งบประมาณ", EN: "Budget" }],
 ]);
 
 

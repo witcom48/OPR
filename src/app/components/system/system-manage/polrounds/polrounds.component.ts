@@ -63,7 +63,7 @@ export class PolroundsComponent implements OnInit {
         TH: 'จัดการ',
     };
     title_tab_Pol: { [key: string]: string } = {
-        EN: 'Pol Rounds',
+        EN: 'Round Setting',
         TH: 'กำหนดรูปแบบการปัดเศษ',
     };
     title_tab_Currency: { [key: string]: string } = {

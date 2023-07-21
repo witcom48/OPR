@@ -128,6 +128,7 @@ title_system:string = "System";
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
+            this.showManage()
             this.selectedQualification= new QualificationModel();
             this.new_data= true;
             this.edit_data= false;
@@ -183,6 +184,9 @@ title_system:string = "System";
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
         this.doLoadQualification()
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -190,7 +194,49 @@ title_system:string = "System";
 
       });
     }
+//
+confirmDeletes(data: any) {
+  this.confirmationService.confirm({
+    message: this.title_confirm_delete,
+    header: this.title_confirm,
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.doDeleteQualifications(data);
+    },
 
+    reject: () => {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Cancelled',
+        detail: this.title_confirm_cancel,
+      });
+    },
+  });
+}
+
+doDeleteQualifications(data: any) {
+  this.qualificationService.qualification_delete(data).then((res) => {
+    let result = JSON.parse(res);
+    if (result.success) {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: result.message,
+      });
+      this.doLoadQualification();
+      this.edit_data = false;
+      this.new_data = false;
+      this.displayManage = false
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: result.message,
+      });
+    }
+  });
+}
+//
     confirmDelete() {
       this.confirmationService.confirm({
           message: this.title_confirm_delete,
@@ -216,6 +262,7 @@ title_system:string = "System";
         this.doLoadQualification();
         this.edit_data= false;
         this.new_data= false;
+        this.displayManage = false
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -231,6 +278,8 @@ title_system:string = "System";
     onRowSelectQualification(event: any) {
       this.edit_data= true;
       this.new_data= true;
+      this.displayManage = true
+
     }
 
     fileToUpload: File | any = null;
@@ -279,6 +328,13 @@ title_system:string = "System";
     showUpload() {
       this.displayUpload = true;
     }
+
+    displayManage: boolean = false;
+    position: string = "right";
+    showManage() {
+      this.displayManage = true
+    }
+  
 
     @ViewChild('TABLE') table: ElementRef | any = null;
 

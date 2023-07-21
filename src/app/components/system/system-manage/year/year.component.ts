@@ -78,6 +78,9 @@ export class YearComponent implements OnInit {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadYear()
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -93,6 +96,9 @@ export class YearComponent implements OnInit {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadYear()
+        this.edit_data= false;
+        this.new_data= false;
+        this.displayManage= false;
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -133,6 +139,7 @@ export class YearComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
+          this.showManage()
           this.yearperiods = new YearPeriodModels();
           this.new_data = true;
           this.edit_data = false;
@@ -198,7 +205,15 @@ export class YearComponent implements OnInit {
     this.year_type == this.yearperiods.year_group;
     this.new_data = true
     this.edit_data = true;
+    this.displayManage = true
+
   }
+  displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
+  }
+
   exportAsExcel() {
 
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet

@@ -90,3 +90,15 @@ p {
     font-size: 14px;
 }
 
+.p-dialog-content::ng-deep {
+    // overflow-y: hidden;
+    padding: 20px 0.5rem 4rem 0.5rem;
+    
+  }
+  .hovered {
+    background-color: #f34646 !important;
+  }
+  .gray-button {
+    background-color: #ccc;
+  }
+   

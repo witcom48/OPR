@@ -38,36 +38,20 @@
                     <tr>
                     <tr>
                         <th>{{title_codes}}</th>
-                        <!-- <th>{{title_initials}}</th> -->
-                        <th>{{title_name}}</th>
+                         <th>{{title_name}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
                         <th>{{title_delete}}</th>
                     </tr>
                 </ng-template>
 
-                <!-- <ng-template pTemplate="body" let-data let-i="rowIndex">
-                    <tr [pSelectableRow]="data">
-                        <td>{{data.company_code}}</td>
-                        <td>{{data.company_initials}}</td>
-                        <td>{{initial_current.Language == "TH"? data.company_name_th:data.company_name_en}}</td>
-                        <td>{{data.modified_by}}</td>
-                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                        
-                        <td>
-                            <button *ngIf="new_company==true"  class="pi pi-trash " (click)="confirmDelete()"></button>
-                             
-                          </td>
-                          
-                    </tr>
-                </ng-template> -->
+                 
 
 
                 <ng-template pTemplate="body" let-data let-i="rowIndex">
                     <tr [pSelectableRow]="data">
                         <td>{{data.company_code}}</td>
-                        <!-- <td>{{data.company_initials}}</td> -->
-                        <td>{{initial_current.Language == "TH"? data.company_name_th:data.company_name_en}}</td>
+                         <td>{{initial_current.Language == "TH"? data.company_name_th:data.company_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                         <td> 
@@ -113,8 +97,7 @@
         <button pButton pRipple type="button" label="แก้ไข" (click)="selectComManage()"
             class="p-button-secondary"></button>
         <button pButton type="button" label="บันทึก" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <!-- <button *ngIf="edit_company" pButton type="button" label="ลบ" icon="pi pi-trash" class="p-button-danger"
-            (click)="confirmDelete(data)"></button> -->
+  
 
     </div>
 </div>

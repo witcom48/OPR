@@ -10,6 +10,11 @@ p-dropdown{
 
 }
 
+.p-dialog-content::ng-deep {
+    // overflow-y: hidden;
+    padding: 20px 0.5rem 4rem 0.5rem;
+    
+  }
 
 .table_summary_{
     border-collapse: collapse;
@@ -87,3 +92,10 @@ h1 {
 p {
     font-size: 14px;
 }
+.hovered {
+    background-color: #f34646 !important;
+  }
+  .gray-button {
+    background-color: #ccc;
+  }
+   
