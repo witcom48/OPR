@@ -52,7 +52,8 @@ export class AccountServices {
             company_code: account.company_code || this.initial_current.CompCode,
             account_id: account.account_id,
             account_user: account.account_user,
-            account_type: account.account_type
+            account_type: account.account_type,
+            typenotin:account.typenotin
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/account_list', data, this.options).toPromise()
             .then((res) => {

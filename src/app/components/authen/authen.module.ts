@@ -46,7 +46,8 @@ import { PickListModule } from 'primeng/picklist';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PasswordModule } from 'primeng/password';
 import { PolapproveComponent } from './polapprove/polapprove.component';
-
+import { SelfModule } from '../self/self.module';
+import { TreeModule } from 'primeng/tree';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -88,8 +89,9 @@ import { PolapproveComponent } from './polapprove/polapprove.component';
 		RadioButtonModule,
 		PickListModule,
 		CheckboxModule,
-		PasswordModule
-
+		PasswordModule,
+		SelfModule,
+		TreeModule
 
 
 	],

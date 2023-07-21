@@ -41,6 +41,7 @@ export class PaytranModel {
     paytran_income_total: number = 0;
     paytran_deduct_total: number = 0;
 
+    paytran_netpay: number = 0;
     paytran_netpay_b: number = 0;
     paytran_netpay_c: number = 0;
 

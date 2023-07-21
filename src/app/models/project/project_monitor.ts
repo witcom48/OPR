@@ -19,6 +19,10 @@ export class PrjectMonitorModel {
     project_leave: number = 0;
     project_absent: number = 0;
 
+    project_staff_regular: number = 0;
+    project_staff_temp: number = 0;
+    project_staff_resign: number = 0;
+
     projobmain_data:ProjobmainMonitorModel = new ProjobmainMonitorModel();
 
     root: boolean = false;   

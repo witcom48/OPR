@@ -15,6 +15,10 @@ export class ProjobmainMonitorModel {
     projobmain_cost: number = 0;
     projobmain_pay: number = 0;
 
+    projobmain_staff_regular: number = 0;
+    projobmain_staff_temp: number = 0;
+    projobmain_resign: number = 0;
+
     index: number = 0;
     select: boolean = false;    
   }

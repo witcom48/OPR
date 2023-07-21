@@ -57,7 +57,7 @@
                     </ng-template>
                 </p-dropdown>
                 <div></div>
-            
+
                 <p-dropdown placeholder="--" [options]="deplevelList" optionValue="dep_code" [showClear]="true"
                     [(ngModel)]="selectedDep" (onChange)="doChangeSelectDep()" [disabled]="!fillterLevel"
                     [style]="{ width: '100%', overflow: 'visible' }">
@@ -88,7 +88,7 @@
                     </ng-template>
                 </p-dropdown>
             </div>
-            
+
             <!-- Search Employee -->
             <div class="select">
                 <div>
@@ -115,8 +115,12 @@
                 [sourceStyle]="{'height':'15rem'}" [targetStyle]="{'height':'15rem'}">
                 <ng-template let-emp pTemplate="item">
                     <div>
-                        <div style="font-size:14px;float:left;">{{emp.worker_code}} - {{emp.worker_fname_th}}
-                            {{emp.worker_lname_th}}</div>
+                        <div *ngIf="initial_current.Language =='TH'" style="font-size:14px;float:left;">
+                            {{emp.worker_code}} - {{emp.worker_fname_th}} {{emp.worker_lname_th}}
+                        </div>
+                        <div *ngIf="initial_current.Language =='EN'" style="font-size:14px;float:left;">
+                            {{emp.worker_code}} - {{emp.worker_fname_en}} {{emp.worker_lname_en}}
+                        </div>
                     </div>
                 </ng-template>
             </p-pickList>

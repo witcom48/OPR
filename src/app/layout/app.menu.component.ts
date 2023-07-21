@@ -28,9 +28,9 @@ export class AppMenuComponent implements OnInit {
         }
 
         // Generate menu items based on user's role (UserType)
-        if (initialSessionData.UserType === "APR") {
+        if (initialSessionData.Usertype === "APR") {
             // User is a manager
-            this.menuItems = [
+            this.menuItems[0].items = [
                 {
                     label: 'Self Services',
                     items: [
@@ -41,9 +41,9 @@ export class AppMenuComponent implements OnInit {
             ];
         }
 
-        if (initialSessionData.UserType === "Emp" || initialSessionData.UserType === "GRP") {
+        if (initialSessionData.Usertype === "Emp" || initialSessionData.Usertype === "GRP") {
             // User is an employee or a group member
-            this.menuItems = [
+            this.menuItems[0].items = [
                 {
                     label: 'Self Services',
                     items: [
@@ -77,6 +77,10 @@ export class AppMenuComponent implements OnInit {
                             { label: 'Project', routerLink: ['/project/list'] },
                             { label: 'Monitor', routerLink: ['/project/monitor'] },
                             { label: 'Timesheet', routerLink: ['/project/timesheet'] },
+
+                            { label: 'Cost comparison', routerLink: ['/project/compare'] },
+                            { label: 'Transfer record', routerLink: ['/project/transfer'] },
+
                             { label: 'Approval list', routerLink: ['/project/approve'] },
                             { label: 'Reports', routerLink: ['/project/reports'] },
                         ]
@@ -120,8 +124,9 @@ export class AppMenuComponent implements OnInit {
                             // { label: 'Self Services', routerLink: ['/attendance/self'] },
                             { label: 'Import Time', routerLink: ['/attendance/import'] },
                             { label: 'Processing Time', routerLink: ['/attendance/process'] },
-                            { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'] },
                             { label: 'View Time', routerLink: ['/attendance/view'] },
+                            { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'] },
+                            { label: 'Summary', routerLink: ['/attendance/summary'] },
                             // { label: 'Approval list', routerLink: ['/attendance/approve'] },
                             { label: 'Reports', routerLink: ['/attendance/reports'] },
                         ]
@@ -139,6 +144,7 @@ export class AppMenuComponent implements OnInit {
                                 { label: 'Income / Deduct', routerLink: ['/payroll/entry'] },
                                 { label: 'Calculate Tax', routerLink: ['/payroll/caltax'] },
                                 { label: 'View Calculate', routerLink: ['/payroll/view'] },
+                                { label: 'Summary', routerLink: ['/payroll/summary'] },
                                 { label: 'Transfer', routerLink: ['/payroll/transfer'] },
                                 { label: 'Approval list', routerLink: ['/payroll/approve'] },
                                 { label: 'Reports', routerLink: ['/payroll/reports'] },

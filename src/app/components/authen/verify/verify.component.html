@@ -3,11 +3,11 @@
     <div class="loginform">
         <label for="ppos_shift_code">{{langs.get('company')[selectlang]}}</label>
         <p-dropdown class="selectyaer" [options]="company_list" [(ngModel)]="comselected" (onChange)="selectcom()"
-            optionLabel={{comdis}}></p-dropdown>
+            optionLabel={{comdis}} (keyup.enter)="doLogin()"></p-dropdown>
         <label>{{langs.get('username')[selectlang]}}</label>
         <input type="text" pInputText [(ngModel)]="user" />
         <label>{{langs.get('password')[selectlang]}}</label>
-        <p-password [(ngModel)]="pass" [feedback]="false" [toggleMask]="true"></p-password>
+        <p-password [(ngModel)]="pass" [feedback]="false" [toggleMask]="true" (keyup.enter)="doLogin()"></p-password>
         <button pButton type="button" label="{{langs.get('login')[selectlang]}}" icon="pi pi-lock"
             (click)="doLogin()"></button>
         <div class="lang">
@@ -37,7 +37,6 @@
         <label>{{langs.get('period')[selectlang]}}</label>
         <p-dropdown appendTo="body" class="selectyaer" [options]="periods_list" [(ngModel)]="periods_select"
             (onChange)="selectperiod()" optionLabel={{perioddis}}></p-dropdown>
-        <button pButton type="button" label="{{langs.get('confirm')[selectlang]}}"
-            (click)="selectuser()"></button>
+        <button pButton type="button" label="{{langs.get('confirm')[selectlang]}}" (click)="selectuser()"></button>
     </div>
 </p-dialog>

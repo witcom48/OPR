@@ -25,7 +25,7 @@
             <app-search-emp></app-search-emp>
         </div>
         <div class="col-12">
-            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-save" (click)="select_emp()"></p-button> 
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check" (click)="select_emp()"></p-button> 
             &nbsp;
             <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}" class="p-button-secondary" (click)="close_searchemp()"></button>                      
         </div>
@@ -934,7 +934,7 @@
                 <button pButton pRipple type="button" label="+" (click)="addVersion()" class="p-button-sm p-button-secondary"></button>
                 
             </div>
-            <div class="col-12 md:col-3">
+            <div class="pt-2 col-12 md:col-3">
                 <label for="fromdate">From</label>
                 <input type="text" id="fromdate" [(ngModel)]="fromdate_selected" readonly class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
             </div>
@@ -942,7 +942,7 @@
                 <label for="todate">To</label>
                 <input type="text" id="todate" [(ngModel)]="todate_selected" readonly class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
             </div>
-            <div class="col-12 md:col-3">
+            <div class="pt-2 col-12 md:col-3">
                 <label for="transaction_id">Transaction ID</label>
                 <input type="text" id="transaction_id" [(ngModel)]="selected_version.transaction_id" readonly class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
             </div>
@@ -1437,7 +1437,7 @@
                         <td>{{doGetProjobmainDetail(emp.projob_code)}}</td>
                         <td>{{emp.projobemp_emp}}</td>
                         <td>{{doGetEmployeeDetail(emp.projobemp_emp)}}</td>
-                        <td>{{doGetEmployeeStatus(emp.projobemp_emp)}}</td>
+                        <td>{{doGetJobemptypeDetail(emp.projobemp_type)}}</td>
                         <td>{{emp.projobemp_fromdate | date:'dd/MM/yyyy '}}</td>
                         <td>{{emp.projobemp_todate | date:'dd/MM/yyyy '}}</td>
                         <td>{{emp.projobemp_status}}</td>

@@ -16,6 +16,13 @@
                     <th>{{title_jobcode[initial_current.Language]}}</th>
                     <th>{{title_jobname[initial_current.Language]}}</th>
                     <th>{{title_emp_total[initial_current.Language]}}</th>
+
+                    <th>{{title_staff_regular[initial_current.Language]}}</th>
+                    <th>{{title_staff_temp[initial_current.Language]}}</th>    
+                    <th>{{title_staff_resign[initial_current.Language]}}</th>    
+                    <th>{{title_staff_total[initial_current.Language]}}</th>
+                    <th>{{title_staff_diff[initial_current.Language]}}</th>            
+
                     <th>{{title_working[initial_current.Language]}}</th>
                     <th>{{title_leave[initial_current.Language]}}</th>
                     <th>{{title_absent[initial_current.Language]}}</th>
@@ -34,6 +41,14 @@
                     <td>{{job.projobmain_code}}</td>  
                     <td>{{initial_current.Language=="TH"? job.projobmain_name_th : job.projobmain_name_en }}</td>    
                     <td style="text-align: center;">{{job.projobmain_manpower}}</td>
+                    
+                    <td style="text-align: center;">{{job.projobmain_staff_regular}}</td>
+                    <td style="text-align: center;">{{job.projobmain_staff_temp}}</td>
+                    <td style="text-align: center;">{{job.projobmain_resign}}</td>
+                    <td style="text-align: center;">{{job.projobmain_staff_regular + job.projobmain_staff_temp}}</td>
+                    <td style="text-align: center;">{{job.projobmain_manpower - (job.projobmain_staff_regular + job.projobmain_staff_temp)}}</td>
+
+
                     <td style="text-align: center;">{{job.projobmain_working}}</td>
                     <td style="text-align: center;">{{job.projobmain_leave}}</td>
                     <td style="text-align: center;">{{job.projobmain_absent}}</td>
@@ -45,7 +60,7 @@
             <ng-template pTemplate="rowexpansion" let-job>
                 <tr>
                     <td></td>
-                    <td colspan="8" >
+                    <td colspan="13" >
                         <div class="p-1">
                             <p-table [value]="job.timecard_data"  dataKey="worker_code" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" >        
                                 <ng-template pTemplate="header">       
@@ -179,7 +194,7 @@
 
 
 
-<p-table #dt2  [value]="project_monitor"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="450px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjectMonitor" (onRowSelect)="onRowSelectProject($event)"  dataKey="project_code"
+<p-table #dt2  [value]="project_monitor"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="450px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjectMonitor" (onRowSelect)="onRowSelectProject($event)"  dataKey="project_code"
 
 [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
 [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
@@ -203,6 +218,14 @@ rowGroupMode="subheader"
             <th style="width:10%">{{title_project_code[initial_current.Language]}}</th>
             <th style="width:15%">{{title_project_name[initial_current.Language]}}</th>     
             <th>{{title_emp_total[initial_current.Language]}}</th>
+
+            <th>{{title_staff_regular[initial_current.Language]}}</th>
+            <th>{{title_staff_temp[initial_current.Language]}}</th>
+            <th>{{title_staff_resign[initial_current.Language]}}</th>
+            <th>{{title_staff_total[initial_current.Language]}}</th>
+            <th>{{title_staff_diff[initial_current.Language]}}</th>            
+            
+            
             <th>{{title_working[initial_current.Language]}}</th>
             <th>{{title_leave[initial_current.Language]}}</th>
             <th>{{title_absent[initial_current.Language]}}</th>
@@ -222,6 +245,14 @@ rowGroupMode="subheader"
             <td style="text-align: left;">{{initial_current.Language=="TH"? project.project_name_th : project.project_name_en}}</td>
                            
             <td style="text-align: center;">{{project.project_manpower}}</td>
+
+            <td style="text-align: center;">{{project.project_staff_regular}}</td>
+            <td style="text-align: center;">{{project.project_staff_temp}}</td>
+            <td style="text-align: center;">{{project.project_staff_resign}}</td>
+            <td style="text-align: center;">{{project.project_staff_regular + project.project_staff_temp}}</td>
+            <td style="text-align: center;">{{project.project_manpower - (project.project_staff_regular + project.project_staff_temp)}}</td>
+
+
             <td style="text-align: center;">{{project.project_working}}</td>
             <td style="text-align: center;">{{project.project_leave}}</td>
             <td style="text-align: center;">{{project.project_absent}}</td>
@@ -237,6 +268,13 @@ rowGroupMode="subheader"
         <tr class="p-rowgroup-footer">
             <td colspan="3" style="text-align: right">{{title_total[initial_current.Language]}}</td>
             <td style="text-align: center;">{{total_emp}}</td>
+
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+
             <td style="text-align: center;">{{total_working}}</td>
             <td style="text-align: center;">{{total_leave}}</td>
             <td style="text-align: center;">{{total_absent}}</td>
@@ -249,7 +287,7 @@ rowGroupMode="subheader"
     <ng-template pTemplate="rowexpansion" let-project>
         <tr>
             <td></td>
-            <td colspan="8" >
+            <td colspan="13" >
                 <div class="p-1">
                     <p-table [value]="project.projobmain_data"  dataKey="projobmain_id">
 
@@ -257,6 +295,13 @@ rowGroupMode="subheader"
                             <th style="width:10%">{{title_job_code[initial_current.Language]}}</th>
                             <th style="width:15%">{{title_job_name[initial_current.Language]}}</th>       
                             <th>{{title_emp_total[initial_current.Language]}}</th>
+
+                            <th>{{title_staff_regular[initial_current.Language]}}</th>
+                            <th>{{title_staff_temp[initial_current.Language]}}</th>
+                            <th>{{title_staff_resign[initial_current.Language]}}</th>
+                            <th>{{title_staff_total[initial_current.Language]}}</th>
+                            <th>{{title_staff_diff[initial_current.Language]}}</th>     
+
                             <th>{{title_working[initial_current.Language]}}</th>
                             <th>{{title_leave[initial_current.Language]}}</th>
                             <th>{{title_absent[initial_current.Language]}}</th>
@@ -269,6 +314,14 @@ rowGroupMode="subheader"
                                 <td>{{ projobmain.projobmain_code }}</td>
                                 <td style="text-align: left;">{{initial_current.Language=="TH"? projobmain.projobmain_name_th : projobmain.projobmain_name_en}}</td>                                                           
                                 <td style="text-align: center;">{{projobmain.projobmain_manpower}}</td>
+
+                                <td style="text-align: center;">{{projobmain.projobmain_staff_regular}}</td>
+                                <td style="text-align: center;">{{projobmain.projobmain_staff_temp}}</td>
+                                <td style="text-align: center;">{{projobmain.projobmain_resign}}</td>
+                                <td style="text-align: center;">{{projobmain.projobmain_staff_regular + projobmain.projobmain_staff_temp}}</td>
+                                <td style="text-align: center;">{{projobmain.projobmain_manpower - (projobmain.projobmain_staff_regular + projobmain.projobmain_staff_temp)}}</td>
+
+
                                 <td style="text-align: center;">{{projobmain.projobmain_working}}</td>
                                 <td style="text-align: center;">{{projobmain.projobmain_leave}}</td>
                                 <td style="text-align: center;">{{projobmain.projobmain_absent}}</td>

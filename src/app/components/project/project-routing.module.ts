@@ -14,6 +14,9 @@ import { ProjectPackageComponent } from './project-package/project-package.compo
 import { CostSetupComponent } from './policy/cost-setup/cost-setup.component';
 import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component';
 
+import { ProjectTransferComponent } from './project-transfer/project-transfer.component';
+import { ProjectCompareComponent } from './project-compare/project-compare.component';
+
 @NgModule({
     imports: [RouterModule.forChild([ 
         { path: 'manage', component: ProjectManageComponent },
@@ -25,6 +28,9 @@ import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component'
         { path: 'approve', component: ProjectApproveComponent },
         { path: 'package', component: ProjectPackageComponent },
         { path: 'setup_cost', component: CostSetupComponent },
+
+        { path: 'compare', component: ProjectCompareComponent },
+        { path: 'transfer', component: ProjectTransferComponent },
 
         { path: 'pro_genaral', component: ProGenaralComponent },
         { path: 'procost', component: ProGenaralComponent },

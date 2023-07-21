@@ -12,6 +12,7 @@ export class AccountModel {
   account_user: string = "";
   account_pwd: string = "";
   account_type: string = "";
+  typenotin: string = "";
   account_level: number = 1;
   account_email: string = "";
   account_email_alert: boolean = false;
