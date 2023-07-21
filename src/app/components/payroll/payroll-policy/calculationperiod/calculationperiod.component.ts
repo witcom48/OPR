@@ -75,6 +75,7 @@ export class CalculationperiodComponent implements OnInit {
     
     title_monthly: string = 'Monthly';
     title_daily: string = 'Daily';
+    title_date: string = 'Date';
     title_payment: string = 'Payment';
     title_fromdate: string = 'Fromdate';
     title_todate: string = 'Todate';
@@ -114,16 +115,16 @@ export class CalculationperiodComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-                        this.title_payroll= 'บัญชีเงินเดือน';
-
+            this.title_payroll= 'บัญชี';
             this.title_policy = 'กำหนดนโยบาย';
-            this.title_page = 'งวดการคำนวน';
+            this.title_page = 'กำหนดงวด';
             this.title_new = 'เพิ่ม';
             this.title_type = 'ประเภท';
 
             this.title_monthly = 'เดือน';
             this.title_daily = 'วัน';
-            this.title_payment = 'การชำระเงิน'
+            this.title_date = 'วันที่จ่าย';
+            this.title_payment = 'วันที่ชำระเงิน'
             this.title_fromdate = 'จากวันที่'
             this.title_todate= 'ถึงวันที่';
             this.title_day_pay = 'จำนวนวันตามงวด';
@@ -174,6 +175,7 @@ export class CalculationperiodComponent implements OnInit {
       this.yaerList = [];
       var tmp = new YearPeriodModels();
       tmp.year_group = "TAX"
+      
       this.yearServices.year_get(tmp).then(async (res) => {
         await res.forEach((element: YearPeriodModels) => {
           this.yaerList.push({ name: (this.selectlang == "EN" ? element.year_name_en : element.year_name_th) + " " + element.year_code, code: element.year_code })
@@ -300,6 +302,7 @@ export class CalculationperiodComponent implements OnInit {
             this.displayUpload = false;
             this.doUploadPeriod()
           },
+          key:"myDialog",
           reject: () => {
             this.displayUpload = false;
           }

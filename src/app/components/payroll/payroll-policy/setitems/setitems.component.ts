@@ -110,7 +110,7 @@ export class SetitemsComponent implements OnInit {
         if (this.initial_current.Language == 'TH') {
             this.title_system_Policy= 'นโยบาย';
             this.title_Process= 'กระบวนการ';
-            this.title_payroll= 'บัญชีเงินเดือน';
+            this.title_payroll= 'บัญชี';
             this.title_Result= 'ผลลัพธ์';
 
             

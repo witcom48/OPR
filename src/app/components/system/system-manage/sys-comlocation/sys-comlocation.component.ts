@@ -42,11 +42,11 @@ export class SysComlocationComponent implements OnInit {
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
-
+        this.doLoadLanguage();
 
 
         setTimeout(() => {
-            this.doLoadLanguage();
+            
             this.doLoadMenu();
             this.doLoadComlocation();
         }, 500);
@@ -180,6 +180,7 @@ export class SysComlocationComponent implements OnInit {
             accept: () => {
                 this.doRecordComlocation();
             },
+            key:"myDialog",
             reject: () => {
                 this.messageService.add({
                     severity: 'warn',

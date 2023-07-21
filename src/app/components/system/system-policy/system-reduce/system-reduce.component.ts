@@ -39,9 +39,9 @@ export class SystemReduceComponent implements OnInit {
 
     ngOnInit(): void {
       this.doGetInitialCurrent()
-
+      this.doLoadLanguage()
       setTimeout(() => {
-        this.doLoadLanguage()
+        
         this.doLoadMenu()
         this.doLoadReduce()
       }, 500);
@@ -56,7 +56,7 @@ export class SystemReduceComponent implements OnInit {
     }
 title_system:string = "System";
   title_genaral:string = "Genaral";
-    title_page:string = "Allowance";
+    title_page:string = "Reduces";
     title_new:string = "New";
     title_edit:string = "Edit";
     title_delete:string = "Delete";
@@ -121,8 +121,8 @@ title_system:string = "System";
         this.title_confirm_yes = "ใช่";
         this.title_confirm_no = "ยกเลิก";
         this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
-        this.title_amount = "จำนวน";
-        this.title_percent = "เปอร์เซ็นต์";
+        this.title_amount = "จำนวนเงิน";
+        this.title_percent = "เปอร์เซ็นต์ ของเงินได้ ";
         this.title_percent_max = "เปอร์เซ็นต์ สูงสุด";
 
 

@@ -125,12 +125,14 @@
                     </div>
 
                     <label>{{title_note}}</label>
-                    <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea>
+                    <input class="field  md:col-12" pInputText type="text"  [(ngModel)]="payitems.payitem_note"  />
 
-                    <label>{{title_date}}</label>
-                    <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                    <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
+
+                    <!-- <label>{{title_date}}</label> -->
+                    <!-- <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                         [(ngModel)]="payitems.payitem_date">
-                        <input type="text"></p-calendar>
+                        <input type="text"></p-calendar> -->
 
                 </div>
             </div>

@@ -53,7 +53,6 @@ export class ProvidentService {
             provident_name_th: model.provident_name_th,
             provident_name_en: model.provident_name_en,
             flag: model.flag,
-            providentWorkage_data: model.providentWorkage_data,
             modified_by: this.initial_current.Username,
 
 

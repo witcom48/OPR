@@ -198,15 +198,18 @@ export class DiligenceComponent implements OnInit {
     this.doRecordDiligence(this.diligences)
   }
   Savestep() {
-    // console.log(this.diligencestep)
-    if (!this.displayeditstep) {
-      this.diligences.steppay_data = this.diligences.steppay_data.concat({
-        company_code: this.initial_current.CompCode,
-        diligence_code: this.diligences.diligence_code,
-        steppay_step: this.diligencestep.steppay_step,
-        steppay_type: this.diligencestep.steppay_type,
-        steppay_amount: this.diligencestep.steppay_amount
-      })
+    if (this.diligences.steppay_data.some((item: DiligencestepModels) => item.steppay_step == this.diligencestep.steppay_step)) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'diligences Duplicate' });
+    } else {
+      if (!this.displayeditstep) {
+        this.diligences.steppay_data = this.diligences.steppay_data.concat({
+          company_code: this.initial_current.CompCode,
+          diligence_code: this.diligences.diligence_code,
+          steppay_step: this.diligencestep.steppay_step,
+          steppay_type: this.diligencestep.steppay_type,
+          steppay_amount: this.diligencestep.steppay_amount
+        })
+      }
     }
     this.displayaddstep = false;
     this.displayeditstep = false;

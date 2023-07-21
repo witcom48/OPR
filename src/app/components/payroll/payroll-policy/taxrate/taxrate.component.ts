@@ -41,11 +41,11 @@ export class TaxrateComponent implements OnInit {
     ngOnInit(): void {
         this.doGetInitialCurrent();
 
-        setTimeout(() => {
+        
             this.doLoadLanguage();
             this.doLoadMenu();
             this.doLoadTaxrate();
-        }, 500);
+      
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -102,7 +102,7 @@ export class TaxrateComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-                                    this.title_payroll= 'บัญชีเงินเดือน';
+            this.title_payroll= 'บัญชี';
 
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'อัตราภาษี';
@@ -315,6 +315,7 @@ export class TaxrateComponent implements OnInit {
                         });
                     this.displayUpload = false;
                 },
+                key:"myDialog",
                 reject: () => {
                     this.messageService.add({
                         severity: 'warn',
@@ -332,6 +333,23 @@ export class TaxrateComponent implements OnInit {
             });
         }
     }
+
+
+    setFormatFrom(event: any) {
+        event.target.value = parseFloat(event.target.value).toFixed(2);
+        this.selectedTaxrate.taxrate_from = parseFloat(event.target.value);
+      }
+      
+      setFormatTo(event: any) {
+        event.target.value = parseFloat(event.target.value).toFixed(2);
+        this.selectedTaxrate.taxrate_to = parseFloat(event.target.value);
+      }
+      
+      setFormatTax(event: any) {
+        event.target.value = parseFloat(event.target.value).toFixed(2);
+        this.selectedTaxrate.taxrate_tax = parseFloat(event.target.value);
+      }
+      
 
     displayUpload: boolean = false;
     showUpload() {

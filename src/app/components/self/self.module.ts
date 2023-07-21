@@ -71,6 +71,7 @@ import { SelfConsentComponent } from './self-consent/self-consent.component';
 import { EditorModule } from 'primeng/editor';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SelfEmpConsentComponent } from './self-emp-consent/self-emp-consent.component';
+import { SeftAccountManageComponent } from './seft-account-manage/seft-account-manage.component';
 
 @NgModule({
 	imports: [
@@ -118,17 +119,8 @@ import { SelfEmpConsentComponent } from './self-emp-consent/self-emp-consent.com
 		LeafletModule,
 		EditorModule,
 		PdfViewerModule
-
-
-
-
-
-
 	],
 	declarations: [
-
-
-
 		SelfPolicyComponent,
 		SelfLeaveComponent,
 		SelfEmployeeComponent,
@@ -152,7 +144,9 @@ import { SelfEmpConsentComponent } from './self-emp-consent/self-emp-consent.com
 		SelfApproveReqdocComponent,
 		SelfApproveComponent,
 		SelfConsentComponent,
-  SelfEmpConsentComponent
-	]
+		SelfEmpConsentComponent,
+  SeftAccountManageComponent
+	],
+	exports: [SelfAccountComponent],
 })
 export class SelfModule { }

@@ -1,6 +1,8 @@
 
 export class BonusrateModel {
-    constructor() {}
+    constructor() {
+      
+    }
     company_code: string= "";
     bonus_code: string = "";
     bonusrate_from: number = 0 ;

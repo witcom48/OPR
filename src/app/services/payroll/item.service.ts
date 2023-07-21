@@ -59,6 +59,8 @@ export class ItemService {
             item_calpf:model.item_calpf,
             item_calsso:model.item_calsso,
             item_calot:model.item_calot,
+            item_allowance:model.item_allowance,
+            
             item_contax:model.item_contax,
             item_section:model.item_section,
             item_rate:model.item_rate,
@@ -125,6 +127,7 @@ export class ItemService {
             item_calpf:model.item_calpf ? "Y" : "N",
             item_calsso:model.item_calsso ? "Y" : "N",
             item_calot:model.item_calot ? "Y" : "N",
+            item_allowance:model.item_allowance  ? "Y" : "N",
             item_contax:model.item_contax ? "Y" : "N",
 
             item_section:model.item_section,

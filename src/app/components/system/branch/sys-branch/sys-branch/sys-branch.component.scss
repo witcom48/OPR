@@ -1,7 +1,15 @@
+.center {
+    margin: auto;  //ระยะขอบ ผลักอัตโนมัติ
+    width: 50%;   //ความกว้าง 50%
+    // border: 3px solid blue;   //ความหนา รูปแบบ สีของขอบ
+    padding: 5%;  //ขยายขอบด้านใน
+ }
+
 p-dropdown{
     width: '100%'; overflow: 'visible';
 
 }
+
 .field.col-6 {
     width: 50%;
     padding: 0 5px;
@@ -9,6 +17,143 @@ p-dropdown{
 .field.col-6.height input {
     height: 40px;  
 }
+.custom-height input {
+    height: 40px;  
+}
+
+.custom-size {
+    height: 40px;  
+ 
+    width: 300px;
+}
+.custom-input {
+    width: 200px; /* แทนที่ด้วยความยาวที่ต้องการ */
+}
+
+.formgrids {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        align-items: center;
+    }
+    .image-container {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .right {
+        margin-left: 150px;
+    }
+.no-border {
+    border: none;
+    outline: none;
+    background: none;
+}
+
+ 
+    .field {
+        position: relative;
+    }
+
+    .no-border {
+        border: none;
+        outline: none;
+        background: none;
+    }
+
+    .no-file {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        font-size: 0;
+        opacity: 0;
+    }
+ 
+    .empinfo2{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        flex-wrap: wrap;
+    
+        .horizontal{
+            grid-column: 1/3;
+        }}
+ 
+
+.table_summary_{
+    border-collapse: collapse;
+}
+
+.table_summarys{
+    padding: 5px;
+    border: 0px solid #ccc;
+}
+
+
+.main_div {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 100px;
+    width: 100px;
+    background-color: #152047;
+}
+.sub_div {
+    position: absolute;
+    bottom: 5px;
+}
+
+.spn_value{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.spn_title{
+    color: #FFFFFF;
+    font-size: 12px;
+}
+
+.spn_title_edit{
+    margin: 70px 0px 10px 15px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.td_amount{
+    text-align: right;
+    padding-right: 10px;
+}
+
+::ng-deep .input-styling input {
+    width: 40px !important;
+  }
+
+  textarea{
+    width: 100%;
+
+  }
+
+
+  .spn_title_edit_procontact{
+    margin: 350px 0px 10px 15px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+h1 {
+    font-size: 15px;
+}
+
+h2 {
+    border-left: 0;
+}
+
+p {
+    font-size: 14px;
+}
+p-dropdown{
+    width: '100%'; overflow: 'visible';
+
+}
+
 
 .table_summary_{
     border-collapse: collapse;
@@ -68,6 +213,11 @@ p-dropdown{
     font-weight: bold;
     font-size: 15px;
 }
+
+p {
+    font-size: 12px;
+}
+
 // <!-- Address -->
 // <div class="field col-12">
 //     <p-accordion>

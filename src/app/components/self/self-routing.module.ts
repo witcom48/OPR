@@ -25,6 +25,7 @@ import { SelfApproveReqdocComponent } from './self-approve-reqdoc/self-approve-r
 import { SelfApproveComponent } from './self-approve/self-approve.component';
 import { SelfConsentComponent } from './self-consent/self-consent.component';
 import { SelfEmpConsentComponent } from './self-emp-consent/self-emp-consent.component';
+import { SeftAccountManageComponent } from './seft-account-manage/seft-account-manage.component';
 
 
 @NgModule({
@@ -34,7 +35,7 @@ import { SelfEmpConsentComponent } from './self-emp-consent/self-emp-consent.com
 
         { path: 'workflow', component: SelfWorkflowComponent },
         { path: 'lineapprove', component: SelfLineapproveComponent },
-        { path: 'account', component: SelfAccountComponent },
+        { path: 'account', component: SeftAccountManageComponent },
         { path: 'area', component: SelfAreaComponent },
         { path: 'topic', component: SelfTopicComponent },
 

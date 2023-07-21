@@ -66,7 +66,7 @@ export class ProjectMonitorComponent implements OnInit {
 
   title_project_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัสโครงการ"}
   title_project_name: {[key: string]: string} = {  EN: "Description",  TH: "โครงการ"}
-  title_emp_total: {[key: string]: string} = {  EN: "Manpower",  TH: "จำนวนพนักงาน"}
+  title_emp_total: {[key: string]: string} = {  EN: "Manpower",  TH: "อัตรากำลัง"}
   title_working: {[key: string]: string} = {  EN: "Working",  TH: "มาทำงาน"}
   title_leave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
   title_absent: {[key: string]: string} = {  EN: "Absent",  TH: "ขาดงาน"}
@@ -94,6 +94,13 @@ export class ProjectMonitorComponent implements OnInit {
   title_working_after: {[key: string]: string} = {  EN: "OT out",  TH: "โอทีหลังเลิกงาน"}
   title_working_late: {[key: string]: string} = {  EN: "Late",  TH: "สาย"}
   title_working_leave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
+
+  title_staff_regular: {[key: string]: string} = {  EN: "Regular",  TH: "พนักงานประจำ"}
+  title_staff_temp: {[key: string]: string} = {  EN: "Temporary",  TH: "พนักงานชั่วคราว"}
+  title_staff_resign: {[key: string]: string} = {  EN: "Resign",  TH: "พนักงานลาออก"}
+
+  title_staff_total: {[key: string]: string} = {  EN: "Total",  TH: "รวม"}
+  title_staff_diff: {[key: string]: string} = {  EN: "Diff.",  TH: "ส่วนต่าง"}
   
 
   show_fillter: boolean = false;

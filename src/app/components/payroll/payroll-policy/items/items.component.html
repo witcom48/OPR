@@ -46,8 +46,9 @@
                     <th>{{title_no}}</th>
 
                     <th>{{title_code}}</th>
-                    <th>{{title_detail_en}}</th>
+                    
                     <th>{{title_detail_th}}</th>
+                    <th>{{title_detail_en}}</th>
                     <th>{{title_type}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
@@ -57,8 +58,9 @@
                 <tr [pSelectableRow]="data">
                     <td><span>{{title_no}}</span>{{i+1}}</td>
                     <td>{{data.item_code}}</td>
-                    <td>{{data.item_name_en}}</td>
+                    
                     <td>{{data.item_name_th}}</td>
+                    <td>{{data.item_name_en}}</td>
                     <td>{{data.item_type}}</td>
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -73,16 +75,15 @@
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedMTItem.item_code" maxlength="10" disabled="{{edit_data}}" />
-        <p>{{selectedMTItem.item_code.length}}/10</p>
+        <input pInputText type="text" [(ngModel)]="selectedMTItem.item_code" maxlength="20" disabled="{{edit_data}}" />
+        <p>{{selectedMTItem.item_code.length}}/20</p>
 
+       
+        <label>{{title_detail_th}}</label>
+        <textarea [(ngModel)]="selectedMTItem.item_name_th" pInputTextarea [autoResize]="true"></textarea>
 
         <label>{{title_detail_en}}</label>
         <textarea [(ngModel)]="selectedMTItem.item_name_en" pInputTextarea [autoResize]="true"></textarea>
-
-
-        <label>{{title_detail_th}}</label>
-        <textarea [(ngModel)]="selectedMTItem.item_name_th" pInputTextarea [autoResize]="true"></textarea>
 
 
         <div class="radiorole">
@@ -141,11 +142,11 @@
             <div class="inputincheckbox">
                 <div class="inputcheckbox">
                     <input type="checkbox" value="N" [(ngModel)]="selectedMTItem.item_contax">
-                    <label>{{title_Contax}}</label>
+                    <label>{{title_Contax}}%</label>
                 </div>
                 <div class="inputvalue">
                     <div>
-                        <p-inputNumber [(ngModel)]="selectedMTItem.item_rate" [useGrouping]="false"
+                        <p-inputNumber [(ngModel)]="selectedMTItem.item_rate" [max]="100" [min]="0" [step]="0.5"[useGrouping]="false"
                             [disabled]="!selectedMTItem.item_contax"></p-inputNumber>
                     </div>
 
@@ -166,7 +167,7 @@
 
             <div>
                 <input type="radio" name="item" value="3" [(ngModel)]="selectedMTItem.item_section">
-                <label>40(2)</label>
+                <label>40(3)</label>
             </div>
 
             <div>
@@ -175,19 +176,13 @@
             </div>
 
         </div>
-        <!-- <label>{{title_Account}}</label>
-            <textarea [(ngModel)]="selectedMTItem.item_account" pInputTextarea [autoResize]="true"></textarea> -->
-
-        <div class="formatt">
-            <label>{{title_Account}}</label>
-            <textarea [(ngModel)]="selectedMTItem.item_account" pInputTextarea [autoResize]="true"></textarea>
-        </div>
+ 
 
 
 
         <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="Delete()"></button>
+        key="myDialog"  class="p-button-danger" (click)="Delete()"></button>
     </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>

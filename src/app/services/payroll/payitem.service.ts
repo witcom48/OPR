@@ -58,7 +58,7 @@ export class PayitemService {
       } 
     }
 
-    public payitem_get(company:string, project:string, worker:string, payitem:string,  item:string, paydate:Date ){     
+    public payitem_get(company:string, payitem_date : Date,   worker:string, payitem:string,  item_code:string){     
     
         var filter = { 
           device_name:'',
@@ -66,11 +66,10 @@ export class PayitemService {
           username:this.initial_current.Username,
           company_code:  this.initial_current.CompCode,          
           language:this.initial_current.Language,
+          payitem_date:this.datePipe.transform(payitem_date),
           worker_code:worker,
           item_type: payitem,
-          item_code:item, 
-
-          payitem_date:this.datePipe.transform(paydate, 'yyyy-MM-dd')
+          item_code:item_code, 
 
         };
         return this.http.post<any>(this.config.ApiPayrollModule + '/TRpayitem_list', filter, this.options).toPromise()   
@@ -90,7 +89,9 @@ export class PayitemService {
           company_code: model.company_code || this.initial_current.CompCode,
           worker_code: model.worker_code,
           item_code: model.item_code,
-          payitem_date: model.payitem_date,
+          // payitem_date: model.payitem_date,
+          payitem_date:this.datePipe.transform(model.payitem_date, 'yyyy-MM-dd'),
+
           payitem_amount: model.payitem_amount,
           payitem_quantity: model.payitem_quantity,
           payitem_paytype: model.payitem_paytype,
@@ -131,7 +132,9 @@ export class PayitemService {
           company_code: model.company_code || this.initial_current.CompCode,
           worker_code: worker_code, // เพิ่ม worker_code ที่ต้องการบันทึก
           item_code: model.item_code,
-          payitem_date: model.payitem_date,
+          payitem_date:this.datePipe.transform(model.payitem_date, 'yyyy-MM-dd'),
+
+          // payitem_date: model.payitem_date,
           payitem_amount: model.payitem_amount,
           payitem_quantity: model.payitem_quantity,
           payitem_paytype: model.payitem_paytype,
@@ -165,7 +168,9 @@ export class PayitemService {
             company_code: model.company_code || this.initial_current.CompCode,
             worker_code:model.worker_code,
             item_code:model.item_code,
-            payitem_date:model.payitem_date,
+            payitem_date:this.datePipe.transform(model.payitem_date, 'yyyy-MM-dd'),
+
+            // payitem_date:model.payitem_date,
             payitem_amount:model.payitem_amount,
             payitem_quantity:model.payitem_quantity,
             payitem_paytype:model.payitem_paytype,

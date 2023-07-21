@@ -1219,6 +1219,7 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadPolProslip()
     this.doLoadPolProuniform()
     this.doLoadPolCost()
+    this.doLoadJobemptype()
 
   }
 
@@ -2858,10 +2859,43 @@ export class ProjectManageComponent implements OnInit {
     this.displayManage = false
   }
   projobemp_remove() {
-    this.selectedProjobemp.projobemp_id = "9999";
-    this.projobemp_addItem(this.selectedProjobemp)
-    this.new_projobemp = false
-    this.edit_projobemp = false
+    //this.selectedProjobemp.projobemp_id = "9999";
+    //this.projobemp_addItem(this.selectedProjobemp)
+    //this.new_projobemp = false
+    //this.edit_projobemp = false
+
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+
+        this.selectedProjobemp.project_code = this.project_code
+
+
+        this.projectDetailService.projobemp_delete(this.selectedProjobemp).then((res) => {
+          let result = JSON.parse(res);
+          if(result.success){
+
+            this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
+            this.doLoadProjobemp()
+
+            this.new_projobemp = false
+            this.edit_projobemp= false
+            this.displayManage = false
+          }
+          else{
+            this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
+      },
+      key: "myDialog"
+    });
+
+
   }
   projobemp_cancel() {
     this.edit_projobemp= false
@@ -2943,6 +2977,18 @@ export class ProjectManageComponent implements OnInit {
         code: "T"
       }
     )
+  }
+
+  doGetJobemptypeDetail(code:string) : string {
+
+    let result = ""
+    for (let i = 0; i < this.projobemp_type.length; i++) {
+      if(this.projobemp_type[i].code==code ){
+        result =  this.projobemp_type[i].name
+        break
+      }
+    }
+    return result
   }
 
   searchEmp: boolean = false;

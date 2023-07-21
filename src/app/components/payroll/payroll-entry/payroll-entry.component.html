@@ -9,7 +9,7 @@
             <app-search-emp></app-search-emp>
         </div>
         <div class="col-12">
-            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-save" (click)="select_emp()"></p-button> 
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check" (click)="select_emp()"></p-button> 
             &nbsp;
             <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}" class="p-button-secondary" (click)="close_searchemp()"></button>                      
         </div>
@@ -153,12 +153,15 @@
                         </div>
 
                         <label>{{title_note}}</label>
-                        <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea>
+                        <input pInputText type="text" [(ngModel)]="payitems.payitem_note"  />
 
-                        <label>{{title_date}}</label>
-                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                        <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
+
+                        <!-- <label>{{title_date}}</label> -->
+                        <!-- <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="payitems.payitem_date">
-                            <input type="text"></p-calendar>
+                            <input type="text"></p-calendar> -->
+
                         <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
                             (click)="Save()"></button>
                         <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}"
@@ -356,12 +359,14 @@
                         </div>
 
                         <label>{{title_note}}</label>
-                        <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea>
+                        <input pInputText type="text" [(ngModel)]="payitems.payitem_note"  />
 
-                        <label>{{title_date}}</label>
+                        <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
+
+                        <!-- <label>{{title_date}}</label>
                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="payitems.payitem_date">
-                            <input type="text"></p-calendar>
+                            <input type="text"></p-calendar> -->
                         <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
                             (click)="Save()"></button>
                         <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}"

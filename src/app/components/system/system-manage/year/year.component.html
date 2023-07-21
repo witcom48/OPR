@@ -18,14 +18,13 @@
             <ng-template pTemplate="caption">
                 <div class="searchtable">
                     <div class="input_radio">
-                        <input type="radio" name="fav_year" value="TAX" [(ngModel)]="year_type" (change)="selectYeartype()">
+                        <input type="radio" name="fav_year" value="TAX" [(ngModel)]="year_type"
+                            (change)="selectYeartype()">
                           <label>{{langs.get('tax')[selectlang]}} </label>
-                        <input type="radio" name="fav_year" value="LEAVE" [(ngModel)]="year_type" (change)="selectYeartype()">
+                        <input type="radio" name="fav_year" value="LEAVE" [(ngModel)]="year_type"
+                            (change)="selectYeartype()">
                           <label>{{langs.get('leave')[selectlang]}} </label>
-                        <!-- <input name="notification" type="radio" id="RadioGroup1_0" value="Course" checked="checked" />
-                        <label>TAX</label>
-                        <input routerLink="../../system/system-yearperiods" type="radio" name="individual" value="Time">
-                        <label>Leave</label> -->
+                  
                     </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
@@ -66,17 +65,25 @@
     <!-- Form input or Edit Data Year Period -->
     <div class="formatt" *ngIf="new_data===true">
         <i (click)="close()"></i>
+        <div>
+            <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group">
+            <label>{{langs.get('tax')[selectlang]}}</label>
 
+            <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group">
+            <label>{{langs.get('leave')[selectlang]}}</label>
+        </div>
         <label>{{langs.get('code')[selectlang]}}</label>
         <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" disabled="{{edit_data}}" />
         <p>{{yearperiods.year_code.length}}/4</p>
 
-        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
-        <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"></textarea>
+       
 
-        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
+        <label>{{langs.get('descriptionth')[selectlang]}} </label>
         <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"></textarea>
-
+        
+        <label>{{langs.get('descriptionen')[selectlang]}}  </label>
+        <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"></textarea>
+        
         <label>{{langs.get('fromdate')[selectlang]}}</label>
         <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"><input
                 type="text"></p-calendar>
@@ -85,13 +92,7 @@
         <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"><input
                 type="text"></p-calendar>
 
-        <div>
-              <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group">
-              <label>{{langs.get('tax')[selectlang]}}</label>
-
-              <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group">
-              <label>{{langs.get('leave')[selectlang]}}</label>
-        </div>
+       
         <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
             (click)="Save()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
@@ -104,7 +105,9 @@
 <p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
     <label class="drop-container">
         <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
@@ -117,5 +120,5 @@
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+key="myDialog"  rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

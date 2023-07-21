@@ -85,17 +85,17 @@ export class PayrollViewComponent implements OnInit {
   title_incomenotax: { [key: string]: string } = { EN: "Income Not Inc. Tax", TH: "เงินได้ไม่คำนวณภาษี" };
   title_deducttax: { [key: string]: string } = { EN: "Deduct Inc. Tax", TH: "เงินหักคำนวณภาษี" };
   title_deductnotax: { [key: string]: string } = { EN: "Deduct Not Inc. Tax", TH: "เงินหักไม่คำนวณภาษี" };
-  
+
   title_in401: { [key: string]: string } = { EN: "40 (1)", TH: "40 (1)" };
   title_in4013: { [key: string]: string } = { EN: "40 (1) withholding 3%", TH: "40 (1) หัก ณ ที่จ่าย 3%" };
   title_in402: { [key: string]: string } = { EN: "40 (2)", TH: "40 (2)" };
   title_in4012: { [key: string]: string } = { EN: "40 (1)(2)", TH: "40 (1)(2)" };
-  
+
   title_tax401: { [key: string]: string } = { EN: "Tax 40 (1)", TH: "ภาษี 40 (1)" };
   title_tax4013: { [key: string]: string } = { EN: "Tax 40 (1) withholding 3%", TH: "ภาษี 40 (1) หัก ณ ที่จ่าย 3%" };
   title_tax402: { [key: string]: string } = { EN: "Tax 40 (2)", TH: "ภาษี 40 (2)" };
   title_tax4012: { [key: string]: string } = { EN: "Tax 40 (1)(2)", TH: "ภาษี 40 (1)(2)" };
- 
+
   title_AccssoEmp: { [key: string]: string } = { EN: "Accumulate SSO(Emp.)", TH: "ประกันสังคมสะสม" };
   title_AccssoCom: { [key: string]: string } = { EN: "Accumulate SSO(Com.)", TH: "ประกันสังคมสมทบ" };
   title_AccpfEmp: { [key: string]: string } = { EN: "Accumulate PF(Emp.)", TH: "กองทุนฯสะสม" };
@@ -143,7 +143,7 @@ export class PayrollViewComponent implements OnInit {
       });
   }
 
-  doReload(){
+  doReload() {
     this.doLoadPayitem();
     this.doLoadPaytran();
     this.doLoadPayreduce();
@@ -217,50 +217,50 @@ export class PayrollViewComponent implements OnInit {
     });
   }
 
-  payitemINList:PayitemModel[] = [];
-  payitemDEList:PayitemModel[] = [];
-  payitemDetail:PayitemModel = new PayitemModel();
+  payitemINList: PayitemModel[] = [];
+  payitemDEList: PayitemModel[] = [];
+  payitemDetail: PayitemModel = new PayitemModel();
   async doLoadPayitem() {
-    this.payitemINList = []; 
+    this.payitemINList = [];
     this.payitemDEList = [];
-    if(this.worker_code == ""){
+    if (this.worker_code == "") {
       return;
     }
 
-    this.payitemService.payitem_get(this.initial_current.CompCode,'',this.worker_code,'IN','',this.initial_current.PR_PayDate).then((res)=>{
+    this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate, this.worker_code, 'IN', '').then((res) => {
       this.payitemINList = res;
     })
 
-    this.payitemService.payitem_get(this.initial_current.CompCode,'',this.worker_code,'DE','',this.initial_current.PR_PayDate).then((res)=>{
+    this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate, this.worker_code, 'DE', '').then((res) => {
       this.payitemDEList = res;
     })
-    
+
   }
-  
+
   // Paytran
-  paytranList:PaytranModel[] = [];
-  paytranDetail:PaytranModel = new PaytranModel();
+  paytranList: PaytranModel[] = [];
+  paytranDetail: PaytranModel = new PaytranModel();
 
-  paytranAccList:PaytranAccModel[] = [];
-  paytranDetailAcc:PaytranAccModel = new PaytranAccModel();
+  paytranAccList: PaytranAccModel[] = [];
+  paytranDetailAcc: PaytranAccModel = new PaytranAccModel();
 
-  public paytranTaxTotal:number = 0;
+  public paytranTaxTotal: number = 0;
 
-  doLoadPaytran(){
+  doLoadPaytran() {
 
     this.paytranTaxTotal = 0;
     this.paytranDetail = new PaytranModel();
 
-    if(this.worker_code == ""){
+    if (this.worker_code == "") {
       return;
     }
 
-    this.paytranList = []; 
-    this.paytranService.paytran_get(this.initial_current.CompCode,'',this.worker_code, this.initial_current.PR_PayDate, this.initial_current.PR_PayDate).then((res) =>{      
-      
-      this.paytranList = res;      
-      
-      if(this.paytranList.length > 0){
+    this.paytranList = [];
+    this.paytranService.paytran_get(this.initial_current.CompCode, '', this.worker_code, this.initial_current.PR_PayDate, this.initial_current.PR_PayDate).then((res) => {
+
+      this.paytranList = res;
+
+      if (this.paytranList.length > 0) {
         this.paytranDetail = this.paytranList[0];
 
 
@@ -268,46 +268,46 @@ export class PayrollViewComponent implements OnInit {
 
         this.paytranTaxTotal = this.paytranDetail.paytran_tax_401 + this.paytranDetail.paytran_tax_4013 + this.paytranDetail.paytran_tax_402I + this.paytranDetail.paytran_tax_4012;
       }
-          
-    }); 
+
+    });
   }
 
-  doLoadPaytranAcc(){
+  doLoadPaytranAcc() {
     this.paytranTaxTotal = 0;
     this.paytranDetailAcc = new PaytranAccModel();
 
-    if(this.worker_code == ""){
+    if (this.worker_code == "") {
       return;
     }
 
-    this.paytranAccList = []; 
-    this.paytranService.paytranacc_get(this.initial_current.CompCode,this.worker_code, this.initial_current.PR_Year, this.initial_current.PR_PayDate).then((res) =>{      
-      
+    this.paytranAccList = [];
+    this.paytranService.paytranacc_get(this.initial_current.CompCode, this.worker_code, this.initial_current.PR_Year, this.initial_current.PR_PayDate).then((res) => {
+
       this.paytranAccList = res;
 
       console.log(res)
-      
-      if(this.paytranAccList.length > 0){
+
+      if (this.paytranAccList.length > 0) {
         this.paytranDetailAcc = this.paytranAccList[0];
-        
+
       }
-      
+
       //console.log(response);      
-    }); 
+    });
   }
 
   //-- Payreduce
-  payreduceList:PayreduceModel[] = [];
- 
-  doLoadPayreduce(){
-    this.payreduceList = [];     
-    if(this.worker_code == ""){
+  payreduceList: PayreduceModel[] = [];
+
+  doLoadPayreduce() {
+    this.payreduceList = [];
+    if (this.worker_code == "") {
       return;
     }
-    this.payreduceService.payreduce_get(this.initial_current.CompCode,'', this.worker_code, this.initial_current.PR_PayDate).then((res) =>{      
-      this.payreduceList = res; 
-    }); 
+    this.payreduceService.payreduce_get(this.initial_current.CompCode, '', this.worker_code, this.initial_current.PR_PayDate).then((res) => {
+      this.payreduceList = res;
+    });
   }
-  
+
 
 }

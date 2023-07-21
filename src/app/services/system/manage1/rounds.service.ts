@@ -44,53 +44,48 @@ export class RoundsService {
     }
 
     public rounds_get(Rounds: RoundsModel) {
-        // console.log('ROUND001..');
-        let data = {
-            device_name: "Desktop",
-            ip: "127.0.0.1",
-            username: this.initial_current.Username,
+                 let data = {
+                    device_name: "Desktop",
+                    ip: "127.0.0.1",
+                    username: this.initial_current.Username,
+                    round_group: Rounds.round_group,
+                    round_id: Rounds.round_id,
+                    round_code: Rounds.round_code,
+        
+                    round_name_th: Rounds.round_name_th,
+                    round_name_en: Rounds.round_name_en,
 
-            // company_code: Rounds.company_code || this.initial_current.CompCode,
-            rounds_id: Rounds.rounds_id,
-            rounds_code: Rounds.rounds_code,
+                    modified_by: this.initial_current.Username,
+                    fag: false,
+         
+                }
+                return this.http.post<any>(this.config.ApiSystemModule + '/rounds_list', data, this.options).toPromise()
+                    .then((res) => {
+                        let message = JSON.parse(res);
+                        return message.data;
+                    });
+            }
 
-            rounds_name_th: Rounds.rounds_name_th,
-            rounds_name_en: Rounds.rounds_name_en,
-            rounds_group: Rounds.rounds_group,
-
-            rounds_from: Rounds.rounds_from,
-            rounds_to: Rounds.rounds_to,
-            rounds_result: Rounds.rounds_result,
-            modified_by: this.initial_current.Username,
-            fag: false
-
-        }
-        return this.http.post<any>(this.config.ApiSystemModule + '/rounds_list', data, this.options).toPromise()
-            .then((res) => {
-                let message = JSON.parse(res);
-                return message.data;
-            });
-    }
+     
 
     public rounds_record(Rounds: RoundsModel) {
-        // console.log('ROUND002..');
         let data = {
             device_name: "Desktop",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            // company_code: Rounds.company_code || this.initial_current.CompCode,
-            rounds_group: Rounds.rounds_group,
-            rounds_id: Rounds.rounds_id,
-            rounds_code: Rounds.rounds_code,
 
-            rounds_name_th: Rounds.rounds_name_th,
-            rounds_name_en: Rounds.rounds_name_en,
-            rounds_from: Rounds.rounds_from,
-            rounds_to: Rounds.rounds_to,
-            rounds_result: Rounds.rounds_result,
-            // rounds_group: Rounds.rounds_group,
-            modified_by: this.initial_current.Username,
-            fag: false
+            round_id: Rounds.round_id,
+            round_group: Rounds.round_group,
+            round_code: Rounds.round_code,
+
+            round_name_th: Rounds.round_name_th,
+            round_name_en: Rounds.round_name_en,
+      
+             modified_by: this.initial_current.Username,
+
+             flag: Rounds.flag,
+             round_data: Rounds.round_data
+
 
         }
         return this.http.post<any>(this.config.ApiSystemModule + '/rounds', data, this.options).toPromise()
@@ -101,38 +96,33 @@ export class RoundsService {
             });
     }
     public rounds_delete(Rounds: RoundsModel) {
-        // console.log('ROUND003..');
-        let data = {
+         let data = {
             device_name: "Desktop",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            // company_code: Rounds.company_code || this.initial_current.CompCode,
-            rounds_group: Rounds.rounds_group,
-            rounds_id: Rounds.rounds_id,
-            rounds_code: Rounds.rounds_code,
+            round_group: Rounds.round_group,
+            round_id: Rounds.round_id,
+            round_code: Rounds.round_code,
+        
+            round_name_th: Rounds.round_name_th,
+            round_name_en: Rounds.round_name_en,
             
-            rounds_name_th: Rounds.rounds_name_th,
-            rounds_name_en: Rounds.rounds_name_en,
-            rounds_from: Rounds.rounds_from,
-            rounds_to: Rounds.rounds_to,
-            rounds_result: Rounds.rounds_result,
-            // rounds_group: Rounds.rounds_group,
+
             modified_by: this.initial_current.Username,
-            fag: false
+            fag: false,
+            round_data: Rounds.round_data,
 
         }
         return this.http.post<any>(this.config.ApiSystemModule + '/rounds_del', data, this.options).toPromise()
             .then((res) => {
-                // console.log(res)
-                let message = JSON.parse(res);
+                 let message = JSON.parse(res);
                 return message;
             });
     }
 
 
     public rounds_import(file: File, file_name: string, file_type: string) {
-        // console.log('ROUND004..');
-        const formData = new FormData();
+         const formData = new FormData();
         formData.append('file', file);
 
         var para = "fileName=" + file_name + "." + file_type;
@@ -147,3 +137,4 @@ export class RoundsService {
     }
 
 }
+ 

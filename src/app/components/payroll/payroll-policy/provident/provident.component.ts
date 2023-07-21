@@ -1,13 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ProvidentModel } from 'src/app/models/payroll/provident';
 import { ProvidentWorkageModel } from 'src/app/models/payroll/provident_workage';
 import { ProvidentService } from 'src/app/services/payroll/provident.service';
 import * as XLSX from 'xlsx';
+
 @Component({
     selector: 'app-provident',
     templateUrl: './provident.component.html',
@@ -19,9 +20,10 @@ export class ProvidentComponent implements OnInit {
         private confirmationService: ConfirmationService,
         private datePipe: DatePipe,
         private providentService: ProvidentService,
+        private router: Router,
 
-        private router: Router
-    ) {}
+
+    ) { }
     @ViewChild('TABLE') table: ElementRef | any = null;
     new_data: boolean = false;
     edit_data: boolean = false;
@@ -49,8 +51,8 @@ export class ProvidentComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
     }
-    title_payroll: string = 'Payroll';
 
+    title_payroll: string = 'Payroll';
     title_policy: string = 'Set Policy';
     title_page: string = 'Provident Fund';
     title_new: string = 'New';
@@ -96,8 +98,7 @@ export class ProvidentComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_payroll= 'บัญชีเงินเดือน';
-
+            this.title_payroll = 'บัญชี';
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'กองทุนสำรองเลี้ยงชีพ';
             this.title_new = 'เพิ่ม';
@@ -111,7 +112,7 @@ export class ProvidentComponent implements OnInit {
             this.title_To = 'ถึง';
             this.title_Rateemp = 'พนักงาน (%)';
             this.title_Ratecom = 'สมทบ (%)';
- this.title_no = 'อันดับ';
+            this.title_no = 'อันดับ';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';
@@ -141,14 +142,15 @@ export class ProvidentComponent implements OnInit {
             this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
         }
     }
-
     ngOnInit(): void {
-        this.doLoadLanguage();
 
         this.doGetInitialCurrent();
+        this.doLoadLanguage();
         this.doLoadMenu();
         this.doLoadLate();
     }
+
+
 
     doLoadLate() {
         this.provident_list = [];
@@ -281,6 +283,7 @@ export class ProvidentComponent implements OnInit {
                     this.displayUpload = false;
                     this.doUploadLate();
                 },
+                key:"myDialog",
                 reject: () => {
                     this.displayUpload = false;
                 },
@@ -307,13 +310,11 @@ export class ProvidentComponent implements OnInit {
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
     Save() {
-        // console.log(this.selectedProvident);
-        this.doRecordLate(this.selectedProvident);
+         this.doRecordLate(this.selectedProvident);
     }
     Savelate() {
         if (!this.displayeditcondition) {
-            this.selectedProvident.providentWorkage_data =
-                this.selectedProvident.providentWorkage_data.concat({
+            this.selectedProvident.providentWorkage_data = this.selectedProvident.providentWorkage_data.concat({
                     company_code: this.initial_current.CompCode,
                     provident_code: this.selectedProvident.provident_code,
                     workage_from: this.selectedProvidentWorka.workage_from,
@@ -326,18 +327,22 @@ export class ProvidentComponent implements OnInit {
         this.displayeditcondition = false;
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
+    
     Delete() {
         this.doDeleteLate(this.selectedProvident);
     }
     Deletelate() {
-        this.selectedProvident.providentWorkage_data =
-            this.selectedProvident.providentWorkage_data.filter((item) => {
+        this.selectedProvident.providentWorkage_data = this.selectedProvident.providentWorkage_data.filter(
+            (item) => {
                 return item !== this.selectedProvidentWorka;
-            });
+            }
+        );
         this.displayaddcondition = false;
         this.displayeditcondition = false;
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
+
+    
     onRowSelectList(event: any) {
         this.displayaddcondition = true;
         this.displayeditcondition = true;
@@ -350,7 +355,7 @@ export class ProvidentComponent implements OnInit {
     exportAsExcel() {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
             this.table.nativeElement
-        ); 
+        );
         for (var i in ws) {
             if (i.startsWith('!') || i.charAt(1) !== '1') {
                 continue;
