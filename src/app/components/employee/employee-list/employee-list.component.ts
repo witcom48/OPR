@@ -22,6 +22,7 @@ import { EmpPositionModel } from 'src/app/models/employee/manage/position';
 import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
 import { PositionService } from 'src/app/services/emp/policy/position.service';
 import { PositionModel } from 'src/app/models/employee/policy/position';
+import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 
 
 interface ImportList {
@@ -101,7 +102,8 @@ export class EmployeeListComponent implements OnInit {
 
     setTimeout(() => {
       this.doLoadMenu()
-      this.doLoadEmployee()
+      // this.doLoadEmployee()
+      this.doGetDataFillter();
     }, 500);
 
   }
@@ -151,6 +153,11 @@ export class EmployeeListComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+
+  title_saves: { [key: string]: string } = { EN: "Save", TH: "บันทึก" };
+  title_more: { [key: string]: string } = { EN: "More", TH: "เพิ่มเติม" };
+  title_deletes: { [key: string]: string } = { EN: "Delete", TH: "ลบ" };
+  title_searchemp: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -221,10 +228,19 @@ export class EmployeeListComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel()
-
+          // this.exportAsExcel()
+          this.exportEmpExcel()
         }
-      }
+      },
+      // {
+      //   label: 'Test Export Json',
+      //   icon: 'pi pi-fw pi-file-export',
+      //   command: (event) => {
+      //     // this.exportjsonexcel()
+      //     this.showExport();
+
+      //   }
+      // }
 
     ];
 
@@ -268,14 +284,90 @@ export class EmployeeListComponent implements OnInit {
 
   // selectedEmployee: EmployeeModel = new EmployeeModel;
   workerCurrent: number = 0;
-  doLoadEmployee() {
-    this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
+  // doLoadEmployee() {
+  //   this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
+  //     await res.forEach((element: EmployeeModel) => {
+  //       element.worker_birthdate = new Date(element.worker_birthdate)
+  //       element.worker_hiredate = new Date(element.worker_hiredate)
+  //       element.worker_resigndate = new Date(element.worker_resigndate)
+  //       element.worker_probationdate = new Date(element.worker_probationdate)
+  //       element.worker_probationenddate = new Date(element.worker_probationenddate)
+  //     })
+  //     this.employee_list = await res;
+  //     this.workerCurrent = this.employee_list.length;
+  //   });
+  // }
+
+  doGetDataFillter() {
+    var fillter: FillterEmpModel = new FillterEmpModel;
+
+    fillter.company_code = this.initial_current.CompCode;
+    //fillter position
+    if (this.fillterPosition) {
+      fillter.position_code = this.selectedPosition;
+    } else {
+      fillter.position_code = "";
+    }
+    //fillter emptype
+    if (this.fillterEmptype) {
+      fillter.worker_emptype = this.selectedEmptype;
+    } else {
+      fillter.worker_emptype = "";
+    }
+    //fillter empstatus
+    if (this.fillterEmpstatus) {
+      fillter.worker_empstatus = this.selectedEmpstatus;
+    } else {
+      fillter.worker_empstatus = "";
+    }
+    //fillter employee
+    fillter.searchemp = this.selectedSearchemp;
+
+    this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
       await res.forEach((element: EmployeeModel) => {
+        element.worker_birthdate = new Date(element.worker_birthdate)
         element.worker_hiredate = new Date(element.worker_hiredate)
+        element.worker_resigndate = new Date(element.worker_resigndate)
+        element.worker_probationdate = new Date(element.worker_probationdate)
+        element.worker_probationenddate = new Date(element.worker_probationenddate)
       })
       this.employee_list = await res;
       this.workerCurrent = this.employee_list.length;
-    });
+    })
+  }
+
+  //-- Type master
+  selectedEmptype: string = "";
+  fillterEmptype: boolean = false;
+  doChangeSelectEmptype() {
+
+    if (this.fillterEmptype) {
+      this.doGetDataFillter();
+    }
+  }
+  //-- Position master
+  selectedPosition: string = "";
+  fillterPosition: boolean = false;
+  doChangeSelectPosition() {
+
+    if (this.fillterPosition) {
+      this.doGetDataFillter();
+    }
+  }
+  //-- Status master
+  selectedEmpstatus: string = "";
+  fillterEmpstatus: boolean = false;
+  doChangeSelectEmpstatus() {
+
+    if (this.fillterEmpstatus) {
+      this.doGetDataFillter();
+    }
+  }
+  //-- Emp master
+  selectedSearchemp: string = "";
+  fillterSearchemp: boolean = false;
+  doChangeSearchemp(event: any) {
+    this.doGetDataFillter();
   }
 
   confirmRecord() {
@@ -302,7 +394,7 @@ export class EmployeeListComponent implements OnInit {
 
       if (result.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-        this.doLoadEmployee()
+        this.doGetDataFillter()
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -326,21 +418,21 @@ export class EmployeeListComponent implements OnInit {
   }
 
   doDeleteEmployee() {
-    var tmp:EmployeeModel = new EmployeeModel();
+    var tmp: EmployeeModel = new EmployeeModel();
     tmp.worker_code = this.selectedemployee.worker_code
     tmp.worker_id = this.selectedemployee.worker_id
-    this.employeeService.worker_delete(tmp).then((res)=>{
+    this.employeeService.worker_delete(tmp).then((res) => {
       let result = JSON.parse(res);
 
-      if(result.success){
-        this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-        this.doLoadEmployee();
-        this.edit_employee= false;
-        this.new_employee= false;
-       }
-       else{
-        this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
-       }
+      if (result.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+        this.doGetDataFillter();
+        this.edit_employee = false;
+        this.new_employee = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+      }
     })
   }
 
@@ -367,7 +459,7 @@ export class EmployeeListComponent implements OnInit {
         accept: () => {
           const filename = this.selectedemployee.selected_Import + "_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
           const filetype = "xls";
-          
+
           switch (this.selectedemployee.selected_Import) {
             //impport employee
             case 'EMPLOYEE':
@@ -376,7 +468,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -392,7 +484,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -408,7 +500,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -423,7 +515,7 @@ export class EmployeeListComponent implements OnInit {
                 let result = JSON.parse(res);
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -439,7 +531,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -455,7 +547,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -471,7 +563,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -487,7 +579,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -503,7 +595,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -519,7 +611,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -535,7 +627,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -551,7 +643,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -567,7 +659,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -583,7 +675,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -599,7 +691,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -615,7 +707,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -631,7 +723,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -647,7 +739,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -663,7 +755,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -679,7 +771,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -695,7 +787,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -711,7 +803,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -727,7 +819,7 @@ export class EmployeeListComponent implements OnInit {
 
                 if (result.success) {
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-                  this.doLoadEmployee();
+                  this.doGetDataFillter();
                   this.edit_employee = false;
                   this.new_employee = false;
                 }
@@ -754,6 +846,11 @@ export class EmployeeListComponent implements OnInit {
     this.displayUpload = true;
   }
 
+  displayExport: boolean = false;
+  showExport() {
+    this, this.displayExport = true;
+  }
+
   getnameList(position_code: string) {
     let result = this.positionList.find((obj: PositionModel) => {
       return obj.position_code === position_code;
@@ -765,27 +862,69 @@ export class EmployeeListComponent implements OnInit {
 
   @ViewChild('TABLE') table: ElementRef | any = null;
 
-  exportAsExcel() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
-    for (var i in ws) {
-      if (i.startsWith("!") || i.charAt(1) !== "1") {
-        continue;
-      }
-      var n = 0;
-      for (var j in ws) {
-        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
-          ws[j].v = ws[j].v.replace(ws[i].v, "")
-        } else {
-          n += 1;
-        }
+  // exportAsExcel() {
+  //   const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+  //   for (var i in ws) {
+  //     if (i.startsWith("!") || i.charAt(1) !== "1") {
+  //       continue;
+  //     }
+  //     var n = 0;
+  //     for (var j in ws) {
+  //       if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+  //         ws[j].v = ws[j].v.replace(ws[i].v, "")
+  //       } else {
+  //         n += 1;
+  //       }
 
+  //     }
+  //   }
+  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  //   XLSX.writeFile(wb, 'Export_employeeinfo.xlsx');
+
+  // }
+
+  exportEmpExcel() {
+    const fileToExport = this.employee_list.map((items: any) => {
+      return {
+        "company_code": items?.company_code,
+        "worker_code": items?.worker_code,
+        "worker_card": items?.worker_card,
+        "worker_initial": items?.worker_initial,
+        "worker_fname_th": items?.worker_fname_th,
+        "worker_lname_th": items?.worker_lname_th,
+        "worker_fname_en": items?.worker_fname_en,
+        "worker_lname_en": items?.worker_lname_en,
+        "worker_type": items?.worker_type,
+        "worker_gender": items?.worker_gender,
+        "worker_birthdate": items?.worker_birthdate,
+        "worker_hiredate": items?.worker_hiredate,
+        "religion_code": items?.religion_code,
+        "blood_code": items?.blood_code,
+        "worker_height": items?.worker_height,
+        "worker_weight": items?.worker_weight,
+        "worker_status": items?.worker_status,
+        "worker_resignstatus": items?.worker_resignstatus,
+        "worker_resigndate": items?.worker_resigndate,
+        "worker_resignreason": items?.worker_resignreason,
+        "worker_probationdate": items?.worker_probationdate,
+        "worker_probationenddate": items?.worker_probationenddate,
+        "worker_probationday": items?.worker_probationday,
+        "hrs_perday": items?.hrs_perday,
+        "worker_taxmethod": items?.worker_taxmethod,
+        "worker_tel": items?.worker_tel,
+        "worker_email": items?.worker_email,
+        "worker_line": items?.worker_line,
+        "worker_facebook": items?.worker_facebook,
+        "worker_military": items?.worker_military,
       }
-    }
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     XLSX.writeFile(wb, 'Export_employeeinfo.xlsx');
-
   }
 
   selectEmpManage() {

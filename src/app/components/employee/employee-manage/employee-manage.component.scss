@@ -125,3 +125,35 @@
         flex-direction: row;
     }
 }
+
+@media (max-width: 700px) {
+    .empinfo{
+        display: flex;
+        .upload{
+            width: 100% !important;
+        }
+        div{
+            width: 100%;
+        }
+    }
+    .empinfo2{
+        display: flex;
+        div{
+            width: 100%;
+        }
+    }
+    .personal{
+        display: flex;
+        flex-wrap: wrap;
+        div{
+            width: 100%;
+        }
+    }
+    .foreigner{
+        display: flex !important;
+        flex-wrap: wrap;
+    }
+    .contact{
+        display: flex !important;
+    }
+}

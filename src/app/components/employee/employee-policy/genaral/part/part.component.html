@@ -107,9 +107,15 @@
             <label>{{title_notused[initial_current.Language]}}</label>
         </div>
 
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+        <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="btndel" (click)="confirmDelete()"></button>
+            class="btndel" (click)="confirmDelete()"></button> -->
+        <div class="field col-12">
+            <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+            &nbsp;
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary"
+                (click)="confirmDelete()"></button>
+        </div>
     </div>
 </div>
 

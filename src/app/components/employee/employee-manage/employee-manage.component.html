@@ -1236,9 +1236,7 @@
                             <!-- <p-dropdown placeholder="พนักงานจ่ายเอง" optionLabel="name" [showClear]="true"
                                 [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
                         </div>
-                        <div class="field col-6">
-
-                        </div>
+                        
                         <!-- salary -->
                         <div class="field col-12">
                             <p-accordion>
@@ -1359,6 +1357,7 @@
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_provident}}</th>
+                                                <th>{{title_pfno}}</th>
                                                 <th>{{title_pfentry}}</th>
                                                 <th>{{title_pfstart}}</th>
                                                 <th>{{title_pfend}}</th>
@@ -1372,6 +1371,7 @@
                                         <ng-template pTemplate="body" let-empprovident>
                                             <tr [pSelectableRow]="empprovident">
                                                 <td>{{doGetProvidentDetail(empprovident.provident_code)}}</td>
+                                                <td>{{empprovident.empprovident_card}}</td>
                                                 <td>{{empprovident.empprovident_entry| date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empprovident.empprovident_start| date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empprovident.empprovident_end| date:'dd/MM/yyyy'}}</td>
