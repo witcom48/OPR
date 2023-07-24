@@ -66,4 +66,7 @@ export class SecMenuComponent implements OnInit {
     console.log(this.selectedFilesatt);
     console.log(this.selectedFilesemp);
   }
+  tabChange(e: { index: any; }) {
+    // console.log(e)
+  }
 }
