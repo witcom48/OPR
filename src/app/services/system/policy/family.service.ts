@@ -71,6 +71,7 @@ export class FamilyService {
     public family_record(model:FamilyModel) {
       // console.log('FML002..');
       const data = {
+        company_code: this.initial_current.CompCode,
         family_id: model.family_id,
         family_code: model.family_code,
         family_name_th: model.family_name_th,

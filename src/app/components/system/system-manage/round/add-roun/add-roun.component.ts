@@ -193,6 +193,9 @@ constructor(
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadRounds()
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -208,6 +211,9 @@ constructor(
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadRounds()
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false;
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -275,6 +281,7 @@ constructor(
               label: this.title_new,
               icon: 'pi-plus',
               command: (event) => {
+                this.showManage()
                   this.rounds = new RoundsModel();
                   this.new_data = true;
                   this.edit_data = false;
@@ -369,8 +376,14 @@ constructor(
   onRowSelect(event: any) {
       this.new_data = true;
       this.edit_data = true;
-  }
+      this.displayManage = true;
 
+  }
+  displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
+  }
   selectRoundstype() {
         this.doLoadRounds();
       }

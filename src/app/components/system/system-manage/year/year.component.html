@@ -1,4 +1,3 @@
-<!-- <app-changeshift [test]="tt" (result)="changeParentCount($event)"></app-changeshift> -->
 <hr>
 <!-- Menu New Import Export Data -->
 <div>
@@ -20,11 +19,20 @@
                     <div class="input_radio">
                         <input type="radio" name="fav_year" value="TAX" [(ngModel)]="year_type"
                             (change)="selectYeartype()">
-                          <label>{{langs.get('tax')[selectlang]}} </label>
+                        <label>{{langs.get('tax')[selectlang]}} </label>
                         <input type="radio" name="fav_year" value="LEAVE" [(ngModel)]="year_type"
                             (change)="selectYeartype()">
-                          <label>{{langs.get('leave')[selectlang]}} </label>
-                  
+                        <label>{{langs.get('leave')[selectlang]}} </label>
+                        <!-- // -->
+                        <input type="radio" name="fav_year" value="ACCOUNT " [(ngModel)]="year_type"
+                            (change)="selectYeartype()">
+                        <label>{{langs.get('accounts')[selectlang]}} </label>
+
+                        <input type="radio" name="fav_year" value="BUDGET " [(ngModel)]="year_type"
+                            (change)="selectYeartype()">
+                        <label>{{langs.get('budgets')[selectlang]}} </label>
+                        <!-- /// -->
+
                     </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
@@ -43,6 +51,7 @@
                     <th>{{langs.get('modified_by')[selectlang]}}</th>
                     <th>{{langs.get('modified_date')[selectlang]}}</th>
 
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
@@ -55,7 +64,11 @@
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
                         date:'dd/MM/yyyy'}}</td>
+                    <td>
+                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteYear(data)">
+                        </button>
 
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
@@ -63,41 +76,57 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <div class="formatt" *ngIf="new_data===true">
-        <i (click)="close()"></i>
-        <div>
-            <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group">
-            <label>{{langs.get('tax')[selectlang]}}</label>
+    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position">
+        <div class="formatt p-dialog-content" *ngIf="new_data">
+            <!-- <i (click)="close()"></i> -->
+            <div>
+                <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group">
+                <label>{{langs.get('tax')[selectlang]}}</label>
 
-            <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group">
-            <label>{{langs.get('leave')[selectlang]}}</label>
+                <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group">
+                <label>{{langs.get('leave')[selectlang]}}</label>
+
+                <!-- // -->
+                <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group">
+                <label>{{langs.get('accounts')[selectlang]}} </label>
+
+                <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group">
+                <label>{{langs.get('budgets')[selectlang]}} </label>
+                <!-- // -->
+            </div>
+            <label>{{langs.get('code')[selectlang]}}</label>
+            <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" disabled="{{edit_data}}" />
+            <p>{{yearperiods.year_code.length}}/4</p>
+
+
+
+            <label>{{langs.get('descriptionth')[selectlang]}} </label>
+            <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"></textarea>
+
+            <label>{{langs.get('descriptionen')[selectlang]}} </label>
+            <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+            <label>{{langs.get('fromdate')[selectlang]}}</label>
+            <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"><input
+                    type="text"></p-calendar>
+
+            <label>{{langs.get('todate')[selectlang]}}</label>
+            <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"><input
+                    type="text"></p-calendar>
+
+            <div style="text-align: right;">
+
+                <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+                    (click)="Save()"></button>
+                <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                    (click)="Delete()" icon="pi pi-trash" class="p-button-danger"></button>
+            </div>
         </div>
-        <label>{{langs.get('code')[selectlang]}}</label>
-        <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" disabled="{{edit_data}}" />
-        <p>{{yearperiods.year_code.length}}/4</p>
+    </p-dialog>
+    <div *ngIf="displayManage" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
 
-       
 
-        <label>{{langs.get('descriptionth')[selectlang]}} </label>
-        <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"></textarea>
-        
-        <label>{{langs.get('descriptionen')[selectlang]}}  </label>
-        <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"></textarea>
-        
-        <label>{{langs.get('fromdate')[selectlang]}}</label>
-        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"><input
-                type="text"></p-calendar>
-
-        <label>{{langs.get('todate')[selectlang]}}</label>
-        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"><input
-                type="text"></p-calendar>
-
-       
-        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
-            (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
-            icon="pi pi-trash" class="p-button-danger"></button>
-    </div>
     <!-- --------------End form Input Data ------------------ -->
 </div>
 
@@ -119,6 +148,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-key="myDialog"  rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

@@ -125,6 +125,7 @@ title_system:string = "System";
           label:this.title_new,
           icon:'pi pi-fw pi-plus',
           command: (event) => {
+            this.showManage() 
             this.selectedCardtype = new CardtypeModel();
             this.new_data= true;
             this.edit_data= false;
@@ -180,6 +181,9 @@ title_system:string = "System";
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
         this.doLoadCardtype()
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -187,7 +191,49 @@ title_system:string = "System";
 
       });
     }
+  //
+  confirmDeletes(data: any) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteCardtypes(data);
+      },
 
+      reject: () => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cancelled',
+          detail: this.title_confirm_cancel,
+        });
+      },
+    });
+  }
+
+  doDeleteCardtypes(data: any) {
+    this.cardtypeService.cardtype_delete(data).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: result.message,
+        });
+        this.doLoadCardtype();
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: result.message,
+        });
+      }
+    });
+  }
+//
     confirmDelete() {
       this.confirmationService.confirm({
           message: this.title_confirm_delete,
@@ -211,8 +257,9 @@ title_system:string = "System";
        if(result.success){
         this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
         this.doLoadCardtype();
-        this.edit_data= false;
-        this.new_data= false;
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
        }
        else{
         this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -228,6 +275,7 @@ title_system:string = "System";
     onRowSelectCardtype(event: any) {
       this.edit_data= true;
       this.new_data= true;
+      this.displayManage = true
     }
 
     fileToUpload: File | any = null;
@@ -270,6 +318,12 @@ title_system:string = "System";
       } else {
         this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
       }
+    }
+
+    displayManage: boolean = false;
+    position: string = "right";
+    showManage() {
+      this.displayManage = true
     }
 
     displayUpload: boolean = false;

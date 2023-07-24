@@ -18,7 +18,8 @@ export class MTPolroundsModel {
     polround_timeleave: string = "";
     polround_timeot: string = "";
     polround_timeworking: string = "";
-
+    polround_loan: string = "";
+ 
     modified_by: string = "";
     modified_date: string = "";
     flag: boolean = false;

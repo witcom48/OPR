@@ -93,12 +93,14 @@ export class PolroundsService {
             polround_ot_summary: model.polround_ot_summary,
             polround_absent: model.polround_absent,
             polround_late: model.polround_late,
+            polround_loan: model.polround_loan,
             polround_leave: model.polround_leave,
             polround_netpay: model.polround_netpay,
             polround_timelate: model.polround_timelate,
             polround_timeleave: model.polround_timeleave,
             polround_timeot: model.polround_timeot,
             polround_timeworking: model.polround_timeworking,
+            
 
             modified_by: this.initial_current.Username,
         };
@@ -134,8 +136,11 @@ export class PolroundsService {
             polround_timelate: model.polround_timelate,
             polround_timeleave: model.polround_timeleave,
             polround_timeot: model.polround_timeot,
+            polround_loan: model.polround_loan,
+
             polround_timeworking: model.polround_timeworking,
             modified_by: this.initial_current.Username,
+
         };
 
         return this.http

@@ -103,7 +103,7 @@ export class ItemsComponent implements OnInit {
             this.title_Calpf = 'คำนวณกองทุนฯ';
             this.title_Calot = 'คำนวณโอที';
             this.title_Calsso = 'คำนวณประกันสังคม';
-            this.title_Allowance = 'คำนวณเงินค่าเวลา';
+            this.title_Allowance = 'คำนวณเงินได้ค่าเวลา';
 
             this.title_Contax = 'หัก ณ ที่จ่าย';
             this.title_Section = 'มาตรา';

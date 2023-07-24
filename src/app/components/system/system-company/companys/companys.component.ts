@@ -207,6 +207,8 @@ export class CompanysComponent implements OnInit {
 
     title_finance: string = 'Finance';
     title_taxmethod: string = 'Tax Method';
+    title_tax: string = 'Tax  ';
+    
     title_salary: string = 'Salary';
     title_benefit: string = 'Benefit';
     title_fund: string = 'Provident Fund';
@@ -222,7 +224,8 @@ export class CompanysComponent implements OnInit {
     title_modified_date: string = 'Edit date';
     title_search: string = 'Search';
     title_upload: string = 'Upload';
-
+    title_employee_age: string = 'Employee Age';
+     
     title_page_from: string = 'Showing';
     title_page_to: string = 'to';
     title_page_total: string = 'of';
@@ -235,6 +238,7 @@ export class CompanysComponent implements OnInit {
     title_confirm_no: string = 'No';
 
     title_confirm_cancel: string = 'You have cancelled';
+    title_sso : string =  'Social Security'
 
     title_address_type: string = 'Type';
     title_address_no: string = 'No';
@@ -275,6 +279,7 @@ export class CompanysComponent implements OnInit {
             this.title_min_age = 'อายุพนักงานน้อยสุด'
             this.title_max_age = 'อายุพนักงานมากสุด'
             this.title_sso_no = 'เลขประกันสังคม'
+            this.title_sso = 'ประกันสังคม'
             this.title_social_security_branch = 'สาขาประกันสังคม'
             this.title_payout_rate = 'อัตราการจ่าย %'
             this.title_sso_company = 'ประกันสังคมสมทบ %'
@@ -283,7 +288,7 @@ export class CompanysComponent implements OnInit {
             this.title_min_wage = 'ค่าจ้างตํ่าสุด'
             this.title_max_wage = 'ค่าจ้างสูงสุด'
 
-
+            this.title_employee_age= 'อายุพนักงาน'
             this.title_card_type = 'ประเภทบัตร';
             this.title_card_code = 'รหัสบัตร';
             this.title_card_opening_date = 'วันที่เปิดบัตร';
@@ -338,6 +343,7 @@ export class CompanysComponent implements OnInit {
 
             this.title_finance = 'การเงิน';
             this.title_taxmethod = 'การคำนวนภาษี';
+            this.title_tax = 'ภาษี';
             this.title_salary = 'เงินเดือน/ค่าจ้าง';
             this.title_benefit = 'สวัสดิการ';
             this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
@@ -458,7 +464,8 @@ export class CompanysComponent implements OnInit {
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
                     this.clearManage();
-                    this.new_bank = true;
+                    this.showManagebank();
+                     this.new_bank = true;
                     var ref = this.combankList.length + 100;
                     this.selectedCombank = new CombankModel();
                     this.selectedCombank.combank_id = ref.toString();
@@ -780,6 +787,9 @@ export class CompanysComponent implements OnInit {
         this.new_bank = false;
         this.edit_combank = false;
         this.displayManage = false;
+        this.displayManagebank = false;
+
+        
     }
     combank_remove() {
         this.selectedCombank.combank_id = '9999';
@@ -792,6 +802,14 @@ export class CompanysComponent implements OnInit {
         this.new_bank = false;
         this.edit_combank = false;
         this.displayManage = false;
+        this.displayManagebank = false;
+
+        
+    }
+    displayManagebank: boolean = false;
+    positionbank: string = "right";
+    showManagebank() {
+      this.displayManagebank = true
     }
     combank_addItem(model: CombankModel) {
         const itemNew: CombankModel[] = [];
@@ -814,6 +832,7 @@ export class CompanysComponent implements OnInit {
 
 
     }
+    
     record_combank() {
         if (this.combankList.length == 0) {
             this.combank_delete();
