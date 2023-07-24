@@ -179,6 +179,7 @@ export class ProvidentComponent implements OnInit {
         });
         this.new_data = false;
         this.edit_data = false;
+        this.displayManage = false;
     }
     async doDeleteLate(data: ProvidentModel) {
         await this.providentService.provident_delete(data).then((res) => {
@@ -200,6 +201,8 @@ export class ProvidentComponent implements OnInit {
         });
         this.new_data = false;
         this.edit_data = false;
+        this.displayManage = false;
+
     }
     doUploadLate() {
         const filename =
@@ -238,6 +241,7 @@ export class ProvidentComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi-plus',
                 command: (event) => {
+                    this.showManage()
                     this.selectedProvident = new ProvidentModel();
                     this.new_data = true;
                     this.edit_data = false;
@@ -283,7 +287,7 @@ export class ProvidentComponent implements OnInit {
                     this.displayUpload = false;
                     this.doUploadLate();
                 },
-                key:"myDialog",
+                key: "myDialog",
                 reject: () => {
                     this.displayUpload = false;
                 },
@@ -310,24 +314,24 @@ export class ProvidentComponent implements OnInit {
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
     Save() {
-         this.doRecordLate(this.selectedProvident);
+        this.doRecordLate(this.selectedProvident);
     }
     Savelate() {
         if (!this.displayeditcondition) {
             this.selectedProvident.providentWorkage_data = this.selectedProvident.providentWorkage_data.concat({
-                    company_code: this.initial_current.CompCode,
-                    provident_code: this.selectedProvident.provident_code,
-                    workage_from: this.selectedProvidentWorka.workage_from,
-                    workage_to: this.selectedProvidentWorka.workage_to,
-                    rate_emp: this.selectedProvidentWorka.rate_emp,
-                    rate_com: this.selectedProvidentWorka.rate_com,
-                });
+                company_code: this.initial_current.CompCode,
+                provident_code: this.selectedProvident.provident_code,
+                workage_from: this.selectedProvidentWorka.workage_from,
+                workage_to: this.selectedProvidentWorka.workage_to,
+                rate_emp: this.selectedProvidentWorka.rate_emp,
+                rate_com: this.selectedProvidentWorka.rate_com,
+            });
         }
         this.displayaddcondition = false;
         this.displayeditcondition = false;
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
-    
+
     Delete() {
         this.doDeleteLate(this.selectedProvident);
     }
@@ -342,7 +346,7 @@ export class ProvidentComponent implements OnInit {
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
 
-    
+
     onRowSelectList(event: any) {
         this.displayaddcondition = true;
         this.displayeditcondition = true;
@@ -351,6 +355,12 @@ export class ProvidentComponent implements OnInit {
     onRowSelect(event: any) {
         this.new_data = true;
         this.edit_data = true;
+    }
+
+    displayManage: boolean = false;
+    position: string = "right";
+    showManage() {
+        this.displayManage = true
     }
     exportAsExcel() {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(

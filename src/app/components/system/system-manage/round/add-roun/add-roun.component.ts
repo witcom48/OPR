@@ -202,8 +202,9 @@ constructor(
       }
 
     });
-    this.new_data = false;
-    this.edit_data = false;
+    // this.new_data = false;
+    // this.edit_data = false;
+    // this.displayManage = false
   }
   async doDeleteRounds(data: RoundsModel) {
     await this.roundsService.rounds_delete(data).then((res) => {

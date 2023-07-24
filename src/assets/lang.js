@@ -66,8 +66,8 @@ var yearperiod = new Map([
 
 var rounddecimal = new Map([
     ["code", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
-    ["nameth", { TH: "ชื่อ ไทย", EN: "Name " }],
-    ["nameen", { TH: "ชื่อ อังกฤษ ", EN: "Name " }],
+    ["nameth", { TH: "ชื่อ (ไทย)", EN: "Name (Thai) " }],
+    ["nameen", { TH: "ชื่อ (อังกฤษ) ", EN: "Name (Eng) " }],
     ["descriptionth", { TH: "รายละเอียด (ไทย)", EN: "Description (Thai) " }],
     ["descriptionen", { TH: "รายละเอียด (อังกฤษ)", EN: "Description (Eng)" }],
 
@@ -196,6 +196,9 @@ var locationpage = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
     ["name", { TH: "ชื่อ", EN: "Name" }],
+    ["nameth", { TH: "ชื่อ (ไทย)", EN: "Name (Thai) " }],
+    ["nameen", { TH: "ชื่อ (อังกฤษ) ", EN: "Name (Eng) " }],
+    
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
     ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],

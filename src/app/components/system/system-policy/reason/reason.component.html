@@ -38,7 +38,7 @@
                     <th>{{langs.get('description')[selectlang]}}</th>
                     <th>{{langs.get('modified_by')[selectlang]}}</th>
                     <th>{{langs.get('modified_date')[selectlang]}}</th>
-
+                    <th> </th>
 
                 </tr>
             </ng-template>
@@ -51,11 +51,11 @@
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
                         date:'dd/MM/yyyy'}}</td>
-                                <td>
-                                    <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteReason(data)">
-                                    </button>
-                                
-                                </td>
+                    <td>
+                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteReason(data)">
+                        </button>
+
+                    </td>
                 </tr>
             </ng-template>
         </p-table>

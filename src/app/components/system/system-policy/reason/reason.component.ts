@@ -64,6 +64,8 @@ export class ReasonComponent implements OnInit {
       this.reason_list = await res;
     });
   }
+  
+  
   async doRecordReason(data: ReasonsModel) {
     data.reason_group = this.selectedType.code;
     await this.reasonsService.reason_record(data).then((res) => {
@@ -79,8 +81,8 @@ export class ReasonComponent implements OnInit {
       }
 
     });
-    this.new_data = false;
-    this.edit_data = false;
+    // this.new_data = false;
+    // this.edit_data = false;
   }
   async doDeleteReason(data: ReasonsModel) {
     await this.reasonsService.reason_delete(data).then((res) => {

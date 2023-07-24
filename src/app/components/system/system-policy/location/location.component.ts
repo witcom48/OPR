@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
-import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
@@ -54,33 +54,50 @@ export class LocationComponent implements OnInit {
       this.location_list = await res;
     });
   }
+
+  
   async doRecordLocation(data: LocationModel) {
     await this.locationService.location_record(data).then((res) => {
       // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLocation()
-        this.edit_data = false;
         this.new_data = false;
+        this.edit_data = false;
         this.displayManage = false
+        
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
 
     });
-    this.new_data = false;
-    this.edit_data = false;
+  
   }
+  confirmRecord() {
+    this.confirmationService.confirm({
+      message: "Confirm to record",
+      header: "Confirm to delete",
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doRecordLocation(this.locations);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "You have cancelled" });
+      },
+      key: 'myDialog'
+    });
+  }
+
   async doDeleteLocation(data: LocationModel) {
     await this.locationService.location_delete(data).then((res) => {
       // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadLocation()
-        this.edit_data= false;
-        this.new_data= false;
-        this.displayManage= false;
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false;
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -164,20 +181,20 @@ export class LocationComponent implements OnInit {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
   }
-  
+
   displayManage: boolean = false;
-    position: string = "right";
-    showManage() {
-      this.displayManage = true
-    }
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
+  }
 
   close() {
     this.new_data = false
     this.locations = new LocationModel()
   }
+  
   Save() {
-    // console.log(this.locations)
-    this.doRecordLocation(this.locations)
+     this.doRecordLocation(this.locations)
   }
   Delete() {
     this.doDeleteLocation(this.locations)
@@ -185,28 +202,25 @@ export class LocationComponent implements OnInit {
   onRowSelect(event: any) {
     this.new_data = true
     this.edit_data = true;
-    this.displayManage= true;
+    this.displayManage = true;
   }
+
   exportAsExcel() {
-
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
-    for (var i in ws) {
-      if (i.startsWith("!") || i.charAt(1) !== "1") {
-        continue;
-      }
-      var n = 0;
-      for (var j in ws) {
-        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
-          ws[j].v = ws[j].v.replace(ws[i].v, "")
-        } else {
-          n += 1;
-        }
+    const fileToExport = this.location_list.map((items: any) => {
+      return {
+        "location_code": items?.location_code,
+        "location_name_th": items?.location_name_th,
+        "location_name_en": items?.location_name_en,
+        "location_detail": items?.location_detail,
+        "location_lat": items?.location_lat,
+        "location_long": items?.location_long,
 
       }
-    }
+    });
+
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
     XLSX.writeFile(wb, 'Export_Location.xlsx');
 
   }

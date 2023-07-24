@@ -47,6 +47,8 @@
                     <th>{{title_detail_th}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
+                    <th> </th>
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
@@ -57,6 +59,11 @@
                     <td>{{data.bonus_name_en}}</td>
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td>
+                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteLate(data)">
+                        </button>
+
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
@@ -64,65 +71,72 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
+    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position">
+        <div class="formatt p-dialog-content" *ngIf="new_data">
 
-        <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedBonus.bonus_code" maxlength="10" disabled="{{edit_data}}" />
-        <p>{{selectedBonus.bonus_code.length}}/10</p>
+            <label>{{title_code}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedBonus.bonus_code" maxlength="10"
+                disabled="{{edit_data}}" />
+            <p>{{selectedBonus.bonus_code.length}}/10</p>
 
-        <label>{{title_detail_en}}</label>
-        <textarea [(ngModel)]="selectedBonus.bonus_name_en" pInputTextarea [autoResize]="true"></textarea>
+            <label>{{title_detail_en}}</label>
+            <textarea [(ngModel)]="selectedBonus.bonus_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>{{title_detail_th}}</label>
-        <textarea [(ngModel)]="selectedBonus.bonus_name_th" pInputTextarea [autoResize]="true"></textarea>
-
-
-        <label>{{title_Item}}</label>
-        <p-dropdown placeholder="--" [options]="ItemsList" optionValue="item_code" [showClear]="true"
-            [(ngModel)]="selectedBonus.item_code" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.item_code :
-                item.item_code}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.item_code :
-                item.item_code}}
-            </ng-template>
-        </p-dropdown>
+            <label>{{title_detail_th}}</label>
+            <textarea [(ngModel)]="selectedBonus.bonus_name_th" pInputTextarea [autoResize]="true"></textarea>
 
 
+            <label>{{title_Item}}</label>
+            <p-dropdown placeholder="--" [options]="ItemsList" optionValue="item_code" [showClear]="true"
+                [(ngModel)]="selectedBonus.item_code" [style]="{ width: '100%', overflow: 'visible' }">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.item_code :
+                    item.item_code}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.item_code :
+                    item.item_code}}
+                </ng-template>
+            </p-dropdown>
 
 
-        <div #TABLELIST>
-            <p-accordion>
-                <p-accordionTab header="{{title_Workage}}">
-                    <p-menubar [model]="itemslate"></p-menubar>
-                    <p-table [value]="selectedBonus.bonus_data" styleClass="p-datatable-sm"
-                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
-                        [virtualScroll]="true" selectionMode="single" [(selection)]="conditions">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>{{title_From}}</th>
-                                <th>{{title_page_to}}</th>
-                                <th>{{title_Rate}}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-data let-i="rowIndex">
-                            <tr [pSelectableRow]="data">
-                                <td>{{data.bonusrate_from}}</td>
-                                <td>{{data.bonusrate_to}}</td>
-                                <td>{{data.bonusrate_rate}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p-accordionTab>
-            </p-accordion>
+
+
+            <div #TABLELIST>
+                <p-accordion>
+                    <p-accordionTab header="{{title_Workage}}">
+                        <p-menubar [model]="itemslate"></p-menubar>
+                        <p-table [value]="selectedBonus.bonus_data" styleClass="p-datatable-sm"
+                            (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                            [virtualScroll]="true" selectionMode="single" [(selection)]="conditions">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{title_From}}</th>
+                                    <th>{{title_page_to}}</th>
+                                    <th>{{title_Rate}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                                <tr [pSelectableRow]="data">
+                                    <td>{{data.bonusrate_from}}</td>
+                                    <td>{{data.bonusrate_to}}</td>
+                                    <td>{{data.bonusrate_rate}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+            <div style="text-align: right;">
+
+                <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
+                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                    class="p-button-danger" (click)="Delete()"></button>
+            </div>
         </div>
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="Delete()"></button>
-    </div>
+    </p-dialog>
+    <div *ngIf="displayManage" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
     <!-- --------------End form Input Data ------------------ -->
 </div>
 
@@ -146,7 +160,7 @@
             [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="conditions.bonusrate_rate">
         </p-inputNumber>
 
-        
+
     </div>
     <ng-template pTemplate="footer">
         <button *ngIf="displayeditcondition" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
@@ -174,6 +188,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-key="myDialog" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

@@ -36,16 +36,16 @@ export class TaxrateComponent implements OnInit {
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private datePipe: DatePipe
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
 
-        
-            this.doLoadLanguage();
-            this.doLoadMenu();
-            this.doLoadTaxrate();
-      
+
+        this.doLoadLanguage();
+        this.doLoadMenu();
+        this.doLoadTaxrate();
+
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -102,7 +102,7 @@ export class TaxrateComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_payroll= 'บัญชี';
+            this.title_payroll = 'บัญชี';
 
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'อัตราภาษี';
@@ -152,6 +152,7 @@ export class TaxrateComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
+                    this.showManage()
                     this.selectedTaxrate = new TaxrateModel();
                     this.new_data = true;
                     this.edit_data = false;
@@ -195,7 +196,7 @@ export class TaxrateComponent implements OnInit {
                     detail: this.title_confirm_cancel,
                 });
             },
-            key:"myDialog"
+            key: "myDialog"
         });
     }
 
@@ -211,6 +212,9 @@ export class TaxrateComponent implements OnInit {
                     detail: result.message,
                 });
                 this.doLoadTaxrate();
+                this.edit_data = false;
+                this.new_data = false;
+                this.displayManage = false
             } else {
                 this.messageService.add({
                     severity: 'error',
@@ -220,7 +224,49 @@ export class TaxrateComponent implements OnInit {
             }
         });
     }
+    //
+    confirmDeletes(data: any) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doDeleteTaxrates(data);
+            },
 
+            reject: () => {
+                this.messageService.add({
+                    severity: 'warn',
+                    summary: 'Cancelled',
+                    detail: this.title_confirm_cancel,
+                });
+            },
+        });
+    }
+
+    doDeleteTaxrates(data: any) {
+        this.taxrateService.taxrate_delete(data).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: result.message,
+                });
+                this.doLoadTaxrate();
+                this.edit_data = false;
+                this.new_data = false;
+                this.displayManage = false
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: result.message,
+                });
+            }
+        });
+    }
+    //
     confirmDelete() {
         this.confirmationService.confirm({
             message: this.title_confirm_delete,
@@ -236,7 +282,7 @@ export class TaxrateComponent implements OnInit {
                     detail: this.title_confirm_cancel,
                 });
             },
-            key:"myDialog"
+            key: "myDialog"
         });
     }
 
@@ -254,6 +300,8 @@ export class TaxrateComponent implements OnInit {
                 this.doLoadTaxrate();
                 this.edit_data = false;
                 this.new_data = false;
+                this.displayManage = false
+
             } else {
                 this.messageService.add({
                     severity: 'error',
@@ -271,6 +319,8 @@ export class TaxrateComponent implements OnInit {
     onRowSelectTaxrate(event: any) {
         this.edit_data = true;
         this.new_data = true;
+        this.displayManage = true;
+
     }
 
     fileToUpload: File | any = null;
@@ -315,7 +365,7 @@ export class TaxrateComponent implements OnInit {
                         });
                     this.displayUpload = false;
                 },
-                key:"myDialog",
+                key: "myDialog",
                 reject: () => {
                     this.messageService.add({
                         severity: 'warn',
@@ -338,24 +388,28 @@ export class TaxrateComponent implements OnInit {
     setFormatFrom(event: any) {
         event.target.value = parseFloat(event.target.value).toFixed(2);
         this.selectedTaxrate.taxrate_from = parseFloat(event.target.value);
-      }
-      
-      setFormatTo(event: any) {
+    }
+
+    setFormatTo(event: any) {
         event.target.value = parseFloat(event.target.value).toFixed(2);
         this.selectedTaxrate.taxrate_to = parseFloat(event.target.value);
-      }
-      
-      setFormatTax(event: any) {
+    }
+
+    setFormatTax(event: any) {
         event.target.value = parseFloat(event.target.value).toFixed(2);
         this.selectedTaxrate.taxrate_tax = parseFloat(event.target.value);
-      }
-      
+    }
+
 
     displayUpload: boolean = false;
     showUpload() {
         this.displayUpload = true;
     }
-
+    displayManage: boolean = false;
+    position: string = "right";
+    showManage() {
+        this.displayManage = true
+    }
     @ViewChild('TABLE') table: ElementRef | any = null;
 
     exportAsExcel() {

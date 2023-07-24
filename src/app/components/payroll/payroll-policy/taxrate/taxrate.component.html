@@ -21,11 +21,11 @@
     <!-- Table Show Data -->
     <div #TABLE>
         <p-table #dt2 [value]="taxrate_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-        selectionMode="single" [(selection)]="selectedTaxrate" (onRowSelect)="onRowSelectTaxrate($event)" [rows]="12"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['from','to','tax','modified_by','modified_date']">
-        <!-- Form Search Table -->
+            selectionMode="single" [(selection)]="selectedTaxrate" (onRowSelect)="onRowSelectTaxrate($event)"
+            [rows]="12" [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+            [globalFilterFields]="['from','to','tax','modified_by','modified_date']">
+            <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
                     <span class="p-input-icon-left ml-auto">
@@ -35,25 +35,31 @@
                     </span>
                 </div>
             </ng-template>
-        <!-- --------------END Form Search Table------------------ -->
+            <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                <th>{{title_no}}</th>
-                <th>{{title_From}}</th>
-                <th>{{title_To}}</th>
+                    <th>{{title_no}}</th>
+                    <th>{{title_From}}</th>
+                    <th>{{title_To}}</th>
                     <th>{{title_Tax}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
+                    <th> </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
                     <td><span>{{title_no}}</span>{{i+1}}</td>
-                        <td>{{data.taxrate_from}}</td>
-                        <td>{{data.taxrate_to}}</td>
-                        <td>{{data.taxrate_tax}}</td>
-                        <td>{{data.modified_by}}</td>
-                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{data.taxrate_from}}</td>
+                    <td>{{data.taxrate_to}}</td>
+                    <td>{{data.taxrate_tax}}</td>
+                    <td>{{data.modified_by}}</td>
+                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td>
+                        <button pButton type="button" class="pi pi-trash gray-button " (click)="confirmDeletes(data)">
+                        </button>
+
+                    </td>
 
                 </tr>
             </ng-template>
@@ -62,27 +68,33 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
+    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position">
+        <div class="formatt p-dialog-content" *ngIf="new_data">
+            <!-- <i (click)="close()"></i> -->
+            <label>{{title_From}}</label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+                [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_from">
+            </p-inputNumber>
+            <label>{{title_To}}</label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+                [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_to">
+            </p-inputNumber>
+            <label>{{title_Tax}}</label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+                [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_tax">
+            </p-inputNumber>
 
-        <label>{{title_From}}</label>
-        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
-            [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_from">
-        </p-inputNumber>
-        <label>{{title_To}}</label>
-        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
-            [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_to">
-        </p-inputNumber>
-        <label>{{title_Tax}}</label>
-        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
-            [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_tax">
-        </p-inputNumber>
+            <div style="text-align: right;">
 
- 
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="confirmDelete()"></button>
-    </div>
+                <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
+                    (click)="confirmRecord()"></button>
+                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                    class="p-button-danger" (click)="confirmDelete()"></button>
+            </div>
+        </div>
+    </p-dialog>
+    <div *ngIf="displayManage" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
 </div>
 
 <!-- Dialog Choose File Import -->
@@ -90,7 +102,9 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="doUploadTaxrate()" label="{{title_upload}}"
@@ -101,7 +115,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-key="myDialog" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
-
