@@ -55,10 +55,10 @@ export class SystemCompanyComponent implements OnInit {
         //   this.doLoadInitialList();
         //   this.doLoadEmptypeList();
         //   this.doLoadEmpstatusList();
-
+        this.doLoadMenu();
         setTimeout(() => {
 
-            this.doLoadMenu();
+            
             this.doLoadCompany();
         }, 500);
     }

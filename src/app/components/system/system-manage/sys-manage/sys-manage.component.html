@@ -1,33 +1,35 @@
-<h4>{{title_system_manage}} </h4>
-<br>
+<!-- <h4>{{title_system_manage}} </h4> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<hr>
+<!-- <br> -->
 
-<span>{{title_links}}</span>
-<p></p>
-<div class="grid">
+<!-- <span>{{title_links}}</span> -->
+<!-- <p></p> -->
+<div class="card">
+     <div class="grid " style="min-width: 600px; min-height: 500px">
+
+        <div class="col-12 md:col-3">
+            <b>{{title_manage}}</b>
+            <a routerLink="../../system/company">{{title_company}}</a>
+            <a routerLink="../../system/Branch">{{title_branch}}</a>
+            <a routerLink="../../system/system-reason">{{title_reason}}</a>
+            <a routerLink="../../system/emp-id">{{title_structure_code}} </a>
+            <a routerLink="../../system/system-yearperiod">{{title_year_period}}</a>
+            <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 70%;">
+        </div>
 
 
-    <div class="col-12 md:col-3">
-        <b>{{title_manage}}</b>
-        <a routerLink="../../system/company">{{title_company}}</a>
-        <a routerLink="../../system/Branch">{{title_branch}}</a>
-        <a routerLink="../../system/system-reason">{{title_reason}}</a>
-        <a routerLink="../../system/emp-id">{{title_structure_code}} </a>
-        <!-- <a routerLink="../../system/system-yearperiod">Year Period</a> -->
-        <a routerLink="../../system/system-yearperiod">{{title_year_period}}</a>
-        <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 70%;">
+
+        <div class="col-12 md:col-3">
+            <b>{{title_rounding}}</b>
+            <a routerLink="../../system/sys-roundComponent">{{title_round_decimal}}</a>
+            <a routerLink="../../system/sys-addroun">{{title_round_time}}</a>
+            <a routerLink="../../system/system-polrounds">{{title_round_polrounds}}</a>
+            <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 70%;">
+
+         </div>
 
     </div>
 
 
-    <div class="col-12 md:col-3">
-        <b>{{title_rounding}}</b>
-        <a routerLink="../../system/sys-roundComponent">{{title_round_decimal}}</a>
-        <a routerLink="../../system/sys-addroun">{{title_round_time}}</a>
-        <a routerLink="../../system/system-polrounds">{{title_round_polrounds}}</a>
-        <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 70%;">
-
-        <!-- <a>Set Policy</a> -->
-    </div>
-
-
-</div>
+    <!-- </div> -->

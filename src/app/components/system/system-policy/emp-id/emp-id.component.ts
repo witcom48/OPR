@@ -41,11 +41,11 @@ export class EmpIDComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
-
+    this.doLoadMenu()
+    this.doLoadTRPolcode()
     setTimeout(() => {
 
-      this.doLoadMenu()
-      this.doLoadTRPolcode()
+      
       // Dropdown
       this.doLoadCodestructureList();
     }, 500);

@@ -39,9 +39,10 @@ export class SystemFamilyTypeComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+      
       this.doLoadFamily()
     }, 500);
   }

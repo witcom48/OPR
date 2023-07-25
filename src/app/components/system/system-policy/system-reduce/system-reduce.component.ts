@@ -41,9 +41,10 @@ export class SystemReduceComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+      
       this.doLoadReduce()
     }, 500);
   }

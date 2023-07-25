@@ -41,9 +41,10 @@ export class SystemHospitalComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+      
       this.doLoadHospital()
     }, 500);
   }

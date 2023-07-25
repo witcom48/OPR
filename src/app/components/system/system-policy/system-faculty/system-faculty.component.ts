@@ -38,9 +38,10 @@ export class SystemFacultyComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+      
       this.doLoadFaculty()
     }, 500);
   }

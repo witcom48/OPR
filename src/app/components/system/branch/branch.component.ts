@@ -43,11 +43,11 @@ export class BranchComponent implements OnInit {
     ngOnInit(): void {
         this.doGetInitialCurrent();
         this.doLoadLanguage();
-
+        this.doLoadMenu();
 
         setTimeout(() => {
 
-            this.doLoadMenu();
+            
             this.doLoadCombranch();
         }, 500);
     }

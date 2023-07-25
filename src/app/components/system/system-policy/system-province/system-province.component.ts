@@ -35,9 +35,10 @@ export class SystemProvinceComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+      
       this.doLoadProvince()
     }, 500);
   }

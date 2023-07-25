@@ -40,9 +40,10 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+      
       this.doLoadLevel()
 
     }, 500);

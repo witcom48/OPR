@@ -41,9 +41,10 @@ export class BankComponent implements OnInit {
 
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+      
       this.doLoadBank()
     }, 500);
 

@@ -40,9 +40,10 @@ export class SystemBloodtypeComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+      
       this.doLoadBloodtype()
     }, 500);
   }

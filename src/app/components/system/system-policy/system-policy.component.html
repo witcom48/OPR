@@ -1,50 +1,55 @@
-<h4>{{title_genaral_system}}</h4>
-<br>
-<span>{{title_links}}</span>
-<p></p>
-<div class="grid">
+<!-- <h4>{{title_genaral_system}}</h4> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<hr>
+<!-- <br> -->
+<!-- <span>{{title_links}}</span> -->
+<!-- <p></p> -->
+<div class="card">
+    <div class="grid " style="min-width: 600px; min-height: 500px">
+       
 
 
-    <div class="col-12 md:col-3">
-        <b>{{title_genaral}}</b>
-        <a routerLink="../../system/system-organization-level">{{title_level}}</a>
-        <a routerLink="../../system/bank">{{title_bank}}</a>
-        <a routerLink="../../system/system-card-type">{{title_card_Type}}</a>
-        <a routerLink="../../system/system-family-type">{{title_family_Type}}</a>
-        <a routerLink="../../system/system-address-type">{{title_address_Type}}</a>
-        <a routerLink="../../system/system-province">{{title_province}}</a>
-        <a routerLink="../../system/system-religion">{{title_religion}}</a>
-        <a routerLink="../../system/system-ethnicity">{{title_ethnicity}}</a>
-        <a routerLink="../../system/system-bloodtype">{{title_bloodtype}}</a>
-        <a routerLink="../../system/system-hospital">{{title_hospital}}</a>
-        <a routerLink="../../system/system-location">{{title_location}}</a>
-        <a routerLink="../../system/system-reduce">{{title_reduce}}</a>
-        <a routerLink="../../system/system-supply">{{title_Supply}}</a>
-        
-        <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 50%;">
-    </div>
+            <div class="col-12 md:col-3">
+                <b>{{title_genaral}}</b>
+                <a routerLink="../../system/system-organization-level">{{title_level}}</a>
+                <a routerLink="../../system/bank">{{title_bank}}</a>
+                <a routerLink="../../system/system-card-type">{{title_card_Type}}</a>
+                <a routerLink="../../system/system-family-type">{{title_family_Type}}</a>
+                <a routerLink="../../system/system-address-type">{{title_address_Type}}</a>
+                <a routerLink="../../system/system-province">{{title_province}}</a>
+                <a routerLink="../../system/system-religion">{{title_religion}}</a>
+                <a routerLink="../../system/system-ethnicity">{{title_ethnicity}}</a>
+                <a routerLink="../../system/system-bloodtype">{{title_bloodtype}}</a>
+                <a routerLink="../../system/system-hospital">{{title_hospital}}</a>
+                <a routerLink="../../system/system-location">{{title_location}}</a>
+                <a routerLink="../../system/system-reduce">{{title_reduce}}</a>
+                <a routerLink="../../system/system-supply">{{title_Supply}}</a>
 
-    <div class="col-12 md:col-3">
-        <b>{{title_training}}</b>
-        <a routerLink="../../system/course">{{title_course}}</a>
-        <a routerLink="../../system/institute">{{title_institute}}</a>
-        <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 50%;">
+                <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 50%;">
+            </div>
 
-     
-        <b>{{title_education}}</b>
-         <a routerLink="../../system/faculty">{{title_faculty}}</a>
-        <a routerLink="../../system/major">{{title_major}}</a>
-        <a routerLink="../../system/qualification">{{title_qualification}}</a>
-        <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 50%;">
+            <div class="col-12 md:col-3">
+                <b>{{title_training}}</b>
+                <a routerLink="../../system/course">{{title_course}}</a>
+                <a routerLink="../../system/institute">{{title_institute}}</a>
+                <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 50%;">
 
-    </div>
 
-    <div class="col-12 md:col-3">
-        <!-- <b>Payroll</b>
+                <b>{{title_education}}</b>
+                <a routerLink="../../system/faculty">{{title_faculty}}</a>
+                <a routerLink="../../system/major">{{title_major}}</a>
+                <a routerLink="../../system/qualification">{{title_qualification}}</a>
+                <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 50%;">
+
+            </div>
+
+            <div class="col-12 md:col-3">
+                <!-- <b>Payroll</b>
         <a >Income / Deduct</a>
         <a >Period</a>
         <a >GL Account</a> -->
-    </div>
+            </div>
 
-
+        </div>
+     
 </div>
