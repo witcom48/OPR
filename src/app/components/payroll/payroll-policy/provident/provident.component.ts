@@ -350,11 +350,16 @@ export class ProvidentComponent implements OnInit {
     onRowSelectList(event: any) {
         this.displayaddcondition = true;
         this.displayeditcondition = true;
+        this.displayManage = true;
+
+
         // console.log(this.selectedProvidentWorka);
     }
     onRowSelect(event: any) {
         this.new_data = true;
         this.edit_data = true;
+        this.displayManage = true;
+
     }
 
     displayManage: boolean = false;

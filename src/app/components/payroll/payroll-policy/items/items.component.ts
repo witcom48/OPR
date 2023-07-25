@@ -312,6 +312,7 @@ export class ItemsComponent implements OnInit {
     onRowSelect(event: any) {
         this.new_data = true;
         this.edit_data = true;
+        this.displayManage = true
     }
     displayManage: boolean = false;
     position: string = "right";
