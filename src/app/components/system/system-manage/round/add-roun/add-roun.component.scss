@@ -10,8 +10,8 @@ p-dropdown{
 
 }
 
-.p-dialog-content::ng-deep {
-    // overflow-y: hidden;
+.p-dialog-contents::ng-deep {
+    overflow-y: hidden;
     padding: 20px 0.5rem 4rem 0.5rem;
     
   }

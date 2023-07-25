@@ -26,7 +26,7 @@ export class BonusComponent implements OnInit {
         private itemService: ItemService,
 
         private router: Router
-    ) {}
+    ) { }
     @ViewChild('TABLE') table: ElementRef | any = null;
     new_data: boolean = false;
     edit_data: boolean = false;
@@ -99,7 +99,7 @@ export class BonusComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_payroll= 'บัญชี';
+            this.title_payroll = 'บัญชี';
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'โบนัส';
             this.title_new = 'เพิ่ม';
@@ -171,6 +171,9 @@ export class BonusComponent implements OnInit {
                     detail: res.message,
                 });
                 this.doLoadLate();
+                this.new_data = false;
+                this.edit_data = false;
+                this.displayManage = false;
             } else {
                 this.messageService.add({
                     severity: 'error',
@@ -179,9 +182,10 @@ export class BonusComponent implements OnInit {
                 });
             }
         });
-        this.new_data = false;
-        this.edit_data = false;
+
+
     }
+    
     async doDeleteLate(data: BonusModel) {
         await this.bonusService.bonus_delete(data).then((res) => {
             // console.log(res);
@@ -192,6 +196,9 @@ export class BonusComponent implements OnInit {
                     detail: res.message,
                 });
                 this.doLoadLate();
+                this.new_data = false;
+                this.edit_data = false;
+                this.displayManage = false;
             } else {
                 this.messageService.add({
                     severity: 'error',
@@ -200,8 +207,8 @@ export class BonusComponent implements OnInit {
                 });
             }
         });
-        this.new_data = false;
-        this.edit_data = false;
+     
+
     }
     doUploadLate() {
         const filename =
@@ -240,6 +247,7 @@ export class BonusComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi-plus',
                 command: (event) => {
+                    this.showManage()
                     this.selectedBonus = new BonusModel();
                     this.new_data = true;
                     this.edit_data = false;
@@ -295,7 +303,7 @@ export class BonusComponent implements OnInit {
                     this.displayUpload = false;
                     this.doUploadLate();
                 },
-                key:"myDialog",
+                key: "myDialog",
                 reject: () => {
                     this.displayUpload = false;
                 },
@@ -361,7 +369,15 @@ export class BonusComponent implements OnInit {
     onRowSelect(event: any) {
         this.new_data = true;
         this.edit_data = true;
+        this.displayManage = true;
     }
+
+    displayManage: boolean = false;
+    position: string = "right";
+    showManage() {
+        this.displayManage = true;
+    }
+
     exportAsExcel() {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
             this.table.nativeElement

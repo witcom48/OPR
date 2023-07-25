@@ -87,8 +87,8 @@ export class YearComponent implements OnInit {
       }
 
     });
-    this.new_data = false;
-    this.edit_data = false;
+    // this.new_data = false;
+    // this.edit_data = false;
   }
   async doDeleteYear(data: YearPeriodModels) {
     await this.yearService.year_delete(data).then((res) => {
@@ -214,28 +214,49 @@ export class YearComponent implements OnInit {
     this.displayManage = true
   }
 
+
   exportAsExcel() {
-
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
-    for (var i in ws) {
-      if (i.startsWith("!") || i.charAt(1) !== "1") {
-        continue;
-      }
-      var n = 0;
-      for (var j in ws) {
-        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
-          ws[j].v = ws[j].v.replace(ws[i].v, "")
-        } else {
-          n += 1;
-        }
+    const fileToExport = this.yearperiods_list.map((items: any) => {
+      return {
+        "year_code": items?.year_code,
+        "year_name_th": items?.year_name_th,
+        "year_name_en": items?.year_name_en,
+        "year_fromdate": items?.year_fromdate,
+        "year_todate": items?.year_todate,
+        "year_group": items?.year_group,
 
       }
-    }
+    });
+
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
     XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
 
   }
+
+  // exportAsExcel() {
+
+  //   const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+  //   for (var i in ws) {
+  //     if (i.startsWith("!") || i.charAt(1) !== "1") {
+  //       continue;
+  //     }
+  //     var n = 0;
+  //     for (var j in ws) {
+  //       if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+  //         ws[j].v = ws[j].v.replace(ws[i].v, "")
+  //       } else {
+  //         n += 1;
+  //       }
+
+  //     }
+  //   }
+  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  //   XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
+
+  // }
 
 }

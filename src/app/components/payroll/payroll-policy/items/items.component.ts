@@ -183,6 +183,7 @@ export class ItemsComponent implements OnInit {
         });
         this.new_data = false;
         this.edit_data = false;
+        this.displayManage = false;
     }
 
     async doDeleteMTItem(data: ItemsModel) {
@@ -205,6 +206,8 @@ export class ItemsComponent implements OnInit {
         });
         this.new_data = false;
         this.edit_data = false;
+        this.displayManage = false;
+        
     }
 
     doUploadMTItem() {
@@ -243,6 +246,7 @@ export class ItemsComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi-plus',
                 command: (event) => {
+                    this.showManage()
                     this.selectedMTItem = new ItemsModel();
                     this.new_data = true;
                     this.edit_data = false;
@@ -308,6 +312,11 @@ export class ItemsComponent implements OnInit {
     onRowSelect(event: any) {
         this.new_data = true;
         this.edit_data = true;
+    }
+    displayManage: boolean = false;
+    position: string = "right";
+    showManage() {
+      this.displayManage = true
     }
     exportAsExcel() {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(

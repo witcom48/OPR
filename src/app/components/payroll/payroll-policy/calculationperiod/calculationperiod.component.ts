@@ -211,28 +211,34 @@ export class CalculationperiodComponent implements OnInit {
         if (res.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
           this.doLoadPeriod()
+          this.new_data = false;
+          this.edit_data = false;
+          this.displayManage = false;
         }
         else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
         }
   
       });
-      this.new_data = false;
-      this.edit_data = false;
+      // this.new_data = false;
+      // this.edit_data = false;
     }
-    async doDeleteYear(data: PeriodsModels) {
+    async doDeletePeriods(data: PeriodsModels) {
       await this.periodsService.period_delete(data).then((res) => {
         if (res.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
           this.doLoadPeriod()
+          this.new_data = false;
+          this.edit_data = false;
+          this.displayManage = false;
         }
         else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
         }
   
       });
-      this.new_data = false;
-      this.edit_data = false;
+      // this.new_data = false;
+      // this.edit_data = false;
     }
   
     doUploadPeriod() {
@@ -264,6 +270,7 @@ export class CalculationperiodComponent implements OnInit {
         label: this.title_new,
           icon: 'pi-plus',
           command: (event) => {
+            this.showManage()
             this.selectedPeriods = new PeriodsModels();
             this.new_data = true;
             this.edit_data = false;
@@ -321,14 +328,21 @@ export class CalculationperiodComponent implements OnInit {
       this.doRecordPeriod(this.selectedPeriods)
     }
     Delete() {
-      this.doDeleteYear(this.selectedPeriods)
+      this.doDeletePeriods(this.selectedPeriods)
     }
     selectYear() {
       this.doLoadPeriod()
     }
     onRowSelect(event: any) {
-      this.new_data = true
+      this.new_data = true;
       this.edit_data = true;
+      this.displayManage = true;
+
+    }
+    displayManage: boolean = false;
+    position: string = "right";
+    showManage() {
+        this.displayManage = true;
     }
     exportAsExcel() {
   

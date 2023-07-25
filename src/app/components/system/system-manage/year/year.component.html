@@ -50,6 +50,7 @@
                     <th>{{langs.get('type')[selectlang]}}</th>
                     <th>{{langs.get('modified_by')[selectlang]}}</th>
                     <th>{{langs.get('modified_date')[selectlang]}}</th>
+                    <th> </th>
 
 
                 </tr>
@@ -76,56 +77,59 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position">
-        <div class="formatt p-dialog-content" *ngIf="new_data">
-            <!-- <i (click)="close()"></i> -->
-            <div>
-                <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group">
-                <label>{{langs.get('tax')[selectlang]}}</label>
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height: '1600px', 'overflow-y': 'hidden' }"
+            [position]="position">
+            <div class="formatt p-dialog-content" *ngIf="new_data">
+                <!-- <i (click)="close()"></i> -->
+                <div>
+                    <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group" >
+                    <label>{{langs.get('tax')[selectlang]}} </label>
 
-                <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group">
-                <label>{{langs.get('leave')[selectlang]}}</label>
+                    <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group">
+                    <label>{{langs.get('leave')[selectlang]}}</label>
 
-                <!-- // -->
-                <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group">
-                <label>{{langs.get('accounts')[selectlang]}} </label>
+                    <!-- // -->
+                    <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group">
+                    <label>{{langs.get('accounts')[selectlang]}} </label>
 
-                <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group">
-                <label>{{langs.get('budgets')[selectlang]}} </label>
-                <!-- // -->
+                    <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group">
+                    <label>{{langs.get('budgets')[selectlang]}} </label>
+                    <!-- // -->
+                </div>
+                <label>{{langs.get('code')[selectlang]}}</label>
+                <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4"
+                    disabled="{{edit_data}}" />
+                <p>{{yearperiods.year_code.length}}/4</p>
+
+
+
+                <label>{{langs.get('descriptionth')[selectlang]}} </label>
+                <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"></textarea>
+
+                <label>{{langs.get('descriptionen')[selectlang]}} </label>
+                <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"></textarea>
+
+                <label>{{langs.get('fromdate')[selectlang]}}</label>
+                <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"><input
+                        type="text"></p-calendar>
+
+                <label>{{langs.get('todate')[selectlang]}}</label>
+                <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"><input
+                        type="text"></p-calendar>
+
+                <div style="text-align: right;">
+
+                    <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+                        (click)="Save()" [disabled]="!Form.form.valid"> </button>
+                    <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                        (click)="Delete()" icon="pi pi-trash" class="p-button-danger"></button>
+                </div>
             </div>
-            <label>{{langs.get('code')[selectlang]}}</label>
-            <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" disabled="{{edit_data}}" />
-            <p>{{yearperiods.year_code.length}}/4</p>
-
-
-
-            <label>{{langs.get('descriptionth')[selectlang]}} </label>
-            <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"></textarea>
-
-            <label>{{langs.get('descriptionen')[selectlang]}} </label>
-            <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"></textarea>
-
-            <label>{{langs.get('fromdate')[selectlang]}}</label>
-            <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"><input
-                    type="text"></p-calendar>
-
-            <label>{{langs.get('todate')[selectlang]}}</label>
-            <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"><input
-                    type="text"></p-calendar>
-
-            <div style="text-align: right;">
-
-                <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
-                    (click)="Save()"></button>
-                <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                    (click)="Delete()" icon="pi pi-trash" class="p-button-danger"></button>
-            </div>
-        </div>
-    </p-dialog>
-    <div *ngIf="displayManage" style="z-index: 1084;"
-        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
-
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+    </form>
 
     <!-- --------------End form Input Data ------------------ -->
 </div>

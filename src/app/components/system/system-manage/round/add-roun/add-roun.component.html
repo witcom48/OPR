@@ -46,7 +46,7 @@
                     </span>
                 </div>
             </ng-template>
-           
+
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
@@ -57,6 +57,7 @@
                     <th>{{langs.get('group')[selectlang]}}</th>
                     <th>{{langs.get('modified_by')[selectlang]}}</th>
                     <th>{{langs.get('modified_date')[selectlang]}}</th>
+                    <th> </th>
 
                 </tr>
             </ng-template>
@@ -72,7 +73,7 @@
                     <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
                         date:'dd/MM/yyyy'}}</td>
-         <td>
+                    <td>
                         <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteRounds(data)">
                         </button>
 
@@ -84,84 +85,93 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position">
-        <div class="formatt p-dialog-content" *ngIf="new_data">
-
-
-        <div>
-            <input type="radio" name="fav_language" value="Currency" [(ngModel)]="rounds.round_group" required>
-            <label>{{langs.get('currency')[selectlang]}}</label>
-
-            <input type="radio" name="fav_language" value="Time" [(ngModel)]="rounds.round_group" required>
-
-            <label>{{langs.get('timee')[selectlang]}}</label>
-            <span style="color: red;"> *</span>
-        </div>
-
-        <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
-        <input pInputText type="text" [(ngModel)]="rounds.round_code" maxlength="10" [disabled]="edit_data"
-            name="round_code" required />
-        <p>{{rounds.round_code.length}}/4</p>
-
-
-        <label>{{langs.get('descriptionth')[selectlang]}} <span style="color: red;"> *</span></label>
-        <textarea [(ngModel)]="rounds.round_name_th" pInputTextarea [autoResize]="true" name="round_name_th"
-            required></textarea>
-
-        <label>{{langs.get('descriptionen')[selectlang]}} <span style="color: red;"> *</span></label>
-        <textarea [(ngModel)]="rounds.round_name_en" pInputTextarea [autoResize]="true" name="round_name_en"
-            required></textarea>
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height: '1500px', 'overflow-y': 'hidden' }"
+            [position]="position">
+            <div class="formatt  p-dialog-content" *ngIf="new_data">
 
 
 
+                <div>
+                    <input type="radio" name="fav_language" value="Currency" [(ngModel)]="rounds.round_group" required>
+                    <label>{{langs.get('currency')[selectlang]}}</label>
+
+                    <input type="radio" name="fav_language" value="Time" [(ngModel)]="rounds.round_group" required>
+
+                    <label>{{langs.get('timee')[selectlang]}}</label>
+                    <span style="color: red;"> *</span>
+                </div>
+
+                <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+                <input pInputText type="text" [(ngModel)]="rounds.round_code" maxlength="10" [disabled]="edit_data"
+                    name="round_code" required />
+                <p>{{rounds.round_code.length}}/4</p>
 
 
+                <label>{{langs.get('descriptionth')[selectlang]}} <span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="rounds.round_name_th" pInputTextarea [autoResize]="true" name="round_name_th"
+                    required></textarea>
 
+                <label>{{langs.get('descriptionen')[selectlang]}} <span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="rounds.round_name_en" pInputTextarea [autoResize]="true" name="round_name_en"
+                    required></textarea>
 
 
 
 
-        <div #TABLELIST>
-            <p-accordion>
-                <p-accordionTab header="{{title_page_items}}">
-                    <p-menubar [model]="itemslate"></p-menubar>
-                    <p-table [value]="rounds.round_data" styleClass="p-datatable-sm"
-                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
-                        [virtualScroll]="true" selectionMode="single" [(selection)]="conditions">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>{{title_From}}</th>
-                                <th>{{title_page_to}}</th>
-                                <th>{{title_round}}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-data let-i="rowIndex">
-                            <tr [pSelectableRow]="data">
-                                <td>{{data.round_from}}</td>
-                                <td>{{data.round_to}}</td>
-                                <td>{{data.round_result}}</td>
 
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p-accordionTab>
-            </p-accordion>
-        </div>
-        <div style="text-align: right;">
-            <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
 
-            <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                class="p-button-danger" (click)="Delete()"></button>
-        </div>
-    </div>
-</p-dialog>
-<div *ngIf="displayManage" style="z-index: 1084;"
-    class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
-<!-- --------------End form Input Data ------------------ -->
+
+
+
+
+                <div #TABLELIST>
+                    <p-accordion>
+                        <p-accordionTab header="{{title_page_items}}">
+                            <p-menubar [model]="itemslate"></p-menubar>
+                            <p-table [value]="rounds.round_data" styleClass="p-datatable-sm"
+                                (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                                [virtualScroll]="true" selectionMode="single" [(selection)]="conditions">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>{{title_From}}</th>
+                                        <th>{{title_page_to}}</th>
+                                        <th>{{title_round}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-data let-i="rowIndex">
+                                    <tr [pSelectableRow]="data">
+                                        <td>{{data.round_from}}</td>
+                                        <td>{{data.round_to}}</td>
+                                        <td>{{data.round_result}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-accordionTab>
+                    </p-accordion>
+                </div>
+                <div style="text-align: right;">
+                    <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"
+                        [disabled]="!Form.form.valid"></button>
+
+                    <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button> -->
+
+                    <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                        class="p-button-danger" (click)="Delete()"></button>
+                </div>
+            </div>
+        </p-dialog>
+
+
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+    </form>
+    <!-- --------------End form Input Data ------------------ -->
 </div>
 
-<p-dialog header="{{title_page_items}}" [(visible)]="displayaddcondition" [maximizable]="true" (onHide)="closedispaly()">
-    <div class="formatt">
+<p-dialog header="{{title_page_items}}" [(visible)]="displayaddcondition" [maximizable]="true"
+    (onHide)="closedispaly()">
+    <div class="formatt p-dialog-contents">
 
         <label>{{title_From}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
@@ -178,7 +188,7 @@
             [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="conditions.round_result">
         </p-inputNumber>
 
-        
+
 
 
     </div>
@@ -209,8 +219,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-key="myDialog"  rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
-
-
