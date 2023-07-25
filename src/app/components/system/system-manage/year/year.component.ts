@@ -105,8 +105,8 @@ export class YearComponent implements OnInit {
       }
 
     });
-    this.new_data = false;
-    this.edit_data = false;
+    // this.new_data = false;
+    // this.edit_data = false;
   }
   doUploadYear() {
     const filename = "YEAR_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
@@ -203,15 +203,15 @@ export class YearComponent implements OnInit {
   }
   onRowSelect(event: any) {
     this.year_type == this.yearperiods.year_group;
-    this.new_data = true
+    this.new_data = true;
     this.edit_data = true;
-    this.displayManage = true
+    this.displayManage = true;
 
   }
   displayManage: boolean = false;
   position: string = "right";
   showManage() {
-    this.displayManage = true
+    this.displayManage = true;
   }
 
 
