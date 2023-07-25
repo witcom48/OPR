@@ -26,7 +26,8 @@ export class SystemReligionComponent implements OnInit {
     items: MenuItem[] = [];
     edit_data: boolean = false;
     new_data: boolean = false;
-
+    home: any;
+    itemslike: MenuItem[] = [];
     religion_list: ReligionModel[] = [];
     selectedReligion: ReligionModel = new ReligionModel();
 
@@ -124,6 +125,9 @@ export class SystemReligionComponent implements OnInit {
     }
 
     doLoadMenu() {
+        this.itemslike = [{ label: this.title_system, routerLink: '/system/general' },
+        { label: this.title_page, styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [
             {
                 label: this.title_new,

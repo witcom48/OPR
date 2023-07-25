@@ -19,7 +19,8 @@ export class EmpIDComponent implements OnInit {
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   TRPolcode_list: TRPolcodeModel[] = [];
   selectedTRPolcode: TRPolcodeModel = new TRPolcodeModel();
   getLanguage(): string {
@@ -135,7 +136,9 @@ export class EmpIDComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_system, routerLink: '/system/sys-manage' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new,

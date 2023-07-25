@@ -19,7 +19,8 @@ import { LevelService } from 'src/app/services/system/policy/level.service';
 })
 export class SystemOrganizationLevelComponent implements OnInit {
 
-
+  home: any;
+  itemslike: MenuItem[] = [];
 
   items: MenuItem[] = [];
   edit_data: boolean = false;
@@ -124,6 +125,9 @@ export class SystemOrganizationLevelComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.itemslike = [{ label: this.title_system , routerLink: '/system/general' }, 
+    {label: this.title_page, styleClass: 'activelike'}];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
 
     this.items = [
       {

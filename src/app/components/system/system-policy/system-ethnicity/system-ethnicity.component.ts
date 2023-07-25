@@ -22,7 +22,8 @@ export class SystemEthnicityComponent implements OnInit {
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   ethnicity_list: EthnicityModel[] = [];
   selectedEthnicity: EthnicityModel = new EthnicityModel();
 
@@ -119,7 +120,9 @@ export class SystemEthnicityComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_system, routerLink: '/system/general' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new,

@@ -154,7 +154,7 @@ var timeperiod = new Map([
 
 var reason = new Map([
     ["manage", { TH: "จัดการ", EN: "Manage" }],
-
+    ["system", { TH: "ระบบ", EN: "System " }],
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
     ["yearperiod", { TH: "ปีการจ่าย", EN: "Year Period" }],

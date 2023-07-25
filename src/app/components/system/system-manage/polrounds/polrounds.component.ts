@@ -32,7 +32,8 @@ export class PolroundsComponent implements OnInit {
     items: MenuItem[] = [];
     edit_comlocation: boolean = false;
     new_comlocation: boolean = false;
-
+    itemslike: MenuItem[] = [];
+  home: any;
     round_list: RoundsModel[] = [];
     round: RoundsModel = new RoundsModel();
     rounds_list: RoundsModel[] = [];
@@ -101,7 +102,7 @@ export class PolroundsComponent implements OnInit {
         TH: 'สินเชื่อ',
     };
 
-    
+
     title_tab_AB: { [key: string]: string } = { EN: 'Absent', TH: 'ค่าขาดงาน' };
     title_tab_WSUM: { [key: string]: string } = {
         EN: 'Wage/Salary',
@@ -155,11 +156,11 @@ export class PolroundsComponent implements OnInit {
         private datePipe: DatePipe,
         private roundsService: RoundsService,
         private polroundsService: PolroundsService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
-
+        this.doLoadMenu();
         // dropdown
         this.doLoadMTRoundscurrencyList();
         this.doLoadMTRoundstimeList();
@@ -168,7 +169,13 @@ export class PolroundsComponent implements OnInit {
             this.doLoadPolrounds();
         }, 500);
     }
+    doLoadMenu() {
+        this.itemslike = [{ label: 'system', routerLink: '/system/sys-manage' }, {
+            label: this.title_tab_Pol[this.initial_current.Language], styleClass: 'activelike'
+        }];
 
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+    }
     public initial_current: InitialCurrent = new InitialCurrent();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
@@ -218,15 +225,15 @@ export class PolroundsComponent implements OnInit {
                     this.selectedOTSUM = element.polround_ot_summary;
                     this.selectedAB = element.polround_absent;
                     this.selecteLT = element.polround_late;
-                    this.selecteloan= element.polround_loan;
+                    this.selecteloan = element.polround_loan;
                     this.selecteLV = element.polround_leave;
                     this.selecteNP = element.polround_netpay;
                     this.selecteTLT = element.polround_timelate;
                     this.selecteTLV = element.polround_timeleave;
                     this.selecteTOT = element.polround_timeot;
                     this.selecteTWK = element.polround_timeworking;
-                    
-                    
+
+
                 });
                 this.polrounds_list = await res;
             });
@@ -241,7 +248,7 @@ export class PolroundsComponent implements OnInit {
                 this.doRecordComlocation();
             },
             reject: () => {
-                this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
 
             },
             key: "myDialog"
@@ -259,7 +266,7 @@ export class PolroundsComponent implements OnInit {
         polround.polround_ot_summary = this.selectedOTSUM;
         polround.polround_absent = this.selectedAB;
         polround.polround_late = this.selecteLT;
-        polround.polround_loan = this.selecteloan ;
+        polround.polround_loan = this.selecteloan;
 
         polround.polround_leave = this.selecteLV;
         polround.polround_netpay = this.selecteNP;
@@ -271,11 +278,11 @@ export class PolroundsComponent implements OnInit {
         this.polroundsService.polround_record(polround).then((res) => {
             // console.log(res);
             let result = JSON.parse(res);
-       
+
             if (result.success) {
-                this.messageService.add({severity: 'success',summary: 'Success',detail: result.message,});
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message, });
             } else {
-                this.messageService.add({severity: 'error',summary: 'Error',detail: result.message,});
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message, });
             }
         });
     }

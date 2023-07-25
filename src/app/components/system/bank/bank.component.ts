@@ -21,7 +21,8 @@ import { BankService } from 'src/app/services/system/policy/bank.service';
 export class BankComponent implements OnInit {
 
 
-
+  home: any;
+  itemslike: MenuItem[] = [];
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
@@ -123,6 +124,9 @@ export class BankComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.itemslike = [{ label: this.title_system , routerLink: '/system/general' }, 
+    {label: this.title_page, styleClass: 'activelike'}];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
 
     this.items = [
       {

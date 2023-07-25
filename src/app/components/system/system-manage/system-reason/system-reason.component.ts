@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 declare var reason: any;
@@ -10,6 +11,8 @@ declare var reason: any;
 })
 export class SystemReasonComponent implements OnInit {
   langs: any = reason;
+  itemslike: MenuItem[] = [];
+  home: any;
   selectlang: string = "EN"
   constructor(
     private router: Router,
@@ -24,6 +27,13 @@ export class SystemReasonComponent implements OnInit {
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
+    this.doLoadMenu();
   }
+  doLoadMenu() {
+    this.itemslike = [{ label: this.langs.get('system')[this.selectlang], routerLink: '/system/sys-manage' }, {
+      label: this.langs.get('reason')[this.selectlang], styleClass: 'activelike'
+    }];
 
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+  }
 }

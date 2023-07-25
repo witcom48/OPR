@@ -1,4 +1,4 @@
-import { Component,Input, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
 import {
@@ -32,6 +32,8 @@ export class SystemCompanyComponent implements OnInit {
     company_list: CompanyModel[] = [];
     selectedcompany: CompanyModel = new CompanyModel();
     items: MenuItem[] = [];
+    home: any;
+    itemslike: MenuItem[] = [];
     edit_company: boolean = false;
     new_company: boolean = false;
     isHovered = false;
@@ -55,7 +57,7 @@ export class SystemCompanyComponent implements OnInit {
         //   this.doLoadEmpstatusList();
 
         setTimeout(() => {
-            
+
             this.doLoadMenu();
             this.doLoadCompany();
         }, 500);
@@ -166,6 +168,9 @@ export class SystemCompanyComponent implements OnInit {
     }
 
     doLoadMenu() {
+        this.itemslike = [{ label: this.title_system, routerLink: '/system/sys-manage' },
+        { label: this.title_page, styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [
             {
                 label: this.title_new,
@@ -247,43 +252,43 @@ export class SystemCompanyComponent implements OnInit {
             message: this.title_confirm_delete,
             header: this.title_confirm,
             icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            this.deleteCompany(data);
-          },
-          reject: () => {
-            this.messageService.add({
-              severity: 'warn',
-              summary: 'Cancelled',
-              detail: this.title_confirm_cancel,
-            });
-          },
+            accept: () => {
+                this.deleteCompany(data);
+            },
+            reject: () => {
+                this.messageService.add({
+                    severity: 'warn',
+                    summary: 'Cancelled',
+                    detail: this.title_confirm_cancel,
+                });
+            },
         });
-      }
-      
-      deleteCompany(data: any) {
+    }
+
+    deleteCompany(data: any) {
         // console.log(data);
-      
+
         this.companyService.company_delete(data).then((res) => {
-          // console.log(res);
-          let result = JSON.parse(res);
-      
-          if (result.success) {
-            this.messageService.add({
-             severity: 'success',
-              summary: 'Success',
-             detail: result.message,
-            });
-            this.doLoadCompany();
-          } else {
-            this.messageService.add({
-             severity: 'error',
-              summary: 'Error',
-              detail: result.message,
-            });
-          }
+            // console.log(res);
+            let result = JSON.parse(res);
+
+            if (result.success) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: result.message,
+                });
+                this.doLoadCompany();
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: result.message,
+                });
+            }
         });
-      }
-      
+    }
+
     // confirmDelete() {
     //     this.confirmationService.confirm({
     //         message: this.title_confirm_delete,
@@ -340,15 +345,15 @@ export class SystemCompanyComponent implements OnInit {
         this.fileToUpload = file.item(0);
     }
 
-// ฟังก์ชันที่ถูกเรียกเมื่อเมาส์อยู่บนปุ่ม
-onButtonHover() {
-    this.isHovered = true;
-  }
-  
-  // ฟังก์ชันที่ถูกเรียกเมื่อเมาส์ออกจากปุ่ม
-  onButtonLeave() {
-    this.isHovered = false;
-  }
+    // ฟังก์ชันที่ถูกเรียกเมื่อเมาส์อยู่บนปุ่ม
+    onButtonHover() {
+        this.isHovered = true;
+    }
+
+    // ฟังก์ชันที่ถูกเรียกเมื่อเมาส์ออกจากปุ่ม
+    onButtonLeave() {
+        this.isHovered = false;
+    }
     doUploadCompany() {
         // console.log('Upload');
         if (this.fileToUpload) {

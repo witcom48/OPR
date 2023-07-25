@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
+import { MenuItem } from 'primeng/api';
 declare var locationpage: any;
 
 @Component({
@@ -10,7 +11,8 @@ declare var locationpage: any;
   styleUrls: ['./system-location.component.scss']
 })
 export class SystemLocationComponent implements OnInit {
-
+  itemslike: MenuItem[] = [];
+  home: any;
   langs: any = locationpage;
   selectlang: string = "EN";
   constructor(
@@ -28,5 +30,14 @@ export class SystemLocationComponent implements OnInit {
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
+    this.doLoadMenu();
   }
+  doLoadMenu() {
+    this.itemslike = [{ label: this.langs.get('system')[this.selectlang], routerLink: '/system/general' }, {
+      label: this.langs.get('location')[this.selectlang], styleClass: 'activelike'
+    }];
+
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+  }
+ 
 }

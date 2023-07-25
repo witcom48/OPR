@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
+import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 declare var yearperiod: any;
@@ -16,7 +16,8 @@ interface Type { name: string, code: string }
   styleUrls: ['./system-yearperiod.component.scss']
 })
 export class SystemYearperiodComponent implements OnInit {
-
+home: any;
+  itemslike: MenuItem[] = [];
   langs: any = yearperiod;
   selectlang: string = "EN";
   constructor(
@@ -33,5 +34,14 @@ export class SystemYearperiodComponent implements OnInit {
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
+    this.doLoadMenu();
   }
+  doLoadMenu() {
+    this.itemslike = [{ label: this.langs.get('System')[this.selectlang], routerLink: '/system/sys-manage' }, {
+      label: this.langs.get('yearperiod')[this.selectlang], styleClass: 'activelike'
+    }];
+
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+  }
+ 
 }
