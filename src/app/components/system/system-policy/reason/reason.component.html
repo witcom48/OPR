@@ -69,10 +69,10 @@
             <div class="formatt p-dialog-content" *ngIf="new_data">
                 <!-- <i (click)="close()"></i> -->
                 <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
-
                 <input pInputText type="text" [(ngModel)]="reasons.reason_code" maxlength="5" [disabled]="edit_data"
                     name="code" #code="ngModel" required />
                 <p>{{reasons.reason_code.length}}/5</p>
+
                 <label>{{langs.get('descriptionth')[selectlang]}} <span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="reasons.reason_name_th" pInputTextarea [autoResize]="true" name="bank_name_en"
                     #late_name_en="ngModel" required></textarea>

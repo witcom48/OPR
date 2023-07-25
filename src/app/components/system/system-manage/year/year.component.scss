@@ -13,3 +13,148 @@
     padding: 6px 12px;
     cursor: pointer;
   }
+
+  
+//   <form #Form="ngForm">
+//   <p-dialog [(visible)]="displayManage" [style]="{ height: '1600px', 'overflow-y': 'hidden' }"
+//       [position]="position">
+//       <div class="formatt p-dialog-content" *ngIf="new_data">
+//           <!-- <i (click)="close()"></i> -->
+//           <div>
+//               <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group" required>
+//               <label>{{langs.get('tax')[selectlang]}} </label>
+
+//               <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group" required>
+//               <label>{{langs.get('leave')[selectlang]}}</label>
+
+//               <!-- // -->
+//               <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group"
+//                   required>
+//               <label>{{langs.get('accounts')[selectlang]}} </label>
+
+//               <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group"
+//                   required>
+//               <label>{{langs.get('budgets')[selectlang]}} </label>
+//               <span style="color: red;"> *</span>
+//               <!-- // -->
+//           </div>
+
+//           <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+//           <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" [disabled]="edit_data"
+//               name="location_code" #location_code="ngModel" required />
+//           <p>{{yearperiods.year_code.length}}/4</p>
+
+
+//           <!-- <label>{{langs.get('code')[selectlang]}}</label>
+//           <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4"
+//               disabled="{{edit_data}}" />
+//           <p>{{yearperiods.year_code.length}}/4</p> -->
+
+
+//           <label>{{langs.get('descriptionth')[selectlang]}} <span style="color: red;"> *</span></label>
+//           <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true" name="year_name_th"
+//               required></textarea>
+
+
+
+
+//           <label>{{langs.get('descriptionen')[selectlang]}} <span style="color: red;"> *</span></label>
+//           <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true" name="year_name_en"
+//               required></textarea>
+
+
+//           <label>{{langs.get('fromdate')[selectlang]}}<span style="color: red;"> *</span></label>
+//           <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy">
+//               <input type="text" name="year_fromdate" required>
+//           </p-calendar>
+// <!-- 
+//           <label>{{langs.get('todate')[selectlang]}}<span style="color: red;"> *</span></label>
+//           <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy">
+//               <input type="text" name="year_todate" required>
+//           </p-calendar> -->
+//           <!-- //// -->
+//           <!-- /// -->
+
+
+//           <div style="text-align: right;">
+
+//               <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+//                   (click)="Save()" [disabled]="!Form.form.valid"> </button>
+//               <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+//                   (click)="Delete()" icon="pi pi-trash" class="p-button-danger"></button>
+//           </div>
+//       </div>
+//   </p-dialog>
+//   <div *ngIf="displayManage" style="z-index: 1084;"
+//       class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+// </form>
+
+
+
+//   <form #Form="ngForm">
+//         <p-dialog [(visible)]="displayManage" [style]="{ height: '1600px', 'overflow-y': 'hidden' }"
+//             [position]="position">
+//             <div class="formatt p-dialog-content" *ngIf="new_data">
+//                 <!-- <i (click)="close()"></i> -->
+                // <div>
+                //     <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group" required>
+                //     <label>{{langs.get('tax')[selectlang]}} </label>
+
+                //     <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group" required>
+                //     <label>{{langs.get('leave')[selectlang]}}</label>
+
+                //     <!-- // -->
+                //     <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group"
+                //         required>
+                //     <label>{{langs.get('accounts')[selectlang]}} </label>
+
+                //     <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group"
+                //         required>
+                //     <label>{{langs.get('budgets')[selectlang]}} </label>
+                //     <span style="color: red;"> *</span>
+                //     <!-- // -->
+                // </div>
+
+
+//                 <label>{{langs.get('code')[selectlang]}}</label>
+//                 <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4"
+//                     disabled="{{edit_data}}" />
+//                 <p>{{yearperiods.year_code.length}}/4</p>
+
+
+//                 <label>{{langs.get('descriptionth')[selectlang]}} <span style="color: red;"> *</span></label>
+//                 <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true" name="year_name_th"
+//                     required></textarea>
+
+
+
+
+//                 <label>{{langs.get('descriptionen')[selectlang]}} <span style="color: red;"> *</span></label>
+//                 <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true" name="year_name_en"
+//                     required></textarea>
+
+//                 <label>{{langs.get('fromdate')[selectlang]}}<span style="color: red;"> *</span></label>
+//                 <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy">
+//                     <input type="text" name="year_fromdate" required>
+//                 </p-calendar>
+// <!-- 
+//                 <label>{{langs.get('todate')[selectlang]}}<span style="color: red;"> *</span></label>
+//                 <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy">
+//                     <input type="text" name="year_todate" required>
+//                 </p-calendar> -->
+//                 <!-- //// -->
+//                 <!-- /// -->
+
+
+//                 <div style="text-align: right;">
+
+//                     <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+//                         (click)="Save()" [disabled]="!Form.form.valid"> </button>
+//                     <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+//                         (click)="Delete()" icon="pi pi-trash" class="p-button-danger"></button>
+//                 </div>
+//             </div>
+//         </p-dialog>
+//         <div *ngIf="displayManage" style="z-index: 1084;"
+//             class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+//     </form>
