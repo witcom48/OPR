@@ -186,12 +186,14 @@
             </div>
 
 
-
+            <br>
             <div style="text-align: right;">
 
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
+                <button pButton type="button" label="{{title_save}}" class="button-size" icon="pi pi-save"
+                    (click)="Save()"></button>
+                &nbsp;
                 <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                    key="myDialog" class="p-button-danger" (click)="Delete()"></button>
+                    key="myDialog" class="p-button p-button-danger btndel " (click)="Delete()"></button>
             </div>
         </div>
     </p-dialog>
@@ -218,7 +220,8 @@
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
-
+<div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 <!-- -----------------End Dialog Choose File-------------------- -->
 
 

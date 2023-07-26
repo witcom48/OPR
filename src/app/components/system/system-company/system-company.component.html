@@ -40,27 +40,27 @@
                     <tr>
                     <tr>
                         <th>{{title_codes}}</th>
-                         <th>{{title_name}}</th>
+                        <th>{{title_name}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
                         <th> </th>
                     </tr>
                 </ng-template>
 
-                 
+
 
 
                 <ng-template pTemplate="body" let-data let-i="rowIndex">
                     <tr [pSelectableRow]="data">
                         <td>{{data.company_code}}</td>
-                         <td>{{initial_current.Language == "TH"? data.company_name_th:data.company_name_en}}</td>
+                        <td>{{initial_current.Language == "TH"? data.company_name_th:data.company_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                        <td> 
+                        <td>
                             <button pButton type="button" class="pi pi-trash gray-button "
-                            (click)="confirmDelete(data)"  >
-                          </button>
-                          
+                                (click)="confirmDelete(data)">
+                            </button>
+
                         </td>
                     </tr>
                 </ng-template>
@@ -99,7 +99,7 @@
         <button pButton pRipple type="button" label="แก้ไข" (click)="selectComManage()"
             class="p-button-secondary"></button>
         <button pButton type="button" label="บันทึก" icon="pi pi-check" (click)="confirmRecord()"></button>
-  
+
 
     </div>
 </div>
@@ -117,6 +117,8 @@
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
+<div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
