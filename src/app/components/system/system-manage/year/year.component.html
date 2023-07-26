@@ -117,9 +117,9 @@
 
             <div style="text-align: right;">
 
-                <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}" icon="pi pi-save"
-                    (click)="Save()"></button>
-                    &nbsp;
+                <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                    icon="pi pi-save" (click)="Save()"></button>
+                &nbsp;
                 <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
                     (click)="Delete()" icon="pi pi-trash" class="p-button-danger btndel"></button>
             </div>
@@ -146,7 +146,8 @@
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
     </ng-template>
 </p-dialog>
-
+<div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 <!-- -----------------End Dialog Choose File-------------------- -->
 
 
