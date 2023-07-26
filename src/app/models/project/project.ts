@@ -10,6 +10,13 @@ export class ProjectModel {
     project_name_sub: string = "";
     project_codecentral: string = "";
     project_protype: string = "";
+
+    project_proarea: string = "";
+    project_progroup: string = "";
+
+
+
+
     project_probusiness: string = "";
     project_roundtime: string = "";
     project_roundmoney: string = "";

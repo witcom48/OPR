@@ -6,7 +6,7 @@
 
 <div class="grid">
     <div class="col-12 md:col-6">
-        <p-chart type="bar" [data]="basicData" [options]="basicOptions" ></p-chart>
+        <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
     </div>
     <div class="col-12 md:col-3">
         <p-chart type="doughnut" [data]="data_project" [options]="chartOptions" [style]="{'width': '40%'}"></p-chart>
@@ -26,77 +26,79 @@
 
     <div class="col-12">
         <p-accordion>
-            <p-accordionTab header="ว่าจ้าง" >
+            <p-accordionTab header="ว่าจ้าง">
 
-            <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
-            >
-                <ng-template pTemplate="caption">
-                    <div class="flex">
-                        <span class="p-input-icon-left ml-auto">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
-                        </span>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>	                        
-                        
-                        <th style="width:9%">คำนำหน้า</th>                       
-                        <th style="width:10%">ชื่อ</th>
-                        <th style="width:10%">นามสกุล</th>
-                        <th>อายุ</th>   
-                        <th>ตำแหน่ง</th>
-                        <th>วันที่เริ่มงาน</th>   
-                        <th>วันที่อนุมัติ</th>
-                        <th>ผู้ทำรายการ</th>
-                        <th>วันที่ทำรายการ</th>                                                
-                    </tr>	
-                    
-                </ng-template>
-            </p-table>
-        </p-accordionTab>
-
-        </p-accordion>
-    </div>     
-    <div class="col-12">
-        <p-accordion>
-            <p-accordionTab header="สมัครงาน" >
-                <p-table #dt2  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
-            
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"           
-                >
+                <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+                    scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                     <ng-template pTemplate="caption">
                         <div class="flex">
                             <span class="p-input-icon-left ml-auto">
                                 <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="Search keyword" />
+                                <input pInputText type="text"
+                                    (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                    placeholder="Search keyword" />
                             </span>
                         </div>
                     </ng-template>
                     <ng-template pTemplate="header">
-                        <tr>	                        
-                            
-                            <th style="width:9%">คำนำหน้า</th>                       
+                        <tr>
+
+                            <th style="width:9%">คำนำหน้า</th>
                             <th style="width:10%">ชื่อ</th>
                             <th style="width:10%">นามสกุล</th>
-                            <th>อายุ</th>                          
+                            <th>อายุ</th>
                             <th>ตำแหน่ง</th>
-                            <th>วันที่สมัคร</th>    
+                            <th>วันที่เริ่มงาน</th>
                             <th>วันที่อนุมัติ</th>
                             <th>ผู้ทำรายการ</th>
-                            <th>วันที่ทำรายการ</th>                                                
-                        </tr>	
-                        
+                            <th>วันที่ทำรายการ</th>
+                        </tr>
+
+                    </ng-template>
+                </p-table>
+            </p-accordionTab>
+
+        </p-accordion>
+    </div>
+    <div class="col-12">
+        <p-accordion>
+            <p-accordionTab header="สมัครงาน">
+                <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+                    scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                    <ng-template pTemplate="caption">
+                        <div class="flex">
+                            <span class="p-input-icon-left ml-auto">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                    (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                    placeholder="Search keyword" />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th style="width:9%">คำนำหน้า</th>
+                            <th style="width:10%">ชื่อ</th>
+                            <th style="width:10%">นามสกุล</th>
+                            <th>อายุ</th>
+                            <th>ตำแหน่ง</th>
+                            <th>วันที่สมัคร</th>
+                            <th>วันที่อนุมัติ</th>
+                            <th>ผู้ทำรายการ</th>
+                            <th>วันที่ทำรายการ</th>
+                        </tr>
+
                     </ng-template>
                 </p-table>
 
             </p-accordionTab>
         </p-accordion>
-    </div> 
+    </div>
 
 
 </div>
-

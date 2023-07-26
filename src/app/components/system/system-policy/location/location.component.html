@@ -70,14 +70,14 @@
                     name="location_code" #location_code="ngModel" required />
                 <p>{{locations.location_code.length}}/5</p>
 
-        
-                <label>{{langs.get('nameth')[selectlang]}}  <span style="color: red;"> *</span></label>
+
+                <label>{{langs.get('nameth')[selectlang]}} <span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="locations.location_name_th" pInputTextarea [autoResize]="true"
                     name="location_name_th" #location_name_th="ngModel" required></textarea>
 
 
 
-                <label>{{langs.get('nameen')[selectlang]}}  <span style="color: red;"> *</span></label>
+                <label>{{langs.get('nameen')[selectlang]}} <span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="locations.location_name_en" pInputTextarea [autoResize]="true"
                     name="location_name_en" #location_name_en="ngModel" required></textarea>
 
@@ -101,11 +101,11 @@
 
 
                 <div style="text-align: right;">
-                    <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
-                        (click)="Save()" [disabled]="!Form.form.valid"></button>
-
+                    <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                        icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                    &nbsp;
                     <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                        (click)="Delete()" icon="pi pi-trash" class="p-button-danger"></button>
+                        (click)="Delete()" icon="pi pi-trash" class="p-button-danger btndel btndel"></button>
                 </div>
             </div>
         </p-dialog>

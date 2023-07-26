@@ -1,7 +1,6 @@
-
 <div class="path">
     <span><a routerLink="/project/list">Project</a></span>
-    <div>      
+    <div>
         <i></i>
         <small>{{title_page[initial_current.Language]}}</small>
     </div>
@@ -9,13 +8,15 @@
 <hr>
 
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
 <p-dialog header="{{title_upload}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
     <p class="custom-file-upload">
         <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
     </p>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}"
+            styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
 
@@ -25,150 +26,183 @@
             <app-search-emp></app-search-emp>
         </div>
         <div class="col-12">
-            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check" (click)="select_emp()"></p-button> 
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check"
+                (click)="select_emp()"></p-button>
             &nbsp;
-            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}" class="p-button-secondary" (click)="close_searchemp()"></button>                      
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
+                class="p-button-secondary" (click)="close_searchemp()"></button>
         </div>
     </div>
 </p-dialog>
 
-<p-dialog header="" [(visible)]="displayManage" styleClass="dialog-overflow" [style]="{width: '35vw'}" [position]="position" [closable]="false">
-    <p-scrollPanel [style]="{width: '30vw', height: '650px'}" >
-    
-    <div class="formgrid grid" *ngIf="edit_procontact==true || new_procontact==true">
-        <h3>{{title_contact[initial_current.Language]}}</h3>
-        <div class="field col-12">
-            <label for="procost_type">{{title_contact_initial[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="initial_list" optionValue="initial_code" [(ngModel)]="selectedProcontact.initial_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
-                </ng-template>
-            </p-dropdown>
-        </div>
-        <div class="field col-12 ">
-            <label for="procontact_firstname_th">{{title_contact_firstname[initial_current.Language]}}</label>
-            <input type="text" id="procontact_firstname_th" [(ngModel)]="selectedProcontact.procontact_firstname_th" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="procontact_lastname_th">{{title_contact_lastname[initial_current.Language]}}</label>
-            <input type="text" id="procontact_lastname_th" [(ngModel)]="selectedProcontact.procontact_lastname_th" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+<p-dialog header="" [(visible)]="displayManage" styleClass="dialog-overflow" [style]="{width: '35vw'}"
+    [position]="position" [closable]="false">
+    <p-scrollPanel [style]="{width: '30vw', height: '650px'}">
+
+        <div class="formgrid grid" *ngIf="edit_procontact==true || new_procontact==true">
+            <h3>{{title_contact[initial_current.Language]}}</h3>
+            <div class="field col-12">
+                <label for="procost_type">{{title_contact_initial[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="initial_list" optionValue="initial_code"
+                    [(ngModel)]="selectedProcontact.initial_code" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="field col-12 ">
+                <label for="procontact_firstname_th">{{title_contact_firstname[initial_current.Language]}}</label>
+                <input type="text" id="procontact_firstname_th" [(ngModel)]="selectedProcontact.procontact_firstname_th"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="procontact_lastname_th">{{title_contact_lastname[initial_current.Language]}}</label>
+                <input type="text" id="procontact_lastname_th" [(ngModel)]="selectedProcontact.procontact_lastname_th"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+
+            <div class="field col-12 ">
+                <label for="procontact_firstname_en">{{title_contact_firstname[initial_current.Language]}} (EN)</label>
+                <input type="text" id="procontact_firstname_en" [(ngModel)]="selectedProcontact.procontact_firstname_en"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="procontact_lastname_en">{{title_contact_lastname[initial_current.Language]}} (EN)</label>
+                <input type="text" id="procontact_lastname_en" [(ngModel)]="selectedProcontact.procontact_lastname_en"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12">
+                <label for="procost_type">{{title_contact_position[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="position_list" optionValue="position_code"
+                    [(ngModel)]="selectedProcontact.position_code" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="field col-12 ">
+                <label for="ppos_code">{{title_contact_tel[initial_current.Language]}}</label>
+                <input type="text" id="ppos_code" [(ngModel)]="selectedProcontact.procontact_tel"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="ppos_code">{{title_contact_email[initial_current.Language]}}</label>
+                <input type="text" id="ppos_code" [(ngModel)]="selectedProcontact.procontact_email"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="procontact_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="procontact_cancel()"></button>
+            </div>
         </div>
 
-        <div class="field col-12 ">
-            <label for="procontact_firstname_en">{{title_contact_firstname[initial_current.Language]}} (EN)</label>
-            <input type="text" id="procontact_firstname_en" [(ngModel)]="selectedProcontact.procontact_firstname_en" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="procontact_lastname_en">{{title_contact_lastname[initial_current.Language]}} (EN)</label>
-            <input type="text" id="procontact_lastname_en" [(ngModel)]="selectedProcontact.procontact_lastname_en" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12">
-            <label for="procost_type">{{title_contact_position[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="position_list" optionValue="position_code" [(ngModel)]="selectedProcontact.position_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
-                </ng-template>
-            </p-dropdown>
-        </div>
-        <div class="field col-12 ">
-            <label for="ppos_code">{{title_contact_tel[initial_current.Language]}}</label>
-            <input type="text" id="ppos_code" [(ngModel)]="selectedProcontact.procontact_tel" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="ppos_code">{{title_contact_email[initial_current.Language]}}</label>
-            <input type="text" id="ppos_code" [(ngModel)]="selectedProcontact.procontact_email" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12">
-            <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save" (click)="procontact_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="procontact_cancel()"></button>
-        </div>
-    </div>
+        <div class="formgrid grid" *ngIf="edit_procontract==true || new_procontract==true">
+            <h3>{{title_contact[initial_current.Language]}}</h3>
+            <div class="field col-12 ">
+                <label for="procontract_customer">{{title_contract_customer[initial_current.Language]}}</label>
+                <input type="text" id="procontract_customer" [(ngModel)]="selectedProcontract.procontract_customer"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_date">{{title_contract_date[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProcontract.procontract_date" dateFormat="dd/mm/yy"
+                    inputId="selectedProcontract.procontract_date"></p-calendar>
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_ref">{{title_contract_ref[initial_current.Language]}}</label>
+                <input type="text" id="procontract_ref" [(ngModel)]="selectedProcontract.procontract_ref"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_amount">{{title_contract_amount[initial_current.Language]}}</label>
+                <br>
+                <p-inputNumber inputId="integeronly"
+                    [(ngModel)]="selectedProcontract.procontract_amount"></p-inputNumber>
+            </div>
 
-    <div class="formgrid grid" *ngIf="edit_procontract==true || new_procontract==true">
-        <h3>{{title_contact[initial_current.Language]}}</h3>
-        <div class="field col-12 ">
-            <label for="procontract_customer">{{title_contract_customer[initial_current.Language]}}</label>
-            <input type="text" id="procontract_customer" [(ngModel)]="selectedProcontract.procontract_customer" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="procontract_date">{{title_contract_date[initial_current.Language]}}</label>
-            <br>
-            <p-calendar [(ngModel)]="selectedProcontract.procontract_date" dateFormat="dd/mm/yy" inputId="selectedProcontract.procontract_date"></p-calendar>
-        </div>
-        <div class="field col-12 ">
-            <label for="procontract_ref">{{title_contract_ref[initial_current.Language]}}</label>
-            <input type="text" id="procontract_ref" [(ngModel)]="selectedProcontract.procontract_ref" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="procontract_amount">{{title_contract_amount[initial_current.Language]}}</label>
-            <br>
-            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProcontract.procontract_amount"></p-inputNumber>
+            <div class="field col-12 ">
+                <label for="procontract_fromdate">{{title_contract_fromdate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProcontract.procontract_fromdate" dateFormat="dd/mm/yy"
+                    inputId="procontract_fromdate"></p-calendar>
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_todate">{{title_contract_todate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProcontract.procontract_todate" dateFormat="dd/mm/yy"
+                    inputId="procontract_todate"></p-calendar>
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_bidder">{{title_contract_bidder[initial_current.Language]}}</label>
+                <input type="text" id="procontract_bidder" [(ngModel)]="selectedProcontract.procontract_bidder"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="procontract_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="procontract_cancel()"></button>
+            </div>
         </div>
 
-        <div class="field col-12 ">
-            <label for="procontract_fromdate">{{title_contract_fromdate[initial_current.Language]}}</label>
-            <br>
-            <p-calendar [(ngModel)]="selectedProcontract.procontract_fromdate"  dateFormat="dd/mm/yy" inputId="procontract_fromdate"></p-calendar>
+        <div class="formgrid grid" *ngIf="edit_proresponsible==true || new_proresponsible==true">
+            <h3>{{title_responsible[initial_current.Language]}}</h3>
+            <div class="field col-12 ">
+                <label for="procontract_customer">{{title_responsible_code[initial_current.Language]}}</label>
+                <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_ref"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_customer">{{title_responsible_name[initial_current.Language]}}</label>
+                <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_emp"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_customer">{{title_responsible_position[initial_current.Language]}}</label>
+                <input type="text" id="procontract_customer"
+                    [(ngModel)]="selectedProresponsible.proresponsible_position"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_customer">{{title_responsibl_area[initial_current.Language]}}</label>
+                <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_area"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_fromdate">{{title_responsible_fromdate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProresponsible.proresponsible_fromdate" dateFormat="dd/mm/yy"
+                    inputId="proresponsible_fromdate"></p-calendar>
+            </div>
+            <div class="field col-12 ">
+                <label for="procontract_todate">{{title_responsible_todate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProresponsible.proresponsible_todate" dateFormat="dd/mm/yy"
+                    inputId="proresponsible_todate"></p-calendar>
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="proresponsible_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="proresponsible_cancel()"></button>
+            </div>
         </div>
-        <div class="field col-12 ">
-            <label for="procontract_todate">{{title_contract_todate[initial_current.Language]}}</label>
-            <br>
-            <p-calendar [(ngModel)]="selectedProcontract.procontract_todate" dateFormat="dd/mm/yy" inputId="procontract_todate"></p-calendar>
-        </div>
-        <div class="field col-12 ">
-            <label for="procontract_bidder">{{title_contract_bidder[initial_current.Language]}}</label>
-            <input type="text" id="procontract_bidder" [(ngModel)]="selectedProcontract.procontract_bidder" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="procontract_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="procontract_cancel()"></button>
-        </div>
-    </div>
 
-    <div class="formgrid grid" *ngIf="edit_proresponsible==true || new_proresponsible==true">
-        <h3>{{title_responsible[initial_current.Language]}}</h3>
-        <div class="field col-12 ">
-            <label for="procontract_customer">{{title_responsible_code[initial_current.Language]}}</label>
-            <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_ref" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="procontract_customer">{{title_responsible_name[initial_current.Language]}}</label>
-            <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_emp" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="procontract_customer">{{title_responsible_position[initial_current.Language]}}</label>
-            <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_position" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="procontract_customer">{{title_responsibl_area[initial_current.Language]}}</label>
-            <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_area" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="procontract_fromdate">{{title_responsible_fromdate[initial_current.Language]}}</label>
-            <br>
-            <p-calendar [(ngModel)]="selectedProresponsible.proresponsible_fromdate" dateFormat="dd/mm/yy" inputId="proresponsible_fromdate"></p-calendar>
-        </div>
-        <div class="field col-12 ">
-            <label for="procontract_todate">{{title_responsible_todate[initial_current.Language]}}</label>
-            <br>
-            <p-calendar [(ngModel)]="selectedProresponsible.proresponsible_todate" dateFormat="dd/mm/yy" inputId="proresponsible_todate"></p-calendar>
-        </div>
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="proresponsible_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="proresponsible_cancel()"></button>
-        </div>
-    </div>
-
-    <!-- <div class="formgrid grid" *ngIf="edit_projobcontract==true || new_projobcontract==true">
+        <!-- <div class="formgrid grid" *ngIf="edit_projobcontract==true || new_projobcontract==true">
 
         <div class="field col-12 ">
             <label for="projobcontract_date">{{title_contract_date[initial_current.Language]}}</label>
@@ -208,411 +242,495 @@
         </div>
     </div> -->
 
-    <div class="formgrid grid" *ngIf="edit_projobcost==true || new_projobcost==true">
-        <h3>{{title_cost[initial_current.Language]}}</h3>
-        <div class="field col-12">
-            <label for="selectedProjobcost_cost">{{title_cost[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="polcost_list" optionValue="procost_code" [(ngModel)]="selectedProjobcost.projobcost_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
-                </ng-template>
-            </p-dropdown>
-        </div>
-        <div class="field col-12 ">
-            <label for="projobcost_amount">{{title_cost_amount[initial_current.Language]}}</label>
-            <br>
-            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProjobcost.projobcost_amount"></p-inputNumber>
-        </div>       
-        <div class="field col-12 ">
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobcost.projobcost_auto" inputId="projobcost_auto"></p-checkbox>
-                <label for="projobcost_auto">{{title_cost_auto[initial_current.Language]}}</label>
+        <div class="formgrid grid" *ngIf="edit_projobcost==true || new_projobcost==true">
+            <h3>{{title_cost[initial_current.Language]}}</h3>
+            <div class="field col-12">
+                <label for="selectedProjobcost_cost">{{title_cost[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="polcost_list" optionValue="procost_code"
+                    [(ngModel)]="selectedProjobcost.projobcost_code" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
+                    </ng-template>
+                </p-dropdown>
             </div>
-        </div>
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobcost_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobcost_cancel()"></button>
-        </div>
-    </div>
-
-    <div class="formgrid grid" *ngIf="edit_projobmachine==true || new_projobmachine==true">
-        <h3>{{title_machine[initial_current.Language]}}</h3>
-        <div class="field col-12 ">
-            <label for="projobmachine_ip">{{title_machine_ip[initial_current.Language]}}</label>
-            <input type="text" id="projobmachine_ip" [(ngModel)]="selectedProjobmachine.projobmachine_ip" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="projobmachine_port">{{title_machine_port[initial_current.Language]}}</label>
-            <input type="text" id="projobmachine_port" [(ngModel)]="selectedProjobmachine.projobmachine_port" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmachine.projobmachine_enable" inputId="projobmachine_enable"></p-checkbox>
-                <label for="projobmachine_enable">{{title_machine_enable[initial_current.Language]}}</label>
+            <div class="field col-12 ">
+                <label for="projobcost_amount">{{title_cost_amount[initial_current.Language]}}</label>
+                <br>
+                <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProjobcost.projobcost_amount"></p-inputNumber>
             </div>
-        </div>
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobmachine_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobmachine_cancel()"></button>
-        </div>
-    </div>
-
-    <div class="formgrid grid" *ngIf="edit_projobsubcontract==true || new_projobsubcontract==true">
-        <h3>{{title_contact[initial_current.Language]}}</h3>
-        <div class="field col-12 ">
-            <label for="projobcontract_ref">{{title_contract_ref[initial_current.Language]}}</label>
-            <input type="text" id="projobcontract_ref" [(ngModel)]="selectedProjobsubcontract.projobcontract_ref" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12">
-            <label for="minmax-buttons">{{title_shift_working[initial_current.Language]}}</label><br>
-            <p-inputNumber [(ngModel)]="selectedProjobsubcontract.projobcontract_working" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="31">
-            </p-inputNumber>
-        </div>
-        <div class="field col-12">
-            <label for="minmax-buttons">{{title_shift_hrs[initial_current.Language]}}</label><br>
-            <p-inputNumber [(ngModel)]="selectedProjobsubcontract.projobcontract_hrsperday" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
-            </p-inputNumber>
-        </div>
-        <div class="field col-12">
-            <label for="minmax-buttons">{{title_shift_ot[initial_current.Language]}}</label><br>
-            <p-inputNumber [(ngModel)]="selectedProjobsubcontract.projobcontract_hrsot" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
-            </p-inputNumber>
-        </div>        
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobsubcontract_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobsubcontract_cancel()"></button>
-        </div>
-    </div>
-
-    <div class="formgrid grid" *ngIf="edit_projobsubcost==true || new_projobsubcost==true">
-        <h3>{{title_cost[initial_current.Language]}}</h3>
-        <div class="field col-12">
-            <label for="selectedProjobcost_cost">{{title_cost[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="polcost_list" optionValue="procost_code" [(ngModel)]="selectedProjobsubcost.projobcost_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
-                </ng-template>
-            </p-dropdown>
-        </div>
-        <div class="field col-12 ">
-            <label for="projobcost_amount">{{title_cost_amount[initial_current.Language]}}</label>
-            <br>
-            <p-inputNumber inputId="integeronly" [(ngModel)]="selectedProjobsubcost.projobcost_amount"></p-inputNumber>
-        </div>        
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobsubcost_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobsubcost_cancel()"></button>
-        </div>
-    </div>
-
-    <div class="formgrid grid" *ngIf="edit_projobemp==true || new_projobemp==true">
-        <h3>{{title_staff[initial_current.Language]}}</h3>
-
-        <div class="field col-12">
-            <label for="projobemp_emp">{{title_staff_empname[initial_current.Language]}}</label><br>
-            <table style="width: 100%;">
-                <tr>
-                    <td>
-                        <input type="text" id="projobemp_emp" [(ngModel)]="selectedProjobemp_name" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-                    </td>
-                    <td><i class="pi pi-search" (click)="open_searchemp()"></i></td>
-                </tr>
-            </table>                
-        </div>
-
-        <div class="field col-12">
-            <label for="selectedProjobcost_cost">{{title_staff_jobname[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="projobmain_list" optionValue="projobmain_code" [(ngModel)]="selectedProjobemp.projob_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
-                </ng-template>
-            </p-dropdown>
-        </div>
-
-        <div class="field col-12 ">
-            <div>
-                <input type="radio" name="regular" value="R" [(ngModel)]="selectedProjobemp.projobemp_type">
-                <label>{{title_regular[initial_current.Language]}}</label>
+            <div class="field col-12 ">
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobcost.projobcost_auto"
+                        inputId="projobcost_auto"></p-checkbox>
+                    <label for="projobcost_auto">{{title_cost_auto[initial_current.Language]}}</label>
+                </div>
             </div>
-            <div>
-                <input type="radio" name="regular" value="T" [(ngModel)]="selectedProjobemp.projobemp_type">
-                <label>{{title_temporary[initial_current.Language]}}</label>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="projobcost_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobcost_cancel()"></button>
             </div>
         </div>
 
-        <div class="field col-12 ">
-            <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
-            <br>
-            <p-calendar [(ngModel)]="selectedProjobemp.projobemp_fromdate" dateFormat="dd/mm/yy" inputId="projobemp_fromdate"></p-calendar>
-        </div>
-        <div class="field col-12 ">
-            <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
-            <br>
-            <p-calendar [(ngModel)]="selectedProjobemp.projobemp_todate" dateFormat="dd/mm/yy" inputId="projobemp_todate"></p-calendar>
-        </div>
-
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobemp_record()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobemp_cancel()"></button>
-        </div>
-    </div>
-
-    <div class="formgrid grid" *ngIf="edit_projobshift==true || new_projobshift==true">
-        <h3>{{title_shift[initial_current.Language]}}</h3>
-        <div class="field col-12">
-            <label for="selectedProjobshift_shift">{{title_shift[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="polshift_list" optionValue="shift_code" [(ngModel)]="selectedProjobshift.shift_code" [showClear]="false" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.shift_name_th : item.shift_name_en}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.shift_name_th : item.shift_name_en}}
-                </ng-template>
-            </p-dropdown>
-        </div>
-        <div class="field col-12">
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_sun" inputId="projobmain_sun"></p-checkbox>
-                <label for="projobshift_sun">{{days[0]}}</label>
+        <div class="formgrid grid" *ngIf="edit_projobmachine==true || new_projobmachine==true">
+            <h3>{{title_machine[initial_current.Language]}}</h3>
+            <div class="field col-12 ">
+                <label for="projobmachine_ip">{{title_machine_ip[initial_current.Language]}}</label>
+                <input type="text" id="projobmachine_ip" [(ngModel)]="selectedProjobmachine.projobmachine_ip"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_mon" inputId="projobmain_mon"></p-checkbox>
-                <label for="projobshift_mon">{{days[1]}}</label>
+            <div class="field col-12 ">
+                <label for="projobmachine_port">{{title_machine_port[initial_current.Language]}}</label>
+                <input type="text" id="projobmachine_port" [(ngModel)]="selectedProjobmachine.projobmachine_port"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_tue" inputId="projobmain_tue"></p-checkbox>
-                <label for="projobshift_tue">{{days[2]}}</label>
+            <div class="field col-12 ">
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobmachine.projobmachine_enable"
+                        inputId="projobmachine_enable"></p-checkbox>
+                    <label for="projobmachine_enable">{{title_machine_enable[initial_current.Language]}}</label>
+                </div>
             </div>
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_wed" inputId="projobmain_wed"></p-checkbox>
-                <label for="projobshift_wed">{{days[3]}}</label>
-            </div>
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_thu" inputId="projobmain_thu"></p-checkbox>
-                <label for="projobshift_thu">{{days[4]}}</label>
-            </div>
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_fri" inputId="projobmain_fri"></p-checkbox>
-                <label for="projobshift_fri">{{days[5]}}</label>
-            </div>
-            <div class="field-checkbox">
-                <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_sat" inputId="projobmain_sat"></p-checkbox>
-                <label for="projobshift_sat">{{days[6]}}</label>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="projobmachine_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobmachine_cancel()"></button>
             </div>
         </div>
-        <div class="field col-12">
-            <label for="minmax-buttons">{{title_shift_emp[initial_current.Language]}}</label><br>
-            <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_emp" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="100">
-            </p-inputNumber>
-        </div>
-        <div class="field col-12">
-            <label for="minmax-buttons">{{title_shift_working[initial_current.Language]}}</label><br>
-            <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_working" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="31">
-            </p-inputNumber>
-        </div>
-        <div class="field col-12">
-            <label for="minmax-buttons">{{title_shift_hrs[initial_current.Language]}}</label><br>
-            <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_hrsperday" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
-            </p-inputNumber>
-        </div>
-        <div class="field col-12">
-            <label for="minmax-buttons">{{title_shift_ot[initial_current.Language]}}</label><br>
-            <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_hrsot" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
-            </p-inputNumber>
+
+        <div class="formgrid grid" *ngIf="edit_projobsubcontract==true || new_projobsubcontract==true">
+            <h3>{{title_contact[initial_current.Language]}}</h3>
+            <div class="field col-12 ">
+                <label for="projobcontract_ref">{{title_contract_ref[initial_current.Language]}}</label>
+                <input type="text" id="projobcontract_ref" [(ngModel)]="selectedProjobsubcontract.projobcontract_ref"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12">
+                <label for="minmax-buttons">{{title_shift_working[initial_current.Language]}}</label><br>
+                <p-inputNumber [(ngModel)]="selectedProjobsubcontract.projobcontract_working" mode="decimal"
+                    [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="31">
+                </p-inputNumber>
+            </div>
+            <div class="field col-12">
+                <label for="minmax-buttons">{{title_shift_hrs[initial_current.Language]}}</label><br>
+                <p-inputNumber [(ngModel)]="selectedProjobsubcontract.projobcontract_hrsperday" mode="decimal"
+                    [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
+                </p-inputNumber>
+            </div>
+            <div class="field col-12">
+                <label for="minmax-buttons">{{title_shift_ot[initial_current.Language]}}</label><br>
+                <p-inputNumber [(ngModel)]="selectedProjobsubcontract.projobcontract_hrsot" mode="decimal"
+                    [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
+                </p-inputNumber>
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="projobsubcontract_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobsubcontract_cancel()"></button>
+            </div>
         </div>
 
-        <div class="field col-12">
-            <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobshift_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobshift_cancel()"></button>
+        <div class="formgrid grid" *ngIf="edit_projobsubcost==true || new_projobsubcost==true">
+            <h3>{{title_cost[initial_current.Language]}}</h3>
+            <div class="field col-12">
+                <label for="selectedProjobcost_cost">{{title_cost[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="polcost_list" optionValue="procost_code"
+                    [(ngModel)]="selectedProjobsubcost.projobcost_code" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="field col-12 ">
+                <label for="projobcost_amount">{{title_cost_amount[initial_current.Language]}}</label>
+                <br>
+                <p-inputNumber inputId="integeronly"
+                    [(ngModel)]="selectedProjobsubcost.projobcost_amount"></p-inputNumber>
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="projobsubcost_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobsubcost_cancel()"></button>
+            </div>
         </div>
-    </div>
 
-    <div class="formgrid grid" *ngIf="edit_projobversion==true || new_projobversion==true">
-        <div class="field col-12 ">
-            <label for="version">Version</label>
-            <input type="text" id="version" [(ngModel)]="selectedProjobversion.version" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+        <div class="formgrid grid" *ngIf="edit_projobemp==true || new_projobemp==true">
+            <h3>{{title_staff[initial_current.Language]}}</h3>
+
+            <div class="field col-12">
+                <label for="projobemp_emp">{{title_staff_empname[initial_current.Language]}}</label><br>
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            <input type="text" id="projobemp_emp" [(ngModel)]="selectedProjobemp_name"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                        </td>
+                        <td><i class="pi pi-search" (click)="open_searchemp()"></i></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="field col-12">
+                <label for="selectedProjobcost_cost">{{title_staff_jobname[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="projobmain_list" optionValue="projobmain_code"
+                    [(ngModel)]="selectedProjobemp.projob_code" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12 ">
+                <div>
+                    <input type="radio" name="regular" value="R" [(ngModel)]="selectedProjobemp.projobemp_type">
+                    <label>{{title_regular[initial_current.Language]}}</label>
+                </div>
+                <div>
+                    <input type="radio" name="regular" value="T" [(ngModel)]="selectedProjobemp.projobemp_type">
+                    <label>{{title_temporary[initial_current.Language]}}</label>
+                </div>
+            </div>
+
+            <div class="field col-12 ">
+                <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_fromdate" dateFormat="dd/mm/yy"
+                    inputId="projobemp_fromdate"></p-calendar>
+            </div>
+            <div class="field col-12 ">
+                <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_todate" dateFormat="dd/mm/yy"
+                    inputId="projobemp_todate"></p-calendar>
+            </div>
+
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="projobemp_record()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobemp_cancel()"></button>
+            </div>
         </div>
 
-        <div class="field col-12 ">
-            <label for="fromdate">{{title_contract_fromdate[initial_current.Language]}}</label>
-            <br>
-            <p-calendar [(ngModel)]="selectedProjobversion.fromdate" dateFormat="dd/mm/yy" inputId="fromdate" [showIcon]="true" appendTo="body"></p-calendar>
-        </div>
-        <div class="field col-12 ">
-            <label for="todate">{{title_contract_todate[initial_current.Language]}}</label>
-            <br>
-            <p-calendar [(ngModel)]="selectedProjobversion.todate" dateFormat="dd/mm/yy" inputId="todate" [showIcon]="true" appendTo="body"></p-calendar>
-        </div>
-       
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="recordJobversion()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobmachine_cancel()"></button>
-        </div>
-    </div>
+        <div class="formgrid grid" *ngIf="edit_projobshift==true || new_projobshift==true">
+            <h3>{{title_shift[initial_current.Language]}}</h3>
+            <div class="field col-12">
+                <label for="selectedProjobshift_shift">{{title_shift[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="polshift_list" optionValue="shift_code"
+                    [(ngModel)]="selectedProjobshift.shift_code" [showClear]="false"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.shift_name_th : item.shift_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.shift_name_th : item.shift_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="field col-12">
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_sun"
+                        inputId="projobmain_sun"></p-checkbox>
+                    <label for="projobshift_sun">{{days[0]}}</label>
+                </div>
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_mon"
+                        inputId="projobmain_mon"></p-checkbox>
+                    <label for="projobshift_mon">{{days[1]}}</label>
+                </div>
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_tue"
+                        inputId="projobmain_tue"></p-checkbox>
+                    <label for="projobshift_tue">{{days[2]}}</label>
+                </div>
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_wed"
+                        inputId="projobmain_wed"></p-checkbox>
+                    <label for="projobshift_wed">{{days[3]}}</label>
+                </div>
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_thu"
+                        inputId="projobmain_thu"></p-checkbox>
+                    <label for="projobshift_thu">{{days[4]}}</label>
+                </div>
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_fri"
+                        inputId="projobmain_fri"></p-checkbox>
+                    <label for="projobshift_fri">{{days[5]}}</label>
+                </div>
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_sat"
+                        inputId="projobmain_sat"></p-checkbox>
+                    <label for="projobshift_sat">{{days[6]}}</label>
+                </div>
+            </div>
+            <div class="field col-12">
+                <label for="minmax-buttons">{{title_shift_emp[initial_current.Language]}}</label><br>
+                <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_emp" mode="decimal" [showButtons]="true"
+                    inputId="minmax-buttons" [min]="0" [max]="100">
+                </p-inputNumber>
+            </div>
+            <div class="field col-12">
+                <label for="minmax-buttons">{{title_shift_working[initial_current.Language]}}</label><br>
+                <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_working" mode="decimal" [showButtons]="true"
+                    inputId="minmax-buttons" [min]="0" [max]="31">
+                </p-inputNumber>
+            </div>
+            <div class="field col-12">
+                <label for="minmax-buttons">{{title_shift_hrs[initial_current.Language]}}</label><br>
+                <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_hrsperday" mode="decimal"
+                    [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
+                </p-inputNumber>
+            </div>
+            <div class="field col-12">
+                <label for="minmax-buttons">{{title_shift_ot[initial_current.Language]}}</label><br>
+                <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_hrsot" mode="decimal" [showButtons]="true"
+                    inputId="minmax-buttons" [min]="0" [max]="12">
+                </p-inputNumber>
+            </div>
 
-    <div class="formgrid grid" *ngIf="edit_projobpol==true || new_projobpol==true">        
-        <label for="version">{{title_policy[initial_current.Language]}}</label>
-        <div class="field col-12">
-            <label for="projobpol_type">{{title_jobmain_type[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="projobtype_list" optionValue="value" [(ngModel)]="selectedProjobpol.projobpol_type" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.text_th : item.text_en}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.text_th : item.text_en}}
-                </ng-template>
-            </p-dropdown>
+            <div class="field col-12">
+                <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="projobshift_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobshift_cancel()"></button>
+            </div>
         </div>
-        
-        <div class="field col-12">
-            <label for="projobpol_timepol">{{title_jobmain_poltime[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="poltimepol_list" optionValue="protimepol_code" [(ngModel)]="selectedProjobpol.projobpol_timepol" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.text_th : item.protimepol_name_th}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.text_th : item.protimepol_name_en}}
-                </ng-template>
-            </p-dropdown>
-        </div>
-        <div class="field col-12">
-            <label for="projobpol_slip">{{title_jobmain_polslip[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="polslip_list" optionValue="proslip_code" [(ngModel)]="selectedProjobpol.projobpol_slip" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.proslip_name_th : item.proslip_name_en}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.proslip_name_th : item.proslip_name_en}}
-                </ng-template>
-            </p-dropdown>
-        </div>
-        <div class="field col-12">
-            <label for="projobpol_uniform">{{title_jobmain_poluniform[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="poluniform_list" optionValue="prouniform_code" [(ngModel)]="selectedProjobpol.projobpol_uniform" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
-                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
-                </ng-template>
-                <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
-                </ng-template>
-            </p-dropdown>
-        </div>
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobpol_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobmain_cancel()"></button>
-        </div>
-    </div>
 
-    <div class="formgrid grid" *ngIf="edit_protimepol==true || new_protimepol==true">
-        <h3>{{title_timepol[initial_current.Language]}}</h3>
-        <div class="field col-12 ">
-            <label for="protimepol_code">{{title_timepol_code[initial_current.Language]}}</label>
-            <input type="text" id="protimepol_code" [(ngModel)]="selectedProtimepol.protimepol_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="protimepol_name_th">{{title_timepol_name[initial_current.Language]}} (TH)</label>
-            <textarea [rows]="2" id="protimepol_name_th" [(ngModel)]="selectedProtimepol.protimepol_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-        </div>
-        <div class="field col-12 ">
-            <label for="protimepol_name_en">{{title_timepol_name[initial_current.Language]}} (EN)</label>
-            <textarea [rows]="2" id="protimepol_name_en" [(ngModel)]="selectedProtimepol.protimepol_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-        </div>
-        <div class="field col-12">
-            <label for="selectedProtimepol_ot">{{title_timepol_ot[initial_current.Language]}}</label><br>                       
-            <p-dropdown [options]="polot_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_ot" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>                   
-        </div>
-        <div class="field col-12">
-            <label for="selectedProtimepol_allw">{{title_timepol_allw[initial_current.Language]}}</label><br>                        
-            <p-dropdown [options]="polallw_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_allw" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>         
-        </div>
-        <div class="field col-12">
-            <label for="selectedProtimepol_dg">{{title_timepol_dg[initial_current.Language]}}</label><br>                        
-            <p-dropdown [options]="poldg_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_dg" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> 
-        </div>
-        <div class="field col-12">
-            <label for="selectedProtimepol_lv">{{title_timepol_lv[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="pollv_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_lv" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> 
-        </div>
-        <div class="field col-12">
-            <label for="selectedProtimepol_lt">{{title_timepol_lt[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="pollt_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedProtimepol.protimepol_lt" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> 
-        </div>
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="protimepol_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="protimepol_cancel()"></button>
-        </div>
-    </div>
+        <div class="formgrid grid" *ngIf="edit_projobversion==true || new_projobversion==true">
+            <div class="field col-12 ">
+                <label for="version">Version</label>
+                <input type="text" id="version" [(ngModel)]="selectedProjobversion.version"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
 
-    <div class="formgrid grid" *ngIf="edit_projobmain==true || new_projobmain==true">
-        <h3>{{title_jobmain[initial_current.Language]}}</h3>
-        <div class="field col-12 ">
-            <label for="projobmain_code">{{title_jobmain_code[initial_current.Language]}}</label>
-            <input type="text" id="projobmain_code" [(ngModel)]="selectedProjobmain.projobmain_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
-        </div>
-        <div class="field col-12 ">
-            <label for="projobmain_name_th">{{title_jobmain_name[initial_current.Language]}} (TH)</label>
-            <textarea [rows]="2" id="projobmain_name_th" [(ngModel)]="selectedProjobmain.projobmain_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-        </div>
-        <div class="field col-12 ">
-            <label for="projobmain_name_en">{{title_jobmain_name[initial_current.Language]}} (EN)</label>
-            <textarea [rows]="2" id="projobmain_name_en" [(ngModel)]="selectedProjobmain.projobmain_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-        </div>                    
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobmain_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobmain_cancel()"></button>
-        </div>
-    </div>
+            <div class="field col-12 ">
+                <label for="fromdate">{{title_contract_fromdate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProjobversion.fromdate" dateFormat="dd/mm/yy" inputId="fromdate"
+                    [showIcon]="true" appendTo="body"></p-calendar>
+            </div>
+            <div class="field col-12 ">
+                <label for="todate">{{title_contract_todate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProjobversion.todate" dateFormat="dd/mm/yy" inputId="todate"
+                    [showIcon]="true" appendTo="body"></p-calendar>
+            </div>
 
-    <div class="formgrid grid" *ngIf="edit_projobsub==true || new_projobsub==true">
-        <h3>{{title_tab_jobclear[initial_current.Language]}}</h3>
-        <div class="field col-12 ">
-            <label for="projobsub_code">{{title_jobmain_code[initial_current.Language]}}</label>
-            <input type="text" id="projobsub_code" [(ngModel)]="selectedProjobsub.projobsub_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="recordJobversion()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobmachine_cancel()"></button>
+            </div>
         </div>
-        <div class="field col-12 ">
-            <label for="projobsub_name_th">{{title_jobmain_name[initial_current.Language]}} (TH)</label>
-            <textarea [rows]="2" id="projobsub_name_th" [(ngModel)]="selectedProjobsub.projobsub_name_th" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-        </div>
-        <div class="field col-12 ">
-            <label for="projobsub_name_en">{{title_jobmain_name[initial_current.Language]}} (EN)</label>
-            <textarea [rows]="2" id="projobsub_name_en" [(ngModel)]="selectedProjobsub.projobsub_name_en" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-        </div>
-        <div class="field col-12">
-            <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="projobsub_summit()"></p-button>
-            &nbsp;
-            <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-outlined p-button-secondary" (click)="projobsub_cancel()"></button>
-        </div>
-    </div>
 
-</p-scrollPanel>
+        <div class="formgrid grid" *ngIf="edit_projobpol==true || new_projobpol==true">
+            <label for="version">{{title_policy[initial_current.Language]}}</label>
+            <div class="field col-12">
+                <label for="projobpol_type">{{title_jobmain_type[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="projobtype_list" optionValue="value"
+                    [(ngModel)]="selectedProjobpol.projobpol_type" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.text_th : item.text_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.text_th : item.text_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12">
+                <label for="projobpol_timepol">{{title_jobmain_poltime[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="poltimepol_list" optionValue="protimepol_code"
+                    [(ngModel)]="selectedProjobpol.projobpol_timepol" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.text_th : item.protimepol_name_th}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.text_th : item.protimepol_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="field col-12">
+                <label for="projobpol_slip">{{title_jobmain_polslip[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="polslip_list" optionValue="proslip_code"
+                    [(ngModel)]="selectedProjobpol.projobpol_slip" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.proslip_name_th : item.proslip_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.proslip_name_th : item.proslip_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="field col-12">
+                <label for="projobpol_uniform">{{title_jobmain_poluniform[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="poluniform_list" optionValue="prouniform_code"
+                    [(ngModel)]="selectedProjobpol.projobpol_uniform" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="projobpol_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobmain_cancel()"></button>
+            </div>
+        </div>
+
+        <div class="formgrid grid" *ngIf="edit_protimepol==true || new_protimepol==true">
+            <h3>{{title_timepol[initial_current.Language]}}</h3>
+            <div class="field col-12 ">
+                <label for="protimepol_code">{{title_timepol_code[initial_current.Language]}}</label>
+                <input type="text" id="protimepol_code" [(ngModel)]="selectedProtimepol.protimepol_code"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="protimepol_name_th">{{title_timepol_name[initial_current.Language]}} (TH)</label>
+                <textarea [rows]="2" id="protimepol_name_th" [(ngModel)]="selectedProtimepol.protimepol_name_th"
+                    [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12 ">
+                <label for="protimepol_name_en">{{title_timepol_name[initial_current.Language]}} (EN)</label>
+                <textarea [rows]="2" id="protimepol_name_en" [(ngModel)]="selectedProtimepol.protimepol_name_en"
+                    [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12">
+                <label for="selectedProtimepol_ot">{{title_timepol_ot[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="polot_list" optionValue="code" optionLabel="name"
+                    [(ngModel)]="this.selectedProtimepol.protimepol_ot" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            </div>
+            <div class="field col-12">
+                <label for="selectedProtimepol_allw">{{title_timepol_allw[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="polallw_list" optionValue="code" optionLabel="name"
+                    [(ngModel)]="this.selectedProtimepol.protimepol_allw" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            </div>
+            <div class="field col-12">
+                <label for="selectedProtimepol_dg">{{title_timepol_dg[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="poldg_list" optionValue="code" optionLabel="name"
+                    [(ngModel)]="this.selectedProtimepol.protimepol_dg" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            </div>
+            <div class="field col-12">
+                <label for="selectedProtimepol_lv">{{title_timepol_lv[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="pollv_list" optionValue="code" optionLabel="name"
+                    [(ngModel)]="this.selectedProtimepol.protimepol_lv" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            </div>
+            <div class="field col-12">
+                <label for="selectedProtimepol_lt">{{title_timepol_lt[initial_current.Language]}}</label><br>
+                <p-dropdown [options]="pollt_list" optionValue="code" optionLabel="name"
+                    [(ngModel)]="this.selectedProtimepol.protimepol_lt" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="protimepol_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="protimepol_cancel()"></button>
+            </div>
+        </div>
+
+        <div class="formgrid grid" *ngIf="edit_projobmain==true || new_projobmain==true">
+            <h3>{{title_jobmain[initial_current.Language]}}</h3>
+            <div class="field col-12 ">
+                <label for="projobmain_code">{{title_jobmain_code[initial_current.Language]}}</label>
+                <input type="text" id="projobmain_code" [(ngModel)]="selectedProjobmain.projobmain_code"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="projobmain_name_th">{{title_jobmain_name[initial_current.Language]}} (TH)</label>
+                <textarea [rows]="2" id="projobmain_name_th" [(ngModel)]="selectedProjobmain.projobmain_name_th"
+                    [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12 ">
+                <label for="projobmain_name_en">{{title_jobmain_name[initial_current.Language]}} (EN)</label>
+                <textarea [rows]="2" id="projobmain_name_en" [(ngModel)]="selectedProjobmain.projobmain_name_en"
+                    [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="projobmain_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobmain_cancel()"></button>
+            </div>
+        </div>
+
+        <div class="formgrid grid" *ngIf="edit_projobsub==true || new_projobsub==true">
+            <h3>{{title_tab_jobclear[initial_current.Language]}}</h3>
+            <div class="field col-12 ">
+                <label for="projobsub_code">{{title_jobmain_code[initial_current.Language]}}</label>
+                <input type="text" id="projobsub_code" [(ngModel)]="selectedProjobsub.projobsub_code"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            <div class="field col-12 ">
+                <label for="projobsub_name_th">{{title_jobmain_name[initial_current.Language]}} (TH)</label>
+                <textarea [rows]="2" id="projobsub_name_th" [(ngModel)]="selectedProjobsub.projobsub_name_th"
+                    [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12 ">
+                <label for="projobsub_name_en">{{title_jobmain_name[initial_current.Language]}} (EN)</label>
+                <textarea [rows]="2" id="projobsub_name_en" [(ngModel)]="selectedProjobsub.projobsub_name_en"
+                    [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+            </div>
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="projobsub_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="projobsub_cancel()"></button>
+            </div>
+        </div>
+
+    </p-scrollPanel>
 
 </p-dialog>
 
 
-<p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save" styleClass="p-button-raised p-button-secondary" (click)="confirmRecord()"></p-button>
+<p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
+    styleClass="p-button-raised p-button-secondary" (click)="confirmRecord()"></p-button>
 <p></p>
 <p-tabView (onChange)="tabChange($event)">
-    <p-tabPanel  [selected]="true">
-        <ng-template pTemplate = "header">
+    <p-tabPanel [selected]="true">
+        <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
             <span>{{title_tab_genaral[initial_current.Language]}}</span>
         </ng-template>
@@ -620,28 +738,35 @@
         <div class="formgrid grid">
             <div class="field col-12 md:col-6">
                 <label for="project_code">{{title_project_code[initial_current.Language]}}</label>
-                <input id="project_code" type="text" [(ngModel)]="selectedProject.project_code" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <input id="project_code" type="text" [(ngModel)]="selectedProject.project_code"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="field col-12 md:col-6"></div>
             <div class="field col-12 md:col-6">
                 <label for="project_name_th">{{title_project_name_th[initial_current.Language]}}</label>
-                <input id="project_name_th" type="text" [(ngModel)]="selectedProject.project_name_th" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <input id="project_name_th" type="text" [(ngModel)]="selectedProject.project_name_th"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="field col-12 md:col-6">
                 <label for="project_name_en">{{title_project_name_en[initial_current.Language]}}</label>
-                <input id="project_name_en" type="text" [(ngModel)]="selectedProject.project_name_en" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <input id="project_name_en" type="text" [(ngModel)]="selectedProject.project_name_en"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="field col-12 md:col-6">
                 <label for="project_codecentral">{{title_project_codecentral[initial_current.Language]}}</label>
-                <input id="project_codecentral" type="text" [(ngModel)]="selectedProject.project_codecentral" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <input id="project_codecentral" type="text" [(ngModel)]="selectedProject.project_codecentral"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="field col-12 md:col-6">
                 <label for="project_name_sub">{{title_project_name_sub[initial_current.Language]}}</label>
-                <input id="project_name_sub" type="text" [(ngModel)]="selectedProject.project_name_sub" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <input id="project_name_sub" type="text" [(ngModel)]="selectedProject.project_name_sub"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="field col-12 md:col-6">
                 <label for="probusiness_name_th">{{title_project_probusiness[initial_current.Language]}} :</label><br>
-                <p-dropdown [options]="probusiness_list" optionValue="probusiness_code" [(ngModel)]="selectedProject.project_probusiness" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+                <p-dropdown  placeholder="--" [options]="probusiness_list" optionValue="probusiness_code"
+                    [(ngModel)]="selectedProject.project_probusiness" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
                     </ng-template>
@@ -652,7 +777,9 @@
             </div>
             <div class="field col-12 md:col-6">
                 <label for="protype_name_th">{{title_project_protype[initial_current.Language]}} :</label><br>
-                <p-dropdown [options]="protype_list" optionValue="protype_code" [(ngModel)]="selectedProject.project_protype" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+                <p-dropdown  placeholder="--" [options]="protype_list" optionValue="protype_code"
+                    [(ngModel)]="selectedProject.project_protype" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
                     </ng-template>
@@ -661,13 +788,46 @@
                     </ng-template>
                 </p-dropdown>
             </div>
+            <!-- // -->
+            <div class="field col-12 md:col-6">
+                <label for="proarea_name_th">{{title_project_progarea[initial_current.Language]}} :</label><br>
+                <p-dropdown  placeholder="--"  [options]="proarea_list" optionValue="proarea_code"
+                [(ngModel)]="selectedProject.project_proarea" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="progroup_name_th">{{title_project_progroup[initial_current.Language]}} :</label><br>
+                <p-dropdown  placeholder="--" [options]="progroup_list" optionValue="progroup_code"
+                [(ngModel)]="selectedProject.project_progroup"  [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.progroup_name_th : item.progroup_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.progroup_name_th : item.progroup_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <!-- // -->
+
+
             <div class="field col-12 md:col-6">
                 <label for="lastname2">{{title_project_roundtime[initial_current.Language]}} :</label><br>
-                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
             <div class="field col-12 md:col-6">
                 <label for="lastname2">{{title_project_roundmoney[initial_current.Language]}} :</label><br>
-                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
             <div class="col-12">
                 <p-accordion>
@@ -675,51 +835,65 @@
                         <div class="formgrid grid">
                             <div class="field col-6">
                                 <label for="firstname2">{{title_address_no[initial_current.Language]}}</label>
-                                <input id="firstname2" type="text" [(ngModel)]="selectedProaddress.proaddress_no" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <input id="firstname2" type="text" [(ngModel)]="selectedProaddress.proaddress_no"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
                             <div class="field col-6">
                                 <label for="lastname2">{{title_address_moo[initial_current.Language]}}</label>
-                                <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_moo" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_moo"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
                             <div class="field col-6">
                                 <label for="firstname2">{{title_address_road[initial_current.Language]}}</label>
-                                <input id="firstname2" type="text" [(ngModel)]="selectedProaddress.proaddress_road" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <input id="firstname2" type="text" [(ngModel)]="selectedProaddress.proaddress_road"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
                             <div class="field col-6">
                                 <label for="lastname2">{{title_address_soi[initial_current.Language]}}</label>
-                                <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_soi" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_soi"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
                             <div class="field col-6">
                                 <label for="firstname2">{{title_address_tambon[initial_current.Language]}}</label>
-                                <input id="firstname2" type="text" [(ngModel)]="selectedProaddress.proaddress_tambon" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <input id="firstname2" type="text" [(ngModel)]="selectedProaddress.proaddress_tambon"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
                             <div class="field col-6">
                                 <label for="lastname2">{{title_address_amphur[initial_current.Language]}}</label>
-                                <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_amphur" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_amphur"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
                             <div class="field col-6">
-                                <label for="lastname2">{{title_address_province[initial_current.Language]}} :</label><br>
-                                <p-dropdown placeholder="Select a Type" optionLabel="name" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                                <label for="lastname2">{{title_address_province[initial_current.Language]}}
+                                    :</label><br>
+                                <p-dropdown placeholder="Select a Type" optionLabel="name" [showClear]="true"
+                                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                             </div>
                             <div class="field col-6">
                                 <label for="lastname2">{{title_address_zipcode[initial_current.Language]}}</label>
-                                <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_zipcode" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                <input id="lastname2" type="text" [(ngModel)]="selectedProaddress.proaddress_zipcode"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
                             <div class="field col-6">
                                 <div class="p-inputgroup">
-                                    <span class="p-inputgroup-addon">{{title_address_tel[initial_current.Language]}}</span>
-                                    <input type="text" pInputText placeholder="" [(ngModel)]="selectedProaddress.proaddress_tel" >
+                                    <span
+                                        class="p-inputgroup-addon">{{title_address_tel[initial_current.Language]}}</span>
+                                    <input type="text" pInputText placeholder=""
+                                        [(ngModel)]="selectedProaddress.proaddress_tel">
                                 </div>
                             </div>
                             <div class="field col-6">
                                 <div class="p-inputgroup">
-                                    <span class="p-inputgroup-addon">{{title_address_email[initial_current.Language]}}</span>
-                                    <input type="text" pInputText placeholder="" [(ngModel)]="selectedProaddress.proaddress_email" >
+                                    <span
+                                        class="p-inputgroup-addon">{{title_address_email[initial_current.Language]}}</span>
+                                    <input type="text" pInputText placeholder=""
+                                        [(ngModel)]="selectedProaddress.proaddress_email">
                                 </div>
                             </div>
                             <div class="field col-12">
                                 <label for="ppos_name_en">{{title_address_note[initial_current.Language]}}</label>
-                                <textarea [rows]="2" id="ppos_name_en"  [cols]="30" pInputTextarea [autoResize]="true"></textarea>
+                                <textarea [rows]="2" id="ppos_name_en" [cols]="30" pInputTextarea
+                                    [autoResize]="true"></textarea>
                             </div>
                         </div>
                     </p-accordionTab>
@@ -729,67 +903,71 @@
             <div class="col-12">
                 <p></p>
                 <p-accordion>
-                    <p-accordionTab header="{{title_contact[initial_current.Language]}}" >
+                    <p-accordionTab header="{{title_contact[initial_current.Language]}}">
                         <p-menubar [model]="menu_procontact"></p-menubar>
-                        <p-table #dtContact [value]="procontact_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProcontact" (onRowSelect)="onRowSelectProcontact($event)" dataKey="procontact_ref"
-                        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                        [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-                        >
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>{{title_contact_no[initial_current.Language]}}</th>
-                                <th>{{title_contact_firstname[initial_current.Language]}}</th>
-                                <th>{{title_contact_lastname[initial_current.Language]}}</th>
-                                <th>{{title_contact_position[initial_current.Language]}}</th>
-                                <th>{{title_contact_tel[initial_current.Language]}}</th>
-                                <th>{{title_contact_email[initial_current.Language]}}</th>
-                                <th>{{title_modified_by[initial_current.Language]}}</th>
-                                <th>{{title_modified_date[initial_current.Language]}}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-procontact>
-                            <tr [pSelectableRow]="procontact">
-                                <td>{{procontact.procontact_ref}}</td>
-                                <td>
-                                    <div *ngIf="initial_current.Language == 'TH'">
-                                        {{procontact.procontact_firstname_th}}
-                                    </div>
-                                    <div *ngIf="initial_current.Language != 'TH'">
-                                        {{procontact.procontact_firstname_en}}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div *ngIf="initial_current.Language == 'TH'">
-                                        {{procontact.procontact_lastname_th}}
-                                    </div>
-                                    <div *ngIf="initial_current.Language != 'TH'">
-                                        {{procontact.procontact_lastname_en}}
-                                    </div>
-                                </td>
-                                <td>{{procontact.position_code}}</td>
-                                <td>{{procontact.procontact_tel}}</td>
-                                <td>{{procontact.procontact_email}}</td>
-                                <td>{{procontact.modified_by}}</td>
-                                <td>{{procontact.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                            </tr>
-                        </ng-template>
+                        <p-table #dtContact [value]="procontact_list" styleClass="p-datatable-sm"
+                            [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="300px"
+                            [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProcontact"
+                            (onRowSelect)="onRowSelectProcontact($event)" dataKey="procontact_ref" [rows]="10"
+                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{title_contact_no[initial_current.Language]}}</th>
+                                    <th>{{title_contact_firstname[initial_current.Language]}}</th>
+                                    <th>{{title_contact_lastname[initial_current.Language]}}</th>
+                                    <th>{{title_contact_position[initial_current.Language]}}</th>
+                                    <th>{{title_contact_tel[initial_current.Language]}}</th>
+                                    <th>{{title_contact_email[initial_current.Language]}}</th>
+                                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-procontact>
+                                <tr [pSelectableRow]="procontact">
+                                    <td>{{procontact.procontact_ref}}</td>
+                                    <td>
+                                        <div *ngIf="initial_current.Language == 'TH'">
+                                            {{procontact.procontact_firstname_th}}
+                                        </div>
+                                        <div *ngIf="initial_current.Language != 'TH'">
+                                            {{procontact.procontact_firstname_en}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div *ngIf="initial_current.Language == 'TH'">
+                                            {{procontact.procontact_lastname_th}}
+                                        </div>
+                                        <div *ngIf="initial_current.Language != 'TH'">
+                                            {{procontact.procontact_lastname_en}}
+                                        </div>
+                                    </td>
+                                    <td>{{procontact.position_code}}</td>
+                                    <td>{{procontact.procontact_tel}}</td>
+                                    <td>{{procontact.procontact_email}}</td>
+                                    <td>{{procontact.modified_by}}</td>
+                                    <td>{{procontact.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                </tr>
+                            </ng-template>
                         </p-table>
                     </p-accordionTab>
                 </p-accordion>
             </div>
-            
+
         </div>
     </p-tabPanel>
-    <p-tabPanel >
-        <ng-template pTemplate = "header">
+    <p-tabPanel>
+        <ng-template pTemplate="header">
             <i class="pi pi-file-edit"></i>&nbsp;&nbsp;
             <span>{{title_tab_contract[initial_current.Language]}}</span>
         </ng-template>
         <p-menubar [model]="menu_procontract"></p-menubar>
-        <p-table #dtContract [value]="procontract_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProcontract" (onRowSelect)="onRowSelectProcontract($event)" dataKey="procontract_ref"
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-            [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-        >
+        <p-table #dtContract [value]="procontract_list" styleClass="p-datatable-sm"
+            [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true"
+            selectionMode="single" [(selection)]="selectedProcontract" (onRowSelect)="onRowSelectProcontract($event)"
+            dataKey="procontract_ref" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+            [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
             <ng-template pTemplate="header">
                 <tr>
                     <th>{{title_contract_customer[initial_current.Language]}}</th>
@@ -820,10 +998,12 @@
 
         <p-divider><b>{{title_responsible[initial_current.Language]}}</b></p-divider>
         <p-menubar [model]="menu_proresponsible"></p-menubar>
-        <p-table #dtResponsible [value]="proresponsible_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProresponsible" (onRowSelect)="onRowSelectProresponsible($event)" dataKey="proresponsible_ref"
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-            [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-        >
+        <p-table #dtResponsible [value]="proresponsible_list" styleClass="p-datatable-sm"
+            [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true"
+            selectionMode="single" [(selection)]="selectedProresponsible"
+            (onRowSelect)="onRowSelectProresponsible($event)" dataKey="proresponsible_ref" [rows]="10"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
             <ng-template pTemplate="header">
                 <tr>
                     <th>{{title_responsible_code[initial_current.Language]}}</th>
@@ -850,17 +1030,18 @@
             </ng-template>
         </p-table>
     </p-tabPanel>
-    <p-tabPanel >
-        <ng-template pTemplate = "header">
+    <p-tabPanel>
+        <ng-template pTemplate="header">
             <i class="pi pi-wrench"></i>&nbsp;&nbsp;
             <span>{{title_tab_policy[initial_current.Language]}}</span>
         </ng-template>
         <p-menubar [model]="menu_protimepol"></p-menubar>
 
-        <p-table #dtTimepol [value]="protimepol_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProtimepol" (onRowSelect)="onRowSelectProtimepol($event)" dataKey="protimepol_code"
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-            [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-        >
+        <p-table #dtTimepol [value]="protimepol_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}"
+            [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single"
+            [(selection)]="selectedProtimepol" (onRowSelect)="onRowSelectProtimepol($event)" dataKey="protimepol_code"
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
             <ng-template pTemplate="header">
                 <tr>
                     <th>{{title_timepol_code[initial_current.Language]}}</th>
@@ -879,7 +1060,8 @@
                 <tr [pSelectableRow]="protimepol">
                     <td>{{protimepol.protimepol_code}}</td>
                     <td>
-                        {{initial_current.Language=="TH"? protimepol.protimepol_name_th : protimepol.protimepol_name_en}}
+                        {{initial_current.Language=="TH"? protimepol.protimepol_name_th :
+                        protimepol.protimepol_name_en}}
                     </td>
                     <td>{{protimepol.protimepol_ot}}</td>
                     <td>{{protimepol.protimepol_allw}}</td>
@@ -892,12 +1074,12 @@
             </ng-template>
         </p-table>
     </p-tabPanel>
-    <p-tabPanel >
-        <ng-template pTemplate = "header">
+    <p-tabPanel>
+        <ng-template pTemplate="header">
             <i class="pi pi-list"></i>&nbsp;&nbsp;
             <span>{{title_tab_jobmain[initial_current.Language]}}</span>
-        </ng-template>        
-        <table class="table_summary_">                      
+        </ng-template>
+        <table class="table_summary_">
             <tr>
                 <td>
                     <div class="main_div">
@@ -920,8 +1102,10 @@
         <br>
         <div class="formgrid grid align-items-end">
             <div class="col-12 md:col-3">
-                <label>Version</label><br>    
-                <p-dropdown [options]="projobversion_list" optionValue="version" [(ngModel)]="selectedProjobversion.version" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }" (onChange)="onSelectProjobversion($event)">
+                <label>Version</label><br>
+                <p-dropdown [options]="projobversion_list" optionValue="version"
+                    [(ngModel)]="selectedProjobversion.version" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" (onChange)="onSelectProjobversion($event)">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{selectedProjobversion.version}}
                     </ng-template>
@@ -931,96 +1115,116 @@
                 </p-dropdown>
             </div>
             <div class="col-12 md:col-9">
-                <button pButton pRipple type="button" label="+" (click)="addVersion()" class="p-button-sm p-button-secondary"></button>
-                
+                <button pButton pRipple type="button" label="+" (click)="addVersion()"
+                    class="p-button-sm p-button-secondary"></button>
+
             </div>
             <div class="pt-2 col-12 md:col-3">
                 <label for="fromdate">From</label>
-                <input type="text" id="fromdate" [(ngModel)]="fromdate_selected" readonly class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                <input type="text" id="fromdate" [(ngModel)]="fromdate_selected" readonly
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="col-12 md:col-3">
                 <label for="todate">To</label>
-                <input type="text" id="todate" [(ngModel)]="todate_selected" readonly class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                <input type="text" id="todate" [(ngModel)]="todate_selected" readonly
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="pt-2 col-12 md:col-3">
                 <label for="transaction_id">Transaction ID</label>
-                <input type="text" id="transaction_id" [(ngModel)]="selected_version.transaction_id" readonly class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                <input type="text" id="transaction_id" [(ngModel)]="selected_version.transaction_id" readonly
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="col-12 md:col-3">
                 <label for="custno">Post By</label>
-                <input type="text" id="custno" [(ngModel)]="selected_version.custno" readonly class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" >
+                <input type="text" id="custno" [(ngModel)]="selected_version.custno" readonly
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
         </div>
         <br>
-        
+
         <p-accordion>
             <p-accordionTab header="{{title_jobmain_detail[initial_current.Language]}}" [selected]="true">
-               
 
-            <p-menubar [model]="menu_projobmain"></p-menubar>
 
-            <p-table #dtJobmain [value]="projobmain_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobmain" (onRowSelect)="onRowSelectProjobmain($event)" dataKey="projobmain_code"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-            >
+                <p-menubar [model]="menu_projobmain"></p-menubar>
 
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>{{title_jobmain_code[initial_current.Language]}}</th>
-                        <th>{{title_jobmain_name[initial_current.Language]}}</th>
-                        <!-- <th>{{title_jobmain_type[initial_current.Language]}}</th> -->
-                        <th>{{title_jobmain_emp_total[initial_current.Language]}}</th>                                   
-                        <!-- <th>{{title_jobmain_poltime[initial_current.Language]}}</th>
+                <p-table #dtJobmain [value]="projobmain_list" styleClass="p-datatable-sm"
+                    [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="250px"
+                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobmain"
+                    (onRowSelect)="onRowSelectProjobmain($event)" dataKey="projobmain_code" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                    currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{title_jobmain_code[initial_current.Language]}}</th>
+                            <th>{{title_jobmain_name[initial_current.Language]}}</th>
+                            <!-- <th>{{title_jobmain_type[initial_current.Language]}}</th> -->
+                            <th>{{title_jobmain_emp_total[initial_current.Language]}}</th>
+                            <!-- <th>{{title_jobmain_poltime[initial_current.Language]}}</th>
                         <th>{{title_jobmain_polslip[initial_current.Language]}}</th>
                         <th>{{title_jobmain_poluniform[initial_current.Language]}}</th> -->
-                        <th *ngIf="costs_title[0] !=''">{{costs_title[0]}}</th>
-                        <th *ngIf="costs_title[1] !=''">{{costs_title[1]}}</th>
-                        <th *ngIf="costs_title[2] !=''">{{costs_title[2]}}</th>
-                        <th *ngIf="costs_title[3] !=''">{{costs_title[3]}}</th>
-                        <th *ngIf="costs_title[4] !=''">{{costs_title[4]}}</th>
-                        <th *ngIf="costs_title[5] !=''">{{costs_title[5]}}</th>
-                        <th *ngIf="costs_title[6] !=''">{{costs_title[6]}}</th>
-                        <th *ngIf="costs_title[7] !=''">{{costs_title[7]}}</th>
-                        <th *ngIf="costs_title[8] !=''">{{costs_title[8]}}</th>
-                        <th *ngIf="costs_title[9] !=''">{{costs_title[9]}}</th>                                    
-                        <th>{{title_jobmain_amount_emp[initial_current.Language]}}</th>
-                        <th>{{title_jobmain_amount_total[initial_current.Language]}}</th>
-                        <th>{{title_modified_by[initial_current.Language]}}</th>
-                        <th>{{title_modified_date[initial_current.Language]}}</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-projobmain>
-                    <tr [pSelectableRow]="projobmain">
-                        <td>{{projobmain.projobmain_code}}</td>
-                        <td>
-                            <div *ngIf="initial_current.Language == 'TH'">
-                                {{projobmain.projobmain_name_th}}
-                            </div>
-                            <div *ngIf="initial_current.Language != 'TH'">
-                                {{projobmain.projobmain_name_en}}
-                            </div>
-                        </td>
-                        <!-- <td>{{doGetPoljobtypeDetail(projobmain.projobmain_type)}}</td> -->
-                        <td style="text-align: right; padding-right: 10px;">{{projobmain.emp_total | number:'1.2-2'}}</td>                                   
-                        <!-- <td>{{doGetProtimepolDetail(projobmain.projobmain_timepol)}}</td>
+                            <th *ngIf="costs_title[0] !=''">{{costs_title[0]}}</th>
+                            <th *ngIf="costs_title[1] !=''">{{costs_title[1]}}</th>
+                            <th *ngIf="costs_title[2] !=''">{{costs_title[2]}}</th>
+                            <th *ngIf="costs_title[3] !=''">{{costs_title[3]}}</th>
+                            <th *ngIf="costs_title[4] !=''">{{costs_title[4]}}</th>
+                            <th *ngIf="costs_title[5] !=''">{{costs_title[5]}}</th>
+                            <th *ngIf="costs_title[6] !=''">{{costs_title[6]}}</th>
+                            <th *ngIf="costs_title[7] !=''">{{costs_title[7]}}</th>
+                            <th *ngIf="costs_title[8] !=''">{{costs_title[8]}}</th>
+                            <th *ngIf="costs_title[9] !=''">{{costs_title[9]}}</th>
+                            <th>{{title_jobmain_amount_emp[initial_current.Language]}}</th>
+                            <th>{{title_jobmain_amount_total[initial_current.Language]}}</th>
+                            <th>{{title_modified_by[initial_current.Language]}}</th>
+                            <th>{{title_modified_date[initial_current.Language]}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-projobmain>
+                        <tr [pSelectableRow]="projobmain">
+                            <td>{{projobmain.projobmain_code}}</td>
+                            <td>
+                                <div *ngIf="initial_current.Language == 'TH'">
+                                    {{projobmain.projobmain_name_th}}
+                                </div>
+                                <div *ngIf="initial_current.Language != 'TH'">
+                                    {{projobmain.projobmain_name_en}}
+                                </div>
+                            </td>
+                            <!-- <td>{{doGetPoljobtypeDetail(projobmain.projobmain_type)}}</td> -->
+                            <td style="text-align: right; padding-right: 10px;">{{projobmain.emp_total |
+                                number:'1.2-2'}}</td>
+                            <!-- <td>{{doGetProtimepolDetail(projobmain.projobmain_timepol)}}</td>
                         <td>{{doGetSlipDetail(projobmain.projobmain_slip)}}</td>
                         <td>{{doGetUniformDetail(projobmain.projobmain_uniform)}}</td> -->
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[0] !=''">{{projobmain.allow1 | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[1] !=''">{{projobmain.allow2 | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[2] !=''">{{projobmain.allow3 | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[3] !=''">{{projobmain.allow4 | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[4] !=''">{{projobmain.allow5 | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[5] !=''">{{projobmain.allow6 | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[6] !=''">{{projobmain.allow7 | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[7] !=''">{{projobmain.allow8 | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[8] !=''">{{projobmain.allow9 | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[9] !=''">{{projobmain.allow10 | number:'1.2-2'}}</td>
-                        
-                        <td style="text-align: right; padding-right: 10px;">{{projobmain.allow_emp | number:'1.2-2'}}</td>
-                        <td style="text-align: right; padding-right: 10px;">{{projobmain.allow_total | number:'1.2-2'}}</td>
-                        <td>{{projobmain.modified_by}}</td>
-                        <td>{{projobmain.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                    </tr>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[0] !=''">
+                                {{projobmain.allow1 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[1] !=''">
+                                {{projobmain.allow2 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[2] !=''">
+                                {{projobmain.allow3 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[3] !=''">
+                                {{projobmain.allow4 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[4] !=''">
+                                {{projobmain.allow5 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[5] !=''">
+                                {{projobmain.allow6 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[6] !=''">
+                                {{projobmain.allow7 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[7] !=''">
+                                {{projobmain.allow8 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[8] !=''">
+                                {{projobmain.allow9 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[9] !=''">
+                                {{projobmain.allow10 | number:'1.2-2'}}</td>
+
+                            <td style="text-align: right; padding-right: 10px;">{{projobmain.allow_emp |
+                                number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;">{{projobmain.allow_total |
+                                number:'1.2-2'}}</td>
+                            <td>{{projobmain.modified_by}}</td>
+                            <td>{{projobmain.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        </tr>
                     </ng-template>
                 </p-table>
             </p-accordionTab>
@@ -1030,10 +1234,12 @@
 
                 <p-menubar [model]="menu_projobshift"></p-menubar>
 
-                <p-table #dtJobshift [value]="projobshift_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="150px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobshift" (onRowSelect)="onRowSelectProjobshift($event)" dataKey="shift_code"
-                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                    [paginator]="false" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-                >
+                <p-table #dtJobshift [value]="projobshift_list" styleClass="p-datatable-sm"
+                    [tableStyle]="{'min-width': '100rem'}" [scrollable]="true" scrollHeight="150px"
+                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobshift"
+                    (onRowSelect)="onRowSelectProjobshift($event)" dataKey="shift_code" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                    currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>{{title_shift_code[initial_current.Language]}}</th>
@@ -1064,7 +1270,7 @@
                             <td>{{projobshift.shift_code}}</td>
                             <td>{{doGetShiftDetail(projobshift.shift_code)}}</td>
                             <td>
-                                <div style="display: inline" >
+                                <div style="display: inline">
                                     {{true == projobshift.projobshift_sun ? ' Sun |' : '' }}
                                     {{true == projobshift.projobshift_mon ? ' Mon |' : '' }}
                                     {{true == projobshift.projobshift_tue ? ' Tue |' : '' }}
@@ -1079,16 +1285,26 @@
                             <td>{{projobshift.projobshift_hrsperday}}</td>
                             <td>{{projobshift.projobshift_hrsot}}</td>
 
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[0] !=''">{{projobshift.allow1 | number:'1.2-2'}}</td>
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[1] !=''">{{projobshift.allow2 | number:'1.2-2'}}</td>
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[2] !=''">{{projobshift.allow3 | number:'1.2-2'}}</td>
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[3] !=''">{{projobshift.allow4 | number:'1.2-2'}}</td>
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[4] !=''">{{projobshift.allow5 | number:'1.2-2'}}</td>
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[5] !=''">{{projobshift.allow6 | number:'1.2-2'}}</td>
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[6] !=''">{{projobshift.allow7 | number:'1.2-2'}}</td>
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[7] !=''">{{projobshift.allow8 | number:'1.2-2'}}</td>
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[8] !=''">{{projobshift.allow9 | number:'1.2-2'}}</td>
-                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[9] !=''">{{projobshift.allow10 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[0] !=''">
+                                {{projobshift.allow1 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[1] !=''">
+                                {{projobshift.allow2 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[2] !=''">
+                                {{projobshift.allow3 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[3] !=''">
+                                {{projobshift.allow4 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[4] !=''">
+                                {{projobshift.allow5 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[5] !=''">
+                                {{projobshift.allow6 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[6] !=''">
+                                {{projobshift.allow7 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[7] !=''">
+                                {{projobshift.allow8 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[8] !=''">
+                                {{projobshift.allow9 | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[9] !=''">
+                                {{projobshift.allow10 | number:'1.2-2'}}</td>
 
                             <td>{{projobshift.modified_by}}</td>
                             <td>{{projobshift.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -1099,57 +1315,62 @@
             </p-accordionTab>
         </p-accordion>
         <p-accordion>
-                <p-accordionTab header="{{title_cost[initial_current.Language]}}" [selected]="true">
+            <p-accordionTab header="{{title_cost[initial_current.Language]}}" [selected]="true">
 
-                    <p-menubar [model]="menu_projobcost"></p-menubar>
-                    <p-table #dtJobcost [value]="projobcost_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobcost" (onRowSelect)="onRowSelectProjobcost($event)" dataKey="projobcost_id"
-                        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                        [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-                    >
-                        <ng-template pTemplate="header">
-                            <tr>                                        
-                                <th>{{title_cost_code[initial_current.Language]}}</th>
-                                <th>{{title_cost_name[initial_current.Language]}}</th>
-                                <th>{{title_cost_type[initial_current.Language]}}</th>
-                                <th>{{title_cost_amount[initial_current.Language]}}</th>
-                                <th>{{title_cost_allw[initial_current.Language]}}</th>
-                                <th>{{title_cost_auto[initial_current.Language]}}</th>
-                                <!-- <th>{{title_cost_fromdate[initial_current.Language]}}</th>
+                <p-menubar [model]="menu_projobcost"></p-menubar>
+                <p-table #dtJobcost [value]="projobcost_list" styleClass="p-datatable-sm"
+                    [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="250px"
+                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobcost"
+                    (onRowSelect)="onRowSelectProjobcost($event)" dataKey="projobcost_id" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                    currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{title_cost_code[initial_current.Language]}}</th>
+                            <th>{{title_cost_name[initial_current.Language]}}</th>
+                            <th>{{title_cost_type[initial_current.Language]}}</th>
+                            <th>{{title_cost_amount[initial_current.Language]}}</th>
+                            <th>{{title_cost_allw[initial_current.Language]}}</th>
+                            <th>{{title_cost_auto[initial_current.Language]}}</th>
+                            <!-- <th>{{title_cost_fromdate[initial_current.Language]}}</th>
                                 <th>{{title_cost_todate[initial_current.Language]}}</th> -->
-                                <th>{{title_cost_status[initial_current.Language]}}</th>
-                                <th>{{title_modified_by[initial_current.Language]}}</th>
-                                <th>{{title_modified_date[initial_current.Language]}}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-cost>
-                            <tr [pSelectableRow]="cost">                                           
-                                <td>{{cost.projobcost_code}}</td>
-                                <td>{{doGetProCostName(cost.projobcost_code)}}</td>
-                                <td>{{doGetProCostType(cost.projobcost_code)}}</td>
-                                <td style="text-align: right; padding-right: 30px;">{{cost.projobcost_amount | number:'1.2-2'}}</td>
-                                <td>{{doGetProCostItem(cost.projobcost_code)}}</td>
-                                <td style="text-align: center;">{{true == cost.projobcost_auto ? 'Yes' : 'No' }}</td>
-                                <!-- <td style="text-align: center;">{{cost.projobcost_fromdate | date:'dd/MM/yyyy '}}</td>
+                            <th>{{title_cost_status[initial_current.Language]}}</th>
+                            <th>{{title_modified_by[initial_current.Language]}}</th>
+                            <th>{{title_modified_date[initial_current.Language]}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-cost>
+                        <tr [pSelectableRow]="cost">
+                            <td>{{cost.projobcost_code}}</td>
+                            <td>{{doGetProCostName(cost.projobcost_code)}}</td>
+                            <td>{{doGetProCostType(cost.projobcost_code)}}</td>
+                            <td style="text-align: right; padding-right: 30px;">{{cost.projobcost_amount |
+                                number:'1.2-2'}}</td>
+                            <td>{{doGetProCostItem(cost.projobcost_code)}}</td>
+                            <td style="text-align: center;">{{true == cost.projobcost_auto ? 'Yes' : 'No' }}</td>
+                            <!-- <td style="text-align: center;">{{cost.projobcost_fromdate | date:'dd/MM/yyyy '}}</td>
                                 <td style="text-align: center;">{{cost.projobcost_todate | date:'dd/MM/yyyy '}}</td> -->
-                                <td style="text-align: center;">{{cost.projobcost_status}}</td>
-                                <td>{{cost.modified_by}}</td>
-                                <td>{{cost.modified_date | date:'dd/MM/yyyy '}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p-accordionTab>
+                            <td style="text-align: center;">{{cost.projobcost_status}}</td>
+                            <td>{{cost.modified_by}}</td>
+                            <td>{{cost.modified_date | date:'dd/MM/yyyy '}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-accordionTab>
         </p-accordion>
 
         <p-accordion>
             <p-accordionTab header="{{title_policy[initial_current.Language]}}" [selected]="true">
                 <p-menubar [model]="menu_projobpol"></p-menubar>
-                <p-table #dtJobmachine [value]="projobpol_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '35rem'}" [scrollable]="true" scrollHeight="110px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobpol" (onRowSelect)="onRowSelectProjobpol($event)" dataKey="projobpol_id"
-                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                    [paginator]="false" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-                >
+                <p-table #dtJobmachine [value]="projobpol_list" styleClass="p-datatable-sm"
+                    [tableStyle]="{'min-width': '35rem'}" [scrollable]="true" scrollHeight="110px"
+                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobpol"
+                    (onRowSelect)="onRowSelectProjobpol($event)" dataKey="projobpol_id" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                    currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>{{title_jobmain_type[initial_current.Language]}}</th>                                                                      
+                            <th>{{title_jobmain_type[initial_current.Language]}}</th>
                             <th>{{title_jobmain_poltime[initial_current.Language]}}</th>
                             <th>{{title_jobmain_polslip[initial_current.Language]}}</th>
                             <th>{{title_jobmain_poluniform[initial_current.Language]}}</th>
@@ -1159,10 +1380,10 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-projobpol>
                         <tr [pSelectableRow]="projobpol">
-                            <td>{{doGetPoljobtypeDetail(projobpol.projobpol_type)}}</td>                                                                            
+                            <td>{{doGetPoljobtypeDetail(projobpol.projobpol_type)}}</td>
                             <td>{{doGetProtimepolDetail(projobpol.projobpol_timepol)}}</td>
                             <td>{{doGetSlipDetail(projobpol.projobpol_slip)}}</td>
-                            <td>{{doGetUniformDetail(projobpol.projobpol_uniform)}}</td>                                       
+                            <td>{{doGetUniformDetail(projobpol.projobpol_uniform)}}</td>
                             <td>{{projobpol.modified_by}}</td>
                             <td>{{projobpol.modified_date | date:'dd/MM/yyyy '}}</td>
                         </tr>
@@ -1172,12 +1393,14 @@
         </p-accordion>
 
         <p-accordion>
-            <p-accordionTab header="{{title_machine[initial_current.Language]}}" >
+            <p-accordionTab header="{{title_machine[initial_current.Language]}}">
                 <p-menubar [model]="menu_projobmachine"></p-menubar>
-                <p-table #dtJobmachine [value]="projobmachine_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '35rem'}" [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobmachine" (onRowSelect)="onRowSelectProjobmachine($event)" dataKey="projobmachine_id"
-                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                    [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-                >
+                <p-table #dtJobmachine [value]="projobmachine_list" styleClass="p-datatable-sm"
+                    [tableStyle]="{'min-width': '35rem'}" [scrollable]="true" scrollHeight="200px"
+                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobmachine"
+                    (onRowSelect)="onRowSelectProjobmachine($event)" dataKey="projobmachine_id" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                    currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>{{title_machine_ip[initial_current.Language]}}</th>
@@ -1191,7 +1414,8 @@
                         <tr [pSelectableRow]="machine">
                             <td>{{machine.projobmachine_ip}}</td>
                             <td>{{machine.projobmachine_port}}</td>
-                            <td style="text-align: center;">{{true == machine.projobmachine_enable ? 'Yes' : 'No' }}</td>
+                            <td style="text-align: center;">{{true == machine.projobmachine_enable ? 'Yes' : 'No' }}
+                            </td>
                             <td>{{machine.modified_by}}</td>
                             <td>{{machine.modified_date | date:'dd/MM/yyyy '}}</td>
                         </tr>
@@ -1200,7 +1424,7 @@
             </p-accordionTab>
         </p-accordion>
 
-        
+
         <!-- <p-accordion>
             <p-accordionTab header="{{title_contract[initial_current.Language]}}" >
 
@@ -1241,7 +1465,7 @@
 
     </p-tabPanel>
     <p-tabPanel>
-        <ng-template pTemplate = "header">
+        <ng-template pTemplate="header">
             <i class="pi pi-list"></i>&nbsp;&nbsp;
             <span>{{title_tab_jobclear[initial_current.Language]}}</span>
         </ng-template>
@@ -1259,12 +1483,13 @@
                 <td>version : {{version_selected}}</td>
             </tr>
         </table>
-       
+
         <p-menubar [model]="menu_projobsub"></p-menubar>
-        <p-table #dtJobsub [value]="projobsub_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobsub" (onRowSelect)="onRowSelectProjobsub($event)" dataKey="projobsub_id"
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-            [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-        >
+        <p-table #dtJobsub [value]="projobsub_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}"
+            [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single"
+            [(selection)]="selectedProjobsub" (onRowSelect)="onRowSelectProjobsub($event)" dataKey="projobsub_id"
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
             <ng-template pTemplate="header">
                 <tr>
                     <th>{{title_jobmain_code[initial_current.Language]}}</th>
@@ -1300,16 +1525,26 @@
                     </td>
                     <td style="text-align: right; padding-right: 10px;">{{projobsub.emp_total | number:'1.2-2'}}</td>
                     <td></td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[0] !=''">{{projobsub.allow1 | number:'1.2-2'}}</td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[1] !=''">{{projobsub.allow2 | number:'1.2-2'}}</td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[2] !=''">{{projobsub.allow3 | number:'1.2-2'}}</td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[3] !=''">{{projobsub.allow4 | number:'1.2-2'}}</td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[4] !=''">{{projobsub.allow5 | number:'1.2-2'}}</td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[5] !=''">{{projobsub.allow6 | number:'1.2-2'}}</td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[6] !=''">{{projobsub.allow7 | number:'1.2-2'}}</td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[7] !=''">{{projobsub.allow8 | number:'1.2-2'}}</td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[8] !=''">{{projobsub.allow9 | number:'1.2-2'}}</td>
-                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[9] !=''">{{projobsub.allow10 | number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[0] !=''">{{projobsub.allow1 |
+                        number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[1] !=''">{{projobsub.allow2 |
+                        number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[2] !=''">{{projobsub.allow3 |
+                        number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[3] !=''">{{projobsub.allow4 |
+                        number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[4] !=''">{{projobsub.allow5 |
+                        number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[5] !=''">{{projobsub.allow6 |
+                        number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[6] !=''">{{projobsub.allow7 |
+                        number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[7] !=''">{{projobsub.allow8 |
+                        number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[8] !=''">{{projobsub.allow9 |
+                        number:'1.2-2'}}</td>
+                    <td style="text-align: right; padding-right: 10px;" *ngIf="costs_title[9] !=''">{{projobsub.allow10
+                        | number:'1.2-2'}}</td>
                     <td style="text-align: right; padding-right: 10px;">{{projobsub.allow_emp | number:'1.2-2'}}</td>
                     <td style="text-align: right; padding-right: 10px;">{{projobsub.allow_total | number:'1.2-2'}}</td>
                     <td>{{projobsub.modified_by}}</td>
@@ -1321,26 +1556,28 @@
         <p-accordion>
             <p-accordionTab header="{{title_contract[initial_current.Language]}}" [selected]="true">
                 <p-menubar [model]="menu_projobsubcontract"></p-menubar>
-                <p-table #dtJobsubcontract [value]="projobsubcontract_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="120px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobsubcontract" (onRowSelect)="onRowSelectProjobsubcontract($event)" dataKey="projobcontract_ref"
-                    [rows]="10" [showCurrentPageReport]="false" [rowsPerPageOptions]="[10,25,50]"
-                    [paginator]="false" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-                >
+                <p-table #dtJobsubcontract [value]="projobsubcontract_list" styleClass="p-datatable-sm"
+                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="120px"
+                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobsubcontract"
+                    (onRowSelect)="onRowSelectProjobsubcontract($event)" dataKey="projobcontract_ref" [rows]="10"
+                    [showCurrentPageReport]="false" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                    currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
                     <ng-template pTemplate="header">
-                        <tr>                                        
+                        <tr>
                             <th>{{title_contract_ref[initial_current.Language]}}</th>
                             <th>{{title_shift_working[initial_current.Language]}}</th>
                             <th>{{title_shift_hrs[initial_current.Language]}}</th>
-                            <th>{{title_shift_ot[initial_current.Language]}}</th>                                      
+                            <th>{{title_shift_ot[initial_current.Language]}}</th>
                             <th>{{title_modified_by[initial_current.Language]}}</th>
                             <th>{{title_modified_date[initial_current.Language]}}</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-projobsubcontract>
-                        <tr [pSelectableRow]="projobsubcontract">                                        
+                        <tr [pSelectableRow]="projobsubcontract">
                             <td>{{projobsubcontract.projobcontract_ref}}</td>
                             <td>{{projobsubcontract.projobcontract_working}}</td>
                             <td>{{projobsubcontract.projobcontract_hrsperday}}</td>
-                            <td>{{projobsubcontract.projobcontract_hrsot}}</td>                                        
+                            <td>{{projobsubcontract.projobcontract_hrsot}}</td>
                             <td>{{projobsubcontract.modified_by}}</td>
                             <td>{{projobsubcontract.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                         </tr>
@@ -1352,31 +1589,35 @@
         <p-accordion>
             <p-accordionTab header="{{title_cost[initial_current.Language]}}" [selected]="true">
                 <p-menubar [model]="menu_projobsubcost"></p-menubar>
-                <p-table #dtJobsubcost [value]="projobsubcost_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobsubcost" (onRowSelect)="onRowSelectProjobsubcost($event)" dataKey="projobcost_id"
-                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                    [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-                >
+                <p-table #dtJobsubcost [value]="projobsubcost_list" styleClass="p-datatable-sm"
+                    [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="250px"
+                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobsubcost"
+                    (onRowSelect)="onRowSelectProjobsubcost($event)" dataKey="projobcost_id" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                    currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
                     <ng-template pTemplate="header">
-                        <tr>                                      
+                        <tr>
                             <th>{{title_cost_code[initial_current.Language]}}</th>
                             <th>{{title_cost_name[initial_current.Language]}}</th>
                             <th>{{title_cost_type[initial_current.Language]}}</th>
                             <th>{{title_cost_amount[initial_current.Language]}}</th>
                             <th>{{title_cost_allw[initial_current.Language]}}</th>
-                            <th>{{title_cost_auto[initial_current.Language]}}</th>                                   
+                            <th>{{title_cost_auto[initial_current.Language]}}</th>
                             <th>{{title_cost_status[initial_current.Language]}}</th>
                             <th>{{title_modified_by[initial_current.Language]}}</th>
                             <th>{{title_modified_date[initial_current.Language]}}</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-cost>
-                        <tr [pSelectableRow]="cost">                                       
+                        <tr [pSelectableRow]="cost">
                             <td>{{cost.projobcost_code}}</td>
                             <td>{{doGetProCostName(cost.projobcost_code)}}</td>
                             <td>{{doGetProCostType(cost.projobcost_code)}}</td>
-                            <td style="text-align: right; padding-right: 30px;">{{cost.projobcost_amount | number:'1.2-2'}}</td>
+                            <td style="text-align: right; padding-right: 30px;">{{cost.projobcost_amount |
+                                number:'1.2-2'}}</td>
                             <td>{{doGetProCostItem(cost.projobcost_code)}}</td>
-                            <td style="text-align: center;">{{true == doGetProCostAuto(cost.projobcost_code) ? 'Yes' : 'No' }}</td>                                       
+                            <td style="text-align: center;">{{true == doGetProCostAuto(cost.projobcost_code) ? 'Yes' :
+                                'No' }}</td>
                             <td style="text-align: center;">{{cost.projobcost_status}}</td>
                             <td>{{cost.modified_by}}</td>
                             <td>{{cost.modified_date | date:'dd/MM/yyyy '}}</td>
@@ -1388,7 +1629,7 @@
         <br>
         <p-accordion>
             <p-accordionTab header="{{title_working[initial_current.Language]}}">
-                <p-table  [tableStyle]="{'min-width': '70rem', 'min-height': '20rem'}">
+                <p-table [tableStyle]="{'min-width': '70rem', 'min-height': '20rem'}">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>{{title_working_date[initial_current.Language]}}</th>
@@ -1405,50 +1646,52 @@
         </p-accordion>
 
     </p-tabPanel>
-    <p-tabPanel >
-        <ng-template pTemplate = "header">
+    <p-tabPanel>
+        <ng-template pTemplate="header">
             <i class="pi pi-user"></i>&nbsp;&nbsp;
             <span>{{title_tab_staff[initial_current.Language]}}</span>
         </ng-template>
 
-            <p-menubar [model]="menu_projobemp"></p-menubar>
-            <p-table #dtJobemp [value]="projobemp_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobemp" (onRowSelect)="onRowSelectProjobemp($event)" dataKey="projobemp_id"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-            >
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>{{title_staff_jobcode[initial_current.Language]}}</th>
-                        <th>{{title_staff_jobname[initial_current.Language]}}</th>
-                        <th>{{title_staff_empcode[initial_current.Language]}}</th>
-                        <th>{{title_staff_empname[initial_current.Language]}}</th>
-                        <th>{{title_staff_empstatus[initial_current.Language]}}</th>
-                        <th>{{title_staff_fromadate[initial_current.Language]}}</th>
-                        <th>{{title_staff_todate[initial_current.Language]}}</th>
-                        <th>{{title_staff_status[initial_current.Language]}}</th>
-                        <th>{{title_staff_apprdate[initial_current.Language]}}</th>
-                        <th>{{title_modified_by[initial_current.Language]}}</th>
-                        <th>{{title_modified_date[initial_current.Language]}}</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-emp>
-                    <tr [pSelectableRow]="emp">
-                        <td>{{emp.projob_code}}</td>
-                        <td>{{doGetProjobmainDetail(emp.projob_code)}}</td>
-                        <td>{{emp.projobemp_emp}}</td>
-                        <td>{{doGetEmployeeDetail(emp.projobemp_emp)}}</td>
-                        <td>{{doGetJobemptypeDetail(emp.projobemp_type)}}</td>
-                        <td>{{emp.projobemp_fromdate | date:'dd/MM/yyyy '}}</td>
-                        <td>{{emp.projobemp_todate | date:'dd/MM/yyyy '}}</td>
-                        <td>{{emp.projobemp_status}}</td>
-                        <td></td>
-                        <td>{{emp.modified_by}}</td>
-                        <td>{{emp.modified_date | date:'dd/MM/yyyy '}}</td>
-                    </tr>
-                </ng-template>
+        <p-menubar [model]="menu_projobemp"></p-menubar>
+        <p-table #dtJobemp [value]="projobemp_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}"
+            [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single"
+            [(selection)]="selectedProjobemp" (onRowSelect)="onRowSelectProjobemp($event)" dataKey="projobemp_id"
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{title_staff_jobcode[initial_current.Language]}}</th>
+                    <th>{{title_staff_jobname[initial_current.Language]}}</th>
+                    <th>{{title_staff_empcode[initial_current.Language]}}</th>
+                    <th>{{title_staff_empname[initial_current.Language]}}</th>
+                    <th>{{title_staff_empstatus[initial_current.Language]}}</th>
+                    <th>{{title_staff_fromadate[initial_current.Language]}}</th>
+                    <th>{{title_staff_todate[initial_current.Language]}}</th>
+                    <th>{{title_staff_status[initial_current.Language]}}</th>
+                    <th>{{title_staff_apprdate[initial_current.Language]}}</th>
+                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-emp>
+                <tr [pSelectableRow]="emp">
+                    <td>{{emp.projob_code}}</td>
+                    <td>{{doGetProjobmainDetail(emp.projob_code)}}</td>
+                    <td>{{emp.projobemp_emp}}</td>
+                    <td>{{doGetEmployeeDetail(emp.projobemp_emp)}}</td>
+                    <td>{{doGetJobemptypeDetail(emp.projobemp_type)}}</td>
+                    <td>{{emp.projobemp_fromdate | date:'dd/MM/yyyy '}}</td>
+                    <td>{{emp.projobemp_todate | date:'dd/MM/yyyy '}}</td>
+                    <td>{{emp.projobemp_status}}</td>
+                    <td></td>
+                    <td>{{emp.modified_by}}</td>
+                    <td>{{emp.modified_date | date:'dd/MM/yyyy '}}</td>
+                </tr>
+            </ng-template>
 
-            </p-table>
+        </p-table>
     </p-tabPanel>
 </p-tabView>
 <p></p>
-<p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save" styleClass="p-button-raised p-button-secondary" (click)="confirmRecord()"></p-button>
+<p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
+    styleClass="p-button-raised p-button-secondary" (click)="confirmRecord()"></p-button>
