@@ -1,33 +1,222 @@
-<p-tabView (onChange)="tabChange($event)">
-    <p-tabPanel>
-        <ng-template pTemplate="header">
-            <span>Attendance</span>
-        </ng-template>
-        <div>
-            <div style="display:flex;gap: 8px;padding-bottom: 8px;">
-                <p-checkbox name="groupname" value="Y" label="Add" [(ngModel)]="attadding"></p-checkbox>
-                <p-checkbox name="groupname" value="Y" label="Edit" [(ngModel)]="attedit"></p-checkbox>
-                <p-checkbox name="groupname" value="Y" label="Delete" [(ngModel)]="attdelete"></p-checkbox>
-                <p-checkbox name="groupname" value="Y" label="Viwe Saraly" [(ngModel)]="attsalary"></p-checkbox>
-            </div>
-            <p-tree [value]="filesatt" selectionMode="checkbox" class="w-full md:w-30rem"
-                [(selection)]="selectedFilesatt"></p-tree>
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<br>
+<p-menubar [model]="menuItems"></p-menubar>
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <!-- Displays a table using the "p-table" component -->
+        <p-table #dt2 [value]="polmenuList" selectionMode="single" [(selection)]="selectedpolmenu"
+            (onRowSelect)="onRowSelection($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+            currentPageReportTemplate="{{ accountLanguages.get('showing')[selectedLanguage] }} {first} {{ accountLanguages.get('to')[selectedLanguage] }} {last} {{ accountLanguages.get('of')[selectedLanguage] }}  {totalRecords} {{ accountLanguages.get('entries')[selectedLanguage] }}"
+            [globalFilterFields]="['polmenu_code', 'account_type', 'modified_by', 'modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+
+            <!-- Form Search Table -->
+            <!-- Caption section for filtering/searching -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div></div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <!-- Global search input field -->
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{ accountLanguages.get('search')[selectedLanguage] }}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+
+            <ng-template pTemplate="header" let-columns>
+                <!-- Table header row -->
+                <tr>
+                    <th>{{ accountLanguages.get('no')[selectedLanguage] }}</th>
+                    <th>{{ accountLanguages.get('code')[selectedLanguage] }}</th>
+                    <!-- <th>{{ accountLanguages.get('description')[selectedLanguage] }}</th> -->
+                    <th>{{ accountLanguages.get('description')[selectedLanguage] }}</th>
+                    <th>{{ accountLanguages.get('modified_by')[selectedLanguage] }}</th>
+                    <th>{{ accountLanguages.get('modified_date')[selectedLanguage] }}</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <!-- Table body row -->
+                <tr [pSelectableRow]="data">
+                    <td><span>{{ accountLanguages.get('no')[selectedLanguage] }}</span>{{ i + 1 }}</td>
+                    <td><span>{{ accountLanguages.get('code')[selectedLanguage] }}</span>{{ data.polmenu_code }}
+                    </td>
+                    <td><span>{{ accountLanguages.get('description')[selectedLanguage]
+                            }}</span>{{selectedLanguage=='TH'? data.polmenu_name_th:data.polmenu_name_en
+                        }}
+                    </td>
+                    <td><span>{{ accountLanguages.get('modified_by')[selectedLanguage] }}</span>{{ data.modified_by }}
+                    </td>
+                    <td>
+                        <span>{{ accountLanguages.get('modified_date')[selectedLanguage] }}</span>
+                        <!-- Formats the date -->
+                        {{ data.modified_date}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<form (ngSubmit)="sumit()" #Form="ngForm">
+    <p-dialog header="{{ accountLanguages.get('manage')[selectedLanguage] }}" [(visible)]="isDisplayingManagement"
+        [style]="{ width: '50vw', height: '100vh' }" [maximizable]="true" [position]="positionAlignment"
+        (onHide)="closeManagement()">
+        <div style="display: flex;flex-direction: column;">
+            <label>{{accountLanguages.get('code')[selectedLanguage]}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedpolmenu.polmenu_code" maxlength="5"
+                [disabled]="edit_data" name="polmenu_code" #polmenu_code="ngModel" required />
+            <p>{{ selectedpolmenu.polmenu_code.length }}/5</p>
+            <label>{{ accountLanguages.get('descriptionth')[selectedLanguage] }}<span style="color: red;">
+                    *</span></label>
+            <textarea [(ngModel)]="selectedpolmenu.polmenu_name_th" pInputTextarea [autoResize]="true"
+                name="polmenu_name_th" #polmenu_name_th="ngModel" required></textarea>
+
+            <label>{{ accountLanguages.get('descriptionen')[selectedLanguage] }}<span style="color: red;">
+                    *</span></label>
+            <textarea [(ngModel)]="selectedpolmenu.polmenu_name_en" pInputTextarea [autoResize]="true"
+                name="polmenu_name_en" #polmenu_name_en="ngModel" required></textarea>
         </div>
-    </p-tabPanel>
-    <p-tabPanel>
-        <ng-template pTemplate="header">
-            <span>Employee</span>
-        </ng-template>
-        <div>
-            <div style="display:flex;gap: 8px;padding-bottom: 8px;">
-                <p-checkbox name="groupname" value="Y" label="Add" [(ngModel)]="empadding"></p-checkbox>
-                <p-checkbox name="groupname" value="Y" label="Edit" [(ngModel)]="empedit"></p-checkbox>
-                <p-checkbox name="groupname" value="Y" label="Delete" [(ngModel)]="empdelete"></p-checkbox>
-                <p-checkbox name="groupname" value="Y" label="Viwe Saraly" [(ngModel)]="empsalary"></p-checkbox>
-            </div>
-            <p-tree [value]="filesemp" selectionMode="checkbox" class="w-full md:w-30rem"
-                [(selection)]="selectedFilesemp"></p-tree>
-        </div>
-    </p-tabPanel>
-</p-tabView>
-<button pButton type="button" (click)="sumit()">Submit</button>
+        <p-tabView (onChange)="tabChange($event)">
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <span>Self Services</span>
+                </ng-template>
+                <div>
+                    <div style="display:flex;gap: 8px;padding-bottom: 8px;">
+                        <p-checkbox label="Add" [(ngModel)]="selfadding" [binary]="true"
+                            [ngModelOptions]="{standalone: true}"></p-checkbox>
+                        <p-checkbox label="Edit" [(ngModel)]="selfedit" [binary]="true"
+                            [ngModelOptions]="{standalone: true}"></p-checkbox>
+                        <p-checkbox label="Delete" [(ngModel)]="selfdelete" [binary]="true"
+                            [ngModelOptions]="{standalone: true}"></p-checkbox>
+                        <p-checkbox label="Viwe Saraly" [(ngModel)]="selfsalary" [binary]="true"
+                            [ngModelOptions]="{standalone: true}"></p-checkbox>
+                    </div>
+                    <p-tree [value]="filesself" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedFilesself"></p-tree>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <span>Project</span>
+                </ng-template>
+                <div>
+                    <div style="display:flex;gap: 8px;padding-bottom: 8px;">
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Add"
+                            [(ngModel)]="proadding"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Edit"
+                            [(ngModel)]="proedit"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Delete"
+                            [(ngModel)]="prodelete"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
+                            [(ngModel)]="prosalary"></p-checkbox>
+                    </div>
+                    <p-tree [value]="filespro" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedFilespro"></p-tree>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <span>Employee</span>
+                </ng-template>
+                <div>
+                    <div style="display:flex;gap: 8px;padding-bottom: 8px;">
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Add"
+                            [(ngModel)]="empadding"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Edit"
+                            [(ngModel)]="empedit"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Delete"
+                            [(ngModel)]="empdelete"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
+                            [(ngModel)]="empsalary"></p-checkbox>
+                    </div>
+                    <p-tree [value]="filesemp" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedFilesemp"></p-tree>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <span>Recruidment</span>
+                </ng-template>
+                <div>
+                    <div style="display:flex;gap: 8px;padding-bottom: 8px;">
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Add"
+                            [(ngModel)]="reqadding"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Edit"
+                            [(ngModel)]="reqedit"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Delete"
+                            [(ngModel)]="reqdelete"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
+                            [(ngModel)]="reqsalary"></p-checkbox>
+                    </div>
+                    <p-tree [value]="filesreq" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedFilesreq"></p-tree>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <span>Attendance</span>
+                </ng-template>
+                <div>
+                    <div style="display:flex;gap: 8px;padding-bottom: 8px;">
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Add"
+                            [(ngModel)]="attadding"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Edit"
+                            [(ngModel)]="attedit"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Delete"
+                            [(ngModel)]="attdelete"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
+                            [(ngModel)]="attsalary"></p-checkbox>
+                    </div>
+                    <p-tree [value]="filesatt" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedFilesatt"></p-tree>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <span>Payroll</span>
+                </ng-template>
+                <div>
+                    <div style="display:flex;gap: 8px;padding-bottom: 8px;">
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Add"
+                            [(ngModel)]="payadding"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Edit"
+                            [(ngModel)]="payedit"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Delete"
+                            [(ngModel)]="paydelete"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
+                            [(ngModel)]="paysalary"></p-checkbox>
+                    </div>
+                    <p-tree [value]="filespay" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedFilespay"></p-tree>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <span>System</span>
+                </ng-template>
+                <div>
+                    <div style="display:flex;gap: 8px;padding-bottom: 8px;">
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Add"
+                            [(ngModel)]="sysadding"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Edit"
+                            [(ngModel)]="sysedit"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Delete"
+                            [(ngModel)]="sysdelete"></p-checkbox>
+                        <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
+                            [(ngModel)]="syssalary"></p-checkbox>
+                    </div>
+                    <p-tree [value]="filessys" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedFilessys"></p-tree>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+        <button pButton type="submit" [disabled]="!Form.form.valid">Submit</button>
+    </p-dialog>
+    <div *ngIf="isDisplayingManagement" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter" (click)="closeManagement()"></div>
+</form>
