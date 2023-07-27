@@ -34,7 +34,7 @@ public initial_current: InitialCurrent = new InitialCurrent();
     }
   title_Supply: string = "Supply Office";
 
-    title_genaral_system: string = 'Genaral system';
+    title_genaral_system: string = 'Genaral System';
     title_links: string = 'Links';
     title_genaral: string = 'Genaral';
     title_level: string = 'Employee Level';

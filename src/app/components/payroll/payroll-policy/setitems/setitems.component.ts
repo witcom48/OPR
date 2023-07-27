@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/select-emp.component';
 import { TaskComponent } from 'src/app/components/usercontrol/task/task.component';
 import { AppConfig } from 'src/app/config/config';
@@ -34,6 +34,8 @@ export class SetitemsComponent implements OnInit {
     @Input() title: string = '';
     loading: boolean = false;
     index: number = 0;
+    home: any;
+    itemslike: MenuItem[] = [];
     result_list: Result[] = [];
     SetItems_List: SetItemModel[] = [];
     edit_data: boolean = false;
@@ -45,7 +47,7 @@ export class SetitemsComponent implements OnInit {
         private router: Router,
         private itemService: ItemService,
         private setitemsService: SetitemsService
-    ) {}
+    ) { }
     new_data: boolean = false;
     ngOnInit(): void {
         this.doGetInitialCurrent();
@@ -54,6 +56,9 @@ export class SetitemsComponent implements OnInit {
         //dropdown
         this.doLoadItemsList();
         this.doLoadItemList();
+        this.itemslike = [{ label: this.title_system_payroll, routerLink: '/payroll/policy' },
+        { label: this.title_page, styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
     }
     title_payroll: string = 'Payroll';
     title_system_Policy: string = 'Policy';
@@ -70,7 +75,7 @@ export class SetitemsComponent implements OnInit {
     title_income: string = 'Income';
     title_deduct: string = 'Deduct';
     title_Workage: string = 'Workage';
-    
+
     title_Item: string = 'Income ID';
     title_Rate: string = 'Rate';
     title_From: string = 'From';
@@ -104,19 +109,22 @@ export class SetitemsComponent implements OnInit {
     title_confirm_cancel: string = 'You have cancelled';
     title_submit: string = 'Submit';
     title_cancel: string = 'Cancel';
+    title_system_payroll: string = 'Policy Payroll';
 
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_system_Policy= 'นโยบาย';
-            this.title_Process= 'กระบวนการ';
-            this.title_payroll= 'บัญชี';
-            this.title_Result= 'ผลลัพธ์';
+            this.title_system_payroll = 'นโยบาย';
 
-            
+            this.title_system_Policy = 'นโยบาย';
+            this.title_Process = 'กระบวนการ';
+            this.title_payroll = 'บัญชี';
+            this.title_Result = 'ผลลัพธ์';
+
+
             this.title_policy = 'นโยบาย';
             this.title_page = 'กำหนดสิทธิเงินได้/เงินหัก';
-            this.title_name_policy= 'นโยบาย';
+            this.title_name_policy = 'นโยบาย';
             this.title_new = 'เพิ่ม';
             this.title_type = 'ประเภท';
             this.title_regular = 'รูปแบบ';

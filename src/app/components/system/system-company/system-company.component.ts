@@ -58,7 +58,7 @@ export class SystemCompanyComponent implements OnInit {
         this.doLoadMenu();
         setTimeout(() => {
 
-            
+
             this.doLoadCompany();
         }, 500);
     }
@@ -117,9 +117,12 @@ export class SystemCompanyComponent implements OnInit {
     title_confirm_no: string = 'No';
 
     title_confirm_cancel: string = 'You have cancelled';
+    title_genaral_system: string = 'Manage System';
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+            this.title_genaral_system = 'จัดการ';
+
             this.title_manage = 'จัดการ';
             this.title_codes = 'รหัสบริษัท';
             this.title_name = 'ชื่อบริษัท';
@@ -168,7 +171,7 @@ export class SystemCompanyComponent implements OnInit {
     }
 
     doLoadMenu() {
-        this.itemslike = [{ label: this.title_system, routerLink: '/system/sys-manage' },
+        this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/sys-manage' },
         { label: this.title_page, styleClass: 'activelike' }];
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [

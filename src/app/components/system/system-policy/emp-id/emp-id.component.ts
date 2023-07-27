@@ -45,7 +45,7 @@ export class EmpIDComponent implements OnInit {
     this.doLoadTRPolcode()
     setTimeout(() => {
 
-      
+
       // Dropdown
       this.doLoadCodestructureList();
     }, 500);
@@ -94,9 +94,12 @@ export class EmpIDComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Manage System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'จัดการ';
+
       this.title_system = "ระบบ";
       this.title_manage = "จัดการ";
       this.title_page = "รูปแบบรหัส";
@@ -136,7 +139,7 @@ export class EmpIDComponent implements OnInit {
   }
 
   doLoadMenu() {
-    this.itemslike = [{ label: this.title_system, routerLink: '/system/sys-manage' },
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/sys-manage' },
     { label: this.title_page, styleClass: 'activelike' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [

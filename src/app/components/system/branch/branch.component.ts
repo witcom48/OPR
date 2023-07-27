@@ -47,7 +47,7 @@ export class BranchComponent implements OnInit {
 
         setTimeout(() => {
 
-            
+
             this.doLoadCombranch();
         }, 500);
     }
@@ -104,9 +104,12 @@ export class BranchComponent implements OnInit {
     title_confirm_no: string = 'No';
 
     title_confirm_cancel: string = 'You have cancelled';
+    title_genaral_system: string = 'Manage System';
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+            this.title_genaral_system = 'จัดการ';
+
             this.title_codes = 'รหัสสาขา';
             this.title_social_security_branch = 'สาขาประกันสังคม'
             this.title_name = 'ชื่อสาขา';
@@ -154,7 +157,7 @@ export class BranchComponent implements OnInit {
     }
 
     doLoadMenu() {
-        this.itemslike = [{ label: this.title_system, routerLink: '/system/sys-manage' },
+        this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/sys-manage' },
         { label: this.title_page, styleClass: 'activelike' }];
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [

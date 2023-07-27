@@ -59,9 +59,9 @@ export class PolroundsComponent implements OnInit {
     public selecteTWK: string = '';
     public selecteloan: string = '';
 
-    title_system: { [key: string]: string } = { EN: 'System', TH: 'ระบบ' };
+    title_system: { [key: string]: string } = { EN: 'Manage System', TH: 'จัดการ' };
     title_tab_Manage: { [key: string]: string } = {
-        EN: 'Manage',
+        EN: 'Manage System',
         TH: 'จัดการ',
     };
     title_tab_Pol: { [key: string]: string } = {
@@ -170,7 +170,7 @@ export class PolroundsComponent implements OnInit {
         }, 500);
     }
     doLoadMenu() {
-        this.itemslike = [{ label: 'system', routerLink: '/system/sys-manage' }, {
+        this.itemslike = [{ label: this.title_system[this.initial_current.Language], routerLink: '/system/sys-manage' }, {
             label: this.title_tab_Pol[this.initial_current.Language], styleClass: 'activelike'
         }];
 

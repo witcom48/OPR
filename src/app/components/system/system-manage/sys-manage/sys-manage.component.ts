@@ -34,7 +34,7 @@ export class SysManageComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
     }
-    title_system_manage: string = 'System Manage';
+    title_system_manage: string = 'Manage System';
     title_links: string = 'Links';
     title_manage: string = 'Manage';
     title_company: string = 'Company';
@@ -48,7 +48,7 @@ export class SysManageComponent implements OnInit {
     title_round_polrounds: string = 'Currency Rounding';
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_system_manage = 'จัดการระบบ';
+            this.title_system_manage = 'จัดการ';
             this.title_links = 'ลิงค์';
             this.title_manage = 'จัดการ';
             this.title_company = 'ข้อมูลบริษัท';

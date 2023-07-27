@@ -27,7 +27,8 @@ export class ProvidentComponent implements OnInit {
     @ViewChild('TABLE') table: ElementRef | any = null;
     new_data: boolean = false;
     edit_data: boolean = false;
-
+    home: any;
+    itemslike: MenuItem[] = [];
     fileToUpload: File | any = null;
     displayUpload: boolean = false;
 
@@ -95,9 +96,12 @@ export class ProvidentComponent implements OnInit {
     title_confirm_no: string = 'No';
 
     title_confirm_cancel: string = 'You have cancelled';
+    title_system_payroll: string = 'Policy Payroll';
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+            this.title_system_payroll = 'นโยบาย';
+
             this.title_payroll = 'บัญชี';
             this.title_policy = 'กำหนดนโยบาย';
             this.title_page = 'กองทุนสำรองเลี้ยงชีพ';
@@ -148,6 +152,9 @@ export class ProvidentComponent implements OnInit {
         this.doLoadLanguage();
         this.doLoadMenu();
         this.doLoadLate();
+        this.itemslike = [{ label: this.title_system_payroll, routerLink: '/payroll/policy' },
+        { label: this.title_page, styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
     }
 
 

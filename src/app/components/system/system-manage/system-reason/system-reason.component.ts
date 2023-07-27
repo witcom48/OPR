@@ -30,7 +30,7 @@ export class SystemReasonComponent implements OnInit {
     this.doLoadMenu();
   }
   doLoadMenu() {
-    this.itemslike = [{ label: this.langs.get('system')[this.selectlang], routerLink: '/system/sys-manage' }, {
+    this.itemslike = [{ label: this.langs.get('manage')[this.selectlang], routerLink: '/system/sys-manage' }, {
       label: this.langs.get('reason')[this.selectlang], styleClass: 'activelike'
     }];
 

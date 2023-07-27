@@ -35,7 +35,7 @@ export class PayrollPolicyComponent implements OnInit {
             this.router.navigateByUrl('');
         }
     }
-    title_system_payroll: string = 'Policy payroll';
+    title_system_payroll: string = 'Policy Payroll';
     title_system_Policy: string = 'Policy';
 
 

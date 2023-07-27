@@ -44,7 +44,7 @@ export class SystemQualificationComponent implements OnInit {
     this.doLoadMenu()
     setTimeout(() => {
 
-      
+
       this.doLoadQualification()
     }, 500);
   }
@@ -86,9 +86,12 @@ export class SystemQualificationComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Genaral System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'ระบบทั่วไป';
+
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";
       this.title_page = "คุณสมบัติ";
@@ -124,7 +127,7 @@ export class SystemQualificationComponent implements OnInit {
   }
 
   doLoadMenu() {
-    this.itemslike = [{ label: this.title_system, routerLink: '/system/general' },
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
     { label: this.title_page, styleClass: 'activelike' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
