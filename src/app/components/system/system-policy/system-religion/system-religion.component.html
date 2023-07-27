@@ -85,7 +85,8 @@
                 <label>{{title_name_en}}<span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="selectedReligion.religion_name_en" pInputTextarea [autoResize]="true"
                     name="bank_name_en" #late_name_en="ngModel" required></textarea>
-                <div style="text-align: right;">
+                    <br>
+                    <div style="text-align: right;">
                     <button pButton type="button" class="button-size" label="{{title_save}}" icon="pi pi-save"
                         (click)="confirmRecord()" [disabled]="!Form.form.valid"></button>
                     &nbsp;
