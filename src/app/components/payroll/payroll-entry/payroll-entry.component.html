@@ -1,6 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
-<span style="font-size: 20px;">{{title_payroll}}</span>&nbsp;
-<i class="pi pi-angle-right"></i>&nbsp; <span>{{title_manage}}</span>
+<!-- <span style="font-size: 20px;">{{title_payroll}}</span>&nbsp; -->
+<!-- <i class="pi pi-angle-right"></i>&nbsp; <span>{{title_manage}}</span> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <hr>
 
 <p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
@@ -9,13 +11,16 @@
             <app-search-emp></app-search-emp>
         </div>
         <div class="col-12">
-            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check" (click)="select_emp()"></p-button> 
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check"
+                (click)="select_emp()"></p-button>
             &nbsp;
-            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}" class="p-button-secondary" (click)="close_searchemp()"></button>                      
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
+                class="p-button-secondary" (click)="close_searchemp()"></button>
         </div>
     </div>
 </p-dialog>
-
+<div *ngIf="searchEmp" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 <p-tabView>
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
@@ -37,7 +42,8 @@
                         <td style="width: 150px;">
                             <input id="lastname2" type="text" [value]="worker_code" name="worker_code"
                                 style="text-align: center;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                readonly>
                         </td>
                         <td style="width: 20px;">
                             <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
@@ -49,12 +55,13 @@
 
                         <td style="width: 250px;" align="left">
                             <input id="lastname2" type="text" [value]="worker_name" style="width: 250px;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                readonly>
                         </td>
                     </tr>
                 </table>
                 <p></p>
-                                            <!-- --------------END Form employee by income------------------ -->
+                <!-- --------------END Form employee by income------------------ -->
 
                 <p-menubar [model]="menu_timecard"></p-menubar>
                 <div class="tabledata">
@@ -77,7 +84,7 @@
                                     </span>
                                 </div>
                             </ng-template>
-                           <ng-template pTemplate="header">
+                            <ng-template pTemplate="header">
                                 <tr>
                                     <th>{{title_no}}</th>
                                     <th>{{title_codes}}</th>
@@ -113,61 +120,71 @@
                         </p-table>
                     </div>
                     <!-- -----------------------END Table-------------------------- -->
-                    <div class="formatt" *ngIf="new_data || edit_data">
-                        <i class="pi pi-times" (click)="close()"></i>
-                        <div>
-                            <label>{{title_details}}</label>
-                            <p-dropdown placeholder="--" [options]="Items_List" optionValue="item_code"
-                                [showClear]="true" [(ngModel)]="payitems.item_code"
-                                [style]="{ width: '100%', overflow: 'visible' }">
-                                <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
-                                </ng-template>
-                                <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                        <label>{{title_amount}}</label>
-                        <p-inputNumber [(ngModel)]="payitems.payitem_amount" inputId="minmaxfraction" mode="decimal"
-                            [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
 
-                        <label>{{title_quantity}}</label>
-                        <p-inputNumber [(ngModel)]="payitems.payitem_quantity" inputId="minmaxfraction" mode="decimal"
-                            [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
-                        <div class="radiorole">
-                            <div class="radioroledata">
-                                <!-- ธนาคาร -->
-                                <label>{{title_bank_transfer_cash}}</label>
-                                <div>
-                                    <input type="radio" name="roel" value="B " [(ngModel)]="payitems.payitem_paytype">
-                                    <label>{{title_bank}}</label>
+                    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
+                        [position]="position" >
+                        <div class="formatt" *ngIf="new_data">
+                            <!-- <i class="pi pi-times" (click)="close()"></i> -->
+                            <div>
+                                <label>{{title_details}}<span style="color: red;"> *</span></label>
+                                <p-dropdown placeholder="--" [options]="ItemsIN_List" optionValue="item_code"
+                                    [showClear]="true" [(ngModel)]="payitems.item_code"
+                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                    <ng-template let-item pTemplate="selectedItem">
+                                        {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="item">
+                                        {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                            <label>{{title_amount}}<span style="color: red;"> *</span></label>
+                            <p-inputNumber [(ngModel)]="payitems.payitem_amount" inputId="minmaxfraction" mode="decimal"
+                                [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
 
-                                </div>
+                            <label>{{title_quantity}}<span style="color: red;"> *</span></label>
+                            <p-inputNumber [(ngModel)]="payitems.payitem_quantity" inputId="minmaxfraction"
+                                mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
+                            <div class="radiorole">
+                                <div class="radioroledata">
+                                    <br>
+                                    <!-- ธนาคาร -->
 
-                                <div>
-                                    <input type="radio" name="roel" value="C " [(ngModel)]="payitems.payitem_paytype">
-                                    <label>{{title_cash}}</label>
+                                    <label>{{title_bank_transfer_cash}}<span style="color: red;"> *</span></label>
+                                    <div>
+                                        <input type="radio" name="roel" value="B "
+                                            [(ngModel)]="payitems.payitem_paytype" required>
+                                        <label>{{title_bank}}</label>
+                                    </div>
+
+                                    <div>
+                                        <input type="radio" name="roel" value="C "
+                                            [(ngModel)]="payitems.payitem_paytype" required>
+                                        <label>{{title_cash}}</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <br>
+                            <label>{{title_note}}</label>
+                            <input pInputText type="text" [(ngModel)]="payitems.payitem_note" />
+                            <br>
+                            <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
 
-                        <label>{{title_note}}</label>
-                        <input pInputText type="text" [(ngModel)]="payitems.payitem_note"  />
-
-                        <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
-
-                        <!-- <label>{{title_date}}</label> -->
-                        <!-- <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                            <!-- <label>{{title_date}}</label> -->
+                            <!-- <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="payitems.payitem_date">
                             <input type="text"></p-calendar> -->
-
-                        <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
-                            (click)="Save()"></button>
-                        <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}"
-                            icon="pi pi-trash" class="p-button-danger" (click)="Delete()"></button>
-
-                    </div>
+                            <div style="text-align: right;">
+                                <button pButton type="button" class="button-size" label="{{title_save}}"
+                                    icon="pi pi-save" (click)="Save()"></button>
+                                &nbsp;
+                                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}"
+                                    icon="pi pi-trash" class="btndel button-size" (click)="Delete()"></button>
+                            </div>
+                        </div>
+                    </p-dialog>
+                    <div *ngIf="displayManage" style="z-index: 1084;"
+                        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
 
                     <!-- --------------End form Input Data ------------------ -->
                 </div>
@@ -187,7 +204,7 @@
                         </td>
                     </tr>
                 </div>
-                                                    <!-- --------------End form summary ------------------ -->
+                <!-- --------------End form summary ------------------ -->
 
             </p-tabPanel>
             <!-- Dialog Choose File Import -->
@@ -200,6 +217,8 @@
                     <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
                 </ng-template>
             </p-dialog>
+            <div *ngIf="displayUpload" style="z-index: 1084;"
+                class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
 
             <!-- -----------------End Dialog Choose File-------------------- -->
 
@@ -218,7 +237,7 @@
             </p-tabPanel>
         </p-tabView>
     </p-tabPanel>
-                                    <!-- --------------End form income ------------------ -->
+    <!-- --------------End form income ------------------ -->
 
     <p-tabPanel>
         <ng-template pTemplate="header">
@@ -240,7 +259,8 @@
                         <td style="width: 150px;">
                             <input id="lastname2" type="text" [value]="worker_code" name="worker_code"
                                 style="text-align: center;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                readonly>
                         </td>
                         <td style="width: 20px;">
                             <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
@@ -250,12 +270,13 @@
                         </td>
                         <td style="width: 250px;" align="left">
                             <input id="lastname2" type="text" [value]="worker_name" style="width: 250px;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                readonly>
                         </td>
                     </tr>
                 </table>
                 <p></p>
-                                            <!-- --------------END Form employee by deduct------------------ -->
+                <!-- --------------END Form employee by deduct------------------ -->
 
                 <p-menubar [model]="menu_timecard"></p-menubar>
                 <div class="tabledata">
@@ -317,62 +338,73 @@
                     </div>
 
                     <!-- -----------------------END Table-------------------------- -->
+                    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
+                        [position]="position">
+                        <div class="formatt" *ngIf="new_data">
+                            <!-- <i class="pi pi-times" (click)="close()"></i> -->
+                            <div>
+                                <label>{{title_details}}<span style="color: red;"> *</span></label>
+                                <p-dropdown placeholder="--" [options]="ItemsDE_List" optionValue="item_code"
+                                    [showClear]="true" [(ngModel)]="payitems.item_code"
+                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                    <ng-template let-item pTemplate="selectedItem">
+                                        {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="item">
+                                        {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                            <label>{{title_amount}}<span style="color: red;"> *</span></label>
+                            <p-inputNumber [(ngModel)]="payitems.payitem_amount" inputId="minmaxfraction" mode="decimal"
+                                [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
 
-                    <div class="formatt" *ngIf="new_data || edit_data">
-                        <i class="pi pi-times" (click)="close()"></i>
-                        <div>
-                            <label>{{title_details}}</label>
-                            <p-dropdown placeholder="--" [options]="Items_List" optionValue="item_code"
-                                [showClear]="true" [(ngModel)]="payitems.item_code"
-                                [style]="{ width: '100%', overflow: 'visible' }">
-                                <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
-                                </ng-template>
-                                <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.item_name_th : item.item_name_en}}
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                        <label>{{title_amount}}</label>
-                        <p-inputNumber [(ngModel)]="payitems.payitem_amount" inputId="minmaxfraction" mode="decimal"
-                            [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
+                            <label>{{title_quantity}}<span style="color: red;"> *</span></label>
+                            <p-inputNumber [(ngModel)]="payitems.payitem_quantity" inputId="minmaxfraction"
+                                mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
 
-                        <label>{{title_quantity}}</label>
-                        <p-inputNumber [(ngModel)]="payitems.payitem_quantity" inputId="minmaxfraction" mode="decimal"
-                            [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
+                            <div class="radiorole">
+                                <div class="radioroledata">
+                                    <br>
+                                    <!-- ธนาคาร -->
+                                    <label>{{title_bank_transfer_cash}}<span style="color: red;"> *</span></label>
+                                    <div>
+                                        <input type="radio" name="roel" value="B"
+                                            [(ngModel)]="payitems.payitem_paytype">
+                                        <label>{{title_bank}}</label>
 
-                        <div class="radiorole">
-                            <div class="radioroledata">
-                                <!-- ธนาคาร -->
-                                <label>{{title_bank_transfer_cash}}</label>
-                                <div>
-                                    <input type="radio" name="roel" value="B" [(ngModel)]="payitems.payitem_paytype">
-                                    <label>{{title_bank}}</label>
+                                    </div>
 
-                                </div>
-
-                                <div>
-                                    <input type="radio" name="roel" value="C" [(ngModel)]="payitems.payitem_paytype">
-                                    <label>{{title_cash}}</label>
+                                    <div>
+                                        <input type="radio" name="roel" value="C"
+                                            [(ngModel)]="payitems.payitem_paytype">
+                                        <label>{{title_cash}}</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <br>
+                            <label>{{title_note}}</label>
+                            <input pInputText type="text" [(ngModel)]="payitems.payitem_note" />
 
-                        <label>{{title_note}}</label>
-                        <input pInputText type="text" [(ngModel)]="payitems.payitem_note"  />
+                            <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
 
-                        <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
-
-                        <!-- <label>{{title_date}}</label>
+                            <!-- <label>{{title_date}}</label>
                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
                             [(ngModel)]="payitems.payitem_date">
                             <input type="text"></p-calendar> -->
-                        <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
-                            (click)="Save()"></button>
-                        <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}"
-                            icon="pi pi-trash" class="p-button-danger" (click)="Delete()"></button>
-                    </div>
-                                        <!-- --------------End form Input Data ------------------ -->
+                            <div style="text-align: right;">
+                                <br>
+                                <button pButton type="button" class="button-size" label="{{title_save}}"
+                                    icon="pi pi-save" (click)="Save()"></button>
+                                &nbsp;
+                                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}"
+                                    icon="pi pi-trash" class="btndel button-size" (click)="Delete()"></button>
+                            </div>
+                        </div>
+                    </p-dialog>
+                    <div *ngIf="displayManage" style="z-index: 1084;"
+                        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+                    <!-- --------------End form Input Data ------------------ -->
 
                 </div>
                 <div>
@@ -390,7 +422,7 @@
                         </td>
                     </tr>
                 </div>
-                                    <!-- --------------End form summary ------------------ -->
+                <!-- --------------End form summary ------------------ -->
 
             </p-tabPanel>
 
@@ -402,7 +434,7 @@
                 <app-app-entrys></app-app-entrys>
 
             </p-tabPanel>
-                                    <!-- --------------End form deduct ------------------ -->
+            <!-- --------------End form deduct ------------------ -->
 
         </p-tabView>
 

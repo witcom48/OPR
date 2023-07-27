@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmployeeModel } from 'src/app/models/employee/employee';
@@ -33,7 +33,9 @@ interface Result {
 })
 export class PayrollViewComponent implements OnInit {
 
-
+  home: any;
+  itemslike: MenuItem[] = [];
+  
   title_payroll: { [key: string]: string } = { EN: "Payroll", TH: "Payroll" };
   title_page: { [key: string]: string } = { EN: "View Calculate", TH: "ตรวจสอบการคำนวน" };
   title_tax: { [key: string]: string } = { EN: "Tax", TH: "ภาษี" };
@@ -130,7 +132,9 @@ export class PayrollViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
+ this.itemslike = [{ label: this.title_page[this.initial_current.Language], styleClass: 'activelike' }];
 
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     Promise.all([this.doLoadEmployee(), this.doLoadPayitem()])
       .then(() => {
         setTimeout(() => {
