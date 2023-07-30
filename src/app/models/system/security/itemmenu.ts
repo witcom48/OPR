@@ -1,4 +1,4 @@
-export class ItemmenuModel {
+export class ItemMenuModel {
     constructor() {
     }
     submenu_code: string = "";

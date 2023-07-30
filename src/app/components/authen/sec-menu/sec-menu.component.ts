@@ -5,11 +5,11 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { AccessmenuModel } from 'src/app/models/system/security/accessmenu';
-import { ItemmenuModel } from 'src/app/models/system/security/itemmenu';
-import { MainmenuModel } from 'src/app/models/system/security/mainmenu';
+import { ItemMenuModel } from 'src/app/models/system/security/itemmenu';
+import { MainMenuModel } from 'src/app/models/system/security/mainmenu';
 import { PolmenuModel } from 'src/app/models/system/security/polmenu';
-import { SubmenuModel } from 'src/app/models/system/security/submenu';
-import { MainmenuServices } from 'src/app/services/system/security/menu.service';
+import { SubMenuModel } from 'src/app/models/system/security/submenu';
+import { MainMenuService } from 'src/app/services/system/security/menu.service';
 import { PolmenuServices } from 'src/app/services/system/security/polmenu.service';
 declare var menu: any;
 @Component({
@@ -23,7 +23,7 @@ export class SecMenuComponent implements OnInit {
   itemslike: MenuItem[] = [{ label: 'Security system', routerLink: '/system/security' }, { label: 'Security system', routerLink: '/system/security', styleClass: 'activelike' }];
   home: any = { icon: 'pi pi-home', routerLink: '/' }
   menuItems: MenuItem[] = [];
-  memu_list: MainmenuModel[] = [];
+  menuList: MainMenuModel[] = [];
   isDisplayingManagement: boolean = false;
   edit_data: boolean = false;
   new_data: boolean = false;
@@ -65,25 +65,25 @@ export class SecMenuComponent implements OnInit {
   sysdelete: boolean = false;
   syssalary: boolean = false;
 
-  filesself: TreeNode[] = [];
-  filespro: TreeNode[] = [];
-  filesemp: TreeNode[] = [];
-  filesreq: TreeNode[] = [];
-  filesatt: TreeNode[] = [];
-  filespay: TreeNode[] = [];
-  filessys: TreeNode[] = [];
+  selfFiles: TreeNode[] = [];
+  proFiles: TreeNode[] = [];
+  empFiles: TreeNode[] = [];
+  reqFiles: TreeNode[] = [];
+  attFiles: TreeNode[] = [];
+  payFiles: TreeNode[] = [];
+  sysFiles: TreeNode[] = [];
 
-  selectedFilesself: TreeNode[] = [];
-  selectedFilespro: TreeNode[] = [];
-  selectedFilesemp: TreeNode[] = [];
-  selectedFilesreq: TreeNode[] = [];
-  selectedFilesatt: TreeNode[] = [];
-  selectedFilespay: TreeNode[] = [];
-  selectedFilessys: TreeNode[] = [];
+  selectedselfFiles: TreeNode[] = [];
+  selectedproFiles: TreeNode[] = [];
+  selectedempFiles: TreeNode[] = [];
+  selectedreqFiles: TreeNode[] = [];
+  selectedattFiles: TreeNode[] = [];
+  selectedpayFiles: TreeNode[] = [];
+  selectedsysFiles: TreeNode[] = [];
   constructor(
     private router: Router,
     private messageService: MessageService,
-    private mainmenuService: MainmenuServices,
+    private mainMenuService: MainMenuService,
     private polmenuService: PolmenuServices
   ) { }
   initialCurrent: InitialCurrent = new InitialCurrent();
@@ -96,13 +96,13 @@ export class SecMenuComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loadInitialCurrent();
-    this.doLoadMenu();
+    this.loadMainMenu();
     this.loadMenu();
   }
   sumit(): void {
-    // console.log(this.selectedFilesatt);
-    // console.log(this.selectedFilesemp);
-    // console.log(this.filesatt);
+    // console.log(this.selectedattFiles);
+    // console.log(this.selectedempFiles);
+    // console.log(this.attFiles);
     var tem = new PolmenuModel();
     tem.polmenu_id = this.selectedpolmenu.polmenu_id;
     tem.polmenu_code = this.selectedpolmenu.polmenu_code;
@@ -117,7 +117,7 @@ export class SecMenuComponent implements OnInit {
     dataself.accessdata_edit = this.selfedit;
     dataself.accessdata_delete = this.selfdelete;
     dataself.accessdata_salary = this.selfsalary;
-    this.selectedFilesself.forEach((fileself: TreeNode) => {
+    this.selectedselfFiles.forEach((fileself: TreeNode) => {
       dataself.accessmenu_data.push({
         company_code: dataself.company_code,
         polmenu_code: this.selectedpolmenu.polmenu_code,
@@ -134,7 +134,7 @@ export class SecMenuComponent implements OnInit {
     datapro.accessdata_edit = this.proedit;
     datapro.accessdata_delete = this.prodelete;
     datapro.accessdata_salary = this.prosalary;
-    this.selectedFilespro.forEach((filepro: TreeNode) => {
+    this.selectedproFiles.forEach((filepro: TreeNode) => {
       datapro.accessmenu_data.push({
         company_code: datapro.company_code,
         polmenu_code: this.selectedpolmenu.polmenu_code,
@@ -151,7 +151,7 @@ export class SecMenuComponent implements OnInit {
     dataemp.accessdata_edit = this.empedit;
     dataemp.accessdata_delete = this.empdelete;
     dataemp.accessdata_salary = this.empsalary;
-    this.selectedFilesemp.forEach((fileemp: TreeNode) => {
+    this.selectedempFiles.forEach((fileemp: TreeNode) => {
       dataemp.accessmenu_data.push({
         company_code: dataemp.company_code,
         polmenu_code: this.selectedpolmenu.polmenu_code,
@@ -168,7 +168,7 @@ export class SecMenuComponent implements OnInit {
     datareq.accessdata_edit = this.reqedit;
     datareq.accessdata_delete = this.reqdelete;
     datareq.accessdata_salary = this.reqsalary;
-    this.selectedFilesreq.forEach((filereq: TreeNode) => {
+    this.selectedreqFiles.forEach((filereq: TreeNode) => {
       datareq.accessmenu_data.push({
         company_code: datareq.company_code,
         polmenu_code: this.selectedpolmenu.polmenu_code,
@@ -185,7 +185,7 @@ export class SecMenuComponent implements OnInit {
     dataatt.accessdata_edit = this.attedit;
     dataatt.accessdata_delete = this.attdelete;
     dataatt.accessdata_salary = this.attsalary;
-    this.selectedFilesatt.forEach((fileAtt: TreeNode) => {
+    this.selectedattFiles.forEach((fileAtt: TreeNode) => {
       dataatt.accessmenu_data.push({
         company_code: dataatt.company_code,
         polmenu_code: this.selectedpolmenu.polmenu_code,
@@ -202,7 +202,7 @@ export class SecMenuComponent implements OnInit {
     datapay.accessdata_edit = this.payedit;
     datapay.accessdata_delete = this.paydelete;
     datapay.accessdata_salary = this.paysalary;
-    this.selectedFilespay.forEach((filepay: TreeNode) => {
+    this.selectedpayFiles.forEach((filepay: TreeNode) => {
       datapay.accessmenu_data.push({
         company_code: datapay.company_code,
         polmenu_code: this.selectedpolmenu.polmenu_code,
@@ -219,7 +219,7 @@ export class SecMenuComponent implements OnInit {
     datasys.accessdata_edit = this.sysedit;
     datasys.accessdata_delete = this.sysdelete;
     datasys.accessdata_salary = this.syssalary;
-    this.selectedFilessys.forEach((filesys: TreeNode) => {
+    this.selectedsysFiles.forEach((filesys: TreeNode) => {
       datasys.accessmenu_data.push({
         company_code: datasys.company_code,
         polmenu_code: this.selectedpolmenu.polmenu_code,
@@ -259,6 +259,23 @@ export class SecMenuComponent implements OnInit {
       this.polmenuList = res;
     })
   }
+
+  async doDeletePolmenu(data: PolmenuModel) {
+    await this.polmenuService.polmenu_delete(data).then((res) => {
+      // console.log(res)
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        this.doLoadPolmenu()
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.closeManagement();
+    this.new_data = false;
+    this.edit_data = false;
+  }
   async doRecordPolmenu(data: PolmenuModel) {
     await this.polmenuService.polmenu_record(data).then((res) => {
       // console.log(res)
@@ -275,224 +292,218 @@ export class SecMenuComponent implements OnInit {
     this.edit_data = false;
     this.closeManagement();
   }
-  doLoadMenu(): void {
-    this.memu_list = [];
-    var tmp = new MainmenuModel();
-    this.mainmenuService.menu_get(tmp).then(async (res: MainmenuModel[]) => {
-      this.memu_list = await res;
-      res.forEach((item: MainmenuModel) => {
-        if (item.mainmenu_code == "SELF") {
-          this.filesself = [
+  async loadMainMenu(): Promise<void> {
+    this.menuList = [];
+    const mainMenuRequest = new MainMenuModel();
+    const mainMenuData = await this.mainMenuService.fetchMainMenu(mainMenuRequest);
+
+    mainMenuData.forEach(async (mainMenu: MainMenuModel) => {
+      const mainMenuCode = mainMenu.mainmenu_code;
+      const mainMenuDetail = this.accountLanguages == "EN" ? mainMenu.mainmenu_detail_en : mainMenu.mainmenu_detail_th;
+      const submenuList: any[] = [];
+
+      mainMenu.submenu_data.forEach((submenu: SubMenuModel) => {
+        const submenuCode = submenu.submenu_code;
+        const submenuDetail = this.accountLanguages == "EN" ? submenu.submenu_detail_en : submenu.submenu_detail_th;
+        const itemMenuList: any[] = [];
+
+        submenu.itemmenu_data.forEach((itemMenu: ItemMenuModel) => {
+          const itemMenuCode = itemMenu.itemmenu_code;
+          const itemMenuDetail = this.accountLanguages == "EN" ? itemMenu.itemmenu_detail_en : itemMenu.itemmenu_detail_th;
+          itemMenuList.push({
+            key: itemMenuCode,
+            data: "ITEM",
+            label: itemMenuDetail
+          });
+        });
+
+        submenuList.push({
+          key: submenuCode,
+          data: "SUB",
+          label: submenuDetail,
+          children: itemMenuList
+        });
+      });
+
+      switch (mainMenuCode) {
+        case "SELF":
+          this.selfFiles = [
             {
-              key: item.mainmenu_code,
+              key: mainMenuCode,
               data: "MAIN",
-              label: item.mainmenu_detail_en,
-              // data: 'Attendance',
-              // icon: 'pi pi-fw pi-inbox',
-              children: [],
+              label: mainMenuDetail,
+              children: submenuList,
               expanded: true
             }
           ];
-          item.submenu_data.forEach(async (obj: SubmenuModel) => {
-            let data: any = {
-              key: obj.submenu_code,
-              data: "SUB",
-              label: obj.submenu_detail_en,
-              // data: 'Work Folder',
-              children: []
-            };
-            obj.itemmenu_data.forEach((itemmenu: ItemmenuModel) => {
-              data.children.push({ key: itemmenu.itemmenu_code, data: "ITEM", label: itemmenu.itemmenu_detail_en },)
-            })
-            this.filesself[0].children?.push(data);
-            // if (obj.submenu_code == 'ATT001') {
-            //   this.selectedFilesatt.push(data)
-            // }
-          })
-        }
-        if (item.mainmenu_code == "PRO") {
-          this.filespro = [
+          break;
+
+        case "PRO":
+          this.proFiles = [
             {
-              key: item.mainmenu_code,
+              key: mainMenuCode,
               data: "MAIN",
-              label: item.mainmenu_detail_en,
-              // data: 'Attendance',
-              // icon: 'pi pi-fw pi-inbox',
-              children: [],
+              label: mainMenuDetail,
+              children: submenuList,
               expanded: true
             }
           ];
-          item.submenu_data.forEach(async (obj: SubmenuModel) => {
-            let data: any = {
-              key: obj.submenu_code,
-              data: "SUB",
-              label: obj.submenu_detail_en,
-              // data: 'Work Folder',
-              children: []
-            };
-            obj.itemmenu_data.forEach((itemmenu: ItemmenuModel) => {
-              data.children.push({ key: itemmenu.itemmenu_code, data: "ITEM", label: itemmenu.itemmenu_detail_en },)
-            })
-            this.filespro[0].children?.push(data);
-            // if (obj.submenu_code == 'ATT001') {
-            //   this.selectedFilesatt.push(data)
-            // }
-          })
-        }
-        if (item.mainmenu_code == "EMP") {
-          this.filesemp = [
+          break;
+
+        case "EMP":
+          this.empFiles = [
             {
-              key: item.mainmenu_code,
+              key: mainMenuCode,
               data: "MAIN",
-              label: item.mainmenu_detail_en,
-              // data: 'Attendance',
-              // icon: 'pi pi-fw pi-inbox',
-              children: [],
+              label: mainMenuDetail,
+              children: submenuList,
               expanded: true
             }
           ];
-          item.submenu_data.forEach(async (obj: SubmenuModel) => {
-            let data: any = {
-              key: obj.submenu_code,
-              data: "SUB",
-              label: obj.submenu_detail_en,
-              // data: 'Work Folder',
-              children: []
-            };
-            obj.itemmenu_data.forEach((itemmenu: ItemmenuModel) => {
-              data.children.push({ key: itemmenu.itemmenu_code, data: "ITEM", label: itemmenu.itemmenu_detail_en },)
-            })
-            this.filesemp[0].children?.push(data);
-          })
-        }
-        if (item.mainmenu_code == "REQ") {
-          this.filesreq = [
+          break;
+
+        case "REQ":
+          this.reqFiles = [
             {
-              key: item.mainmenu_code,
+              key: mainMenuCode,
               data: "MAIN",
-              label: item.mainmenu_detail_en,
-              // data: 'Attendance',
-              // icon: 'pi pi-fw pi-inbox',
-              children: [],
+              label: mainMenuDetail,
+              children: submenuList,
               expanded: true
             }
           ];
-          item.submenu_data.forEach(async (obj: SubmenuModel) => {
-            let data: any = {
-              key: obj.submenu_code,
-              data: "SUB",
-              label: obj.submenu_detail_en,
-              // data: 'Work Folder',
-              children: []
-            };
-            obj.itemmenu_data.forEach((itemmenu: ItemmenuModel) => {
-              data.children.push({ key: itemmenu.itemmenu_code, data: "ITEM", label: itemmenu.itemmenu_detail_en },)
-            })
-            this.filesreq[0].children?.push(data);
-            // if (obj.submenu_code == 'ATT001') {
-            //   this.selectedFilesatt.push(data)
-            // }
-          })
-        }
-        if (item.mainmenu_code == "ATT") {
-          this.filesatt = [
+          break;
+
+        case "ATT":
+          this.attFiles = [
             {
-              key: item.mainmenu_code,
+              key: mainMenuCode,
               data: "MAIN",
-              label: item.mainmenu_detail_en,
-              // data: 'Attendance',
-              // icon: 'pi pi-fw pi-inbox',
-              children: [],
+              label: mainMenuDetail,
+              children: submenuList,
               expanded: true
             }
           ];
-          item.submenu_data.forEach(async (obj: SubmenuModel) => {
-            let data: any = {
-              key: obj.submenu_code,
-              data: "SUB",
-              label: obj.submenu_detail_en,
-              // data: 'Work Folder',
-              children: []
-            };
-            obj.itemmenu_data.forEach((itemmenu: ItemmenuModel) => {
-              data.children.push({ key: itemmenu.itemmenu_code, data: "ITEM", label: itemmenu.itemmenu_detail_en },)
-            })
-            this.filesatt[0].children?.push(data);
-            // if (obj.submenu_code == 'ATT001') {
-            //   this.selectedFilesatt.push(data)
-            // }
-          })
-        }
-        if (item.mainmenu_code == "PAY") {
-          this.filespay = [
+          break;
+
+        case "PAY":
+          this.payFiles = [
             {
-              key: item.mainmenu_code,
+              key: mainMenuCode,
               data: "MAIN",
-              label: item.mainmenu_detail_en,
-              // data: 'Attendance',
-              // icon: 'pi pi-fw pi-inbox',
-              children: [],
+              label: mainMenuDetail,
+              children: submenuList,
               expanded: true
             }
           ];
-          item.submenu_data.forEach(async (obj: SubmenuModel) => {
-            let data: any = {
-              key: obj.submenu_code,
-              data: "SUB",
-              label: obj.submenu_detail_en,
-              // data: 'Work Folder',
-              children: []
-            };
-            obj.itemmenu_data.forEach((itemmenu: ItemmenuModel) => {
-              data.children.push({ key: itemmenu.itemmenu_code, data: "ITEM", label: itemmenu.itemmenu_detail_en },)
-            })
-            this.filespay[0].children?.push(data);
-            // if (obj.submenu_code == 'ATT001') {
-            //   this.selectedFilesatt.push(data)
-            // }
-          })
-        }
-        if (item.mainmenu_code == "SYS") {
-          this.filessys = [
+          break;
+
+        case "SYS":
+          this.sysFiles = [
             {
-              key: item.mainmenu_code,
+              key: mainMenuCode,
               data: "MAIN",
-              label: item.mainmenu_detail_en,
-              // data: 'Attendance',
-              // icon: 'pi pi-fw pi-inbox',
-              children: [],
+              label: mainMenuDetail,
+              children: submenuList,
               expanded: true
             }
           ];
-          item.submenu_data.forEach(async (obj: SubmenuModel) => {
-            let data: any = {
-              key: obj.submenu_code,
-              data: "SUB",
-              label: obj.submenu_detail_en,
-              // data: 'Work Folder',
-              children: []
-            };
-            obj.itemmenu_data.forEach((itemmenu: ItemmenuModel) => {
-              data.children.push({ key: itemmenu.itemmenu_code, data: "ITEM", label: itemmenu.itemmenu_detail_en },)
-            })
-            this.filessys[0].children?.push(data);
-            // if (obj.submenu_code == 'ATT001') {
-            //   this.selectedFilesatt.push(data)
-            // }
-          })
-        }
-      })
-      this.doLoadPolmenu();
+          break;
+
+        default:
+          // Do nothing for unknown main menu codes.
+          break;
+      }
     });
+
+    this.doLoadPolmenu();
   }
+  onRowSelection1(events: any) {
+    this.resetSelectedFiles();
+
+    for (const item of this.selectedpolmenu.accessdata_data) {
+      const module = item.accessdata_module.toLowerCase();
+      const filesKey: keyof this = `${module}Files` as keyof this;
+      const selectedFilesKey: keyof this = `selected${module}Files` as keyof this;
+
+      const files = this[filesKey]
+      const selectedFiles = this[selectedFilesKey]
+      console.log(files)
+      console.log(selectedFiles)
+
+      this.updateSelectedFiles(item.accessmenu_data, files, selectedFiles);
+    }
+
+    this.isDisplayingManagement = true;
+    this.edit_data = true;
+  }
+
+  resetSelectedFiles() {
+    this.selectedselfFiles = [];
+    this.selectedproFiles = [];
+    this.selectedempFiles = [];
+    this.selectedreqFiles = [];
+    this.selectedattFiles = [];
+    this.selectedpayFiles = [];
+    this.selectedsysFiles = [];
+  }
+
+  updateSelectedFiles(accessmenu_data: AccessmenuModel[], files: any, selectedFiles: any) {
+    const processMenuType = (menuType: string, file: TreeNode) => {
+      if (menuType === 'ITEM') {
+        file.partialSelected = false;
+        if (file.parent) {
+          file.parent.partialSelected = true;
+        }
+        selectedFiles.push(file);
+      } else if (menuType === 'SUB') {
+        file.partialSelected = false;
+        if (file.parent) {
+          file.parent.partialSelected = true;
+        }
+        selectedFiles.push(file);
+      }
+    };
+
+    const updateFiles = (menuCode: string, menuType: string) => {
+      const file = files[0].children?.find((child: TreeNode) => child.key === menuCode);
+      if (file) {
+        processMenuType(menuType, file);
+      }
+    };
+
+    for (const obj of accessmenu_data) {
+      const { accessmenu_type, accessmenu_code } = obj;
+      const menuCode = accessmenu_code.split('-')[0];
+
+      if (accessmenu_type === 'MAIN') {
+        files.forEach((file: TreeNode) => {
+          file.partialSelected = false;
+          selectedFiles.push(file);
+          file.children?.forEach((child: TreeNode) => {
+            child.partialSelected = false;
+            selectedFiles.push(child);
+            child.children?.forEach((item: TreeNode) => {
+              item.partialSelected = false;
+              selectedFiles.push(item);
+            });
+          });
+        });
+      } else {
+        updateFiles(menuCode, accessmenu_type);
+      }
+    }
+  }
+
+
   onRowSelection(events: any) {
-    this.selectedFilesself = [];
-    this.selectedFilespro = [];
-    this.selectedFilesemp = [];
-    this.selectedFilesreq = [];
-    this.selectedFilesatt = [];
-    this.selectedFilespay = [];
-    this.selectedFilessys = [];
+    this.selectedselfFiles = [];
+    this.selectedproFiles = [];
+    this.selectedempFiles = [];
+    this.selectedreqFiles = [];
+    this.selectedattFiles = [];
+    this.selectedpayFiles = [];
+    this.selectedsysFiles = [];
     for (const item of this.selectedpolmenu.accessdata_data) {
       if (item.accessdata_module == "SELF") {
         this.selfadding = item.accessdata_new;
@@ -500,39 +511,39 @@ export class SecMenuComponent implements OnInit {
         this.selfdelete = item.accessdata_delete;
         this.selfsalary = item.accessdata_salary;
         if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_type == "MAIN")) {
-          this.selectedFilesself = [];
-          this.filesself.forEach((fileSelf: TreeNode) => {
+          this.selectedselfFiles = [];
+          this.selfFiles.forEach((fileSelf: TreeNode) => {
             fileSelf.partialSelected = false;
-            this.selectedFilesself.push(fileSelf)
+            this.selectedselfFiles.push(fileSelf)
             fileSelf.children?.forEach((child: TreeNode) => {
               child.partialSelected = false;
-              this.selectedFilesself.push(child)
+              this.selectedselfFiles.push(child)
               child.children?.forEach((item: TreeNode) => {
                 item.partialSelected = false;
-                this.selectedFilesself.push(item)
+                this.selectedselfFiles.push(item)
               })
             })
           })
         } else {
           for (const obj of item.accessmenu_data) {
             if (obj.accessmenu_type == 'SUB') {
-              this.filesself[0].children?.find((child: TreeNode) => {
+              this.selfFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code) {
                   child.partialSelected = false;
                   child.parent!.partialSelected = true;
-                  this.selectedFilesself.push(child)
+                  this.selectedselfFiles.push(child)
                 }
               })
             }
             if (obj.accessmenu_type == 'ITEM') {
-              this.filesself[0].children?.find((child: TreeNode) => {
+              this.selfFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code.split('-')[0]) {
 
                   if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_code === obj.accessmenu_code.split('-')[0] && item.accessmenu_type == "SUB")) {
                     child.children?.find((item: TreeNode) => {
                       if (item.key == obj.accessmenu_code) {
                         item.partialSelected = false;
-                        this.selectedFilesself.push(item)
+                        this.selectedselfFiles.push(item)
                       }
                     })
                   } else {
@@ -541,7 +552,7 @@ export class SecMenuComponent implements OnInit {
                         item.partialSelected = false;
                         item.parent = child;
                         item.parent.partialSelected = true;
-                        this.selectedFilesself.push(item)
+                        this.selectedselfFiles.push(item)
                       }
                     })
                   }
@@ -557,39 +568,39 @@ export class SecMenuComponent implements OnInit {
         this.prodelete = item.accessdata_delete;
         this.prosalary = item.accessdata_salary;
         if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_type == "MAIN")) {
-          this.selectedFilespro = [];
-          this.filespro.forEach((filepro: TreeNode) => {
+          this.selectedproFiles = [];
+          this.proFiles.forEach((filepro: TreeNode) => {
             filepro.partialSelected = false;
-            this.selectedFilespro.push(filepro)
+            this.selectedproFiles.push(filepro)
             filepro.children?.forEach((child: TreeNode) => {
               child.partialSelected = false;
-              this.selectedFilespro.push(child)
+              this.selectedproFiles.push(child)
               child.children?.forEach((item: TreeNode) => {
                 item.partialSelected = false;
-                this.selectedFilespro.push(item)
+                this.selectedproFiles.push(item)
               })
             })
           })
         } else {
           for (const obj of item.accessmenu_data) {
             if (obj.accessmenu_type == 'SUB') {
-              this.filespro[0].children?.find((child: TreeNode) => {
+              this.proFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code) {
                   child.partialSelected = false;
                   child.parent!.partialSelected = true;
-                  this.selectedFilespro.push(child)
+                  this.selectedproFiles.push(child)
                 }
               })
             }
             if (obj.accessmenu_type == 'ITEM') {
-              this.filespro[0].children?.find((child: TreeNode) => {
+              this.proFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code.split('-')[0]) {
 
                   if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_code === obj.accessmenu_code.split('-')[0] && item.accessmenu_type == "SUB")) {
                     child.children?.find((item: TreeNode) => {
                       if (item.key == obj.accessmenu_code) {
                         item.partialSelected = false;
-                        this.selectedFilespro.push(item)
+                        this.selectedproFiles.push(item)
                       }
                     })
                   } else {
@@ -598,7 +609,7 @@ export class SecMenuComponent implements OnInit {
                         item.partialSelected = false;
                         item.parent = child;
                         item.parent.partialSelected = true;
-                        this.selectedFilespro.push(item)
+                        this.selectedproFiles.push(item)
                       }
                     })
                   }
@@ -614,39 +625,39 @@ export class SecMenuComponent implements OnInit {
         this.empdelete = item.accessdata_delete;
         this.empsalary = item.accessdata_salary;
         if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_type == "MAIN")) {
-          this.selectedFilesemp = [];
-          this.filesemp.forEach((fileemp: TreeNode) => {
+          this.selectedempFiles = [];
+          this.empFiles.forEach((fileemp: TreeNode) => {
             fileemp.partialSelected = false;
-            this.selectedFilesemp.push(fileemp)
+            this.selectedempFiles.push(fileemp)
             fileemp.children?.forEach((child: TreeNode) => {
               child.partialSelected = false;
-              this.selectedFilesemp.push(child)
+              this.selectedempFiles.push(child)
               child.children?.forEach((item: TreeNode) => {
                 item.partialSelected = false;
-                this.selectedFilesemp.push(item)
+                this.selectedempFiles.push(item)
               })
             })
           })
         } else {
           for (const obj of item.accessmenu_data) {
             if (obj.accessmenu_type == 'SUB') {
-              this.filesemp[0].children?.find((child: TreeNode) => {
+              this.empFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code) {
                   child.partialSelected = false;
                   child.parent!.partialSelected = true;
-                  this.selectedFilesemp.push(child)
+                  this.selectedempFiles.push(child)
                 }
               })
             }
             if (obj.accessmenu_type == 'ITEM') {
-              this.filesemp[0].children?.find((child: TreeNode) => {
+              this.empFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code.split('-')[0]) {
 
                   if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_code === obj.accessmenu_code.split('-')[0] && item.accessmenu_type == "SUB")) {
                     child.children?.find((item: TreeNode) => {
                       if (item.key == obj.accessmenu_code) {
                         item.partialSelected = false;
-                        this.selectedFilesemp.push(item)
+                        this.selectedempFiles.push(item)
                       }
                     })
                   } else {
@@ -655,7 +666,7 @@ export class SecMenuComponent implements OnInit {
                         item.partialSelected = false;
                         item.parent = child;
                         item.parent.partialSelected = true;
-                        this.selectedFilesemp.push(item)
+                        this.selectedempFiles.push(item)
                       }
                     })
                   }
@@ -671,39 +682,39 @@ export class SecMenuComponent implements OnInit {
         this.reqdelete = item.accessdata_delete;
         this.reqsalary = item.accessdata_salary;
         if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_type == "MAIN")) {
-          this.selectedFilesreq = [];
-          this.filesreq.forEach((filereq: TreeNode) => {
+          this.selectedreqFiles = [];
+          this.reqFiles.forEach((filereq: TreeNode) => {
             filereq.partialSelected = false;
-            this.selectedFilesreq.push(filereq)
+            this.selectedreqFiles.push(filereq)
             filereq.children?.forEach((child: TreeNode) => {
               child.partialSelected = false;
-              this.selectedFilesreq.push(child)
+              this.selectedreqFiles.push(child)
               child.children?.forEach((item: TreeNode) => {
                 item.partialSelected = false;
-                this.selectedFilesreq.push(item)
+                this.selectedreqFiles.push(item)
               })
             })
           })
         } else {
           for (const obj of item.accessmenu_data) {
             if (obj.accessmenu_type == 'SUB') {
-              this.filesreq[0].children?.find((child: TreeNode) => {
+              this.reqFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code) {
                   child.partialSelected = false;
                   child.parent!.partialSelected = true;
-                  this.selectedFilesreq.push(child)
+                  this.selectedreqFiles.push(child)
                 }
               })
             }
             if (obj.accessmenu_type == 'ITEM') {
-              this.filesreq[0].children?.find((child: TreeNode) => {
+              this.reqFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code.split('-')[0]) {
 
                   if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_code === obj.accessmenu_code.split('-')[0] && item.accessmenu_type == "SUB")) {
                     child.children?.find((item: TreeNode) => {
                       if (item.key == obj.accessmenu_code) {
                         item.partialSelected = false;
-                        this.selectedFilesreq.push(item)
+                        this.selectedreqFiles.push(item)
                       }
                     })
                   } else {
@@ -712,7 +723,7 @@ export class SecMenuComponent implements OnInit {
                         item.partialSelected = false;
                         item.parent = child;
                         item.parent.partialSelected = true;
-                        this.selectedFilesreq.push(item)
+                        this.selectedreqFiles.push(item)
                       }
                     })
                   }
@@ -728,39 +739,39 @@ export class SecMenuComponent implements OnInit {
         this.attdelete = item.accessdata_delete;
         this.attsalary = item.accessdata_salary;
         if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_type == "MAIN")) {
-          this.selectedFilesatt = [];
-          this.filesatt.forEach((fileatt: TreeNode) => {
+          this.selectedattFiles = [];
+          this.attFiles.forEach((fileatt: TreeNode) => {
             fileatt.partialSelected = false;
-            this.selectedFilesatt.push(fileatt)
+            this.selectedattFiles.push(fileatt)
             fileatt.children?.forEach((child: TreeNode) => {
               child.partialSelected = false;
-              this.selectedFilesatt.push(child)
+              this.selectedattFiles.push(child)
               child.children?.forEach((item: TreeNode) => {
                 item.partialSelected = false;
-                this.selectedFilesatt.push(item)
+                this.selectedattFiles.push(item)
               })
             })
           })
         } else {
           for (const obj of item.accessmenu_data) {
             if (obj.accessmenu_type == 'SUB') {
-              this.filesatt[0].children?.find((child: TreeNode) => {
+              this.attFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code) {
                   child.partialSelected = false;
                   child.parent!.partialSelected = true;
-                  this.selectedFilesatt.push(child)
+                  this.selectedattFiles.push(child)
                 }
               })
             }
             if (obj.accessmenu_type == 'ITEM') {
-              this.filesatt[0].children?.find((child: TreeNode) => {
+              this.attFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code.split('-')[0]) {
 
                   if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_code === obj.accessmenu_code.split('-')[0] && item.accessmenu_type == "SUB")) {
                     child.children?.find((item: TreeNode) => {
                       if (item.key == obj.accessmenu_code) {
                         item.partialSelected = false;
-                        this.selectedFilesatt.push(item)
+                        this.selectedattFiles.push(item)
                       }
                     })
                   } else {
@@ -769,7 +780,7 @@ export class SecMenuComponent implements OnInit {
                         item.partialSelected = false;
                         item.parent = child;
                         item.parent.partialSelected = true;
-                        this.selectedFilesatt.push(item)
+                        this.selectedattFiles.push(item)
                       }
                     })
                   }
@@ -785,39 +796,39 @@ export class SecMenuComponent implements OnInit {
         this.paydelete = item.accessdata_delete;
         this.paysalary = item.accessdata_salary;
         if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_type == "MAIN")) {
-          this.selectedFilespay = [];
-          this.filespay.forEach((filepay: TreeNode) => {
+          this.selectedpayFiles = [];
+          this.payFiles.forEach((filepay: TreeNode) => {
             filepay.partialSelected = false;
-            this.selectedFilespay.push(filepay)
+            this.selectedpayFiles.push(filepay)
             filepay.children?.forEach((child: TreeNode) => {
               child.partialSelected = false;
-              this.selectedFilespay.push(child)
+              this.selectedpayFiles.push(child)
               child.children?.forEach((item: TreeNode) => {
                 item.partialSelected = false;
-                this.selectedFilespay.push(item)
+                this.selectedpayFiles.push(item)
               })
             })
           })
         } else {
           for (const obj of item.accessmenu_data) {
             if (obj.accessmenu_type == 'SUB') {
-              this.filespay[0].children?.find((child: TreeNode) => {
+              this.payFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code) {
                   child.partialSelected = false;
                   child.parent!.partialSelected = true;
-                  this.selectedFilespay.push(child)
+                  this.selectedpayFiles.push(child)
                 }
               })
             }
             if (obj.accessmenu_type == 'ITEM') {
-              this.filespay[0].children?.find((child: TreeNode) => {
+              this.payFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code.split('-')[0]) {
 
                   if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_code === obj.accessmenu_code.split('-')[0] && item.accessmenu_type == "SUB")) {
                     child.children?.find((item: TreeNode) => {
                       if (item.key == obj.accessmenu_code) {
                         item.partialSelected = false;
-                        this.selectedFilespay.push(item)
+                        this.selectedpayFiles.push(item)
                       }
                     })
                   } else {
@@ -826,7 +837,7 @@ export class SecMenuComponent implements OnInit {
                         item.partialSelected = false;
                         item.parent = child;
                         item.parent.partialSelected = true;
-                        this.selectedFilespay.push(item)
+                        this.selectedpayFiles.push(item)
                       }
                     })
                   }
@@ -842,39 +853,39 @@ export class SecMenuComponent implements OnInit {
         this.sysdelete = item.accessdata_delete;
         this.syssalary = item.accessdata_salary;
         if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_type == "MAIN")) {
-          this.selectedFilessys = [];
-          this.filessys.forEach((filesys: TreeNode) => {
+          this.selectedsysFiles = [];
+          this.sysFiles.forEach((filesys: TreeNode) => {
             filesys.partialSelected = false;
-            this.selectedFilessys.push(filesys)
+            this.selectedsysFiles.push(filesys)
             filesys.children?.forEach((child: TreeNode) => {
               child.partialSelected = false;
-              this.selectedFilessys.push(child)
+              this.selectedsysFiles.push(child)
               child.children?.forEach((item: TreeNode) => {
                 item.partialSelected = false;
-                this.selectedFilessys.push(item)
+                this.selectedsysFiles.push(item)
               })
             })
           })
         } else {
           for (const obj of item.accessmenu_data) {
             if (obj.accessmenu_type == 'SUB') {
-              this.filessys[0].children?.find((child: TreeNode) => {
+              this.sysFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code) {
                   child.partialSelected = false;
                   child.parent!.partialSelected = true;
-                  this.selectedFilessys.push(child)
+                  this.selectedsysFiles.push(child)
                 }
               })
             }
             if (obj.accessmenu_type == 'ITEM') {
-              this.filessys[0].children?.find((child: TreeNode) => {
+              this.sysFiles[0].children?.find((child: TreeNode) => {
                 if (child.key == obj.accessmenu_code.split('-')[0]) {
 
                   if (item.accessmenu_data.some((item: AccessmenuModel) => item.accessmenu_code === obj.accessmenu_code.split('-')[0] && item.accessmenu_type == "SUB")) {
                     child.children?.find((item: TreeNode) => {
                       if (item.key == obj.accessmenu_code) {
                         item.partialSelected = false;
-                        this.selectedFilessys.push(item)
+                        this.selectedsysFiles.push(item)
                       }
                     })
                   } else {
@@ -883,7 +894,7 @@ export class SecMenuComponent implements OnInit {
                         item.partialSelected = false;
                         item.parent = child;
                         item.parent.partialSelected = true;
-                        this.selectedFilessys.push(item)
+                        this.selectedsysFiles.push(item)
                       }
                     })
                   }
@@ -897,17 +908,21 @@ export class SecMenuComponent implements OnInit {
     this.isDisplayingManagement = true;
     this.edit_data = true;
   }
+
+  Delete() {
+    this.doDeletePolmenu(this.selectedpolmenu);
+  }
   closeManagement(): void {
     this.isDisplayingManagement = false;
     this.edit_data = false;
     this.selectedpolmenu = new PolmenuModel();
-    this.selectedFilesself = [];
-    this.selectedFilespro = [];
-    this.selectedFilesemp = [];
-    this.selectedFilesreq = [];
-    this.selectedFilesatt = [];
-    this.selectedFilespay = [];
-    this.selectedFilessys = [];
+    this.selectedselfFiles = [];
+    this.selectedproFiles = [];
+    this.selectedempFiles = [];
+    this.selectedreqFiles = [];
+    this.selectedattFiles = [];
+    this.selectedpayFiles = [];
+    this.selectedsysFiles = [];
     this.selfadding = false;
     this.selfedit = false;
     this.selfdelete = false;

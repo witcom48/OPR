@@ -96,8 +96,8 @@
                         <p-checkbox label="Viwe Saraly" [(ngModel)]="selfsalary" [binary]="true"
                             [ngModelOptions]="{standalone: true}"></p-checkbox>
                     </div>
-                    <p-tree [value]="filesself" selectionMode="checkbox" class="w-full md:w-30rem"
-                        [(selection)]="selectedFilesself"></p-tree>
+                    <p-tree [value]="selfFiles" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedselfFiles"></p-tree>
                 </div>
             </p-tabPanel>
             <p-tabPanel>
@@ -115,8 +115,8 @@
                         <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
                             [(ngModel)]="prosalary"></p-checkbox>
                     </div>
-                    <p-tree [value]="filespro" selectionMode="checkbox" class="w-full md:w-30rem"
-                        [(selection)]="selectedFilespro"></p-tree>
+                    <p-tree [value]="proFiles" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedproFiles"></p-tree>
                 </div>
             </p-tabPanel>
             <p-tabPanel>
@@ -134,8 +134,8 @@
                         <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
                             [(ngModel)]="empsalary"></p-checkbox>
                     </div>
-                    <p-tree [value]="filesemp" selectionMode="checkbox" class="w-full md:w-30rem"
-                        [(selection)]="selectedFilesemp"></p-tree>
+                    <p-tree [value]="empFiles" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedempFiles"></p-tree>
                 </div>
             </p-tabPanel>
             <p-tabPanel>
@@ -153,8 +153,8 @@
                         <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
                             [(ngModel)]="reqsalary"></p-checkbox>
                     </div>
-                    <p-tree [value]="filesreq" selectionMode="checkbox" class="w-full md:w-30rem"
-                        [(selection)]="selectedFilesreq"></p-tree>
+                    <p-tree [value]="reqFiles" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedreqFiles"></p-tree>
                 </div>
             </p-tabPanel>
             <p-tabPanel>
@@ -172,8 +172,8 @@
                         <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
                             [(ngModel)]="attsalary"></p-checkbox>
                     </div>
-                    <p-tree [value]="filesatt" selectionMode="checkbox" class="w-full md:w-30rem"
-                        [(selection)]="selectedFilesatt"></p-tree>
+                    <p-tree [value]="attFiles" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedattFiles"></p-tree>
                 </div>
             </p-tabPanel>
             <p-tabPanel>
@@ -191,8 +191,8 @@
                         <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
                             [(ngModel)]="paysalary"></p-checkbox>
                     </div>
-                    <p-tree [value]="filespay" selectionMode="checkbox" class="w-full md:w-30rem"
-                        [(selection)]="selectedFilespay"></p-tree>
+                    <p-tree [value]="payFiles" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedpayFiles"></p-tree>
                 </div>
             </p-tabPanel>
             <p-tabPanel>
@@ -210,12 +210,15 @@
                         <p-checkbox [binary]="true" [ngModelOptions]="{standalone: true}" label="Viwe Saraly"
                             [(ngModel)]="syssalary"></p-checkbox>
                     </div>
-                    <p-tree [value]="filessys" selectionMode="checkbox" class="w-full md:w-30rem"
-                        [(selection)]="selectedFilessys"></p-tree>
+                    <p-tree [value]="sysFiles" selectionMode="checkbox" class="w-full md:w-30rem"
+                        [(selection)]="selectedsysFiles"></p-tree>
                 </div>
             </p-tabPanel>
         </p-tabView>
-        <button pButton type="submit" [disabled]="!Form.form.valid">Submit</button>
+        <div style="display: flex; gap: 10px;">
+            <button pButton type="submit" [disabled]="!Form.form.valid">Submit</button>
+            <button pButton type="button" *ngIf="edit_data" class="p-button-danger" (click)="Delete()">delete</button>
+        </div>
     </p-dialog>
     <div *ngIf="isDisplayingManagement" style="z-index: 1084;"
         class="p-component-overlay p-sidebar-mask p-component-overlay-enter" (click)="closeManagement()"></div>

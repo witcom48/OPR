@@ -1,6 +1,6 @@
-import { ItemmenuModel } from "./itemmenu";
+import { ItemMenuModel } from "./itemmenu";
 
-export class SubmenuModel {
+export class SubMenuModel {
     constructor() {
     }
     mainmenu_code: string = "";
@@ -8,5 +8,5 @@ export class SubmenuModel {
     submenu_detail_th: string = "";
     submenu_detail_en: string = "";
     submenu_order: number = 0;
-    itemmenu_data:ItemmenuModel[] = [];
+    itemmenu_data:ItemMenuModel[] = [];
 }

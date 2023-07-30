@@ -4,12 +4,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { InitialCurrent } from '../../../config/initial_current';
-import { MainmenuModel } from 'src/app/models/system/security/mainmenu';
+import { MainMenuModel } from 'src/app/models/system/security/mainmenu';
 
 @Injectable({
     providedIn: 'root'
 })
-export class MainmenuServices {
+export class MainMenuService {
 
     public config: AppConfig = new AppConfig();
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -43,7 +43,7 @@ export class MainmenuServices {
         }
     }
 
-    public menu_get(menu: MainmenuModel) {
+    public fetchMainMenu(menu: MainMenuModel) {
         // console.log('ATT001..');
         let data = {
             device_name: "phone",
