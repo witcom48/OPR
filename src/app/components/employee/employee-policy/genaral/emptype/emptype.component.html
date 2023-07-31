@@ -21,13 +21,13 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="type_list" 
-        selectionMode="single" [(selection)]="selectedType" (onRowSelect)="onRowSelectType($event)" [rows]="12"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['type_code','type_name_en','type_name_th','modied_by','modied_date']"
-        responsiveLayout="stack" [breakpoint]="'744px'">
-        <!-- Form Search Table -->
+        <p-table #dt2 [value]="type_list" selectionMode="single" [(selection)]="selectedType"
+            (onRowSelect)="onRowSelectType($event)" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+            [globalFilterFields]="['type_code','type_name_en','type_name_th','modied_by','modied_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
                     <span class="p-input-icon-left ml-auto">
@@ -37,7 +37,7 @@
                     </span>
                 </div>
             </ng-template>
-        <!-- --------------END Form Search Table------------------ -->
+            <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th>{{title_code}}</th>
@@ -47,7 +47,7 @@
                     <th>{{title_modified_date}}</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data let-i="rowIndex"  let-columns="columns">
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
                     <td><span>{{title_code}}</span>{{data.type_code}}</td>
                     <td><span>{{title_name_th}}</span>{{data.type_name_th}}</td>
@@ -74,9 +74,15 @@
         <label>{{title_name_en}}</label>
         <textarea [(ngModel)]="selectedType.type_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+        <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="btndel" (click)="confirmDelete()"></button>
+            class="btndel" (click)="confirmDelete()"></button> -->
+        <div class="field col-12">
+            <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+            &nbsp;
+            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary"
+                (click)="confirmDelete()"></button>
+        </div>
     </div>
 </div>
 
@@ -85,7 +91,9 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="doUploadType()" label="{{title_upload}}"
@@ -96,6 +104,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

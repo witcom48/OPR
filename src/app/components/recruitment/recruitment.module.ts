@@ -43,6 +43,11 @@ import { DialogModule } from 'primeng/dialog';
 import { ApplyListComponent } from './recruitment-apply/apply/apply-list/apply-list.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
+import { RecruimentBlacklistComponent } from './recruiment-blacklist/recruiment-blacklist.component';
+import { SetBlacklistComponent } from './recruiment-blacklist/set-blacklist/set-blacklist.component';
+import { UsercontrolModule } from '../usercontrol/usercontrol.module';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
 	imports: [
@@ -84,7 +89,9 @@ import { CheckboxModule } from 'primeng/checkbox';
 		DialogModule,
 		RadioButtonModule,
 		CheckboxModule,
-
+		UsercontrolModule,
+		ProgressBarModule,
+		FileUploadModule,
 
 
 
@@ -95,7 +102,9 @@ import { CheckboxModule } from 'primeng/checkbox';
     RecruitmentRequestComponent,
            RecruitmentApplyComponent,
            RecruitmentPolicyComponent,
-           ApplyListComponent
+           ApplyListComponent,
+           RecruimentBlacklistComponent,
+           SetBlacklistComponent
   ]
 })
 export class RecruitmentModule { }
