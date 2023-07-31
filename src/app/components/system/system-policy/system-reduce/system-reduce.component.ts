@@ -92,10 +92,12 @@ export class SystemReduceComponent implements OnInit {
   title_percent: string = "percent";
   title_percent_max: string = "percent max";
   title_genaral_system: string = 'Genaral System';
+  title_no: string = 'No';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_genaral_system = 'ระบบทั่วไป';
+      this.title_no = 'อันดับ';
 
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";

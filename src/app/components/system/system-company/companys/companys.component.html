@@ -184,7 +184,7 @@
                                         </ng-template>
 
                                         <div class="formgrid grid">
-                                          <!--   <div class="field col-6">
+                                            <!--   <div class="field col-6">
                                                 <label for="address_type">Type</label>
                                                 <p-dropdown placeholder="--" [options]="addressList"
                                                     optionValue="addresstype_code" [showClear]="true"
@@ -434,7 +434,7 @@
                             <div class="field col-12 md:col-12">
                                 <h1 for="lastname2">{{title_employee_age}}</h1>
                             </div>
-                            
+
 
 
                             <div class="center field col-12 md:col-12">
@@ -655,16 +655,18 @@
 
 
                         <br>
-                        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
-                            (click)="combank_summit()"></button>
-                        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
-                            class="p-button-danger" (click)="combank_cancel()"></button>
-
+                        <div style="text-align: right;">
+                            <button pButton type="button" icon="pi pi-save" label="{{title_summit}}"
+                                (click)="combank_summit()"></button>
+                            &nbsp;
+                            <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
+                                class="btndel button-size" (click)="combank_cancel()"></button>
+                        </div>
                     </div>
 
                 </p-dialog>
                 <div *ngIf="displayManage" style="z-index: 1084;"
-                class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+                    class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
                 <!-- ConfirmDialog and toast Noti -->
                 <p-toast position="top-right"></p-toast>
                 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"

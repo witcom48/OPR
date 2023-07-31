@@ -85,10 +85,12 @@ export class SystemFamilyTypeComponent implements OnInit {
 
   title_confirm_cancel: string = "You have cancelled";
   title_genaral_system: string = 'Genaral System';
+  title_no: string = 'No';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_genaral_system = 'ระบบทั่วไป';
+      this.title_no = 'อันดับ';
 
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";

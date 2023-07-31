@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-system-notification',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./system-notification.component.scss']
 })
 export class SystemNotificationComponent implements OnInit {
+  itemslike: MenuItem[] = [{ label: 'Notification System', routerLink: '/system/security', styleClass: 'activelike' }];
+  home: any = { icon: 'pi pi-home', routerLink: '/' }
 
   constructor() { }
 

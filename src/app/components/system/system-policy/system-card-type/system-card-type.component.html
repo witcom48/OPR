@@ -22,11 +22,11 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="cardtype_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+        <p-table #dt2 [value]="cardtype_list" 
             selectionMode="single" [(selection)]="selectedCardtype" (onRowSelect)="onRowSelectCardtype($event)"
             [rows]="12" [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['cardtype_code','cardtype_name_th','cardtype_name_en']">
+            [globalFilterFields]="['cardtype_code','cardtype_name_th','cardtype_name_en']" responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -40,6 +40,7 @@
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
+                    <th>{{title_no}}</th>
                     <th>{{title_code}}</th>
                     <th>{{title_name_th}}</th>
                     <th>{{title_name_en}}</th>
@@ -48,8 +49,9 @@
                     <th> </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" >
                 <tr [pSelectableRow]="data">
+                    <td> {{i+1}}</td>
                     <td>{{data.cardtype_code}}</td>
                     <td>{{data.cardtype_name_th}}</td>
                     <td>{{data.cardtype_name_en}}</td>

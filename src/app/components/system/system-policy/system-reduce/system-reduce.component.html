@@ -22,11 +22,12 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="reduce_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-            selectionMode="single" [(selection)]="selectedReduce" (onRowSelect)="onRowSelectReduce($event)" [rows]="12"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+        <p-table #dt2 [value]="reduce_list" selectionMode="single" [(selection)]="selectedReduce"
+            (onRowSelect)="onRowSelectReduce($event)" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['reduce_code','reduce_name_th','reduce_name_en','reduce_amount', 'reduce_percent', 'reduce_percent_max']">
+            [globalFilterFields]="['reduce_code','reduce_name_th','reduce_name_en','reduce_amount', 'reduce_percent', 'reduce_percent_max']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -40,21 +41,21 @@
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
+                    <th>{{title_no}}</th>
                     <th>{{title_code}}</th>
                     <th>{{title_name_th}}</th>
                     <th>{{title_name_en}}</th>
-
                     <th>{{title_amount}}</th>
                     <th>{{title_percent}}</th>
                     <th>{{title_percent_max}}</th>
-
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
                     <th> </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data>
+            <ng-template pTemplate="body" let-data let-i="rowIndex">
                 <tr [pSelectableRow]="data">
+                    <td> {{i+1}}</td>
                     <td>{{data.reduce_code}}</td>
                     <td>{{data.reduce_name_th}}</td>
                     <td>{{data.reduce_name_en}}</td>
@@ -125,7 +126,7 @@
                         (click)="confirmRecord()" [disabled]="!Form.form.valid"></button>
                     &nbsp;
                     <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                    class="btndel button-size" (click)="confirmDelete()"></button>
+                        class="btndel button-size" (click)="confirmDelete()"></button>
                 </div>
             </div>
         </p-dialog>
