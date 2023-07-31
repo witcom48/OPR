@@ -6,6 +6,8 @@ import { RecruitmentApplyComponent } from './recruitment-apply/recruitment-apply
 import { RecruitmentPolicyComponent } from './recruitment-policy/recruitment-policy.component';
 
 import { ApplyListComponent } from './recruitment-apply/apply/apply-list/apply-list.component';
+import { RecruimentBlacklistComponent } from './recruiment-blacklist/recruiment-blacklist.component';
+import { SetBlacklistComponent } from './recruiment-blacklist/set-blacklist/set-blacklist.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -14,6 +16,9 @@ import { ApplyListComponent } from './recruitment-apply/apply/apply-list/apply-l
         { path: 'apply', component: RecruitmentApplyComponent },
         { path: 'policy', component: RecruitmentPolicyComponent },
         { path: 'applylist', component: ApplyListComponent },
+        { path: 'blacklist', component: RecruimentBlacklistComponent },
+        { path: 'blacklist/setbatch', component: SetBlacklistComponent },
+
 
 
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },

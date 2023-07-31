@@ -52,7 +52,8 @@ export class ReasonComponent implements OnInit {
         { code: 'DAT', name: this.langs.get('daytypereq')[this.selectlang] },
         { code: 'SHT', name: this.langs.get('shiftreq')[this.selectlang] },
         { code: 'ONS', name: this.langs.get('onsitereq')[this.selectlang] },
-        { code: 'SAL', name: this.langs.get('salaryreq')[this.selectlang] }
+        { code: 'SAL', name: this.langs.get('salaryreq')[this.selectlang] },
+        { code: 'BLACK', name: this.langs.get('blackreq')[this.selectlang] }
       ];
       this.doLoadReason();
     }

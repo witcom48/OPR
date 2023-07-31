@@ -187,6 +187,7 @@ var reason = new Map([
     ["shiftreq", { TH: "ขอเปลี่ยนกะ", EN: "Shift req." }],
     ["onsitereq", { TH: "บันทึกการลงเวลา", EN: "Onsite req." }],
     ["salaryreq", { TH: "การปรับเงินเดือน", EN: "Salary adjust" }],
+    ["blackreq", { TH: "เบล็คลิสต์", EN: "Black List" }],
 ]);
 var locationpage = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],

@@ -19,7 +19,10 @@
                         <!-- <p-fileUpload class="upload" mode="basic" chooseLabel="Upload Images" [maxFileSize]="1000000"
                             accept="image/*" cancelIcon="true" [customUpload]="true"
                             (onSelect)="onselectFile($event)"></p-fileUpload> -->
-                        <input class="upload" type="file" id="file" (change)="onselectFile($event)">
+                        <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*">
+                        <!-- <div>
+                            <input type="URL" name="myURL" [(ngModel)]="myURL" placeholder="insert image URL here" (change)="onURLinserted() ">
+                        </div> -->
                         <div style="grid-column: 1;">
                             <label for="code">{{title_code}} : <span style="color: red;"> *</span></label>
                             <input pInputText id="code" type="text" class="p-inputtext-sm"
@@ -239,33 +242,37 @@
                         <p-accordion>
                             <p-accordionTab header="{{title_emplocation}}">
                                 <p-menubar [model]="menu_emplocation"></p-menubar>
-                                <p-table #dtemplocation [value]="emplocationList" styleClass="p-datatable-sm"
-                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpLocation"
-                                    (onRowSelect)="onRowSelectEmpLocation($event)" [rows]="10"
-                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>{{title_locationname}}</th>
-                                            <th>{{title_start}}</th>
-                                            <th>{{title_end}}</th>
-                                            <th>{{title_description}}</th>
-                                            <th>{{title_modified_by}}</th>
-                                            <th>{{title_modified_date}}</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-emplocation>
-                                        <tr [pSelectableRow]="emplocation">
-                                            <td>{{doGetLocationDetail(emplocation.location_code)}}</td>
-                                            <td>{{emplocation.emplocation_startdate | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{emplocation.emplocation_enddate | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{emplocation.emplocation_note}}</td>
-                                            <td>{{emplocation.modified_by}}</td>
-                                            <td>{{emplocation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                <div #tablelocation>
+                                    <p-table #dtemplocation [value]="emplocationList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmpLocation"
+                                        (onRowSelect)="onRowSelectEmpLocation($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>{{title_locationname}}</th>
+                                                <th>{{title_start}}</th>
+                                                <th>{{title_end}}</th>
+                                                <th>{{title_description}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-emplocation>
+                                            <tr [pSelectableRow]="emplocation">
+                                                <td>{{doGetLocationDetail(emplocation.location_code)}}</td>
+                                                <td>{{emplocation.emplocation_startdate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{emplocation.emplocation_enddate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{emplocation.emplocation_note}}</td>
+                                                <td>{{emplocation.modified_by}}</td>
+                                                <td>{{emplocation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
                             </p-accordionTab>
                         </p-accordion>
                     </div>
@@ -279,33 +286,36 @@
                         <p-accordion>
                             <p-accordionTab header="{{title_empbranch}}">
                                 <p-menubar [model]="menu_empbranch"></p-menubar>
-                                <p-table #dtempbranch [value]="empbranchList" styleClass="p-datatable-sm"
-                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpbranch"
-                                    (onRowSelect)="onRowSelectEmpBranch($event)" [rows]="10"
-                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>{{title_branchname}}</th>
-                                            <th>{{title_start}}</th>
-                                            <th>{{title_end}}</th>
-                                            <th>{{title_description}}</th>
-                                            <th>{{title_modified_by}}</th>
-                                            <th>{{title_modified_date}}</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-empbranch>
-                                        <tr [pSelectableRow]="empbranch">
-                                            <td>{{doGetBranchDetail(empbranch.branch_code)}}</td>
-                                            <td>{{empbranch.empbranch_startdate | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{empbranch.empbranch_enddate | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{empbranch.empbranch_note}}</td>
-                                            <td>{{empbranch.modified_by}}</td>
-                                            <td>{{empbranch.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                <div #tablebranch>
+                                    <p-table #dtempbranch [value]="empbranchList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpbranch"
+                                        (onRowSelect)="onRowSelectEmpBranch($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>{{title_branchname}}</th>
+                                                <th>{{title_start}}</th>
+                                                <th>{{title_end}}</th>
+                                                <th>{{title_description}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empbranch>
+                                            <tr [pSelectableRow]="empbranch">
+                                                <td>{{doGetBranchDetail(empbranch.branch_code)}}</td>
+                                                <td>{{empbranch.empbranch_startdate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empbranch.empbranch_enddate | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empbranch.empbranch_note}}</td>
+                                                <td>{{empbranch.modified_by}}</td>
+                                                <td>{{empbranch.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
                             </p-accordionTab>
                         </p-accordion>
                     </div>
@@ -319,29 +329,34 @@
                         <p-accordion>
                             <p-accordionTab header="{{title_suggest}}">
                                 <p-menubar [model]="menu_empsuggest"></p-menubar>
-                                <p-table #dtempsuggest [value]="empsuggestList" styleClass="p-datatable-sm"
-                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpSuggest"
-                                    (onRowSelect)="onRowSelectEmpSuggest($event)" [rows]="10"
-                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>{{title_suggestname}}</th>
-                                            <th>{{title_description}}</th>
-                                            <th>{{title_modified_by}}</th>
-                                            <th>{{title_modified_date}}</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-empsuggest>
-                                        <tr [pSelectableRow]="empsuggest">
-                                            <td>{{empsuggest.empsuggest_code}}</td>
-                                            <td>{{empsuggest.empsuggest_note}}</td>
-                                            <td>{{empsuggest.modified_by}}</td>
-                                            <td>{{empsuggest.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                <div #tablesuggest>
+                                    <p-table #dtempsuggest [value]="empsuggestList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpSuggest"
+                                        (onRowSelect)="onRowSelectEmpSuggest($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>{{title_suggestname}}</th>
+                                                <th>{{title_amount}}</th>
+                                                <th>{{title_description}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empsuggest>
+                                            <tr [pSelectableRow]="empsuggest">
+                                                <td>{{empsuggest.empsuggest_code}}</td>
+                                                <td>{{empsuggest.empsuggest_amount}}</td>
+                                                <td>{{empsuggest.empsuggest_note}}</td>
+                                                <td>{{empsuggest.modified_by}}</td>
+                                                <td>{{empsuggest.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
                             </p-accordionTab>
                         </p-accordion>
                     </div>
@@ -460,47 +475,50 @@
                         <p-accordion>
                             <p-accordionTab header="{{title_address}}">
                                 <p-menubar [model]="menu_empaddress"></p-menubar>
-                                <p-table #dtAddress [value]="empaddressList" styleClass="p-datatable-sm"
-                                    [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpAddress"
-                                    (onRowSelect)="onRowSelectEmpAddress($event)" [rows]="10"
-                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>{{title_addresstype}}</th>
-                                            <!-- <th>{{title_no}}</th>
+                                <div #tableaddress>
+                                    <p-table #dtAddress [value]="empaddressList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpAddress"
+                                        (onRowSelect)="onRowSelectEmpAddress($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>{{title_addresstype}}</th>
+                                                <!-- <th>{{title_no}}</th>
                                                 <th>{{title_soi}}</th>
                                                 <th>{{title_road}}</th>
                                                 <th>{{title_amphur}}</th>
                                                 <th>{{title_tambon}}</th>
                                                 <th>{{title_province}}</th>
                                                 <th>{{title_zipcode}}</th> -->
-                                            <th>{{title_address}}</th>
-                                            <th>{{title_modified_by}}</th>
-                                            <th>{{title_modified_date}}</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-empaddress>
-                                        <tr [pSelectableRow]="empaddress">
-                                            <td>{{doGetAddtypeDetail(empaddress.address_type)}}</td>
-                                            <!-- <td>{{empaddress.address_no}}</td>
+                                                <th>{{title_address}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empaddress>
+                                            <tr [pSelectableRow]="empaddress">
+                                                <td>{{doGetAddtypeDetail(empaddress.address_type)}}</td>
+                                                <!-- <td>{{empaddress.address_no}}</td>
                                                 <td>{{empaddress.address_soi}}</td>
                                                 <td>{{empaddress.address_road}}</td>
                                                 <td>{{empaddress.address_amphur}}</td>
                                                 <td>{{empaddress.address_tambon}}</td>
                                                 <td>{{empaddress.province_code}}</td>
                                                 <td>{{empaddress.address_zipcode}}</td> -->
-                                            <td>{{empaddress.address_no}} {{empaddress.address_moo}}
-                                                {{empaddress.address_soi}} {{empaddress.address_road}}
-                                                {{empaddress.address_amphur}} {{empaddress.address_tambon}}
-                                                {{doGetProvinceDetail(empaddress.province_code)}}
-                                                {{empaddress.address_zipcode}}</td>
-                                            <td>{{empaddress.modified_by}}</td>
-                                            <td>{{empaddress.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                                <td>{{empaddress.address_no}} {{empaddress.address_moo}}
+                                                    {{empaddress.address_soi}} {{empaddress.address_road}}
+                                                    {{empaddress.address_amphur}} {{empaddress.address_tambon}}
+                                                    {{doGetProvinceDetail(empaddress.province_code)}}
+                                                    {{empaddress.address_zipcode}}</td>
+                                                <td>{{empaddress.modified_by}}</td>
+                                                <td>{{empaddress.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
                             </p-accordionTab>
                         </p-accordion>
                     </div>
@@ -513,33 +531,36 @@
                         <p-accordion>
                             <p-accordionTab header="{{title_card}}">
                                 <p-menubar [model]="menu_empcard"></p-menubar>
-                                <p-table #dtempcard [value]="empcardList" styleClass="p-datatable-sm"
-                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpcard"
-                                    (onRowSelect)="onRowSelectEmpCard($event)" [rows]="10"
-                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>{{title_cardtype}}</th>
-                                            <th>{{title_cardcode}}</th>
-                                            <th>{{title_issuedate}}</th>
-                                            <th>{{title_expiredate}}</th>
-                                            <th>{{title_modified_by}}</th>
-                                            <th>{{title_modified_date}}</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-empcard>
-                                        <tr [pSelectableRow]="empcard">
-                                            <td>{{doGetCardDetail(empcard.card_type)}}</td>
-                                            <td>{{empcard.card_code}}</td>
-                                            <td>{{empcard.card_issue | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{empcard.card_expire | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{empcard.modified_by}}</td>
-                                            <td>{{empcard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                <div #tablecard>
+                                    <p-table #dtempcard [value]="empcardList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpcard"
+                                        (onRowSelect)="onRowSelectEmpCard($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>{{title_cardtype}}</th>
+                                                <th>{{title_cardcode}}</th>
+                                                <th>{{title_issuedate}}</th>
+                                                <th>{{title_expiredate}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empcard>
+                                            <tr [pSelectableRow]="empcard">
+                                                <td>{{doGetCardDetail(empcard.card_type)}}</td>
+                                                <td>{{empcard.card_code}}</td>
+                                                <td>{{empcard.card_issue | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empcard.card_expire | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empcard.modified_by}}</td>
+                                                <td>{{empcard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
                             </p-accordionTab>
                         </p-accordion>
                     </div>
@@ -552,35 +573,38 @@
                         <p-accordion>
                             <p-accordionTab header="{{title_bank}}">
                                 <p-menubar [model]="menu_empbank"></p-menubar>
-                                <p-table #dtempbank [value]="empbankList" styleClass="p-datatable-sm"
-                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpbank"
-                                    (onRowSelect)="onRowSelectEmpbank($event)" [rows]="10"
-                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>{{title_bankname}}</th>
-                                            <th>{{title_bankcode}}</th>
-                                            <th>{{title_bankname2}}</th>
-                                            <th>{{title_bankper}}</th>
-                                            <th>{{title_cashper}}</th>
-                                            <th>{{title_modified_by}}</th>
-                                            <th>{{title_modified_date}}</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-empbank>
-                                        <tr [pSelectableRow]="empbank">
-                                            <td>{{doGetBankDetail(empbank.bank_code)}}</td>
-                                            <td>{{empbank.bank_account}}</td>
-                                            <td>{{empbank.bank_bankname}}</td>
-                                            <td>{{empbank.bank_percent}}</td>
-                                            <td>{{empbank.bank_cashpercent}}</td>
-                                            <td>{{empbank.modified_by}}</td>
-                                            <td>{{empbank.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                <div #tablebank>
+                                    <p-table #dtempbank [value]="empbankList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpbank"
+                                        (onRowSelect)="onRowSelectEmpbank($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>{{title_bankname}}</th>
+                                                <th>{{title_bankcode}}</th>
+                                                <th>{{title_bankname2}}</th>
+                                                <th>{{title_bankper}}</th>
+                                                <th>{{title_cashper}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empbank>
+                                            <tr [pSelectableRow]="empbank">
+                                                <td>{{doGetBankDetail(empbank.bank_code)}}</td>
+                                                <td>{{empbank.bank_account}}</td>
+                                                <td>{{empbank.bank_bankname}}</td>
+                                                <td>{{empbank.bank_percent}}</td>
+                                                <td>{{empbank.bank_cashpercent}}</td>
+                                                <td>{{empbank.modified_by}}</td>
+                                                <td>{{empbank.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
                             </p-accordionTab>
                         </p-accordion>
                     </div>
@@ -593,37 +617,40 @@
                         <p-accordion>
                             <p-accordionTab header="{{title_family}}">
                                 <p-menubar [model]="menu_empfamily"></p-menubar>
-                                <p-table #dtempfamily [value]="empfamilyList" styleClass="p-datatable-sm"
-                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpfamily"
-                                    (onRowSelect)="onRowSelectEmpFamily($event)" [rows]="10"
-                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>{{title_familytype}}</th>
-                                            <th>{{title_familynameth[initial_current.Language]}}</th>
-                                            <th>{{title_familynameen[initial_current.Language]}}</th>
-                                            <th>{{title_familyocc[initial_current.Language]}}</th>
-                                            <th>{{title_familytel[initial_current.Language]}}</th>
-                                            <th>{{title_familyaddress[initial_current.Language]}}</th>
-                                            <th>{{title_modified_by}}</th>
-                                            <th>{{title_modified_date}}</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-empfamily>
-                                        <tr [pSelectableRow]="empfamily">
-                                            <td>{{doGetFamilyDetail(empfamily.family_type)}}</td>
-                                            <td>{{empfamily.family_fname_th+" "+empfamily.family_lname_th}}</td>
-                                            <td>{{empfamily.family_fname_en+" "+empfamily.family_lname_en}}</td>
-                                            <td>{{empfamily.family_occupation}}</td>
-                                            <td>{{empfamily.family_tel}}</td>
-                                            <td>{{empfamily.family_address}}</td>
-                                            <td>{{empfamily.modified_by}}</td>
-                                            <td>{{empfamily.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                <div #tablefamily>
+                                    <p-table #dtempfamily [value]="empfamilyList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpfamily"
+                                        (onRowSelect)="onRowSelectEmpFamily($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>{{title_familytype}}</th>
+                                                <th>{{title_familynameth[initial_current.Language]}}</th>
+                                                <th>{{title_familynameen[initial_current.Language]}}</th>
+                                                <th>{{title_familyocc[initial_current.Language]}}</th>
+                                                <th>{{title_familytel[initial_current.Language]}}</th>
+                                                <th>{{title_familyaddress[initial_current.Language]}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empfamily>
+                                            <tr [pSelectableRow]="empfamily">
+                                                <td>{{doGetFamilyDetail(empfamily.family_type)}}</td>
+                                                <td>{{empfamily.family_fname_th+" "+empfamily.family_lname_th}}</td>
+                                                <td>{{empfamily.family_fname_en+" "+empfamily.family_lname_en}}</td>
+                                                <td>{{empfamily.family_occupation}}</td>
+                                                <td>{{empfamily.family_tel}}</td>
+                                                <td>{{empfamily.family_address}}</td>
+                                                <td>{{empfamily.modified_by}}</td>
+                                                <td>{{empfamily.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
                             </p-accordionTab>
                         </p-accordion>
                     </div>
@@ -636,29 +663,33 @@
                         <p-accordion>
                             <p-accordionTab header="{{title_hospital}}">
                                 <p-menubar [model]="menu_emphospital"></p-menubar>
-                                <p-table #dtemphospital [value]="emphospitalList" styleClass="p-datatable-sm"
-                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmphospital"
-                                    (onRowSelect)="onRowSelectEmpHospital($event)" [rows]="10"
-                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>{{title_hospitalname}}</th>
-                                            <th>{{title_start}}</th>
-                                            <th>{{title_modified_by}}</th>
-                                            <th>{{title_modified_date}}</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-emphospital>
-                                        <tr [pSelectableRow]="emphospital">
-                                            <td>{{doGetHospitalDetail(emphospital.emphospital_code)}}</td>
-                                            <td>{{emphospital.emphospital_date | date:'dd/MM/yyyy'}}</td>
-                                            <td>{{emphospital.modified_by}}</td>
-                                            <td>{{emphospital.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                <div #tablehospital>
+                                    <p-table #dtemphospital [value]="emphospitalList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmphospital"
+                                        (onRowSelect)="onRowSelectEmpHospital($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>{{title_hospitalname}}</th>
+                                                <th>{{title_start}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-emphospital>
+                                            <tr [pSelectableRow]="emphospital">
+                                                <td>{{doGetHospitalDetail(emphospital.emphospital_code)}}</td>
+                                                <td>{{emphospital.emphospital_date | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{emphospital.modified_by}}</td>
+                                                <td>{{emphospital.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
                             </p-accordionTab>
                         </p-accordion>
                     </div>
@@ -793,37 +824,39 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_department}}">
                                     <p-menubar [model]="menu_empdep"></p-menubar>
-                                    <p-table #dtdep [value]="empdepList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" [(selection)]="selectedEmpdep"
-                                        (onRowSelect)="onRowSelectEmpDep($event)" selectionMode="single" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <div #tabledep>
+                                        <p-table #dtdep [value]="empdepList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" [(selection)]="selectedEmpdep"
+                                            (onRowSelect)="onRowSelectEmpDep($event)" selectionMode="single" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_date}}</th>
-                                                <th>{{title_lv1}}</th>
-                                                <th>{{title_lv2}}</th>
-                                                <th>{{title_lv3}}</th>
-                                                <th>{{title_lv4}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empdep>
-                                            <tr [pSelectableRow]="empdep">
-                                                <td>{{empdep.empdep_date | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{doGetDepL1Detail(empdep.empdep_level01)}}</td>
-                                                <td>{{doGetDepL2Detail(empdep.empdep_level02)}}</td>
-                                                <td>{{empdep.empdep_level03}}</td>
-                                                <td>{{empdep.empdep_level04}}</td>
-                                                <td>{{empdep.modified_by}}</td>
-                                                <td>{{empdep.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_date}}</th>
+                                                    <th>{{title_lv1}}</th>
+                                                    <th>{{title_lv2}}</th>
+                                                    <th>{{title_lv3}}</th>
+                                                    <th>{{title_lv4}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empdep>
+                                                <tr [pSelectableRow]="empdep">
+                                                    <td>{{empdep.empdep_date | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{doGetDepL1Detail(empdep.empdep_level01)}}</td>
+                                                    <td>{{doGetDepL2Detail(empdep.empdep_level02)}}</td>
+                                                    <td>{{empdep.empdep_level03}}</td>
+                                                    <td>{{empdep.empdep_level04}}</td>
+                                                    <td>{{empdep.modified_by}}</td>
+                                                    <td>{{empdep.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -832,35 +865,37 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_position}}">
                                     <p-menubar [model]="menu_empposition"></p-menubar>
-                                    <p-table #dtempposition [value]="emppositionList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single"
-                                        [(selection)]="selectedEmpPosition"
-                                        (onRowSelect)="onRowSelectEmpPosition($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_date}}</th>
-                                                <th>{{title_positionname}}</th>
-                                                <th>{{title_reason}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empposition>
-                                            <tr [pSelectableRow]="empposition">
-                                                <td>{{empposition.empposition_date | date:'dd/MM/yyyy'}}</td>
-                                                <!-- <td>{{initial_current.Language == "TH"?
+                                    <div #tableposition>
+                                        <p-table #dtempposition [value]="emppositionList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpPosition"
+                                            (onRowSelect)="onRowSelectEmpPosition($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_date}}</th>
+                                                    <th>{{title_positionname}}</th>
+                                                    <th>{{title_reason}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empposition>
+                                                <tr [pSelectableRow]="empposition">
+                                                    <td>{{empposition.empposition_date | date:'dd/MM/yyyy'}}</td>
+                                                    <!-- <td>{{initial_current.Language == "TH"?
                                                     empposition.position_name_th:empposition.position_name_en}}</td> -->
-                                                <td>{{doGetPositionDetail(empposition.empposition_position)}}</td>
-                                                <td>{{empposition.empposition_reason}}</td>
-                                                <td>{{empposition.modified_by}}</td>
-                                                <td>{{empposition.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                                    <td>{{doGetPositionDetail(empposition.empposition_position)}}</td>
+                                                    <td>{{empposition.empposition_reason}}</td>
+                                                    <td>{{empposition.modified_by}}</td>
+                                                    <td>{{empposition.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -870,30 +905,32 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_empgroup}}">
                                     <p-menubar [model]="menu_empgroup"></p-menubar>
-                                    <p-table #dtempgroup [value]="empgroupList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpGroup"
-                                        (onRowSelect)="onRowSelectEmpGroup($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_date}}</th>
-                                                <th>{{title_groupname}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empgroup>
-                                            <tr [pSelectableRow]="empgroup">
-                                                <td>{{empgroup.empgroup_date | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{doGetGroupDetail(empgroup.empgroup_code)}}</td>
-                                                <td>{{empgroup.modified_by}}</td>
-                                                <td>{{empgroup.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                    <div #tablegroup>
+                                        <p-table #dtempgroup [value]="empgroupList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpGroup" (onRowSelect)="onRowSelectEmpGroup($event)"
+                                            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_date}}</th>
+                                                    <th>{{title_groupname}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empgroup>
+                                                <tr [pSelectableRow]="empgroup">
+                                                    <td>{{empgroup.empgroup_date | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{doGetGroupDetail(empgroup.empgroup_code)}}</td>
+                                                    <td>{{empgroup.modified_by}}</td>
+                                                    <td>{{empgroup.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -903,42 +940,45 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_education}}">
                                     <p-menubar [model]="menu_empeducation"></p-menubar>
-                                    <p-table #dteducation [value]="empeducationList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single"
-                                        [(selection)]="selectedEmpeducation"
-                                        (onRowSelect)="onRowSelectEmpeducation($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <div #tableeducation>
+                                        <p-table #dteducation [value]="empeducationList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpeducation"
+                                            (onRowSelect)="onRowSelectEmpeducation($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_institute}}</th>
-                                                <th>{{title_educationstart}}</th>
-                                                <th>{{title_educationend}}</th>
-                                                <th>{{title_faculty}}</th>
-                                                <th>{{title_major}}</th>
-                                                <th>{{title_qualification}}</th>
-                                                <th>{{title_gpa}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empeducation>
-                                            <tr [pSelectableRow]="empeducation">
-                                                <td>{{doGetInstituteDetail(empeducation.institute_code)}}</td>
-                                                <td>{{empeducation.empeducation_start | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empeducation.empeducation_finish | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{doGetFacultyDetail(empeducation.faculty_code)}}</td>
-                                                <td>{{doGetMajorDetail(empeducation.major_code)}}</td>
-                                                <td>{{doGetQualificationDetail(empeducation.qualification_code)}}</td>
-                                                <td>{{empeducation.empeducation_gpa}}</td>
-                                                <td>{{empeducation.modified_by}}</td>
-                                                <td>{{empeducation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_institute}}</th>
+                                                    <th>{{title_educationstart}}</th>
+                                                    <th>{{title_educationend}}</th>
+                                                    <th>{{title_faculty}}</th>
+                                                    <th>{{title_major}}</th>
+                                                    <th>{{title_qualification}}</th>
+                                                    <th>{{title_gpa}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empeducation>
+                                                <tr [pSelectableRow]="empeducation">
+                                                    <td>{{doGetInstituteDetail(empeducation.institute_code)}}</td>
+                                                    <td>{{empeducation.empeducation_start | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empeducation.empeducation_finish | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{doGetFacultyDetail(empeducation.faculty_code)}}</td>
+                                                    <td>{{doGetMajorDetail(empeducation.major_code)}}</td>
+                                                    <td>{{doGetQualificationDetail(empeducation.qualification_code)}}
+                                                    </td>
+                                                    <td>{{empeducation.empeducation_gpa}}</td>
+                                                    <td>{{empeducation.modified_by}}</td>
+                                                    <td>{{empeducation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -948,38 +988,41 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_supply}}">
                                     <p-menubar [model]="menu_empsupply"></p-menubar>
-                                    <p-table #dtempgroup [value]="empsupplyList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpSupply"
-                                        (onRowSelect)="onRowSelectEmpSupply($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_supplyissue}}</th>
-                                                <th>{{title_supplyename}}</th>
-                                                <th>{{title_amount}}</th>
-                                                <th>{{title_returndate}}</th>
-                                                <th>{{title_coursestatus}}</th>
-                                                <th>{{title_description}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empsupply>
-                                            <tr [pSelectableRow]="empsupply">
-                                                <td>{{empsupply.empsupply_issuedate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{doGetSupplyDetail(empsupply.empsupply_code)}}</td>
-                                                <td>{{empsupply.empsupply_qauntity}}</td>
-                                                <td>{{empsupply.empsupply_returndate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empsupply.empsupply_returnstatus}}</td>
-                                                <td>{{empsupply.empsupply_note}}</td>
-                                                <td>{{empsupply.modified_by}}</td>
-                                                <td>{{empsupply.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                    <div #tablesupply>
+                                        <p-table #dtempsupply [value]="empsupplyList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpSupply"
+                                            (onRowSelect)="onRowSelectEmpSupply($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_supplyissue}}</th>
+                                                    <th>{{title_supplyename}}</th>
+                                                    <th>{{title_amount}}</th>
+                                                    <th>{{title_returndate}}</th>
+                                                    <th>{{title_coursestatus}}</th>
+                                                    <th>{{title_description}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empsupply>
+                                                <tr [pSelectableRow]="empsupply">
+                                                    <td>{{empsupply.empsupply_issuedate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{doGetSupplyDetail(empsupply.empsupply_code)}}</td>
+                                                    <td>{{empsupply.empsupply_qauntity}}</td>
+                                                    <td>{{empsupply.empsupply_returndate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empsupply.empsupply_returnstatus}}</td>
+                                                    <td>{{empsupply.empsupply_note}}</td>
+                                                    <td>{{empsupply.modified_by}}</td>
+                                                    <td>{{empsupply.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -989,36 +1032,39 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_uniform}}">
                                     <p-menubar [model]="menu_empuniform"></p-menubar>
-                                    <p-table #dtempuniform [value]="empuniformList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpUniform"
-                                        (onRowSelect)="onRowSelectEmpUniform($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_uniformissue}}</th>
-                                                <th>{{title_uniformname}}</th>
-                                                <th>{{title_amount}}</th>
-                                                <th>{{title_uniformprice}}</th>
-                                                <th>{{title_description}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empuniform>
-                                            <tr [pSelectableRow]="empuniform">
-                                                <td>{{empuniform.empuniform_issuedate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{doGetUniformDetail(empuniform.empuniform_code)}}</td>
-                                                <td>{{empuniform.empuniform_qauntity}}</td>
-                                                <td>{{empuniform.empuniform_amount}}</td>
-                                                <td>{{empuniform.empuniform_note}}</td>
-                                                <td>{{empuniform.modified_by}}</td>
-                                                <td>{{empuniform.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                    <div #tableuniform>
+                                        <p-table #dtempuniform [value]="empuniformList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpUniform"
+                                            (onRowSelect)="onRowSelectEmpUniform($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_uniformissue}}</th>
+                                                    <th>{{title_uniformname}}</th>
+                                                    <th>{{title_amount}}</th>
+                                                    <th>{{title_uniformprice}}</th>
+                                                    <th>{{title_description}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empuniform>
+                                                <tr [pSelectableRow]="empuniform">
+                                                    <td>{{empuniform.empuniform_issuedate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{doGetUniformDetail(empuniform.empuniform_code)}}</td>
+                                                    <td>{{empuniform.empuniform_qauntity}}</td>
+                                                    <td>{{empuniform.empuniform_amount}}</td>
+                                                    <td>{{empuniform.empuniform_note}}</td>
+                                                    <td>{{empuniform.modified_by}}</td>
+                                                    <td>{{empuniform.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -1028,40 +1074,42 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_training}}">
                                     <p-menubar [model]="menu_emptraining"></p-menubar>
-                                    <p-table #dttraining [value]="emptrainingList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single"
-                                        [(selection)]="selectedEmptraining"
-                                        (onRowSelect)="onRowSelectEmptraining($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <div #tabletraining>
+                                        <p-table #dttraining [value]="emptrainingList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmptraining"
+                                            (onRowSelect)="onRowSelectEmptraining($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_institute}}</th>
-                                                <th>{{title_course}}</th>
-                                                <th>{{title_count}}</th>
-                                                <th>{{title_fromdate}}</th>
-                                                <th>{{title_todate}}</th>
-                                                <th>{{title_coursestatus}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-emptraining>
-                                            <tr [pSelectableRow]="emptraining">
-                                                <td>{{doGetInstituteDetail(emptraining.institute_code)}}</td>
-                                                <td>{{doGetCourseDetail(emptraining.course_code)}}</td>
-                                                <td>{{emptraining.emptraining_count}}</td>
-                                                <td>{{emptraining.emptraining_start | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{emptraining.emptraining_finish | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{emptraining.emptraining_status}}</td>
-                                                <td>{{emptraining.modified_by}}</td>
-                                                <td>{{emptraining.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_institute}}</th>
+                                                    <th>{{title_course}}</th>
+                                                    <th>{{title_count}}</th>
+                                                    <th>{{title_fromdate}}</th>
+                                                    <th>{{title_todate}}</th>
+                                                    <th>{{title_coursestatus}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-emptraining>
+                                                <tr [pSelectableRow]="emptraining">
+                                                    <td>{{doGetInstituteDetail(emptraining.institute_code)}}</td>
+                                                    <td>{{doGetCourseDetail(emptraining.course_code)}}</td>
+                                                    <td>{{emptraining.emptraining_count}}</td>
+                                                    <td>{{emptraining.emptraining_start | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{emptraining.emptraining_finish | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{emptraining.emptraining_status}}</td>
+                                                    <td>{{emptraining.modified_by}}</td>
+                                                    <td>{{emptraining.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -1070,15 +1118,16 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_assessment}}">
                                     <p-menubar [model]="menu_empassessment"></p-menubar>
-                                    <p-table #dtassessment [value]="empassessmentList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single"
-                                        [(selection)]="selectedEmpassessment"
-                                        (onRowSelect)="onRowSelectEmpassessment($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <!-- <ng-template pTemplate="caption">
+                                    <div #tableappraisal>
+                                        <p-table #dtassessment [value]="empassessmentList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '70rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpassessment"
+                                            (onRowSelect)="onRowSelectEmpassessment($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
                                                     <i class="pi pi-search"></i>
@@ -1088,31 +1137,34 @@
                                                 </span>
                                             </div>
                                         </ng-template> -->
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_institute}}</th>
-                                                <th>{{title_topic}}</th>
-                                                <th>{{title_fromdate}}</th>
-                                                <th>{{title_todate}}</th>
-                                                <th>{{title_count}}</th>
-                                                <th>{{title_assessmentresult}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empassessment>
-                                            <tr [pSelectableRow]="empassessment">
-                                                <td>{{doGetInstituteDetail(empassessment.empassessment_location)}}</td>
-                                                <td>{{empassessment.empassessment_topic}}</td>
-                                                <td>{{empassessment.empassessment_fromdate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empassessment.empassessment_todate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empassessment.empassessment_count}}</td>
-                                                <td>{{empassessment.empassessment_result}}</td>
-                                                <td>{{empassessment.modified_by}}</td>
-                                                <td>{{empassessment.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_institute}}</th>
+                                                    <th>{{title_topic}}</th>
+                                                    <th>{{title_fromdate}}</th>
+                                                    <th>{{title_todate}}</th>
+                                                    <th>{{title_count}}</th>
+                                                    <th>{{title_assessmentresult}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empassessment>
+                                                <tr [pSelectableRow]="empassessment">
+                                                    <td>{{doGetInstituteDetail(empassessment.empassessment_location)}}
+                                                    </td>
+                                                    <td>{{empassessment.empassessment_topic}}</td>
+                                                    <td>{{empassessment.empassessment_fromdate | date:'dd/MM/yyyy'}}
+                                                    </td>
+                                                    <td>{{empassessment.empassessment_todate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empassessment.empassessment_count}}</td>
+                                                    <td>{{empassessment.empassessment_result}}</td>
+                                                    <td>{{empassessment.modified_by}}</td>
+                                                    <td>{{empassessment.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -1121,15 +1173,16 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_criminal}}">
                                     <p-menubar [model]="menu_empcriminal"></p-menubar>
-                                    <p-table #dtcriminal [value]="empcriminalList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single"
-                                        [(selection)]="selectedEmpcriminal"
-                                        (onRowSelect)="onRowSelectEmpcriminal($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <!-- <ng-template pTemplate="caption">
+                                    <div #tablecriminal>
+                                        <p-table #dtcriminal [value]="empcriminalList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpcriminal"
+                                            (onRowSelect)="onRowSelectEmpcriminal($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
                                                     <i class="pi pi-search"></i>
@@ -1139,29 +1192,30 @@
                                                 </span>
                                             </div>
                                         </ng-template> -->
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_institute}}</th>
-                                                <th>{{title_fromdate}}</th>
-                                                <th>{{title_todate}}</th>
-                                                <th>{{title_count}}</th>
-                                                <th>{{title_criminalresult}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empcriminal>
-                                            <tr [pSelectableRow]="empcriminal">
-                                                <td>{{doGetInstituteDetail(empcriminal.empcriminal_location)}}</td>
-                                                <td>{{empcriminal.empcriminal_fromdate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empcriminal.empcriminal_todate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empcriminal.empcriminal_count}}</td>
-                                                <td>{{empcriminal.empcriminal_result}}</td>
-                                                <td>{{empcriminal.modified_by}}</td>
-                                                <td>{{empcriminal.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_institute}}</th>
+                                                    <th>{{title_fromdate}}</th>
+                                                    <th>{{title_todate}}</th>
+                                                    <th>{{title_count}}</th>
+                                                    <th>{{title_criminalresult}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empcriminal>
+                                                <tr [pSelectableRow]="empcriminal">
+                                                    <td>{{doGetInstituteDetail(empcriminal.empcriminal_location)}}</td>
+                                                    <td>{{empcriminal.empcriminal_fromdate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empcriminal.empcriminal_todate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empcriminal.empcriminal_count}}</td>
+                                                    <td>{{empcriminal.empcriminal_result}}</td>
+                                                    <td>{{empcriminal.modified_by}}</td>
+                                                    <td>{{empcriminal.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -1236,20 +1290,22 @@
                             <!-- <p-dropdown placeholder="พนักงานจ่ายเอง" optionLabel="name" [showClear]="true"
                                 [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
                         </div>
-                        
+
                         <!-- salary -->
                         <div class="field col-12">
                             <p-accordion>
                                 <p-accordionTab header="{{title_salary}}">
                                     <p-menubar [model]="menu_empsalary"></p-menubar>
-                                    <p-table #dtsalary [value]="empsalaryList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpsalary"
-                                        (onRowSelect)="onRowSelectEmpsalary($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <!-- <ng-template pTemplate="caption">
+                                    <div #tablesalary>
+                                        <p-table #dtsalary [value]="empsalaryList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpsalary"
+                                            (onRowSelect)="onRowSelectEmpsalary($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
                                                     <i class="pi pi-search"></i>
@@ -1259,25 +1315,26 @@
                                                 </span>
                                             </div>
                                         </ng-template> -->
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_date}}</th>
-                                                <th>{{title_amount}}</th>
-                                                <th>{{title_reason}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empsalary>
-                                            <tr [pSelectableRow]="empsalary">
-                                                <td>{{empsalary.empsalary_date | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empsalary.empsalary_amount}}</td>
-                                                <td>{{empsalary.empsalary_reason}}</td>
-                                                <td>{{empsalary.modified_by}}</td>
-                                                <td>{{empsalary.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_date}}</th>
+                                                    <th>{{title_amount}}</th>
+                                                    <th>{{title_reason}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empsalary>
+                                                <tr [pSelectableRow]="empsalary">
+                                                    <td>{{empsalary.empsalary_date | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empsalary.empsalary_amount}}</td>
+                                                    <td>{{empsalary.empsalary_reason}}</td>
+                                                    <td>{{empsalary.modified_by}}</td>
+                                                    <td>{{empsalary.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -1286,14 +1343,16 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_benefit}}">
                                     <p-menubar [model]="menu_empbenefit"></p-menubar>
-                                    <p-table #dtbenefit [value]="empbenefitList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpbenefit"
-                                        (onRowSelect)="onRowSelectEmpbenefit($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <!-- <ng-template pTemplate="caption">
+                                    <div #tablebenefit>
+                                        <p-table #dtbenefit [value]="empbenefitList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpbenefit"
+                                            (onRowSelect)="onRowSelectEmpbenefit($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
                                                     <i class="pi pi-search"></i>
@@ -1303,31 +1362,32 @@
                                                 </span>
                                             </div>
                                         </ng-template> -->
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_date}}</th>
-                                                <th>{{title_incomededuct}}</th>
-                                                <th>{{title_amount}}</th>
-                                                <th>{{title_conditionpay}}</th>
-                                                <th>{{title_reason}}</th>
-                                                <th>{{title_break}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empbenefit>
-                                            <tr [pSelectableRow]="empbenefit">
-                                                <td>{{empbenefit.empbenefit_startdate | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{doGetitemDetail(empbenefit.item_code)}}</td>
-                                                <td>{{empbenefit.empbenefit_amount}}</td>
-                                                <td>{{empbenefit.empbenefit_conditionpay}}</td>
-                                                <td>{{empbenefit.empbenefit_reason}}</td>
-                                                <td>{{empbenefit.empbenefit_break}}</td>
-                                                <td>{{empbenefit.modified_by}}</td>
-                                                <td>{{empbenefit.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_date}}</th>
+                                                    <th>{{title_incomededuct}}</th>
+                                                    <th>{{title_amount}}</th>
+                                                    <th>{{title_conditionpay}}</th>
+                                                    <th>{{title_reason}}</th>
+                                                    <th>{{title_break}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empbenefit>
+                                                <tr [pSelectableRow]="empbenefit">
+                                                    <td>{{empbenefit.empbenefit_startdate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{doGetitemDetail(empbenefit.item_code)}}</td>
+                                                    <td>{{empbenefit.empbenefit_amount}}</td>
+                                                    <td>{{empbenefit.empbenefit_conditionpay}}</td>
+                                                    <td>{{empbenefit.empbenefit_reason}}</td>
+                                                    <td>{{empbenefit.empbenefit_break}}</td>
+                                                    <td>{{empbenefit.modified_by}}</td>
+                                                    <td>{{empbenefit.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -1336,15 +1396,16 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_fund}}">
                                     <p-menubar [model]="menu_empprovident"></p-menubar>
-                                    <p-table #dtprovident [value]="empprovidentList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single"
-                                        [(selection)]="selectedEmpprovident"
-                                        (onRowSelect)="onRowSelectEmpprovident($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <!-- <ng-template pTemplate="caption">
+                                    <div #tableprovident>
+                                        <p-table #dtprovident [value]="empprovidentList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpprovident"
+                                            (onRowSelect)="onRowSelectEmpprovident($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
                                                     <i class="pi pi-search"></i>
@@ -1354,34 +1415,35 @@
                                                 </span>
                                             </div>
                                         </ng-template> -->
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_provident}}</th>
-                                                <th>{{title_pfno}}</th>
-                                                <th>{{title_pfentry}}</th>
-                                                <th>{{title_pfstart}}</th>
-                                                <th>{{title_pfend}}</th>
-                                                <th>สะสม %</th>
-                                                <th>สมทบ %</th>
-                                                <th>{{title_pfend}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empprovident>
-                                            <tr [pSelectableRow]="empprovident">
-                                                <td>{{doGetProvidentDetail(empprovident.provident_code)}}</td>
-                                                <td>{{empprovident.empprovident_card}}</td>
-                                                <td>{{empprovident.empprovident_entry| date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empprovident.empprovident_start| date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empprovident.empprovident_end| date:'dd/MM/yyyy'}}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>{{empprovident.modified_by}}</td>
-                                                <td>{{empprovident.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_provident}}</th>
+                                                    <th>{{title_pfno}}</th>
+                                                    <th>{{title_pfentry}}</th>
+                                                    <th>{{title_pfstart}}</th>
+                                                    <th>{{title_pfend}}</th>
+                                                    <th>สะสม %</th>
+                                                    <th>สมทบ %</th>
+                                                    <th>{{title_pfend}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empprovident>
+                                                <tr [pSelectableRow]="empprovident">
+                                                    <td>{{doGetProvidentDetail(empprovident.provident_code)}}</td>
+                                                    <td>{{empprovident.empprovident_card}}</td>
+                                                    <td>{{empprovident.empprovident_entry| date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empprovident.empprovident_start| date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empprovident.empprovident_end| date:'dd/MM/yyyy'}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{empprovident.modified_by}}</td>
+                                                    <td>{{empprovident.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -1390,14 +1452,16 @@
                             <p-accordion>
                                 <p-accordionTab header="{{title_reduce}}">
                                     <p-menubar [model]="menu_empreduce"></p-menubar>
-                                    <p-table #dtreduce [value]="empreduceList" styleClass="p-datatable-sm"
-                                        [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="200px"
-                                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpreduce"
-                                        (onRowSelect)="onRowSelectEmpreduce($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                                        <!-- <ng-template pTemplate="caption">
+                                    <div #tablereduce>
+                                        <p-table #dtreduce [value]="empreduceList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '50rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpreduce"
+                                            (onRowSelect)="onRowSelectEmpreduce($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
                                                     <i class="pi pi-search"></i>
@@ -1407,23 +1471,24 @@
                                                 </span>
                                             </div>
                                         </ng-template> -->
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>{{title_reducename}}</th>
-                                                <th>{{title_amount}}</th>
-                                                <th>{{title_modified_by}}</th>
-                                                <th>{{title_modified_date}}</th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-empreduce>
-                                            <tr [pSelectableRow]="empreduce">
-                                                <td>{{doGetReduceDetail(empreduce.reduce_type)}}</td>
-                                                <td>{{empreduce.empreduce_amount}}</td>
-                                                <td>{{empreduce.modified_by}}</td>
-                                                <td>{{empreduce.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_reducename}}</th>
+                                                    <th>{{title_amount}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empreduce>
+                                                <tr [pSelectableRow]="empreduce">
+                                                    <td>{{doGetReduceDetail(empreduce.reduce_type)}}</td>
+                                                    <td>{{empreduce.empreduce_amount}}</td>
+                                                    <td>{{empreduce.modified_by}}</td>
+                                                    <td>{{empreduce.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -1431,7 +1496,6 @@
                         <div class="field col-12">
                             <p-accordion>
                                 <p-accordionTab header="{{title_accumulate}}">
-                                    <p-menubar [model]="menu_empaccumalate"></p-menubar>
                                     <p-table #dt17 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '150rem'}"
                                         (onRowSelect)="onRowSelectEmpAcc($event)" [scrollable]="true"
                                         scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"
@@ -1560,10 +1624,10 @@
         </p-dropdown>
 
         <label>{{title_no}}</label>
-        <input pInputText type="text"  [(ngModel)]="selectedEmpAddress.address_no">
+        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_no">
 
         <label>{{title_moo}}</label>
-        <input pInputText type="text"  [(ngModel)]="selectedEmpAddress.address_moo">
+        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_moo">
 
         <label>{{title_soi}}</label>
         <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_soi">
@@ -1701,9 +1765,9 @@
             </ng-template>
         </p-dropdown>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_type"> -->
-        
+
         <label>{{title_familyocc[initial_current.Language]}}</label>
-        <input pInputText type="text"[(ngModel)]="selectedEmpfamily.family_occupation">
+        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_occupation">
 
         <label>{{title_familytel[initial_current.Language]}}</label>
         <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_tel" max="10">

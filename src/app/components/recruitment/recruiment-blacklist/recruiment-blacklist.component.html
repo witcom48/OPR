@@ -1,0 +1,129 @@
+<!-- <p>recruiment-blacklist works!</p> -->
+<div class="path">
+    <span>{{title_black[initial_current.Language]}}</span>
+</div>
+
+<hr>
+
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+
+<div class="tabledata">
+    <!-- Table Show Data -->
+    <div #TABLE>
+        <p-table #dt2 [value]="blacklist_list" selectionMode="single" [(selection)]="selectedBlacklist"
+            (onRowSelect)="onRowSelectInitial($event)" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+            [globalFilterFields]="['initial_code','initial_name_en','initial_name_th','modied_by','modied_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{title_search[initial_current.Language]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>{{title_worker[initial_current.Language]}}</th>
+                    <th>{{title_name[initial_current.Language]}}</th>
+                    <th>{{title_reason[initial_current.Language]}}</th>
+                    <th>{{title_note[initial_current.Language]}}</th>
+                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr [pSelectableRow]="data">
+                    <td><span>{{title_worker[initial_current.Language]}}</span>{{data.worker_code}}</td>
+                    <td><span>{{title_name[initial_current.Language]}}</span>{{initial_current.Language == "TH"?
+                        data.worker_detail_th:data.worker_detail_en}}</td>
+                    <td><span>{{title_reason[initial_current.Language]}}</span>{{data.reason_code}}</td>
+                    <td><span>{{title_note[initial_current.Language]}}</span>{{data.blacklist_note}}</td>
+                    <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy HH:mm'}}
+                    </td>
+                    <td><button pButton type="button" class="pi pi-trash gray-button "
+                            (click)="confirmDelete(data)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="{{title_upload[initial_current.Language]}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadBlacklist()" label="{{title_upload[initial_current.Language]}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->
+
+<p-dialog header="{{title_black[initial_current.Language]}}" [(visible)]="displayManage" styleClass="dialog-overflow"
+    [position]="position">
+    <p-scrollPanel>
+        <div class="formatt" *ngIf="edit_data==true || new_data==true">
+
+            <label>{{title_worker[initial_current.Language]}}</label>
+            <p-dropdown placeholder="--" [options]="worker_List" optionValue="worker_code" [showClear]="true"
+                [(ngModel)]="selectedBlacklist.worker_code" [style]="{ width: '100%', overflow: 'visible' }"
+                [filter]="true" filterBy="worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th :
+                    item.worker_fname_en
+                    +" "+item.worker_lname_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th :
+                    item.worker_fname_en
+                    +" "+item.worker_lname_en}}
+                </ng-template>
+            </p-dropdown>
+
+            <label for="lastname2">{{title_reason[initial_current.Language]}}</label>
+            <p-dropdown placeholder="--" [options]="reason_list" optionValue="reason_code" [(ngModel)]="selectedBlacklist.reason_code"
+                [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
+                </ng-template>
+            </p-dropdown>
+
+            <label for="ppos_name_en">{{title_note[initial_current.Language]}}</label>
+            <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedBlacklist.blacklist_note" [cols]="30"
+                pInputTextarea [autoResize]="true"></textarea>
+
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (onClick)="confirmRecord()"></p-button>
+            </div>
+
+        </div>
+    </p-scrollPanel>
+</p-dialog>
