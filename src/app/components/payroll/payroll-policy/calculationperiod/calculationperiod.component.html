@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{title_payroll}}</span>
     <div>
         <i></i>
@@ -9,7 +9,9 @@
         <small>{{title_page}}</small>
 
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <hr>
 <!-- Menu New Import Export Data -->
 <div>
@@ -70,7 +72,7 @@
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
                     <th> </th>
-                    
+
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex">
@@ -128,11 +130,14 @@
                 <input type="checkbox" value="1" [(ngModel)]="selectedPeriods.period_dayonperiod">
                 <label>{{title_day_pay}}</label>
             </div>
+            <br>
             <div style="text-align: right;">
 
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
+                <button pButton type="button" label="{{title_save}}" class="button-size" icon="pi pi-save"
+                    (click)="Save()"></button>
+                &nbsp;
                 <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" (click)="Delete()"
-                    icon="pi pi-trash" class="p-button-danger"></button>
+                    icon="pi pi-trash" class="btndel button-size"></button>
             </div>
         </div>
     </p-dialog>
@@ -153,7 +158,8 @@
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
-
+<div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 
 <!-- -----------------End Dialog Choose File-------------------- -->
 

@@ -21,6 +21,8 @@ import { TimecardService } from 'src/app/services/attendance/timecards.service';
 import { ProjectDetailService } from '../../../services/project/project_detail.service';
 import { ProjobmainModel } from '../../../models/project/project_jobmain';
 import { JobMonitorModel } from '../../../models/project/job_monitor'
+import { ProareaModel } from 'src/app/models/project/project_proarea';
+import { ProgroupModel } from 'src/app/models/project/project_group';
 
 @Component({
   selector: 'app-project-monitor',
@@ -45,9 +47,18 @@ export class ProjectMonitorComponent implements OnInit {
 
   selectedType_fillter :string = ""
   selectedBusiness_fillter :string = ""
+//
+  selectedProarea_fillter :string = ""
+  selectedProgroup_fillter :string = ""
+//
+
 
   business_fillter :boolean = false
   type_fillter :boolean = false
+//
+  proarea_fillter :boolean = false
+  progroup_fillter :boolean = false
+//
 
   selectedDate_fillter :Date = new Date()
 
@@ -63,6 +74,11 @@ export class ProjectMonitorComponent implements OnInit {
   title_date: {[key: string]: string} = {  EN: "Date",  TH: "วันที่"}
   title_project_probusiness: {[key: string]: string} = {  EN: "Business",  TH: "ประเภทธุรกิจ"}
   title_project_protype: {[key: string]: string} = {  EN: "Type",  TH: "ประเภทงาน"}
+  //
+  title_project_proarea: {[key: string]: string} = {  EN: "Area",  TH: "พื้นที่"}
+  title_project_progroup: {[key: string]: string} = {  EN: "Group",  TH: "กลุ่ม"}
+
+  //
 
   title_project_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัสโครงการ"}
   title_project_name: {[key: string]: string} = {  EN: "Description",  TH: "โครงการ"}
@@ -164,6 +180,11 @@ export class ProjectMonitorComponent implements OnInit {
     this.doLoadMenu()
     this.doLoadProjectType()
     this.doLoadProjectBusiness()
+
+    //
+    this.doLoadProareaType()
+    this.doLoadProgroupType()
+    //
     //this.doLoadPolJobmain()
 
     //let dateString = '2023-01-10T00:00:00'
@@ -280,6 +301,10 @@ export class ProjectMonitorComponent implements OnInit {
     
     var probusiness = ""
     var protype = ""
+    //
+    var proarea = ""
+    var progroup = ""
+    //
     if(this.business_fillter){
       probusiness = this.selectedBusiness_fillter;
     }
@@ -287,9 +312,18 @@ export class ProjectMonitorComponent implements OnInit {
     if(this.type_fillter){
       protype = this.selectedType_fillter;
     }
+    //
+    if(this.proarea_fillter){
+      proarea = this.selectedProarea_fillter;
+    }
+    //
+    if(this.progroup_fillter){
+      progroup = this.selectedProgroup_fillter;   
+       
+    }
     
 
-    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness).then(async (res) => {
+    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness,proarea,progroup).then(async (res) => {
       this.project_monitor = await res;
       setTimeout(() => {
         this.calculateTotal()
@@ -323,6 +357,22 @@ export class ProjectMonitorComponent implements OnInit {
     this.protype_list = []   
     this.progenaralService.protype_get().then(async (res) => {
       this.protype_list = await res;      
+    });     
+  }
+  //
+  proarea_list: ProareaModel[] = [];  
+  doLoadProareaType(){      
+    this.proarea_list = []   
+    this.progenaralService.proarea_get().then(async (res) => {
+      this.proarea_list = await res;      
+    });     
+  }
+   
+  progroup_list: ProgroupModel[] = [];  
+  doLoadProgroupType(){      
+    this.progroup_list = []   
+    this.progenaralService.progroup_get().then(async (res) => {
+      this.progroup_list = await res;      
     });     
   }
 

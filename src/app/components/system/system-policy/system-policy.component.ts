@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-system-policy',
@@ -11,11 +12,15 @@ export class SystemPolicyComponent implements OnInit {
     router: any;
 
   constructor() { }
-
+itemslike: MenuItem[] = [];
+    home: any;
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadLanguage();
-    
+     this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/system', styleClass: 'activelike' }];
+
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+
 }
 
 public initial_current: InitialCurrent = new InitialCurrent();
@@ -29,7 +34,7 @@ public initial_current: InitialCurrent = new InitialCurrent();
     }
   title_Supply: string = "Supply Office";
 
-    title_genaral_system: string = 'Genaral system';
+    title_genaral_system: string = 'Genaral System';
     title_links: string = 'Links';
     title_genaral: string = 'Genaral';
     title_level: string = 'Employee Level';

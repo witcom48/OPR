@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{title_payroll}}</span>
     <div>
         <i></i>
@@ -8,7 +8,9 @@
         <i></i>
         <small>{{title_page}}</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <hr>
 <!-- Menu New Import Export Data -->
 <div>
@@ -83,13 +85,15 @@
             <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
                 [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_tax">
             </p-inputNumber>
-
+            <br>
+        
             <div style="text-align: right;">
 
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
+                <button pButton type="button" label="{{title_save}}" class="button-size" icon="pi pi-save"
                     (click)="confirmRecord()"></button>
+                &nbsp;
                 <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                    class="p-button-danger" (click)="confirmDelete()"></button>
+                class="btndel button-size" (click)="confirmDelete()"></button>
             </div>
         </div>
     </p-dialog>
@@ -111,6 +115,8 @@
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
+<div *ngIf="displayUpload" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
 <!-- -----------------End Dialog Choose File-------------------- -->
 
 <!-- ConfirmDialog and toast Noti -->

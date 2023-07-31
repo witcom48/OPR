@@ -21,7 +21,7 @@ var langcalendaren = {
 
 var yearperiod = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
-    ["System", { TH: "ระบบ", EN: "System " }],
+    ["System", { TH: "จัดการ", EN: "Manage System" }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
     ["yearperiod", { TH: "ปี", EN: "Year Period" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
@@ -84,7 +84,7 @@ var rounddecimal = new Map([
     ["roundTime", { TH: "เวลา", EN: "Round Time" }],
     ["group", { TH: "กลุ่ม", EN: "Group" }],
     ["manage", { TH: "จัดการ", EN: "Manage" }],
-    ["system", { TH: "ระบบ", EN: "System" }],
+    ["system", { TH: "จัดการ", EN: "Manage System" }],
 
 
 
@@ -152,9 +152,11 @@ var timeperiod = new Map([
     ["timeperiod", { TH: "กำหนดงวด", EN: "Time Period" }],
 ]);
 
-var reason = new Map([
-    ["manage", { TH: "จัดการ", EN: "Manage" }],
 
+
+var reason = new Map([
+    ["manage", { TH: "จัดการ", EN: "Manage System" }],
+    ["system", { TH: "ระบบ", EN: "System " }],
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
     ["yearperiod", { TH: "ปีการจ่าย", EN: "Year Period" }],
@@ -191,6 +193,7 @@ var reason = new Map([
     ["shiftreq", { TH: "ขอเปลี่ยนกะ", EN: "Shift req." }],
     ["onsitereq", { TH: "บันทึกการลงเวลา", EN: "Onsite req." }],
     ["salaryreq", { TH: "การปรับเงินเดือน", EN: "Salary adjust" }],
+    ["blackreq", { TH: "เบล็คลิสต์", EN: "Black List" }],
 ]);
 var locationpage = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
@@ -225,7 +228,7 @@ var locationpage = new Map([
     ["detail", { TH: "รายละเอียด", EN: "Detail" }],
     ["lat", { TH: "ละติจูด", EN: "Latitude" }],
     ["long", { TH: "ลองจิจูด", EN: "Longitude " }],
-    ["system", { TH: "ระบบ", EN: "System " }],
+    ["system", { TH: "ระบบทั่วไป", EN: "Genaral System " }],
     ["genaral", { TH: "ทั่วไป", EN: "Genaral " }],
 
 

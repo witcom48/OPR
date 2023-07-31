@@ -24,7 +24,8 @@ export class SystemMajorComponent implements OnInit {
 
   Major_list: MajorModel[] = [];
   selectedMajor: MajorModel = new MajorModel();
-
+  home: any;
+  itemslike: MenuItem[] = [];
   constructor(
     private majorService: MajorService,
     private router: Router,
@@ -36,9 +37,10 @@ export class SystemMajorComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+
       this.doLoadMajor()
     }, 500);
   }
@@ -80,9 +82,12 @@ export class SystemMajorComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Genaral System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'ระบบทั่วไป';
+
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";
       this.title_page = "วิชาเอก";
@@ -118,7 +123,9 @@ export class SystemMajorComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new,
@@ -190,49 +197,49 @@ export class SystemMajorComponent implements OnInit {
 
     });
   }
-//
-confirmDeletes(data: any) {
-  this.confirmationService.confirm({
-    message: this.title_confirm_delete,
-    header: this.title_confirm,
-    icon: 'pi pi-exclamation-triangle',
-    accept: () => {
-      this.doDeleteMajors(data);
-    },
+  //
+  confirmDeletes(data: any) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteMajors(data);
+      },
 
-    reject: () => {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Cancelled',
-        detail: this.title_confirm_cancel,
-      });
-    },
-  });
-}
+      reject: () => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cancelled',
+          detail: this.title_confirm_cancel,
+        });
+      },
+    });
+  }
 
-doDeleteMajors(data: any) {
-  this.majorService.major_delete(data).then((res) => {
-    let result = JSON.parse(res);
-    if (result.success) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: result.message,
-      });
-      this.doLoadMajor();
-      this.edit_data = false;
-      this.new_data = false;
-      this.displayManage = false
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: result.message,
-      });
-    }
-  });
-}
-//
+  doDeleteMajors(data: any) {
+    this.majorService.major_delete(data).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: result.message,
+        });
+        this.doLoadMajor();
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: result.message,
+        });
+      }
+    });
+  }
+  //
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete,

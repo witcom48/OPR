@@ -1,27 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
+import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'app-payroll-policy',
-  templateUrl: './payroll-policy.component.html',
-  styleUrls: ['./payroll-policy.component.scss']
+    selector: 'app-payroll-policy',
+    templateUrl: './payroll-policy.component.html',
+    styleUrls: ['./payroll-policy.component.scss']
 })
 export class PayrollPolicyComponent implements OnInit {
 
-  router: any;
+    router: any;
+    itemslike: MenuItem[] = [];
+    home: any;
+    constructor() { }
 
-  constructor() { }
+    ngOnInit(): void {
+        this.doGetInitialCurrent();
+        this.doLoadLanguage();
+        this.itemslike = [{ label: this.title_system_payroll, routerLink: '/payroll/policy', styleClass: 'activelike' }];
 
-  ngOnInit(): void {
-    this.doGetInitialCurrent();
- this.doLoadLanguage();
-    // setTimeout(() => {
-       
-    // }, 500);
-}
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        // setTimeout(() => {
 
-public initial_current: InitialCurrent = new InitialCurrent();
+        // }, 500);
+    }
+
+    public initial_current: InitialCurrent = new InitialCurrent();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -30,10 +35,10 @@ public initial_current: InitialCurrent = new InitialCurrent();
             this.router.navigateByUrl('');
         }
     }
-    title_system_payroll: string = 'Policy payroll';
+    title_system_payroll: string = 'Policy Payroll';
     title_system_Policy: string = 'Policy';
 
-    
+
     title_Calculation: string = 'Calculation Period';
     title_Taxrate: string = 'Tax Rate';
     title_IncomeDeduct: string = 'Income / Deduct';
@@ -46,8 +51,8 @@ public initial_current: InitialCurrent = new InitialCurrent();
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_system_payroll= 'นโยบาย';
-            this.title_system_Policy= 'นโยบาย';
+            this.title_system_payroll = 'นโยบาย';
+            this.title_system_Policy = 'นโยบาย';
 
             this.title_Calculation = 'กำหนดงวด';
             this.title_Taxrate = 'อัตราภาษี';
@@ -59,9 +64,9 @@ public initial_current: InitialCurrent = new InitialCurrent();
             this.title_SetBonus = 'กำหนดนโยบายโบนัส';
             this.title_SetProvidentFund = 'กำหนดสิทธิกองทุนสำรองฯ';
 
-            
-           
- 
+
+
+
         }
     }
 }

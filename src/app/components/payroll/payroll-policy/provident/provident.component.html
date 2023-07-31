@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{title_payroll}}</span>
     <div>
         <i></i>
@@ -9,7 +9,9 @@
         <small>{{title_page}}</small>
 
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <hr>
 <!-- Menu New Import Export Data -->
 <div>
@@ -48,6 +50,7 @@
                     <th>{{title_detail_en}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
+                    <th></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
@@ -74,53 +77,56 @@
         <div class="formatt p-dialog-content" *ngIf="new_data">
             <!-- <i (click)="close()"></i> -->
 
-        <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedProvident.provident_code" maxlength="10"
-            disabled="{{edit_data}}" />
-        <p>{{selectedProvident.provident_code.length}}/10</p>
+            <label>{{title_code}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedProvident.provident_code" maxlength="10"
+                disabled="{{edit_data}}" />
+            <p>{{selectedProvident.provident_code.length}}/10</p>
 
-        <label>{{title_detail_th}}</label>
-        <textarea [(ngModel)]="selectedProvident.provident_name_th" pInputTextarea [autoResize]="true"></textarea>
+            <label>{{title_detail_th}}</label>
+            <textarea [(ngModel)]="selectedProvident.provident_name_th" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>{{title_detail_en}} </label>
-        <textarea [(ngModel)]="selectedProvident.provident_name_en" pInputTextarea [autoResize]="true"></textarea>
+            <label>{{title_detail_en}} </label>
+            <textarea [(ngModel)]="selectedProvident.provident_name_en" pInputTextarea [autoResize]="true"></textarea>
 
 
 
-        <div #TABLELIST>
-            <p-accordion>
-                <p-accordionTab header="{{title_Workage}}">
-                    <p-menubar [model]="itemslate"></p-menubar>
-                    <p-table [value]="selectedProvident.providentWorkage_data" styleClass="p-datatable-sm"
-                        (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
-                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProvidentWorka">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>{{title_From}}</th>
-                                <th>{{title_To}}</th>
-                                <th>{{title_Rateemp}}</th>
-                                <th>{{title_Ratecom}}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-data let-i="rowIndex">
-                            <tr [pSelectableRow]="data">
-                                <td>{{data.workage_from}}</td>
-                                <td>{{data.workage_to}}</td>
-                                <td>{{data.rate_emp}}</td>
-                                <td>{{data.rate_com}}</td>
+            <div #TABLELIST>
+                <p-accordion>
+                    <p-accordionTab header="{{title_Workage}}">
+                        <p-menubar [model]="itemslate"></p-menubar>
+                        <p-table [value]="selectedProvident.providentWorkage_data" styleClass="p-datatable-sm"
+                            (onRowSelect)="onRowSelectList($event)" [scrollable]="true" scrollHeight="220px"
+                            [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProvidentWorka">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{title_From}}</th>
+                                    <th>{{title_To}}</th>
+                                    <th>{{title_Rateemp}}</th>
+                                    <th>{{title_Ratecom}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                                <tr [pSelectableRow]="data">
+                                    <td>{{data.workage_from}}</td>
+                                    <td>{{data.workage_to}}</td>
+                                    <td>{{data.rate_emp}}</td>
+                                    <td>{{data.rate_com}}</td>
 
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p-accordionTab>
-            </p-accordion>
-        </div>
-                    <div style="text-align: right;">
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+            <br>
+            <div style="text-align: right;">
 
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="Delete()"></button>
-    </div>
+                <button pButton type="button" label="{{title_save}}" class="button-size" icon="pi pi-save"
+                    (click)="Save()"></button>
+                &nbsp;
+                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                class="btndel button-size"(click)="Delete()"></button>
+            </div>
         </div>
     </p-dialog>
     <div *ngIf="displayManage" style="z-index: 1084;"
@@ -171,12 +177,13 @@
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
     </ng-template>
 </p-dialog>
-
+<div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 <!-- -----------------End Dialog Choose File-------------------- -->
 
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-key="myDialog"  rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

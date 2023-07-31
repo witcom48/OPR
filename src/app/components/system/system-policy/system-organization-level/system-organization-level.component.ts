@@ -19,7 +19,8 @@ import { LevelService } from 'src/app/services/system/policy/level.service';
 })
 export class SystemOrganizationLevelComponent implements OnInit {
 
-
+  home: any;
+  itemslike: MenuItem[] = [];
 
   items: MenuItem[] = [];
   edit_data: boolean = false;
@@ -39,9 +40,10 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+
       this.doLoadLevel()
 
     }, 500);
@@ -87,9 +89,12 @@ export class SystemOrganizationLevelComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Genaral System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'ระบบทั่วไป';
+
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";
       this.title_page = "ระดับหน่วยงาน";
@@ -124,6 +129,9 @@ export class SystemOrganizationLevelComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
 
     this.items = [
       {
@@ -158,7 +166,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
       }
     ];
   }
- 
+
 
 
   //

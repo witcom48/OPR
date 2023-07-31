@@ -25,7 +25,8 @@ export class SystemHospitalComponent implements OnInit {
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   hospital_list: HospitalModel[] = [];
   selectedHospital: HospitalModel = new HospitalModel();
 
@@ -40,9 +41,10 @@ export class SystemHospitalComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+
       this.doLoadHospital()
     }, 500);
   }
@@ -84,9 +86,12 @@ export class SystemHospitalComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Genaral System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'ระบบทั่วไป';
+
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";
       this.title_page = "โรงพยาบาล";
@@ -122,7 +127,9 @@ export class SystemHospitalComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new,
@@ -194,49 +201,49 @@ export class SystemHospitalComponent implements OnInit {
 
     });
   }
-//
-confirmDeletes(data: any) {
-  this.confirmationService.confirm({
-    message: this.title_confirm_delete,
-    header: this.title_confirm,
-    icon: 'pi pi-exclamation-triangle',
-    accept: () => {
-      this.doDeleteHospitals(data);
-    },
+  //
+  confirmDeletes(data: any) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteHospitals(data);
+      },
 
-    reject: () => {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Cancelled',
-        detail: this.title_confirm_cancel,
-      });
-    },
-  });
-}
+      reject: () => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cancelled',
+          detail: this.title_confirm_cancel,
+        });
+      },
+    });
+  }
 
-doDeleteHospitals(data: any) {
-  this.hospitalService.hospital_delete(data).then((res) => {
-    let result = JSON.parse(res);
-    if (result.success) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: result.message,
-      });
-      this.doLoadHospital();
-      this.edit_data = false;
-      this.new_data = false;
-      this.displayManage = false
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: result.message,
-      });
-    }
-  });
-}
-//
+  doDeleteHospitals(data: any) {
+    this.hospitalService.hospital_delete(data).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: result.message,
+        });
+        this.doLoadHospital();
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: result.message,
+        });
+      }
+    });
+  }
+  //
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete,

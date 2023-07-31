@@ -1,0 +1,53 @@
+<div class="path">
+    <span>Black List</span>
+    <div>
+        <i></i>
+        <small>Set Batch</small>
+    </div>
+</div>
+
+<hr>
+
+<p-tabView [(activeIndex)]="index" (onChange)="function($event)">
+    <p-tabPanel [selected]="true">
+        <ng-template pTemplate="header">
+            <i class="pi pi-cog"></i>&nbsp;&nbsp;
+            <span>{{title_process[initial_current.Language]}}</span>
+        </ng-template>
+
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-select-emp></app-select-emp>
+            </div>
+            <div class="blacklist field col-12 md:col-7">
+                <div>
+                    <label>{{title_reason[initial_current.Language]}}</label>
+                    <p-dropdown placeholder="--" [options]="reason_list" optionValue="reason_code" [showClear]="true"
+                        [(ngModel)]="selectedBlacklist.reason_code" [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                <div>
+                    <label>{{title_note[initial_current.Language]}}</label>
+                    <textarea [(ngModel)]="selectedBlacklist.blacklist_note" pInputTextarea
+                        [autoResize]="true"></textarea>
+
+                </div>
+            </div>
+            <div *ngIf="!loading" class="field col-12 md:col-6">
+                <p-button label="{{title_btnprocess[initial_current.Language]}}" (click)="process()"></p-button>
+            </div>
+            <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+
+        </div>
+    </p-tabPanel>
+
+</p-tabView>
+

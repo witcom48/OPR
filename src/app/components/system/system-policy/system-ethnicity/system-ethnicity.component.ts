@@ -22,7 +22,8 @@ export class SystemEthnicityComponent implements OnInit {
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   ethnicity_list: EthnicityModel[] = [];
   selectedEthnicity: EthnicityModel = new EthnicityModel();
 
@@ -37,9 +38,10 @@ export class SystemEthnicityComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+
       this.doLoadEthnicity()
     }, 500);
   }
@@ -81,9 +83,12 @@ export class SystemEthnicityComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Genaral System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'ระบบทั่วไป';
+
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";
       this.title_page = "เชื้อชาติ";
@@ -119,7 +124,9 @@ export class SystemEthnicityComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new,

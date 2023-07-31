@@ -21,26 +21,27 @@
 </div>
 <!-- ----------------END MENU----------------- -->
 <div class="tabledata">
-<div class="tableemp">
-    <div #TABLE>
-        <p-table #dt2 [value]="comlocation_list" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true"
-            scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedcomlocation"
-            (onRowSelect)="onRowSelectComlocation($event)" dataKey="comlocation_code" [rows]="10" [showCurrentPageReport]="true"
-            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['comlocation_code','comlocation_name_th','modified_by','modified_date']">
-            <ng-template pTemplate="caption">
-                <div class="flex">
-                    <span class="p-input-icon-left ml-auto">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="Search keyword" />
-                    </span>
-                </div>
-            </ng-template>
+    <div class="tableemp">
+        <div #TABLE>
+            <p-table #dt2 [value]="comlocation_list" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true"
+                scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedcomlocation"
+                (onRowSelect)="onRowSelectComlocation($event)" dataKey="comlocation_code" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['comlocation_code','comlocation_name_th','modified_by','modified_date']">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                placeholder="Search keyword" />
+                        </span>
+                    </div>
+                </ng-template>
 
-            <ng-template pTemplate="header">
-                <tr>
+                <ng-template pTemplate="header">
+                    <tr>
                     <tr>
                         <th>รหัสสถานที่ปฏิบัติงาน</th>
                         <th>ชื่อสถานที่ปฏิบัติงาน</th>
@@ -48,20 +49,20 @@
                         <th>Edit by</th>
                         <th>Edit date</th>
                     </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-data>
-                <tr [pSelectableRow]="data">
-                    <td>{{data.comlocation_code}}</td>
-                    <td>{{initial_current.Language == "TH"? data.comlocation_name_th:data.comlocation_name_en}}</td>
-                    <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                </tr>
-            </ng-template>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                    <tr [pSelectableRow]="data">
+                        <td>{{data.comlocation_code}}</td>
+                        <td>{{initial_current.Language == "TH"? data.comlocation_name_th:data.comlocation_name_en}}</td>
+                        <td>{{data.modified_by}}</td>
+                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    </tr>
+                </ng-template>
 
 
-        </p-table>
+            </p-table>
+        </div>
     </div>
-</div>
     <!-- -----------------------END Table-------------------------- -->
 
     <div class="formatt" *ngIf="new_comlocation==true">
@@ -69,12 +70,13 @@
 
         <label>รหัส</label>
         <!-- <input pInputText type="text" [(ngModel)]="selectedCardtype.cardtype_code" maxlength="5"  [readonly]="edit_data" /> -->
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedcomlocation.comlocation_code" maxlength="5"  [readonly]="edit_comlocation" >
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedcomlocation.comlocation_code" maxlength="5"
+            [readonly]="edit_comlocation">
         <p>{{selectedcomlocation.comlocation_code.length}}/5</p>
 
         <label for="lastname2">ชื่อสาขา</label>
-        <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcomlocation.comlocation_name_th" [cols]="30" pInputTextarea
-            [autoResize]="true"></textarea>
+        <textarea [rows]="2" id="lastname2" [(ngModel)]="selectedcomlocation.comlocation_name_th" [cols]="30"
+            pInputTextarea [autoResize]="true"></textarea>
 
 
 
@@ -92,14 +94,18 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="doUploadComlocation()" label="{{title_upload}}"
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
+<div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-key="myDialog"  rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>

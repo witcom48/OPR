@@ -25,7 +25,8 @@ export class TaxrateComponent implements OnInit {
     items: MenuItem[] = [];
     edit_data: boolean = false;
     new_data: boolean = false;
-
+    home: any;
+    itemslike: MenuItem[] = [];
     taxrate_list: TaxrateModel[] = [];
     selectedTaxrate: TaxrateModel = new TaxrateModel();
 
@@ -45,7 +46,9 @@ export class TaxrateComponent implements OnInit {
         this.doLoadLanguage();
         this.doLoadMenu();
         this.doLoadTaxrate();
-
+        this.itemslike = [{ label: this.title_system_payroll, routerLink: '/payroll/policy' },
+        { label: this.title_page, styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -99,9 +102,12 @@ export class TaxrateComponent implements OnInit {
     title_confirm_no: string = 'No';
 
     title_confirm_cancel: string = 'You have cancelled';
+    title_system_payroll: string = 'Policy Payroll';
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
+            this.title_system_payroll = 'นโยบาย';
+
             this.title_payroll = 'บัญชี';
 
             this.title_policy = 'กำหนดนโยบาย';

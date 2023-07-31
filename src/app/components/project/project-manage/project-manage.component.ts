@@ -73,6 +73,8 @@ import { LateModels } from 'src/app/models/attendance/late';
 import { LateServices } from 'src/app/services/attendance/late.service';
 
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
+import { ProareaModel } from 'src/app/models/project/project_proarea';
+import { ProgroupModel } from 'src/app/models/project/project_group';
 
 
 @Component({
@@ -95,6 +97,10 @@ export class ProjectManageComponent implements OnInit {
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
   protype_list: ProtypeModel[] = [];
+
+  proarea_list: ProareaModel[] = [];
+
+  progroup_list : ProgroupModel[] = [];
 
   //#region "My Menu"
 
@@ -221,6 +227,8 @@ export class ProjectManageComponent implements OnInit {
   title_project_protype: {[key: string]: string} = {  EN: "Type",  TH: "ประเภทงาน"}
   title_project_roundtime: {[key: string]: string} = {  EN: "Time rounding",  TH: "รูปแบบปัดเศษเวลา"}
   title_project_roundmoney: {[key: string]: string} = {  EN: "Amount rounding",  TH: "รูปแบบปัดเศษเงิน"}
+  title_project_progarea : {[key: string]: string} = {  EN: "Area ",  TH: "พื้นที่"}
+  title_project_progroup : {[key: string]: string} = {  EN: "Group ",  TH: "กลุ่ม"}
   //
   title_address: {[key: string]: string} = {  EN: "Address",  TH: "ที่อยู่"}
   title_address_no: {[key: string]: string} = {  EN: "Address No",  TH: "เลขที่"}
@@ -1199,6 +1207,14 @@ export class ProjectManageComponent implements OnInit {
 
     this.genaralService.protype_get().then((res) => {
       this.protype_list = res;
+    });
+
+    this.genaralService.proarea_get().then((res) => {
+      this.proarea_list = res;
+    });
+
+    this.genaralService.progroup_get().then((res) => {
+      this.progroup_list = res;
     });
 
     

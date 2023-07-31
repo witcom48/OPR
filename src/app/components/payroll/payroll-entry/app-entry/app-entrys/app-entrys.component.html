@@ -26,7 +26,7 @@
 
 </table>
 <p></p>
-                                    <!-- --------------End form deduct ------------------ -->
+<!-- --------------End form deduct ------------------ -->
 
 <p-menubar [model]="menu_Items"></p-menubar>
 <div class="tabledata">
@@ -100,17 +100,18 @@
             </div>
             <div class="field col-12 md:col-6">
                 <div>
-                    <label>{{title_amount}}</label>
+                    <label>{{title_amount}}<span style="color: red;"> *</span></label>
                     <p-inputNumber [(ngModel)]="payitems.payitem_amount" inputId="minmaxfraction" mode="decimal"
                         [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
 
-                    <label>{{title_quantity}}</label>
+                    <label>{{title_quantity}}<span style="color: red;"> *</span></label>
                     <p-inputNumber [(ngModel)]="payitems.payitem_quantity" inputId="minmaxfraction" mode="decimal"
                         [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
                     <div class="radiorole">
                         <div class="radioroledata">
+                            <br>
                             <!-- ธนาคาร -->
-                            <label>{{title_bank_transfer_cash}}</label>
+                            <label>{{title_bank_transfer_cash}}<span style="color: red;"> *</span></label>
                             <div>
                                 <input type="radio" name="roel" value="B" [(ngModel)]="payitems.payitem_paytype">
                                 <label>{{title_bank}}</label>
@@ -123,9 +124,9 @@
                             </div>
                         </div>
                     </div>
-
+                    <br>
                     <label>{{title_note}}</label>
-                    <input class="field  md:col-12" pInputText type="text"  [(ngModel)]="payitems.payitem_note"  />
+                    <input class="field  md:col-12" pInputText type="text" [(ngModel)]="payitems.payitem_note" />
 
                     <!-- <textarea [(ngModel)]="payitems.payitem_note" pInputTextarea [autoResize]="true"></textarea> -->
 
@@ -138,13 +139,18 @@
             </div>
         </div>
         <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{ 'height': '6px' }"></p-progressBar>
-
-        <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="process()"></button>
-        <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="Delete()"></button>
-    <!-- --------------End form Input Data ------------------ -->
-
+        <br>
+        <div style="text-align: right;">
+            <button pButton type="button" class="button-size" label="{{title_save}}" icon="pi pi-save"
+                (click)="process()"></button>
+            &nbsp;
+            <button *ngIf="new_data || edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                class="btndel button-size" (click)="Delete()"></button>
+            <!-- --------------End form Input Data ------------------ -->
+        </div>
     </p-dialog>
+    <div *ngIf="displayaddholiday" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
     <div>
         <tr>
             <td>
@@ -158,6 +164,6 @@
             </td>
         </tr>
     </div>
-                                        <!-- --------------End form summary ------------------ -->
+    <!-- --------------End form summary ------------------ -->
 
 </div>

@@ -21,4 +21,5 @@ export class EmpFamilyModel {
 
     family_occupation: string= "";
     family_tel: string= "";
+    family_address : string = "";
 }

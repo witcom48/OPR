@@ -12,6 +12,7 @@ export class FillterEmpModel {
     worker_lname_en : string= "";
     worker_emptype : string= "";
     worker_gender : string= "";
+    worker_empstatus: string = "";
 
     searchemp :string = "";
   
@@ -24,4 +25,6 @@ export class FillterEmpModel {
 
     location_code : string= "";  
     date_fill !: Date;
+
+    status_code:string = "";
 }

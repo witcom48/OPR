@@ -23,7 +23,8 @@ export class SystemSupplyComponent implements OnInit {
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   supply_List: SupplyModel[] = [];
   selectedSupply: SupplyModel = new SupplyModel();
 
@@ -38,9 +39,10 @@ export class SystemSupplyComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
-      
-      this.doLoadMenu()
+
+
       this.doLoadSupply()
     }, 500);
   }
@@ -52,8 +54,8 @@ export class SystemSupplyComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
   }
- title_system: string = 'System';
-    title_genaral: string = 'Genaral';
+  title_system: string = 'System';
+  title_genaral: string = 'Genaral';
   title_page: string = "Supply Office";
   title_new: string = "New";
   title_edit: string = "Edit";
@@ -82,11 +84,14 @@ export class SystemSupplyComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Genaral System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'ระบบทั่วไป';
+
       this.title_system = 'ระบบ';
-            this.title_genaral = 'ทั่วไป';
+      this.title_genaral = 'ทั่วไป';
       this.title_page = "อุปกรณ์สำนักงาน";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
@@ -120,7 +125,9 @@ export class SystemSupplyComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new,
@@ -191,49 +198,49 @@ export class SystemSupplyComponent implements OnInit {
 
     });
   }
-//
-confirmDeletes(data: any) {
-  this.confirmationService.confirm({
-    message: this.title_confirm_delete,
-    header: this.title_confirm,
-    icon: 'pi pi-exclamation-triangle',
-    accept: () => {
-      this.doDeleteSupplys(data);
-    },
+  //
+  confirmDeletes(data: any) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteSupplys(data);
+      },
 
-    reject: () => {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Cancelled',
-        detail: this.title_confirm_cancel,
-      });
-    },
-  });
-}
+      reject: () => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cancelled',
+          detail: this.title_confirm_cancel,
+        });
+      },
+    });
+  }
 
-doDeleteSupplys(data: any) {
-  this.supplyService.supply_delete(data).then((res) => {
-    let result = JSON.parse(res);
-    if (result.success) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: result.message,
-      });
-      this.doLoadSupply();
-      this.edit_data = false;
-      this.new_data = false;
-      this.displayManage = false
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: result.message,
-      });
-    }
-  });
-}
-//
+  doDeleteSupplys(data: any) {
+    this.supplyService.supply_delete(data).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: result.message,
+        });
+        this.doLoadSupply();
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: result.message,
+        });
+      }
+    });
+  }
+  //
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete,
@@ -322,10 +329,10 @@ doDeleteSupplys(data: any) {
     this.displayUpload = true;
   }
   displayManage: boolean = false;
-    position: string = "right";
-    showManage() {
-      this.displayManage = true
-    }
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
+  }
   @ViewChild('TABLE') table: ElementRef | any = null;
 
   exportAsExcel() {

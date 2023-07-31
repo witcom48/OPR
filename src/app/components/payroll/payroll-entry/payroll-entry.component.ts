@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {  MenuItem } from 'primeng/api';
-import {ConfirmationService,MessageService,} from 'primeng/api';
+import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MessageService, } from 'primeng/api';
 
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ import { ItemService } from 'src/app/services/payroll/item.service';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 
- 
+
 interface Type {
     name: string;
     code: string;
@@ -60,7 +60,7 @@ export class PayrollEntryComponent implements OnInit {
         //Service
         private payitemService: PayitemService,
         private itemService: ItemService,
-    ) {}
+    ) { }
     @ViewChild(SelectEmpComponent) selectEmp: any;
 
     @ViewChild('TABLE') table: ElementRef | any = null;
@@ -69,7 +69,8 @@ export class PayrollEntryComponent implements OnInit {
 
     new_dataitem: boolean = false;
     edit_dataitem: boolean = false;
-
+    home: any;
+    itemslike: MenuItem[] = [];
     loading: boolean = false;
     index: number = 0;
     menu_timecard: MenuItem[] = [];
@@ -89,18 +90,20 @@ export class PayrollEntryComponent implements OnInit {
     selectedType: Type = { code: 'EMP', name: 'resignreq' };
     ngOnInit(): void {
         this.doGetInitialCurrent();
-        this.doLoadMenu();
         this.doLoadLanguage();
+        this.doLoadMenu();
+        
         // dropdown
-        this.doLoadItemsList();
+        this.doLoadItemsINList();
+        this.doLoadItemsDEList();
 
         Promise.all([this.doLoadEmployee(), this.doLoadPayitem()])
             .then(() => {
                 setTimeout(() => {
                     this.worker_index = 0;
                     this.doSetDetailWorker();
-                    
-                }, 1000); 
+
+                }, 1000);
             })
             .catch((error) => {
                 console.error(error);
@@ -116,8 +119,8 @@ export class PayrollEntryComponent implements OnInit {
         }
     }
 
-    title_btn_select: {[key: string]: string} = {  EN: "Select",  TH: "เลือก"}
-    title_btn_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
+    title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
+    title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
 
     title_page: string = 'Geanral';
     title_new: string = 'New';
@@ -133,7 +136,7 @@ export class PayrollEntryComponent implements OnInit {
     title_name_th: string = 'Name (Thai)';
     title_name_en: string = 'Name (Eng.)';
 
-    title_manage : string = 'Manage Income/Deduct';
+    title_manage: string = 'Manage Income/Deduct';
     title_payroll: string = 'Payroll';
     title_by_income: string = 'By Income';
     title_employee: string = 'Employee';
@@ -186,29 +189,29 @@ export class PayrollEntryComponent implements OnInit {
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = 'ข้อมูลทั่วไป';
-            this.title_manage  = 'บันทึกเงินได้/เงินหัก';
+            this.title_manage = 'บันทึกเงินได้/เงินหัก';
             this.title_payroll = 'บัญชี ';
-            this.title_by_income= 'ตามรายได้ ';
-            this.title_codeitem= 'รหัสเงินหัก ';
-            this.title_employee= 'พนักงาน ';
+            this.title_by_income = 'ตามรายได้ ';
+            this.title_codeitem = 'รหัสเงินหัก ';
+            this.title_employee = 'พนักงาน ';
             this.title_protype = 'ประเภท';
             this.title_date = 'วันที่จ่าย';
             this.title_codes = 'รหัสเงินได้';
             this.title_code = 'รหัส';
             this.title_details = 'รายละเอียด';
-            this.title_amount= 'จำนวนเงิน';
-            this.title_quantity= 'ปริมาณ';
+            this.title_amount = 'จำนวนเงิน';
+            this.title_quantity = 'ปริมาณ';
             this.title_bank_transfer_cash = 'โอนธนาคาร/เงินสด';
-            this.title_note= 'หมายเหตุ';
-            this.title_no= 'ลำดับที่';
-            this.title_bank= 'ธนาคาร';
-            this.title_cash= 'เงินสด';
-            this.title_total= 'ทั้งหมด';
-            this.title_income= 'รายได้';
-            this.title_deduct= 'หัก';
-            this.title_net= 'จ่ายสุทธิ';
-            this.title_dropfileshere= 'วางไฟล์ที่นี่';
-            this.title_by_deduct= 'เงินหัก';
+            this.title_note = 'หมายเหตุ';
+            this.title_no = 'ลำดับที่';
+            this.title_bank = 'ธนาคาร';
+            this.title_cash = 'เงินสด';
+            this.title_total = 'ทั้งหมด';
+            this.title_income = 'รายได้';
+            this.title_deduct = 'หัก';
+            this.title_net = 'จ่ายสุทธิ';
+            this.title_dropfileshere = 'วางไฟล์ที่นี่';
+            this.title_by_deduct = 'เงินหัก';
 
 
 
@@ -255,24 +258,28 @@ export class PayrollEntryComponent implements OnInit {
         }
     }
     doLoadMenu() {
+        this.itemslike = [{ label: this.title_manage, styleClass: 'activelike' }];
+
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.menu_timecard = [
             {
                 label: this.title_new,
                 icon: 'pi-plus',
                 command: (event) => {
+                    this.showManage();
                     this.payitems = new PayitemModel();
                     this.new_data = true;
                     this.edit_data = false;
-                    this.showManage();
+                    
                 },
             },
             {
                 label: this.title_edit,
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
+                    this.showManage();
                     this.new_data = true;
                     this.edit_data = false;
-                    this.showManage();
                 },
             },
             {
@@ -350,16 +357,25 @@ export class PayrollEntryComponent implements OnInit {
         }
         this.doLoadPayitem();
     }
-    
+
 
     //get  data dropdown
-    Items_List: ItemsModel[] = [];
-    doLoadItemsList() {
+    ItemsIN_List: ItemsModel[] = [];
+    doLoadItemsINList() {
         var tmp = new ItemsModel();
         this.itemService.item_get(tmp).then((res) => {
-            this.Items_List = res;
+            this.ItemsIN_List = res.filter((item: { item_type: string }) => item.item_type === 'IN');
         });
     }
+
+    ItemsDE_List: ItemsModel[] = [];
+    doLoadItemsDEList() {
+        var tmp = new ItemsModel();
+        this.itemService.item_get(tmp).then((res) => {
+            this.ItemsDE_List = res.filter((item: { item_type: string }) => item.item_type === 'DE');
+        });
+    }
+
 
     async doLoadPayitem() {
         this.payitem_list = [];
@@ -367,7 +383,7 @@ export class PayrollEntryComponent implements OnInit {
         tmp.worker_code = this.workerDetail.worker_code;
 
         try {
-            const res = await this.payitemService.payitem_get(this.initial_current.CompCode,  this.initial_current.PR_PayDate ,this.worker_code,'',this.item);
+            const res = await this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate, this.worker_code, '', this.item);
             const inItems = res.filter((item: { item_type: string }) => item.item_type === 'IN');
             const deItems = res.filter((item: { item_type: string }) => item.item_type === 'DE');
             this.payitem_list = [...inItems, ...deItems];
@@ -408,6 +424,9 @@ export class PayrollEntryComponent implements OnInit {
 
         this.new_data = false;
         this.edit_data = false;
+        this.displayManage = false;
+
+        
     }
 
     doSummaryByEmp() {
@@ -431,35 +450,37 @@ export class PayrollEntryComponent implements OnInit {
     }
     async doDeletePayitem(data: PayitemModel) {
         try {
-          const res = await this.payitemService.payitem_delete(data);
-          // console.log(res);
-          if (res.success) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: res.message,
-            });
-            await Promise.all([this.doLoadPayitem(), this.doSetDetailWorker()]);
-            // console.log(this.payitem_list);
+            const res = await this.payitemService.payitem_delete(data);
+            // console.log(res);
+            if (res.success) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: res.message,
+                });
+                await Promise.all([this.doLoadPayitem(), this.doSetDetailWorker()]);
+                // console.log(this.payitem_list);
 
-            this.new_data = false;
-            this.edit_data = false;
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: res.message,
-            });
-          }
+                this.new_data = false;
+                this.edit_data = false;
+                this.displayManage = false;
+
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: res.message,
+                });
+            }
         } catch (error) {
-          // console.log('An error occurred while deleting payitem:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'An error occurred while deleting payitem',
-          });
+            // console.log('An error occurred while deleting payitem:', error);
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'An error occurred while deleting payitem',
+            });
         }
-      }
+    }
 
     doUploadPayitem() {
         const filename =
@@ -499,8 +520,8 @@ export class PayrollEntryComponent implements OnInit {
         }
     }
     closedispaly() {
-        this.displayaddholiday = false;
-        this.displayeditholiday = false;
+        this.new_data = false;
+        this.edit_data = false;
     }
     Uploadfile() {
         if (this.fileToUpload) {
@@ -553,6 +574,8 @@ export class PayrollEntryComponent implements OnInit {
     onRowSelect(event: any) {
         this.new_data = true;
         this.edit_data = true;
+        this.displayManage = true;
+
     }
 
     refreshPage() {
@@ -564,38 +587,39 @@ export class PayrollEntryComponent implements OnInit {
         const filterValue = (event.target as HTMLInputElement).value;
         this.dataSource.filter = filterValue.trim().toLowerCase();
         if (this.dataSource.paginator) {
-          this.dataSource.paginator.firstPage();
+            this.dataSource.paginator.firstPage();
         }
-      }
-      
+    }
+
     openSearchEmp(): void {
         const dialogRef = this.dialog.open(SearchEmpComponent, {
-          width: '500px',
-          height: '550px',
-          data: {worker_code: ''
-          }
+            width: '500px',
+            height: '550px',
+            data: {
+                worker_code: ''
+            }
         });
         dialogRef.afterClosed().subscribe((result: { worker_code: string; }) => {
-          if(result.worker_code != ""){
-    
-            let select = result.worker_code;
-            this.doGetIndexWorkers(select);
-    
-          }
+            if (result.worker_code != "") {
+
+                let select = result.worker_code;
+                this.doGetIndexWorkers(select);
+
+            }
         });
-      }
-      doGetIndexWorkers(worker_code:string){
+    }
+    doGetIndexWorkers(worker_code: string) {
         for (let i = 0; i < this.worker_list.length; i++) {
-          if(this.worker_list[i].worker_code==worker_code ){
-            this.worker_index = i;
-            break;
-          }
+            if (this.worker_list[i].worker_code == worker_code) {
+                this.worker_index = i;
+                break;
+            }
         }
-    
+
         this.doSetDetailWorker();
-    
-      }
-      
+
+    }
+
     exportAsExcel() {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
             this.table.nativeElement
@@ -626,27 +650,27 @@ export class PayrollEntryComponent implements OnInit {
 
     position: string = "right";
     searchEmp: boolean = false;
-    open_searchemp(){
+    open_searchemp() {
         this.searchEmp = true
     }
 
-    close_searchemp(){
+    close_searchemp() {
         this.searchEmp = false
     }
 
-    select_emp(){
-        
+    select_emp() {
+
         let select = this.searchEmp_popup.selectedEmployee.worker_code
-        if(select != ""){
-        this.doGetIndexWorker(select)
-        this.searchEmp = false      
+        if (select != "") {
+            this.doGetIndexWorker(select)
+            this.searchEmp = false
         }
 
     }
 
-    doGetIndexWorker(worker_code:string){
+    doGetIndexWorker(worker_code: string) {
         for (let i = 0; i < this.worker_list.length; i++) {
-            if(this.worker_list[i].worker_code==worker_code ){
+            if (this.worker_list[i].worker_code == worker_code) {
                 this.worker_index = i;
                 break;
             }

@@ -24,7 +24,8 @@ export class SystemBloodtypeComponent implements OnInit {
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   bloodtype_list: BloodtypeModel[] = [];
   selectedBloodtype: BloodtypeModel = new BloodtypeModel();
 
@@ -39,9 +40,10 @@ export class SystemBloodtypeComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+
       this.doLoadBloodtype()
     }, 500);
   }
@@ -83,9 +85,12 @@ export class SystemBloodtypeComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Genaral System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'ระบบทั่วไป';
+
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";
       this.title_page = "กรุ๊ปเลือด";
@@ -121,7 +126,9 @@ export class SystemBloodtypeComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new,
@@ -193,49 +200,49 @@ export class SystemBloodtypeComponent implements OnInit {
 
     });
   }
-//
-confirmDeletes(data: any) {
-  this.confirmationService.confirm({
-    message: this.title_confirm_delete,
-    header: this.title_confirm,
-    icon: 'pi pi-exclamation-triangle',
-    accept: () => {
-      this.doDeleteBloodtypes(data);
-    },
+  //
+  confirmDeletes(data: any) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteBloodtypes(data);
+      },
 
-    reject: () => {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Cancelled',
-        detail: this.title_confirm_cancel,
-      });
-    },
-  });
-}
+      reject: () => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cancelled',
+          detail: this.title_confirm_cancel,
+        });
+      },
+    });
+  }
 
-doDeleteBloodtypes(data: any) {
-  this.bloodtypeService.bloodtype_delete(data).then((res) => {
-    let result = JSON.parse(res);
-    if (result.success) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: result.message,
-      });
-      this.doLoadBloodtype();
-      this.edit_data = false;
-      this.new_data = false;
-      this.displayManage = false
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: result.message,
-      });
-    }
-  });
-}
-//
+  doDeleteBloodtypes(data: any) {
+    this.bloodtypeService.bloodtype_delete(data).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: result.message,
+        });
+        this.doLoadBloodtype();
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: result.message,
+        });
+      }
+    });
+  }
+  //
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete,

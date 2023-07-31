@@ -19,7 +19,8 @@ export class EmpIDComponent implements OnInit {
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   TRPolcode_list: TRPolcodeModel[] = [];
   selectedTRPolcode: TRPolcodeModel = new TRPolcodeModel();
   getLanguage(): string {
@@ -40,11 +41,11 @@ export class EmpIDComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
-
+    this.doLoadMenu()
+    this.doLoadTRPolcode()
     setTimeout(() => {
 
-      this.doLoadMenu()
-      this.doLoadTRPolcode()
+
       // Dropdown
       this.doLoadCodestructureList();
     }, 500);
@@ -93,9 +94,12 @@ export class EmpIDComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Manage System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'จัดการ';
+
       this.title_system = "ระบบ";
       this.title_manage = "จัดการ";
       this.title_page = "รูปแบบรหัส";
@@ -135,7 +139,9 @@ export class EmpIDComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/sys-manage' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new,

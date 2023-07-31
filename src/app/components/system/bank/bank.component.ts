@@ -21,7 +21,8 @@ import { BankService } from 'src/app/services/system/policy/bank.service';
 export class BankComponent implements OnInit {
 
 
-
+  home: any;
+  itemslike: MenuItem[] = [];
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
@@ -40,9 +41,10 @@ export class BankComponent implements OnInit {
 
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
 
-      this.doLoadMenu()
+
       this.doLoadBank()
     }, 500);
 
@@ -86,9 +88,12 @@ export class BankComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
+  title_genaral_system: string = 'Genaral System';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
+      this.title_genaral_system = 'ระบบทั่วไป';
+
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";
       this.title_page = "ธนาคาร";
@@ -123,6 +128,9 @@ export class BankComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
 
     this.items = [
       {
@@ -179,7 +187,7 @@ export class BankComponent implements OnInit {
 
   doRecordBank() {
     this.bankService.bank_record(this.selectedBank).then((res) => {
-       let result = JSON.parse(res);
+      let result = JSON.parse(res);
 
       if (result.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
@@ -234,38 +242,38 @@ export class BankComponent implements OnInit {
           summary: 'Error',
           detail: result.message,
         });
-      } 
+      }
     });
   }
   //
   confirmDeletes() {
     this.confirmationService.confirm({
-        message: this.title_confirm_delete,
-        header: this.title_confirm,
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.doDeleteBanks()
-        },
-        reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel});
-        },
-        key:"myDialog"
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteBanks()
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
     });
   }
 
-  doDeleteBanks(){
+  doDeleteBanks() {
     this.bankService.bank_delete(this.selectedBank).then((res) => {
       let result = JSON.parse(res);
-     if(result.success){
-      this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-      this.doLoadBank();
-      this.edit_data= false;
-      this.new_data= false;
-      this.displayManage = false
-     }
-     else{
-      this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
-     }
+      if (result.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+        this.doLoadBank();
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+      }
 
     });
   }

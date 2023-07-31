@@ -24,7 +24,8 @@ interface Type { name: string, code: string }
 export class RoundComponent implements OnInit {
   langs: any = rounddecimal;
   selectlang: string = "EN";
-
+  itemslike: MenuItem[] = [];
+  home: any;
   item_list: never[] | undefined;
   constructor(
     private messageService: MessageService,
@@ -272,7 +273,11 @@ export class RoundComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.itemslike = [{ label: this.langs.get('system')[this.selectlang], routerLink: '/system/sys-manage' }, {
+      label: this.langs.get('decimal')[this.selectlang], styleClass: 'activelike'
+    }];
 
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new,

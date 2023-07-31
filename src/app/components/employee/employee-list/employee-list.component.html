@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
-<table class="table_head" >
+<table class="table_head">
     <tr>
         <td align="left">
             <h4>{{this.title_page}}</h4>
@@ -18,7 +18,7 @@
                 </p>
                 <p-divider layout="vertical"></p-divider>
                 <p style="width: 80px; text-align: left;">
-                    <b>1</b>
+                    <b>0</b>
                     <br>
                     <small>{{this.title_new_emp}}</small>
                 </p>
@@ -43,21 +43,85 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="employee_list" 
-            selectionMode="single" [(selection)]="selectedemployee"
+        <p-table #dt2 [value]="employee_list" selectionMode="single" [(selection)]="selectedemployee"
             (onRowSelect)="onRowSelectEmployee($event)" dataKey="worker_code" [rows]="10" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
             [globalFilterFields]="['worker_code','worker_initial','worker_fnamename_th','worker_lnamename_th','worker_type','worker_position','worker_hiredate']"
             responsiveLayout="stack" [breakpoint]="'744px'">
             <ng-template pTemplate="caption">
-                <div class="flex">
+                <!-- Fliter -->
+                <div class="checkselect">
+                    <div class="select">
+                        <!-- emptype -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterEmptype" name="type" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{title_emptype}} :</label>
+                        </div>
+                        <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code" [showClear]="true"
+                            [(ngModel)]="selectedEmptype" (onChange)="doChangeSelectEmptype()"
+                            [disabled]="!fillterEmptype" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <div class="select">
+                        <!-- position -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterPosition" name="position" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{title_position}} :</label>
+                        </div>
+                        <p-dropdown placeholder="--" [options]="positionList" optionValue="position_code"
+                            [showClear]="true" [(ngModel)]="selectedPosition" (onChange)="doChangeSelectPosition()"
+                            [disabled]="!fillterPosition" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <div class="select">
+                        <!-- empstatus -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterEmpstatus" name="type" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{title_status}} :</label>
+                        </div>
+                        <p-dropdown placeholder="--" [options]="statusList" optionValue="status_code" [showClear]="true"
+                            [(ngModel)]="selectedEmpstatus" (onChange)="doChangeSelectEmpstatus()"
+                            [disabled]="!fillterEmpstatus" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <div  style="grid-column: 1;">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" [(ngModel)]="selectedSearchemp" (input)="doChangeSearchemp($event)"
+                                placeholder="{{title_search}}" />
+                        </span>
+                    </div>
+                </div>
+                <!-- END Fliter -->
+                <!-- <div class="flex">
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
                             placeholder="{{title_search}}" />
                     </span>
-                </div>
+                </div> -->
             </ng-template>
 
             <ng-template pTemplate="header" let-columns>
@@ -101,12 +165,14 @@
                 <tr [pSelectableRow]="data">
                     <td data-title="title_code">{{data.worker_code}}</td>
                     <!-- <td>{{initial_current.Language == "TH"? data.initial_name_th:data.initial_name_en}}</td> -->
-                    <td><span>{{title_name}}</span>{{initial_current.Language == "TH"? data.initial_name_th+" "+data.worker_fname_th+"
+                    <td><span>{{title_name}}</span>{{initial_current.Language == "TH"? data.initial_name_th+"
+                        "+data.worker_fname_th+"
                         "+data.worker_lname_th:data.initial_name_en+" "+data.worker_fname_en+" "+data.worker_lname_en}}
                     </td>
                     <!-- <td>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td> -->
                     <td><span>{{title_emptype}}</span>{{data.worker_type}}</td>
-                    <td><span>{{title_position}}</span>{{initial_current.Language == "TH"? data.position_name_th : data.position_name_en}}</td>
+                    <td><span>{{title_position}}</span>{{initial_current.Language == "TH"? data.position_name_th :
+                        data.position_name_en}}</td>
                     <td><span>{{title_startdate}}</span>{{data.worker_hiredate | date:'dd/MM/yyyy '}}</td>
                     <td><span>{{title_status}}</span>{{data.worker_status}}</td>
                     <!-- <td>{{data.approve_date | date:'dd/MM/yyyy HH:mm'}}</td> -->
@@ -127,11 +193,11 @@
         <i (click)="close()"></i>
 
         <label>{{title_code}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedemployee.worker_code">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedemployee.worker_code" [readonly]="true">
 
         <label>{{title_initial}} :</label>
         <p-dropdown placeholder="--" [options]="initialList" optionValue="initial_code" [showClear]="true"
-            [(ngModel)]="selectedemployee.worker_initial" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedemployee.worker_initial" [style]="{ width: '100%', overflow: 'visible' }" [readonly]="true">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
             </ng-template>
@@ -144,15 +210,16 @@
 
         <label for="ppos_name_th">{{title_Fname}}</label>
         <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedemployee.worker_fname_th" [cols]="30" pInputTextarea
-            [autoResize]="true"></textarea>
+            [autoResize]="true" [readonly]="true"></textarea>
 
         <label for="ppos_name_en">{{title_Lname}}</label>
         <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedemployee.worker_lname_th" [cols]="30" pInputTextarea
-            [autoResize]="true"></textarea>
+            [autoResize]="true" [readonly]="true"></textarea>
 
         <label for="lastname2">{{title_emptype}} :</label>
         <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code" [showClear]="true"
-            [(ngModel)]="selectedemployee.worker_type" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedemployee.worker_type" [style]="{ width: '100%', overflow: 'visible' }"
+            [readonly]="true">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
             </ng-template>
@@ -165,21 +232,29 @@
             [(ngModel)]="selectedemployee.worker_type"></p-dropdown> -->
 
         <label for="lastname2">{{title_position}} :</label>
-        <input pInputText type="text" id="ppos_code" [disabled]="true" [(ngModel)]="initial_current.Language== 'TH'? selectedemployee.position_name_th : selectedemployee.position_name_en">
+        <input pInputText type="text" id="ppos_code" [readonly]="true"
+            [(ngModel)]="initial_current.Language== 'TH'? selectedemployee.position_name_th : selectedemployee.position_name_en">
         <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
         <label for="lastname2">{{title_startdate}} :</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedemployee.worker_hiredate"></p-calendar>
+            [(ngModel)]="selectedemployee.worker_hiredate" [disabled]="true"></p-calendar>
         <!-- <p-dropdown placeholder="22/12/2022" optionLabel="name" [showClear]="true"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
         <br>
-        <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectEmpManage()"
+        <div class="field col-12">
+            <!-- <p-button label="{{title_saves[initial_current.Language]}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+            &nbsp; -->
+            <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}" (click)="selectEmpManage()" ></button>
+            &nbsp;
+            <button *ngIf="edit_employee" pButton pRipple type="button" label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary" (click)="confirmDelete()"></button>
+        </div>
+        <!-- <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectEmpManage()"
             class="p-button-secondary"></button>
         <button pButton type="button" label="บันทึก" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_employee" pButton type="button" label="ลบ" icon="pi pi-trash" class="btndel"
-            (click)="confirmDelete()"></button>
+            (click)="confirmDelete()"></button> -->
 
     </div>
 </div>
@@ -212,6 +287,25 @@
     </ng-template>
 </p-dialog>
 <!-- -----------------End Dialog Choose File-------------------- -->
+
+<!-- <p-dialog class="uploadfile" header="{{title_export}}" [(visible)]="displayExport">
+    <div>
+        <p-dropdown [options]="ImportList" optionValue="code" [showClear]="true"
+            [(ngModel)]="selectedemployee.selected_Import" [style]="{ width: '100%', overflow: 'visible' }"
+            appendTo="body">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+        </p-dropdown>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="exportEmpExcel()" label="{{title_export}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog> -->
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>

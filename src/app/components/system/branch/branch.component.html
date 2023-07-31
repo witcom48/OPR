@@ -1,8 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- <app-companys></app-companys> -->
 
-<!-- <app-system-bankaccount></app-system-bankaccount> -->
-<div class="path">
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
+<!-- <div class="path">
     <span>{{title_system}}</span>
     <div>
         <i></i>
@@ -10,7 +11,7 @@
         <i></i>
         <small>{{title_page}}</small>
     </div>
-</div>
+</div> -->
 <hr />
 <!-- <span style="font-size: 20px">System</span>&nbsp;
 <i class="pi pi-angle-right"></i>&nbsp;
@@ -112,6 +113,8 @@
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
+<div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"

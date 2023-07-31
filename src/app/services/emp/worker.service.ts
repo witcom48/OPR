@@ -201,6 +201,7 @@ export class EmployeeService {
       worker_lname_en: fillter.worker_lname_en,
       worker_emptype: fillter.worker_emptype,
       worker_gender: fillter.worker_gender,
+      worker_empstatus: fillter.worker_empstatus,
 
       searchemp: fillter.searchemp,
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/select-emp.component';
 import { TaskComponent } from 'src/app/components/usercontrol/task/task.component';
 import { AppConfig } from 'src/app/config/config';
@@ -36,6 +36,8 @@ export class SetprovidentComponent implements OnInit {
     SetProvident_List: SetProvidentModel[] = [];
     edit_data: boolean = false;
     dt2: any;
+    home: any;
+    itemslike: MenuItem[] = [];
     constructor(
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
@@ -43,7 +45,7 @@ export class SetprovidentComponent implements OnInit {
         private router: Router,
         private providentService: ProvidentService,
         private setprovidentService: SetprovidentService
-    ) {}
+    ) { }
     new_data: boolean = false;
     ngOnInit(): void {
         this.doGetInitialCurrent();
@@ -52,6 +54,9 @@ export class SetprovidentComponent implements OnInit {
         //dropdown
         this.doLoadTRpolProvidentList();
         this.doLoadSetProvidentList();
+        this.itemslike = [{ label: this.title_system_payroll, routerLink: '/payroll/policy' },
+        { label: this.title_page, styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
     }
     title_policy: string = 'Set Policy';
     title_page: string = 'Set Provident Fund';
@@ -65,7 +70,7 @@ export class SetprovidentComponent implements OnInit {
     title_income: string = 'Income';
     title_deduct: string = 'Deduct';
     title_Workage: string = 'Workage';
-    
+
     title_Item: string = 'Income ID';
     title_Rate: string = 'Rate';
     title_From: string = 'From';
@@ -102,17 +107,20 @@ export class SetprovidentComponent implements OnInit {
     title_system_Policy: string = 'Policy';
     title_Process: string = 'Process';
     title_Result: string = 'Result';
+    title_system_payroll: string = 'Policy Payroll';
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-              this.title_system_Policy= 'นโยบาย';
-            this.title_Process= 'กระบวนการ';
-            this.title_Result= 'ผลลัพธ์';
-            this.title_payroll= 'บัญชี';
+            this.title_system_payroll = 'นโยบาย';
+
+            this.title_system_Policy = 'นโยบาย';
+            this.title_Process = 'กระบวนการ';
+            this.title_Result = 'ผลลัพธ์';
+            this.title_payroll = 'บัญชี';
 
             this.title_policy = 'นโยบาย';
             this.title_page = 'กำหนดสิทธิกองทุนสำรองฯ';
-            this.title_name_policy= 'นโยบาย';
+            this.title_name_policy = 'นโยบาย';
             this.title_new = 'เพิ่ม';
             this.title_type = 'ประเภท';
             this.title_regular = 'รูปแบบ';

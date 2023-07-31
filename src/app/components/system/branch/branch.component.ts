@@ -25,6 +25,8 @@ export class BranchComponent implements OnInit {
     combranch_list: CombranchModel[] = [];
     selectedcombranch: CombranchModel = new CombranchModel();
     items: MenuItem[] = [];
+    home: any;
+    itemslike: MenuItem[] = [];
     edit_combranch: boolean = false;
     new_combranch: boolean = false;
     isHovered = false;
@@ -36,16 +38,16 @@ export class BranchComponent implements OnInit {
         private datePipe: DatePipe,
 
 
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
         this.doLoadLanguage();
-
+        this.doLoadMenu();
 
         setTimeout(() => {
-         
-            this.doLoadMenu();
+
+
             this.doLoadCombranch();
         }, 500);
     }
@@ -63,7 +65,7 @@ export class BranchComponent implements OnInit {
     title_social_security_branch: string = 'Social Security Branch No.';
     title_name: string = 'Branch Name';
     title_english_name: string = 'Name (Eng)';
-    title_system:string = "System";
+    title_system: string = "System";
     title_manage: string = 'Manage';
 
     title_page: string = 'Branch';
@@ -102,15 +104,18 @@ export class BranchComponent implements OnInit {
     title_confirm_no: string = 'No';
 
     title_confirm_cancel: string = 'You have cancelled';
+    title_genaral_system: string = 'Manage System';
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_codes ='รหัสสาขา';
-            this.title_social_security_branch ='สาขาประกันสังคม'
-            this.title_name ='ชื่อสาขา';
-            this.title_english_name ='ชื่ออังกฤษ';
-            this.title_system= "ระบบ";
-            this.title_manage='จัดการ';
+            this.title_genaral_system = 'จัดการ';
+
+            this.title_codes = 'รหัสสาขา';
+            this.title_social_security_branch = 'สาขาประกันสังคม'
+            this.title_name = 'ชื่อสาขา';
+            this.title_english_name = 'ชื่ออังกฤษ';
+            this.title_system = "ระบบ";
+            this.title_manage = 'จัดการ';
 
             this.title_page = 'ข้อมูลสาขา';
             this.title_num_emp = 'จำนวนพนักงาน';
@@ -152,6 +157,9 @@ export class BranchComponent implements OnInit {
     }
 
     doLoadMenu() {
+        this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/sys-manage' },
+        { label: this.title_page, styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
         this.items = [
             {
                 label: this.title_new,
@@ -230,55 +238,55 @@ export class BranchComponent implements OnInit {
 
     confirmDelete(data: any) {
         this.confirmationService.confirm({
-          message: 'คุณต้องการลบข้อมูลบริษัทนี้ใช่หรือไม่?',
-          header: 'ยืนยันการลบ',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            this.doDeleteCombranch(data);
-          },
-          reject: () => {
-            this.messageService.add({
-              severity: 'warn',
-              summary: 'ยกเลิก',
-              detail: 'ยกเลิกการลบข้อมูล',
-            });
-          },
+            message: 'คุณต้องการลบข้อมูลบริษัทนี้ใช่หรือไม่?',
+            header: 'ยืนยันการลบ',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doDeleteCombranch(data);
+            },
+            reject: () => {
+                this.messageService.add({
+                    severity: 'warn',
+                    summary: 'ยกเลิก',
+                    detail: 'ยกเลิกการลบข้อมูล',
+                });
+            },
         });
-      }
-      
-      doDeleteCombranch(data: any) {
+    }
+
+    doDeleteCombranch(data: any) {
         // console.log(data);
-      
+
         this.combranchService.combranch_delete(data).then((res) => {
-          // console.log(res);
-          let result = JSON.parse(res);
-      
-          if (result.success) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'สำเร็จ',
-              detail: result.message,
-            });
-            this.doLoadCombranch();
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'ผิดพลาด',
-              detail: result.message,
-            });
-          }
+            // console.log(res);
+            let result = JSON.parse(res);
+
+            if (result.success) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'สำเร็จ',
+                    detail: result.message,
+                });
+                this.doLoadCombranch();
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'ผิดพลาด',
+                    detail: result.message,
+                });
+            }
         });
-      }
-      
-// ฟังก์ชันที่ถูกเรียกเมื่อเมาส์อยู่บนปุ่ม
-onButtonHover() {
-    this.isHovered = true;
-  }
-  
-  // ฟังก์ชันที่ถูกเรียกเมื่อเมาส์ออกจากปุ่ม
-  onButtonLeave() {
-    this.isHovered = false;
-  }
+    }
+
+    // ฟังก์ชันที่ถูกเรียกเมื่อเมาส์อยู่บนปุ่ม
+    onButtonHover() {
+        this.isHovered = true;
+    }
+
+    // ฟังก์ชันที่ถูกเรียกเมื่อเมาส์ออกจากปุ่ม
+    onButtonLeave() {
+        this.isHovered = false;
+    }
     close() {
         this.new_combranch = false;
         this.selectedcombranch = new CombranchModel();
