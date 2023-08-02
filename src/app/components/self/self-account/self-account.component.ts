@@ -17,6 +17,8 @@ import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.comp
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
 import { AccountModuleModel } from 'src/app/models/self/accountmodule';
+import { PolmenuServices } from 'src/app/services/system/security/polmenu.service';
+import { PolmenuModel } from 'src/app/models/system/security/polmenu';
 declare var account: any;
 interface Modules { name: string, code: string }
 @Component({
@@ -47,6 +49,8 @@ export class SelfAccountComponent implements OnInit {
   isEditing: boolean = false;
   isAccountManagement: boolean = false;
   isDisplayingManagement: boolean = false;
+  polmenuList: any[] = [];
+  selectedPolmenu: any = { name: '', code: '' };
   accountList: AccountModel[] = [];
   selectedAccount: AccountModel = new AccountModel();
   positionList: PositionModel[] = [];
@@ -67,6 +71,7 @@ export class SelfAccountComponent implements OnInit {
     private router: Router,
     private positionService: PositionService,
     private accountService: AccountServices,
+    private polmenuService: PolmenuServices,
     private departmentService: PartService,
     private employeeService: EmployeeService
   ) { }
@@ -79,6 +84,7 @@ export class SelfAccountComponent implements OnInit {
     this.loadDepartments();
     this.loadAccountTypes();
     this.loadEmployees();
+    this.loadPolmenus();
   }
 
   // Loads the initial current settings, checks for token presence, and sets the selected language
@@ -88,6 +94,7 @@ export class SelfAccountComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectedLanguage = this.initialCurrent.Language;
+    console.log(this.initialCurrent.PolMenu)
   }
 
   // Loads the available account types
@@ -110,6 +117,7 @@ export class SelfAccountComponent implements OnInit {
           this.isDisplayingManagement = true;
           this.isEditing = false;
           this.selectedAccountType = this.accountTypes[0];
+          this.selectedPolmenu = this.polmenuList[0];
           this.selectedPositions = [];
           this.selectedDepartments = [];
           this.selectedEmployees = [];
@@ -144,7 +152,10 @@ export class SelfAccountComponent implements OnInit {
     this.selectedEmployees = [];
     this.availableEmployees = [...this.employeeList];
   }
-
+  // Handles the selection of an polmenu code
+  selectPolmenu(): void {
+    this.selectedAccount.polmenu_code = this.selectedPolmenu.code;
+  }
   // Closes the account management section
   closeManagement(): void {
     this.isDisplayingManagement = false;
@@ -158,6 +169,17 @@ export class SelfAccountComponent implements OnInit {
     tmp.typenotin = `${this.TypeNotShow}`;
     this.accountService.account_get(tmp).then(async (res) => {
       this.accountList = await res;
+      console.log(res)
+    });
+  }
+  // Loads the list of polmenus
+  loadPolmenus(): void {
+    this.accountList = [];
+    const tmp = new PolmenuModel();
+    this.polmenuService.polmenu_get(tmp).then(async (res) => {
+      res.forEach((items: PolmenuModel) => {
+        this.polmenuList.push({ name: items.polmenu_code + ' ' + this.accountLanguages == 'EN' ? items.polmenu_name_en : items.polmenu_name_th, code: items.polmenu_code })
+      });
     });
   }
 
@@ -186,6 +208,12 @@ export class SelfAccountComponent implements OnInit {
   // Records an account
   async recordAccount(data: AccountModel): Promise<void> {
     data.account_type = this.selectedAccountType.code;
+    data.account_id = this.selectedAccount.account_id;
+    if (this.selectedAccountType.code == 'ADM') {
+      data.polmenu_code = this.selectedPolmenu.code;
+    } else {
+      data.polmenu_code = "";
+    }
     const res = await this.accountService.account_record(data);
     if (res.success) {
       this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -254,6 +282,7 @@ export class SelfAccountComponent implements OnInit {
     this.availableModules = [];
 
     this.selectedAccountType = this.accountTypes.find(({ code }) => code === this.selectedAccount.account_type);
+    this.selectedPolmenu = this.polmenuList.find(({ code }) => code === this.selectedAccount.polmenu_code);
 
     this.selectedAccount.position_data.forEach((obj: AccountPosModel) => {
       const position = this.positionList.find((elm: PositionModel) => obj.position_code === elm.position_code);
@@ -308,7 +337,7 @@ export class SelfAccountComponent implements OnInit {
         this.availableModules.push(elm);
       }
     });
-
+    console.log(this.selectedAccount)
     this.isDisplayingManagement = true;
     this.isEditing = true;
   }

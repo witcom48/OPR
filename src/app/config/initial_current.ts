@@ -1,3 +1,4 @@
+import { PolmenuModel } from "../models/system/security/polmenu";
 
 export class InitialCurrent {
   constructor() {
@@ -25,6 +26,9 @@ export class InitialCurrent {
 
   Token: string = "";
 
+  PolMenu: PolmenuModel = new PolmenuModel();
+  PolMenu_Code: string = ""
+
   public doGetJSONInitialCurrent(): string {
     var item_data: string = "";
     item_data = item_data + "{";
@@ -46,7 +50,9 @@ export class InitialCurrent {
     item_data = item_data + ",\"PR_PayDate\":\"" + this.PR_PayDate + "\"";
     item_data = item_data + ",\"PR_Year\":\"" + this.PR_Year + "\"";
     item_data = item_data + ",\"PR_Period\":\"" + this.PR_Period + "\"";
-    item_data = item_data + ",\"PR_Enable\":\"" + this.PR_Enable + "\"";
+    item_data = item_data + ",\"PR_Period\":\"" + this.PR_Period + "\"";
+    item_data = item_data + ",\"PolMenu_Code\":\"" + this.PolMenu_Code + "\"";
+    item_data = item_data + ",\"PolMenu\":\"" + this.PolMenu + "\"";
 
     item_data = item_data + "}";
 
