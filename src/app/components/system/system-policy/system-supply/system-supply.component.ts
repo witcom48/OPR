@@ -161,7 +161,9 @@ export class SystemSupplyComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadSupply()
+  }
   doLoadSupply() {
     this.supplyService.supply_get().then((res) => {
       this.supply_List = res;

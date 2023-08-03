@@ -76,7 +76,7 @@
     <!-- Form input or Edit Data -->
     <form (ngSubmit)="confirmRecord()" #Form="ngForm">
         <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
-            [position]="position">
+            [position]="position" (onHide)="reloadPage()">
             <div class="formatt p-dialog-content" *ngIf="new_data">
                 <label>{{ title_code }}<span style="color: red;"> *</span></label>
                 <input pInputText type="text" [(ngModel)]="selectedBank.bank_code" maxlength="5" [disabled]="edit_data"
@@ -97,7 +97,7 @@
                         (click)="confirmRecord()" [disabled]="!Form.form.valid"></button>
                     &nbsp;
                     <button *ngIf="edit_data" pButton type="button" label="{{ title_delete }}" icon="pi pi-trash"
-                        class="btndel button-size" (click)="confirmDeletes()"></button>
+                        class="p-button-secondary button-size" (click)="confirmDeletes()"></button>
                 </div>
             </div>
         </p-dialog>

@@ -172,7 +172,9 @@ export class SystemReduceComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadReduce()
+  }
   doLoadReduce() {
     this.reduceService.reduce_get().then((res) => {
       this.reduce_list = res;

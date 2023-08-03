@@ -157,7 +157,9 @@ export class SystemProvinceComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadProvince()
+  }
   doLoadProvince() {
     this.provinceService.province_get().then((res) => {
       this.province_list = res;
@@ -178,7 +180,7 @@ export class SystemProvinceComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+ 
   doRecordProvince() {
     this.provinceService.province_record(this.selectedProvince).then((res) => {
       // console.log(res)

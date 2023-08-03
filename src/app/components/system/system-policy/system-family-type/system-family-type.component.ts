@@ -161,7 +161,9 @@ export class SystemFamilyTypeComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadFamily()
+  }
   doLoadFamily() {
     this.familyService.family_get().then((res) => {
       this.family_list = res;

@@ -163,7 +163,9 @@ export class SystemQualificationComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadQualification()
+  }
   doLoadQualification() {
     this.qualificationService.qualification_get().then((res) => {
       this.qualification_list = res;

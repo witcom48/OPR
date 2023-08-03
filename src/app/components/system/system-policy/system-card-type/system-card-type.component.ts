@@ -158,7 +158,9 @@ export class SystemCardTypeComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadCardtype()
+  }
   doLoadCardtype() {
     this.cardtypeService.cardtype_get().then((res) => {
       this.cardtype_list = res;
@@ -179,7 +181,7 @@ export class SystemCardTypeComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+ 
   doRecordCardtype() {
     this.cardtypeService.cardtype_record(this.selectedCardtype).then((res) => {
       // console.log(res)

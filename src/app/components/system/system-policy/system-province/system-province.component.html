@@ -73,14 +73,15 @@
     <!-- Form input or Edit Data -->
     <form #Form="ngForm">
         <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
-            [position]="position">
+            [position]="position" (onHide)="reloadPage()"> 
             <div class="formatt p-dialog-content" *ngIf="new_data">
                 <!-- <i (click)="close()"></i> -->
 
                 <label>{{title_code}}<span style="color: red;"> *</span></label>
                 <input pInputText type="text" [(ngModel)]="selectedProvince.province_code" maxlength="5"
-                    [disabled]="edit_data" name="code" #code="ngModel" required />
+                    [disabled]="edit_data" name="code" #code="ngModel" required pattern="[0-9]*" />
                 <p>{{selectedProvince.province_code.length}}/5</p>
+
 
                 <label>{{title_name_th}}<span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="selectedProvince.province_name_th" pInputTextarea [autoResize]="true"
@@ -95,7 +96,7 @@
                         (click)="confirmRecord()" [disabled]="!Form.form.valid"></button>
                     &nbsp;
                     <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                        class="btndel button-size" (click)="confirmDelete()"></button>
+                        class="p-button-secondary button-size" (click)="confirmDelete()"></button>
                 </div>
             </div>
         </p-dialog>

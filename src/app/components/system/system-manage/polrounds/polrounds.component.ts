@@ -65,7 +65,7 @@ export class PolroundsComponent implements OnInit {
         TH: 'จัดการ',
     };
     title_tab_Pol: { [key: string]: string } = {
-        EN: 'Round Setting',
+        EN: 'Selected Rounding',
         TH: 'กำหนดรูปแบบการปัดเศษ',
     };
     title_tab_Currency: { [key: string]: string } = {

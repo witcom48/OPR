@@ -76,22 +76,24 @@
     <!-- Form input or Edit Data -->
     <form #Form="ngForm">
         <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
-            [position]="position">
+            [position]="position" (onHide)="reloadPage()">
             <div class="formatt p-dialog-content" *ngIf="new_data">
                 <!-- <i (click)="close()"></i> -->
-
                 <label>{{ title_code }}<span style="color: red;"> *</span></label>
-                <input pInputText type="text" [(ngModel)]="selectedLevel.level_code" maxlength="2"
-                    [disabled]="edit_data" name="code" #code="ngModel" required />
+                <select pInputText [(ngModel)]="selectedLevel.level_code" [disabled]="edit_data" name="code"
+                    #code="ngModel" required class="custom-select">
+                    <option *ngFor="let number of numbers" [value]="number">{{ number }}</option>
+                </select>
                 <p>{{ selectedLevel.level_code.length }}/2</p>
+                <br>
 
                 <label>{{ title_name_th }}<span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="selectedLevel.level_name_th" pInputTextarea [autoResize]="true"
-                    name="bank_name_th" #late_name_th="ngModel" required></textarea>
+                    name="level_name_th" #level_name_th="ngModel" required></textarea>
 
                 <label>{{ title_name_en }}<span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="selectedLevel.level_name_en" pInputTextarea [autoResize]="true"
-                    name="bank_name_en" #late_name_en="ngModel" required></textarea>
+                    name="level_name_en" #level_name_en="ngModel" required></textarea>
                 <br>
                 <div style="text-align: right;">
                     <button pButton type="button" class="button-size" label="{{ title_save }}" icon="pi pi-save"
@@ -99,17 +101,13 @@
                     &nbsp;
 
                     <button *ngIf="edit_data" pButton type="button" label="{{ title_delete }}" icon="pi pi-trash"
-                        class="btndel button-size" (click)="confirmDelete()"></button>
+                        class="p-button-secondary button-size  " (click)="confirmDelete()"></button>
                 </div>
             </div>
         </p-dialog>
         <div *ngIf="displayManage" style="z-index: 1084;"
             class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
     </form>
-
-
-
-
 </div>
 
 <!-- Dialog Choose File Import -->

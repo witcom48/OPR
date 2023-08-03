@@ -160,7 +160,9 @@ export class SystemFacultyComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadFaculty()
+  }
   doLoadFaculty() {
     this.facultyService.faculty_get().then((res) => {
       this.faculty_list = res;
@@ -181,7 +183,7 @@ export class SystemFacultyComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+  
   doRecordFaculty() {
     this.facultyService.faculty_record(this.selectedFaculty).then((res) => {
       // console.log(res)

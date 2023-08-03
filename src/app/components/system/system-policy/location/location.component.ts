@@ -192,7 +192,9 @@ export class LocationComponent implements OnInit {
     this.new_data = false
     this.locations = new LocationModel()
   }
-  
+  reloadPage() {
+    this.doLoadLocation()
+  }
   Save() {
      this.doRecordLocation(this.locations)
   }

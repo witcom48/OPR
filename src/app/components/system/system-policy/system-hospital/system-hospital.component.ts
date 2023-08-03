@@ -163,7 +163,9 @@ export class SystemHospitalComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadHospital()
+  }
   doLoadHospital() {
     this.hospitalService.hospital_get().then((res) => {
       this.hospital_list = res;
@@ -184,7 +186,7 @@ export class SystemHospitalComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+ 
   doRecordHospital() {
     this.hospitalService.hospital_record(this.selectedHospital).then((res) => {
       // console.log(res)

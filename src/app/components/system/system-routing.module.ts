@@ -47,8 +47,13 @@ import { SystemSupplyComponent } from './system-policy/system-supply/system-supp
 import { SystemUniformComponent } from './system-policy/system-uniform/system-uniform.component';
 import { PolroundsComponent } from './system-manage/polrounds/polrounds.component';
 
+
+import { BloodtypeComponent } from './system-policy/bloodtype/bloodtype.component';
+
 @NgModule({
     imports: [RouterModule.forChild([
+        { path: 'bloodtype', component: BloodtypeComponent },
+
 
         { path: 'general', component: SystemPolicyComponent },
         { path: 'company', component: SystemCompanyComponent },

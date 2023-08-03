@@ -159,7 +159,9 @@ export class SystemAddressTypeComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadAddresstype()
+  }
   doLoadAddresstype() {
     this.addresstypeService.addresstype_get().then((res) => {
       this.addresstype_list = res;

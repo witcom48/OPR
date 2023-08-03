@@ -7,6 +7,7 @@ export class LevelModel {
     level_code: string = "";
     level_name_th: string = "";
     level_name_en: string = "";
+    level_group: string = "";
     company_code: string = "";
 
     created_by: string = "";

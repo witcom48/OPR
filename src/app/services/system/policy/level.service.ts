@@ -75,7 +75,7 @@ export class LevelService {
         level_code: model.level_code,
         level_name_th: model.level_name_th,
         level_name_en: model.level_name_en,
-        company_code: model.company_code,
+        company_code: this.initial_current.CompCode,
 
         created_by: this.initial_current.Username,
         modified_by: this.initial_current.Username

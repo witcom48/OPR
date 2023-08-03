@@ -162,7 +162,9 @@ export class SystemBloodtypeComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadBloodtype()
+  }
   doLoadBloodtype() {
     this.bloodtypeService.bloodtype_get().then((res) => {
       this.bloodtype_list = res;
@@ -183,7 +185,7 @@ export class SystemBloodtypeComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+ 
   doRecordBloodtype() {
     this.bloodtypeService.bloodtype_record(this.selectedBloodtype).then((res) => {
       // console.log(res)

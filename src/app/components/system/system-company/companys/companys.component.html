@@ -19,6 +19,7 @@
                             <p-image [src]="base64Image" id="imgCompany" name="imgCompany" alt="Image" width="175"
                                 height="160"></p-image>
                         </div>
+
                         <div class="field col-12 md:col-4">
                             <input class="no-border" type="file" id="file" (change)="onselectFile($event)">
                         </div>
@@ -312,12 +313,6 @@
                     </ng-template>
                     <div class="col-12">
                         <div class="formgrid grid">
-
-
-
-
-
-
                             <div class="field col-12 md:col-12">
                                 <h1 for="lastname2">{{title_sso}}</h1>
                             </div>
@@ -660,7 +655,7 @@
                                 (click)="combank_summit()"></button>
                             &nbsp;
                             <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
-                                class="btndel button-size" (click)="combank_cancel()"></button>
+                                class="p-button-secondary button-size" (click)="combank_cancel()"></button>
                         </div>
                     </div>
 

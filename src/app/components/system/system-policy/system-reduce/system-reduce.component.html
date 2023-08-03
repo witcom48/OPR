@@ -80,7 +80,7 @@
     <!-- Form input or Edit Data -->
     <form #Form="ngForm">
         <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
-            [position]="position">
+            [position]="position" (onHide)="reloadPage()">
             <div class="formatt p-dialog-content" *ngIf="new_data">
                 <!-- <i (click)="close()"></i> -->
 
@@ -126,7 +126,7 @@
                         (click)="confirmRecord()" [disabled]="!Form.form.valid"></button>
                     &nbsp;
                     <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                        class="btndel button-size" (click)="confirmDelete()"></button>
+                        class="p-button-secondary button-size" (click)="confirmDelete()"></button>
                 </div>
             </div>
         </p-dialog>

@@ -161,7 +161,9 @@ export class SystemInstituteComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadInstitute()
+  }
   doLoadInstitute() {
     this.instituteService.institute_get().then((res) => {
       this.institute_list = res;
@@ -182,7 +184,7 @@ export class SystemInstituteComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+  
   doRecordInstitute() {
     this.instituteService.institute_record(this.selectedInstitute).then((res) => {
       // console.log(res)

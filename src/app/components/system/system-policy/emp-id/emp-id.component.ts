@@ -70,7 +70,7 @@ export class EmpIDComponent implements OnInit {
   title_code: string = "Code";
   title_lenght: string = "Lenght";
   title_text: string = "Text";
-  title_order: string = "Order";
+  title_order: string = "Priority";
 
 
 
@@ -182,6 +182,9 @@ export class EmpIDComponent implements OnInit {
       this.codestructureList = res;
     });
   }
+  reloadPage() {
+    this.doLoadTRPolcode()
+  }
   doLoadTRPolcode() {
     this.codePolcodeService.TRPolcode_get().then((res) => {
       this.TRPolcode_list = res;
@@ -203,6 +206,150 @@ export class EmpIDComponent implements OnInit {
 
     });
   }
+//
+ //
+   //
+  //-- Add structure
+
+  // public strucList:TRPolcodeModel[] | undefined;
+  // public strucAdd:TRPolcodeModel = new TRPolcodeModel();
+
+  // openAddStructure(): void {
+  //   const dialogRef = this.dialog.open(AddCodestructureComponent, {
+  //     width: '400px',
+  //     data: {
+  //       codestructure_code: this.selectedTRPolcode.codestructure_code,
+  //       polcode_lenght: this.selectedTRPolcode.polcode_lenght,
+  //       polcode_text: this.selectedTRPolcode.polcode_text,
+  //       polcode_order: this.selectedTRPolcode.polcode_order
+  //     }
+  //   });
+
+  //   dialogRef.afterClosed().subscribe((result: {
+  //     codestructure_code: string;
+  //     polcode_lenght: string;
+  //     polcode_text: string;
+  //     polcode_order: string;
+  //   }) => {
+  //     if (result.codestructure_code !== "") {
+  //       this.selectedTRPolcode.index = this.TRPolcode_list.length + 1;
+  //       this.selectedTRPolcode.codestructure_code = result.codestructure_code;
+  //       this.selectedTRPolcode.polcode_lenght = result.polcode_lenght;
+  //       this.selectedTRPolcode.polcode_text = result.polcode_text;
+  //       this.selectedTRPolcode.polcode_order = result.polcode_order;
+  //       this.doAddStructure(this.selectedTRPolcode);
+  //     }
+  //   });
+  // }
+
+  // doAddStructure(selectedTRPolcode: TRPolcodeModel) {
+  //   const strucNew: TRPolcodeModel[] = [];
+  //   for (let i = 0; i < this.TRPolcode_list.length; i++) {
+  //     if (this.TRPolcode_list[i].codestructure_code !== selectedTRPolcode.codestructure_code) {
+  //       strucNew.push(this.TRPolcode_list[i]);
+  //     }
+  //   }
+
+  //   //-- 9999 for delete
+  //   if (Number(selectedTRPolcode.polcode_id) !== 9999) {
+  //     strucNew.push(selectedTRPolcode);
+  //   }
+
+  //   this.TRPolcode_list = [];
+  //   this.TRPolcode_list = strucNew;
+  //   this.TRPolcode_list.sort(function (a, b) {
+  //     return parseInt(a.polcode_id) - parseInt(b.polcode_id);
+  //   });
+  // }
+
+
+  // doNewStructure() {
+  //   this.selectedTRPolcode = new TRPolcodeModel();
+  //   this.openAddStructure();
+  // }
+
+
+  // doEditStructure(index: number) {
+  //   this.selectedTRPolcode = this.getTRPolcodeByIndex(index)!;
+  
+  //   if (this.selectedTRPolcode !== null) {
+  //     this.openAddStructure();
+  //   }
+  // }
+  
+  // getTRPolcodeByIndex(index: number): TRPolcodeModel | null {
+  //   for (let i = 0; i < this.TRPolcode_list.length; i++) {
+  //     if (this.TRPolcode_list[i].index === index) {
+  //       return this.TRPolcode_list[i];
+  //     }
+  //   }
+  //   return null;
+  // }
+  
+  // // doDeleteStructure(index: number) {
+  // //   let dialogRef = this.dialog.open(ConfirmationDialog, {
+  // //     disableClose: false
+  // //   });
+  
+  // //   dialogRef.afterClosed().subscribe((result: any) => {
+  // //     if (result) {
+  // //       const selectedTRPolcode = this.getTRPolcodeByIndex(index);
+  
+  // //       if (selectedTRPolcode !== null) {
+  // //         //-- 9999 for delete
+  // //         selectedTRPolcode.polcode_id = 9999;
+  // //         this.doAddStructure(selectedTRPolcode);
+  // //       }
+  // //     }
+  
+  // //     dialogRef = null;
+  // //   });
+  // // }
+  
+
+  
+  //   //  searchEmp: boolean = false;
+  //   // open_searchemp() {
+  //   //     this.searchEmp = true
+  //   // }
+
+
+  //   searchEmp: boolean = false;
+  //   open_searchemp() {
+  //       this.searchEmp = true
+  //   }
+
+  //   close_searchemp() {
+  //       this.searchEmp = false
+  //   }
+
+  //   select_emp() {
+
+  //       let selectedTRPolcode = this.selectedTRPolcode.codestructure_code
+  //       if (selectedTRPolcode != "") {
+  //           this.doGetIndexWorker(selectedTRPolcode)
+  //           this.searchEmp = false
+  //       }
+
+  //   }
+
+  //   doGetIndexWorker(codestructure_code: string) {
+        
+
+  //   }
+    
+  //   select_emp() {
+
+  //     let select = this.selectedTRPolcode.data.worker_code
+  //     if (select != "") {
+  //         this.doGetInitialCurrent(select)
+  //         this.searchEmp = false
+  //     }
+
+  // }
+  //
+
+//
 
   doRecordTRPolcode() {
     // // console.log(this.selectedTRPolcode)

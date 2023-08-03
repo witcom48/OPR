@@ -160,7 +160,9 @@ export class SystemCourseComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadCourse()
+  }
   doLoadCourse() {
     this.courseService.course_get().then((res) => {
       this.course_list = res;
@@ -181,7 +183,7 @@ export class SystemCourseComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+  
   doRecordCourse() {
     this.courseService.course_record(this.selectedCourse).then((res) => {
       // console.log(res)

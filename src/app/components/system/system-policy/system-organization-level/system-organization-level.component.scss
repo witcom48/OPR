@@ -20,23 +20,7 @@
 	z-index: -1;
 }
 
-// .formatlevel {
-//     min-height: 52vh;
-//     max-height: 75vh;
-//     /* overflow-y: scroll; */
-//     display: flex;
-//     flex-direction: column;
-//     gap: 15px;
-//     padding: 2vw;
-//     min-width: 370px;
-//     width: 25vw;
-//     flex-wrap: nowrap;
-//     align-content: space-around;
-//     justify-content: flex-end;
-//     align-items: stretch;
-//     background-color: #ffffff;  
-
-// }
+ 
 .p-dialog-content::ng-deep {
     overflow-y: hidden;
     padding: 50px 0.5rem 4rem 0.5rem;
@@ -51,5 +35,12 @@
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
-  }
-   
+  } 
+ 
+.custom-select {
+  font-size: 16px;
+ 
+
+}
+
+  

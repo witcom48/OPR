@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
-import { Table } from 'primeng/table';
-import { MegaMenuItem, MenuItem } from 'primeng/api';
+
+import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
@@ -18,6 +17,11 @@ import { LevelService } from 'src/app/services/system/policy/level.service';
   styleUrls: ['./system-organization-level.component.scss']
 })
 export class SystemOrganizationLevelComponent implements OnInit {
+
+  numbers: string[] = Array.from({ length: 10 }, (_, i) => (i + 1).toString().padStart(2, '0'));
+
+
+
 
   home: any;
   itemslike: MenuItem[] = [];
@@ -339,7 +343,9 @@ export class SystemOrganizationLevelComponent implements OnInit {
   showManage() {
     this.displayManage = true
   }
-
+  reloadPage() {
+    this.doLoadLevel()
+  }
   ///
   displayUpload: boolean = false;
   showUpload() {

@@ -94,7 +94,7 @@ export class CompanysComponent implements OnInit {
         });
 
         this.doGetInitialCurrent();
-
+   
         // Dropdown
         this.doLoadbankList();
         this.doLoadcardList();
@@ -583,7 +583,6 @@ export class CompanysComponent implements OnInit {
     doLoadImagemaps() {
         this.companyService.doGetImagesmaps(this.selectedCompany.company_code).then((res) => {
             let resultJSON = JSON.parse(res);
-            // console.log(resultJSON.data_maps); // ตรวจสอบผลลัพธ์ที่ได้รับ
 
             if (resultJSON.result == "1") {
                 this.base65Image = resultJSON.data;
@@ -592,16 +591,7 @@ export class CompanysComponent implements OnInit {
     }
 
 
-    // doLoadImagemaps() {
-    //   this.companyService.doGetImagesmaps(this.initial_current.CompCode).then((res) => {
-    //       let resultJSON = JSON.parse(res);
-    //       // console.log(resultJSON.data_maps);
 
-    //       if (resultJSON.result == "1") {
-    //         this.base65Image = resultJSON.data_maps;
-    //       }
-    //     });
-    // }
 
 
     doLoadCompany() {
@@ -613,7 +603,8 @@ export class CompanysComponent implements OnInit {
 
             if (Company_list.length > 0) {
                 this.selectedCompany = Company_list[0];
-
+                this.doLoadImage();
+                this.doLoadImagemaps();
                 setTimeout(() => {
                     this.doLoadComaddressList();
                     // this.doLoadComaddressenList();
@@ -625,8 +616,7 @@ export class CompanysComponent implements OnInit {
                     this.doLoadaddressList();
                     this.doLoadprovinceList();
 
-                    this.doLoadImage();
-                    this.doLoadImagemaps();
+
                     // this.uploadImages();
 
                 }, 300);
@@ -936,10 +926,6 @@ export class CompanysComponent implements OnInit {
             let resultJSON = JSON.parse(res);
             if (resultJSON.result == "1") {
                 this.doLoadImage();
-
-                // setTimeout(() => {
-                //   this.doLoadImage();
-                // }, 500);
 
             }
         });

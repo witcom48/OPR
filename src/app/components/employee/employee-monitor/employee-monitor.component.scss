@@ -44,3 +44,221 @@
 small{
     font-size: 15px;
 }
+
+
+
+// import { DatePipe } from '@angular/common';
+// import { Component, OnInit } from '@angular/core';
+// import { Router } from '@angular/router';
+
+// import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
+// import { AppConfig } from 'src/app/config/config';
+// import { InitialCurrent } from 'src/app/config/initial_current';
+// import { EmployeeModel } from 'src/app/models/employee/employee';
+// import { EmployeeService } from 'src/app/services/emp/worker.service';
+
+// @Component({
+//   selector: 'app-employee-monitor',
+//   templateUrl: './employee-monitor.component.html',
+//   styleUrls: ['./employee-monitor.component.scss']
+// })
+// export class EmployeeMonitorComponent implements OnInit {
+
+//   employee_list: EmployeeModel[] = [];
+//   selectedemployee: EmployeeModel = new EmployeeModel();
+
+//   items: MenuItem[] = [];
+//   toolbar_menu: MenuItem[] = [];
+
+//   chartOptions: any;
+//   data_emptype: any;
+//   data_status: any;
+//   data_stay: any;
+
+//   data_project: any;
+
+//   basicData: any;
+//   basicOptions: any;
+//   workerCurrent: number | undefined;
+//   single: { name: string; value: number; }[] | undefined;
+
+//   //subscription: Subscription;
+//   //config: AppConfig;
+
+//   constructor(
+//     private employeeService: EmployeeService,
+//     private router: Router,
+//     private messageService: MessageService,
+//     private confirmationService: ConfirmationService,
+//     private datePipe: DatePipe,
+//     ) { }
+  
+//   ngOnInit(): void {
+//      // this.doLoadMenu();
+//     // this.doLoadChart();
+//   }
+//   public initial_current: InitialCurrent = new InitialCurrent();
+//   doGetInitialCurrent() {
+//     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+//     if (!this.initial_current) {
+//       this.router.navigateByUrl('login');
+//     }
+//   }
+
+
+
+// //
+
+
+// //...
+
+// doLoadChart(){
+//   this.data_emptype = {
+//     labels: ['รายเดือน [500]', 'รายวัน [800]'],
+//     datasets: [
+//       {
+//         data: [500, 800],
+//         backgroundColor: [
+//           "#FF6384",
+//           "#36A2EB"
+//         ],
+//         hoverBackgroundColor: [
+//           "#FF6384",
+//           "#36A2EB"
+//         ]
+//       }
+//     ]
+//   };
+
+
+
+
+
+//   this.data_status = {
+//     labels: ['ประจำ [1,000]', 'ชั่วคราว [300]'],
+//     datasets: [
+//       {
+//         data: [1000, 300],
+//         backgroundColor: [
+//           "#FF6384",
+//           "#36A2EB"
+//         ],
+//         hoverBackgroundColor: [
+//           "#FF6384",
+//           "#36A2EB"
+//         ]
+//       }
+//     ]
+//   };
+
+//   this.data_stay = {
+//     labels: ['เข้าใหม่ [50]', 'ลาออก [20]'],
+//     datasets: [
+//       {
+//         data: [50, 20],
+//         backgroundColor: [
+//           "#FF6384",
+//           "#36A2EB"
+//         ],
+//         hoverBackgroundColor: [
+//           "#FF6384",
+//           "#36A2EB"
+//         ]
+//       }
+//     ]
+//   };
+
+//   this.data_project = {
+//     labels: ['กำลังพล [300]', 'ปัจจุบัน [250]'],
+//     datasets: [
+//       {
+//         data: [50, 20],
+//         backgroundColor: [
+//           "#FF6384",
+//           "#36A2EB"
+//         ],
+//         hoverBackgroundColor: [
+//           "#FF6384",
+//           "#36A2EB"
+//         ]
+//       }
+//     ]
+//   };
+
+//   this.basicData = {
+//     labels: ['แฟชั่นฯ', 'พรอมมานาด', 'รามคำแหง', 'ฺBig C', 'Lotus มีนบุรี', 'PEA', 'SCB รัชโยธิน'],
+//     datasets: [
+//       {
+//         label: 'กำลังพล กำบังจะทำ',
+//         backgroundColor: '#42A5F5',
+//         data: [65, 59, 80, 50, 80, 100, 60]
+//       },
+//       {
+//         label: 'ปัจจุบัน',
+//         backgroundColor: '#FF6384',
+//         data: [28, 48, 40, 47, 78, 80, 57]
+//       }
+//     ]
+//   };
+
+// }
+
+// doLoadMenu(){
+//   this.toolbar_menu = [
+//     {
+//       label: 'Save',
+//       icon: 'pi pi-fw pi-save',
+
+//     },
+//     {
+//       label: 'Export',
+//       icon: 'pi pi-fw pi-file-export',
+//       command: (event) => {
+//         // console.log('Edit')
+//       }
+//     },
+//   ];
+
+
+//   this.items = [
+
+//     {
+//       label: 'New',
+//       icon: 'pi pi-fw pi-plus',
+
+//     },
+//     {
+//       label: 'Edit',
+//       icon: 'pi pi-fw pi-pencil',
+//       command: (event) => {
+//         // console.log('Edit')
+//       }
+//     },
+//     {
+//       label: 'Delete',
+//       icon: 'pi pi-fw pi-trash',
+//     }
+
+//     ,
+//     {
+//       label: 'Import',
+//       icon: 'pi pi-fw pi-file-import',
+//     }
+//     ,
+//     {
+//       label: 'Export',
+//       icon: 'pi pi-fw pi-file-export',
+//     }
+
+//   ];
+
+// }
+
+// selectData(event: Event) {
+//   //event.dataset = Selected dataset
+//   //event.element = Selected element
+//   //event.element._datasetIndex = Index of the dataset in data
+//   //event.element._index = Index of the data in dataset
+// }
+
+// }

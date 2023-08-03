@@ -159,7 +159,9 @@ export class SystemEthnicityComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadEthnicity()
+  }
   doLoadEthnicity() {
     this.ethnicityService.ethnicity_get().then((res) => {
       this.ethnicity_list = res;
@@ -180,7 +182,7 @@ export class SystemEthnicityComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+  
   doRecordEthnicity() {
     this.ethnicityService.ethnicity_record(this.selectedEthnicity).then((res) => {
       // console.log(res)

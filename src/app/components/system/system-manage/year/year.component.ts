@@ -60,6 +60,9 @@ export class YearComponent implements OnInit {
     this.doLoadYear()
     this.doLoadMenu()
   }
+  reloadPage() {
+    this.doLoadYear()
+  }
   doLoadYear() {
     this.yearperiods_list = [];
     var tmp = new YearPeriodModels();

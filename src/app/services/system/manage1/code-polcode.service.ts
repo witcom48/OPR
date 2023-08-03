@@ -112,6 +112,12 @@ export class CodePolcodeService {
       });
     }
 
+    public getNewCode(com_code:string, pol_type:string, emptype:string){
+
+      let parameter = "?com=" + com_code + "&type=" + pol_type+ "&emptype=" + emptype;
+  
+      return this.http.get(this.config.ApiSystemModule + '/getNewCode' + parameter, this.options).toPromise()
+    }
 
     public TRPolcode_import(file: File, file_name:string, file_type:string){
 

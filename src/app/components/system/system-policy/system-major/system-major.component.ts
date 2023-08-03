@@ -165,7 +165,9 @@ export class SystemMajorComponent implements OnInit {
       this.Major_list = res;
     });
   }
-
+  reloadPage() {
+    this.doLoadMajor()
+  }
   confirmRecord() {
     this.confirmationService.confirm({
       message: this.title_confirm_record,
@@ -180,7 +182,7 @@ export class SystemMajorComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+ 
   doRecordMajor() {
     this.majorService.major_record(this.selectedMajor).then((res) => {
       // console.log(res)

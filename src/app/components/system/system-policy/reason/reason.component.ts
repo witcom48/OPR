@@ -179,6 +179,9 @@ export class ReasonComponent implements OnInit {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
   }
+  reloadPage() {
+    this.doLoadReason( )
+  }
   Save() {
     this.doRecordReason(this.reasons)
   }

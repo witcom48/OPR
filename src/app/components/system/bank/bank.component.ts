@@ -165,7 +165,9 @@ export class BankComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadBank()
+  }
   doLoadBank() {
     this.bankService.bank_get().then((res) => {
       this.bank_list = res;
@@ -186,7 +188,7 @@ export class BankComponent implements OnInit {
       key: "myDialog"
     });
   }
-
+ 
   doRecordBank() {
     this.bankService.bank_record(this.selectedBank).then((res) => {
       let result = JSON.parse(res);
