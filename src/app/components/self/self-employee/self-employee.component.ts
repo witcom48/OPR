@@ -92,7 +92,7 @@ export class SelfEmployeeComponent implements OnInit {
 
   setMenus() {
     if (this.initialData.PolMenu_Code) {
-      this.accessData = this.initialData2.dotGetPolmenu(this.initialData.PolMenu, 'SELF');
+      this.accessData = this.initialData2.dotGetPolmenu('SELF');
       this.requestMenuItems = this.requestMenuList.filter(item => this.hasAccessMenu(item.accessCode));
       this.pdpaMenuItems = this.pdpaMenuList.filter(item => this.hasAccessMenu(item.accessCode));
     } else {

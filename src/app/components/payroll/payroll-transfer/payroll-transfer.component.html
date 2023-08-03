@@ -1,26 +1,25 @@
-
-<h4>Transfer payroll</h4>
+<!-- <h4>Transfer payroll</h4>
 <br>
 
-<span>Links</span>
+<span>Links</span> -->
 <p></p>
 <div class="grid">
     <div class="col-12 md:col-3">
         <b>Transfer Data</b>
-
-        <a routerLink="../../payroll/transferbank">Bank</a>
+        <div *ngFor="let item of transferdataMenuItems">
+            <a routerLink="../../payroll/{{item.link}}">{{item.title}}</a>
+        </div>
+        <!-- <a routerLink="../../payroll/transferbank">Bank</a>
         <a routerLink="../../payroll/transfertax">Tax</a>
         <a routerLink="../../payroll/transferbonus">Bonus</a>
         <a routerLink="../../payroll/transfersso">P.N.D.1</a>
-<a></a>
         <p>P.N.D.1K</p>
         <p>P.N.D.91</p>
         <p>Social</p>
         <p>Provident Fund</p>
         <p>G/L</p>
         <p>Income / Deduct</p>
-
-        <p >SLF</p>
+        <p >SLF</p> -->
     </div>
 
 

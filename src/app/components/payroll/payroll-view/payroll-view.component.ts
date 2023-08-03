@@ -15,6 +15,7 @@ import { ItemService } from 'src/app/services/payroll/item.service';
 import { PayitemService } from 'src/app/services/payroll/payitem.service';
 import { PaytranService } from 'src/app/services/payroll/paytran.service';
 import { PayReduceService } from 'src/app/services/payroll/payreduce.service'
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 interface Type {
   name: string;
@@ -35,7 +36,7 @@ export class PayrollViewComponent implements OnInit {
 
   home: any;
   itemslike: MenuItem[] = [];
-  
+
   title_payroll: { [key: string]: string } = { EN: "Payroll", TH: "Payroll" };
   title_page: { [key: string]: string } = { EN: "View Calculate", TH: "ตรวจสอบการคำนวน" };
   title_tax: { [key: string]: string } = { EN: "Tax", TH: "ภาษี" };
@@ -132,7 +133,7 @@ export class PayrollViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
- this.itemslike = [{ label: this.title_page[this.initial_current.Language], styleClass: 'activelike' }];
+    this.itemslike = [{ label: this.title_page[this.initial_current.Language], styleClass: 'activelike' }];
 
     this.home = { icon: 'pi pi-home', routerLink: '/' };
     Promise.all([this.doLoadEmployee(), this.doLoadPayitem()])
@@ -155,11 +156,14 @@ export class PayrollViewComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('PAY');
   }
 
   workerDetail: EmployeeModel = new EmployeeModel();
@@ -313,5 +317,9 @@ export class PayrollViewComponent implements OnInit {
     });
   }
 
+  
+  hasAccessMenu(accessCode: string): boolean {
+    return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
+  }
 
 }

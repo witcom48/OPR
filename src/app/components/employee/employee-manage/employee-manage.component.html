@@ -240,7 +240,7 @@
                     <!-- Location -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_emplocation}}">
+                            <p-accordionTab header="{{title_emplocation}}"   *ngIf="hasAccessMenu('EMP002-001')" >
                                 <p-menubar [model]="menu_emplocation"></p-menubar>
                                 <div #tablelocation>
                                     <p-table #dtemplocation [value]="emplocationList" styleClass="p-datatable-sm"
@@ -284,7 +284,7 @@
                     <!-- Branch -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_empbranch}}">
+                            <p-accordionTab header="{{title_empbranch}}" *ngIf="hasAccessMenu('EMP002-002')">
                                 <p-menubar [model]="menu_empbranch"></p-menubar>
                                 <div #tablebranch>
                                     <p-table #dtempbranch [value]="empbranchList" styleClass="p-datatable-sm"
@@ -327,7 +327,7 @@
                     <!-- Suggest -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_suggest}}">
+                            <p-accordionTab header="{{title_suggest}}" *ngIf="hasAccessMenu('EMP002-003')">
                                 <p-menubar [model]="menu_empsuggest"></p-menubar>
                                 <div #tablesuggest>
                                     <p-table #dtempsuggest [value]="empsuggestList" styleClass="p-datatable-sm"
@@ -436,7 +436,7 @@
 
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_contact[initial_current.Language]}}">
+                            <p-accordionTab header="{{title_contact[initial_current.Language]}}" *ngIf="hasAccessMenu('EMP002-004')">
                                 <div class="contact">
                                     <div>
                                         <label>{{title_tel}}</label>
@@ -473,7 +473,7 @@
                     <!-- Address -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_address}}">
+                            <p-accordionTab header="{{title_address}}" *ngIf="hasAccessMenu('EMP002-005')">
                                 <p-menubar [model]="menu_empaddress"></p-menubar>
                                 <div #tableaddress>
                                     <p-table #dtAddress [value]="empaddressList" styleClass="p-datatable-sm"
@@ -529,7 +529,7 @@
                     <!-- card -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_card}}">
+                            <p-accordionTab header="{{title_card}}" *ngIf="hasAccessMenu('EMP002-006')">
                                 <p-menubar [model]="menu_empcard"></p-menubar>
                                 <div #tablecard>
                                     <p-table #dtempcard [value]="empcardList" styleClass="p-datatable-sm"
@@ -571,7 +571,7 @@
                     <!-- bank -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_bank}}">
+                            <p-accordionTab header="{{title_bank}}" *ngIf="hasAccessMenu('EMP002-007')">
                                 <p-menubar [model]="menu_empbank"></p-menubar>
                                 <div #tablebank>
                                     <p-table #dtempbank [value]="empbankList" styleClass="p-datatable-sm"
@@ -615,7 +615,7 @@
                     <!-- family -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_family}}">
+                            <p-accordionTab header="{{title_family}}" *ngIf="hasAccessMenu('EMP002-008')">
                                 <p-menubar [model]="menu_empfamily"></p-menubar>
                                 <div #tablefamily>
                                     <p-table #dtempfamily [value]="empfamilyList" styleClass="p-datatable-sm"
@@ -661,7 +661,7 @@
                     <!-- hospital -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_hospital}}">
+                            <p-accordionTab header="{{title_hospital}}" *ngIf="hasAccessMenu('EMP002-009')">
                                 <p-menubar [model]="menu_emphospital"></p-menubar>
                                 <div #tablehospital>
                                     <p-table #dtemphospital [value]="emphospitalList" styleClass="p-datatable-sm"
@@ -699,7 +699,7 @@
                     <!-- foreigner -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_foreigner}}">
+                            <p-accordionTab header="{{title_foreigner}}" *ngIf="hasAccessMenu('EMP002-010')">
                                 <div class="foreigner">
                                     <h4>{{title_passport}}</h4>
                                     <div>
@@ -822,7 +822,7 @@
                     <div class="formgrid grid">
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_department}}">
+                                <p-accordionTab header="{{title_department}}" *ngIf="hasAccessMenu('EMP002-011')">
                                     <p-menubar [model]="menu_empdep"></p-menubar>
                                     <div #tabledep>
                                         <p-table #dtdep [value]="empdepList" styleClass="p-datatable-sm"
@@ -863,7 +863,7 @@
                         <!-- Position -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_position}}">
+                                <p-accordionTab header="{{title_position}}" *ngIf="hasAccessMenu('EMP002-012')">
                                     <p-menubar [model]="menu_empposition"></p-menubar>
                                     <div #tableposition>
                                         <p-table #dtempposition [value]="emppositionList" styleClass="p-datatable-sm"
@@ -903,7 +903,7 @@
                         <!-- Group -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_empgroup}}">
+                                <p-accordionTab header="{{title_empgroup}}" *ngIf="hasAccessMenu('EMP002-013')">
                                     <p-menubar [model]="menu_empgroup"></p-menubar>
                                     <div #tablegroup>
                                         <p-table #dtempgroup [value]="empgroupList" styleClass="p-datatable-sm"
@@ -938,7 +938,7 @@
                         <!-- Education -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_education}}">
+                                <p-accordionTab header="{{title_education}}" *ngIf="hasAccessMenu('EMP002-014')">
                                     <p-menubar [model]="menu_empeducation"></p-menubar>
                                     <div #tableeducation>
                                         <p-table #dteducation [value]="empeducationList" styleClass="p-datatable-sm"
@@ -986,7 +986,7 @@
                         <!-- Supply -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_supply}}">
+                                <p-accordionTab header="{{title_supply}}" *ngIf="hasAccessMenu('EMP002-015')">
                                     <p-menubar [model]="menu_empsupply"></p-menubar>
                                     <div #tablesupply>
                                         <p-table #dtempsupply [value]="empsupplyList" styleClass="p-datatable-sm"
@@ -1030,7 +1030,7 @@
                         <!-- Uniform -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_uniform}}">
+                                <p-accordionTab header="{{title_uniform}}" *ngIf="hasAccessMenu('EMP002-016')">
                                     <p-menubar [model]="menu_empuniform"></p-menubar>
                                     <div #tableuniform>
                                         <p-table #dtempuniform [value]="empuniformList" styleClass="p-datatable-sm"
@@ -1072,7 +1072,7 @@
                         <!-- Training -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_training}}">
+                                <p-accordionTab header="{{title_training}}" *ngIf="hasAccessMenu('EMP002-017')">
                                     <p-menubar [model]="menu_emptraining"></p-menubar>
                                     <div #tabletraining>
                                         <p-table #dttraining [value]="emptrainingList" styleClass="p-datatable-sm"
@@ -1116,7 +1116,7 @@
                         <!-- Assessment/Appraisal -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_assessment}}">
+                                <p-accordionTab header="{{title_assessment}}" *ngIf="hasAccessMenu('EMP002-018')">
                                     <p-menubar [model]="menu_empassessment"></p-menubar>
                                     <div #tableappraisal>
                                         <p-table #dtassessment [value]="empassessmentList" styleClass="p-datatable-sm"
@@ -1171,7 +1171,7 @@
                         <!-- criminal -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_criminal}}">
+                                <p-accordionTab header="{{title_criminal}}" *ngIf="hasAccessMenu('EMP002-019')">
                                     <p-menubar [model]="menu_empcriminal"></p-menubar>
                                     <div #tablecriminal>
                                         <p-table #dtcriminal [value]="empcriminalList" styleClass="p-datatable-sm"
@@ -1223,7 +1223,7 @@
                         <!-- Resign record -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_resignrecord}}">
+                                <p-accordionTab header="{{title_resignrecord}}" *ngIf="hasAccessMenu('EMP002-020')">
                                     <p-table #dtresignrecord [value]="empresignrecord" styleClass="p-datatable-sm"
                                         [tableStyle]="{'min-width': '20rem'}" [scrollable]="true" scrollHeight="200px"
                                         [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpresign"
@@ -1294,7 +1294,7 @@
                         <!-- salary -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_salary}}">
+                                <p-accordionTab header="{{title_salary}}" *ngIf="hasAccessMenu('EMP002-021')">
                                     <p-menubar [model]="menu_empsalary"></p-menubar>
                                     <div #tablesalary>
                                         <p-table #dtsalary [value]="empsalaryList" styleClass="p-datatable-sm"
@@ -1341,7 +1341,7 @@
                         <!-- benefit -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_benefit}}">
+                                <p-accordionTab header="{{title_benefit}}" *ngIf="hasAccessMenu('EMP002-022')">
                                     <p-menubar [model]="menu_empbenefit"></p-menubar>
                                     <div #tablebenefit>
                                         <p-table #dtbenefit [value]="empbenefitList" styleClass="p-datatable-sm"
@@ -1394,7 +1394,7 @@
                         <!-- provident -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_fund}}">
+                                <p-accordionTab header="{{title_fund}}" *ngIf="hasAccessMenu('EMP002-023')">
                                     <p-menubar [model]="menu_empprovident"></p-menubar>
                                     <div #tableprovident>
                                         <p-table #dtprovident [value]="empprovidentList" styleClass="p-datatable-sm"
@@ -1450,7 +1450,7 @@
                         <!-- reduce -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_reduce}}">
+                                <p-accordionTab header="{{title_reduce}}" *ngIf="hasAccessMenu('EMP002-024')">
                                     <p-menubar [model]="menu_empreduce"></p-menubar>
                                     <div #tablereduce>
                                         <p-table #dtreduce [value]="empreduceList" styleClass="p-datatable-sm"
@@ -1495,7 +1495,7 @@
                         <!-- accumalate -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_accumulate}}">
+                                <p-accordionTab header="{{title_accumulate}}" *ngIf="hasAccessMenu('EMP002-025')">
                                     <p-table #dt17 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '150rem'}"
                                         (onRowSelect)="onRowSelectEmpAcc($event)" [scrollable]="true"
                                         scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"

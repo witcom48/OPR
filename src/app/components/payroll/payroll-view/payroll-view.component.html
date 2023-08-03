@@ -34,7 +34,7 @@
         <div class="formgrid grid">
 
             <!-- <div class="field col-12"> -->
-            <p-panel [toggleable]="true" class="field col-12" header="{{title_incomelist[initial_current.Language]}}">
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_incomelist[initial_current.Language]}}" *ngIf="hasAccessMenu('PAY005-001')">
 
                 <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100%'}" [scrollable]="true"
                     [value]="payitemINList" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
@@ -66,7 +66,7 @@
             <!-- </div> -->
 
             <!-- <div class="field col-12"> -->
-            <p-panel [toggleable]="true" class="field col-12" header="{{title_deductlist[initial_current.Language]}}">
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_deductlist[initial_current.Language]}}" *ngIf="hasAccessMenu('PAY005-002')">
                 <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100%'}" [scrollable]="true"
                     [value]="payitemDEList" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
                     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
@@ -96,7 +96,7 @@
             </p-panel>
             <!-- </div> -->
 
-            <p-panel [toggleable]="true" class="field col-12" header="{{title_ssolist[initial_current.Language]}}">
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_ssolist[initial_current.Language]}}" *ngIf="hasAccessMenu('PAY005-003')">
                 <div class="panelform">
                     <div>
                         <label>{{title_ssoemprate[initial_current.Language]}}</label>
@@ -124,7 +124,7 @@
                 </div>
             </p-panel>
 
-            <p-panel [toggleable]="true" class="field col-12" header="{{title_pflist[initial_current.Language]}}">
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_pflist[initial_current.Language]}}" *ngIf="hasAccessMenu('PAY005-004')">
                 <div class="panelform">
                     <div>
                         <label>{{title_pfemp[initial_current.Language]}}</label>
@@ -141,7 +141,7 @@
                 </div>
             </p-panel>
 
-            <p-panel [toggleable]="true" class="field col-12" header="{{title_totallist[initial_current.Language]}}">
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_totallist[initial_current.Language]}}" *ngIf="hasAccessMenu('PAY005-005')">
                 <div class="panelform">
                     <div>
                         <label>{{title_totaltax[initial_current.Language]}}</label>
@@ -169,7 +169,7 @@
                 </div>
             </p-panel>
 
-            <p-panel [toggleable]="true" class="field col-12" header="{{title_tranferlist[initial_current.Language]}}">
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_tranferlist[initial_current.Language]}}" *ngIf="hasAccessMenu('PAY005-006')">
                 <div class="panelform">
                     <div>
                         <label>{{title_tranferC[initial_current.Language]}}</label>
@@ -186,7 +186,7 @@
                 </div>
             </p-panel>
 
-            <p-panel [toggleable]="true" class="field col-12" header="{{title_sectionlist[initial_current.Language]}}">
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_sectionlist[initial_current.Language]}}" *ngIf="hasAccessMenu('PAY005-007')">
                 <p-table styleClass="p-datatable-sm" [value]="paytranList" [tableStyle]="{'min-width': '100%'}"
                     [rows]="4">
                     <ng-template pTemplate="header">
@@ -226,7 +226,7 @@
                 </p-table>
             </p-panel>
 
-            <p-panel [toggleable]="true" class="field col-12" header="{{title_reducelist[initial_current.Language]}}">
+            <p-panel [toggleable]="true" class="field col-12" header="{{title_reducelist[initial_current.Language]}}" *ngIf="hasAccessMenu('PAY005-008')">
                 <p-table #dt2 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '100%'}" [scrollable]="true"
                     [value]="payreduceList" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
                     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
@@ -251,7 +251,7 @@
             </p-panel>
 
             <p-panel [toggleable]="true" class="field col-12"
-                header="{{title_accumulatelist[initial_current.Language]}}">
+                header="{{title_accumulatelist[initial_current.Language]}}" *ngIf="hasAccessMenu('PAY005-009')">
                 <p-table #dt17 class="table-left" styleClass="p-datatable-sm" [value]="paytranAccList" [tableStyle]="{'min-width': '100%'}"
                      selectionMode="single" 
                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"

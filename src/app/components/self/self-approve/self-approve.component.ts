@@ -113,7 +113,7 @@ export class SelfApproveComponent implements OnInit {
   }
 
   setMenus() {
-    this.accessData = this.initialData2.dotGetPolmenu(this.initialData.PolMenu, 'SELF');
+    this.accessData = this.initialData2.dotGetPolmenu('SELF');
 
     this.approvalMenuItems = this.approvalMenuList.filter(item => this.hasAccessMenu(item.accessCode));
     this.setupMenuItems = this.setupMenuList.filter(item => this.hasAccessMenu(item.accessCode));

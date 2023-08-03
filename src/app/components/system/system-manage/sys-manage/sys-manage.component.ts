@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { MenuItem } from 'primeng/api';
-
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+interface Menu {
+    title: string;
+    link: string;
+    accessCode: string;
+}
 @Component({
     selector: 'app-sys-manage',
     templateUrl: './sys-manage.component.html',
@@ -18,7 +23,7 @@ export class SysManageComponent implements OnInit {
     ngOnInit(): void {
         this.doGetInitialCurrent();
         this.doLoadLanguage();
-
+        this.setMenus();
         this.itemslike = [{ label: this.title_system_manage, routerLink: '/system/sys-manage', styleClass: 'activelike' }];
 
         this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -26,6 +31,8 @@ export class SysManageComponent implements OnInit {
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -46,6 +53,10 @@ export class SysManageComponent implements OnInit {
     title_round_decimal: string = 'Round Decimal';
     title_round_time: string = 'Round Time';
     title_round_polrounds: string = 'Currency Rounding';
+    manageMenuItems: Menu[] = [];
+    roundingMenuItems: Menu[] = [];
+    manageMenuList: Menu[] = [];
+    roundingMenuList: Menu[] = [];
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_system_manage = 'จัดการ';
@@ -60,9 +71,65 @@ export class SysManageComponent implements OnInit {
             this.title_round_decimal = 'ทศนิยม';
             this.title_round_time = 'เวลา';
             this.title_round_polrounds = 'กำหนดรูปแบบการปัดเศษ';
-
-
-
         }
+        this.manageMenuList = [
+            {
+                title: this.title_company,
+                link: 'company',
+                accessCode: 'SYS001-001'
+            },
+            {
+                title: this.title_branch,
+                link: 'Branch',
+                accessCode: 'SYS001-002'
+            },
+            {
+                title: this.title_reason,
+                link: 'system-reason',
+                accessCode: 'SYS001-003'
+            },
+            {
+                title: this.title_structure_code,
+                link: 'emp-id',
+                accessCode: 'SYS001-004'
+            },
+            {
+                title: this.title_year_period,
+                link: 'system-yearperiod',
+                accessCode: 'SYS001-005'
+            },
+
+            // ... other setup menu items ...
+        ];
+
+        this.roundingMenuList = [
+            {
+                title: this.title_round_decimal,
+                link: 'sys-roundComponent',
+                accessCode: 'SYS001-006'
+            },
+            {
+                title: this.title_round_time,
+                link: 'sys-addroun',
+                accessCode: 'SYS001-007'
+            },
+            {
+                title: this.title_round_polrounds,
+                link: 'system-polrounds',
+                accessCode: 'SYS001-008'
+            },
+
+            // ... other setup menu items ...
+        ];
+    }
+
+    setMenus() {
+        this.accessData = this.initialData2.dotGetPolmenu('SYS');
+        this.manageMenuItems = this.manageMenuList.filter(item => this.hasAccessMenu(item.accessCode));
+        this.roundingMenuItems = this.roundingMenuList.filter(item => this.hasAccessMenu(item.accessCode));
+    }
+
+    private hasAccessMenu(accessCode: string): boolean {
+        return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
     }
 }

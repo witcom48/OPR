@@ -1,5 +1,6 @@
 import { AccessdataModel } from "../models/system/security/accessdata";
 import { PolmenuModel } from "../models/system/security/polmenu";
+import { AppConfig } from "./config";
 
 export class InitialCurrent {
   constructor() {
@@ -60,9 +61,9 @@ export class InitialCurrent {
     return item_data;
   }
 
-  dotGetPolmenu(polmenu: any, models: string):any {
+  dotGetPolmenu(models: string): any {
     var model = new AccessdataModel();
-    polmenu[0].accessdata_data.find((data: AccessdataModel) => {
+    JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}').PolMenu[0].accessdata_data.find((data: AccessdataModel) => {
       if (data.accessdata_module == models) {
         model = data;
       }

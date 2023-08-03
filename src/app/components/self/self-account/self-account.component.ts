@@ -99,9 +99,9 @@ export class SelfAccountComponent implements OnInit {
     this.selectedLanguage = this.initialCurrent.Language;
     console.log(this.TypeNotShow)
     if (this.TypeNotShow != "'ADM'") {
-      this.accessdatamenu = this.initialCurrent2.dotGetPolmenu(this.initialCurrent.PolMenu, 'SYS')
+      this.accessdatamenu = this.initialCurrent2.dotGetPolmenu('SYS')
     } else {
-      this.accessdatamenu = this.initialCurrent2.dotGetPolmenu(this.initialCurrent.PolMenu, 'SELF')
+      this.accessdatamenu = this.initialCurrent2.dotGetPolmenu('SELF')
     }
 
     console.log(this.accessdatamenu)

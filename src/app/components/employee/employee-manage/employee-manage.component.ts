@@ -95,6 +95,7 @@ import { ProuniformModel } from 'src/app/models/project/policy/pro_genaral';
 import { ProgenaralService } from 'src/app/services/project/pro_genaral.service';
 
 import * as XLSX from 'xlsx';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 
 
@@ -381,11 +382,14 @@ export class EmployeeManageComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
   }
 
   title_page: string = "Employee Management";
@@ -841,7 +845,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtemplocation,'EmpLocation')
+          this.exportAsExcel(this.dtemplocation, 'EmpLocation')
 
         }
       }];
@@ -895,7 +899,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempbranch,'EmpBranch')
+          this.exportAsExcel(this.dtempbranch, 'EmpBranch')
 
         }
       },];
@@ -949,7 +953,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempaddress,'EmpAddress')
+          this.exportAsExcel(this.dtempaddress, 'EmpAddress')
 
         }
       },
@@ -1004,7 +1008,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempcard,'EmpCard')
+          this.exportAsExcel(this.dtempcard, 'EmpCard')
 
         }
       },
@@ -1059,7 +1063,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempbank,'EmpBank')
+          this.exportAsExcel(this.dtempbank, 'EmpBank')
 
         }
       },
@@ -1114,7 +1118,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempfamily,'EmpFamily')
+          this.exportAsExcel(this.dtempfamily, 'EmpFamily')
 
         }
       },
@@ -1169,7 +1173,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtemphospital,'EmpHospital')
+          this.exportAsExcel(this.dtemphospital, 'EmpHospital')
 
         }
       },
@@ -1225,7 +1229,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempdep,'EmpDepartment')
+          this.exportAsExcel(this.dtempdep, 'EmpDepartment')
 
         }
       },
@@ -1280,7 +1284,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempposition,'EmpPosition')
+          this.exportAsExcel(this.dtempposition, 'EmpPosition')
 
         }
       },
@@ -1335,7 +1339,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempgroup,'EmpGroup')
+          this.exportAsExcel(this.dtempgroup, 'EmpGroup')
 
         }
       },
@@ -1390,7 +1394,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempeducation,'EmpEducation')
+          this.exportAsExcel(this.dtempeducation, 'EmpEducation')
 
         }
       },
@@ -1445,7 +1449,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempsupply,'EmpSupply')
+          this.exportAsExcel(this.dtempsupply, 'EmpSupply')
 
         }
       },
@@ -1501,7 +1505,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempuniform,'EmpUniform')
+          this.exportAsExcel(this.dtempuniform, 'EmpUniform')
 
         }
       },
@@ -1557,7 +1561,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempsuggest,'EmpSuggest')
+          this.exportAsExcel(this.dtempsuggest, 'EmpSuggest')
 
         }
       },
@@ -1613,7 +1617,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtemptraining,'EmpTraining')
+          this.exportAsExcel(this.dtemptraining, 'EmpTraining')
 
         }
       },
@@ -1668,7 +1672,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempappraisal,'EmpAppraisal')
+          this.exportAsExcel(this.dtempappraisal, 'EmpAppraisal')
 
         }
       },
@@ -1723,7 +1727,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempcriminal,'EmpCriminal')
+          this.exportAsExcel(this.dtempcriminal, 'EmpCriminal')
 
         }
       },
@@ -1778,7 +1782,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempsalary,'EmpSalary')
+          this.exportAsExcel(this.dtempsalary, 'EmpSalary')
 
         }
       },
@@ -1833,7 +1837,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempprovident,'EmpProvident')
+          this.exportAsExcel(this.dtempprovident, 'EmpProvident')
 
         }
       },
@@ -1888,7 +1892,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempbenefit,'EmpBenefit')
+          this.exportAsExcel(this.dtempbenefit, 'EmpBenefit')
 
         }
       },
@@ -1943,7 +1947,7 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_export,
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          this.exportAsExcel(this.dtempreduce,'EmpReduce')
+          this.exportAsExcel(this.dtempreduce, 'EmpReduce')
 
         }
       },
@@ -4562,11 +4566,17 @@ export class EmployeeManageComponent implements OnInit {
   exportAsExcel(table: ElementRef, name: string) {
     // console.log(this.selectedEmpLocation)
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table.nativeElement);//converts a DOM TABLE element to a worksheet
-    
+
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     XLSX.writeFile(wb, 'Export_' + name + '.xlsx');
 
   }
+
+
+  hasAccessMenu(accessCode: string): boolean {
+    return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
+  }
+
 }

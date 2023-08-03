@@ -1,25 +1,28 @@
-
-<h4>Policy project</h4>
+<!-- <h4>Policy project</h4>
 <br>
 
-<span>Links</span>
+<span>Links</span> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <p></p>
 <div class="grid">
 
-    
+
     <div class="col-12 md:col-3">
-        <b>Genaral</b>        
-        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'procost'}">Cost</a>
+        <b>Genaral</b>
+        <div *ngFor="let item of genaralMenuItems">
+            <a routerLink="../../project/{{item.link}}" [queryParams]="{ type: item.queryParamsdata }">{{item.title}}</a>
+        </div>
+        <!-- <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'procost'}">Cost</a>
         <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'protype'}">Project Type</a>
         <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'probusiness'}">Project Business</a>
         <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'prouniform'}">Uniform</a>
-        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'proslip'}">Slip form</a>  
-        
-        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'proarea'}">Area</a> 
-        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'progroup'}">Group</a> 
+        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'proslip'}">Slip form</a>
+
+        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'proarea'}">Area</a>
+        <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'progroup'}">Group</a> -->
     </div>
 
-    <div class="col-12 md:col-3">
+    <!-- <div class="col-12 md:col-3">
         <b>Attendance</b>
         <a >Period</a>      
         <a >Shift</a>
@@ -29,21 +32,24 @@
         <a >Leave</a> 
         <a >Late</a>     
         
-    </div>
+    </div> -->
 
-    <div class="col-12 md:col-3">
+    <!-- <div class="col-12 md:col-3">
         <b>Payroll</b>
         <a >Income / Deduct</a>  
         <a >Period</a>       
         <a >GL Account</a>
-    </div>
+    </div> -->
 
     <div class="col-12">
         <b>Workflow</b>
-        <a  routerLink="../../project/workflow">Project</a>
-        <a >Transfer Emp.</a>
-        <a >Cost</a>  
-             
+        <div *ngFor="let item of workflowMenuItems">
+            <a routerLink="../../project/{{item.link}}">{{item.title}}</a>
+        </div>
+        <!-- <a routerLink="../../project/workflow">Project</a> -->
+        <!-- <a >Transfer Emp.</a>
+        <a >Cost</a>   -->
+
     </div>
 
 </div>

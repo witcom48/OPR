@@ -20,7 +20,7 @@ declare var menu: any;
 export class SecMenuComponent implements OnInit {
   accountLanguages: any = menu;
   selectedLanguage: string = 'EN';
-  itemslike: MenuItem[] = [{ label: 'Security system', routerLink: '/system/security' }, { label: 'Security system', routerLink: '/system/security', styleClass: 'activelike' }];
+  itemslike: MenuItem[] = [{ label: 'Security system', routerLink: '/system/security' }, { label: 'Policy Menu', routerLink: '/sec/menu', styleClass: 'activelike' }];
   home: any = { icon: 'pi pi-home', routerLink: '/' }
   menuItems: MenuItem[] = [];
   menuList: MainMenuModel[] = [];
@@ -299,17 +299,17 @@ export class SecMenuComponent implements OnInit {
 
     mainMenuData.forEach(async (mainMenu: MainMenuModel) => {
       const mainMenuCode = mainMenu.mainmenu_code;
-      const mainMenuDetail = this.accountLanguages == "EN" ? mainMenu.mainmenu_detail_en : mainMenu.mainmenu_detail_th;
+      const mainMenuDetail = this.selectedLanguage == "EN" ? mainMenu.mainmenu_detail_en : mainMenu.mainmenu_detail_th;
       const submenuList: any[] = [];
 
       mainMenu.submenu_data.forEach((submenu: SubMenuModel) => {
         const submenuCode = submenu.submenu_code;
-        const submenuDetail = this.accountLanguages == "EN" ? submenu.submenu_detail_en : submenu.submenu_detail_th;
+        const submenuDetail = this.selectedLanguage == "EN" ? submenu.submenu_detail_en : submenu.submenu_detail_th;
         const itemMenuList: any[] = [];
 
         submenu.itemmenu_data.forEach((itemMenu: ItemMenuModel) => {
           const itemMenuCode = itemMenu.itemmenu_code;
-          const itemMenuDetail = this.accountLanguages == "EN" ? itemMenu.itemmenu_detail_en : itemMenu.itemmenu_detail_th;
+          const itemMenuDetail = this.selectedLanguage == "EN" ? itemMenu.itemmenu_detail_en : itemMenu.itemmenu_detail_th;
           itemMenuList.push({
             key: itemMenuCode,
             data: "ITEM",
