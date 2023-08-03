@@ -19,6 +19,7 @@ import { AppConfig } from 'src/app/config/config';
 import { AccountModuleModel } from 'src/app/models/self/accountmodule';
 import { PolmenuServices } from 'src/app/services/system/security/polmenu.service';
 import { PolmenuModel } from 'src/app/models/system/security/polmenu';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 declare var account: any;
 interface Modules { name: string, code: string }
 @Component({
@@ -65,6 +66,8 @@ export class SelfAccountComponent implements OnInit {
   selectedPosition: PositionModel = new PositionModel();
   positionAlignment: string = 'right';
   initialCurrent: InitialCurrent = new InitialCurrent();
+  initialCurrent2: InitialCurrent = new InitialCurrent();
+  accessdatamenu: AccessdataModel = new AccessdataModel();
 
   constructor(
     private messageService: MessageService,
@@ -94,7 +97,14 @@ export class SelfAccountComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectedLanguage = this.initialCurrent.Language;
-    console.log(this.initialCurrent.PolMenu)
+    console.log(this.TypeNotShow)
+    if (this.TypeNotShow != "'ADM'") {
+      this.accessdatamenu = this.initialCurrent2.dotGetPolmenu(this.initialCurrent.PolMenu, 'SYS')
+    } else {
+      this.accessdatamenu = this.initialCurrent2.dotGetPolmenu(this.initialCurrent.PolMenu, 'SELF')
+    }
+
+    console.log(this.accessdatamenu)
   }
 
   // Loads the available account types
