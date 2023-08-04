@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     ConfirmationService,
@@ -70,6 +70,7 @@ import { EmpEducationModel } from 'src/app/models/employee/manage/education';
 import { EmpTrainingModel } from 'src/app/models/employee/manage/training';
 import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ApplyMTDocattModel } from 'src/app/models/recruitment/applyMTDocatt';
 
 interface Taxmethod {
     name_th: string;
@@ -86,6 +87,11 @@ interface Ctype {
     name_en: string;
     code: string;
 }
+interface Milit {
+    name_th: string,
+    name_en: string,
+    code: string
+  }
 
 @Component({
     selector: 'app-recruitment-apply',
@@ -93,6 +99,7 @@ interface Ctype {
     styleUrls: ['./recruitment-apply.component.scss'],
 })
 export class RecruitmentApplyComponent implements OnInit {
+    @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
     req_code: string = '';
 
     emp_code: string = '';
@@ -116,6 +123,9 @@ export class RecruitmentApplyComponent implements OnInit {
     taxM: Taxmethod[] = [];
     conPay: ConPay[] = [];
     cardTypelist: Ctype[] = [];
+
+    militarystatus: Milit[] = [];
+
 
     //menu empsuggest
     menu_reqsuggest: MenuItem[] = [];
@@ -149,6 +159,8 @@ export class RecruitmentApplyComponent implements OnInit {
     menu_reqcriminal: MenuItem[] = [];
     edit_reqcriminal: boolean = false;
     new_criminal: boolean = false;
+    /////////////////
+    items_attfile: MenuItem[] = [];
 
     displayManage: boolean = false;
 
@@ -176,7 +188,7 @@ export class RecruitmentApplyComponent implements OnInit {
         private qualificationService: QualificationService,
         private courseService: CourseService,
 
-        private addresstypeService: AddresstypeService
+        private addresstypeService: AddresstypeService,
     ) {
         this.taxM = [
             { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -204,6 +216,13 @@ export class RecruitmentApplyComponent implements OnInit {
             { name_th: 'บัตรประชาชน', name_en: 'National ID', code: 'NTID' },
             { name_th: 'ประกันสังคม', name_en: 'Social', code: 'SSO' },
         ];
+        this.militarystatus = [
+            { name_th: 'ไม่มี', name_en: 'No', code: '0' },
+            { name_th: 'หนีทหาร', name_en: 'Disappear Soldier', code: 'A' },
+            { name_th: 'ได้รับการยกเว้น', name_en: 'Exempted', code: 'E' },
+            { name_th: 'ยังไม่เกณฑ์ทหาร', name_en: 'Non', code: 'N' },
+            { name_th: 'ผ่านการเกณฑ์ทหารแล้ว', name_en: 'Pass military service', code: 'P' },
+          ]
     }
 
     ngOnInit(): void {
@@ -326,8 +345,6 @@ export class RecruitmentApplyComponent implements OnInit {
 
     title_tranfer: string = "Tranfer record";
 
-    title_modified_by: string = "Edit by";
-    title_modified_date: string = "Edit date";
     title_search: string = "Search";
     title_upload: string = "Upload";
 
@@ -438,6 +455,24 @@ export class RecruitmentApplyComponent implements OnInit {
     title_pass: string = "Pass";
     title_notpass: string = "Not Pass";
 
+    title_attfile: { [key: string]: string } = { EN: "Attach File", TH: "แนบไฟล์" };
+    title_uploadno: { [key: string]: string } = { EN: "No.", TH: "ลำดับที่" };
+    title_filename: { [key: string]: string } = { EN: "File Name", TH: "ชื่อไฟล์" };
+    title_modified_by: { [key: string]: string } = { EN: "Modified by", TH: "ผู้ทำรายการ" };
+    title_modified_date: { [key: string]: string } = { EN: "Modified date", TH: "วันที่ทำรายการ" };
+    title_deleteupload: { [key: string]: string } = { EN: "Delete", TH: "ลบ" };
+    title_age: { [key: string]: string } = { EN: "Age", TH: "อายุ" };
+
+    title_contact: { [key: string]: string } = { EN: "Contact", TH: "ข้อมูลติดต่อ" };
+    title_military: { [key: string]: string } = { EN: "Military Staus", TH: "สถานภาพทางทหาร" };
+    title_cm: { [key: string]: string } = { EN: "c.m.", TH: "ซ.ม." };
+    title_kg: { [key: string]: string } = { EN: "k.g.", TH: "ก.ก." };
+
+    title_familyocc: { [key: string]: string } = { EN: "Occupation", TH: "อาชีพ" };
+    title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรฯ" };
+    title_familyaddress: { [key: string]: string } = { EN: "Address", TH: "ที่อยู่" };
+    title_familynameth: { [key: string]: string } = { EN: "Name(Eng.)", TH: "ชื่อ(อังกฤษ)" };
+    title_familynameen: { [key: string]: string } = { EN: "Name(Thai)", TH: "ชื่อ(ไทย)" };
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
@@ -513,8 +548,6 @@ export class RecruitmentApplyComponent implements OnInit {
 
             this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
 
-            this.title_modified_by = "ผู้ทำรายการ";
-            this.title_modified_date = "วันที่ทำรายการ";
             this.title_search = "ค้นหา";
             this.title_upload = "อัพโหลด";
 
@@ -898,6 +931,18 @@ export class RecruitmentApplyComponent implements OnInit {
                     }
                 },
             },
+        ];
+        this.items_attfile = [
+
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.Uploadfile = true;
+                }
+            },
+
+
         ];
     }
 
@@ -1801,4 +1846,104 @@ export class RecruitmentApplyComponent implements OnInit {
     createReqID() {
         this.selectedReqworker.worker_code = "REQ" + this.datePipe.transform(this.newDateTime, 'yyyyMMddHHmm');
     }
+
+
+    Uploadfile: boolean = false;
+    fileDocToUpload: File | any = null;
+    selecteddocatt: ApplyMTDocattModel = new ApplyMTDocattModel();
+    handleFileInputDoclist(file: FileList) {
+        this.fileToUpload = file.item(0);
+    }
+
+    doUploadFile() {
+        const filename = "REQ_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        const filetype = this.fileToUpload.name.split(".")[1];
+        this.reqdetailService.file_attach(this.fileToUpload, filename, filetype).then((res) => {
+            // console.log(res)
+            if (res.success) {
+                this.selectedReqworker.reqdocatt_data = this.selectedReqworker.reqdocatt_data.concat({
+                    company_code: this.selectedReqworker.company_code || this.initial_current.CompCode,
+                    document_id: 0,
+                    job_id: this.selectedReqworker.worker_id.toString(),
+                    document_name: filename + "." + filetype,
+                    document_type: this.fileToUpload.type,
+                    document_path: res.message,
+                    created_by: this.initial_current.Username,
+                    created_date: new Date().toISOString()
+                })
+                this.Uploadfile = false;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            }
+            else {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+            this.fileToUpload = null;
+        });
+    }
+
+    Uploadfiledoc() {
+        if (this.fileToUpload) {
+            this.confirmationService.confirm({
+                message: this.title_confirm + this.fileToUpload.name,
+                header: this.title_import,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.Uploadfile = false;
+                    this.doUploadFile();
+                    this.fileUploader.nativeElement.value = null;
+                },
+                reject: () => {
+                    this.Uploadfile = false;
+                }
+            });
+        } else {
+            this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+        }
+    }
+    DeleteFile(data: ApplyMTDocattModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete + data.document_name,
+            header: this.title_delete,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                if (data.document_id) {
+                    this.reqdetailService.delete_file(data).then((res) => {
+                        if (res.success) {
+                            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                        }
+                    })
+                } else {
+                    this.selectedReqworker.reqdocatt_data = this.selectedReqworker.reqdocatt_data.filter((item) => {
+                        return item !== data;
+                    });
+                }
+                this.reqdetailService.deletefilepath_file(data.document_path).then((res) => {
+                    if (res.success) {
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        this.selectedReqworker.reqdocatt_data = this.selectedReqworker.reqdocatt_data.filter((item) => {
+                            return item !== data;
+                        });
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                    }
+                })
+            },
+            reject: () => {
+
+            }
+        });
+    }
+    async doGetReqAttfile(file_path: string, type: string) {
+        this.reqdetailService.get_file(file_path).then((res) => {
+            var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+            window.open(url);
+            this.selecteddocatt = new ApplyMTDocattModel();
+        })
+    }
+    onRowSelectfile(event: Event) {
+        this.doGetReqAttfile(this.selecteddocatt.document_path, this.selecteddocatt.document_type)
+    }
+
 }

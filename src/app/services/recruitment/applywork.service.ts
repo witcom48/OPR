@@ -121,7 +121,7 @@ export class ApplyworkService {
         const data = {
             applywork_id: model.applywork_id,
             applywork_code: model.applywork_code,
-            company_code : this.initial_current.CompCode,
+            company_code: this.initial_current.CompCode,
             modified_by: this.initial_current.Username
         };
 
@@ -194,6 +194,14 @@ export class ApplyworkService {
             blood_code: model.blood_code,
             worker_height: model.worker_height,
             worker_weight: model.worker_weight,
+            worker_age: model.worker_age,
+
+            worker_tel: model.worker_tel,
+            worker_email: model.worker_email,
+            worker_line: model.worker_line,
+            worker_facebook: model.worker_facebook,
+            worker_military: model.worker_military,
+
             modified_by: this.initial_current.Username
         };
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqworker', data, this.options).toPromise()
@@ -230,32 +238,32 @@ export class ApplyworkService {
     }
 
     //image
-  public doGetReqImages(com_code: string, worker_code: string) {
-    var filter = {
-      device_name: '',
-      ip: "localhost",
-      username: this.initial_current.Username,
-      company_code: com_code,
-      language: "",
-      worker_code: worker_code
-    };
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqimages', filter, this.options).toPromise()
-      .then((res) => {
-        return res;
-      });
-  }
+    public doGetReqImages(com_code: string, worker_code: string) {
+        var filter = {
+            device_name: '',
+            ip: "localhost",
+            username: this.initial_current.Username,
+            company_code: com_code,
+            language: "",
+            worker_code: worker_code
+        };
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqimages', filter, this.options).toPromise()
+            .then((res) => {
+                return res;
+            });
+    }
 
-  uploadReqImages(file: File, com: string, worker: string) {
+    uploadReqImages(file: File, com: string, worker: string) {
 
-    const formData = new FormData();
-    formData.append('file', file);
+        const formData = new FormData();
+        formData.append('file', file);
 
-    var para = "ref_to=" + com  + "." + worker +"."+ this.initial_current.Username ;
+        var para = "ref_to=" + com + "." + worker + "." + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqImages?' + para, formData).toPromise()
-      .then((res) => {
-        return res;
-      });
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqImages?' + para, formData).toPromise()
+            .then((res) => {
+                return res;
+            });
 
-  }
+    }
 }
