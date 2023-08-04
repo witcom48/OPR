@@ -107,12 +107,12 @@ export class EmployeeMonitorComponent implements OnInit {
           {
               label: 'กำลังพล',
               backgroundColor: '#42A5F5',
-              data: [65, 59, 80, 50, 80, 100, 60]
+              data: [0, 0, 0, 0, 0, 0, 0]
           },
           {
               label: 'ปัจจุบัน',
               backgroundColor: '#FF6384',
-              data: [28, 48, 40, 47, 78, 80, 57]
+              data: [0, 0, 0, 0, 0, 0, 0]
           }
       ]
     };
