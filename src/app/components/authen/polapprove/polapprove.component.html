@@ -1,103 +1,107 @@
-<span style="font-size: 20px;">System</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <a routerLink="/system/security">Security</a>&nbsp;<i class="pi pi-angle-right"></i>&nbsp;<small>Workflow</small>
+<span style="font-size: 20px;">System</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <a
+    routerLink="/system/security">Security</a>&nbsp;<i class="pi pi-angle-right"></i>&nbsp;<small>Workflow</small>
 <hr>
 
-<p-toast position="top-right"></p-toast> 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
-
-<p></p> 
-<p-accordion>
-    <p-accordionTab header="Project (New)" [selected]="false">        
-        <div class="formgrid grid align-items-end">
-            <div class="field col-12">
-                <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="account_source"
-                    [target]="account_dest" sourceHeader="Account" targetHeader="Selected"
-                    [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
-                    <ng-template let-emp pTemplate="item">
-                        <div>
-                            <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
-                        </div>
-                    </ng-template>
-                </p-pickList>
-            </div>
-        </div>
-    </p-accordionTab>
-</p-accordion>
-
-<p></p> 
-<p-accordion>
-    <p-accordionTab header="Project (Trasfer)" [selected]="false">        
-        <div class="formgrid grid align-items-end">
-            <div class="field col-12">
-                <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="account_source"
-                    [target]="account_dest" sourceHeader="Account" targetHeader="Selected"
-                    [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
-                    <ng-template let-emp pTemplate="item">
-                        <div>
-                            <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
-                        </div>
-                    </ng-template>
-                </p-pickList>
-            </div>
-        </div>
-    </p-accordionTab>
-</p-accordion>
-
-<p></p> 
-<p-accordion>
-    <p-accordionTab header="Project (Cost)" [selected]="false">        
-        <div class="formgrid grid align-items-end">
-            <div class="field col-12">
-                <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="account_source"
-                    [target]="account_dest" sourceHeader="Account" targetHeader="Selected"
-                    [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
-                    <ng-template let-emp pTemplate="item">
-                        <div>
-                            <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
-                        </div>
-                    </ng-template>
-                </p-pickList>
-            </div>
-        </div>
-    </p-accordionTab>
-</p-accordion>
-<p></p> 
-<p-accordion>
-    <p-accordionTab header="Recruitment (Apply)" [selected]="false">        
-        <div class="formgrid grid align-items-end">
-            <div class="field col-12">
-                <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="account_source"
-                    [target]="account_dest" sourceHeader="Account" targetHeader="Selected"
-                    [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
-                    <ng-template let-emp pTemplate="item">
-                        <div>
-                            <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
-                        </div>
-                    </ng-template>
-                </p-pickList>
-            </div>
-        </div>
-    </p-accordionTab>
-</p-accordion>
-<p></p> 
-<p-accordion>
-    <p-accordionTab header="Payroll (Payment)" [selected]="false">        
-        <div class="formgrid grid align-items-end">
-            <div class="field col-12">
-                <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="account_source"
-                    [target]="account_dest" sourceHeader="Account" targetHeader="Selected"
-                    [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
-                    <ng-template let-emp pTemplate="item">
-                        <div>
-                            <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
-                        </div>
-                    </ng-template>
-                </p-pickList>
-            </div>
-        </div>
-    </p-accordionTab>
-</p-accordion>
 
 <p></p>
+<div *ngIf="statusload">
+    <p-accordion>
+        <p-accordionTab header="Project (New)" [selected]="false">
+            <div class="formgrid grid align-items-end">
+                <div class="field col-12">
+                    <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="availableAccountnew"
+                        [target]="selectedAccountnew" sourceHeader="Account" targetHeader="Selected"
+                        [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                        <ng-template let-emp pTemplate="item">
+                            <div>
+                                <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
 
-<p-button label="Save" icon="pi pi-save" ></p-button>
+    <p></p>
+    <p-accordion>
+        <p-accordionTab header="Project (Trasfer)" [selected]="false">
+            <div class="formgrid grid align-items-end">
+                <div class="field col-12">
+                    <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="availableAccounttran"
+                        [target]="selectedAccounttran" sourceHeader="Account" targetHeader="Selected"
+                        [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                        <ng-template let-emp pTemplate="item">
+                            <div>
+                                <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+
+    <p></p>
+    <p-accordion>
+        <p-accordionTab header="Project (Cost)" [selected]="false">
+            <div class="formgrid grid align-items-end">
+                <div class="field col-12">
+                    <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="availableAccountcost"
+                        [target]="selectedAccountcost" sourceHeader="Account" targetHeader="Selected"
+                        [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                        <ng-template let-emp pTemplate="item">
+                            <div>
+                                <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+    <p></p>
+    <p-accordion>
+        <p-accordionTab header="Recruitment (Apply)" [selected]="false">
+            <div class="formgrid grid align-items-end">
+                <div class="field col-12">
+                    <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="availableAccountapply"
+                        [target]="selectedAccountapply" sourceHeader="Account" targetHeader="Selected"
+                        [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                        <ng-template let-emp pTemplate="item">
+                            <div>
+                                <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+    <p></p>
+    <p-accordion>
+        <p-accordionTab header="Payroll (Payment)" [selected]="false">
+            <div class="formgrid grid align-items-end">
+                <div class="field col-12">
+                    <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="availableAccountpay"
+                        [target]="selectedAccountpay" sourceHeader="Account" targetHeader="Selected"
+                        [sourceStyle]="{'height':'8rem'}" [targetStyle]="{'height':'8rem'}">
+                        <ng-template let-emp pTemplate="item">
+                            <div>
+                                <div style="font-size:14px;float:left;">{{emp.account_user}}</div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+</div>
+<p></p>
+<button pButton type="button" icon="pi pi-save" label="Save" (click)="save()" [disabled]="!accessData.accessdata_new">
+</button>
+<!-- <p-button label="Save" icon="pi pi-save" (click)="save()" [disabled]="!accessData.accessdata_new"></p-button> -->

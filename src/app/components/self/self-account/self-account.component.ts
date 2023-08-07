@@ -67,7 +67,7 @@ export class SelfAccountComponent implements OnInit {
   positionAlignment: string = 'right';
   initialCurrent: InitialCurrent = new InitialCurrent();
   initialCurrent2: InitialCurrent = new InitialCurrent();
-  accessdatamenu: AccessdataModel = new AccessdataModel();
+  initialData: AccessdataModel = new AccessdataModel();
 
   constructor(
     private messageService: MessageService,
@@ -97,14 +97,11 @@ export class SelfAccountComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectedLanguage = this.initialCurrent.Language;
-    console.log(this.TypeNotShow)
     if (this.TypeNotShow != "'ADM'") {
-      this.accessdatamenu = this.initialCurrent2.dotGetPolmenu('SYS')
+      this.initialData = this.initialCurrent2.dotGetPolmenu('SYS')
     } else {
-      this.accessdatamenu = this.initialCurrent2.dotGetPolmenu('SELF')
+      this.initialData = this.initialCurrent2.dotGetPolmenu('SELF')
     }
-
-    console.log(this.accessdatamenu)
   }
 
   // Loads the available account types
@@ -124,19 +121,23 @@ export class SelfAccountComponent implements OnInit {
         label: this.accountLanguages.get('new')[this.selectedLanguage],
         icon: 'pi pi-fw pi-plus',
         command: () => {
-          this.isDisplayingManagement = true;
-          this.isEditing = false;
-          this.selectedAccountType = this.accountTypes[0];
-          this.selectedPolmenu = this.polmenuList[0];
-          this.selectedPositions = [];
-          this.selectedDepartments = [];
-          this.selectedEmployees = [];
-          this.selectedModules = [];
-          this.availablePositions = [...this.positionList];
-          this.availableDepartments = [...this.departmentList];
-          this.availableEmployees = [...this.employeeList];
-          this.availableModules = [...this.modulesList];
-          this.selectedAccount = new AccountModel();
+          if (this.initialData.accessdata_new) {
+            this.isDisplayingManagement = true;
+            this.isEditing = false;
+            this.selectedAccountType = this.accountTypes[0];
+            this.selectedPolmenu = this.polmenuList[0];
+            this.selectedPositions = [];
+            this.selectedDepartments = [];
+            this.selectedEmployees = [];
+            this.selectedModules = [];
+            this.availablePositions = [...this.positionList];
+            this.availableDepartments = [...this.departmentList];
+            this.availableEmployees = [...this.employeeList];
+            this.availableModules = [...this.modulesList];
+            this.selectedAccount = new AccountModel();
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
         }
       },
       {
@@ -179,12 +180,12 @@ export class SelfAccountComponent implements OnInit {
     tmp.typenotin = `${this.TypeNotShow}`;
     this.accountService.account_get(tmp).then(async (res) => {
       this.accountList = await res;
-      console.log(res)
+      // console.log(res)
     });
   }
   // Loads the list of polmenus
   loadPolmenus(): void {
-    this.accountList = [];
+    this.polmenuList = [];
     const tmp = new PolmenuModel();
     this.polmenuService.polmenu_get(tmp).then(async (res) => {
       res.forEach((items: PolmenuModel) => {

@@ -32,6 +32,7 @@ import { ProjectService } from '../../../services/project/project.service';
 
 import { PartModel } from '../../../models/employee/policy/part';
 import { PartService } from '../../../services/emp/policy/part.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-sec-account',
@@ -91,11 +92,16 @@ export class SecAccountComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+    console.log(this.accessData);
+    console.log(this.accessData.accessdata_new)
   }
 
   doLoadMenu() {
@@ -105,8 +111,12 @@ export class SecAccountComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+        if(this.accessData.accessdata_new){
           this.account_manage = true
           this.displayManage = true
+        }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+        }
         }
       }
       ,
@@ -225,9 +235,6 @@ export class SecAccountComponent implements OnInit {
 
 
   doGetLevel2() {
-
-    console.log(this.dep1_list_dest.length)
-
     this.dep2_list = [];
     this.dep2_list_dest = [];
     for (let i = 0; i < this.dep1_list_dest.length; i++) {
