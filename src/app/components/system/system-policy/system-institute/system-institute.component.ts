@@ -14,6 +14,7 @@ import { CourseModel } from 'src/app/models/system/policy/course';
 import { CourseService } from 'src/app/services/system/policy/course.service';
 import { InstituteModel } from 'src/app/models/system/policy/institute';
 import { InstituteService } from 'src/app/services/system/policy/institute.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
   selector: 'app-system-institute',
   templateUrl: './system-institute.component.html',
@@ -48,11 +49,15 @@ export class SystemInstituteComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_system: string = "System";
   title_genaral: string = "Genaral";
@@ -135,10 +140,15 @@ export class SystemInstituteComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedInstitute = new InstituteModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedInstitute = new InstituteModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         }
       }
       ,
@@ -184,7 +194,7 @@ export class SystemInstituteComponent implements OnInit {
       key: "myDialog"
     });
   }
-  
+
   doRecordInstitute() {
     this.instituteService.institute_record(this.selectedInstitute).then((res) => {
       // console.log(res)

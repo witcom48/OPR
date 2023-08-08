@@ -10,6 +10,7 @@ import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { ProvinceModel } from 'src/app/models/system/policy/province';
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
   selector: 'app-system-province',
   templateUrl: './system-province.component.html',
@@ -44,11 +45,15 @@ export class SystemProvinceComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_system: string = "System";
   title_genaral: string = "Genaral";
@@ -131,10 +136,15 @@ export class SystemProvinceComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedProvince = new ProvinceModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedProvince = new ProvinceModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         }
       }
       ,
@@ -180,7 +190,7 @@ export class SystemProvinceComponent implements OnInit {
       key: "myDialog"
     });
   }
- 
+
   doRecordProvince() {
     this.provinceService.province_record(this.selectedProvince).then((res) => {
       // console.log(res)

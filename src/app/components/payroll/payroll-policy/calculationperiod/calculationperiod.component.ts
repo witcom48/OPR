@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { YearService } from 'src/app/services/system/policy/year.service';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 import { PeriodsModels } from 'src/app/models/payroll/periods';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 declare var timeperiod: any;
 declare var langcalendarth: any;
 declare var langcalendaren: any;
@@ -53,7 +54,8 @@ export class CalculationperiodComponent implements OnInit {
   selectedPeriods: PeriodsModels = new PeriodsModels()
 
   public initial_current: InitialCurrent = new InitialCurrent();
-
+initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
@@ -65,6 +67,8 @@ export class CalculationperiodComponent implements OnInit {
     } else {
       this.config.setTranslation(langcalendaren)
     }
+            this.accessData = this.initialData2.dotGetPolmenu('PAY');
+
   }
   title_payroll: string = 'Payroll';
 
@@ -279,10 +283,15 @@ export class CalculationperiodComponent implements OnInit {
         label: this.title_new,
         icon: 'pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedPeriods = new PeriodsModels();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedPeriods = new PeriodsModels();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+          
         }
       }
       ,

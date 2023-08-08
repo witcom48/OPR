@@ -14,6 +14,8 @@ import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 import { PeriodsModels } from 'src/app/models/payroll/periods';
 import { DatePipe } from '@angular/common';
+import { PolmenuServices } from 'src/app/services/system/security/polmenu.service';
+import { PolmenuModel } from 'src/app/models/system/security/polmenu';
 
 declare var login: any;
 @Component({
@@ -30,6 +32,7 @@ export class VerifyComponent implements OnInit {
     private companyService: CompanyService,
     private messageService: MessageService,
     private yearService: YearService,
+    private PolmenuServices: PolmenuServices,
     private periodsService: PeriodsServices,
     private datePipe: DatePipe,
   ) { }
@@ -135,6 +138,8 @@ export class VerifyComponent implements OnInit {
           if (obj.account_type == "ADM") {
             this.initail_current.Username = obj.account_user;
             this.initail_current.Usertype = obj.account_type;
+            console.log(obj)
+            this.initail_current.PolMenu_Code = obj.polmenu_code;
             this.doLoadYear(this.comselected.company_code)
           } else {
             localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
@@ -191,7 +196,6 @@ export class VerifyComponent implements OnInit {
     this.initail_current.TA_Enable = this.periods_select.period_dayonperiod == "1" ? true : false;
     this.initail_current.TA_FromDate = new Date(this.periods_select.period_from);
     this.initail_current.TA_ToDate = new Date(this.periods_select.period_to);
-
     localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
     if (this.initail_current.Token) {
       window.location.href = "";

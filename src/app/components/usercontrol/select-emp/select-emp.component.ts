@@ -51,12 +51,12 @@ export class SelectEmpComponent implements OnInit {
     this.doLoadLocationList();
     this.doLoadPositionList();
     this.doLoadEmptypeList();
+    this.doLoadLanguage();
 
     // console.log(window.location.hash.split("/").pop())
     setTimeout(() => {
       this.doLoadEmployee()
       this.doGetDataFillter();
-      this.doLoadLanguage();
     }, 300);
 
   }

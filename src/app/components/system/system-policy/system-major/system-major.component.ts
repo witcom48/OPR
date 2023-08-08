@@ -11,6 +11,7 @@ import { InitialCurrent } from '../../../../config/initial_current';
 
 import { MajorModel } from 'src/app/models/system/policy/major';
 import { MajorService } from 'src/app/services/system/policy/major.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
   selector: 'app-system-major',
   templateUrl: './system-major.component.html',
@@ -46,11 +47,15 @@ export class SystemMajorComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_system: string = "System";
   title_genaral: string = "Genaral";
@@ -133,10 +138,15 @@ export class SystemMajorComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedMajor = new MajorModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedMajor = new MajorModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         }
       }
       ,
@@ -182,7 +192,7 @@ export class SystemMajorComponent implements OnInit {
       key: "myDialog"
     });
   }
- 
+
   doRecordMajor() {
     this.majorService.major_record(this.selectedMajor).then((res) => {
       // console.log(res)

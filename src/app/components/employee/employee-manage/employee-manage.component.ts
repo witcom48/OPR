@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from '../../../config/config';
@@ -94,7 +94,8 @@ import { ProvidentService } from 'src/app/services/payroll/provident.service';
 import { ProuniformModel } from 'src/app/models/project/policy/pro_genaral';
 import { ProgenaralService } from 'src/app/services/project/pro_genaral.service';
 
-
+import * as XLSX from 'xlsx';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 
 
@@ -381,11 +382,14 @@ export class EmployeeManageComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
   }
 
   title_page: string = "Employee Management";
@@ -581,6 +585,9 @@ export class EmployeeManageComponent implements OnInit {
 
   title_familyocc: { [key: string]: string } = { EN: "Occupation", TH: "อาชีพ" };
   title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรฯ" };
+  title_familyaddress: { [key: string]: string } = { EN: "Address", TH: "ที่อยู่" };
+  title_familynameth: { [key: string]: string } = { EN: "Name(Eng.)", TH: "ชื่อ(อังกฤษ)" };
+  title_familynameen: { [key: string]: string } = { EN: "Name(Thai)", TH: "ชื่อ(ไทย)" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -833,7 +840,15 @@ export class EmployeeManageComponent implements OnInit {
           });
 
         }
-      },];
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtemplocation, 'EmpLocation')
+
+        }
+      }];
     //menu branch
     this.menu_empbranch = [
       {
@@ -877,6 +892,14 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempbranch, 'EmpBranch')
 
         }
       },];
@@ -923,6 +946,14 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempaddress, 'EmpAddress')
 
         }
       },
@@ -973,6 +1004,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempcard, 'EmpCard')
+
+        }
+      },
     ];
     //menu bank
     this.menu_empbank = [
@@ -1017,6 +1056,14 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempbank, 'EmpBank')
 
         }
       },
@@ -1067,6 +1114,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempfamily, 'EmpFamily')
+
+        }
+      },
     ]
     //menu hospital
     this.menu_emphospital = [
@@ -1111,6 +1166,14 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtemphospital, 'EmpHospital')
 
         }
       },
@@ -1162,6 +1225,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempdep, 'EmpDepartment')
+
+        }
+      },
     ]
     //menu Position
     this.menu_empposition = [
@@ -1206,6 +1277,14 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempposition, 'EmpPosition')
 
         }
       },
@@ -1256,6 +1335,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempgroup, 'EmpGroup')
+
+        }
+      },
     ]
     //menu education
     this.menu_empeducation = [
@@ -1303,12 +1390,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
-      // {
-      //   label: 'Export',
-      //   icon: 'pi pi-fw pi-file-export',
-      //   command: (event) => {
-      //   }
-      // }
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempeducation, 'EmpEducation')
+
+        }
+      },
     ]
     //menu Supply
     this.menu_empsupply = [
@@ -1353,6 +1442,14 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempsupply, 'EmpSupply')
 
         }
       },
@@ -1404,6 +1501,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempuniform, 'EmpUniform')
+
+        }
+      },
     ]
 
     //menu Suggest
@@ -1449,6 +1554,14 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempsuggest, 'EmpSuggest')
 
         }
       },
@@ -1500,12 +1613,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
-      // {
-      //   label: 'Export',
-      //   icon: 'pi pi-fw pi-file-export',
-      //   command: (event) => {
-      //   }
-      // }
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtemptraining, 'EmpTraining')
+
+        }
+      },
     ]
     //menu assessment
     this.menu_empassessment = [
@@ -1553,12 +1668,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
-      // {
-      //   label: 'Export',
-      //   icon: 'pi pi-fw pi-file-export',
-      //   command: (event) => {
-      //   }
-      // }
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempappraisal, 'EmpAppraisal')
+
+        }
+      },
     ]
     //menu criminal
     this.menu_empcriminal = [
@@ -1606,12 +1723,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
-      // {
-      //   label: this.title_export,
-      //   icon: 'pi pi-fw pi-file-export',
-      //   command: (event) => {
-      //   }
-      // }
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempcriminal, 'EmpCriminal')
+
+        }
+      },
     ]
     //menu salary
     this.menu_empsalary = [
@@ -1656,6 +1775,14 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempsalary, 'EmpSalary')
 
         }
       },
@@ -1706,6 +1833,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempprovident, 'EmpProvident')
+
+        }
+      },
     ]
     //menu benefit
     this.menu_empbenefit = [
@@ -1753,6 +1888,14 @@ export class EmployeeManageComponent implements OnInit {
 
         }
       },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempbenefit, 'EmpBenefit')
+
+        }
+      },
     ]
     //menu reduce
     this.menu_empreduce = [
@@ -1797,6 +1940,14 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempreduce, 'EmpReduce')
 
         }
       },
@@ -2279,7 +2430,7 @@ export class EmployeeManageComponent implements OnInit {
   }
 
   //drop uniform
-  uniformList : ProuniformModel[] = [];
+  uniformList: ProuniformModel[] = [];
   doLoadUniformList() {
     this.genaralService.prouniform_get().then((res) => {
       this.uniformList = res;
@@ -2692,6 +2843,10 @@ export class EmployeeManageComponent implements OnInit {
     })
   }
   record_empforeigner() {
+    if (this.empforeignerList.length == 0) {
+    } else {
+
+    }
     this.empdetailService.record_empforeigner(this.selectedEmployee.worker_code, this.selectedEmpforeigner)
   }
 
@@ -4335,26 +4490,93 @@ export class EmployeeManageComponent implements OnInit {
 
   //-- Aeb add 10/07/2023
   benefit_list: any[] = [];
-   
-  doLoadItemsList(){    
+
+  doLoadItemsList() {
     var tmp = new ItemsModel();
     this.itemService.item_get(tmp).then(async (res) => {
       await res.forEach((element: ItemsModel) => {
 
         this.doAddOption(this.benefit_list, element)
-      });      
+      });
     });
 
   }
 
-  doAddOption(list: any[], element: ItemsModel){
+  doAddOption(list: any[], element: ItemsModel) {
     list.push(
-      {            
+      {
         name: this.initial_current.Language == "EN" ? element.item_name_en : element.item_name_th,
         code: element.item_code
       }
     )
   }
 
+  // myURL: any
+  // onURLinserted() {
+  //   this.getImage(this.myURL).subscribe(data => {
+  //     this.createImageFromBlob(data);
+  //   }, error => {
+  //     console.log("Error occured", error);
+  //   });
+  // }
+
+  // getImage(imageUrl: string): Observable<File> {
+  //   let headers = { responseType: ResponseContentType.Blob }
+  //   return this.http
+  //     .get(imageUrl)
+  //     .pipe(map((res:any) => res.blob()))
+  //     // .map((res: Response) => res.blob());
+  // }
+
+  // createImageFromBlob(image: Blob) {
+  //   let reader = new FileReader(); //you need file reader for read blob data to base64 image data.
+  //   reader.addEventListener("load", () => {
+  //     this.base64Image = reader.result; // here is the result you got from reader
+  //   }, false);
+
+  //   if (image) {
+  //     reader.readAsDataURL(image);
+  //   }
+  // }
+
+
+  @ViewChild('tablelocation') dtemplocation: ElementRef | any = null;
+  @ViewChild('tablebranch') dtempbranch: ElementRef | any = null;
+  @ViewChild('tablesuggest') dtempsuggest: ElementRef | any = null;
+  @ViewChild('tableaddress') dtempaddress: ElementRef | any = null;
+  @ViewChild('tablecard') dtempcard: ElementRef | any = null;
+  @ViewChild('tablebank') dtempbank: ElementRef | any = null;
+  @ViewChild('tablefamily') dtempfamily: ElementRef | any = null;
+  @ViewChild('tablehospital') dtemphospital: ElementRef | any = null;
+  @ViewChild('tabledep') dtempdep: ElementRef | any = null;
+  @ViewChild('tableposition') dtempposition: ElementRef | any = null;
+  @ViewChild('tablegroup') dtempgroup: ElementRef | any = null;
+  @ViewChild('tableeducation') dtempeducation: ElementRef | any = null;
+  @ViewChild('tablesupply') dtempsupply: ElementRef | any = null;
+  @ViewChild('tableuniform') dtempuniform: ElementRef | any = null;
+  @ViewChild('tabletraining') dtemptraining: ElementRef | any = null;
+  @ViewChild('tableappraisal') dtempappraisal: ElementRef | any = null;
+  @ViewChild('tablecriminal') dtempcriminal: ElementRef | any = null;
+  @ViewChild('tablesalary') dtempsalary: ElementRef | any = null;
+  @ViewChild('tablebenefit') dtempbenefit: ElementRef | any = null;
+  @ViewChild('tableprovident') dtempprovident: ElementRef | any = null;
+  @ViewChild('tablereduce') dtempreduce: ElementRef | any = null;
+
+
+  exportAsExcel(table: ElementRef, name: string) {
+    // console.log(this.selectedEmpLocation)
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table.nativeElement);//converts a DOM TABLE element to a worksheet
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, 'Export_' + name + '.xlsx');
+
+  }
+
+
+  hasAccessMenu(accessCode: string): boolean {
+    return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
+  }
 
 }

@@ -1,181 +1,206 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountModuleServices } from '../services/self/accountmodule';
-import { AccountModuleModel } from '../models/self/accountmodule';
 import { AppConfig } from '../config/config';
+import { PolmenuServices } from '../services/system/security/polmenu.service';
+import { PolmenuModel } from '../models/system/security/polmenu';
+import { AccessdataModel } from '../models/system/security/accessdata';
+import { AccessmenuModel } from '../models/system/security/accessmenu';
+
+// Define TypeScript enum for module codes
+enum ModuleCode {
+    APR = "APR",
+    EMP = "EMP",
+    UEMP = "Emp",
+    GRP = "GRP",
+    PRO = "PRO",
+    REQ = "REQ",
+    ATT = "ATT",
+    PAY = "PAY",
+    SYS = "SYS",
+    SELF = "SELF",
+    // Add more module codes here...
+}
 
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent implements OnInit {
-    menuItems: any[] = [{ label: '', items: [] }]; // Array to store menu items
+    menuItems: any[] = [{ label: '', items: [] }];
 
     constructor(
         private router: Router,
-        private accountModuleService: AccountModuleServices
+        private polmenuServices: PolmenuServices,
     ) { }
 
     ngOnInit() {
-        // Retrieve initial session data from local storage
         const initialSessionData = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
 
-        // Check if a valid token exists
         if (!initialSessionData.Token) {
-            // If not, navigate to the login page and return
             this.router.navigateByUrl('login');
             return;
         }
 
-        // Generate menu items based on user's role (UserType)
-        if (initialSessionData.Usertype === "APR") {
-            // User is a manager
-            this.menuItems[0].items = [
-                {
-                    label: 'Self Services',
-                    items: [
-                        { label: 'Manager', routerLink: ['/self/approve'] },
-                        { label: 'Reports', routerLink: ['/self/reports'] },
-                    ]
-                }
-            ];
-        }
-
-        if (initialSessionData.Usertype === "Emp" || initialSessionData.Usertype === "GRP") {
-            // User is an employee or a group member
-            this.menuItems[0].items = [
-                {
-                    label: 'Self Services',
-                    items: [
-                        { label: 'Employee', routerLink: ['/self/employee'] },
-                    ]
-                }
-            ];
-        }
-
-        // Retrieve available modules for the user
-        this.accountModuleService.accountmodule_get(new AccountModuleModel())
-            .then((res: AccountModuleModel[]) => {
-                if (this.hasModule(res, 'SELF')) {
-                    // User has access to the SELF module
-                    this.menuItems[0].items.push({
-                        label: 'Self Services',
-                        items: [
-                            { label: 'Employee', routerLink: ['/self/employee'] },
-                            { label: 'Manager', routerLink: ['/self/approve'] },
-                            { label: 'Reports', routerLink: ['/self/reports'] },
-                        ]
-                    });
-                }
-
-                if (this.hasModule(res, 'PRO')) {
-                    // User has access to the PRO module
-                    this.menuItems[0].items.push({
-                        label: 'Project',
-                        items: [
-                            { label: 'Policy', routerLink: ['/project/policy'] },
-                            { label: 'Project', routerLink: ['/project/list'] },
-                            { label: 'Monitor', routerLink: ['/project/monitor'] },
-                            { label: 'Timesheet', routerLink: ['/project/timesheet'] },
-
-                            { label: 'Cost comparison', routerLink: ['/project/compare'] },
-                            { label: 'Transfer record', routerLink: ['/project/transfer'] },
-
-                            { label: 'Approval list', routerLink: ['/project/approve'] },
-                            { label: 'Reports', routerLink: ['/project/reports'] },
-                        ]
-                    });
-                }
-                if (this.hasModule(res, 'EMP')) {
-                    // User has access to the EMP module
-                    this.menuItems[0].items.push({
-                        label: 'Employee',
-                        items: [
-                            { label: 'Policy', routerLink: ['/employee/policy'] },
-                            { label: 'Employee info', routerLink: ['/employee/list'] },
-                            { label: 'Monitor', routerLink: ['/employee/monitor'] },
-                            { label: 'Reports', routerLink: ['/employee/reports'] },
-                        ]
-                    });
-                }
-
-                if (this.hasModule(res, 'REQ')) {
-                    // User has access to the REQ module
-                    this.menuItems[0].items.push({
-                        label: 'Recruitment',
-                        items: [
-                            { label: 'Policy', routerLink: ['/recruitment/policy'] },
-                            { label: 'Request', routerLink: ['/recruitment/request'] },
-                            // { label: 'Apply work', routerLink: ['/recruitment/apply'] },
-                            { label: 'Apply work', routerLink: ['/recruitment/applylist'] },
-                            { label: 'Approval list', routerLink: ['/recruitment/approve'] },
-                            { label: 'Reports', routerLink: ['/recruitment/reports'] },
-                        ]
-                    });
-                }
-
-                if (this.hasModule(res, 'ATT')) {
-                    // User has access to the ATT module
-                    this.menuItems[0].items.push({
-                        label: 'Attendance',
-                        items: [
-                            { label: 'Policy', routerLink: ['/attendance/policy'] },
-                            { label: 'Manage', routerLink: ['/attendance/manage'] },
-                            // { label: 'Self Services', routerLink: ['/attendance/self'] },
-                            { label: 'Import Time', routerLink: ['/attendance/import'] },
-                            { label: 'Processing Time', routerLink: ['/attendance/process'] },
-                            { label: 'View Time', routerLink: ['/attendance/view'] },
-                            { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'] },
-                            { label: 'Summary', routerLink: ['/attendance/summary'] },
-                            // { label: 'Approval list', routerLink: ['/attendance/approve'] },
-                            { label: 'Reports', routerLink: ['/attendance/reports'] },
-                        ]
-                    });
-                }
-
-                if (this.hasModule(res, 'PAY')) {
-                    // User has access to the PAY module
-                    this.menuItems[0].items.push(
-                        {
-                            label: 'Payroll',
-                            items: [
-                                { label: 'Policy', routerLink: ['/payroll/policy'] },
-                                { label: 'Calculate', routerLink: ['/payroll/calculate'] },
-                                { label: 'Income / Deduct', routerLink: ['/payroll/entry'] },
-                                { label: 'Calculate Tax', routerLink: ['/payroll/caltax'] },
-                                { label: 'View Calculate', routerLink: ['/payroll/view'] },
-                                { label: 'Summary', routerLink: ['/payroll/summary'] },
-                                { label: 'Transfer', routerLink: ['/payroll/transfer'] },
-                                { label: 'Approval list', routerLink: ['/payroll/approve'] },
-                                { label: 'Reports', routerLink: ['/payroll/reports'] },
-                            ]
-                        }
-                    );
-                }
-
-                if (this.hasModule(res, 'SYS')) {
-                    // User has access to the SYS module
-                    this.menuItems[0].items.push(
-                        {
-                            label: 'System',
-                            items: [
-                                { label: 'Manage', routerLink: ['/system/sys-manage'] },
-                                { label: 'Genaral', routerLink: ['/system/general'] },
-                                { label: 'Security', routerLink: ['/system/security'] },
-                                { label: 'Notification', routerLink: ['/system/notification'] },
-                                { label: 'Reports', routerLink: ['/system/reports'] },
-                            ]
-                        }
-                    );
-                }
-
-                // Add more module checks and menu items here...
-
-            });
+        this.generateMenuItems(initialSessionData);
     }
 
-    private hasModule(modules: AccountModuleModel[], moduleCode: string): boolean {
-        // Check if a module with the given moduleCode exists in the modules array
-        return modules.some((item: AccountModuleModel) => item.module_code === moduleCode);
+    private generateMenuItems(initialSessionData: any) {
+        const moduleMenuConfig: any = {
+            [ModuleCode.APR]: {
+                label: 'Self Services',
+                items: [
+                    { label: 'Manager', routerLink: ['/self/approve'], accessCode: 'SELF002' },
+                    { label: 'Reports', routerLink: ['/self/reports'], accessCode: 'SELF003' },
+                    // Add more menu items for the 'Self Services' module based on access codes...
+                ]
+            },
+
+
+            [ModuleCode.UEMP]: {
+                label: 'Self Services',
+                items: [
+                    { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
+                ]
+            },
+
+            [ModuleCode.GRP]: {
+                label: 'Self Services',
+                items: [
+                    { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
+                ]
+            },
+
+
+            [ModuleCode.SELF]: {
+                label: 'Self Services',
+                items: [
+                    { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
+                    { label: 'Manager', routerLink: ['/self/approve'], accessCode: 'SELF002' },
+                    { label: 'Reports', routerLink: ['/self/reports'], accessCode: 'SELF003' },
+                ]
+            },
+            [ModuleCode.PRO]: {
+                label: 'Project',
+                items: [
+                    { label: 'Policy', routerLink: ['/project/policy'], accessCode: 'PRO001' },
+                    { label: 'Project', routerLink: ['/project/list'], accessCode: 'PRO002' },
+                    { label: 'Monitor', routerLink: ['/project/monitor'], accessCode: 'PRO003' },
+                    { label: 'Timesheet', routerLink: ['/project/timesheet'], accessCode: 'PRO004' },
+                    { label: 'Transfer record', routerLink: ['/project/transfer'], accessCode: 'PRO005' },
+                    { label: 'Cost comparison', routerLink: ['/project/compare'], accessCode: 'PRO006' },
+                    { label: 'Approval list', routerLink: ['/project/approve'], accessCode: 'PRO007' },
+                    { label: 'Reports', routerLink: ['/project/reports'], accessCode: 'PRO008' },
+                ]
+            },
+
+            [ModuleCode.EMP]: {
+                label: 'Employee',
+                items: [
+                    { label: 'Policy', routerLink: ['/employee/policy'], accessCode: 'EMP001' },
+                    { label: 'Employee info', routerLink: ['/employee/list'], accessCode: 'EMP002' },
+                    { label: 'Monitor', routerLink: ['/employee/monitor'], accessCode: 'EMP003' },
+                    { label: 'Reports', routerLink: ['/employee/reports'], accessCode: 'EMP004' },
+                ]
+            },
+
+            [ModuleCode.REQ]: {
+                label: 'Recruitment',
+                items: [
+                    { label: 'Policy', routerLink: ['/recruitment/policy'], accessCode: 'REQ001' },
+                    { label: 'Black List', routerLink: ['/recruitment/blacklist'], accessCode: 'REQ002' },
+                    { label: 'Request', routerLink: ['/recruitment/request'], accessCode: 'REQ003' },
+                    { label: 'Apply work', routerLink: ['/recruitment/applylist'], accessCode: 'REQ004' },
+                    { label: 'Approval list', routerLink: ['/recruitment/approve'], accessCode: 'REQ005' },
+                    { label: 'Reports', routerLink: ['/recruitment/reports'], accessCode: 'REQ006' },
+                ]
+            },
+
+            [ModuleCode.ATT]: {
+                label: 'Attendance',
+                items: [
+                    { label: 'Policy', routerLink: ['/attendance/policy'], accessCode: 'ATT001' },
+                    { label: 'Import Time', routerLink: ['/attendance/import'], accessCode: 'ATT002' },
+                    { label: 'Processing Time', routerLink: ['/attendance/process'], accessCode: 'ATT003' },
+                    { label: 'View Time', routerLink: ['/attendance/view'], accessCode: 'ATT004' },
+                    { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'], accessCode: 'ATT005' },
+                    { label: 'Summary', routerLink: ['/attendance/summary'], accessCode: 'ATT006' },
+                    { label: 'Reports', routerLink: ['/attendance/reports'], accessCode: 'ATT007' },
+                ]
+            },
+
+            [ModuleCode.PAY]: {
+                label: 'Payroll',
+                items: [
+                    { label: 'Policy', routerLink: ['/payroll/policy'], accessCode: 'PAY001' },
+                    { label: 'Calculate', routerLink: ['/payroll/calculate'], accessCode: 'PAY002' },
+                    { label: 'Income / Deduct', routerLink: ['/payroll/entry'], accessCode: 'PAY003' },
+                    { label: 'Calculate Tax', routerLink: ['/payroll/caltax'], accessCode: 'PAY004' },
+                    { label: 'View Calculate', routerLink: ['/payroll/view'], accessCode: 'PAY005' },
+                    { label: 'Summary', routerLink: ['/payroll/summary'], accessCode: 'PAY006' },
+                    { label: 'Transfer', routerLink: ['/payroll/transfer'], accessCode: 'PAY007' },
+                    { label: 'Approval list', routerLink: ['/payroll/approve'], accessCode: 'PAY008' },
+                    { label: 'Reports', routerLink: ['/payroll/reports'], accessCode: 'PAY009' },
+                ]
+            },
+
+            [ModuleCode.SYS]: {
+                label: 'System',
+                items: [
+                    { label: 'Manage', routerLink: ['/system/sys-manage'], accessCode: 'SYS001' },
+                    { label: 'General', routerLink: ['/system/general'], accessCode: 'SYS002' },
+                    { label: 'Security', routerLink: ['/system/security'], accessCode: 'SYS003' },
+                    { label: 'Notification', routerLink: ['/system/notification'], accessCode: 'SYS004' },
+                    { label: 'Reports', routerLink: ['/system/reports'], accessCode: 'SYS005' },
+                ]
+            },
+
+            // Add more module menu configurations here...
+        };
+
+        if (moduleMenuConfig[initialSessionData.Usertype]) {
+            this.menuItems[0].items = [moduleMenuConfig[initialSessionData.Usertype]];
+        }
+
+        if (initialSessionData.PolMenu_Code) {
+            var temp = new PolmenuModel();
+            temp.polmenu_code = initialSessionData.PolMenu_Code;
+            this.polmenuServices.polmenu_get(temp)
+                .then((res) => {
+                    initialSessionData.PolMenu = res;
+                    localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(initialSessionData));
+
+
+                    Object.keys(moduleMenuConfig).forEach((moduleCode) => {
+                        const moduleAccessData = this.getModuleAccessData(initialSessionData.PolMenu[0].accessdata_data, moduleCode);
+                        if (moduleAccessData) {
+                            const moduleMenuItems = this.generateSubMenuItems(moduleAccessData, moduleMenuConfig[moduleCode].items);
+                            this.menuItems[0].items.push({
+                                label: moduleMenuConfig[moduleCode].label,
+                                items: moduleMenuItems,
+                            });
+                        }
+                    });
+                    // Generate menu items for other modules based on their access permissions...
+                });
+        }
+    }
+
+    private getModuleAccessData(polMenuData: any[], moduleCode: string): AccessdataModel | undefined {
+        return polMenuData.find((data: AccessdataModel) => data.accessdata_module === moduleCode && data.accessmenu_data.length > 0);
+    }
+
+    private hasAccessMenu(accessMenuData: AccessmenuModel[], accessCode: string): boolean {
+        return accessMenuData.some((item: AccessmenuModel) => item.accessmenu_code.startsWith(accessCode));
+    }
+
+    private generateSubMenuItems(moduleAccessData: AccessdataModel, menuItems: any[]): any[] {
+        const subMenuItems: any[] = [];
+        menuItems.forEach((item) => {
+            if (this.hasAccessMenu(moduleAccessData.accessmenu_data, item.accessCode)) {
+                subMenuItems.push(item);
+            }
+        });
+        return subMenuItems;
     }
 }

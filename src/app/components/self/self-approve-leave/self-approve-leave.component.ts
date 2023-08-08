@@ -153,7 +153,7 @@ export class SelfApproveLeaveComponent implements OnInit {
     data.job_type = "LEA";
     data.lang = this.selectlang;
     await this.approveService.approveJob(data).then((res) => {
-      if (res.success) {
+      if (res.result) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadTimeleave();
       }
@@ -266,7 +266,7 @@ export class SelfApproveLeaveComponent implements OnInit {
 
   }
   Delete(data: cls_TRTimeleaveModel) {
-    if (!this.selectedtrtimeleaveall.length  && !this.status_doc) {
+    if (!this.selectedtrtimeleaveall.length && !this.status_doc) {
       this.confirmationService.confirm({
         message: this.langs.get('connotapprove')[this.selectlang],
         header: this.langs.get('connotdoc')[this.selectlang],

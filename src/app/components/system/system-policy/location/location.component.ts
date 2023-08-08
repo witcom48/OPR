@@ -9,6 +9,7 @@ import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { LocationModel } from 'src/app/models/system/policy/location';
 import { LocationService } from 'src/app/services/system/policy/location.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 declare var locationpage: any;
 
 @Component({
@@ -35,11 +36,15 @@ export class LocationComponent implements OnInit {
   locations: LocationModel = new LocationModel()
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
     this.selectlang = this.initial_current.Language;
   }
   ngOnInit(): void {
@@ -55,7 +60,7 @@ export class LocationComponent implements OnInit {
     });
   }
 
-  
+
   async doRecordLocation(data: LocationModel) {
     await this.locationService.location_record(data).then((res) => {
       // console.log(res)
@@ -65,14 +70,14 @@ export class LocationComponent implements OnInit {
         this.new_data = false;
         this.edit_data = false;
         this.displayManage = false
-        
+
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
 
     });
-  
+
   }
   confirmRecord() {
     this.confirmationService.confirm({
@@ -134,10 +139,15 @@ export class LocationComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.showManage()
-          this.locations = new LocationModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.locations = new LocationModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         }
       }
       ,
@@ -196,7 +206,7 @@ export class LocationComponent implements OnInit {
     this.doLoadLocation()
   }
   Save() {
-     this.doRecordLocation(this.locations)
+    this.doRecordLocation(this.locations)
   }
   Delete() {
     this.doDeleteLocation(this.locations)

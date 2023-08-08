@@ -1,23 +1,25 @@
-
 <!-- <h4>Policy employee</h4>
 <br>
 
 <span>Links</span> -->
-<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <p></p>
 <div class="grid">
 
-    
+
     <div class="col-12 md:col-3">
-        <b>{{title_general[initial_current.Language]}}</b>
-        <a routerLink="../../employee/policy/location">{{title_location[initial_current.Language]}}</a>
-        <a routerLink="../../employee/policy/part">{{title_dep[initial_current.Language]}}</a>
-        <a routerLink="../../employee/policy/position">{{title_position[initial_current.Language]}}</a>        
-        <a routerLink="../../employee/policy/group">{{title_group[initial_current.Language]}}</a>     
-        <a routerLink="../../employee/policy/initial">{{title_initial[initial_current.Language]}}</a> 
-        <a routerLink="../../employee/policy/emptype">{{title_emptype[initial_current.Language]}}</a> 
-        <a routerLink="../../employee/policy/empstatus">{{title_empstatus[initial_current.Language]}}</a>     
-       
+        <b>{{title_general[initialData.Language]}}</b>
+        <div *ngFor="let item of genaralMenuItems">
+            <a routerLink="../../employee/policy/{{item.link}}">{{item.title}}</a>
+        </div>
+        <!-- <a routerLink="../../employee/policy/location">{{title_location[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/part">{{title_dep[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/position">{{title_position[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/group">{{title_group[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/initial">{{title_initial[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/emptype">{{title_emptype[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/empstatus">{{title_empstatus[initialData.Language]}}</a> -->
+
     </div>
 
     <!-- <div class="col-12 md:col-3">
@@ -30,28 +32,31 @@
     </div> -->
 
     <div class="col-12 md:col-3">
-        <b>{{title_setbatch[initial_current.Language]}}</b>
+        <b>{{title_setbatch[initialData.Language]}}</b>
+        <div *ngFor="let item of setbatchMenuItems">
+            <a routerLink="../../employee/policy/batch/{{item.link}}">{{item.title}}</a>
+        </div>
         <!-- <a routerLink="../../employee/policy/batch/empposition">Position</a> -->
-        <a routerLink="../../employee/policy/batch/empdetail">{{title_setdetail[initial_current.Language]}}</a>
-        <a routerLink="../../employee/policy/batch/empassessment">{{title_setassessment[initial_current.Language]}}</a>
-        <a routerLink="../../employee/policy/batch/emptraining">{{title_settraining[initial_current.Language]}}</a>
-        <a routerLink="../../employee/policy/batch/empsalary">{{title_setsalary[initial_current.Language]}}</a>
+        <!-- <a routerLink="../../employee/policy/batch/empdetail">{{title_setdetail[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/empassessment">{{title_setassessment[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/emptraining">{{title_settraining[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/empsalary">{{title_setsalary[initialData.Language]}}</a> -->
         <!-- <a routerLink="../../employee/policy/batch/empgroup">Group</a> -->
-        <a routerLink="../../employee/policy/batch/emplocation">{{title_setlocation[initial_current.Language]}}</a>
-        <a routerLink="../../employee/policy/batch/empprovident">{{title_setprovident[initial_current.Language]}}</a>
-        <a routerLink="../../employee/policy/batch/empbenefits">{{title_setbenefit[initial_current.Language]}}</a>
+        <!-- <a routerLink="../../employee/policy/batch/emplocation">{{title_setlocation[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/empprovident">{{title_setprovident[initialData.Language]}}</a>
+        <a routerLink="../../employee/policy/batch/empbenefits">{{title_setbenefit[initialData.Language]}}</a> -->
         <!-- <b>Payroll</b>
         <a >Income / Deduct</a>  
         <a >Period</a>       
         <a >GL Account</a> -->
     </div>
 
-    <div class="col-12">
+    <!-- <div class="col-12">
         <b>Workflow</b>
         <a >Hire</a>
         <a >Lay off</a>
         <a >Transfer</a>  
         <a >Adjust</a>       
-    </div>
+    </div> -->
 
 </div>

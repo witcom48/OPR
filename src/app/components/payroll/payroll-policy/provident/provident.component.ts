@@ -6,6 +6,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ProvidentModel } from 'src/app/models/payroll/provident';
 import { ProvidentWorkageModel } from 'src/app/models/payroll/provident_workage';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { ProvidentService } from 'src/app/services/payroll/provident.service';
 import * as XLSX from 'xlsx';
 
@@ -44,6 +45,8 @@ export class ProvidentComponent implements OnInit {
     selectedProvidentWorka: ProvidentWorkageModel = new ProvidentWorkageModel();
 
     public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -51,6 +54,8 @@ export class ProvidentComponent implements OnInit {
         if (!this.initial_current.Token) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('PAY');
+
     }
 
     title_payroll: string = 'Payroll';
@@ -248,10 +253,15 @@ export class ProvidentComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi-plus',
                 command: (event) => {
-                    this.showManage()
-                    this.selectedProvident = new ProvidentModel();
-                    this.new_data = true;
-                    this.edit_data = false;
+                    if (this.accessData.accessdata_new) {
+                        this.showManage()
+                        this.selectedProvident = new ProvidentModel();
+                        this.new_data = true;
+                        this.edit_data = false;
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+                    }
+
                 },
             },
             {

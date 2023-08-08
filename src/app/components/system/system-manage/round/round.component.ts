@@ -7,6 +7,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { RoundsModel } from 'src/app/models/system/manage/rounds';
 import { TRRoundsModel } from 'src/app/models/system/manage/tr_rounds';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { RoundsService } from 'src/app/services/system/manage1/rounds.service';
 import * as XLSX from 'xlsx';
 declare var rounddecimal: any;
@@ -57,6 +58,8 @@ export class RoundComponent implements OnInit {
   conditions: TRRoundsModel = new TRRoundsModel();
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(
       localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -71,6 +74,8 @@ export class RoundComponent implements OnInit {
     } else {
       this.config.setTranslation(langcalendaren)
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_payroll: string = 'Payroll';
   title_policy: string = 'Set Policy';
@@ -283,10 +288,15 @@ export class RoundComponent implements OnInit {
         label: this.title_new,
         icon: 'pi-plus',
         command: (event) => {
-          this.showManage()
-          this.rounds = new RoundsModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.rounds = new RoundsModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         },
       },
       {

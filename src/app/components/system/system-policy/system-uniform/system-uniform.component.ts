@@ -12,6 +12,7 @@ import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { UniformModel } from 'src/app/models/system/policy/uniform';
 import { UniformService } from 'src/app/services/system/policy/uniform.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-system-uniform',
@@ -46,11 +47,15 @@ export class SystemUniformComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+            this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
 
   title_page: string = "Uniform";

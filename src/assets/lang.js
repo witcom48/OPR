@@ -193,6 +193,7 @@ var reason = new Map([
     ["shiftreq", { TH: "ขอเปลี่ยนกะ", EN: "Shift req." }],
     ["onsitereq", { TH: "บันทึกการลงเวลา", EN: "Onsite req." }],
     ["salaryreq", { TH: "การปรับเงินเดือน", EN: "Salary adjust" }],
+    ["blackreq", { TH: "เบล็คลิสต์", EN: "Black List" }],
 ]);
 var locationpage = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
@@ -1388,3 +1389,29 @@ var consent = new Map([
     ["agree", { TH: "ยินยอมฯ", EN: "Agree" }],
     ["not_agree", { TH: "ไม่ยินยอมฯ", EN: "not agree" }],
 ])
+
+var menu = new Map([
+    ["new", { TH: "เพิ่ม", EN: "New" }],
+    ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],
+    ["showing", { TH: "แสดง", EN: "Showing" }],
+    ["to", { TH: "ถึง", EN: "to" }],
+    ["of", { TH: "จาก", EN: "of" }],
+    ["entries", { TH: "รายการ", EN: "entries" }],
+    ["search", { TH: "ค้นหา", EN: "search" }],
+    ["no", { TH: "อันดับ", EN: "No." }],
+    ["code", { TH: "รหัส", EN: "Code" }],
+    ["description", { TH: "รายละเอียด", EN: "Description" }],
+    ["descriptionth", { TH: "รายละเอียด (ไทย)", EN: "Description (Thai) " }],
+    ["descriptionen", { TH: "รายละเอียด (อังกฤษ)", EN: "Description (Eng)" }],
+    ["modified_by", { TH: "ผู้ทำรายการ", EN: "Edit by" }],
+    ["modified_date", { TH: "วันที่ทำรายการ", EN: "Edit date" }],
+    ["fromdate", { TH: "จากวันที่", EN: "FromDate" }],
+    ["todate", { TH: "ถึงวันที่", EN: "ToDate" }],
+    
+    ["save", { TH: "บันทึก", EN: "Save" }],
+    ["delete", { TH: "ลบ", EN: "Delete" }],
+    ["upload", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
+    ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
+    ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
+    ["manage", { TH: "จัดการ", EN: "Manage" }],
+]);

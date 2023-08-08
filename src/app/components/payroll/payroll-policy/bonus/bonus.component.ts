@@ -7,6 +7,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { BonusModel } from 'src/app/models/payroll/bonus';
 import { BonusrateModel } from 'src/app/models/payroll/bonusrate';
 import { ItemsModel } from 'src/app/models/payroll/items';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { BonusService } from 'src/app/services/payroll/bonus.service';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import * as XLSX from 'xlsx';
@@ -47,6 +48,8 @@ export class BonusComponent implements OnInit {
     conditions: BonusrateModel = new BonusrateModel();
 
     public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -54,6 +57,9 @@ export class BonusComponent implements OnInit {
         if (!this.initial_current.Token) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('PAY');
+        // console.log(this.accessData)
+        // console.log(this.accessData.accessdata_new)
     }
     title_payroll: string = 'Payroll';
     title_policy: string = 'Set Policy';
@@ -254,10 +260,15 @@ export class BonusComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi-plus',
                 command: (event) => {
-                    this.showManage()
-                    this.selectedBonus = new BonusModel();
-                    this.new_data = true;
-                    this.edit_data = false;
+                    if (this.accessData.accessdata_new) {
+                        this.showManage()
+                        this.selectedBonus = new BonusModel();
+                        this.new_data = true;
+                        this.edit_data = false;
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+                    }
+
                 },
             },
             {

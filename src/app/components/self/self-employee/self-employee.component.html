@@ -2,14 +2,17 @@
 <br>
 
 <span>Links</span> -->
-<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <br>
 <div class="grid">
 
 
     <div class="col-12 md:col-3">
         <b>Request</b>
-        <a routerLink="../../self/req_leave">Leave</a>
+        <div *ngFor="let item of requestMenuItems">
+            <a routerLink="../../self/{{item.link}}">{{item.title}}</a>
+        </div>
+        <!-- <a routerLink="../../self/req_leave">Leave</a>
 
         <a routerLink="../../self/req_shift">Shift</a>
         <a routerLink="../../self/req_overtime">Overtime</a>
@@ -20,7 +23,7 @@
 
         <a routerLink="../../self/req_checkin">Check IN/OUT</a>
 
-        <a routerLink="../../self/req_reqdoc">Req doc</a>
+        <a routerLink="../../self/req_reqdoc">Req doc</a> -->
 
 
     </div>
@@ -45,8 +48,11 @@
 
     <div class="col-12 md:col-6">
         <b>PDPA</b>
+        <div *ngFor="let item of pdpaMenuItems">
+            <a routerLink="../../self/{{item.link}}">{{item.title}}</a>
+        </div>
         <!-- <a>Privacy</a> -->
-        <a routerLink="../../self/empconsent">Consent</a>
+        <!-- <a routerLink="../../self/empconsent">Consent</a> -->
         <!-- <a>Submit a request</a> -->
     </div>
 

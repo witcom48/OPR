@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 declare var yearperiod: any;
 declare var langcalendarth: any;
 declare var langcalendaren: any;
@@ -25,11 +26,15 @@ home: any;
   ) { }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+            this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
     this.selectlang = this.initial_current.Language;
   }
   ngOnInit(): void {

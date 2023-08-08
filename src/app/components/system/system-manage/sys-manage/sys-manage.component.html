@@ -6,15 +6,18 @@
 <!-- <span>{{title_links}}</span> -->
 <!-- <p></p> -->
 <div class="card" style="min-width: 600px; min-height: 500px">
-     <div class="grid " >
+    <div class="grid ">
 
         <div class="col-12 md:col-3">
             <b>{{title_manage}}</b>
-            <a routerLink="../../system/company">{{title_company}}</a>
+            <div *ngFor="let item of manageMenuItems">
+                <a routerLink="../../system/{{item.link}}">{{item.title}}</a>
+            </div>
+            <!-- <a routerLink="../../system/company">{{title_company}}</a>
             <a routerLink="../../system/Branch">{{title_branch}}</a>
             <a routerLink="../../system/system-reason">{{title_reason}}</a>
             <a routerLink="../../system/emp-id">{{title_structure_code}} </a>
-            <a routerLink="../../system/system-yearperiod">{{title_year_period}}</a>
+            <a routerLink="../../system/system-yearperiod">{{title_year_period}}</a> -->
             <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 70%;">
         </div>
 
@@ -22,12 +25,15 @@
 
         <div class="col-12 md:col-3">
             <b>{{title_rounding}}</b>
-            <a routerLink="../../system/sys-roundComponent">{{title_round_decimal}}</a>
+            <div *ngFor="let item of roundingMenuItems">
+                <a routerLink="../../system/{{item.link}}">{{item.title}}</a>
+            </div>
+            <!-- <a routerLink="../../system/sys-roundComponent">{{title_round_decimal}}</a>
             <a routerLink="../../system/sys-addroun">{{title_round_time}}</a>
-            <a routerLink="../../system/system-polrounds">{{title_round_polrounds}}</a>
+            <a routerLink="../../system/system-polrounds">{{title_round_polrounds}}</a> -->
             <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 70%;">
 
-         </div>
+        </div>
 
     </div>
 

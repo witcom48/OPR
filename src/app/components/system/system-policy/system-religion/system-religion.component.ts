@@ -17,6 +17,7 @@ import { InitialCurrent } from '../../../../config/initial_current';
 
 import { ReligionService } from 'src/app/services/system/policy/religion.service';
 import { ReligionModel } from 'src/app/models/system/policy/religion';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
     selector: 'app-system-religion',
     templateUrl: './system-religion.component.html',
@@ -51,6 +52,8 @@ export class SystemReligionComponent implements OnInit {
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -58,6 +61,9 @@ export class SystemReligionComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('SYS');
+        // console.log(this.accessData)
+        // console.log(this.accessData.accessdata_new)
     }
     title_system: string = 'System';
     title_genaral: string = 'Genaral';
@@ -139,10 +145,15 @@ export class SystemReligionComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    this.showManage()
-                    this.selectedReligion = new ReligionModel();
-                    this.new_data = true;
-                    this.edit_data = false;
+                    if (this.accessData.accessdata_new) {
+                        this.showManage()
+                        this.selectedReligion = new ReligionModel();
+                        this.new_data = true;
+                        this.edit_data = false;
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+                    }
+
                 },
             },
             {
@@ -163,7 +174,7 @@ export class SystemReligionComponent implements OnInit {
     }
     reloadPage() {
         this.doLoadReligion()
-      }
+    }
     doLoadReligion() {
         this.religionService.religion_get().then((res) => {
             this.religion_list = res;

@@ -153,6 +153,14 @@
             </div>
         </div>
 
+        <!-- Dropdown field for account type -->
+        <div class="field col-12 md:col-6" *ngIf="selectedAccountType.code == 'ADM'">
+            <label for="account_type">{{ accountLanguages.get('type')[selectedLanguage] }}</label>
+            <br>
+            <p-dropdown [options]="polmenuList" optionLabel="name" [showClear]="true" [(ngModel)]="selectedPolmenu"
+                (onChange)="selectPolmenu()" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+        </div>
+
         <!-- PickList component for selecting employees -->
         <div class="field col-12" *ngIf="selectedAccountType.code == 'Emp'">
             <p-pickList [source]="availableEmployees" [target]="selectedEmployees" [metaKeySelection]="true"

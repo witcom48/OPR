@@ -36,6 +36,7 @@ export class AddCodestructureComponent implements OnInit {
     private dialog: ActivatedRoute ,
 
     // public dialogRef: MatDialogRef<AddCodestructureComponent>,
+    
     @Inject('') public data: TRPolcodeModel,
     private polcodeService:PolcodeService
     ) {}

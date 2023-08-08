@@ -12,6 +12,7 @@ import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { CourseModel } from 'src/app/models/system/policy/course';
 import { CourseService } from 'src/app/services/system/policy/course.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
   selector: 'app-system-course',
   templateUrl: './system-course.component.html',
@@ -46,11 +47,15 @@ export class SystemCourseComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_system: string = "System";
   title_genaral: string = "Genaral";
@@ -133,10 +138,15 @@ export class SystemCourseComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedCourse = new CourseModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedCourse = new CourseModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
 
         }
       }
@@ -183,7 +193,7 @@ export class SystemCourseComponent implements OnInit {
       key: "myDialog"
     });
   }
-  
+
   doRecordCourse() {
     this.courseService.course_record(this.selectedCourse).then((res) => {
       // console.log(res)

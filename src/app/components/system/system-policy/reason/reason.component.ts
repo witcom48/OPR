@@ -6,6 +6,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import * as XLSX from 'xlsx';
 declare var reason: any;
@@ -35,11 +36,15 @@ export class ReasonComponent implements OnInit {
   reasons: ReasonsModel = new ReasonsModel()
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
     this.selectlang = this.initial_current.Language;
   }
   ngOnInit(): void {
@@ -52,7 +57,8 @@ export class ReasonComponent implements OnInit {
       { code: 'DAT', name: this.langs.get('daytypereq')[this.selectlang] },
       { code: 'SHT', name: this.langs.get('shiftreq')[this.selectlang] },
       { code: 'ONS', name: this.langs.get('onsitereq')[this.selectlang] },
-      { code: 'SAL', name: this.langs.get('salaryreq')[this.selectlang] }
+      { code: 'SAL', name: this.langs.get('salaryreq')[this.selectlang] },
+      { code: 'BLACK', name: this.langs.get('blackreq')[this.selectlang] }
     ];
     this.doLoadReason();
   }
@@ -64,34 +70,26 @@ export class ReasonComponent implements OnInit {
       this.reason_list = await res;
     });
   }
-  
-  
   async doRecordReason(data: ReasonsModel) {
     data.reason_group = this.selectedType.code;
     await this.reasonsService.reason_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadReason()
-        this.edit_data = false;
-        this.new_data = false;
-        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
 
     });
-    // this.new_data = false;
-    // this.edit_data = false;
+    this.new_data = false;
+    this.edit_data = false;
   }
   async doDeleteReason(data: ReasonsModel) {
     await this.reasonsService.reason_delete(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadReason()
-        this.edit_data = false;
-        this.new_data = false;
-        this.displayManage = false;
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -124,10 +122,14 @@ export class ReasonComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.showManage()
-          this.reasons = new ReasonsModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.reasons = new ReasonsModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         }
       }
       ,
@@ -179,9 +181,6 @@ export class ReasonComponent implements OnInit {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
   }
-  reloadPage() {
-    this.doLoadReason( )
-  }
   Save() {
     this.doRecordReason(this.reasons)
   }
@@ -194,14 +193,6 @@ export class ReasonComponent implements OnInit {
   onRowSelect(event: any) {
     this.new_data = true
     this.edit_data = true;
-    this.displayManage = true;
-
-  }
-
-  displayManage: boolean = false;
-  position: string = "right";
-  showManage() {
-    this.displayManage = true
   }
   exportAsExcel() {
 

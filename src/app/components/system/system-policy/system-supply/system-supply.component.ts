@@ -12,6 +12,7 @@ import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { SupplyModel } from 'src/app/models/system/policy/supply';
 import { SupplyService } from 'src/app/services/system/policy/supply.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-system-supply',
@@ -48,11 +49,18 @@ export class SystemSupplyComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+    // console.log(this.accessData)
+    // console.log(this.accessData.accessdata_new)
+
+
   }
   title_system: string = 'System';
   title_genaral: string = 'Genaral';
@@ -125,7 +133,6 @@ export class SystemSupplyComponent implements OnInit {
 
     }
   }
-
   doLoadMenu() {
     this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
     { label: this.title_page, styleClass: 'activelike' }];
@@ -135,10 +142,15 @@ export class SystemSupplyComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedSupply = new SupplyModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if(this.accessData.accessdata_new){
+            this.selectedSupply = new SupplyModel();
+            this.new_data = true;
+            this.edit_data = false;
+            this.showManage()
+          }else{
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+          
         }
       }
       ,

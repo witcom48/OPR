@@ -89,7 +89,7 @@
         <textarea [(ngModel)]="areas.area_distance" pInputTextarea [autoResize]="true"></textarea> -->
 
         <label>{{langs.get('type')[selectlang]}}</label>
-        <p-dropdown class="selectyaer" [options]="typeList" [(ngModel)]="selectedtype"
+        <p-dropdown appendTo="body" class="selectyaer" [options]="typeList" [(ngModel)]="selectedtype"
             (onChange)="selecttype()" optionLabel="name"></p-dropdown>
 
         <!-- <label>{{langs.get('project')[selectlang]}}</label>

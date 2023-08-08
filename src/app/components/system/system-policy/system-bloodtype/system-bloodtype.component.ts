@@ -15,6 +15,7 @@ import { CardtypeService } from 'src/app/services/system/policy/cardtype.service
 // import { BloodtypeModel } from 'src/app/models/system/bloodtype';
 import { BloodtypeService } from 'src/app/services/system/policy/bloodtype.service';
 import { BloodtypeModel } from 'src/app/models/system/policy/bloodtype';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
   selector: 'app-system-bloodtype',
   templateUrl: './system-bloodtype.component.html',
@@ -49,11 +50,15 @@ export class SystemBloodtypeComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_system: string = "System";
   title_genaral: string = "Genaral";
@@ -136,10 +141,15 @@ export class SystemBloodtypeComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedBloodtype = new BloodtypeModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedBloodtype = new BloodtypeModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         }
       }
       ,
@@ -185,7 +195,7 @@ export class SystemBloodtypeComponent implements OnInit {
       key: "myDialog"
     });
   }
- 
+
   doRecordBloodtype() {
     this.bloodtypeService.bloodtype_record(this.selectedBloodtype).then((res) => {
       // console.log(res)

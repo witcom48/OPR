@@ -169,6 +169,7 @@ export class SetbonusComponent implements OnInit {
 
 
     public initial_current: InitialCurrent = new InitialCurrent();
+
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -176,6 +177,7 @@ export class SetbonusComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('login');
         }
+        
     }
 
     //get  data dropdown

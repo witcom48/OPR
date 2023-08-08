@@ -11,6 +11,7 @@ import { EthnicityModel } from 'src/app/models/system/policy/ethnicity';
 import { EthnicityService } from 'src/app/services/system/policy/ethnicity.service';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-system-ethnicity',
@@ -47,11 +48,15 @@ export class SystemEthnicityComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_system: string = "System";
   title_genaral: string = "Genaral";
@@ -133,10 +138,15 @@ export class SystemEthnicityComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedEthnicity = new EthnicityModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedEthnicity = new EthnicityModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         }
       }
       ,
@@ -182,7 +192,7 @@ export class SystemEthnicityComponent implements OnInit {
       key: "myDialog"
     });
   }
-  
+
   doRecordEthnicity() {
     this.ethnicityService.ethnicity_record(this.selectedEthnicity).then((res) => {
       // console.log(res)

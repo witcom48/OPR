@@ -18,6 +18,7 @@ export class AccountModel {
   account_email_alert: boolean = false;
   account_line: string = "";
   account_line_alert: boolean = false;
+  polmenu_code: string = "";
 
   modified_by: string = "";
   modified_date: string = "";

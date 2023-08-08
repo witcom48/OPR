@@ -11,6 +11,7 @@ import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { LevelModel } from 'src/app/models/system/policy/level';
 import { LevelService } from 'src/app/services/system/policy/level.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
   selector: 'app-system-organization-level',
   templateUrl: './system-organization-level.component.html',
@@ -56,11 +57,15 @@ export class SystemOrganizationLevelComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+            this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_system: string = "System";
   title_genaral: string = "Genaral";
@@ -144,11 +149,16 @@ export class SystemOrganizationLevelComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedLevel = new LevelModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if(this.accessData.accessdata_new){
+            this.showManage()
+            this.selectedLevel = new LevelModel();
+            this.new_data = true;
+            this.edit_data = false;
 
+          }else{
+                      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+                    }
+         
 
         }
       }

@@ -15,6 +15,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
 import { TaxrateModel } from 'src/app/models/payroll/taxrate';
 import { TaxrateService } from 'src/app/services/payroll/taxrate.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
     selector: 'app-taxrate',
@@ -52,6 +53,8 @@ export class TaxrateComponent implements OnInit {
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -59,6 +62,8 @@ export class TaxrateComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('PAY');
+
     }
     title_payroll: string = 'Payroll';
 
@@ -158,10 +163,15 @@ export class TaxrateComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    this.showManage()
-                    this.selectedTaxrate = new TaxrateModel();
-                    this.new_data = true;
-                    this.edit_data = false;
+                    if (this.accessData.accessdata_new) {
+                        this.showManage()
+                        this.selectedTaxrate = new TaxrateModel();
+                        this.new_data = true;
+                        this.edit_data = false;
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+                    }
+
                 },
             },
             {

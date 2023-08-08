@@ -19,6 +19,7 @@ import { ItemsModel } from 'src/app/models/payroll/items';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { SelectEmpComponent } from '../../../usercontrol/select-emp/select-emp.component';
 import { SetitemsService } from 'src/app/services/payroll/batch/setitems.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 declare var reason: any;
 interface Type {
   name: string;
@@ -124,6 +125,8 @@ export class AppEntryComponent implements OnInit {
 
   }
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(
       localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -131,6 +134,8 @@ export class AppEntryComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('PAY');
+
   }
 
   title_page: string = 'Geanral';
@@ -337,7 +342,7 @@ export class AppEntryComponent implements OnInit {
     tmp.worker_code = this.worker_code;
 
     try {
-      const res = await this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate, tmp.worker_code,this.item_type, tmp.item_code);
+      const res = await this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate, tmp.worker_code, this.item_type, tmp.item_code);
 
       return res;
     } catch (error) {
@@ -357,10 +362,11 @@ export class AppEntryComponent implements OnInit {
       this.item_name_th = this.itemDetail.item_name_th;
     }
 
-    this.doLoaditem().then((res) => {this.item_list = res;
+    this.doLoaditem().then((res) => {
+      this.item_list = res;
       console.log(this.item_list);
-        this.doSummaryByEmp();
-      })
+      this.doSummaryByEmp();
+    })
       .catch((error) => {
         console.error('An error occurred while loading items:', error);
       });
@@ -457,10 +463,15 @@ export class AppEntryComponent implements OnInit {
         label: this.title_new,
         icon: 'pi-plus',
         command: (event) => {
-          this.payitems = new PayitemModel();
-          this.displayaddholiday = true;
-          this.displayeditholiday = false;
-          this.showManage();
+          if (this.accessData.accessdata_new) {
+            this.payitems = new PayitemModel();
+            this.displayaddholiday = true;
+            this.displayeditholiday = false;
+            this.showManage();
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         },
       },
       {

@@ -14,6 +14,7 @@ import { LevelModel } from 'src/app/models/system/policy/level';
 import { LevelService } from 'src/app/services/system/policy/level.service';
 import { HospitalModel } from 'src/app/models/system/policy/hospital';
 import { HospitalService } from 'src/app/services/system/policy/hospital.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
   selector: 'app-system-hospital',
   templateUrl: './system-hospital.component.html',
@@ -50,11 +51,15 @@ export class SystemHospitalComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_system: string = "System";
   title_genaral: string = "Genaral";
@@ -137,10 +142,15 @@ export class SystemHospitalComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedHospital = new HospitalModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedHospital = new HospitalModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
+
         }
       }
       ,
@@ -186,7 +196,7 @@ export class SystemHospitalComponent implements OnInit {
       key: "myDialog"
     });
   }
- 
+
   doRecordHospital() {
     this.hospitalService.hospital_record(this.selectedHospital).then((res) => {
       // console.log(res)

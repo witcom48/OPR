@@ -53,7 +53,7 @@ export class AccountServices {
             account_id: account.account_id,
             account_user: account.account_user,
             account_type: account.account_type,
-            typenotin:account.typenotin
+            typenotin: account.typenotin
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/account_list', data, this.options).toPromise()
             .then((res) => {
@@ -82,7 +82,8 @@ export class AccountServices {
             positonn_data: account.position_data,
             dep_data: account.dep_data,
             worker_data: account.worker_data,
-            module_data: account.module_data
+            module_data: account.module_data,
+            polmenu_code: account.polmenu_code
         }
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/account', data, this.options).toPromise()
             .then((res) => {

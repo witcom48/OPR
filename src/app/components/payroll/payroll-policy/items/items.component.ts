@@ -5,6 +5,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ItemsModel } from 'src/app/models/payroll/items';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import * as XLSX from 'xlsx';
 @Component({
@@ -33,6 +34,8 @@ export class ItemsComponent implements OnInit {
     selectedMTItem: ItemsModel = new ItemsModel();
 
     public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -40,6 +43,8 @@ export class ItemsComponent implements OnInit {
         if (!this.initial_current.Token) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('PAY');
+
     }
 
     title_payroll: string = 'Payroll';
@@ -93,7 +98,7 @@ export class ItemsComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-                        this.title_system_payroll = 'นโยบาย';
+            this.title_system_payroll = 'นโยบาย';
 
             this.title_payroll = 'บัญชี';
             this.title_policy = 'กำหนดนโยบาย';
@@ -254,10 +259,15 @@ export class ItemsComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi-plus',
                 command: (event) => {
-                    this.showManage()
-                    this.selectedMTItem = new ItemsModel();
-                    this.new_data = true;
-                    this.edit_data = false;
+                    if (this.accessData.accessdata_new) {
+                        this.showManage()
+                        this.selectedMTItem = new ItemsModel();
+                        this.new_data = true;
+                        this.edit_data = false;
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+                    }
+
                 },
             },
             {

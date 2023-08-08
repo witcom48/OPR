@@ -192,7 +192,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
     data.job_type = "OT";
     data.lang = this.selectlang;
     await this.approveService.approveJob(data).then((res) => {
-      if (res.success) {
+      if (res.result) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadTimeot();
       }

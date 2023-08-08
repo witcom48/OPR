@@ -10,6 +10,9 @@ import { TRPolcodeModel } from 'src/app/models/system/policy/tr_polcode';
 import { CodePolcodeService } from 'src/app/services/system/manage1/code-polcode.service';
 import { CodestructureModel } from 'src/app/models/system/policy/codestructure';
 import { CodestructureService } from 'src/app/services/system/manage1/codestructure.service';
+import { AddCodestructureComponent } from './add-codestructure/add-codestructure.component';
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-emp-id',
   templateUrl: './emp-id.component.html',
@@ -23,6 +26,15 @@ export class EmpIDComponent implements OnInit {
   itemslike: MenuItem[] = [];
   TRPolcode_list: TRPolcodeModel[] = [];
   selectedTRPolcode: TRPolcodeModel = new TRPolcodeModel();
+  
+  dialog: any;
+  // strucAdd: any;
+  strucList: any;
+  codestructure_code!: string;
+  worker_list: any;
+  worker_index!: number;
+  data: any;
+  workerDetail: any;
   getLanguage(): string {
     return this.initial_current.Language;
   }
@@ -31,11 +43,11 @@ export class EmpIDComponent implements OnInit {
     private codePolcodeService: CodePolcodeService,
     private codestructureService: CodestructureService,
 
-
     private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe
+
   ) { }
 
   ngOnInit(): void {
@@ -43,12 +55,22 @@ export class EmpIDComponent implements OnInit {
     this.doLoadLanguage()
     this.doLoadMenu()
     this.doLoadTRPolcode()
+     this.doGetNewCode();
+
+    
     setTimeout(() => {
 
 
       // Dropdown
       this.doLoadCodestructureList();
     }, 500);
+
+    setTimeout(() => {
+      if (this.codestructure_code != '') {
+      } else {
+        this.NewStructure(this.data);
+      }
+    }, 400);
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
@@ -95,12 +117,12 @@ export class EmpIDComponent implements OnInit {
 
   title_confirm_cancel: string = "You have cancelled";
   title_genaral_system: string = 'Manage System';
-    title_no: string = 'No';
+  title_no: string = 'No';
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_genaral_system = 'จัดการ';
-            this.title_no = 'อันดับ';
+      this.title_no = 'อันดับ';
 
       this.title_system = "ระบบ";
       this.title_manage = "จัดการ";
@@ -185,11 +207,20 @@ export class EmpIDComponent implements OnInit {
   reloadPage() {
     this.doLoadTRPolcode()
   }
+
   doLoadTRPolcode() {
     this.codePolcodeService.TRPolcode_get().then((res) => {
       this.TRPolcode_list = res;
+  
+      // ตรวจสอบรายการโครงสร้างที่บันทึกทั้งหมด
+      console.log(this.TRPolcode_list);
+      
     });
   }
+
+  
+
+  
 
   confirmRecord() {
     this.confirmationService.confirm({
@@ -197,179 +228,59 @@ export class EmpIDComponent implements OnInit {
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.doRecordTRPolcode()
+        this.doRecordTRPolcode();
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false;
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
       },
       key: "myDialog"
-
     });
   }
-//
- //
-   //
-  //-- Add structure
 
-  // public strucList:TRPolcodeModel[] | undefined;
-  // public strucAdd:TRPolcodeModel = new TRPolcodeModel();
+  onNoClick(): void {
+    this.dialog.close({ codestructure_code: '' });
+  }
 
-  // openAddStructure(): void {
-  //   const dialogRef = this.dialog.open(AddCodestructureComponent, {
-  //     width: '400px',
-  //     data: {
-  //       codestructure_code: this.selectedTRPolcode.codestructure_code,
-  //       polcode_lenght: this.selectedTRPolcode.polcode_lenght,
-  //       polcode_text: this.selectedTRPolcode.polcode_text,
-  //       polcode_order: this.selectedTRPolcode.polcode_order
-  //     }
-  //   });
+  public codeStrucList!: CodestructureModel[];
+  doGetStrucList() {
+    this.codeStrucList = [];
+  }
 
-  //   dialogRef.afterClosed().subscribe((result: {
-  //     codestructure_code: string;
-  //     polcode_lenght: string;
-  //     polcode_text: string;
-  //     polcode_order: string;
-  //   }) => {
-  //     if (result.codestructure_code !== "") {
-  //       this.selectedTRPolcode.index = this.TRPolcode_list.length + 1;
-  //       this.selectedTRPolcode.codestructure_code = result.codestructure_code;
-  //       this.selectedTRPolcode.polcode_lenght = result.polcode_lenght;
-  //       this.selectedTRPolcode.polcode_text = result.polcode_text;
-  //       this.selectedTRPolcode.polcode_order = result.polcode_order;
-  //       this.doAddStructure(this.selectedTRPolcode);
-  //     }
-  //   });
-  // }
+  setFormatLenght($event: { target: { value: string; }; }) {
+    $event.target.value = parseFloat($event.target.value).toFixed(0);
+    this.data.polcode_lenght = $event.target.value;
+  }
 
-  // doAddStructure(selectedTRPolcode: TRPolcodeModel) {
-  //   const strucNew: TRPolcodeModel[] = [];
-  //   for (let i = 0; i < this.TRPolcode_list.length; i++) {
-  //     if (this.TRPolcode_list[i].codestructure_code !== selectedTRPolcode.codestructure_code) {
-  //       strucNew.push(this.TRPolcode_list[i]);
-  //     }
-  //   }
-
-  //   //-- 9999 for delete
-  //   if (Number(selectedTRPolcode.polcode_id) !== 9999) {
-  //     strucNew.push(selectedTRPolcode);
-  //   }
-
-  //   this.TRPolcode_list = [];
-  //   this.TRPolcode_list = strucNew;
-  //   this.TRPolcode_list.sort(function (a, b) {
-  //     return parseInt(a.polcode_id) - parseInt(b.polcode_id);
-  //   });
-  // }
-
-
-  // doNewStructure() {
-  //   this.selectedTRPolcode = new TRPolcodeModel();
-  //   this.openAddStructure();
-  // }
-
-
-  // doEditStructure(index: number) {
-  //   this.selectedTRPolcode = this.getTRPolcodeByIndex(index)!;
-  
-  //   if (this.selectedTRPolcode !== null) {
-  //     this.openAddStructure();
-  //   }
-  // }
-  
-  // getTRPolcodeByIndex(index: number): TRPolcodeModel | null {
-  //   for (let i = 0; i < this.TRPolcode_list.length; i++) {
-  //     if (this.TRPolcode_list[i].index === index) {
-  //       return this.TRPolcode_list[i];
-  //     }
-  //   }
-  //   return null;
-  // }
-  
-  // // doDeleteStructure(index: number) {
-  // //   let dialogRef = this.dialog.open(ConfirmationDialog, {
-  // //     disableClose: false
-  // //   });
-  
-  // //   dialogRef.afterClosed().subscribe((result: any) => {
-  // //     if (result) {
-  // //       const selectedTRPolcode = this.getTRPolcodeByIndex(index);
-  
-  // //       if (selectedTRPolcode !== null) {
-  // //         //-- 9999 for delete
-  // //         selectedTRPolcode.polcode_id = 9999;
-  // //         this.doAddStructure(selectedTRPolcode);
-  // //       }
-  // //     }
-  
-  // //     dialogRef = null;
-  // //   });
-  // // }
-  
-
-  
-  //   //  searchEmp: boolean = false;
-  //   // open_searchemp() {
-  //   //     this.searchEmp = true
-  //   // }
-
-
-  //   searchEmp: boolean = false;
-  //   open_searchemp() {
-  //       this.searchEmp = true
-  //   }
-
-  //   close_searchemp() {
-  //       this.searchEmp = false
-  //   }
-
-  //   select_emp() {
-
-  //       let selectedTRPolcode = this.selectedTRPolcode.codestructure_code
-  //       if (selectedTRPolcode != "") {
-  //           this.doGetIndexWorker(selectedTRPolcode)
-  //           this.searchEmp = false
-  //       }
-
-  //   }
-
-  //   doGetIndexWorker(codestructure_code: string) {
-        
-
-  //   }
-    
-  //   select_emp() {
-
-  //     let select = this.selectedTRPolcode.data.worker_code
-  //     if (select != "") {
-  //         this.doGetInitialCurrent(select)
-  //         this.searchEmp = false
-  //     }
-
-  // }
-  //
-
-//
+  setFormatOrder($event: { target: { value: string; }; }) {
+    $event.target.value = parseFloat($event.target.value).toFixed(0);
+    this.data.polcode_order = $event.target.value;
+  }
 
   doRecordTRPolcode() {
-    // // console.log(this.selectedTRPolcode)
     this.codePolcodeService.TRPolcode_record(this.selectedTRPolcode).then((res) => {
-      // console.log(res)
       let result = JSON.parse(res);
 
       if (result.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-        this.doLoadTRPolcode()
+        this.dialog.close({
+          codestructure_code: this.data.codestructure_code,
+          polcode_lenght: this.data.polcode_lenght,
+          polcode_text: this.data.polcode_text,
+          polcode_order: this.data.polcode_order
+        });
+        this.doLoadTRPolcode();
         this.edit_data = false;
         this.new_data = false;
-        this.displayManage = false
-      }
-      else {
+        this.displayManage = false;
+      } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
       }
-
     });
   }
+
   //
   confirmDeletes(data: any) {
     this.confirmationService.confirm({
@@ -507,7 +418,7 @@ export class EmpIDComponent implements OnInit {
     }
   }
 
-
+  title_generated_code: string = "Generated Code";
   displayUpload: boolean = false;
   showUpload() {
     this.displayUpload = true;
@@ -528,6 +439,123 @@ export class EmpIDComponent implements OnInit {
     XLSX.writeFile(wb, 'Export_TRPolcode.xlsx');
 
   }
+  @ViewChild(AddCodestructureComponent) searchEmp_popup: any;
 
+  positionid: string = "right";
+  Structure: boolean = false;
+  newDateTime = new Date();
+  generatedCode: string = '';
+  
+  doGetIndexWorker(worker_code: string) {
+    for (let i = 0; i < this.worker_list.length; i++) {
+      if (this.worker_list[i].worker_code == worker_code) {
+        this.worker_index = i;
+        break;
+      }
+    }
+  }
+
+  async doGetNewCode() {
+    try {
+      const response = await this.codePolcodeService.getNewCode(this.initial_current.CompCode, '','');
+      const resultJSON = JSON.parse(response);
+  
+      if (resultJSON.result === "1") {
+        const newCode = this.NewStructure(resultJSON.data);
+        this.generatedCode = newCode;
+        console.log("Generated code:", newCode);
+      } else {
+        console.warn("Received result is not 1:", resultJSON.result);
+        this.generatedCode = "Cannot generate code";
+      }
+    } catch (error) {
+      this.generatedCode = "ข้อมูลผิดพลาด";
+    }
+  }
+
+  NewStructure(data: any): string {
+    return data.codestructure_code + data.polcode_lenght + data.polcode_text + data.polcode_order;
+  }
+  
+
+  strucAdd: TRPolcodeModel | null = null;
+  
+  doAddStructure(strucAdd: TRPolcodeModel) {
+    const strucNew: TRPolcodeModel[] = this.strucList.filter((item: { codestructure_code: string; }) => item.codestructure_code !== strucAdd.codestructure_code);
+    this.strucList = strucNew;
+    this.strucList.sort((a: { polcode_id: number; }, b: { polcode_id: number; }) => a.polcode_id - b.polcode_id);
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Code Generated',
+      detail: `Generated code: ${strucAdd.codestructure_code}`,
+      key: 'genCode'
+    });
+  }
+  
+  doNewStructure() {
+    this.strucAdd = new TRPolcodeModel();
+    this.generatedCode = this.NewStructure(this.strucAdd);
+  }
+  
+  doEditStructure(index: number) {
+    this.strucAdd = null;
+    this.doGetDataEditStructure(index);
+  
+    if (this.strucAdd) {
+      this.generatedCode = this.NewStructure(this.strucAdd);
+      
+    }
+  }
+  
+  doGetDataEditStructure(index: number) {
+    this.strucAdd = this.strucList.find((item: { index: number; }) => item.index === index) || new TRPolcodeModel();
+  }
+  
+  // Load TRPolcode data
+  async doLoadTRPolcodeid() {
+    try {
+      const response = await this.codePolcodeService.TRPolcode_get();
+      if (typeof response === 'string') {
+        this.TRPolcode_list = JSON.parse(response);
+        console.log(this.TRPolcode_list); 
+      }
+    } catch (error) {
+      console.error("Error loading TRPolcode data:", error);
+    }
+  }
 }
 
+  //  NewStructure(data: any): string {
+  //   const generatedCode = data.codestructure_code +
+  //     data.polcode_lenght + data.polcode_text + data.polcode_order;
+  //   return generatedCode;
+  // }
+  // async doGetNewCode() {
+  //   console.log('test')
+  //   try {
+  //     const response = await this.codePolcodeService.getNewCode(this.initial_current.CompCode  );
+  //     if (typeof response === 'string') {
+  //       const resultJSON = JSON.parse(response);
+  //       if (resultJSON.result === "1") {
+  //         this.generatedCode = this.NewStructure(resultJSON.data);
+  //       } else {
+  //         console.log(resultJSON.result_text);
+  //       }
+  //     } else {
+  //       console.error("Invalid response from API:", response);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error getting new code:", error);
+  //   }
+  // }
+  // strucAdd: TRPolcodeModel | null = null;  
+  
+  // NewStructure(data: any): string {
+  //   const generatedCode = data.codestructure_code +
+  //     data.polcode_lenght + data.polcode_text + data.polcode_order;
+  //   return generatedCode;
+  // }
+  // NewStructure(data: any): string {
+  //   const generatedCode = `${data.codestructure_code}${data.polcode_lenght}${data.polcode_text}${data.polcode_order}`;
+  //   return generatedCode;
+  // }

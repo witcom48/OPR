@@ -19,6 +19,7 @@ import { ItemsModel } from 'src/app/models/payroll/items';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 
 interface Type {
@@ -92,7 +93,7 @@ export class PayrollEntryComponent implements OnInit {
         this.doGetInitialCurrent();
         this.doLoadLanguage();
         this.doLoadMenu();
-        
+
         // dropdown
         this.doLoadItemsINList();
         this.doLoadItemsDEList();
@@ -110,6 +111,8 @@ export class PayrollEntryComponent implements OnInit {
             });
     }
     public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -117,6 +120,10 @@ export class PayrollEntryComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('PAY');
+        console.log(this.accessData)
+        console.log(this.accessData.accessdata_new)
+
     }
 
     title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
@@ -266,11 +273,16 @@ export class PayrollEntryComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi-plus',
                 command: (event) => {
-                    this.showManage();
-                    this.payitems = new PayitemModel();
-                    this.new_data = true;
-                    this.edit_data = false;
-                    
+                    if (this.accessData.accessdata_new) {
+                        this.showManage();
+                        this.payitems = new PayitemModel();
+                        this.new_data = true;
+                        this.edit_data = false;
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+                    }
+
+
                 },
             },
             {
@@ -426,7 +438,7 @@ export class PayrollEntryComponent implements OnInit {
         this.edit_data = false;
         this.displayManage = false;
 
-        
+
     }
 
     doSummaryByEmp() {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { MenuItem } from 'primeng/api';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 declare var locationpage: any;
 
 @Component({
@@ -21,11 +22,15 @@ export class SystemLocationComponent implements OnInit {
 
 
   public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
+            this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
     this.selectlang = this.initial_current.Language;
   }
   ngOnInit(): void {
