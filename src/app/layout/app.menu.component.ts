@@ -49,6 +49,7 @@ export class AppMenuComponent implements OnInit {
         const moduleMenuConfig: any = {
             [ModuleCode.APR]: {
                 label: 'Self Services',
+                icon: 'pi-id-card',
                 items: [
                     { label: 'Manager', routerLink: ['/self/approve'], accessCode: 'SELF002' },
                     { label: 'Reports', routerLink: ['/self/reports'], accessCode: 'SELF003' },
@@ -59,6 +60,7 @@ export class AppMenuComponent implements OnInit {
 
             [ModuleCode.UEMP]: {
                 label: 'Self Services',
+                icon: 'pi-id-card',
                 items: [
                     { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
                 ]
@@ -66,6 +68,7 @@ export class AppMenuComponent implements OnInit {
 
             [ModuleCode.GRP]: {
                 label: 'Self Services',
+                icon: 'pi-id-card',
                 items: [
                     { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
                 ]
@@ -74,6 +77,7 @@ export class AppMenuComponent implements OnInit {
 
             [ModuleCode.SELF]: {
                 label: 'Self Services',
+                icon:'pi-id-card',
                 items: [
                     { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
                     { label: 'Manager', routerLink: ['/self/approve'], accessCode: 'SELF002' },
@@ -82,6 +86,7 @@ export class AppMenuComponent implements OnInit {
             },
             [ModuleCode.PRO]: {
                 label: 'Project',
+                icon: 'pi-box',
                 items: [
                     { label: 'Policy', routerLink: ['/project/policy'], accessCode: 'PRO001' },
                     { label: 'Project', routerLink: ['/project/list'], accessCode: 'PRO002' },
@@ -96,6 +101,7 @@ export class AppMenuComponent implements OnInit {
 
             [ModuleCode.EMP]: {
                 label: 'Employee',
+                icon: 'pi-users',
                 items: [
                     { label: 'Policy', routerLink: ['/employee/policy'], accessCode: 'EMP001' },
                     { label: 'Employee info', routerLink: ['/employee/list'], accessCode: 'EMP002' },
@@ -106,6 +112,7 @@ export class AppMenuComponent implements OnInit {
 
             [ModuleCode.REQ]: {
                 label: 'Recruitment',
+                icon: 'pi-user-plus',
                 items: [
                     { label: 'Policy', routerLink: ['/recruitment/policy'], accessCode: 'REQ001' },
                     { label: 'Black List', routerLink: ['/recruitment/blacklist'], accessCode: 'REQ002' },
@@ -118,6 +125,7 @@ export class AppMenuComponent implements OnInit {
 
             [ModuleCode.ATT]: {
                 label: 'Attendance',
+                icon: 'pi-clock',
                 items: [
                     { label: 'Policy', routerLink: ['/attendance/policy'], accessCode: 'ATT001' },
                     { label: 'Import Time', routerLink: ['/attendance/import'], accessCode: 'ATT002' },
@@ -131,6 +139,7 @@ export class AppMenuComponent implements OnInit {
 
             [ModuleCode.PAY]: {
                 label: 'Payroll',
+                icon: 'pi-wallet',
                 items: [
                     { label: 'Policy', routerLink: ['/payroll/policy'], accessCode: 'PAY001' },
                     { label: 'Calculate', routerLink: ['/payroll/calculate'], accessCode: 'PAY002' },
@@ -146,6 +155,7 @@ export class AppMenuComponent implements OnInit {
 
             [ModuleCode.SYS]: {
                 label: 'System',
+                icon: 'pi-cog',
                 items: [
                     { label: 'Manage', routerLink: ['/system/sys-manage'], accessCode: 'SYS001' },
                     { label: 'General', routerLink: ['/system/general'], accessCode: 'SYS002' },
@@ -177,6 +187,7 @@ export class AppMenuComponent implements OnInit {
                             const moduleMenuItems = this.generateSubMenuItems(moduleAccessData, moduleMenuConfig[moduleCode].items);
                             this.menuItems[0].items.push({
                                 label: moduleMenuConfig[moduleCode].label,
+                                icon: moduleMenuConfig[moduleCode].icon,
                                 items: moduleMenuItems,
                             });
                         }
