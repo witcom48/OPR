@@ -107,6 +107,10 @@ export class CompanyDetailService {
       item_data = item_data + ",\"province_code\":\"" + list[i].province_code + "\"";
 
       item_data = item_data + ",\"comaddres_tel\":\"" + list[i].comaddres_tel + "\"";
+
+      item_data = item_data + ",\"comaddres_fax\":\"" + list[i].comaddres_fax + "\"";
+      item_data = item_data + ",\"comaddres_url\":\"" + list[i].comaddres_url + "\"";
+
       item_data = item_data + ",\"comaddres_email\":\"" + list[i].comaddres_email + "\"";
       item_data = item_data + ",\"comaddres_line\":\"" + list[i].comaddres_line + "\"";
       item_data = item_data + ",\"comaddres_facebook\":\"" + list[i].comaddres_facebook + "\"";
@@ -266,9 +270,18 @@ export class CompanyDetailService {
       item_data = item_data + "{";
       item_data = item_data + "\"company_code\":\"" + company_code + "\"";
       item_data = item_data + ",\"combank_id\":\"" + list[i].combank_id + "\"";
+      item_data = item_data + ",\"combank_bankname\":\"" + list[i].combank_bankname + "\"";
+
+      
       item_data = item_data + ",\"combank_bankcode\":\"" + list[i].combank_bankcode + "\"";
       item_data = item_data + ",\"combank_bankaccount\":\"" + list[i].combank_bankaccount + "\"";
 
+      item_data = item_data + ",\"combank_banktype\":\"" + list[i].combank_banktype + "\"";
+
+      item_data = item_data + ",\"combank_branch\":\"" + list[i].combank_branch + "\"";
+
+      
+      
     //   item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
     //   item_data = item_data + ",\"company_code\":\"" + company_code + "\"";
       item_data = item_data + "}" + ",";

@@ -23,15 +23,38 @@ import { AddresstypeModel } from 'src/app/models/system/policy/addresstype';
 import { ProvinceModel } from 'src/app/models/system/policy/province';
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
 import { DomSanitizer } from '@angular/platform-browser';
+
+interface City {
+    name: string;
+    code: string;
+}
 @Component({
     selector: 'app-companys',
     templateUrl: './companys.component.html',
     styleUrls: ['./companys.component.scss'],
 })
 export class CompanysComponent implements OnInit {
+
+    accountTypes = [
+        { type: 'Savings Account', name: 'ออมทรัพย์', code: '1' },
+        { type: 'Fixed Deposit Account', name: 'เงินฝากประจำ', code: '2' },
+        { type: 'Current Account', name: 'บัญชีกระแสรายวัน', code: '3' },
+        { type: 'Salary Account', name: 'บัญชีเงินเดือน', code: '4' },
+        { type: 'Investment Account', name: 'บัญชีเงินลงทุน', code: '5' },
+        { type: 'Share Trading Account', name: 'บัญชีหุ้น', code: '6' },
+        { type: 'Micro Savings Account', name: 'บัญชีเงินออมเด็ดขาด', code: '7' },
+        { type: 'Expired Account', name: 'บัญชีเงินที่หมดอายุ', code: '8' },
+        { type: 'Insurance Account', name: 'บัญชีประกันตัว', code: '9' },
+        { type: 'Online Banking Account', name: 'บัญชีธนาคารออนไลน์', code: '10' }
+
+    ];
+
+
+
     company_code: string = '';
     comaddress_type: string = '';
     manage_title: string = '';
+
 
     toolbar_menu: MenuItem[] = [];
     items: MenuItem[] = [];
@@ -52,7 +75,10 @@ export class CompanysComponent implements OnInit {
     edit_comaddresseen: boolean = false;
     new_comaddresseen: boolean = false;
 
-
+    onBankTypeChange(event: any): void {
+        console.log('Selected bank type:', event.target.value);
+        // You can perform additional actions here
+    }
 
     //menu Comaddress en
     menu_comaddressen: MenuItem[] = [];
@@ -87,20 +113,37 @@ export class CompanysComponent implements OnInit {
         private provinceService: ProvinceService
     ) { }
 
+
+    cities: City[] | undefined;
+    selectedCity: City | undefined;
+
     ngOnInit(): void {
+
+
+        this.cities = [
+            { name: 'New York', code: 'NY' },
+            { name: 'Rome', code: 'RM' },
+            { name: 'London', code: 'LDN' },
+            { name: 'Istanbul', code: 'IST' },
+            { name: 'Paris', code: 'PRS' }
+        ];
+        console.log(this.cities)
+
+
         this.route.queryParams.subscribe((params) => {
             this.company_code = params['companycode'];
             // console.log(this.company_code);
         });
 
         this.doGetInitialCurrent();
-   
+
         // Dropdown
         this.doLoadbankList();
         this.doLoadcardList();
         this.doLoadaddressList();
         this.doLoadprovinceList();
         this.doLoadLanguage();
+
         setTimeout(() => {
             this.doLoadMenu();
 
@@ -111,6 +154,9 @@ export class CompanysComponent implements OnInit {
                 this.doLoadCompany();
             }
         }, 400);
+
+
+
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
@@ -184,8 +230,11 @@ export class CompanysComponent implements OnInit {
 
     title_banks: string = 'Bank';
     title_number: string = 'Account Number';
+    title_bankaccount: string = 'Account ';
+    title_bankname: string = 'Name';
+    title_banktype: string = 'Type';
 
-    title_personal: string = 'Personal';
+    title_personal: string = 'Other Details';
     title_religion: string = 'Religion';
     title_blood: string = 'Blood';
     title_weight: string = 'Weight';
@@ -254,7 +303,8 @@ export class CompanysComponent implements OnInit {
     title_address_note: string = 'Note';
     title_address_line: string = 'Line';
     title_address_facebook: string = 'Facebook';
-
+    title_contack: string = 'Contack';
+    title_fax: string = 'Fax';
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page_Company = 'ข้อมูลบริษัท';
@@ -270,6 +320,8 @@ export class CompanysComponent implements OnInit {
             this.title_thai_name = 'ชื่อ (ไทย)';
             this.title_english_name = 'ชื่อ (อังกฤษ)';
             this.title_map = 'แผนที่';
+            this.title_contack = 'ข้อมูลติดต่อ';
+            this.title_fax = 'แฟกซ์';
 
             this.title_taxpayer_identification_no = 'เลขประจำตัวผู้เสียภาษี'
             this.title_juristic_id = 'เลขทะเบียนนิติบุคคล'
@@ -317,7 +369,7 @@ export class CompanysComponent implements OnInit {
             this.title_resigndate = 'วันที่ลาออก';
             this.title_resignreason = 'เหตุผลการลาออก';
 
-            this.title_personal = 'ข้อมูลส่วนตัว';
+            this.title_personal = 'รายละเอียดอื่น ๆ';
             this.title_religion = 'ศาสนา';
             this.title_blood = 'กรุ๊ปเลือด';
             this.title_weight = 'นํ้าหนัก';
@@ -331,7 +383,9 @@ export class CompanysComponent implements OnInit {
 
             this.title_banks = 'ธนาคาร';
             this.title_number = 'เลขที่บัญชี';
-
+            this.title_bankaccount = 'เลขที่บัญชี';
+            this.title_bankname = 'ชื่อบัญชี';
+            this.title_banktype = 'ประเภทบัญชี';
 
             this.title_record = 'ข้อมูลประวัติ';
             this.title_department = 'สังกัด';
@@ -557,8 +611,21 @@ export class CompanysComponent implements OnInit {
             }
         }
     }
+    selectedFileName: string | undefined;
 
-
+    onSelectFilesmaps(event: Event): void {
+      const inputElement = event.target as HTMLInputElement;
+      if (inputElement.files && inputElement.files.length > 0) {
+        this.selectedFileName = inputElement.files[0].name;
+      } else {
+        this.selectedFileName = undefined;
+      }
+    }
+  
+  
+  
+  
+  
     base65Image: any = '../../../../assets/images/people.png'
     base64Image: any = '../../../../assets/images/people.png'
     transform() {
@@ -624,7 +691,12 @@ export class CompanysComponent implements OnInit {
         });
     }
 
-    // get data dropdown
+
+
+
+
+
+
     bankList: BankModel[] = [];
     doLoadbankList() {
         this.bankService.bank_get().then((res) => {
@@ -843,6 +915,7 @@ export class CompanysComponent implements OnInit {
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
                 this.doRecordCompany();
+
             },
             reject: () => {
                 this.messageService.add({
@@ -854,6 +927,7 @@ export class CompanysComponent implements OnInit {
             key: "myDialog"
         });
     }
+
 
     doRecordCompany() {
         this.companyService

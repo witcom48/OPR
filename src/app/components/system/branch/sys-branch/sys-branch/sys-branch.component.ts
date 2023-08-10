@@ -180,7 +180,7 @@ export class SysBranchComponent implements OnInit {
     title_accumulate: string = 'Accumalate';
 
     title_tranfer: string = 'Tranfer record';
-
+    title_contack: string = 'Contack';
     title_modified_by: string = 'Edit by';
     title_modified_date: string = 'Edit date';
     title_search: string = 'Search';
@@ -213,6 +213,8 @@ export class SysBranchComponent implements OnInit {
     title_address_note: string = 'note';
     title_address_line: string = 'line';
     title_address_facebook: string = 'facebook';
+        title_fax: string = 'Fax';
+
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_back ='กลับ';
@@ -236,6 +238,10 @@ export class SysBranchComponent implements OnInit {
             this.title_import = 'นำเข้า';
             this.title_export = 'โอนออก';
             this.title_save = 'บันทึก';
+
+            this.title_contack = 'ข้อมูลติดต่อ';
+            this.title_fax = 'แฟกซ์';
+
 
             this.title_summit = 'บันทึก';
             this.title_cancel = 'ยกเลิก';

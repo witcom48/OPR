@@ -105,7 +105,7 @@
                                                 <span>{{Address_th}}</span>
                                             </ng-template>
                                             <div class="formgrid grid">
-                                                <div class=" field col-6 ">
+                                                <!-- <div class=" field col-6 ">
                                                     <label for="address_type">{{ title_address_type }}</label>
                                                     <p-dropdown placeholder="--" [options]="addressList"
                                                         optionValue="addresstype_code" [showClear]="true"
@@ -122,7 +122,7 @@
                                                             item.addresstype_name_en }}
                                                         </ng-template>
                                                     </p-dropdown>
-                                                </div>
+                                                </div> -->
                                                 <div class="field col-6 height">
                                                     <label for="address_no ">{{ title_address_no }}</label>
                                                     <input id="address_no" type="text"
@@ -186,7 +186,7 @@
                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                                 </div>
 
-                                                <div class="field col-6 height">
+                                                <!-- <div class="field col-6 height">
                                                     <label for="address_amphur ">{{ title_address_tel }}</label>
                                                     <input id="address_amphur" type="text"
                                                         [(ngModel)]="selectedComaddress.comaddres_tel"
@@ -212,7 +212,7 @@
                                                     <input id="address_amphur" type="text"
                                                         [(ngModel)]="selectedComaddress.comaddres_facebook"
                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                                </div>
+                                                </div> -->
 
 
 
@@ -226,7 +226,7 @@
                                             </ng-template>
 
                                             <div class="formgrid grid">
-                                                <div class="field col-6">
+                                                <!-- <div class="field col-6">
                                                     <label for="address_type">Type</label>
                                                     <p-dropdown placeholder="--" [options]="addressList"
                                                         optionValue="addresstype_code" [showClear]="true"
@@ -243,7 +243,7 @@
                                                             item.addresstype_name_en }}
                                                         </ng-template>
                                                     </p-dropdown>
-                                                </div>
+                                                </div> -->
                                                 <div class="field col-6 height">
                                                     <label for="address_no">No</label>
                                                     <input id="address_no" type="text"
@@ -307,7 +307,7 @@
                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                                 </div>
 
-                                                <div class="field col-6 height">
+                                                <!-- <div class="field col-6 height">
                                                     <label for="address_amphur">Tel</label>
                                                     <input id="address_amphur" type="text"
                                                         [(ngModel)]="selectedComaddress.comaddres_tel"
@@ -333,7 +333,7 @@
                                                     <input id="address_amphur" type="text"
                                                         [(ngModel)]="selectedComaddress.comaddres_facebook"
                                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                                </div>
+                                                </div> -->
 
 
 
@@ -345,6 +345,66 @@
 
 
 
+                                </p-accordionTab>
+
+                                
+                            </p-accordion>
+                            
+                        </div>
+
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_contack}}">
+                                    <p-tabView (onChange)="tabChange($event)">
+                                        <div class="formgrid grid">
+    
+    
+    
+    
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur ">{{ title_address_tel }}</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_tel"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            </div>
+    
+    
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">{{ title_address_email}}</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_email"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            </div>
+    
+                                            <div class="field col-6 height">
+                                                <label for="comaddres_fax">{{title_fax}}</label>
+                                                <input id="comaddres_fax" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_fax"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            </div>
+    
+                                            <div class="field col-6 height">
+                                                <label for="comaddres_url">URL</label>
+                                                <input id="comaddres_url" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_url"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            </div>
+    
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">{{ title_address_line }}</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_line"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            </div>
+    
+                                            <div class="field col-6 height">
+                                                <label for="address_amphur">{{ title_address_facebook}}</label>
+                                                <input id="address_amphur" type="text"
+                                                    [(ngModel)]="selectedComaddress.comaddres_facebook"
+                                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                            </div>
+                                        </div>
+                                    </p-tabView>
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
@@ -392,12 +452,11 @@
 
 
 
-                        <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
+                        <!-- <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
 
 
                             <div class="formatt" *ngIf="edit_comcard==true || new_card==true">
-                                <!-- Form Card -->
-                                <label>{{title_card_type}}</label>
+                                 <label>{{title_card_type}}</label>
                                 <p-dropdown placeholder="--" [options]="cardList" optionValue="cardtype_code"
                                     [showClear]="true" [(ngModel)]="selectedComcard.card_type"
                                     [style]="{ width: '100%', overflow: 'visible' }">
@@ -429,7 +488,7 @@
                                 <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times"
                                     class="p-button-danger" (click)="comcard_cancel()"></button>
                             </div>
-                        </p-dialog>
+                        </p-dialog> -->
                     </div>
                 </div>
 

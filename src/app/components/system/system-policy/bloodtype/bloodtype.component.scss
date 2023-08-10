@@ -1,0 +1,213 @@
+.table_summary_{
+    border-collapse: collapse;
+}
+
+.table_summary_ td{
+    padding: 5px;
+    border: 0px solid #ccc;
+}
+
+
+.main_div {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 100px;
+    width: 100px;
+    background-color: #152047;
+}
+
+.main_div_2 {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 100px;
+    width: 100px;
+    background-color: #50535c;
+}
+
+.sub_div {
+    position: absolute;
+    bottom: 5px;
+}
+
+.spn_value{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.spn_title{
+    color: #FFFFFF;
+    font-size: 12px;    
+}
+
+small{
+    font-size: 15px;
+}
+
+.table_summary_{
+    border-collapse: collapse;
+}
+
+.table_summary_ td{
+    padding: 5px;
+    border: 0px solid #ccc;
+}
+
+
+.main_div {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 100px;
+    width: 100px;
+    background-color: #152047;
+}
+
+.main_div_2 {
+    text-align:left;
+    position: relative;
+    padding: 5px;
+    height: 100px;
+    width: 100px;
+    background-color: #50535c;
+}
+
+.sub_div {
+    position: absolute;
+    bottom: 5px;
+}
+
+.spn_value{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.spn_title{
+    color: #FFFFFF;
+    font-size: 12px;    
+}
+
+small{
+    font-size: 15px;
+}
+
+
+// doLoadWorkerList() {
+//     this.employeeService.worker_get(this.initial_current.CompCode, '').then(() => {
+//       let resultJSON = async;
+//       console.log('test')
+//       if (resultJSON.result == '1') {
+//         let workerCurrent: number = 0;
+//         let workerNew: number = 0;
+//         let workerResign: number = 0;
+       
+//         for (let i = 0; i < resultJSON.data.length; i++) {
+//           let dateStart = new Date(resultJSON.data[i].worker_hiredate);
+//           let dateResign = new Date(resultJSON.data[i].worker_resigndate);
+          
+//           if (resultJSON.data[i].worker_resignstatus == false && dateStart.getTime() < this.temp_fromdate.getTime()) {
+//             workerCurrent++;
+//           }
+          
+//           if (resultJSON.data[i].worker_resignstatus == false && dateStart.getTime() > this.temp_fromdate.getTime()) {
+//             workerNew++;
+//           }
+          
+//           if (resultJSON.data[i].worker_resignstatus == true && (dateResign.getTime() >= this.temp_fromdate.getTime() && dateResign.getTime() <= this.temp_fromdate.getTime())) {
+//             workerResign++;
+//           }
+//         }
+        
+//         this.barChartData[0].data = [workerCurrent, workerNew, workerResign];
+//         if (this.chart) {
+//           this.chart.update();
+//         }
+//       }
+//     });
+//   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// @ViewChild(BaseChartDirective)
+//   chart!: BaseChartDirective;
+//   barChartType: string = 'bar'; // ตัวแปร barChartType ต้องถูกกำหนด
+//   barChartLegend = true; 
+//   initial_current: any = {}; // แก้ไขให้เป็นประเภทที่ถูกต้อง
+//   employee_list: any[] = [];
+//   barChartLabels: any[] = [];
+//   barChartData: any[] = [];
+//   barChartOptions: any;
+ 
+//   constructor(private employeeService: EmployeeService) { } // แก้ไข Service ตามชื่อที่ถูกต้อง
+
+//   ngOnInit(): void {
+//     this.doGetInitialCurrent();
+//     this.doLoadEmployeeList();
+//   }
+
+//   doLoadEmployeeList() {
+//     // Replace 'CompCode' with the actual property name from your API response
+//     this.employeeService.worker_get(this.initial_current.CompCode, '').then((response: any) => {
+//       if (response.result === '1') {
+//         const workerData = response.data;
+//         const temp_fromdate = new Date(this.initial_current.PR_FromDate).getTime();
+//         const temp_todate = new Date(this.initial_current.PR_ToDate).getTime();
+
+//         const workerLabels: any[] = [];
+//         const workerCounts = [0, 0, 0];
+
+//         workerData.forEach((worker: any) => {
+//           const dateStart = new Date(worker.worker_hiredate).getTime();
+//           const dateResign = new Date(worker.worker_resigndate).getTime();
+
+//           if (!worker.worker_resignstatus && dateStart < temp_fromdate) {
+//             workerCounts[0]++;
+//           } else if (!worker.worker_resignstatus && dateStart > temp_fromdate) {
+//             workerCounts[1]++;
+//           } else if (worker.worker_resignstatus && dateResign >= temp_fromdate && dateResign <= temp_todate) {
+//             workerCounts[2]++;
+//           }
+
+//           workerLabels.push(this.getLanguage() === 'EN' ? worker.item_name_en : worker.item_name_th);
+//         });
+
+//         this.barChartLabels = workerLabels;
+//         this.barChartData = [{ data: workerCounts, label: 'Worker Count' }];
+
+//         if (this.chart) {
+//           this.chart.update();
+//         }
+//       }
+//     });
+//   }
+
+//   doGetInitialCurrent() {
+//     const initialData = localStorage.getItem('SESSIONInitial');
+//     this.initial_current = initialData ? JSON.parse(initialData) : {};
+//     if (!this.initial_current) {
+//       // Handle the navigation to the login page
+//     }
+//   }
+
+//   getLanguage(): string {
+//     return 'EN';
+//   }
+// }

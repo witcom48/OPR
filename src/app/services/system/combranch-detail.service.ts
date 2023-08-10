@@ -108,6 +108,10 @@ export class CombranchDetailService {
 
 
         item_data = item_data + ",\"comaddres_tel\":\"" + list[i].comaddres_tel + "\"";
+
+        item_data = item_data + ",\"comaddres_fax\":\"" + list[i].comaddres_fax + "\"";
+        item_data = item_data + ",\"comaddres_url\":\"" + list[i].comaddres_url + "\"";
+
         item_data = item_data + ",\"comaddres_email\":\"" + list[i].comaddres_email + "\"";
         item_data = item_data + ",\"comaddres_line\":\"" + list[i].comaddres_line + "\"";
         item_data = item_data + ",\"comaddres_facebook\":\"" + list[i].comaddres_facebook + "\"";

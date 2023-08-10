@@ -19,9 +19,7 @@
 
 <!-- ----------------END MENU----------------- -->
 
- <div class="col-sm-6">
-            <p>Generated Code: {{ generatedCode }}</p>
-          </div>
+
 <div class="tabledata">
   <!-- Table Show Data -->
   <div #TABLE>
@@ -35,17 +33,8 @@
       [globalFilterFields]="['codestructure_code','codestructure_name_en','polcode_lenght','polcode_text','polcode_order']"
       responsiveLayout="stack" [breakpoint]="'744px'">
       <!-- Form Search Table -->
-
       <ng-template pTemplate="caption">
         <div class="searchtable">
-
-
-          <!-- Generated code -->
-          <div class="col-sm-6">
-            <p>Generated Code: {{ generatedCode }}</p>
-          </div>
-
-          <!-- Generated code -->
           <span class="p-input-icon-left ml-auto">
             <i class="pi pi-search"></i>
             <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
@@ -57,25 +46,25 @@
       <ng-template pTemplate="header">
         <tr>
           <th>{{title_no}}</th>
+
           <th>{{title_code}}</th>
           <th>{{title_detail}}</th>
           <th>{{title_lenght}}</th>
           <th>{{title_text}}</th>
           <th> </th>
-          <th> </th>
+
+
 
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-data let-i="rowIndex">
         <tr [pSelectableRow]="data">
           <td> {{i+1}}</td>
-      
+
           <td>{{ data.codestructure_code }}</td>
           <td>{{ getStructureDetail(data.codestructure_code) }}</td>
           <td>{{ data.polcode_lenght }}</td>
           <td>{{ data.polcode_text }}</td>
-          <td> ตัวอย่างรหัส : {{ NewStructure(data) }}</td>
-          
           <td>
             <button pButton type="button" class="pi pi-trash gray-button " (click)="confirmDeletes(data)">
             </button>
@@ -107,13 +96,6 @@
         </ng-template>
       </p-dropdown>
 
-      <!-- <label>ทดสอบ</label>
-      <p-inputNumber mode="decimal" [showButtons]="false"  [minFractionDigits]="0"
-        [maxFractionDigits]="0" [(ngModel)]="workerDetail.worker_code" name="workerDetail.worker_code">
-      </p-inputNumber> -->
-
-
-
       <label>{{title_lenght}} </label>
       <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="0"
         [maxFractionDigits]="0" [(ngModel)]="selectedTRPolcode.polcode_lenght" name="polcode_lenght">
@@ -129,7 +111,7 @@
         [maxFractionDigits]="0" [(ngModel)]="selectedTRPolcode.polcode_order" name="polcode_order">
       </p-inputNumber>
 
-
+      
       <br>
 
       <div style="text-align: right;">

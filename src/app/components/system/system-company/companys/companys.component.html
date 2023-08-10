@@ -148,7 +148,7 @@
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
 
-                                            <div class="field col-6 height">
+                                            <!-- <div class="field col-6 height">
                                                 <label for="address_amphur ">{{ title_address_tel }}</label>
                                                 <input id="address_amphur" type="text"
                                                     [(ngModel)]="selectedComaddress.comaddres_tel"
@@ -174,7 +174,7 @@
                                                 <input id="address_amphur" type="text"
                                                     [(ngModel)]="selectedComaddress.comaddres_facebook"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                            </div>
+                                            </div> -->
 
                                         </div>
                                     </p-tabPanel>
@@ -261,7 +261,7 @@
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                             </div>
 
-                                            <div class="field col-6 height">
+                                            <!-- <div class="field col-6 height">
                                                 <label for="address_amphur">Tel</label>
                                                 <input id="address_amphur" type="text"
                                                     [(ngModel)]="selectedComaddress.comaddres_tel"
@@ -286,24 +286,74 @@
                                                 <input id="address_amphur" type="text"
                                                     [(ngModel)]="selectedComaddress.comaddres_facebook"
                                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                            </div>
-
-
+                                            </div> -->
                                         </div>
                                     </p-tabPanel>
                                 </p-tabView>
-
-
-
-
                             </p-accordionTab>
                         </p-accordion>
                     </div>
+                    <!-- // -->
+                    <div class="field col-12">
+                        <p-accordion>
+                            <p-accordionTab header="{{title_contack}}">
+                                <p-tabView (onChange)="tabChange($event)">
+                                    <div class="formgrid grid">
+
+
+
+
+                                        <div class="field col-6 height">
+                                            <label for="address_amphur ">{{ title_address_tel }}</label>
+                                            <input id="address_amphur" type="text"
+                                                [(ngModel)]="selectedComaddress.comaddres_tel"
+                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                        </div>
+
+
+                                        <div class="field col-6 height">
+                                            <label for="address_amphur">{{ title_address_email}}</label>
+                                            <input id="address_amphur" type="text"
+                                                [(ngModel)]="selectedComaddress.comaddres_email"
+                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                        </div>
+
+                                        <div class="field col-6 height">
+                                            <label for="comaddres_fax">{{title_fax}}</label>
+                                            <input id="comaddres_fax" type="text"
+                                                [(ngModel)]="selectedComaddress.comaddres_fax"
+                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                        </div>
+
+                                        <div class="field col-6 height">
+                                            <label for="comaddres_url">URL</label>
+                                            <input id="comaddres_url" type="text"
+                                                [(ngModel)]="selectedComaddress.comaddres_url"
+                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                        </div>
+
+                                        <div class="field col-6 height">
+                                            <label for="address_amphur">{{ title_address_line }}</label>
+                                            <input id="address_amphur" type="text"
+                                                [(ngModel)]="selectedComaddress.comaddres_line"
+                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                        </div>
+
+                                        <div class="field col-6 height">
+                                            <label for="address_amphur">{{ title_address_facebook}}</label>
+                                            <input id="address_amphur" type="text"
+                                                [(ngModel)]="selectedComaddress.comaddres_facebook"
+                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                        </div>
+                                    </div>
+                                </p-tabView>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+                    <!-- // -->
 
                     <!-- start -->
                 </p-tabPanel>
-
-
 
                 <!-- tab Personal-->
                 <p-tabPanel>
@@ -316,6 +366,7 @@
                             <div class="field col-12 md:col-12">
                                 <h1 for="lastname2">{{title_sso}}</h1>
                             </div>
+
                             <div class="center field col-12 md:col-5 custom-height">
                                 <label>{{ title_sso_no}}<span style="color: red;"> *</span></label>
                                 <input pInputText type="text" [(ngModel)]="selectedCompany.sso_security_no"
@@ -335,40 +386,71 @@
                             </div>
 
 
-                            <div class="center field col-12 md:col-5">
+                            <div class=" center field col-12 md:col-5 custom-height">
+                                <label for="lastname2">{{title_sso_company}}<span style="color: red;"> *</span></label>
+                                <input type="number" step="0.5" [(ngModel)]="selectedCompany.sso_com_rate"
+                                    name="sso_com_rate" id="minmax-buttons"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            </div>
+
+                            <!-- <div class="center field col-12 md:col-5">
                                 <label>{{title_sso_company}}<span style="color: red;"> *</span></label>
                                 <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
                                     name="sso_com_rate" #sso_com_rate="ngModel" [max]="100000" [step]="0.5"
                                     [(ngModel)]="selectedCompany.sso_com_rate">
                                 </p-inputNumber>
+                            </div> -->
+
+                            <br>
+                            <div class=" center field col-12 md:col-5 custom-height">
+                                <label for="lastname2">{{title_sso_employee}}<span style="color: red;"> *</span></label>
+                                <input type="number" step="0.5" [(ngModel)]="selectedCompany.sso_emp_rate"
+                                    name="sso_emp_rate" id="minmax-buttons"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
 
 
-                            <div class="center field col-12 md:col-5">
+                            <!-- <div class="center field col-12 md:col-5">
                                 <label for="lastname2">{{title_sso_employee}}<span style="color: red;"> *</span></label>
                                 <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
                                     name="sso_emp_rate" #sso_emp_rate="ngModel" [max]="100000" [step]="0.5"
                                     [(ngModel)]="selectedCompany.sso_emp_rate">
                                 </p-inputNumber>
+                            </div> -->
+
+
+
+                            <div class=" center field col-12 md:col-5 custom-height">
+                                <label for="lastname2">{{title_min_wage}}<span style="color: red;"> *</span></label>
+                                <input type="number" step="0.5" [(ngModel)]="selectedCompany.sso_min_wage"
+                                    name="sso_min_wage" id="minmax-buttons"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
-
-
-                            <div class="center field col-12 md:col-5">
+                            <br>
+                            <!-- <div class="center field col-12 md:col-5">
                                 <label for="lastname2">{{title_min_wage}}<span style="color: red;"> *</span></label>
                                 <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
                                     name="sso_min_wage" #sso_min_wage="ngModel" [max]="100000" [step]="0.5"
                                     [(ngModel)]="selectedCompany.sso_min_wage">
                                 </p-inputNumber>
+                            </div> -->
+
+
+
+                            <div class=" center field col-12 md:col-5 custom-height">
+                                <label for="lastname2">{{title_max_wage}}<span style="color: red;"> *</span></label>
+                                <input type="number" step="0.5" [(ngModel)]="selectedCompany.sso_max_wage"
+                                    name="sso_max_wage" id="minmax-buttons"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
-
-
-                            <div class="center field col-12 md:col-5">
+                            <br>
+                            <!-- <div class="center field col-12 md:col-5">
                                 <label for="lastname2">{{title_max_wage}}<span style="color: red;"> *</span></label>
                                 <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
                                     name="sso_max_wage" #sso_max_wage="ngModel" [max]="100000" [step]="0.5"
                                     [(ngModel)]="selectedCompany.sso_max_wage">
                                 </p-inputNumber>
-                            </div>
+                            </div> -->
                             <div class="horizontal">
                                 <hr>
                             </div>
@@ -422,30 +504,41 @@
                             <hr
                                 style="border-color: rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 100%;">
 
-
-
-
-
                             <div class="field col-12 md:col-12">
                                 <h1 for="lastname2">{{title_employee_age}}</h1>
                             </div>
 
-
-
+                            <!-- /// -->
+                            <div class=" center field col-12 md:col-5 custom-height">
+                                <label for="lastname2">{{title_min_age}}<span style="color: red;"> *</span></label>
+                                <input type="number" step="0.5" [(ngModel)]="selectedCompany.sso_min_age"
+                                    name="sso_min_age" id="minmax-buttons"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            </div>
+                            <!-- // -->
+                            <!-- 
                             <div class="center field col-12 md:col-12">
                                 <label for="lastname2">{{title_min_age}}<span style="color: red;"> *</span></label>
                                 <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons"
                                     [max]="100000" [step]="0.5" name="sso_min_age" #sso_min_age="ngModel"
                                     [(ngModel)]="selectedCompany.sso_min_age">
                                 </p-inputNumber>
+                            </div> -->
+
+                            <div class=" center field col-12 md:col-5 custom-height">
+                                <label for="lastname2">{{title_max_age}}<span style="color: red;"> *</span></label>
+                                <input type="number" step="0.5" [(ngModel)]="selectedCompany.sso_max_age"
+                                    name="sso_max_age" id="minmax-buttons"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
-                            <div class="center field col-5 ">
+
+                            <!-- <div class="center field col-5 ">
                                 <label for="lastname2">{{title_max_age}}<span style="color: red;"> *</span></label>
                                 <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="18"
                                     [max]="60" [step]="1" name="sso_max_age" #sso_max_age="ngModel"
                                     [(ngModel)]="selectedCompany.sso_max_age">
                                 </p-inputNumber>
-                            </div>
+                            </div> -->
 
                             <div class="center field col-12 md:col-5 custom-height"></div>
                             <hr
@@ -456,23 +549,21 @@
                                 <h1 for="lastname2">{{title_hours_perday}}</h1>
                             </div>
 
-                            <div class="center col-12 md:col-5">
+                            <div class=" center field col-12 md:col-5 custom-height">
+                                <label for="lastname2">{{title_hours_perday}}<span style="color: red;"> *</span></label>
+                                <input type="number" step="0.5" [(ngModel)]="selectedCompany.hrs_perday"
+                                    name="hrs_perday" id="minmax-buttons"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            </div>
+
+                            <!-- <div class="center col-12 md:col-5">
                                 <label for="lastname2">{{title_hours_perday}}<span style="color: red;"> *</span></label>
                                 <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [max]="120"
                                     [step]="0.5" name="hrs_perday" #hrs_perday="ngModel"
                                     [(ngModel)]="selectedCompany.hrs_perday">
                                 </p-inputNumber>
-                            </div>
+                            </div> -->
                             <div class="center field col-12 md:col-5 custom-height"></div>
-
-
-
-
-
-
-
-
-
                         </div>
                         <!-- card -->
                         <!-- <div class="col-12">
@@ -527,6 +618,9 @@
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_banks}}</th>
+                                                <th>{{title_bankaccount}}</th>
+                                                <th>{{title_bankname}}</th>
+                                                <th>{{title_banktype}}</th>
                                                 <th>{{title_number}}</th>
                                                 <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
@@ -535,6 +629,11 @@
                                         <ng-template pTemplate="body" let-data>
                                             <tr [pSelectableRow]="data">
                                                 <th>{{ data.combank_bankcode }}</th>
+                                                <th>{{ data.combank_bankaccount }}</th>
+                                                <th>{{ data.combank_bankname }}</th>
+                                                <th>{{ data.combank_banktype }}</th>
+
+
                                                 <th>{{ data.combank_bankaccount }}</th>
                                                 <th>{{ data.modified_by }}</th>
                                                 <th>{{ data.modified_date | date : "dd/MM/yyyy HH:mm" }}
@@ -580,6 +679,7 @@
                     <div class="field col-12 md:col-4   bottom">
                         <input class="no-border upload" type="file" id="file" (change)="onselectFilesmaps($event)">
                     </div>
+
 
 
                     <!-- start -->
@@ -630,6 +730,8 @@
                     [position]="position">
 
                     <div class="formatt p-dialog-content" *ngIf="edit_combank==true || new_bank==true">
+
+
                         <div>
                             <label for="lastname2">{{title_banks}}:</label>
                             <p-dropdown placeholder="--" [options]="bankList" optionValue="bank_code" [showClear]="true"
@@ -644,8 +746,26 @@
                             </p-dropdown>
                         </div>
 
-                        <label>{{title_number}}</label>
+
+                        <label>{{title_bankaccount}}</label>
                         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankaccount">
+
+
+                        <label>{{title_bankname}}</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankname">
+
+
+                        <label>{{title_banktype}} </label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_banktype">
+
+                        <!-- <label>{{title_banktype}} </label>
+                        <select  pInputText [(ngModel)]="selectedCombank.combank_banktype" class="custom-select">
+                            <option  *ngFor="let account of accountTypes" [value]="account.type">{{ account.name }}</option>
+                        </select> -->
+
+
+                        <label>{{title_number}}</label>
+                        <input pInputText type="number" id="ppos_code" [(ngModel)]="selectedCombank.combank_branch">
 
 
 

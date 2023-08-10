@@ -25,6 +25,10 @@ export class ComaddressModel {
     province_code: string = "";
 
     comaddres_tel: string = "";
+
+    comaddres_fax: string = "";
+    comaddres_url: string = "";
+
     comaddres_email: string = "";
     comaddres_line: string = "";
     comaddres_facebook : string = "";

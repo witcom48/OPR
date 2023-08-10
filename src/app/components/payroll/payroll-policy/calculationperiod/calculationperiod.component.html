@@ -114,18 +114,29 @@
 
             <label>{{title_detail_en}}</label>
             <textarea [(ngModel)]="selectedPeriods.period_name_en" pInputTextarea [autoResize]="true"></textarea>
-
+            
             <label>{{title_fromdate}}</label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+            [(ngModel)]="selectedPeriods.period_from"  ></p-calendar>
+
+
+            <!-- <label>{{title_fromdate}}</label>
             <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_from" dateFormat="dd/mm/yy"><input
-                    type="text"></p-calendar>
+                    type="text"></p-calendar> -->
 
             <label>{{title_todate}}</label>
-            <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_to" dateFormat="dd/mm/yy"><input
-                    type="text"></p-calendar>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+            [(ngModel)]="selectedPeriods.period_to"  ></p-calendar>
+
+            <!-- <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_to" dateFormat="dd/mm/yy"><input
+                    type="text"></p-calendar> -->
 
             <label>{{title_payment}}</label>
-            <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_payment" dateFormat="dd/mm/yy"><input
-                    type="text"></p-calendar>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+            [(ngModel)]="selectedPeriods.period_payment"  ></p-calendar>
+
+            <!-- <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_payment" dateFormat="dd/mm/yy"><input
+                    type="text"></p-calendar> -->
             <div>
                 <input type="checkbox" value="1" [(ngModel)]="selectedPeriods.period_dayonperiod">
                 <label>{{title_day_pay}}</label>

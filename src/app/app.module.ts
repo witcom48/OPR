@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
 
 import { NgChartsModule } from 'ng2-charts';
-
+ 
 import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -30,8 +30,8 @@ registerLocaleData(localeth);
         ToastModule,
         LeafletModule,
         EditorModule,
-        NgChartsModule
-    ],
+        NgChartsModule,
+     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         MessageService, DatePipe, ConfirmationService

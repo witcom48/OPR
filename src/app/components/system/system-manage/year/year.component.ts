@@ -6,7 +6,6 @@ import { ConfirmationService, MenuItem, MessageService, PrimeNGConfig } from 'pr
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { YearPeriodModels } from 'src/app/models/system/policy/yearperiod';
-import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { YearService } from 'src/app/services/system/policy/year.service';
 import * as XLSX from 'xlsx';
 declare var yearperiod: any;
@@ -38,14 +37,12 @@ export class YearComponent implements OnInit {
   fileToUpload: File | any = null;
   displayUpload: boolean = false;
   items: MenuItem[] = [];
-
+  itemsOptions: MenuItem[] = [];
   yearperiods_list: YearPeriodModels[] = [];
   yearperiods: YearPeriodModels = new YearPeriodModels()
   year_type: string = "TAX"
 
   public initial_current: InitialCurrent = new InitialCurrent();
-  initialData2: InitialCurrent = new InitialCurrent();
-  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
@@ -57,8 +54,6 @@ export class YearComponent implements OnInit {
     } else {
       this.config.setTranslation(langcalendaren)
     }
-    this.accessData = this.initialData2.dotGetPolmenu('SYS');
-
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -147,15 +142,10 @@ export class YearComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          if (this.accessData.accessdata_new) {
-            this.showManage()
-            this.yearperiods = new YearPeriodModels();
-            this.new_data = true;
-            this.edit_data = false;
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
-          }
-
+          this.showManage()
+          this.yearperiods = new YearPeriodModels();
+          this.new_data = true;
+          this.edit_data = false;
         }
       }
       ,
@@ -177,6 +167,30 @@ export class YearComponent implements OnInit {
         }
       }
     ];
+
+    this.itemsOptions = [{
+
+      items: [{
+        label: 'ลบ',
+        icon: 'pi pi-trash',
+        command: () => {
+        //  this.Delete()
+         this.doDeleteYear(this.yearperiods)
+
+        }
+      },
+      {
+        label: 'คัดลอก',
+        icon: 'pi pi-times',
+        command: () => {
+          // this.delete();
+        }
+      }
+      ]
+    },
+     
+    ];
+
   }
   showUpload() {
     this.displayUpload = true;
@@ -213,6 +227,7 @@ export class YearComponent implements OnInit {
   }
   Delete() {
     this.doDeleteYear(this.yearperiods)
+    // console.log(this.doDeleteYear)
   }
   onRowSelect(event: any) {
     this.year_type == this.yearperiods.year_group;

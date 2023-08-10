@@ -211,9 +211,6 @@ export class EmpIDComponent implements OnInit {
   doLoadTRPolcode() {
     this.codePolcodeService.TRPolcode_get().then((res) => {
       this.TRPolcode_list = res;
-  
-      // ตรวจสอบรายการโครงสร้างที่บันทึกทั้งหมด
-      console.log(this.TRPolcode_list);
       
     });
   }
