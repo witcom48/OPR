@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/select-emp.component';
 import { AppConfig } from 'src/app/config/config';
@@ -45,6 +45,8 @@ interface Year {
   styleUrls: ['./setuppolicy.component.scss']
 })
 export class SetuppolicyComponent implements OnInit {
+  mainMenuItems: MenuItem[] = [{ label: 'Attendance', routerLink: '/attendance/policy' }, { label: 'Set Polilcy', routerLink: '/attendance/policy/setallpolicy', styleClass: 'activelike' }];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,

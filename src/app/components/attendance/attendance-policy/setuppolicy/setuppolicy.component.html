@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>Attendance</span>
     <div>
         <i></i>
@@ -7,10 +7,10 @@
         <i></i>
         <small>Set {{title}}</small>
     </div>
-</div>
+</div> -->
 <!-- ---------END Link Page----------- -->
-<hr>
-
+<!-- <hr> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 
 <p-tabView [(activeIndex)]="index" (onChange)="function($event)">
     <p-tabPanel [selected]="true">
