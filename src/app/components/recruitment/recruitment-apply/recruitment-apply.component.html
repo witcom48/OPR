@@ -76,6 +76,20 @@
                         </div>
 
                         <div style="grid-column: 1;">
+                            <label for="lastname2">{{title_type}} : <span style="color: red;"> *</span></label>
+                            <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code"
+                                [showClear]="true" [(ngModel)]="selectedReqworker.worker_type"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+
+                        <div>
                             <label for="worker_age">{{title_age[initial_current.Language]}}:</label>
                             <p-inputNumber inputId="integeronly"
                                 [(ngModel)]="selectedReqworker.worker_age"></p-inputNumber>
@@ -89,6 +103,21 @@
                                 <input type="text">
                             </p-calendar>
 
+                        </div>
+
+                        <div style="grid-column: 1;">
+                            <label for="lastname2">{{title_nation[initial_current.Language]}} : <span
+                                    style="color: red;"> *</span></label>
+                            <p-dropdown placeholder="--" [options]="nationality" optionValue="code" [showClear]="true"
+                                [(ngModel)]="selectedReqworker.nationality_code"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                            </p-dropdown>
                         </div>
 
                         <div>
@@ -106,9 +135,22 @@
                         <div class="horizontal">
                             <hr>
                         </div>
+
+                        <div>
+                            <label>{{title_blacklist[initial_current.Language]}} :</label>
+                        </div>
+
+                        <div>
+                            <label>{{title_history[initial_current.Language]}} :</label>
+                        </div>
+
+                        <div class="horizontal">
+                            <hr>
+                        </div>
                     </div>
 
-                    <!-- <div class="accordion">
+                    <!-- suggest -->
+                    <div class="accordion">
                         <p-accordion>
                             <p-accordionTab header="{{title_suggest}}">
                                 <p-menubar [model]="menu_reqsuggest"></p-menubar>
@@ -122,8 +164,8 @@
                                         <tr>
                                             <th>{{title_suggestname}}</th>
                                             <th>{{title_description}}</th>
-                                            <th>{{title_modified_by}}</th>
-                                            <th>{{title_modified_date}}</th>
+                                            <th>{{title_modified_by[initial_current.Language]}}</th>
+                                            <th>{{title_modified_date[initial_current.Language]}}</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-empsuggest>
@@ -137,8 +179,109 @@
                                 </p-table>
                             </p-accordionTab>
                         </p-accordion>
-                    </div> -->
+                    </div>
 
+                    <div class="horizontal">
+                        <br>
+                    </div>
+
+                    <!-- position -->
+                    <div class="accordion">
+                        <p-accordion>
+                            <p-accordionTab header="{{title_position}}">
+                                <p-menubar [model]="menu_reqposition"></p-menubar>
+                                <p-table #dtempposition [value]="reqPositionList" styleClass="p-datatable-sm"
+                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqPosition"
+                                    (onRowSelect)="onRowSelectReqposition($event)" [rows]="10"
+                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{title_position}}</th>
+                                            <th>{{title_modified_by[initial_current.Language]}}</th>
+                                            <th>{{title_modified_date[initial_current.Language]}}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-empposition>
+                                        <tr [pSelectableRow]="empposition">
+                                            <td>{{doGetPositionDetail(empposition.empposition_position)}}</td>
+                                            <td>{{empposition.modified_by}}</td>
+                                            <td>{{empposition.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+
+                    <div class="horizontal">
+                        <br>
+                    </div>
+
+                    <!-- project -->
+                    <div class="accordion">
+                        <p-accordion>
+                            <p-accordionTab header="{{title_project[initial_current.Language]}}">
+                                <p-menubar [model]="menu_reqproject"></p-menubar>
+                                <p-table #dtempproject [value]="reqProjectList" styleClass="p-datatable-sm"
+                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqProject"
+                                    (onRowSelect)="onRowSelectReqproject($event)" [rows]="10"
+                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{title_project[initial_current.Language]}}</th>
+                                            <th>{{title_modified_by[initial_current.Language]}}</th>
+                                            <th>{{title_modified_date[initial_current.Language]}}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-empproject>
+                                        <tr [pSelectableRow]="empproject">
+                                            <td>{{doGetProjectDetail(empproject.project_code)}}</td>
+                                            <td>{{empproject.modified_by}}</td>
+                                            <td>{{empproject.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+
+                    <div class="horizontal">
+                        <br>
+                    </div>
+
+                    <!-- salary -->
+                    <div class="accordion">
+                        <p-accordion>
+                            <p-accordionTab header="{{title_salary}}">
+                                <p-menubar [model]="menu_reqsalary"></p-menubar>
+                                <p-table #dtempsalary [value]="reqSalaryList" styleClass="p-datatable-sm"
+                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqSalary"
+                                    (onRowSelect)="onRowSelectReqsalary($event)" [rows]="10"
+                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{title_salary}}</th>
+                                            <th>{{title_modified_by[initial_current.Language]}}</th>
+                                            <th>{{title_modified_date[initial_current.Language]}}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-empsalary>
+                                        <tr [pSelectableRow]="empsalary">
+                                            <td>{{empsalary.empsalary_amount}}</td>
+                                            <td>{{empsalary.modified_by}}</td>
+                                            <td>{{empsalary.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
 
                 </p-tabPanel>
 
@@ -280,16 +423,19 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-reqaddress>
                                         <tr [pSelectableRow]="reqaddress">
-                                            <td>{{reqaddress.address_type}}</td>
-                                            <td>{{reqaddress.address_no}}</td>
-                                            <td>{{reqaddress.address_soi}}</td>
-                                            <td>{{reqaddress.address_road}}</td>
-                                            <td>{{reqaddress.address_amphur}}</td>
-                                            <td>{{reqaddress.address_tambon}}</td>
-                                            <td>{{reqaddress.province_code}}</td>
-                                            <td>{{reqaddress.address_zipcode}}</td>
-                                            <td>{{reqaddress.address_tel}}</td>
-                                            <td>{{reqaddress.address_email}}</td>
+                                            <td>{{doGetAddtypeDetail(reqaddress.address_type)}}</td>
+                                            <!-- <td>{{empaddress.address_no}}</td>
+                                                <td>{{empaddress.address_soi}}</td>
+                                                <td>{{empaddress.address_road}}</td>
+                                                <td>{{empaddress.address_amphur}}</td>
+                                                <td>{{empaddress.address_tambon}}</td>
+                                                <td>{{empaddress.province_code}}</td>
+                                                <td>{{empaddress.address_zipcode}}</td> -->
+                                            <td>{{reqaddress.address_no}} {{reqaddress.address_moo}}
+                                                {{reqaddress.address_soi}} {{reqaddress.address_road}}
+                                                {{reqaddress.address_amphur}} {{reqaddress.address_tambon}}
+                                                {{doGetProvinceDetail(reqaddress.province_code)}}
+                                                {{reqaddress.address_zipcode}}</td>
                                             <td>{{reqaddress.modified_by}}</td>
                                             <td>{{reqaddress.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
@@ -326,7 +472,7 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-data>
                                         <tr [pSelectableRow]="data">
-                                            <th>{{data.card_type }}</th>
+                                            <th>{{doGetCardDetail(data.card_type) }}</th>
                                             <!-- <td>{{initial_current.Language == "TH"? data.cardtype_name_th:data.cardtype_name_en}}</td> -->
 
                                             <th>{{data.card_code}}</th>
@@ -500,12 +646,12 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-reqeducation>
                                             <tr [pSelectableRow]="reqeducation">
-                                                <td>{{reqeducation.institute_code}}</td>
+                                                <td>{{doGetInstituteDetail(reqeducation.institute_code)}}</td>
                                                 <td>{{reqeducation.empeducation_start | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{reqeducation.empeducation_finish | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{reqeducation.faculty_code}}</td>
-                                                <td>{{reqeducation.major_code}}</td>
-                                                <td>{{reqeducation.qualification_code}}</td>
+                                                <td>{{doGetFacultyDetail(reqeducation.faculty_code)}}</td>
+                                                <td>{{doGetMajorDetail(reqeducation.major_code)}}</td>
+                                                <td>{{doGetQualificationDetail(reqeducation.qualification_code)}}</td>
                                                 <td>{{reqeducation.empeducation_gpa}}</td>
                                                 <td>{{reqeducation.modified_by}}</td>
                                                 <td>{{reqeducation.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -543,8 +689,8 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-reqtraining>
                                             <tr [pSelectableRow]="reqtraining">
-                                                <td>{{reqtraining.institute_code}}</td>
-                                                <td>{{reqtraining.course_code}}</td>
+                                                <td>{{doGetInstituteDetail(reqtraining.institute_code)}}</td>
+                                                <td>{{doGetCourseDetail(reqtraining.course_code)}}</td>
                                                 <td>{{reqtraining.course_other}}</td>
                                                 <td>{{reqtraining.emptraining_start | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{reqtraining.emptraining_finish | date:'dd/MM/yyyy'}}</td>
@@ -593,7 +739,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-reqassessment>
                                             <tr [pSelectableRow]="reqassessment">
-                                                <td>{{reqassessment.empassessment_location}}</td>
+                                                <td>{{doGetInstituteDetail(reqassessment.empassessment_location)}}</td>
                                                 <td>{{reqassessment.empassessment_topic}}</td>
                                                 <td>{{reqassessment.empassessment_fromdate | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{reqassessment.empassessment_todate | date:'dd/MM/yyyy'}}</td>
@@ -643,7 +789,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-reqcriminal>
                                             <tr [pSelectableRow]="reqcriminal">
-                                                <td>{{reqcriminal.empcriminal_location}}</td>
+                                                <td>{{doGetInstituteDetail(reqcriminal.empcriminal_location)}}</td>
                                                 <td>{{reqcriminal.empcriminal_fromdate | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{reqcriminal.empcriminal_todate | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{reqcriminal.empcriminal_count}}</td>
@@ -1103,6 +1249,59 @@
             (click)="reqsuggest_summit()"></button>
         <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
             (click)="reqsuggest_cancel()"></button>
+    </div>
+
+    <!-- Form Req Position -->
+    <div class="formatt" *ngIf="edit_reqposition==true || new_position==true">
+        <label>{{title_position}}</label>
+        <p-dropdown placeholder="--" [options]="position_list" optionValue="position_code" [showClear]="true"
+            [(ngModel)]="selectedReqPosition.empposition_position" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="reqposition_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="reqposition_cancel()"></button>
+    </div>
+
+    <!-- Form Req Project -->
+    <div class="formatt" *ngIf="edit_reqproject==true || new_project==true">
+        <label>{{title_project[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code" [showClear]="true"
+            [(ngModel)]="selectedReqProject.project_code" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="reqproject_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="reqproject_cancel()"></button>
+    </div>
+
+    <!-- Form Req salary -->
+    <div class="formatt" *ngIf="edit_reqsalary==true || new_salary==true">
+        <label>{{title_amount}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedReqSalary.empsalary_amount">
+        </p-inputNumber>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="reqsalary_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="reqsalary_cancel()"></button>
     </div>
 
 </p-dialog>

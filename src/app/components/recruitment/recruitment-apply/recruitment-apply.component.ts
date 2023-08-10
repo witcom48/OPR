@@ -71,6 +71,12 @@ import { EmpTrainingModel } from 'src/app/models/employee/manage/training';
 import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ApplyMTDocattModel } from 'src/app/models/recruitment/applyMTDocatt';
+import { ProjectService } from 'src/app/services/project/project.service';
+import { EmpPositionModel } from 'src/app/models/employee/manage/position';
+import { ReqProjectModel } from 'src/app/models/recruitment/reqproject';
+import { ProjectModel } from 'src/app/models/project/project';
+import { PositionModel } from 'src/app/models/employee/policy/position';
+import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 
 interface Taxmethod {
     name_th: string;
@@ -91,7 +97,12 @@ interface Milit {
     name_th: string,
     name_en: string,
     code: string
-  }
+}
+interface Nation {
+    name_th: string,
+    name_en: string,
+    code: string
+}
 
 @Component({
     selector: 'app-recruitment-apply',
@@ -125,6 +136,8 @@ export class RecruitmentApplyComponent implements OnInit {
     cardTypelist: Ctype[] = [];
 
     militarystatus: Milit[] = [];
+
+    nationality: Nation[] = [];
 
 
     //menu empsuggest
@@ -161,6 +174,18 @@ export class RecruitmentApplyComponent implements OnInit {
     new_criminal: boolean = false;
     /////////////////
     items_attfile: MenuItem[] = [];
+    ///////////////////////////////////menu reqposition
+    menu_reqposition: MenuItem[] = [];
+    edit_reqposition: boolean = false;
+    new_position: boolean = false;
+    ///////////////////////////////////menu reqproject
+    menu_reqproject: MenuItem[] = [];
+    edit_reqproject: boolean = false;
+    new_project: boolean = false;
+    ///////////////////////////////////menu reqsalary
+    menu_reqsalary: MenuItem[] = [];
+    edit_reqsalary: boolean = false;
+    new_salary: boolean = false;
 
     displayManage: boolean = false;
 
@@ -189,6 +214,9 @@ export class RecruitmentApplyComponent implements OnInit {
         private courseService: CourseService,
 
         private addresstypeService: AddresstypeService,
+        private positionService: PositionService,
+        private projectService: ProjectService,
+        private emptypeService: EmptypeService,
     ) {
         this.taxM = [
             { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -222,7 +250,17 @@ export class RecruitmentApplyComponent implements OnInit {
             { name_th: 'ได้รับการยกเว้น', name_en: 'Exempted', code: 'E' },
             { name_th: 'ยังไม่เกณฑ์ทหาร', name_en: 'Non', code: 'N' },
             { name_th: 'ผ่านการเกณฑ์ทหารแล้ว', name_en: 'Pass military service', code: 'P' },
-          ]
+        ];
+        this.nationality = [
+            { name_th: 'ไทย', name_en: 'Thai', code: 'TH' },
+            { name_th: 'ไต้หวัน', name_en: 'Taiwanese', code: 'TW' },
+            { name_th: 'อเมริกัน', name_en: 'USA', code: 'US' },
+            { name_th: 'สิงคโปร์', name_en: 'Singaporean', code: 'SG' },
+            { name_th: 'ฟิลลิปปิน', name_en: 'Filipino', code: 'PH' },
+            { name_th: 'มาเลเซีย', name_en: 'Malaysia', code: 'MY' },
+            { name_th: 'จีน', name_en: 'Chinese', code: 'CH' },
+
+        ];
     }
 
     ngOnInit(): void {
@@ -247,6 +285,11 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doLoadqualificationList();
         this.doLoadcourseList();
         this.doLoadSuggestList();
+
+        this.doloadpositionList();
+        this.doLoadprojectList();
+
+        this.doLoadEmptypeList();
 
         setTimeout(() => {
             this.doLoadMenu();
@@ -331,7 +374,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_supply: string = "Office Supply";
     title_uniform: string = "Uniform";
     title_suggest: string = "Suggest";
-    title_assessment: string = "Assessment";
+    title_assessment: string = "Appraisal";
     title_criminal: string = "Criminal Record";
     title_resignrecord: string = "Resign Record";
 
@@ -473,6 +516,12 @@ export class RecruitmentApplyComponent implements OnInit {
     title_familyaddress: { [key: string]: string } = { EN: "Address", TH: "ที่อยู่" };
     title_familynameth: { [key: string]: string } = { EN: "Name(Eng.)", TH: "ชื่อ(อังกฤษ)" };
     title_familynameen: { [key: string]: string } = { EN: "Name(Thai)", TH: "ชื่อ(ไทย)" };
+
+    title_blacklist: { [key: string]: string } = { EN: "Black List", TH: "เบล็คลิสต์" };
+    title_history: { [key: string]: string } = { EN: "Working History", TH: "ประวัติการทำงาน" };
+    //
+    title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
+    title_nation: { [key: string]: string } = { EN: "Nationality", TH: "สัญชาติ" };
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
@@ -706,9 +755,21 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedReqSuggest != null) {
-                        this.reqsuggest_remove();
-                    }
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqSuggest != null) {
+                                this.reqsuggest_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
                 },
             },
         ];
@@ -741,9 +802,21 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedReqAddress != null) {
-                        this.reqaddress_remove();
-                    }
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqAddress != null) {
+                                this.reqaddress_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
                 },
             },
         ];
@@ -776,9 +849,21 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedReqcard != null) {
-                        this.reqcard_remove();
-                    }
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqcard != null) {
+                                this.reqcard_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
                 },
             },
         ];
@@ -813,9 +898,21 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedReqeducation != null) {
-                        this.reqeducation_remove();
-                    }
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqeducation != null) {
+                                this.reqeducation_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
                 },
             },
         ];
@@ -850,9 +947,21 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedReqtraining != null) {
-                        this.reqtraining_remove();
-                    }
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqtraining != null) {
+                                this.reqtraining_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
                 },
             },
         ];
@@ -888,9 +997,21 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedReqassessment != null) {
-                        this.reqassessment_remove();
-                    }
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqassessment != null) {
+                                this.reqassessment_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
                 },
             },
         ];
@@ -926,9 +1047,21 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_delete,
                 icon: 'pi pi-fw pi-trash',
                 command: (event) => {
-                    if (this.selectedReqCriminal != null) {
-                        this.reqcriminal_remove();
-                    }
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqCriminal != null) {
+                                this.reqcriminal_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
                 },
             },
         ];
@@ -943,6 +1076,149 @@ export class RecruitmentApplyComponent implements OnInit {
             },
 
 
+        ];
+        //menu position
+        this.menu_reqposition = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.clearManage();
+                    this.new_position = true;
+                    var ref = this.reqPositionList.length + 100;
+                    this.selectedReqPosition = new EmpPositionModel();
+                    this.selectedReqPosition.empposition_id = ref.toString();
+                    this.showManage();
+                },
+            },
+            {
+                label: this.title_edit,
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    this.clearManage();
+                    if (this.selectedReqPosition != null) {
+                        this.edit_reqposition = true;
+                        this.showManage();
+                    }
+                },
+            },
+            {
+                label: this.title_delete,
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqPosition != null) {
+                                this.reqposition_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
+                },
+            },
+        ];
+
+        //menu project
+        this.menu_reqproject = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.clearManage();
+                    this.new_project = true;
+                    var ref = this.reqProjectList.length + 100;
+                    this.selectedReqProject = new ReqProjectModel();
+                    this.selectedReqProject.empproject_id = ref.toString();
+                    this.showManage();
+                },
+            },
+            {
+                label: this.title_edit,
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    this.clearManage();
+                    if (this.selectedReqProject != null) {
+                        this.edit_reqproject = true;
+                        this.showManage();
+                    }
+                },
+            },
+            {
+                label: this.title_delete,
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqProject != null) {
+                                this.reqproject_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
+                },
+            },
+        ];
+
+        //menu salary
+        this.menu_reqsalary = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.clearManage();
+                    this.new_salary = true;
+                    var ref = this.reqSalaryList.length + 100;
+                    this.selectedReqSalary = new EmpSalaryModel();
+                    this.selectedReqSalary.empsalary_id = ref.toString();
+                    this.showManage();
+                },
+            },
+            {
+                label: this.title_edit,
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    this.clearManage();
+                    if (this.selectedReqSalary != null) {
+                        this.edit_reqsalary = true;
+                        this.showManage();
+                    }
+                },
+            },
+            {
+                label: this.title_delete,
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqSalary != null) {
+                                this.reqsalary_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
+                },
+            },
         ];
     }
 
@@ -972,6 +1248,15 @@ export class RecruitmentApplyComponent implements OnInit {
         //
         this.edit_reqcriminal = false;
         this.new_criminal = false;
+        //
+        this.edit_reqposition = false;
+        this.new_position = false;
+        //
+        this.edit_reqproject = false;
+        this.new_project = false;
+        //
+        this.edit_reqsalary = false;
+        this.new_salary = false;
 
         this.displayManage = false;
     }
@@ -997,6 +1282,12 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.manage_title = 'Assessment';
             } else if (this.new_criminal || this.edit_reqcriminal) {
                 this.manage_title = 'Criminal record';
+            } else if (this.new_position || this.edit_reqposition) {
+                this.manage_title = 'Position';
+            } else if (this.new_project || this.edit_reqproject) {
+                this.manage_title = 'Project';
+            } else if (this.new_salary || this.edit_reqsalary) {
+                this.manage_title = 'Salary';
             }
         } else {
             if (this.new_reqsuggest || this.edit_reqsuggest) {
@@ -1015,6 +1306,12 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.manage_title = 'ประวัติการประเมิน';
             } else if (this.new_criminal || this.edit_reqcriminal) {
                 this.manage_title = 'ประวัติการตรวจสอบอาชญากรรม';
+            } else if (this.new_position || this.edit_reqposition) {
+                this.manage_title = 'ตำแหน่ง';
+            } else if (this.new_project || this.edit_reqproject) {
+                this.manage_title = 'โครงการ';
+            } else if (this.new_salary || this.edit_reqsalary) {
+                this.manage_title = 'เงินเดือน/ค่าจ้าง';
             }
         }
     }
@@ -1068,6 +1365,10 @@ export class RecruitmentApplyComponent implements OnInit {
                         this.doLoadReqCriminalList();
 
                         this.doLoadReqSuggestList();
+
+                        this.doLoadReqPositionList();
+                        this.doLoadReqProjectList();
+                        this.doLoadReqSalaryList();
 
                     }, 300);
                 }
@@ -1161,6 +1462,26 @@ export class RecruitmentApplyComponent implements OnInit {
             this.qualificationList = res;
         });
     }
+    //position
+    position_list: PositionModel[] = [];
+    doloadpositionList() {
+        this.positionService.position_get().then((res) => {
+            this.position_list = res;
+        })
+    }
+    // project
+    projectList: ProjectModel[] = [];
+    doLoadprojectList() {
+        this.projectService.project_get(this.initial_current.CompCode, '').then((res) => {
+            this.projectList = res;
+        });
+    }
+    emptypeList: EmptypeModel[] = [];
+    doLoadEmptypeList() {
+        this.emptypeService.type_get().then((res) => {
+            this.emptypeList = res;
+        })
+    }
 
     //address
     reqaddressList: EmpaddressModel[] = [];
@@ -1191,7 +1512,13 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_reqaddress = false;
         this.edit_reqaddress = false;
     }
-    reqaddress_delete() { }
+    reqaddress_delete() {
+        var tmp: EmpaddressModel = new EmpaddressModel();
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_reqaddress(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
     reqaddress_cancel() {
         this.new_reqaddress = false;
         this.edit_reqaddress = false;
@@ -1220,7 +1547,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     record_reqaddress() {
         if (this.reqaddressList.length == 0) {
-            return;
+            this.reqaddress_delete();
         }
         this.reqdetailService
             .record_reqaddress(
@@ -1266,7 +1593,13 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_card = false;
         this.edit_reqcard = false;
     }
-    reqcard_delete() { }
+    reqcard_delete() {
+        var tmp: EmpcardModel = new EmpcardModel();
+    tmp.worker_code = this.selectedReqworker.worker_code
+    this.reqdetailService.delete_empcard(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+     }
     reqcard_cancel() {
         this.new_card = false;
         this.edit_reqcard = false;
@@ -1293,7 +1626,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     record_reqcard() {
         if (this.reqcardList.length == 0) {
-            return;
+            this.reqcard_delete();
         }
         this.reqdetailService
             .record_reqcard(
@@ -1382,7 +1715,13 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_education = false;
         this.edit_reqeducation = false;
     }
-    reqeducation_delete() { }
+    reqeducation_delete() {
+        var tmp: EmpEducationModel = new EmpEducationModel();
+    tmp.worker_code = this.selectedReqworker.worker_code
+    this.reqdetailService.delete_empeducation(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+     }
     reqeducation_cancel() {
         this.new_education = false;
         this.edit_reqeducation = false;
@@ -1412,7 +1751,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     record_reqeducation() {
         if (this.reqeducationList.length == 0) {
-            return;
+            this.reqeducation_delete();
         }
         this.reqdetailService
             .record_reqeducation(
@@ -1461,7 +1800,13 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_education = false;
         this.edit_reqtraining = false;
     }
-    reqtraining_delete() { }
+    reqtraining_delete() {
+        var tmp: EmpTrainingModel = new EmpTrainingModel();
+    tmp.worker_code = this.selectedReqworker.worker_code
+    this.reqdetailService.delete_reqtraining(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+     }
     reqtraining_cancel() {
         this.new_training = false;
         this.edit_reqtraining = false;
@@ -1490,7 +1835,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     record_reqtraining() {
         if (this.reqtrainingList.length == 0) {
-            return;
+            this.reqtraining_delete();
         }
         this.reqdetailService
             .record_reqtraining(
@@ -1539,7 +1884,13 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_assessment = false;
         this.edit_reqassessment = false;
     }
-    reqassessment_delete() { }
+    reqassessment_delete() {
+        var tmp: EmpAssessmentModel = new EmpAssessmentModel();
+    tmp.worker_code = this.selectedReqworker.worker_code
+    this.reqdetailService.delete_reqassessment(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+     }
     reqassessment_cancel() {
         this.new_assessment = false;
         this.edit_reqassessment = false;
@@ -1568,7 +1919,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     record_reqassessment() {
         if (this.reqassessmentList.length == 0) {
-            return;
+        this.reqassessment_delete();
         }
         this.reqdetailService
             .record_reqassessment(
@@ -1617,7 +1968,13 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_criminal = false;
         this.edit_reqcriminal = false;
     }
-    reqcriminal_delete() { }
+    reqcriminal_delete() {
+        var tmp: EmpCriminalModel = new EmpCriminalModel();
+    tmp.worker_code = this.selectedReqworker.worker_code
+    this.reqdetailService.delete_reqcriminal(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+     }
     reqcriminal_cancel() {
         this.new_criminal = false;
         this.edit_reqcriminal = false;
@@ -1646,7 +2003,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     record_reqcriminal() {
         if (this.reqCriminalList.length == 0) {
-            return;
+            this.reqcriminal_delete();
         }
         this.reqdetailService
             .record_reqcriminal(
@@ -1691,7 +2048,13 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_reqsuggest = false;
         this.edit_reqsuggest = false;
     }
-    reqsuggest_delete() { }
+    reqsuggest_delete() {
+        var tmp: EmpSuggestModel = new EmpSuggestModel();
+    tmp.worker_code = this.selectedReqworker.worker_code
+    this.reqdetailService.delete_reqsuggest(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+     }
     reqsuggest_cancel() {
         this.new_reqsuggest = false;
         this.edit_reqsuggest = false;
@@ -1720,7 +2083,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     record_reqsuggest() {
         if (this.reqsuggestList.length == 0) {
-            return;
+            this.reqsuggest_delete();
         }
         this.reqdetailService
             .record_reqsuggest(
@@ -1734,10 +2097,238 @@ export class RecruitmentApplyComponent implements OnInit {
                 }
             });
     }
+    //Position
+    reqPositionList: EmpPositionModel[] = [];
+    selectedReqPosition: EmpPositionModel = new EmpPositionModel();
+    doLoadReqPositionList() {
+        this.reqdetailService
+            .getapplywork_position(this.initial_current.CompCode, this.req_code)
+            .then(async (res) => {
+                this.reqPositionList = await res;
+                if (this.reqPositionList.length > 0) {
+                    this.selectedReqPosition = this.reqPositionList[0];
+                }
+                console.log(res)
+            });
+    }
+    onRowSelectReqposition(event: Event) { }
+    reqposition_summit() {
+        this.reqposition_addItem(this.selectedReqPosition);
+        this.new_position = false;
+        this.edit_reqposition = false;
+        this.displayManage = false;
+    }
+    reqposition_remove() {
+        this.selectedReqPosition.empposition_id = '9999';
+        this.reqposition_addItem(this.selectedReqPosition);
+        this.new_position = false;
+        this.edit_reqposition = false;
+    }
+    reqposition_delete() {
+        var tmp: EmpPositionModel = new EmpPositionModel();
+    tmp.worker_code = this.selectedReqworker.worker_code;
+    tmp.empposition_id = "";
+    this.reqdetailService.delete_reqposition(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+     }
+    reqposition_cancel() {
+        this.new_position = false;
+        this.edit_reqposition = false;
+        this.displayManage = false;
+    }
+    reqposition_addItem(model: EmpPositionModel) {
+        const itemNew: EmpPositionModel[] = [];
+        for (let i = 0; i < this.reqPositionList.length; i++) {
+            if (
+                this.reqPositionList[i].empposition_id == model.empposition_id
+            ) {
+                //-- Notting
+            } else {
+                itemNew.push(this.reqPositionList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.empposition_id != '9999') {
+            itemNew.push(model);
+        }
+        this.reqPositionList = [];
+        this.reqPositionList = itemNew;
+        this.reqPositionList.sort(function (a, b) {
+            return parseInt(a.empposition_id) - parseInt(b.empposition_id);
+        });
+    }
+    record_reqposition() {
+        if (this.reqPositionList.length == 0) {
+            this.reqposition_delete();
+        }
+        this.reqdetailService
+            .record_reqposition(
+                this.selectedReqworker.worker_code,
+                this.reqPositionList
+            )
+            .then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                } else {
+                }
+            });
+    }
+    //Project
+    reqProjectList: ReqProjectModel[] = [];
+    selectedReqProject: ReqProjectModel = new ReqProjectModel();
+    doLoadReqProjectList() {
+        this.reqdetailService
+            .getapplywork_project(this.initial_current.CompCode, this.req_code)
+            .then(async (res) => {
+                this.reqProjectList = await res;
+                if (this.reqProjectList.length > 0) {
+                    this.selectedReqProject = this.reqProjectList[0];
+                }
+            });
+    }
+    onRowSelectReqproject(event: Event) { }
+    reqproject_summit() {
+        this.reqproject_addItem(this.selectedReqProject);
+        this.new_position = false;
+        this.edit_reqposition = false;
+        this.displayManage = false;
+    }
+    reqproject_remove() {
+        this.selectedReqProject.empproject_id = '9999';
+        this.reqproject_addItem(this.selectedReqProject);
+        this.new_project = false;
+        this.edit_reqproject = false;
+    }
+    reqproject_delete() {
+        var tmp: ReqProjectModel = new ReqProjectModel();
+    tmp.worker_code = this.selectedReqworker.worker_code;
+    this.reqdetailService.delete_reqproject(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+     }
+    reqproject_cancel() {
+        this.new_project = false;
+        this.edit_reqproject = false;
+        this.displayManage = false;
+    }
+    reqproject_addItem(model: ReqProjectModel) {
+        const itemNew: ReqProjectModel[] = [];
+        for (let i = 0; i < this.reqProjectList.length; i++) {
+            if (
+                this.reqProjectList[i].empproject_id == model.empproject_id
+            ) {
+                //-- Notting
+            } else {
+                itemNew.push(this.reqProjectList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.empproject_id != '9999') {
+            itemNew.push(model);
+        }
+        this.reqProjectList = [];
+        this.reqProjectList = itemNew;
+        this.reqProjectList.sort(function (a, b) {
+            return parseInt(a.empproject_id) - parseInt(b.empproject_id);
+        });
+    }
+    record_reqproject() {
+        if (this.reqProjectList.length == 0) {
+            this.reqproject_delete();
+        }
+        this.reqdetailService
+            .record_reqproject(
+                this.selectedReqworker.worker_code,
+                this.reqProjectList
+            )
+            .then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                } else {
+                }
+            });
+    }
+    //Salary
+    reqSalaryList: EmpSalaryModel[] = [];
+    selectedReqSalary: EmpSalaryModel = new EmpSalaryModel();
+    doLoadReqSalaryList() {
+        this.reqdetailService
+            .getapplywork_salary(this.initial_current.CompCode, this.req_code)
+            .then(async (res) => {
+                this.reqSalaryList = await res;
+                if (this.reqSalaryList.length > 0) {
+                    this.selectedReqSalary = this.reqSalaryList[0];
+                }
+            });
+    }
+    onRowSelectReqsalary(event: Event) { }
+    reqsalary_summit() {
+        this.reqsalary_addItem(this.selectedReqSalary);
+        this.new_salary = false;
+        this.edit_reqsalary = false;
+        this.displayManage = false;
+    }
+    reqsalary_remove() {
+        this.selectedReqSalary.empsalary_id = '9999';
+        this.reqsalary_addItem(this.selectedReqSalary);
+        this.new_salary = false;
+        this.edit_reqsalary = false;
+    }
+    reqsalary_delete() {
+        var tmp: EmpSalaryModel = new EmpSalaryModel();
+    tmp.worker_code = this.selectedReqworker.worker_code
+    this.reqdetailService.delete_reqsalary(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+    }
+    reqsalary_cancel() {
+        this.new_salary = false;
+        this.edit_reqsalary = false;
+        this.displayManage = false;
+    }
+    reqsalary_addItem(model: EmpSalaryModel) {
+        const itemNew: EmpSalaryModel[] = [];
+        for (let i = 0; i < this.reqSalaryList.length; i++) {
+            if (
+                this.reqSalaryList[i].empsalary_id == model.empsalary_id
+            ) {
+                //-- Notting
+            } else {
+                itemNew.push(this.reqSalaryList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.empsalary_id != '9999') {
+            itemNew.push(model);
+        }
+        this.reqSalaryList = [];
+        this.reqSalaryList = itemNew;
+        this.reqSalaryList.sort(function (a, b) {
+            return parseInt(a.empsalary_id) - parseInt(b.empsalary_id);
+        });
+    }
+    record_reqsalary() {
+        if (this.reqSalaryList.length == 0) {
+            this.reqsalary_delete();
+        }
+        this.reqdetailService
+            .record_reqsalary(
+                this.selectedReqworker.worker_code,
+                this.reqSalaryList
+            )
+            .then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                } else {
+                }
+            });
+    }
 
     doRecordApplywork() {
+        console.log(this.selectedReqworker)
         this.applyworkService
-            .reqworker_record(this.selectedReqworker)
+            .reqworker_record([this.selectedReqworker])
             .then((res) => {
                 let result = JSON.parse(res);
 
@@ -1756,6 +2347,10 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.record_reqcriminal();
 
                     this.record_reqsuggest();
+
+                    this.record_reqposition();
+                    this.record_reqproject();
+                    this.record_reqsalary();
 
                     //image
                     this.uploadImages();
@@ -1840,6 +2435,9 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_training = false; this.edit_reqtraining = false;
         this.new_assessment = false; this.edit_reqassessment = false;
         this.new_criminal = false; this.edit_reqcriminal = false;
+        this.new_position = false; this.edit_reqposition = false;
+        this.new_project = false; this.edit_reqproject = false;
+        this.new_salary = false; this.edit_reqsalary = false;
     }
 
     newDateTime = new Date();
@@ -1858,11 +2456,13 @@ export class RecruitmentApplyComponent implements OnInit {
     doUploadFile() {
         const filename = "REQ_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
         const filetype = this.fileToUpload.name.split(".")[1];
-        this.reqdetailService.file_attach(this.fileToUpload, filename, filetype).then((res) => {
+        this.applyworkService.file_attach(this.fileToUpload, filename, filetype).then((res) => {
             // console.log(res)
+            this.selectedReqworker.reqdocatt_data = [];
             if (res.success) {
                 this.selectedReqworker.reqdocatt_data = this.selectedReqworker.reqdocatt_data.concat({
                     company_code: this.selectedReqworker.company_code || this.initial_current.CompCode,
+                    worker_code: this.selectedReqworker.worker_code,
                     document_id: 0,
                     job_id: this.selectedReqworker.worker_id.toString(),
                     document_name: filename + "." + filetype,
@@ -1888,9 +2488,9 @@ export class RecruitmentApplyComponent implements OnInit {
                 header: this.title_import,
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
+                    this.fileUploader.nativeElement.value = null;
                     this.Uploadfile = false;
                     this.doUploadFile();
-                    this.fileUploader.nativeElement.value = null;
                 },
                 reject: () => {
                     this.Uploadfile = false;
@@ -1907,7 +2507,7 @@ export class RecruitmentApplyComponent implements OnInit {
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
                 if (data.document_id) {
-                    this.reqdetailService.delete_file(data).then((res) => {
+                    this.applyworkService.delete_file(data).then((res) => {
                         if (res.success) {
                             this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
                         } else {
@@ -1919,7 +2519,7 @@ export class RecruitmentApplyComponent implements OnInit {
                         return item !== data;
                     });
                 }
-                this.reqdetailService.deletefilepath_file(data.document_path).then((res) => {
+                this.applyworkService.deletefilepath_file(data.document_path).then((res) => {
                     if (res.success) {
                         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
                         this.selectedReqworker.reqdocatt_data = this.selectedReqworker.reqdocatt_data.filter((item) => {
@@ -1936,7 +2536,7 @@ export class RecruitmentApplyComponent implements OnInit {
         });
     }
     async doGetReqAttfile(file_path: string, type: string) {
-        this.reqdetailService.get_file(file_path).then((res) => {
+        this.applyworkService.get_file(file_path).then((res) => {
             var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
             window.open(url);
             this.selecteddocatt = new ApplyMTDocattModel();
@@ -1944,6 +2544,138 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     onRowSelectfile(event: Event) {
         this.doGetReqAttfile(this.selecteddocatt.document_path, this.selecteddocatt.document_type)
+    }
+
+    //get address name
+    doGetAddtypeDetail(AddtypeCode: string): any {
+        for (let i = 0; i < this.addresstypeList.length; i++) {
+            if (this.addresstypeList[i].addresstype_code == AddtypeCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.addresstypeList[i].addresstype_name_th;
+                }
+                else {
+                    return this.addresstypeList[i].addresstype_name_en;
+                }
+            }
+        }
+    }
+    //get card name
+    doGetCardDetail(CardCode: string): any {
+        for (let i = 0; i < this.cardtypeList.length; i++) {
+            if (this.cardtypeList[i].cardtype_code == CardCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.cardtypeList[i].cardtype_name_th;
+                }
+                else {
+                    return this.cardtypeList[i].cardtype_name_en;
+                }
+            }
+        }
+    }
+    //get position name
+    doGetPositionDetail(PositionCode: string): any {
+        for (let i = 0; i < this.position_list.length; i++) {
+            if (this.position_list[i].position_code == PositionCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.position_list[i].position_name_th;
+                }
+                else {
+                    return this.position_list[i].position_name_en;
+                }
+            }
+        }
+    }
+    //get Institute name
+    doGetInstituteDetail(InstituteCode: string): any {
+        for (let i = 0; i < this.instituteList.length; i++) {
+            if (this.instituteList[i].institute_code == InstituteCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.instituteList[i].institute_name_th;
+                }
+                else {
+                    return this.instituteList[i].institute_name_en;
+                }
+            }
+        }
+    }
+    //get faculty name
+    doGetFacultyDetail(FacultyCode: string): any {
+        for (let i = 0; i < this.facultyList.length; i++) {
+            if (this.facultyList[i].faculty_code == FacultyCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.facultyList[i].faculty_name_th;
+                }
+                else {
+                    return this.facultyList[i].faculty_name_en;
+                }
+            }
+        }
+    }
+    //get major name
+    doGetMajorDetail(MajorCode: string): any {
+        for (let i = 0; i < this.majorList.length; i++) {
+            if (this.majorList[i].major_code == MajorCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.majorList[i].major_name_th;
+                }
+                else {
+                    return this.majorList[i].major_name_en;
+                }
+            }
+        }
+    }
+    //get qualification name
+    doGetQualificationDetail(QualificationCode: string): any {
+        for (let i = 0; i < this.qualificationList.length; i++) {
+            if (this.qualificationList[i].qualification_code == QualificationCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.qualificationList[i].qualification_name_th;
+                }
+                else {
+                    return this.qualificationList[i].qualification_name_en;
+                }
+            }
+        }
+    }
+    //get course name
+    doGetCourseDetail(CourseCode: string): any {
+        for (let i = 0; i < this.courseList.length; i++) {
+            if (this.courseList[i].course_code == CourseCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.courseList[i].course_name_th;
+                }
+                else {
+                    return this.courseList[i].course_name_en;
+                }
+            }
+        }
+    }
+    //get province name
+    doGetProvinceDetail(ProvinceCode: string): any {
+        for (let i = 0; i < this.provinceList.length; i++) {
+            if (this.provinceList[i].province_code == ProvinceCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.provinceList[i].province_name_th;
+                }
+                else {
+                    return this.provinceList[i].province_name_en;
+                }
+            }
+        }
+    }
+
+    //get procjet name
+    doGetProjectDetail(ProjectCode: string): any {
+        for (let i = 0; i < this.projectList.length; i++) {
+            if (this.projectList[i].project_code == ProjectCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.projectList[i].project_name_th;
+                }
+                else {
+                    return this.projectList[i].project_name_en;
+                }
+            }
+        }
     }
 
 }

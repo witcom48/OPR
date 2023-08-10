@@ -3,6 +3,7 @@ export class ApplyMTDocattModel {
 
     }
     company_code: string = "";
+    worker_code : string = "";
     document_id: number = 0;
     job_id: string = "";
     document_name: string = "";

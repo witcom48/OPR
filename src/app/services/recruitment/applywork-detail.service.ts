@@ -20,6 +20,9 @@ import { EmpCriminalModel } from 'src/app/models/employee/manage/criminal';
 import { EmpForeignerModel } from 'src/app/models/employee/manage/foreigner';
 import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
 import { ApplyMTDocattModel } from 'src/app/models/recruitment/applyMTDocatt';
+import { EmpPositionModel } from 'src/app/models/employee/manage/position';
+import { ReqProjectModel } from 'src/app/models/recruitment/reqproject';
+import { EmpSalaryModel } from 'src/app/models/employee/manage/salary';
 
 @Injectable({
   providedIn: 'root'
@@ -704,8 +707,66 @@ export class ApplyworkDetailService {
       });
   }
 
-  //req attach file
-  public file_attach(file: File, file_name: string, file_type: string) {
+  //req position
+  public getapplywork_position(company: string, code: string) {
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: company,
+      language: "",
+      worker_code: code
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqpsotionlist', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // // console.log(res)
+        return message.data;
+      });
+  }
+  public record_reqposition(worker_code: string, list: EmpPositionModel[]) {
+    var item_data: string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"empposition_position\":\"" + list[i].empposition_position + "\"";
+      
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if (item_data.length > 2) {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data: item_data,
+      worker_code: worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqposition', specificData, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public delete_reqposition(model: EmpPositionModel) {
+    const data = {
+      empposition_id: model.empposition_id,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqposition_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public reqposition_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
 
@@ -713,40 +774,155 @@ export class ApplyworkDetailService {
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadMTDocatt?' + para, formData).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        return message;
-      });
-  }
-
-  public get_file(file_path: string) {
-    var para = "file_path=" + file_path;
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doGetMTDocatt?' + para, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplyPosition?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });
   }
-  public deletefilepath_file(file_path: string) {
-    var para = "file_path=" + file_path;
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doDeleteMTDocatt?' + para, this.options).toPromise()
-      .then((res) => {
-        return JSON.parse(res);
-      });
-  }
-  public delete_file(file: ApplyMTDocattModel) {
-    let data = {
-      device_name: "phone",
-      ip: "127.0.0.1",
+
+  //req project
+  public getapplywork_project(company: string, code: string) {
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
       username: this.initial_current.Username,
-      company_code: file.company_code || this.initial_current.CompCode,
-      jobtable_id: file.document_id,
-      job_id: file.job_id,
-    }
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/docatt_del', data, this.options).toPromise()
+      company_code: company,
+      language: "",
+      worker_code: code
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqprojectlist', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        return message;
+        // // console.log(res)
+        return message.data;
+      });
+  }
+  public record_reqproject(worker_code: string, list: ReqProjectModel[]) {
+    var item_data: string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"project_code\":\"" + list[i].project_code + "\"";
+      
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if (item_data.length > 2) {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data: item_data,
+      worker_code: worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqproject', specificData, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public delete_reqproject(model: ReqProjectModel) {
+    const data = {
+      empproject_id: model.empproject_id,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqproject_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public reqproject_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplyProject?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  //req salary
+  public getapplywork_salary(company: string, code: string) {
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: company,
+      language: "",
+      worker_code: code
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqsalarylist', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // // console.log(res)
+        return message.data;
+      });
+  }
+  public record_reqsalary(worker_code: string, list: EmpSalaryModel[]) {
+    var item_data: string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"empsalary_amount\":\"" + list[i].empsalary_amount + "\"";
+      
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if (item_data.length > 2) {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data: item_data,
+      worker_code: worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqsalary', specificData, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public delete_reqsalary(model: EmpSalaryModel) {
+    const data = {
+      empsalary_id: model.empsalary_id,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqsalary_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public reqsalary_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplySalary?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
       });
   }
 

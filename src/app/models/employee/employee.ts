@@ -63,6 +63,7 @@ export class EmployeeModel {
   selected_Import: string = "";
   
   // recruiment
-  reqdocatt_data: ApplyMTDocattModel[] = [];
+  reqdocatt_data: ApplyMTDocattModel[] = []
   worker_age: number = 0;
+  nationality_code: string = "";
 }
