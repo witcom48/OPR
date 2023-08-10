@@ -133,6 +133,11 @@ export class ApplyListComponent implements OnInit {
 
   title_confirm_cancel: string = "You have cancelled";
 
+  title_saves: { [key: string]: string } = { EN: "Save", TH: "บันทึก" };
+  title_more: { [key: string]: string } = { EN: "More", TH: "เพิ่มเติม" };
+  title_deletes: { [key: string]: string } = { EN: "Delete", TH: "ลบ" };
+  title_searchemp: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" };
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ข้อมูลพนักงาน";
@@ -201,7 +206,7 @@ export class ApplyListComponent implements OnInit {
           label:this.title_export,
           icon:'pi pi-fw pi-file-export',
           command: (event) => {
-            this.exportAsExcel()
+            this.exportReqExcel()
 
           }
       }
@@ -223,6 +228,7 @@ applyworkCurrent:number = 0;
 
   doLoadapplywork(){
     this.applyworkService.reqworker_get(this.initial_current.CompCode,"").then(async(res)=>{
+      console.log(res)
       await res.forEach((element: EmployeeModel) => {
         element.worker_hiredate = new Date(element.worker_hiredate)
         element.worker_birthdate = new Date(element.worker_birthdate)
@@ -248,7 +254,7 @@ applyworkCurrent:number = 0;
   }
 
   doRecordApplywork(){
-    this.applyworkService.reqworker_record(this.selectedReqworker).then((res) => {
+    this.applyworkService.reqworker_record([this.selectedReqworker]).then((res) => {
       // console.log(res)
       let result = JSON.parse(res);
 
@@ -474,14 +480,50 @@ applyworkCurrent:number = 0;
   
   @ViewChild('TABLE') table: ElementRef | any = null;
 
-  exportAsExcel()
-  {
-    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+  // exportAsExcel()
+  // {
+  //   const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  //   XLSX.writeFile(wb, 'Export_applyworkinfo.xlsx');
+
+  // }
+
+  exportReqExcel() {
+    const fileToExport = this.reqworkerList.map((items: any) => {
+      return {
+        "company_code": items?.company_code,
+        "worker_code": items?.worker_code,
+        "worker_card": items?.worker_card,
+        "worker_initial": items?.worker_initial,
+        "worker_fname_th": items?.worker_fname_th,
+        "worker_lname_th": items?.worker_lname_th,
+        "worker_fname_en": items?.worker_fname_en,
+        "worker_lname_en": items?.worker_lname_en,
+        "worker_type": items?.worker_type,
+        "worker_gender": items?.worker_gender,
+        "worker_birthdate": items?.worker_birthdate,
+        "worker_hiredate": items?.worker_hiredate,
+        "religion_code": items?.religion_code,
+        "blood_code": items?.blood_code,
+        "worker_height": items?.worker_height,
+        "worker_weight": items?.worker_weight,
+        "worker_status": items?.worker_status,
+        "worker_probationday": items?.worker_probationday,
+        "hrs_perday": items?.hrs_perday,
+        "worker_tel": items?.worker_tel,
+        "worker_email": items?.worker_email,
+        "worker_line": items?.worker_line,
+        "worker_facebook": items?.worker_facebook,
+        "worker_military": items?.worker_military,
+      }
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     XLSX.writeFile(wb, 'Export_applyworkinfo.xlsx');
-
   }
 
     selectComManage(){
