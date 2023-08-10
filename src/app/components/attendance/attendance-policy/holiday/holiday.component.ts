@@ -7,6 +7,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { HolidayModels } from 'src/app/models/attendance/holiday';
 import { Holiday_listModels } from 'src/app/models/attendance/holiday_list';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { PlanholidayServices } from 'src/app/services/attendance/planholiday.service';
 import { YearService } from 'src/app/services/system/policy/year.service';
 import * as XLSX from 'xlsx';
@@ -49,12 +50,15 @@ export class HolidayComponent implements OnInit {
   holiday_listselect: Holiday_listModels = new Holiday_listModels();
   holidays: HolidayModels = new HolidayModels()
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -187,9 +191,13 @@ export class HolidayComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.holidays = new HolidayModels();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.holidays = new HolidayModels();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       }
       ,
@@ -320,24 +328,40 @@ export class HolidayComponent implements OnInit {
   }
   exportAsExcel() {
 
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
-    for (var i in ws) {
-      if (i.startsWith("!") || i.charAt(1) !== "1") {
-        continue;
-      }
-      var n = 0;
-      for (var j in ws) {
-        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
-          ws[j].v = ws[j].v.replace(ws[i].v, "")
-        } else {
-          n += 1;
-        }
+    // const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    // for (var i in ws) {
+    //   if (i.startsWith("!") || i.charAt(1) !== "1") {
+    //     continue;
+    //   }
+    //   var n = 0;
+    //   for (var j in ws) {
+    //     if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+    //       ws[j].v = ws[j].v.replace(ws[i].v, "")
+    //     } else {
+    //       n += 1;
+    //     }
 
-      }
-    }
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    //   }
+    // }
+    // const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    // XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
+    // XLSX.writeFile(wb, 'Export_Planholiday.xlsx');
+
+    const XLSX = require('xlsx')
+
+    // array of objects to save in Excel
+    let binary_univers = this.holiday_lists;
+
+    let binaryWS = XLSX.utils.json_to_sheet(binary_univers);
+
+    // Create a new Workbook
+    var wb = XLSX.utils.book_new()
+
+    // Name your sheet
+    XLSX.utils.book_append_sheet(wb, binaryWS, 'Binary values')
+
+    // export your excel
     XLSX.writeFile(wb, 'Export_Planholiday.xlsx');
 
   }

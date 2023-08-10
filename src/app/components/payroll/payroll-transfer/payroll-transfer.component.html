@@ -5,7 +5,13 @@
 <p></p>
 <div class="grid">
     <div class="col-12 md:col-3">
-        <b>Transfer Data</b>
+        <!-- <b>Transfer Data</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>ransfer Data</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of transferdataMenuItems">
             <a routerLink="../../payroll/{{item.link}}">{{item.title}}</a>
         </div>

@@ -1,12 +1,30 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/select-emp.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { cls_MTPlantimeallw } from 'src/app/models/attendance/cls_MTPlantimeallw';
+import { DiligenceModels } from 'src/app/models/attendance/diligence';
+import { HolidayModels } from 'src/app/models/attendance/holiday';
+import { LateModels } from 'src/app/models/attendance/late';
+import { LeaveplanModels } from 'src/app/models/attendance/leave_plan';
+import { OvertimeModels } from 'src/app/models/attendance/overtime';
 import { SetPolicyAttModels } from 'src/app/models/attendance/setpolicyatt';
+import { SetShiftModels } from 'src/app/models/attendance/setshift';
+import { ShiftplanModels } from 'src/app/models/attendance/shift_plan';
+import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { DiligenceServices } from 'src/app/services/attendance/diligence.service';
+import { LateServices } from 'src/app/services/attendance/late.service';
+import { PlanholidayServices } from 'src/app/services/attendance/planholiday.service';
+import { PlanleaveServices } from 'src/app/services/attendance/planleave.service';
+import { PlanshiftServices } from 'src/app/services/attendance/planshift.service';
+import { OTServices } from 'src/app/services/attendance/rateot.service';
+import { SetShiftServices } from 'src/app/services/attendance/setshift.service';
 import { SetPolicyAttServices } from 'src/app/services/attendance/setuppolicy.service';
+import { TimeAllowanceServices } from 'src/app/services/attendance/timeallowance.service';
+import { YearService } from 'src/app/services/system/policy/year.service';
 interface Policy {
   name: string,
   code: string
@@ -17,16 +35,31 @@ interface Result {
   modied_by: string,
   modied_date: string,
 }
+interface Year {
+  name: string,
+  code: string
+}
 @Component({
   selector: 'app-setuppolicy',
   templateUrl: './setuppolicy.component.html',
   styleUrls: ['./setuppolicy.component.scss']
 })
 export class SetuppolicyComponent implements OnInit {
+  mainMenuItems: MenuItem[] = [{ label: 'Attendance', routerLink: '/attendance/policy' }, { label: 'Set Polilcy', routerLink: '/attendance/policy/setallpolicy', styleClass: 'activelike' }];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private setPolicyAttService: SetPolicyAttServices,
+    private planholidayService: PlanholidayServices,
+    private yearServices: YearService,
+    private planshiftService: PlanshiftServices,
+    private OtService: OTServices,
+    private diligenceServices: DiligenceServices,
+    private lateService: LateServices,
+    private planleaveService: PlanleaveServices,
+    private timeallow: TimeAllowanceServices,
+    private setshiftServices: SetShiftServices,
     private router: Router
   ) { }
   @Input() policy_list: Policy[] = []
@@ -38,8 +71,25 @@ export class SetuppolicyComponent implements OnInit {
   // timesheet_list: PrjectEmpdailyModel[] = [];
   // timesheet_dest: PrjectEmpdailyModel[] = [];
   result_list: Result[] = [];
+  yaer_list: Year[] = []
   // selectedDate: PrjectEmpdailyModel = new PrjectEmpdailyModel;
   policyselect!: Policy;
+  policyholiday: Policy[] = [];
+  policyholidayselect!: Policy;
+  policyshift: Policy[] = [];
+  policyshiftselect!: Policy;
+  policyOT: Policy[] = [];
+  policyOTselect!: Policy;
+  policydiligence: Policy[] = [];
+  policydiligenceselect!: Policy;
+  policylate: Policy[] = [];
+  policylateselect!: Policy;
+  policyleave: Policy[] = [];
+  policyleaveselect!: Policy;
+  policyallow: Policy[] = [];
+  policyallowselect!: Policy;
+  yearselect!: Year;
+  policy_process: string = '';
   loading: boolean = false;
   new_data: boolean = false;
   @ViewChild('dt2') table: Table | undefined;
@@ -53,17 +103,183 @@ export class SetuppolicyComponent implements OnInit {
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
-    this.policyselect =
-    {
-      name: this.policy_list[0]?.name,
-      code: this.policy_list[0]?.code
-    }
+    this.doLoadYear();
+    this.doLoadPlanshift();
+    this.doLoadPlanholiday();
+    this.doLoadOt();
+    this.doLoadDiligence();
+    this.doLoadLate();
+    this.doLoadPlanleave();
+    this.doLoadPlanAllowance();
+  }
+  doLoadPlanholiday() {
+    this.policyholiday = [];
+    var tmp = new HolidayModels();
+    tmp.year_code = this.initial_current.PR_Year
+    this.planholidayService.planholiday_get(tmp).then(async (res) => {
+      await res.forEach((element: HolidayModels) => {
+        this.policyholiday.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.planholiday_name_en : element.planholiday_name_th,
+            code: element.planholiday_code
+          }
+        )
+      });
+      this.policyholidayselect = {
+        name: this.policyholiday[0]?.name,
+        code: this.policyholiday[0]?.code
+      }
+    });
+  }
+  doLoadPlanshift() {
+    var tmp = new ShiftplanModels();
+    this.planshiftService.planshift_get(tmp).then(async (res) => {
+      await res.forEach(async (element: ShiftplanModels) => {
+        this.policyshift.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.planshift_name_en : element.planshift_name_th,
+            code: element.planshift_code
+          }
+        )
+      });
+      if (this.policyshift.length > 0) {
+        this.policyshiftselect =
+        {
+          name: this.policyshift[0]?.name,
+          code: this.policyshift[0]?.code
+        }
+      }
+    });
+  }
+  doLoadOt() {
+    var tmp = new OvertimeModels();
+    this.OtService.ot_get(tmp).then(async (res) => {
+      await res.forEach((element: OvertimeModels) => {
+        this.policyOT.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.rateot_name_en : element.rateot_name_th,
+            code: element.rateot_code
+          }
+        )
+      });
+      if (this.policyOT.length > 0) {
+        this.policyOTselect =
+        {
+          name: this.policyOT[0]?.name,
+          code: this.policyOT[0]?.code
+        }
+      }
+    });
+  }
+  doLoadDiligence() {
+    var tmp = new DiligenceModels();
+    this.diligenceServices.diligence_get(tmp).then(async (res) => {
+      await res.forEach((element: DiligenceModels) => {
+        this.policydiligence.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.diligence_name_en : element.diligence_name_th,
+            code: element.diligence_code
+          }
+        )
+      });
+      if (this.policydiligence.length > 0) {
+        this.policydiligenceselect =
+        {
+          name: this.policydiligence[0]?.name,
+          code: this.policydiligence[0]?.code
+        }
+      }
+    });
   }
 
-  process() {
+  doLoadLate() {
+    var tmp = new LateModels();
+    this.lateService.late_get(tmp).then(async (res) => {
+      await res.forEach((element: LateModels) => {
+        this.policylate.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.late_name_en : element.late_name_th,
+            code: element.late_code
+          }
+        )
+      });
+      if (this.policylate.length > 0) {
+        this.policylateselect =
+        {
+          name: this.policylate[0]?.name,
+          code: this.policylate[0]?.code
+        }
+      }
+    });
+  }
+
+  doLoadPlanleave() {
+    var tmp = new LeaveplanModels();
+    this.planleaveService.planleave_get(tmp).then(async (res) => {
+      res.forEach((element: LeaveplanModels) => {
+        this.policyleave.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.planleave_name_en : element.planleave_name_th,
+            code: element.planleave_code
+          }
+        )
+      });
+      if (this.policyleave.length > 0) {
+        this.policyleaveselect =
+        {
+          name: this.policyleave[0]?.name,
+          code: this.policyleave[0]?.code
+        }
+      }
+    });
+  }
+
+  doLoadPlanAllowance() {
+    var tmp = new cls_MTPlantimeallw();
+    this.timeallow.timeallow_get(tmp).then(async (res) => {
+      await res.forEach((element: cls_MTPlantimeallw) => {
+        this.policyallow.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.plantimeallw_name_en : element.plantimeallw_name_th,
+            code: element.plantimeallw_code
+          }
+        )
+      });
+      if (this.policyallow.length > 0) {
+        this.policyallowselect =
+        {
+          name: this.policyallow[0]?.name,
+          code: this.policyallow[0]?.code
+        }
+      }
+    });
+  }
+  process(pol_type: string) {
+    this.policy_process = pol_type;
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
-      this.SetPolicyAtt();
+      console.log("select", pol_type);
+      if (pol_type === 'HO') {
+        this.SetPolicyAtt(pol_type, this.policyholidayselect.code);
+      }
+      if (pol_type === 'SHT') {
+        this.SetShift();
+      }
+      if (pol_type === 'OT') {
+        this.SetPolicyAtt(pol_type, this.policyOTselect.code);
+      }
+      if (pol_type === 'DG') {
+        this.SetPolicyAtt(pol_type, this.policydiligenceselect.code);
+      }
+      if (pol_type === 'LT') {
+        this.SetPolicyAtt(pol_type, this.policylateselect.code);
+      }
+      if (pol_type === 'LV') {
+        this.SetPolicyAtt(pol_type, this.policyleaveselect.code);
+      }
+      if (pol_type === 'AW') {
+        this.SetPolicyAtt(pol_type, this.policyallowselect.code);
+      }
       // this.confirmationService.confirm({
       //   message: "SetUpPolicyAttence",
       //   header: "SetUp",
@@ -77,26 +293,66 @@ export class SetuppolicyComponent implements OnInit {
     }
   }
 
-  async SetPolicyAtt() {
+  doLoadYear() {
+    var tmp = new YearPeriodModels();
+    tmp.year_group = "LEAVE"
+    this.yearServices.year_get(tmp).then(async (res) => {
+      await res.forEach((element: YearPeriodModels) => {
+        this.yaer_list.push({ name: (this.initial_current.Language == "EN" ? element.year_name_en : element.year_name_th) + " " + element.year_code, code: element.year_code })
+      });
+      if (this.yaer_list.length > 0) {
+        this.yearselect =
+        {
+          name: this.yaer_list[0]?.name,
+          code: this.yaer_list[0]?.code
+        }
+      }
+    });
+
+  }
+
+  async SetPolicyAtt(pol_type: string, policy: string) {
     var data = new SetPolicyAttModels();
-    data.pol_code = this.policyselect.code
-    data.pol_type = this.pol_type;
+    data.pol_code = policy
+    data.pol_type = pol_type;
     data.year_code = this.initial_current.PR_Year
     data.company_code = this.initial_current.CompCode
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
-    await this.setPolicyAttService.SetPolicyAtt_record(data).then((res) => {
-      // console.log(res)
-      if (res.success) {
-        // console.log(res.message)
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-      }
-      this.loading = false;
-    });
+    console.log(data);
+    // await this.setPolicyAttService.SetPolicyAtt_record(data).then((res) => {
+    //   // console.log(res)
+    //   if (res.success) {
+    //     // console.log(res.message)
+    //     this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+    //   }
+    //   else {
+    //     this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+    //   }
+    //   this.loading = false;
+    // });
+  }
+  async SetShift() {
+    var data = new SetShiftModels();
+    data.planshift_code = this.policyshiftselect.code
+    data.year_code = this.yearselect.code;
+    data.company_code = this.initial_current.CompCode
+    data.modified_by = this.initial_current.Username
+    data.transaction_data = this.selectEmp.employee_dest;
+    this.loading = true;
+    console.log(data);
+    // await this.setshiftServices.SetShift_record(data).then((res) => {
+    //   // console.log(res)
+    //   if (res.result == "1") {
+    //     // console.log(res.result_text)
+    //     this.messageService.add({ severity: 'success', summary: 'Success', detail: res.result_text });
+    //   }
+    //   else {
+    //     this.messageService.add({ severity: 'error', summary: 'Error', detail: res.result_text });
+    //   }
+    //   this.loading = false;
+    // });
   }
 
   function(e: any) {
