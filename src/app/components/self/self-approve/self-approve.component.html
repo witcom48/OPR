@@ -26,7 +26,13 @@
 
     </div> -->
     <div class="col-12 md:col-3">
-        <b>Approve</b>
+        <!-- <b>Approve</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-3"></i>
+                <b>Approve</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of approvalMenuItems">
             <a routerLink="../../self/{{item.link}}">{{item.title}}</a>
             <!-- <a routerLink="../../self/approve_leave">Leave</a>
@@ -53,8 +59,14 @@
         <a>Submit a request</a>
     </div> -->
 
-    <div class="col-12 md:col-6">
-        <b>Setup</b>
+    <div class="col-12 md:col-3">
+        <!-- <b>Setup</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>Setup</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of setupMenuItems">
             <a routerLink="../../self/{{item.link}}">{{item.title}}</a>
         </div>

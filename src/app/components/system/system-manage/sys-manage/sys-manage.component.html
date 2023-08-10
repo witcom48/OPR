@@ -9,7 +9,13 @@
     <div class="grid ">
 
         <div class="col-12 md:col-3">
-            <b>{{title_manage}}</b>
+            <!-- <b>{{title_manage}}</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_manage}}</b>
+                </div>
+            </p-divider>
             <div *ngFor="let item of manageMenuItems">
                 <a routerLink="../../system/{{item.link}}">{{item.title}}</a>
             </div>
@@ -24,7 +30,13 @@
 
 
         <div class="col-12 md:col-3">
-            <b>{{title_rounding}}</b>
+            <!-- <b>{{title_rounding}}</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_rounding}}</b>
+                </div>
+            </p-divider>
             <div *ngFor="let item of roundingMenuItems">
                 <a routerLink="../../system/{{item.link}}">{{item.title}}</a>
             </div>

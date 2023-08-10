@@ -8,7 +8,13 @@
 
 
     <div class="col-12 md:col-3">
-        <b>{{title_general[initialData.Language]}}</b>
+        <!-- <b>{{title_general[initialData.Language]}}</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>{{title_general[initialData.Language]}}</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of genaralMenuItems">
             <a routerLink="../../employee/policy/{{item.link}}">{{item.title}}</a>
         </div>
@@ -32,7 +38,13 @@
     </div> -->
 
     <div class="col-12 md:col-3">
-        <b>{{title_setbatch[initialData.Language]}}</b>
+        <!-- <b>{{title_setbatch[initialData.Language]}}</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>{{title_setbatch[initialData.Language]}}</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of setbatchMenuItems">
             <a routerLink="../../employee/policy/batch/{{item.link}}">{{item.title}}</a>
         </div>
