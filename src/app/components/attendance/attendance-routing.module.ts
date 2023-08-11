@@ -32,6 +32,7 @@ import { SetTimeallowanceComponent } from './attendance-policy/set-timeallowance
 
 import { SetAttpayComponent } from './attendance-policy/set-attpay/set-attpay.component';
 import { AttendanceSummaryComponent } from './attendance-summary/attendance-summary.component';
+import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolicy.component';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { AttendanceSummaryComponent } from './attendance-summary/attendance-summ
         { path: 'manage/changeshift', component: ChangeshiftComponent },
 
         { path: 'policy/setattpay', component: SetAttpayComponent },
+        { path: 'policy/setallpolicy', component: SetuppolicyComponent },
 
         { path: 'summary', component: AttendanceSummaryComponent },
 

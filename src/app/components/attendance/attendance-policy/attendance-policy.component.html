@@ -6,7 +6,13 @@
 <div class="grid">
 
     <div class="col-12 md:col-3">
-        <b>Genaral</b>
+        <!-- <b>Genaral</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>Genaral</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of genaralMenuItems">
             <a routerLink="/attendance/policy/{{item.link}}">{{item.title}}</a>
         </div>
@@ -17,7 +23,13 @@
     </div>
 
     <div class="col-12 md:col-3">
-        <b>Policy</b>
+        <!-- <b>Policy</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>Policy</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of policyMenuItems">
             <a routerLink="/attendance/policy/{{item.link}}">{{item.title}}</a>
         </div>
@@ -34,7 +46,13 @@
     </div>
 
     <div class="col-12 md:col-3">
-        <b>Set Policy</b>
+        <!-- <b>Set Policy</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>Set Policy</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of setpolicyMenuItems">
             <a routerLink="/attendance/policy/{{item.link}}">{{item.title}}</a>
         </div>

@@ -10,7 +10,13 @@
 
 
     <div class="col-12 md:col-3">
-        <b>Security</b>
+        <!-- <b>Security</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>Security</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of securityMenuItems">
             <a routerLink="../../sec/{{item.link}}">{{item.title}}</a>
         </div>

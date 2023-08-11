@@ -56,7 +56,7 @@ export class RecruimentBlacklistComponent implements OnInit {
     }       
   }
 
-  title_black: { [key: string]: string } = { EN: "Black List", TH: "แบล็คลิสต์" };
+  title_black: { [key: string]: string } = { EN: "Blacklist", TH: "แบล็คลิสต์" };
   title_new: { [key: string]: string } = { EN: "New", TH: "เพิ่ม" };
   title_edit: { [key: string]: string } = { EN: "Edit", TH: "แก้ไข" };
   title_setbatch: { [key: string]: string } = { EN: "Set Batch", TH: "เพิ่มแบบกลุ่ม" };

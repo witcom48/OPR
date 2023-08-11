@@ -121,11 +121,18 @@
             [autoResize]="true"></textarea>
 
         <br>
-        <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectComManage()"
+        <div class="field col-12">
+            <!-- <p-button label="{{title_saves[initial_current.Language]}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+            &nbsp; -->
+            <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}" (click)="selectComManage()" ></button>
+            &nbsp;
+            <button *ngIf="edit_applywork" pButton pRipple type="button" label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary" (click)="confirmDelete()"></button>
+        </div>
+        <!-- <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectComManage()"
             class="p-button-secondary"></button>
         <button pButton type="button" label="บันทึก" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_applywork" pButton type="button" label="ลบ" icon="pi pi-trash" class="p-button-danger"
-            (click)="confirmDelete()"></button>
+            (click)="confirmDelete()"></button> -->
 
     </div>
 </div>

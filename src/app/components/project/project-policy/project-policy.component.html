@@ -8,7 +8,13 @@
 
 
     <div class="col-12 md:col-3">
-        <b>Genaral</b>
+        <!-- <b>Genaral</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>Genaral</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of genaralMenuItems">
             <a routerLink="../../project/{{item.link}}" [queryParams]="{ type: item.queryParamsdata }">{{item.title}}</a>
         </div>
@@ -41,8 +47,14 @@
         <a >GL Account</a>
     </div> -->
 
-    <div class="col-12">
-        <b>Workflow</b>
+    <div class="col-3">
+        <!-- <b>Workflow</b> -->
+        <p-divider align="left">
+            <div>
+                <i class="pi pi-list mr-2"></i>
+                <b>Workflow</b>
+            </div>
+        </p-divider>
         <div *ngFor="let item of workflowMenuItems">
             <a routerLink="../../project/{{item.link}}">{{item.title}}</a>
         </div>

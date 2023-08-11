@@ -10,7 +10,13 @@
 
 
         <div class="col-12 md:col-3">
-            <b>{{title_genaral}}</b>
+            <!-- <b>{{title_genaral}}</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_genaral}}</b>
+                </div>
+            </p-divider>
             <div *ngFor="let item of genaralMenuItems">
                 <a routerLink="../../system/{{item.link}}">{{item.title}}</a>
             </div>
@@ -32,7 +38,13 @@
         </div>
 
         <div class="col-12 md:col-3">
-            <b>{{title_training}}</b>
+            <!-- <b>{{title_training}}</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_training}}</b>
+                </div>
+            </p-divider>
             <div *ngFor="let item of trainingMenuItems">
                 <a routerLink="../../system/{{item.link}}">{{item.title}}</a>
             </div>
@@ -41,7 +53,13 @@
             <!-- <hr style="border-color:  rgba(220, 220, 220, 0.386); border-width: 1px; margin-top: 10px; width: 50%;"> -->
 
 
-            <b>{{title_education}}</b>
+            <!-- <b>{{title_education}}</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_education}}</b>
+                </div>
+            </p-divider>
             <div *ngFor="let item of educationMenuItems">
                 <a routerLink="../../system/{{item.link}}">{{item.title}}</a>
             </div>

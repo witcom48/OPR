@@ -77,7 +77,7 @@ export class AppMenuComponent implements OnInit {
 
             [ModuleCode.SELF]: {
                 label: 'Self Services',
-                icon:'pi-id-card',
+                icon: 'pi-id-card',
                 items: [
                     { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
                     { label: 'Manager', routerLink: ['/self/approve'], accessCode: 'SELF002' },

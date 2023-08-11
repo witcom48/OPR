@@ -91,22 +91,25 @@
             <label>{{title_worker[initial_current.Language]}}</label>
             <p-dropdown placeholder="--" [options]="worker_List" optionValue="worker_code" [showClear]="true"
                 [(ngModel)]="selectedBlacklist.worker_code" [style]="{ width: '100%', overflow: 'visible' }"
-                [filter]="true" filterBy="worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
+                [filter]="true" filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
                 <ng-template let-item pTemplate="selectedItem">
-                    {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th :
-                    item.worker_fname_en
+                    {{initial_current.Language=="TH"? item.worker_code+"-"+item.worker_fname_th +"
+                    "+item.worker_lname_th :
+                    item.worker_code+"-"+item.worker_fname_en
                     +" "+item.worker_lname_en}}
                 </ng-template>
                 <ng-template let-item pTemplate="item">
-                    {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th :
-                    item.worker_fname_en
+                    {{initial_current.Language=="TH"? item.worker_code+"-"+item.worker_fname_th +"
+                    "+item.worker_lname_th :
+                    item.worker_code+"-"+item.worker_fname_en
                     +" "+item.worker_lname_en}}
                 </ng-template>
             </p-dropdown>
 
             <label for="lastname2">{{title_reason[initial_current.Language]}}</label>
-            <p-dropdown placeholder="--" [options]="reason_list" optionValue="reason_code" [(ngModel)]="selectedBlacklist.reason_code"
-                [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+            <p-dropdown placeholder="--" [options]="reason_list" optionValue="reason_code"
+                [(ngModel)]="selectedBlacklist.reason_code" [showClear]="true"
+                [style]="{ width: '100%', overflow: 'visible' }">
                 <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
                 </ng-template>

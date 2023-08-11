@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/select-emp.component';
 import { AppConfig } from 'src/app/config/config';
@@ -24,7 +24,7 @@ interface Result {
   item_ab: string,
   item_lt: string,
   item_lv: string,
-  
+
   modied_by: string,
   modied_date: string,
 }
@@ -35,6 +35,8 @@ interface Result {
   styleUrls: ['./set-attpay.component.scss']
 })
 export class SetAttpayComponent implements OnInit {
+  itemslike: MenuItem[] = [];
+  home: any;
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -52,33 +54,33 @@ export class SetAttpayComponent implements OnInit {
   result_list: Result[] = [];
 
   selectedItem: EmpattitemModel = new EmpattitemModel();
-  
+
   loading: boolean = false;
   new_data: boolean = false;
   @ViewChild('dt2') table: Table | undefined;
 
-  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
-  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
-  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
-  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
-  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
-  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
+  title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" }
+  title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
+  title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
+  title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
+  title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
+  title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
 
-  title_submit: {[key: string]: string} = {  EN: "Submit",  TH: "คุณยกเลิกการทำรายการ"}
-  title_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "คุณยกเลิกการทำรายการ"}
-  labSalary: {[key: string]: string} = {  EN: "Salary",  TH: "เงินเดือน"}  
-  labOvertime: {[key: string]: string} = {  EN: "Overtime",  TH: "ล่วงเวลา"}
-  labDiligence: {[key: string]: string} = {  EN: "Diligence",  TH: "เบี้ยขยัน"}
-  labAllowance: {[key: string]: string} = {  EN: "Allowance",  TH: "เงินค่าเวลา"}
-  labLeave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
-  labAbsent: {[key: string]: string} = {  EN: "Absent",  TH: "ขาดงาน"}
-  labLate: {[key: string]: string} = {  EN: "Late",  TH: "สาย"}
+  title_submit: { [key: string]: string } = { EN: "Submit", TH: "คุณยกเลิกการทำรายการ" }
+  title_cancel: { [key: string]: string } = { EN: "Cancel", TH: "คุณยกเลิกการทำรายการ" }
+  labSalary: { [key: string]: string } = { EN: "Salary", TH: "เงินเดือน" }
+  labOvertime: { [key: string]: string } = { EN: "Overtime", TH: "ล่วงเวลา" }
+  labDiligence: { [key: string]: string } = { EN: "Diligence", TH: "เบี้ยขยัน" }
+  labAllowance: { [key: string]: string } = { EN: "Allowance", TH: "เงินค่าเวลา" }
+  labLeave: { [key: string]: string } = { EN: "Leave", TH: "ลางาน" }
+  labAbsent: { [key: string]: string } = { EN: "Absent", TH: "ขาดงาน" }
+  labLate: { [key: string]: string } = { EN: "Late", TH: "สาย" }
 
-  title_btn_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
-  title_btn_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
-  title_btn_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
-  title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
-  title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
+  title_btn_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
+  title_btn_cancel: { [key: string]: string } = { EN: "Cancel", TH: "ยกเลิก" }
+  title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
 
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
@@ -86,22 +88,25 @@ export class SetAttpayComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('');
     }
+    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, { label: 'Set Deduction Income code', routerLink: '/attendance/policy/setattpay', styleClass: 'activelike' }];
+
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
-    
+
     setTimeout(() => {
       this.doLoadItemsList()
       this.doLoadResult()
     }, 1500);
   }
 
-  doLoadResult(){        
+  doLoadResult() {
     var tmp = new EmpattitemModel();
     this.empAttItemServices.EmpAttItem_get(tmp).then(async (res) => {
       await res.forEach((element: EmpattitemModel) => {
         this.result_list.push(
-          {            
+          {
             worker: element.worker_code,
             item_sa: element.item_sa,
             item_ot: element.item_ot,
@@ -114,7 +119,7 @@ export class SetAttpayComponent implements OnInit {
             modied_date: element.modified_date,
           }
         )
-      });      
+      });
     });
   }
 
@@ -126,37 +131,37 @@ export class SetAttpayComponent implements OnInit {
   itemsab_list: any[] = [];
   itemslt_list: any[] = [];
   itemslv_list: any[] = [];
-   
-  doLoadItemsList(){    
+
+  doLoadItemsList() {
     var tmp = new ItemsModel();
     this.itemService.item_get(tmp).then(async (res) => {
       await res.forEach((element: ItemsModel) => {
 
-        if(element.item_type == "IN"){        
-          
+        if (element.item_type == "IN") {
+
           this.doAddOption(this.itemssa_list, element)
           this.doAddOption(this.itemsot_list, element)
           this.doAddOption(this.itemsdg_list, element)
-          this.doAddOption(this.itemsaw_list, element)         
+          this.doAddOption(this.itemsaw_list, element)
 
         }
-        else{
+        else {
 
           this.doAddOption(this.itemsab_list, element)
           this.doAddOption(this.itemslt_list, element)
           this.doAddOption(this.itemslv_list, element)
-         
+
         }
 
 
-      });      
+      });
     });
 
   }
 
-  doAddOption(list: any[], element: ItemsModel){
+  doAddOption(list: any[], element: ItemsModel) {
     list.push(
-      {            
+      {
         name: this.initial_current.Language == "EN" ? element.item_name_en : element.item_name_th,
         code: element.item_code
       }
@@ -167,7 +172,7 @@ export class SetAttpayComponent implements OnInit {
   process() {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
-      
+
       this.confirmationService.confirm({
         message: "SetUpPolicyAttence",
         header: "SetUp",
@@ -190,7 +195,7 @@ export class SetAttpayComponent implements OnInit {
     data.item_lv = this.selectedItem.item_lv
     data.item_ab = this.selectedItem.item_ab
     data.item_lt = this.selectedItem.item_lt
-        
+
     data.company_code = this.initial_current.CompCode
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
@@ -201,7 +206,7 @@ export class SetAttpayComponent implements OnInit {
         // console.log(res.message)
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
 
-        setTimeout(() => {          
+        setTimeout(() => {
           this.doLoadResult()
         }, 500);
 

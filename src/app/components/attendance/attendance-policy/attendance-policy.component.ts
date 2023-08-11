@@ -91,8 +91,13 @@ export class AttendancePolicyComponent implements OnInit {
   setpolicyMenuList: Menu[] = [
     {
       title: 'Set Policy',
-      link: 'setholiday',
+      link: 'setallpolicy',
       accessCode: 'ATT001-013'
+    },
+    {
+      title: 'Set Deduction Income code',
+      link: 'setattpay',
+      accessCode: 'ATT001-014'
     }
     // ... other setup menu items ...
   ];

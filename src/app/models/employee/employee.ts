@@ -1,3 +1,5 @@
+import { ApplyMTDocattModel } from "../recruitment/applyMTDocatt";
+
 export class EmployeeModel {
   employee_code: any;
   constructor() {
@@ -59,4 +61,9 @@ export class EmployeeModel {
   position_name_en: string = "";
 
   selected_Import: string = "";
+  
+  // recruiment
+  reqdocatt_data: ApplyMTDocattModel[] = []
+  worker_age: number = 0;
+  nationality_code: string = "";
 }
