@@ -24,104 +24,68 @@
             </div>
             <div class="field col-12 md:col-6">
                 <label for="lastname2">รูปแบบ แผนวันหยุด:</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
+                <p-dropdown placeholder="แผนวันหยุด" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyholiday"
                     [(ngModel)]="policyholidayselect"></p-dropdown>
-            </div>
-            <div *ngIf="!loading" class="field col-12 md:col-12">
-                <p-button label="Process" (click)="process('HO')"></p-button>
-            </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading && policy_process=='HO'"
-                    mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-4">
                 <label for="lastname2">ปี :</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
+                <p-dropdown placeholder="ปี" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="yaer_list"
                     [(ngModel)]="yearselect"></p-dropdown>
             </div>
             <div class="field col-12 md:col-6">
                 <label for="lastname2">รูปแบบ กะการทำงาน:</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
+                <p-dropdown placeholder="กะการทำงาน" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyshift"
                     [(ngModel)]="policyshiftselect"></p-dropdown>
-            </div>
-            <div *ngIf="!loading" class="field col-12 md:col-12">
-                <p-button label="Process" (click)="process('SHT')"></p-button>
-            </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading && policy_process=='SHT'"
-                    mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
                 <label for="lastname2">รูปแบบ แผนOT:</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
+                <p-dropdown placeholder="แผนOT" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyOT"
                     [(ngModel)]="policyOTselect"></p-dropdown>
-            </div>
-            <div *ngIf="!loading" class="field col-12 md:col-12">
-                <p-button label="Process" (click)="process('OT')"></p-button>
-            </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading && policy_process=='OT'"
-                    mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
                 <label for="lastname2">รูปแบบ เบี้ยขยัน:</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
+                <p-dropdown placeholder="นโยบายเบี้ยขยัน" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policydiligence"
                     [(ngModel)]="policydiligenceselect"></p-dropdown>
-            </div>
-            <div *ngIf="!loading" class="field col-12 md:col-12">
-                <p-button label="Process" (click)="process('DG')"></p-button>
-            </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading && policy_process=='DG'"
-                    mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
                 <label for="lastname2">รูปแบบ การมาสาย:</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
+                <p-dropdown placeholder="นโยบายมาสาย" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policylate"
                     [(ngModel)]="policylateselect"></p-dropdown>
-            </div>
-            <div *ngIf="!loading" class="field col-12 md:col-12">
-                <p-button label="Process" (click)="process('LT')"></p-button>
-            </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading && policy_process=='LT'"
-                    mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
                 <label for="lastname2">รูปแบบ การลา:</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
+                <p-dropdown placeholder="นโยบายการลา" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyleave"
                     [(ngModel)]="policyleaveselect"></p-dropdown>
-            </div>
-            <div *ngIf="!loading" class="field col-12 md:col-12">
-                <p-button label="Process" (click)="process('LV')"></p-button>
-            </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading && policy_process=='LV'"
-                    mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
                 <label for="lastname2">รูปแบบ เงินได้ค่าเวลา:</label><br>
-                <p-dropdown placeholder="Genarate Time Compare" optionLabel="name" [showClear]="true"
+                <p-dropdown placeholder="นโยบายเงินได้ค่าเวลา" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyallow"
                     [(ngModel)]="policyallowselect"></p-dropdown>
             </div>
             <div *ngIf="!loading" class="field col-12 md:col-12">
                 <p-button label="Process" (click)="process('AW')"></p-button>
             </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading && policy_process=='AW'"
+            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading"
                     mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
             </div>
         </div>
