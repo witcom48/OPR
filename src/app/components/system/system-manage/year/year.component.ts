@@ -174,7 +174,8 @@ export class YearComponent implements OnInit {
         label: 'ลบ',
         icon: 'pi pi-trash',
         command: () => {
-        //  this.Delete()
+         this.Delete()
+        
          this.doDeleteYear(this.yearperiods)
 
         }
