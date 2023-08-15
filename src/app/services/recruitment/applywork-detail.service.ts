@@ -586,7 +586,7 @@ export class ApplyworkDetailService {
       visa_issue: model.visa_issue,
       visa_expire: model.visa_expire,
       workpermit_no: model.workpermit_no,
-      workpermit_by: model.passport_issue,
+      workpermit_by: model.workpermit_by,
       workpermit_issue: model.workpermit_issue,
       workpermit_expire: model.workpermit_expire,
       entry_date: model.entry_date,

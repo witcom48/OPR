@@ -103,6 +103,11 @@ interface Nation {
     name_en: string,
     code: string
 }
+interface AttachType {
+    name_th: string,
+    name_en: string,
+    code: string
+}
 
 @Component({
     selector: 'app-recruitment-apply',
@@ -139,6 +144,8 @@ export class RecruitmentApplyComponent implements OnInit {
 
     nationality: Nation[] = [];
 
+    attachType: AttachType[] = [];
+
 
     //menu empsuggest
     menu_reqsuggest: MenuItem[] = [];
@@ -173,7 +180,13 @@ export class RecruitmentApplyComponent implements OnInit {
     edit_reqcriminal: boolean = false;
     new_criminal: boolean = false;
     /////////////////
-    items_attfile: MenuItem[] = [];
+    items_attfileApp: MenuItem[] = [];
+    items_attfileID: MenuItem[] = [];
+    items_attfileHos: MenuItem[] = [];
+    items_attfilePho: MenuItem[] = [];
+    items_attfilePDPA: MenuItem[] = [];
+    items_attfileMCer: MenuItem[] = [];
+    items_attfileOther: MenuItem[] = [];
     ///////////////////////////////////menu reqposition
     menu_reqposition: MenuItem[] = [];
     edit_reqposition: boolean = false;
@@ -261,6 +274,15 @@ export class RecruitmentApplyComponent implements OnInit {
             { name_th: 'จีน', name_en: 'Chinese', code: 'CH' },
 
         ];
+        this.attachType = [
+            { name_th: 'ใบสมัคร', name_en: 'Application', code: 'APCT' },
+            { name_th: 'บัตรประชาชน', name_en: 'ID Card', code: 'IDCD' },
+            { name_th: 'สำเนาทะเบียนบ้าน', name_en: 'House REGISTRATION', code: 'HRST' },
+            { name_th: 'รูปถ่ายพนักงานที่ถือบัตรประชาชน', name_en: 'Photo with ID Card', code: 'PHID' },
+            { name_th: 'PDPA', name_en: 'PDPA', code: 'PDPA' },
+            { name_th: 'ใบรับรองแพทย์', name_en: 'Medical Certificate', code: 'MECR' },
+            { name_th: 'อื่นๆ', name_en: 'Other', code: 'OTH' },
+        ]
     }
 
     ngOnInit(): void {
@@ -380,7 +402,7 @@ export class RecruitmentApplyComponent implements OnInit {
 
     title_finance: string = "Finance";
     title_taxmethod: string = "Tax Method";
-    title_salary: string = "Salary";
+    title_salary: string = "Income";
     title_benefit: string = "Benefit";
     title_fund: string = "Provident Fund";
     title_reduce: string = "Reduces";
@@ -519,10 +541,20 @@ export class RecruitmentApplyComponent implements OnInit {
 
     title_blacklist: { [key: string]: string } = { EN: "Black List", TH: "เบล็คลิสต์" };
     title_history: { [key: string]: string } = { EN: "Working History", TH: "ประวัติการทำงาน" };
+
+    title_salarytype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+    title_filetype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
     //
     title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
     title_nation: { [key: string]: string } = { EN: "Nationality", TH: "สัญชาติ" };
-
+    //
+    title_app: { [key: string]: string } = { EN: "Application", TH: "ใบสมัคร" };
+    title_idcard: { [key: string]: string } = { EN: "ID Card", TH: "บัตรประชาชน" };
+    title_house: { [key: string]: string } = { EN: "House REGISTRATION", TH: "สำเนาทะเบียนบ้าน" };
+    title_photo: { [key: string]: string } = { EN: "Photo with ID Card", TH: "รูปถ่ายพนักงานที่ถือบัตรประชาชน" };
+    title_pdpa: { [key: string]: string } = { EN: "PDPA", TH: "PDPA" };
+    title_certi: { [key: string]: string } = { EN: "Medical Certificate", TH: "ใบรับรองแพทย์" };
+    title_otherfile: { [key: string]: string } = { EN: "Other", TH: "อื่นๆ" };
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = "ข้อมูลผู้สมัคร";
@@ -589,7 +621,7 @@ export class RecruitmentApplyComponent implements OnInit {
 
             this.title_finance = 'การเงิน';
             this.title_taxmethod = 'การคำนวนภาษี';
-            this.title_salary = 'เงินเดือน/ค่าจ้าง';
+            this.title_salary = 'รายได้';
             this.title_benefit = 'สวัสดิการ';
             this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
             this.title_reduce = 'ค่าลดหย่อน';
@@ -1065,17 +1097,75 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
         ];
-        this.items_attfile = [
-
+        //Attacg App
+        this.items_attfileApp = [
             {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    this.Uploadfile = true;
+                    this.UploadfileApp = true;
                 }
             },
-
-
+        ];
+        //Attacg id
+        this.items_attfileID = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.UploadfileID = true;
+                }
+            },
+        ];
+        //Attacg house
+        this.items_attfileHos = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.UploadfileHos = true;
+                }
+            },
+        ];
+        //Attacg Photo
+        this.items_attfilePho = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.UploadfilePho = true;
+                }
+            },
+        ];
+        //Attacg PDPA
+        this.items_attfilePDPA = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.UploadfilePDPA = true;
+                }
+            },
+        ];
+        //Attacg M Certificate
+        this.items_attfileMCer = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.UploadfileMCer = true;
+                }
+            },
+        ];
+        //Attacg other
+        this.items_attfileOther = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.UploadfileOther = true;
+                }
+            },
         ];
         //menu position
         this.menu_reqposition = [
@@ -1287,7 +1377,7 @@ export class RecruitmentApplyComponent implements OnInit {
             } else if (this.new_project || this.edit_reqproject) {
                 this.manage_title = 'Project';
             } else if (this.new_salary || this.edit_reqsalary) {
-                this.manage_title = 'Salary';
+                this.manage_title = 'Income';
             }
         } else {
             if (this.new_reqsuggest || this.edit_reqsuggest) {
@@ -1311,7 +1401,7 @@ export class RecruitmentApplyComponent implements OnInit {
             } else if (this.new_project || this.edit_reqproject) {
                 this.manage_title = 'โครงการ';
             } else if (this.new_salary || this.edit_reqsalary) {
-                this.manage_title = 'เงินเดือน/ค่าจ้าง';
+                this.manage_title = 'รายได้';
             }
         }
     }
@@ -1369,6 +1459,21 @@ export class RecruitmentApplyComponent implements OnInit {
                         this.doLoadReqPositionList();
                         this.doLoadReqProjectList();
                         this.doLoadReqSalaryList();
+
+                        this.CalculateAge();
+
+                        //attach file
+                        this.doGetFileApp();
+                        this.doGetFileID();
+                        this.doGetFileHos();
+                        this.doGetFilePho();
+                        this.doGetFilePDPA();
+                        this.doGetFileMCer();
+                        this.doGetFileOther();
+
+                        //Check
+                        this.getBlackList()
+                        this.getHistoryList();
 
                     }, 300);
                 }
@@ -1595,11 +1700,11 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     reqcard_delete() {
         var tmp: EmpcardModel = new EmpcardModel();
-    tmp.worker_code = this.selectedReqworker.worker_code
-    this.reqdetailService.delete_empcard(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
-     }
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_empcard(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
     reqcard_cancel() {
         this.new_card = false;
         this.edit_reqcard = false;
@@ -1717,11 +1822,11 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     reqeducation_delete() {
         var tmp: EmpEducationModel = new EmpEducationModel();
-    tmp.worker_code = this.selectedReqworker.worker_code
-    this.reqdetailService.delete_empeducation(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
-     }
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_empeducation(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
     reqeducation_cancel() {
         this.new_education = false;
         this.edit_reqeducation = false;
@@ -1802,11 +1907,11 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     reqtraining_delete() {
         var tmp: EmpTrainingModel = new EmpTrainingModel();
-    tmp.worker_code = this.selectedReqworker.worker_code
-    this.reqdetailService.delete_reqtraining(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
-     }
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_reqtraining(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
     reqtraining_cancel() {
         this.new_training = false;
         this.edit_reqtraining = false;
@@ -1886,11 +1991,11 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     reqassessment_delete() {
         var tmp: EmpAssessmentModel = new EmpAssessmentModel();
-    tmp.worker_code = this.selectedReqworker.worker_code
-    this.reqdetailService.delete_reqassessment(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
-     }
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_reqassessment(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
     reqassessment_cancel() {
         this.new_assessment = false;
         this.edit_reqassessment = false;
@@ -1919,7 +2024,7 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     record_reqassessment() {
         if (this.reqassessmentList.length == 0) {
-        this.reqassessment_delete();
+            this.reqassessment_delete();
         }
         this.reqdetailService
             .record_reqassessment(
@@ -1970,11 +2075,11 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     reqcriminal_delete() {
         var tmp: EmpCriminalModel = new EmpCriminalModel();
-    tmp.worker_code = this.selectedReqworker.worker_code
-    this.reqdetailService.delete_reqcriminal(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
-     }
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_reqcriminal(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
     reqcriminal_cancel() {
         this.new_criminal = false;
         this.edit_reqcriminal = false;
@@ -2050,11 +2155,11 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     reqsuggest_delete() {
         var tmp: EmpSuggestModel = new EmpSuggestModel();
-    tmp.worker_code = this.selectedReqworker.worker_code
-    this.reqdetailService.delete_reqsuggest(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
-     }
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_reqsuggest(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
     reqsuggest_cancel() {
         this.new_reqsuggest = false;
         this.edit_reqsuggest = false;
@@ -2108,7 +2213,6 @@ export class RecruitmentApplyComponent implements OnInit {
                 if (this.reqPositionList.length > 0) {
                     this.selectedReqPosition = this.reqPositionList[0];
                 }
-                console.log(res)
             });
     }
     onRowSelectReqposition(event: Event) { }
@@ -2126,12 +2230,12 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     reqposition_delete() {
         var tmp: EmpPositionModel = new EmpPositionModel();
-    tmp.worker_code = this.selectedReqworker.worker_code;
-    tmp.empposition_id = "";
-    this.reqdetailService.delete_reqposition(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
-     }
+        tmp.worker_code = this.selectedReqworker.worker_code;
+        tmp.empposition_id = "";
+        this.reqdetailService.delete_reqposition(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
     reqposition_cancel() {
         this.new_position = false;
         this.edit_reqposition = false;
@@ -2202,11 +2306,11 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     reqproject_delete() {
         var tmp: ReqProjectModel = new ReqProjectModel();
-    tmp.worker_code = this.selectedReqworker.worker_code;
-    this.reqdetailService.delete_reqproject(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
-     }
+        tmp.worker_code = this.selectedReqworker.worker_code;
+        this.reqdetailService.delete_reqproject(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
     reqproject_cancel() {
         this.new_project = false;
         this.edit_reqproject = false;
@@ -2277,10 +2381,10 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     reqsalary_delete() {
         var tmp: EmpSalaryModel = new EmpSalaryModel();
-    tmp.worker_code = this.selectedReqworker.worker_code
-    this.reqdetailService.delete_reqsalary(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_reqsalary(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
     }
     reqsalary_cancel() {
         this.new_salary = false;
@@ -2326,7 +2430,6 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     doRecordApplywork() {
-        console.log(this.selectedReqworker)
         this.applyworkService
             .reqworker_record([this.selectedReqworker])
             .then((res) => {
@@ -2355,6 +2458,15 @@ export class RecruitmentApplyComponent implements OnInit {
                     //image
                     this.uploadImages();
 
+                    //attach
+                    this.record_fileApp();
+                    this.record_fileID();
+                    this.record_fileHos();
+                    this.record_filePho();
+                    this.record_filePDPA();
+                    this.record_fileMCer();
+                    this.record_fileOther();
+
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
@@ -2380,6 +2492,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.doRecordApplywork()
             },
             reject: () => {
+                this.record_fileApp();
                 this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
             },
             key: "myDialog"
@@ -2446,61 +2559,71 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
 
-    Uploadfile: boolean = false;
-    fileDocToUpload: File | any = null;
-    selecteddocatt: ApplyMTDocattModel = new ApplyMTDocattModel();
-    handleFileInputDoclist(file: FileList) {
-        this.fileToUpload = file.item(0);
+    //Attach File Application
+    UploadfileApp: boolean = false;
+    fileDocToUploadApp: File | any = null;
+    reqdocattApp: ApplyMTDocattModel[] = [];
+    selecteddocattApp: ApplyMTDocattModel = new ApplyMTDocattModel();
+    handleFileAppInputDoclist(file: FileList) {
+        this.fileDocToUploadApp = file.item(0);
     }
-
-    doUploadFile() {
-        const filename = "REQ_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
-        const filetype = this.fileToUpload.name.split(".")[1];
-        this.applyworkService.file_attach(this.fileToUpload, filename, filetype).then((res) => {
-            // console.log(res)
-            this.selectedReqworker.reqdocatt_data = [];
+    doGetFileApp(){
+        var tmp = new ApplyMTDocattModel();
+        tmp.company_code = this.initial_current.CompCode
+        tmp.worker_code = this.selectedReqworker.worker_code
+        tmp.job_type = "APPT"
+        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+            this.reqdocattApp = res;
+        })
+    }
+    doUploadFileApp() {
+        const filename = "REQ_APP" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        const filetype = this.fileDocToUploadApp.name.split(".")[1];
+        this.applyworkService.file_attach(this.fileDocToUploadApp, filename, filetype).then((res) => {
+            this.reqdocattApp = [];
             if (res.success) {
-                this.selectedReqworker.reqdocatt_data = this.selectedReqworker.reqdocatt_data.concat({
+                this.reqdocattApp = this.reqdocattApp.concat({
                     company_code: this.selectedReqworker.company_code || this.initial_current.CompCode,
                     worker_code: this.selectedReqworker.worker_code,
                     document_id: 0,
+                    job_type: "APPT",
                     job_id: this.selectedReqworker.worker_id.toString(),
                     document_name: filename + "." + filetype,
-                    document_type: this.fileToUpload.type,
+                    document_type: this.fileDocToUploadApp.type,
                     document_path: res.message,
                     created_by: this.initial_current.Username,
                     created_date: new Date().toISOString()
                 })
-                this.Uploadfile = false;
+                this.UploadfileApp = false;
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
             }
             else {
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
             }
-            this.fileToUpload = null;
+            this.fileDocToUploadApp = null;
         });
     }
 
-    Uploadfiledoc() {
-        if (this.fileToUpload) {
+    UploadfileAppdoc() {
+        if (this.fileDocToUploadApp) {
             this.confirmationService.confirm({
-                message: this.title_confirm + this.fileToUpload.name,
+                message: this.title_confirm + this.fileDocToUploadApp.name,
                 header: this.title_import,
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
                     this.fileUploader.nativeElement.value = null;
-                    this.Uploadfile = false;
-                    this.doUploadFile();
+                    this.UploadfileApp = false;
+                    this.doUploadFileApp();
                 },
                 reject: () => {
-                    this.Uploadfile = false;
+                    this.UploadfileApp = false;
                 }
             });
         } else {
             this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
         }
     }
-    DeleteFile(data: ApplyMTDocattModel) {
+    DeleteFileApp(data: ApplyMTDocattModel) {
         this.confirmationService.confirm({
             message: this.title_confirm_delete + data.document_name,
             header: this.title_delete,
@@ -2535,15 +2658,773 @@ export class RecruitmentApplyComponent implements OnInit {
             }
         });
     }
-    async doGetReqAttfile(file_path: string, type: string) {
+    async doGetReqAttfileApp(file_path: string, type: string) {
         this.applyworkService.get_file(file_path).then((res) => {
             var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
             window.open(url);
-            this.selecteddocatt = new ApplyMTDocattModel();
+            this.selecteddocattApp = new ApplyMTDocattModel();
         })
     }
-    onRowSelectfile(event: Event) {
-        this.doGetReqAttfile(this.selecteddocatt.document_path, this.selecteddocatt.document_type)
+    onRowSelectfileApp(event: Event) {
+        this.doGetReqAttfileApp(this.selecteddocattApp.document_path, this.selecteddocattApp.document_type)
+    }
+    record_fileApp() {
+        if (this.reqdocattApp.length == 0) {
+            return;
+        }
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattApp).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+            } else {
+            }
+        })
+    }
+    //end
+
+    //Attach File ID Card
+    UploadfileID: boolean = false;
+    fileDocToUploadID: File | any = null;
+    reqdocattID : ApplyMTDocattModel[]=[];
+    selecteddocattID: ApplyMTDocattModel = new ApplyMTDocattModel();
+    handleFileIDInputDoclist(file: FileList) {
+        this.fileDocToUploadID = file.item(0);
+    }
+    doGetFileID(){
+        var tmp = new ApplyMTDocattModel();
+        tmp.company_code = this.initial_current.CompCode
+        tmp.worker_code = this.selectedReqworker.worker_code
+        tmp.job_type = "IDCARD"
+        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+            this.reqdocattID = res;
+        })
+    }
+    doUploadFileID() {
+        const filename = "REQ_ID" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        const filetype = this.fileDocToUploadID.name.split(".")[1];
+        this.applyworkService.file_attach(this.fileDocToUploadID, filename, filetype).then((res) => {
+            this.reqdocattID = [];
+            if (res.success) {
+                this.reqdocattID = this.reqdocattID.concat({
+                    company_code: this.selectedReqworker.company_code || this.initial_current.CompCode,
+                    worker_code: this.selectedReqworker.worker_code,
+                    document_id: 0,
+                    job_type: "IDCARD",
+                    job_id: this.selectedReqworker.worker_id.toString(),
+                    document_name: filename + "." + filetype,
+                    document_type: this.fileDocToUploadID.type,
+                    document_path: res.message,
+                    created_by: this.initial_current.Username,
+                    created_date: new Date().toISOString()
+                })
+                this.UploadfileID = false;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            }
+            else {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+            this.fileDocToUploadID = null;
+        });
+    }
+
+    UploadfileIDdoc() {
+        if (this.fileDocToUploadID) {
+            this.confirmationService.confirm({
+                message: this.title_confirm + this.fileDocToUploadID.name,
+                header: this.title_import,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.fileUploader.nativeElement.value = null;
+                    this.UploadfileID = false;
+                    this.doUploadFileID();
+                },
+                reject: () => {
+                    this.UploadfileID = false;
+                }
+            });
+        } else {
+            this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+        }
+    }
+    DeleteFileID(data: ApplyMTDocattModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete + data.document_name,
+            header: this.title_delete,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                if (data.document_id) {
+                    this.applyworkService.delete_file(data).then((res) => {
+                        if (res.success) {
+                            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                        }
+                    })
+                } else {
+                    this.reqdocattID = this.reqdocattID.filter((item) => {
+                        return item !== data;
+                    });
+                }
+                this.applyworkService.deletefilepath_file(data.document_path).then((res) => {
+                    if (res.success) {
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        this.reqdocattID = this.reqdocattID.filter((item) => {
+                            return item !== data;
+                        });
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                    }
+                })
+            },
+            reject: () => {
+
+            }
+        });
+    }
+    async doGetReqAttfileID(file_path: string, type: string) {
+        this.applyworkService.get_file(file_path).then((res) => {
+            var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+            window.open(url);
+            this.selecteddocattID = new ApplyMTDocattModel();
+        })
+    }
+    onRowSelectfileID(event: Event) {
+        this.doGetReqAttfileID(this.selecteddocattID.document_path, this.selecteddocattID.document_type)
+    }
+    record_fileID() {
+        if (this.reqdocattID.length == 0) {
+            return;
+        }
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattID).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+            } else {
+            }
+        })
+    }
+    //end
+
+    //Attach House REGISTRATION
+    UploadfileHos: boolean = false;
+    fileDocToUploadHos: File | any = null;
+    reqdocattHos: ApplyMTDocattModel[] = [];
+    selecteddocattHos: ApplyMTDocattModel = new ApplyMTDocattModel();
+    handleFileHosInputDoclist(file: FileList) {
+        this.fileDocToUploadHos = file.item(0);
+    }
+    doGetFileHos(){
+        var tmp = new ApplyMTDocattModel();
+        tmp.company_code = this.initial_current.CompCode
+        tmp.worker_code = this.selectedReqworker.worker_code
+        tmp.job_type = "HOUSE"
+        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+            this.reqdocattHos = res;
+        })
+    }
+    doUploadFileHos() {
+        const filename = "REQ_HOUSE" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        const filetype = this.fileDocToUploadHos.name.split(".")[1];
+        this.applyworkService.file_attach(this.fileDocToUploadHos, filename, filetype).then((res) => {
+            this.reqdocattHos = [];
+            if (res.success) {
+                this.reqdocattHos = this.reqdocattHos.concat({
+                    company_code: this.selectedReqworker.company_code || this.initial_current.CompCode,
+                    worker_code: this.selectedReqworker.worker_code,
+                    document_id: 0,
+                    job_type: "HOUSE",
+                    job_id: this.selectedReqworker.worker_id.toString(),
+                    document_name: filename + "." + filetype,
+                    document_type: this.fileDocToUploadHos.type,
+                    document_path: res.message,
+                    created_by: this.initial_current.Username,
+                    created_date: new Date().toISOString()
+                })
+                this.UploadfileHos = false;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            }
+            else {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+            this.fileDocToUploadHos = null;
+        });
+    }
+
+    UploadfileHosdoc() {
+        if (this.fileDocToUploadHos) {
+            this.confirmationService.confirm({
+                message: this.title_confirm + this.fileDocToUploadHos.name,
+                header: this.title_import,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.fileUploader.nativeElement.value = null;
+                    this.UploadfileHos = false;
+                    this.doUploadFileHos();
+                },
+                reject: () => {
+                    this.UploadfileHos = false;
+                }
+            });
+        } else {
+            this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+        }
+    }
+    DeleteFileHos(data: ApplyMTDocattModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete + data.document_name,
+            header: this.title_delete,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                if (data.document_id) {
+                    this.applyworkService.delete_file(data).then((res) => {
+                        if (res.success) {
+                            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                        }
+                    })
+                } else {
+                    this.reqdocattHos = this.reqdocattHos.filter((item) => {
+                        return item !== data;
+                    });
+                }
+                this.applyworkService.deletefilepath_file(data.document_path).then((res) => {
+                    if (res.success) {
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        this.reqdocattHos = this.reqdocattHos.filter((item) => {
+                            return item !== data;
+                        });
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                    }
+                })
+            },
+            reject: () => {
+
+            }
+        });
+    }
+    async doGetReqAttfileHos(file_path: string, type: string) {
+        this.applyworkService.get_file(file_path).then((res) => {
+            var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+            window.open(url);
+            this.selecteddocattHos = new ApplyMTDocattModel();
+        })
+    }
+    onRowSelectfileHos(event: Event) {
+        this.doGetReqAttfileHos(this.selecteddocattHos.document_path, this.selecteddocattHos.document_type)
+    }
+    record_fileHos() {
+        if (this.reqdocattHos.length == 0) {
+            return;
+        }
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattHos).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+            } else {
+            }
+        })
+    }
+    //end
+
+    //Attach File Photo
+    UploadfilePho: boolean = false;
+    fileDocToUploadPho: File | any = null;
+    reqdocattPho : ApplyMTDocattModel[]=[];
+    selecteddocattPho: ApplyMTDocattModel = new ApplyMTDocattModel();
+    handleFilePhoInputDoclist(file: FileList) {
+        this.fileDocToUploadPho = file.item(0);
+    }
+    doGetFilePho(){
+        var tmp = new ApplyMTDocattModel();
+        tmp.company_code = this.initial_current.CompCode
+        tmp.worker_code = this.selectedReqworker.worker_code
+        tmp.job_type = "PHOID"
+        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+            this.reqdocattPho = res;
+        })
+    }
+    doUploadFilePho() {
+        const filename = "REQ_PHO" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        const filetype = this.fileDocToUploadPho.name.split(".")[1];
+        this.applyworkService.file_attach(this.fileDocToUploadPho, filename, filetype).then((res) => {
+            this.reqdocattPho = [];
+            if (res.success) {
+                this.reqdocattPho = this.reqdocattPho.concat({
+                    company_code: this.selectedReqworker.company_code || this.initial_current.CompCode,
+                    worker_code: this.selectedReqworker.worker_code,
+                    document_id: 0,
+                    job_type: "PHOID",
+                    job_id: this.selectedReqworker.worker_id.toString(),
+                    document_name: filename + "." + filetype,
+                    document_type: this.fileDocToUploadPho.type,
+                    document_path: res.message,
+                    created_by: this.initial_current.Username,
+                    created_date: new Date().toISOString()
+                })
+                this.UploadfilePho = false;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            }
+            else {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+            this.fileDocToUploadPho = null;
+        });
+    }
+
+    UploadfilePhodoc() {
+        if (this.fileDocToUploadPho) {
+            this.confirmationService.confirm({
+                message: this.title_confirm + this.fileDocToUploadApp.name,
+                header: this.title_import,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.fileUploader.nativeElement.value = null;
+                    this.UploadfilePho = false;
+                    this.doUploadFilePho();
+                },
+                reject: () => {
+                    this.UploadfilePho = false;
+                }
+            });
+        } else {
+            this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+        }
+    }
+    DeleteFilePho(data: ApplyMTDocattModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete + data.document_name,
+            header: this.title_delete,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                if (data.document_id) {
+                    this.applyworkService.delete_file(data).then((res) => {
+                        if (res.success) {
+                            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                        }
+                    })
+                } else {
+                    this.reqdocattPho = this.reqdocattPho.filter((item) => {
+                        return item !== data;
+                    });
+                }
+                this.applyworkService.deletefilepath_file(data.document_path).then((res) => {
+                    if (res.success) {
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        this.reqdocattPho = this.reqdocattPho.filter((item) => {
+                            return item !== data;
+                        });
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                    }
+                })
+            },
+            reject: () => {
+
+            }
+        });
+    }
+    async doGetReqAttfilePho(file_path: string, type: string) {
+        this.applyworkService.get_file(file_path).then((res) => {
+            var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+            window.open(url);
+            this.selecteddocattPho = new ApplyMTDocattModel();
+        })
+    }
+    onRowSelectfilePho(event: Event) {
+        this.doGetReqAttfileApp(this.selecteddocattPho.document_path, this.selecteddocattPho.document_type)
+    }
+    record_filePho() {
+        if (this.reqdocattPho.length == 0) {
+            return;
+        }
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPho).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+            } else {
+            }
+        })
+    }
+    //end
+
+    //Attach File PDPA
+    UploadfilePDPA: boolean = false;
+    fileDocToUploadPDPA: File | any = null;
+    reqdocattPDPA : ApplyMTDocattModel[]=[];
+    selecteddocattPDPA: ApplyMTDocattModel = new ApplyMTDocattModel();
+    handleFilePDPAInputDoclist(file: FileList) {
+        this.fileDocToUploadPDPA = file.item(0);
+    }
+    doGetFilePDPA(){
+        var tmp = new ApplyMTDocattModel();
+        tmp.company_code = this.initial_current.CompCode
+        tmp.worker_code = this.selectedReqworker.worker_code
+        tmp.job_type = "PDPA"
+        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+            this.reqdocattPDPA = res;
+        })
+    }
+    doUploadFilePDPA() {
+        const filename = "REQ_PDPA" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        const filetype = this.fileDocToUploadPDPA.name.split(".")[1];
+        this.applyworkService.file_attach(this.fileDocToUploadPDPA, filename, filetype).then((res) => {
+            this.reqdocattPDPA = [];
+            if (res.success) {
+                this.reqdocattPDPA = this.reqdocattPDPA.concat({
+                    company_code: this.selectedReqworker.company_code || this.initial_current.CompCode,
+                    worker_code: this.selectedReqworker.worker_code,
+                    document_id: 0,
+                    job_type: "PDPA",
+                    job_id: this.selectedReqworker.worker_id.toString(),
+                    document_name: filename + "." + filetype,
+                    document_type: this.fileDocToUploadPDPA.type,
+                    document_path: res.message,
+                    created_by: this.initial_current.Username,
+                    created_date: new Date().toISOString()
+                })
+                this.UploadfilePDPA = false;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            }
+            else {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+            this.fileDocToUploadPDPA = null;
+        });
+    }
+
+    UploadfilePDPAdoc() {
+        if (this.fileDocToUploadPDPA) {
+            this.confirmationService.confirm({
+                message: this.title_confirm + this.fileDocToUploadPDPA.name,
+                header: this.title_import,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.fileUploader.nativeElement.value = null;
+                    this.UploadfilePDPA = false;
+                    this.doUploadFilePDPA();
+                },
+                reject: () => {
+                    this.UploadfilePDPA = false;
+                }
+            });
+        } else {
+            this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+        }
+    }
+    DeleteFilePDPA(data: ApplyMTDocattModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete + data.document_name,
+            header: this.title_delete,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                if (data.document_id) {
+                    this.applyworkService.delete_file(data).then((res) => {
+                        if (res.success) {
+                            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                        }
+                    })
+                } else {
+                    this.reqdocattPDPA = this.reqdocattPDPA.filter((item) => {
+                        return item !== data;
+                    });
+                }
+                this.applyworkService.deletefilepath_file(data.document_path).then((res) => {
+                    if (res.success) {
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        this.reqdocattPDPA = this.reqdocattPDPA.filter((item) => {
+                            return item !== data;
+                        });
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                    }
+                })
+            },
+            reject: () => {
+
+            }
+        });
+    }
+    async doGetReqAttfilePDPA(file_path: string, type: string) {
+        this.applyworkService.get_file(file_path).then((res) => {
+            var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+            window.open(url);
+            this.selecteddocattPDPA = new ApplyMTDocattModel();
+        })
+    }
+    onRowSelectfilePDPA(event: Event) {
+        this.doGetReqAttfilePDPA(this.selecteddocattPDPA.document_path, this.selecteddocattPDPA.document_type)
+    }
+    record_filePDPA() {
+        if (this.reqdocattPDPA.length == 0) {
+            return;
+        }
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPDPA).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+            } else {
+            }
+        })
+    }
+    //end
+
+    //Attach Medical Certificate
+    UploadfileMCer: boolean = false;
+    fileDocToUploadMCer: File | any = null;
+    reqdocattMCer : ApplyMTDocattModel[]=[];
+    selecteddocattMCer: ApplyMTDocattModel = new ApplyMTDocattModel();
+    handleFileMCerInputDoclist(file: FileList) {
+        this.fileDocToUploadMCer = file.item(0);
+    }
+    doGetFileMCer(){
+        var tmp = new ApplyMTDocattModel();
+        tmp.company_code = this.initial_current.CompCode
+        tmp.worker_code = this.selectedReqworker.worker_code
+        tmp.job_type = "MCER"
+        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+            this.reqdocattMCer = res;
+        })
+    }
+    doUploadFileMCer() {
+        const filename = "REQ_MCER" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        const filetype = this.fileDocToUploadMCer.name.split(".")[1];
+        this.applyworkService.file_attach(this.fileDocToUploadMCer, filename, filetype).then((res) => {
+            this.reqdocattMCer = [];
+            if (res.success) {
+                this.reqdocattMCer = this.reqdocattMCer.concat({
+                    company_code: this.selectedReqworker.company_code || this.initial_current.CompCode,
+                    worker_code: this.selectedReqworker.worker_code,
+                    document_id: 0,
+                    job_type: "MCER",
+                    job_id: this.selectedReqworker.worker_id.toString(),
+                    document_name: filename + "." + filetype,
+                    document_type: this.fileDocToUploadMCer.type,
+                    document_path: res.message,
+                    created_by: this.initial_current.Username,
+                    created_date: new Date().toISOString()
+                })
+                this.UploadfileMCer = false;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            }
+            else {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+            this.fileDocToUploadMCer = null;
+        });
+    }
+
+    UploadfileMCerdoc() {
+        if (this.fileDocToUploadMCer) {
+            this.confirmationService.confirm({
+                message: this.title_confirm + this.fileDocToUploadMCer.name,
+                header: this.title_import,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.fileUploader.nativeElement.value = null;
+                    this.UploadfileMCer = false;
+                    this.doUploadFileMCer();
+                },
+                reject: () => {
+                    this.UploadfileMCer = false;
+                }
+            });
+        } else {
+            this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+        }
+    }
+    DeleteFileMCer(data: ApplyMTDocattModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete + data.document_name,
+            header: this.title_delete,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                if (data.document_id) {
+                    this.applyworkService.delete_file(data).then((res) => {
+                        if (res.success) {
+                            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                        }
+                    })
+                } else {
+                    this.reqdocattMCer = this.reqdocattMCer.filter((item) => {
+                        return item !== data;
+                    });
+                }
+                this.applyworkService.deletefilepath_file(data.document_path).then((res) => {
+                    if (res.success) {
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        this.reqdocattMCer = this.reqdocattMCer.filter((item) => {
+                            return item !== data;
+                        });
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                    }
+                })
+            },
+            reject: () => {
+
+            }
+        });
+    }
+    async doGetReqAttfileMCer(file_path: string, type: string) {
+        this.applyworkService.get_file(file_path).then((res) => {
+            var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+            window.open(url);
+            this.selecteddocattMCer = new ApplyMTDocattModel();
+        })
+    }
+    onRowSelectfileMCer(event: Event) {
+        this.doGetReqAttfileMCer(this.selecteddocattMCer.document_path, this.selecteddocattMCer.document_type)
+    }
+    record_fileMCer() {
+        if (this.reqdocattMCer.length == 0) {
+            return;
+        }
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattMCer).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+            } else {
+            }
+        })
+    }
+    //end
+
+    //Attach File Other
+    UploadfileOther: boolean = false;
+    fileDocToUploadOther: File | any = null;
+    reqdocattOther : ApplyMTDocattModel[]=[];
+    selecteddocattOther: ApplyMTDocattModel = new ApplyMTDocattModel();
+    handleFileOtherInputDoclist(file: FileList) {
+        this.fileDocToUploadOther = file.item(0);
+    }
+    doGetFileOther(){
+        var tmp = new ApplyMTDocattModel();
+        tmp.company_code = this.initial_current.CompCode
+        tmp.worker_code = this.selectedReqworker.worker_code
+        tmp.job_type = "OTHER"
+        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+            this.reqdocattOther = res;
+        })
+    }
+    doUploadFileOther() {
+        const filename = "REQ_OTHER" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+        const filetype = this.fileDocToUploadOther.name.split(".")[1];
+        this.applyworkService.file_attach(this.fileDocToUploadOther, filename, filetype).then((res) => {
+            this.reqdocattOther = [];
+            if (res.success) {
+                this.reqdocattOther = this.reqdocattOther.concat({
+                    company_code: this.selectedReqworker.company_code || this.initial_current.CompCode,
+                    worker_code: this.selectedReqworker.worker_code,
+                    document_id: 0,
+                    job_type: "OTHER",
+                    job_id: this.selectedReqworker.worker_id.toString(),
+                    document_name: filename + "." + filetype,
+                    document_type: this.fileDocToUploadOther.type,
+                    document_path: res.message,
+                    created_by: this.initial_current.Username,
+                    created_date: new Date().toISOString()
+                })
+                this.UploadfileOther = false;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            }
+            else {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+            this.fileDocToUploadOther = null;
+        });
+    }
+
+    UploadfileOtherdoc() {
+        if (this.fileDocToUploadOther) {
+            this.confirmationService.confirm({
+                message: this.title_confirm + this.fileDocToUploadOther.name,
+                header: this.title_import,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.fileUploader.nativeElement.value = null;
+                    this.UploadfileOther = false;
+                    this.doUploadFileOther();
+                },
+                reject: () => {
+                    this.UploadfileOther = false;
+                }
+            });
+        } else {
+            this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+        }
+    }
+    DeleteFileOther(data: ApplyMTDocattModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete + data.document_name,
+            header: this.title_delete,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                if (data.document_id) {
+                    this.applyworkService.delete_file(data).then((res) => {
+                        if (res.success) {
+                            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                        }
+                    })
+                } else {
+                    this.reqdocattOther = this.reqdocattOther.filter((item) => {
+                        return item !== data;
+                    });
+                }
+                this.applyworkService.deletefilepath_file(data.document_path).then((res) => {
+                    if (res.success) {
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        this.reqdocattOther = this.reqdocattOther.filter((item) => {
+                            return item !== data;
+                        });
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                    }
+                })
+            },
+            reject: () => {
+
+            }
+        });
+    }
+    async doGetReqAttfileOther(file_path: string, type: string) {
+        this.applyworkService.get_file(file_path).then((res) => {
+            var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+            window.open(url);
+            this.selecteddocattOther = new ApplyMTDocattModel();
+        })
+    }
+    onRowSelectfileOther(event: Event) {
+        this.doGetReqAttfileOther(this.selecteddocattOther.document_path, this.selecteddocattOther.document_type)
+    }
+    record_fileOther() {
+        if (this.reqdocattOther.length == 0) {
+            return;
+        }
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattOther).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+            } else {
+            }
+        })
+    }
+    //end
+
+    //get worker name
+    doGetWorkerDetail(WorkerCode: string): any {
+        for (let i = 0; i < this.suggest_List.length; i++) {
+            if (this.suggest_List[i].worker_code == WorkerCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.suggest_List[i].worker_fname_th + " " + this.suggest_List[i].worker_lname_th;
+                }
+                else {
+                    return this.suggest_List[i].worker_fname_en + " " + this.suggest_List[i].worker_lname_en;
+                }
+            }
+        }
     }
 
     //get address name
@@ -2674,6 +3555,41 @@ export class RecruitmentApplyComponent implements OnInit {
                 else {
                     return this.projectList[i].project_name_en;
                 }
+            }
+        }
+    }
+
+    //age Calculate
+    age: string = "";
+    CalculateAge() {
+        if (this.selectedReqworker.worker_birthdate) {
+            let timeDiff = Math.abs(Date.now() - this.selectedReqworker.worker_birthdate.getTime());
+            let agediff = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
+            if (this.initial_current.Language == 'TH') {
+                this.age = agediff + " ปี"
+            } else {
+                this.age = agediff + " Year"
+            }
+        }
+    }
+
+    blacklist :string = "";
+    history: string = "";
+    getBlackList(){
+        if(this.selectedReqworker.checkblacklist){
+            if(this.initial_current.Language == "TH"){
+                this.blacklist = "มีประวัติเบล็คลิสต์"
+            }else{
+                this.blacklist = "Have Blacklist"
+            }
+        }
+    }
+    getHistoryList(){
+        if(this.selectedReqworker.checkhistory){
+            if(this.initial_current.Language == "TH"){
+                this.history = "มีประวัติเคยทำงาน"
+            }else{
+                this.history = "Have Work History"
             }
         }
     }

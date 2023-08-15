@@ -23,12 +23,12 @@
                     <br>
                     <small>{{this.title_new_emp}}</small>
                 </p>
-                <p-divider layout="vertical"></p-divider>
+                <!-- <p-divider layout="vertical"></p-divider>
                 <p style="width: 80px; text-align: left;">
                     <b style="color: orange;">0</b>
                     <br>
                     <small>{{this.title_resign_emp}}</small>
-                </p>
+                </p> -->
 
             </div>
 
@@ -51,8 +51,21 @@
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
             [globalFilterFields]="['worker_code','worker_initial','worker_fnamename_th','worker_lnamename_th','worker_type','worker_position','worker_hiredate']">
+            <!-- Form Search Table -->
             <ng-template pTemplate="caption">
-                <div class="flex">
+                <div class="searchtable1">
+                    <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
+                        {{title_apprstatus[initial_current.Language]}} :
+                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                            >
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template></p-dropdown>
+                        <p-button icon="pi pi-search" (click)="Search()"></p-button>
+                    </div>
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
@@ -68,6 +81,7 @@
                     <th>{{title_name}}</th>
                     <!-- <th>{{title_Lname}}</th> -->
                     <th>{{title_hiredate}}</th>
+                    <th>{{title_apprstatus[initial_current.Language]}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
                 </tr>
@@ -82,6 +96,7 @@
                         "+data.worker_lname_th:data.initial_name_en+" "+data.worker_fname_en+" "+data.worker_lname_en}}</td>
                     <!-- <td>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td> -->
                     <td>{{data.worker_hiredate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{data.status}}</td>
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>

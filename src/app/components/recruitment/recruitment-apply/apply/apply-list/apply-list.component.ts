@@ -26,6 +26,11 @@ interface ImportList {
   name_en: string,
   code: string
 }
+interface Status {
+  name_th: string,
+  name_en: string,
+  code: number
+}
 
 @Component({
   selector: 'app-apply-list',
@@ -43,6 +48,9 @@ export class ApplyListComponent implements OnInit {
   new_applywork: boolean = false;
   ImportList: ImportList[] = [];
 
+  status_list: Status[] = [{ name_th: 'รอดำเนินการ',name_en:'Wait' , code: 0 }, { name_th:'เสร็จ',name_en:'Finish', code: 3 }, { name_th:'ปฏิเสธ',name_en:'Reject' , code: 4 }];
+  status_select: Status = { name_th: 'รอดำเนินการ',name_en:'Wait' , code: 0 }
+  status_doc: boolean = false
 
   constructor(
     private applyworkService : ApplyworkService,
@@ -137,6 +145,8 @@ export class ApplyListComponent implements OnInit {
   title_more: { [key: string]: string } = { EN: "More", TH: "เพิ่มเติม" };
   title_deletes: { [key: string]: string } = { EN: "Delete", TH: "ลบ" };
   title_searchemp: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" };
+  
+  title_apprstatus: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -222,13 +232,19 @@ export class ApplyListComponent implements OnInit {
     })
   }
 
-
+  Search() {
+    if (this.status_select.code) {
+      this.status_doc = true;
+    } else {
+      this.status_doc = false;
+    }
+    this.doLoadapplywork();
+  }
 
 applyworkCurrent:number = 0;
 
   doLoadapplywork(){
     this.applyworkService.reqworker_get(this.initial_current.CompCode,"").then(async(res)=>{
-      console.log(res)
       await res.forEach((element: EmployeeModel) => {
         element.worker_hiredate = new Date(element.worker_hiredate)
         element.worker_birthdate = new Date(element.worker_birthdate)
@@ -284,7 +300,21 @@ applyworkCurrent:number = 0;
   }
 
   doDeleteApplywork(){
-    // console.log(this.selectedApplywork);
+    var tmp : EmployeeModel = new EmployeeModel();
+    tmp.worker_code = this.selectedReqworker.worker_code
+    tmp.worker_id = this.selectedReqworker.worker_id
+    this.applyworkService.reqworker_delete(tmp).then((res)=>{
+      let result = JSON.parse(res);
+      if (result.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+        this.doLoadapplywork();
+        this.edit_applywork = false;
+        this.new_applywork = false;
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+      }
+    })
   }
 
   close(){

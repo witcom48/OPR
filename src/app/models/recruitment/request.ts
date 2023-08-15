@@ -2,15 +2,21 @@ export class RequestModel {
     constructor() {
 
     }
+    company_code: string = "";
+
     request_id: string = "1";
     request_code: string = "";
-    request_date: string = "";
-    request_agency: string = "";
-    request_work: string = "";
-    request_job_type: string = "";
+    request_date!: Date;
+    request_startdate!: Date;
+    request_enddate!: Date;
+    request_position: string = "";
+    request_project: string = "";
     request_employee_type: string = "";
     request_quantity: string = "";
     request_urgency: string = "";
+    request_note: string = "";
+
+
     request_wage_rate: string = "";
     request_overtime: string = "";
     request_another: string = "";
