@@ -35,6 +35,7 @@ export class EmpIDComponent implements OnInit {
   worker_index!: number;
   data: any;
   workerDetail: any;
+  examplecode: string = "";
   getLanguage(): string {
     return this.initial_current.Language;
   }
@@ -81,6 +82,7 @@ export class EmpIDComponent implements OnInit {
     }
   }
   title_system: string = "System";
+  title_examplecode: string = "Example code employees";
   title_manage: string = "Manage";
   title_page: string = "Structure code";
   title_new: string = "New";
@@ -125,6 +127,7 @@ export class EmpIDComponent implements OnInit {
       this.title_no = 'อันดับ';
 
       this.title_system = "ระบบ";
+      this.title_examplecode  = "ตัวอย่างรหัสพนักงาน";
       this.title_manage = "จัดการ";
       this.title_page = "รูปแบบรหัส";
       this.title_new = "เพิ่ม";
@@ -173,6 +176,8 @@ export class EmpIDComponent implements OnInit {
         command: (event) => {
           this.showManage()
           this.selectedTRPolcode = new TRPolcodeModel();
+          this.selectedTRPolcode.codestructure_code = this.codestructureList[0].codestructure_code
+          this.selectedTRPolcode.polcode_order = this.TRPolcode_list.length+1;
           this.new_data = true;
           this.edit_data = false;
         }
@@ -211,13 +216,42 @@ export class EmpIDComponent implements OnInit {
   doLoadTRPolcode() {
     this.codePolcodeService.TRPolcode_get().then((res) => {
       this.TRPolcode_list = res;
-      
+      this.examplecode = '';
+      res.forEach((item:TRPolcodeModel)=>{
+        if(item.codestructure_code == '1CHA'){
+          this.examplecode += item.polcode_text;
+        }
+        if(item.codestructure_code == '2COM'){
+          this.examplecode += this.initial_current.CompCode;
+        }
+        if(item.codestructure_code == '4EMT'){
+          this.examplecode += this.initial_current.EmpType;
+        }
+        if(item.codestructure_code == '5YEA'){
+          this.examplecode += new Date().getFullYear().toString().slice(2);
+        }
+        if(item.codestructure_code == '6MON'){
+          this.examplecode += ("0" + (new Date().getMonth() + 1)).slice(-2)
+        }
+        if(item.codestructure_code == 'MAUT'){
+          this.examplecode += "0".repeat(item.polcode_lenght-1)+1
+        }
+      })
     });
   }
 
   
 
-  
+  selectstruccode(event: any): void {
+    console.log(this.selectedTRPolcode.codestructure_code)
+    if(this.selectedTRPolcode.codestructure_code == '4EMT'){
+      this.selectedTRPolcode.polcode_text = 'M/D';
+      this.selectedTRPolcode.polcode_lenght = 1;
+    }
+    if(this.selectedTRPolcode.codestructure_code == '5YEA' || this.selectedTRPolcode.codestructure_code == '6MON'){
+      this.selectedTRPolcode.polcode_lenght = 2;
+    }
+  }
 
   confirmRecord() {
     this.confirmationService.confirm({
@@ -262,13 +296,13 @@ export class EmpIDComponent implements OnInit {
 
       if (result.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+        this.doLoadTRPolcode();
         this.dialog.close({
           codestructure_code: this.data.codestructure_code,
           polcode_lenght: this.data.polcode_lenght,
           polcode_text: this.data.polcode_text,
           polcode_order: this.data.polcode_order
         });
-        this.doLoadTRPolcode();
         this.edit_data = false;
         this.new_data = false;
         this.displayManage = false;

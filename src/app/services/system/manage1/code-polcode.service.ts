@@ -84,9 +84,9 @@ export class CodePolcodeService {
     const data = {
       polcode_id: model.polcode_id,
       codestructure_code: model.codestructure_code,
-      polcode_lenght: model.polcode_lenght,
+      polcode_lenght: model.polcode_lenght.toString(),
       polcode_text: model.polcode_text,
-      polcode_order: model.polcode_order,
+      polcode_order: model.polcode_order.toString(),
 
       modified_by: this.initial_current.Username
     };
