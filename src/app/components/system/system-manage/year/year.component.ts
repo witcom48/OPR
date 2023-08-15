@@ -40,7 +40,7 @@ export class YearComponent implements OnInit {
   itemsOptions: MenuItem[] = [];
   yearperiods_list: YearPeriodModels[] = [];
   yearperiods: YearPeriodModels = new YearPeriodModels()
-  year_type: string = "TAX"
+  
 
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
@@ -63,18 +63,22 @@ export class YearComponent implements OnInit {
   reloadPage() {
     this.doLoadYear()
   }
+  year_type: string = "TAX"
   doLoadYear() {
     this.yearperiods_list = [];
     var tmp = new YearPeriodModels();
-    tmp.year_group = this.year_type;
-    this.yearService.year_get(tmp).then(async (res) => {
-      await res.forEach((element: YearPeriodModels) => {
-        element.year_fromdate = new Date(element.year_fromdate)
-        element.year_todate = new Date(element.year_todate)
-      });
-      this.yearperiods_list = await res;
+     this.yearService.year_get(tmp).then(async (res) => {
+      await Promise.all(res.map(async (element: { year_fromdate: string | number | Date; year_todate: string | number | Date; }) => {
+        element.year_fromdate = new Date(element.year_fromdate);
+        element.year_todate = new Date(element.year_todate);
+        return element;
+      }));
+      console.log(this.year_type);
+      this.yearperiods_list = res;
     });
   }
+  
+  
   async doRecordYear(data: YearPeriodModels) {
     await this.yearService.year_record(data).then((res) => {
       // console.log(res)
@@ -170,29 +174,47 @@ export class YearComponent implements OnInit {
 
     this.itemsOptions = [{
 
-      items: [{
-        label: 'ลบ',
-        icon: 'pi pi-trash',
-        command: () => {
-         this.Delete()
-        
-         this.doDeleteYear(this.yearperiods)
+      items: [
 
+        {
+          label:  'แก้ไข',
+          icon: 'pi pi-fw pi-pencil',
+          command: (event) => {
+            this.showManage()
+            this.edit_data = true;
+
+
+          }
         }
-      },
-      {
-        label: 'คัดลอก',
-        icon: 'pi pi-times',
-        command: () => {
-          // this.delete();
+        , {
+
+
+          label: 'ลบ',
+          icon: 'pi pi-trash',
+          command: () => {
+            this.doDeleteYear(this.yearperiods)
+          }
+        },
+        {
+          label: 'คัดลอก',
+          icon: 'pi-copy',
+          command: () => {
+            this.showManage()
+             this.new_data = true;
+            this.edit_data = false;
+            
+           }
         }
-      }
       ]
     },
      
     ];
 
   }
+  selectRow(data: any) {
+    this.yearperiods = data;
+  }
+
   showUpload() {
     this.displayUpload = true;
   }

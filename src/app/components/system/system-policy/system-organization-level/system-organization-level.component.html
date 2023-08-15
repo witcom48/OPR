@@ -63,13 +63,6 @@
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     <td>
-                        <button type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"></button>
-                        <p-menu #menu [popup]="true" [model]="itemsOptions"></p-menu>
-                    </td>
-
-
-
-                    <td>
                         <button pButton type="button" class="pi pi-trash gray-button  " (click)="confirmDeletes(data)">
                         </button>
 

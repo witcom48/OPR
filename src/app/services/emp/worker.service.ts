@@ -61,7 +61,7 @@ export class EmployeeService {
   }
 
   public worker_get(company: string, code: string) {
-    console.log(company,code,"TESTTTTT")
+    // console.log(company,code,"TESTTTTT")
     var filter = {
       device_name: '',
       ip: "localhost",
@@ -113,7 +113,7 @@ export class EmployeeService {
       worker_line: model.worker_line,
       worker_facebook: model.worker_facebook,
       worker_military: model.worker_military,
-      
+
       modified_by: this.initial_current.Username
     };
 
@@ -173,7 +173,7 @@ export class EmployeeService {
     const formData = new FormData();
     formData.append('file', file);
 
-    var para = "ref_to=" + com  + "." + worker +"."+ this.initial_current.Username ;
+    var para = "ref_to=" + com + "." + worker + "." + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadWorkerImages?' + para, formData).toPromise()
       .then((res) => {
@@ -182,8 +182,8 @@ export class EmployeeService {
 
   }
 
-  public worker_getbyfillter(fillter: FillterEmpModel){
-    
+  public worker_getbyfillter(fillter: FillterEmpModel) {
+
     const fillterS = {
       device_name: '',
       ip: "localhost",
@@ -221,5 +221,50 @@ export class EmployeeService {
         return message.data;
       });
 
+  }
+
+
+
+  ///
+  // กราฟสถานที่
+  public locationlist_get(company: string, code: string) {
+    // console.log(company,code,"TESTTTTT")
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: company,
+      language: "",
+      worker_code: code
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/locationlist', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // // console.log(res)
+        return message.data;
+      });
+  }
+  
+
+  ///type
+  public typelist_get(company: string, code: string) {
+    console.log('te')
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: company,
+      language: "",
+      worker_code: code
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/typelist', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // console.log(res)
+        return message.data;
+      });
   }
 }

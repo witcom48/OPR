@@ -184,8 +184,8 @@ export class SystemOrganizationLevelComponent implements OnInit {
           icon: 'pi pi-fw pi-pencil',
           command: (event) => {
             this.showManage()
-            console.log(this.itemsOptions)
-            this.edit_data = false;
+            this.edit_data = true;
+
 
           }
         }
@@ -195,19 +195,15 @@ export class SystemOrganizationLevelComponent implements OnInit {
           label: 'ลบ',
           icon: 'pi pi-trash',
           command: () => {
-     
-            console.log(this.itemsOptions)
-
-             this.confirmDeletes(this.selectedLevel)
-             this.confirmDelete ( )
+            this.confirmDeletes(this.selectedLevel)
           }
         },
         {
           label: 'คัดลอก',
           icon: 'pi pi-times',
           command: () => {
-            // this.delete();
-          }
+            
+           }
         }
       ]
     },
@@ -298,7 +294,9 @@ export class SystemOrganizationLevelComponent implements OnInit {
       }
     });
   }
-
+  selectRow(data: any) {
+    this.selectedLevel = data;
+  }
 
   //
   confirmDelete() {
@@ -342,7 +340,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
   }
   onRowSelectLevel(event: Event) {
-  
+
     this.edit_data = true;
     this.new_data = true;
     this.displayManage = true
