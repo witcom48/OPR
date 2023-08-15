@@ -77,6 +77,8 @@ import { ReqProjectModel } from 'src/app/models/recruitment/reqproject';
 import { ProjectModel } from 'src/app/models/project/project';
 import { PositionModel } from 'src/app/models/employee/policy/position';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
+import { RequestService } from 'src/app/services/recruitment/request.service';
+import { RequestModel } from 'src/app/models/recruitment/request';
 
 interface Taxmethod {
     name_th: string;
@@ -230,6 +232,8 @@ export class RecruitmentApplyComponent implements OnInit {
         private positionService: PositionService,
         private projectService: ProjectService,
         private emptypeService: EmptypeService,
+
+        private requestService : RequestService,
     ) {
         this.taxM = [
             { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -1421,9 +1425,12 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     doLoadApplywork() {
-        var reqworker_list: EmployeeModel[] = [];
+        this.reqworkerList = [];
+        var tmp = new EmployeeModel();
+        tmp.company_code = this.selectedReqworker.company_code || this.initial_current.CompCode
+        tmp.worker_code = this.req_code
         this.applyworkService
-            .reqworker_get(this.initial_current.CompCode, this.req_code)
+            .reqworker_get(tmp)
             .then(async (res) => {
                 await res.forEach((element: EmployeeModel) => {
                     element.worker_birthdate = new Date(
@@ -1435,10 +1442,10 @@ export class RecruitmentApplyComponent implements OnInit {
 
                 });
 
-                reqworker_list = await res;
+                this.reqworkerList = await res;
 
-                if (reqworker_list.length > 0) {
-                    this.selectedReqworker = reqworker_list[0];
+                if (this.reqworkerList.length > 0) {
+                    this.selectedReqworker = this.reqworkerList[0];
 
                     setTimeout(() => {
                         //
@@ -1567,17 +1574,21 @@ export class RecruitmentApplyComponent implements OnInit {
             this.qualificationList = res;
         });
     }
-    //position
-    position_list: PositionModel[] = [];
+    //request position 
+    position_list: RequestModel[] = [];
     doloadpositionList() {
-        this.positionService.position_get().then((res) => {
+        var tmp = new RequestModel();
+        tmp.company_code = this.initial_current.CompCode
+        this.requestService.request_getposition(tmp).then((res) => {
             this.position_list = res;
         })
     }
-    // project
-    projectList: ProjectModel[] = [];
+    //request project
+    projectList: RequestModel[] = [];
     doLoadprojectList() {
-        this.projectService.project_get(this.initial_current.CompCode, '').then((res) => {
+        var tmp = new RequestModel();
+        tmp.company_code = this.initial_current.CompCode
+        this.requestService.request_getproject(tmp).then((res) => {
             this.projectList = res;
         });
     }
@@ -3418,10 +3429,10 @@ export class RecruitmentApplyComponent implements OnInit {
         for (let i = 0; i < this.suggest_List.length; i++) {
             if (this.suggest_List[i].worker_code == WorkerCode) {
                 if (this.initial_current.Language == "TH") {
-                    return this.suggest_List[i].worker_fname_th + " " + this.suggest_List[i].worker_lname_th;
+                    return this.suggest_List[i].worker_code+" - "+this.suggest_List[i].worker_fname_th + " " + this.suggest_List[i].worker_lname_th;
                 }
                 else {
-                    return this.suggest_List[i].worker_fname_en + " " + this.suggest_List[i].worker_lname_en;
+                    return this.suggest_List[i].worker_code+" - "+this.suggest_List[i].worker_fname_en + " " + this.suggest_List[i].worker_lname_en;
                 }
             }
         }
@@ -3456,12 +3467,12 @@ export class RecruitmentApplyComponent implements OnInit {
     //get position name
     doGetPositionDetail(PositionCode: string): any {
         for (let i = 0; i < this.position_list.length; i++) {
-            if (this.position_list[i].position_code == PositionCode) {
+            if (this.position_list[i].request_position == PositionCode) {
                 if (this.initial_current.Language == "TH") {
-                    return this.position_list[i].position_name_th;
+                    return this.position_list[i].request_code+" - "+this.position_list[i].position_name_th;
                 }
                 else {
-                    return this.position_list[i].position_name_en;
+                    return this.position_list[i].request_code+" - "+this.position_list[i].position_name_en;
                 }
             }
         }
@@ -3548,12 +3559,12 @@ export class RecruitmentApplyComponent implements OnInit {
     //get procjet name
     doGetProjectDetail(ProjectCode: string): any {
         for (let i = 0; i < this.projectList.length; i++) {
-            if (this.projectList[i].project_code == ProjectCode) {
+            if (this.projectList[i].request_project == ProjectCode) {
                 if (this.initial_current.Language == "TH") {
-                    return this.projectList[i].project_name_th;
+                    return this.position_list[i].request_code+" - "+this.projectList[i].project_name_th;
                 }
                 else {
-                    return this.projectList[i].project_name_en;
+                    return this.position_list[i].request_code+" - "+this.projectList[i].project_name_en;
                 }
             }
         }

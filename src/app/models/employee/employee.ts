@@ -69,4 +69,5 @@ export class EmployeeModel {
   nationality_code: string = "";
   checkblacklist: Boolean = false
   checkhistory: Boolean = false
+  status: number = 0;
 }

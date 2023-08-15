@@ -138,6 +138,40 @@ export class RequestService {
 
   }
 
+  public request_getposition(model: RequestModel) {
+
+    let data = {
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: model.company_code || this.initial_current.CompCode,
+      // request_code: model.request_code,
+    }
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/getrequestposition', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public request_getproject(model: RequestModel) {
+
+    let data = {
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: model.company_code || this.initial_current.CompCode,
+      // request_code: model.request_code,
+    }
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/getrequestproject', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
 
 
 

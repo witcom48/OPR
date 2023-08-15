@@ -1,8 +1,8 @@
-.table_head{
+.table_head {
     border-collapse: collapse;
 }
 
-.table_head td{
+.table_head td {
     padding: 5px;
     border: 0px solid #ccc;
     height: 100px;
@@ -12,7 +12,8 @@
     text-align: start !important;
 }
 
-.table_head td h4, a{
+.table_head td h4,
+a {
     margin-left: 20px;
     margin-right: 20px;
     font-weight: 400;
@@ -20,12 +21,12 @@
 }
 
 
-.table_head b{
+.table_head b {
     font-size: 25px;
     font-weight: 400;
 }
 
-.table_head small{
+.table_head small {
     font-size: 12px;
 }
 
@@ -35,7 +36,7 @@
 
 
 .main_div {
-    text-align:left;
+    text-align: left;
     position: relative;
     padding: 5px;
     height: 100px;
@@ -43,31 +44,50 @@
     background-color: #152047;
 }
 
-.spn_value{
+.spn_value {
     color: #FFFFFF;
     font-size: 16px;
 }
 
-.spn_title{
+.spn_title {
     color: #FFFFFF;
     font-size: 12px;
 }
 
-.spn_title_edit{
+.spn_title_edit {
     margin: 10px 0px 10px 15px;
     font-weight: bold;
     font-size: 15px;
 }
 
-.td_amount{
+.td_amount {
     text-align: right;
     padding-right: 10px;
 }
 
 ::ng-deep .input-styling input {
     width: 40px !important;
-  }
+}
 
-  textarea{
+textarea {
     width: 100%;
-  }
+}
+
+
+.p-dialog-content::ng-deep {
+    overflow-y: hidden;
+    padding: 20px 0.5rem 4rem 0.5rem;
+
+}
+
+.hovered {
+    background-color: #f34646 !important;
+}
+
+.gray-button {
+    background-color: #73737333;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
