@@ -618,23 +618,23 @@
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_banks}}</th>
-                                                <th>{{title_bankaccount}}</th>
+                                                <th>{{title_combank_branch}}</th>
                                                 <th>{{title_bankname}}</th>
                                                 <th>{{title_banktype}}</th>
-                                                <th>{{title_number}}</th>
-                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_bankaccount}}</th>
+
+                                                 <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-data>
                                             <tr [pSelectableRow]="data">
                                                 <th>{{ data.combank_bankcode }}</th>
-                                                <th>{{ data.combank_bankaccount }}</th>
+                                                <th>{{ data.combank_branch }}</th>
                                                 <th>{{ data.combank_bankname }}</th>
-                                                <th>{{ data.combank_banktype }}</th>
-
-
+                                                <th>{{ data.combank_banktype }}</th> 
                                                 <th>{{ data.combank_bankaccount }}</th>
+
                                                 <th>{{ data.modified_by }}</th>
                                                 <th>{{ data.modified_date | date : "dd/MM/yyyy HH:mm" }}
                                             </tr>
@@ -747,8 +747,8 @@
                         </div>
 
 
-                        <label>{{title_bankaccount}}</label>
-                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankaccount">
+                        <label>{{title_combank_branch}}</label>
+                        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedCombank.combank_branch">
 
 
                         <label>{{title_bankname}}</label>
@@ -764,8 +764,8 @@
                         </select> -->
 
 
-                        <label>{{title_number}}</label>
-                        <input pInputText type="number" id="ppos_code" [(ngModel)]="selectedCombank.combank_branch">
+                        <label>{{title_bankaccount}}</label>
+                        <input pInputText type="number" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankaccount">
 
 
 
