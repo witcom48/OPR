@@ -162,14 +162,15 @@ export class ApplyworkService {
     //         });
     // }
 
-    public reqworker_get(company: string, code: string) {
+    public reqworker_get(reqworkers:EmployeeModel) {
         var filter = {
             device_name: '',
             ip: "localhost",
             username: this.initial_current.Username,
-            company_code: company,
+            company_code: reqworkers.company_code,
             language: "",
-            worker_code: code
+            worker_code: reqworkers.worker_code,
+            status: reqworkers.status,
         };
 
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqworker_list', filter, this.options).toPromise()

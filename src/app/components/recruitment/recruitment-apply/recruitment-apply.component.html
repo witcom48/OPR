@@ -1560,13 +1560,13 @@
     <!-- Form Req Position -->
     <div class="formatt" *ngIf="edit_reqposition==true || new_position==true">
         <label>{{title_position}}</label>
-        <p-dropdown placeholder="--" [options]="position_list" optionValue="position_code" [showClear]="true"
+        <p-dropdown placeholder="--" [options]="position_list" optionValue="request_position" [showClear]="true"
             [(ngModel)]="selectedReqPosition.empposition_position" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th : item.request_code+" - "+item.position_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th : item.request_code+" - "+item.position_name_en}}
             </ng-template>
         </p-dropdown>
 
@@ -1580,13 +1580,13 @@
     <!-- Form Req Project -->
     <div class="formatt" *ngIf="edit_reqproject==true || new_project==true">
         <label>{{title_project[initial_current.Language]}}</label>
-        <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code" [showClear]="true"
+        <p-dropdown placeholder="--" [options]="projectList" optionValue="request_project" [showClear]="true"
             [(ngModel)]="selectedReqProject.project_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th : item.request_code+" - "+item.project_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th : item.request_code+" - "+item.project_name_en}}
             </ng-template>
         </p-dropdown>
 
