@@ -205,6 +205,7 @@ export class HolidayComponent implements OnInit {
         label: "Template",
         icon: 'pi-download',
         command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Attendance/(OPR)Import Planholiday.xlsx', '_blank');
         }
       }
       ,
