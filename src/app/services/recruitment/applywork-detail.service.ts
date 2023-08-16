@@ -23,6 +23,7 @@ import { ApplyMTDocattModel } from 'src/app/models/recruitment/applyMTDocatt';
 import { EmpPositionModel } from 'src/app/models/employee/manage/position';
 import { ReqProjectModel } from 'src/app/models/recruitment/reqproject';
 import { EmpSalaryModel } from 'src/app/models/employee/manage/salary';
+import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
 
 @Injectable({
   providedIn: 'root'
@@ -921,6 +922,80 @@ export class ApplyworkDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplySalary?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  //req benefit
+  public getapplywork_benefit(company: string, code: string) {
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: company,
+      language: "",
+      worker_code: code
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqbenefitlist', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // // console.log(res)
+        return message.data;
+      });
+  }
+  public record_reqbenefit(worker_code: string, list: EmpBenefitsModel[]) {
+    var item_data: string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"item_code\":\"" + list[i].item_code + "\"";
+      item_data = item_data + ",\"empbenefit_amount\":\"" + list[i].empbenefit_amount + "\"";
+      
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if (item_data.length > 2) {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data: item_data,
+      worker_code: worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqbenefit', specificData, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public delete_reqbenefit(model: EmpBenefitsModel) {
+    const data = {
+      empbenefit_id: model.empbenefit_id,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqbenefit_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public reqbenefit_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplyBenefit?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });

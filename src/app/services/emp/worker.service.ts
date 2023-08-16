@@ -113,6 +113,7 @@ export class EmployeeService {
       worker_line: model.worker_line,
       worker_facebook: model.worker_facebook,
       worker_military: model.worker_military,
+      nationality_code: model.nationality_code,
       
       modified_by: this.initial_current.Username
     };

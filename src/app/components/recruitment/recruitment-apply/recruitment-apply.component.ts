@@ -79,6 +79,9 @@ import { PositionModel } from 'src/app/models/employee/policy/position';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 import { RequestService } from 'src/app/services/recruitment/request.service';
 import { RequestModel } from 'src/app/models/recruitment/request';
+import { EmpstatusModel } from 'src/app/models/employee/policy/empstatus';
+import { ItemService } from 'src/app/services/payroll/item.service';
+import { ItemsModel } from 'src/app/models/payroll/items';
 
 interface Taxmethod {
     name_th: string;
@@ -201,6 +204,10 @@ export class RecruitmentApplyComponent implements OnInit {
     menu_reqsalary: MenuItem[] = [];
     edit_reqsalary: boolean = false;
     new_salary: boolean = false;
+    ///////////////////////////////////menu reqbenefit
+    menu_reqbenefit: MenuItem[] = [];
+    edit_reqbenefit: boolean = false;
+    new_benefit: boolean = false;
 
     displayManage: boolean = false;
 
@@ -227,13 +234,15 @@ export class RecruitmentApplyComponent implements OnInit {
         private majorService: MajorService,
         private qualificationService: QualificationService,
         private courseService: CourseService,
+        private empstatusService: EmpstatusService,
 
         private addresstypeService: AddresstypeService,
         private positionService: PositionService,
         private projectService: ProjectService,
         private emptypeService: EmptypeService,
+        private itemService: ItemService,
 
-        private requestService : RequestService,
+        private requestService: RequestService,
     ) {
         this.taxM = [
             { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -316,6 +325,8 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doLoadprojectList();
 
         this.doLoadEmptypeList();
+        this.doLoadEmpstatusList();
+        this.doLoadItemList();
 
         setTimeout(() => {
             this.doLoadMenu();
@@ -407,7 +418,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_finance: string = "Finance";
     title_taxmethod: string = "Tax Method";
     title_salary: string = "Income";
-    title_benefit: string = "Benefit";
+    title_benefit: string = "Other Income";
     title_fund: string = "Provident Fund";
     title_reduce: string = "Reduces";
     title_accumulate: string = "Accumalate";
@@ -547,6 +558,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_history: { [key: string]: string } = { EN: "Working History", TH: "ประวัติการทำงาน" };
 
     title_salarytype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+    title_item: { [key: string]: string } = { EN: "Income", TH: "เงินได้" };
     title_filetype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
     //
     title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
@@ -559,6 +571,13 @@ export class RecruitmentApplyComponent implements OnInit {
     title_pdpa: { [key: string]: string } = { EN: "PDPA", TH: "PDPA" };
     title_certi: { [key: string]: string } = { EN: "Medical Certificate", TH: "ใบรับรองแพทย์" };
     title_otherfile: { [key: string]: string } = { EN: "Other", TH: "อื่นๆ" };
+    //
+    title_viewfile: { [key: string]: string } = { EN: "View", TH: "ดูไฟล์" };
+    //
+    title_cardno: { [key: string]: string } = { EN: "Card No.", TH: "เลขบัตรประจำตัวประชาชน" };
+    title_cardissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันออกบัตร" };
+    title_cardexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันหมดอายุ" };
+
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = "ข้อมูลผู้สมัคร";
@@ -573,7 +592,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_cancel = "ยกเลิก";
 
             this.title_genaral = 'ข้อมูลทั่วไป';
-            this.title_code = "รหัสพนักงาน";
+            this.title_code = "รหัสผู้สมัคร";
             this.title_cardid = "รหัสบัตร";
             this.title_fname_th = "ชื่อจริง (ไทย)";
             this.title_lname_th = "นามสกุล (ไทย)";
@@ -626,7 +645,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_finance = 'การเงิน';
             this.title_taxmethod = 'การคำนวนภาษี';
             this.title_salary = 'รายได้';
-            this.title_benefit = 'สวัสดิการ';
+            this.title_benefit = 'รายได้อื่นๆ';
             this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
             this.title_reduce = 'ค่าลดหย่อน';
             this.title_accumulate = 'รายได้สะสม/ภาษีสะสม';
@@ -1314,6 +1333,54 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
         ];
+
+        //menu benefit
+        this.menu_reqbenefit = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.clearManage();
+                    this.new_benefit = true;
+                    var ref = this.reqBenefitList.length + 100;
+                    this.selectedReqBenefit = new EmpBenefitsModel();
+                    this.selectedReqBenefit.empbenefit_id = ref.toString();
+                    this.showManage();
+                },
+            },
+            {
+                label: this.title_edit,
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    this.clearManage();
+                    if (this.selectedReqBenefit != null) {
+                        this.edit_reqbenefit = true;
+                        this.showManage();
+                    }
+                },
+            },
+            {
+                label: this.title_delete,
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqBenefit != null) {
+                                this.reqbenefit_remove();
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
+                },
+            },
+        ];
     }
 
     tabChange(e: { index: any }) {
@@ -1351,6 +1418,9 @@ export class RecruitmentApplyComponent implements OnInit {
         //
         this.edit_reqsalary = false;
         this.new_salary = false;
+        //
+        this.edit_reqbenefit = false;
+        this.new_benefit = false;
 
         this.displayManage = false;
     }
@@ -1383,6 +1453,9 @@ export class RecruitmentApplyComponent implements OnInit {
             } else if (this.new_salary || this.edit_reqsalary) {
                 this.manage_title = 'Income';
             }
+            else if (this.new_benefit || this.edit_reqbenefit) {
+                this.manage_title = 'Other Income';
+            }
         } else {
             if (this.new_reqsuggest || this.edit_reqsuggest) {
                 this.manage_title = 'ผู้แนะนำ';
@@ -1406,6 +1479,9 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.manage_title = 'โครงการ';
             } else if (this.new_salary || this.edit_reqsalary) {
                 this.manage_title = 'รายได้';
+            }
+            else if (this.new_benefit || this.edit_reqbenefit) {
+                this.manage_title = 'รายได้อื่นๆ';
             }
         }
     }
@@ -1433,12 +1509,10 @@ export class RecruitmentApplyComponent implements OnInit {
             .reqworker_get(tmp)
             .then(async (res) => {
                 await res.forEach((element: EmployeeModel) => {
-                    element.worker_birthdate = new Date(
-                        element.worker_birthdate
-                    );
-                    element.worker_hiredate = new Date(
-                        element.worker_hiredate
-                    );
+                    element.worker_birthdate = new Date(element.worker_birthdate);
+                    element.worker_hiredate = new Date(element.worker_hiredate);
+                    element.worker_cardnoissuedate = new Date(element.worker_cardnoissuedate);
+                    element.worker_cardnoexpiredate = new Date(element.worker_cardnoexpiredate);
 
                 });
 
@@ -1466,6 +1540,7 @@ export class RecruitmentApplyComponent implements OnInit {
                         this.doLoadReqPositionList();
                         this.doLoadReqProjectList();
                         this.doLoadReqSalaryList();
+                        this.doLoadReqBenefitList();
 
                         this.CalculateAge();
 
@@ -1592,10 +1667,26 @@ export class RecruitmentApplyComponent implements OnInit {
             this.projectList = res;
         });
     }
+    //emptype
     emptypeList: EmptypeModel[] = [];
     doLoadEmptypeList() {
         this.emptypeService.type_get().then((res) => {
             this.emptypeList = res;
+        })
+    }
+    //empstatus
+    statusList: EmpstatusModel[] = [];
+    doLoadEmpstatusList() {
+        this.empstatusService.status_get().then((res) => {
+            this.statusList = res;
+        })
+    }
+    //item
+    itemList: ItemsModel[] = [];
+    doLoadItemList() {
+        var tmp = new ItemsModel();
+        this.itemService.item_get(tmp).then((res) => {
+            this.itemList = res;
         })
     }
 
@@ -2242,7 +2333,7 @@ export class RecruitmentApplyComponent implements OnInit {
     reqposition_delete() {
         var tmp: EmpPositionModel = new EmpPositionModel();
         tmp.worker_code = this.selectedReqworker.worker_code;
-        tmp.empposition_id = "";
+        tmp.empposition_id = "0";
         this.reqdetailService.delete_reqposition(tmp).then((res) => {
             let result = JSON.parse(res);
         });
@@ -2439,6 +2530,81 @@ export class RecruitmentApplyComponent implements OnInit {
                 }
             });
     }
+    //Benefit
+    reqBenefitList: EmpBenefitsModel[] = [];
+    selectedReqBenefit: EmpBenefitsModel = new EmpBenefitsModel();
+    doLoadReqBenefitList() {
+        this.reqdetailService
+            .getapplywork_benefit(this.initial_current.CompCode, this.req_code)
+            .then(async (res) => {
+                this.reqBenefitList = await res;
+                if (this.reqBenefitList.length > 0) {
+                    this.selectedReqBenefit = this.reqBenefitList[0];
+                }
+            });
+    }
+    onRowSelectReqbenefit(event: Event) { }
+    reqbenefit_summit() {
+        this.reqbenefit_addItem(this.selectedReqBenefit);
+        this.new_benefit = false;
+        this.edit_reqbenefit = false;
+        this.displayManage = false;
+    }
+    reqbenefit_remove() {
+        this.selectedReqBenefit.empbenefit_id = '9999';
+        this.reqbenefit_addItem(this.selectedReqBenefit);
+        this.new_benefit = false;
+        this.edit_reqbenefit = false;
+    }
+    reqbenefit_delete() {
+        var tmp: EmpBenefitsModel = new EmpBenefitsModel();
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_reqbenefit(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
+    reqbenefit_cancel() {
+        this.new_salary = false;
+        this.edit_reqsalary = false;
+        this.displayManage = false;
+    }
+    reqbenefit_addItem(model: EmpBenefitsModel) {
+        const itemNew: EmpBenefitsModel[] = [];
+        for (let i = 0; i < this.reqBenefitList.length; i++) {
+            if (
+                this.reqBenefitList[i].empbenefit_id == model.empbenefit_id
+            ) {
+                //-- Notting
+            } else {
+                itemNew.push(this.reqBenefitList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.empbenefit_id != '9999') {
+            itemNew.push(model);
+        }
+        this.reqBenefitList = [];
+        this.reqBenefitList = itemNew;
+        this.reqBenefitList.sort(function (a, b) {
+            return parseInt(a.empbenefit_id) - parseInt(b.empbenefit_id);
+        });
+    }
+    record_reqbenefit() {
+        if (this.reqBenefitList.length == 0) {
+            this.reqbenefit_delete();
+        }
+        this.reqdetailService
+            .record_reqbenefit(
+                this.selectedReqworker.worker_code,
+                this.reqBenefitList
+            )
+            .then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                } else {
+                }
+            });
+    }
 
     doRecordApplywork() {
         this.applyworkService
@@ -2465,6 +2631,7 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.record_reqposition();
                     this.record_reqproject();
                     this.record_reqsalary();
+                    this.record_reqbenefit();
 
                     //image
                     this.uploadImages();
@@ -2578,12 +2745,12 @@ export class RecruitmentApplyComponent implements OnInit {
     handleFileAppInputDoclist(file: FileList) {
         this.fileDocToUploadApp = file.item(0);
     }
-    doGetFileApp(){
+    doGetFileApp() {
         var tmp = new ApplyMTDocattModel();
         tmp.company_code = this.initial_current.CompCode
         tmp.worker_code = this.selectedReqworker.worker_code
         tmp.job_type = "APPT"
-        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+        this.applyworkService.getreq_filelist(tmp).then((res) => {
             this.reqdocattApp = res;
         })
     }
@@ -2677,13 +2844,13 @@ export class RecruitmentApplyComponent implements OnInit {
         })
     }
     onRowSelectfileApp(event: Event) {
-        this.doGetReqAttfileApp(this.selecteddocattApp.document_path, this.selecteddocattApp.document_type)
+        // this.doGetReqAttfileApp(this.selecteddocattApp.document_path, this.selecteddocattApp.document_type)
     }
     record_fileApp() {
         if (this.reqdocattApp.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattApp).then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattApp,"APPT").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -2695,17 +2862,17 @@ export class RecruitmentApplyComponent implements OnInit {
     //Attach File ID Card
     UploadfileID: boolean = false;
     fileDocToUploadID: File | any = null;
-    reqdocattID : ApplyMTDocattModel[]=[];
+    reqdocattID: ApplyMTDocattModel[] = [];
     selecteddocattID: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFileIDInputDoclist(file: FileList) {
         this.fileDocToUploadID = file.item(0);
     }
-    doGetFileID(){
+    doGetFileID() {
         var tmp = new ApplyMTDocattModel();
         tmp.company_code = this.initial_current.CompCode
         tmp.worker_code = this.selectedReqworker.worker_code
         tmp.job_type = "IDCARD"
-        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+        this.applyworkService.getreq_filelist(tmp).then((res) => {
             this.reqdocattID = res;
         })
     }
@@ -2799,13 +2966,13 @@ export class RecruitmentApplyComponent implements OnInit {
         })
     }
     onRowSelectfileID(event: Event) {
-        this.doGetReqAttfileID(this.selecteddocattID.document_path, this.selecteddocattID.document_type)
+        // this.doGetReqAttfileID(this.selecteddocattID.document_path, this.selecteddocattID.document_type)
     }
     record_fileID() {
         if (this.reqdocattID.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattID).then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattID,"IDCARD").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -2822,12 +2989,12 @@ export class RecruitmentApplyComponent implements OnInit {
     handleFileHosInputDoclist(file: FileList) {
         this.fileDocToUploadHos = file.item(0);
     }
-    doGetFileHos(){
+    doGetFileHos() {
         var tmp = new ApplyMTDocattModel();
         tmp.company_code = this.initial_current.CompCode
         tmp.worker_code = this.selectedReqworker.worker_code
         tmp.job_type = "HOUSE"
-        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+        this.applyworkService.getreq_filelist(tmp).then((res) => {
             this.reqdocattHos = res;
         })
     }
@@ -2921,13 +3088,13 @@ export class RecruitmentApplyComponent implements OnInit {
         })
     }
     onRowSelectfileHos(event: Event) {
-        this.doGetReqAttfileHos(this.selecteddocattHos.document_path, this.selecteddocattHos.document_type)
+        // this.doGetReqAttfileHos(this.selecteddocattHos.document_path, this.selecteddocattHos.document_type)
     }
     record_fileHos() {
         if (this.reqdocattHos.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattHos).then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattHos,"HOUSE").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -2939,17 +3106,17 @@ export class RecruitmentApplyComponent implements OnInit {
     //Attach File Photo
     UploadfilePho: boolean = false;
     fileDocToUploadPho: File | any = null;
-    reqdocattPho : ApplyMTDocattModel[]=[];
+    reqdocattPho: ApplyMTDocattModel[] = [];
     selecteddocattPho: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFilePhoInputDoclist(file: FileList) {
         this.fileDocToUploadPho = file.item(0);
     }
-    doGetFilePho(){
+    doGetFilePho() {
         var tmp = new ApplyMTDocattModel();
         tmp.company_code = this.initial_current.CompCode
         tmp.worker_code = this.selectedReqworker.worker_code
         tmp.job_type = "PHOID"
-        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+        this.applyworkService.getreq_filelist(tmp).then((res) => {
             this.reqdocattPho = res;
         })
     }
@@ -3043,13 +3210,13 @@ export class RecruitmentApplyComponent implements OnInit {
         })
     }
     onRowSelectfilePho(event: Event) {
-        this.doGetReqAttfileApp(this.selecteddocattPho.document_path, this.selecteddocattPho.document_type)
+        // this.doGetReqAttfileApp(this.selecteddocattPho.document_path, this.selecteddocattPho.document_type)
     }
     record_filePho() {
         if (this.reqdocattPho.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPho).then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPho,"PHOID").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -3061,17 +3228,17 @@ export class RecruitmentApplyComponent implements OnInit {
     //Attach File PDPA
     UploadfilePDPA: boolean = false;
     fileDocToUploadPDPA: File | any = null;
-    reqdocattPDPA : ApplyMTDocattModel[]=[];
+    reqdocattPDPA: ApplyMTDocattModel[] = [];
     selecteddocattPDPA: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFilePDPAInputDoclist(file: FileList) {
         this.fileDocToUploadPDPA = file.item(0);
     }
-    doGetFilePDPA(){
+    doGetFilePDPA() {
         var tmp = new ApplyMTDocattModel();
         tmp.company_code = this.initial_current.CompCode
         tmp.worker_code = this.selectedReqworker.worker_code
         tmp.job_type = "PDPA"
-        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+        this.applyworkService.getreq_filelist(tmp).then((res) => {
             this.reqdocattPDPA = res;
         })
     }
@@ -3165,13 +3332,13 @@ export class RecruitmentApplyComponent implements OnInit {
         })
     }
     onRowSelectfilePDPA(event: Event) {
-        this.doGetReqAttfilePDPA(this.selecteddocattPDPA.document_path, this.selecteddocattPDPA.document_type)
+        // this.doGetReqAttfilePDPA(this.selecteddocattPDPA.document_path, this.selecteddocattPDPA.document_type)
     }
     record_filePDPA() {
         if (this.reqdocattPDPA.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPDPA).then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPDPA,"PDPA").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -3183,17 +3350,17 @@ export class RecruitmentApplyComponent implements OnInit {
     //Attach Medical Certificate
     UploadfileMCer: boolean = false;
     fileDocToUploadMCer: File | any = null;
-    reqdocattMCer : ApplyMTDocattModel[]=[];
+    reqdocattMCer: ApplyMTDocattModel[] = [];
     selecteddocattMCer: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFileMCerInputDoclist(file: FileList) {
         this.fileDocToUploadMCer = file.item(0);
     }
-    doGetFileMCer(){
+    doGetFileMCer() {
         var tmp = new ApplyMTDocattModel();
         tmp.company_code = this.initial_current.CompCode
         tmp.worker_code = this.selectedReqworker.worker_code
         tmp.job_type = "MCER"
-        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+        this.applyworkService.getreq_filelist(tmp).then((res) => {
             this.reqdocattMCer = res;
         })
     }
@@ -3287,13 +3454,13 @@ export class RecruitmentApplyComponent implements OnInit {
         })
     }
     onRowSelectfileMCer(event: Event) {
-        this.doGetReqAttfileMCer(this.selecteddocattMCer.document_path, this.selecteddocattMCer.document_type)
+        // this.doGetReqAttfileMCer(this.selecteddocattMCer.document_path, this.selecteddocattMCer.document_type)
     }
     record_fileMCer() {
         if (this.reqdocattMCer.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattMCer).then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattMCer,"MCER").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -3305,17 +3472,17 @@ export class RecruitmentApplyComponent implements OnInit {
     //Attach File Other
     UploadfileOther: boolean = false;
     fileDocToUploadOther: File | any = null;
-    reqdocattOther : ApplyMTDocattModel[]=[];
+    reqdocattOther: ApplyMTDocattModel[] = [];
     selecteddocattOther: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFileOtherInputDoclist(file: FileList) {
         this.fileDocToUploadOther = file.item(0);
     }
-    doGetFileOther(){
+    doGetFileOther() {
         var tmp = new ApplyMTDocattModel();
         tmp.company_code = this.initial_current.CompCode
         tmp.worker_code = this.selectedReqworker.worker_code
         tmp.job_type = "OTHER"
-        this.applyworkService.getreq_filelist(tmp).then((res)=>{
+        this.applyworkService.getreq_filelist(tmp).then((res) => {
             this.reqdocattOther = res;
         })
     }
@@ -3409,18 +3576,22 @@ export class RecruitmentApplyComponent implements OnInit {
         })
     }
     onRowSelectfileOther(event: Event) {
-        this.doGetReqAttfileOther(this.selecteddocattOther.document_path, this.selecteddocattOther.document_type)
+        // this.doGetReqAttfileOther(this.selecteddocattOther.document_path, this.selecteddocattOther.document_type)
     }
     record_fileOther() {
         if (this.reqdocattOther.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattOther).then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattOther,"OTHER").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
             }
         })
+    }
+
+    viewAttfile(data: ApplyMTDocattModel) {
+        this.doGetReqAttfileApp(data.document_path, data.document_type)
     }
     //end
 
@@ -3429,10 +3600,10 @@ export class RecruitmentApplyComponent implements OnInit {
         for (let i = 0; i < this.suggest_List.length; i++) {
             if (this.suggest_List[i].worker_code == WorkerCode) {
                 if (this.initial_current.Language == "TH") {
-                    return this.suggest_List[i].worker_code+" - "+this.suggest_List[i].worker_fname_th + " " + this.suggest_List[i].worker_lname_th;
+                    return this.suggest_List[i].worker_code + " - " + this.suggest_List[i].worker_fname_th + " " + this.suggest_List[i].worker_lname_th;
                 }
                 else {
-                    return this.suggest_List[i].worker_code+" - "+this.suggest_List[i].worker_fname_en + " " + this.suggest_List[i].worker_lname_en;
+                    return this.suggest_List[i].worker_code + " - " + this.suggest_List[i].worker_fname_en + " " + this.suggest_List[i].worker_lname_en;
                 }
             }
         }
@@ -3469,10 +3640,10 @@ export class RecruitmentApplyComponent implements OnInit {
         for (let i = 0; i < this.position_list.length; i++) {
             if (this.position_list[i].request_position == PositionCode) {
                 if (this.initial_current.Language == "TH") {
-                    return this.position_list[i].request_code+" - "+this.position_list[i].position_name_th;
+                    return this.position_list[i].request_code + " - " + this.position_list[i].position_name_th;
                 }
                 else {
-                    return this.position_list[i].request_code+" - "+this.position_list[i].position_name_en;
+                    return this.position_list[i].request_code + " - " + this.position_list[i].position_name_en;
                 }
             }
         }
@@ -3561,10 +3732,24 @@ export class RecruitmentApplyComponent implements OnInit {
         for (let i = 0; i < this.projectList.length; i++) {
             if (this.projectList[i].request_project == ProjectCode) {
                 if (this.initial_current.Language == "TH") {
-                    return this.position_list[i].request_code+" - "+this.projectList[i].project_name_th;
+                    return this.position_list[i].request_code + " - " + this.projectList[i].project_name_th;
                 }
                 else {
-                    return this.position_list[i].request_code+" - "+this.projectList[i].project_name_en;
+                    return this.position_list[i].request_code + " - " + this.projectList[i].project_name_en;
+                }
+            }
+        }
+    }
+
+    //get item name
+    doGetitemDetail(itemCode: string): any {
+        for (let i = 0; i < this.itemList.length; i++) {
+            if (this.itemList[i].item_code == itemCode) {
+                if (this.initial_current.Language == "TH") {
+                    return this.itemList[i].item_name_th;
+                }
+                else {
+                    return this.itemList[i].item_name_en;
                 }
             }
         }
@@ -3584,22 +3769,22 @@ export class RecruitmentApplyComponent implements OnInit {
         }
     }
 
-    blacklist :string = "";
+    blacklist: string = "";
     history: string = "";
-    getBlackList(){
-        if(this.selectedReqworker.checkblacklist){
-            if(this.initial_current.Language == "TH"){
+    getBlackList() {
+        if (this.selectedReqworker.checkblacklist) {
+            if (this.initial_current.Language == "TH") {
                 this.blacklist = "มีประวัติเบล็คลิสต์"
-            }else{
+            } else {
                 this.blacklist = "Have Blacklist"
             }
         }
     }
-    getHistoryList(){
-        if(this.selectedReqworker.checkhistory){
-            if(this.initial_current.Language == "TH"){
+    getHistoryList() {
+        if (this.selectedReqworker.checkhistory) {
+            if (this.initial_current.Language == "TH") {
                 this.history = "มีประวัติเคยทำงาน"
-            }else{
+            } else {
                 this.history = "Have Work History"
             }
         }

@@ -211,6 +211,9 @@ export class ApplyworkService {
                 worker_facebook: reqworker.worker_facebook,
                 worker_military: reqworker.worker_military,
                 nationality_code: reqworker.nationality_code,
+                worker_cardno : reqworker.worker_cardno,
+                worker_cardnoissuedate : reqworker.worker_cardnoissuedate,
+                worker_cardnoexpiredate : reqworker.worker_cardnoexpiredate,
                 modified_by: this.initial_current.Username,
                 reqdocatt_data: reqworker.reqdocatt_data,
             }
@@ -343,14 +346,14 @@ export class ApplyworkService {
             job_type: model.job_type,
         }
 
-        return this.http.post<any>(this.config.ApiRecruitmentModule+ '/reqsuggestlist', filter, this.options).toPromise()
+        return this.http.post<any>(this.config.ApiRecruitmentModule+ '/docatt_list', filter, this.options).toPromise()
         .then((res)=>{
             let message = JSON.parse(res);
             return message.data;
         })
     }
 
-    public record_reqfile(worker_code: string, list: ApplyMTDocattModel[]) {
+    public record_reqfile(worker_code: string, list: ApplyMTDocattModel[] , type: string) {
         var item_data: string = "[";
         for (let i = 0; i < list.length; i++) {
             item_data = item_data + "{";
@@ -358,7 +361,7 @@ export class ApplyworkService {
             item_data = item_data + ",\"job_type\":\"" + list[i].job_type + "\"";
             item_data = item_data + ",\"document_name\":\"" + list[i].document_name + "\"";
             item_data = item_data + ",\"document_type\":\"" + list[i].document_type + "\"";
-            item_data = item_data + ",\"document_path\":\"" + list[i].document_path + "\"";
+            item_data = item_data + ",\"document_path\":\"" + list[i].document_path.replace(/\\/g, '\\\\') + "\"";
             item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
             item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
             item_data = item_data + "}" + ",";
@@ -372,7 +375,8 @@ export class ApplyworkService {
             transaction_data: item_data,
             worker_code: worker_code,
             company_code: this.initial_current.CompCode,
-            modified_by: this.initial_current.Username
+            modified_by: this.initial_current.Username,
+            job_type: type
         };
         console.log(item_data)
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/docatt', specificData, this.options).toPromise()
