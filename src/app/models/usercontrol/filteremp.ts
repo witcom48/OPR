@@ -13,9 +13,11 @@ export class FillterEmpModel {
     worker_emptype : string= "";
     worker_gender : string= "";
     worker_empstatus: string = "";
+    worker_blackliststatus: boolean = false;
+    // worker_blackliststatus: string = "";
 
     searchemp :string = "";
-  
+    worker_blacklistreason: string = "";
     worker_resignstatus : boolean = false;
 
     level_code : string= "";  

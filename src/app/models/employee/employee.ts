@@ -30,6 +30,11 @@ export class EmployeeModel {
   worker_resigndate!: Date;
   worker_resignstatus: boolean = false;
   worker_resignreason: string = "";
+
+  worker_blackliststatus: boolean = false;
+  worker_blacklistreason: string = "";
+  worker_blacklistnote: string = "";
+
   worker_probationdate!: Date;
   worker_probationenddate!: Date;
   worker_probationday: number = 0;

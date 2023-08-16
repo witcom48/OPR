@@ -30,10 +30,10 @@
 
                         <div class="field col-6 custom-height">
                             <label>{{ title_codes}}<span style="color: red;"> *</span></label>
-                            <input pInputText type="text" [(ngModel)]="selectedCompany.company_code" maxlength="5"
+                            <input pInputText type="text" [(ngModel)]="selectedCompany.company_code" maxlength="20"
                                 [readonly]="company_code" name="code" #code="ngModel" required
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                            <p>{{selectedCompany.company_code.length}}/5</p>
+                            <p>{{selectedCompany.company_code.length}}/20</p>
 
                         </div>
                         <div class="field col-6 custom-height"></div>
@@ -426,6 +426,16 @@
                                     name="sso_min_wage" id="minmax-buttons"
                                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                             </div>
+                            
+<!-- 
+                            <div class="center field col-12 md:col-5 custom-height">
+                                <label for="lastname2">{{ title_min_wage }}<span style="color: red;"> *</span></label>
+                                <input type="text" [(ngModel)]="selectedCompany.sso_min_wage"
+                                       name="sso_min_wage" id="minmax-buttons"
+                                       class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                       (input)="formatInput($event)">
+                            </div> -->
+                            
                             <br>
                             <!-- <div class="center field col-12 md:col-5">
                                 <label for="lastname2">{{title_min_wage}}<span style="color: red;"> *</span></label>
@@ -623,7 +633,7 @@
                                                 <th>{{title_banktype}}</th>
                                                 <th>{{title_bankaccount}}</th>
 
-                                                 <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
@@ -632,7 +642,7 @@
                                                 <th>{{ data.combank_bankcode }}</th>
                                                 <th>{{ data.combank_branch }}</th>
                                                 <th>{{ data.combank_bankname }}</th>
-                                                <th>{{ data.combank_banktype }}</th> 
+                                                <th>{{ data.combank_banktype }}</th>
                                                 <th>{{ data.combank_bankaccount }}</th>
 
                                                 <th>{{ data.modified_by }}</th>
@@ -765,7 +775,8 @@
 
 
                         <label>{{title_bankaccount}}</label>
-                        <input pInputText type="number" id="ppos_code" [(ngModel)]="selectedCombank.combank_bankaccount">
+                        <input pInputText type="number" id="ppos_code"
+                            [(ngModel)]="selectedCombank.combank_bankaccount">
 
 
 

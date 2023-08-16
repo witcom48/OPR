@@ -42,7 +42,7 @@ export class EmployeeMonitorComponent implements OnInit {
 
   constructor(
     private employeeService: EmployeeService,
-    private locationService:LocationService,
+    private locationService: LocationService,
     private router: Router
   ) { }
 
@@ -54,6 +54,7 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doLoadChart2();
       this.doLoadChart3();
       this.doLoadChart4();
+      this.doLoadChart5();
     }, 500);
   }
 
@@ -215,7 +216,6 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doughnut3.labels = ['พนักงานประจำ (' + regularWorkers + ' คน)', 'พนักงานชั่วคราว (' + temporaryWorkers + ' คน)'
       ];
       this.doughnut3.datasets[0].data = [regularWorkers, temporaryWorkers];
-
       this.updateChart3();
     });
   }
@@ -228,9 +228,8 @@ export class EmployeeMonitorComponent implements OnInit {
 
 
   /// พนักงานประจำ และชั่วคราว
-  // สร้างตัวแปร barChartData4 และ barChartOptions4
   barChartData4: ChartData = {
-    labels: [ ],
+    labels: [],
     datasets: [
       {
         data: [0, 0, 0, 0, 0, 0, 0],
@@ -283,12 +282,12 @@ export class EmployeeMonitorComponent implements OnInit {
       this.barChartData4.labels = locationLabels;
       this.barChartData4.datasets[0].data = Array(locationLabels.length).fill(personnelOnDuty);
       this.barChartData4.datasets[1].data = Array(locationLabels.length).fill(currentWorkers);
+      console.log(this.barChartData4,'4')
 
       // console.log(this.barChartData4, 't');
       this.updateChart4();
     } catch (error) {
-      // console.error('Error loading location data:', error);
-    }
+     }
   }
 
   updateChart4() {
@@ -298,63 +297,60 @@ export class EmployeeMonitorComponent implements OnInit {
   }
 
   ////
- ///  พนักงานรายวัน เดือน
-
- doughnut5: ChartData = {
-  labels: ['พนักงานรายวัน', 'พนักงานรายเดือน'],
-  datasets: [
-    {
-      data: [0, 0],
-      label: 'จำนวนพนักงาน',
-      backgroundColor: ['#FF6384', '#36A2EB']
-    }
-  ]
-};
-
-doughnutChartOptions5: ChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-};
-
-doLoadChart5() {
-  const temp_fromdate = new Date(this.initial_current.PR_FromDate);
-  const temp_todate = new Date(this.initial_current.PR_ToDate);
-
-  this.employeeService.typelist_get(this.initial_current.CompCode, '').then(async (res) => {
-    console.log('')
-    this.workerList = await res;
-
-    let regularWorkers: number = 0; // จำนวนพนักงานรายวัน
-    let temporaryWorkers: number = 0; // จำนวนพนักงานรายเดือน
-
-    for (let i = 0; i < this.workerList.length; i++) {
-      const hireDate = new Date(this.workerList[i].worker_hiredate);
-      const resignDate = new Date(this.workerList[i].worker_resigndate);
-
-      if (this.workerList[i].worker_resignstatus === false && hireDate.getTime() < temp_fromdate.getTime()) {
-        regularWorkers++;
-
-        if (hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+  ///  พนักงานรายวัน เดือน
+  doughnut5: ChartData = {
+    labels: ['พนักงานรายวัน', 'พนักงานรายเดือน'],
+    datasets: [
+      {
+        data: [0, 0],
+        label: 'จำนวนพนักงาน',
+        backgroundColor: ['#FF6384', '#36A2EB']
+      }
+    ]
+  };
+  
+  doughnutChartOptions5: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+  worker_type: any;
+  doLoadChart5() {
+    const temp_fromdate = new Date(this.initial_current.PR_FromDate);
+    const temp_todate = new Date(this.initial_current.PR_ToDate);
+  
+    this.employeeService.typelist_get(this.initial_current.CompCode, '').then(async (res) => {
+      this.workerList = await res;
+      console.log(this.workerList);
+  
+      let regularWorkers: number = 0; // จำนวนพนักงานรายวัน
+      let temporaryWorkers: number = 0; // จำนวนพนักงานรายเดือน
+  
+      for (let i = 0; i < this.workerList.length; i++) {
+        const hireDate = new Date(this.workerList[i].worker_hiredate);
+  
+        if (this.workerList[i].worker_type === 'M' || this.workerList[i].worker_type === 'D') {
+          regularWorkers++;
+        }
+  
+        if (this.workerList[i].worker_type === 'D' && hireDate >= temp_fromdate && hireDate <= temp_todate) {
           temporaryWorkers++;
         }
       }
-    }
-
-    this.doughnut5.labels = ['พนักงานรายวัน (' + regularWorkers + ' คน)', 'พนักงานรายเดือน (' + temporaryWorkers + ' คน)'];
-    this.doughnut5.datasets[0].data = [regularWorkers, temporaryWorkers];
-
-    this.updateChart5(); 
-  });
-}
-
-updateChart5() {
-  if (this.chart && this.chart.chart && this.chart.chart.config) {
-    this.chart.chart.update();
-  }
-
-
   
-}
+      this.doughnut5.labels = ['พนักงานรายวัน (' + regularWorkers + ' คน)', 'พนักงานรายเดือน (' + temporaryWorkers + ' คน)'];
+      this.doughnut5.datasets[0].data = [regularWorkers, temporaryWorkers];
+      console.log(this.doughnut5, '5');
+  
+      this.updateChart5();
+    });
+  }
+  
+  updateChart5() {
+    if (this.chart && this.chart.chart && this.chart.chart.config) {
+      this.chart.chart.update();
+    }
+  }
+  
 
   // doLoadChart(){
   //   this.data_emptype = {

@@ -23,6 +23,8 @@ import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
 import { PositionService } from 'src/app/services/emp/policy/position.service';
 import { PositionModel } from 'src/app/models/employee/policy/position';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
+import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 
 
 interface ImportList {
@@ -48,9 +50,14 @@ export class EmployeeListComponent implements OnInit {
 
   ImportList: ImportList[] = [];
 
-
+  workerDetail: any;
+  getLanguage(): string {
+    return this.initial_current.Language;
+  }
   constructor(
     private employeeService: EmployeeService,
+    private reasonsService: ReasonsService,
+
     private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -99,7 +106,8 @@ export class EmployeeListComponent implements OnInit {
     this.doLoadInitialList();
     this.doLoadEmptypeList();
     this.doLoadEmpstatusList();
-
+    this.doLoadblackList();
+    this.doLoadReason();
     setTimeout(() => {
       this.doLoadMenu()
       // this.doLoadEmployee()
@@ -158,6 +166,7 @@ export class EmployeeListComponent implements OnInit {
   title_more: { [key: string]: string } = { EN: "More", TH: "เพิ่มเติม" };
   title_deletes: { [key: string]: string } = { EN: "Delete", TH: "ลบ" };
   title_searchemp: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" };
+  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "แบล็คลิสต์" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -264,7 +273,38 @@ export class EmployeeListComponent implements OnInit {
       this.statusList = res;
     })
   }
+  /////
+  reason_list: ReasonsModel[] = [];
+  reasons: ReasonsModel = new ReasonsModel();
+  blackList: EmployeeModel[] = [];
 
+
+  doLoadblackList() {
+    this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
+      this.blackList = res;
+    });
+  }
+
+  async doLoadReason() {
+    try {
+      const tmp = new ReasonsModel();
+      tmp.reason_group = 'BLACK';
+      const res = await this.reasonsService.reason_get(tmp);
+      this.reason_list = res;
+      // console.log(res, 'te');
+    } catch (error) {
+    }
+  }
+
+  getDetail(strucCode: string): string {
+    const foundReason = this.reason_list.find(item => item.reason_code === strucCode);
+    if (foundReason) {
+      return this.initial_current.Language === 'TH' ? foundReason.reason_name_th : foundReason.reason_name_en;
+    }
+    return '';
+  }
+
+  /////
   emppositionList: EmpPositionModel[] = [];
   doLoadempposition(worker_code: string) {
     this.empdetailService.getworker_position(this.initial_current.CompCode, worker_code).then(async (res) => {
@@ -308,6 +348,8 @@ export class EmployeeListComponent implements OnInit {
     } else {
       fillter.position_code = "";
     }
+    fillter.worker_blackliststatus = this.fillterBlacklist;
+
     //fillter emptype
     if (this.fillterEmptype) {
       fillter.worker_emptype = this.selectedEmptype;
@@ -320,6 +362,8 @@ export class EmployeeListComponent implements OnInit {
     } else {
       fillter.worker_empstatus = "";
     }
+
+
     //fillter employee
     fillter.searchemp = this.selectedSearchemp;
 
@@ -345,6 +389,16 @@ export class EmployeeListComponent implements OnInit {
       this.doGetDataFillter();
     }
   }
+
+  //--   blacklist
+  selectedBlacklist: string = "";
+  fillterBlacklist: boolean = false;
+  doChangeBlacklist() {
+    if (this.fillterBlacklist) {
+      this.doGetDataFillter();
+    }
+  }
+
   //-- Position master
   selectedPosition: string = "";
   fillterPosition: boolean = false;
@@ -383,7 +437,6 @@ export class EmployeeListComponent implements OnInit {
       },
       key: "myDialog"
     });
-    // console.log(this.selectedemployee);
   }
 
   doRecordEmployee() {

@@ -96,6 +96,8 @@ import { ProgenaralService } from 'src/app/services/project/pro_genaral.service'
 
 import * as XLSX from 'xlsx';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 
 
 
@@ -267,6 +269,8 @@ export class EmployeeManageComponent implements OnInit {
     private sanitizer: DomSanitizer,
 
     //service
+
+    private reasonsService: ReasonsService,
     private initialService: InitialService,
     private emptypeService: EmptypeService,
     private empstatusService: EmpstatusService,
@@ -330,6 +334,7 @@ export class EmployeeManageComponent implements OnInit {
 
     this.doLoadLanguage();
     // Dropdown
+    this.doLoadReason();
     this.doLoadInitialList();
     this.doLoadEmptypeList();
     this.doLoadEmpstatusList();
@@ -2033,6 +2038,7 @@ export class EmployeeManageComponent implements OnInit {
     this.displayManage = false
 
   }
+  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "แบล็คลิสต์" };
 
   position: string = "right";
   showManage() {
@@ -2922,7 +2928,18 @@ export class EmployeeManageComponent implements OnInit {
 
   }
 
-
+  //drop
+  reason_list: ReasonsModel[] = [];
+  reasons: ReasonsModel = new ReasonsModel()
+  doLoadReason() {
+    this.reason_list = [];
+    var tmp = new ReasonsModel();
+    tmp.reason_group = 'BLACK';
+    this.reasonsService.reason_get(tmp).then(async (res) => {
+      this.reason_list = await res;
+      console.log(res,'te')
+    });
+  }
   //emp position
   emppositionList: EmpPositionModel[] = [];
   selectedEmpPosition: EmpPositionModel = new EmpPositionModel();

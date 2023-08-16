@@ -122,14 +122,14 @@
 
                         <div>
                             <label for="lastname2">{{title_type}} : <span style="color: red;"> *</span></label>
-                            <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code"
-                                [showClear]="true" [(ngModel)]="selectedEmployee.worker_type"
-                                [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doChangeSelectEmptype()">
-                                <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                            <p-dropdown placeholder="--" [options]="reason_list" optionValue="worker_blacklistreason"
+                                [(ngModel)]="selectedEmployee.worker_blacklistreason" [showClear]="true"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
                                 </ng-template>
                                 <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                                    {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
                                 </ng-template>
                             </p-dropdown>
                         </div>
@@ -207,6 +207,10 @@
                             <p-checkbox name="selectedEmployee.worker_resignstatus"
                                 [(ngModel)]="selectedEmployee.worker_resignstatus" [binary]="true"></p-checkbox>
                             <label>{{title_resignstatus}}</label>
+                            &nbsp;
+                            <p-checkbox name="selectedEmployee.worker_blackliststatus"
+                                [(ngModel)]="selectedEmployee.worker_blackliststatus" [binary]="true"></p-checkbox>
+                            <label for="lastname2">{{title_blacklist[initial_current.Language]}}</label>
                         </div>
 
                         <div class="horizontal">
@@ -221,8 +225,7 @@
                                 [(ngModel)]="selectedEmployee.worker_resigndate">
                                 <input type="text">
                             </p-calendar>
-                            <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
-                            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+
                         </div>
 
                         <div>
@@ -236,11 +239,45 @@
                         </div>
                     </div>
                     <!-- end resign form-->
+                    <!-- ///// -->
+
+                    <div>
+                        <div class="empinfo2" *ngIf="selectedEmployee.worker_blackliststatus == true">
+
+                            <div>
+                                <label for="Fname1">{{title_reason}} :</label>
+                                <p-dropdown placeholder="--" [options]="reason_list" optionValue="reason_code"
+                                    [(ngModel)]="selectedEmployee.worker_blacklistreason" [showClear]="true"
+                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                        {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="item">
+                                        {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+
+                            <div>
+                                <label for="Fname1">{{title_description}} : </label>
+                                <input pInputText id="lastname2" type="text"
+                                    [(ngModel)]="selectedEmployee.worker_blacklistnote">
+                            </div>
+
+                            <div class="horizontal">
+                                <hr>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--  -->
+                    <br>
 
                     <!-- Location -->
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_emplocation}}"   *ngIf="hasAccessMenu('EMP002-001')" >
+                            <p-accordionTab header="{{title_emplocation}}" *ngIf="hasAccessMenu('EMP002-001')">
                                 <p-menubar [model]="menu_emplocation"></p-menubar>
                                 <div #tablelocation>
                                     <p-table #dtemplocation [value]="emplocationList" styleClass="p-datatable-sm"
@@ -436,7 +473,8 @@
 
                     <div class="accordion">
                         <p-accordion>
-                            <p-accordionTab header="{{title_contact[initial_current.Language]}}" *ngIf="hasAccessMenu('EMP002-004')">
+                            <p-accordionTab header="{{title_contact[initial_current.Language]}}"
+                                *ngIf="hasAccessMenu('EMP002-004')">
                                 <div class="contact">
                                     <div>
                                         <label>{{title_tel}}</label>

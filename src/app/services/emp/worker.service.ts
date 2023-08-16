@@ -61,8 +61,7 @@ export class EmployeeService {
   }
 
   public worker_get(company: string, code: string) {
-    // console.log(company,code,"TESTTTTT")
-    var filter = {
+     var filter = {
       device_name: '',
       ip: "localhost",
       username: this.initial_current.Username,
@@ -74,14 +73,12 @@ export class EmployeeService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        // // console.log(res)
-        return message.data;
+         return message.data;
       });
   }
 
   public worker_recordall(model: EmployeeModel) {
-    // console.log('WKR002..');
-    const data = {
+     const data = {
       company_code: this.initial_current.CompCode,
       worker_id: model.worker_id,
       worker_code: model.worker_code,
@@ -103,6 +100,12 @@ export class EmployeeService {
       worker_resigndate: model.worker_resigndate,
       worker_resignstatus: model.worker_resignstatus,
       worker_resignreason: model.worker_resignreason,
+
+
+      worker_blackliststatus: model.worker_blackliststatus,
+      worker_blacklistreason: model.worker_blacklistreason,
+      worker_blacklistnote: model.worker_blacklistnote,
+
       worker_probationdate: model.worker_probationdate,
       worker_probationenddate: model.worker_probationenddate,
       worker_probationday: model.worker_probationday,
@@ -202,6 +205,7 @@ export class EmployeeService {
       worker_emptype: fillter.worker_emptype,
       worker_gender: fillter.worker_gender,
       worker_empstatus: fillter.worker_empstatus,
+      worker_blackliststatus: fillter.worker_blackliststatus,
 
       searchemp: fillter.searchemp,
 
@@ -246,18 +250,17 @@ export class EmployeeService {
         return message.data;
       });
   }
-  
+
 
   ///type
-  public typelist_get(company: string, code: string) {
-    console.log('te')
+  public typelist_get(company: string, type: string) {
     var filter = {
       device_name: '',
       ip: "localhost",
       username: this.initial_current.Username,
       company_code: company,
       language: "",
-      worker_code: code
+      worker_type: type
     };
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/typelist', filter, this.options).toPromise()

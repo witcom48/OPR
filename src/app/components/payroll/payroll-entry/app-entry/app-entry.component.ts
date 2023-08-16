@@ -20,6 +20,7 @@ import { ItemService } from 'src/app/services/payroll/item.service';
 import { SelectEmpComponent } from '../../../usercontrol/select-emp/select-emp.component';
 import { SetitemsService } from 'src/app/services/payroll/batch/setitems.service';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { SearchItemComponent } from 'src/app/components/usercontrol/search-item/search-item.component';
 declare var reason: any;
 interface Type {
   name: string;
@@ -42,6 +43,10 @@ interface Result {
 })
 export class AppEntryComponent implements OnInit {
 
+  @ViewChild(SearchItemComponent) searchitem_popup: any;
+
+  dialog: any;
+  dataSource: any;
 
   style_input_real: string = "[style]=\"{'width':'80px'}\\";
 
@@ -137,6 +142,8 @@ export class AppEntryComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('PAY');
 
   }
+  title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
+  title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
 
   title_page: string = 'Geanral';
   title_new: string = 'New';
@@ -600,7 +607,62 @@ export class AppEntryComponent implements OnInit {
   refreshPage() {
     location.reload();
   }
+  
+  openSearchItem(): void {
+    const dialogRef = this.dialog.open(SearchItemComponent, {
+        width: '1500px',
+        height: '1550px',
+        data: {
+            worker_code: ''
+        }
+    });
+    dialogRef.afterClosed().subscribe((result: { worker_code: string; }) => {
+        if (result.worker_code != "") {
 
+            let select = result.worker_code;
+            this.doGetIndexWorker(select);
+
+        }
+    });
+ 
+}
+  
+
+  position: string = "right";
+  searchItem: boolean = false;
+  open_searchItem() {
+    console.log(this.searchItem, 'ไม่เปลี่ยนเป็นหน้าitem')
+    this.searchItem = true
+  }
+
+  close_searchItem() {
+    this.searchItem = false
+  }
+
+
+  select_item() {
+    let select = this.searchitem_popup.selectedPayitem.item_type
+    console.log( '3')
+    if (select != "") {
+      this.doGetIndexWorker(select)
+      this.searchItem = false
+    }
+
+  }
+
+  doGetIndexWorker(worker_code: string) {
+    for (let i = 0; i < this.worker_list.length; i++) {
+      if (this.worker_list[i].worker_code == worker_code) {
+        this.worker_index = i;
+        break;
+      }
+    }
+
+    this.doSetDetailItem();
+
+  }
+
+  
   exportAsExcel() {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
       this.table.nativeElement
