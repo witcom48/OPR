@@ -21,6 +21,8 @@ import { EmployeeModel } from 'src/app/models/employee/employee';
 import { ApplyworkDetailService } from 'src/app/services/recruitment/applywork-detail.service';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { PolcodeService } from 'src/app/services/system/policy/polcode.service';
+import { ApplyMTDocattModel } from 'src/app/models/recruitment/applyMTDocatt';
+import { async } from 'rxjs';
 
 
 interface ImportList {
@@ -602,6 +604,17 @@ export class ApplyListComponent implements OnInit {
       }
     }
   }
+  age: number = 0
+  CalculateAge(birthdate: Date): number {
+    if (birthdate) {
+      let timeDiff = Math.abs(Date.now() - this.selectedReqworker.worker_birthdate.getTime());
+      this.age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
+    }
+    return this.age;
+  }
+
+  
+  
 
   convertToEmp() {
     this.confirmationService.confirm({
@@ -609,8 +622,22 @@ export class ApplyListComponent implements OnInit {
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        
-          this.doGetNewCode()
+        if(this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50){
+            if(!this.selectedReqworker.checkcertificate){
+              console.log("อายุเกิน 50 และ ไม่มีใบรับรองแพทย์")
+              return
+            }
+            console.log("อายุเกิน 50 และ มีใบรับรองแพทย์")
+        }
+        if(this.selectedReqworker.counthistory >= 3){
+          console.log("ทำงานมาเกิน2ครั้ง")
+          return
+        }
+        if(this.selectedReqworker.checkblacklist){
+          console.log("มี blacklist")
+          return
+        }
+        this.doGetNewCode()
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
@@ -618,17 +645,21 @@ export class ApplyListComponent implements OnInit {
     });
   }
 
-doGetNewCode() {
-    this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedReqworker.worker_type).then(async(res) => {
+  doGetNewCode() {
+    console.log("convert")
+    this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedReqworker.worker_type).then(async (res) => {
       let result = await JSON.parse(res);
 
       if (result.success) {
-        this.doRecordEmployee(result.data);
+        // this.doRecordEmployee(result.data);
+        console.log(result.data)
+        
+        
       }
     });
   }
 
-doRecordEmployee(Code:any) {
+  doRecordEmployee(Code: any) {
     var tmp = new EmployeeModel();
     tmp.worker_id = "0"
     tmp.worker_code = Code
@@ -652,7 +683,7 @@ doRecordEmployee(Code:any) {
     tmp.hrs_perday = 8
     tmp.worker_taxmethod = "1"
     tmp.worker_tel = this.selectedReqworker.worker_tel
-    tmp.worker_email= this.selectedReqworker.worker_email
+    tmp.worker_email = this.selectedReqworker.worker_email
     tmp.worker_line = this.selectedReqworker.worker_line
     tmp.worker_facebook = this.selectedReqworker.worker_facebook
     tmp.worker_military = this.selectedReqworker.worker_military
@@ -664,7 +695,7 @@ doRecordEmployee(Code:any) {
         //-- transaction
 
         //--update status
-        
+
         //-- alert
         this.messageService.add({
           severity: 'success',
@@ -681,6 +712,6 @@ doRecordEmployee(Code:any) {
     })
   }
 
-  
+
 
 }

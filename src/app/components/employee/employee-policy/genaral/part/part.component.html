@@ -1,7 +1,11 @@
 <hr>
 <!-- Menu New Import Export Data -->
 <div>
-    <p-menubar [model]="items"></p-menubar>
+    <p-menubar [model]="items">
+        <ng-template pTemplate="end">
+            <button pButton label="Template" icon="pi pi-download"></button>
+        </ng-template>
+    </p-menubar>
 </div>
 <!-- ----------------END MENU----------------- -->
 
@@ -66,57 +70,75 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height:'100vh',width:'30vw', 'overflow-y': 'hidden' }"
+            [position]="position">
+            <div class="formgrid grid align-items-end" *ngIf="new_data==true">
 
-        <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedDep.dep_code" maxlength="5" />
-        <p>{{selectedDep.dep_code.length}}/5</p>
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" [(ngModel)]="selectedDep.dep_code" maxlength="5" name="code"
+                        #code="ngModel" required />
+                    <p>{{selectedDep.dep_code.length}}/5</p>
+                </div>
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{title_name_th}}<span style="color: red;"> *</span></label>
+                    <textarea [(ngModel)]="selectedDep.dep_name_th" pInputTextarea [autoResize]="true" name="name_th"
+                        #name_th="ngModel" required></textarea>
+                </div>
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{title_name_en}}<span style="color: red;"> *</span></label>
+                    <textarea [(ngModel)]="selectedDep.dep_name_en" pInputTextarea [autoResize]="true" name="name_en"
+                        #name_en="ngModel" required></textarea>
+                </div>
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{title_parentlevel}}</label>
+                    <p-dropdown placeholder="--" [options]="parentlevelList" optionValue="level_code" [showClear]="true"
+                        [(ngModel)]="selectedDep.parent_level" (onChange)="doChangeSelectLevel()"
+                        [style]="{ width: '100%', overflow: 'visible' }" name="parent_level" #parent_level="ngModel">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div class="field col-12" style="display:flex;flex-direction: column;">
 
-        <label>{{title_name_th}}</label>
-        <textarea [(ngModel)]="selectedDep.dep_name_th" pInputTextarea [autoResize]="true"></textarea>
+                    <label>{{title_parent}}</label>
+                    <p-dropdown placeholder="--" [options]="depParentList" optionValue="dep_code" [showClear]="true"
+                        [(ngModel)]="selectedDep.dep_parent" [style]="{ width: '100%', overflow: 'visible' }"
+                        name="dep_parent" #dep_parent="ngModel">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div class="field col-12">
+                    <div>
+                        <p-checkbox [(ngModel)]="selectedDep.notused" [binary]="true" name="notused"
+                            #notused="ngModel"></p-checkbox> &nbsp;
+                        <label>{{title_notused[initial_current.Language]}}</label>
+                    </div>
+                </div>
 
-        <label>{{title_name_en}}</label>
-        <textarea [(ngModel)]="selectedDep.dep_name_en" pInputTextarea [autoResize]="true"></textarea>
-
-        <label>{{title_parentlevel}}</label>
-        <p-dropdown placeholder="--" [options]="parentlevelList" optionValue="level_code" [showClear]="true"
-            [(ngModel)]="selectedDep.parent_level" (onChange)="doChangeSelectLevel()"
-            [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
-            </ng-template>
-        </p-dropdown>
-
-        <label>{{title_parent}}</label>
-        <p-dropdown placeholder="--" [options]="depParentList" optionValue="dep_code" [showClear]="true"
-            [(ngModel)]="selectedDep.dep_parent" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
-            </ng-template>
-        </p-dropdown>
-        <!-- <textarea [(ngModel)]="selectedDep.dep_parent" pInputTextarea [autoResize]="true"></textarea> -->
-        <div>
-            <p-checkbox [(ngModel)]="selectedDep.notused" [binary]="true"></p-checkbox> &nbsp;
-            <label>{{title_notused[initial_current.Language]}}</label>
-        </div>
-
-        <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="btndel" (click)="confirmDelete()"></button> -->
-        <div class="field col-12">
-            <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
-            &nbsp;
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary"
-                (click)="confirmDelete()"></button>
-        </div>
-    </div>
+                <br>
+                <div class="field col-12">
+                    <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"
+                        [disabled]="!Form.form.valid"></p-button>
+                    &nbsp;
+                    <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
+                        class="p-button-secondary" (click)="confirmDelete()"></button>
+                </div>
+            </div>
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+    </form>
 </div>
 
 <!-- Dialog Choose File Import -->

@@ -118,6 +118,7 @@ export class GroupComponent implements OnInit {
         label:this.title_new,
         icon:'pi pi-fw pi-plus',
         command: (event) => {
+          this.showManage()
           this.selectedGroup = new GroupModel();
           this.new_data= true;
           this.edit_data= false;
@@ -143,7 +144,9 @@ export class GroupComponent implements OnInit {
       }      
     ];
   }
-
+  reloadPage() {
+    this.doLoadGroup()
+  }
   doLoadGroup(){
     this.groupService.group_get().then((res) => {
      this.group_list = res;     
@@ -173,6 +176,9 @@ export class GroupComponent implements OnInit {
      if(result.success){
       this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
       this.doLoadGroup()
+      this.edit_data = false;
+      this.new_data = false;
+      this.displayManage = false
      }
      else{
       this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -205,6 +211,7 @@ export class GroupComponent implements OnInit {
       this.doLoadGroup();
       this.edit_data= false;
       this.new_data= false;
+      this.displayManage = false
      }
      else{
       this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
@@ -220,6 +227,7 @@ export class GroupComponent implements OnInit {
   onRowSelectGroup(event: any) {
     this.edit_data= true;
     this.new_data= true;
+    this.displayManage = true
   }
 
   fileToUpload: File | any = null;  
@@ -262,7 +270,12 @@ export class GroupComponent implements OnInit {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
   }
-
+//
+displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
+  }
   displayUpload: boolean = false;
   showUpload() {
     this.displayUpload = true;

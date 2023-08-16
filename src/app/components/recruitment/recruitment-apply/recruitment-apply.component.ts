@@ -1517,6 +1517,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 });
 
                 this.reqworkerList = await res;
+                console.log(res)
 
                 if (this.reqworkerList.length > 0) {
                     this.selectedReqworker = this.reqworkerList[0];
@@ -1554,8 +1555,8 @@ export class RecruitmentApplyComponent implements OnInit {
                         this.doGetFileOther();
 
                         //Check
-                        this.getBlackList()
-                        this.getHistoryList();
+                        // this.getBlackList()
+                        // this.getHistoryList();
 
                     }, 300);
                 }

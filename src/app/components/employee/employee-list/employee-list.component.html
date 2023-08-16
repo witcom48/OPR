@@ -37,7 +37,11 @@
 </table>
 <!-- Menu New Import Export Data -->
 <div>
-    <p-menubar [model]="items"></p-menubar>
+    <p-menubar [model]="items">
+        <ng-template pTemplate="end">
+            <button pButton label="Template" icon="pi pi-download"></button>
+        </ng-template>
+    </p-menubar>
 </div>
 <!-- ----------------END MENU----------------- -->
 <div class="tabledata">

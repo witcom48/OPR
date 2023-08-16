@@ -2,7 +2,11 @@
 <hr>
 <!-- Menu New Import Export Data -->
 <div>
-    <p-menubar [model]="items"></p-menubar>
+    <p-menubar [model]="items">
+        <ng-template pTemplate="end">
+            <button pButton label="Template" icon="pi pi-download"></button>
+        </ng-template>
+    </p-menubar>
 </div>
 <!-- ----------------END MENU----------------- -->
 
@@ -50,29 +54,38 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
+            [position]="position" (onHide)="reloadPage()"> 
+    <div class="formatt p-dialog-content" *ngIf="new_data==true">
 
-        <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedGroup.group_code" maxlength="5" />
+        <label>{{title_code}}<span style="color: red;"> *</span></label>
+        <input pInputText type="text" [(ngModel)]="selectedGroup.group_code" maxlength="5"
+        name="code" #code="ngModel" required [readOnly]="edit_data" />
         <p>{{selectedGroup.group_code.length}}/5</p>
 
-        <label>{{title_name_th}}</label>
-        <textarea [(ngModel)]="selectedGroup.group_name_th" pInputTextarea [autoResize]="true"></textarea>
+        <label>{{title_name_th}}<span style="color: red;"> *</span></label>
+        <textarea [(ngModel)]="selectedGroup.group_name_th" pInputTextarea [autoResize]="true"
+        name="name_th" #name_th="ngModel" required></textarea>
 
-        <label>{{title_name_en}}</label>
-        <textarea [(ngModel)]="selectedGroup.group_name_en" pInputTextarea [autoResize]="true"></textarea>
+        <label>{{title_name_en}}<span style="color: red;"> *</span></label>
+        <textarea [(ngModel)]="selectedGroup.group_name_en" pInputTextarea [autoResize]="true"
+        name="name_en" #name_en="ngModel" required></textarea>
 
         <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
             class="btndel" (click)="confirmDelete()"></button> -->
-        <div class="field col-12">
-            <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+        <div style="text-align: right;">
+            <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()" [disabled]="!Form.form.valid"></p-button>
             &nbsp;
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary"
                 (click)="confirmDelete()"></button>
         </div>
     </div>
+    </p-dialog>
+    <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+</form>
 </div>
 
 <!-- Dialog Choose File Import -->
