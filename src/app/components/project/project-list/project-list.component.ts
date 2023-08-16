@@ -239,10 +239,36 @@ export class ProjectListComponent implements OnInit {
   selectedProject: ProjectModel = new ProjectModel;
   doLoadProject(){
     
-    this.projectService.project_get(this.initial_current.CompCode, "").then((res) => {
-      //// console.log(res)
-      this.project_list = res;     
+    this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {      
+      this.project_list = await res;     
+
+      setTimeout(() => {
+        this.calculateTotal()
+      }, 500);
     });
+  }
+
+  calculateTotal() {
+
+    this.total_project = 0;   
+    this.total_emp = 0;
+    this.new_project = 0;   
+    this.total_cost = 0;   
+    
+
+    for (let project of this.project_list) {
+      this.total_project++;
+      this.total_emp += project.project_emp;
+      this.total_cost += project.project_cost;
+      
+
+      if (project.project_start.getTime() >= this.initial_current.PR_FromDate.getTime()) {
+        this.new_project++;
+      }
+
+    } 
+
+
   }
 
   confirmRecord() {

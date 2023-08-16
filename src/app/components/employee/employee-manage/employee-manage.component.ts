@@ -96,8 +96,12 @@ import { ProgenaralService } from 'src/app/services/project/pro_genaral.service'
 
 import * as XLSX from 'xlsx';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+<<<<<<< HEAD
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
+=======
+import { CodePolcodeService } from 'src/app/services/system/manage1/code-polcode.service';
+>>>>>>> cd54dba8cea1ff4c3f2949405d4e43bd16183a6f
 
 
 
@@ -259,6 +263,7 @@ export class EmployeeManageComponent implements OnInit {
   displayManage: boolean = false;
 
   constructor(
+    private codePolcodeService: CodePolcodeService,
     private employeeService: EmployeeService,
     private router: Router,
     private route: ActivatedRoute,
@@ -379,7 +384,7 @@ export class EmployeeManageComponent implements OnInit {
       if (this.emp_code != "") {
         this.doLoadEmployee()
       } else {
-        this.doGetNewCode();
+        this.doGetNewCode("", "");
       }
 
     }, 400);
@@ -2276,7 +2281,11 @@ export class EmployeeManageComponent implements OnInit {
   }
   doChangeSelectEmptype() {
     if (this.methodEdit == false) {
-      this.doGetNewCode();
+      if (this.empbranchList.length) {
+        this.doGetNewCode(this.selectedEmployee.worker_type, this.empbranchList.slice(-1)[0].branch_code);
+      } else {
+        this.doGetNewCode(this.selectedEmployee.worker_type, "");
+      }
     }
   }
 
@@ -4047,6 +4056,11 @@ export class EmployeeManageComponent implements OnInit {
     this.empbranchList = [];
     this.empbranchList = itemNew;
     this.empbranchList.sort(function (a, b) { return parseInt(a.empbranch_id) - parseInt(b.empbranch_id); })
+    if (this.empbranchList.length) {
+      this.doGetNewCode(this.selectedEmployee.worker_type, this.empbranchList.slice(-1)[0].branch_code);
+    } else {
+      this.doGetNewCode(this.selectedEmployee.worker_type, "");
+    }
   }
   record_empbranch() {
     if (this.empbranchList.length == 0) {
@@ -4084,14 +4098,15 @@ export class EmployeeManageComponent implements OnInit {
     });
   }
 
-  doGetNewCode() {
-    this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedEmployee.worker_type).then((res) => {
-      let result = JSON.parse(res);
+  doGetNewCode(emp_type: string, empbranch: string) {
+    this.codePolcodeService.getNewCode("", emp_type, empbranch).then((res) => {
+      this.selectedEmployee.worker_code = res;
+      // let result = JSON.parse(res);
 
-      if (result.success) {
-        this.selectedEmployee.worker_code = result.data;
-        this.selectedEmployee.worker_card = result.data;
-      }
+      // if (result.success) {
+      //   this.selectedEmployee.worker_code = result.data;
+      //   this.selectedEmployee.worker_card = result.data;
+      // }
     });
   }
 

@@ -574,6 +574,7 @@ export class ProjectDetailService {
     var specificData = {
       transaction_data:item_data,
       project_code:project,
+      version:version,
       job_code:'',
       modified_by:this.initial_current.Username
     };

@@ -84,9 +84,9 @@ export class CodePolcodeService {
     const data = {
       polcode_id: model.polcode_id,
       codestructure_code: model.codestructure_code,
-      polcode_lenght: model.polcode_lenght,
+      polcode_lenght: model.polcode_lenght.toString(),
       polcode_text: model.polcode_text,
-      polcode_order: model.polcode_order,
+      polcode_order: model.polcode_order.toString(),
 
       modified_by: this.initial_current.Username
     };
@@ -112,19 +112,16 @@ export class CodePolcodeService {
       });
   }
   //
-  public getNewCode(com_code: string, pol_type: string, emptype: string) {
+  public getNewCode(com_code: string, emptype: string, empbranch: string) {
 
     var filter = {
-      device_name: '',
-      ip: "localhost",
       username: this.initial_current.Username,
+      com: com_code || this.initial_current.CompCode,
+      emptype: emptype || this.initial_current.EmpType,
+      empbranch: empbranch
+    }
 
-      language: "",
-      codestructure_code: pol_type,
-
-    };
-
-    return this.http.post<any>(this.config.ApiSystemModule + '/getNewCode', this.basicRequest, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiSystemModule + '/getNewCode', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         return message.data;

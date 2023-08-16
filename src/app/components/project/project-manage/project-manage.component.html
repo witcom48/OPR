@@ -522,20 +522,20 @@
         <div class="formgrid grid" *ngIf="edit_projobversion==true || new_projobversion==true">
             <div class="field col-12 ">
                 <label for="version">Version</label>
-                <input type="text" id="version" [(ngModel)]="selectedProjobversion.version"
+                <input type="text" id="version" [(ngModel)]="manageProjobversion.version"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
 
             <div class="field col-12 ">
                 <label for="fromdate">{{title_contract_fromdate[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedProjobversion.fromdate" dateFormat="dd/mm/yy" inputId="fromdate"
+                <p-calendar [(ngModel)]="manageProjobversion.fromdate" dateFormat="dd/mm/yy" inputId="fromdate"
                     [showIcon]="true" appendTo="body"></p-calendar>
             </div>
             <div class="field col-12 ">
                 <label for="todate">{{title_contract_todate[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedProjobversion.todate" dateFormat="dd/mm/yy" inputId="todate"
+                <p-calendar [(ngModel)]="manageProjobversion.todate" dateFormat="dd/mm/yy" inputId="todate"
                     [showIcon]="true" appendTo="body"></p-calendar>
             </div>
 
@@ -1102,17 +1102,8 @@
         <br>
         <div class="formgrid grid align-items-end">
             <div class="col-12 md:col-3">
-                <label>Version</label><br>
-                <p-dropdown [options]="projobversion_list" optionValue="version"
-                    [(ngModel)]="selectedProjobversion.version" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" (onChange)="onSelectProjobversion($event)">
-                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                        {{selectedProjobversion.version}}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                        {{item.version}}
-                    </ng-template>
-                </p-dropdown>
+                <label>Version</label><br>                
+                <p-dropdown [options]="projobversion_list" optionLabel="version" [(ngModel)]="selectedProjobversion" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }" (onChange)="onSelectProjobversion($event)"></p-dropdown>
             </div>
             <div class="col-12 md:col-9">
                 <button pButton pRipple type="button" label="+" (click)="addVersion()"
@@ -1121,22 +1112,22 @@
             </div>
             <div class="pt-2 col-12 md:col-3">
                 <label for="fromdate">From</label>
-                <input type="text" id="fromdate" [(ngModel)]="fromdate_selected" readonly
+                <input type="text" id="fromdate" [(ngModel)]="version_fromdate" readonly
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="col-12 md:col-3">
                 <label for="todate">To</label>
-                <input type="text" id="todate" [(ngModel)]="todate_selected" readonly
+                <input type="text" id="todate" [(ngModel)]="version_todate" readonly
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="pt-2 col-12 md:col-3">
                 <label for="transaction_id">Transaction ID</label>
-                <input type="text" id="transaction_id" [(ngModel)]="selected_version.transaction_id" readonly
+                <input type="text" id="transaction_id" [(ngModel)]="version_transaction_id" readonly
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
             <div class="col-12 md:col-3">
                 <label for="custno">Post By</label>
-                <input type="text" id="custno" [(ngModel)]="selected_version.custno" readonly
+                <input type="text" id="custno" [(ngModel)]="version_custno" readonly
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
         </div>

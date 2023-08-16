@@ -1380,6 +1380,9 @@ export class ProjectManageComponent implements OnInit {
     this.new_procontract = false; this.edit_procontract = false;
     this.new_projobcost = false; this.edit_projobcost = false;
     this.new_projobmachine = false; this.edit_projobmachine = false;
+
+    this.edit_projobversion = false; this.new_projobversion = false;
+
   }
 
   displayManage: boolean = false;
@@ -1829,23 +1832,32 @@ export class ProjectManageComponent implements OnInit {
   //-- Job version
 
   version_selected: string = "";
-  fromdate_selected: string | any = null;
-  todate_selected: string | any = null;
-    
-  projobversion_list: ProjobversionModel[] = [];  
+  version_fromdate: string | any = null;
+  version_todate: string | any = null;    
+
+  version_transaction_id: string | any = null;   
+  version_custno: string | any = null;   
+
+  projobversion_list: ProjobversionModel[] = [];
   selectedProjobversion: ProjobversionModel = new ProjobversionModel();
-  selected_version: ProjobversionModel = new ProjobversionModel();
+
+  manageProjobversion: ProjobversionModel = new ProjobversionModel();
+  
   doLoadProjobversion(){
 
+    this.selectedProjobversion = new ProjobversionModel()
+
     this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
+
       this.projobversion_list = await res;
      
       if(this.projobversion_list.length > 0){        
         this.selectedProjobversion = this.projobversion_list[0]        
-        this.selected_version = this.selectedProjobversion
         this.printVersion()
-      }
+      }      
+
     });
+    
 
     setTimeout(() => {
       this.doLoadProjobmain()
@@ -1853,16 +1865,18 @@ export class ProjectManageComponent implements OnInit {
   }
 
   onSelectProjobversion(event: any) {
-    this.selected_version = this.selectedProjobversion
+    
     setTimeout(() => {
       this.printVersion()   
     }, 500);
   }
 
   printVersion(){
-    this.version_selected = this.selected_version.version
-    this.fromdate_selected = this.datePipe.transform(this.selected_version.fromdate, 'dd/MM/yyyy')
-    this.todate_selected = this.datePipe.transform(this.selected_version.todate, 'dd/MM/yyyy')
+    this.version_selected = this.selectedProjobversion.version
+    this.version_fromdate = this.datePipe.transform(this.selectedProjobversion.fromdate, 'dd/MM/yyyy')
+    this.version_todate = this.datePipe.transform(this.selectedProjobversion.todate, 'dd/MM/yyyy')
+    this.version_transaction_id = this.selectedProjobversion.transaction_id
+    this.version_custno = this.selectedProjobversion.custno
 
     this.doLoadProjobmain()
     this.doLoadProjobsub()
@@ -1880,6 +1894,7 @@ export class ProjectManageComponent implements OnInit {
       this.projobmain_list = await res;
       setTimeout(() => {
         this.projobmain_summary()
+        this.projobmain_loadtran()
       }, 2000);
     });
   }
@@ -1927,6 +1942,8 @@ export class ProjectManageComponent implements OnInit {
     this.projobmain_addItem(this.selectedProjobmain)
     this.new_projobmain = false
     this.edit_projobmain = false
+
+    this.displayManage = false
   }
   projobmain_remove() {
     this.selectedProjobmain.projobmain_id = "9999";
@@ -3150,9 +3167,9 @@ export class ProjectManageComponent implements OnInit {
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           
-          this.selectedProjobversion.project_code = this.project_code
+          this.manageProjobversion.project_code = this.project_code
 
-          this.projectDetailService.projobversion_record(this.selectedProjobversion).then((res) => {
+          this.projectDetailService.projobversion_record(this.manageProjobversion).then((res) => {
             let result = JSON.parse(res);
             if(result.success){
               this.doLoadProjobversion()

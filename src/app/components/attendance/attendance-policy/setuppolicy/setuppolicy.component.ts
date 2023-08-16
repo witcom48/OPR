@@ -89,7 +89,7 @@ export class SetuppolicyComponent implements OnInit {
   policyallow: Policy[] = [];
   policyallowselect!: Policy;
   yearselect!: Year;
-  policy_process: string = '';
+  policy_process: string[] = [];
   loading: boolean = false;
   new_data: boolean = false;
   @ViewChild('dt2') table: Table | undefined;
@@ -125,10 +125,10 @@ export class SetuppolicyComponent implements OnInit {
           }
         )
       });
-      this.policyholidayselect = {
-        name: this.policyholiday[0]?.name,
-        code: this.policyholiday[0]?.code
-      }
+      // this.policyholidayselect = {
+      //   name: this.policyholiday[0]?.name,
+      //   code: this.policyholiday[0]?.code
+      // }
     });
   }
   doLoadPlanshift() {
@@ -142,13 +142,13 @@ export class SetuppolicyComponent implements OnInit {
           }
         )
       });
-      if (this.policyshift.length > 0) {
-        this.policyshiftselect =
-        {
-          name: this.policyshift[0]?.name,
-          code: this.policyshift[0]?.code
-        }
-      }
+      // if (this.policyshift.length > 0) {
+      //   this.policyshiftselect =
+      //   {
+      //     name: this.policyshift[0]?.name,
+      //     code: this.policyshift[0]?.code
+      //   }
+      // }
     });
   }
   doLoadOt() {
@@ -162,13 +162,13 @@ export class SetuppolicyComponent implements OnInit {
           }
         )
       });
-      if (this.policyOT.length > 0) {
-        this.policyOTselect =
-        {
-          name: this.policyOT[0]?.name,
-          code: this.policyOT[0]?.code
-        }
-      }
+      // if (this.policyOT.length > 0) {
+      //   this.policyOTselect =
+      //   {
+      //     name: this.policyOT[0]?.name,
+      //     code: this.policyOT[0]?.code
+      //   }
+      // }
     });
   }
   doLoadDiligence() {
@@ -182,13 +182,13 @@ export class SetuppolicyComponent implements OnInit {
           }
         )
       });
-      if (this.policydiligence.length > 0) {
-        this.policydiligenceselect =
-        {
-          name: this.policydiligence[0]?.name,
-          code: this.policydiligence[0]?.code
-        }
-      }
+      // if (this.policydiligence.length > 0) {
+      //   this.policydiligenceselect =
+      //   {
+      //     name: this.policydiligence[0]?.name,
+      //     code: this.policydiligence[0]?.code
+      //   }
+      // }
     });
   }
 
@@ -203,13 +203,13 @@ export class SetuppolicyComponent implements OnInit {
           }
         )
       });
-      if (this.policylate.length > 0) {
-        this.policylateselect =
-        {
-          name: this.policylate[0]?.name,
-          code: this.policylate[0]?.code
-        }
-      }
+      // if (this.policylate.length > 0) {
+      //   this.policylateselect =
+      //   {
+      //     name: this.policylate[0]?.name,
+      //     code: this.policylate[0]?.code
+      //   }
+      // }
     });
   }
 
@@ -224,13 +224,13 @@ export class SetuppolicyComponent implements OnInit {
           }
         )
       });
-      if (this.policyleave.length > 0) {
-        this.policyleaveselect =
-        {
-          name: this.policyleave[0]?.name,
-          code: this.policyleave[0]?.code
-        }
-      }
+      // if (this.policyleave.length > 0) {
+      //   this.policyleaveselect =
+      //   {
+      //     name: this.policyleave[0]?.name,
+      //     code: this.policyleave[0]?.code
+      //   }
+      // }
     });
   }
 
@@ -245,40 +245,46 @@ export class SetuppolicyComponent implements OnInit {
           }
         )
       });
-      if (this.policyallow.length > 0) {
-        this.policyallowselect =
-        {
-          name: this.policyallow[0]?.name,
-          code: this.policyallow[0]?.code
-        }
-      }
+      // if (this.policyallow.length > 0) {
+      //   this.policyallowselect =
+      //   {
+      //     name: this.policyallow[0]?.name,
+      //     code: this.policyallow[0]?.code
+      //   }
+      // }
     });
   }
-  process(pol_type: string) {
-    this.policy_process = pol_type;
+  async process(pol_type: string) {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
-      console.log("select", pol_type);
-      if (pol_type === 'HO') {
-        this.SetPolicyAtt(pol_type, this.policyholidayselect.code);
+      // console.log("select", pol_type);
+      if (this.policyholidayselect) {
+        await this.SetPolicyAtt('HO', this.policyholidayselect.code);
+        // console.log("setting policyholiday");
       }
-      if (pol_type === 'SHT') {
-        this.SetShift();
+      if (this.policyshiftselect && this.yearselect) {
+        await this.SetShift();
+        // console.log("setting shift");
       }
-      if (pol_type === 'OT') {
-        this.SetPolicyAtt(pol_type, this.policyOTselect.code);
+      if (this.policyOTselect) {
+        await this.SetPolicyAtt('OT', this.policyOTselect.code);
+        // console.log("setting policyOTselect");
       }
-      if (pol_type === 'DG') {
-        this.SetPolicyAtt(pol_type, this.policydiligenceselect.code);
+      if (this.policydiligenceselect) {
+        await this.SetPolicyAtt('DG', this.policydiligenceselect.code);
+        // console.log("setting policydiligenceselect");
       }
-      if (pol_type === 'LT') {
-        this.SetPolicyAtt(pol_type, this.policylateselect.code);
+      if (this.policylateselect) {
+        await this.SetPolicyAtt('LT', this.policylateselect.code);
+        // console.log("setting policylateselect");
       }
-      if (pol_type === 'LV') {
-        this.SetPolicyAtt(pol_type, this.policyleaveselect.code);
+      if (this.policyleaveselect) {
+        await this.SetPolicyAtt('LV', this.policyleaveselect.code);
+        // console.log("setting policyleaveselect");
       }
-      if (pol_type === 'AW') {
-        this.SetPolicyAtt(pol_type, this.policyallowselect.code);
+      if (this.policyallowselect) {
+        await this.SetPolicyAtt('AW', this.policyallowselect.code);
+        // console.log("setting policyallowselect");
       }
       // this.confirmationService.confirm({
       //   message: "SetUpPolicyAttence",
@@ -300,13 +306,13 @@ export class SetuppolicyComponent implements OnInit {
       await res.forEach((element: YearPeriodModels) => {
         this.yaer_list.push({ name: (this.initial_current.Language == "EN" ? element.year_name_en : element.year_name_th) + " " + element.year_code, code: element.year_code })
       });
-      if (this.yaer_list.length > 0) {
-        this.yearselect =
-        {
-          name: this.yaer_list[0]?.name,
-          code: this.yaer_list[0]?.code
-        }
-      }
+      // if (this.yaer_list.length > 0) {
+      //   this.yearselect =
+      //   {
+      //     name: this.yaer_list[0]?.name,
+      //     code: this.yaer_list[0]?.code
+      //   }
+      // }
     });
 
   }
@@ -320,18 +326,17 @@ export class SetuppolicyComponent implements OnInit {
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
-    console.log(data);
-    // await this.setPolicyAttService.SetPolicyAtt_record(data).then((res) => {
-    //   // console.log(res)
-    //   if (res.success) {
-    //     // console.log(res.message)
-    //     this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-    //   }
-    //   else {
-    //     this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-    //   }
-    //   this.loading = false;
-    // });
+    await this.setPolicyAttService.SetPolicyAtt_record(data).then((res) => {
+      // console.log(res)
+      if (res.success) {
+        // console.log(res.message)
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: pol_type + " : " + res.message });
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: pol_type + " : " + res.message });
+      }
+      this.loading = false;
+    });
   }
   async SetShift() {
     var data = new SetShiftModels();
@@ -341,18 +346,18 @@ export class SetuppolicyComponent implements OnInit {
     data.modified_by = this.initial_current.Username
     data.transaction_data = this.selectEmp.employee_dest;
     this.loading = true;
-    console.log(data);
-    // await this.setshiftServices.SetShift_record(data).then((res) => {
-    //   // console.log(res)
-    //   if (res.result == "1") {
-    //     // console.log(res.result_text)
-    //     this.messageService.add({ severity: 'success', summary: 'Success', detail: res.result_text });
-    //   }
-    //   else {
-    //     this.messageService.add({ severity: 'error', summary: 'Error', detail: res.result_text });
-    //   }
-    //   this.loading = false;
-    // });
+    // console.log(data);
+    await this.setshiftServices.SetShift_record(data).then((res) => {
+      // console.log(res)
+      if (res.result == "1") {
+        // console.log(res.result_text)
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Shift : ' + res.result_text });
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Shift : ' + res.result_text });
+      }
+      this.loading = false;
+    });
   }
 
   function(e: any) {

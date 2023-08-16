@@ -162,14 +162,15 @@ export class ApplyworkService {
     //         });
     // }
 
-    public reqworker_get(company: string, code: string) {
+    public reqworker_get(reqworkers:EmployeeModel) {
         var filter = {
             device_name: '',
             ip: "localhost",
             username: this.initial_current.Username,
-            company_code: company,
+            company_code: reqworkers.company_code,
             language: "",
-            worker_code: code
+            worker_code: reqworkers.worker_code,
+            status: reqworkers.status,
         };
 
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqworker_list', filter, this.options).toPromise()
@@ -181,8 +182,8 @@ export class ApplyworkService {
     }
 
     public reqworker_record(reqworkers: EmployeeModel[]) {
-        var reqworker_data: any =[]
-        reqworkers.forEach((reqworker:EmployeeModel) =>{
+        var reqworker_data: any = []
+        reqworkers.forEach((reqworker: EmployeeModel) => {
             let datas = {
                 company_code: reqworker.company_code || this.initial_current.CompCode,
                 worker_id: reqworker.worker_id,
@@ -195,15 +196,15 @@ export class ApplyworkService {
                 worker_lname_en: reqworker.worker_lname_en,
                 worker_type: reqworker.worker_type,
                 worker_gender: reqworker.worker_gender,
-                worker_birthdate: this.datePipe.transform(reqworker.worker_birthdate, 'yyy-MM-dd'), 
-                worker_hiredate: this.datePipe.transform(reqworker.worker_hiredate, 'yyy-MM-dd') ,
+                worker_birthdate: this.datePipe.transform(reqworker.worker_birthdate, 'yyy-MM-dd'),
+                worker_hiredate: this.datePipe.transform(reqworker.worker_hiredate, 'yyy-MM-dd'),
                 worker_status: reqworker.worker_status,
                 religion_code: reqworker.religion_code,
                 blood_code: reqworker.blood_code,
                 worker_height: reqworker.worker_height,
                 worker_weight: reqworker.worker_weight,
                 worker_age: reqworker.worker_age,
-    
+
                 worker_tel: reqworker.worker_tel,
                 worker_email: reqworker.worker_email,
                 worker_line: reqworker.worker_line,
@@ -286,49 +287,98 @@ export class ApplyworkService {
     }
 
     //attach file
-  public file_attach(file: File, file_name: string, file_type: string) {
-    const formData = new FormData();
-    formData.append('file', file);
+    public file_attach(file: File, file_name: string, file_type: string) {
+        const formData = new FormData();
+        formData.append('file', file);
 
-    var para = "fileName=" + file_name + "." + file_type;
-    para += "&token=" + this.initial_current.Token;
-    para += "&by=" + this.initial_current.Username;
+        var para = "fileName=" + file_name + "." + file_type;
+        para += "&token=" + this.initial_current.Token;
+        para += "&by=" + this.initial_current.Username;
 
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadMTDocatt?' + para, formData).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        return message;
-      });
-  }
-
-  public get_file(file_path: string) {
-    var para = "file_path=" + file_path;
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doGetMTDocatt?' + para, this.options).toPromise()
-      .then((res) => {
-        return res;
-      });
-  }
-  public deletefilepath_file(file_path: string) {
-    var para = "file_path=" + file_path;
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doDeleteMTDocatt?' + para, this.options).toPromise()
-      .then((res) => {
-        return JSON.parse(res);
-      });
-  }
-  public delete_file(file: ApplyMTDocattModel) {
-    let data = {
-      device_name: "phone",
-      ip: "127.0.0.1",
-      username: this.initial_current.Username,
-      company_code: file.company_code || this.initial_current.CompCode,
-      jobtable_id: file.document_id,
-      job_id: file.job_id,
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadMTDocatt?' + para, formData).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message;
+            });
     }
-    return this.http.post<any>(this.config.ApiRecruitmentModule + '/docatt_del', data, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        return message;
-      });
-  }
-  
+
+    public get_file(file_path: string) {
+        var para = "file_path=" + file_path;
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/doGetMTDocatt?' + para, this.options).toPromise()
+            .then((res) => {
+                return res;
+            });
+    }
+    public deletefilepath_file(file_path: string) {
+        var para = "file_path=" + file_path;
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/doDeleteMTDocatt?' + para, this.options).toPromise()
+            .then((res) => {
+                return JSON.parse(res);
+            });
+    }
+    public delete_file(file: ApplyMTDocattModel) {
+        let data = {
+            device_name: "phone",
+            ip: "127.0.0.1",
+            username: this.initial_current.Username,
+            company_code: file.company_code || this.initial_current.CompCode,
+            jobtable_id: file.document_id,
+            job_id: file.job_id,
+        }
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/docatt_del', data, this.options).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message;
+            });
+    }
+
+    public getreq_filelist(model: ApplyMTDocattModel) {
+        var filter = {
+            device_name: '',
+            ip: "localhost",
+            username: this.initial_current.Username,
+            company_code: model.company_code,
+            language: "",
+            worker_code: model.worker_code,
+            job_type: model.job_type,
+        }
+
+        return this.http.post<any>(this.config.ApiRecruitmentModule+ '/reqsuggestlist', filter, this.options).toPromise()
+        .then((res)=>{
+            let message = JSON.parse(res);
+            return message.data;
+        })
+    }
+
+    public record_reqfile(worker_code: string, list: ApplyMTDocattModel[]) {
+        var item_data: string = "[";
+        for (let i = 0; i < list.length; i++) {
+            item_data = item_data + "{";
+            item_data = item_data + "\"document_id\":\"" + list[i].document_id + "\"";
+            item_data = item_data + ",\"job_type\":\"" + list[i].job_type + "\"";
+            item_data = item_data + ",\"document_name\":\"" + list[i].document_name + "\"";
+            item_data = item_data + ",\"document_type\":\"" + list[i].document_type + "\"";
+            item_data = item_data + ",\"document_path\":\"" + list[i].document_path + "\"";
+            item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+            item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+            item_data = item_data + "}" + ",";
+        }
+        if (item_data.length > 2) {
+            item_data = item_data.substr(0, item_data.length - 1);
+        }
+        item_data = item_data + "]";
+
+        var specificData = {
+            transaction_data: item_data,
+            worker_code: worker_code,
+            company_code: this.initial_current.CompCode,
+            modified_by: this.initial_current.Username
+        };
+        console.log(item_data)
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/docatt', specificData, this.options).toPromise()
+            .then((res) => {
+                return res;
+            });
+    }
+
 }

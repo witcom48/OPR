@@ -2,7 +2,7 @@
 <table class="table_head" style="width: 100%;">
     <tr>
         <td align="left">
-            <h4>Recruitment</h4>
+            <h4>{{this.title_page}}</h4>
             <br>
             <a>Request</a>
             |
@@ -37,34 +37,19 @@
 </table>
 
 <!-- /// -->
-
-<p-toast position="top-right"></p-toast>
-
-
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-
-<p-dialog header="{{title_upload}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
-    <p class="custom-file-upload">
-        <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
-    </p>
-    <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadRequest()" label="{{title_upload}}"
-            styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-dialog>
 <!-- /// -->
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
 
-<p-menubar [model]="items"></p-menubar>
+    <div #TABLE>
 
-<div class="grid">
-
-    <div class="col-12 md:col-12" #TABLE>
-
-        <p-table #dt2 [value]="request_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}"
-            [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-            [(selection)]="selectedRequest" (onRowSelect)="onRowSelectRequest($event)" dataKey="request_code"
-            [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+        <p-table #dt2 [value]="request_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
+            selectionMode="single" [(selection)]="selectedRequest" (onRowSelect)="onRowSelectRequest($event)"
+            [rows]="12" [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
             [globalFilterFields]="['request_id','request_code','request_date','request_agency','request_work','request_job_type','request_employee_type','request_quantity','request_urgency','request_wage_rate','request_overtime','request_another']">
             <ng-template pTemplate="caption">
@@ -80,20 +65,16 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th>{{title_code}}</th>
-                    <th>{{title_request}}</th>
-                    <th>{{title_agency}}</th>
-                    <th>{{title_work}}</th>
-                    <th>{{title_job_type}}</th>
+                    <th>{{title_date[initial_current.Language]}}</th>
+                    <th>{{title_startdate[initial_current.Language]}}</th>
+                    <th>{{title_enddate[initial_current.Language]}}</th>
+                    <th>{{title_position[initial_current.Language]}}</th>
+                    <th>{{title_project[initial_current.Language]}}</th>
+
                     <th>{{title_employee_type}}</th>
                     <th>{{title_quantity}}</th>
                     <th>{{title_urgency}}</th>
-                    <th>{{title_wage_rate}}</th>
-                    <th>{{title_overtime}}</th>
-                    <th>{{title_another}}</th>
-                    <th>การอนุมัติ</th>
-                    <th>วันที่อนุมัติ</th>
-                    <th>ผู้ทำรายการ</th>
-                    <th>วันที่ทำรายการ</th>
+                    <th>{{title_note[initial_current.Language]}}</th>
                 </tr>
 
             </ng-template>
@@ -101,22 +82,17 @@
                 <tr [pSelectableRow]="data">
                     <td>{{data.request_code}}</td>
                     <td>{{data.request_date| date:'dd/MM/yyyy'}}</td>
-                    <td>{{data.request_agency}}</td>
-                    <td>{{data.request_work}}</td>
-                    <td>{{data.request_job_type}}</td>
-                    <td>{{data.request_employee_type}}</td>
+                    <td>{{data.request_startdate| date:'dd/MM/yyyy'}}</td>
+                    <td>{{data.request_enddate| date:'dd/MM/yyyy'}}</td>
+                    <td>{{doGetPositionDetail(data.request_position)}}</td>
+                    <td>{{doGetProjectDetail(data.request_project)}}</td>
+                    <td>{{doGetTypeDetail(data.request_employee_type)}}</td>
                     <td>{{data.request_quantity}}</td>
                     <td>{{data.request_urgency}}</td>
-                    <td>{{data.request_wage_rate}}</td>
-                    <td>{{data.request_overtime}}</td>
-                    <td>{{data.request_another}}</td>
+                    <td>{{data.request_note}}</td>
 
-                    <td>{{data.created_by}}</td>
-                    <td>{{data.created_date| date:'dd/MM/yyyy'}}</td>
-
-
-                    <td>{{data.modified_by}}</td>
-                    <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
+                    <!-- <td>{{data.modified_by}}</td>
+                    <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td> -->
                 </tr>
             </ng-template>
 
@@ -125,104 +101,151 @@
 
 
     </div>
+
+    <!-- Form input or Edit Data -->
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height:'100vh',width:'30vw', 'overflow-y': 'scroll' }"
+            [position]="position">
+            <div class="formgrid grid align-items-end" *ngIf="new_data">
+                <!-- <i (click)="close()"></i> -->
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{ title_code }}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" [(ngModel)]="selectedRequest.request_code" maxlength="10"
+                        [disabled]="edit_data" name="code" #code="ngModel" required />
+                </div>
+
+                <div class="field col-12">
+                    <label>{{ title_date[initial_current.Language] }}<span style="color: red;"> *</span></label>
+                    <p-calendar appendTo="body" [(ngModel)]="selectedRequest.request_date" [showIcon]="true"
+                        inputId="icon" name="request_date" #request_date="ngModel">
+                    </p-calendar>
+                </div>
+
+                <div class="field col-12">
+                    <label>{{ title_startdate[initial_current.Language] }}<span style="color: red;"> *</span></label>
+                    <p-calendar appendTo="body" [(ngModel)]="selectedRequest.request_startdate" [showIcon]="true"
+                        inputId="icon" name="request_startdate" #request_startdate="ngModel">
+                    </p-calendar>
+                </div>
+
+                <div class="field col-12">
+                    <label>{{ title_enddate[initial_current.Language] }}<span style="color: red;"> *</span></label>
+                    <p-calendar appendTo="body" [(ngModel)]="selectedRequest.request_enddate" [showIcon]="true"
+                        inputId="icon" name="request_enddate" #request_enddate="ngModel">
+                    </p-calendar>
+                </div>
+
+                <div class="field col-12">
+                    <label>{{ title_position[initial_current.Language] }}<span style="color: red;"> *</span></label>
+                    <p-dropdown placeholder="--" [options]="positionList" optionValue="position_code" [showClear]="true"
+                        [(ngModel)]="selectedRequest.request_position" [style]="{ width: '100%', overflow: 'visible' }"
+                        appendTo="body" name="request_position" #request_position="ngModel">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                <div class="field col-12">
+                    <label>{{ title_project[initial_current.Language] }}<span style="color: red;"> *</span></label>
+                    <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code" [showClear]="true"
+                        [(ngModel)]="selectedRequest.request_project" [style]="{ width: '100%', overflow: 'visible' }"
+                        appendTo="body" name="request_project" #request_project="ngModel">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                <div class="field col-12">
+                    <label>{{ title_employee_type }}<span style="color: red;"> *</span></label>
+                    <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code" [showClear]="true"
+                        [(ngModel)]="selectedRequest.request_employee_type"
+                        [style]="{ width: '100%', overflow: 'visible' }" appendTo="body" name="employee_type"
+                        #employee_type="ngModel">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                <div class="field col-12">
+                    <label>{{ title_quantity }}<span style="color: red;"> *</span></label>
+                    <p-inputNumber mode="decimal" inputId="minmax-buttons" [min]="0" [max]="120"
+                        [(ngModel)]="selectedRequest.request_quantity" name="request_quantity"
+                        #request_quantity="ngModel">
+                    </p-inputNumber>
+                </div>
+
+                <div class="field col-12">
+                    <label>{{ title_urgency }}<span style="color: red;"> *</span></label>
+                    <p-dropdown [options]="urgen_List" optionValue="code" [showClear]="true"
+                        [(ngModel)]="selectedRequest.request_urgency" [style]="{ width: '100%', overflow: 'visible' }"
+                        name="request_urgency" #request_urgency="ngModel">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{ title_note[initial_current.Language] }}</label>
+                    <textarea [(ngModel)]="selectedRequest.request_note" pInputTextarea [autoResize]="true"
+                        name="request_note" #request_note="ngModel"></textarea>
+                </div>
+
+                <br>
+                <div class="field col-12" style=" text-align: right;">
+                    <button pButton type="button" class="button-size" label="{{ title_save }}" icon="pi pi-save"
+                        (click)="confirmRecord()" [disabled]="!Form.form.valid"></button>
+                    &nbsp;
+
+                    <!-- <button *ngIf="edit_data" pButton type="button" label="{{ title_delete }}" icon="pi pi-trash"
+                        class="btndel button-size" (click)="confirmDelete()"></button> -->
+                    <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
+                        class="p-button-secondary" (click)="confirmDelete()"></button>
+                </div>
+            </div>
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+    </form>
+
 </div>
-<!-- <p-dialog > -->
-    <div class="col-12 md:col-3">
-        <div class="formatt" *ngIf="edit_data==true || new_data==true">
 
-        <!-- <div class="formgrid grid" *ngIf="edit_data==true || new_data==true"> -->
-            <span class="spn_title_edit"></span>
-            <div class="field col-12 ">
-                <label for="ppos_code">{{title_code}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedRequest.request_code"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [readonly]="edit_data">
-            </div>
 
-            <div class="field col-12">
-                <label for="ppos_name_th">{{title_request}}</label>
-                <br />
-                <p-calendar appendTo="body" [(ngModel)]="selectedRequest.request_date" [showIcon]="true" inputId="icon">
-                </p-calendar>
-            </div>
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadRequest()" label="{{title_upload}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+<div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
+<!-- -----------------End Dialog Choose File-------------------- -->
 
-            <div class="field col-12 ">
-                <label for="ppos_agency">{{title_agency}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedRequest.request_agency"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_work">{{title_work}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_work" [(ngModel)]="selectedRequest.request_work"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_job_typ">{{title_job_type}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_job_typ" [(ngModel)]="selectedRequest.request_job_type"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_employee_type">{{title_employee_type}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_employee_type" [(ngModel)]="selectedRequest.request_employee_type"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_quantity">{{title_quantity}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_quantity" [(ngModel)]="selectedRequest.request_quantity"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_urgency">{{title_urgency}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_urgency" [(ngModel)]="selectedRequest.request_urgency"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_wage_rate">{{title_wage_rate}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_wage_rate" [(ngModel)]="selectedRequest.request_wage_rate"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_overtime">{{title_overtime}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_overtime" [(ngModel)]="selectedRequest.request_overtime"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_another">{{title_another}}</label>
-                <br>
-                <textarea [rows]="2" id="ppos_another" [(ngModel)]="selectedRequest.request_another"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [cols]="30" pInputTextarea [autoResize]="true"></textarea>
-            </div>
-            <div class="field col-12">
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-check"
-                    (click)="confirmRecord()"></button>
-                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                    class="p-button-danger" (click)="confirmDelete()"></button>
-            </div>
-        </div>
-    </div>
-    <!-- </p-dialog> -->
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->
