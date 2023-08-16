@@ -96,9 +96,9 @@ import { ProgenaralService } from 'src/app/services/project/pro_genaral.service'
 
 import * as XLSX from 'xlsx';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
-import { ReasonsModel } from 'src/app/models/system/policy/reasons';
-import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import { CodePolcodeService } from 'src/app/services/system/manage1/code-polcode.service';
+import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
+import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 
 
 
@@ -2946,6 +2946,8 @@ export class EmployeeManageComponent implements OnInit {
       console.log(res,'te')
     });
   }
+
+  
   //emp position
   emppositionList: EmpPositionModel[] = [];
   selectedEmpPosition: EmpPositionModel = new EmpPositionModel();

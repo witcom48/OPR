@@ -13,7 +13,7 @@
             <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextItem()"></i>
         </td>
         <td style="width: 20px;">
-            <i class="pi pi-search"  (click)="open_searchItem()"></i>
+            <i class="pi pi-search" (click)="open_searchItem()"></i>
         </td>
 
 
@@ -32,8 +32,7 @@
 <p-dialog [(visible)]="searchItem" [style]="{width: '40vw'}" [position]="position">
     <div class="grid">
         <div class="col-12">
-            <!-- <app-search-item></app-search-item> -->
-            <!-- <app-search-emp></app-search-emp> -->
+            <app-search-item></app-search-item>
         </div>
         <div class="col-12">
             <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check"
