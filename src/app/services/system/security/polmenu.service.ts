@@ -50,7 +50,7 @@ export class PolmenuServices {
             device_name: "phone",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
-            company_code: this.initial_current.CompCode,
+            company_code: "",
             polmenu_id: polmenu.polmenu_id,
             polmenu_code: polmenu.polmenu_code
         }
