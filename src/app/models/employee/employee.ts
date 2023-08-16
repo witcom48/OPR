@@ -75,4 +75,8 @@ export class EmployeeModel {
   checkblacklist: Boolean = false
   checkhistory: Boolean = false
   status: number = 0;
+
+  worker_cardno: string = "";
+  worker_cardnoissuedate!: Date;
+  worker_cardnoexpiredate!: Date;
 }

@@ -74,6 +74,11 @@
                             <input pInputText id="lastname2" type="text" [(ngModel)]="selectedReqworker.worker_lname_en"
                                 required>
                         </div>
+                    </div>
+                    <div class="empinfo2">
+                        <div class="horizontal">
+                            <hr>
+                        </div>
 
                         <div style="grid-column: 1;">
                             <label for="lastname2">{{title_type}} : <span style="color: red;"> *</span></label>
@@ -89,12 +94,19 @@
                             </p-dropdown>
                         </div>
 
-                        <!-- <div>
-                            <label for="worker_age">{{title_age[initial_current.Language]}}:</label>
-                            <p-inputNumber inputId="integeronly"
-                                [(ngModel)]="selectedReqworker.worker_age"></p-inputNumber>
-
-                        </div> -->
+                        <div>
+                            <label for="lastname2">{{title_status}} : <span style="color: red;"> *</span></label>
+                            <p-dropdown placeholder="--" [options]="statusList" optionValue="status_code"
+                                [showClear]="true" [(ngModel)]="selectedReqworker.worker_status"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
 
                         <div>
                             <label for="applywork_birthdate">{{title_birthdate}}:</label>
@@ -115,9 +127,8 @@
 
                         </div>
 
-                        <div style="grid-column: 1;">
-                            <label for="lastname2">{{title_nation[initial_current.Language]}} : <span
-                                    style="color: red;"> *</span></label>
+                        <div>
+                            <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
                             <p-dropdown placeholder="--" [options]="nationality" optionValue="code" [showClear]="true"
                                 [(ngModel)]="selectedReqworker.nationality_code"
                                 [style]="{ width: '100%', overflow: 'visible' }">
@@ -135,10 +146,39 @@
                             <input pInputText id="Age" type="text" [(ngModel)]="age" [readonly]="true">
                         </div>
 
+                        <div class="horizontal">
+                            <hr>
+                        </div>
 
+                        <div>
+                            <label>{{title_cardno[initial_current.Language]}}: <span style="color: red;">
+                                    *</span></label>
+                            <input pInputText maxlength="13" [(ngModel)]="selectedReqworker.worker_cardno"
+                                [pKeyFilter]="'int'" required>
+                        </div>
+
+                        <div>
+                            <label>{{title_cardissue[initial_current.Language]}}: <span style="color: red;">
+                                    *</span></label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedReqworker.worker_cardnoissuedate">
+                            </p-calendar>
+                        </div>
+
+                        <div>
+                            <label>{{title_cardexpire[initial_current.Language]}}: <span style="color: red;">
+                                    *</span></label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedReqworker.worker_cardnoexpiredate">
+                            </p-calendar>
+                        </div>
+
+                        <div class="horizontal">
+                            <hr>
+                        </div>
 
                     </div>
-                    <div class="empinfo2">
+                    <!-- <div class="empinfo2">
 
                         <div class="horizontal">
                             <hr>
@@ -146,18 +186,20 @@
 
                         <div>
                             <label>{{title_blacklist[initial_current.Language]}} :</label>
-                            <input pInputText id="blacklist" type="text" [(ngModel)]="blacklist" [readonly]="true" style="color: red;">
+                            <input pInputText id="blacklist" type="text" [(ngModel)]="blacklist" [readonly]="true"
+                                style="color: red;">
                         </div>
 
                         <div>
                             <label>{{title_history[initial_current.Language]}} :</label>
-                            <input pInputText id="history" type="text" [(ngModel)]="history" [readonly]="true" style="color: red;">
+                            <input pInputText id="history" type="text" [(ngModel)]="history" [readonly]="true"
+                                style="color: red;">
                         </div>
 
                         <div class="horizontal">
                             <hr>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- suggest -->
                     <div class="accordion">
@@ -277,7 +319,7 @@
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_salary}}</th>
-                                            <th>{{title_salarytype[initial_current.Language]}}</th>
+                                            <!-- <th>{{title_salarytype[initial_current.Language]}}</th> -->
                                             <th>{{title_modified_by[initial_current.Language]}}</th>
                                             <th>{{title_modified_date[initial_current.Language]}}</th>
                                         </tr>
@@ -288,6 +330,42 @@
                                             <td></td>
                                             <td>{{empsalary.modified_by}}</td>
                                             <td>{{empsalary.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+
+                    <div class="horizontal">
+                        <br>
+                    </div>
+
+                    <!-- benefit -->
+                    <div class="accordion">
+                        <p-accordion>
+                            <p-accordionTab header="{{title_benefit}}">
+                                <p-menubar [model]="menu_reqbenefit"></p-menubar>
+                                <p-table #dtempbenefit [value]="reqBenefitList" styleClass="p-datatable-sm"
+                                    [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                    [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqBenefit"
+                                    (onRowSelect)="onRowSelectReqbenefit($event)" [rows]="10"
+                                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{title_item[initial_current.Language]}}</th>
+                                            <th>{{title_amount}}</th>
+                                            <th>{{title_modified_by[initial_current.Language]}}</th>
+                                            <th>{{title_modified_date[initial_current.Language]}}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-empbenefit>
+                                        <tr [pSelectableRow]="empbenefit">
+                                            <td>{{doGetitemDetail(empbenefit.item_code)}}</td>
+                                            <td>{{empbenefit.empbenefit_amount}}</td>
+                                            <td>{{empbenefit.modified_by}}</td>
+                                            <td>{{empbenefit.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
@@ -850,6 +928,7 @@
                                                 <th>{{title_filetype[initial_current.Language]}}</th>
                                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                                 <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_viewfile[initial_current.Language]}}</th>
                                                 <th>{{title_deleteupload[initial_current.Language]}}</th>
 
                                             </tr>
@@ -867,6 +946,8 @@
                                                 <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
                                                     |
                                                     date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
                                                 <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
                                                         icon="pi pi-trash" styleClass="p-button-danger"
                                                         (click)="DeleteFileApp(data)"></p-button></td>
@@ -898,6 +979,7 @@
                                                 <th>{{title_filetype[initial_current.Language]}}</th>
                                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                                 <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_viewfile[initial_current.Language]}}</th>
                                                 <th>{{title_deleteupload[initial_current.Language]}}</th>
 
                                             </tr>
@@ -915,6 +997,8 @@
                                                 <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
                                                     |
                                                     date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
                                                 <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
                                                         icon="pi pi-trash" styleClass="p-button-danger"
                                                         (click)="DeleteFileID(data)"></p-button></td>
@@ -946,6 +1030,7 @@
                                                 <th>{{title_filetype[initial_current.Language]}}</th>
                                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                                 <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_viewfile[initial_current.Language]}}</th>
                                                 <th>{{title_deleteupload[initial_current.Language]}}</th>
 
                                             </tr>
@@ -963,6 +1048,8 @@
                                                 <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
                                                     |
                                                     date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
                                                 <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
                                                         icon="pi pi-trash" styleClass="p-button-danger"
                                                         (click)="DeleteFileHos(data)"></p-button></td>
@@ -994,6 +1081,7 @@
                                                 <th>{{title_filetype[initial_current.Language]}}</th>
                                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                                 <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_viewfile[initial_current.Language]}}</th>
                                                 <th>{{title_deleteupload[initial_current.Language]}}</th>
 
                                             </tr>
@@ -1011,6 +1099,8 @@
                                                 <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
                                                     |
                                                     date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
                                                 <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
                                                         icon="pi pi-trash" styleClass="p-button-danger"
                                                         (click)="DeleteFilePho(data)"></p-button></td>
@@ -1042,6 +1132,7 @@
                                                 <th>{{title_filetype[initial_current.Language]}}</th>
                                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                                 <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_viewfile[initial_current.Language]}}</th>
                                                 <th>{{title_deleteupload[initial_current.Language]}}</th>
 
                                             </tr>
@@ -1059,6 +1150,7 @@
                                                 <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
                                                     |
                                                     date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_viewfile[initial_current.Language]}}</span></td>
                                                 <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
                                                         icon="pi pi-trash" styleClass="p-button-danger"
                                                         (click)="DeleteFilePDPA(data)"></p-button></td>
@@ -1090,6 +1182,7 @@
                                                 <th>{{title_filetype[initial_current.Language]}}</th>
                                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                                 <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_viewfile[initial_current.Language]}}</th>
                                                 <th>{{title_deleteupload[initial_current.Language]}}</th>
 
                                             </tr>
@@ -1107,6 +1200,8 @@
                                                 <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
                                                     |
                                                     date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
                                                 <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
                                                         icon="pi pi-trash" styleClass="p-button-danger"
                                                         (click)="DeleteFileMCer(data)"></p-button></td>
@@ -1138,6 +1233,7 @@
                                                 <th>{{title_filetype[initial_current.Language]}}</th>
                                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                                 <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_viewfile[initial_current.Language]}}</th>
                                                 <th>{{title_deleteupload[initial_current.Language]}}</th>
 
                                             </tr>
@@ -1155,6 +1251,8 @@
                                                 <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
                                                     |
                                                     date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
                                                 <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
                                                         icon="pi pi-trash" styleClass="p-button-danger"
                                                         (click)="DeleteFileOther(data)"></p-button></td>
@@ -1195,7 +1293,6 @@
             </ng-template>
         </p-dropdown>
 
-        <!--  -->
         <label>{{title_no}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_no">
 
@@ -1213,7 +1310,6 @@
 
         <label>{{title_amphur}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_amphur">
-        <!--  -->
         <label>{{title_province}}</label>
         <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code" [showClear]="true"
             [(ngModel)]="selectedReqAddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
@@ -1563,10 +1659,12 @@
         <p-dropdown placeholder="--" [options]="position_list" optionValue="request_position" [showClear]="true"
             [(ngModel)]="selectedReqPosition.empposition_position" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th : item.request_code+" - "+item.position_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th :
+                item.request_code+" - "+item.position_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th : item.request_code+" - "+item.position_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th :
+                item.request_code+" - "+item.position_name_en}}
             </ng-template>
         </p-dropdown>
 
@@ -1583,10 +1681,12 @@
         <p-dropdown placeholder="--" [options]="projectList" optionValue="request_project" [showClear]="true"
             [(ngModel)]="selectedReqProject.project_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th : item.request_code+" - "+item.project_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th
+                : item.request_code+" - "+item.project_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th : item.request_code+" - "+item.project_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th
+                : item.request_code+" - "+item.project_name_en}}
             </ng-template>
         </p-dropdown>
 
@@ -1604,13 +1704,35 @@
             [maxFractionDigits]="2" [(ngModel)]="selectedReqSalary.empsalary_amount">
         </p-inputNumber>
 
-        <label>{{title_salarytype[initial_current.Language]}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedReqSalary.empsalary_type">
-
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="reqsalary_summit()"></button>
         <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
             (click)="reqsalary_cancel()"></button>
+    </div>
+
+    <!-- Form Req benefit -->
+    <div class="formatt" *ngIf="edit_reqbenefit==true || new_benefit==true">
+        <label>{{title_item[initial_current.Language]}}</label>
+        <p-dropdown placeholder="--" [options]="itemList" optionValue="item_code" [showClear]="true"
+            [(ngModel)]="selectedReqBenefit.item_code" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.item_name_th : item.item_name_th}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.item_name_th : item.item_name_th}}
+            </ng-template>
+        </p-dropdown>
+
+        <label>{{title_amount}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedReqBenefit.empbenefit_amount">
+        </p-inputNumber>
+
+        <br>
+        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+            (click)="reqbenefit_summit()"></button>
+        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+            (click)="reqbenefit_cancel()"></button>
     </div>
 
 </p-dialog>
