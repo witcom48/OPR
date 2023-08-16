@@ -20,7 +20,7 @@
                         <div style="grid-column: 1;">
                             <label for="code">{{title_code}} : <span style="color: red;"> *</span></label>
                             <input pInputText id="lastname2" type="text" [(ngModel)]="selectedReqworker.worker_code"
-                                [disabled]="true">
+                                [disabled]="true" required>
                         </div>
 
                         <div>
@@ -53,26 +53,26 @@
 
                         <div>
                             <label for="Fname1">{{title_fname_th}} : <span style="color: red;"> *</span></label>
-                            <input pInputText id="lastname2" type="text"
-                                [(ngModel)]="selectedReqworker.worker_fname_th">
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedReqworker.worker_fname_th"
+                                required>
                         </div>
 
                         <div>
                             <label for="Lname1">{{title_lname_th}} : <span style="color: red;"> *</span></label>
-                            <input pInputText id="lastname2" type="text"
-                                [(ngModel)]="selectedReqworker.worker_lname_th">
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedReqworker.worker_lname_th"
+                                required>
                         </div>
 
                         <div style="grid-column: 2;">
                             <label for="Fname2">{{title_fname_en}} : <span style="color: red;"> *</span></label>
-                            <input pInputText id="lastname2" type="text"
-                                [(ngModel)]="selectedReqworker.worker_fname_en">
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedReqworker.worker_fname_en"
+                                required>
                         </div>
 
                         <div>
                             <label for="Lname2">{{title_lname_en}} : <span style="color: red;"> *</span></label>
-                            <input pInputText id="lastname2" type="text"
-                                [(ngModel)]="selectedReqworker.worker_lname_en">
+                            <input pInputText id="lastname2" type="text" [(ngModel)]="selectedReqworker.worker_lname_en"
+                                required>
                         </div>
 
                         <div style="grid-column: 1;">
@@ -89,17 +89,27 @@
                             </p-dropdown>
                         </div>
 
-                        <div>
+                        <!-- <div>
                             <label for="worker_age">{{title_age[initial_current.Language]}}:</label>
                             <p-inputNumber inputId="integeronly"
                                 [(ngModel)]="selectedReqworker.worker_age"></p-inputNumber>
 
-                        </div>
+                        </div> -->
 
                         <div>
                             <label for="applywork_birthdate">{{title_birthdate}}:</label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                                [(ngModel)]="selectedReqworker.worker_birthdate" inputId="applywork_birthdate">
+                                [(ngModel)]="selectedReqworker.worker_birthdate" inputId="applywork_birthdate"
+                                (onSelect)="CalculateAge()">
+                                <input type="text">
+                            </p-calendar>
+
+                        </div>
+
+                        <div>
+                            <label for="worker_hiredate">{{title_hiredate}}:</label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedReqworker.worker_hiredate" inputId="applywork_birthdate">
                                 <input type="text">
                             </p-calendar>
 
@@ -121,13 +131,11 @@
                         </div>
 
                         <div>
-                            <label for="worker_hiredate">{{title_hiredate}}:</label>
-                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                                [(ngModel)]="selectedReqworker.worker_hiredate" inputId="applywork_birthdate">
-                                <input type="text">
-                            </p-calendar>
-
+                            <label for="worker_age">{{title_age[initial_current.Language]}}:</label>
+                            <input pInputText id="Age" type="text" [(ngModel)]="age" [readonly]="true">
                         </div>
+
+
 
                     </div>
                     <div class="empinfo2">
@@ -138,10 +146,12 @@
 
                         <div>
                             <label>{{title_blacklist[initial_current.Language]}} :</label>
+                            <input pInputText id="blacklist" type="text" [(ngModel)]="blacklist" [readonly]="true" style="color: red;">
                         </div>
 
                         <div>
                             <label>{{title_history[initial_current.Language]}} :</label>
+                            <input pInputText id="history" type="text" [(ngModel)]="history" [readonly]="true" style="color: red;">
                         </div>
 
                         <div class="horizontal">
@@ -170,7 +180,7 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-empsuggest>
                                         <tr [pSelectableRow]="empsuggest">
-                                            <td>{{empsuggest.empsuggest_code}}</td>
+                                            <td>{{doGetWorkerDetail(empsuggest.empsuggest_code)}}</td>
                                             <td>{{empsuggest.empsuggest_note}}</td>
                                             <td>{{empsuggest.modified_by}}</td>
                                             <td>{{empsuggest.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -267,6 +277,7 @@
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_salary}}</th>
+                                            <th>{{title_salarytype[initial_current.Language]}}</th>
                                             <th>{{title_modified_by[initial_current.Language]}}</th>
                                             <th>{{title_modified_date[initial_current.Language]}}</th>
                                         </tr>
@@ -274,6 +285,7 @@
                                     <ng-template pTemplate="body" let-empsalary>
                                         <tr [pSelectableRow]="empsalary">
                                             <td>{{empsalary.empsalary_amount}}</td>
+                                            <td></td>
                                             <td>{{empsalary.modified_by}}</td>
                                             <td>{{empsalary.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
@@ -408,15 +420,14 @@
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_addresstype}}</th>
-                                            <th>{{title_no}}</th>
-                                            <th>{{title_soi}}</th>
-                                            <th>{{title_road}}</th>
-                                            <th>{{title_amphur}}</th>
-                                            <th>{{title_tambon}}</th>
-                                            <th>{{title_province}}</th>
-                                            <th>{{title_zipcode}}</th>
-                                            <th>{{title_tel}}</th>
-                                            <th>{{title_line}}</th>
+                                            <!-- <th>{{title_no}}</th>
+                                                <th>{{title_soi}}</th>
+                                                <th>{{title_road}}</th>
+                                                <th>{{title_amphur}}</th>
+                                                <th>{{title_tambon}}</th>
+                                                <th>{{title_province}}</th>
+                                                <th>{{title_zipcode}}</th> -->
+                                            <th>{{title_address}}</th>
                                             <th>{{title_modified_by[initial_current.Language]}}</th>
                                             <th>{{title_modified_date[initial_current.Language]}}</th>
                                         </tr>
@@ -498,25 +509,25 @@
                                 <div class="foreigner">
                                     <h4>{{title_passport}}</h4>
                                     <div>
-                                        <label>{{title_no}}</label>
+                                        <label>{{title_no}} <span style="color: red;"> *</span></label>
                                         <input type="text" pInputText [(ngModel)]="selectedReqforeigner.passport_no"
                                             maxlength="20">
                                     </div>
                                     <div>
-                                        <label>{{title_entrydate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_entrydate}} <span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedReqforeigner.entry_date"><input
                                                 type="text"></p-calendar>
                                     </div>
                                     <div>
-                                        <label>{{title_issuedate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_issuedate}} <span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedReqforeigner.passport_issue"><input
                                                 type="text"></p-calendar>
                                     </div>
                                     <div>
-                                        <label>{{title_expiredate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_expiredate}} <span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedReqforeigner.passport_expire"><input
                                                 type="text"></p-calendar>
                                     </div>
@@ -525,19 +536,19 @@
                                     </div>
                                     <h4>{{title_visa}}</h4>
                                     <div>
-                                        <label>{{title_no}}</label>
+                                        <label>{{title_no}} <span style="color: red;"> *</span></label>
                                         <input type="text" pInputText [(ngModel)]="selectedReqforeigner.visa_no"
                                             maxlength="20">
                                     </div>
                                     <div>
-                                        <label>{{title_issuedate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_issuedate}} <span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedReqforeigner.visa_issue"><input
                                                 type="text"></p-calendar>
                                     </div>
                                     <div>
-                                        <label>{{title_expiredate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_expiredate}} <span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedReqforeigner.visa_expire"><input
                                                 type="text"></p-calendar>
                                     </div>
@@ -546,37 +557,38 @@
                                     </div>
                                     <h4>{{title_workpermit}}</h4>
                                     <div>
-                                        <label>{{title_no}}</label>
+                                        <label>{{title_no}} <span style="color: red;"> *</span></label>
                                         <input type="text" pInputText [(ngModel)]="selectedReqforeigner.workpermit_no"
                                             maxlength="20">
                                     </div>
                                     <div>
-                                        <label>{{title_by}}</label>
+                                        <label>{{title_by}} <span style="color: red;"> *</span></label>
                                         <input type="text" pInputText [(ngModel)]="selectedReqforeigner.workpermit_by">
                                     </div>
                                     <div>
-                                        <label>{{title_issuedate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_issuedate}} <span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedReqforeigner.workpermit_issue"><input
                                                 type="text"></p-calendar>
                                     </div>
                                     <div>
-                                        <label>{{title_expiredate}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_expiredate}} <span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedReqforeigner.workpermit_expire"><input
                                                 type="text"></p-calendar>
                                     </div>
                                     <div class="horizontal">
                                         <hr>
                                     </div>
+                                    <h4>{{title_other}}</h4>
                                     <div>
-                                        <label>{{title_certino}}</label>
+                                        <label>{{title_certino}} <span style="color: red;"> *</span></label>
                                         <input type="text" pInputText [(ngModel)]="selectedReqforeigner.certificate_no"
                                             maxlength="20">
                                     </div>
                                     <div>
-                                        <label>{{title_certiexpire}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <label>{{title_certiexpire}} <span style="color: red;"> *</span></label>
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedReqforeigner.certificate_expire"><input
                                                 type="text"></p-calendar>
                                     </div>
@@ -587,7 +599,7 @@
                                     </div>
                                     <div>
                                         <label>{{title_otherexpire}}</label>
-                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="false"
+                                        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedReqforeigner.otherdoc_expire"><input
                                                 type="text"></p-calendar>
                                     </div>
@@ -816,52 +828,344 @@
                         <i class="pi pi-file-o"></i>&nbsp;&nbsp;
                         <span>{{title_attfile[initial_current.Language]}}</span>
                     </ng-template>
-                    <p-menubar [model]="items_attfile"></p-menubar>
-                    <p-table #dt3 [value]="selectedReqworker.reqdocatt_data" selectionMode="single"
-                        [(selection)]="selecteddocatt" (onRowSelect)="onRowSelectfile($event)" [rows]="10"
-                        [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                        [globalFilterFields]="['document_name','created_by','created_date']" responsiveLayout="stack"
-                        [breakpoint]="'744px'">
-                        <!-- Form Search Table -->
-                        <ng-template pTemplate="caption">
-                            <div class="searchtable">
-                                <div>
+                    <div class="formgrid grid">
 
-                                </div>
-                                <!-- <span class="p-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text"
-                                (input)="dt3.filterGlobal($any($event).target.value, 'contains')"
-                                placeholder="{{langs.get('search')[selectlang]}}" />
-                        </span> -->
-                            </div>
-                        </ng-template>
-                        <!-- --------------END Form Search Table------------------ -->
-                        <ng-template pTemplate="header" let-columns>
-                            <tr>
-                                <th>{{title_uploadno[initial_current.Language]}}</th>
-                                <th>{{title_filename[initial_current.Language]}}</th>
-                                <th>{{title_modified_by[initial_current.Language]}}</th>
-                                <th>{{title_modified_date[initial_current.Language]}}</th>
-                                <th>{{title_deleteupload[initial_current.Language]}}</th>
+                        <!-- Attach File Application -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_app[initial_current.Language]}}">
+                                    <p-menubar [model]="items_attfileApp"></p-menubar>
+                                    <p-table #dt3 [value]="reqdocattApp" selectionMode="single"
+                                        [(selection)]="selecteddocattApp" (onRowSelect)="onRowSelectfileApp($event)"
+                                        [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [globalFilterFields]="['document_name','created_by','created_date']"
+                                        responsiveLayout="stack" [breakpoint]="'744px'">
 
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
-                            <tr [pSelectableRow]="data">
-                                <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}</td>
-                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}</td>
-                                <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}</td>
-                                <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date |
-                                    date:'dd/MM/yyyy'}}</td>
-                                <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
-                                        icon="pi pi-trash" styleClass="p-button-danger"
-                                        (click)="DeleteFile(data)"></p-button></td>
+                                        <!-- --------------END Form Search Table------------------ -->
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>{{title_uploadno[initial_current.Language]}}</th>
+                                                <th>{{title_filename[initial_current.Language]}}</th>
+                                                <th>{{title_filetype[initial_current.Language]}}</th>
+                                                <th>{{title_modified_by[initial_current.Language]}}</th>
+                                                <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_deleteupload[initial_current.Language]}}</th>
 
-                            </tr>
-                        </ng-template>
-                    </p-table>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                            <tr [pSelectableRow]="data">
+                                                <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
+                                                </td>
+                                                <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
+                                                </td>
+                                                <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
+                                                    |
+                                                    date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-trash" styleClass="p-button-danger"
+                                                        (click)="DeleteFileApp(data)"></p-button></td>
+
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <!-- Attach File ID Card -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_idcard[initial_current.Language]}}">
+                                    <p-menubar [model]="items_attfileID"></p-menubar>
+                                    <p-table #dt3 [value]="reqdocattID" selectionMode="single"
+                                        [(selection)]="selecteddocattID" (onRowSelect)="onRowSelectfileID($event)"
+                                        [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [globalFilterFields]="['document_name','created_by','created_date']"
+                                        responsiveLayout="stack" [breakpoint]="'744px'">
+
+                                        <!-- --------------END Form Search Table------------------ -->
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>{{title_uploadno[initial_current.Language]}}</th>
+                                                <th>{{title_filename[initial_current.Language]}}</th>
+                                                <th>{{title_filetype[initial_current.Language]}}</th>
+                                                <th>{{title_modified_by[initial_current.Language]}}</th>
+                                                <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_deleteupload[initial_current.Language]}}</th>
+
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                            <tr [pSelectableRow]="data">
+                                                <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
+                                                </td>
+                                                <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
+                                                </td>
+                                                <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
+                                                    |
+                                                    date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-trash" styleClass="p-button-danger"
+                                                        (click)="DeleteFileID(data)"></p-button></td>
+
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <!-- Attach File House REGISTRATION -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_house[initial_current.Language]}}">
+                                    <p-menubar [model]="items_attfileHos"></p-menubar>
+                                    <p-table #dt3 [value]="reqdocattHos" selectionMode="single"
+                                        [(selection)]="selecteddocattHos" (onRowSelect)="onRowSelectfileHos($event)"
+                                        [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [globalFilterFields]="['document_name','created_by','created_date']"
+                                        responsiveLayout="stack" [breakpoint]="'744px'">
+
+                                        <!-- --------------END Form Search Table------------------ -->
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>{{title_uploadno[initial_current.Language]}}</th>
+                                                <th>{{title_filename[initial_current.Language]}}</th>
+                                                <th>{{title_filetype[initial_current.Language]}}</th>
+                                                <th>{{title_modified_by[initial_current.Language]}}</th>
+                                                <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_deleteupload[initial_current.Language]}}</th>
+
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                            <tr [pSelectableRow]="data">
+                                                <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
+                                                </td>
+                                                <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
+                                                </td>
+                                                <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
+                                                    |
+                                                    date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-trash" styleClass="p-button-danger"
+                                                        (click)="DeleteFileHos(data)"></p-button></td>
+
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <!-- Attach File Photo -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_photo[initial_current.Language]}}">
+                                    <p-menubar [model]="items_attfilePho"></p-menubar>
+                                    <p-table #dt3 [value]="reqdocattPho" selectionMode="single"
+                                        [(selection)]="selecteddocattPho" (onRowSelect)="onRowSelectfilePho($event)"
+                                        [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [globalFilterFields]="['document_name','created_by','created_date']"
+                                        responsiveLayout="stack" [breakpoint]="'744px'">
+
+                                        <!-- --------------END Form Search Table------------------ -->
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>{{title_uploadno[initial_current.Language]}}</th>
+                                                <th>{{title_filename[initial_current.Language]}}</th>
+                                                <th>{{title_filetype[initial_current.Language]}}</th>
+                                                <th>{{title_modified_by[initial_current.Language]}}</th>
+                                                <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_deleteupload[initial_current.Language]}}</th>
+
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                            <tr [pSelectableRow]="data">
+                                                <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
+                                                </td>
+                                                <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
+                                                </td>
+                                                <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
+                                                    |
+                                                    date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-trash" styleClass="p-button-danger"
+                                                        (click)="DeleteFilePho(data)"></p-button></td>
+
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <!-- Attach File PDPA -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_pdpa[initial_current.Language]}}">
+                                    <p-menubar [model]="items_attfilePDPA"></p-menubar>
+                                    <p-table #dt3 [value]="reqdocattPDPA" selectionMode="single"
+                                        [(selection)]="selecteddocattPDPA" (onRowSelect)="onRowSelectfilePDPA($event)"
+                                        [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [globalFilterFields]="['document_name','created_by','created_date']"
+                                        responsiveLayout="stack" [breakpoint]="'744px'">
+
+                                        <!-- --------------END Form Search Table------------------ -->
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>{{title_uploadno[initial_current.Language]}}</th>
+                                                <th>{{title_filename[initial_current.Language]}}</th>
+                                                <th>{{title_filetype[initial_current.Language]}}</th>
+                                                <th>{{title_modified_by[initial_current.Language]}}</th>
+                                                <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_deleteupload[initial_current.Language]}}</th>
+
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                            <tr [pSelectableRow]="data">
+                                                <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
+                                                </td>
+                                                <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
+                                                </td>
+                                                <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
+                                                    |
+                                                    date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-trash" styleClass="p-button-danger"
+                                                        (click)="DeleteFilePDPA(data)"></p-button></td>
+
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <!-- Attach File Medical Certificate -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_certi[initial_current.Language]}}">
+                                    <p-menubar [model]="items_attfileMCer"></p-menubar>
+                                    <p-table #dt3 [value]="reqdocattMCer" selectionMode="single"
+                                        [(selection)]="selecteddocattMCer" (onRowSelect)="onRowSelectfileMCer($event)"
+                                        [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [globalFilterFields]="['document_name','created_by','created_date']"
+                                        responsiveLayout="stack" [breakpoint]="'744px'">
+
+                                        <!-- --------------END Form Search Table------------------ -->
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>{{title_uploadno[initial_current.Language]}}</th>
+                                                <th>{{title_filename[initial_current.Language]}}</th>
+                                                <th>{{title_filetype[initial_current.Language]}}</th>
+                                                <th>{{title_modified_by[initial_current.Language]}}</th>
+                                                <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_deleteupload[initial_current.Language]}}</th>
+
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                            <tr [pSelectableRow]="data">
+                                                <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
+                                                </td>
+                                                <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
+                                                </td>
+                                                <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
+                                                    |
+                                                    date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-trash" styleClass="p-button-danger"
+                                                        (click)="DeleteFileMCer(data)"></p-button></td>
+
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <!-- Attach File Other -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_otherfile[initial_current.Language]}}">
+                                    <p-menubar [model]="items_attfileOther"></p-menubar>
+                                    <p-table #dt3 [value]="reqdocattOther" selectionMode="single"
+                                        [(selection)]="selecteddocattOther" (onRowSelect)="onRowSelectfileOther($event)"
+                                        [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [globalFilterFields]="['document_name','created_by','created_date']"
+                                        responsiveLayout="stack" [breakpoint]="'744px'">
+
+                                        <!-- --------------END Form Search Table------------------ -->
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>{{title_uploadno[initial_current.Language]}}</th>
+                                                <th>{{title_filename[initial_current.Language]}}</th>
+                                                <th>{{title_filetype[initial_current.Language]}}</th>
+                                                <th>{{title_modified_by[initial_current.Language]}}</th>
+                                                <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                <th>{{title_deleteupload[initial_current.Language]}}</th>
+
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                            <tr [pSelectableRow]="data">
+                                                <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                                </td>
+                                                <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
+                                                </td>
+                                                <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
+                                                </td>
+                                                <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
+                                                    |
+                                                    date:'dd/MM/yyyy'}}</td>
+                                                <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-trash" styleClass="p-button-danger"
+                                                        (click)="DeleteFileOther(data)"></p-button></td>
+
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
                 </p-tabPanel>
 
 
@@ -1230,13 +1534,15 @@
         <label>{{title_suggestname}}</label>
         <p-dropdown placeholder="--" [options]="suggest_List" optionValue="worker_code" [showClear]="true"
             [(ngModel)]="selectedReqSuggest.empsuggest_code" [style]="{ width: '100%', overflow: 'visible' }"
-            [filter]="true" filterBy="worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
+            [filter]="true" filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th : item.worker_fname_en
+                {{initial_current.Language=="TH"? item.worker_code+"-"+item.worker_fname_th +" "+item.worker_lname_th :
+                item.worker_code+"-"+item.worker_fname_en
                 +" "+item.worker_lname_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th : item.worker_fname_en
+                {{initial_current.Language=="TH"? item.worker_code+"-"+item.worker_fname_th +" "+item.worker_lname_th :
+                item.worker_code+"-"+item.worker_fname_en
                 +" "+item.worker_lname_en}}
             </ng-template>
         </p-dropdown>
@@ -1254,13 +1560,13 @@
     <!-- Form Req Position -->
     <div class="formatt" *ngIf="edit_reqposition==true || new_position==true">
         <label>{{title_position}}</label>
-        <p-dropdown placeholder="--" [options]="position_list" optionValue="position_code" [showClear]="true"
+        <p-dropdown placeholder="--" [options]="position_list" optionValue="request_position" [showClear]="true"
             [(ngModel)]="selectedReqPosition.empposition_position" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th : item.request_code+" - "+item.position_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th : item.request_code+" - "+item.position_name_en}}
             </ng-template>
         </p-dropdown>
 
@@ -1274,13 +1580,13 @@
     <!-- Form Req Project -->
     <div class="formatt" *ngIf="edit_reqproject==true || new_project==true">
         <label>{{title_project[initial_current.Language]}}</label>
-        <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code" [showClear]="true"
+        <p-dropdown placeholder="--" [options]="projectList" optionValue="request_project" [showClear]="true"
             [(ngModel)]="selectedReqProject.project_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th : item.request_code+" - "+item.project_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+                {{initial_current.Language=="TH"? item.request_code+" - "+item.project_name_th : item.request_code+" - "+item.project_name_en}}
             </ng-template>
         </p-dropdown>
 
@@ -1298,6 +1604,9 @@
             [maxFractionDigits]="2" [(ngModel)]="selectedReqSalary.empsalary_amount">
         </p-inputNumber>
 
+        <label>{{title_salarytype[initial_current.Language]}}</label>
+        <input pInputText type="text" [(ngModel)]="selectedReqSalary.empsalary_type">
+
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="reqsalary_summit()"></button>
         <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
@@ -1311,14 +1620,94 @@
     key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
 
-<p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
+
+<!-- Attach App -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileApp">
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
         <input type="file" #fileUploader accept="" required
-            (change)="handleFileInputDoclist($any($event).target.files)">
+            (change)="handleFileAppInputDoclist($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="UploadfileAppdoc()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- Attach ID card -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileID">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFileIDInputDoclist($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="UploadfileIDdoc()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- Attach House -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileHos">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFileHosInputDoclist($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="UploadfileHosdoc()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- Attach Photo -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfilePho">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFilePhoInputDoclist($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="UploadfilePhodoc()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- Attach PDPA -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfilePDPA">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFilePDPAInputDoclist($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="UploadfilePDPAdoc()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- Attach Medic Certificate-->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileMCer">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFileMCerInputDoclist($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="UploadfileMCerdoc()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- Attach other -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileOther">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file" #fileUploader accept="" required
+            (change)="handleFileOtherInputDoclist($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="UploadfileOtherdoc()" label="Upload"></p-button>
     </ng-template>
 </p-dialog>

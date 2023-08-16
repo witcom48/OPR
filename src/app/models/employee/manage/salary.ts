@@ -16,4 +16,6 @@ export class EmpSalaryModel {
 
     index: number = 0;
     select: boolean = false;
+
+    empsalary_type: string = "";
   }

@@ -61,9 +61,13 @@ export class EmployeeModel {
   position_name_en: string = "";
 
   selected_Import: string = "";
+  selected_Attachfile:string = "";
   
   // recruiment
   reqdocatt_data: ApplyMTDocattModel[] = []
   worker_age: number = 0;
   nationality_code: string = "";
+  checkblacklist: Boolean = false
+  checkhistory: Boolean = false
+  status: number = 0;
 }

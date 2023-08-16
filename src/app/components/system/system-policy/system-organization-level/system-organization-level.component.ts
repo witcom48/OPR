@@ -1,17 +1,16 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-import { MenuItem } from 'primeng/api';
+import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Router } from '@angular/router';
 
 import { DatePipe } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import * as XLSX from 'xlsx';
-
+import { MenuModule } from 'primeng/menu';
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { LevelModel } from 'src/app/models/system/policy/level';
 import { LevelService } from 'src/app/services/system/policy/level.service';
-import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
   selector: 'app-system-organization-level',
   templateUrl: './system-organization-level.component.html',
@@ -27,6 +26,8 @@ export class SystemOrganizationLevelComponent implements OnInit {
   home: any;
   itemslike: MenuItem[] = [];
 
+  itemsOptions: MenuItem[] = [];
+
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
@@ -39,6 +40,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe
+    , private primengConfig: PrimeNGConfig
   ) { }
 
   ngOnInit(): void {
@@ -57,15 +59,11 @@ export class SystemOrganizationLevelComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
-    initialData2: InitialCurrent = new InitialCurrent();
-    accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
-            this.accessData = this.initialData2.dotGetPolmenu('SYS');
-
   }
   title_system: string = "System";
   title_genaral: string = "Genaral";
@@ -143,22 +141,17 @@ export class SystemOrganizationLevelComponent implements OnInit {
     this.itemslike = [{ label: this.title_genaral_system, routerLink: '/system/general' },
     { label: this.title_page, styleClass: 'activelike' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
-
+    this.primengConfig.ripple = true;
     this.items = [
       {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          if(this.accessData.accessdata_new){
-            this.showManage()
-            this.selectedLevel = new LevelModel();
-            this.new_data = true;
-            this.edit_data = false;
+          this.showManage()
+          this.selectedLevel = new LevelModel();
+          this.new_data = true;
+          this.edit_data = false;
 
-          }else{
-                      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
-                    }
-         
 
         }
       }
@@ -180,6 +173,41 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
         }
       }
+
+    ];
+    this.itemsOptions = [{
+
+      items: [
+
+        {
+          label: this.title_edit,
+          icon: 'pi pi-fw pi-pencil',
+          command: (event) => {
+            this.showManage()
+            this.edit_data = true;
+
+
+          }
+        }
+        , {
+
+
+          label: 'ลบ',
+          icon: 'pi pi-trash',
+          command: () => {
+            this.confirmDeletes(this.selectedLevel)
+          }
+        },
+        {
+          label: 'คัดลอก',
+          icon: 'pi pi-times',
+          command: () => {
+            
+           }
+        }
+      ]
+    },
+
     ];
   }
 
@@ -236,7 +264,6 @@ export class SystemOrganizationLevelComponent implements OnInit {
       accept: () => {
         this.doDeleteLevels(data);
       },
-
       reject: () => {
         this.messageService.add({
           severity: 'warn',
@@ -248,7 +275,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
   }
 
   doDeleteLevels(data: any) {
-    this.levelService.level_delete(data).then((res) => {
+    this.levelService.level_delete(data).then((res: any) => { // ต้องกำหนดชนิดของ res ให้ถูกต้อง
       let result = JSON.parse(res);
       if (result.success) {
         this.messageService.add({
@@ -257,9 +284,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
           detail: result.message,
         });
         this.doLoadLevel();
-        this.edit_data = false;
-        this.new_data = false;
-        this.displayManage = false
+        this.clearManage();
       } else {
         this.messageService.add({
           severity: 'error',
@@ -269,6 +294,10 @@ export class SystemOrganizationLevelComponent implements OnInit {
       }
     });
   }
+  selectRow(data: any) {
+    this.selectedLevel = data;
+  }
+
   //
   confirmDelete() {
     this.confirmationService.confirm({
@@ -311,12 +340,18 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
   }
   onRowSelectLevel(event: Event) {
+
     this.edit_data = true;
     this.new_data = true;
     this.displayManage = true
   }
 
+  clearManage() {
+    this.new_data = false;
+    this.edit_data = false;
 
+
+  }
 
   fileToUpload: File | any = null;
   handleFileInput(file: FileList) {

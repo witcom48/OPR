@@ -23,12 +23,12 @@
                     <br>
                     <small>{{this.title_new_emp}}</small>
                 </p>
-                <p-divider layout="vertical"></p-divider>
+                <!-- <p-divider layout="vertical"></p-divider>
                 <p style="width: 80px; text-align: left;">
                     <b style="color: orange;">0</b>
                     <br>
                     <small>{{this.title_resign_emp}}</small>
-                </p>
+                </p> -->
 
             </div>
 
@@ -47,12 +47,24 @@
     <div #TABLE>
         <p-table #dt2 [value]="reqworkerList" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true"
             scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqworker"
-            (onRowSelect)="onRowSelectApplywork($event)" dataKey="worker_code" [rows]="10" [showCurrentPageReport]="true"
-            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            (onRowSelect)="onRowSelectApplywork($event)" dataKey="worker_code" [rows]="10"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
             [globalFilterFields]="['worker_code','worker_initial','worker_fnamename_th','worker_lnamename_th','worker_type','worker_position','worker_hiredate']">
+            <!-- Form Search Table -->
             <ng-template pTemplate="caption">
-                <div class="flex">
+                <div class="searchtable1">
+                    <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
+                        {{title_apprstatus[initial_current.Language]}} :
+                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template></p-dropdown>
+                        <p-button icon="pi pi-search" (click)="Search()"></p-button>
+                    </div>
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
@@ -68,6 +80,7 @@
                     <th>{{title_name}}</th>
                     <!-- <th>{{title_Lname}}</th> -->
                     <th>{{title_hiredate}}</th>
+                    <th>{{title_apprstatus[initial_current.Language]}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
                 </tr>
@@ -77,16 +90,17 @@
             <ng-template pTemplate="body" let-data>
                 <tr [pSelectableRow]="data">
                     <td>{{data.worker_code}}</td>
-                     <!-- <td>{{data.worker_initial}}</td> -->
+                    <!-- <td>{{data.worker_initial}}</td> -->
                     <td>{{initial_current.Language == "TH"? data.initial_name_th+" "+data.worker_fname_th+"
-                        "+data.worker_lname_th:data.initial_name_en+" "+data.worker_fname_en+" "+data.worker_lname_en}}</td>
+                        "+data.worker_lname_th:data.initial_name_en+" "+data.worker_fname_en+" "+data.worker_lname_en}}
+                    </td>
                     <!-- <td>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td> -->
                     <td>{{data.worker_hiredate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{getFullStatus(data.status)}}</td>
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
             </ng-template>
-
 
         </p-table>
     </div>
@@ -94,55 +108,69 @@
 
     <!-- Form input or Edit Data -->
 
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height:'100vh',width:'30vw', 'overflow-y': 'scroll' }"
+            [position]="position">
+            <div class="formgrid grid align-items-end" *ngIf="new_applywork==true">
+                <!-- <i (click)="close()"></i> -->
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{title_code}}</label>
+                    <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqworker.worker_code" name="code"
+                        #code="ngModel" [readOnly]="true">
+                </div>
 
-    <div class="formatt" *ngIf="new_applywork==true">
-        <i (click)="close()"></i>
+                <div class="field col-12">
+                    <label>{{title_initial}} :</label>
+                    <p-dropdown placeholder="--" [options]="initialList" optionValue="initial_code" [showClear]="true"
+                        [(ngModel)]="selectedReqworker.worker_initial" [style]="{ width: '100%', overflow: 'visible' }"
+                        name="req_initial" #req_initial="ngModel" [readonly]="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
 
-        <label>{{title_code}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqworker.worker_code">
+                <div class="field col-12">
+                    <label for="ppos_name_th">ชื่อ</label>
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedReqworker.worker_fname_th" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="req_fname" #req_fname="ngModel" [readOnly]="true"></textarea>
+                </div>
 
-        <label>{{title_initial}} :</label>
-        <p-dropdown placeholder="--" [options]="initialList" optionValue="initial_code" [showClear]="true"
-            [(ngModel)]="selectedReqworker.worker_initial" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
-            </ng-template>
-        </p-dropdown>
+                <div class="field col-12">
+                    <label for="ppos_name_en">นามสกุล</label>
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedReqworker.worker_lname_th" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="req_lname" #req_lname="ngModel" [readOnly]="true"></textarea>
+                </div>
 
-        <label for="ppos_name_th">ชื่อ</label>
-        <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedReqworker.worker_fname_th" [cols]="30" pInputTextarea
-            [autoResize]="true"></textarea>
+                <br>
+                <div class="field col-12" style=" text-align: right;">
 
-        <label for="ppos_name_en">นามสกุล</label>
-        <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedReqworker.worker_lname_th" [cols]="30" pInputTextarea
-            [autoResize]="true"></textarea>
-
-        <br>
-        <div class="field col-12">
-            <!-- <p-button label="{{title_saves[initial_current.Language]}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
-            &nbsp; -->
-            <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}" (click)="selectComManage()" ></button>
-            &nbsp;
-            <button *ngIf="edit_applywork" pButton pRipple type="button" label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary" (click)="confirmDelete()"></button>
-        </div>
-        <!-- <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectComManage()"
-            class="p-button-secondary"></button>
-        <button pButton type="button" label="บันทึก" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <button *ngIf="edit_applywork" pButton type="button" label="ลบ" icon="pi pi-trash" class="p-button-danger"
-            (click)="confirmDelete()"></button> -->
-
-    </div>
+                    <button pButton pRipple type="button" label="{{title_convert[initial_current.Language]}}"
+                    class="p-button-info" (click)="convertToEmp()"></button>
+                    &nbsp;
+                    <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
+                        (click)="selectComManage()"></button>
+                    &nbsp;
+                    <button *ngIf="edit_applywork" pButton pRipple type="button"
+                        label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary"
+                        (click)="confirmDelete()"></button>
+                </div>
+            </div>
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+    </form>
 </div>
 
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
     <div>
         <p-dropdown [options]="ImportList" optionValue="code" [showClear]="true"
-            [(ngModel)]="selectedReqworker.selected_Import"
-            [style]="{ width: '100%', overflow: 'visible' }" appendTo="body" >
+            [(ngModel)]="selectedReqworker.selected_Import" [style]="{ width: '100%', overflow: 'visible' }"
+            appendTo="body">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.name_th : item.name_en}}
             </ng-template>
@@ -155,7 +183,9 @@
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
-        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required (change)="handleFileInput($any($event).target.files)">
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="doUploadApplywork()" label="{{title_upload}}"
@@ -166,7 +196,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
-
