@@ -48,6 +48,7 @@ import { SetBlacklistComponent } from './recruiment-blacklist/set-blacklist/set-
 import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { FileUploadModule } from 'primeng/fileupload';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 @NgModule({
 	imports: [
@@ -92,6 +93,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 		UsercontrolModule,
 		ProgressBarModule,
 		FileUploadModule,
+		KeyFilterModule,
 
 
 

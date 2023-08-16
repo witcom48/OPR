@@ -231,7 +231,6 @@ export class RecruitmentRequestComponent implements OnInit {
 
   doLoadRequest() {
     var tmp = new RequestModel();
-    tmp.request_code = this.selectedRequest.request_code
     this.requestService.request_get(tmp).then(async (res) => {
       await res.forEach((element: RequestModel) => {
         element.request_date = new Date(element.request_date)

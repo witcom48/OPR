@@ -609,11 +609,8 @@ export class ApplyListComponent implements OnInit {
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        if (this.selectedReqworker.checkblacklist) {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Have Blacklist' });
-        } else {
-          this.doRecordEmployee()
-        }
+        
+          this.doGetNewCode()
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
@@ -621,22 +618,21 @@ export class ApplyListComponent implements OnInit {
     });
   }
 
-  doGetNewCode(): any {
-    this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedReqworker.worker_type).then((res) => {
-      let result = JSON.parse(res);
+doGetNewCode() {
+    this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedReqworker.worker_type).then(async(res) => {
+      let result = await JSON.parse(res);
 
       if (result.success) {
-        return result.data;
+        this.doRecordEmployee(result.data);
       }
     });
   }
 
-  doRecordEmployee() {
-    this.doGetNewCode()
+doRecordEmployee(Code:any) {
     var tmp = new EmployeeModel();
-    tmp.worker_id = ""
-    tmp.worker_code = this.doGetNewCode();
-    tmp.worker_card = this.doGetNewCode();
+    tmp.worker_id = "0"
+    tmp.worker_code = Code
+    tmp.worker_card = Code
     tmp.worker_initial = this.selectedReqworker.worker_initial
     tmp.worker_fname_th = this.selectedReqworker.worker_fname_th
     tmp.worker_lname_th = this.selectedReqworker.worker_lname_th
@@ -650,21 +646,25 @@ export class ApplyListComponent implements OnInit {
     tmp.religion_code = this.selectedReqworker.religion_code
     tmp.blood_code = this.selectedReqworker.blood_code
     tmp.worker_height = this.selectedReqworker.worker_height
-    tmp.worker_weight = this.selectedReqworker.worker_weight,
+    tmp.worker_weight = this.selectedReqworker.worker_weight
     tmp.worker_resignstatus = false
+    tmp.worker_probationdate = this.selectedReqworker.worker_hiredate
     tmp.hrs_perday = 8
     tmp.worker_taxmethod = "1"
     tmp.worker_tel = this.selectedReqworker.worker_tel
     tmp.worker_email= this.selectedReqworker.worker_email
-    tmp.worker_line = this.selectedReqworker.worker_line,
-    tmp.worker_facebook = this.selectedReqworker.worker_facebook,
-    tmp.worker_military = this.selectedReqworker.worker_military,
-    
+    tmp.worker_line = this.selectedReqworker.worker_line
+    tmp.worker_facebook = this.selectedReqworker.worker_facebook
+    tmp.worker_military = this.selectedReqworker.worker_military
+    tmp.nationality_code = this.selectedReqworker.nationality_code
+
     this.employeeService.worker_recordall(tmp).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
         //-- transaction
 
+        //--update status
+        
         //-- alert
         this.messageService.add({
           severity: 'success',
@@ -681,5 +681,6 @@ export class ApplyListComponent implements OnInit {
     })
   }
 
+  
 
 }
