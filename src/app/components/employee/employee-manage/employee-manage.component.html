@@ -122,10 +122,10 @@
 
                         <div>
                             <label for="lastname2">{{title_type}} : <span style="color: red;"> *</span></label>
-                            <p-dropdown placeholder="--" [options]="emptypeList" optionValue="worker_blacklistreason"
-                                [(ngModel)]="selectedEmployee.worker_blacklistreason" [showClear]="true"
-                                [style]="{ width: '100%', overflow: 'visible' }">
-                                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                            <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code"
+                                [showClear]="true" [(ngModel)]="selectedEmployee.worker_type"
+                                [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doChangeSelectEmptype()">
+                                <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
                                 </ng-template>
                                 <ng-template let-item pTemplate="item">
