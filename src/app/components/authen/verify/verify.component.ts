@@ -122,10 +122,20 @@ export class VerifyComponent implements OnInit {
           if (obj.account_type == "Emp") {
             this.initail_current.Username = obj.worker_data[0].worker_code;
             this.initail_current.Usertype = obj.account_type;
+            localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+            if (this.initail_current.Token) {
+              window.location.href = "";
+              // this.router.navigateByUrl('');
+            }
           }
           if (obj.account_type == "APR") {
             this.initail_current.Username = obj.account_user;
             this.initail_current.Usertype = obj.account_type;
+            localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+            if (this.initail_current.Token) {
+              window.location.href = "";
+              // this.router.navigateByUrl('');
+            }
           }
           if (obj.account_type == "GRP") {
             this.initail_current.Username = obj.account_user
@@ -134,6 +144,11 @@ export class VerifyComponent implements OnInit {
             // this.initail_current.Usertype = obj.worker_data[0].account_type;
             // this.displaygroupManage = true;
             // this.displayManage = false;
+            localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+            if (this.initail_current.Token) {
+              window.location.href = "";
+              // this.router.navigateByUrl('');
+            }
           }
           if (obj.account_type == "ADM") {
             this.initail_current.Username = obj.account_user;
@@ -141,7 +156,18 @@ export class VerifyComponent implements OnInit {
             console.log(obj)
             this.initail_current.PolMenu_Code = obj.polmenu_code;
             this.doLoadYear(this.comselected.company_code)
-          } else {
+          }
+          // else {
+          //   localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+          //   if (this.initail_current.Token) {
+          //     window.location.href = "";
+          //     // this.router.navigateByUrl('');
+          //   }
+          // }
+          if (obj.account_type == "SADM") {
+            this.initail_current.Username = obj.account_user;
+            this.initail_current.Usertype = obj.account_type;
+            this.initail_current.PolMenu_Code = 'HR1';
             localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
             if (this.initail_current.Token) {
               window.location.href = "";

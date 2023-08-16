@@ -8,6 +8,8 @@ import { TaskService } from '../../../services/task.service'
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { Router } from '@angular/router';
+import { LocationService } from 'src/app/services/system/policy/location.service';
+import { LocationModel } from 'src/app/models/system/policy/location';
 
 @Component({
   selector: 'app-employee-monitor',
@@ -35,8 +37,12 @@ export class EmployeeMonitorComponent implements OnInit {
 
   public initial_current: InitialCurrent = new InitialCurrent();
   public workerList: EmployeeModel[] = [];
+
+  public locationList: LocationModel[] = [];
+
   constructor(
     private employeeService: EmployeeService,
+    private locationService: LocationService,
     private router: Router
   ) { }
 
@@ -48,6 +54,7 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doLoadChart2();
       this.doLoadChart3();
       this.doLoadChart4();
+      this.doLoadChart5();
     }, 500);
   }
 
@@ -151,7 +158,7 @@ export class EmployeeMonitorComponent implements OnInit {
 
       this.doughnut2.labels = ['เข้าใหม่ (' + newWorkers + ' คน)', 'ลาออก (' + resignedWorkers + ' คน)'];
       this.doughnut2.datasets[0].data = [newWorkers, resignedWorkers];
-      console.log(resignedWorkers);
+      // console.log(resignedWorkers);
 
       this.updateChart2();
     });
@@ -209,7 +216,6 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doughnut3.labels = ['พนักงานประจำ (' + regularWorkers + ' คน)', 'พนักงานชั่วคราว (' + temporaryWorkers + ' คน)'
       ];
       this.doughnut3.datasets[0].data = [regularWorkers, temporaryWorkers];
-
       this.updateChart3();
     });
   }
@@ -221,10 +227,9 @@ export class EmployeeMonitorComponent implements OnInit {
   }
 
 
-  ///   พนักงานประจำ และชั่วคราว
-
+  /// พนักงานประจำ และชั่วคราว
   barChartData4: ChartData = {
-    labels: ['แฟชั่นฯ', 'พรอมมานาด', 'รามคำแหง', 'ฺBig C', 'Lotus มีนบุรี', 'PEA', 'SCB รัชโยธิน'],//ต้องใส่เป็นสถานที่ทำงาน
+    labels: [],
     datasets: [
       {
         data: [0, 0, 0, 0, 0, 0, 0],
@@ -239,7 +244,6 @@ export class EmployeeMonitorComponent implements OnInit {
     ]
   };
 
-
   barChartOptions4: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -250,21 +254,22 @@ export class EmployeeMonitorComponent implements OnInit {
     }
   };
 
-  doLoadChart4() {
+  async doLoadChart4() {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
 
-    this.employeeService.worker_get(this.initial_current.CompCode, '').then(async (res) => {
-      this.workerList = await res;
+    try {
+      const res = await this.employeeService.locationlist_get(this.initial_current.CompCode, '');
+      this.locationList = res;
+      // console.log(res, 'location');
 
-      let personnelOnDuty: number = 0; // จำนวนพนักงานกำลังพล
-      let currentWorkers: number = 0; // จำนวนพนักงานปัจจุบัน
+      let personnelOnDuty: number = 0;
+      let currentWorkers: number = 0;
 
-      for (let i = 0; i < this.workerList.length; i++) {
+      for (let i = 0; i < this.locationList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
-        const resignDate = new Date(this.workerList[i].worker_resigndate);
 
-        if (this.workerList[i].worker_resignstatus === false && hireDate.getTime() < temp_fromdate.getTime()) {
+        if (this.locationList[i].location_code && hireDate.getTime() > temp_fromdate.getTime()) {
           personnelOnDuty++;
 
           if (hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
@@ -273,13 +278,16 @@ export class EmployeeMonitorComponent implements OnInit {
         }
       }
 
-      this.barChartData4.labels = ['แฟชั่นฯ(' + personnelOnDuty + ' คน)', 'พรอมมานาด(' + personnelOnDuty + ' คน)', 'รามคำแหง(' + personnelOnDuty + ' คน)', 'ฺBig C(' + personnelOnDuty + ' คน)', 'Lotus มีนบุรี(' + personnelOnDuty + ' คน)', 'PEA(' + personnelOnDuty + ' คน)', 'SCB รัชโยธิน(' + personnelOnDuty + ' คน)'];
-      this.barChartData4.datasets[0].data = [personnelOnDuty, currentWorkers];
-      this.barChartData4.datasets[1].data = [personnelOnDuty, currentWorkers];
+      const locationLabels = this.locationList.map(location => `${location.location_name_th}(${personnelOnDuty} คน)`);
+      this.barChartData4.labels = locationLabels;
+      this.barChartData4.datasets[0].data = Array(locationLabels.length).fill(personnelOnDuty);
+      this.barChartData4.datasets[1].data = Array(locationLabels.length).fill(currentWorkers);
+      console.log(this.barChartData4,'4')
 
-      console.log(this.barChartData4, 't');
+      // console.log(this.barChartData4, 't');
       this.updateChart4();
-    });
+    } catch (error) {
+     }
   }
 
   updateChart4() {
@@ -287,7 +295,62 @@ export class EmployeeMonitorComponent implements OnInit {
       this.chart.chart.update();
     }
   }
+
   ////
+  ///  พนักงานรายวัน เดือน
+  doughnut5: ChartData = {
+    labels: ['พนักงานรายวัน', 'พนักงานรายเดือน'],
+    datasets: [
+      {
+        data: [0, 0],
+        label: 'จำนวนพนักงาน',
+        backgroundColor: ['#FF6384', '#36A2EB']
+      }
+    ]
+  };
+  
+  doughnutChartOptions5: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+  worker_type: any;
+  doLoadChart5() {
+    const temp_fromdate = new Date(this.initial_current.PR_FromDate);
+    const temp_todate = new Date(this.initial_current.PR_ToDate);
+  
+    this.employeeService.typelist_get(this.initial_current.CompCode, '').then(async (res) => {
+      this.workerList = await res;
+      console.log(this.workerList);
+  
+      let regularWorkers: number = 0; // จำนวนพนักงานรายวัน
+      let temporaryWorkers: number = 0; // จำนวนพนักงานรายเดือน
+  
+      for (let i = 0; i < this.workerList.length; i++) {
+        const hireDate = new Date(this.workerList[i].worker_hiredate);
+  
+        if (this.workerList[i].worker_type === 'M' || this.workerList[i].worker_type === 'D') {
+          regularWorkers++;
+        }
+  
+        if (this.workerList[i].worker_type === 'D' && hireDate >= temp_fromdate && hireDate <= temp_todate) {
+          temporaryWorkers++;
+        }
+      }
+  
+      this.doughnut5.labels = ['พนักงานรายวัน (' + regularWorkers + ' คน)', 'พนักงานรายเดือน (' + temporaryWorkers + ' คน)'];
+      this.doughnut5.datasets[0].data = [regularWorkers, temporaryWorkers];
+      console.log(this.doughnut5, '5');
+  
+      this.updateChart5();
+    });
+  }
+  
+  updateChart5() {
+    if (this.chart && this.chart.chart && this.chart.chart.config) {
+      this.chart.chart.update();
+    }
+  }
+  
 
   // doLoadChart(){
   //   this.data_emptype = {

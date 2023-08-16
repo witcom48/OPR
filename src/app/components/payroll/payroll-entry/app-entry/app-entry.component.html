@@ -13,8 +13,9 @@
             <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextItem()"></i>
         </td>
         <td style="width: 20px;">
-            <i class="pi pi-search"></i>
+            <i class="pi pi-search" (click)="open_searchItem()"></i>
         </td>
+
 
 
         <td style="width: 250px;" align="left">
@@ -27,6 +28,23 @@
 </table>
 <p></p>
 <!-- --------------END Form employee by income------------------ -->
+
+<p-dialog [(visible)]="searchItem" [style]="{width: '40vw'}" [position]="position">
+    <div class="grid">
+        <div class="col-12">
+            <app-search-item></app-search-item>
+        </div>
+        <div class="col-12">
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check"
+                (click)="select_item()"></p-button>
+            &nbsp;
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
+                class="p-button-secondary" (click)="close_searchItem()"></button>
+        </div>
+    </div>
+</p-dialog>
+<div *ngIf="searchItem" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 
 <p-menubar [model]="menu_Items"></p-menubar>
 <div class="tabledata">

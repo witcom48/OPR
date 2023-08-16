@@ -35,6 +35,10 @@
       <!-- Form Search Table -->
       <ng-template pTemplate="caption">
         <div class="searchtable">
+          <div style="display: flex;flex-direction: column;align-items: flex-start;">
+            <label style="color: red;">{{title_examplecode}} </label>
+            <input pInputText type="text" [(ngModel)]="examplecode" readonly />
+          </div>
           <span class="p-input-icon-left ml-auto">
             <i class="pi pi-search"></i>
             <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
@@ -87,7 +91,8 @@
 
       <label>{{title_detail}} </label>
       <p-dropdown placeholder="--" [options]="codestructureList" optionValue="codestructure_code" [showClear]="true"
-        [(ngModel)]="selectedTRPolcode.codestructure_code" [style]="{ width: '100%', overflow: 'visible' }">
+        [(ngModel)]="selectedTRPolcode.codestructure_code" [style]="{ width: '100%', overflow: 'visible' }"
+        (onChange)="selectstruccode($event)">
         <ng-template let-item pTemplate="selectedItem">
           {{initial_current.Language === 'TH' ? item.codestructure_name_th : item.codestructure_name_en}}
         </ng-template>
@@ -95,23 +100,26 @@
           {{initial_current.Language === 'TH' ? item.codestructure_name_th : item.codestructure_name_en}}
         </ng-template>
       </p-dropdown>
+      <div *ngIf="selectedTRPolcode.codestructure_code == '1CHA' || selectedTRPolcode.codestructure_code == 'MAUT'">
+        <label>{{title_lenght}} </label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="0"
+          [maxFractionDigits]="0" [(ngModel)]="selectedTRPolcode.polcode_lenght" name="polcode_lenght">
+        </p-inputNumber>
+      </div>
 
-      <label>{{title_lenght}} </label>
-      <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="0"
-        [maxFractionDigits]="0" [(ngModel)]="selectedTRPolcode.polcode_lenght" name="polcode_lenght">
-      </p-inputNumber>
 
-
-
-      <label>{{title_text}} </label>
-      <input pInputText type="text" [(ngModel)]="selectedTRPolcode.polcode_text" name="polcode_text" required />
+      <div style="display: flex;flex-direction: column;" *ngIf="selectedTRPolcode.codestructure_code == '1CHA'">
+        <label>{{title_text}} </label>
+        <input pInputText type="text" [(ngModel)]="selectedTRPolcode.polcode_text" name="polcode_text"
+          maxlength="{{selectedTRPolcode.polcode_lenght}}" required />
+      </div>
 
       <label>{{title_order}} </label>
       <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="0"
-        [maxFractionDigits]="0" [(ngModel)]="selectedTRPolcode.polcode_order" name="polcode_order">
+        [maxFractionDigits]="0" [disabled]="true" [(ngModel)]="selectedTRPolcode.polcode_order" name="polcode_order">
       </p-inputNumber>
 
-      
+
       <br>
 
       <div style="text-align: right;">

@@ -24,6 +24,7 @@ var yearperiod = new Map([
     ["System", { TH: "จัดการ", EN: "Manage System" }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
     ["yearperiod", { TH: "ปี", EN: "Year Period" }],
+    ["selecttype", { TH: "เลือกประเภท", EN: "Select Type" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
     ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],

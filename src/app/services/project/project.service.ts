@@ -218,6 +218,39 @@ export class ProjectService {
       });
   }
 
+  public cost_compare(company: string, workdate: Date, protype: string, probusiness: string, proarea: string, progroup: string) {
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: company,
+      language: "",
+      project_code: "",
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: protype,
+
+      project_proarea: proarea,
+      project_progroup: progroup,
+
+      project_probusiness: probusiness,
+
+      fromdate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
+      todate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
+    };
+
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/cost_compare', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
+  }
+
 
 
 }

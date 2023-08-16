@@ -1,173 +1,510 @@
 <hr>
 <!-- Menu New Import Export Data -->
+<p-tabView>
 
-
-
-<!-- <p-tabView> -->
-<!-- <p-tabPanel (change)="selectYeartype()"> -->
-
-<!-- <ng-template pTemplate="header">
-            <i class="pi pi-cog"></i>&nbsp;&nbsp;
-            <span>ภาษี</span>
-            <div class="input_radio">
-            </div>
-        </ng-template> -->
-<div>
-    <p-menubar [model]="items"></p-menubar>
-</div>
-<!-- <h5>ทดสอบ</h5>
-<button type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"></button> -->
-<p-menu #menu [popup]="true" [model]="itemsOptions"></p-menu>
-
-
-<div class="tabledata">
-    <!-- Table Show Data Year Period -->
-    <div #TABLE>
-        <p-table #dt2 [value]="yearperiods_list" selectionMode="single" [(selection)]="yearperiods"
-            (onRowSelect)="onRowSelect($event)" [rows]="12" [showCurrentPageReport]="true"
-            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['year_code','year_name_en','year_name_th','modified_by','modified_date']"
-            responsiveLayout="stack" [breakpoint]="'744px'">
-            <!-- Form Search Table -->
-            <ng-template pTemplate="caption">
-                <div class="searchtable">
-                    <div class="input_radio">
-
-
-                        <input type="radio" name="fav_year" value="TAX" [(ngModel)]="year_type"
-                            (change)="selectYeartype()">
-                        <label>{{langs.get('tax')[selectlang]}}</label>
-
-
-                        <input type="radio" name="fav_year" value="LEAVE" [(ngModel)]="year_type"
-                            (change)="selectYeartype()">
-                        <label>{{langs.get('leave')[selectlang]}} </label>
-                        <!-- // -->
-                        <input type="radio" name="fav_year" value="ACCOUNT " [(ngModel)]="year_type"
-                            (change)="selectYeartype()">
-                        <label>{{langs.get('accounts')[selectlang]}} </label>
-
-                        <input type="radio" name="fav_year" value="BUDGET " [(ngModel)]="year_type"
-                            (change)="selectYeartype()">
-                        <label>{{langs.get('budgets')[selectlang]}} </label>
-                        <!-- /// -->
-                    </div>
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="{{langs.get('search')[selectlang]}}" />
-                    </span>
-                </div>
-            </ng-template>
-            <!-- --------------END Form Search Table------------------ -->
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th>{{langs.get('no')[selectlang]}}</th>
-                    <th>{{langs.get('code')[selectlang]}}</th>
-                    <th>{{langs.get('description')[selectlang]}}</th>
-                    <th>{{langs.get('type')[selectlang]}}</th>
-                    <th>{{langs.get('modified_by')[selectlang]}}</th>
-                    <th>{{langs.get('modified_date')[selectlang]}}</th>
-                    <th> </th>
-
-
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
-                <tr [pSelectableRow]="data">
-                    <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
-                    <td><span>{{langs.get('code')[selectlang]}}</span>{{data.year_code}}</td>
-                    <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang==="EN"?data.year_name_en:data.year_name_th}}
-                    </td>
-                    <td><span>{{langs.get('type')[selectlang]}}</span>{{data.year_group}}</td>
-                    <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
-                    <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
-                        date:'dd/MM/yyyy'}}</td>
-
-
-                    <!-- <td>
-                        <button type="button" class="gray-button " pButton icon="pi pi-bars"
-                            (click)="menu.toggle($event)"></button>
-                        <p-menu [popup]="true" [model]="itemsOptions"></p-menu>
-                    </td> -->
-                    <td>
-                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteYear(data)">
-                        </button>
-
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
+    <div>
+        <p-menubar [model]="items"></p-menubar>
     </div>
-    <!-- -----------------------END Table-------------------------- -->
+    <p-menu #menu [popup]="true" [model]="itemsOptions"></p-menu>
 
-    <!-- Form input or Edit Data Year Period -->
 
-    <form #Form="ngForm">
-        <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
-            [position]="position">
-            <div class="formatt p-dialog-content" *ngIf="new_data">
-                <!-- <i (click)="close()"></i> -->
-
-                <div class="input_radio">
-                    <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group" required>
-                    <label>{{langs.get('tax')[selectlang]}}</label>
-
-                    <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group" required>
-                    <label>{{langs.get('leave')[selectlang]}}</label>
-
-                    <!-- // -->
-                    <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group"
-                        required>
-                    <label>{{langs.get('accounts')[selectlang]}} </label>
-
-                    <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group"
-                        required>
-                    <label>{{langs.get('budgets')[selectlang]}} </label>
-                    <!-- // --><span style="color: red;"> *</span>
-                </div>
-
-                <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
-                <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4" [disabled]="edit_data"
-                    name="year_code" required />
-                <p>{{yearperiods.year_code.length}}/4</p>
-
-                <label>{{langs.get('descriptionth')[selectlang]}}<span style="color: red;"> *</span></label>
-                <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true" name="year_name_th"
-                    required></textarea>
-
-                <label>{{langs.get('descriptionen')[selectlang]}}<span style="color: red;"> *</span></label>
-                <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true" name="year_name_en"
-                    required></textarea>
-
-                <label>{{langs.get('fromdate')[selectlang]}}</label>
-                <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"
-                    [showIcon]="true" name="year_fromdate"></p-calendar>
-
-                <label>{{langs.get('todate')[selectlang]}}</label>
-                <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"
-                    [showIcon]="true" name="year_todate"></p-calendar>
-                <br>
-                <div style="text-align: right;">
-                    <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
-                        icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
-                    &nbsp;
-                    <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                        (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
-                </div>
+    <p-tabPanel (change)="selectYeartype()">
+        <ng-template pTemplate="header">
+            <span>{{langs.get('tax')[selectlang]}}</span>
+        </ng-template>
+        <div class="tabledata">
+            <div #TABLE>
+                <p-table #dt2 [value]="yearperiods_list" selectionMode="single" [(selection)]="yearperiods"
+                    (onRowSelect)="onRowSelect($event)" [rows]="12" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+                    currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                    responsiveLayout="stack" [breakpoint]="'744px'">
+                    <!-- Form Search Table -->
+                    <ng-template pTemplate="caption">
+                        <div class="searchtable">
+                            <div></div>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                    (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                    placeholder="{{langs.get('search')[selectlang]}}" />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <!-- --------------END Form Search Table------------------ -->
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th>{{langs.get('no')[selectlang]}}</th>
+                            <th>{{langs.get('code')[selectlang]}}</th>
+                            <th>{{langs.get('description')[selectlang]}}</th>
+                            <th>{{langs.get('type')[selectlang]}}</th>
+                            <th>{{langs.get('modified_by')[selectlang]}}</th>
+                            <th>{{langs.get('modified_date')[selectlang]}}</th>
+                            <th> </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                        <ng-container *ngIf="data.year_group === 'TAX'">
+                            <tr [pSelectableRow]="data">
+                                <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                                <td><span>{{langs.get('code')[selectlang]}}</span>{{data.year_code}}</td>
+                                <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang==="EN"?data.year_name_en:data.year_name_th}}
+                                </td>
+                                <td><span>{{langs.get('type')[selectlang]}}</span>{{data.year_group}}</td>
+                                <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                                <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                                    date:'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    <button pButton type="button" class="pi pi-bars gray-button"
+                                        (click)="menu.toggle($event); selectRow(data)"></button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-template>
+                </p-table>
             </div>
-        </p-dialog>
+            <!-- -----------------------END Table-------------------------- -->
+            <form #Form="ngForm">
+                <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
+                    [position]="position">
+                    <div class="formatt p-dialog-content" *ngIf="edit_data==true || new_data==true">
+                        <!-- <i (click)="close()"></i> -->
+                        <label>{{langs.get('selecttype')[selectlang]}}<span style="color: red;"> *</span></label>
 
-        <div *ngIf="displayManage" style="z-index: 1084;"
-            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
-    </form>
+                        <div class="input_radio">
+
+                            <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('tax')[selectlang]}}</label>
+
+                            <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('leave')[selectlang]}}</label>
+
+                            <!-- // -->
+                            <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('accounts')[selectlang]}} </label>
+
+                            <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('budgets')[selectlang]}} </label>
+                            <!-- // -->
+                        </div>
+                        <br>
+                        <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4"
+                            [disabled]="edit_data" name="year_code" required />
+                        <p>{{yearperiods.year_code.length}}/4</p>
+
+                        <label>{{langs.get('descriptionth')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"
+                            name="year_name_th" required></textarea>
+
+                        <label>{{langs.get('descriptionen')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"
+                            name="year_name_en" required></textarea>
+
+                        <label>{{langs.get('fromdate')[selectlang]}}</label>
+                        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"
+                            [showIcon]="true" name="year_fromdate"></p-calendar>
+
+                        <label>{{langs.get('todate')[selectlang]}}</label>
+                        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"
+                            [showIcon]="true" name="year_todate"></p-calendar>
+                        <br>
+                        <div style="text-align: right;">
+                            <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                            &nbsp;
+                            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                        </div>
+                    </div>
+                </p-dialog>
+
+                <div *ngIf="displayManage" style="z-index: 1084;"
+                    class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+            </form>
+            <!-- --------------End form Input Data ------------------ -->
+        </div>
 
 
+    </p-tabPanel>
+    <p-tabPanel (change)="selectYeartype()">
+        <ng-template pTemplate="header">
+            <span>{{langs.get('leave')[selectlang]}}</span>
+        </ng-template>
+        <div class="tabledata">
+            <div #TABLE>
+                <p-table #dt2 [value]="yearperiods_list" selectionMode="single" [(selection)]="yearperiods"
+                    (onRowSelect)="onRowSelect($event)" [rows]="12" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+                    currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                    responsiveLayout="stack" [breakpoint]="'744px'">
+                    <!-- Form Search Table -->
+                    <ng-template pTemplate="caption">
+                        <div class="searchtable">
+                            <div></div>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                    (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                    placeholder="{{langs.get('search')[selectlang]}}" />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <!-- --------------END Form Search Table------------------ -->
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th>{{langs.get('no')[selectlang]}}</th>
+                            <th>{{langs.get('code')[selectlang]}}</th>
+                            <th>{{langs.get('description')[selectlang]}}</th>
+                            <th>{{langs.get('type')[selectlang]}}</th>
+                            <th>{{langs.get('modified_by')[selectlang]}}</th>
+                            <th>{{langs.get('modified_date')[selectlang]}}</th>
+                            <th> </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                        <ng-container *ngIf="data.year_group === 'LEAVE'">
+                            <tr [pSelectableRow]="data">
+                                <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                                <td><span>{{langs.get('code')[selectlang]}}</span>{{data.year_code}}</td>
+                                <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang==="EN"?data.year_name_en:data.year_name_th}}
+                                </td>
+                                <td><span>{{langs.get('type')[selectlang]}}</span>{{data.year_group}}</td>
+                                <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                                <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                                    date:'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    <button pButton type="button" class="pi pi-bars gray-button"
+                                        (click)="menu.toggle($event); selectRow(data)"></button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-template>
+                </p-table>
+            </div>
+            <!-- -----------------------END Table-------------------------- -->
+            <form #Form="ngForm">
+                <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
+                    [position]="position">
+                    <div class="formatt p-dialog-content" *ngIf="edit_data==true || new_data==true">
+                        <!-- <i (click)="close()"></i> -->
+                        <label>{{langs.get('selecttype')[selectlang]}}<span style="color: red;"> *</span></label>
+
+                        <div class="input_radio">
+                            <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('tax')[selectlang]}}</label>
+
+                            <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('leave')[selectlang]}}</label>
+
+                            <!-- // -->
+                            <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('accounts')[selectlang]}} </label>
+
+                            <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('budgets')[selectlang]}} </label>
+                            <!-- // --><span style="color: red;"> *</span>
+                        </div>
+                        <br>
+
+                        <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4"
+                            [disabled]="edit_data" name="year_code" required />
+                        <p>{{yearperiods.year_code.length}}/4</p>
+
+                        <label>{{langs.get('descriptionth')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"
+                            name="year_name_th" required></textarea>
+
+                        <label>{{langs.get('descriptionen')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"
+                            name="year_name_en" required></textarea>
+
+                        <label>{{langs.get('fromdate')[selectlang]}}</label>
+                        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"
+                            [showIcon]="true" name="year_fromdate"></p-calendar>
+
+                        <label>{{langs.get('todate')[selectlang]}}</label>
+                        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"
+                            [showIcon]="true" name="year_todate"></p-calendar>
+                        <br>
+                        <div style="text-align: right;">
+                            <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                            &nbsp;
+                            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                        </div>
+                    </div>
+                </p-dialog>
+
+                <div *ngIf="displayManage" style="z-index: 1084;"
+                    class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+            </form>
+            <!-- --------------End form Input Data ------------------ -->
+        </div>
 
 
-    <!-- --------------End form Input Data ------------------ -->
-</div>
+    </p-tabPanel>
+
+    <p-tabPanel (change)="selectYeartype()">
+        <ng-template pTemplate="header">
+            <span>{{langs.get('accounts')[selectlang]}} </span>
+        </ng-template>
+        <div class="tabledata">
+            <!-- Table Show Data Year Period -->
+            <div #TABLE>
+                <p-table #dt2 [value]="yearperiods_list" selectionMode="single" [(selection)]="yearperiods"
+                    (onRowSelect)="onRowSelect($event)" [rows]="12" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+                    currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                    responsiveLayout="stack" [breakpoint]="'744px'">
+                    <!-- Form Search Table -->
+                    <ng-template pTemplate="caption">
+                        <div class="searchtable">
+                            <div></div>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                    (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                    placeholder="{{langs.get('search')[selectlang]}}" />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <!-- --------------END Form Search Table------------------ -->
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th>{{langs.get('no')[selectlang]}}</th>
+                            <th>{{langs.get('code')[selectlang]}}</th>
+                            <th>{{langs.get('description')[selectlang]}}</th>
+                            <th>{{langs.get('type')[selectlang]}}</th>
+                            <th>{{langs.get('modified_by')[selectlang]}}</th>
+                            <th>{{langs.get('modified_date')[selectlang]}}</th>
+                            <th> </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                        <ng-container *ngIf="data.year_group === 'ACCOUNT'">
+                            <tr [pSelectableRow]="data">
+                                <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                                <td><span>{{langs.get('code')[selectlang]}}</span>{{data.year_code}}</td>
+                                <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang==="EN"?data.year_name_en:data.year_name_th}}
+                                </td>
+                                <td><span>{{langs.get('type')[selectlang]}}</span>{{data.year_group}}</td>
+                                <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                                <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                                    date:'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    <button pButton type="button" class="pi pi-bars gray-button"
+                                        (click)="menu.toggle($event); selectRow(data)"></button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-template>
+                </p-table>
+            </div>
+            <!-- -----------------------END Table-------------------------- -->
+            <form #Form="ngForm">
+                <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
+                    [position]="position">
+                    <div class="formatt p-dialog-content" *ngIf="edit_data==true || new_data==true">
+                        <!-- <i (click)="close()"></i> -->
+                        <label>{{langs.get('selecttype')[selectlang]}}<span style="color: red;"> *</span></label>
+
+                        <div class="input_radio">
+                            <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('tax')[selectlang]}}</label>
+
+                            <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('leave')[selectlang]}}</label>
+
+                            <!-- // -->
+                            <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('accounts')[selectlang]}} </label>
+
+                            <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('budgets')[selectlang]}} </label>
+                            <!-- // --><span style="color: red;"> *</span>
+                        </div>
+                        <br>
+
+                        <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4"
+                            [disabled]="edit_data" name="year_code" required />
+                        <p>{{yearperiods.year_code.length}}/4</p>
+
+                        <label>{{langs.get('descriptionth')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"
+                            name="year_name_th" required></textarea>
+
+                        <label>{{langs.get('descriptionen')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"
+                            name="year_name_en" required></textarea>
+
+                        <label>{{langs.get('fromdate')[selectlang]}}</label>
+                        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"
+                            [showIcon]="true" name="year_fromdate"></p-calendar>
+
+                        <label>{{langs.get('todate')[selectlang]}}</label>
+                        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"
+                            [showIcon]="true" name="year_todate"></p-calendar>
+                        <br>
+                        <div style="text-align: right;">
+                            <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                            &nbsp;
+                            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                        </div>
+                    </div>
+                </p-dialog>
+
+                <div *ngIf="displayManage" style="z-index: 1084;"
+                    class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+            </form>
+            <!-- --------------End form Input Data ------------------ -->
+        </div>
+
+
+    </p-tabPanel>
+
+    <p-tabPanel (change)="selectYeartype()">
+        <ng-template pTemplate="header">
+            <span>{{langs.get('budgets')[selectlang]}}</span>
+        </ng-template>
+        <div class="tabledata">
+            <div #TABLE>
+                <p-table #dt2 [value]="yearperiods_list" selectionMode="single" [(selection)]="yearperiods"
+                    (onRowSelect)="onRowSelect($event)" [rows]="12" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+                    currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+                    responsiveLayout="stack" [breakpoint]="'744px'">
+                    <!-- Form Search Table -->
+                    <ng-template pTemplate="caption">
+                        <div class="searchtable">
+                            <div></div>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                    (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                                    placeholder="{{langs.get('search')[selectlang]}}" />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <!-- --------------END Form Search Table------------------ -->
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th>{{langs.get('no')[selectlang]}}</th>
+                            <th>{{langs.get('code')[selectlang]}}</th>
+                            <th>{{langs.get('description')[selectlang]}}</th>
+                            <th>{{langs.get('type')[selectlang]}}</th>
+                            <th>{{langs.get('modified_by')[selectlang]}}</th>
+                            <th>{{langs.get('modified_date')[selectlang]}}</th>
+                            <th> </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                        <ng-container *ngIf="data.year_group === 'BUDGET'">
+                            <tr [pSelectableRow]="data">
+                                <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
+                                <td><span>{{langs.get('code')[selectlang]}}</span>{{data.year_code}}</td>
+                                <td><span>{{langs.get('description')[selectlang]}}</span>{{selectlang==="EN"?data.year_name_en:data.year_name_th}}
+                                </td>
+                                <td><span>{{langs.get('type')[selectlang]}}</span>{{data.year_group}}</td>
+                                <td><span>{{langs.get('modified_by')[selectlang]}}</span>{{data.modified_by}}</td>
+                                <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
+                                    date:'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    <button pButton type="button" class="pi pi-bars gray-button"
+                                        (click)="menu.toggle($event); selectRow(data)"></button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-template>
+                </p-table>
+            </div>
+            <!-- -----------------------END Table-------------------------- -->
+            <form #Form="ngForm">
+                <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
+                    [position]="position">
+                    <div class="formatt p-dialog-content" *ngIf="edit_data==true || new_data==true">
+                        <!-- <i (click)="close()"></i> -->
+                        <label>{{langs.get('selecttype')[selectlang]}}<span style="color: red;"> *</span></label>
+
+                        <div class="input_radio">
+                            <input type="radio" name="fav_language" value="TAX" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('tax')[selectlang]}}</label>
+
+                            <input type="radio" name="fav_language" value="LEAVE" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('leave')[selectlang]}}</label>
+
+                            <!-- // -->
+                            <input type="radio" name="fav_language" value="ACCOUNT" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('accounts')[selectlang]}} </label>
+
+                            <input type="radio" name="fav_language" value="BUDGET" [(ngModel)]="yearperiods.year_group"
+                                required>
+                            <label>{{langs.get('budgets')[selectlang]}} </label>
+                            <!-- // --><span style="color: red;"> *</span>
+                        </div>
+                        <br>
+                        <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <input pInputText type="text" [(ngModel)]="yearperiods.year_code" maxlength="4"
+                            [disabled]="edit_data" name="year_code" required />
+                        <p>{{yearperiods.year_code.length}}/4</p>
+
+                        <label>{{langs.get('descriptionth')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <textarea [(ngModel)]="yearperiods.year_name_th" pInputTextarea [autoResize]="true"
+                            name="year_name_th" required></textarea>
+
+                        <label>{{langs.get('descriptionen')[selectlang]}}<span style="color: red;"> *</span></label>
+                        <textarea [(ngModel)]="yearperiods.year_name_en" pInputTextarea [autoResize]="true"
+                            name="year_name_en" required></textarea>
+
+                        <label>{{langs.get('fromdate')[selectlang]}}</label>
+                        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_fromdate" dateFormat="dd/mm/yy"
+                            [showIcon]="true" name="year_fromdate"></p-calendar>
+
+                        <label>{{langs.get('todate')[selectlang]}}</label>
+                        <p-calendar appendTo="body" [(ngModel)]="yearperiods.year_todate" dateFormat="dd/mm/yy"
+                            [showIcon]="true" name="year_todate"></p-calendar>
+                        <br>
+                        <div style="text-align: right;">
+                            <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                            &nbsp;
+                            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                        </div>
+                    </div>
+                </p-dialog>
+
+                <div *ngIf="displayManage" style="z-index: 1084;"
+                    class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+            </form>
+            <!-- --------------End form Input Data ------------------ -->
+        </div>
+    </p-tabPanel>
+</p-tabView>
 
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
@@ -185,18 +522,8 @@
 </div>
 <!-- -----------------End Dialog Choose File-------------------- -->
 
-
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
     rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
-
-<!-- </p-tabPanel> -->
-
-
-
-
-<!-- </p-tabView> -->
-
-<!-- ----------------END MENU----------------- -->

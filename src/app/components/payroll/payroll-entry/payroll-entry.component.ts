@@ -663,6 +663,7 @@ export class PayrollEntryComponent implements OnInit {
     position: string = "right";
     searchEmp: boolean = false;
     open_searchemp() {
+        console.log(this.searchEmp, 'test1')
         this.searchEmp = true
     }
 

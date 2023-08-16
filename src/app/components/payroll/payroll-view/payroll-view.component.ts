@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
@@ -16,6 +16,7 @@ import { PayitemService } from 'src/app/services/payroll/payitem.service';
 import { PaytranService } from 'src/app/services/payroll/paytran.service';
 import { PayReduceService } from 'src/app/services/payroll/payreduce.service'
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 
 interface Type {
   name: string;
@@ -33,10 +34,15 @@ interface Result {
   styleUrls: ['./payroll-view.component.scss']
 })
 export class PayrollViewComponent implements OnInit {
+  @ViewChild(SearchEmpComponent) searchEmp_popup: any;
 
+  style_input_real: string = "[style]=\"{'width':'80px'}\\";
+  dialog: any;
+  dataSource: any;
   home: any;
   itemslike: MenuItem[] = [];
-
+  title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
+  title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
   title_payroll: { [key: string]: string } = { EN: "Payroll", TH: "Payroll" };
   title_page: { [key: string]: string } = { EN: "View Calculate", TH: "ตรวจสอบการคำนวน" };
   title_tax: { [key: string]: string } = { EN: "Tax", TH: "ภาษี" };
@@ -321,5 +327,58 @@ export class PayrollViewComponent implements OnInit {
   hasAccessMenu(accessCode: string): boolean {
     return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
   }
+
+  openSearchEmp(): void {
+    const dialogRef = this.dialog.open(SearchEmpComponent, {
+        width: '500px',
+        height: '550px',
+        data: {
+            worker_code: ''
+        }
+    });
+    dialogRef.afterClosed().subscribe((result: { worker_code: string; }) => {
+        if (result.worker_code != "") {
+
+            let select = result.worker_code;
+            this.doGetIndexWorker(select);
+
+        }
+    });
+}
+
+  position: string = "right";
+    searchEmp: boolean = false;
+    open_searchemp() {
+        console.log(this.searchEmp, 'test1')
+        this.searchEmp = true
+    }
+
+    close_searchemp() {
+        this.searchEmp = false
+    }
+
+    select_emp() {
+
+        let select = this.searchEmp_popup.selectedEmployee.worker_code
+        if (select != "") {
+            this.doGetIndexWorker(select)
+            this.searchEmp = false
+            console.log( this.searchEmp)
+        }
+
+    }
+
+    doGetIndexWorker(worker_code: string) {
+        for (let i = 0; i < this.worker_list.length; i++) {
+            if (this.worker_list[i].worker_code == worker_code) {
+                this.worker_index = i;
+                break;
+            }
+        }
+
+        this.doSetDetailWorker();
+
+    }
+
 
 }

@@ -110,11 +110,33 @@
                             </ng-template>
                         </p-dropdown>
                     </div>
-                    <div  style="grid-column: 1;">
+
+                    <div class="select">
+                        <!-- blacklist -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterBlacklist" name="type" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                             <label for="lastname2">{{title_blacklist[initial_current.Language]}} </label>
+                        </div>
+
+                        <!-- <p-dropdown placeholder="--" [options]="blackList" optionValue="worker_blackliststatus"
+                            [showClear]="true" [(ngModel)]="selectedBlacklist" (onChange)="doChangeBlacklist()"
+                            [disabled]="!fillterBlacklist" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{ getDetail(item.worker_blacklistreason) }}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{ getDetail(item.worker_blacklistreason) }}
+                            </ng-template>
+                        </p-dropdown> -->
+                    </div>
+
+
+                    <div style="grid-column: 1;">
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" [(ngModel)]="selectedSearchemp" (input)="doChangeSearchemp($event)"
-                                placeholder="{{title_search}}" />
+                            <input pInputText type="text" [(ngModel)]="selectedSearchemp"
+                                (input)="doChangeSearchemp($event)" placeholder="{{title_search}}" />
                         </span>
                     </div>
                 </div>
@@ -201,7 +223,8 @@
 
         <label>{{title_initial}} :</label>
         <p-dropdown placeholder="--" [options]="initialList" optionValue="initial_code" [showClear]="true"
-            [(ngModel)]="selectedemployee.worker_initial" [style]="{ width: '100%', overflow: 'visible' }" [readonly]="true">
+            [(ngModel)]="selectedemployee.worker_initial" [style]="{ width: '100%', overflow: 'visible' }"
+            [readonly]="true">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
             </ng-template>
@@ -250,9 +273,12 @@
         <div class="field col-12">
             <!-- <p-button label="{{title_saves[initial_current.Language]}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
             &nbsp; -->
-            <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}" (click)="selectEmpManage()" ></button>
+            <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
+                (click)="selectEmpManage()"></button>
             &nbsp;
-            <button *ngIf="edit_employee" pButton pRipple type="button" label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary" (click)="confirmDelete()"></button>
+            <button *ngIf="edit_employee" pButton pRipple type="button"
+                label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary"
+                (click)="confirmDelete()"></button>
         </div>
         <!-- <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectEmpManage()"
             class="p-button-secondary"></button>

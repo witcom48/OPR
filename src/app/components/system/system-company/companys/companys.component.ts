@@ -227,10 +227,10 @@ export class CompanysComponent implements OnInit {
     title_card_code: string = 'Card Code';
     title_card_opening_date: string = 'Card Opening Date';
     title_expiration_date: string = 'Expiration Date';
-
+    title_combank_branch: string = 'Branch';
     title_banks: string = 'Bank';
     title_number: string = 'Account Number';
-    title_bankaccount: string = 'Account ';
+    title_bankaccount: string = 'Account Number';
     title_bankname: string = 'Name';
     title_banktype: string = 'Type';
 
@@ -322,7 +322,7 @@ export class CompanysComponent implements OnInit {
             this.title_map = 'แผนที่';
             this.title_contack = 'ข้อมูลติดต่อ';
             this.title_fax = 'แฟกซ์';
-
+            this.title_combank_branch = 'สาขาธนาคาร';
             this.title_taxpayer_identification_no = 'เลขประจำตัวผู้เสียภาษี'
             this.title_juristic_id = 'เลขทะเบียนนิติบุคคล'
             this.title_provident_fund_no = 'เลขกองทุนสำรองเลี้ยงชีพ'
