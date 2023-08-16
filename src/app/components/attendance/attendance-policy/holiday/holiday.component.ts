@@ -202,6 +202,13 @@ export class HolidayComponent implements OnInit {
       }
       ,
       {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+        }
+      }
+      ,
+      {
         label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
