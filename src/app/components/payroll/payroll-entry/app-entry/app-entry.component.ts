@@ -631,7 +631,6 @@ export class AppEntryComponent implements OnInit {
   position: string = "right";
   searchItem: boolean = false;
   open_searchItem() {
-    console.log(this.searchItem, 'ไม่เปลี่ยนเป็นหน้าitem')
     this.searchItem = true
   }
 
