@@ -3,7 +3,22 @@
 <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 
 <hr>
-
+<p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
+    <div class="grid">
+        <div class="col-12">
+            <app-search-emp></app-search-emp>
+        </div>
+        <div class="col-12">
+            <p-button label="{{title_btn_select[initial_current.Language]}}" icon="pi pi-check"
+                (click)="select_emp()"></p-button>
+            &nbsp;
+            <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
+                class="p-button-secondary" (click)="close_searchemp()"></button>
+        </div>
+    </div>
+</p-dialog>
+<div *ngIf="searchEmp" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 
 <table style="width: 600px;">
     <tr>
@@ -17,8 +32,8 @@
         <td>
             <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
         </td>
-        <td>
-            <i class="pi pi-search"></i>
+        <td style="width: 20px;">
+            <i class="pi pi-search" (click)="open_searchemp()"></i>
         </td>
         <td style="width: 300px;">
             <input id="lastname2" type="text" [value]="worker_name" style="width: 300px;"

@@ -88,6 +88,6 @@ import { SearchItemComponent } from './search-item/search-item.component';
 	declarations: [     
 		SelectEmpComponent, TaskComponent, SearchEmpComponent, SearchItemComponent
   ],
-  exports: [SelectEmpComponent, TaskComponent, SearchEmpComponent],
+  exports: [SelectEmpComponent, TaskComponent, SearchEmpComponent, SearchItemComponent],
 })
 export class UsercontrolModule { }
