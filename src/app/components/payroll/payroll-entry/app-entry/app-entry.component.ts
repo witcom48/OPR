@@ -352,10 +352,7 @@ export class AppEntryComponent implements OnInit {
       const res = await this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate, tmp.worker_code, this.item_type, tmp.item_code);
 
       return res;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    } catch (error) { }
   }
 
   doSetDetailItem() {
@@ -374,9 +371,6 @@ export class AppEntryComponent implements OnInit {
       console.log(this.item_list);
       this.doSummaryByEmp();
     })
-      .catch((error) => {
-        console.error('An error occurred while loading items:', error);
-      });
     // this.doSummaryByEmp();
   }
 
@@ -420,7 +414,7 @@ export class AppEntryComponent implements OnInit {
         });
         this.doLoaditem();
         this.doSetDetailItem();
-        console.log(this.payitem_list);
+        // console.log(this.payitem_list);
 
         this.edit_data = false;
       } else {
@@ -607,26 +601,26 @@ export class AppEntryComponent implements OnInit {
   refreshPage() {
     location.reload();
   }
-  
+
   openSearchItem(): void {
     const dialogRef = this.dialog.open(SearchItemComponent, {
-        width: '1500px',
-        height: '1550px',
-        data: {
-            worker_code: ''
-        }
+      width: '1500px',
+      height: '1550px',
+      data: {
+        worker_code: ''
+      }
     });
     dialogRef.afterClosed().subscribe((result: { worker_code: string; }) => {
-        if (result.worker_code != "") {
+      if (result.worker_code != "") {
 
-            let select = result.worker_code;
-            this.doGetIndexWorker(select);
+        let select = result.worker_code;
+        this.doGetIndexWorker(select);
 
-        }
+      }
     });
- 
-}
-  
+
+  }
+
 
   position: string = "right";
   searchItem: boolean = false;
@@ -641,7 +635,7 @@ export class AppEntryComponent implements OnInit {
 
   select_item() {
     let select = this.searchitem_popup.selectedPayitem.item_type
-    console.log( '3')
+    console.log('3')
     if (select != "") {
       this.doGetIndexWorker(select)
       this.searchItem = false
@@ -661,7 +655,7 @@ export class AppEntryComponent implements OnInit {
 
   }
 
-  
+
   exportAsExcel() {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
       this.table.nativeElement

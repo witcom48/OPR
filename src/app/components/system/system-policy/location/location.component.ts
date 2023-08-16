@@ -226,15 +226,11 @@ export class LocationComponent implements OnInit {
         "location_detail": items?.location_detail,
         "location_lat": items?.location_lat,
         "location_long": items?.location_long,
-
       }
     });
-
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, 'Export_Location.xlsx');
-
   }
-
 }

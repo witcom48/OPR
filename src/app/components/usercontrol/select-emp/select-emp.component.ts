@@ -91,7 +91,9 @@ export class SelectEmpComponent implements OnInit {
   //dropdown
   levelList: LevelModel[] = [];
   doLoadlevelList(){
-    this.levelService.level_get().then(async(res)=>{
+    var tmp = new LevelModel();
+    tmp.level_code = this.selectedLevel;
+    this.levelService.level_get(tmp).then(async(res)=>{
       this.levelList = await res;
     })
   }

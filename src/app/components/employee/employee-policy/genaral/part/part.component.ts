@@ -166,7 +166,9 @@ export class PartComponent implements OnInit {
   levelList: LevelModel[]=[];
   selectedLevel : LevelModel = new LevelModel();
   doLoadLevelList(){
-    this.levelService.level_get().then(async(res)=>{
+    var tmp = this.selectedLevel
+
+    this.levelService.level_get(tmp).then(async(res)=>{
       this.levelList = await res;
     })
   }
@@ -182,7 +184,9 @@ export class PartComponent implements OnInit {
   parentlevelList: LevelModel[]=[];
   selectParentLevel : string = '';
   doloadParentLevel(){
-    this.levelService.level_get().then(async(res)=>{
+    var tmp = this.selectedLevel
+
+    this.levelService.level_get(tmp).then(async(res)=>{
       this.parentlevelList = await res;
     })
   }

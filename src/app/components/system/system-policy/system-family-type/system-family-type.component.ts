@@ -175,7 +175,7 @@ export class SystemFamilyTypeComponent implements OnInit {
     this.doLoadFamily()
   }
   doLoadFamily() {
-    this.familyService.family_get().then((res) => {
+    this.familyService.family_get(this.selectedFamily).then((res) => {
       this.family_list = res;
     });
   }

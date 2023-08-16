@@ -51,6 +51,7 @@ export class SearchItemComponent implements OnInit {
     this.doLoadLanguage()
 
     setTimeout(() => {
+      this.doLoaditem()
     }, 200);
 
   }
@@ -70,39 +71,28 @@ export class SearchItemComponent implements OnInit {
   item_code: string = '';
   worker_code: string = '';
   item_type: string = '';
+
   selectedPayitem: ItemsModel = new ItemsModel();
   worker_list: PayitemModel[] = [];
+  
+  async doLoaditem() {
+    var tmp = new PayitemModel();
+    tmp.item_code = this.item_code;
+    tmp.worker_code = this.worker_code;
 
+    try {
+      const res = await this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate,
+        tmp.worker_code,
+        this.item_type,
+        tmp.item_code
+      );
 
-   doLoadEmployee() {
-        const tmp = new PayitemModel();
-        tmp.item_code = this.item_code;
-        tmp.worker_code = this.worker_code;
-        
-        this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate,
-            tmp.worker_code, this.item_type, tmp.item_code).then((res) => {
-            this.worker_list = res;
-            console.log(this.worker_list, 'testitem');
-        });
-
-
-    // async doLoaditem() {
-    //   var tmp = new PayitemModel();
-    //   tmp.item_code = this.item_code;
-    //   tmp.worker_code = this.worker_code;
-
-    //   try {
-    //     const res = await this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate,
-    //       tmp.worker_code, this.item_type, "tmp.item_code"
-    //     );
-
-    //     this.worker_list = res;
-    //     return res;
-    //   } catch (error) {
-    //     console.error(error);
-    //     throw error;
-    //   }
-
+      this.worker_list = res;
+      return res;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
 
 
 

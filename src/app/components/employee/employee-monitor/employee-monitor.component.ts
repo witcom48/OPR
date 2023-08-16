@@ -227,7 +227,7 @@ export class EmployeeMonitorComponent implements OnInit {
   }
 
 
-  /// พนักงานประจำ และชั่วคราว
+  /// สถานที่ทำงาน
   barChartData4: ChartData = {
     labels: [],
     datasets: [
@@ -261,7 +261,8 @@ export class EmployeeMonitorComponent implements OnInit {
     try {
       const res = await this.employeeService.locationlist_get(this.initial_current.CompCode, '');
       this.locationList = res;
-      // console.log(res, 'location');
+
+      console.log(res, 'location');
 
       let personnelOnDuty: number = 0;
       let currentWorkers: number = 0;
@@ -269,8 +270,9 @@ export class EmployeeMonitorComponent implements OnInit {
       for (let i = 0; i < this.locationList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
 
-        if (this.locationList[i].location_code && hireDate.getTime() > temp_fromdate.getTime()) {
+        if (this.workerList[i].worker_code && hireDate.getTime() >= temp_fromdate.getTime()) {
           personnelOnDuty++;
+console.log(this.locationList[i].location_code,'test1')
 
           if (hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
             currentWorkers++;
@@ -278,21 +280,22 @@ export class EmployeeMonitorComponent implements OnInit {
         }
       }
 
+
       const locationLabels = this.locationList.map(location => `${location.location_name_th}(${personnelOnDuty} คน)`);
       this.barChartData4.labels = locationLabels;
       this.barChartData4.datasets[0].data = Array(locationLabels.length).fill(personnelOnDuty);
       this.barChartData4.datasets[1].data = Array(locationLabels.length).fill(currentWorkers);
-      console.log(this.barChartData4,'4')
-
-      // console.log(this.barChartData4, 't');
+      console.log(this.barChartData4, 'te')
       this.updateChart4();
     } catch (error) {
-     }
+    }
   }
 
   updateChart4() {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
       this.chart.chart.update();
+      console.log(this.chart.chart.update, '43');
+
     }
   }
 
@@ -308,7 +311,7 @@ export class EmployeeMonitorComponent implements OnInit {
       }
     ]
   };
-  
+
   doughnutChartOptions5: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -317,40 +320,40 @@ export class EmployeeMonitorComponent implements OnInit {
   doLoadChart5() {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
-  
+
     this.employeeService.typelist_get(this.initial_current.CompCode, '').then(async (res) => {
       this.workerList = await res;
-      console.log(this.workerList);
-  
+      // console.log(this.workerList);
+
       let regularWorkers: number = 0; // จำนวนพนักงานรายวัน
       let temporaryWorkers: number = 0; // จำนวนพนักงานรายเดือน
-  
+
       for (let i = 0; i < this.workerList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
-  
+
         if (this.workerList[i].worker_type === 'M' || this.workerList[i].worker_type === 'D') {
           regularWorkers++;
         }
-  
+
         if (this.workerList[i].worker_type === 'D' && hireDate >= temp_fromdate && hireDate <= temp_todate) {
           temporaryWorkers++;
         }
       }
-  
+
       this.doughnut5.labels = ['พนักงานรายวัน (' + regularWorkers + ' คน)', 'พนักงานรายเดือน (' + temporaryWorkers + ' คน)'];
       this.doughnut5.datasets[0].data = [regularWorkers, temporaryWorkers];
-      console.log(this.doughnut5, '5');
-  
+      // console.log(this.doughnut5, '5');
+
       this.updateChart5();
     });
   }
-  
+
   updateChart5() {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
       this.chart.chart.update();
     }
   }
-  
+
 
   // doLoadChart(){
   //   this.data_emptype = {

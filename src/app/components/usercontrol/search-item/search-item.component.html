@@ -1,38 +1,38 @@
 <div class="grid">
     <div class="col-12">
-        <p-table #dtEmpSearch [value]="worker_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '30rem'}" [scrollable]="true" scrollHeight="180px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedPayitem" (onRowSelect)="onRowSelectEmployee($event)" dataKey="worker_code"
-        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,20,30]" 
-        [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-        [globalFilterFields]="[ ]"
-        >
+        <p-table #dtEmpSearch [value]="worker_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '30rem'}"
+            [scrollable]="true" scrollHeight="180px" [virtualScroll]="true" selectionMode="single"
+            [(selection)]="selectedPayitem" (onRowSelect)="onRowSelectEmployee($event)" dataKey="worker_code"
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,20,30]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+            [globalFilterFields]="['item_code', 'item_detail']">
 
             <ng-template pTemplate="caption">
                 <div class="flex">
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dtEmpSearch.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search[initial_current.Language]}}" />
+                        <input pInputText type="text" 
+                        (input)="dtEmpSearch.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search[initial_current.Language]}}" />
+
+                         
                     </span>
                 </div>
             </ng-template>
 
             <ng-template pTemplate="header">
-                <tr>  
-                    <th>รหัส</th>     
+                <tr>
+                    <th>รหัส</th>
                     <th>รายละเอียด</th>
-                                                   
-                 </tr>	                	                
+                </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item>
-                <tr [pSelectableRow]="item" >        
-                    <td >{{item.item_code}}</td>    
-                    <td >{{item.item_detail}}</td>    
-                    
-                                          
+                <tr [pSelectableRow]="item">
+                    <td>{{item.item_code}}</td>
+                    <td>{{item.item_detail}}</td>
                 </tr>
-            </ng-template>    
+            </ng-template>
         </p-table>
     </div>
     <div class="col-12">
-        
     </div>
 </div>

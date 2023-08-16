@@ -48,6 +48,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
     this.doLoadMenu()
+   
     setTimeout(() => {
 
 
@@ -215,7 +216,8 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
   //
   doLoadLevel() {
-    this.levelService.level_get().then((res) => {
+    var tmp = this.selectedLevel
+    this.levelService.level_get(tmp).then((res) => {
       this.level_list = res;
     });
   }
@@ -406,6 +408,25 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
     XLSX.writeFile(wb, 'Export_level.xlsx');
 
+  }
+
+  
+
+  exportFileExcel() {
+    const fileToExport = this.level_list.map((items: any) => {
+      return {
+        "level_id": items?.level_id,
+        "level_code": items?.level_code,
+        "level_name_th": items?.level_name_th,
+        "level_name_en": items?.level_name_en,
+        "level_group": items?.level_group,
+        "company_code": items?.company_code,
+      }
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'Export_level.xlsx');
   }
 
 }

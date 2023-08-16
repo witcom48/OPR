@@ -2356,7 +2356,7 @@ export class EmployeeManageComponent implements OnInit {
   familytypeList: FamilyModel[] = [];
   doLoadFamilytypeList() {
     var tmp = new FamilyModel();
-    this.familytypeService.family_get().then(async (res) => {
+    this.familytypeService.family_get(tmp).then(async (res) => {
       this.familytypeList = await res;
     })
   }
