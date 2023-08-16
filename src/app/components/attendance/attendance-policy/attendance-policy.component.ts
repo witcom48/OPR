@@ -125,7 +125,7 @@ export class AttendancePolicyComponent implements OnInit {
   }
 
   setMenus() {
-    this.accessData = this.initialData2.dotGetPolmenu('ATT');
+    this.accessData = this.initialData2.dotGetPolmenu('ATT') as any;
 
     this.genaralMenuItems = this.genaralMenuList.filter(item => this.hasAccessMenu(item.accessCode));
     this.policyMenuItems = this.policyMenuList.filter(item => this.hasAccessMenu(item.accessCode));

@@ -195,6 +195,28 @@ export class AppMenuComponent implements OnInit {
                     // Generate menu items for other modules based on their access permissions...
                 });
         }
+        // if (initialSessionData.Usertype == "SADM") {
+        //     Object.keys(moduleMenuConfig).forEach((moduleCode) => {
+        //         console.log(moduleCode)
+        //         let data = ["APR", "Emp", "GRP"]
+        //         if (!data.includes(moduleCode)) {
+        //             this.menuItems[0].items.push({
+        //                 label: moduleMenuConfig[moduleCode].label,
+        //                 icon: moduleMenuConfig[moduleCode].icon,
+        //                 items: moduleMenuConfig[moduleCode].items,
+        //             });
+        //         }
+        //         // const moduleAccessData = this.getModuleAccessData(initialSessionData.PolMenu[0].accessdata_data, moduleCode);
+        //         // if (moduleAccessData) {
+        //         //     const moduleMenuItems = this.generateSubMenuItems(moduleAccessData, moduleMenuConfig[moduleCode].items);
+        //         //     this.menuItems[0].items.push({
+        //         //         label: moduleMenuConfig[moduleCode].label,
+        //         //         icon: moduleMenuConfig[moduleCode].icon,
+        //         //         items: moduleMenuItems,
+        //         //     });
+        //         // }
+        //     });
+        // }
     }
 
     private getModuleAccessData(polMenuData: any[], moduleCode: string): AccessdataModel | undefined {

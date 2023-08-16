@@ -9,6 +9,8 @@ import { PdpaServices } from '../services/self/pdpa';
 import { cls_TRPdpaModel } from '../models/self/cls_TRPdpa';
 import { cls_MTPdpafileModel } from '../models/self/cls_MTPdpafile';
 import { PdpaFileServices } from '../services/self/pdpafile';
+import { PolmenuServices } from '../services/system/security/polmenu.service';
+import { PolmenuModel } from '../models/system/security/polmenu';
 declare var consent: any;
 interface Language {
     name: string;
@@ -42,7 +44,8 @@ export class AppTopBarComponent implements OnInit {
         private router: Router,
         private authService: AuthenService,
         private pdpaService: PdpaServices,
-        private pdpaFileService: PdpaFileServices
+        private pdpaFileService: PdpaFileServices,
+        private polmenuServices: PolmenuServices,
     ) { }
 
     ngOnInit() {
@@ -115,8 +118,15 @@ export class AppTopBarComponent implements OnInit {
 
     // Selects a language and updates the page
     selectLanguage(langCode: string) {
-        this.initialData.Language = langCode;
-        localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
-        window.location.reload();
+        // localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
+        var temp = new PolmenuModel();
+        temp.polmenu_code = this.initialData.PolMenu_Code;
+        this.polmenuServices.polmenu_get(temp)
+            .then((res) => {
+                this.initialData.PolMenu = res;
+                this.initialData.Language = langCode;
+                localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
+                window.location.reload();
+            });
     }
 }

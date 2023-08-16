@@ -63,6 +63,7 @@ export class InitialCurrent {
 
   dotGetPolmenu(models: string): any {
     var model = new AccessdataModel();
+    console.log(JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}').PolMenu)
     JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}').PolMenu[0].accessdata_data.find((data: AccessdataModel) => {
       if (data.accessdata_module == models) {
         model = data;
