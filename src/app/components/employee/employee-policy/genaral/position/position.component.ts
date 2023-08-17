@@ -35,8 +35,9 @@ export class PositionComponent implements OnInit {
     this.doGetInitialCurrent()
 
     this.doLoadLanguage()
+    
+    this.doLoadMenu()
     setTimeout(() => {
-      this.doLoadMenu()
       this.doLoadPosition()
     }, 500);
   }
@@ -123,6 +124,13 @@ export class PositionComponent implements OnInit {
           this.selectedPosition = new PositionModel();
           this.new_data = true;
           this.edit_data = false;
+        }
+      },
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Position.xlsx', '_blank');
         }
       }
       ,

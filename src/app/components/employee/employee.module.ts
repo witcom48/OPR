@@ -67,6 +67,7 @@ import { EmployeePositionComponent } from './employee-policy/genaral/employee-po
 import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group/employee-group.component';
 import { EmpsettrainingComponent } from './employee-policy/setup-batch/empsettraining/empsettraining.component';
 import { EmpsetassessmentComponent } from './employee-policy/setup-batch/empsetassessment/empsetassessment.component';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 
 @NgModule({
@@ -113,7 +114,7 @@ import { EmpsetassessmentComponent } from './employee-policy/setup-batch/empseta
 		UsercontrolModule,
 		ProgressBarModule,
 		FileUploadModule,
-
+		KeyFilterModule,
 
 
 	],

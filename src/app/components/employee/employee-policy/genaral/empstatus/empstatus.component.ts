@@ -16,6 +16,9 @@ import * as XLSX from 'xlsx';
 })
 export class EmpstatusComponent implements OnInit {
 
+  itemslike: MenuItem[] = [];
+  home: any;
+
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
@@ -35,9 +38,9 @@ export class EmpstatusComponent implements OnInit {
     this.doGetInitialCurrent()
 
     this.doLoadLanguage()
+    this.doLoadMenu()
 
     setTimeout(() => {
-      this.doLoadMenu()
       this.doLoadStatus()
     }, 500);
   }
@@ -118,6 +121,11 @@ export class EmpstatusComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.itemslike = [{ label: this.title_emp[this.initial_current.Language], routerLink: '/employee/policy' }, {
+      label: this.title_empstatus[this.initial_current.Language], styleClass: 'activelike'
+    }];
+
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
 
     this.items = [
       {
@@ -128,6 +136,14 @@ export class EmpstatusComponent implements OnInit {
           this.selectedStatus = new EmpstatusModel();
           this.new_data = true;
           this.edit_data = false;
+        }
+      }
+      ,
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Empstatus.xlsx', '_blank');
         }
       }
       ,

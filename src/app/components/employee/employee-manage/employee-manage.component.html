@@ -149,10 +149,25 @@
                         </div>
 
                         <div>
+                            <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
+                            <p-dropdown placeholder="--" [options]="nationality" optionValue="code" [showClear]="true"
+                                [(ngModel)]="selectedEmployee.nationality_code"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+
+                        <div>
                             <label for="worker_birthdate">{{title_birthdate}} : <span style="color: red;">
                                     *</span></label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                                [(ngModel)]="selectedEmployee.worker_birthdate" inputId="worker_birthdate">
+                                [(ngModel)]="selectedEmployee.worker_birthdate" inputId="worker_birthdate"
+                                (onSelect)="CalculateAge()">
                                 <input type="text">
                             </p-calendar>
                             <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
@@ -160,6 +175,11 @@
                         </div>
 
                         <div>
+                            <label for="worker_age">{{title_age[initial_current.Language]}}:</label>
+                            <input pInputText id="Age" type="text" [(ngModel)]="age" [readonly]="true">
+                        </div>
+
+                        <div style="grid-column: 1;">
                             <label for="lastname2">{{title_startdate}} : <span style="color: red;"> *</span></label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                 [(ngModel)]="selectedEmployee.worker_hiredate">
@@ -175,7 +195,7 @@
                                 [max]="120" [step]="0.5" [(ngModel)]="selectedEmployee.hrs_perday">
                             </p-inputNumber>
                         </div>
-                        <div>
+                        <div style="grid-column: 1;">
                             <label for="lastname2">{{title_probation}} <span style="color: red;"> *</span></label>
                             <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60"
                                 [(ngModel)]="selectedEmployee.worker_probationday">
@@ -269,6 +289,36 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <div class="empinfo2">
+
+                        <div>
+                            <label>{{title_cardno[initial_current.Language]}}: <span style="color: red;">
+                                    *</span></label>
+                            <input pInputText maxlength="13" [(ngModel)]="selectedEmployee.worker_cardno"
+                                [pKeyFilter]="'int'" required>
+                        </div>
+
+                        <div>
+                            <label>{{title_cardissue[initial_current.Language]}}: <span style="color: red;">
+                                    *</span></label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_cardnoissuedate">
+                            </p-calendar>
+                        </div>
+
+                        <div>
+                            <label>{{title_cardexpire[initial_current.Language]}}: <span style="color: red;">
+                                    *</span></label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_cardnoexpiredate">
+                            </p-calendar>
+                        </div>
+
+                        <div class="horizontal">
+                            <hr>
+                        </div>
                     </div>
 
                     <!--  -->

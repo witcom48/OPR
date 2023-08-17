@@ -34,8 +34,8 @@ export class GroupComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
+    this.doLoadMenu()
     setTimeout(() => {
-      this.doLoadMenu()
       this.doLoadGroup()
     }, 500);
   }
@@ -123,6 +123,13 @@ export class GroupComponent implements OnInit {
           this.new_data= true;
           this.edit_data= false;
         }     
+      },
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Group.xlsx', '_blank');
+        }
       }
       ,    
       {

@@ -23,6 +23,9 @@ export class EmptypeComponent implements OnInit {
   type_list: EmptypeModel[] = [];
   selectedType: EmptypeModel = new EmptypeModel();
 
+  itemslike: MenuItem[] = [];
+  home: any;
+
   constructor(
     private typeService: EmptypeService,
     private router: Router,
@@ -33,10 +36,10 @@ export class EmptypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.doGetInitialCurrent()
-
     this.doLoadLanguage()
+    
+    this.doLoadMenu()
     setTimeout(() => {
-      this.doLoadMenu()
       this.doLoadType()
     }, 500);
   }
@@ -117,6 +120,11 @@ export class EmptypeComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.itemslike = [{ label: this.title_emp[this.initial_current.Language], routerLink: '/employee/policy' }, {
+      label: this.title_emptype[this.initial_current.Language], styleClass: 'activelike'
+    }];
+
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
 
     this.items = [
       {
@@ -127,6 +135,13 @@ export class EmptypeComponent implements OnInit {
           this.selectedType = new EmptypeModel();
           this.new_data = true;
           this.edit_data = false;
+        }
+      },
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Emptype.xlsx', '_blank');
         }
       }
       ,

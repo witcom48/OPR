@@ -44,9 +44,8 @@ export class PartComponent implements OnInit {
     this.doLoadLanguage()
     this.doLoadLevelList();
     this.doloadParentLevel();
-
+    this.doLoadMenu()
     setTimeout(() => {
-      this.doLoadMenu()
       this.doLoadDep()
     }, 500);
   }
@@ -141,6 +140,13 @@ export class PartComponent implements OnInit {
           this.selectedDep = new PartModel();
           this.new_data = true;
           this.edit_data = false;
+        }
+      },
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Dep.xlsx', '_blank');
         }
       }
       ,
