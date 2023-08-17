@@ -5,10 +5,10 @@ import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/a
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Router } from '@angular/router';
 
-import { AppConfig } from '../../../config/config';
-import { InitialCurrent } from '../../../config/initial_current';
+import { AppConfig } from '../../../../config/config';
+import { InitialCurrent } from '../../../../config/initial_current';
 
-import { RadiovalueModel } from '../../../models/project/radio_value';
+import { RadiovalueModel } from '../../../../models/project/radio_value';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { PayitemModel } from 'src/app/models/payroll/payitem';
 import { PayitemService } from 'src/app/services/payroll/payitem.service';
@@ -16,11 +16,11 @@ import { ItemsModel } from 'src/app/models/payroll/items';
 import { ItemService } from 'src/app/services/payroll/item.service';
 
 @Component({
-  selector: 'app-search-item',
-  templateUrl: './search-item.component.html',
-  styleUrls: ['./search-item.component.scss']
+  selector: 'app-search-itemde',
+  templateUrl: './search-itemde.component.html',
+  styleUrls: ['./search-itemde.component.scss']
 })
-export class SearchItemComponent implements OnInit {
+export class SearchItemdeComponent implements OnInit {
 
 
   title_page_from: { [key: string]: string } = { EN: "Showing", TH: "แสดง" }
@@ -81,11 +81,9 @@ export class SearchItemComponent implements OnInit {
     var tmp = new ItemsModel();
   
     this.itemService.item_get(tmp).then((res) => {
-      this.Items_List = res.filter((item: { item_type: string; }) => item.item_type === "IN");
+      this.Items_List = res.filter((item: { item_type: string; }) => item.item_type === "DE");
     });
   }
-  
- 
 
   onRowSelectItems(event: Event) {
   }

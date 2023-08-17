@@ -295,6 +295,14 @@ initialData2: InitialCurrent = new InitialCurrent();
         }
       }
       ,
+            {
+              label: "Template", 
+              icon: 'pi-download', 
+              command: (event) => {
+                window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Periods.xlsx', '_blank');
+              }
+            }
+            ,
       {
         label: this.title_import,
         icon: 'pi-file-import',

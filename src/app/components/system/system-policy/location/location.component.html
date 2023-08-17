@@ -82,21 +82,21 @@
 
 
 
-                <label>{{langs.get('detail')[selectlang]}}<span style="color: red;"> *</span></label>
+                <label>{{langs.get('detail')[selectlang]}}</label>
                 <textarea [(ngModel)]="locations.location_detail" pInputTextarea [autoResize]="true"
-                    name="location_detail" #location_detail="ngModel" required></textarea>
+                    name="location_detail" #location_detail="ngModel" ></textarea>
 
 
 
 
-                <label>{{langs.get('lat')[selectlang]}}<span style="color: red;"> *</span></label>
+                <label>{{langs.get('lat')[selectlang]}}</label>
                 <textarea [(ngModel)]="locations.location_lat" pInputTextarea [autoResize]="true" name="location_lat"
-                    #location_lat="ngModel" required></textarea>
+                    #location_lat="ngModel" ></textarea>
 
 
-                <label>{{langs.get('long')[selectlang]}}<span style="color: red;"> *</span></label>
+                <label>{{langs.get('long')[selectlang]}}</label>
                 <textarea [(ngModel)]="locations.location_long" pInputTextarea [autoResize]="true" name="location_long"
-                    #location_long="ngModel" required></textarea>
+                    #location_long="ngModel" ></textarea>
 
                 <br>
 
@@ -138,5 +138,5 @@
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+key="myDialog" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

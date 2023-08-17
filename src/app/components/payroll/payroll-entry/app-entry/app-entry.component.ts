@@ -368,8 +368,7 @@ export class AppEntryComponent implements OnInit {
 
     this.doLoaditem().then((res) => {
       this.item_list = res;
-      console.log(this.item_list);
-      this.doSummaryByEmp();
+       this.doSummaryByEmp();
     })
     // this.doSummaryByEmp();
   }
@@ -402,20 +401,16 @@ export class AppEntryComponent implements OnInit {
     data.item_data = this.selectEmp.employee_dest;
 
     this.loading = true;
-    console.log(data);
-    await this.payitemService.setpayitems_record(this.initial_current.CompCode, data).then((res) => {
-      console.log(res);
-      if (res.success) {
-        console.log(res.message);
-        this.messageService.add({
+     await this.payitemService.setpayitems_record(this.initial_current.CompCode, data).then((res) => {
+       if (res.success) {
+         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: res.message,
         });
         this.doLoaditem();
         this.doSetDetailItem();
-        // console.log(this.payitem_list);
-
+ 
         this.edit_data = false;
       } else {
         this.messageService.add({
@@ -557,10 +552,8 @@ export class AppEntryComponent implements OnInit {
   async doDeleteLate(data: PayitemModel) {
     try {
       this.loading = true;
-      console.log(data);
-      const res = await this.payitemService.payitem_delete(data);
-      console.log(res);
-      if (res.success) {
+       const res = await this.payitemService.payitem_delete(data);
+       if (res.success) {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -568,8 +561,7 @@ export class AppEntryComponent implements OnInit {
         });
         await this.doLoaditem();
         this.doSetDetailItem();
-        console.log(this.payitem_list);
-        this.edit_data = false;
+         this.edit_data = false;
         this.new_data = false;
       } else {
         this.messageService.add({
@@ -634,19 +626,18 @@ export class AppEntryComponent implements OnInit {
 
 
   select_item() {
-    let select = this.searchitem_popup.selectedPayitem.item_type
-    console.log('3')
-    if (select != "") {
+    let select = this.searchitem_popup.selectedPayitem.item_code
+     if (select != "") {
       this.doGetIndexWorker(select)
       this.searchItem = false
     }
 
   }
 
-  doGetIndexWorker(worker_code: string) {
-    for (let i = 0; i < this.worker_list.length; i++) {
-      if (this.worker_list[i].worker_code == worker_code) {
-        this.worker_index = i;
+  doGetIndexWorker(item_code: string) {
+    for (let i = 0; i < this.Items_Lists.length; i++) {
+      if (this.Items_Lists[i].item_code == item_code) {
+        this.item_index = i;
         break;
       }
     }

@@ -164,6 +164,14 @@ export class SystemReduceComponent implements OnInit {
       }
       ,
       {
+        label: "Template", 
+        icon: 'pi-download', 
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Reduce.xlsx', '_blank');
+        }
+      }
+      ,
+      {
         label: this.title_import,
         icon: 'pi pi-fw pi-file-import',
         command: (event) => {

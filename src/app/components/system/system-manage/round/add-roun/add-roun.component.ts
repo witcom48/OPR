@@ -303,6 +303,14 @@ export class AddRounComponent implements OnInit {
         },
       },
       {
+        label: "Template", 
+        icon: 'pi-download', 
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Rounds.xlsx', '_blank');
+        }
+      }
+      ,
+      {
         label: this.title_import,
         icon: 'pi-file-import',
         command: (event) => {

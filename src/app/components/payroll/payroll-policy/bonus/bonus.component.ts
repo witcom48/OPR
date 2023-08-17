@@ -272,6 +272,14 @@ export class BonusComponent implements OnInit {
                 },
             },
             {
+              label: "Template", 
+              icon: 'pi-download', 
+              command: (event) => {
+                window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Bonus.xlsx', '_blank');
+              }
+            }
+            ,
+            {
                 label: this.title_import,
                 icon: 'pi-file-import',
                 command: (event) => {

@@ -42,8 +42,6 @@ export class TaxrateComponent implements OnInit {
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
-
-
         this.doLoadLanguage();
         this.doLoadMenu();
         this.doLoadTaxrate();
@@ -174,6 +172,14 @@ export class TaxrateComponent implements OnInit {
 
                 },
             },
+            {
+              label: "Template", 
+              icon: 'pi-download', 
+              command: (event) => {
+                window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Taxrate.xlsx', '_blank');
+              }
+            }
+            ,
             {
                 label: this.title_import,
                 icon: 'pi pi-fw pi-file-import',

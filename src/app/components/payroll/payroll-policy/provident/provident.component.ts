@@ -265,6 +265,14 @@ export class ProvidentComponent implements OnInit {
                 },
             },
             {
+              label: "Template", 
+              icon: 'pi-download', 
+              command: (event) => {
+                window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Provident.xlsx', '_blank');
+              }
+            }
+            ,
+            {
                 label: this.title_import,
                 icon: 'pi-file-import',
                 command: (event) => {
@@ -385,29 +393,11 @@ export class ProvidentComponent implements OnInit {
         this.displayManage = true
     }
     exportAsExcel() {
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-            this.table.nativeElement
-        );
-        for (var i in ws) {
-            if (i.startsWith('!') || i.charAt(1) !== '1') {
-                continue;
-            }
-            var n = 0;
-            for (var j in ws) {
-                if (
-                    j.startsWith(i.charAt(0)) &&
-                    j.charAt(1) !== '1' &&
-                    ws[i].v !== ''
-                ) {
-                    ws[j].v = ws[j].v.replace(ws[i].v, '');
-                } else {
-                    n += 1;
-                }
-            }
-        }
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-        XLSX.writeFile(wb, 'Export_Late.xlsx');
-    }
+    
+        XLSX.writeFile(wb, 'Export_Provident.xlsx');
+    
+      }
 }

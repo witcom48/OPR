@@ -224,32 +224,25 @@ export class ItemsComponent implements OnInit {
     }
 
     doUploadMTItem() {
-        const filename =
-            'Item_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-        const filetype = 'xls';
-        this.itemService
-            .item_import(this.fileToUpload, filename, filetype)
-            .then((res) => {
-                // console.log(res);
-                if (res.success) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: res.message,
-                    });
-                    this.doLoadMTItem();
-                    this.edit_data = false;
-                    this.new_data = false;
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: res.message,
-                    });
-                }
-                this.fileToUpload = null;
-            });
-    }
+        const filename = "Item_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+        const filetype = "xls";
+        this.itemService.item_import(this.fileToUpload, filename, filetype).then((res) => {
+          // console.log(res)
+          if (res.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            this.doLoadMTItem();
+            this.edit_data = false;
+            this.new_data = false;
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+          }
+          this.fileToUpload = null;
+        });
+      }
+
+
+     
     handleFileInput(file: FileList) {
         this.fileToUpload = file.item(0);
     }
@@ -270,6 +263,14 @@ export class ItemsComponent implements OnInit {
 
                 },
             },
+            {
+                label: "Template",
+                icon: 'pi-download',
+                command: (event) => {
+                    window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll IncomeDeduct.xlsx', '_blank');
+                }
+            }
+            ,
             {
                 label: this.title_import,
                 icon: 'pi-file-import',
@@ -295,27 +296,24 @@ export class ItemsComponent implements OnInit {
     }
     Uploadfile() {
         if (this.fileToUpload) {
-            this.confirmationService.confirm({
-                message: 'Confirm Upload file : ' + this.fileToUpload.name,
+          this.confirmationService.confirm({
+            message: 'Confirm Upload file : ' + this.fileToUpload.name,
                 header: 'Import File',
                 icon: 'pi pi-exclamation-triangle',
-                accept: () => {
-                    this.displayUpload = false;
-                    this.doUploadMTItem();
-                },
-                key: "myDialog",
-                reject: () => {
-                    this.displayUpload = false;
-                },
-            });
+             accept: () => {
+              this.displayUpload = false;
+              this.doUploadMTItem()
+            },
+            reject: () => {
+              this.displayUpload = false;
+            }
+          });
         } else {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'File',
-                detail: 'Please choose a file.',
-            });
+          this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
         }
-    }
+      }
+
+     
     close() {
         this.new_data = false;
         this.selectedMTItem = new ItemsModel();
@@ -338,28 +336,29 @@ export class ItemsComponent implements OnInit {
         this.displayManage = true
     }
     exportAsExcel() {
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-            this.table.nativeElement
-        );
-        for (var i in ws) {
-            if (i.startsWith('!') || i.charAt(1) !== '1') {
-                continue;
+        const fileToExport = this.MTItem_list.map((items: any) => {
+            return {
+                'company_code': items?.company_code,
+                'item_code': items?.item_code,
+                'item_name_th': items?.item_name_th,
+                'item_name_en': items?.item_name_en,
+                'item_type': items?.item_type,
+                'item_regular': items?.item_regular,
+                 'item_caltax': items?.item_caltax,
+                'item_calpf': items?.item_calpf,
+                'item_calsso': items?.item_calsso,
+                'item_calot': items?.item_calot,
+                'item_allowance': items?.item_allowance,
+                'item_contax': items?.item_contax,
+                'item_rate': items?.item_rate,
+                'item_section': items?.item_section,
+                
+
             }
-            var n = 0;
-            for (var j in ws) {
-                if (
-                    j.startsWith(i.charAt(0)) &&
-                    j.charAt(1) !== '1' &&
-                    ws[i].v !== ''
-                ) {
-                    ws[j].v = ws[j].v.replace(ws[i].v, '');
-                } else {
-                    n += 1;
-                }
-            }
-        }
+        });
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-        XLSX.writeFile(wb, 'Export_Items.xlsx');
+        XLSX.writeFile(wb, 'Export_Income/Deduct.xlsx');
     }
 }

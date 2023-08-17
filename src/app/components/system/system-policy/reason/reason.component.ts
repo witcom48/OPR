@@ -134,6 +134,14 @@ export class ReasonComponent implements OnInit {
       }
       ,
       {
+        label: "Template", 
+        icon: 'pi-download', 
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Reason.xlsx', '_blank');
+        }
+      }
+      ,
+      {
         label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {

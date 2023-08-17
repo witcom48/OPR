@@ -152,6 +152,14 @@ export class SystemFacultyComponent implements OnInit {
       }
       ,
       {
+        label: "Template", 
+        icon: 'pi-download', 
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Faculty.xlsx', '_blank');
+        }
+      }
+      ,
+      {
         label: this.title_import,
         icon: 'pi pi-fw pi-file-import',
         command: (event) => {

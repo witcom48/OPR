@@ -155,6 +155,13 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
 
         }
+      },
+      {
+        label: "Template", 
+        icon: 'pi-download', 
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Level.xlsx', '_blank');
+        }
       }
       ,
       {
@@ -408,25 +415,6 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
     XLSX.writeFile(wb, 'Export_level.xlsx');
 
-  }
-
-  
-
-  exportFileExcel() {
-    const fileToExport = this.level_list.map((items: any) => {
-      return {
-        "level_id": items?.level_id,
-        "level_code": items?.level_code,
-        "level_name_th": items?.level_name_th,
-        "level_name_en": items?.level_name_en,
-        "level_group": items?.level_group,
-        "company_code": items?.company_code,
-      }
-    });
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    XLSX.writeFile(wb, 'Export_level.xlsx');
   }
 
 }
