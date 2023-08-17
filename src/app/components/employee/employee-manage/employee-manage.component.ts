@@ -49,8 +49,7 @@ import { EmpBranchModel } from 'src/app/models/employee/manage/empbranch';
 
 //dropdown
 import { LocationService } from 'src/app/services/system/policy/location.service';
-import { LocationModel } from 'src/app/models/system/policy/location';
-import { CombranchService } from 'src/app/services/system/combranch.service';
+ import { CombranchService } from 'src/app/services/system/combranch.service';
 import { CombranchModel } from 'src/app/models/system/branch';
 import { BloodtypeService } from 'src/app/services/system/policy/bloodtype.service';
 import { ReligionService } from 'src/app/services/system/policy/religion.service';
@@ -99,6 +98,7 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { CodePolcodeService } from 'src/app/services/system/manage1/code-polcode.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
 
 
 
@@ -2304,9 +2304,9 @@ export class EmployeeManageComponent implements OnInit {
       this.groupList = res;
     })
   }
-  locationList: LocationModel[] = [];
+  locationList: SysLocationModel[] = [];
   doLoadLocationList() {
-    var tmp = new LocationModel();
+    var tmp = new SysLocationModel();
     this.locationService.location_get(tmp).then(async (res) => {
       this.locationList = await res;
     })

@@ -163,7 +163,10 @@ export class BonusComponent implements OnInit {
         this.doLoadMenu();
         this.doLoadLate();
     }
-
+    reloadPage() {
+        this.doLoadLate()
+      }
+     
     doLoadLate() {
         this.bonus_list = [];
         var tmp = new BonusModel();

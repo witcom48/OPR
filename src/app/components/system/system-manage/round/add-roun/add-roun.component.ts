@@ -179,6 +179,9 @@ export class AddRounComponent implements OnInit {
     this.doLoadMenu();
 
   }
+  reloadPage() {
+    this.doLoadRounds()
+  }
   doLoadRounds() {
     this.rounds_list = [];
     var tmp = new RoundsModel();

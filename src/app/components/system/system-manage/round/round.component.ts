@@ -175,6 +175,9 @@ export class RoundComponent implements OnInit {
     this.doLoadMenu();
     this.doLoadRounds();
   }
+  reloadPage() {
+    this.doLoadRounds()
+  }
   doLoadRounds() {
     this.rounds_list = [];
     var tmp = new RoundsModel();

@@ -163,7 +163,9 @@ export class ProvidentComponent implements OnInit {
     }
 
 
-
+    reloadPage() {
+        this.doLoadLate()
+      }
     doLoadLate() {
         this.provident_list = [];
         var tmp = new ProvidentModel();

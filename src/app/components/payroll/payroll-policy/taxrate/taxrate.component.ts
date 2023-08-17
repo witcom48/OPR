@@ -196,7 +196,9 @@ export class TaxrateComponent implements OnInit {
             },
         ];
     }
-
+    reloadPage() {
+        this.doLoadTaxrate()
+      }
     doLoadTaxrate() {
         this.taxrateService.taxrate_get().then((res) => {
             this.taxrate_list = res;

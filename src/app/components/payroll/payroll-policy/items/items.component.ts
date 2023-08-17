@@ -159,6 +159,9 @@ export class ItemsComponent implements OnInit {
         { label: this.title_page, styleClass: 'activelike' }];
         this.home = { icon: 'pi pi-home', routerLink: '/' };
     }
+    reloadPage() {
+        this.doLoadMTItem()
+      }
     doLoadMTItem() {
         this.MTItem_list = [];
         var tmp = new ItemsModel();

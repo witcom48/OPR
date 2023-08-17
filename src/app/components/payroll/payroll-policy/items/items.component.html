@@ -78,7 +78,7 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position">
+    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position"(onHide)="reloadPage()">
         <div class="formatt p-dialog-content" *ngIf="new_data">
             <!-- <i (click)="close()"></i> -->
 

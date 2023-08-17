@@ -7,9 +7,9 @@ import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { LocationModel } from 'src/app/models/system/policy/location';
-import { LocationService } from 'src/app/services/system/policy/location.service';
+ import { LocationService } from 'src/app/services/system/policy/location.service';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
 declare var locationpage: any;
 
 @Component({
@@ -32,8 +32,8 @@ export class LocationComponent implements OnInit {
   fileToUpload: File | any = null;
   displayUpload: boolean = false;
   items: MenuItem[] = [];
-  location_list: LocationModel[] = [];
-  locations: LocationModel = new LocationModel()
+  location_list: SysLocationModel[] = [];
+  locations: SysLocationModel = new SysLocationModel()
 
   public initial_current: InitialCurrent = new InitialCurrent();
   initialData2: InitialCurrent = new InitialCurrent();
@@ -54,14 +54,14 @@ export class LocationComponent implements OnInit {
   }
   doLoadLocation() {
     this.location_list = [];
-    var tmp = new LocationModel();
+    var tmp = new SysLocationModel();
     this.locationService.location_get(tmp).then(async (res) => {
       this.location_list = await res;
     });
   }
 
 
-  async doRecordLocation(data: LocationModel) {
+  async doRecordLocation(data: SysLocationModel) {
     await this.locationService.location_record(data).then((res) => {
       // console.log(res)
       if (res.success) {
@@ -94,7 +94,7 @@ export class LocationComponent implements OnInit {
     });
   }
 
-  async doDeleteLocation(data: LocationModel) {
+  async doDeleteLocation(data: SysLocationModel) {
     await this.locationService.location_delete(data).then((res) => {
       // console.log(res)
       if (res.success) {
@@ -141,7 +141,7 @@ export class LocationComponent implements OnInit {
         command: (event) => {
           if (this.accessData.accessdata_new) {
             this.showManage()
-            this.locations = new LocationModel();
+            this.locations = new SysLocationModel();
             this.new_data = true;
             this.edit_data = false;
           } else {
@@ -208,7 +208,7 @@ export class LocationComponent implements OnInit {
 
   close() {
     this.new_data = false
-    this.locations = new LocationModel()
+    this.locations = new SysLocationModel()
   }
   reloadPage() {
     this.doLoadLocation()

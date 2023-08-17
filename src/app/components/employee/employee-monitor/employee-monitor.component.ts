@@ -9,7 +9,9 @@ import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/services/system/policy/location.service';
-import { LocationModel } from 'src/app/models/system/policy/location';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
+import { LocationModel } from 'src/app/models/employee/policy/location';
+import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
 
 @Component({
   selector: 'app-employee-monitor',
@@ -38,7 +40,8 @@ export class EmployeeMonitorComponent implements OnInit {
   public initial_current: InitialCurrent = new InitialCurrent();
   public workerList: EmployeeModel[] = [];
 
-  public locationList: LocationModel[] = [];
+  public locationList: EmpLocationModel[] = [];
+  public syslocationList: SysLocationModel[] = [];
 
   constructor(
     private employeeService: EmployeeService,
@@ -260,19 +263,21 @@ export class EmployeeMonitorComponent implements OnInit {
 
     try {
       const res = await this.employeeService.locationlist_get(this.initial_current.CompCode, '');
-      this.locationList = res;
-
+      this.syslocationList = res;
       console.log(res, 'location');
 
       let personnelOnDuty: number = 0;
       let currentWorkers: number = 0;
 
-      for (let i = 0; i < this.locationList.length; i++) {
+      for (let i = 0; i < this.syslocationList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
-
-        if (this.workerList[i].worker_code && hireDate.getTime() >= temp_fromdate.getTime()) {
+        if (this.workerList[i].worker_code) {
           personnelOnDuty++;
-console.log(this.locationList[i].location_code,'test1')
+          // .location_data[i].worker_cod
+
+        // if (this.workerList[i].worker_code ) {
+        //   personnelOnDuty++;
+          console.log(this.workerList[i].worker_code,personnelOnDuty)
 
           if (hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
             currentWorkers++;
@@ -281,7 +286,7 @@ console.log(this.locationList[i].location_code,'test1')
       }
 
 
-      const locationLabels = this.locationList.map(location => `${location.location_name_th}(${personnelOnDuty} คน)`);
+      const locationLabels = this.syslocationList.map(location => `${location.location_name_th}(${personnelOnDuty} คน)`);
       this.barChartData4.labels = locationLabels;
       this.barChartData4.datasets[0].data = Array(locationLabels.length).fill(personnelOnDuty);
       this.barChartData4.datasets[1].data = Array(locationLabels.length).fill(currentWorkers);

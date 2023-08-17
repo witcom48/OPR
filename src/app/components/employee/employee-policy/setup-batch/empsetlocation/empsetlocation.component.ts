@@ -7,8 +7,8 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
 import { SetLocationModel } from 'src/app/models/employee/policy/batch/setlocation';
-import { LocationModel } from 'src/app/models/system/policy/location';
-import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
+ import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { TaskService } from 'src/app/services/task.service';
 
@@ -88,9 +88,9 @@ export class EmpsetlocationComponent implements OnInit {
     }
   }
 
-  locationList: LocationModel[]=[];
+  locationList: SysLocationModel[]=[];
   doLoadLocationList(){
-    var tmp = new LocationModel();
+    var tmp = new SysLocationModel();
     this.locationService.location_get(tmp).then(async(res)=>{
       this.locationList = await res;
     })

@@ -8,8 +8,8 @@ import { ApproveModel } from 'src/app/models/self/approve';
 import { ApproveTotalModel } from 'src/app/models/self/approveTotal';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeonsiteModel } from 'src/app/models/self/cls_TRTimeonsite';
-import { LocationModel } from 'src/app/models/system/policy/location';
-import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
+ import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeonsiteServices } from 'src/app/services/self/timeonsite';
 import { LocationService } from 'src/app/services/system/policy/location.service';
@@ -48,8 +48,8 @@ export class SelfApproveRecordtimeComponent implements OnInit {
   Uploadfile: boolean = false;
   reason_list: ReasonsModel[] = [];
   reasonselected: ReasonsModel = new ReasonsModel();
-  location_list: LocationModel[] = [];
-  locationselected: LocationModel = new LocationModel();
+  location_list: SysLocationModel[] = [];
+  locationselected: SysLocationModel = new SysLocationModel();
   trtimonsite_list: cls_TRTimeonsiteModel[] = [];
   selectedtrtimeonsite: cls_TRTimeonsiteModel = new cls_TRTimeonsiteModel();
   selectedtrtimeonsiteall: cls_TRTimeonsiteModel[] = [];
@@ -100,7 +100,7 @@ export class SelfApproveRecordtimeComponent implements OnInit {
   }
   doLoadLocation() {
     this.location_list = [];
-    let data = new LocationModel()
+    let data = new SysLocationModel()
     this.locationService.location_get(data).then(async (res) => {
       this.location_list = await res;
     });
@@ -289,7 +289,7 @@ export class SelfApproveRecordtimeComponent implements OnInit {
   }
   viwe(data: cls_TRTimeonsiteModel) {
     this.selectedtrtimeonsite = data;
-    this.location_list.forEach((obj: LocationModel) => {
+    this.location_list.forEach((obj: SysLocationModel) => {
       if (obj.location_code == data.location_code) {
         this.locationselected = obj;
       }

@@ -183,7 +183,9 @@ initialData2: InitialCurrent = new InitialCurrent();
     { label: this.title_page, styleClass: 'activelike' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
-
+  reloadPage() {
+    this.doLoadYear()
+  }
   doLoadYear() {
     this.yaerList = [];
     var tmp = new YearPeriodModels();

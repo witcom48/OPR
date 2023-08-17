@@ -58,27 +58,38 @@
 
     <!-- Form input or Edit Data Year Period -->
     <form #Form="ngForm">
-        <div class="formatt" *ngIf="new_data">
-            <i (click)="close()"></i>
-            <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
-
-            <input pInputText type="text" [(ngModel)]="reasons.reason_code" maxlength="5" [disabled]="edit_data"
-                name="code" #code="ngModel" required />
-            <p>{{reasons.reason_code.length}}/5</p>
-            <label>{{langs.get('descriptionth')[selectlang]}} <span style="color: red;"> *</span></label>
-            <textarea [(ngModel)]="reasons.reason_name_th" pInputTextarea [autoResize]="true" name="bank_name_en"
-                #late_name_en="ngModel" required></textarea>
-            <label>{{langs.get('descriptionen')[selectlang]}} <span style="color: red;"> *</span></label>
-            <textarea [(ngModel)]="reasons.reason_name_en" pInputTextarea [autoResize]="true" name="bank_name_th"
-                #late_name_th="ngModel" required></textarea>
+        <p-dialog [(visible)]="displayManage" [position]="position" (onHide)="reloadPage()">
+            <div class="formatt p-dialog-content" *ngIf="new_data">
 
 
 
-            <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check" (click)="Save()"
-                [disabled]="!Form.form.valid"></button>
+                <!-- <i (click)="close()"></i> -->
+                <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
 
-            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                icon="pi pi-trash" class="p-button p-button-danger" (click)="Delete()"></button>
+                <input pInputText type="text" [(ngModel)]="reasons.reason_code" maxlength="5" [disabled]="edit_data"
+                    name="code" #code="ngModel" required />
+                <p>{{reasons.reason_code.length}}/5</p>
+                <label>{{langs.get('descriptionth')[selectlang]}} <span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="reasons.reason_name_th" pInputTextarea [autoResize]="true" name="bank_name_en"
+                    #late_name_en="ngModel" required></textarea>
+                <label>{{langs.get('descriptionen')[selectlang]}} <span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="reasons.reason_name_en" pInputTextarea [autoResize]="true" name="bank_name_th"
+                    #late_name_th="ngModel" required></textarea>
+
+
+
+                <div style="text-align: right;">
+                    <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                        icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                    &nbsp;
+                    <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                        (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                </div>
+
+            </div>
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
         </div>
     </form>
     <!-- --------------End form Input Data ------------------ -->

@@ -8,8 +8,8 @@ import { ApproveModel } from 'src/app/models/self/approve';
 import { ApproveTotalModel } from 'src/app/models/self/approveTotal';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeotModel } from 'src/app/models/self/cls_TRTimeot';
-import { LocationModel } from 'src/app/models/system/policy/location';
-import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
+ import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
@@ -48,8 +48,8 @@ export class SelfApproveOvertimeComponent implements OnInit {
   Uploadfile: boolean = false;
   reason_list: ReasonsModel[] = [];
   reasonselected: ReasonsModel = new ReasonsModel();
-  location_list: LocationModel[] = [];
-  locationselected: LocationModel = new LocationModel();
+  location_list: SysLocationModel[] = [];
+  locationselected: SysLocationModel = new SysLocationModel();
   trtimeot_list: cls_TRTimeotModel[] = [];
   selectedtrtimeot: cls_TRTimeotModel = new cls_TRTimeotModel();
   selectedtrtimeotall: cls_TRTimeotModel[] = [];
@@ -124,7 +124,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
   }
   doLoadLocation() {
     this.location_list = [];
-    let data = new LocationModel()
+    let data = new SysLocationModel()
     this.locationService.location_get(data).then(async (res) => {
       this.location_list = await res;
     });
@@ -466,7 +466,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
   }
   viwe(data: cls_TRTimeotModel) {
     this.selectedtrtimeot = data;
-    this.location_list.forEach((obj: LocationModel) => {
+    this.location_list.forEach((obj: SysLocationModel) => {
       if (obj.location_code == data.location_code) {
         this.locationselected = obj;
       }

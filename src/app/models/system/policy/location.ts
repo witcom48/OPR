@@ -1,4 +1,7 @@
-export class LocationModel {
+import { EmpLocationModel } from "../../employee/manage/emplocation";
+
+ 
+export class SysLocationModel {
     constructor() {
 
     }
@@ -16,4 +19,7 @@ export class LocationModel {
     modified_by: string = "";
     modified_date: string = "";
     flag: boolean = false;
+
+    location_data: EmpLocationModel[] = [];
+
 }

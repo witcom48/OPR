@@ -7,14 +7,14 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimecheckinModel } from 'src/app/models/self/cls_TRTimecheckin';
-import { LocationModel } from 'src/app/models/system/policy/location';
-import { TimecheckinServices } from 'src/app/services/self/timecheckin.service';
+ import { TimecheckinServices } from 'src/app/services/self/timecheckin.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { AreaServices } from 'src/app/services/self/area.service';
 import { MTAreaModel } from 'src/app/models/self/MTArea';
 import { ApproveModel } from 'src/app/models/self/approve';
 import { ApproveServices } from 'src/app/services/self/approve.service';
 import { ApproveTotalModel } from 'src/app/models/self/approveTotal';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
 declare var reqcheckin: any;
 interface Status { name: string, code: number }
 interface Area {
@@ -60,8 +60,8 @@ export class SelfApproveCheckinComponent implements OnInit {
   distance: number = 1000;
   items: MenuItem[] = [];
   items_attfile: MenuItem[] = [];
-  location_list: LocationModel[] = [];
-  locationselected: LocationModel = new LocationModel();
+  location_list: SysLocationModel[] = [];
+  locationselected: SysLocationModel = new SysLocationModel();
   type_list: Type[] = [{ name: this.langs.get('in')[this.selectlang], code: "I" }, { name: this.langs.get('out')[this.selectlang], code: "O" }];
   typeselected: Type = { name: this.langs.get('in')[this.selectlang], code: "I" };
   timecheckin_list: cls_TRTimecheckinModel[] = [];
@@ -120,7 +120,7 @@ export class SelfApproveCheckinComponent implements OnInit {
   }
   doLoadLocation() {
     this.location_list = [];
-    let data = new LocationModel()
+    let data = new SysLocationModel()
     this.locationService.location_get(data).then(async (res) => {
       this.location_list = await res;
     });
@@ -365,7 +365,7 @@ export class SelfApproveCheckinComponent implements OnInit {
   viwe(data: cls_TRTimecheckinModel) {
     this.selectedtimecheckin = data
     this.doLoadArea(data.worker_code);
-    this.location_list.forEach((obj: LocationModel) => {
+    this.location_list.forEach((obj: SysLocationModel) => {
       if (obj.location_code == data.location_code) {
         this.locationselected = obj;
       }

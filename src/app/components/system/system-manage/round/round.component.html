@@ -91,7 +91,7 @@
     <!-- Form input or Edit Data Year Period -->
     <form #Form="ngForm">
         <p-dialog [(visible)]="displayManage" [style]="{ height: '1500px', 'overflow-y': 'hidden' }"
-            [position]="position">
+            [position]="position" (onHide)="reloadPage()">
             <div class="formatt  p-dialog-content" *ngIf="new_data">
 
                 <div>

@@ -62,6 +62,9 @@ export class ReasonComponent implements OnInit {
     ];
     this.doLoadReason();
   }
+  reloadPage() {
+    this.doLoadReason()
+  }
   doLoadReason() {
     this.reason_list = [];
     var tmp = new ReasonsModel();
@@ -84,6 +87,8 @@ export class ReasonComponent implements OnInit {
     });
     this.new_data = false;
     this.edit_data = false;
+    this.displayManage = false
+
   }
   async doDeleteReason(data: ReasonsModel) {
     await this.reasonsService.reason_delete(data).then((res) => {
@@ -98,6 +103,8 @@ export class ReasonComponent implements OnInit {
     });
     this.new_data = false;
     this.edit_data = false;
+    this.displayManage = false
+
   }
   doUploadReason() {
     const filename = "REASON_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
@@ -108,6 +115,8 @@ export class ReasonComponent implements OnInit {
         this.doLoadReason();
         this.edit_data = false;
         this.new_data = false;
+        this.displayManage = false
+
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -123,9 +132,11 @@ export class ReasonComponent implements OnInit {
         icon: 'pi-plus',
         command: (event) => {
           if (this.accessData.accessdata_new) {
+            this.showManage()
             this.reasons = new ReasonsModel();
             this.new_data = true;
             this.edit_data = false;
+
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
@@ -163,13 +174,24 @@ export class ReasonComponent implements OnInit {
   close() {
     this.new_data = false
     this.reasons = new ReasonsModel()
+    this.displayManage = false
+
   }
   showUpload() {
     this.displayUpload = true;
+    
   }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
+
+  displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
+  }
+
+
 
   Uploadfile() {
     if (this.fileToUpload) {
@@ -201,6 +223,8 @@ export class ReasonComponent implements OnInit {
   onRowSelect(event: any) {
     this.new_data = true
     this.edit_data = true;
+    this.displayManage = true
+
   }
   exportAsExcel() {
 
