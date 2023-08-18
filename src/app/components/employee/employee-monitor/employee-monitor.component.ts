@@ -260,34 +260,35 @@ export class EmployeeMonitorComponent implements OnInit {
   async doLoadChart4() {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
-
+  
     try {
       const res = await this.employeeService.locationlist_get(this.initial_current.CompCode, '');
-      this.syslocationList = res;
+      this.locationList = res;
       console.log(res, 'location');
-
+  
       let personnelOnDuty: number = 0;
       let currentWorkers: number = 0;
-
-      for (let i = 0; i < this.syslocationList.length; i++) {
-        const hireDate = new Date(this.workerList[i].worker_hiredate);
-        if (this.workerList[i].worker_code) {
+  
+      for (let i = 0; i < this.locationList.length; i++) {
+        const hireDate = new Date(this.locationList[i].emplocation_startdate);
+        const resignDate = new Date(this.locationList[i].emplocation_enddate);
+  
+        if (this.locationList[i].worker_code) {
           personnelOnDuty++;
-          // .location_data[i].worker_cod
-
-        // if (this.workerList[i].worker_code ) {
-        //   personnelOnDuty++;
-          console.log(this.workerList[i].worker_code,personnelOnDuty)
-
-          if (hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+          console.log(personnelOnDuty,'oo')
+  
+          if (this.locationList[i].location_code && resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime()) {
             currentWorkers++;
           }
+          // console.log(this.locationList[i].worker_code, 'test6')
         }
       }
+  
+      const locationLabels = this.locationList.map(location => `${location.location_name_th} (${location.worker_code} คน)`);
+     
 
-
-      const locationLabels = this.syslocationList.map(location => `${location.location_name_th}(${personnelOnDuty} คน)`);
       this.barChartData4.labels = locationLabels;
+      console.log( locationLabels, 'teค')
       this.barChartData4.datasets[0].data = Array(locationLabels.length).fill(personnelOnDuty);
       this.barChartData4.datasets[1].data = Array(locationLabels.length).fill(currentWorkers);
       console.log(this.barChartData4, 'te')
@@ -295,7 +296,7 @@ export class EmployeeMonitorComponent implements OnInit {
     } catch (error) {
     }
   }
-
+  
   updateChart4() {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
       this.chart.chart.update();

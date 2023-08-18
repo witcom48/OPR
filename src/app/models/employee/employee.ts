@@ -80,4 +80,5 @@ export class EmployeeModel {
   worker_cardno: string = "";
   worker_cardnoissuedate!: Date;
   worker_cardnoexpiredate!: Date;
+  
 }
