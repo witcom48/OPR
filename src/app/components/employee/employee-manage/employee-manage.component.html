@@ -228,9 +228,7 @@
                                 [(ngModel)]="selectedEmployee.worker_resignstatus" [binary]="true"></p-checkbox>
                             <label>{{title_resignstatus}}</label>
                             &nbsp;
-                            <p-checkbox name="selectedEmployee.worker_blackliststatus"
-                                [(ngModel)]="selectedEmployee.worker_blackliststatus" [binary]="true"></p-checkbox>
-                            <label for="lastname2">{{title_blacklist[initial_current.Language]}}</label>
+                            
                         </div>
 
                         <div class="horizontal">
@@ -253,6 +251,14 @@
                             <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
                                 [(ngModel)]="selectedEmployee.worker_resignreason"
                                 [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                        </div>
+                        <div class="horizontal">
+                            <hr>
+                        </div>
+                        <div class="checkresign">
+                            <p-checkbox name="selectedEmployee.worker_blackliststatus"
+                                [(ngModel)]="selectedEmployee.worker_blackliststatus" [binary]="true"></p-checkbox>
+                            <label for="lastname2">{{title_blacklist[initial_current.Language]}}</label>
                         </div>
                         <div class="horizontal">
                             <hr>
@@ -319,6 +325,46 @@
                         <div class="horizontal">
                             <hr>
                         </div>
+
+                        <div>
+                            <label>{{title_socialno[initial_current.Language]}}: <span style="color: red;">
+                                    *</span></label>
+                            <input pInputText maxlength="13" [(ngModel)]="selectedEmployee.worker_socialno"
+                                [pKeyFilter]="'int'" required>
+                        </div>
+
+                        <div>
+                            <label>{{title_socialissue[initial_current.Language]}}: <span style="color: red;">
+                                    *</span></label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_socialnoissuedate">
+                            </p-calendar>
+                        </div>
+
+                        <div>
+                            <label>{{title_socialexpire[initial_current.Language]}}: <span style="color: red;">
+                                    *</span></label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_socialnoexpiredate">
+                            </p-calendar>
+                        </div>
+
+                        <div>
+                            <label>{{title_socialsentdate[initial_current.Language]}}:</label>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [(ngModel)]="selectedEmployee.worker_socialsentdate">
+                            </p-calendar>
+                        </div>
+                        <div class="checkbb">
+                            <p-checkbox name="selectedEmployee.worker_socialnotsent"
+                                [(ngModel)]="selectedEmployee.worker_socialnotsent" [binary]="true"></p-checkbox>
+                            <label for="lastname2">{{title_socialnotsent[initial_current.Language]}}</label>
+                        </div>
+
+                        <div class="horizontal">
+                            <hr>
+                        </div>
+
                     </div>
 
                     <!--  -->
