@@ -127,6 +127,13 @@ export class InitialComponent implements OnInit {
           this.new_data= true;
           this.edit_data= false;
         }     
+      },
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Initial.xlsx', '_blank');
+        }
       }
       ,    
       {

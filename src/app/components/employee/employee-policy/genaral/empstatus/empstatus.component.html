@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{title_emp[initial_current.Language]}}</span>
     <div>
         <i></i>
@@ -8,12 +8,14 @@
         <i></i>
         <small>{{title_empstatus[initial_current.Language]}}</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
 <!-- Menu New Import Export Data -->
 <div>
-    <p-menubar [model]="items"></p-menubar>
+    <p-menubar [model]="items">
+    </p-menubar>
 </div>
 <!-- ----------------END MENU----------------- -->
 
@@ -60,30 +62,41 @@
     </div>
     <!-- -----------------------END Table-------------------------- -->
 
-    <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height:'65vh',width:'30vw', 'overflow-y': 'hidden' }"
+            [position]="position">
+            <!-- Form input or Edit Data -->
+            <div class="formgrid grid align-items-end" *ngIf="new_data==true">
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{title_code}} <span style="color: red;"> *</span></label>
+                    <input pInputText type="text" [(ngModel)]="selectedStatus.status_code" maxlength="5" name="code"
+                        #code="ngModel" required />
+                    <p>{{selectedStatus.status_code.length}}/5</p>
+                </div>
 
-        <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedStatus.status_code" maxlength="5" />
-        <p>{{selectedStatus.status_code.length}}/5</p>
-
-        <label>{{title_name_th}}</label>
-        <textarea [(ngModel)]="selectedStatus.status_name_th" pInputTextarea [autoResize]="true"></textarea>
-
-        <label>{{title_name_en}}</label>
-        <textarea [(ngModel)]="selectedStatus.status_name_en" pInputTextarea [autoResize]="true"></textarea>
-
-        <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="btndel" (click)="confirmDelete()"></button> -->
-        <div class="field col-12">
-            <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
-            &nbsp;
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary"
-                (click)="confirmDelete()"></button>
-        </div>
-    </div>
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{title_name_th}} <span style="color: red;"> *</span></label>
+                    <textarea [(ngModel)]="selectedStatus.status_name_th" pInputTextarea [autoResize]="true"
+                        name="name_th" #name_th="ngModel" required></textarea>
+                </div>
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{title_name_en}} <span style="color: red;"> *</span></label>
+                    <textarea [(ngModel)]="selectedStatus.status_name_en" pInputTextarea [autoResize]="true"
+                        name="name_en" #name_en="ngModel" required></textarea>
+                </div>
+                <br>
+                <div class="field col-12" style=" text-align: right;">
+                    <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"
+                        [disabled]="!Form.form.valid"></p-button>
+                    &nbsp;
+                    <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
+                        class="p-button-secondary" (click)="confirmDelete()"></button>
+                </div>
+            </div>
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+    </form>
 </div>
 
 <!-- Dialog Choose File Import -->

@@ -107,6 +107,19 @@
                                 </ng-template>
                             </p-dropdown>
                         </div>
+                        <div>
+                            <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
+                            <p-dropdown placeholder="--" [options]="nationality" optionValue="code" [showClear]="true"
+                                [(ngModel)]="selectedReqworker.nationality_code"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
 
                         <div>
                             <label for="applywork_birthdate">{{title_birthdate}}:</label>
@@ -127,19 +140,7 @@
 
                         </div>
 
-                        <div>
-                            <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
-                            <p-dropdown placeholder="--" [options]="nationality" optionValue="code" [showClear]="true"
-                                [(ngModel)]="selectedReqworker.nationality_code"
-                                [style]="{ width: '100%', overflow: 'visible' }">
-                                <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
-                                </ng-template>
-                                <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
+                        
 
                         <div>
                             <label for="worker_age">{{title_age[initial_current.Language]}}:</label>

@@ -82,7 +82,7 @@ export class EmployeeListComponent implements OnInit {
       { name_th: 'ข้อมูลตำแหน่ง', name_en: 'Employee Position', code: 'EMPPOSITION' },
       { name_th: 'ข้อมูลการศึกษา', name_en: 'Employee Education', code: 'EMPEDUCATION' },
       { name_th: 'ข้อมูลการฝึกอบรม', name_en: 'Employee Training', code: 'EMPTRAINING' },
-      { name_th: 'ข้อมูลการประเมิน', name_en: 'Employee Assessment', code: 'EMPASSESSMENT' },
+      { name_th: 'ข้อมูลการประเมิน', name_en: 'Employee Appraisal', code: 'EMPASSESSMENT' },
       { name_th: 'ข้อมูลอาชญากรรม', name_en: 'Employee Criminal', code: 'EMPCRIMINAL' },
       { name_th: 'ข้อมูลgเงินเดือนพนักงาน', name_en: 'Employee Salary', code: 'EMPSALARY' },
       { name_th: 'ข้อมูลกองทุนสำรองฯ', name_en: 'Employee Provident', code: 'EMPPROVIDENT' },
@@ -108,8 +108,8 @@ export class EmployeeListComponent implements OnInit {
     this.doLoadEmpstatusList();
     this.doLoadblackList();
     this.doLoadReason();
+    this.doLoadMenu()
     setTimeout(() => {
-      this.doLoadMenu()
       // this.doLoadEmployee()
       this.doGetDataFillter();
     }, 500);
@@ -225,6 +225,171 @@ export class EmployeeListComponent implements OnInit {
         }
 
       },
+      {
+        label: "Template",
+        icon: 'pi-download',
+        // command: (event) => {
+        //   window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Emptype.xlsx', '_blank');
+        // }
+        items: [
+          {
+            label: "Employee info",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Address",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Address.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Bank Account",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Bank.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Family",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Family.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Hospital",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Hospital.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Foreigner",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Foreigner.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Department",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Department.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Position",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Position.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Education",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Education.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Training",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Training.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Appraisal",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Appraisal.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Criminal",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Criminal.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Salary",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Salary.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Provident",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Provident.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Benefits",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Benefit.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Reduce",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Reduce.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Location",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Location.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Group",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Group.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Branch",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Branch.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Supply",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Supply.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Uniform",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Uniform.xlsx', '_blank');
+            }
+          },
+          {
+            label: "Employee Suggest",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Suggest.xlsx', '_blank');
+            }
+          },
+        ]
+        
+      }
+      ,
       {
         label: this.title_import,
         icon: 'pi pi-fw pi-file-import',
