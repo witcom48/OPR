@@ -91,6 +91,7 @@ export class HolidayComponent implements OnInit {
       await res.forEach((element: HolidayModels) => {
         element.holiday_list.forEach((elm: Holiday_listModels) => {
           elm.holiday_date = new Date(elm.holiday_date)
+          elm.holiday_payper = Number(elm.holiday_payper)
         })
       });
       this.holiday_lists = await res;
@@ -283,7 +284,8 @@ export class HolidayComponent implements OnInit {
     }
   }
   close() {
-    this.new_data = false
+    this.new_data = false;
+    this.displayaddholiday = false;
     this.holidays = new HolidayModels()
     this.holiday_listselect = new Holiday_listModels();
   }
@@ -297,7 +299,17 @@ export class HolidayComponent implements OnInit {
     this.edit_data = false;
   }
   Delete() {
-    this.doDeletePlanholiday(this.holidays)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletePlanholiday(this.holidays)
+      },
+      reject: () => {
+        // this.close();
+      }
+    });
   }
   Saveholiday() {
     if (!this.displayeditholiday) {
