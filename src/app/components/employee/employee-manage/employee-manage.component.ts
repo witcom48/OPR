@@ -124,6 +124,11 @@ interface Milit {
   name_en: string,
   code: string
 }
+interface Nation {
+  name_th: string,
+  name_en: string,
+  code: string
+}
 
 
 @Component({
@@ -154,6 +159,7 @@ export class EmployeeManageComponent implements OnInit {
   conPay: ConPay[] = [];
   // cardTypelist: Ctype[] = [];
   militarystatus: Milit[] = [];
+  nationality: Nation[] = [];
 
   //menu emplocation
   menu_emplocation: MenuItem[] = [];
@@ -324,6 +330,16 @@ export class EmployeeManageComponent implements OnInit {
       { name_th: 'ยังไม่เกณฑ์ทหาร', name_en: 'Non', code: 'N' },
       { name_th: 'ผ่านการเกณฑ์ทหารแล้ว', name_en: 'Pass military service', code: 'P' },
     ]
+    this.nationality = [
+      { name_th: 'ไทย', name_en: 'Thai', code: 'TH' },
+      { name_th: 'ไต้หวัน', name_en: 'Taiwanese', code: 'TW' },
+      { name_th: 'อเมริกัน', name_en: 'USA', code: 'US' },
+      { name_th: 'สิงคโปร์', name_en: 'Singaporean', code: 'SG' },
+      { name_th: 'ฟิลลิปปิน', name_en: 'Filipino', code: 'PH' },
+      { name_th: 'มาเลเซีย', name_en: 'Malaysia', code: 'MY' },
+      { name_th: 'จีน', name_en: 'Chinese', code: 'CH' },
+
+    ];
   }
 
   ngOnInit(): void {
@@ -596,6 +612,20 @@ export class EmployeeManageComponent implements OnInit {
   title_familynameth: { [key: string]: string } = { EN: "Name(Eng.)", TH: "ชื่อ(อังกฤษ)" };
   title_familynameen: { [key: string]: string } = { EN: "Name(Thai)", TH: "ชื่อ(ไทย)" };
 
+  //
+  title_nation: { [key: string]: string } = { EN: "Nationality", TH: "สัญชาติ" };
+  title_age: { [key: string]: string } = { EN: "Age", TH: "อายุ" };
+  //
+  title_cardno: { [key: string]: string } = { EN: "Card No.", TH: "เลขบัตรประจำตัวประชาชน" };
+  title_cardissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันออกบัตร" };
+  title_cardexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันหมดอายุ" };
+
+  title_socialno: { [key: string]: string } = { EN: "Social No.", TH: "เลขที่ประกันสังคม" };
+  title_socialissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันที่เริ่ม" };
+  title_socialexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันที่สิ้นสุด" };
+  title_socialsentdate: { [key: string]: string } = { EN: "Sent Date", TH: "วันที่นำส่ง" };
+  title_socialnotsent: { [key: string]: string } = { EN: "Not Sent", TH: "ไม่นำส่งประกันสังคม" };
+  
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ข้อมูลพนักงาน";
@@ -2219,6 +2249,12 @@ export class EmployeeManageComponent implements OnInit {
         element.worker_resigndate = new Date(element.worker_resigndate)
         element.worker_probationdate = new Date(element.worker_probationdate)
         element.worker_probationenddate = new Date(element.worker_probationenddate)
+        element.worker_cardnoissuedate = new Date(element.worker_cardnoissuedate)
+        element.worker_cardnoexpiredate = new Date(element.worker_cardnoexpiredate)
+        element.worker_socialnoissuedate = new Date(element.worker_socialnoissuedate)
+        element.worker_socialnoexpiredate = new Date(element.worker_socialnoexpiredate)
+        element.worker_socialsentdate = new Date(element.worker_socialsentdate)
+        
       })
 
       employee_list = await res;
@@ -2256,6 +2292,8 @@ export class EmployeeManageComponent implements OnInit {
           this.doLoadEmpbenefitList();
           this.doLoadEmpprovidentList();
           this.doLoadEmpreduceList();
+
+          this.CalculateAge();
         }, 300);
 
       }
@@ -2943,11 +2981,11 @@ export class EmployeeManageComponent implements OnInit {
     tmp.reason_group = 'BLACK';
     this.reasonsService.reason_get(tmp).then(async (res) => {
       this.reason_list = await res;
-      console.log(res,'te')
+      console.log(res, 'te')
     });
   }
 
-  
+
   //emp position
   emppositionList: EmpPositionModel[] = [];
   selectedEmpPosition: EmpPositionModel = new EmpPositionModel();
@@ -4608,6 +4646,19 @@ export class EmployeeManageComponent implements OnInit {
 
   hasAccessMenu(accessCode: string): boolean {
     return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
+  }
+
+  age: string = "";
+  CalculateAge() {
+    if (this.selectedEmployee.worker_birthdate) {
+      let timeDiff = Math.abs(Date.now() - this.selectedEmployee.worker_birthdate.getTime());
+      let agediff = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
+      if (this.initial_current.Language == 'TH') {
+        this.age = agediff + " ปี"
+      } else {
+        this.age = agediff + " Year"
+      }
+    }
   }
 
 }

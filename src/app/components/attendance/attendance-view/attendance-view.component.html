@@ -18,25 +18,27 @@
 </p-dialog>
 
 <p-dialog header="{{date_work | date:'dd/MM/yyyy'}}" [(visible)]="displayManage" [style]="{width: '45vw'}" [position]="position">
+    
     <div class="formgrid grid align-items-end" *ngIf="edit_timecard==true">            
        
         <div class="field col-12 md:col-6">
             <b><label>{{title_project[initial_current.Language]}}</label></b><br>
-            <label>PRO001</label><br>
-        </div>
-        <div class="field col-12 md:col-6">
-            <b><label>{{title_job[initial_current.Language]}}</label></b><br>
-            <label></label><br>
+            <label>{{doGetProjectDetail(selectedTimecard.project_code)}}</label><br>            
         </div>
 
         <div class="field col-12 md:col-6">
-            <label for="selectedShift">{{title_shift[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="shift_list" [(ngModel)]="selectedShift" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            <b><label>{{title_job[initial_current.Language]}}</label></b><br>
+            <label>{{doGetProjobDetail(selectedTimecard.projob_code)}}</label><br>          
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label for="selectedShift">{{title_shift[initial_current.Language]}}</label><br>            
+            <p-dropdown [options]="shift_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedTimecard.shift_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>       
         </div>  
 
         <div class="field col-12 md:col-6">
-            <label for="selectedShift">{{title_daytype[initial_current.Language]}}</label><br>
-            <p-dropdown [options]="daytype_list" [(ngModel)]="selectedDaytype" optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+            <label for="selectedShift">{{title_daytype[initial_current.Language]}}</label><br>            
+            <p-dropdown [options]="daytype_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedTimecard.timecard_daytype" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>       
         </div>  
         
         <div class="field col-12 p-2">{{title_beforeot[initial_current.Language]}}</div>  
@@ -149,8 +151,7 @@
                 </div>
             </div>   
         </div>
-       
-        
+               
         <div class="field col-12 md:col-8">           
             <div class="grid">
                 <div class="col-6 p-2" >
@@ -184,10 +185,31 @@
         </div>
         
         <div class="field col-12">
-            <p-accordion>
-                <p-accordionTab header="{{title_document[initial_current.Language]}}" > </p-accordionTab>
-                  
-            </p-accordion>
+                <h4>{{title_document[initial_current.Language]}}</h4>
+                
+                <p-table #dtReqdoc [value]="reqdoc_list"  styleClass="p-datatable-sm" >
+
+                    <ng-template pTemplate="header">
+                        <tr>  
+                            <th>{{title_docno[initial_current.Language]}}</th> 
+                            <th>{{title_doctype[initial_current.Language]}}</th> 
+                            <th>{{title_fromdate[initial_current.Language]}}</th> 
+                            <th>{{title_todate[initial_current.Language]}}</th>   
+                            <th>{{title_detail[initial_current.Language]}}</th>                                                          
+                        </tr>                        
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-reqdoc>
+                        <tr [pSelectableRow]="reqdoc" >        
+                            <td>{{reqdoc.docno}}</td>  
+                            <td>{{reqdoc.doctype}}</td>  
+                            <td>{{reqdoc.fromdate | date:'dd/MM/yyyy'}}</td>  
+                            <td>{{reqdoc.todate | date:'dd/MM/yyyy'}}</td>                               
+                            <td>{{reqdoc.detail}}</td>                               
+                        </tr>
+                    </ng-template>    
+                </p-table>   
+                
         </div>
          
         <div class="field col-12">
@@ -196,6 +218,7 @@
             <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}" class="p-button-secondary" (click)="timecard_cancel()"></button>            
         </div>
     </div>
+    
 </p-dialog>
 
 <div class="grid">
@@ -298,7 +321,7 @@
 
     <div class="col-12">
         <p-menubar [model]="menu_timecard"></p-menubar>        
-        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '190rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="timecard_workdate"
+        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '190rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="index"
         [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
         [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']"
@@ -324,57 +347,15 @@
                     <th>{{title_leave[initial_current.Language]}} ({{title_approve[initial_current.Language]}})</th>
                     <th style="width: 200px;">{{title_modified_by[initial_current.Language]}}</th>
                     <th>{{title_modified_date[initial_current.Language]}}</th>                                                                 
-                </tr>	
-                <!-- <tr>  
-                    <th></th>     
-                    <th></th> 
-                    <th></th>                       
-                    <th>
-                        <p-columnFilter field="shift_code" matchMode="equals" [showMenu]="false">
-                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                <p-dropdown [ngModel]="value" [options]="shift_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="text">
-                                    <ng-template let-option pTemplate="item">
-                                        <span >{{option.text}}</span>
-                                    </ng-template>
-                                </p-dropdown>
-                            </ng-template>
-                        </p-columnFilter>
-                    </th>
-                    <th>
-                        <p-columnFilter field="timecard_daytype" matchMode="equals" [showMenu]="false">
-                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                <p-dropdown [ngModel]="value" [options]="daytype_list" (onChange)="filter($event.value)" [showClear]="true" optionLabel="text">
-                                    <ng-template let-option pTemplate="item">
-                                        <span >{{option.text}}</span>
-                                    </ng-template>
-                                </p-dropdown>
-                            </ng-template>
-                        </p-columnFilter>
-                    </th>   
-                    <th></th>
-                    <th></th>                                    
-                    <th></th>   
-                    <th></th>   
-                    <th></th>   
-                    <th></th>                    
-                    <th></th>   
-                    <th></th>                       
-                    <th></th>   
-                    <th></th>
-                    <th></th>   
-                    <th></th>
-                    <th>
-                        <p-columnFilter type="text" field="modified_by"></p-columnFilter>
-                    </th>
-                    <th></th>                                                                 
-                </tr>	                 -->
+                </tr>
+                
             </ng-template>
 
             <ng-template pTemplate="body" let-timecard>
                 <tr [pSelectableRow]="timecard" >        
                     <td>{{timecard.timecard_workdate | date:'dd/MM/yyyy'}}</td>                                
                     <td>{{timecard.project_code}}</td>   
-                    <td></td>   
+                    <td>{{timecard.projob_code}}</td>   
                     <td>{{timecard.shift_code}}</td>   
                     <td>{{timecard.timecard_daytype}}</td>       
                     <td>{{timecard.timecard_ch3 | date:'dd/MM/yyyy HH:mm'}}</td>       

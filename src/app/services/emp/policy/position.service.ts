@@ -57,9 +57,15 @@ export class PositionService {
   }
 
   public position_get() {
-    // console.log('PST001..');
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:this.initial_current.CompCode,
+      language:"",
+    }
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/position_list', this.basicRequest, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/position_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         // console.log(res)

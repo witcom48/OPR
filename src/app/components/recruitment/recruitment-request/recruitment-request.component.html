@@ -12,13 +12,13 @@
 
             <div class="flex">
                 <p style="width: 80px; text-align: left;">
-                    <b>2</b>
+                    <b>0</b>
                     <br>
                     <small>จำนวนร้องขอ</small>
                 </p>
                 <p-divider layout="vertical"></p-divider>
                 <p style="width: 80px; text-align: left;">
-                    <b>1</b>
+                    <b>0</b>
                     <br>
                     <small>สมัครงาน</small>
                 </p>
@@ -42,6 +42,7 @@
 <div>
     <p-menubar [model]="items"></p-menubar>
 </div>
+<p-menu #menu [popup]="true" [model]="itemsOptions"></p-menu>
 <!-- ----------------END MENU----------------- -->
 <div class="tabledata">
 
@@ -70,11 +71,12 @@
                     <th>{{title_enddate[initial_current.Language]}}</th>
                     <th>{{title_position[initial_current.Language]}}</th>
                     <th>{{title_project[initial_current.Language]}}</th>
-
                     <th>{{title_employee_type}}</th>
                     <th>{{title_quantity}}</th>
                     <th>{{title_urgency}}</th>
-                    <th>{{title_note[initial_current.Language]}}</th>
+                    <th>{{title_accepted[initial_current.Language]}}</th>
+                    <th>{{title_status[initial_current.Language]}}</th>
+                    <th></th>
                 </tr>
 
             </ng-template>
@@ -89,7 +91,12 @@
                     <td>{{doGetTypeDetail(data.request_employee_type)}}</td>
                     <td>{{data.request_quantity}}</td>
                     <td>{{data.request_urgency}}</td>
-                    <td>{{data.request_note}}</td>
+                    <td>{{data.request_accepted}}</td>
+                    <td>{{getFullStatus(data.request_status)}}</td>
+                    <td>
+                        <button pButton type="button" class="pi pi-bars gray-button"
+                            (click)="menu.toggle($event); selectRow(data)"></button>
+                    </td>
 
                     <!-- <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td> -->
@@ -105,7 +112,7 @@
     <!-- Form input or Edit Data -->
     <form #Form="ngForm">
         <p-dialog [(visible)]="displayManage" [style]="{ height:'100vh',width:'30vw', 'overflow-y': 'scroll' }"
-            [position]="position">
+            [position]="position" (onHide)="doLoadRequest()">
             <div class="formgrid grid align-items-end" *ngIf="new_data">
                 <!-- <i (click)="close()"></i> -->
                 <div class="field col-12" style="display:flex;flex-direction: column;">
@@ -117,21 +124,21 @@
                 <div class="field col-12">
                     <label>{{ title_date[initial_current.Language] }}<span style="color: red;"> *</span></label>
                     <p-calendar appendTo="body" [(ngModel)]="selectedRequest.request_date" [showIcon]="true"
-                        inputId="icon" name="request_date" #request_date="ngModel">
+                        inputId="icon" name="request_date" #request_date="ngModel" [required]="true">
                     </p-calendar>
                 </div>
 
                 <div class="field col-12">
                     <label>{{ title_startdate[initial_current.Language] }}<span style="color: red;"> *</span></label>
                     <p-calendar appendTo="body" [(ngModel)]="selectedRequest.request_startdate" [showIcon]="true"
-                        inputId="icon" name="request_startdate" #request_startdate="ngModel">
+                        inputId="icon" name="request_startdate" #request_startdate="ngModel" [required]="true">
                     </p-calendar>
                 </div>
 
                 <div class="field col-12">
                     <label>{{ title_enddate[initial_current.Language] }}<span style="color: red;"> *</span></label>
                     <p-calendar appendTo="body" [(ngModel)]="selectedRequest.request_enddate" [showIcon]="true"
-                        inputId="icon" name="request_enddate" #request_enddate="ngModel">
+                        inputId="icon" name="request_enddate" #request_enddate="ngModel" [required]="true">
                     </p-calendar>
                 </div>
 
@@ -139,7 +146,7 @@
                     <label>{{ title_position[initial_current.Language] }}<span style="color: red;"> *</span></label>
                     <p-dropdown placeholder="--" [options]="positionList" optionValue="position_code" [showClear]="true"
                         [(ngModel)]="selectedRequest.request_position" [style]="{ width: '100%', overflow: 'visible' }"
-                        appendTo="body" name="request_position" #request_position="ngModel">
+                        appendTo="body" name="request_position" #request_position="ngModel" [required]="true">
                         <ng-template let-item pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
                         </ng-template>
@@ -150,7 +157,7 @@
                 </div>
 
                 <div class="field col-12">
-                    <label>{{ title_project[initial_current.Language] }}<span style="color: red;"> *</span></label>
+                    <label>{{ title_project[initial_current.Language] }}</label>
                     <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code" [showClear]="true"
                         [(ngModel)]="selectedRequest.request_project" [style]="{ width: '100%', overflow: 'visible' }"
                         appendTo="body" name="request_project" #request_project="ngModel">
@@ -168,7 +175,7 @@
                     <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code" [showClear]="true"
                         [(ngModel)]="selectedRequest.request_employee_type"
                         [style]="{ width: '100%', overflow: 'visible' }" appendTo="body" name="employee_type"
-                        #employee_type="ngModel">
+                        #employee_type="ngModel" [required]="true">
                         <ng-template let-item pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
                         </ng-template>
@@ -182,7 +189,7 @@
                     <label>{{ title_quantity }}<span style="color: red;"> *</span></label>
                     <p-inputNumber mode="decimal" inputId="minmax-buttons" [min]="0" [max]="120"
                         [(ngModel)]="selectedRequest.request_quantity" name="request_quantity"
-                        #request_quantity="ngModel">
+                        #request_quantity="ngModel" [required]="true">
                     </p-inputNumber>
                 </div>
 
@@ -190,7 +197,7 @@
                     <label>{{ title_urgency }}<span style="color: red;"> *</span></label>
                     <p-dropdown [options]="urgen_List" optionValue="code" [showClear]="true"
                         [(ngModel)]="selectedRequest.request_urgency" [style]="{ width: '100%', overflow: 'visible' }"
-                        name="request_urgency" #request_urgency="ngModel">
+                        name="request_urgency" #request_urgency="ngModel" [required]="true">
                         <ng-template let-item pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.name_th : item.name_en}}
                         </ng-template>

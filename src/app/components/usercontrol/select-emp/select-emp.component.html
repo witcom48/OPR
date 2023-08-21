@@ -97,12 +97,12 @@
                     <label for="lastname2">{{title_searchemp}} :</label>
                 </div>
                 <input pInputText [(ngModel)]="selectedSearchemp" [disabled]="!fillterSearchemp" type="text"
-                    id="searchemp" (change)="doChangeSearchemp($event)">
+                    id="searchemp" (input)="doChangeSearchemp($event)">
             </div>
 
             <!-- resign -->
             <div class="resign">
-                <p-checkbox name="resign" [binary]="true" (onChange)="doGetDataFillter()"></p-checkbox>&nbsp;
+                <p-checkbox name="resign" [binary]="true" (onChange)="doGetDataFillter()" [(ngModel)]="fillterIncludeResign"></p-checkbox>&nbsp;
                 <label>{{title_resign}}</label>
             </div>
 

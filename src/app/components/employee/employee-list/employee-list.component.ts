@@ -25,6 +25,10 @@ import { PositionModel } from 'src/app/models/employee/policy/position';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
+import { PartModel } from 'src/app/models/employee/policy/part';
+import { LevelModel } from 'src/app/models/system/policy/level';
+import { LevelService } from 'src/app/services/system/policy/level.service';
+import { PartService } from 'src/app/services/emp/policy/part.service';
 
 
 interface ImportList {
@@ -69,6 +73,8 @@ export class EmployeeListComponent implements OnInit {
     private emptypeService: EmptypeService,
     private empstatusService: EmpstatusService,
     private empdetailService: EmpDetailService,
+    private levelService: LevelService,
+    private depService: PartService,
   ) {
     this.ImportList = [
       { name_th: 'ข้อมูลพนักงาน', name_en: 'Employee info', code: 'EMPLOYEE' },
@@ -82,7 +88,7 @@ export class EmployeeListComponent implements OnInit {
       { name_th: 'ข้อมูลตำแหน่ง', name_en: 'Employee Position', code: 'EMPPOSITION' },
       { name_th: 'ข้อมูลการศึกษา', name_en: 'Employee Education', code: 'EMPEDUCATION' },
       { name_th: 'ข้อมูลการฝึกอบรม', name_en: 'Employee Training', code: 'EMPTRAINING' },
-      { name_th: 'ข้อมูลการประเมิน', name_en: 'Employee Assessment', code: 'EMPASSESSMENT' },
+      { name_th: 'ข้อมูลการประเมิน', name_en: 'Employee Appraisal', code: 'EMPASSESSMENT' },
       { name_th: 'ข้อมูลอาชญากรรม', name_en: 'Employee Criminal', code: 'EMPCRIMINAL' },
       { name_th: 'ข้อมูลgเงินเดือนพนักงาน', name_en: 'Employee Salary', code: 'EMPSALARY' },
       { name_th: 'ข้อมูลกองทุนสำรองฯ', name_en: 'Employee Provident', code: 'EMPPROVIDENT' },
@@ -108,8 +114,9 @@ export class EmployeeListComponent implements OnInit {
     this.doLoadEmpstatusList();
     this.doLoadblackList();
     this.doLoadReason();
+    this.doLoadMenu();
+    this.doLoadlevelList();
     setTimeout(() => {
-      this.doLoadMenu()
       // this.doLoadEmployee()
       this.doGetDataFillter();
     }, 500);
@@ -167,6 +174,9 @@ export class EmployeeListComponent implements OnInit {
   title_deletes: { [key: string]: string } = { EN: "Delete", TH: "ลบ" };
   title_searchemp: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" };
   title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "แบล็คลิสต์" };
+  title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" };
+  title_cardno: { [key: string]: string } = { EN: "ID Card", TH: "เลขบัตรประชาชน" };
+  title_level: { [key: string]: string } = { EN: "Level", TH: "ระดับ" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -225,6 +235,191 @@ export class EmployeeListComponent implements OnInit {
         }
 
       },
+      {
+        label: "Template",
+        icon: 'pi-download',
+        // command: (event) => {
+        //   window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Emptype.xlsx', '_blank');
+        // }
+        items: [
+          {
+            label: "Employee info",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee.xlsx', '_blank');
+            }
+          },
+          {
+            label: "General",
+            items: [
+              {
+                label: "Employee Location",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Location.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Branch",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Branch.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Suggest",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Suggest.xlsx', '_blank');
+                }
+              },
+            ],
+          },
+          {
+            label: "Personal",
+            items: [
+              {
+                label: "Employee Address",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Address.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Bank Account",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Bank.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Family",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Family.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Hospital",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Hospital.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Foreigner",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Foreigner.xlsx', '_blank');
+                }
+              },
+            ],
+          },
+          {
+            label: "Record",
+            items: [
+              {
+                label: "Employee Department",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Department.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Position",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Position.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Group",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Group.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Education",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Education.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Supply",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Supply.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Uniform",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Uniform.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Training",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Training.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Appraisal",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Appraisal.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Criminal",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Criminal.xlsx', '_blank');
+                }
+              },
+            ],
+          },
+          {
+            label: "Payroll",
+            items: [
+              {
+                label: "Employee Salary",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Salary.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Provident",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Provident.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Benefits",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Benefit.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Reduce",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Reduce.xlsx', '_blank');
+                }
+              },
+            ],
+          },
+        ]
+
+      }
+      ,
       {
         label: this.title_import,
         icon: 'pi pi-fw pi-file-import',
@@ -319,6 +514,20 @@ export class EmployeeListComponent implements OnInit {
       this.positionList = await res
     })
   }
+  levelList: LevelModel[] = [];
+  doLoadlevelList() {
+    this.levelService.level_get().then(async (res) => {
+      this.levelList = await res;
+    })
+  }
+  deplevelList: PartModel[] = [];
+  doLoadDeplevelList() {
+    var tmp = new LevelModel();
+    tmp.level_code = this.selectedLevel;
+    this.depService.dep_get(tmp).then(async (res) => {
+      this.deplevelList = await res;
+    })
+  }
 
 
 
@@ -338,6 +547,7 @@ export class EmployeeListComponent implements OnInit {
   //   });
   // }
 
+  fillterIncludeResign: boolean = false;
   doGetDataFillter() {
     var fillter: FillterEmpModel = new FillterEmpModel;
 
@@ -348,8 +558,16 @@ export class EmployeeListComponent implements OnInit {
     } else {
       fillter.position_code = "";
     }
-    fillter.worker_blackliststatus = this.fillterBlacklist;
-
+    //fillter blackelist
+    // fillter.worker_blackliststatus = this.fillterBlacklist;
+    //fillter dep
+    if (this.fillterLevel) {
+      fillter.level_code = this.selectedLevel;
+      fillter.dep_code = this.selectedDep;
+    } else {
+      fillter.level_code = "";
+      fillter.dep_code = "";
+    }
     //fillter emptype
     if (this.fillterEmptype) {
       fillter.worker_emptype = this.selectedEmptype;
@@ -362,8 +580,8 @@ export class EmployeeListComponent implements OnInit {
     } else {
       fillter.worker_empstatus = "";
     }
-
-
+    //fillter resign
+    fillter.worker_resignstatus = this.fillterIncludeResign;
     //fillter employee
     fillter.searchemp = this.selectedSearchemp;
 
@@ -376,6 +594,7 @@ export class EmployeeListComponent implements OnInit {
         element.worker_probationenddate = new Date(element.worker_probationenddate)
       })
       this.employee_list = await res;
+      console.log(res);
       this.workerCurrent = this.employee_list.length;
     })
   }
@@ -414,6 +633,21 @@ export class EmployeeListComponent implements OnInit {
   doChangeSelectEmpstatus() {
 
     if (this.fillterEmpstatus) {
+      this.doGetDataFillter();
+    }
+  }
+  //-- Level
+  selectedLevel: string = "";
+  fillterLevel: boolean = false;
+  doChangeSelectLevel() {
+    this.doLoadDeplevelList();
+  }
+
+  //-- Dep master
+  selectedDep: string = "";
+  doChangeSelectDep() {
+
+    if (this.fillterLevel) {
       this.doGetDataFillter();
     }
   }
@@ -482,6 +716,7 @@ export class EmployeeListComponent implements OnInit {
         this.doGetDataFillter();
         this.edit_employee = false;
         this.new_employee = false;
+        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -496,6 +731,7 @@ export class EmployeeListComponent implements OnInit {
   onRowSelectEmployee(event: Event) {
     this.edit_employee = true;
     this.new_employee = true;
+    this.displayManage = true
   }
 
   fileToUpload: File | any = null;
@@ -894,6 +1130,14 @@ export class EmployeeListComponent implements OnInit {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
   }
+
+  ///
+  displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
+  }
+
   displayUpload: boolean = false;
   showUpload() {
     this.displayUpload = true;

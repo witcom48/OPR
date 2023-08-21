@@ -75,7 +75,7 @@ textarea {
 
 .checkselect {
     display: grid;
-    grid-template-columns: 1fr 1fr ;
+    grid-template-columns: 1fr 1fr;
     align-items: baseline;
     gap: 10px;
     padding: 10px;
@@ -87,17 +87,19 @@ textarea {
         display: grid;
         grid-template-columns: 145px 1fr;
         gap: 5px;
-        align-self: center;
-        
+        // align-self: center;s
     }
-    .resign{
+
+    .resign {
         align-self: center;
+        display: flex;
     }
 }
 
 @media (max-width: 600px) {
     .table_head {
         width: 100%;
+
         tr {
             display: grid;
 
@@ -115,13 +117,32 @@ textarea {
         width: 100%;
         align-items: unset;
 
-        .select{
+        .select {
             display: flex;
             flex-direction: column;
             align-self: unset;
         }
-        .resign{
+
+        .resign {
             align-self: unset;
         }
     }
+}
+
+.p-dialog-content::ng-deep {
+    overflow-y: hidden;
+    padding: 20px 0.5rem 4rem 0.5rem;
+
+}
+
+.hovered {
+    background-color: #f34646 !important;
+}
+
+.gray-button {
+    background-color: #73737333;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
 }

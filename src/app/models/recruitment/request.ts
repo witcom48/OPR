@@ -21,6 +21,9 @@ export class RequestModel {
   request_overtime: string = "";
   request_another: string = "";
 
+  request_accepted: string ="0";
+  request_status: number = 0;
+
   // created_by: string = "";
   // created_date: string = "";
 
