@@ -68,6 +68,7 @@ export class RequestService {
       username: this.initial_current.Username,
       company_code: model.company_code || this.initial_current.CompCode,
       request_code: model.request_code,
+      request_status: model.request_status,
     }
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/getreqrequest', data, this.options).toPromise()

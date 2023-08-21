@@ -547,7 +547,7 @@
                     </div>
 
                     <!-- card -->
-                    <div class="accordion">
+                    <!-- <div class="accordion">
                         <p-accordion>
                             <p-accordionTab header="{{title_card}}">
                                 <p-menubar [model]="menu_reqcard"></p-menubar>
@@ -570,7 +570,6 @@
                                     <ng-template pTemplate="body" let-data>
                                         <tr [pSelectableRow]="data">
                                             <th>{{doGetCardDetail(data.card_type) }}</th>
-                                            <!-- <td>{{initial_current.Language == "TH"? data.cardtype_name_th:data.cardtype_name_en}}</td> -->
 
                                             <th>{{data.card_code}}</th>
                                             <th>{{data.card_issue| date:'dd/MM/yyyy'}}</th>
@@ -582,11 +581,11 @@
                                 </p-table>
                             </p-accordionTab>
                         </p-accordion>
-                    </div>
+                    </div> -->
 
-                    <div class="horizontal">
+                    <!-- <div class="horizontal">
                         <br>
-                    </div>
+                    </div> -->
 
                     <!-- foreigner -->
                     <div class="accordion">
@@ -1319,7 +1318,7 @@
         <label>{{title_amphur}}</label>
         <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_amphur">
         <label>{{title_province}}</label>
-        <p-dropdown placeholder="--" [options]="provinceList" optionLabel="province_code" [showClear]="true"
+        <p-dropdown placeholder="--" [options]="provinceList" optionValue="province_code" [showClear]="true"
             [(ngModel)]="selectedReqAddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
@@ -1330,19 +1329,7 @@
         </p-dropdown>
 
         <label>{{title_zipcode}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_zipcode">
-
-        <label>{{title_tel}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_tel">
-
-        <label>{{title_email}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_email">
-
-        <label>{{title_line}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_line">
-
-        <label>{{title_facebook}}</label>
-        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_facebook">
+        <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedReqAddress.address_zipcode" maxlength="5">
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
@@ -1352,9 +1339,8 @@
 
     </div>
 
-    <div class="formatt" *ngIf="edit_reqcard==true || new_card==true">
-        <!-- Form Card -->
-        <!-- <label>ประเภทบัตร</label> -->
+    <!-- <div class="formatt" *ngIf="edit_reqcard==true || new_card==true">
+        
         <div>
             <label for="lastname2">{{title_cardtype}} :</label>
             <p-dropdown placeholder="--" [options]="cardtypeList" optionValue="cardtype_code" [showClear]="true"
@@ -1384,7 +1370,7 @@
         <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
             (click)="reqcard_cancel()"></button>
 
-    </div>
+    </div> -->
 
     <!-- Form req Education -->
     <div class="formatt" *ngIf="edit_reqeducation==true || new_education==true">

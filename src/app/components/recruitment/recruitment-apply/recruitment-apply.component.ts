@@ -1443,7 +1443,7 @@ export class RecruitmentApplyComponent implements OnInit {
             } else if (this.new_training || this.edit_reqtraining) {
                 this.manage_title = 'Training';
             } else if (this.new_assessment || this.edit_reqassessment) {
-                this.manage_title = 'Assessment';
+                this.manage_title = 'Appraisal';
             } else if (this.new_criminal || this.edit_reqcriminal) {
                 this.manage_title = 'Criminal record';
             } else if (this.new_position || this.edit_reqposition) {

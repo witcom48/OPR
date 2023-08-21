@@ -23,6 +23,16 @@ import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { PolcodeService } from 'src/app/services/system/policy/polcode.service';
 import { ApplyMTDocattModel } from 'src/app/models/recruitment/applyMTDocatt';
 import { async } from 'rxjs';
+import { EmpaddressModel } from 'src/app/models/employee/manage/address';
+import { EmpForeignerModel } from 'src/app/models/employee/manage/foreigner';
+import { EmpEducationModel } from 'src/app/models/employee/manage/education';
+import { EmpTrainingModel } from 'src/app/models/employee/manage/training';
+import { EmpAssessmentModel } from 'src/app/models/employee/manage/assessment';
+import { EmpCriminalModel } from 'src/app/models/employee/manage/criminal';
+import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
+import { EmpPositionModel } from 'src/app/models/employee/manage/position';
+import { EmpSalaryModel } from 'src/app/models/employee/manage/salary';
+import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
 
 
 interface ImportList {
@@ -70,6 +80,7 @@ export class ApplyListComponent implements OnInit {
     private initialService: InitialService,
     private positionService: PositionService,
     private empdetailService: EmpDetailService,
+    private reqdetailService: ApplyworkDetailService,
   ) {
     this.ImportList = [
       { name_th: 'ข้อมูลผู้สมัครงาน', name_en: 'Recruiment Info', code: 'REQWORKER' },
@@ -664,6 +675,16 @@ export class ApplyListComponent implements OnInit {
           return
         }
         this.doGetNewCode()
+        this.doLoadReqaddressList()
+        this.doLoadReqForeigner()
+        this.doLoadReqeducationList()
+        this.doLoadReqtrainingList()
+        this.doLoadReqassessmentList()
+        this.doLoadReqCriminalList()
+        this.doLoadReqSuggestList()
+        this.doLoadReqPositionList()
+        this.doLoadReqSalaryList()
+        this.doLoadReqBenefitList()
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
@@ -680,14 +701,12 @@ export class ApplyListComponent implements OnInit {
   }
 
   doGetNewCode() {
-    console.log("convert")
     this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedReqworker.worker_type).then(async (res) => {
       let result = await JSON.parse(res);
 
       if (result.success) {
         this.doRecordEmployee(result.data);
         // console.log(result.data)
-
       }
     });
   }
@@ -725,12 +744,24 @@ export class ApplyListComponent implements OnInit {
     tmp.worker_cardno = this.selectedReqworker.worker_cardno
     tmp.worker_cardnoissuedate = this.selectedReqworker.worker_cardnoissuedate
     tmp.worker_cardnoexpiredate = this.selectedReqworker.worker_cardnoexpiredate
+    tmp.worker_socialno = this.selectedReqworker.worker_cardno
+    tmp.worker_socialnoissuedate = this.selectedReqworker.worker_cardnoissuedate
+    tmp.worker_socialnoexpiredate = this.selectedReqworker.worker_cardnoexpiredate
+    tmp.worker_socialnotsent = false
     this.employeeService.worker_recordall(tmp).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
         //-- transaction
-
-
+        // this.record_empaddress()
+        // this.record_empforeigner()
+        // this.record_empeducation()
+        // this.record_emptraining()
+        // this.record_empassessment()
+        // this.record_empcriminal()
+        // this.record_empsuggest()
+        // this.record_empposition()
+        // this.record_empsalary()
+        // this.record_empbenefit()
 
         //--update status
         this.doUpdateStatus()
@@ -741,7 +772,7 @@ export class ApplyListComponent implements OnInit {
           summary: 'Success',
           detail: result.message,
         });
-        
+
         this.edit_applywork = false;
         this.new_applywork = false;
         this.displayManage = false
@@ -759,6 +790,266 @@ export class ApplyListComponent implements OnInit {
     })
   }
 
+  //--address
+  reqaddressList: EmpaddressModel[] = [];
+  doLoadReqaddressList() {
+    this.reqdetailService
+      .getapplywork_reqaddress(
+        this.initial_current.CompCode,
+        this.selectedReqworker.worker_code
+      )
+      .then((res) => {
+        this.reqaddressList = res;
+      });
+  }
+  async record_empaddress() {
+    if (this.reqaddressList.length == 0) {
+      return
+    }
+    console.log(await this.reqaddressList.forEach((element:EmpaddressModel)=>{
+      element.address_soi = "SOI2212"
+    }))
+    // this.empdetailService
+    //   .record_empaddress(
+    //     this.selectedReqworker.worker_code,
+    //     this.reqaddressList
+    //   )
+    //   .then((res) => {
+    //     let result = JSON.parse(res);
+    //     if (result.success) {
+    //     } else {
+    //     }
+    //   });
+  }
+  //--Foreigner
+  reqforeignerList: EmpForeignerModel[] = [];
+  selectedReqforeigner: EmpForeignerModel = new EmpForeignerModel();
+  doLoadReqForeigner() {
+    this.reqdetailService
+      .getapplywork_foreigner(
+        this.initial_current.CompCode,
+        this.selectedReqworker.worker_code
+      )
+      .then(async (res) => {
+        this.reqforeignerList = await res;
+        if (this.reqforeignerList.length > 0) {
+          this.selectedReqforeigner = this.reqforeignerList[0];
+        }
+      });
+  }
+  record_empforeigner() {
+    if (this.reqforeignerList.length == 0) {
+      return
+    }
+    this.empdetailService.record_empforeigner(
+      this.selectedReqworker.worker_code,
+      this.selectedReqforeigner
+    );
+  }
+  //-- education
+  reqeducationList: EmpEducationModel[] = [];
+  doLoadReqeducationList() {
+    this.reqdetailService
+      .getapply_education(this.initial_current.CompCode, this.selectedReqworker.worker_code)
+      .then(async (res) => {
+        this.reqeducationList = await res;
+      });
+  }
+  record_empeducation() {
+    if (this.reqeducationList.length == 0) {
+      return
+    }
+    this.empdetailService
+      .record_empeducation(
+        this.selectedReqworker.worker_code,
+        this.reqeducationList
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
+  }
+  //--training
+  reqtrainingList: EmpTrainingModel[] = [];
+  doLoadReqtrainingList() {
+    this.reqdetailService
+      .getapplywork_training(this.initial_current.CompCode, this.selectedReqworker.worker_code)
+      .then(async (res) => {
+        this.reqtrainingList = await res;
+      });
+  }
+  record_emptraining() {
+    if (this.reqtrainingList.length == 0) {
+      return
+    }
+    this.empdetailService
+      .record_emptraining(
+        this.selectedReqworker.worker_code,
+        this.reqtrainingList
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
+  }
 
+  //--appraisal
+  reqassessmentList: EmpAssessmentModel[] = [];
+  doLoadReqassessmentList() {
+    this.reqdetailService
+      .getapplywork_assessment(this.initial_current.CompCode, this.selectedReqworker.worker_code)
+      .then(async (res) => {
+        this.reqassessmentList = await res;
+      });
+  }
+  record_empassessment() {
+    if (this.reqassessmentList.length == 0) {
+      return
+    }
+    this.empdetailService
+      .record_empassessment(
+        this.selectedReqworker.worker_code,
+        this.reqassessmentList
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
+  }
 
+  //--criminal
+  reqCriminalList: EmpCriminalModel[] = [];
+  doLoadReqCriminalList() {
+    this.reqdetailService
+      .getapplywork_criminal(this.initial_current.CompCode, this.selectedReqworker.worker_code)
+      .then(async (res) => {
+        this.reqCriminalList = await res;
+      });
+  }
+  record_empcriminal() {
+    if (this.reqCriminalList.length == 0) {
+      return
+    }
+    this.empdetailService
+      .record_empcriminal(
+        this.selectedReqworker.worker_code,
+        this.reqCriminalList
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
+  }
+
+  //--suggest
+  reqsuggestList: EmpSuggestModel[] = [];
+  doLoadReqSuggestList() {
+    this.reqdetailService
+      .getapplywork_suggest(this.initial_current.CompCode, this.selectedReqworker.worker_code)
+      .then(async (res) => {
+        this.reqsuggestList = await res;
+      });
+  }
+  record_empsuggest() {
+    if (this.reqsuggestList.length == 0) {
+      return
+    }
+    this.empdetailService
+      .record_empsuggest(
+        this.selectedReqworker.worker_code,
+        this.reqsuggestList
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
+  }
+
+  //--Position
+  reqPositionList: EmpPositionModel[] = [];
+  doLoadReqPositionList() {
+    this.reqdetailService
+      .getapplywork_position(this.initial_current.CompCode, this.selectedReqworker.worker_code)
+      .then(async (res) => {
+        this.reqPositionList = await res;
+      });
+  }
+  record_empposition() {
+    if (this.reqPositionList.length == 0) {
+      return
+    }
+    this.empdetailService
+      .record_empposition(
+        this.selectedReqworker.worker_code,
+        this.reqPositionList
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
+  }
+
+  //--Salary
+  reqSalaryList: EmpSalaryModel[] = [];
+  doLoadReqSalaryList() {
+    this.reqdetailService
+      .getapplywork_salary(this.initial_current.CompCode, this.selectedReqworker.worker_code)
+      .then(async (res) => {
+        this.reqSalaryList = await res;
+      });
+  }
+  record_empsalary() {
+    if (this.reqSalaryList.length == 0) {
+      return
+    }
+    this.empdetailService
+      .record_empsalary(
+        this.selectedReqworker.worker_code,
+        this.reqSalaryList
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
+  }
+
+  //--Benefit
+  reqBenefitList: EmpBenefitsModel[] = [];
+  doLoadReqBenefitList() {
+    this.reqdetailService
+      .getapplywork_benefit(this.initial_current.CompCode, this.selectedReqworker.worker_code)
+      .then(async (res) => {
+        this.reqBenefitList = await res;
+      });
+  }
+  record_empbenefit() {
+    if (this.reqBenefitList.length == 0) {
+      return
+    }
+    this.empdetailService
+      .record_empbenefit(
+        this.selectedReqworker.worker_code,
+        this.reqBenefitList
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
+  }
 }
