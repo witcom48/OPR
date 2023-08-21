@@ -82,11 +82,11 @@ export class PayrollPolicyComponent implements OnInit {
                 link: 'calculationperiod',
                 accessCode: 'PAY001-001'
             },
-            {
-                title: this.title_Taxrate,
-                link: 'taxrate',
-                accessCode: 'PAY001-002'
-            },
+            // {
+            //     title: this.title_Taxrate,
+            //     link: 'taxrate',
+            //     accessCode: 'PAY001-002'
+            // },
             {
                 title: this.title_IncomeDeduct,
                 link: 'items',
@@ -102,6 +102,25 @@ export class PayrollPolicyComponent implements OnInit {
                 link: 'pay-bonus',
                 accessCode: 'PAY001-005'
             },
+            
+            {
+                title: 'กำหนดภาษีเงินได้บุคคลธรรมดา',
+                link: 'setpol',
+                accessCode: 'PAY001-006'
+            },
+             
+            {
+                title: 'นโยบายภาษีเงิน',
+                link: 'planreduce',
+                accessCode: 'PAY001-007'
+            }
+            ,
+            
+            {
+                title: 'นโยบายเงินได้เงินหัก',
+                link: 'planitems',
+                accessCode: 'PAY001-008'
+            }
             // ... other setup menu items ...
         ];
 
@@ -111,6 +130,12 @@ export class PayrollPolicyComponent implements OnInit {
                 link: 'setitems',
                 accessCode: 'PAY001-006'
             },
+            {
+                title: 'รวมกำหนดสิทธิ',
+                link: 'setallpolicy',
+                accessCode: 'PAY001-007'
+            },
+            
             {
                 title: this.title_SetBonus,
                 link: 'setbonus',

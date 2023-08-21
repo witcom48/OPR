@@ -47,6 +47,8 @@ export class ReasonComponent implements OnInit {
 
     this.selectlang = this.initial_current.Language;
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu()
@@ -145,8 +147,9 @@ export class ReasonComponent implements OnInit {
       }
       ,
       {
-        label: "Template", 
-        icon: 'pi-download', 
+
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Reason.xlsx', '_blank');
         }
@@ -179,7 +182,7 @@ export class ReasonComponent implements OnInit {
   }
   showUpload() {
     this.displayUpload = true;
-    
+
   }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);

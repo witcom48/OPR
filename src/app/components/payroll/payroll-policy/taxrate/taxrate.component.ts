@@ -63,6 +63,8 @@ export class TaxrateComponent implements OnInit {
         this.accessData = this.initialData2.dotGetPolmenu('PAY');
 
     }
+    title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
     title_payroll: string = 'Payroll';
 
     title_policy: string = 'Set Policy';
@@ -173,11 +175,12 @@ export class TaxrateComponent implements OnInit {
                 },
             },
             {
-              label: "Template", 
-              icon: 'pi-download', 
-              command: (event) => {
-                window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Taxrate.xlsx', '_blank');
-              }
+
+                label: this.title_file[this.initial_current.Language],
+                icon: 'pi-download',
+                command: (event) => {
+                    window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Taxrate.xlsx', '_blank');
+                }
             }
             ,
             {
@@ -198,7 +201,7 @@ export class TaxrateComponent implements OnInit {
     }
     reloadPage() {
         this.doLoadTaxrate()
-      }
+    }
     doLoadTaxrate() {
         this.taxrateService.taxrate_get().then((res) => {
             this.taxrate_list = res;

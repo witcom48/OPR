@@ -77,6 +77,8 @@ export class RoundComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('SYS');
 
   }
+    title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   title_payroll: string = 'Payroll';
   title_policy: string = 'Set Policy';
   title_page: string = 'Bonus';
@@ -303,7 +305,8 @@ export class RoundComponent implements OnInit {
         },
       },
       {
-        label: "Template", 
+
+        label: this.title_file[this.initial_current.Language],
         icon: 'pi-download', 
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Rounds.xlsx', '_blank');

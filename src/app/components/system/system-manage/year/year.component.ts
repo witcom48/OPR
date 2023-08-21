@@ -40,7 +40,7 @@ export class YearComponent implements OnInit {
   itemsOptions: MenuItem[] = [];
   yearperiods_list: YearPeriodModels[] = [];
   yearperiods: YearPeriodModels = new YearPeriodModels()
-  
+
 
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
@@ -55,6 +55,8 @@ export class YearComponent implements OnInit {
       this.config.setTranslation(langcalendaren)
     }
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadYear()
@@ -67,7 +69,7 @@ export class YearComponent implements OnInit {
   doLoadYear() {
     this.yearperiods_list = [];
     var tmp = new YearPeriodModels();
-     this.yearService.year_get(tmp).then(async (res) => {
+    this.yearService.year_get(tmp).then(async (res) => {
       await Promise.all(res.map(async (element: { year_fromdate: string | number | Date; year_todate: string | number | Date; }) => {
         element.year_fromdate = new Date(element.year_fromdate);
         element.year_todate = new Date(element.year_todate);
@@ -77,8 +79,8 @@ export class YearComponent implements OnInit {
       this.yearperiods_list = res;
     });
   }
-  
-  
+
+
   async doRecordYear(data: YearPeriodModels) {
     await this.yearService.year_record(data).then((res) => {
       // console.log(res)
@@ -154,8 +156,9 @@ export class YearComponent implements OnInit {
       }
       ,
       {
-        label: "Template", 
-        icon: 'pi-download', 
+
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Year.xlsx', '_blank');
         }
@@ -185,7 +188,7 @@ export class YearComponent implements OnInit {
       items: [
 
         {
-          label:  'แก้ไข',
+          label: 'แก้ไข',
           icon: 'pi pi-fw pi-pencil',
           command: (event) => {
             this.showManage()
@@ -208,14 +211,14 @@ export class YearComponent implements OnInit {
           icon: 'pi-copy',
           command: () => {
             this.showManage()
-             this.new_data = true;
+            this.new_data = true;
             this.edit_data = false;
-            
-           }
+
+          }
         }
       ]
     },
-     
+
     ];
 
   }

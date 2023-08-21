@@ -48,7 +48,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
     this.doLoadMenu()
-   
+
     setTimeout(() => {
 
 
@@ -66,6 +66,8 @@ export class SystemOrganizationLevelComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   title_system: string = "System";
   title_genaral: string = "Genaral";
   title_page: string = "Employee Level";
@@ -157,8 +159,9 @@ export class SystemOrganizationLevelComponent implements OnInit {
         }
       },
       {
-        label: "Template", 
-        icon: 'pi-download', 
+
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Level.xlsx', '_blank');
         }
@@ -210,8 +213,8 @@ export class SystemOrganizationLevelComponent implements OnInit {
           label: 'คัดลอก',
           icon: 'pi pi-times',
           command: () => {
-            
-           }
+
+          }
         }
       ]
     },

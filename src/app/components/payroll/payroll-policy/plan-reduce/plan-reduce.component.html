@@ -1,0 +1,123 @@
+<!-- Link Page -->
+<div class="path">
+    <span>นโยบายภาษี</span>
+
+</div>
+<!-- ---------END Link Page----------- -->
+<hr>
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="reduceplan_list" selectionMode="single" [(selection)]="reduceplans"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['planreduce_code','planreduce_name_en','planreduce_name_th','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>no</th>
+                    <th>code</th>
+                    <th>description</th>
+                    <th>modified_by</th>
+                    <th>modified_date</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                <tr [pSelectableRow]="data">
+
+                    <td><span>no</span>{{i+1}}</td>
+                    <td><span>code</span>{{data.planreduce_code}}</td>
+                    <td><span>description</span>{{selectlang=="EN"?data.planreduce_name_en:data.planreduce_name_th}}
+                    </td>
+                    <td><span>modified_by</span>{{data.modified_by}}</td>
+                    <td><span>modified_date</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data Year Period -->
+    <form (ngSubmit)="Save()" #Form="ngForm">
+        <div class="formatt" *ngIf="new_data==true">
+            <i (click)="close()"></i>
+
+            <label>code<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="reduceplans.planreduce_code" maxlength="10"
+                disabled="{{edit_data}}" name="code" #code="ngModel" required />
+            <p>{{reduceplans.planreduce_code.length}}/10</p>
+
+
+
+            <label>description (Thai)<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="reduceplans.planreduce_name_th" pInputTextarea [autoResize]="true"
+                name="planreduce_name_th" #planreduce_name_th="ngModel" required></textarea>
+                
+            <label>description (Eng.)<span style="color: red;"> *</span></label>
+            <textarea [(ngModel)]="reduceplans.planreduce_name_en" pInputTextarea [autoResize]="true"
+                name="planreduce_name_en" #planreduce_name_en="ngModel" required></textarea>
+            <p-pickList class="picklistvertical" [metaKeySelection]="false" [responsive]="true"
+                [source]="reduce_listselect" [target]="reduceplans.reducelists" sourceHeader="reducelist"
+                targetHeader="planreduce" [sourceStyle]="{'height':'15rem'}" [targetStyle]="{'height':'15rem'}"
+                sourceFilterPlaceholder="search" targetFilterPlaceholder="search"
+                filterBy="reduce_code,reduce_name_en,reduce_name_th">
+                <ng-template let-data pTemplate="item">
+                    <div>
+                        <div style="font-size:14px;float:left;">{{data.reduce_code}} - {{selectlang
+                            =='EN'?data.reduce_name_en:data.reduce_name_th}}</div>
+                    </div>
+                </ng-template>
+            </p-pickList>
+            <button pButton type="submit" label="save" icon="pi pi-check" [disabled]="!Form.form.valid"></button>
+            <button *ngIf="edit_data" pButton type="button" label="delete" icon="pi pi-trash" class="p-button-danger"
+                (click)="Delete()"></button>
+        </div>
+    </form>
+    <!-- --------------End form Input Data ------------------ -->
+</div>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

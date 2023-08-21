@@ -57,6 +57,7 @@ export class ProvidentComponent implements OnInit {
         this.accessData = this.initialData2.dotGetPolmenu('PAY');
 
     }
+    title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
     title_payroll: string = 'Payroll';
     title_policy: string = 'Set Policy';
@@ -165,7 +166,7 @@ export class ProvidentComponent implements OnInit {
 
     reloadPage() {
         this.doLoadLate()
-      }
+    }
     doLoadLate() {
         this.provident_list = [];
         var tmp = new ProvidentModel();
@@ -267,11 +268,11 @@ export class ProvidentComponent implements OnInit {
                 },
             },
             {
-              label: "Template", 
-              icon: 'pi-download', 
-              command: (event) => {
-                window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Provident.xlsx', '_blank');
-              }
+                label: this.title_file[this.initial_current.Language],
+                icon: 'pi-download',
+                command: (event) => {
+                    window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Provident.xlsx', '_blank');
+                }
             }
             ,
             {
@@ -398,8 +399,8 @@ export class ProvidentComponent implements OnInit {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    
+
         XLSX.writeFile(wb, 'Export_Provident.xlsx');
-    
-      }
+
+    }
 }

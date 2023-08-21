@@ -81,6 +81,8 @@ export class EmpIDComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
   }
+    title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   title_system: string = "System";
   title_examplecode: string = "Example code employees";
   title_manage: string = "Manage";
@@ -184,7 +186,8 @@ export class EmpIDComponent implements OnInit {
       }
       ,
       {
-        label: "Template", 
+
+        label: this.title_file[this.initial_current.Language],
         icon: 'pi-download', 
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Structure code.xlsx', '_blank');

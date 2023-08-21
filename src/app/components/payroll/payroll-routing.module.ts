@@ -26,6 +26,10 @@ import { AppEntryComponent } from './payroll-entry/app-entry/app-entry.component
 import { AppEntrysComponent } from './payroll-entry/app-entry/app-entrys/app-entrys.component';
 
 import { PayrollSummaryComponent } from './payroll-summary/payroll-summary.component';
+import { SetpolComponent } from './payroll-policy/setpol/setpol.component';
+import { PlanReduceComponent } from './payroll-policy/plan-reduce/plan-reduce.component';
+import { ItemsPlanComponent } from './payroll-policy/items-plan/items-plan.component';
+import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolicy.component';
 
 
 @NgModule({
@@ -57,7 +61,12 @@ import { PayrollSummaryComponent } from './payroll-summary/payroll-summary.compo
         { path: 'setprovident', component: SetprovidentComponent },
         { path: 'appentry ', component: AppEntryComponent },
         { path: 'appentrys ', component: AppEntrysComponent },
+        { path: 'setpol', component: SetpolComponent },
+        { path: 'planreduce', component: PlanReduceComponent },
+        { path: 'planitems', component: ItemsPlanComponent },
+        { path: 'setallpolicy', component: SetallpolicyComponent },
 
+        
         
         
         

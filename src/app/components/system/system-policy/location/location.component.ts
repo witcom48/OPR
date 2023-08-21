@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
- import { LocationService } from 'src/app/services/system/policy/location.service';
+import { LocationService } from 'src/app/services/system/policy/location.service';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 declare var locationpage: any;
@@ -59,6 +59,7 @@ export class LocationComponent implements OnInit {
       this.location_list = await res;
     });
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
 
   async doRecordLocation(data: SysLocationModel) {
@@ -152,8 +153,8 @@ export class LocationComponent implements OnInit {
       }
       ,
       {
-        label: "Template", 
-        icon: 'pi-download', 
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Location.xlsx', '_blank');
         }

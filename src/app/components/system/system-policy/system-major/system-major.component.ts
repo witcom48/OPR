@@ -57,6 +57,8 @@ export class SystemMajorComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('SYS');
 
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   title_system: string = "System";
   title_genaral: string = "Genaral";
   title_page: string = "Major";
@@ -151,8 +153,9 @@ export class SystemMajorComponent implements OnInit {
       }
       ,
       {
-        label: "Template", 
-        icon: 'pi-download', 
+
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Major.xlsx', '_blank');
         }

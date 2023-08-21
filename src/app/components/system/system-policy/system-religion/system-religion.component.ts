@@ -65,6 +65,8 @@ export class SystemReligionComponent implements OnInit {
         // console.log(this.accessData)
         // console.log(this.accessData.accessdata_new)
     }
+    title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
     title_system: string = 'System';
     title_genaral: string = 'Genaral';
     title_page: string = 'Religion';
@@ -155,13 +157,14 @@ export class SystemReligionComponent implements OnInit {
                     }
 
                 },
-            } ,
+            },
             {
-              label: "Template", 
-              icon: 'pi-download', 
-              command: (event) => {
-                window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Religion.xlsx', '_blank');
-              }
+
+                label: this.title_file[this.initial_current.Language],
+                icon: 'pi-download',
+                command: (event) => {
+                    window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Religion.xlsx', '_blank');
+                }
             }
             ,
             {

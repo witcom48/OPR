@@ -7,9 +7,9 @@
         <small>{{title_page}}</small>
     </div>
 </div> -->
-<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<!-- <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 
-<hr>
+<hr> -->
 
 
 <!-- Menu New Import Export Data -->
@@ -46,6 +46,9 @@
                     <th>{{title_name_th}}</th>
                     <th>{{title_name_en}}</th>
                     <th>{{title_amount}}</th>
+                    <!--  -->
+                    <th>จำนวนเงินสูงสุด</th>
+<!--  -->
                     <th>{{title_percent}}</th>
                     <th>{{title_percent_max}}</th>
                     <th>{{title_modified_by}}</th>
@@ -60,6 +63,9 @@
                     <td>{{data.reduce_name_th}}</td>
                     <td>{{data.reduce_name_en}}</td>
                     <td>{{data.reduce_amount.toLocaleString()}}</td>
+                    <!--  -->
+                    <td>{{data.reduce_amount.toLocaleString()}}</td>
+<!--  -->
                     <td>{{data.reduce_percent.toLocaleString()}}</td>
                     <td>{{data.reduce_percent_max.toLocaleString()}}</td>
                     <td>{{data.modified_by}}</td>
@@ -105,6 +111,14 @@
                     #reduce_amount="ngModel">
                 </p-inputNumber>
 
+                <!--  -->
+                <label>จำนวนเงินสูงสุด<span style="color: red;"> *</span></label>
+                <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+                    [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedReduce.reduce_amount" name="reduce_amount"
+                    #reduce_amount="ngModel">
+                </p-inputNumber>
+
+                <!--  -->
 
                 <label>{{title_percent}}<span style="color: red;"> *</span></label>
                 <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"

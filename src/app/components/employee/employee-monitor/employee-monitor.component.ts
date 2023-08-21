@@ -12,6 +12,7 @@ import { LocationService } from 'src/app/services/system/policy/location.service
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { LocationModel } from 'src/app/models/employee/policy/location';
 import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
+import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 
 @Component({
   selector: 'app-employee-monitor',
@@ -322,27 +323,32 @@ export class EmployeeMonitorComponent implements OnInit {
     responsive: true,
     maintainAspectRatio: false,
   };
+  public emptypeList: EmptypeModel[] = [];
+  
   worker_type: any;
+  worker_code: any;
   doLoadChart5() {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
 
     this.employeeService.typelist_get(this.initial_current.CompCode, '').then(async (res) => {
-      this.workerList = await res;
-      // console.log(this.workerList);
+      this.emptypeList = await res;
+      console.log(res,'tt1');
 
       let regularWorkers: number = 0; // จำนวนพนักงานรายวัน
       let temporaryWorkers: number = 0; // จำนวนพนักงานรายเดือน
 
-      for (let i = 0; i < this.workerList.length; i++) {
+      for (let i = 0; i < this.emptypeList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
 
-        if (this.workerList[i].worker_type === 'M' || this.workerList[i].worker_type === 'D') {
+        if (this.workerList[i].worker_type === 'M' || this.emptypeList[i].type_code === 'D') {
           regularWorkers++;
+          console.log(this.workerList[i].worker_type,'test1')
         }
 
-        if (this.workerList[i].worker_type === 'D' && hireDate >= temp_fromdate && hireDate <= temp_todate) {
+        if (this.workerList[i].worker_type === 'D' || this.emptypeList[i].type_code === 'D') {
           temporaryWorkers++;
+          console.log(this.workerList[i].worker_type,'test1')
         }
       }
 

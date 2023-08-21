@@ -72,6 +72,8 @@ export class SystemCompanyComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
     }
+    title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
     title_codes: string = 'Code';
     title_name: string = 'Name';
 
@@ -182,13 +184,14 @@ export class SystemCompanyComponent implements OnInit {
                     this.selectedcompany = new CompanyModel();
                     this.selectComManage();
                 },
-            } ,
+            },
             {
-              label: "Template", 
-              icon: 'pi-download', 
-              command: (event) => {
-                window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Company.xlsx', '_blank');
-              }
+
+                label: this.title_file[this.initial_current.Language],
+                icon: 'pi-download',
+                command: (event) => {
+                    window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Company.xlsx', '_blank');
+                }
             }
             ,
             {
