@@ -483,10 +483,10 @@ var rateot = new Map([
     ["overtime", { TH: "อัตราโอที", EN: "Rate OT." }],
     ["rate", { TH: "อัตรา", EN: "Rate" }],
     ["daytype", { TH: "ประเภทวัน", EN: "Daytype" }],
-    ["before", { TH: "ก่อนเข้างาน", EN: "Before" }],
-    ["normal", { TH: "เวลาปกติ", EN: "Normal" }],
-    ["break", { TH: "เวลาพัก", EN: "Break" }],
-    ["after", { TH: "หลังเลิกงาน", EN: "After" }],
+    ["before", { TH: "ก่อนเข้างาน (ชม.)", EN: "Before (Hrs.)" }],
+    ["normal", { TH: "เวลาปกติ (ชม.)", EN: "Normal (Hrs.)" }],
+    ["break", { TH: "เวลาพัก (ชม.)", EN: "Break (Hrs.)" }],
+    ["after", { TH: "หลังเลิกงาน (ชม.)", EN: "After (Hrs.)" }],
     ["offday", { TH: "วันหยุด", EN: "Offday" }],
     ["holiday", { TH: "วันหยุดเทศการ", EN: "Holiday" }],
     ["companyday", { TH: "วันหยุดบริษัท", EN: "Companyday" }],
@@ -666,7 +666,24 @@ var timeallowpage = new Map([
     ["all", { TH: "ทั้งหมด", EN: "All" }],
     ["all", { TH: "ทั้งหมด", EN: "All" }],
 ]);
-
+var setpolicy = new Map([
+    ["process", { TH: "โปรเซส", EN: "Process" }],
+    ["result", { TH: "ผลลัพธ์", EN: "Result" }],
+    ["year", { TH: "ปี", EN: "Year" }],
+    ["type", { TH: "รูปแบบ", EN: "Type" }],
+    ["planholiday", { TH: "แผนวันหยุด", EN: "Plan Holiday" }],
+    ["shift", { TH: "กะการทำงาน", EN: "Shift" }],
+    ["planot", { TH: "แผนOT", EN: "PlanOT" }],
+    ["diligence", { TH: "เบี้ยขยัน", EN: "Diligence" }],
+    ["late", { TH: "การมาสาย", EN: "Late" }],
+    ["leave", { TH: "การลา", EN: "Leave" }],
+    ["allowance", { TH: "เงินได้ค่าเวลา", EN: "time allowance" }],
+    ["no", { TH: "อันดับ", EN: "No." }],
+    ["type", { TH: "ประเภท", EN: "Type" }],
+    ["modified_by", { TH: "ผู้ทำรายการ", EN: "Modified by" }],
+    ["modified_date", { TH: "วันที่ทำรายการ", EN: "Modified date" }],
+    ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
+]);
 
 var workflow = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],

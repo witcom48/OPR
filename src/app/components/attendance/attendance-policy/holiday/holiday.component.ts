@@ -372,15 +372,20 @@ export class HolidayComponent implements OnInit {
 
     // array of objects to save in Excel
     let binary_univers = this.holiday_lists;
-
     let binaryWS = XLSX.utils.json_to_sheet(binary_univers);
 
     // Create a new Workbook
     var wb = XLSX.utils.book_new()
 
     // Name your sheet
-    XLSX.utils.book_append_sheet(wb, binaryWS, 'Binary values')
+    // XLSX.utils.book_append_sheet(wb, binaryWS, 'Holiday');
+    XLSX.utils.book_append_sheet(wb, binaryWS, 'Holiday');
+    this.holiday_lists.forEach((obj: HolidayModels) => {
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(obj.holiday_list), obj.planholiday_code);
+      // obj.holiday_list.forEach((element: Holiday_listModels) => {
 
+      // });
+    })
     // export your excel
     XLSX.writeFile(wb, 'Export_Planholiday.xlsx');
 

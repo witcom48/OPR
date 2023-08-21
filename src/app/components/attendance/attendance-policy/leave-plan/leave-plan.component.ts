@@ -7,6 +7,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { LeaveModels } from 'src/app/models/attendance/leave';
 import { LeaveplanModels } from 'src/app/models/attendance/leave_plan';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { LeaveServices } from 'src/app/services/attendance/leave.service';
 import { PlanleaveServices } from 'src/app/services/attendance/planleave.service';
 import * as XLSX from 'xlsx';
@@ -27,6 +28,8 @@ export class LeavePlanComponent implements OnInit {
     private router: Router,
   ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
+  itemslike: MenuItem[] = [];
+  home: any;
   new_data: boolean = false
   edit_data: boolean = false
   fileToUpload: File | any = null;
@@ -37,12 +40,15 @@ export class LeavePlanComponent implements OnInit {
   leaveplan_list: LeaveplanModels[] = [];
   leaveplans: LeaveplanModels = new LeaveplanModels();
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -129,16 +135,32 @@ export class LeavePlanComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+      label: this.langs.get('planleave')[this.selectlang], styleClass: 'activelike'
+    }];
 
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.leaveplans = new LeaveplanModels();
-          this.checkleavelist();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.leaveplans = new LeaveplanModels();
+            this.checkleavelist();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
+        }
+      }
+      ,
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Attendance/(OPR)Import Planleave.xlsx', '_blank');
         }
       }
       ,
@@ -206,7 +228,16 @@ export class LeavePlanComponent implements OnInit {
   }
   Delete() {
     // // console.log(this.leaveplans)
-    this.doDeletePlanleave(this.leaveplans)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletePlanleave(this.leaveplans)
+      },
+      reject: () => {
+      }
+    });
   }
   onRowSelect(event: any) {
     this.leaves_listselect = []

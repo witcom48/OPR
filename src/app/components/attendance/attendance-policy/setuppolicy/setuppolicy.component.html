@@ -16,84 +16,89 @@
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
-            <span>Process</span>
+            <span>{{langs.get('process')[selectlang]}}</span>
         </ng-template>
         <div class="formgrid grid align-items-end">
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
             </div>
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ แผนวันหยุด:</label><br>
-                <p-dropdown placeholder="แผนวันหยุด" optionLabel="name" [showClear]="true"
+                <label for="lastname2">{{langs.get('type')[selectlang]}}
+                    {{langs.get('planholiday')[selectlang]}} :</label><br>
+                <p-dropdown placeholder="{{langs.get('planholiday')[selectlang]}}" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyholiday"
                     [(ngModel)]="policyholidayselect"></p-dropdown>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-4">
-                <label for="lastname2">ปี :</label><br>
-                <p-dropdown placeholder="ปี" optionLabel="name" [showClear]="true"
+                <label for="lastname2">{{langs.get('year')[selectlang]}} :</label><br>
+                <p-dropdown placeholder="{{langs.get('year')[selectlang]}}" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="yaer_list"
                     [(ngModel)]="yearselect"></p-dropdown>
             </div>
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ กะการทำงาน:</label><br>
-                <p-dropdown placeholder="กะการทำงาน" optionLabel="name" [showClear]="true"
+                <label for="lastname2">{{langs.get('type')[selectlang]}} {{langs.get('shift')[selectlang]}}
+                    :</label><br>
+                <p-dropdown placeholder="{{langs.get('shift')[selectlang]}}" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyshift"
                     [(ngModel)]="policyshiftselect"></p-dropdown>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ แผนOT:</label><br>
-                <p-dropdown placeholder="แผนOT" optionLabel="name" [showClear]="true"
+                <label for="lastname2">{{langs.get('type')[selectlang]}} {{langs.get('planot')[selectlang]}}
+                    :</label><br>
+                <p-dropdown placeholder="{{langs.get('planot')[selectlang]}}" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyOT"
                     [(ngModel)]="policyOTselect"></p-dropdown>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ เบี้ยขยัน:</label><br>
-                <p-dropdown placeholder="นโยบายเบี้ยขยัน" optionLabel="name" [showClear]="true"
+                <label for="lastname2">{{langs.get('type')[selectlang]}}
+                    {{langs.get('diligence')[selectlang]}}:</label><br>
+                <p-dropdown placeholder="{{langs.get('diligence')[selectlang]}}" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policydiligence"
                     [(ngModel)]="policydiligenceselect"></p-dropdown>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ การมาสาย:</label><br>
-                <p-dropdown placeholder="นโยบายมาสาย" optionLabel="name" [showClear]="true"
+                <label for="lastname2">{{langs.get('type')[selectlang]}} {{langs.get('late')[selectlang]}}:</label><br>
+                <p-dropdown placeholder="{{langs.get('late')[selectlang]}}" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policylate"
                     [(ngModel)]="policylateselect"></p-dropdown>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ การลา:</label><br>
-                <p-dropdown placeholder="นโยบายการลา" optionLabel="name" [showClear]="true"
+                <label for="lastname2">{{langs.get('type')[selectlang]}} {{langs.get('leave')[selectlang]}}:</label><br>
+                <p-dropdown placeholder="{{langs.get('leave')[selectlang]}}" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyleave"
                     [(ngModel)]="policyleaveselect"></p-dropdown>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ เงินได้ค่าเวลา:</label><br>
-                <p-dropdown placeholder="นโยบายเงินได้ค่าเวลา" optionLabel="name" [showClear]="true"
+                <label for="lastname2">{{langs.get('type')[selectlang]}}
+                    {{langs.get('allowance')[selectlang]}} :</label><br>
+                <p-dropdown placeholder="{{langs.get('allowance')[selectlang]}}" optionLabel="name" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }" [options]="policyallow"
                     [(ngModel)]="policyallowselect"></p-dropdown>
             </div>
             <div *ngIf="!loading" class="field col-12 md:col-12">
-                <p-button label="Process" (click)="process('AW')"></p-button>
+                <p-button label="{{langs.get('process')[selectlang]}}" (click)="process('AW')"></p-button>
             </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading"
-                    mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading" mode="indeterminate"
+                    [style]="{'height': '6px'}"></p-progressBar>
             </div>
         </div>
     </p-tabPanel>
     <p-tabPanel>
         <ng-template pTemplate="header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
-            <span>Result</span>
+            <span>{{langs.get('result')[selectlang]}}</span>
         </ng-template>
         <div>
             <p-table *ngIf="new_data==true" #dt2 [value]="result_list" styleClass="p-datatable-sm"
@@ -112,11 +117,11 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>No.</th>
-                        <th>Worker</th>
-                        <th>Type</th>
-                        <th>Modyfied by</th>
-                        <th>Modyfied date</th>
+                        <th>{{langs.get('no')[selectlang]}}</th>
+                        <th>{{langs.get('worker_code')[selectlang]}}</th>
+                        <th>{{langs.get('type')[selectlang]}}</th>
+                        <th>{{langs.get('modified_by')[selectlang]}}</th>
+                        <th>{{langs.get('modified_date')[selectlang]}}</th>
                     </tr>
 
                 </ng-template>

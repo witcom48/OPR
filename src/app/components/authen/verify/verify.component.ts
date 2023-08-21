@@ -84,8 +84,8 @@ export class VerifyComponent implements OnInit {
     tmp.emptype_code = this.emp_type;
     this.periodsService.period_get(tmp).then(async (res) => {
       res.forEach((obj: PeriodsModels) => {
-        obj.period_name_en = this.datePipe.transform(obj.period_from, 'dd') + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy') + ")";
-        obj.period_name_th = this.datePipe.transform(obj.period_from, 'dd') + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy', "", 'th-TH') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy', "", 'th-TH') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy', "", 'th-TH') + ")"
+        obj.period_name_en = obj.period_no + " : " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy') + ")";
+        obj.period_name_th = obj.period_no + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy', "", 'th-TH') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy', "", 'th-TH') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy', "", 'th-TH') + ")"
       });
       // console.log(res)
       this.periods_list = await res;
