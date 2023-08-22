@@ -39,12 +39,15 @@ interface Year {
   name: string,
   code: string
 }
+declare var setpolicy: any;
 @Component({
   selector: 'app-setuppolicy',
   templateUrl: './setuppolicy.component.html',
   styleUrls: ['./setuppolicy.component.scss']
 })
 export class SetuppolicyComponent implements OnInit {
+  langs: any = setpolicy;
+  selectlang: string = "EN";
   mainMenuItems: MenuItem[] = [{ label: 'Attendance', routerLink: '/attendance/policy' }, { label: 'Set Polilcy', routerLink: '/attendance/policy/setallpolicy', styleClass: 'activelike' }];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   constructor(
@@ -100,6 +103,7 @@ export class SetuppolicyComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.selectlang = this.initial_current.Language;
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();

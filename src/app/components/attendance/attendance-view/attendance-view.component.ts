@@ -156,7 +156,7 @@ export class AttendanceViewComponent implements OnInit {
       this.doLoadEmployee()
       this.doLoadPolDaytype()
       this.doLoadPolShift()
-    }, 200);
+    }, 500);
 
     setTimeout(() => {
       

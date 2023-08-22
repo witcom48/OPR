@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 declare var locationpage: any;
@@ -11,6 +12,8 @@ declare var locationpage: any;
 export class AttendanceLocationComponent implements OnInit {
   langs: any = locationpage;
   selectlang: string = "EN";
+  itemslike: MenuItem[] = [];
+  home: any;
   constructor(
     private router: Router,
   ) { }
@@ -21,6 +24,11 @@ export class AttendanceLocationComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+      label: this.langs.get('location')[this.selectlang], styleClass: 'activelike'
+    }];
+
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
   ngOnInit(): void {

@@ -6,6 +6,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { LateModels } from 'src/app/models/attendance/late';
 import { LateconditionModels } from 'src/app/models/attendance/late_condition';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { LateServices } from 'src/app/services/attendance/late.service';
 import * as XLSX from 'xlsx';
 declare var late: any;
@@ -24,6 +25,8 @@ export class LateComponent implements OnInit {
     private router: Router,
   ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
+  itemslike: MenuItem[] = [];
+  home: any;
   new_data: boolean = false
   edit_data: boolean = false
   fileToUpload: File | any = null;
@@ -36,12 +39,15 @@ export class LateComponent implements OnInit {
   lates: LateModels = new LateModels()
   conditions: LateconditionModels = new LateconditionModels()
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -109,15 +115,31 @@ export class LateComponent implements OnInit {
 
 
   doLoadMenu() {
+    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+      label: this.langs.get('late')[this.selectlang], styleClass: 'activelike'
+    }];
 
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.lates = new LateModels();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.lates = new LateModels();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
+        }
+      }
+      ,
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Attendance/(OPR)Import Late.xlsx', '_blank');
         }
       }
       ,
@@ -205,7 +227,16 @@ export class LateComponent implements OnInit {
     this.conditions = new LateconditionModels();
   }
   Delete() {
-    this.doDeleteLate(this.lates)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteLate(this.lates)
+      },
+      reject: () => {
+      }
+    });
   }
   Deletelate() {
     this.lates.late_data = this.lates.late_data.filter((item) => {

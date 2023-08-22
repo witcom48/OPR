@@ -1354,7 +1354,7 @@
             <p-accordionTab header="{{title_policy[initial_current.Language]}}" [selected]="true">
                 <p-menubar [model]="menu_projobpol"></p-menubar>
                 <p-table #dtJobmachine [value]="projobpol_list" styleClass="p-datatable-sm"
-                    [tableStyle]="{'min-width': '35rem'}" [scrollable]="true" scrollHeight="110px"
+                    [tableStyle]="{'min-width': '35rem'}" [scrollable]="true" scrollHeight="100px"
                     [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobpol"
                     (onRowSelect)="onRowSelectProjobpol($event)" dataKey="projobpol_id" [rows]="10"
                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
@@ -1384,13 +1384,13 @@
         </p-accordion>
 
         <p-accordion>
-            <p-accordionTab header="{{title_machine[initial_current.Language]}}">
+            <p-accordionTab header="{{title_machine[initial_current.Language]}}" [selected]="true">
                 <p-menubar [model]="menu_projobmachine"></p-menubar>
                 <p-table #dtJobmachine [value]="projobmachine_list" styleClass="p-datatable-sm"
-                    [tableStyle]="{'min-width': '35rem'}" [scrollable]="true" scrollHeight="200px"
+                    [tableStyle]="{'min-width': '35rem'}" [scrollable]="true" scrollHeight="160px"
                     [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobmachine"
-                    (onRowSelect)="onRowSelectProjobmachine($event)" dataKey="projobmachine_id" [rows]="10"
-                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                    (onRowSelect)="onRowSelectProjobmachine($event)" dataKey="projobmachine_id" [rows]="5"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,20]" [paginator]="false"
                     currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
                     <ng-template pTemplate="header">
                         <tr>
