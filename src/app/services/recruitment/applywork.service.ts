@@ -162,7 +162,7 @@ export class ApplyworkService {
     //         });
     // }
 
-    public reqworker_get(reqworkers:EmployeeModel) {
+    public reqworker_get(reqworkers: EmployeeModel) {
         var filter = {
             device_name: '',
             ip: "localhost",
@@ -211,9 +211,9 @@ export class ApplyworkService {
                 worker_facebook: reqworker.worker_facebook,
                 worker_military: reqworker.worker_military,
                 nationality_code: reqworker.nationality_code,
-                worker_cardno : reqworker.worker_cardno,
-                worker_cardnoissuedate : reqworker.worker_cardnoissuedate,
-                worker_cardnoexpiredate : reqworker.worker_cardnoexpiredate,
+                worker_cardno: reqworker.worker_cardno,
+                worker_cardnoissuedate: reqworker.worker_cardnoissuedate,
+                worker_cardnoexpiredate: reqworker.worker_cardnoexpiredate,
                 modified_by: this.initial_current.Username,
                 reqdocatt_data: reqworker.reqdocatt_data,
             }
@@ -257,6 +257,20 @@ export class ApplyworkService {
             .then((res) => {
                 return res;
             });
+    }
+
+    public requpdate_status(model: EmployeeModel) {
+        const data = {
+            company_code: this.initial_current.CompCode,
+            worker_id: model.worker_id,
+            status: model.status,
+            modified_by: this.initial_current.Username
+        };
+
+        return this.http.post<any>(this.config.ApiRecruitmentModule+ '/requpdate_status', data,this.options).toPromise()
+        .then((res)=>{
+            return res;
+        });
     }
 
     //image
@@ -346,14 +360,14 @@ export class ApplyworkService {
             job_type: model.job_type,
         }
 
-        return this.http.post<any>(this.config.ApiRecruitmentModule+ '/docatt_list', filter, this.options).toPromise()
-        .then((res)=>{
-            let message = JSON.parse(res);
-            return message.data;
-        })
+        return this.http.post<any>(this.config.ApiRecruitmentModule + '/docatt_list', filter, this.options).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message.data;
+            })
     }
 
-    public record_reqfile(worker_code: string, list: ApplyMTDocattModel[] , type: string) {
+    public record_reqfile(worker_code: string, list: ApplyMTDocattModel[], type: string) {
         var item_data: string = "[";
         for (let i = 0; i < list.length; i++) {
             item_data = item_data + "{";

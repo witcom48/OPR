@@ -75,10 +75,18 @@ export class EmployeeModel {
   nationality_code: string = "";
   checkblacklist: Boolean = false
   checkhistory: Boolean = false
+  counthistory: number = 0;
+  checkcertificate: Boolean = false
   status: number = 0;
 
   worker_cardno: string = "";
   worker_cardnoissuedate!: Date;
   worker_cardnoexpiredate!: Date;
-  
+
+  worker_socialno: string = "";
+  worker_socialnoissuedate!: Date;
+  worker_socialnoexpiredate!: Date;
+  worker_socialsentdate!: Date;
+  worker_socialnotsent: Boolean = false
+
 }

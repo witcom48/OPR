@@ -47,7 +47,7 @@
                         date:'dd/MM/yyyy'}}</td>
 
                     <td>
-                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteLocation(data)">
+                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteLocation(data)" [disabled]="!this.accessData.accessdata_delete">
                         </button>
 
                     </td>
@@ -105,7 +105,7 @@
                         icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
                     &nbsp;
                     <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                        (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                        (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size" [disabled]="!this.accessData.accessdata_delete"></button>
                 </div>
             </div>
         </p-dialog>

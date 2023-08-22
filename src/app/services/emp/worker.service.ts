@@ -118,6 +118,16 @@ export class EmployeeService {
       worker_military: model.worker_military,
 
       nationality_code: model.nationality_code,
+
+      worker_cardno : model.worker_cardno,
+      worker_cardnoissuedate : model.worker_cardnoissuedate,
+      worker_cardnoexpiredate : model.worker_cardnoexpiredate,
+
+      worker_socialno : model.worker_socialno,
+      worker_socialnoissuedate : model.worker_socialnoissuedate,
+      worker_socialnoexpiredate : model.worker_socialnoexpiredate,
+      worker_socialsentdate : model.worker_socialsentdate,
+      worker_socialnotsent : model.worker_socialnotsent,
       
       modified_by: this.initial_current.Username
     };
@@ -211,7 +221,7 @@ export class EmployeeService {
 
       searchemp: fillter.searchemp,
 
-      include_resign: fillter.worker_resignstatus,
+      worker_resignstatus: fillter.worker_resignstatus,
 
       level_code: fillter.level_code,
       dep_code: fillter.dep_code,

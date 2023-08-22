@@ -6,6 +6,7 @@ import { ConfirmationService, MenuItem, MessageService, PrimeNGConfig } from 'pr
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { YearPeriodModels } from 'src/app/models/system/policy/yearperiod';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { YearService } from 'src/app/services/system/policy/year.service';
 import * as XLSX from 'xlsx';
 declare var yearperiod: any;
@@ -41,7 +42,8 @@ export class YearComponent implements OnInit {
   yearperiods_list: YearPeriodModels[] = [];
   yearperiods: YearPeriodModels = new YearPeriodModels()
 
-
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
@@ -54,6 +56,8 @@ export class YearComponent implements OnInit {
     } else {
       this.config.setTranslation(langcalendaren)
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
   title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
@@ -148,10 +152,15 @@ export class YearComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.showManage()
-          this.yearperiods = new YearPeriodModels();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+
+            this.showManage()
+            this.yearperiods = new YearPeriodModels();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       }
       ,
@@ -203,8 +212,15 @@ export class YearComponent implements OnInit {
           label: 'ลบ',
           icon: 'pi pi-trash',
           command: () => {
+          if (this.accessData.accessdata_delete) {
+
+            !this.accessData.accessdata_delete
             this.doDeleteYear(this.yearperiods)
+           
+           } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
           }
+        }
         },
         {
           label: 'คัดลอก',

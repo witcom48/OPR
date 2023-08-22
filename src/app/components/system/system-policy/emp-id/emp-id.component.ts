@@ -12,6 +12,7 @@ import { CodestructureModel } from 'src/app/models/system/policy/codestructure';
 import { CodestructureService } from 'src/app/services/system/manage1/codestructure.service';
 import { AddCodestructureComponent } from './add-codestructure/add-codestructure.component';
 import { Subscription } from 'rxjs';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-emp-id',
@@ -73,13 +74,16 @@ export class EmpIDComponent implements OnInit {
       }
     }, 400);
   }
-
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
   }
     title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
@@ -176,12 +180,16 @@ export class EmpIDComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+           if (this.accessData.accessdata_new) {
           this.showManage()
           this.selectedTRPolcode = new TRPolcodeModel();
           this.selectedTRPolcode.codestructure_code = this.codestructureList[0].codestructure_code
           this.selectedTRPolcode.polcode_order = this.TRPolcode_list.length+1;
           this.new_data = true;
           this.edit_data = false;
+         } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       }
       ,

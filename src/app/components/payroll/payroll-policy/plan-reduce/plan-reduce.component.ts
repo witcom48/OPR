@@ -6,9 +6,10 @@ import { async } from 'rxjs';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { PlanreduceModels } from 'src/app/models/payroll/planreduce';
- import { ReducesModel } from 'src/app/models/system/policy/reduces';
- import { PlanreduceService } from 'src/app/services/payroll/planreduce.service';
- import { ReduceService } from 'src/app/services/system/policy/reduce.service';
+import { ReducesModel } from 'src/app/models/system/policy/reduces';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { PlanreduceService } from 'src/app/services/payroll/planreduce.service';
+import { ReduceService } from 'src/app/services/system/policy/reduce.service';
 import * as XLSX from 'xlsx';
 declare var planleave: any;
 @Component({
@@ -38,12 +39,16 @@ export class PlanReduceComponent implements OnInit {
   reduceplan_list: PlanreduceModels[] = [];
   reduceplans: PlanreduceModels = new PlanreduceModels();
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.accessData = this.initialData2.dotGetPolmenu('PAY');
+
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -56,7 +61,7 @@ export class PlanReduceComponent implements OnInit {
   doLoadPlanreduce() {
     this.reduce_list = [];
     var tmp = new ReducesModel();
-    this.reducesService.reduce_get( ).then(async (res) => {
+    this.reducesService.reduce_get().then(async (res) => {
       this.reduce_list = await res;
       this.doLoadPlanreduc();
     });
@@ -77,7 +82,7 @@ export class PlanReduceComponent implements OnInit {
   }
   async doRecordPlanreduce(data: PlanreduceModels) {
     await this.planreduceService.planreduce_record(data).then((res) => {
-      console.log(data,'l')
+      console.log(data, 'l')
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPlanreduc();
@@ -139,10 +144,15 @@ export class PlanReduceComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.reduceplans = new PlanreduceModels();
-          this.checkreducelist();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+
+            this.reduceplans = new PlanreduceModels();
+            this.checkreducelist();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
         }
       }
       ,

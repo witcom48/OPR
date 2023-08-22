@@ -877,7 +877,12 @@ export class ApplyworkDetailService {
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"empsalary_amount\":\"" + list[i].empsalary_amount + "\"";
+      item_data = item_data + "\"empsalary_id\":\"" + list[i].empsalary_id + "\"";
+      item_data = item_data + ",\"empsalary_amount\":\"" + list[i].empsalary_amount + "\"";
+      item_data = item_data + ",\"empsalary_date\":\"" + this.datePipe.transform(list[i].empsalary_date) + "\"";
+      item_data = item_data + ",\"empsalary_reason\":\"" + list[i].empsalary_reason + "\"";
+      item_data = item_data + ",\"empsalary_incamount\":\"" + list[i].empsalary_incamount + "\"";
+      item_data = item_data + ",\"empsalary_incpercent\":\"" + list[i].empsalary_incpercent + "\"";
       
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
@@ -950,8 +955,18 @@ export class ApplyworkDetailService {
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
-      item_data = item_data + "\"item_code\":\"" + list[i].item_code + "\"";
+      item_data = item_data + "\"empbenefit_id\":\"" + list[i].empbenefit_id + "\"";
       item_data = item_data + ",\"empbenefit_amount\":\"" + list[i].empbenefit_amount + "\"";
+      item_data = item_data + ",\"empbenefit_startdate\":\"" + this.datePipe.transform(list[i].empbenefit_startdate) + "\"";
+      item_data = item_data + ",\"empbenefit_enddate\":\"" + this.datePipe.transform(list[i].empbenefit_enddate) + "\"";
+      item_data = item_data + ",\"empbenefit_reason\":\"" + list[i].empbenefit_reason + "\"";
+      item_data = item_data + ",\"empbenefit_note\":\"" + list[i].empbenefit_note + "\"";
+      item_data = item_data + ",\"empbenefit_paytype\":\"" + list[i].empbenefit_paytype + "\"";
+      item_data = item_data + ",\"empbenefit_break\":\"" + list[i].empbenefit_break + "\"";
+      item_data = item_data + ",\"empbenefit_breakreason\":\"" + list[i].empbenefit_breakreason + "\"";
+      item_data = item_data + ",\"empbenefit_conditionpay\":\"" + list[i].empbenefit_conditionpay + "\"";
+      item_data = item_data + ",\"empbenefit_payfirst\":\"" + list[i].empbenefit_payfirst + "\"";
+      item_data = item_data + ",\"item_code\":\"" + list[i].item_code + "\"";
       
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";

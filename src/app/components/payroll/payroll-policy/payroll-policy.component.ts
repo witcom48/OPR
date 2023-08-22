@@ -110,7 +110,7 @@ export class PayrollPolicyComponent implements OnInit {
             },
              
             {
-                title: 'นโยบายภาษีเงิน',
+                title: 'นโยบายค่าลดหย่อน ',
                 link: 'planreduce',
                 accessCode: 'PAY001-007'
             }

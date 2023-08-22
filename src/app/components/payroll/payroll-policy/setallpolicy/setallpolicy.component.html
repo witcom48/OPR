@@ -1,4 +1,3 @@
-
 <p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 
 <p-tabView [(activeIndex)]="index" (onChange)="function($event)">
@@ -12,73 +11,49 @@
                 <app-select-emp></app-select-emp>
             </div>
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ แผนวันหยุด กำหนดสิทธิเงินได้/เงินหัก:</label><br>
-                <p-dropdown placeholder="แผนวันหยุด" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policyholiday"
-                    [(ngModel)]="policyholidayselect"></p-dropdown>
-            </div>
-        </div>
-        <div class="formgrid grid align-items-end">
-            <!-- <div class="field col-12 md:col-4">
-                <label for="lastname2">ปี :</label><br>
-                <p-dropdown placeholder="ปี" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [options]="yaer_list"
-                    [(ngModel)]="yearselect"></p-dropdown>
-            </div> -->
-            <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ กะการทำงาน กำหนดโบนัส:</label><br>
-                <p-dropdown placeholder="กะการทำงาน" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policyshift"
-                    [(ngModel)]="policyshiftselect"></p-dropdown>
+
+                <label for="lastname2">รูปแบบ กำหนดสิทธิเงินได้/เงินหัก:</label><br>
+                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policyplanitems"
+                    [(ngModel)]="policyplanitemsselect"></p-dropdown>
+
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ แผนOT กำหนดสิทธิกองทุนสำรองฯ
-                    :</label><br>
-                <p-dropdown placeholder="--"  optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policyOT"
-                    [(ngModel)]="policyOTselect"></p-dropdown>
+                <label for="lastname2">รูปแบบ กำหนดสิทธิโบนัส:</label><br>
+                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policybonus"
+                    [(ngModel)]="policybonusselect"></p-dropdown>
             </div>
         </div>
         <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ เบี้ยขยัน กำหนดสิทธิภาษี:</label><br>
-                <p-dropdown placeholder="นโยบายเบี้ยขยัน" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policydiligence"
-                    [(ngModel)]="policydiligenceselect"></p-dropdown>
+                <label for="lastname2">รูปแบบ กำหนดสิทธิกองทุนสำรองฯ:</label><br>
+                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policyprovident"
+                    [(ngModel)]="policyprovidentselect"></p-dropdown>
             </div>
         </div>
-        <!-- <div class="formgrid grid align-items-end">
+
+        <div class="formgrid grid align-items-end">
             <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ การมาสาย กำหนดสิทธิเงินได้ เงินหัก:</label><br>
-                <p-dropdown placeholder="นโยบายมาสาย" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policylate"
-                    [(ngModel)]="policylateselect"></p-dropdown>
+                <label for="lastname2">รูปแบบ กำหนดสิทธิค่าลดหย่อน:</label><br>
+                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policyplanreduce"
+                    [(ngModel)]="policyplanreduceselect"></p-dropdown>
+
             </div>
-        </div> -->
-        <!-- <div class="formgrid grid align-items-end">
-            <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ การลา:</label><br>
-                <p-dropdown placeholder="นโยบายการลา" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policyleave"
-                    [(ngModel)]="policyleaveselect"></p-dropdown>
-            </div>
-        </div> -->
-        <!-- <div class="formgrid grid align-items-end">
-            <div class="field col-12 md:col-6">
-                <label for="lastname2">รูปแบบ เงินได้ค่าเวลา:</label><br>
-                <p-dropdown placeholder="นโยบายเงินได้ค่าเวลา" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }" [options]="policyallow"
-                    [(ngModel)]="policyallowselect"></p-dropdown>
-            </div>
+        </div>
+        <div class="formgrid grid align-items-end">
+
             <div *ngIf="!loading" class="field col-12 md:col-12">
                 <p-button label="Process" (click)="process('AW')"></p-button>
             </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading"
-                    mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading" mode="indeterminate"
+                    [style]="{'height': '6px'}"></p-progressBar>
             </div>
-        </div> -->
+        </div>
     </p-tabPanel>
     <p-tabPanel>
         <ng-template pTemplate="header">
@@ -103,21 +78,27 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>No.</th>
-                        <th>Worker</th>
-                        <th>Type</th>
+                        <th>รหัสพนักงาน</th>
+                        
+                        <th>ชื่อพนักงาน</th>
+                        <th>นโยบาย</th>
                         <th>Modyfied by</th>
                         <th>Modyfied date</th>
+                        <th></th>
                     </tr>
 
                 </ng-template>
                 <ng-template pTemplate="body" let-data let-i="rowIndex">
                     <tr [pSelectableRow]="data">
                         <td>{{i+1}}</td>
-                        <td>{{data.worker}}</td>
-                        <td>{{data.policy}}</td>
+                        <td>{{data.worker_code}}</td>
+                        <td>{{data.worker_detail}}</td>
+                        <td>{{data.code}}</td>
                         <td>{{data.modied_by}}</td>
                         <td>{{data.modied_date | date:'dd/MM/yyyy'}}</td>
-
+                        <td>
+                            <button *ngIf="new_data==true" pButton type="button" class="pi pi-trash p-button-danger" ></button>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>

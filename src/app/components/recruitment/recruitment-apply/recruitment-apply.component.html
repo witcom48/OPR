@@ -10,7 +10,6 @@
                         <i class="pi pi-cog"></i>&nbsp;&nbsp;
                         <span>{{title_genaral}}</span>
                     </ng-template>
-
                     <div class="empinfo">
                         <p-image [src]="base64Image" id="imgReq" name="imgReq" alt="Image" width="175"
                             height="175"></p-image>
@@ -107,6 +106,19 @@
                                 </ng-template>
                             </p-dropdown>
                         </div>
+                        <div>
+                            <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
+                            <p-dropdown placeholder="--" [options]="nationality" optionValue="code" [showClear]="true"
+                                [(ngModel)]="selectedReqworker.nationality_code"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
 
                         <div>
                             <label for="applywork_birthdate">{{title_birthdate}}:</label>
@@ -127,19 +139,7 @@
 
                         </div>
 
-                        <div>
-                            <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
-                            <p-dropdown placeholder="--" [options]="nationality" optionValue="code" [showClear]="true"
-                                [(ngModel)]="selectedReqworker.nationality_code"
-                                [style]="{ width: '100%', overflow: 'visible' }">
-                                <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
-                                </ng-template>
-                                <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
+
 
                         <div>
                             <label for="worker_age">{{title_age[initial_current.Language]}}:</label>
@@ -318,16 +318,18 @@
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                     <ng-template pTemplate="header">
                                         <tr>
-                                            <th>{{title_salary}}</th>
-                                            <!-- <th>{{title_salarytype[initial_current.Language]}}</th> -->
+                                            <th>{{title_date}}</th>
+                                            <th>{{title_amount}}</th>
+                                            <th>{{title_reason}}</th>
                                             <th>{{title_modified_by[initial_current.Language]}}</th>
                                             <th>{{title_modified_date[initial_current.Language]}}</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-empsalary>
                                         <tr [pSelectableRow]="empsalary">
+                                            <td>{{empsalary.empsalary_date | date:'dd/MM/yyyy'}}</td>
                                             <td>{{empsalary.empsalary_amount}}</td>
-                                            <td></td>
+                                            <td>{{empsalary.empsalary_reason}}</td>
                                             <td>{{empsalary.modified_by}}</td>
                                             <td>{{empsalary.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
@@ -354,16 +356,22 @@
                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                     <ng-template pTemplate="header">
                                         <tr>
-                                            <th>{{title_item[initial_current.Language]}}</th>
+                                            <th>{{title_date}}</th>
+                                            <th>{{title_incomededuct}}</th>
                                             <th>{{title_amount}}</th>
+                                            <th>{{title_conditionpay}}</th>
+                                            <th>{{title_reason}}</th>
                                             <th>{{title_modified_by[initial_current.Language]}}</th>
                                             <th>{{title_modified_date[initial_current.Language]}}</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-empbenefit>
                                         <tr [pSelectableRow]="empbenefit">
+                                            <td>{{empbenefit.empbenefit_startdate | date:'dd/MM/yyyy'}}</td>
                                             <td>{{doGetitemDetail(empbenefit.item_code)}}</td>
                                             <td>{{empbenefit.empbenefit_amount}}</td>
+                                            <td>{{empbenefit.empbenefit_conditionpay}}</td>
+                                            <td>{{empbenefit.empbenefit_reason}}</td>
                                             <td>{{empbenefit.modified_by}}</td>
                                             <td>{{empbenefit.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
@@ -1699,10 +1707,28 @@
 
     <!-- Form Req salary -->
     <div class="formatt" *ngIf="edit_reqsalary==true || new_salary==true">
+        <!-- <label>{{title_amount}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedReqSalary.empsalary_amount">
+        </p-inputNumber> -->
+        <label>{{title_incrementbath}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedReqSalary.empsalary_incamount">
+        </p-inputNumber>
+
+        <label>{{title_incrementper}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax" suffix="%"
+            [(ngModel)]="selectedReqSalary.empsalary_incpercent" [max]="100">
+        </p-inputNumber>
+
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedReqSalary.empsalary_amount">
         </p-inputNumber>
+
+        <label>{{title_date}}</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+            [(ngModel)]="selectedReqSalary.empsalary_date"><input type="text"></p-calendar>
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="reqsalary_summit()"></button>
@@ -1727,6 +1753,55 @@
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedReqBenefit.empbenefit_amount">
         </p-inputNumber>
+
+        <label>{{title_start}}</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+            [(ngModel)]="selectedReqBenefit.empbenefit_startdate"><input type="text"></p-calendar>
+
+        <label>{{title_end}}</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+            [(ngModel)]="selectedReqBenefit.empbenefit_enddate"><input type="text"></p-calendar>
+
+        <label>{{title_benefittype}}</label>
+        <div class="radio">
+            <p-radioButton name="benefit_paytype" value="A"
+                [(ngModel)]="selectedReqBenefit.empbenefit_paytype"></p-radioButton>&nbsp;
+            <label>เต็มจำนวน</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="benefit_paytype" value="D"
+                [(ngModel)]="selectedReqBenefit.empbenefit_paytype"></p-radioButton>&nbsp;
+            <label>ตามวันที่ทำงาน</label>
+        </div>
+
+        <label>{{title_conditionpay}}</label>
+        <p-dropdown [options]="conPay" placeholder="--" optionValue="value" [showClear]="true"
+            [(ngModel)]="selectedReqBenefit.empbenefit_conditionpay" [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <label>{{title_period}}</label>
+        <div class="radio">
+            <p-radioButton name="benefit_payfirst" value="Y"
+                [(ngModel)]="selectedReqBenefit.empbenefit_payfirst"></p-radioButton>&nbsp;
+            <label>{{title_odd}}</label>
+            &nbsp;&nbsp;
+            <p-radioButton name="benefit_payfirst" value="N"
+                [(ngModel)]="selectedReqBenefit.empbenefit_payfirst"></p-radioButton>&nbsp;
+            <label>{{title_even}}</label>
+        </div>
+
+        <label>{{title_reason}}</label>
+        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            [(ngModel)]="selectedReqBenefit.empbenefit_reason"
+            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+
+        <label>{{title_description}}</label>
+        <textarea [(ngModel)]="selectedReqBenefit.empbenefit_note" pInputTextarea [autoResize]="true"></textarea>
 
         <br>
         <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"

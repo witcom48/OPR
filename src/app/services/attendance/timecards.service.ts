@@ -90,6 +90,7 @@ export class TimecardService {
 
       company_code: model.company_code,
       project_code: model.project_code,
+      projob_code: model.projob_code,
       worker_code: model.worker_code,
       timecard_workdate: model.timecard_workdate,
       timecard_daytype: model.timecard_daytype,
