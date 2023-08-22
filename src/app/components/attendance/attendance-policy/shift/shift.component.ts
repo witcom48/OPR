@@ -7,6 +7,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { ShiftModels } from 'src/app/models/attendance/shift';
 import { ShiftallowanceModels } from 'src/app/models/attendance/shiftallowance';
 import { ShiftbreakModels } from 'src/app/models/attendance/shiftbreak';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { ShiftServices } from 'src/app/services/attendance/shift.service';
 import * as XLSX from 'xlsx';
 declare var shfit: any;
@@ -25,6 +26,8 @@ export class ShiftComponent implements OnInit {
     private router: Router,
   ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
+  itemslike: MenuItem[] = [];
+  home: any;
   new_data: boolean = false
   edit_data: boolean = false
   fileToUpload: File | any = null;
@@ -41,12 +44,15 @@ export class ShiftComponent implements OnInit {
   shifts_brack: ShiftbreakModels = new ShiftbreakModels()
   shifts_allowance: ShiftallowanceModels = new ShiftallowanceModels()
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -112,15 +118,30 @@ export class ShiftComponent implements OnInit {
 
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+      label: this.langs.get('shfits')[this.selectlang], styleClass: 'activelike'
+    }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.shifts = new ShiftModels();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.shifts = new ShiftModels();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
+        }
+      }
+      ,
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Attendance/(OPR)Import Shift.xlsx', '_blank');
         }
       }
       ,
@@ -186,6 +207,7 @@ export class ShiftComponent implements OnInit {
     }
   }
   close() {
+    this.closedispaly();
     this.new_data = false
     this.shifts = new ShiftModels()
   }
@@ -194,7 +216,16 @@ export class ShiftComponent implements OnInit {
     this.doRecordShift(this.shifts)
   }
   Delete() {
-    this.doDeleteShift(this.shifts);
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteShift(this.shifts);
+      },
+      reject: () => {
+      }
+    });
   }
   Savebreak() {
     if (!this.displayeditbreak) {
@@ -249,8 +280,8 @@ export class ShiftComponent implements OnInit {
   closedispaly() {
     this.shifts_brack = new ShiftbreakModels();
     this.shifts_allowance = new ShiftallowanceModels();
-    this.displayeditallowance = false;
-    this.displayeditbreak = false;
+    this.displayaddallowance = false;
+    this.displayaddbreak = false;
   }
   onRowSelect(event: any) {
     this.edit_data = true;
@@ -267,24 +298,41 @@ export class ShiftComponent implements OnInit {
   }
   exportAsExcel() {
     // console.log(XLSX.utils.table_to_sheet(this.table.nativeElement))
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
-    for (var i in ws) {
-      if (i.startsWith("!") || i.charAt(1) !== "1") {
-        continue;
-      }
-      var n = 0;
-      for (var j in ws) {
-        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
-          ws[j].v = ws[j].v.replace(ws[i].v, "")
-        } else {
-          n += 1;
-        }
+    // const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    // for (var i in ws) {
+    //   if (i.startsWith("!") || i.charAt(1) !== "1") {
+    //     continue;
+    //   }
+    //   var n = 0;
+    //   for (var j in ws) {
+    //     if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+    //       ws[j].v = ws[j].v.replace(ws[i].v, "")
+    //     } else {
+    //       n += 1;
+    //     }
 
-      }
-    }
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    // console.log(wb)
+    //   }
+    // }
+    // const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    // XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    // // console.log(wb)
+    // XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
+
+
+    const XLSX = require('xlsx')
+
+    // array of objects to save in Excel
+    let binary_univers = this.shift_list;
+
+    let binaryWS = XLSX.utils.json_to_sheet(binary_univers);
+
+    // Create a new Workbook
+    var wb = XLSX.utils.book_new()
+
+    // Name your sheet
+    XLSX.utils.book_append_sheet(wb, binaryWS, 'Binary values')
+
+    // export your excel
     XLSX.writeFile(wb, 'Export_YearPeriod.xlsx');
 
   }

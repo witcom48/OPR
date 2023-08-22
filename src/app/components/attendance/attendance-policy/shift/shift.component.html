@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,7 +7,8 @@
         <i></i>
         <small>{{langs.get('shfits')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
 <!-- Menu New Import Export Data -->
@@ -66,208 +67,228 @@
 
     <!-- Form input or Edit Data Year Period -->
     <form (ngSubmit)="Save()" #Form="ngForm">
-        <div class="formatt" *ngIf="new_data==true">
-            <i (click)="close()"></i>
+        <p-dialog [(visible)]="new_data" position="right" (onHide)="close()">
+            <div style="display: flex;justify-content: center;" *ngIf="new_data">
+                <div class="formatt">
+                    <i (click)="close()"></i>
 
-            <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
-            <input pInputText type="text" [(ngModel)]="shifts.shift_code" maxlength="10" disabled="{{edit_data}}"
-                name="shift_code" #shift_code="ngModel" required />
-            <p>{{shifts.shift_code.length}}/10</p>
+                    <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" [(ngModel)]="shifts.shift_code" maxlength="10"
+                        disabled="{{edit_data}}" name="shift_code" #shift_code="ngModel" required />
+                    <p>{{shifts.shift_code.length}}/10</p>
 
-            <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
-            <textarea [(ngModel)]="shifts.shift_name_en" pInputTextarea [autoResize]="true" name="shift_name_en"
-                #shift_name_en="ngModel" required></textarea>
+                    <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
+                    <textarea [(ngModel)]="shifts.shift_name_en" pInputTextarea [autoResize]="true" name="shift_name_en"
+                        #shift_name_en="ngModel" required></textarea>
 
-            <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
-            <textarea [(ngModel)]="shifts.shift_name_th" pInputTextarea [autoResize]="true" name="shift_name_th"
-                #shift_name_th="ngModel" required></textarea>
-            <h3>{{langs.get('working')[selectlang]}}</h3>
-            <hr>
-            <div class="formworking">
-                <div>
-                    <h5>{{langs.get('period')[selectlang]}} 1</h5>
-                    <div class="timeperiod">
-                        <div>
-                            <label>{{langs.get('in')[selectlang]}}</label>
-                            <p-calendar dataType="string" [timeOnly]="true" [(ngModel)]="shifts.shift_ch3" dateMask
-                                name="shift_ch3" #shift_ch3="ngModel"></p-calendar>
-                            <div class="timeto">
-                                <p-calendar [(ngModel)]="shifts.shift_ch3_from" dataType="string" [timeOnly]="true"
-                                    dateMask name="shift_ch3_from" #shift_ch3_from="ngModel"></p-calendar>-
-                                <p-calendar [(ngModel)]="shifts.shift_ch3_to" dataType="string" [timeOnly]="true"
-                                    dateMask name="shift_ch3_to" #shift_ch3_to="ngModel"></p-calendar>
-                            </div>
-
-                        </div>
-                        <div>
-                            <label>{{langs.get('out')[selectlang]}}</label>
-                            <p-calendar dataType="string" [(ngModel)]="shifts.shift_ch4" [timeOnly]="true" dateMask
-                                name="shift_ch4" #shift_ch4="ngModel"></p-calendar>
-                            <div class="timeto">
-                                <p-calendar [(ngModel)]="shifts.shift_ch4_from" dataType="string" [timeOnly]="true"
-                                    dateMask name="shift_ch4_from" #shift_ch4_from="ngModel"></p-calendar>-
-                                <p-calendar [(ngModel)]="shifts.shift_ch4_to" dataType="string" [timeOnly]="true"
-                                    dateMask name="shift_ch4_to" #shift_ch4_to="ngModel"></p-calendar>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h5>{{langs.get('period')[selectlang]}} 2</h5>
-                    <div class="timeperiod">
-                        <div>
-                            <label>{{langs.get('in')[selectlang]}}</label>
-                            <p-calendar [(ngModel)]="shifts.shift_ch7" dataType="string" [timeOnly]="true" dateMask
-                                name="shift_ch7" #shift_ch7="ngModel"></p-calendar>
-                            <div class="timeto">
-                                <p-calendar [(ngModel)]="shifts.shift_ch7_from" dataType="string" [timeOnly]="true"
-                                    dateMask name="shift_ch7_from" #shift_ch7_from="ngModel"></p-calendar>-
-                                <p-calendar [(ngModel)]="shifts.shift_ch7_to" dataType="string" [timeOnly]="true"
-                                    dateMask name="shift_ch7_to" #shift_ch7_to="ngModel"></p-calendar>
-                            </div>
-
-                        </div>
-                        <div>
-                            <label>{{langs.get('out')[selectlang]}}</label>
-                            <p-calendar [(ngModel)]="shifts.shift_ch8" dataType="string" [timeOnly]="true" dateMask
-                                name="shift_ch8" #shift_ch8="ngModel"></p-calendar>
-                            <div class="timeto">
-                                <p-calendar [(ngModel)]="shifts.shift_ch8_from" dataType="string" [timeOnly]="true"
-                                    dateMask name="shift_ch8_from" #shift_ch8_from="ngModel"></p-calendar>-
-                                <p-calendar [(ngModel)]="shifts.shift_ch8_to" dataType="string" [timeOnly]="true"
-                                    dateMask name="shift_ch8_to" #shift_ch8_to="ngModel"></p-calendar>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 100vw;">
-                    <h3>{{langs.get('overtime')[selectlang]}}</h3>
+                    <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
+                    <textarea [(ngModel)]="shifts.shift_name_th" pInputTextarea [autoResize]="true" name="shift_name_th"
+                        #shift_name_th="ngModel" required></textarea>
+                    <h3>{{langs.get('working')[selectlang]}}</h3>
                     <hr>
-                </div>
-                <div>
-                    <h5>{{langs.get('before')[selectlang]}}</h5>
-                    <div class="timeperiod">
+                    <div class="formworking">
                         <div>
-                            <label>{{langs.get('in')[selectlang]}}</label>
-                            <p-calendar [(ngModel)]="shifts.shift_ch1" dataType="string" [timeOnly]="true" dateMask
-                                name="shift_ch1" #shift_ch1="ngModel"></p-calendar>
-                            <div class="inputtime">
-                                <label>{{langs.get('min')[selectlang]}}</label>
-                                <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otin_min"
-                                    [useGrouping]="false" name="shift_otin_min"
-                                    #shift_otin_min="ngModel"></p-inputNumber>
-                            </div>
+                            <h5>{{langs.get('period')[selectlang]}} 1</h5>
+                            <div class="timeperiod">
+                                <div>
+                                    <label>{{langs.get('in')[selectlang]}}</label>
+                                    <p-calendar dataType="string" [timeOnly]="true" [(ngModel)]="shifts.shift_ch3"
+                                        dateMask name="shift_ch3" #shift_ch3="ngModel"></p-calendar>
+                                    <div class="timeto">
+                                        <p-calendar [(ngModel)]="shifts.shift_ch3_from" dataType="string"
+                                            [timeOnly]="true" dateMask name="shift_ch3_from"
+                                            #shift_ch3_from="ngModel"></p-calendar>-
+                                        <p-calendar [(ngModel)]="shifts.shift_ch3_to" dataType="string"
+                                            [timeOnly]="true" dateMask name="shift_ch3_to"
+                                            #shift_ch3_to="ngModel"></p-calendar>
+                                    </div>
 
+                                </div>
+                                <div>
+                                    <label>{{langs.get('out')[selectlang]}}</label>
+                                    <p-calendar dataType="string" [(ngModel)]="shifts.shift_ch4" [timeOnly]="true"
+                                        dateMask name="shift_ch4" #shift_ch4="ngModel"></p-calendar>
+                                    <div class="timeto">
+                                        <p-calendar [(ngModel)]="shifts.shift_ch4_from" dataType="string"
+                                            [timeOnly]="true" dateMask name="shift_ch4_from"
+                                            #shift_ch4_from="ngModel"></p-calendar>-
+                                        <p-calendar [(ngModel)]="shifts.shift_ch4_to" dataType="string"
+                                            [timeOnly]="true" dateMask name="shift_ch4_to"
+                                            #shift_ch4_to="ngModel"></p-calendar>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div>
-                            <label>{{langs.get('out')[selectlang]}}</label>
-                            <p-calendar [(ngModel)]="shifts.shift_ch2" dataType="string" [timeOnly]="true" dateMask
-                                name="shift_ch2" #shift_ch2="ngModel"></p-calendar>
-                            <div class="inputtime">
-                                <label>{{langs.get('max')[selectlang]}}</label>
-                                <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otin_max"
-                                    [useGrouping]="false" name="shift_otin_max"
-                                    #shift_otin_max="ngModel"></p-inputNumber>
-                            </div>
+                            <h5>{{langs.get('period')[selectlang]}} 2</h5>
+                            <div class="timeperiod">
+                                <div>
+                                    <label>{{langs.get('in')[selectlang]}}</label>
+                                    <p-calendar [(ngModel)]="shifts.shift_ch7" dataType="string" [timeOnly]="true"
+                                        dateMask name="shift_ch7" #shift_ch7="ngModel"></p-calendar>
+                                    <div class="timeto">
+                                        <p-calendar [(ngModel)]="shifts.shift_ch7_from" dataType="string"
+                                            [timeOnly]="true" dateMask name="shift_ch7_from"
+                                            #shift_ch7_from="ngModel"></p-calendar>-
+                                        <p-calendar [(ngModel)]="shifts.shift_ch7_to" dataType="string"
+                                            [timeOnly]="true" dateMask name="shift_ch7_to"
+                                            #shift_ch7_to="ngModel"></p-calendar>
+                                    </div>
 
+                                </div>
+                                <div>
+                                    <label>{{langs.get('out')[selectlang]}}</label>
+                                    <p-calendar [(ngModel)]="shifts.shift_ch8" dataType="string" [timeOnly]="true"
+                                        dateMask name="shift_ch8" #shift_ch8="ngModel"></p-calendar>
+                                    <div class="timeto">
+                                        <p-calendar [(ngModel)]="shifts.shift_ch8_from" dataType="string"
+                                            [timeOnly]="true" dateMask name="shift_ch8_from"
+                                            #shift_ch8_from="ngModel"></p-calendar>-
+                                        <p-calendar [(ngModel)]="shifts.shift_ch8_to" dataType="string"
+                                            [timeOnly]="true" dateMask name="shift_ch8_to"
+                                            #shift_ch8_to="ngModel"></p-calendar>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 100vw;">
+                            <h3>{{langs.get('overtime')[selectlang]}}</h3>
+                            <hr>
+                        </div>
+                        <div>
+                            <h5>{{langs.get('before')[selectlang]}}</h5>
+                            <div class="timeperiod">
+                                <div>
+                                    <label>{{langs.get('in')[selectlang]}}</label>
+                                    <p-calendar [(ngModel)]="shifts.shift_ch1" dataType="string" [timeOnly]="true"
+                                        dateMask name="shift_ch1" #shift_ch1="ngModel"></p-calendar>
+                                    <div class="inputtime">
+                                        <label>{{langs.get('min')[selectlang]}}</label>
+                                        <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otin_min"
+                                            [useGrouping]="false" name="shift_otin_min"
+                                            #shift_otin_min="ngModel"></p-inputNumber>
+                                    </div>
+
+                                </div>
+                                <div>
+                                    <label>{{langs.get('out')[selectlang]}}</label>
+                                    <p-calendar [(ngModel)]="shifts.shift_ch2" dataType="string" [timeOnly]="true"
+                                        dateMask name="shift_ch2" #shift_ch2="ngModel"></p-calendar>
+                                    <div class="inputtime">
+                                        <label>{{langs.get('max')[selectlang]}}</label>
+                                        <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otin_max"
+                                            [useGrouping]="false" name="shift_otin_max"
+                                            #shift_otin_max="ngModel"></p-inputNumber>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5>{{langs.get('after')[selectlang]}}</h5>
+                            <div class="timeperiod">
+                                <div>
+                                    <label>{{langs.get('in')[selectlang]}}</label>
+                                    <p-calendar [(ngModel)]="shifts.shift_ch9" dataType="string" [timeOnly]="true"
+                                        dateMask name="shift_ch9" #shift_ch9="ngModel"></p-calendar>
+                                    <div class="inputtime">
+                                        <label>{{langs.get('min')[selectlang]}}</label>
+                                        <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otout_min"
+                                            [useGrouping]="false" name="shift_otout_min"
+                                            #shift_otout_min="ngModel"></p-inputNumber>
+                                    </div>
+
+                                </div>
+                                <div>
+                                    <label>{{langs.get('out')[selectlang]}}</label>
+                                    <p-calendar [(ngModel)]="shifts.shift_ch10" dataType="string" [timeOnly]="true"
+                                        dateMask name="shift_ch10" #shift_ch10="ngModel"></p-calendar>
+                                    <div class="inputtime">
+                                        <label>{{langs.get('max')[selectlang]}}</label>
+                                        <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otout_max"
+                                            [useGrouping]="false" name="shift_otout_max"
+                                            #shift_otout_max="ngModel"></p-inputNumber>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <h5>{{langs.get('after')[selectlang]}}</h5>
-                    <div class="timeperiod">
-                        <div>
-                            <label>{{langs.get('in')[selectlang]}}</label>
-                            <p-calendar [(ngModel)]="shifts.shift_ch9" dataType="string" [timeOnly]="true" dateMask
-                                name="shift_ch9" #shift_ch9="ngModel"></p-calendar>
-                            <div class="inputtime">
-                                <label>{{langs.get('min')[selectlang]}}</label>
-                                <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otout_min"
-                                    [useGrouping]="false" name="shift_otout_min"
-                                    #shift_otout_min="ngModel"></p-inputNumber>
-                            </div>
-
-                        </div>
-                        <div>
-                            <label>{{langs.get('out')[selectlang]}}</label>
-                            <p-calendar [(ngModel)]="shifts.shift_ch10" dataType="string" [timeOnly]="true" dateMask
-                                name="shift_ch10" #shift_ch10="ngModel"></p-calendar>
-                            <div class="inputtime">
-                                <label>{{langs.get('max')[selectlang]}}</label>
-                                <p-inputNumber dataType="string" [(ngModel)]="shifts.shift_otout_max"
-                                    [useGrouping]="false" name="shift_otout_max"
-                                    #shift_otout_max="ngModel"></p-inputNumber>
-                            </div>
-                        </div>
+                    <div>
+                        <input type="checkbox" value="1" [(ngModel)]="shifts.shift_flexiblebreak"
+                            name="shift_flexiblebreak" #shift_flexiblebreak="ngModel">
+                          <label>{{langs.get('flexiblebreak')[selectlang]}}</label>
                     </div>
+                    <div>
+                        <p-accordion>
+                            <p-accordionTab header="{{langs.get('break')[selectlang]}}">
+                                <p-menubar [model]="items_break"></p-menubar>
+                                <p-table [value]="shifts.shift_break" styleClass="p-datatable-sm"
+                                    (onRowSelect)="onRowSelectbreak($event)" [scrollable]="true" scrollHeight="220px"
+                                    [virtualScroll]="true" selectionMode="single" [(selection)]="shifts_brack">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{langs.get('no')[selectlang]}}</th>
+                                            <th>{{langs.get('from')[selectlang]}}</th>
+                                            <th>{{langs.get('too')[selectlang]}}</th>
+                                            <th>{{langs.get('break')[selectlang]}}</th>
+
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-data let-i="rowIndex">
+                                        <tr [pSelectableRow]="data">
+                                            <td>{{i+1}}</td>
+                                            <td>{{data.shiftbreak_from}}</td>
+                                            <td>{{data.shiftbreak_to}}</td>
+                                            <td>{{data.shiftbreak_break}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+                    <div>
+                        <p-accordion>
+                            <p-accordionTab header="{{langs.get('allowance')[selectlang]}}">
+                                <p-menubar [model]="items_allowance"></p-menubar>
+                                <p-table [value]="shifts.shift_allowance" styleClass="p-datatable-sm"
+                                    (onRowSelect)="onRowSelectallowance($event)" [scrollable]="true"
+                                    scrollHeight="220px" [virtualScroll]="true" selectionMode="single"
+                                    [(selection)]="shifts_allowance">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{langs.get('no')[selectlang]}}</th>
+                                            <th>{{langs.get('detail')[selectlang]}}</th>
+                                            <th>{{langs.get('time')[selectlang]}}</th>
+                                            <th>{{langs.get('amount')[selectlang]}}</th>
+
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-data let-i="rowIndex">
+                                        <tr [pSelectableRow]="data">
+                                            <td>{{i+1}}</td>
+                                            <td>{{data.shiftallowance_name_en}}</td>
+                                            <td>{{data.shiftallowance_hhmm}}</td>
+                                            <td>{{data.shiftallowance_amount}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+                    <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{langs.get('save')[selectlang]}}"
+                        icon="pi pi-check" [disabled]="!Form.form.valid" class="p-button-secondary"></button>
+                    <button *ngIf="edit_data" pRipple pButton type="submit" label="{{langs.get('save')[selectlang]}}"
+                        icon="pi pi-check"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="p-button-secondary"></button>
+                    <button *ngIf="edit_data" pRipple pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                        (click)="Delete()" icon="pi pi-trash" [disabled]="!this.accessData.accessdata_delete"
+                        class="p-button-secondary btndel"></button>
                 </div>
             </div>
-            <div>
-                <input type="checkbox" value="1" [(ngModel)]="shifts.shift_flexiblebreak" name="shift_flexiblebreak"
-                    #shift_flexiblebreak="ngModel">
-                  <label>{{langs.get('flexiblebreak')[selectlang]}}</label>
-            </div>
-            <div>
-                <p-accordion>
-                    <p-accordionTab header="{{langs.get('break')[selectlang]}}">
-                        <p-menubar [model]="items_break"></p-menubar>
-                        <p-table [value]="shifts.shift_break" styleClass="p-datatable-sm"
-                            (onRowSelect)="onRowSelectbreak($event)" [scrollable]="true" scrollHeight="220px"
-                            [virtualScroll]="true" selectionMode="single" [(selection)]="shifts_brack">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th>{{langs.get('no')[selectlang]}}</th>
-                                    <th>{{langs.get('from')[selectlang]}}</th>
-                                    <th>{{langs.get('too')[selectlang]}}</th>
-                                    <th>{{langs.get('break')[selectlang]}}</th>
-
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-data let-i="rowIndex">
-                                <tr [pSelectableRow]="data">
-                                    <td>{{i+1}}</td>
-                                    <td>{{data.shiftbreak_from}}</td>
-                                    <td>{{data.shiftbreak_to}}</td>
-                                    <td>{{data.shiftbreak_break}}</td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </p-accordionTab>
-                </p-accordion>
-            </div>
-            <div>
-                <p-accordion>
-                    <p-accordionTab header="{{langs.get('allowance')[selectlang]}}">
-                        <p-menubar [model]="items_allowance"></p-menubar>
-                        <p-table [value]="shifts.shift_allowance" styleClass="p-datatable-sm"
-                            (onRowSelect)="onRowSelectallowance($event)" [scrollable]="true" scrollHeight="220px"
-                            [virtualScroll]="true" selectionMode="single" [(selection)]="shifts_allowance">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th>{{langs.get('no')[selectlang]}}</th>
-                                    <th>{{langs.get('detail')[selectlang]}}</th>
-                                    <th>{{langs.get('time')[selectlang]}}</th>
-                                    <th>{{langs.get('amount')[selectlang]}}</th>
-
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-data let-i="rowIndex">
-                                <tr [pSelectableRow]="data">
-                                    <td>{{i+1}}</td>
-                                    <td>{{data.shiftallowance_name_en}}</td>
-                                    <td>{{data.shiftallowance_hhmm}}</td>
-                                    <td>{{data.shiftallowance_amount}}</td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </p-accordionTab>
-                </p-accordion>
-            </div>
-            <button pButton type="submit" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
-                [disabled]="!Form.form.valid"></button>
-            <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                icon="pi pi-trash" class="p-button-danger" (click)="Delete()"></button>
-        </div>
+        </p-dialog>
+        <div *ngIf="new_data" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter" (click)="close()"></div>
     </form>
     <!-- --------------End form Input Data ------------------ -->
 
@@ -348,6 +369,4 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

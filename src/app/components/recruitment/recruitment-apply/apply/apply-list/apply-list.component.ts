@@ -326,6 +326,7 @@ export class ApplyListComponent implements OnInit {
         this.doLoadapplywork();
         this.edit_applywork = false;
         this.new_applywork = false;
+        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -572,6 +573,10 @@ export class ApplyListComponent implements OnInit {
         "worker_line": items?.worker_line,
         "worker_facebook": items?.worker_facebook,
         "worker_military": items?.worker_military,
+        "nationality_code": items?.nationality_code,
+        "worker_cardno": items?.worker_cardno,
+        "worker_cardnoissuedate": items?.worker_cardnoissuedate,
+        "worker_cardnoexpiredate": items?.worker_cardnoexpiredate
       }
     });
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
@@ -613,8 +618,8 @@ export class ApplyListComponent implements OnInit {
     return this.age;
   }
 
-  
-  
+
+
 
   convertToEmp() {
     this.confirmationService.confirm({
@@ -622,19 +627,40 @@ export class ApplyListComponent implements OnInit {
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        if(this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50){
-            if(!this.selectedReqworker.checkcertificate){
-              console.log("อายุเกิน 50 และ ไม่มีใบรับรองแพทย์")
-              return
-            }
-            console.log("อายุเกิน 50 และ มีใบรับรองแพทย์")
+        if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
+          if (!this.selectedReqworker.checkcertificate) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: "อายุเกิน 50 และ ไม่มีใบรับรองแพทย์"
+            });
+            this.edit_applywork = false;
+            this.new_applywork = false;
+            this.displayManage = false
+            return
+          }
+
         }
-        if(this.selectedReqworker.counthistory >= 3){
-          console.log("ทำงานมาเกิน2ครั้ง")
+        if (this.selectedReqworker.counthistory >= 3) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: "ทำงานมาเกิน2ครั้ง"
+          });
+          this.edit_applywork = false;
+          this.new_applywork = false;
+          this.displayManage = false
           return
         }
-        if(this.selectedReqworker.checkblacklist){
-          console.log("มี blacklist")
+        if (this.selectedReqworker.checkblacklist) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: "มี blacklist"
+          },);
+          this.edit_applywork = false;
+          this.new_applywork = false;
+          this.displayManage = false
           return
         }
         this.doGetNewCode()
@@ -644,6 +670,14 @@ export class ApplyListComponent implements OnInit {
       },
     });
   }
+  doUpdateStatus() {
+    var tmp = new EmployeeModel();
+    tmp.worker_id = this.selectedReqworker.worker_id;
+    tmp.status = 3
+    this.applyworkService.requpdate_status(tmp).then(async (res) => {
+      let result = await JSON.parse(res);
+    })
+  }
 
   doGetNewCode() {
     console.log("convert")
@@ -651,10 +685,9 @@ export class ApplyListComponent implements OnInit {
       let result = await JSON.parse(res);
 
       if (result.success) {
-        // this.doRecordEmployee(result.data);
-        console.log(result.data)
-        
-        
+        this.doRecordEmployee(result.data);
+        // console.log(result.data)
+
       }
     });
   }
@@ -679,6 +712,7 @@ export class ApplyListComponent implements OnInit {
     tmp.worker_height = this.selectedReqworker.worker_height
     tmp.worker_weight = this.selectedReqworker.worker_weight
     tmp.worker_resignstatus = false
+    tmp.worker_blackliststatus = false
     tmp.worker_probationdate = this.selectedReqworker.worker_hiredate
     tmp.hrs_perday = 8
     tmp.worker_taxmethod = "1"
@@ -688,13 +722,18 @@ export class ApplyListComponent implements OnInit {
     tmp.worker_facebook = this.selectedReqworker.worker_facebook
     tmp.worker_military = this.selectedReqworker.worker_military
     tmp.nationality_code = this.selectedReqworker.nationality_code
-
+    tmp.worker_cardno = this.selectedReqworker.worker_cardno
+    tmp.worker_cardnoissuedate = this.selectedReqworker.worker_cardnoissuedate
+    tmp.worker_cardnoexpiredate = this.selectedReqworker.worker_cardnoexpiredate
     this.employeeService.worker_recordall(tmp).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
         //-- transaction
 
+
+
         //--update status
+        this.doUpdateStatus()
 
         //-- alert
         this.messageService.add({
@@ -702,12 +741,20 @@ export class ApplyListComponent implements OnInit {
           summary: 'Success',
           detail: result.message,
         });
+        
+        this.edit_applywork = false;
+        this.new_applywork = false;
+        this.displayManage = false
+        this.doLoadapplywork()
       } else {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
           detail: result.message,
         });
+        this.edit_applywork = false;
+        this.new_applywork = false;
+        this.displayManage = false
       }
     })
   }

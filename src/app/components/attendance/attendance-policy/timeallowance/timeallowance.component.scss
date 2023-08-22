@@ -10,3 +10,19 @@
     padding-top: 8px;
     gap: 6px;
 }
+
+:host ::ng-deep {
+    .p-accordion-tab:not(.p-accordion-tab-active) {
+        .p-toggleable-content {
+            height: 0;
+            overflow: hidden;
+        }
+    }
+
+    .p-accordion-tab.p-accordion-tab-active {
+        .p-toggleable-content {
+            height: auto !important;
+            overflow: auto !important;
+        }
+    }
+}

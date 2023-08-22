@@ -81,4 +81,11 @@ export class EmployeeModel {
   worker_cardno: string = "";
   worker_cardnoissuedate!: Date;
   worker_cardnoexpiredate!: Date;
+
+  worker_socialno: string = "";
+  worker_socialnoissuedate!: Date;
+  worker_socialnoexpiredate!: Date;
+  worker_socialsentdate!: Date;
+  worker_socialnotsent: Boolean = false
+
 }

@@ -619,6 +619,13 @@ export class EmployeeManageComponent implements OnInit {
   title_cardno: { [key: string]: string } = { EN: "Card No.", TH: "เลขบัตรประจำตัวประชาชน" };
   title_cardissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันออกบัตร" };
   title_cardexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันหมดอายุ" };
+
+  title_socialno: { [key: string]: string } = { EN: "Social No.", TH: "เลขที่ประกันสังคม" };
+  title_socialissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันที่เริ่ม" };
+  title_socialexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันที่สิ้นสุด" };
+  title_socialsentdate: { [key: string]: string } = { EN: "Sent Date", TH: "วันที่นำส่ง" };
+  title_socialnotsent: { [key: string]: string } = { EN: "Not Sent", TH: "ไม่นำส่งประกันสังคม" };
+  
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ข้อมูลพนักงาน";
@@ -2242,6 +2249,12 @@ export class EmployeeManageComponent implements OnInit {
         element.worker_resigndate = new Date(element.worker_resigndate)
         element.worker_probationdate = new Date(element.worker_probationdate)
         element.worker_probationenddate = new Date(element.worker_probationenddate)
+        element.worker_cardnoissuedate = new Date(element.worker_cardnoissuedate)
+        element.worker_cardnoexpiredate = new Date(element.worker_cardnoexpiredate)
+        element.worker_socialnoissuedate = new Date(element.worker_socialnoissuedate)
+        element.worker_socialnoexpiredate = new Date(element.worker_socialnoexpiredate)
+        element.worker_socialsentdate = new Date(element.worker_socialsentdate)
+        
       })
 
       employee_list = await res;

@@ -20,6 +20,11 @@ interface urgen {
   name_en: string,
   code: string
 }
+interface Status {
+  name_th: string,
+  name_en: string,
+  code: number
+}
 @Component({
   selector: 'app-recruitment-request',
   templateUrl: './recruitment-request.component.html',
@@ -38,6 +43,11 @@ export class RecruitmentRequestComponent implements OnInit {
 
   request_list: RequestModel[] = [];
   selectedRequest: RequestModel = new RequestModel();
+
+  status_list: Status[] = [{ name_th: 'กำลังเปิด', name_en: 'Open', code: 0 }, { name_th: 'เสร็จ', name_en: 'Complete', code: 3 }, { name_th: 'ยกเลิก', name_en: 'Cancel', code: 4 }];
+  status_select: Status = { name_th: 'กำลังเปิด', name_en: 'Open', code: 0 }
+
+  itemsOptions: MenuItem[] = [];
 
   constructor(private requestService: RequestService,
     private router: Router,
@@ -128,10 +138,14 @@ export class RecruitmentRequestComponent implements OnInit {
   title_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" };
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
   title_note: { [key: string]: string } = { EN: "More", TH: "เพิ่มเติม" };
+  
+  title_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
+  title_accepted: { [key: string]: string } = { EN: "Accepted", TH: "รับแล้ว" };
+  title_complete: { [key: string]: string } = { EN: "Complete", TH: "สำเร็จ" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
-      this.title_page = "ข้อมูลเหตุผล";
+      this.title_page = "ร้องขอกำลังพล";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -207,6 +221,44 @@ export class RecruitmentRequestComponent implements OnInit {
         }
       }
     ];
+
+    this.itemsOptions = [{
+
+      items: [
+
+        {
+          label:  this.title_edit,
+          icon: 'pi pi-fw pi-pencil',
+          command: (event) => {
+            this.showManage()
+            this.edit_data = true;
+
+
+          }
+        }
+        , {
+
+
+          label: this.title_delete,
+          icon: 'pi pi-trash',
+          command: () => {
+            this.doDeleteRequest()
+          }
+        },
+        {
+          label: this.title_complete[this.initial_current.Language],
+          icon: 'pi pi-check',
+          command: () => {
+            
+           }
+        }
+      ]
+    },
+     
+    ];
+  }
+  selectRow(data: any) {
+    this.selectedRequest = data;
   }
 
   //dropdown
@@ -411,6 +463,19 @@ export class RecruitmentRequestComponent implements OnInit {
         }
         else {
           return this.emptypeList[i].type_name_en;
+        }
+      }
+    }
+  }
+
+  getFullStatus(code: number): any {
+    for (let i = 0; i < this.status_list.length; i++) {
+      if (this.status_list[i].code == code) {
+        if (this.initial_current.Language == "TH") {
+          return this.status_list[i].name_th;
+        }
+        else {
+          return this.status_list[i].name_en;
         }
       }
     }
