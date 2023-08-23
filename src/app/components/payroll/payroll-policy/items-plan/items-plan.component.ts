@@ -7,6 +7,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ItemsModel } from 'src/app/models/payroll/items';
 import { PlanitemsModels } from 'src/app/models/payroll/planitems';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { PlanitemsService } from 'src/app/services/payroll/planitems.service';
 import * as XLSX from 'xlsx';
@@ -40,12 +41,16 @@ export class ItemsPlanComponent implements OnInit {
   itemsplan_list: PlanitemsModels[] = [];
   itemsplans: PlanitemsModels = new PlanitemsModels();
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.accessData = this.initialData2.dotGetPolmenu('PAY');
+
   }
   title_system_payroll: { [key: string]: string } = { EN: "Policy Payroll ", TH: "นโยบาย" }
   title_page: { [key: string]: string } = { EN: "Income / Deduct Plan ", TH: "นโยบายเงินได้เงินหัก" }
@@ -112,6 +117,8 @@ export class ItemsPlanComponent implements OnInit {
     });
     this.new_data = false;
     this.edit_data = false;
+    this.displayManage = false;
+
   }
   async doDeletePlanitems(data: PlanitemsModels) {
     await this.planitemsService.planitems_delete(data).then((res) => {
@@ -126,6 +133,8 @@ export class ItemsPlanComponent implements OnInit {
     });
     this.new_data = false;
     this.edit_data = false;
+    this.displayManage = false;
+
   }
   doUploadPlanitems() {
     const filename = "PLANitems_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
@@ -162,10 +171,15 @@ export class ItemsPlanComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.itemsplans = new PlanitemsModels();
-          this.checkitemslist();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.itemsplans = new PlanitemsModels();
+            this.checkitemslist();
+            this.showManage();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
         }
       }
       ,
@@ -188,7 +202,9 @@ export class ItemsPlanComponent implements OnInit {
       }
     ];
   }
-
+  reloadPage() {
+    this.doLoadPlanitems()
+  }
   showUpload() {
     this.displayUpload = true;
   }
@@ -240,6 +256,13 @@ export class ItemsPlanComponent implements OnInit {
     this.checkitemslist();
     this.new_data = true
     this.edit_data = true;
+    this.displayManage = true;
+
+  }
+  displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
   }
   exportAsExcel() {
 

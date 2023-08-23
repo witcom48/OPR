@@ -65,6 +65,7 @@ export class PayrollPolicyComponent implements OnInit {
     title_Income_educt_Plan: { [key: string]: string } = { EN: "Income / Deduct Plan", TH: "นโยบายเงิน / ได้เงินหัก" }
  
     title_SetBatch: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดสิทธิ์" }
+    title_Personal_Income_Tax: { [key: string]: string } = { EN: "Personal Income Tax ", TH: "กำหนดค่าภาษีเงินได้บุคคลธรรมดา" }
 
     // นโยบายค่าลดหย่อน
 
@@ -103,29 +104,29 @@ export class PayrollPolicyComponent implements OnInit {
             {
                 title: this.title_Income_educt_Plan[this.initial_current.Language] ,
                 link: 'planitems',
-                accessCode: 'PAY001-007'
+                accessCode: 'PAY001-003'
             },
             {
                 title: this.title_Provident_Fund,
                 link: 'pay-provident',
-                accessCode: 'PAY001-003'
+                accessCode: 'PAY001-004'
             },
             {
                 title: this.title_Bonus,
                 link: 'pay-bonus',
-                accessCode: 'PAY001-004'
+                accessCode: 'PAY001-005'
             },
             
             {
-                title: 'กำหนดภาษีเงินได้บุคคลธรรมดา',
-                link: 'setpol',
-                accessCode: 'PAY001-005'
+                title: this.title_Personal_Income_Tax[this.initial_current.Language],
+                link: 'personalincometax',
+                accessCode: 'PAY001-006'
             },
              
             {
                 title: this.title_reduceplan[this.initial_current.Language] ,
                 link: 'planreduce',
-                accessCode: 'PAY001-006'
+                accessCode: 'PAY001-007'
             }
             ,
             

@@ -1,10 +1,9 @@
 <!-- Link Page -->
-<div class="path">
-    <span>นโยบายค่าลดหย่อน </span>
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 
-</div>
-<!-- ---------END Link Page----------- -->
 <hr>
+<!-- ---------END Link Page----------- -->
+
 <!-- Menu New Import Export Data -->
 <div>
     <p-menubar [model]="items"></p-menubar>
@@ -35,25 +34,30 @@
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
-                    <th>no</th>
-                    <th>code</th>
-                    <th>description</th>
-                    <th>modified_by</th>
-                    <th>modified_date</th>
-
+                    <th>{{title_no[initial_current.Language]}}</th>
+                    <th>{{title_code[initial_current.Language]}}</th>
+                    <th>{{title_description[initial_current.Language]}}</th>
+                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                    <th></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex">
                 <tr [pSelectableRow]="data">
 
-                    <td><span>no</span>{{i+1}}</td>
-                    <td><span>code</span>{{data.planreduce_code}}</td>
-                    <td><span>description</span>{{selectlang=="EN"?data.planreduce_name_en:data.planreduce_name_th}}
+                    <td><span>{{title_no[initial_current.Language]}}</span>{{i+1}}</td>
+                    <td><span>{{title_code[initial_current.Language]}}</span>{{data.planreduce_code}}</td>
+                    <td><span>{{title_description[initial_current.Language]}}</span>{{selectlang=="EN"?data.planreduce_name_en:data.planreduce_name_th}}
                     </td>
-                    <td><span>modified_by</span>{{data.modified_by}}</td>
-                    <td><span>modified_date</span>{{data.modified_date |
-                        date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.modified_date
+                        |date:'dd/MM/yyyy'}}</td>
+                    <td>
+                        <button pButton type="button" class="pi pi-trash gray-button "
+                            (click)="doDeletePlanreduce(data)" [disabled]="!this.accessData.accessdata_delete">
+                        </button>
 
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
@@ -61,39 +65,62 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <form (ngSubmit)="Save()" #Form="ngForm">
-        <div class="formatt" *ngIf="new_data==true">
-            <i (click)="close()"></i>
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height: '1500px', 'overflow-y': 'hidden' }"
+            [position]="position" (onHide)="reloadPage()">
+            <div class="formatt p-dialog-content" *ngIf="new_data">
 
-            <label>code<span style="color: red;"> *</span></label>
-            <input pInputText type="text" [(ngModel)]="reduceplans.planreduce_code" maxlength="10"
-                disabled="{{edit_data}}" name="code" #code="ngModel" required />
-            <p>{{reduceplans.planreduce_code.length}}/10</p>
+                <label>{{title_code[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <input pInputText type="text" [(ngModel)]="reduceplans.planreduce_code" maxlength="10"
+                    disabled="{{edit_data}}" name="code" #code="ngModel" required />
+                <p>{{reduceplans.planreduce_code.length}}/10</p>
 
 
 
-            <label>description (Thai)<span style="color: red;"> *</span></label>
-            <textarea [(ngModel)]="reduceplans.planreduce_name_th" pInputTextarea [autoResize]="true"
-                name="planreduce_name_th" #planreduce_name_th="ngModel" required></textarea>
-                
-            <label>description (Eng.)<span style="color: red;"> *</span></label>
-            <textarea [(ngModel)]="reduceplans.planreduce_name_en" pInputTextarea [autoResize]="true"
-                name="planreduce_name_en" #planreduce_name_en="ngModel" required></textarea>
-            <p-pickList class="picklistvertical" [metaKeySelection]="false" [responsive]="true"
-                [source]="reduce_listselect" [target]="reduceplans.reducelists" sourceHeader="reducelist"
-                targetHeader="planreduce" [sourceStyle]="{'height':'15rem'}" [targetStyle]="{'height':'15rem'}"
-                sourceFilterPlaceholder="search" targetFilterPlaceholder="search"
-                filterBy="reduce_code,reduce_name_en,reduce_name_th">
-                <ng-template let-data pTemplate="item">
-                    <div>
-                        <div style="font-size:14px;float:left;">{{data.reduce_code}} - {{selectlang
-                            =='EN'?data.reduce_name_en:data.reduce_name_th}}</div>
-                    </div>
-                </ng-template>
-            </p-pickList>
-            <button pButton type="submit" label="save" icon="pi pi-check" [disabled]="!Form.form.valid"></button>
-            <button *ngIf="edit_data" pButton type="button" label="delete" icon="pi pi-trash" class="p-button-danger"
-                (click)="Delete()"[disabled]="!this.accessData.accessdata_delete"></button>
+                <label>{{title_detail_th[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="reduceplans.planreduce_name_th" pInputTextarea [autoResize]="true"
+                    name="planreduce_name_th" #planreduce_name_th="ngModel" required></textarea>
+
+                <label>{{title_detail_en[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="reduceplans.planreduce_name_en" pInputTextarea [autoResize]="true"
+                    name="planreduce_name_en" #planreduce_name_en="ngModel" required></textarea>
+                <br>
+                <p-pickList class="picklistvertical" [metaKeySelection]="false" [responsive]="true"
+                    [source]="reduce_listselect" [target]="reduceplans.reducelists"
+                    sourceHeader="{{title_reduces[initial_current.Language]}}"
+                    targetHeader="{{title_plan_reduces[initial_current.Language]}}" [sourceStyle]="{'height':'15rem'}"
+                    [targetStyle]="{'height':'15rem'}" sourceFilterPlaceholder="search" targetFilterPlaceholder="search"
+                    filterBy="reduce_code,reduce_name_en,reduce_name_th">
+                    <ng-template let-data pTemplate="item">
+                        <div>
+                            <div style="font-size:14px;float:left;">{{data.reduce_code}} - {{selectlang
+                                =='EN'?data.reduce_name_en:data.reduce_name_th}}</div>
+                        </div>
+                    </ng-template>
+                </p-pickList>
+                <br>
+                <div style="text-align: right;">
+                    <button *ngIf="!edit_data" pRipple pButton type="submit"
+                        label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="Save()"
+                        [disabled]="!Form.form.valid" class="button-size"></button>
+
+                    <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()"
+                        label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="button-size"></button>
+
+                    &nbsp;
+                    <!-- <button pButton type="submit" label="{{title_save[initial_current.Language]}}" icon="pi pi-check"
+                        [disabled]="!Form.form.valid"></button> -->
+                    <button *ngIf="edit_data" pButton type="button" label="{{title_delete[initial_current.Language]}}"
+                        icon="pi pi-trash" class="p-button-secondary button-size btndel" (click)="Delete()"
+                        [disabled]="!this.accessData.accessdata_delete"></button>
+                </div>
+            </div>
+
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
         </div>
     </form>
     <!-- --------------End form Input Data ------------------ -->

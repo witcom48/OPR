@@ -18,7 +18,8 @@ declare var planleave: any;
   styleUrls: ['./plan-reduce.component.scss']
 })
 export class PlanReduceComponent implements OnInit {
-
+  home: any;
+  itemslike: MenuItem[] = [];
   langs: any = planleave;
   selectlang: string = "EN";
   constructor(private messageService: MessageService,
@@ -50,13 +51,36 @@ export class PlanReduceComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('PAY');
 
   }
+
+  title_system_payroll: { [key: string]: string } = { EN: "Policy Payroll ", TH: "นโยบาย" }
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
+  title_no: { [key: string]: string } = { EN: "No", TH: "อันดับ" }
+  title_description: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
+  title_detail_en: { [key: string]: string } = { EN: "Description(Eng)", TH: "รายละเอียด (อังกฤษ)" }
+  title_detail_th: { [key: string]: string } = { EN: "Description(Thai)", TH: "รายละเอียด (ไทย)" }
+  title_IncomeDeduct: { [key: string]: string } = { EN: "Income / Deduct ", TH: " ชนิดเงินได้ / เงินหัก" }
+  title_IncomeDeduct_Plan: { [key: string]: string } = { EN: "Income / Deduct Plan", TH: "นโยบายเงินได้/เงินหัก" }
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
+  title_delete: { [key: string]: string } = { EN: "Delete", TH: "ลบ" }
+  title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
+  title_reduces: { [key: string]: string } = { EN: "Reduces ", TH: "ค่าลดหย่อน" }
+  title_plan_reduces: { [key: string]: string } = { EN: "Reduces Plan ", TH: "นโยบายค่าลดหย่อน" }
+
+  title_new: { [key: string]: string } = { EN: "New", TH: "เพิ่ม" }
+  title_edit: { [key: string]: string } = { EN: "Edit", TH: "แก้ไข" }
+  title_btn_cancel: { [key: string]: string } = { EN: "Cancel", TH: "ยกเลิก" }
+  title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
+  title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" }
+  title_upload: { [key: string]: string } = { EN: "Upload", TH: "อัพโหลด" }
+  title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
+
   ngOnInit(): void {
+
     this.doGetInitialCurrent();
     this.doLoadMenu();
     this.doLoadPlanreduce();
   }
-
-
 
   doLoadPlanreduce() {
     this.reduce_list = [];
@@ -86,6 +110,7 @@ export class PlanReduceComponent implements OnInit {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPlanreduc();
+
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -94,6 +119,8 @@ export class PlanReduceComponent implements OnInit {
     });
     this.new_data = false;
     this.edit_data = false;
+    this.displayManage = false;
+
   }
   async doDeletePlanreduce(data: PlanreduceModels) {
     await this.planreduceService.planreduce_delete(data).then((res) => {
@@ -108,6 +135,8 @@ export class PlanReduceComponent implements OnInit {
     });
     this.new_data = false;
     this.edit_data = false;
+    this.displayManage = false;
+
   }
   doUploadPlanreduce() {
     const filename = "PLANREDUCE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
@@ -139,15 +168,19 @@ export class PlanReduceComponent implements OnInit {
 
   doLoadMenu() {
 
+    this.itemslike = [{ label: this.title_system_payroll[this.initial_current.Language], routerLink: '/payroll/policy' },
+    { label: this.title_plan_reduces[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
           if (this.accessData.accessdata_new) {
-
             this.reduceplans = new PlanreduceModels();
             this.checkreducelist();
+            this.showManage()
             this.new_data = true;
             this.edit_data = false;
           } else {
@@ -175,6 +208,12 @@ export class PlanReduceComponent implements OnInit {
       }
     ];
   }
+  reduces_list: ReducesModel[] = [];
+
+  reloadPage() {
+    this.doLoadPlanreduc()
+  }
+
 
   showUpload() {
     this.displayUpload = true;
@@ -219,15 +258,22 @@ export class PlanReduceComponent implements OnInit {
     this.doRecordPlanreduce(this.reduceplans)
   }
   Delete() {
-    // // console.log(this.reduceplans)
     this.doDeletePlanreduce(this.reduceplans)
+  }
+  displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
   }
   onRowSelect(event: any) {
     this.reduce_listselect = []
     this.checkreducelist();
     this.new_data = true
     this.edit_data = true;
+    this.displayManage = true;
+
   }
+
   exportAsExcel() {
 
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet

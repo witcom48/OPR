@@ -34,6 +34,7 @@ export class ReducesModel {
       reduce_name_en: string = "";
 
       reduce_amount: string = "0";
+      reduce_amount_max: string = "0";
       reduce_percent:string = "0";
       reduce_percent_max: string = "0";
 

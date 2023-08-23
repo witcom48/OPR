@@ -4,7 +4,7 @@
 <p-tabView>
     <p-tabPanel>
         <ng-template pTemplate="header">
-            <span>ค่าลดหย่อน</span>
+            <span>{{title_reduces[initial_current.Language]}}  </span>
         </ng-template>
         <div class="tabledata">
             <!-- ข้อมูล -->
@@ -14,7 +14,7 @@
     <!--  -->
     <p-tabPanel>
         <ng-template pTemplate="header">
-            <span>อัตราภาษี</span>
+            <span>{{title_taxrate[initial_current.Language]}} </span>
         </ng-template>
         <div class="tabledata">
             <!-- ข้อมูล -->
@@ -22,3 +22,4 @@
         </div>
     </p-tabPanel>
 </p-tabView>
+
