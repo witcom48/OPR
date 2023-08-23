@@ -21,6 +21,7 @@ import { ProcostModel } from '../../../../models/project/policy/procost';
 import { ProcostService } from '../../../../services/project/procost.service';
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-pro-genaral',
@@ -107,11 +108,14 @@ export class ProGenaralComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('PRO');
   }
 
   doLoadPageType() {
@@ -227,38 +231,41 @@ export class ProGenaralComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          if (this.accessData.accessdata_new) {
+            var ref = this.probusiness_list.length + 100
+            this.selectedProbusiness = new ProbusinessModel();
+            this.selectedProbusiness.probusiness_id = ref.toString()
 
-          var ref = this.probusiness_list.length + 100
-          this.selectedProbusiness = new ProbusinessModel();
-          this.selectedProbusiness.probusiness_id = ref.toString()
+            ref = this.protype_list.length + 100
+            this.selectedProtype = new ProtypeModel();
+            this.selectedProtype.protype_id = ref.toString()
 
-          ref = this.protype_list.length + 100
-          this.selectedProtype = new ProtypeModel();
-          this.selectedProtype.protype_id = ref.toString()
+            ref = this.prouniform_list.length + 100
+            this.selectedProuniform = new ProuniformModel();
+            this.selectedProuniform.prouniform_id = ref.toString()
 
-          ref = this.prouniform_list.length + 100
-          this.selectedProuniform = new ProuniformModel();
-          this.selectedProuniform.prouniform_id = ref.toString()
+            ref = this.proslip_list.length + 100
+            this.selectedProslip = new ProslipModel();
+            this.selectedProslip.proslip_id = ref.toString()
 
-          ref = this.proslip_list.length + 100
-          this.selectedProslip = new ProslipModel();
-          this.selectedProslip.proslip_id = ref.toString()
+            ref = this.procost_list.length + 100
+            this.selectedProcost = new ProcostModel();
+            this.selectedProcost.procost_id = ref.toString()
 
-          ref = this.procost_list.length + 100
-          this.selectedProcost = new ProcostModel();
-          this.selectedProcost.procost_id = ref.toString()
+            ref = this.proarea_list.length + 100
+            this.selectedProarea = new ProareaModel();
+            this.selectedProarea.proarea_id = ref.toString()
 
-          ref = this.proarea_list.length + 100
-          this.selectedProarea = new ProareaModel();
-          this.selectedProarea.proarea_id = ref.toString()
-
-          ref = this.progroup_list.length + 100
-          this.selectedProgroup = new ProgroupModel();
-          this.selectedProgroup.progroup_id = ref.toString()
+            ref = this.progroup_list.length + 100
+            this.selectedProgroup = new ProgroupModel();
+            this.selectedProgroup.progroup_id = ref.toString()
 
 
-          this.new_data = true;
-          this.edit_data = false;
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       }
       ,
@@ -786,8 +793,9 @@ export class ProGenaralComponent implements OnInit {
 
   }
   close() {
+    console.log("kkkkkkkkkkkk")
     this.new_data = false
-    this.edit_data=false
+    this.edit_data = false
     this.selectedProbusiness = new ProbusinessModel()
     this.selectedProtype = new ProtypeModel()
     this.selectedProuniform = new ProuniformModel()
