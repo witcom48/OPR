@@ -15,6 +15,7 @@ import { GroupModel } from 'src/app/models/employee/policy/group';
 import { PartModel } from 'src/app/models/employee/policy/part';
 import { PositionModel } from 'src/app/models/employee/policy/position';
 import { LevelModel } from 'src/app/models/system/policy/level';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { GroupService } from 'src/app/services/emp/policy/group.service';
 import { PartService } from 'src/app/services/emp/policy/part.service';
 import { PositionService } from 'src/app/services/emp/policy/position.service';
@@ -77,7 +78,7 @@ export class EmpsetdepComponent implements OnInit {
   index: number = 0;
   result_list: Result[] = [];
   edit_data: boolean = false;
-  
+
 
   constructor(
     private messageService: MessageService,
@@ -108,12 +109,16 @@ export class EmpsetdepComponent implements OnInit {
     this.doLoadPositionList();
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   //get dep

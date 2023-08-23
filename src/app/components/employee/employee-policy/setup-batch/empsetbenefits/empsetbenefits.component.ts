@@ -8,6 +8,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
 import { SetBenefitsModel } from 'src/app/models/employee/policy/batch/setbenefits';
 import { ItemsModel } from 'src/app/models/payroll/items';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { TaskService } from 'src/app/services/task.service';
@@ -32,20 +33,20 @@ export class EmpsetbenefitsComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
-  
+
   //
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
-  title_startdate:{ [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
-  title_enddate:{ [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
-  title_incomededuct:{ [key: string]: string } = { EN: "Income/Deduct", TH: "เงินได้/เงินหัก" };
-  title_amount:{ [key: string]: string } = { EN: "Amount", TH: "จำนวน" };
-  title_type:{ [key: string]: string } = { EN: "Type", TH: "ประเภท" };
-  title_fullamount:{ [key: string]: string } = { EN: "Amount", TH: "เต็มจำนวน" };
-  title_byday:{ [key: string]: string } = { EN: "Working Day", TH: "ตามวันที่ทำงาน" };
-  title_reason:{ [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
-  title_note:{ [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
+  title_startdate: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
+  title_enddate: { [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
+  title_incomededuct: { [key: string]: string } = { EN: "Income/Deduct", TH: "เงินได้/เงินหัก" };
+  title_amount: { [key: string]: string } = { EN: "Amount", TH: "จำนวน" };
+  title_type: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+  title_fullamount: { [key: string]: string } = { EN: "Amount", TH: "เต็มจำนวน" };
+  title_byday: { [key: string]: string } = { EN: "Working Day", TH: "ตามวันที่ทำงาน" };
+  title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
+  title_note: { [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
   title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
@@ -65,15 +66,15 @@ export class EmpsetbenefitsComponent implements OnInit {
   index: number = 0;
   result_list: Result[] = [];
   edit_data: boolean = false;
-  
+
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
-    private router:Router,
+    private router: Router,
     private setempdetailService: SetEmpDetailService,
 
-    private itemService : ItemService,
+    private itemService: ItemService,
   ) { }
 
   new_data: boolean = false;
@@ -84,19 +85,23 @@ export class EmpsetbenefitsComponent implements OnInit {
     //dropdown
     this.doloaditemList();
   }
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   //dropdown
   itemList: ItemsModel[] = [];
-  doloaditemList(){
+  doloaditemList() {
     var tmp = new ItemsModel();
-    this.itemService.item_get(tmp).then((res)=>{
+    this.itemService.item_get(tmp).then((res) => {
       this.itemList = res;
     })
   }
@@ -115,14 +120,14 @@ export class EmpsetbenefitsComponent implements OnInit {
     });
   }
 
-  process(){
+  process() {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchbenefits();
     }
   }
 
-  async Setbatchbenefits(){
+  async Setbatchbenefits() {
     var data = new SetBenefitsModel();
     data.item_code = this.selectedEmpBenefits.item_code;
     data.empbenefit_amount = this.selectedEmpBenefits.empbenefit_amount;

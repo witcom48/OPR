@@ -23,11 +23,12 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <p-table #dt2 [value]="periods_list"     
-            selectionMode="single" [(selection)]="selectedPeriods" (onRowSelect)="onRowSelect($event)" [rows]="12"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+        <p-table #dt2 [value]="periods_list" selectionMode="single" [(selection)]="selectedPeriods"
+            (onRowSelect)="onRowSelect($event)" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['from','to','tax','modified_by','modified_date']" responsiveLayout="stack" [breakpoint]="'744px'">
+            [globalFilterFields]="['from','to','tax','modified_by','modified_date']" responsiveLayout="stack"
+            [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -90,7 +91,8 @@
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     <td>
-                        <button pButton type="button" class="pi pi-trash gray-button " [disabled]="!this.accessData.accessdata_delete"(click)="doDeletePeriods(data)">
+                        <button pButton type="button" class="pi pi-trash gray-button "
+                            [disabled]="!this.accessData.accessdata_delete" (click)="doDeletePeriods(data)">
                         </button>
 
                     </td>
@@ -101,7 +103,8 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <p-dialog [(visible)]="displayManage" [style]="{ height: '700px', 'overflow-y': 'hidden' }" [position]="position"(onHide)="reloadPage()">
+    <p-dialog [(visible)]="displayManage" [style]="{ height: '700px', 'overflow-y': 'hidden' }" [position]="position"
+        (onHide)="reloadPage()">
         <div class="formatt p-dialog-content" *ngIf="new_data">
 
             <label>{{title_no}}</label>
@@ -114,10 +117,10 @@
 
             <label>{{title_detail_en}}</label>
             <textarea [(ngModel)]="selectedPeriods.period_name_en" pInputTextarea [autoResize]="true"></textarea>
-            
+
             <label>{{title_fromdate}}</label>
             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedPeriods.period_from"  ></p-calendar>
+                [(ngModel)]="selectedPeriods.period_from"></p-calendar>
 
 
             <!-- <label>{{title_fromdate}}</label>
@@ -126,14 +129,14 @@
 
             <label>{{title_todate}}</label>
             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedPeriods.period_to"  ></p-calendar>
+                [(ngModel)]="selectedPeriods.period_to"></p-calendar>
 
             <!-- <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_to" dateFormat="dd/mm/yy"><input
                     type="text"></p-calendar> -->
 
             <label>{{title_payment}}</label>
             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedPeriods.period_payment"  ></p-calendar>
+                [(ngModel)]="selectedPeriods.period_payment"></p-calendar>
 
             <!-- <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_payment" dateFormat="dd/mm/yy"><input
                     type="text"></p-calendar> -->
@@ -143,12 +146,19 @@
             </div>
             <br>
             <div style="text-align: right;">
+                <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                    (click)="Save()" class="button-size"></button>
 
+                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()" label="{{ title_save }}"
+                    icon="pi pi-save" [disabled]="(!this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                    class="button-size"></button>
+                <!-- 
                 <button pButton type="button" label="{{title_save}}" class="button-size" icon="pi pi-save"
-                    (click)="Save()"></button>
+                    (click)="Save()"></button> -->
                 &nbsp;
                 <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" (click)="Delete()"
-                    icon="pi pi-trash" class="p-button-secondary button-size"[disabled]="!this.accessData.accessdata_delete"></button>
+                    icon="pi pi-trash" class="p-button-secondary button-size btndel"
+                    [disabled]="!this.accessData.accessdata_delete"></button>
             </div>
         </div>
     </p-dialog>
