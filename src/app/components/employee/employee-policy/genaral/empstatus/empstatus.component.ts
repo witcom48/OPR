@@ -8,6 +8,7 @@ import { InitialCurrent } from '../../../../../config/initial_current';
 import { EmpstatusModel } from '../../../../../models/employee/policy/empstatus';
 import { EmpstatusService } from '../../../../../services/emp/policy/empstatus.service';
 import * as XLSX from 'xlsx';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-empstatus',
@@ -45,12 +46,16 @@ export class EmpstatusComponent implements OnInit {
     }, 500);
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   title_page: string = "Emp Status";
@@ -132,10 +137,14 @@ export class EmpstatusComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedStatus = new EmpstatusModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedStatus = new EmpstatusModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       }
       ,

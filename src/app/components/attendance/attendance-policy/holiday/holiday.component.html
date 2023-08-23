@@ -126,6 +126,7 @@
                     </div>
                     <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{langs.get('save')[selectlang]}}"
                         icon="pi pi-check" [disabled]="!Form.form.valid" class="p-button-secondary"></button>
+
                     <button *ngIf="edit_data" pRipple pButton type="submit" label="{{langs.get('save')[selectlang]}}"
                         icon="pi pi-check"
                         [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"

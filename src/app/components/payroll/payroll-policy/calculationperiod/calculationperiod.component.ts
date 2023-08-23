@@ -54,8 +54,8 @@ export class CalculationperiodComponent implements OnInit {
   selectedPeriods: PeriodsModels = new PeriodsModels()
 
   public initial_current: InitialCurrent = new InitialCurrent();
-initialData2: InitialCurrent = new InitialCurrent();
-    accessData: AccessdataModel = new AccessdataModel();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
@@ -67,9 +67,13 @@ initialData2: InitialCurrent = new InitialCurrent();
     } else {
       this.config.setTranslation(langcalendaren)
     }
-            this.accessData = this.initialData2.dotGetPolmenu('PAY');
+    this.accessData = this.initialData2.dotGetPolmenu('PAY');
 
   }
+
+
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   title_payroll: string = 'Payroll';
 
   title_policy: string = 'Set Policy';
@@ -176,14 +180,16 @@ initialData2: InitialCurrent = new InitialCurrent();
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadYear();
-    this.doLoadMenu();
-    this.doLoadLanguage();
 
+    this.doLoadLanguage();
+    this.doLoadMenu();
     this.itemslike = [{ label: this.title_system_payroll, routerLink: '/payroll/policy' },
     { label: this.title_page, styleClass: 'activelike' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
-
+  reloadPage() {
+    this.doLoadYear()
+  }
   doLoadYear() {
     this.yaerList = [];
     var tmp = new YearPeriodModels();
@@ -289,9 +295,17 @@ initialData2: InitialCurrent = new InitialCurrent();
             this.new_data = true;
             this.edit_data = false;
           } else {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
-          
+
+        }
+      }
+      ,
+      {
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Periods.xlsx', '_blank');
         }
       }
       ,

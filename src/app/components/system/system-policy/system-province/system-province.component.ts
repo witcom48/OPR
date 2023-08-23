@@ -55,6 +55,8 @@ export class SystemProvinceComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('SYS');
 
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   title_system: string = "System";
   title_genaral: string = "Genaral";
   title_page: string = "Province";
@@ -145,6 +147,15 @@ export class SystemProvinceComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
 
+        }
+      }
+      ,
+      {
+
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Province.xlsx', '_blank');
         }
       }
       ,

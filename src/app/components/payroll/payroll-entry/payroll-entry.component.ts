@@ -121,8 +121,7 @@ export class PayrollEntryComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
         this.accessData = this.initialData2.dotGetPolmenu('PAY');
-        console.log(this.accessData)
-        console.log(this.accessData.accessdata_new)
+ 
 
     }
 
@@ -400,8 +399,7 @@ export class PayrollEntryComponent implements OnInit {
             const deItems = res.filter((item: { item_type: string }) => item.item_type === 'DE');
             this.payitem_list = [...inItems, ...deItems];
         } catch (error) {
-            // console.log(error);
-        }
+         }
         this.doSummaryByEmp();
     }
     async doRecordPayitem(data: PayitemModel) {
@@ -418,8 +416,7 @@ export class PayrollEntryComponent implements OnInit {
                 });
                 await this.doLoadPayitem();
                 this.doSetDetailWorker();
-                // console.log(this.payitem_list);
-            } else {
+             } else {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
@@ -463,16 +460,14 @@ export class PayrollEntryComponent implements OnInit {
     async doDeletePayitem(data: PayitemModel) {
         try {
             const res = await this.payitemService.payitem_delete(data);
-            // console.log(res);
-            if (res.success) {
+             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
                     detail: res.message,
                 });
                 await Promise.all([this.doLoadPayitem(), this.doSetDetailWorker()]);
-                // console.log(this.payitem_list);
-
+ 
                 this.new_data = false;
                 this.edit_data = false;
                 this.displayManage = false;
@@ -485,8 +480,7 @@ export class PayrollEntryComponent implements OnInit {
                 });
             }
         } catch (error) {
-            // console.log('An error occurred while deleting payitem:', error);
-            this.messageService.add({
+             this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
                 detail: 'An error occurred while deleting payitem',
@@ -663,8 +657,7 @@ export class PayrollEntryComponent implements OnInit {
     position: string = "right";
     searchEmp: boolean = false;
     open_searchemp() {
-        console.log(this.searchEmp, 'test1')
-        this.searchEmp = true
+         this.searchEmp = true
     }
 
     close_searchemp() {

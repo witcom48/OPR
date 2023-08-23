@@ -67,7 +67,8 @@ export class EmployeeModel {
 
   selected_Import: string = "";
   selected_Attachfile:string = "";
-  
+  location_code: boolean = false;
+
   // recruiment
   reqdocatt_data: ApplyMTDocattModel[] = []
   worker_age: number = 0;

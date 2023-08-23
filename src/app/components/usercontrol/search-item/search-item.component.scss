@@ -1,0 +1,10 @@
+// doLoadEmployee() {
+//     const tmp = new PayitemModel();
+//     tmp.item_code = this.item_code;
+//     tmp.worker_code = this.worker_code;
+
+//     this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate,
+//       tmp.worker_code, this.item_type, tmp.item_code).then((res) => {
+//         this.worker_list = res;
+//         console.log(this.worker_list, 'testitem');
+//       });

@@ -65,6 +65,10 @@ import { SetprovidentComponent } from './payroll-policy/setprovident/setproviden
 import { AppEntryComponent } from './payroll-entry/app-entry/app-entry.component';
 import { AppEntrysComponent } from './payroll-entry/app-entry/app-entrys/app-entrys.component';
 import { PayrollSummaryComponent } from './payroll-summary/payroll-summary.component';
+import { SetpolComponent } from './payroll-policy/setpol/setpol.component';
+import { PlanReduceComponent } from './payroll-policy/plan-reduce/plan-reduce.component';
+import { ItemsPlanComponent } from './payroll-policy/items-plan/items-plan.component';
+import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolicy.component';
 
 
 @NgModule({
@@ -91,6 +95,10 @@ import { PayrollSummaryComponent } from './payroll-summary/payroll-summary.compo
         AppEntryComponent,
         AppEntrysComponent,
         PayrollSummaryComponent,
+        SetpolComponent,
+        PlanReduceComponent,
+        ItemsPlanComponent,
+        SetallpolicyComponent,
         
     ],
     imports: [
@@ -136,7 +144,8 @@ import { PayrollSummaryComponent } from './payroll-summary/payroll-summary.compo
         UsercontrolModule,
         CheckboxModule,
 
-        ProgressBarModule
+        ProgressBarModule,
+        
 
     ]
 })

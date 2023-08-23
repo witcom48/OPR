@@ -58,9 +58,13 @@ export class SystemReduceComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
-    this.accessData = this.initialData2.dotGetPolmenu('SYS');
+    this.accessData = this.initialData2.dotGetPolmenu('PAY');
 
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+  title_amountmax: { [key: string]: string } = { EN: "Amount Max ", TH: "จำนวนเงินสูงสุด" }
+
+  
   title_system: string = "System";
   title_genaral: string = "Genaral";
   title_page: string = "Reduces";
@@ -71,8 +75,8 @@ export class SystemReduceComponent implements OnInit {
   title_export: string = "Export";
   title_save: string = "Save";
   title_code: string = "Code";
-  title_name_th: string = "Description(Thai)";
-  title_name_en: string = "Description(Eng)";
+  title_name_th: string = "Description (Thai)";
+  title_name_en: string = "Description (Eng)";
   title_detail: string = "Detail";
   title_modified_by: string = "Edit by";
   title_modified_date: string = "Edit date";
@@ -93,9 +97,9 @@ export class SystemReduceComponent implements OnInit {
   title_confirm_cancel: string = "You have cancelled";
 
 
-  title_amount: string = "amount";
-  title_percent: string = "percent";
-  title_percent_max: string = "percent max";
+  title_amount: string = "Amount";
+  title_percent: string = "Percent";
+  title_percent_max: string = "Percent max";
   title_genaral_system: string = 'Genaral System';
   title_no: string = 'No';
 
@@ -160,6 +164,15 @@ export class SystemReduceComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
 
+        }
+      }
+      ,
+      {
+
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Reduce.xlsx', '_blank');
         }
       }
       ,

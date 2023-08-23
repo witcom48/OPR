@@ -1,3 +1,5 @@
+import { EmployeeModel } from "../../employee/employee";
+
 export class ReducesModel {
     // constructor() {
     //     this.reduce_id = "1";
@@ -32,6 +34,7 @@ export class ReducesModel {
       reduce_name_en: string = "";
 
       reduce_amount: string = "0";
+      reduce_amount_max: string = "0";
       reduce_percent:string = "0";
       reduce_percent_max: string = "0";
 
@@ -40,6 +43,8 @@ export class ReducesModel {
       index: number = 0;
       select: boolean = false;
 
-
-
+      emp_data: EmployeeModel [] = [];
+      worker_code: string= "";
+      paypolitem_code: string= "";
+      worker_detail: string= "";
     }

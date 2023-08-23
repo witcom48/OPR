@@ -8,6 +8,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmpAssessmentModel } from 'src/app/models/employee/manage/assessment';
 import { SetAssessmentModel } from 'src/app/models/employee/policy/batch/setassessment';
 import { InstituteModel } from 'src/app/models/system/policy/institute';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { InstituteService } from 'src/app/services/system/policy/institute.service';
 import { TaskService } from 'src/app/services/task.service';
@@ -32,7 +33,7 @@ export class EmpsetassessmentComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
-  
+
   //
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
@@ -58,7 +59,7 @@ export class EmpsetassessmentComponent implements OnInit {
   title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
-  
+
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
   loading: boolean = false;
@@ -66,18 +67,18 @@ export class EmpsetassessmentComponent implements OnInit {
   result_list: Result[] = [];
   edit_data: boolean = false;
 
-  constructor( 
+  constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
     private router: Router,
     private setempdetailService: SetEmpDetailService,
-    
-    private instituteService: InstituteService,
-    
-    ) { }
 
-    new_data: boolean = false;
+    private instituteService: InstituteService,
+
+  ) { }
+
+  new_data: boolean = false;
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -85,12 +86,16 @@ export class EmpsetassessmentComponent implements OnInit {
     this.doLoadinstituteList();
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   //dropdown

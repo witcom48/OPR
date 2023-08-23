@@ -158,11 +158,11 @@ export class SystemPolicyComponent implements OnInit {
         link: 'system-location',
         accessCode: 'SYS002-011'
       },
-      {
-        title: this.title_reduce,
-        link: 'system-reduce',
-        accessCode: 'SYS002-012'
-      },
+      // {
+      //   title: this.title_reduce,
+      //   link: 'system-reduce',
+      //   accessCode: 'SYS002-012'
+      // },
       {
         title: this.title_Supply,
         link: 'system-supply',

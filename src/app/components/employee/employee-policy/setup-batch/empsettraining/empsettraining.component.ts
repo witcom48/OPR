@@ -9,6 +9,7 @@ import { EmpTrainingModel } from 'src/app/models/employee/manage/training';
 import { SetTrainingModel } from 'src/app/models/employee/policy/batch/settraining';
 import { CourseModel } from 'src/app/models/system/policy/course';
 import { InstituteModel } from 'src/app/models/system/policy/institute';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { CourseService } from 'src/app/services/system/policy/course.service';
 import { InstituteService } from 'src/app/services/system/policy/institute.service';
@@ -89,12 +90,16 @@ export class EmpsettrainingComponent implements OnInit {
     this.doLoadinstituteList();
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   //dropdown

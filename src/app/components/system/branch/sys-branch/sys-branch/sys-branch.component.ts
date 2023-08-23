@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {ConfirmationService,MegaMenuItem,MenuItem,MessageService,} from 'primeng/api';
+import { ConfirmationService, MegaMenuItem, MenuItem, MessageService, } from 'primeng/api';
 import { CombranchModel } from 'src/app/models/system/branch';
 import { ComaddressModel } from 'src/app/models/system/comaddress';
 import { ComcardModel } from 'src/app/models/system/comcard';
@@ -16,6 +16,7 @@ import { CardtypeService } from 'src/app/services/system/policy/cardtype.service
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
 import { AppConfig } from '../../../../../config/config';
 import { InitialCurrent } from '../../../../../config/initial_current';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 interface Taxmethod {
     name_th: string;
@@ -46,10 +47,10 @@ export class SysBranchComponent implements OnInit {
     menu_comaddress: MenuItem[] = [];
     edit_comaddress: boolean = false;
     new_comaddress: boolean = false;
-     //menu Comaddress en
-     menu_comaddresseen: MenuItem[] = [];
-     edit_comaddresseen: boolean = false;
-     new_comaddresseen: boolean = false;
+    //menu Comaddress en
+    menu_comaddresseen: MenuItem[] = [];
+    edit_comaddresseen: boolean = false;
+    new_comaddresseen: boolean = false;
 
 
     //menu comcard
@@ -73,7 +74,7 @@ export class SysBranchComponent implements OnInit {
         private cardtypeService: CardtypeService,
         private addresstypeService: AddresstypeService,
         private provinceService: ProvinceService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
@@ -90,7 +91,7 @@ export class SysBranchComponent implements OnInit {
         this.doLoadLanguage();
         setTimeout(() => {
             this.doLoadMenu();
-            
+
         }, 100);
 
         setTimeout(() => {
@@ -99,7 +100,8 @@ export class SysBranchComponent implements OnInit {
             }
         }, 400);
     }
-
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     public initial_current: InitialCurrent = new InitialCurrent();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
@@ -108,6 +110,8 @@ export class SysBranchComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
     }
     title_codes: string = 'Code';
     title_social_security_branch: string = 'Social Security Branch';
@@ -213,23 +217,23 @@ export class SysBranchComponent implements OnInit {
     title_address_note: string = 'note';
     title_address_line: string = 'line';
     title_address_facebook: string = 'facebook';
-        title_fax: string = 'Fax';
+    title_fax: string = 'Fax';
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_back ='กลับ';
-            this.title_codes ='รหัสสาขา';
-            this.title_branch='ข้อมูลสาขา';
-            this.title_social_security_branch ='สาขาประกันสังคม'
-            this.title_thai_name ='ชื่อไทย';
-            this.title_english_name ='ชื่ออังกฤษ';
+            this.title_back = 'กลับ';
+            this.title_codes = 'รหัสสาขา';
+            this.title_branch = 'ข้อมูลสาขา';
+            this.title_social_security_branch = 'สาขาประกันสังคม'
+            this.title_thai_name = 'ชื่อไทย';
+            this.title_english_name = 'ชื่ออังกฤษ';
 
-            this.title_card_type ='ประเภทบัตร';
-            this.title_card_code ='รหัสบัตร';
-            this.title_card_opening_date ='วันที่เปิดบัตร';
-            this.title_expiration_date ='วันที่หมดอายุ';
-            this.Address_th ='ที่อยู่ (ไทย)';
-            this.Address_en ='ที่อยู่ (อังกฤษ)';
+            this.title_card_type = 'ประเภทบัตร';
+            this.title_card_code = 'รหัสบัตร';
+            this.title_card_opening_date = 'วันที่เปิดบัตร';
+            this.title_expiration_date = 'วันที่หมดอายุ';
+            this.Address_th = 'ที่อยู่ (ไทย)';
+            this.Address_en = 'ที่อยู่ (อังกฤษ)';
 
             this.title_page = 'ข้อมูลสถานที่ปฎิบัติงาน';
             this.title_new = 'เพิ่ม';
@@ -311,20 +315,20 @@ export class SysBranchComponent implements OnInit {
             this.title_confirm_no = 'ยกเลิก';
             this.title_confirm_cancel = 'คุณยกเลิกการทำรายการ';
 
-            this.title_address_type= 'ประเภท';
+            this.title_address_type = 'ประเภท';
             this.title_address_no = 'เลขที่';
-            this.title_address_moo= 'หมู่ที่';
-            this.title_address_road= 'ถนน';
-            this.title_address_soi= 'ซอย';
-            this.title_address_tambon= 'ตำบล';
-            this.title_address_amphur= 'อำเภอ';
-            this.title_address_province= 'จังหวัด';
-            this.title_address_zipcode= 'รหัสไปรษณีย์';
-            this.title_address_tel= 'เบอร์โทรศัพท์';
-            this.title_address_email= 'อีเมล์';
-            this.title_address_note= 'note';
-            this.title_address_line= 'ไลน์';
-            this.title_address_facebook= 'เฟสบุ๊ค';
+            this.title_address_moo = 'หมู่ที่';
+            this.title_address_road = 'ถนน';
+            this.title_address_soi = 'ซอย';
+            this.title_address_tambon = 'ตำบล';
+            this.title_address_amphur = 'อำเภอ';
+            this.title_address_province = 'จังหวัด';
+            this.title_address_zipcode = 'รหัสไปรษณีย์';
+            this.title_address_tel = 'เบอร์โทรศัพท์';
+            this.title_address_email = 'อีเมล์';
+            this.title_address_note = 'note';
+            this.title_address_line = 'ไลน์';
+            this.title_address_facebook = 'เฟสบุ๊ค';
         }
     }
 
@@ -342,8 +346,11 @@ export class SysBranchComponent implements OnInit {
                 label: this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
-                    // console.log('Save');
-                    this.confirmRecord();
+                    if (this.accessData.accessdata_new) {
+                        this.confirmRecord();
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+                    }
                 },
             },
         ];
@@ -386,12 +393,12 @@ export class SysBranchComponent implements OnInit {
             {
                 label: 'Import',
                 icon: 'pi pi-fw pi-file-import',
-                command: (event) => {},
+                command: (event) => { },
             },
             {
                 label: 'Export',
                 icon: 'pi pi-fw pi-file-export',
-                command: (event) => {},
+                command: (event) => { },
             },
         ];
     }
@@ -441,7 +448,7 @@ export class SysBranchComponent implements OnInit {
         this.combranchService
             .combranch_get(this.combranch_code)
             .then(async (res) => {
-                await res.forEach((element: CombranchModel) => {});
+                await res.forEach((element: CombranchModel) => { });
 
                 Combranch_list = await res;
                 // console.log(res);
@@ -481,31 +488,31 @@ export class SysBranchComponent implements OnInit {
     //address
     comaddressList: ComaddressModel[] = [];
     selectedComaddress: ComaddressModel = new ComaddressModel();
-    
+
     doLoadComaddressList() {
         this.combranchDetailService.getcombranch_address(this.initial_current.CompCode, this.combranch_code)
-          .then((res: ComaddressModel[]) => {
-            this.comaddressList = res;
-            if (this.comaddressList.length > 0) {
-              this.selectedComaddress = this.comaddressList[0];
-            }
-          });
-      }
-      
-    
-      record_comaddress() {
+            .then((res: ComaddressModel[]) => {
+                this.comaddressList = res;
+                if (this.comaddressList.length > 0) {
+                    this.selectedComaddress = this.comaddressList[0];
+                }
+            });
+    }
+
+
+    record_comaddress() {
         // this.selectedComaddress.comaddres_type = "1";
         this.selectedComaddress.combranch_code = this.selectedCombranch.combranch_code;
-      
+
         this.combranchDetailService.record_comddress(this.selectedComaddress.combranch_code, [this.selectedComaddress])
-          .then((res) => {
-            let result = JSON.parse(res);
-            if (result.success) {
-            } else {
-            }
-          });
-      }
-      
+            .then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                } else {
+                }
+            });
+    }
+
 
 
     //card
@@ -529,7 +536,7 @@ export class SysBranchComponent implements OnInit {
                 }
             });
     }
-    onRowSelectComcard(event: Event) {}
+    onRowSelectComcard(event: Event) { }
     comcard_summit() {
         this.comcard_addItem(this.selectedComcard);
         this.new_card = false;
@@ -542,7 +549,7 @@ export class SysBranchComponent implements OnInit {
         this.new_card = false;
         this.edit_comcard = false;
     }
-    comcard_delete() {}
+    comcard_delete() { }
     comcard_cancel() {
         this.new_card = false;
         this.edit_comcard = false;
@@ -616,7 +623,7 @@ export class SysBranchComponent implements OnInit {
                     this.record_comaddress();
                     this.record_comcard();
                     this.doLoadCombranch();
-                     this.messageService.add({
+                    this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
                         detail: result.message,
@@ -636,7 +643,7 @@ export class SysBranchComponent implements OnInit {
     close() {
         this.new_combranch = false;
         this.selectedCombranch = new CombranchModel();
-        this.selectedComaddress= new ComaddressModel();
+        this.selectedComaddress = new ComaddressModel();
     }
 
     clearManage() {

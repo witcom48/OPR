@@ -8,6 +8,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmpGroupModel } from 'src/app/models/employee/manage/empgroup';
 import { SetGroupModel } from 'src/app/models/employee/policy/batch/setgroup';
 import { GroupModel } from 'src/app/models/employee/policy/group';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { GroupService } from 'src/app/services/emp/policy/group.service';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { TaskService } from 'src/app/services/task.service';
@@ -34,24 +35,24 @@ export class EmpsetgroupComponent implements OnInit {
   @ViewChild(TaskComponent) taskView: any;
 
   //
-  title_process: {[key:string] : string} = {EN: "Process",  TH: "การทำงาน"};
-  title_result: {[key:string] : string} = {EN: "Result",  TH: "ผลลัพธ์"};
-  title_btnprocess: {[key:string] : string} = {EN: "Process",  TH: "ดำเนินการ"};
-  title_date:{[key:string] : string} = {EN: "Date",  TH: "วันที่มีผล"};
-  title_group:{[key:string] : string} = {EN: "Group",  TH: "กลุ่มพนักงาน"};
-  title_reason: {[key:string] : string} = {EN: "Reason",  TH: "เหตุผล"};
+  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
+  title_group: { [key: string]: string } = { EN: "Group", TH: "กลุ่มพนักงาน" };
+  title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
   title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
   //
-  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"};
-  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
-  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
-  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
-  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
-  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
+  title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" };
+  title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
+  title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
+  title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
+  title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
+  title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
 
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
@@ -79,12 +80,16 @@ export class EmpsetgroupComponent implements OnInit {
     this.doLoadGroupList();
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   //get group
