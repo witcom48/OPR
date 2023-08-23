@@ -71,24 +71,43 @@ export class ProjectService {
       project_name_en: "",
       project_name_sub: "",
       project_codecentral: "",
-      project_protype: "",
-      
+      project_protype: "",      
       project_proarea: "",
       project_progroup: "",
-
       project_probusiness: "",
-
-      
-
-
-
+      status:""
     };
-
 
     return this.http.post<any>(this.config.ApiProjectModule + '/project_list', filter, this.options).toPromise()
       .then((res) => {
-        let message = JSON.parse(res);
-        //// console.log(res)
+        let message = JSON.parse(res);      
+        return message.data;
+      });
+  }
+
+  public project_get_withstatus(company: string, project: string, status: string) {
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: company,
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",      
+      project_proarea: "",
+      project_progroup: "",
+      project_probusiness: "",
+      status:status
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/project_list', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);      
         return message.data;
       });
   }

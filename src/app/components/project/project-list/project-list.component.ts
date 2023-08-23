@@ -149,19 +149,19 @@ export class ProjectListComponent implements OnInit {
           this.showManage()
         }     
       }
-      ,
-      {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
+      // ,
+      // {
+      //     label:this.title_edit[this.initial_current.Language],
+      //     icon:'pi pi-fw pi-pencil',
+      //     command: (event) => {
             
-            if(this.selectedProject != null){
-              this.new_data= false;
-              this.edit_data = true
-              this.showManage()
-            }
-        }
-      }
+      //       if(this.selectedProject != null){
+      //         this.new_data= false;
+      //         this.edit_data = true
+      //         this.showManage()
+      //       }
+      //   }
+      // }
       ,    
       {
           label:this.title_import[this.initial_current.Language],
@@ -246,6 +246,15 @@ export class ProjectListComponent implements OnInit {
         this.calculateTotal()
       }, 500);
     });
+  }
+
+  selectionProject(project: ProjectModel) {
+    this.selectedProject = project
+
+    this.new_data= false;
+    this.edit_data = true
+    this.showManage()
+
   }
 
   calculateTotal() {
@@ -376,5 +385,28 @@ export class ProjectListComponent implements OnInit {
   }
 
   
+  doGetStatusDetail(status: string): any {
+    if (status=="W"){
+      return this.initial_current.Language == "EN" ? "Wait" : "รออนุมัติ"
+    }
+    else if (status=="F"){
+      return this.initial_current.Language == "EN" ? "Approved" : "อนุมัติแล้ว"
+    }
+    else if (status=="C"){
+      return this.initial_current.Language == "EN" ? "Not Approve" : "ไม่อนุมัติ"
+    }
+  }
+
+  getSeverity(status: string): any {
+    switch (status) {
+        case 'F':
+            return 'success';
+        case 'W':
+            return 'Info';
+        case 'C':
+            return 'danger';
+    }
+  }
+
 
 }
