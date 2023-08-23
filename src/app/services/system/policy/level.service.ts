@@ -56,17 +56,31 @@ export class LevelService {
         this.router.navigateByUrl('login');
       }
     }
-
-    public level_get(){
-      // console.log('LVL001..');
-
-      return this.http.post<any>(this.config.ApiSystemModule + '/level_list', this.basicRequest, this.options).toPromise()
+    public level_get(model: LevelModel){
+      var filter = {
+        device_name:'',
+        ip:"localhost",
+        username:this.initial_current.Username,
+        company_code:this.initial_current.CompCode,
+        language:"",
+        level_code: model.level_code
+      }
+      return this.http.post<any>(this.config.ApiSystemModule + '/level_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        // console.log(res)
         return message.data;
       });
     }
+    
+    // public level_get(){
+    //   // console.log('LVL001..');
+    //   return this.http.post<any>(this.config.ApiSystemModule + '/level_list', this.basicRequest, this.options).toPromise()
+    //   .then((res) => {
+    //     let message = JSON.parse(res);
+    //     // console.log(res)
+    //     return message.data;
+    //   });
+    // }
 
     public level_record(model:LevelModel) {
       // console.log('LVL002..');

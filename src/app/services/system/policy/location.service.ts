@@ -4,8 +4,8 @@ import { AppConfig } from '../../../config/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { InitialCurrent } from '../../../config/initial_current';
-import { LocationModel } from 'src/app/models/system/policy/location';
-@Injectable({
+import { SysLocationModel } from 'src/app/models/system/policy/location';
+ @Injectable({
     providedIn: 'root',
 })
 export class LocationService {
@@ -41,7 +41,7 @@ export class LocationService {
         }
     }
 
-    public location_get(Location: LocationModel) {
+    public location_get(Location: SysLocationModel) {
         // console.log('ATT001..');
         let data = {
             device_name: "phone",
@@ -58,7 +58,7 @@ export class LocationService {
             });
     }
 
-    public location_record(Location: LocationModel) {
+    public location_record(Location: SysLocationModel) {
         // console.log('ATT002..');
         let data = {
             device_name: "phone",
@@ -83,7 +83,7 @@ export class LocationService {
                 return message;
             });
     }
-    public location_delete(Location: LocationModel) {
+    public location_delete(Location: SysLocationModel) {
         // console.log('ATT003..');
         let data = {
             device_name: "phone",

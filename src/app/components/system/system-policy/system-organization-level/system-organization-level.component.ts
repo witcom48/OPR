@@ -11,6 +11,7 @@ import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
 import { LevelModel } from 'src/app/models/system/policy/level';
 import { LevelService } from 'src/app/services/system/policy/level.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 @Component({
   selector: 'app-system-organization-level',
   templateUrl: './system-organization-level.component.html',
@@ -48,6 +49,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
     this.doLoadMenu()
+
     setTimeout(() => {
 
 
@@ -59,12 +61,18 @@ export class SystemOrganizationLevelComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('SYS');
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   title_system: string = "System";
   title_genaral: string = "Genaral";
   title_page: string = "Employee Level";
@@ -147,12 +155,23 @@ export class SystemOrganizationLevelComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedLevel = new LevelModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedLevel = new LevelModel();
+            this.new_data = true;
+            this.edit_data = false;
 
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
+        }
+      },
+      {
 
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Level.xlsx', '_blank');
         }
       }
       ,
@@ -202,8 +221,8 @@ export class SystemOrganizationLevelComponent implements OnInit {
           label: 'คัดลอก',
           icon: 'pi pi-times',
           command: () => {
-            
-           }
+
+          }
         }
       ]
     },
@@ -215,7 +234,8 @@ export class SystemOrganizationLevelComponent implements OnInit {
 
   //
   doLoadLevel() {
-    this.levelService.level_get().then((res) => {
+    var tmp = this.selectedLevel
+    this.levelService.level_get(tmp).then((res) => {
       this.level_list = res;
     });
   }
@@ -227,6 +247,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.doRecordlevel()
+        
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
@@ -263,6 +284,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.doDeleteLevels(data);
+        
       },
       reject: () => {
         this.messageService.add({
@@ -285,6 +307,8 @@ export class SystemOrganizationLevelComponent implements OnInit {
         });
         this.doLoadLevel();
         this.clearManage();
+
+        
       } else {
         this.messageService.add({
           severity: 'error',
@@ -293,6 +317,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
         });
       }
     });
+    
   }
   selectRow(data: any) {
     this.selectedLevel = data;

@@ -63,7 +63,7 @@
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     <td>
-                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteLate(data)">
+                        <button pButton type="button" class="pi pi-trash gray-button "[disabled]="!this.accessData.accessdata_delete" (click)="doDeleteLate(data)">
                         </button>
 
                     </td>
@@ -74,7 +74,8 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position">
+    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" 
+    [position]="position" (onHide)="reloadPage()">
         <div class="formatt p-dialog-content" *ngIf="new_data">
 
             <label>{{title_code}}</label>
@@ -137,7 +138,7 @@
                     (click)="Save()"></button>
                 &nbsp;
                 <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                class="p-button-secondary button-size" (click)="Delete()"></button>
+                class="p-button-secondary button-size btndel" (click)="Delete()"[disabled]="!this.accessData.accessdata_delete"></button>
             </div>
         </div>
     </p-dialog>

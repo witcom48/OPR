@@ -1,0 +1,25 @@
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
+<hr>
+<p-tabView>
+    <p-tabPanel>
+        <ng-template pTemplate="header">
+            <span>{{title_reduces[initial_current.Language]}}  </span>
+        </ng-template>
+        <div class="tabledata">
+            <!-- ข้อมูล -->
+             <app-system-reduce></app-system-reduce>
+         </div>
+    </p-tabPanel>
+    <!--  -->
+    <p-tabPanel>
+        <ng-template pTemplate="header">
+            <span>{{title_taxrate[initial_current.Language]}} </span>
+        </ng-template>
+        <div class="tabledata">
+            <!-- ข้อมูล -->
+            <app-taxrate></app-taxrate>
+        </div>
+    </p-tabPanel>
+</p-tabView>
+

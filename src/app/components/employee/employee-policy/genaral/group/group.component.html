@@ -53,36 +53,44 @@
     <!-- Form input or Edit Data -->
     <form #Form="ngForm">
         <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
-            [position]="position" (onHide)="reloadPage()"> 
-    <div class="formatt p-dialog-content" *ngIf="new_data==true">
+            [position]="position" (onHide)="reloadPage()">
+            <div class="formatt p-dialog-content" *ngIf="new_data==true">
 
-        <label>{{title_code}}<span style="color: red;"> *</span></label>
-        <input pInputText type="text" [(ngModel)]="selectedGroup.group_code" maxlength="5"
-        name="code" #code="ngModel" required [readOnly]="edit_data" />
-        <p>{{selectedGroup.group_code.length}}/5</p>
+                <label>{{title_code}}<span style="color: red;"> *</span></label>
+                <input pInputText type="text" [(ngModel)]="selectedGroup.group_code" maxlength="5" name="code"
+                    #code="ngModel" required [readOnly]="edit_data" />
+                <p>{{selectedGroup.group_code.length}}/5</p>
 
-        <label>{{title_name_th}}<span style="color: red;"> *</span></label>
-        <textarea [(ngModel)]="selectedGroup.group_name_th" pInputTextarea [autoResize]="true"
-        name="name_th" #name_th="ngModel" required></textarea>
+                <label>{{title_name_th}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="selectedGroup.group_name_th" pInputTextarea [autoResize]="true" name="name_th"
+                    #name_th="ngModel" required></textarea>
 
-        <label>{{title_name_en}}<span style="color: red;"> *</span></label>
-        <textarea [(ngModel)]="selectedGroup.group_name_en" pInputTextarea [autoResize]="true"
-        name="name_en" #name_en="ngModel" required></textarea>
+                <label>{{title_name_en}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="selectedGroup.group_name_en" pInputTextarea [autoResize]="true" name="name_en"
+                    #name_en="ngModel" required></textarea>
 
-        <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
+                <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
         <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
             class="btndel" (click)="confirmDelete()"></button> -->
-        <div style="text-align: right;">
-            <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()" [disabled]="!Form.form.valid"></p-button>
-            &nbsp;
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary"
-                (click)="confirmDelete()"></button>
-        </div>
-    </div>
-    </p-dialog>
-    <div *ngIf="displayManage" style="z-index: 1084;"
+                <div style="text-align: right;">
+                    <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                        (click)="confirmRecord()" [disabled]="!Form.form.valid" class="button-size"></button>
+
+                    <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()"
+                        label="{{ title_save }}" icon="pi pi-save"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="button-size "></button>
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()" [disabled]="!Form.form.valid"></p-button> -->
+                    &nbsp;
+                    <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
+                        class="p-button-secondarybutton-size btndel" [disabled]="!this.accessData.accessdata_delete"
+                        (click)="confirmDelete()"></button>
+                </div>
+            </div>
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
             class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
-</form>
+    </form>
 </div>
 
 <!-- Dialog Choose File Import -->

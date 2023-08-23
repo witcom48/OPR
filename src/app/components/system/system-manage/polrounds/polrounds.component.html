@@ -310,8 +310,17 @@
         </div>
         <div class="field col-12 md:col-6 center"></div><br><br />
         <div class="field col-12 md:col-12 ">
-            <button pButton type="button" label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
-                (click)="confirmRecord()"></button>
+            <button *ngIf="!confirmRecord" pRipple pButton type="submit"
+                label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save" (click)="confirmRecord()"
+                class="button-size"></button>
+
+            <button *ngIf="confirmRecord" pRipple pButton type="submit" (click)="confirmRecord()"
+                label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
+                [disabled]="(!this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                class="button-size"></button>
+
+            <!-- <button pButton type="button" label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
+                (click)="confirmRecord()"></button> -->
         </div>
     </div>
 </div>

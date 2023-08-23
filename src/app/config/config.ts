@@ -5,8 +5,13 @@ export class AppConfig {
 
   }
 
-   UrlApi: string = "http://localhost:32208"
+  //  UrlApi: string = "http://localhost:32208"
   //UrlApi: string = "http://161.82.218.95:8806"
+<<<<<<< HEAD
+=======
+  UrlApi: string = "https://hrfocusess.com:8806"
+
+>>>>>>> e787a47de4863cac5e16127aea71cec17a686417
 
   ApiMainModule: string = this.UrlApi + "/BpcOpr.svc/BpcOpr";
   ApiSystemModule: string = this.UrlApi + "/Module_System/ModuleSystem.svc/System";

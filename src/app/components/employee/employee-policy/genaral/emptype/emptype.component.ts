@@ -8,6 +8,7 @@ import { InitialCurrent } from '../../../../../config/initial_current';
 import { EmptypeModel } from '../../../../../models/employee/policy/emptype';
 import { EmptypeService } from '../../../../../services/emp/policy/emptype.service';
 import * as XLSX from 'xlsx';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-emptype',
@@ -37,19 +38,23 @@ export class EmptypeComponent implements OnInit {
   ngOnInit(): void {
     this.doGetInitialCurrent()
     this.doLoadLanguage()
-    
+
     this.doLoadMenu()
     setTimeout(() => {
       this.doLoadType()
     }, 500);
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   title_page: string = "Emp Type";
@@ -131,10 +136,14 @@ export class EmptypeComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedType = new EmptypeModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedType = new EmptypeModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       },
       {

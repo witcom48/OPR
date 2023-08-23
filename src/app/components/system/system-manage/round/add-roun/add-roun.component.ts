@@ -78,6 +78,8 @@ export class AddRounComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('SYS');
 
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   title_payroll: string = 'Payroll';
   title_policy: string = 'Set Policy';
   title_page: string = 'Bonus';
@@ -178,6 +180,9 @@ export class AddRounComponent implements OnInit {
     this.doLoadRounds();
     this.doLoadMenu();
 
+  }
+  reloadPage() {
+    this.doLoadRounds()
   }
   doLoadRounds() {
     this.rounds_list = [];
@@ -302,6 +307,15 @@ export class AddRounComponent implements OnInit {
 
         },
       },
+      {
+
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Rounds.xlsx', '_blank');
+        }
+      }
+      ,
       {
         label: this.title_import,
         icon: 'pi-file-import',

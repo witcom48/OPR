@@ -13,10 +13,10 @@ import { PositionService } from 'src/app/services/emp/policy/position.service';
 import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 import { PositionModel } from 'src/app/models/employee/policy/position';
-import { LocationModel } from 'src/app/models/system/policy/location';
-import { LocationService } from 'src/app/services/system/policy/location.service';
+ import { LocationService } from 'src/app/services/system/policy/location.service';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { LevelService } from 'src/app/services/system/policy/level.service';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
 
 @Component({
 
@@ -91,7 +91,9 @@ export class SelectEmpComponent implements OnInit {
   //dropdown
   levelList: LevelModel[] = [];
   doLoadlevelList(){
-    this.levelService.level_get().then(async(res)=>{
+    var tmp = new LevelModel();
+    tmp.level_code = this.selectedLevel;
+    this.levelService.level_get(tmp).then(async(res)=>{
       this.levelList = await res;
     })
   }
@@ -115,9 +117,9 @@ export class SelectEmpComponent implements OnInit {
       this.positionList = res;
     })
   }
-  locationList: LocationModel[] = [];
+  locationList: SysLocationModel[] = [];
   doLoadLocationList() {
-    var tmp = new LocationModel();
+    var tmp = new SysLocationModel();
     this.locationService.location_get(tmp).then(async (res) => {
       this.locationList = await res;
     })

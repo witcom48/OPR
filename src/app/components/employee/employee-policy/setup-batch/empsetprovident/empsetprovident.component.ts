@@ -8,6 +8,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmpProvidentModel } from 'src/app/models/employee/manage/provident';
 import { SetProvidentModel } from 'src/app/models/employee/policy/batch/setprovident';
 import { ProvidentModel } from 'src/app/models/payroll/provident';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { ProvidentService } from 'src/app/services/payroll/provident.service';
 import { TaskService } from 'src/app/services/task.service';
@@ -37,15 +38,15 @@ export class EmpsetprovidentComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
-  title_pfno:{[key:string] : string} = {EN: "Provident No.",  TH: "รหัสกองทุนฯ"};
-  title_pf:{[key:string] : string} = {EN: "PF Policy ",  TH: "นโยบาย"};
-  title_entry:{[key:string] : string} = {EN: "Entry Date",  TH: "วันที่เข้ากองทุนฯ"};
-  title_startdate:{[key:string] : string} = {EN: "Start Date",  TH: "วันที่เริ่ม"};
+  title_pfno: { [key: string]: string } = { EN: "Provident No.", TH: "รหัสกองทุนฯ" };
+  title_pf: { [key: string]: string } = { EN: "PF Policy ", TH: "นโยบาย" };
+  title_entry: { [key: string]: string } = { EN: "Entry Date", TH: "วันที่เข้ากองทุนฯ" };
+  title_startdate: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
-  title_worker : { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
-  title_modified_by : { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
-  title_modified_date:{ [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
+  title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
   //
   title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" };
   title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
@@ -67,7 +68,7 @@ export class EmpsetprovidentComponent implements OnInit {
     private taskService: TaskService,
     private router: Router,
     private setempdetailService: SetEmpDetailService,
-    private providentService : ProvidentService,
+    private providentService: ProvidentService,
   ) { }
 
   new_data: boolean = false;
@@ -79,18 +80,22 @@ export class EmpsetprovidentComponent implements OnInit {
     this.doLoadprovidentList();
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
   //dropdown
-  providentList : ProvidentModel[]=[];
-  doLoadprovidentList(){
+  providentList: ProvidentModel[] = [];
+  doLoadprovidentList() {
     var tmp = new ProvidentModel();
-    this.providentService.provident_get(tmp).then((res)=>{
+    this.providentService.provident_get(tmp).then((res) => {
       this.providentList = res;
     })
   }
@@ -98,14 +103,14 @@ export class EmpsetprovidentComponent implements OnInit {
   selectedEmpProvident: EmpProvidentModel = new EmpProvidentModel();
   empprovidentList: EmpProvidentModel[] = [];
 
-  setprovidentList : SetProvidentModel[] = [];
-  doLoadsetprovidentList(){
+  setprovidentList: SetProvidentModel[] = [];
+  doLoadsetprovidentList() {
     this.setprovidentList = [];
     var tmp = new SetProvidentModel();
     tmp.provident_code = this.selectedEmpProvident.provident_code;
     tmp.empprovident_start = this.selectedEmpProvident.empprovident_start;
     this.setempdetailService.SetProvident_get(tmp).then(async (res) => {
-        this.setprovidentList = await res;
+      this.setprovidentList = await res;
     });
   }
 

@@ -1,15 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
-import { Table } from 'primeng/table';
-import { MegaMenuItem, MenuItem } from 'primeng/api';
+import {  MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-
 import { DatePipe } from '@angular/common';
-import {
-    ConfirmationService,
-    ConfirmEventType,
-    MessageService,
-} from 'primeng/api';
+import { ConfirmationService,MessageService,} from 'primeng/api';
 import * as XLSX from 'xlsx';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
@@ -42,8 +35,6 @@ export class TaxrateComponent implements OnInit {
 
     ngOnInit(): void {
         this.doGetInitialCurrent();
-
-
         this.doLoadLanguage();
         this.doLoadMenu();
         this.doLoadTaxrate();
@@ -65,6 +56,8 @@ export class TaxrateComponent implements OnInit {
         this.accessData = this.initialData2.dotGetPolmenu('PAY');
 
     }
+    title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
     title_payroll: string = 'Payroll';
 
     title_policy: string = 'Set Policy';
@@ -175,6 +168,15 @@ export class TaxrateComponent implements OnInit {
                 },
             },
             {
+
+                label: this.title_file[this.initial_current.Language],
+                icon: 'pi-download',
+                command: (event) => {
+                    window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Taxrate.xlsx', '_blank');
+                }
+            }
+            ,
+            {
                 label: this.title_import,
                 icon: 'pi pi-fw pi-file-import',
                 command: (event) => {
@@ -190,7 +192,9 @@ export class TaxrateComponent implements OnInit {
             },
         ];
     }
-
+    reloadPage() {
+        this.doLoadTaxrate()
+    }
     doLoadTaxrate() {
         this.taxrateService.taxrate_get().then((res) => {
             this.taxrate_list = res;

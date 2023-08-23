@@ -6,13 +6,13 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ProjectModel } from 'src/app/models/project/project';
 import { MTAreaModel } from 'src/app/models/self/MTArea'
-import { LocationModel } from 'src/app/models/system/policy/location';
-import { ProjectService } from 'src/app/services/project/project.service';
+ import { ProjectService } from 'src/app/services/project/project.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { AreaServices } from 'src/app/services/self/area.service';
 import { TRAreaModel } from 'src/app/models/self/TRArea';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
 declare var area: any;
 interface Type {
   name: string,
@@ -85,9 +85,9 @@ export class SelfAreaComponent implements OnInit {
   }
   doLoadLocation() {
     this.locationList = [];
-    var tmp = new LocationModel();
+    var tmp = new SysLocationModel();
     this.locationService.location_get(tmp).then(async (res) => {
-      await res.forEach((element: LocationModel) => {
+      await res.forEach((element: SysLocationModel) => {
         this.locationList.push({ code: element.location_code, name: this.selectlang == "EN" ? element.location_name_en : element.location_name_th })
       });
     });

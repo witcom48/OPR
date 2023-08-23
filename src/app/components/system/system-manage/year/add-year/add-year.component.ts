@@ -134,6 +134,14 @@ export class AddYearComponent implements OnInit {
           }
         }
         ,
+      {
+        label: "Template", 
+        icon: 'pi-download', 
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Year.xlsx', '_blank');
+        }
+      }
+      ,
         {
           label: this.langs.get('import')[this.selectlang],
           icon: 'pi-file-import',

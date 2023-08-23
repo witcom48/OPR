@@ -62,6 +62,8 @@ export class SystemSupplyComponent implements OnInit {
 
 
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
   title_system: string = 'System';
   title_genaral: string = 'Genaral';
   title_page: string = "Supply Office";
@@ -142,15 +144,24 @@ export class SystemSupplyComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          if(this.accessData.accessdata_new){
+          if (this.accessData.accessdata_new) {
             this.selectedSupply = new SupplyModel();
             this.new_data = true;
             this.edit_data = false;
             this.showManage()
-          }else{
+          } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
-          
+
+        }
+      }
+      ,
+      {
+
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System SUPPLY.xlsx', '_blank');
         }
       }
       ,

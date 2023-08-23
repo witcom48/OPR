@@ -20,6 +20,7 @@ import { RoundsService } from 'src/app/services/system/manage1/rounds.service';
 import { MTPolroundsModel } from 'src/app/models/system/manage/polrounds';
 import { MTRoundsModel } from 'src/app/models/system/manage/mt_rounds';
 import { PolroundsService } from 'src/app/services/system/manage1/polrounds.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
     selector: 'app-polrounds',
@@ -33,7 +34,7 @@ export class PolroundsComponent implements OnInit {
     edit_comlocation: boolean = false;
     new_comlocation: boolean = false;
     itemslike: MenuItem[] = [];
-  home: any;
+    home: any;
     round_list: RoundsModel[] = [];
     round: RoundsModel = new RoundsModel();
     rounds_list: RoundsModel[] = [];
@@ -176,6 +177,8 @@ export class PolroundsComponent implements OnInit {
 
         this.home = { icon: 'pi pi-home', routerLink: '/' };
     }
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     public initial_current: InitialCurrent = new InitialCurrent();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
@@ -184,6 +187,8 @@ export class PolroundsComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
     }
 
     //get  data dropdown

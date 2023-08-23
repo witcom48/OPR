@@ -19,6 +19,8 @@ import { ItemsModel } from 'src/app/models/payroll/items';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { SelectEmpComponent } from '../../../../usercontrol/select-emp/select-emp.component';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { SearchItemComponent } from 'src/app/components/usercontrol/search-item/search-item.component';
+import { SearchItemdeComponent } from 'src/app/components/usercontrol/search-item/search-itemde/search-itemde.component';
 declare var reason: any;
 interface Type {
   name: string;
@@ -54,8 +56,12 @@ export class AppEntrysComponent implements OnInit {
     private itemService: ItemService,
   ) { }
   @ViewChild(SelectEmpComponent) selectEmp: any;
+  @ViewChild(SearchItemdeComponent) searchitem_popup: any;
 
-  @ViewChild('TABLE') table: ElementRef | any = null;
+  dialog: any;
+  dataSource: any;
+
+   @ViewChild('TABLE') table: ElementRef | any = null;
   workerDetail: EmployeeModel = new EmployeeModel();
   worker_list: EmployeeModel[] = [];
   worker_index: number = 0;
@@ -132,7 +138,8 @@ export class AppEntrysComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('PAY');
 
   }
-
+  title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
+  title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
   title_page: string = 'Geanral';
   title_new: string = 'New';
   title_edit: string = 'Edit';
@@ -359,8 +366,7 @@ export class AppEntrysComponent implements OnInit {
     this.doLoaditem()
       .then((res) => {
         this.item_list = res;
-        // console.log(this.item_list);
-        this.doSummaryByEmp();
+         this.doSummaryByEmp();
       })
       .catch((error) => {
         console.error(error);
@@ -395,20 +401,16 @@ export class AppEntrysComponent implements OnInit {
     data.item_data = this.selectEmp.employee_dest;
 
     this.loading = true;
-    // console.log(data);
-    await this.payitemService.setpayitems_record('', data).then((res) => {
-      // console.log(res);
-      if (res.success) {
-        // console.log(res.message);
-        this.messageService.add({
+     await this.payitemService.setpayitems_record('', data).then((res) => {
+       if (res.success) {
+         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: res.message,
         });
         this.doLoaditem();
         this.doSetDetailItem();
-        // console.log(this.payitem_list); 
-
+ 
         this.edit_data = false;
       } else {
         this.messageService.add({
@@ -552,10 +554,8 @@ export class AppEntrysComponent implements OnInit {
   async doDeleteLate(data: PayitemModel) {
     try {
       this.loading = true;
-      // console.log(data);
-      const res = await this.payitemService.payitem_delete(data);
-      // console.log(res);
-      if (res.success) {
+       const res = await this.payitemService.payitem_delete(data);
+       if (res.success) {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -563,8 +563,7 @@ export class AppEntrysComponent implements OnInit {
         });
         await this.doLoaditem();
         this.doSetDetailItem();
-        // console.log(this.payitem_list); 
-        this.edit_data = false;
+         this.edit_data = false;
         this.new_data = false;
       } else {
         this.messageService.add({
@@ -622,6 +621,59 @@ export class AppEntrysComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     XLSX.writeFile(wb, 'Export_Reason.xlsx');
+  }
+
+
+  openSearchItem(): void {
+    const dialogRef = this.dialog.open(SearchItemComponent, {
+      width: '1500px',
+      height: '1550px',
+      data: {
+        worker_code: ''
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: { worker_code: string; }) => {
+      if (result.worker_code != "") {
+
+        let select = result.worker_code;
+        this.doGetIndexWorker(select);
+
+      }
+    });
+
+  }
+
+
+  position: string = "right";
+  searchItem: boolean = false;
+  open_searchItem() {
+    this.searchItem = true
+  }
+
+  close_searchItem() {
+    this.searchItem = false
+  }
+
+
+  select_item() {
+    let select = this.searchitem_popup.selectedPayitem.item_code
+     if (select != "") {
+      this.doGetIndexWorker(select)
+      this.searchItem = false
+    }
+
+  }
+
+  doGetIndexWorker(item_code: string) {
+    for (let i = 0; i < this.Items_Lists.length; i++) {
+      if (this.Items_Lists[i].item_code == item_code) {
+        this.item_index = i;
+        break;
+      }
+    }
+
+    this.doSetDetailItem();
+
   }
 }
 
