@@ -77,7 +77,8 @@
                     <td><span>{{langs.get('modified_date')[selectlang]}}</span>{{data.modified_date |
                         date:'dd/MM/yyyy'}}</td>
                     <td>
-                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteRounds(data)"[disabled]="!this.accessData.accessdata_delete">
+                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeleteRounds(data)"
+                            [disabled]="!this.accessData.accessdata_delete">
                         </button>
 
                     </td>
@@ -146,11 +147,19 @@
                     </p-accordion>
                 </div>
                 <div style="text-align: right;">
-                    <button pButton type="button" class="button-size" label="{{title_save}}" icon="pi pi-save"
-                        (click)="Save()" [disabled]="!Form.form.valid"></button>
+                    <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{langs.get('save')[selectlang]}}"
+                        icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid" class="button-size"></button>
+
+                    <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()"
+                        label="{{langs.get('save')[selectlang]}}" icon="pi pi-save"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="button-size"></button>
+                    <!-- <button pButton type="button" class="button-size" label="{{title_save}}" icon="pi pi-save"
+                        (click)="Save()" [disabled]="!Form.form.valid"></button> -->
                     &nbsp;
                     <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                    class="p-button-secondary button-size" (click)="Delete()"[disabled]="!this.accessData.accessdata_delete"></button>
+                        class="p-button-secondary button-size btndel" (click)="Delete()"
+                        [disabled]="!this.accessData.accessdata_delete "></button>
                 </div>
             </div>
         </p-dialog>

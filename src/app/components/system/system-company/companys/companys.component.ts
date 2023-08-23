@@ -23,6 +23,7 @@ import { AddresstypeModel } from 'src/app/models/system/policy/addresstype';
 import { ProvinceModel } from 'src/app/models/system/policy/province';
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 interface City {
     name: string;
@@ -113,23 +114,7 @@ export class CompanysComponent implements OnInit {
         private provinceService: ProvinceService
     ) { }
 
-
-    cities: City[] | undefined;
-    selectedCity: City | undefined;
-
     ngOnInit(): void {
-
-
-        this.cities = [
-            { name: 'New York', code: 'NY' },
-            { name: 'Rome', code: 'RM' },
-            { name: 'London', code: 'LDN' },
-            { name: 'Istanbul', code: 'IST' },
-            { name: 'Paris', code: 'PRS' }
-        ];
-        console.log(this.cities)
-
-
         this.route.queryParams.subscribe((params) => {
             this.company_code = params['companycode'];
             // console.log(this.company_code);
@@ -158,7 +143,8 @@ export class CompanysComponent implements OnInit {
 
 
     }
-
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     public initial_current: InitialCurrent = new InitialCurrent();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
@@ -167,6 +153,8 @@ export class CompanysComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
     }
 
     title_page_Company: string = 'Company';
@@ -460,8 +448,12 @@ export class CompanysComponent implements OnInit {
                 label: this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
-                    // console.log('Save');
-                    this.confirmRecord();
+                    if (this.accessData.accessdata_new) {
+                        // console.log('Save');
+                        this.confirmRecord();
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+                    }
                 },
             },
         ];
@@ -614,18 +606,18 @@ export class CompanysComponent implements OnInit {
     selectedFileName: string | undefined;
 
     onSelectFilesmaps(event: Event): void {
-      const inputElement = event.target as HTMLInputElement;
-      if (inputElement.files && inputElement.files.length > 0) {
-        this.selectedFileName = inputElement.files[0].name;
-      } else {
-        this.selectedFileName = undefined;
-      }
+        const inputElement = event.target as HTMLInputElement;
+        if (inputElement.files && inputElement.files.length > 0) {
+            this.selectedFileName = inputElement.files[0].name;
+        } else {
+            this.selectedFileName = undefined;
+        }
     }
-  
-  
-  
-  
-  
+
+
+
+
+
     base65Image: any = '../../../../assets/images/people.png'
     base64Image: any = '../../../../assets/images/people.png'
     transform() {

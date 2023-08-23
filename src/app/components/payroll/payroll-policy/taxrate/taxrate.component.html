@@ -22,12 +22,7 @@
 <div class="tabledata">
     <!-- Table Show Data -->
     <div #TABLE>
-        <!-- <p-table #dt2 [value]="periods_list"     
-        selectionMode="single" [(selection)]="selectedPeriods" (onRowSelect)="onRowSelect($event)" [rows]="12"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-        [globalFilterFields]="['from','to','tax','modified_by','modified_date']" responsiveLayout="stack" [breakpoint]="'744px'"> -->
-
+        
         <p-table #dt2 [value]="taxrate_list"  
             selectionMode="single" [(selection)]="selectedTaxrate" (onRowSelect)="onRowSelectTaxrate($event)"
             [rows]="12" [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"

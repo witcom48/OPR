@@ -17,7 +17,8 @@ declare var planleave: any;
   styleUrls: ['./items-plan.component.scss']
 })
 export class ItemsPlanComponent implements OnInit {
-
+  home: any;
+  itemslike: MenuItem[] = [];
 
   langs: any = planleave;
   selectlang: string = "EN";
@@ -46,10 +47,31 @@ export class ItemsPlanComponent implements OnInit {
     }
     this.selectlang = this.initial_current.Language;
   }
+  title_system_payroll: { [key: string]: string } = { EN: "Policy Payroll ", TH: "นโยบาย" }
+  title_page: { [key: string]: string } = { EN: "Income / Deduct Plan ", TH: "นโยบายเงินได้เงินหัก" }
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
+  title_no: { [key: string]: string } = { EN: "No", TH: "อันดับ" }
+  title_description: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
+  title_detail_en: { [key: string]: string } = { EN: "Description(Eng)", TH: "รายละเอียด (อังกฤษ)" }
+  title_detail_th: { [key: string]: string } = { EN: "Description(Thai)", TH: "รายละเอียด (ไทย)" }
+  title_IncomeDeduct: { [key: string]: string } = { EN: "Income / Deduct ", TH: " ชนิดเงินได้ / เงินหัก" }
+  title_IncomeDeduct_Plan: { [key: string]: string } = { EN: "Income / Deduct Plan", TH: "นโยบายเงินได้/เงินหัก" }
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
+  title_delete: { [key: string]: string } = { EN: "Delete", TH: "ลบ" }
+  title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
+
+
+
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu();
     this.doLoaditems();
+
+
+    this.itemslike = [{ label: this.title_system_payroll[this.initial_current.Language], routerLink: '/payroll/policy' },
+    { label: this.title_page[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
 

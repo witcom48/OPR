@@ -212,24 +212,27 @@ export class YearComponent implements OnInit {
           label: 'ลบ',
           icon: 'pi pi-trash',
           command: () => {
-          if (this.accessData.accessdata_delete) {
+            if (this.accessData.accessdata_delete) {
 
-            !this.accessData.accessdata_delete
-            this.doDeleteYear(this.yearperiods)
-           
-           } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+              !this.accessData.accessdata_delete
+              this.doDeleteYear(this.yearperiods)
+
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+            }
           }
-        }
         },
         {
           label: 'คัดลอก',
           icon: 'pi-copy',
           command: () => {
-            this.showManage()
-            this.new_data = true;
-            this.edit_data = false;
-
+            if (this.accessData.accessdata_new) {
+              this.showManage()
+              this.new_data = true;
+              this.edit_data = false;
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+            }
           }
         }
       ]

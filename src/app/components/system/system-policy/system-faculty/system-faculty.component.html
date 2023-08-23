@@ -93,12 +93,19 @@
                     name="bank_name_en" #late_name_en="ngModel" required></textarea>
                 <br>
                 <div style="text-align: right;">
+                    <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                    (click)="confirmRecord()" [disabled]="!Form.form.valid" class="button-size"></button>
 
+                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()"
+                    label="{{ title_save }}" icon="pi pi-save"
+                    [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                    class="button-size"></button> 
+<!-- 
                     <button pButton type="button" class="button-size" label="{{title_save}}" icon="pi pi-save"
-                        (click)="confirmRecord()" [disabled]="!Form.form.valid"></button>
+                        (click)="confirmRecord()" [disabled]="!Form.form.valid"></button> -->
                     &nbsp;
                     <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                        class="p-button-secondary button-size" (click)="confirmDelete()"[disabled]="!this.accessData.accessdata_delete"></button>
+                        class="p-button-secondary button-size btndel" (click)="confirmDelete()"[disabled]="!this.accessData.accessdata_delete"></button>
                 </div>
             </div>
         </p-dialog>

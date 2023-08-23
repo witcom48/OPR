@@ -7,6 +7,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { SetPolicyAttModels } from 'src/app/models/attendance/setpolicyatt';
 import { SetShiftModels } from 'src/app/models/attendance/setshift';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { SetItemModel } from 'src/app/models/payroll/batch/setitem';
 import { SetProvidentModel } from 'src/app/models/payroll/batch/setprovident';
@@ -19,6 +20,7 @@ import { ProvidentModel } from 'src/app/models/payroll/provident';
 import { ReducesModel } from 'src/app/models/system/policy/reduces';
 import { SetShiftServices } from 'src/app/services/attendance/setshift.service';
 import { SetPolicyAttServices } from 'src/app/services/attendance/setuppolicy.service';
+import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { SetbonusService } from 'src/app/services/payroll/batch/setbonus.service';
 import { SetitemsService } from 'src/app/services/payroll/batch/setitems.service';
 import { SetprovidentService } from 'src/app/services/payroll/batch/setprovident.service';
@@ -33,15 +35,25 @@ interface Policy {
   code: string
 }
 interface Result {
-  worker_code: string,
-  worker_detail: string,
-  modied_by: string,
-  modied_date: string,
+  bonusData: any;
+  itemData: any;
+  providentData: any;
+  reduceData: any;
+
+  worker_code: string;
+  worker_detail: string;
+  paypolitem_code: string;
+  paypolbonus_code: string;
+  paypolprovident_code: string;
+  paybatchreduce_code: string;
+  modied_by: string;
+  modified_date: string;
 }
 interface Year {
   name: string,
   code: string
 }
+
 @Component({
   selector: 'app-setallpolicy',
   templateUrl: './setallpolicy.component.html',
@@ -49,14 +61,14 @@ interface Year {
 })
 export class SetallpolicyComponent implements OnInit {
 
+  home: any;
+  itemslike: MenuItem[] = [];
 
-  mainMenuItems: MenuItem[] = [{ label: 'payroll', routerLink: '/payroll/policy' }, { label: 'Set Polilcy', routerLink: '/attendance/policy/setallpolicy', styleClass: 'activelike' }];
-  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
+
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private setPolicyAttService: SetPolicyAttServices,
-    private yearServices: YearService,
+
 
     ///Services
     private bonusService: BonusService,
@@ -69,10 +81,9 @@ export class SetallpolicyComponent implements OnInit {
     private setitemsService: SetitemsService,
     private setprovidentService: SetprovidentService,
     private setreduceService: SetreduceService,
+    private employeeService: EmployeeService,
 
-    
 
-    private setshiftServices: SetShiftServices,
     private router: Router
   ) { }
   @Input() policy_list: Policy[] = []
@@ -82,7 +93,6 @@ export class SetallpolicyComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
 
-  result_list: Result[] = [];
 
   yaer_list: Year[] = []
 
@@ -104,13 +114,9 @@ export class SetallpolicyComponent implements OnInit {
 
   policyItems: Policy[] = [];
   policyItemsselect!: Policy;
-
-
-
-
-
+  new_data: boolean = true;
   loading: boolean = false;
-  new_data: boolean = false;
+  // new_data: boolean = false;
   @ViewChild('dt2') table: Table | undefined;
 
   public initial_current: InitialCurrent = new InitialCurrent();
@@ -120,17 +126,42 @@ export class SetallpolicyComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
   }
+
+  title_code: { [key: string]: string } = { EN: "Code ", TH: "รหัสพนักงาน" }
+  title_detail: { [key: string]: string } = { EN: "Detail ", TH: "รายละเอียด" }
+  title_SetBonus: { [key: string]: string } = { EN: "Set Bonus ", TH: "นโยบายโบนัส" }
+  title_SetIncomeDeduct: { [key: string]: string } = { EN: "Set Income / Deduct ", TH: "นโยบายเงินได้/เงินหัก" }
+  title_SetProvident: { [key: string]: string } = { EN: "Set Provident Fund", TH: "นโยบายกองทุนสำรองฯ" }
+  title_Setreduce: { [key: string]: string } = { EN: "Set reduce ", TH: "นโยบายค่าลดหย่อน" }
+  title_no: { [key: string]: string } = { EN: "No.", TH: "ลำดับ" }
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" }
+  title_process: { [key: string]: string } = { EN: "Process", TH: "กระบวนการ" }
+
+  title_system_payroll: { [key: string]: string } = { EN: "Policy Payroll", TH: "นโยบาย" }
+  title_name_policy: { [key: string]: string } = { EN: "Payroll", TH: "บัญชี" }
+
+
+
   ngOnInit(): void {
+
+
     this.doGetInitialCurrent();
     this.doLoadPlanreduc();
     this.doLoadTRpolProvidentList();
     this.doLoadTRBonusList();
     this.doLoadPlanitems();
-////
-    this.doLoadSetBonusList();
-    this.doLoadItemList();
-    this.doLoadSetProvidentList();
-    this.doLoadSetReduceList();
+    ////
+    // this.doLoadSetBonusList();
+    // this.doLoadItemList();
+    // this.doLoadSetProvidentList();
+    // this.doLoadSetReduceList();
+    this.loadAllData();
+
+    this.itemslike = [{ label: this.title_system_payroll[this.initial_current.Language], routerLink: '/payroll/policy' },
+    { label: this.title_name_policy[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
   //ส่วนที่1
   ///ค่าลดหย่อน 
@@ -189,17 +220,13 @@ export class SetallpolicyComponent implements OnInit {
           }
         )
       });
-
-
     });
   }
 
   ////ส่วนที่สอง
   async process(code: string) {
     this.result_list = [];
-    console.log(this.result_list,'22')
     if (this.selectEmp.employee_dest.length > 0) {
-
       if (this.policyplanreduceselect && this.policyplanreduce) {
         await this.SetTRpolReduce();
       }
@@ -211,12 +238,64 @@ export class SetallpolicyComponent implements OnInit {
       }
       if (this.policyplanitemsselect && this.policyplanitems) {
         await this.SetTRpolItem();
-
       }
+      await this.loadAllData();
+    }
+  }
+  result_list: Result[] = [];
+  selectedEmployeeData: any[] = [];
+  onEmployeeSelect(employee: any) {
+    this.selectedEmployeeData = [employee];
+  }
+
+  selectedEmployee: EmployeeModel = new EmployeeModel();
+  worker_list: EmployeeModel[] = [];
+  async loadAllData() {
+    try {
+      const tmp1 = new SetBonusModel();
+      const tmp2 = new SetItemModel();
+      const tmp3 = new SetProvidentModel();
+      const tmp4 = new SetReduceModel();
+
+      const promise1 = this.setbonusService.SetBonus_get('', tmp1);
+      const promise2 = this.setitemsService.SetItems_get(tmp2);
+      const promise3 = this.setprovidentService.SetProvident_get(tmp3);
+      const promise4 = this.setreduceService.SetReduce_get(tmp4);
+
+      const [res1, res2, res3, res4] = await Promise.all([promise1, promise2, promise3, promise4]);
+
+      const maxLength = Math.max(res1.length, res2.length, res3.length, res4.length);
+
+      await this.doLoadEmployee();
+
+      const combinedData = [];
+
+      for (let i = 0; i < maxLength; i++) {
+        const combinedItem = {
+          bonusData: res1[i] || {},
+          itemData: res2[i] || {},
+          providentData: res3[i] || {},
+          reduceData: res4[i] || {},
+          worker_code: this.worker_list[i]?.worker_code || '',
+          worker_detail: `${this.worker_list[i]?.worker_fname_th || ''} ${this.worker_list[i]?.worker_fname_en || ''}`,
+          modified_by: this.initial_current.Username,
+          modified_date: new Date().toISOString()
+        };
+        combinedData.push(combinedItem);
+      }
+      this.selectedEmployeeData = combinedData;
+      console.log(this.selectedEmployeeData, 'Combined Result');
+    } catch {
     }
   }
 
-  ///ส่วนที่สาม
+  async doLoadEmployee() {
+    try {
+      const res = await this.employeeService.worker_get(this.initial_current.CompCode, "");
+      this.worker_list = res;
+    } catch { }
+  }
+
   ///bonus
   SetBonus_List = [];
   edit_data = false;
@@ -224,9 +303,10 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetBonusModel();
       const res = await this.setbonusService.SetBonus_get('', tmp);
-      this.result_list = res;
-      console.log(res,'12')
-    } catch {
+      // this.result_list = res;
+      // console.log(res, '12');
+    } catch (error) {
+      console.error(error);
     }
   }
   async Setbatchbonus() {
@@ -240,10 +320,11 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const res = await this.setbonusService.SetBonus_record('', data);
       if (res.success) {
-        this.messageService.add({severity: 'success',summary: 'Success',detail: res.message,});
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
         this.doLoadSetBonusList();
         this.edit_data = false;
-      } else {this.messageService.add({severity: 'error',summary: 'Error',detail: res.message,});
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message, });
       }
     } finally {
       this.loading = false;
@@ -258,10 +339,10 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetItemModel();
       const res = await this.setitemsService.SetItems_get(tmp);
-      this.result_list = res;
-      console.log(res,'13')
-
-    } catch {
+      // this.result_list = res;
+      // console.log(res, '13');
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -276,10 +357,11 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const res = await this.setitemsService.SetItems_record(data);
       if (res.success) {
-        this.messageService.add({severity: 'success',summary: 'Success',detail: res.message,});
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
         this.doLoadItemList();
         this.edit_data = false;
-      } else {this.messageService.add({severity: 'error',summary: 'Error',detail: res.message,});
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message, });
       }
     } finally {
       this.loading = false;
@@ -293,12 +375,13 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetProvidentModel();
       const res = await this.setprovidentService.SetProvident_get(tmp);
-      this.result_list = res;
-      console.log(res,'14')
-
-    } catch {
+      // this.result_list = res;
+      // console.log(res, '14');
+    } catch (error) {
+      console.error(error);
     }
   }
+
   async SetTRpolProvident() {
     const data = new SetProvidentModel();
     data.company_code = this.initial_current.CompCode;
@@ -310,48 +393,50 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const res = await this.setprovidentService.SetProvident_record(data);
       if (res.success) {
-        this.messageService.add({severity: 'success',summary: 'Success',detail: res.message,});
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
         this.doLoadSetProvidentList();
         this.edit_data = false;
-      } else {this.messageService.add({severity: 'error',summary: 'Error',detail: res.message,});
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message, });
       }
     } finally {
       this.loading = false;
     }
   }
-   ///ค่าลดหย่อน
-   Setreduce_List: SetReduceModel[] = [];
-   selectedTRpolReduce: ReducesModel = new ReducesModel();
-   async doLoadSetReduceList() {
-     try {
-       const tmp = new SetReduceModel();
-       const res = await this.setreduceService.SetReduce_get(tmp);
-       this.result_list = res;
-       console.log(res,'15')
-
-     } catch {
-     }
-   }
-   async SetTRpolReduce() {
-     const data = new SetReduceModel();
-     data.company_code = this.initial_current.CompCode;
-     data.emp_data = this.selectEmp.employee_dest;
-     data.paybatchreduce_code = this.policyplanreduceselect.code;
-     data.modified_by = this.initial_current.Username;
-     data.reduces_data = this.selectEmp.employee_dest;
-     this.loading = true;
-     try {
-       const res = await this.setreduceService.SetReduce_record(data);
-       if (res.success) {
-         this.messageService.add({severity: 'success',summary: 'Success',detail: res.message,});
-         this.doLoadSetReduceList();
-         this.edit_data = false;
-       } else {this.messageService.add({severity: 'error',summary: 'Error',detail: res.message,});
-       }
-     } finally {
-       this.loading = false;
-     }
-   }
+  ///ค่าลดหย่อน
+  Setreduce_List: SetReduceModel[] = [];
+  selectedTRpolReduce: ReducesModel = new ReducesModel();
+  async doLoadSetReduceList() {
+    try {
+      const tmp = new SetReduceModel();
+      const res = await this.setreduceService.SetReduce_get(tmp);
+      // this.result_list = res;
+      // console.log(res, '15');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async SetTRpolReduce() {
+    const data = new SetReduceModel();
+    data.company_code = this.initial_current.CompCode;
+    data.emp_data = this.selectEmp.employee_dest;
+    data.paybatchreduce_code = this.policyplanreduceselect.code;
+    data.modified_by = this.initial_current.Username;
+    data.reduces_data = this.selectEmp.employee_dest;
+    this.loading = true;
+    try {
+      const res = await this.setreduceService.SetReduce_record(data);
+      if (res.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
+        this.doLoadSetReduceList();
+        this.edit_data = false;
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message, });
+      }
+    } finally {
+      this.loading = false;
+    }
+  }
 
 
   function(e: any) {

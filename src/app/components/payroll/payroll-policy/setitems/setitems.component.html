@@ -57,8 +57,8 @@
             <p-table *ngIf="new_data==true" #dt2 [value]="SetItems_List" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
                 selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                [globalFilterFields]="['worker_detail','company_code','worker_code','paypolitem_code','modified_by','modified_date']"
+                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [globalFilterFields]="['worker_detail','company_code','worker_code','paypolitem_code','modified_by','modified_date']">
 
                 <ng-template pTemplate="caption">
                     <div class="flex">

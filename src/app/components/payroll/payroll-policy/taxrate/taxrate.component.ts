@@ -1,15 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
-import { Table } from 'primeng/table';
-import { MegaMenuItem, MenuItem } from 'primeng/api';
+import {  MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-
 import { DatePipe } from '@angular/common';
-import {
-    ConfirmationService,
-    ConfirmEventType,
-    MessageService,
-} from 'primeng/api';
+import { ConfirmationService,MessageService,} from 'primeng/api';
 import * as XLSX from 'xlsx';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';

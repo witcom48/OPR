@@ -247,6 +247,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.doRecordlevel()
+        
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
@@ -306,6 +307,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
         });
         this.doLoadLevel();
         this.clearManage();
+
         
       } else {
         this.messageService.add({
@@ -315,6 +317,7 @@ export class SystemOrganizationLevelComponent implements OnInit {
         });
       }
     });
+    
   }
   selectRow(data: any) {
     this.selectedLevel = data;
