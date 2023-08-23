@@ -113,10 +113,15 @@ export class SelfApproveComponent implements OnInit {
   }
 
   setMenus() {
-    this.accessData = this.initialData2.dotGetPolmenu('SELF');
+    if (this.initialData.Usertype == "APR") {
+      this.approvalMenuItems = this.approvalMenuList;
+      this.setupMenuItems = this.setupMenuList;
+    } else {
+      this.accessData = this.initialData2.dotGetPolmenu('SELF');
 
-    this.approvalMenuItems = this.approvalMenuList.filter(item => this.hasAccessMenu(item.accessCode));
-    this.setupMenuItems = this.setupMenuList.filter(item => this.hasAccessMenu(item.accessCode));
+      this.approvalMenuItems = this.approvalMenuList.filter(item => this.hasAccessMenu(item.accessCode));
+      this.setupMenuItems = this.setupMenuList.filter(item => this.hasAccessMenu(item.accessCode));
+    }
   }
 
   private hasAccessMenu(accessCode: string): boolean {
