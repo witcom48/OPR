@@ -140,7 +140,7 @@ export class SetallpolicyComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "กระบวนการ" }
 
   title_system_payroll: { [key: string]: string } = { EN: "Policy Payroll", TH: "นโยบาย" }
-  title_name_policy: { [key: string]: string } = { EN: "Payroll", TH: "บัญชี" }
+  title_name_policy: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดสิทธิ์" }
 
 
 
@@ -284,7 +284,7 @@ export class SetallpolicyComponent implements OnInit {
         combinedData.push(combinedItem);
       }
       this.selectedEmployeeData = combinedData;
-      console.log(this.selectedEmployeeData, 'Combined Result');
+      // console.log(this.selectedEmployeeData, 'Combined Result');
     } catch {
     }
   }

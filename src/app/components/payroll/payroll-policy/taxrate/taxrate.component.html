@@ -74,7 +74,7 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position"
+    <p-dialog [(visible)]="displayManage" [style]="{  'overflow-y': 'hidden' }" [position]="position"
         (onHide)="reloadPage()">
         <div class="formatt p-dialog-content" *ngIf="new_data">
             <!-- <i (click)="close()"></i> -->
@@ -89,6 +89,9 @@
             <label>{{title_Tax}}</label>
             <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
                 [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedTaxrate.taxrate_tax">
+                <ng-template #suffix>
+                    %
+                </ng-template>
             </p-inputNumber>
             <br>
 
@@ -96,8 +99,9 @@
                 <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
                     (click)="confirmRecord()" class="button-size"></button>
 
-                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()" label="{{ title_save }}"
-                    icon="pi pi-save" [disabled]="(!this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()"
+                    label="{{ title_save }}" icon="pi pi-save"
+                    [disabled]="(!this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
                     class="button-size"></button>
 
                 <!-- 

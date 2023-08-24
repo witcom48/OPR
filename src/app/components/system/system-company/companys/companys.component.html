@@ -386,12 +386,16 @@
                             </div>
 
 
-                            <div class=" center field col-12 md:col-5 custom-height">
-                                <label for="lastname2">{{title_sso_company}}<span style="color: red;"> *</span></label>
-                                <input type="number" step="0.5" [(ngModel)]="selectedCompany.sso_com_rate"
-                                    name="sso_com_rate" id="minmax-buttons"
-                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            <div class="center field col-12 md:col-5 custom-height">
+                                <label for="sso_com_rate">{{ title_sso_company }}<span style="color: red;">*</span></label>
+                                <div class="input-group">
+                                    <input type="number" step="0.5" [(ngModel)]="selectedCompany.sso_com_rate"
+                                        name="sso_com_rate" id="sso_com_rate"
+                                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                                     
+                                </div>
                             </div>
+
 
                             <!-- <div class="center field col-12 md:col-5">
                                 <label>{{title_sso_company}}<span style="color: red;"> *</span></label>

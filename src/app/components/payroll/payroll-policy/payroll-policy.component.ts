@@ -66,6 +66,7 @@ export class PayrollPolicyComponent implements OnInit {
  
     title_SetBatch: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดสิทธิ์" }
     title_Personal_Income_Tax: { [key: string]: string } = { EN: "Personal Income Tax ", TH: "กำหนดค่าภาษีเงินได้บุคคลธรรมดา" }
+    title_setbatch: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดแบบกลุ่ม" }
 
     // นโยบายค่าลดหย่อน
 
