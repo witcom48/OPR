@@ -63,7 +63,7 @@ import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolic
         { path: 'appentrys ', component: AppEntrysComponent },
         { path: 'personalincometax', component: SetpolComponent },
         { path: 'planreduce', component: PlanReduceComponent },
-        { path: 'planitems', component: ItemsPlanComponent },
+        { path: 'itemsplan', component: ItemsPlanComponent },
         { path: 'setallpolicy', component: SetallpolicyComponent },
 
         

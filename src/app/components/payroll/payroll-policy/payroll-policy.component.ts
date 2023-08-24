@@ -104,7 +104,7 @@ export class PayrollPolicyComponent implements OnInit {
             },
             {
                 title: this.title_Income_educt_Plan[this.initial_current.Language] ,
-                link: 'planitems',
+                link: 'itemsplan',
                 accessCode: 'PAY001-003'
             },
             {
