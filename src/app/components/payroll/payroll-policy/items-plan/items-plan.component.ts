@@ -66,6 +66,7 @@ export class ItemsPlanComponent implements OnInit {
   title_delete: { [key: string]: string } = { EN: "Delete", TH: "ลบ" }
   title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
 
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
 
   ngOnInit(): void {
@@ -184,6 +185,14 @@ export class ItemsPlanComponent implements OnInit {
       }
       ,
       {
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Planitems.xlsx', '_blank');
+        }
+      }
+      ,
+      {
         label: this.langs.get('import')[this.selectlang],
         icon: 'pi-file-import',
         command: (event) => {
@@ -215,8 +224,7 @@ export class ItemsPlanComponent implements OnInit {
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          // console.log(this.fileToUpload)
-          this.displayUpload = false;
+           this.displayUpload = false;
           this.doUploadPlanitems()
         },
         reject: () => {
@@ -248,8 +256,7 @@ export class ItemsPlanComponent implements OnInit {
     this.doRecordPlanitems(this.itemsplans)
   }
   Delete() {
-    // // console.log(this.itemsplans)
-    this.doDeletePlanitems(this.itemsplans)
+     this.doDeletePlanitems(this.itemsplans)
   }
   onRowSelect(event: any) {
     this.items_listselect = []

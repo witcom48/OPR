@@ -21,6 +21,7 @@ export class ProjectModel {
     project_roundtime: string = "";
     project_roundmoney: string = "";
     project_status: string = "";
+    approve_status: string = "";
 
     company_code: string = "";
     

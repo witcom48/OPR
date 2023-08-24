@@ -74,6 +74,7 @@ export class PlanReduceComponent implements OnInit {
   title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" }
   title_upload: { [key: string]: string } = { EN: "Upload", TH: "อัพโหลด" }
   title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
   ngOnInit(): void {
 
@@ -186,6 +187,16 @@ export class PlanReduceComponent implements OnInit {
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
+        }
+      }
+      ,
+      {
+
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll planreduce.xlsx', '_blank');
+
         }
       }
       ,
