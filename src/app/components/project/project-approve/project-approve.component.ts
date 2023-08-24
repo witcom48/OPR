@@ -52,6 +52,7 @@ export class ProjectApproveComponent implements OnInit {
   title_notapprove: {[key: string]: string} = {  EN: "Not approve",  TH: "ไม่อนุมัติ"}
   title_view_approve: {[key: string]: string} = {  EN: "Approve",  TH: "ผู้อนุมัติ"}
 
+  
   title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
   title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
   title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
@@ -112,7 +113,8 @@ export class ProjectApproveComponent implements OnInit {
         icon:'pi pi-fw pi-check',
         command: (event) => {
 
-          if(this.selectedProject != null){
+          if(this.selectedProject.project_code != ""){
+            this.approveNote = ""
             this.approve_project("W")
           }
           //this.showManage()
@@ -123,11 +125,12 @@ export class ProjectApproveComponent implements OnInit {
         label:this.title_notapprove[this.initial_current.Language],
         icon:'pi pi-fw pi-times',
         command: (event) => {
-
-          if(this.selectedProject != null){
-            this.approve_project("C")
+          
+          if(this.selectedProject.project_code != ""){
+            this.approveNote = ""
+            this.openNotapprove()
           }
-          //this.showManage()
+      
         }     
       }
       
@@ -146,6 +149,7 @@ export class ProjectApproveComponent implements OnInit {
   project_list: ProjectModel[] = [];
   selectedProject: ProjectModel = new ProjectModel;
   doLoadProject(){    
+    
     this.projectService.project_get_withstatus(this.initial_current.CompCode, "", "W").then(async (res) => {      
       this.project_list = await res;  
       
@@ -165,6 +169,9 @@ export class ProjectApproveComponent implements OnInit {
   }
 
   approve_project(status:string) {
+
+    this.displayApproveNote = false
+
     this.confirmationService.confirm({
         message: this.title_confirm_record[this.initial_current.Language],
         header: this.title_confirm[this.initial_current.Language],
@@ -172,15 +179,14 @@ export class ProjectApproveComponent implements OnInit {
         accept: () => {
 
           // this.selectedProject.company_code = this.initial_current.CompCode
-        
-          
+                
           
           var data = new TRSysApproveModel()
           data.company_code = this.initial_current.CompCode
           data.approve_status = status
           data.workflow_type = "PRO_NEW"
           data.approve_code = this.selectedProject.project_code
-          data.approve_note = ""
+          data.approve_note = this.approveNote
 
           this.sysApproveServices.approve_record(data).then((res) => {       
             let result = JSON.parse(res);  
@@ -232,5 +238,14 @@ export class ProjectApproveComponent implements OnInit {
     });
   }
   
+  displayApproveNote: boolean = false;
+  approveNote:string = ""
+  openNotapprove(){    
+    this.displayApproveNote = true    
+  }
+
+  confirm_notapprove(){    
+    this.approve_project("C")
+  }
 
 }

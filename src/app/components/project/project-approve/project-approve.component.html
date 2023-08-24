@@ -34,6 +34,7 @@
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
     key="myDialog"></p-confirmDialog>
+
 <p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage" styleClass="dialog-overflow" [style]="{width: '800vw'}" [position]="position">
     <p-scrollPanel [style]="{width: '25vw', height: '500px'}" >
         <div class="formgrid grid">
@@ -41,6 +42,24 @@
             <div class="field col-12 ">
                 
             </div>	                                   
+
+        </div>
+    </p-scrollPanel>
+</p-dialog>
+
+<p-dialog header="{{title_notapprove[initial_current.Language]}}" [(visible)]="displayApproveNote" styleClass="dialog-overflow" [style]="{width: '27vw'}" [position]="position">
+    <p-scrollPanel [style]="{width: '25vw', height: '150px'}" >
+        <div class="formgrid grid">
+            
+            <div class="field col-12 ">                
+                <textarea [rows]="3" id="approve_note" [(ngModel)]="approveNote"
+                    [cols]="60" pInputTextarea [autoResize]="true"></textarea>
+            </div>	       
+            <div class="field col-12 ">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+    styleClass="p-button-raised p-button-secondary" (click)="
+    confirm_notapprove()"></p-button>
+            </div>                            
 
         </div>
     </p-scrollPanel>

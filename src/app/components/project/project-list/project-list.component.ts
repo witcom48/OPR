@@ -244,7 +244,7 @@ export class ProjectListComponent implements OnInit {
 
       setTimeout(() => {
         this.calculateTotal()
-      }, 500);
+      }, 1000);
     });
   }
 
@@ -270,10 +270,14 @@ export class ProjectListComponent implements OnInit {
       this.total_emp += project.project_emp;
       this.total_cost += project.project_cost;
       
-
-      if (project.project_start.getTime() >= this.initial_current.PR_FromDate.getTime()) {
+      if(project.approve_status == "W"){
         this.new_project++;
       }
+      
+
+      //if (project.project_start.getTime() >= this.initial_current.PR_FromDate.getTime()) {
+      //  this.new_project++;
+      //}
 
     } 
 
