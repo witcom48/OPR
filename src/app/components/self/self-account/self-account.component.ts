@@ -97,10 +97,16 @@ export class SelfAccountComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectedLanguage = this.initialCurrent.Language;
-    if (this.TypeNotShow != "'ADM'") {
-      this.initialData = this.initialCurrent2.dotGetPolmenu('SYS')
+    if (this.initialCurrent.Usertype == "APR") {
+      this.initialData.accessdata_new = true;
+      this.initialData.accessdata_edit = true;
+      this.initialData.accessdata_delete = true;
     } else {
-      this.initialData = this.initialCurrent2.dotGetPolmenu('SELF')
+      if (this.TypeNotShow != "'ADM'") {
+        this.initialData = this.initialCurrent2.dotGetPolmenu('SYS')
+      } else {
+        this.initialData = this.initialCurrent2.dotGetPolmenu('SELF')
+      }
     }
   }
 
