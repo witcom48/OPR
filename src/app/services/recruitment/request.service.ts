@@ -173,6 +173,19 @@ export class RequestService {
       });
   }
 
+  public request_upstatus(model: RequestModel){
+    const data = {
+      company_code: this.initial_current.CompCode,
+      request_id: model.request_id,
+      request_status: model.request_status,
+      modified_by: this.initial_current.Username
+    }
+    return this.http.post<any>(this.config.ApiRecruitmentModule+ '/request_status', data,this.options).toPromise()
+        .then((res)=>{
+            return res;
+        });
+  }
+
 
 
 

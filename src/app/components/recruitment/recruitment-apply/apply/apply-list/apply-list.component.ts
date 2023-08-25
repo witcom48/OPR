@@ -22,7 +22,6 @@ import { ApplyworkDetailService } from 'src/app/services/recruitment/applywork-d
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { PolcodeService } from 'src/app/services/system/policy/polcode.service';
 import { ApplyMTDocattModel } from 'src/app/models/recruitment/applyMTDocatt';
-import { async } from 'rxjs';
 import { EmpaddressModel } from 'src/app/models/employee/manage/address';
 import { EmpForeignerModel } from 'src/app/models/employee/manage/foreigner';
 import { EmpEducationModel } from 'src/app/models/employee/manage/education';
@@ -806,20 +805,17 @@ export class ApplyListComponent implements OnInit {
     if (this.reqaddressList.length == 0) {
       return
     }
-    console.log(await this.reqaddressList.forEach((element:EmpaddressModel)=>{
-      element.address_soi = "SOI2212"
-    }))
-    // this.empdetailService
-    //   .record_empaddress(
-    //     this.selectedReqworker.worker_code,
-    //     this.reqaddressList
-    //   )
-    //   .then((res) => {
-    //     let result = JSON.parse(res);
-    //     if (result.success) {
-    //     } else {
-    //     }
-    //   });
+    this.empdetailService
+      .record_empaddress(
+        this.selectedReqworker.worker_code,
+        this.reqaddressList
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        } else {
+        }
+      });
   }
   //--Foreigner
   reqforeignerList: EmpForeignerModel[] = [];

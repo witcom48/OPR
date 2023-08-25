@@ -99,6 +99,7 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { CodePolcodeService } from 'src/app/services/system/manage1/code-polcode.service';
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignercard';
 
 
 
@@ -125,6 +126,11 @@ interface Milit {
   code: string
 }
 interface Nation {
+  name_th: string,
+  name_en: string,
+  code: string
+}
+interface ForeigType{
   name_th: string,
   name_en: string,
   code: string
@@ -160,6 +166,7 @@ export class EmployeeManageComponent implements OnInit {
   // cardTypelist: Ctype[] = [];
   militarystatus: Milit[] = [];
   nationality: Nation[] = [];
+  foreignerType: ForeigType[] = [];
 
   //menu emplocation
   menu_emplocation: MenuItem[] = [];
@@ -338,8 +345,12 @@ export class EmployeeManageComponent implements OnInit {
       { name_th: 'ฟิลลิปปิน', name_en: 'Filipino', code: 'PH' },
       { name_th: 'มาเลเซีย', name_en: 'Malaysia', code: 'MY' },
       { name_th: 'จีน', name_en: 'Chinese', code: 'CH' },
-
     ];
+    this.foreignerType = [
+      { name_th: 'หนังสือเดินทาง', name_en: 'Passport', code: 'PASS' },
+      { name_th: 'วีซ่า', name_en: 'VISA', code: 'VISA' },
+      { name_th: 'ใบอนุญาตทำงาน', name_en: 'Work Permit', code: 'WORK' },
+    ]
   }
 
   ngOnInit(): void {
@@ -626,6 +637,11 @@ export class EmployeeManageComponent implements OnInit {
   title_socialsentdate: { [key: string]: string } = { EN: "Sent Date", TH: "วันที่นำส่ง" };
   title_socialnotsent: { [key: string]: string } = { EN: "Not Sent", TH: "ไม่นำส่งประกันสังคม" };
   
+  title_foreignercode: { [key: string]: string } = { EN: "Code", TH: "เลขที่" };
+  title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+  title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
+  title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ข้อมูลพนักงาน";
@@ -1990,6 +2006,62 @@ export class EmployeeManageComponent implements OnInit {
       },
     ]
 
+    //menu foreigner
+    this.menu_empforeigner = [
+      {
+        label: this.title_new,
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.clearManage()
+          this.new_foreigner = true
+          var ref = this.empforeignercardList.length + 100
+          this.selectedEmpforeignercard = new EmpForeignercardModel()
+          this.selectedEmpforeignercard.foreignercard_id = ref.toString()
+          this.showManage()
+        }
+      },
+      {
+        label: this.title_edit,
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedEmpforeignercard != null) {
+            this.edit_empforeigner = true
+            this.showManage()
+          }
+        }
+      },
+      {
+        label: this.title_delete,
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpforeignercard != null) {
+                this.empforeignercard_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempforeigner, 'EmpForeigner')
+
+        }
+      },
+    ]
+
   }
 
   tabChange(e: { index: any; }) {
@@ -2275,7 +2347,8 @@ export class EmployeeManageComponent implements OnInit {
           this.doLoadEmpbankList();
           this.doLoadEmpfamilyList();
           this.doLoadEmpHospitalList();
-          this.doLoadEmpForeigner();
+          // this.doLoadEmpForeigner();
+          this.doLoadEmpForeignercardList();
 
           this.doLoadEmpDepList();
           this.doLoadEmpPositionList();
@@ -2898,6 +2971,78 @@ export class EmployeeManageComponent implements OnInit {
 
     }
     this.empdetailService.record_empforeigner(this.selectedEmployee.worker_code, this.selectedEmpforeigner)
+  }
+  //--foreignercard
+  empforeignercardList: EmpForeignercardModel[] = [];
+  selectedEmpforeignercard: EmpForeignercardModel = new EmpForeignercardModel();
+  doLoadEmpForeignercardList() {
+    this.empdetailService.getworker_foreignercard(this.initial_current.CompCode, this.emp_code).then(async (res) => {
+      await res.forEach((element: EmpForeignercardModel) => {
+        element.foreignercard_issue = new Date(element.foreignercard_issue)
+        element.foreignercard_expire = new Date(element.foreignercard_expire)
+      })
+      this.empforeignercardList = await res;
+      if (this.empforeignercardList.length > 0) {
+        this.selectedEmpforeignercard = this.empforeignercardList[0];
+      }
+    })
+  }
+  onRowSelectEmpForeignercard(event: Event) { }
+  empforeignercard_summit() {
+    this.empforeignercard_addItem(this.selectedEmpforeignercard)
+    this.new_foreigner = false
+    this.edit_empforeigner = false
+    this.displayManage = false
+  }
+  empforeignercard_remove() {
+    this.selectedEmpforeignercard.foreignercard_id = "9999";
+    this.empforeignercard_addItem(this.selectedEmpforeignercard)
+    this.new_foreigner = false
+    this.edit_empforeigner = false
+  }
+  empforeignercard_delete() {
+    var tmp: EmpForeignercardModel = new EmpForeignercardModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empforeignercard(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
+  empforeignercard_cancel() {
+    this.new_foreigner = false
+    this.edit_empforeigner = false
+    this.displayManage = false
+  }
+  empforeignercard_addItem(model: EmpForeignercardModel) {
+    const itemNew: EmpForeignercardModel[] = [];
+    for (let i = 0; i < this.empforeignercardList.length; i++) {
+      if (this.empforeignercardList[i].foreignercard_id == model.foreignercard_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.empforeignercardList[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.foreignercard_id != "9999") {
+      itemNew.push(model);
+    }
+    this.empforeignercardList = [];
+    this.empforeignercardList = itemNew;
+    this.empforeignercardList.sort(function (a, b) { return parseInt(a.foreignercard_id) - parseInt(b.foreignercard_id); })
+  }
+  record_empforeignercard() {
+    if (this.empforeignercardList.length == 0) {
+      this.empforeignercard_delete();
+    } else {
+      this.empdetailService.record_empforeignercard(this.selectedEmployee.worker_code, this.empforeignercardList).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
+    }
+
   }
 
   //dep
@@ -4163,7 +4308,8 @@ export class EmployeeManageComponent implements OnInit {
         this.record_empbank();
         this.record_empfamily();
         this.record_emphospital();
-        this.record_empforeigner();
+        // this.record_empforeigner();
+        this.record_empforeignercard();
 
         this.record_empdep();
         this.record_empposition();
@@ -4529,6 +4675,19 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
+  //get provident name
+  doGetForeignertypeDetail(Foreignertype: string): any {
+    for (let i = 0; i < this.foreignerType.length; i++) {
+      if (this.foreignerType[i].code == Foreignertype) {
+        if (this.initial_current.Language == "TH") {
+          return this.foreignerType[i].name_th;
+        }
+        else {
+          return this.foreignerType[i].name_en;
+        }
+      }
+    }
+  }
 
   clearManage() {
     this.new_emplocation = false; this.edit_emplocation = false;
@@ -4630,6 +4789,7 @@ export class EmployeeManageComponent implements OnInit {
   @ViewChild('tablebenefit') dtempbenefit: ElementRef | any = null;
   @ViewChild('tableprovident') dtempprovident: ElementRef | any = null;
   @ViewChild('tablereduce') dtempreduce: ElementRef | any = null;
+  @ViewChild('tableforeigner') dtempforeigner: ElementRef | any = null;
 
 
   exportAsExcel(table: ElementRef, name: string) {

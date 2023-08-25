@@ -31,7 +31,7 @@
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th>{{title_worker[initial_current.Language]}}</th>
+                    <th>{{title_card[initial_current.Language]}}</th>
                     <th>{{title_name[initial_current.Language]}}</th>
                     <th>{{title_reason[initial_current.Language]}}</th>
                     <th>{{title_note[initial_current.Language]}}</th>
@@ -42,9 +42,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr [pSelectableRow]="data">
-                    <td><span>{{title_worker[initial_current.Language]}}</span>{{data.worker_code}}</td>
+                    <td><span>{{title_card[initial_current.Language]}}</span>{{data.card_no}}</td>
                     <td><span>{{title_name[initial_current.Language]}}</span>{{initial_current.Language == "TH"?
-                        data.worker_detail_th:data.worker_detail_en}}</td>
+                        data.blacklist_fname_th+" "+data.blacklist_lname_th :
+                        data.blacklist_fname_en+" "+data.blacklist_lname_en}}</td>
                     <td><span>{{title_reason[initial_current.Language]}}</span>{{data.reason_code}}</td>
                     <td><span>{{title_note[initial_current.Language]}}</span>{{data.blacklist_note}}</td>
                     <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.modified_by}}</td>
@@ -83,15 +84,20 @@
     key="myDialog"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
 
-<p-dialog header="{{title_black[initial_current.Language]}}" [(visible)]="displayManage" styleClass="dialog-overflow"
-    [position]="position">
-    <p-scrollPanel>
+<form #Form="ngForm">
+    <p-dialog header="{{title_black[initial_current.Language]}}" [(visible)]="displayManage"
+        styleClass="dialog-overflow" [position]="position" (onHide)="doLoadBlacklist()">
+
         <div class="formatt" *ngIf="edit_data==true || new_data==true">
+            <label>{{title_card[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <input pInputText maxlength="13" [(ngModel)]="selectedBlacklist.card_no" [pKeyFilter]="'int'"
+                [readonly]="edit_data" name="card" #card="ngModel" required>
 
             <label>{{title_worker[initial_current.Language]}}</label>
             <p-dropdown placeholder="--" [options]="worker_List" optionValue="worker_code" [showClear]="true"
                 [(ngModel)]="selectedBlacklist.worker_code" [style]="{ width: '100%', overflow: 'visible' }"
-                [filter]="true" filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
+                [filter]="true" filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en"
+                name="code" #code="ngModel" (onChange)="changeEmp($event)" (onClear)="clearEmp()">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.worker_code+"-"+item.worker_fname_th +"
                     "+item.worker_lname_th :
@@ -106,10 +112,26 @@
                 </ng-template>
             </p-dropdown>
 
+            <label>{{title_fname_th[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <input pInputText id="fnameth" type="text" [(ngModel)]="selectedBlacklist.blacklist_fname_th" name="fnameth"
+                #fnameth="ngModel" required>
+
+            <label>{{title_lname_th[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <input pInputText id="lnameth" type="text" [(ngModel)]="selectedBlacklist.blacklist_lname_th" name="lnameth"
+                #lnameth="ngModel" required>
+
+            <label>{{title_fname_en[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <input pInputText id="fnameen" type="text" [(ngModel)]="selectedBlacklist.blacklist_fname_en" name="fnameen"
+                #fnameen="ngModel" required>
+
+            <label>{{title_lname_en[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <input pInputText id="lnameen" type="text" [(ngModel)]="selectedBlacklist.blacklist_lname_en" name="lnameen"
+                #lnameen="ngModel" required>
+
             <label for="lastname2">{{title_reason[initial_current.Language]}}</label>
             <p-dropdown placeholder="--" [options]="reason_list" optionValue="reason_code"
                 [(ngModel)]="selectedBlacklist.reason_code" [showClear]="true"
-                [style]="{ width: '100%', overflow: 'visible' }">
+                [style]="{ width: '100%', overflow: 'visible' }" name="reason" #reason="ngModel">
                 <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.reason_name_th : item.reason_name_en}}
                 </ng-template>
@@ -120,13 +142,15 @@
 
             <label for="ppos_name_en">{{title_note[initial_current.Language]}}</label>
             <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedBlacklist.blacklist_note" [cols]="30"
-                pInputTextarea [autoResize]="true"></textarea>
+                pInputTextarea [autoResize]="true" name="note" #note="ngModel"></textarea>
 
             <div class="field col-12">
-                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
-                    (onClick)="confirmRecord()"></p-button>
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (onClick)="confirmRecord()"
+                    [disabled]="!Form.form.valid"></p-button>
             </div>
 
         </div>
-    </p-scrollPanel>
-</p-dialog>
+    </p-dialog>
+    <div *ngIf="displayManage" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+</form>

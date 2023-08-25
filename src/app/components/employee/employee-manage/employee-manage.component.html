@@ -228,7 +228,7 @@
                                 [(ngModel)]="selectedEmployee.worker_resignstatus" [binary]="true"></p-checkbox>
                             <label>{{title_resignstatus}}</label>
                             &nbsp;
-                            
+
                         </div>
 
                         <div class="horizontal">
@@ -834,7 +834,39 @@
                     <div class="accordion">
                         <p-accordion>
                             <p-accordionTab header="{{title_foreigner}}" *ngIf="hasAccessMenu('EMP002-010')">
-                                <div class="foreigner">
+                                <p-menubar [model]="menu_empforeigner"></p-menubar>
+                                <div #tableforeigner>
+                                    <p-table #dtempforeigner [value]="empforeignercardList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                        [virtualScroll]="true" selectionMode="single"
+                                        [(selection)]="selectedEmpforeignercard"
+                                        (onRowSelect)="onRowSelectEmpForeignercard($event)" [rows]="10"
+                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                        [paginator]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>{{title_foreignercode[initial_current.Language]}}</th>
+                                                <th>{{title_foreignertype[initial_current.Language]}}</th>
+                                                <th>{{title_foreignerissue[initial_current.Language]}}</th>
+                                                <th>{{title_foreignerexpire[initial_current.Language]}}</th>
+                                                <th>{{title_modified_by}}</th>
+                                                <th>{{title_modified_date}}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-empforeigner>
+                                            <tr [pSelectableRow]="empforeigner">
+                                                <td>{{doGetForeignertypeDetail(empforeigner.foreignercard_type)}}</td>
+                                                <td>{{empforeigner.foreignercard_code}}</td>
+                                                <td>{{empforeigner.foreignercard_issue | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empforeigner.foreignercard_expire | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empforeigner.modified_by}}</td>
+                                                <td>{{empforeigner.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                                <!-- <div class="foreigner">
                                     <h4>{{title_passport}}</h4>
                                     <div>
                                         <label>{{title_no}}<span style="color: red;"> *</span></label>
@@ -846,21 +878,18 @@
                                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.entry_date"><input
                                                 type="text"></p-calendar>
-                                        <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.entry_date"> -->
                                     </div>
                                     <div>
                                         <label>{{title_issuedate}}<span style="color: red;"> *</span></label>
                                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.passport_issue"><input
                                                 type="text"></p-calendar>
-                                        <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_issue"> -->
                                     </div>
                                     <div>
                                         <label>{{title_expiredate}}<span style="color: red;"> *</span></label>
                                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.passport_expire"><input
                                                 type="text"></p-calendar>
-                                        <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.passport_expire"> -->
                                     </div>
                                     <div class="horizontal">
                                         <hr>
@@ -876,14 +905,12 @@
                                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.visa_issue"><input
                                                 type="text"></p-calendar>
-                                        <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_issue"> -->
                                     </div>
                                     <div>
                                         <label>{{title_expiredate}}<span style="color: red;"> *</span></label>
                                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.visa_expire"><input
                                                 type="text"></p-calendar>
-                                        <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.visa_expire">  -->
                                     </div>
                                     <div class="horizontal">
                                         <hr>
@@ -903,14 +930,12 @@
                                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.workpermit_issue"><input
                                                 type="text"></p-calendar>
-                                        <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.workpermit_issue"> -->
                                     </div>
                                     <div>
                                         <label>{{title_expiredate}}<span style="color: red;"> *</span></label>
                                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.workpermit_expire"><input
                                                 type="text"></p-calendar>
-                                        <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.workpermit_expire"> -->
                                     </div>
                                     <div class="horizontal">
                                         <hr>
@@ -925,7 +950,6 @@
                                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.certificate_expire"><input
                                                 type="text"></p-calendar>
-                                        <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.certificate_expire"> -->
                                     </div>
                                     <div>
                                         <label>{{title_other}}</label>
@@ -937,9 +961,8 @@
                                         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                             [(ngModel)]="selectedEmpforeigner.otherdoc_expire"><input
                                                 type="text"></p-calendar>
-                                        <!-- <input type="text" pInputText [(ngModel)]="selectedEmpforeigner.otherdoc_expire"> -->
                                     </div>
-                                </div>
+                                </div> -->
                             </p-accordionTab>
                         </p-accordion>
                     </div>
@@ -1743,7 +1766,7 @@
 
 </p-card>
 
-<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position">
+<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position" (onHide)="clearManage()">
     <!-- Form Emp Address -->
     <div class="formatt" *ngIf="edit_empaddress==true || new_empaddress==true">
         <label>{{title_addresstype}}<span style="color: red;"> *</span></label>
@@ -2722,6 +2745,49 @@
         <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
             (click)="empbranch_cancel()"></button>
     </div>
+    <!-- END EMP Location -->
+
+    <!-- Form Emp foreigner -->
+    <form #Form="ngForm">
+        <div class="formatt" *ngIf="edit_empforeigner==true || new_foreigner==true">
+            <label>{{title_foreignertype[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
+                [(ngModel)]="selectedEmpforeignercard.foreignercard_type"
+                [style]="{ width: '100%', overflow: 'visible' }" name="foreigner_type" #foreigner_type="ngModel"
+                [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                </ng-template>
+            </p-dropdown>
+
+            <label>{{title_foreignercode[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <input pInputText type="text" id="foreignercard_no"
+                [(ngModel)]="selectedEmpforeignercard.foreignercard_code" name="foreignercard_no" maxlength="20"
+                #foreignercard_no="ngModel" required>
+
+            <label>{{title_foreignerissue[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpforeignercard.foreignercard_issue" name="foreignercard_issue"
+                #foreignercard_issue="ngModel" [required]="true"><input type="text"></p-calendar>
+
+            <label>{{title_foreignerexpire[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpforeignercard.foreignercard_expire" name="foreignercard_expire"
+                #foreignercard_expire="ngModel" [required]="true"><input type="text"></p-calendar>
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}"
+                    (click)="empforeignercard_summit()" [disabled]="!Form.form.valid"></p-button>
+                &nbsp;
+                <!-- <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                    (click)="empforeignercard_cancel()"></button> -->
+            </div>
+
+        </div>
+    </form>
     <!-- END EMP Location -->
 </p-dialog>
 <!-- END FORM DIALOG-->

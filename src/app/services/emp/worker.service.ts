@@ -229,6 +229,7 @@ export class EmployeeService {
       group_code: fillter.group_code,
       location_code: fillter.location_code,
       date_fill: fillter.date_fill,
+      project_code: fillter.project_code,
     };
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_listbyfillter', fillterS, this.options).toPromise()

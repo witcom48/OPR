@@ -66,6 +66,11 @@ export class RecruimentBlacklistComponent implements OnInit {
   title_name: { [key: string]: string } = { EN: "Name", TH: "ชื่อ-นามสกุล" };
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
   title_note: { [key: string]: string } = { EN: "Note", TH: "เพิ่มเติม" };
+  title_card: { [key: string]: string } = { EN: "Card No.", TH: "เลขบัตรประจำตัวประชาชน" };
+  title_fname_th: { [key: string]: string } = { EN: "First Name(TH)", TH: "ชื่อ(ไทย)" };
+  title_lname_th: { [key: string]: string } = { EN: "Last Name(TH)", TH: "นามสกุล(ไทย)" };
+  title_fname_en: { [key: string]: string } = { EN: "First Name(EN)", TH: "ชื่อ(อังกฤษ)" };
+  title_lname_en: { [key: string]: string } = { EN: "Last Name(TH)", TH: "นามสกุล(อังกฤษ)" };
 
   title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" };
 
@@ -143,8 +148,8 @@ export class RecruimentBlacklistComponent implements OnInit {
   }
 
   doLoadBlacklist(){
-    this.blacklistService.blacklist_get(this.initial_current.CompCode,'').then((res) => {
-     this.blacklist_list = res;     
+    this.blacklistService.blacklist_get(this.initial_current.CompCode,'','').then((res) => {
+     this.blacklist_list = res;
     });
   }
 
@@ -161,10 +166,14 @@ export class RecruimentBlacklistComponent implements OnInit {
   }
 
   worker_List: EmployeeModel[] = [];
+  selectedworker: EmployeeModel = new EmployeeModel();
   doLoadWorkerList() {
     var tmp = new EmployeeModel();
     this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
       this.worker_List = await res;
+      if(this.worker_List.length > 0){
+        this.selectedworker = this.worker_List[0];
+      }
     })
   }
 
@@ -296,7 +305,7 @@ export class RecruimentBlacklistComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'Export_initial.xlsx');
+    XLSX.writeFile(wb, 'Export_Blacklist.xlsx');
 
   }
 
@@ -310,6 +319,24 @@ export class RecruimentBlacklistComponent implements OnInit {
 
   close_manage(){
     this.displayManage = false
+  }
+
+  changeEmp(value:any){
+    console.log(value)
+    if(this.selectedBlacklist.worker_code==""){
+      this.selectedBlacklist.card_no = ""
+      this.selectedBlacklist.blacklist_fname_th = this.selectedworker.worker_fname_th;
+      this.selectedBlacklist.blacklist_lname_th = this.selectedworker.worker_lname_th;
+      this.selectedBlacklist.blacklist_fname_en = this.selectedworker.worker_fname_en;
+      this.selectedBlacklist.blacklist_lname_en = this.selectedworker.worker_lname_en;
+    }
+  }
+  clearEmp(){
+    this.selectedBlacklist.card_no = "";
+      this.selectedBlacklist.blacklist_fname_th = "";
+      this.selectedBlacklist.blacklist_lname_th = "";
+      this.selectedBlacklist.blacklist_fname_en = "";
+      this.selectedBlacklist.blacklist_lname_en = "";
   }
 
 }
