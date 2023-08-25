@@ -195,7 +195,7 @@ export class EmpIDComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download', 
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Structure code.xlsx', '_blank');
@@ -241,6 +241,9 @@ export class EmpIDComponent implements OnInit {
           this.examplecode += item.polcode_text;
         }
         if(item.codestructure_code == '2COM'){
+          this.examplecode += this.initial_current.CompCode;
+        }
+        if(item.codestructure_code == '3BRA'){
           this.examplecode += this.initial_current.CompCode;
         }
         if(item.codestructure_code == '4EMT'){
@@ -513,10 +516,8 @@ export class EmpIDComponent implements OnInit {
       if (resultJSON.result === "1") {
         const newCode = this.NewStructure(resultJSON.data);
         this.generatedCode = newCode;
-        console.log("Generated code:", newCode);
-      } else {
-        console.warn("Received result is not 1:", resultJSON.result);
-        this.generatedCode = "Cannot generate code";
+       } else {
+         this.generatedCode = "Cannot generate code";
       }
     } catch (error) {
       this.generatedCode = "ข้อมูลผิดพลาด";
@@ -575,37 +576,4 @@ export class EmpIDComponent implements OnInit {
   }
 }
 
-  //  NewStructure(data: any): string {
-  //   const generatedCode = data.codestructure_code +
-  //     data.polcode_lenght + data.polcode_text + data.polcode_order;
-  //   return generatedCode;
-  // }
-  // async doGetNewCode() {
-  //   console.log('test')
-  //   try {
-  //     const response = await this.codePolcodeService.getNewCode(this.initial_current.CompCode  );
-  //     if (typeof response === 'string') {
-  //       const resultJSON = JSON.parse(response);
-  //       if (resultJSON.result === "1") {
-  //         this.generatedCode = this.NewStructure(resultJSON.data);
-  //       } else {
-  //         console.log(resultJSON.result_text);
-  //       }
-  //     } else {
-  //       console.error("Invalid response from API:", response);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error getting new code:", error);
-  //   }
-  // }
-  // strucAdd: TRPolcodeModel | null = null;  
-  
-  // NewStructure(data: any): string {
-  //   const generatedCode = data.codestructure_code +
-  //     data.polcode_lenght + data.polcode_text + data.polcode_order;
-  //   return generatedCode;
-  // }
-  // NewStructure(data: any): string {
-  //   const generatedCode = `${data.codestructure_code}${data.polcode_lenght}${data.polcode_text}${data.polcode_order}`;
-  //   return generatedCode;
-  // }
+   

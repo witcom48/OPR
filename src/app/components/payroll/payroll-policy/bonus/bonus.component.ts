@@ -18,6 +18,7 @@ import * as XLSX from 'xlsx';
     styleUrls: ['./bonus.component.scss'],
 })
 export class BonusComponent implements OnInit {
+    selectlang: string = "EN";
     item_list: never[] | undefined;
     constructor(
         private messageService: MessageService,
@@ -58,8 +59,7 @@ export class BonusComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
         this.accessData = this.initialData2.dotGetPolmenu('PAY');
-        // console.log(this.accessData)
-        // console.log(this.accessData.accessdata_new)
+
     }
     title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
@@ -178,7 +178,6 @@ export class BonusComponent implements OnInit {
     }
     async doRecordLate(data: BonusModel) {
         await this.bonusService.bonus_record(data).then((res) => {
-            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -203,7 +202,6 @@ export class BonusComponent implements OnInit {
 
     async doDeleteLate(data: BonusModel) {
         await this.bonusService.bonus_delete(data).then((res) => {
-            // console.log(res);
             if (res.success) {
                 this.messageService.add({
                     severity: 'success',
@@ -225,6 +223,22 @@ export class BonusComponent implements OnInit {
 
 
     }
+    //
+    confirmDelete(data: BonusModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doDeleteLate(data);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+        });
+    }
+    //
     doUploadLate() {
         const filename =
             'LATE_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
@@ -232,7 +246,6 @@ export class BonusComponent implements OnInit {
         this.bonusService
             .bonus_import(this.fileToUpload, filename, filetype)
             .then((res) => {
-                // console.log(res);
                 if (res.success) {
                     this.messageService.add({
                         severity: 'success',
@@ -277,8 +290,7 @@ export class BonusComponent implements OnInit {
                 },
             },
             {
-                label: this.title_file[this.initial_current.Language],
-
+                label: "Template",
                 icon: 'pi-download',
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Bonus.xlsx', '_blank');
@@ -362,8 +374,19 @@ export class BonusComponent implements OnInit {
         this.conditions = new BonusrateModel();
     }
     Save() {
-        // console.log(this.selectedBonus);
-        this.doRecordLate(this.selectedBonus);
+        this.confirmationService.confirm({
+            message: this.title_confirm_record,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doRecordLate(this.selectedBonus);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+            }
+        });
+
     }
     Savelate() {
         if (!this.displayeditcondition) {
@@ -381,7 +404,19 @@ export class BonusComponent implements OnInit {
         this.conditions = new BonusrateModel();
     }
     Delete() {
-        this.doDeleteLate(this.selectedBonus);
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doDeleteLate(this.selectedBonus);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+            }
+        });
+
     }
     Deletelate() {
         this.selectedBonus.bonus_data = this.selectedBonus.bonus_data.filter(
@@ -396,7 +431,6 @@ export class BonusComponent implements OnInit {
     onRowSelectList(event: any) {
         this.displayaddcondition = true;
         this.displayeditcondition = true;
-        // console.log(this.conditions);
     }
     onRowSelect(event: any) {
         this.new_data = true;
