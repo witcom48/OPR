@@ -16,7 +16,8 @@
             </div>
         </p-divider>
         <div *ngFor="let item of genaralMenuItems">
-            <a routerLink="../../project/{{item.link}}" [queryParams]="{ type: item.queryParamsdata }">{{item.title}}</a>
+            <a routerLink="../../project/{{item.link}}"
+                [queryParams]="{ type: item.queryParamsdata }">{{item.title}}</a>
         </div>
         <!-- <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'procost'}">Cost</a>
         <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'protype'}">Project Type</a>
@@ -47,8 +48,7 @@
         <a >GL Account</a>
     </div> -->
 
-    <div class="col-3">
-        <!-- <b>Workflow</b> -->
+    <!-- <div class="col-3">
         <p-divider align="left">
             <div>
                 <i class="pi pi-list mr-2"></i>
@@ -58,10 +58,6 @@
         <div *ngFor="let item of workflowMenuItems">
             <a routerLink="../../project/{{item.link}}">{{item.title}}</a>
         </div>
-        <!-- <a routerLink="../../project/workflow">Project</a> -->
-        <!-- <a >Transfer Emp.</a>
-        <a >Cost</a>   -->
-
-    </div>
+    </div> -->
 
 </div>

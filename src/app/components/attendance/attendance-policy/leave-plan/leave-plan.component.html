@@ -70,7 +70,7 @@
     <form (ngSubmit)="Save()" #Form="ngForm">
         <p-dialog [(visible)]="new_data" position="right" (onHide)="close()">
             <div style="display: flex;justify-content: center;" *ngIf="new_data">
-                <div class="formatt">
+                <div class="formattleaveplan">
                     <i (click)="close()"></i>
 
                     <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
@@ -85,7 +85,7 @@
                     <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
                     <textarea [(ngModel)]="leaveplans.planleave_name_th" pInputTextarea [autoResize]="true"
                         name="planleave_name_th" #planleave_name_th="ngModel" required></textarea>
-                    <p-pickList class="picklistvertical" [metaKeySelection]="false" [responsive]="true"
+                    <p-pickList [metaKeySelection]="false" [responsive]="true"
                         [source]="leaves_listselect" [target]="leaveplans.leavelists"
                         sourceHeader="{{langs.get('leavelist')[selectlang]}}"
                         targetHeader="{{langs.get('planleave')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
