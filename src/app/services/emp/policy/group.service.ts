@@ -59,8 +59,15 @@ export class GroupService {
 
   public group_get(){
     // console.log('GRP001..');
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:this.initial_current.CompCode,
+      language:"",
+    }
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/group_list', this.basicRequest, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/group_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
       // console.log(res)

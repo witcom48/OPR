@@ -24,6 +24,9 @@ export class InitialComponent implements OnInit {
   initial_list: InitialModel[] = [];
   selectedInitial: InitialModel = new InitialModel();
 
+  itemslike: MenuItem[] = [];
+  home: any;
+
   constructor(
     private initialService: InitialService,
     private router: Router,
@@ -122,6 +125,11 @@ export class InitialComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.itemslike = [{ label: this.title_emp[this.initial_current.Language], routerLink: '/employee/policy' }, {
+      label: this.title_initial[this.initial_current.Language], styleClass: 'activelike'
+    }];
+
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
 
     this.items = [
       {
@@ -163,6 +171,10 @@ export class InitialComponent implements OnInit {
         }
       }
     ];
+  }
+
+  reloadPage() {
+    this.doLoadInitial()
   }
 
   doLoadInitial() {
@@ -282,6 +294,13 @@ export class InitialComponent implements OnInit {
     } else {
       this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
     }
+  }
+
+  //
+  displayManage: boolean = false;
+  position: string = "right";
+  showManage() {
+    this.displayManage = true
   }
 
   displayUpload: boolean = false;

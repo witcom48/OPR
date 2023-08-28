@@ -82,6 +82,9 @@ import { RequestModel } from 'src/app/models/recruitment/request';
 import { EmpstatusModel } from 'src/app/models/employee/policy/empstatus';
 import { ItemService } from 'src/app/services/payroll/item.service';
 import { ItemsModel } from 'src/app/models/payroll/items';
+import { EthnicityService } from 'src/app/services/system/policy/ethnicity.service';
+import { EthnicityModel } from 'src/app/models/system/policy/ethnicity';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 interface Taxmethod {
     name_th: string;
@@ -243,6 +246,7 @@ export class RecruitmentApplyComponent implements OnInit {
         private itemService: ItemService,
 
         private requestService: RequestService,
+        private ethnicityService: EthnicityService,
     ) {
         this.taxM = [
             { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -327,6 +331,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doLoadEmptypeList();
         this.doLoadEmpstatusList();
         this.doLoadItemList();
+        this.doLoadEthnicityList();
 
         setTimeout(() => {
             this.doLoadMenu();
@@ -342,6 +347,8 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     public initial_current: InitialCurrent = new InitialCurrent();
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
             localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
@@ -349,6 +356,10 @@ export class RecruitmentApplyComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('REQ');
+    }
+    hasAccessMenu(accessCode: string): boolean {
+        return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
     }
 
     title_page: string = "Recruiment Management";
@@ -417,7 +428,7 @@ export class RecruitmentApplyComponent implements OnInit {
 
     title_finance: string = "Finance";
     title_taxmethod: string = "Tax Method";
-    title_salary: string = "Income";
+    title_salary: string = "Expected Salary";
     title_benefit: string = "Other Income";
     title_fund: string = "Provident Fund";
     title_reduce: string = "Reduces";
@@ -644,7 +655,7 @@ export class RecruitmentApplyComponent implements OnInit {
 
             this.title_finance = 'การเงิน';
             this.title_taxmethod = 'การคำนวนภาษี';
-            this.title_salary = 'รายได้';
+            this.title_salary = 'รายได้ที่คาดหวัง';
             this.title_benefit = 'รายได้อื่นๆ';
             this.title_fund = 'กองทุนสำรองเลี้ยงชีพ';
             this.title_reduce = 'ค่าลดหย่อน';
@@ -777,7 +788,11 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_save,
                 icon: 'pi pi-fw pi-save',
                 command: (event) => {
-                    this.confirmRecord();
+                    if (this.accessData.accessdata_edit) {
+                        this.confirmRecord();
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+                    }
                 },
             },
         ];
@@ -1443,7 +1458,7 @@ export class RecruitmentApplyComponent implements OnInit {
             } else if (this.new_training || this.edit_reqtraining) {
                 this.manage_title = 'Training';
             } else if (this.new_assessment || this.edit_reqassessment) {
-                this.manage_title = 'Assessment';
+                this.manage_title = 'Appraisal';
             } else if (this.new_criminal || this.edit_reqcriminal) {
                 this.manage_title = 'Criminal record';
             } else if (this.new_position || this.edit_reqposition) {
@@ -1688,6 +1703,13 @@ export class RecruitmentApplyComponent implements OnInit {
         var tmp = new ItemsModel();
         this.itemService.item_get(tmp).then((res) => {
             this.itemList = res;
+        })
+    }
+    //Ethnicity
+    ethnicityList: EthnicityModel[] = [];
+    doLoadEthnicityList() {
+        this.ethnicityService.ethnicity_get().then((res) => {
+            this.ethnicityList = res;
         })
     }
 
@@ -2851,7 +2873,7 @@ export class RecruitmentApplyComponent implements OnInit {
         if (this.reqdocattApp.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattApp,"APPT").then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattApp, "APPT").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -2973,7 +2995,7 @@ export class RecruitmentApplyComponent implements OnInit {
         if (this.reqdocattID.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattID,"IDCARD").then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattID, "IDCARD").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -3095,7 +3117,7 @@ export class RecruitmentApplyComponent implements OnInit {
         if (this.reqdocattHos.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattHos,"HOUSE").then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattHos, "HOUSE").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -3217,7 +3239,7 @@ export class RecruitmentApplyComponent implements OnInit {
         if (this.reqdocattPho.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPho,"PHOID").then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPho, "PHOID").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -3339,7 +3361,7 @@ export class RecruitmentApplyComponent implements OnInit {
         if (this.reqdocattPDPA.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPDPA,"PDPA").then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattPDPA, "PDPA").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -3461,7 +3483,7 @@ export class RecruitmentApplyComponent implements OnInit {
         if (this.reqdocattMCer.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattMCer,"MCER").then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattMCer, "MCER").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {
@@ -3583,7 +3605,7 @@ export class RecruitmentApplyComponent implements OnInit {
         if (this.reqdocattOther.length == 0) {
             return;
         }
-        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattOther,"OTHER").then((res) => {
+        this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattOther, "OTHER").then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
             } else {

@@ -1,8 +1,9 @@
-
+<!-- 
 <h4>Policy recruitment</h4>
 <br>
 
-<span>Links</span>
+<span>Links</span> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <p></p>
 <div class="grid">
         
@@ -14,8 +15,10 @@
                 <b>Workflow</b>
             </div>
         </p-divider>
-        <a >Request </a>
-        <a >Apply work</a>        
+        <a routerLink="../../recruitment/blacklist">{{title_blacklist[initialData.Language]}} </a>
+        <a routerLink="../../recruitment/request">{{title_request[initialData.Language]}} </a>
+        <a routerLink="../../recruitment/applylist">{{title_apply[initialData.Language]}}</a>      
+        <a routerLink="../../recruitment/approve">{{title_approve[initialData.Language]}} </a>
     </div>
 
 </div>

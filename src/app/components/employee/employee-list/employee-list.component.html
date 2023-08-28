@@ -89,8 +89,8 @@
                             </ng-template>
                         </p-dropdown>
                     </div>
-                    <div class="select">
-                        <!-- dep -->
+                    <!-- dep -->
+                    <!-- <div class="select">
                         <div>
                             <p-checkbox [(ngModel)]="fillterLevel" name="dep" [binary]="true"
                                 (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
@@ -116,6 +116,24 @@
                             </ng-template>
                             <ng-template let-item pTemplate="item">
                                 {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div> -->
+                    <div class="select">
+                        <!-- project -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterProject" name="project" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{title_project[initial_current.Language]}} :</label>
+                        </div>
+                        <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code"
+                            [showClear]="true" [(ngModel)]="selectedProject" (onChange)="doChangeSelectProject()"
+                            [disabled]="!fillterProject" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
                             </ng-template>
                         </p-dropdown>
                     </div>
@@ -308,7 +326,7 @@
                     &nbsp;
                     <button *ngIf="edit_employee" pButton pRipple type="button"
                         label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary"
-                        (click)="confirmDelete()"></button>
+                        [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete()"></button>
                 </div>
                 <!-- <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectEmpManage()"
             class="p-button-secondary"></button>
