@@ -13,8 +13,9 @@ import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { LocationModel } from 'src/app/models/employee/policy/location';
 import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
-
-@Component({
+import { AppConfig } from 'src/app/config/config';
+import { Subscription } from 'rxjs/internal/Subscription';
+ @Component({
   selector: 'app-employee-monitor',
   templateUrl: './employee-monitor.component.html',
   styleUrls: ['./employee-monitor.component.scss']
@@ -35,8 +36,8 @@ export class EmployeeMonitorComponent implements OnInit {
   basicData: any;
   basicOptions: any;
 
-  //subscription: Subscription;
-  //config: AppConfig;
+  // subscription: Subscription;
+  // config: AppConfig;
 
   public initial_current: InitialCurrent = new InitialCurrent();
   public workerList: EmployeeModel[] = [];
@@ -139,25 +140,19 @@ export class EmployeeMonitorComponent implements OnInit {
 
     this.employeeService.worker_get(this.initial_current.CompCode, '').then(async (res) => {
       this.workerList = await res;
+      // console.log( this.workerList,'ee')
       let newWorkers: number = 0;
       let resignedWorkers: number = 0;
 
       for (let i = 0; i < this.workerList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
         const resignDate = new Date(this.workerList[i].worker_resigndate);
-
-
-
         if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() > temp_fromdate.getTime()) {
           newWorkers++;
         }
-
-
-
         if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
           resignedWorkers++;
         }
-
       }
 
       this.doughnut2.labels = ['เข้าใหม่ (' + newWorkers + ' คน)', 'ลาออก (' + resignedWorkers + ' คน)'];
@@ -265,7 +260,7 @@ export class EmployeeMonitorComponent implements OnInit {
     try {
       const res = await this.employeeService.locationlist_get(this.initial_current.CompCode, '');
       this.locationList = res;
-      console.log(res, 'location');
+      // console.log(res, 'location');
   
       let personnelOnDuty: number = 0;
       let currentWorkers: number = 0;
@@ -276,7 +271,7 @@ export class EmployeeMonitorComponent implements OnInit {
   
         if (this.locationList[i].worker_code) {
           personnelOnDuty++;
-          console.log(personnelOnDuty,'oo')
+          // console.log(personnelOnDuty,'oo')
   
           if (this.locationList[i].location_code && resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime()) {
             currentWorkers++;
@@ -289,10 +284,10 @@ export class EmployeeMonitorComponent implements OnInit {
      
 
       this.barChartData4.labels = locationLabels;
-      console.log( locationLabels, 'teค')
+      // console.log( locationLabels, 'teค')
       this.barChartData4.datasets[0].data = Array(locationLabels.length).fill(personnelOnDuty);
       this.barChartData4.datasets[1].data = Array(locationLabels.length).fill(currentWorkers);
-      console.log(this.barChartData4, 'te')
+      // console.log(this.barChartData4, 'te')
       this.updateChart4();
     } catch (error) {
     }
@@ -301,7 +296,7 @@ export class EmployeeMonitorComponent implements OnInit {
   updateChart4() {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
       this.chart.chart.update();
-      console.log(this.chart.chart.update, '43');
+      // console.log(this.chart.chart.update, '43');
 
     }
   }
@@ -334,7 +329,6 @@ export class EmployeeMonitorComponent implements OnInit {
     this.employeeService.typelist_get(this.initial_current.CompCode, '').then(async (res) => {
       this.emptypeList = await res;
       console.log(res,'tt1');
-
       let regularWorkers: number = 0; // จำนวนพนักงานรายวัน
       let temporaryWorkers: number = 0; // จำนวนพนักงานรายเดือน
 
@@ -343,12 +337,12 @@ export class EmployeeMonitorComponent implements OnInit {
 
         if (this.workerList[i].worker_type === 'M' || this.emptypeList[i].type_code === 'D') {
           regularWorkers++;
-          console.log(this.workerList[i].worker_type,'test1')
+          console.log(this.emptypeList[i],'test1')
         }
 
         if (this.workerList[i].worker_type === 'D' || this.emptypeList[i].type_code === 'D') {
           temporaryWorkers++;
-          console.log(this.workerList[i].worker_type,'test1')
+          console.log(temporaryWorkers,'test1')
         }
       }
 

@@ -1,12 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, ConfirmEventType, MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/select-emp.component';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
-import { SetPolicyAttModels } from 'src/app/models/attendance/setpolicyatt';
-import { SetShiftModels } from 'src/app/models/attendance/setshift';
+
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { SetItemModel } from 'src/app/models/payroll/batch/setitem';
@@ -18,8 +17,7 @@ import { PlanitemsModels } from 'src/app/models/payroll/planitems';
 import { PlanreduceModels } from 'src/app/models/payroll/planreduce';
 import { ProvidentModel } from 'src/app/models/payroll/provident';
 import { ReducesModel } from 'src/app/models/system/policy/reduces';
-import { SetShiftServices } from 'src/app/services/attendance/setshift.service';
-import { SetPolicyAttServices } from 'src/app/services/attendance/setuppolicy.service';
+
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { SetbonusService } from 'src/app/services/payroll/batch/setbonus.service';
 import { SetitemsService } from 'src/app/services/payroll/batch/setitems.service';
@@ -29,7 +27,6 @@ import { BonusService } from 'src/app/services/payroll/bonus.service';
 import { PlanitemsService } from 'src/app/services/payroll/planitems.service';
 import { PlanreduceService } from 'src/app/services/payroll/planreduce.service';
 import { ProvidentService } from 'src/app/services/payroll/provident.service';
-import { YearService } from 'src/app/services/system/policy/year.service';
 interface Policy {
   name: string,
   code: string
@@ -302,7 +299,7 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetBonusModel();
       const res = await this.setbonusService.SetBonus_get('', tmp);
-    } catch{ }
+    } catch { }
   }
   async Setbatchbonus() {
     const data = new SetBonusModel();
@@ -310,7 +307,7 @@ export class SetallpolicyComponent implements OnInit {
     data.emp_data = this.selectEmp.employee_dest;
     data.paypolbonus_code = this.policybonusselect.code;
     data.modified_by = this.initial_current.Username;
-    data.bonus_data = this.selectEmp.employee_dest;
+    // data.bonus_data = this.selectEmp.employee_dest;
     this.loading = true;
     try {
       const res = await this.setbonusService.SetBonus_record('', data);
@@ -334,7 +331,7 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetItemModel();
       const res = await this.setitemsService.SetItems_get(tmp);
-    } catch {}
+    } catch { }
   }
 
   async SetTRpolItem() {
@@ -343,7 +340,7 @@ export class SetallpolicyComponent implements OnInit {
     data.emp_data = this.selectEmp.employee_dest;
     data.paypolitem_code = this.policyplanitemsselect.code;
     data.modified_by = this.initial_current.Username;
-    data.items_data = this.selectEmp.employee_dest;
+    // data.items_data = this.selectEmp.employee_dest;
     this.loading = true;
     try {
       const res = await this.setitemsService.SetItems_record(data);
@@ -376,7 +373,7 @@ export class SetallpolicyComponent implements OnInit {
     data.emp_data = this.selectEmp.employee_dest;
     data.paypolprovident_code = this.policyprovidentselect.code;
     data.modified_by = this.initial_current.Username;
-    data.provident_data = this.selectEmp.employee_dest;
+    // data.provident_data = this.selectEmp.employee_dest;
     this.loading = true;
     try {
       const res = await this.setprovidentService.SetProvident_record(data);
@@ -398,8 +395,8 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetReduceModel();
       const res = await this.setreduceService.SetReduce_get(tmp);
-    } catch{
-     }
+    } catch {
+    }
   }
   async SetTRpolReduce() {
     const data = new SetReduceModel();
@@ -407,7 +404,7 @@ export class SetallpolicyComponent implements OnInit {
     data.emp_data = this.selectEmp.employee_dest;
     data.paybatchreduce_code = this.policyplanreduceselect.code;
     data.modified_by = this.initial_current.Username;
-    data.reduces_data = this.selectEmp.employee_dest;
+    // data.reduces_data = this.selectEmp.employee_dest;
     this.loading = true;
     try {
       const res = await this.setreduceService.SetReduce_record(data);

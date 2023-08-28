@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 import { SetReduceModel } from 'src/app/models/payroll/batch/setreduce';
 import { ReducesModel } from 'src/app/models/system/policy/reduces';
   
@@ -65,7 +66,7 @@ export class SetreduceService {
    public SetReduce_get( Setup: SetReduceModel) {
  
       let emplists: any = [];
-      Setup.reduces_data.forEach((res: ReducesModel) => {
+      Setup.emp_data.forEach((res: EmployeeModel) => {
           let ss = {
               worker_code: res.worker_code,
           };
@@ -99,7 +100,7 @@ export class SetreduceService {
 
   public SetReduce_record( Setup: SetReduceModel) {
        let emplists: any = [];
-      Setup.reduces_data.forEach((res: ReducesModel) => {
+      Setup.emp_data.forEach((res: EmployeeModel) => {
           let ss = {
               worker_code: res.worker_code,
           };

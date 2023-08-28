@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 
 import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { BonusModel } from 'src/app/models/payroll/bonus';
@@ -64,7 +65,7 @@ export class SetbonusService {
         // console.log('PAYTRB001..');
 
         let emplists: any = [];
-        Setup.bonus_data.forEach((res: BonusModel) => {
+        Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
                 worker_code: res.worker_code,
             };
@@ -100,7 +101,7 @@ export class SetbonusService {
         // console.log('PAYTRB002..');
 
         let emplists: any = [];
-        Setup.bonus_data.forEach((res: BonusModel) => {
+        Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
                 worker_code: res.worker_code,
             };
