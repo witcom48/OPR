@@ -8,6 +8,7 @@ import { RecruitmentPolicyComponent } from './recruitment-policy/recruitment-pol
 import { ApplyListComponent } from './recruitment-apply/apply/apply-list/apply-list.component';
 import { RecruimentBlacklistComponent } from './recruiment-blacklist/recruiment-blacklist.component';
 import { SetBlacklistComponent } from './recruiment-blacklist/set-blacklist/set-blacklist.component';
+import { RecruitmentApproveComponent } from './recruitment-approve/recruitment-approve.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -18,6 +19,7 @@ import { SetBlacklistComponent } from './recruiment-blacklist/set-blacklist/set-
         { path: 'applylist', component: ApplyListComponent },
         { path: 'blacklist', component: RecruimentBlacklistComponent },
         { path: 'blacklist/setbatch', component: SetBlacklistComponent },
+        { path: 'approve', component: RecruitmentApproveComponent },
 
 
 

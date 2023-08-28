@@ -96,7 +96,8 @@
                         [disabled]="!Form.form.valid"></p-button> -->
                     &nbsp;
                     <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
-                        class="p-button-secondary  button-size btndel"[disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete()"></button>
+                        class="p-button-secondary  button-size btndel"[disabled]="!this.accessData.accessdata_delete" 
+                        (click)="confirmDelete()"></button>
                 </div>
             </div>
         </p-dialog>

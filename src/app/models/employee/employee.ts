@@ -77,7 +77,7 @@ export class EmployeeModel {
   checkhistory: Boolean = false
   counthistory: number = 0;
   checkcertificate: Boolean = false
-  status: number = 0;
+  status: string = "";
 
   worker_cardno: string = "";
   worker_cardnoissuedate!: Date;

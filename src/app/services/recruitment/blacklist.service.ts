@@ -58,14 +58,15 @@ export class BlacklistService {
         }
     }
 
-    public blacklist_get(company:string, code:string) {
+    public blacklist_get(company:string, code:string,card:string) {
         var filter = {
             device_name:'',
             ip:"localhost",
             username:this.initial_current.Username,
             company_code:company,
             language:"",
-            worker_code:code
+            worker_code:code,
+            card_no: card
           };
 
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/getblacklist', filter, this.options).toPromise()
@@ -78,7 +79,12 @@ export class BlacklistService {
     public blacklist_record(model: BlacklistModel) {
         const data = {
             company_code: this.initial_current.CompCode,
+            card_no: model.card_no,
             worker_code: model.worker_code,
+            blacklist_fname_th: model.blacklist_fname_th,
+            blacklist_lname_th: model.blacklist_lname_th,
+            blacklist_fname_en: model.blacklist_fname_en,
+            blacklist_lname_en: model.blacklist_lname_en,
             reason_code: model.reason_code,
             blacklist_note: model.blacklist_note,
             modified_by: this.initial_current.Username
@@ -91,6 +97,7 @@ export class BlacklistService {
     }
     public blacklist_delete(model: BlacklistModel) {
         const data = {
+            card_no:model.card_no,
             company_code: model.company_code,
             worker_code: model.worker_code,
             modified_by: this.initial_current.Username

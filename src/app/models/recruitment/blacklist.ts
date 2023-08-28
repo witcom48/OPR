@@ -6,7 +6,13 @@ export class BlacklistModel {
     }
 
     company_code: string = '';
+    blacklist_id:string='1';
+    card_no:string='';
     worker_code: string = '';
+    blacklist_fname_th:string ='';
+    blacklist_lname_th:string ='';
+    blacklist_fname_en:string ='';
+    blacklist_lname_en:string ='';
     reason_code: string='';
     blacklist_note:string='';
 

@@ -14,6 +14,7 @@ import { EmptypeService } from 'src/app/services/emp/policy/emptype.service';
 import { PositionModel } from 'src/app/models/employee/policy/position';
 import { ProjectModel } from 'src/app/models/project/project';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 interface urgen {
   name_th: string,
@@ -44,8 +45,9 @@ export class RecruitmentRequestComponent implements OnInit {
   request_list: RequestModel[] = [];
   selectedRequest: RequestModel = new RequestModel();
 
-  status_list: Status[] = [{ name_th: 'กำลังเปิด', name_en: 'Open', code: 0 }, { name_th: 'เสร็จ', name_en: 'Complete', code: 3 }, { name_th: 'ยกเลิก', name_en: 'Cancel', code: 4 }];
+  status_list: Status[] = [{ name_th: 'กำลังเปิด', name_en: 'Open', code: 0 }, { name_th: 'ปิดรับ', name_en: 'Close', code: 3 }, { name_th: 'ยกเลิก', name_en: 'Cancel', code: 4 }];
   status_select: Status = { name_th: 'กำลังเปิด', name_en: 'Open', code: 0 }
+  status_doc: boolean = false
 
   itemsOptions: MenuItem[] = [];
 
@@ -85,12 +87,15 @@ export class RecruitmentRequestComponent implements OnInit {
 
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('REQ');
   }
 
   title_page: string = "Request";
@@ -138,7 +143,7 @@ export class RecruitmentRequestComponent implements OnInit {
   title_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" };
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
   title_note: { [key: string]: string } = { EN: "More", TH: "เพิ่มเติม" };
-  
+
   title_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
   title_accepted: { [key: string]: string } = { EN: "Accepted", TH: "รับแล้ว" };
   title_complete: { [key: string]: string } = { EN: "Complete", TH: "สำเร็จ" };
@@ -196,10 +201,14 @@ export class RecruitmentRequestComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedRequest = new RequestModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedRequest = new RequestModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       }
       ,
@@ -225,36 +234,50 @@ export class RecruitmentRequestComponent implements OnInit {
     this.itemsOptions = [{
 
       items: [
-
         {
-          label:  this.title_edit,
+          label: this.title_edit,
           icon: 'pi pi-fw pi-pencil',
           command: (event) => {
-            this.showManage()
-            this.edit_data = true;
-
-
+            if (this.accessData.accessdata_edit) {
+              this.showManage()
+              this.edit_data = true;
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+            }
           }
         }
-        , {
-
-
+        ,
+        {
           label: this.title_delete,
           icon: 'pi pi-trash',
           command: () => {
-            this.doDeleteRequest()
+            if (this.accessData.accessdata_delete) {
+              this.confirmDelete(this.selectedRequest)
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+            }
           }
         },
         {
           label: this.title_complete[this.initial_current.Language],
           icon: 'pi pi-check',
           command: () => {
-            
-           }
+            this.confirmationService.confirm({
+              message: this.title_confirm_record,
+              header: this.title_confirm,
+              icon: 'pi pi-exclamation-triangle',
+              accept: () => {
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Complete' });
+              },
+              reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+              }
+            });
+          }
         }
       ]
     },
-     
+
     ];
   }
   selectRow(data: any) {
@@ -281,8 +304,18 @@ export class RecruitmentRequestComponent implements OnInit {
     })
   }
 
+  Search() {
+    if (this.status_select.code) {
+      this.status_doc = true;
+    } else {
+      this.status_doc = false;
+    }
+    this.doLoadRequest();
+  }
+
   doLoadRequest() {
     var tmp = new RequestModel();
+    tmp.request_status = this.status_select.code
     this.requestService.request_get(tmp).then(async (res) => {
       await res.forEach((element: RequestModel) => {
         element.request_date = new Date(element.request_date)
@@ -327,13 +360,13 @@ export class RecruitmentRequestComponent implements OnInit {
     });
   }
 
-  confirmDelete() {
+  confirmDelete(data: RequestModel) {
     this.confirmationService.confirm({
       message: this.title_confirm_delete,
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.doDeleteRequest()
+        this.doDeleteRequest(data)
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
@@ -341,8 +374,8 @@ export class RecruitmentRequestComponent implements OnInit {
     });
   }
 
-  doDeleteRequest() {
-    this.requestService.request_delete(this.selectedRequest).then((res) => {
+  async doDeleteRequest(data: RequestModel) {
+    await this.requestService.request_delete(data).then((res) => {
       // console.log(res)
       let result = JSON.parse(res);
 
@@ -419,6 +452,20 @@ export class RecruitmentRequestComponent implements OnInit {
 
   exportAsExcel() {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    for (var i in ws) {
+      if (i.startsWith("!") || i.charAt(1) !== "1") {
+        continue;
+      }
+      var n = 0;
+      for (var j in ws) {
+        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
+          ws[j].v = ws[j].v.replace(ws[i].v, "")
+        } else {
+          n += 1;
+        }
+
+      }
+    }
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -455,7 +502,7 @@ export class RecruitmentRequestComponent implements OnInit {
   }
 
   //get type name
-  doGetTypeDetail(TypeCode:string): any{
+  doGetTypeDetail(TypeCode: string): any {
     for (let i = 0; i < this.emptypeList.length; i++) {
       if (this.emptypeList[i].type_code == TypeCode) {
         if (this.initial_current.Language == "TH") {
