@@ -59,7 +59,7 @@ export class LocationComponent implements OnInit {
       this.location_list = await res;
     });
   }
-  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+  title_file: { [key: string]: string } = { EN: "Template ", TH: "ไฟล์" }
 
 
   async doRecordLocation(data: SysLocationModel) {
@@ -153,7 +153,7 @@ export class LocationComponent implements OnInit {
       }
       ,
       {
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Location.xlsx', '_blank');

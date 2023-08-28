@@ -284,7 +284,6 @@ export class SetallpolicyComponent implements OnInit {
         combinedData.push(combinedItem);
       }
       this.selectedEmployeeData = combinedData;
-      // console.log(this.selectedEmployeeData, 'Combined Result');
     } catch {
     }
   }
@@ -303,11 +302,7 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetBonusModel();
       const res = await this.setbonusService.SetBonus_get('', tmp);
-      // this.result_list = res;
-      // console.log(res, '12');
-    } catch (error) {
-      console.error(error);
-    }
+    } catch{ }
   }
   async Setbatchbonus() {
     const data = new SetBonusModel();
@@ -339,11 +334,7 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetItemModel();
       const res = await this.setitemsService.SetItems_get(tmp);
-      // this.result_list = res;
-      // console.log(res, '13');
-    } catch (error) {
-      console.error(error);
-    }
+    } catch {}
   }
 
   async SetTRpolItem() {
@@ -375,10 +366,7 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetProvidentModel();
       const res = await this.setprovidentService.SetProvident_get(tmp);
-      // this.result_list = res;
-      // console.log(res, '14');
-    } catch (error) {
-      console.error(error);
+    } catch {
     }
   }
 
@@ -410,11 +398,8 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const tmp = new SetReduceModel();
       const res = await this.setreduceService.SetReduce_get(tmp);
-      // this.result_list = res;
-      // console.log(res, '15');
-    } catch (error) {
-      console.error(error);
-    }
+    } catch{
+     }
   }
   async SetTRpolReduce() {
     const data = new SetReduceModel();

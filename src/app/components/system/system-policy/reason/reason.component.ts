@@ -48,7 +48,8 @@ export class ReasonComponent implements OnInit {
     this.selectlang = this.initial_current.Language;
   }
   title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
-
+  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
+  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu()
@@ -108,6 +109,33 @@ export class ReasonComponent implements OnInit {
     this.displayManage = false
 
   }
+  //
+  async doDeleteReasonall(data: ReasonsModel) {
+    await this.reasonsService.reason_delete(data).then((res) => {
+      if (res.success) {
+        this.confirmationService.confirm({
+          message: this.langs.get('confirm_delete')[this.selectlang],
+          header: this.langs.get('delete')[this.selectlang],
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.doLoadReason()
+          },
+          reject: () => {
+           }
+      });
+
+       }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+
+    });
+    this.new_data = false;
+    this.edit_data = false;
+    this.displayManage = false
+
+  }
+  //
   doUploadReason() {
     const filename = "REASON_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
@@ -148,7 +176,7 @@ export class ReasonComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Reason.xlsx', '_blank');
@@ -215,10 +243,30 @@ export class ReasonComponent implements OnInit {
     }
   }
   Save() {
-    this.doRecordReason(this.reasons)
+    this.confirmationService.confirm({
+      message: this.title_confirm_record[this.initial_current.Language] ,
+      header: this.title_confirm[this.initial_current.Language] ,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doRecordReason(this.reasons)
+      },
+      reject: () => {
+      }
+  });
+
   }
   Delete() {
-    this.doDeleteReason(this.reasons)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteReason(this.reasons)
+      },
+      reject: () => {
+       }
+  });
+
   }
   selectType() {
     this.doLoadReason();

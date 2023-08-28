@@ -196,7 +196,7 @@ export class RoundComponent implements OnInit {
 
   async doRecordRounds(data: RoundsModel) {
     await this.roundsService.rounds_record(data).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadRounds()
@@ -259,6 +259,9 @@ export class RoundComponent implements OnInit {
       if (result.success) {
         this.displayMessage('success', 'Success', result.message);
         this.doLoadRounds();
+        this.Savelate();
+        this.conditions = new TRRoundsModel();
+
         this.new_data = false;
         this.edit_data = false;
       } else {
@@ -306,7 +309,7 @@ export class RoundComponent implements OnInit {
       },
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download', 
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Rounds.xlsx', '_blank');

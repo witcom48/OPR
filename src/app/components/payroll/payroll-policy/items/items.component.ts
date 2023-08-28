@@ -226,6 +226,22 @@ export class ItemsComponent implements OnInit {
         this.displayManage = false;
 
     }
+    //
+    confirmDelete(data: ItemsModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doDeleteMTItem(data);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+        });
+    }
+    //
 
     doUploadMTItem() {
         const filename = "Item_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
@@ -244,8 +260,6 @@ export class ItemsComponent implements OnInit {
             this.fileToUpload = null;
         });
     }
-
-
 
     handleFileInput(file: FileList) {
         this.fileToUpload = file.item(0);
@@ -268,7 +282,7 @@ export class ItemsComponent implements OnInit {
                 },
             },
             {
-                label: this.title_file[this.initial_current.Language],
+                label: "Template",
                 icon: 'pi-download',
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll IncomeDeduct.xlsx', '_blank');
@@ -323,11 +337,33 @@ export class ItemsComponent implements OnInit {
         this.selectedMTItem = new ItemsModel();
     }
     Save() {
-        this.doRecordMTItem(this.selectedMTItem);
+        this.confirmationService.confirm({
+            message: this.title_confirm_record,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doRecordMTItem(this.selectedMTItem);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+            }
+        });
     }
 
     Delete() {
-        this.doDeleteMTItem(this.selectedMTItem);
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doDeleteMTItem(this.selectedMTItem);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+            }
+        });
     }
     onRowSelect(event: any) {
         this.new_data = true;
@@ -338,6 +374,7 @@ export class ItemsComponent implements OnInit {
     position: string = "right";
     showManage() {
         this.displayManage = true
+        // console.log(this.displayManage)
     }
     exportAsExcel() {
         const fileToExport = this.MTItem_list.map((items: any) => {

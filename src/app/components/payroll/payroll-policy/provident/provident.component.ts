@@ -219,6 +219,22 @@ export class ProvidentComponent implements OnInit {
         this.displayManage = false;
 
     }
+    //
+    confirmDelete(data: ProvidentModel) {
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doDeleteLate(data);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+        });
+    }
+    //
     doUploadLate() {
         const filename =
             'LATE_' + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
@@ -268,7 +284,7 @@ export class ProvidentComponent implements OnInit {
                 },
             },
             {
-                label: this.title_file[this.initial_current.Language],
+                label: "Template",
                 icon: 'pi-download',
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Provident.xlsx', '_blank');
@@ -342,7 +358,18 @@ export class ProvidentComponent implements OnInit {
         this.selectedProvidentWorka = new ProvidentWorkageModel();
     }
     Save() {
-        this.doRecordLate(this.selectedProvident);
+        this.confirmationService.confirm({
+            message: this.title_confirm_record,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doRecordLate(this.selectedProvident);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+            }
+        });
     }
     Savelate() {
         if (!this.displayeditcondition) {
@@ -361,7 +388,18 @@ export class ProvidentComponent implements OnInit {
     }
 
     Delete() {
-        this.doDeleteLate(this.selectedProvident);
+        this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.doDeleteLate(this.selectedProvident);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+            }
+        });
     }
     Deletelate() {
         this.selectedProvident.providentWorkage_data = this.selectedProvident.providentWorkage_data.filter(

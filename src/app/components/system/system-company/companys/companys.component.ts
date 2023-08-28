@@ -77,7 +77,7 @@ export class CompanysComponent implements OnInit {
     new_comaddresseen: boolean = false;
 
     onBankTypeChange(event: any): void {
-        console.log('Selected bank type:', event.target.value);
+        // console.log('Selected bank type:', event.target.value);
         // You can perform additional actions here
     }
 

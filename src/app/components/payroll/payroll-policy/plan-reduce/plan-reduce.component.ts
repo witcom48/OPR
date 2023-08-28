@@ -76,6 +76,14 @@ export class PlanReduceComponent implements OnInit {
   title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
   title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
+  //
+  title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" }
+  title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
+  title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
+  title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
+  title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
+  title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
+  //
   ngOnInit(): void {
 
     this.doGetInitialCurrent();
@@ -107,7 +115,6 @@ export class PlanReduceComponent implements OnInit {
   }
   async doRecordPlanreduce(data: PlanreduceModels) {
     await this.planreduceService.planreduce_record(data).then((res) => {
-      console.log(data, 'l')
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPlanreduc();
@@ -139,6 +146,22 @@ export class PlanReduceComponent implements OnInit {
     this.displayManage = false;
 
   }
+  //
+  confirmDelete(data: PlanreduceModels) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletePlanreduce(data);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+      },
+      key: "myDialog"
+    });
+  }
+  //
   doUploadPlanreduce() {
     const filename = "PLANREDUCE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
@@ -192,7 +215,7 @@ export class PlanReduceComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll planreduce.xlsx', '_blank');
@@ -236,7 +259,6 @@ export class PlanReduceComponent implements OnInit {
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          // console.log(this.fileToUpload)
           this.displayUpload = false;
           this.doUploadPlanreduce()
         },
@@ -265,11 +287,32 @@ export class PlanReduceComponent implements OnInit {
     this.reduceplans = new PlanreduceModels()
   }
   Save() {
-    console.log(this.reduceplans)
-    this.doRecordPlanreduce(this.reduceplans)
+    this.confirmationService.confirm({
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doRecordPlanreduce(this.reduceplans)
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+
+      }
+    });
   }
   Delete() {
-    this.doDeletePlanreduce(this.reduceplans)
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletePlanreduce(this.reduceplans)
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+
+      }
+    });
   }
   displayManage: boolean = false;
   position: string = "right";

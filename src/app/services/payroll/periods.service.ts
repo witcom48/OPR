@@ -79,7 +79,7 @@ export class PeriodsServices {
             "period_from": Period.period_from,
             "period_to": Period.period_to,
             "period_payment": Period.period_payment,
-            "period_dayonperiod": Period.period_dayonperiod,
+            "period_dayonperiod": Period.period_dayonperiod ?  "1" : "0",
             "modified_by": this.initial_current.Username,
             "flag": Period.flag
         }
