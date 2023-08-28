@@ -115,11 +115,20 @@
                             [showIcon]="true" name="year_todate"></p-calendar>
                         <br>
                         <div style="text-align: right;">
-                            <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
-                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                            <button *ngIf="!edit_data" pRipple pButton type="submit"
+                                label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"
+                                [disabled]="!Form.form.valid" class="button-size"></button>
+
+                            <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()"
+                                label="{{langs.get('save')[selectlang]}}" icon="pi pi-save"
+                                [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                                class="button-size"></button>
+                            <!-- <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button> -->
                             &nbsp;
                             <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"
+                                [disabled]="!this.accessData.accessdata_delete"></button>
                         </div>
                     </div>
                 </p-dialog>
@@ -239,11 +248,21 @@
                             [showIcon]="true" name="year_todate"></p-calendar>
                         <br>
                         <div style="text-align: right;">
-                            <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
-                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                            <button *ngIf="!edit_data" pRipple pButton type="submit"
+                                label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"
+                                [disabled]="!Form.form.valid" class="button-size"></button>
+
+                            <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()"
+                                label="{{langs.get('save')[selectlang]}}" icon="pi pi-save"
+                                [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                                class="button-size"></button>
+
+                            <!-- <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button> -->
                             &nbsp;
                             <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"
+                                [disabled]="!this.accessData.accessdata_delete"></button>
                         </div>
                     </div>
                 </p-dialog>
@@ -365,11 +384,20 @@
                             [showIcon]="true" name="year_todate"></p-calendar>
                         <br>
                         <div style="text-align: right;">
-                            <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
-                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                            <button *ngIf="!edit_data" pRipple pButton type="submit"
+                                label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"
+                                [disabled]="!Form.form.valid" class="button-size"></button>
+
+                            <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()"
+                                label="{{langs.get('save')[selectlang]}}" icon="pi pi-save"
+                                [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                                class="button-size"></button>
+                            <!-- <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button> -->
                             &nbsp;
                             <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"
+                                [disabled]="!this.accessData.accessdata_delete"></button>
                         </div>
                     </div>
                 </p-dialog>
@@ -489,11 +517,20 @@
                             [showIcon]="true" name="year_todate"></p-calendar>
                         <br>
                         <div style="text-align: right;">
-                            <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
-                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button>
+                            <button *ngIf="!edit_data" pRipple pButton type="submit"
+                                label="{{langs.get('save')[selectlang]}}" icon="pi pi-save" (click)="Save()"
+                                [disabled]="!Form.form.valid" class="button-size"></button>
+
+                            <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()"
+                                label="{{langs.get('save')[selectlang]}}" icon="pi pi-save"
+                                [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                                class="button-size"></button>
+                            <!-- <button pButton type="button" class="button-size" label="{{langs.get('save')[selectlang]}}"
+                                icon="pi pi-save" (click)="Save()" [disabled]="!Form.form.valid"></button> -->
                             &nbsp;
                             <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
-                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"></button>
+                                (click)="Delete()" icon="pi pi-trash" class="p-button-secondary button-size"
+                                [disabled]="!this.accessData.accessdata_delete"></button>
                         </div>
                     </div>
                 </p-dialog>

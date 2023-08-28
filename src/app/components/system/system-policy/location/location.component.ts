@@ -7,9 +7,9 @@ import * as XLSX from 'xlsx';
 
 import { AppConfig } from '../../../../config/config';
 import { InitialCurrent } from '../../../../config/initial_current';
-import { LocationModel } from 'src/app/models/system/policy/location';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
 declare var locationpage: any;
 
 @Component({
@@ -32,8 +32,8 @@ export class LocationComponent implements OnInit {
   fileToUpload: File | any = null;
   displayUpload: boolean = false;
   items: MenuItem[] = [];
-  location_list: LocationModel[] = [];
-  locations: LocationModel = new LocationModel()
+  location_list: SysLocationModel[] = [];
+  locations: SysLocationModel = new SysLocationModel()
 
   public initial_current: InitialCurrent = new InitialCurrent();
   initialData2: InitialCurrent = new InitialCurrent();
@@ -54,14 +54,15 @@ export class LocationComponent implements OnInit {
   }
   doLoadLocation() {
     this.location_list = [];
-    var tmp = new LocationModel();
+    var tmp = new SysLocationModel();
     this.locationService.location_get(tmp).then(async (res) => {
       this.location_list = await res;
     });
   }
+  title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
 
-  async doRecordLocation(data: LocationModel) {
+  async doRecordLocation(data: SysLocationModel) {
     await this.locationService.location_record(data).then((res) => {
       // console.log(res)
       if (res.success) {
@@ -94,7 +95,7 @@ export class LocationComponent implements OnInit {
     });
   }
 
-  async doDeleteLocation(data: LocationModel) {
+  async doDeleteLocation(data: SysLocationModel) {
     await this.locationService.location_delete(data).then((res) => {
       // console.log(res)
       if (res.success) {
@@ -141,13 +142,21 @@ export class LocationComponent implements OnInit {
         command: (event) => {
           if (this.accessData.accessdata_new) {
             this.showManage()
-            this.locations = new LocationModel();
+            this.locations = new SysLocationModel();
             this.new_data = true;
             this.edit_data = false;
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
 
+        }
+      }
+      ,
+      {
+        label: this.title_file[this.initial_current.Language],
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Location.xlsx', '_blank');
         }
       }
       ,
@@ -200,7 +209,7 @@ export class LocationComponent implements OnInit {
 
   close() {
     this.new_data = false
-    this.locations = new LocationModel()
+    this.locations = new SysLocationModel()
   }
   reloadPage() {
     this.doLoadLocation()
@@ -226,15 +235,11 @@ export class LocationComponent implements OnInit {
         "location_detail": items?.location_detail,
         "location_lat": items?.location_lat,
         "location_long": items?.location_long,
-
       }
     });
-
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, 'Export_Location.xlsx');
-
   }
-
 }

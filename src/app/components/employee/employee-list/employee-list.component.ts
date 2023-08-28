@@ -31,6 +31,7 @@ import { LevelService } from 'src/app/services/system/policy/level.service';
 import { PartService } from 'src/app/services/emp/policy/part.service';
 import { ProjectModel } from 'src/app/models/project/project';
 import { ProjectService } from 'src/app/services/project/project.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 
 interface ImportList {
@@ -127,12 +128,16 @@ export class EmployeeListComponent implements OnInit {
 
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   title_page: string = "Employee management";
@@ -234,10 +239,14 @@ export class EmployeeListComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.selectedemployee = new EmployeeModel();
-          this.selectEmpManage();
-          // this.new_employee= true;
-          // this.edit_employee= false;
+          if (this.accessData.accessdata_new) {
+            this.selectedemployee = new EmployeeModel();
+            this.selectEmpManage();
+            // this.new_employee= true;
+            // this.edit_employee= false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
         }
 
       },
@@ -522,7 +531,9 @@ export class EmployeeListComponent implements OnInit {
   }
   levelList: LevelModel[] = [];
   doLoadlevelList() {
-    this.levelService.level_get().then(async (res) => {
+    var tmp = new LevelModel();
+    tmp.level_code = this.selectedLevel;
+    this.levelService.level_get(tmp).then(async (res) => {
       this.levelList = await res;
     })
   }

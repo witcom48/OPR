@@ -67,7 +67,8 @@ export class EmployeeModel {
 
   selected_Import: string = "";
   selected_Attachfile:string = "";
-  
+  location_code: boolean = false;
+
   // recruiment
   reqdocatt_data: ApplyMTDocattModel[] = []
   worker_age: number = 0;
@@ -76,7 +77,7 @@ export class EmployeeModel {
   checkhistory: Boolean = false
   counthistory: number = 0;
   checkcertificate: Boolean = false
-  status: number = 0;
+  status: string = "";
 
   worker_cardno: string = "";
   worker_cardnoissuedate!: Date;

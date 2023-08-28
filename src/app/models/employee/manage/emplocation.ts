@@ -1,4 +1,7 @@
+import { SysLocationModel } from "../../system/policy/location";
+
 export class EmpLocationModel {
+    location_name_th: any;
     constructor() {
     }
     company_code: string = "";
@@ -14,4 +17,7 @@ export class EmpLocationModel {
   
     index: number = 0;
     select: boolean = false;
+    syslocation_data: SysLocationModel[] = []
+
+   
   }

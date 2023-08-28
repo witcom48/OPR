@@ -7,9 +7,9 @@
         <small>{{title_page}}</small>
     </div>
 </div> -->
-<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<!-- <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 
-<hr>
+<hr> -->
 
 
 <!-- Menu New Import Export Data -->
@@ -46,6 +46,9 @@
                     <th>{{title_name_th}}</th>
                     <th>{{title_name_en}}</th>
                     <th>{{title_amount}}</th>
+                    <!--  -->
+                    <th>{{title_amountmax[initial_current.Language]}}</th>
+                    <!--  -->
                     <th>{{title_percent}}</th>
                     <th>{{title_percent_max}}</th>
                     <th>{{title_modified_by}}</th>
@@ -60,12 +63,16 @@
                     <td>{{data.reduce_name_th}}</td>
                     <td>{{data.reduce_name_en}}</td>
                     <td>{{data.reduce_amount.toLocaleString()}}</td>
+                    <!--  -->
+                    <td>{{data.reduce_amount_max.toLocaleString()}}</td>
+                    <!--  -->
                     <td>{{data.reduce_percent.toLocaleString()}}</td>
                     <td>{{data.reduce_percent_max.toLocaleString()}}</td>
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     <td>
-                        <button pButton type="button" class="pi pi-trash gray-button " (click)="confirmDeletes(data)">
+                        <button pButton type="button" class="pi pi-trash gray-button "
+                            [disabled]="!this.accessData.accessdata_delete" (click)="confirmDeletes(data)">
                         </button>
 
                     </td>
@@ -105,6 +112,14 @@
                     #reduce_amount="ngModel">
                 </p-inputNumber>
 
+                <!--  -->
+                <label>{{title_amountmax[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+                    [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedReduce.reduce_amount_max" name="reduce_amount_max"
+                    #reduce_amount_max="ngModel">
+                </p-inputNumber>
+
+                <!--  -->
 
                 <label>{{title_percent}}<span style="color: red;"> *</span></label>
                 <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
@@ -121,12 +136,20 @@
 
                 <br>
                 <div style="text-align: right;">
+                    <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                        (click)="confirmRecord()" [disabled]="!Form.form.valid" class="button-size"></button>
 
-                    <button pButton type="button" class="button-size" label="{{title_save}}" icon="pi pi-save"
-                        (click)="confirmRecord()" [disabled]="!Form.form.valid"></button>
+                    <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()"
+                        label="{{ title_save }}" icon="pi pi-save"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="button-size"></button>
+
+                    <!-- <button pButton type="button" class="button-size" label="{{title_save}}" icon="pi pi-save"
+                        (click)="confirmRecord()" [disabled]="!Form.form.valid"></button> -->
                     &nbsp;
                     <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                        class="p-button-secondary button-size" (click)="confirmDelete()"></button>
+                        class="p-button-secondary button-size btndel" (click)="confirmDelete()"
+                        [disabled]="!this.accessData.accessdata_delete"></button>
                 </div>
             </div>
         </p-dialog>

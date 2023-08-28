@@ -52,8 +52,8 @@
                     <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.modified_date |
                         date:'dd/MM/yyyy HH:mm'}}
                     </td>
-                    <td><button pButton type="button" class="pi pi-trash gray-button "
-                            (click)="confirmDelete(data)"></button>
+                    <td><button pButton type="button" class="pi pi-trash gray-button " (click)="confirmDelete(data)"
+                            [disabled]="!this.accessData.accessdata_delete"></button>
                     </td>
                 </tr>
             </ng-template>
@@ -145,8 +145,15 @@
                 pInputTextarea [autoResize]="true" name="note" #note="ngModel"></textarea>
 
             <div class="field col-12">
-                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (onClick)="confirmRecord()"
-                    [disabled]="!Form.form.valid"></p-button>
+                <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save[initial_current.Language] }}" icon="pi pi-save"
+                    (click)="confirmRecord()" [disabled]="!Form.form.valid" class="button-size"></button>
+
+                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()"
+                    label="{{ title_save[initial_current.Language] }}" icon="pi pi-save"
+                    [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                    class="button-size "></button>
+                <!-- <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (onClick)="confirmRecord()"
+                    [disabled]="!Form.form.valid"></p-button> -->
             </div>
 
         </div>

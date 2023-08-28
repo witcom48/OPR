@@ -49,6 +49,7 @@ import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { RecruitmentApproveComponent } from './recruitment-approve/recruitment-approve.component';
 
 @NgModule({
 	imports: [
@@ -106,7 +107,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
            RecruitmentPolicyComponent,
            ApplyListComponent,
            RecruimentBlacklistComponent,
-           SetBlacklistComponent
+           SetBlacklistComponent,
+           RecruitmentApproveComponent
   ]
 })
 export class RecruitmentModule { }

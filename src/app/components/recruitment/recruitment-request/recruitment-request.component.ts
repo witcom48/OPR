@@ -14,6 +14,7 @@ import { EmptypeService } from 'src/app/services/emp/policy/emptype.service';
 import { PositionModel } from 'src/app/models/employee/policy/position';
 import { ProjectModel } from 'src/app/models/project/project';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 interface urgen {
   name_th: string,
@@ -86,12 +87,15 @@ export class RecruitmentRequestComponent implements OnInit {
 
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('REQ');
   }
 
   title_page: string = "Request";
@@ -139,7 +143,7 @@ export class RecruitmentRequestComponent implements OnInit {
   title_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" };
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
   title_note: { [key: string]: string } = { EN: "More", TH: "เพิ่มเติม" };
-  
+
   title_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
   title_accepted: { [key: string]: string } = { EN: "Accepted", TH: "รับแล้ว" };
   title_complete: { [key: string]: string } = { EN: "Complete", TH: "สำเร็จ" };
@@ -197,10 +201,14 @@ export class RecruitmentRequestComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedRequest = new RequestModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedRequest = new RequestModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       }
       ,
@@ -227,19 +235,27 @@ export class RecruitmentRequestComponent implements OnInit {
 
       items: [
         {
-          label:  this.title_edit,
+          label: this.title_edit,
           icon: 'pi pi-fw pi-pencil',
           command: (event) => {
-            this.showManage()
-            this.edit_data = true;
+            if (this.accessData.accessdata_edit) {
+              this.showManage()
+              this.edit_data = true;
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+            }
           }
         }
-        , 
+        ,
         {
           label: this.title_delete,
           icon: 'pi pi-trash',
           command: () => {
-            this.confirmDelete(this.selectedRequest)
+            if (this.accessData.accessdata_delete) {
+              this.confirmDelete(this.selectedRequest)
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+            }
           }
         },
         {
@@ -257,11 +273,11 @@ export class RecruitmentRequestComponent implements OnInit {
                 this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
               }
             });
-           }
+          }
         }
       ]
     },
-     
+
     ];
   }
   selectRow(data: any) {
@@ -486,7 +502,7 @@ export class RecruitmentRequestComponent implements OnInit {
   }
 
   //get type name
-  doGetTypeDetail(TypeCode:string): any{
+  doGetTypeDetail(TypeCode: string): any {
     for (let i = 0; i < this.emptypeList.length; i++) {
       if (this.emptypeList[i].type_code == TypeCode) {
         if (this.initial_current.Language == "TH") {

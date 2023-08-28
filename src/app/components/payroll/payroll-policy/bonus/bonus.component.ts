@@ -61,6 +61,8 @@ export class BonusComponent implements OnInit {
         // console.log(this.accessData)
         // console.log(this.accessData.accessdata_new)
     }
+    title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
     title_payroll: string = 'Payroll';
     title_policy: string = 'Set Policy';
     title_page: string = 'Bonus';
@@ -162,6 +164,9 @@ export class BonusComponent implements OnInit {
 
         this.doLoadMenu();
         this.doLoadLate();
+    }
+    reloadPage() {
+        this.doLoadLate()
     }
 
     doLoadLate() {
@@ -271,6 +276,15 @@ export class BonusComponent implements OnInit {
 
                 },
             },
+            {
+                label: this.title_file[this.initial_current.Language],
+
+                icon: 'pi-download',
+                command: (event) => {
+                    window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Bonus.xlsx', '_blank');
+                }
+            }
+            ,
             {
                 label: this.title_import,
                 icon: 'pi-file-import',

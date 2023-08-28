@@ -150,14 +150,14 @@
 
                         <div>
                             <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
-                            <p-dropdown placeholder="--" [options]="nationality" optionValue="code" [showClear]="true"
+                            <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code" [showClear]="true"
                                 [(ngModel)]="selectedEmployee.nationality_code"
                                 [style]="{ width: '100%', overflow: 'visible' }">
                                 <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                    {{initial_current.Language=="TH"? item.ethnicity_name_th : item.ethnicity_name_en}}
                                 </ng-template>
                                 <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                    {{initial_current.Language=="TH"? item.ethnicity_name_th : item.ethnicity_name_en}}
                                 </ng-template>
                             </p-dropdown>
                         </div>

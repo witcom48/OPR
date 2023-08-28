@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{title_emp[initial_current.Language]}}</span>
     <div>
         <i></i>
@@ -8,7 +8,8 @@
         <i></i>
         <small>{{title_initial[initial_current.Language]}}</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
 <!-- Menu New Import Export Data -->
@@ -62,29 +63,44 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
+            [position]="position" (onHide)="reloadPage()">
+        <div class="formatt p-dialog-content" *ngIf="new_data==true">
 
-        <label>{{title_code}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedInitial.initial_code" maxlength="5" />
-        <p>{{selectedInitial.initial_code.length}}/5</p>
+            <label>{{title_code}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedInitial.initial_code" maxlength="5"name="code"
+            #code="ngModel" required [readOnly]="edit_data" />
+            <p>{{selectedInitial.initial_code.length}}/5</p>
 
-        <label>{{title_name_th}}</label>
-        <textarea [(ngModel)]="selectedInitial.initial_name_th" pInputTextarea [autoResize]="true"></textarea>
+            <label>{{title_name_th}}</label>
+            <textarea [(ngModel)]="selectedInitial.initial_name_th" pInputTextarea [autoResize]="true" name="name_th"
+            #name_th="ngModel"></textarea>
 
-        <label>{{title_name_en}}</label>
-        <textarea [(ngModel)]="selectedInitial.initial_name_en" pInputTextarea [autoResize]="true"></textarea>
+            <label>{{title_name_en}}</label>
+            <textarea [(ngModel)]="selectedInitial.initial_name_en" pInputTextarea [autoResize]="true" name="name_en"
+            #name_en="ngModel"></textarea>
 
-        <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-check" (click)="confirmRecord()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-            class="btndel" (click)="confirmDelete()"></button> -->
-        <div class="field col-12">
-            <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
-            &nbsp;
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="p-button-secondary"
-                (click)="confirmDelete()"></button>
+            
+            <div class="field col-12" style=" text-align: right;">
+                <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                    (click)="confirmRecord()" [disabled]="!Form.form.valid" class="button-size"></button>
+                
+                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()" label="{{ title_save }}"
+                    icon="pi pi-save"
+                    [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                    class="button-size "></button>
+                <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()" [disabled]="!Form.form.valid"></p-button> -->
+                &nbsp;
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
+                    class="p-button-secondary button-size btndel" [disabled]="!this.accessData.accessdata_delete"
+                    (click)="confirmDelete()"></button>
+            </div>
         </div>
-    </div>
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+    </form>
 </div>
 
 <!-- Dialog Choose File Import -->

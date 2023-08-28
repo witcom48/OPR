@@ -6,6 +6,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { OvertimeModels } from 'src/app/models/attendance/overtime';
 import { OvertimerateModels } from 'src/app/models/attendance/overtime_rate';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { OTServices } from 'src/app/services/attendance/rateot.service';
 import * as XLSX from 'xlsx';
 declare var rateot: any;
@@ -29,6 +30,8 @@ export class OvertimeComponent implements OnInit {
     private router: Router,
   ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
+  itemslike: MenuItem[] = [];
+  home: any;
   daytype: Typeday[] = [];
   select_daytype!: Typeday;
   new_data: boolean = false
@@ -43,12 +46,15 @@ export class OvertimeComponent implements OnInit {
   overtimes: OvertimeModels = new OvertimeModels()
   rate: OvertimerateModels = new OvertimerateModels()
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -140,15 +146,31 @@ export class OvertimeComponent implements OnInit {
     this.displayeditrate = true
   }
   doLoadMenu() {
+    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+      label: this.langs.get('overtime')[this.selectlang], styleClass: 'activelike'
+    }];
 
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.overtimes = new OvertimeModels();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.overtimes = new OvertimeModels();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
+        }
+      }
+      ,
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Attendance/(OPR)Import ReateOT.xlsx', '_blank');
         }
       }
       ,
@@ -205,9 +227,11 @@ export class OvertimeComponent implements OnInit {
     }
   }
   closedispaly() {
+    this.displayaddrate = false;
     this.rate = new OvertimerateModels()
   }
   close() {
+    this.closedispaly();
     this.new_data = false
     this.rate = new OvertimerateModels()
     this.overtimes = new OvertimeModels()
@@ -216,7 +240,16 @@ export class OvertimeComponent implements OnInit {
     this.doRecordOt(this.overtimes)
   }
   Delete() {
-    this.doDeleteOt(this.overtimes)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteOt(this.overtimes)
+      },
+      reject: () => {
+      }
+    });
   }
   Saverate() {
     if (!this.displayeditrate) {

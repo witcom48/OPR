@@ -13,6 +13,7 @@ import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { PayitemModel } from 'src/app/models/payroll/payitem';
 import { PayitemService } from 'src/app/services/payroll/payitem.service';
 import { ItemsModel } from 'src/app/models/payroll/items';
+import { ItemService } from 'src/app/services/payroll/item.service';
 
 @Component({
   selector: 'app-search-item',
@@ -22,21 +23,22 @@ import { ItemsModel } from 'src/app/models/payroll/items';
 export class SearchItemComponent implements OnInit {
 
 
-  title_page_from: { [key: string]: string } = { EN: "Showing", TH: "แสดง1" }
-  title_page_to: { [key: string]: string } = { EN: "to", TH: "ถึง1" }
-  title_page_total: { [key: string]: string } = { EN: "of", TH: "จาก1" }
-  title_page_record: { [key: string]: string } = { EN: "entries", TH: "รายการ1" }
+  title_page_from: { [key: string]: string } = { EN: "Showing", TH: "แสดง" }
+  title_page_to: { [key: string]: string } = { EN: "to", TH: "ถึง" }
+  title_page_total: { [key: string]: string } = { EN: "of", TH: "จาก" }
+  title_page_record: { [key: string]: string } = { EN: "entries", TH: "รายการ" }
 
-  title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา1" }
+  title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" }
 
-  title_id: { [key: string]: string } = { EN: "ID", TH: "รหัสพนักงาน1" }
-  title_firstname: { [key: string]: string } = { EN: "Firstname", TH: "ชื่อ1" }
-  title_lastname: { [key: string]: string } = { EN: "Lastname", TH: "นามสกุล1" }
-  title_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่งงาน1" }
-  title_emptype: { [key: string]: string } = { EN: "Emptype", TH: "ประเภทพนักงาน1" }
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
+  title_details: { [key: string]: string } = { EN: "Details", TH: "รายละเอียด" }
+  title_name_th: {[key: string]: string} = {  EN: "Name (Thai)",  TH: "ชื่อไทย"}
+  title_name_en: {[key: string]: string} = {  EN: "Name (Eng.)",  TH: "ชื่ออังกฤษ"}
+
 
   constructor(
     private payitemService: PayitemService,
+    private itemService: ItemService,
 
     private router: Router,
     private route: ActivatedRoute,
@@ -51,6 +53,7 @@ export class SearchItemComponent implements OnInit {
     this.doLoadLanguage()
 
     setTimeout(() => {
+      this.doLoaditem()
     }, 200);
 
   }
@@ -70,48 +73,20 @@ export class SearchItemComponent implements OnInit {
   item_code: string = '';
   worker_code: string = '';
   item_type: string = '';
-  selectedPayitem: ItemsModel = new ItemsModel();
   worker_list: PayitemModel[] = [];
 
-
-   doLoadEmployee() {
-        const tmp = new PayitemModel();
-        tmp.item_code = this.item_code;
-        tmp.worker_code = this.worker_code;
-        
-        this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate,
-            tmp.worker_code, this.item_type, tmp.item_code).then((res) => {
-            this.worker_list = res;
-            console.log(this.worker_list, 'testitem');
-        });
-
-
-    // async doLoaditem() {
-    //   var tmp = new PayitemModel();
-    //   tmp.item_code = this.item_code;
-    //   tmp.worker_code = this.worker_code;
-
-    //   try {
-    //     const res = await this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate,
-    //       tmp.worker_code, this.item_type, "tmp.item_code"
-    //     );
-
-    //     this.worker_list = res;
-    //     return res;
-    //   } catch (error) {
-    //     console.error(error);
-    //     throw error;
-    //   }
-
-
-
-
-
+  selectedPayitem: ItemsModel = new ItemsModel();
+  Items_List: ItemsModel[] = [];
+  doLoaditem() {
+    var tmp = new ItemsModel();
+  
+    this.itemService.item_get(tmp).then((res) => {
+      this.Items_List = res.filter((item: { item_type: string; }) => item.item_type === "IN");
+    });
   }
-  onRowSelectEmployee(event: Event) {
+  
+ 
 
+  onRowSelectItems(event: Event) {
   }
-
-
-
 }

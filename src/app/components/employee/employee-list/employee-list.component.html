@@ -326,7 +326,7 @@
                     &nbsp;
                     <button *ngIf="edit_employee" pButton pRipple type="button"
                         label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary"
-                        (click)="confirmDelete()"></button>
+                        [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete()"></button>
                 </div>
                 <!-- <button pButton pRipple type="button" label="เพิ่มเติม" (click)="selectEmpManage()"
             class="p-button-secondary"></button>

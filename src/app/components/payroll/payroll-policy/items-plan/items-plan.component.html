@@ -1,0 +1,148 @@
+<!-- Link Page -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<hr>
+<!-- ---------END Link Page----------- -->
+<!-- Menu New Import Export Data -->
+<div>
+    <p-menubar [model]="items"></p-menubar>
+</div>
+<!-- ----------------END MENU----------------- -->
+<div class="tabledata">
+    <!-- Table Show Data Year Period -->
+    <div #TABLE>
+        <p-table #dt2 [value]="itemsplan_list" selectionMode="single" [(selection)]="itemsplans"
+            (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
+            [globalFilterFields]="['planitems_code','planitems_name_en','planitems_name_th','modified_date']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- Form Search Table -->
+            <ng-template pTemplate="caption">
+                <div class="searchtable">
+                    <div>
+
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{langs.get('search')[selectlang]}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <!-- --------------END Form Search Table------------------ -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{title_no[initial_current.Language]}}</th>
+                    <th>{{title_code[initial_current.Language]}}</th>
+                    <th>{{title_description[initial_current.Language]}}</th>
+                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex">
+                <tr [pSelectableRow]="data">
+                    <td><span>{{title_no[initial_current.Language]}}</span>{{i+1}}</td>
+                    <td><span>{{title_code[initial_current.Language]}}</span>{{data.planitems_code}}</td>
+                    <td><span>{{title_description[initial_current.Language]}}</span>{{selectlang=="EN"?data.planitems_name_en:data.planitems_name_th}}
+                    </td>
+                    <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.modified_by}}</td>
+                    <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy'}}</td>
+                        <td>
+                            <button pButton type="button" class="pi pi-trash gray-button "
+                                (click)="doDeletePlanitems(data)" [disabled]="!this.accessData.accessdata_delete">
+                            </button>
+    
+                        </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- -----------------------END Table-------------------------- -->
+
+    <!-- Form input or Edit Data Year Period -->
+    <form #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height: '1500px', 'overflow-y': 'hidden' }"
+            [position]="position" (onHide)="reloadPage()">
+            <div class="formatt p-dialog-content" *ngIf="new_data">
+
+                <label>{{title_code[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <input pInputText type="text" [(ngModel)]="itemsplans.planitems_code" maxlength="10"
+                    disabled="{{edit_data}}" name="code" #code="ngModel" required />
+                <p>{{itemsplans.planitems_code.length}}/10</p>
+
+                <label>{{title_detail_th[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="itemsplans.planitems_name_th" pInputTextarea [autoResize]="true"
+                    name="planitems_name_th" #planitems_name_th="ngModel" required></textarea>
+
+                <label>{{title_detail_en[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="itemsplans.planitems_name_en" pInputTextarea [autoResize]="true"
+                    name="planitems_name_en" #planitems_name_en="ngModel" required></textarea>
+
+                <p-pickList class="picklistvertical" [metaKeySelection]="false" [responsive]="true"
+                    [source]="items_listselect" [target]="itemsplans.itemslists"
+                    sourceHeader={{title_IncomeDeduct[initial_current.Language]}}
+                    targetHeader={{title_IncomeDeduct_Plan[initial_current.Language]}}
+                    [sourceStyle]="{'height':'15rem'}" [targetStyle]="{'height':'15rem'}"
+                    sourceFilterPlaceholder="search" targetFilterPlaceholder="search"
+                    filterBy="item_code,item_name_en,item_name_th">
+
+                    <ng-template let-data pTemplate="item">
+                        <div>
+                            <div style="font-size:14px;float:left;">{{data.item_code}} - {{selectlang
+                                =='EN'?data.item_name_en:data.item_name_th}}</div>
+                        </div>
+                    </ng-template>
+                </p-pickList>
+                <br>
+                <div style="text-align: right;">
+                    <button *ngIf="!edit_data" pRipple pButton type="submit"
+                        label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="Save()"
+                        [disabled]="!Form.form.valid" class="button-size"></button>
+
+                    <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()"
+                        label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="button-size"></button>
+
+                    &nbsp;
+                    <!-- <button pButton type="submit" label="{{title_save[initial_current.Language]}}" icon="pi pi-check"
+                        [disabled]="!Form.form.valid"></button> -->
+                    <button *ngIf="edit_data" pButton type="button" label="{{title_delete[initial_current.Language]}}"
+                        icon="pi pi-trash" class="p-button-secondary button-size btndel" (click)="Delete()"
+                        [disabled]="!this.accessData.accessdata_delete"></button>
+                </div>
+            </div>
+
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+        </div>
+    </form>
+
+    <!-- --------------End form Input Data ------------------ -->
+</div>
+
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- -----------------End Dialog Choose File-------------------- -->
+
+
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<!-- ----------------------END Confirm and Toast------------------------ -->

@@ -8,6 +8,7 @@ import { InitialCurrent } from '../../../../../config/initial_current';
 import { PositionModel } from '../../../../../models/employee/policy/position';
 import { PositionService } from '../../../../../services/emp/policy/position.service';
 import * as XLSX from 'xlsx';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-position',
@@ -35,19 +36,22 @@ export class PositionComponent implements OnInit {
     this.doGetInitialCurrent()
 
     this.doLoadLanguage()
-    
+
     this.doLoadMenu()
     setTimeout(() => {
       this.doLoadPosition()
     }, 500);
   }
-
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   title_page: string = "Position";
@@ -120,10 +124,14 @@ export class PositionComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.selectedPosition = new PositionModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            this.selectedPosition = new PositionModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       },
       {

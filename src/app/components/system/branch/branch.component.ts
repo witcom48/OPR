@@ -15,6 +15,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { AppConfig } from 'src/app/config/config';
 import { CombranchModel } from 'src/app/models/system/branch';
 import { CombranchService } from 'src/app/services/system/combranch.service';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
     selector: 'app-branch',
@@ -51,7 +52,8 @@ export class BranchComponent implements OnInit {
             this.doLoadCombranch();
         }, 500);
     }
-
+    initialData2: InitialCurrent = new InitialCurrent();
+    accessData: AccessdataModel = new AccessdataModel();
     public initial_current: InitialCurrent = new InitialCurrent();
     doGetInitialCurrent() {
         this.initial_current = JSON.parse(
@@ -60,7 +62,11 @@ export class BranchComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('login');
         }
+        this.accessData = this.initialData2.dotGetPolmenu('SYS');
+
     }
+    title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+
     title_codes: string = 'Branch Id';
     title_social_security_branch: string = 'Social Security Branch No.';
     title_name: string = 'Branch Name';
@@ -165,10 +171,23 @@ export class BranchComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    this.selectedcombranch = new CombranchModel();
-                    this.selectComManage();
+                    if (this.accessData.accessdata_new) {
+                        this.selectedcombranch = new CombranchModel();
+                        this.selectComManage();
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+                    }
                 },
             },
+            {
+
+                label: this.title_file[this.initial_current.Language],
+                icon: 'pi-download',
+                command: (event) => {
+                    window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Combranch.xlsx', '_blank');
+                }
+            }
+            ,
             {
                 label: this.title_import,
                 icon: 'pi pi-fw pi-file-import',

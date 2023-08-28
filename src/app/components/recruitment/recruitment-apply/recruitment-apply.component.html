@@ -108,14 +108,14 @@
                         </div>
                         <div>
                             <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
-                            <p-dropdown placeholder="--" [options]="nationality" optionValue="code" [showClear]="true"
+                            <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code" [showClear]="true"
                                 [(ngModel)]="selectedReqworker.nationality_code"
                                 [style]="{ width: '100%', overflow: 'visible' }">
                                 <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                    {{initial_current.Language=="TH"? item.ethnicity_name_th : item.ethnicity_name_en}}
                                 </ng-template>
                                 <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                    {{initial_current.Language=="TH"? item.ethnicity_name_th : item.ethnicity_name_en}}
                                 </ng-template>
                             </p-dropdown>
                         </div>
@@ -320,7 +320,7 @@
                                         <tr>
                                             <th>{{title_date}}</th>
                                             <th>{{title_amount}}</th>
-                                            <th>{{title_reason}}</th>
+                                            <!-- <th>{{title_reason}}</th> -->
                                             <th>{{title_modified_by[initial_current.Language]}}</th>
                                             <th>{{title_modified_date[initial_current.Language]}}</th>
                                         </tr>
@@ -329,7 +329,7 @@
                                         <tr [pSelectableRow]="empsalary">
                                             <td>{{empsalary.empsalary_date | date:'dd/MM/yyyy'}}</td>
                                             <td>{{empsalary.empsalary_amount}}</td>
-                                            <td>{{empsalary.empsalary_reason}}</td>
+                                            <!-- <td>{{empsalary.empsalary_reason}}</td> -->
                                             <td>{{empsalary.modified_by}}</td>
                                             <td>{{empsalary.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                         </tr>
@@ -1697,7 +1697,7 @@
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedReqSalary.empsalary_amount">
         </p-inputNumber> -->
-        <label>{{title_incrementbath}}</label>
+        <!-- <label>{{title_incrementbath}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedReqSalary.empsalary_incamount">
         </p-inputNumber>
@@ -1705,7 +1705,7 @@
         <label>{{title_incrementper}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax" suffix="%"
             [(ngModel)]="selectedReqSalary.empsalary_incpercent" [max]="100">
-        </p-inputNumber>
+        </p-inputNumber> -->
 
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"

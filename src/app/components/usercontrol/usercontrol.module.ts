@@ -41,6 +41,7 @@ import { SelectEmpComponent } from './select-emp/select-emp.component';
 import { TaskComponent } from './task/task.component';
 import { SearchEmpComponent } from './search-emp/search-emp.component';
 import { SearchItemComponent } from './search-item/search-item.component';
+import { SearchItemdeComponent } from './search-item/search-itemde/search-itemde.component';
 
 
 @NgModule({
@@ -86,8 +87,8 @@ import { SearchItemComponent } from './search-item/search-item.component';
 		
 	],
 	declarations: [     
-		SelectEmpComponent, TaskComponent, SearchEmpComponent, SearchItemComponent
+		SelectEmpComponent, TaskComponent, SearchEmpComponent, SearchItemComponent, SearchItemdeComponent
   ],
-  exports: [SelectEmpComponent, TaskComponent, SearchEmpComponent, SearchItemComponent],
+  exports: [SelectEmpComponent, TaskComponent, SearchEmpComponent, SearchItemComponent,SearchItemdeComponent],
 })
 export class UsercontrolModule { }

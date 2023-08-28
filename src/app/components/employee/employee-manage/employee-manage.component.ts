@@ -49,7 +49,6 @@ import { EmpBranchModel } from 'src/app/models/employee/manage/empbranch';
 
 //dropdown
 import { LocationService } from 'src/app/services/system/policy/location.service';
-import { LocationModel } from 'src/app/models/system/policy/location';
 import { CombranchService } from 'src/app/services/system/combranch.service';
 import { CombranchModel } from 'src/app/models/system/branch';
 import { BloodtypeService } from 'src/app/services/system/policy/bloodtype.service';
@@ -100,6 +99,9 @@ import { CodePolcodeService } from 'src/app/services/system/manage1/code-polcode
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignercard';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
+import { EthnicityModel } from 'src/app/models/system/policy/ethnicity';
+import { EthnicityService } from 'src/app/services/system/policy/ethnicity.service';
 
 
 
@@ -130,7 +132,7 @@ interface Nation {
   name_en: string,
   code: string
 }
-interface ForeigType{
+interface ForeigType {
   name_th: string,
   name_en: string,
   code: string
@@ -315,6 +317,7 @@ export class EmployeeManageComponent implements OnInit {
     private reduceService: ReduceService,
 
     private genaralService: ProgenaralService,
+    private ethnicityService: EthnicityService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -399,6 +402,7 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadReduceList();
 
     this.doLoadItemsList();
+    this.doLoadethnicityList();
 
     setTimeout(() => {
       this.doLoadMenu();
@@ -636,7 +640,7 @@ export class EmployeeManageComponent implements OnInit {
   title_socialexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันที่สิ้นสุด" };
   title_socialsentdate: { [key: string]: string } = { EN: "Sent Date", TH: "วันที่นำส่ง" };
   title_socialnotsent: { [key: string]: string } = { EN: "Not Sent", TH: "ไม่นำส่งประกันสังคม" };
-  
+
   title_foreignercode: { [key: string]: string } = { EN: "Code", TH: "เลขที่" };
   title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
@@ -844,7 +848,12 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_save,
         icon: 'pi pi-fw pi-save',
         command: (event) => {
-          this.confirmRecord()
+          if (this.accessData.accessdata_edit) {
+            // console.log('Save');
+            this.confirmRecord();
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
 
       },];
@@ -2326,7 +2335,7 @@ export class EmployeeManageComponent implements OnInit {
         element.worker_socialnoissuedate = new Date(element.worker_socialnoissuedate)
         element.worker_socialnoexpiredate = new Date(element.worker_socialnoexpiredate)
         element.worker_socialsentdate = new Date(element.worker_socialsentdate)
-        
+
       })
 
       employee_list = await res;
@@ -2415,9 +2424,9 @@ export class EmployeeManageComponent implements OnInit {
       this.groupList = res;
     })
   }
-  locationList: LocationModel[] = [];
+  locationList: SysLocationModel[] = [];
   doLoadLocationList() {
-    var tmp = new LocationModel();
+    var tmp = new SysLocationModel();
     this.locationService.location_get(tmp).then(async (res) => {
       this.locationList = await res;
     })
@@ -2467,7 +2476,7 @@ export class EmployeeManageComponent implements OnInit {
   familytypeList: FamilyModel[] = [];
   doLoadFamilytypeList() {
     var tmp = new FamilyModel();
-    this.familytypeService.family_get().then(async (res) => {
+    this.familytypeService.family_get(tmp).then(async (res) => {
       this.familytypeList = await res;
     })
   }
@@ -2581,6 +2590,13 @@ export class EmployeeManageComponent implements OnInit {
     var tmp = new ReducesModel();
     this.reduceService.reduce_get().then((res) => {
       this.reduceList = res;
+    })
+  }
+  //drop ethnicity
+  ethnicityList: EthnicityModel[] = [];
+  doLoadethnicityList() {
+    this.ethnicityService.ethnicity_get().then((res) => {
+      this.ethnicityList = res;
     })
   }
 

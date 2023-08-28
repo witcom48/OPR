@@ -8,8 +8,8 @@ import { AccountModel } from 'src/app/models/self/account';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeotModel } from 'src/app/models/self/cls_TRTimeot';
 import { TRAccountModel } from 'src/app/models/self/traccount';
-import { LocationModel } from 'src/app/models/system/policy/location';
-import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
+ import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
@@ -49,8 +49,8 @@ export class SelfOvertimeComponent implements OnInit {
   Uploadfile: boolean = false;
   reason_list: ReasonsModel[] = [];
   reasonselected: ReasonsModel = new ReasonsModel();
-  location_list: LocationModel[] = [];
-  locationselected: LocationModel = new LocationModel();
+  location_list: SysLocationModel[] = [];
+  locationselected: SysLocationModel = new SysLocationModel();
   trtimeot_list: cls_TRTimeotModel[] = [];
   selectedtrtimeot: cls_TRTimeotModel = new cls_TRTimeotModel();
   selectedreqdoc: cls_MTReqdocumentModel = new cls_MTReqdocumentModel();
@@ -130,7 +130,7 @@ export class SelfOvertimeComponent implements OnInit {
   }
   doLoadLocation() {
     this.location_list = [];
-    let data = new LocationModel()
+    let data = new SysLocationModel()
     this.locationService.location_get(data).then(async (res) => {
       this.location_list = await res;
     });
@@ -329,7 +329,7 @@ export class SelfOvertimeComponent implements OnInit {
     this.doGetfileTimeot(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
   }
   onRowSelect(event: Event) {
-    this.location_list.forEach((obj: LocationModel) => {
+    this.location_list.forEach((obj: SysLocationModel) => {
       if (obj.location_code == this.selectedtrtimeot.location_code) {
         this.locationselected = obj;
       }

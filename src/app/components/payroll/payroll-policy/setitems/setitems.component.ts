@@ -60,6 +60,7 @@ export class SetitemsComponent implements OnInit {
         { label: this.title_page, styleClass: 'activelike' }];
         this.home = { icon: 'pi pi-home', routerLink: '/' };
     }
+    
     title_payroll: string = 'Payroll';
     title_system_Policy: string = 'Policy';
     title_Process: string = 'Process';

@@ -7,6 +7,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { PlanscheduleModels } from 'src/app/models/attendance/planschedule';
 import { ShiftModels } from 'src/app/models/attendance/shift';
 import { ShiftplanModels } from 'src/app/models/attendance/shift_plan';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { PlanshiftServices } from 'src/app/services/attendance/planshift.service';
 import { ShiftServices } from 'src/app/services/attendance/shift.service';
 import * as XLSX from 'xlsx';
@@ -28,6 +29,8 @@ export class ShiftPlanComponent implements OnInit {
   ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
   @ViewChild('TABLELIST') tablelist: ElementRef | any = null;
+  itemslike: MenuItem[] = [];
+  home: any;
   ShiftList: ShiftModels[] = [];
   selectedshift!: ShiftModels;
   new_data: boolean = false
@@ -45,12 +48,15 @@ export class ShiftPlanComponent implements OnInit {
   shiftplans: ShiftplanModels = new ShiftplanModels()
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -73,13 +79,13 @@ export class ShiftPlanComponent implements OnInit {
         await element.planschedule.forEach((elm: any) => {
           elm.planschedule_fromdate = new Date(elm.planschedule_fromdate);
           elm.planschedule_todate = new Date(elm.planschedule_todate);
-          elm.planschedule_sun_off = elm.planschedule_sun_off == "Y" ? true : false;
-          elm.planschedule_mon_off = elm.planschedule_mon_off == "Y" ? true : false;
-          elm.planschedule_tue_off = elm.planschedule_tue_off == "Y" ? true : false;
-          elm.planschedule_wed_off = elm.planschedule_wed_off == "Y" ? true : false;
-          elm.planschedule_thu_off = elm.planschedule_thu_off == "Y" ? true : false;
-          elm.planschedule_fri_off = elm.planschedule_fri_off == "Y" ? true : false;
-          elm.planschedule_sat_off = elm.planschedule_sat_off == "Y" ? true : false;
+          elm.planschedule_sun_off = elm.planschedule_sun_off == "N" ? true : false;
+          elm.planschedule_mon_off = elm.planschedule_mon_off == "N" ? true : false;
+          elm.planschedule_tue_off = elm.planschedule_tue_off == "N" ? true : false;
+          elm.planschedule_wed_off = elm.planschedule_wed_off == "N" ? true : false;
+          elm.planschedule_thu_off = elm.planschedule_thu_off == "N" ? true : false;
+          elm.planschedule_fri_off = elm.planschedule_fri_off == "N" ? true : false;
+          elm.planschedule_sat_off = elm.planschedule_sat_off == "N" ? true : false;
         });
       });
       this.shiftplan_lists = await res;
@@ -135,15 +141,31 @@ export class ShiftPlanComponent implements OnInit {
 
 
   doLoadMenu() {
+    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+      label: this.langs.get('shiftplan')[this.selectlang], styleClass: 'activelike'
+    }];
 
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.shiftplans = new ShiftplanModels();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.shiftplans = new ShiftplanModels();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
+        }
+      }
+      ,
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Attendance/(OPR)Import Planshift.xlsx', '_blank');
         }
       }
       ,
@@ -210,7 +232,17 @@ export class ShiftPlanComponent implements OnInit {
     this.doRecorddPlanshift(this.shiftplans)
   }
   Delete() {
-    this.doDeletedPlanshift(this.shiftplans)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletedPlanshift(this.shiftplans)
+      },
+      reject: () => {
+        // this.close();
+      }
+    });
   }
   Saveplanschedule() {
     if (!this.displayeditholiday) {

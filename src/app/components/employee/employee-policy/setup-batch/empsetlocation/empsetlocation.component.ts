@@ -7,7 +7,8 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
 import { SetLocationModel } from 'src/app/models/employee/policy/batch/setlocation';
-import { LocationModel } from 'src/app/models/system/policy/location';
+import { SysLocationModel } from 'src/app/models/system/policy/location';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { TaskService } from 'src/app/services/task.service';
@@ -34,40 +35,40 @@ export class EmpsetlocationComponent implements OnInit {
   @ViewChild(TaskComponent) taskView: any;
 
   //
-  title_process: {[key:string] : string} = {EN: "Process",  TH: "การทำงาน"};
-  title_result: {[key:string] : string} = {EN: "Result",  TH: "ผลลัพธ์"};
-  title_btnprocess: {[key:string] : string} = {EN: "Process",  TH: "ดำเนินการ"};
-  title_location: {[key:string] : string} = {EN: "Location",  TH: "สถาที่ปฎิบัติงาน"};
-  title_fromdate: {[key:string] : string} = {EN: "From Date",  TH: "วันที่เริ่ม"};
-  title_todate: {[key:string] : string} = {EN: "To Date",  TH: "วันที่สิ้นสุด"};
-  title_note: {[key:string] : string} = {EN: "Description",  TH: "เพิ่มเติม"};
+  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_location: { [key: string]: string } = { EN: "Location", TH: "สถาที่ปฎิบัติงาน" };
+  title_fromdate: { [key: string]: string } = { EN: "From Date", TH: "วันที่เริ่ม" };
+  title_todate: { [key: string]: string } = { EN: "To Date", TH: "วันที่สิ้นสุด" };
+  title_note: { [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
   title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
   //
-  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"};
-  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
-  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
-  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
-  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
-  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
-  
+  title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" };
+  title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
+  title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
+  title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
+  title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
+  title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
+
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
   loading: boolean = false;
   index: number = 0;
   result_list: Result[] = [];
   edit_data: boolean = false;
-  
+
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
-    private router:Router,
+    private router: Router,
     private setempdetailService: SetEmpDetailService,
-    private locationService : LocationService
+    private locationService: LocationService
   ) { }
 
   new_data: boolean = false;
@@ -80,24 +81,28 @@ export class EmpsetlocationComponent implements OnInit {
     this.doLoadLocationList();
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
-  locationList: LocationModel[]=[];
-  doLoadLocationList(){
-    var tmp = new LocationModel();
-    this.locationService.location_get(tmp).then(async(res)=>{
+  locationList: SysLocationModel[] = [];
+  doLoadLocationList() {
+    var tmp = new SysLocationModel();
+    this.locationService.location_get(tmp).then(async (res) => {
       this.locationList = await res;
     })
   }
 
   selectedEmpLocation: EmpLocationModel = new EmpLocationModel();
-  emplocationList: EmpLocationModel[]=[];
+  emplocationList: EmpLocationModel[] = [];
 
   setlocationList: SetLocationModel[] = [];
   doLoadsetlocationList() {
@@ -110,14 +115,14 @@ export class EmpsetlocationComponent implements OnInit {
     });
   }
 
-  process(){
+  process() {
     this.result_list = [];
-    if(this.selectEmp.employee_dest.length >0){
+    if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchlocation()
     }
   }
 
-  async Setbatchlocation(){
+  async Setbatchlocation() {
     var data = new SetLocationModel();
     data.location_code = this.selectedEmpLocation.location_code;
     data.emplocation_startdate = this.selectedEmpLocation.emplocation_startdate;
@@ -127,13 +132,13 @@ export class EmpsetlocationComponent implements OnInit {
     data.modified_by = this.initial_current.Username;
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
-    await this.setempdetailService.SetLocation_record(data).then((res)=>{
-      if (res.success){
+    await this.setempdetailService.SetLocation_record(data).then((res) => {
+      if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetlocationList();
         this.edit_data = false;
         this.new_data;
-      }else{
+      } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
     })

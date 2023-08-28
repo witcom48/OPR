@@ -9,5 +9,5 @@ export class Holiday_listModels {
     holiday_name_en: string = "";
     planholiday_code: string = "";
     holiday_daytype: string = "H";
-    holiday_payper: string = "";
+    holiday_payper: number = 0;
 }

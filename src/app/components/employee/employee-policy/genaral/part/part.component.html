@@ -125,11 +125,20 @@
 
                 <br>
                 <div class="field col-12">
-                    <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"
-                        [disabled]="!Form.form.valid"></p-button>
+                    <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                        (click)="confirmRecord()" [disabled]="!Form.form.valid" class="button-size"></button>
+
+                    <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()"
+                        label="{{ title_save }}" icon="pi pi-save"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="button-size "></button>
+
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"
+                        [disabled]="!Form.form.valid"></p-button> -->
                     &nbsp;
                     <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
-                        class="p-button-secondary" (click)="confirmDelete()"></button>
+                        class="p-button-secondary button-size btndel" [disabled]="!this.accessData.accessdata_delete"
+                        (click)="confirmDelete()"></button>
                 </div>
             </div>
         </p-dialog>

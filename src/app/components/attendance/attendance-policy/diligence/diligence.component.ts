@@ -6,6 +6,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { DiligenceModels } from 'src/app/models/attendance/diligence';
 import { DiligencestepModels } from 'src/app/models/attendance/diligence_step';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { DiligenceServices } from 'src/app/services/attendance/diligence.service';
 import * as XLSX from 'xlsx';
 declare var diligence: any;
@@ -24,6 +25,8 @@ export class DiligenceComponent implements OnInit {
     private router: Router,
   ) { }
   @ViewChild('TABLE') table: ElementRef | any = null;
+  itemslike: MenuItem[] = [];
+  home: any;
   new_data: boolean = false
   edit_data: boolean = false
   fileToUpload: File | any = null;
@@ -37,12 +40,15 @@ export class DiligenceComponent implements OnInit {
   diligencestep: DiligencestepModels = new DiligencestepModels()
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current.Token) {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -119,15 +125,32 @@ export class DiligenceComponent implements OnInit {
 
 
   doLoadMenu() {
+    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+      label: this.langs.get('diligence')[this.selectlang], styleClass: 'activelike'
+    }];
 
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi-plus',
         command: (event) => {
-          this.diligences = new DiligenceModels();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.diligences = new DiligenceModels();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
+
+        }
+      }
+      ,
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Attendance/(OPR)Import Diligence.xlsx', '_blank');
         }
       }
       ,
@@ -189,6 +212,7 @@ export class DiligenceComponent implements OnInit {
     }
   }
   close() {
+    this.closedispaly();
     this.new_data = false
     this.diligencestep = new DiligencestepModels()
     this.diligences = new DiligenceModels()
@@ -216,7 +240,16 @@ export class DiligenceComponent implements OnInit {
     this.diligencestep = new DiligencestepModels();
   }
   Delete() {
-    this.doDeleteDiligence(this.diligences)
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteDiligence(this.diligences)
+      },
+      reject: () => {
+      }
+    });
   }
   Deletestep() {
     this.diligences.steppay_data = this.diligences.steppay_data.filter((item) => {

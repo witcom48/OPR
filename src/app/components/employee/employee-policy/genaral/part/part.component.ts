@@ -10,6 +10,7 @@ import { PartService } from '../../../../../services/emp/policy/part.service';
 import * as XLSX from 'xlsx';
 import { LevelService } from 'src/app/services/system/policy/level.service';
 import { LevelModel } from 'src/app/models/system/policy/level';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-part',
@@ -50,12 +51,16 @@ export class PartComponent implements OnInit {
     }, 500);
   }
 
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+
   }
 
   title_page: string = "Department";
@@ -136,10 +141,14 @@ export class PartComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage();
-          this.selectedDep = new PartModel();
-          this.new_data = true;
-          this.edit_data = false;
+          if (this.accessData.accessdata_new) {
+            this.showManage();
+            this.selectedDep = new PartModel();
+            this.new_data = true;
+            this.edit_data = false;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       },
       {
@@ -173,7 +182,9 @@ export class PartComponent implements OnInit {
   levelList: LevelModel[] = [];
   selectedLevel: LevelModel = new LevelModel();
   doLoadLevelList() {
-    this.levelService.level_get().then(async (res) => {
+    var tmp = this.selectedLevel
+
+    this.levelService.level_get(tmp).then(async (res) => {
       this.levelList = await res;
     })
   }
@@ -189,7 +200,9 @@ export class PartComponent implements OnInit {
   parentlevelList: LevelModel[] = [];
   selectParentLevel: string = '';
   doloadParentLevel() {
-    this.levelService.level_get().then(async (res) => {
+    var tmp = this.selectedLevel
+
+    this.levelService.level_get(tmp).then(async (res) => {
       this.parentlevelList = await res;
     })
   }

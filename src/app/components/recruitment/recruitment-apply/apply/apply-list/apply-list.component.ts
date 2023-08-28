@@ -32,6 +32,7 @@ import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
 import { EmpPositionModel } from 'src/app/models/employee/manage/position';
 import { EmpSalaryModel } from 'src/app/models/employee/manage/salary';
 import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 
 interface ImportList {
@@ -42,7 +43,7 @@ interface ImportList {
 interface Status {
   name_th: string,
   name_en: string,
-  code: number
+  code: string
 }
 
 @Component({
@@ -61,8 +62,8 @@ export class ApplyListComponent implements OnInit {
   new_applywork: boolean = false;
   ImportList: ImportList[] = [];
 
-  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 0 }, { name_th: 'เสร็จ', name_en: 'Finish', code: 3 }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 4 }];
-  status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 0 }
+  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }];
+  status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
   status_doc: boolean = false
 
   constructor(
@@ -109,13 +110,15 @@ export class ApplyListComponent implements OnInit {
     }, 500);
 
   }
-
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('REQ');
   }
 
   title_page: string = "Applywork";
@@ -216,14 +219,30 @@ export class ApplyListComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.showManage()
-          this.new_applywork = true;
-          this.edit_applywork = false;
-          this.selectedReqworker = new EmployeeModel();
-          this.selectComManage();
-
+          if (this.accessData.accessdata_new) {
+            this.showManage()
+            // this.new_applywork = true;
+            // this.edit_applywork = false;
+            this.selectedReqworker = new EmployeeModel();
+            this.selectComManage();
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
+          }
         }
 
+      },
+      {
+        label: "Template",
+        icon: 'pi-download',
+        items:[
+          {
+            label: "Recruitment info",
+            // icon: 'pi-download',
+            command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import req/(OPR)Import Recruitment.xlsx', '_blank');
+            }
+          }
+        ]
       },
       {
         label: this.title_import,
@@ -607,7 +626,7 @@ export class ApplyListComponent implements OnInit {
     this.router.navigate(["recruitment/apply"], navigationExtras);
   }
 
-  getFullStatus(code: number): any {
+  getFullStatus(code: string): any {
     for (let i = 0; i < this.status_list.length; i++) {
       if (this.status_list[i].code == code) {
         if (this.initial_current.Language == "TH") {
@@ -693,7 +712,7 @@ export class ApplyListComponent implements OnInit {
   doUpdateStatus() {
     var tmp = new EmployeeModel();
     tmp.worker_id = this.selectedReqworker.worker_id;
-    tmp.status = 3
+    tmp.status = 'F'
     this.applyworkService.requpdate_status(tmp).then(async (res) => {
       let result = await JSON.parse(res);
     })

@@ -266,14 +266,14 @@ export class EmployeeService {
 
 
   ///type
-  public typelist_get(company: string, type: string) {
+  public typelist_get(company: string, code: string) {
     var filter = {
       device_name: '',
       ip: "localhost",
       username: this.initial_current.Username,
       company_code: company,
       language: "",
-      worker_type: type
+      worker_code: code
     };
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/typelist', filter, this.options).toPromise()

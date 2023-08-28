@@ -22,6 +22,27 @@ import { ShiftServices } from 'src/app/services/attendance/shift.service';
 
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 
+import { ProjectModel } from '../../../models/project/project';
+import { ProjectService } from '../../../services/project/project.service';
+
+import { ProjobmainModel } from '../../../models/project/project_jobmain';
+import { ProjectDetailService } from '../../../services/project/project_detail.service';
+
+import { cls_TRTimeleaveModel } from 'src/app/models/self/cls_TRTimeleave';
+import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
+
+import { cls_TRTimeotModel } from 'src/app/models/self/cls_TRTimeot';
+import { TimeotServices } from 'src/app/services/self/timeot.service';
+
+import { cls_TRTimeonsiteModel } from 'src/app/models/self/cls_TRTimeonsite';
+import { TimeonsiteServices } from 'src/app/services/self/timeonsite';
+
+import { cls_TRTimedaytypeModel } from 'src/app/models/self/cls_TRTimedaytype';
+import { TimeDaytypeServices } from 'src/app/services/self/timedaytype.service';
+
+import { cls_TRTimeshiftModel } from 'src/app/models/self/cls_TRTimeshift';
+import { TimeShiftServices } from 'src/app/services/self/timeshift.service';
+
 
 @Component({
   selector: 'app-attendance-view',
@@ -94,6 +115,12 @@ export class AttendanceViewComponent implements OnInit {
   title_document: {[key: string]: string} = {  EN: "Document",  TH: "เอกสาร"}
     
 
+  title_docno: {[key: string]: string} = {  EN: "Doc.",  TH: "เลขที่"}
+  title_doctype: {[key: string]: string} = {  EN: "Type",  TH: "ประเภท"}
+  title_fromdate: {[key: string]: string} = {  EN: "From",  TH: "จากวันที่"}
+  title_todate: {[key: string]: string} = {  EN: "To",  TH: "ถึงวันที่"}
+  title_detail: {[key: string]: string} = {  EN: "Detail",  TH: "รายละเอียด"}
+
   style_input_real:string = "[style]=\"{'width':'80px'}\\";
  
 
@@ -105,7 +132,14 @@ export class AttendanceViewComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private shiftServices: ShiftServices
+    private shiftServices: ShiftServices,
+    private projectService: ProjectService,
+    private projectDetailService:ProjectDetailService,
+    private timeleaveServices: TimeleaveServices,
+    private timeotServices:TimeotServices,
+    private timeonsiteServices:TimeonsiteServices,
+    private timeDaytypeServices:TimeDaytypeServices,
+    private timeShiftServices:TimeShiftServices
 
     ) { }
 
@@ -115,21 +149,21 @@ export class AttendanceViewComponent implements OnInit {
     this.doLoadMenu()
     this.doLoadLanguage()
 
+    this.doLoadProject()
+    this.doLoadProjobmain()
+
     setTimeout(() => {
       this.doLoadEmployee()
       this.doLoadPolDaytype()
       this.doLoadPolShift()
-    }, 100);
-
-
-    
+    }, 500);
 
     setTimeout(() => {
       
       this.worker_index = 0;
       this.doSetDetailWorker();
 
-    }, 1000);
+    }, 1500);
 
   }
 
@@ -168,6 +202,11 @@ export class AttendanceViewComponent implements OnInit {
   showManage() {    
     this.displayManage = true;
 
+
+    setTimeout(() => {
+      this.doLoadValue()
+    }, 200);
+    
   }
 
   workerDetail:EmployeeModel = new EmployeeModel();
@@ -256,6 +295,18 @@ export class AttendanceViewComponent implements OnInit {
   leave_app : string = "00:00";
 
   onRowSelectTimecard(event: Event) {
+    this.displayManage = false
+  }
+
+  onRowSelectDocreq(event: Event) {
+    
+  }
+
+  doLoadValue(){
+
+    if(this.selectedTimecard == null)
+      return
+
     this.edit_timecard = true
     this.date_work = new Date(this.selectedTimecard.timecard_workdate)
     this.date_ch1 = new Date(this.selectedTimecard.timecard_ch1)
@@ -283,6 +334,9 @@ export class AttendanceViewComponent implements OnInit {
     
     this.after = this.doConvertHHMM(this.selectedTimecard.timecard_after_min)
     this.after_app = this.doConvertHHMM(this.selectedTimecard.timecard_after_min_app)
+
+
+    this.doLoadDocReq()
   }
 
   onChangeWork1(){
@@ -320,6 +374,7 @@ export class AttendanceViewComponent implements OnInit {
       accept: () => {
 
         this.selectedTimecard.timecard_color = "1"
+
 
         this.selectedTimecard.timecard_ch1 = new Date(this.date_ch1)
         this.selectedTimecard.timecard_ch2 = new Date(this.date_ch2)
@@ -370,69 +425,48 @@ export class AttendanceViewComponent implements OnInit {
     this.displayManage = false
   }
 
-  daytype_list: RadiovalueModel[] = [];
-  selectedDaytype: RadiovalueModel = new RadiovalueModel;
+  daytype_list: any[] = [];
+  
   doLoadPolDaytype(){   
    
     this.daytype_list = []   
-    this.timecardService.daytype_get().then((res) => {          
-      var list: DaytypeModels[] = [];     
-      list = res;          
-      if(list.length > 0){
-        for (let i = 0; i < list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = list[i].daytype_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = list[i].daytype_name_en;        
-          }
-          else{
-            tmp.text = list[i].daytype_name_th;      
-          }
-          this.daytype_list.push(tmp);                         
-        }      
-      }
-    });
-  }
-  doLoadSelectedDaytype(value:string){
-    for (let i = 0; i < this.daytype_list.length; i++) {   
-      if(this.daytype_list[i].value==value ){
-        this.selectedDaytype = this.daytype_list[i];
-        break;         
-      }                      
-    }
-  }
 
-  shift_list: RadiovalueModel[] = [];
-  selectedShift: RadiovalueModel = new RadiovalueModel;
+    this.timecardService.daytype_get().then(async (res) => {
+      await res.forEach((element: DaytypeModels) => {
+
+        this.daytype_list.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.daytype_name_en : element.daytype_name_th,
+            code: element.daytype_code
+          }
+        )
+
+      });
+    });
+
+  }
+  
+  shift_list: any[] = [];
+
   doLoadPolShift(){   
     var tmp = new ShiftModels();
     this.shift_list = []   
-    this.shiftServices.shift_get(tmp).then((res) => {          
-      var list: ShiftModels[] = [];     
-      list = res;          
-      if(list.length > 0){
-        for (let i = 0; i < list.length; i++) {  
-          var tmp = new RadiovalueModel();  
-          tmp.value = list[i].shift_code;      
-          if(this.initial_current.Language == "EN"){        
-            tmp.text = list[i].shift_name_en;        
+
+    this.shiftServices.shift_get(tmp).then(async (res) => {
+      await res.forEach((element: ShiftModels) => {
+
+        this.shift_list.push(
+          {
+            name: this.initial_current.Language == "EN" ? element.shift_name_en : element.shift_name_th,
+            code: element.shift_code
           }
-          else{
-            tmp.text = list[i].shift_name_th;      
-          }
-          this.shift_list.push(tmp);                         
-        }      
-      }
+        )
+
+      });
     });
   }
-  doLoadSelectedShift(value:string){
-    for (let i = 0; i < this.shift_list.length; i++) {   
-      if(this.shift_list[i].value==value ){
-        this.selectedShift = this.shift_list[i];
-        break;         
-      }                      
-    }
-  }
+
+
 
   searchEmp: boolean = false;
   open_searchemp(){
@@ -465,4 +499,201 @@ export class AttendanceViewComponent implements OnInit {
 
   }
 
+  project_list: ProjectModel[] = [];
+  doLoadProject(){    
+    this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {      
+      this.project_list = await res;       
+    });
+  }
+  doGetProjectDetail(code: string): any {
+
+    if(code === "")
+      return "";
+
+    for (let i = 0; i < this.project_list.length; i++) {
+      if (this.project_list[i].project_code == code) {
+        if (this.initial_current.Language == "TH") {
+          return this.project_list[i].project_name_th;
+        }
+        else {
+          return this.project_list[i].project_name_en;
+        }
+      }
+    }
+  }
+
+
+  projobmain_list: ProjobmainModel[] = []; 
+  doLoadProjobmain(){
+    this.projectDetailService.projobmain_get("", "").then(async (res) => {
+      this.projobmain_list = await res;      
+    });
+  }
+  doGetProjobDetail(code: string): any {
+
+    if(code === "")
+      return "";
+
+    for (let i = 0; i < this.projobmain_list.length; i++) {
+      if (this.projobmain_list[i].projobmain_code == code) {
+        if (this.initial_current.Language == "TH") {
+          return this.projobmain_list[i].projobmain_name_th;
+        }
+        else {
+          return this.projobmain_list[i].projobmain_name_en;
+        }
+      }
+    }
+  }
+
+
+  //-- Document request
+  reqdoc_list: DocRequest[] = [];
+
+  doLoadDocReq(){
+    this.reqdoc_list = []
+
+    this.doLoadTimeleave()
+    this.doLoadTimeot()
+    this.doLoadTimeonsite()
+    this.doLoadTimedaytype()
+    this.doLoadTimeshift()
+
+
+    // setTimeout(() => {            
+    //   this.reqdoc_list = [];
+      
+    // }, 500);
+
+  }
+
+  doLoadTimeleave() {    
+    var tmp = new cls_TRTimeleaveModel();
+    tmp.timeleave_fromdate = this.selectedTimecard.timecard_workdate;
+    tmp.timeleave_todate = this.selectedTimecard.timecard_workdate;
+    tmp.company_code = this.initial_current.CompCode;
+    tmp.worker_code = this.selectedTimecard.worker_code;
+    tmp.status = 3;
+    this.timeleaveServices.timeleave_get(tmp).then(async (res) => {
+
+      await res.forEach((element: cls_TRTimeleaveModel) => {
+        this.reqdoc_list.push(
+          {
+            docno: element.worker_code,
+            doctype: "Leave",
+            fromdate: element.timeleave_fromdate,
+            todate: element.timeleave_todate,
+            detail: element.leave_code + " (" + (element.timeleave_type == "F" ? "Full" : "Half") + ")"           
+          }
+        )
+        
+      });
+
+      this.reqdoc_list = [...this.reqdoc_list];
+
+    });
+  }
+
+  doLoadTimeot() {
+    
+    var tmp = new cls_TRTimeotModel();
+    tmp.timeot_workdate = this.selectedTimecard.timecard_workdate;
+    tmp.timeot_todate = this.selectedTimecard.timecard_workdate;
+    tmp.status = 3;
+    tmp.worker_code = this.selectedTimecard.worker_code;
+    this.timeotServices.timeot_get(tmp).then(async (res) => {
+      await res.forEach((element: cls_TRTimeotModel) => {
+        this.reqdoc_list.push(
+          {
+            docno: element.worker_code,
+            doctype: "Overtime",
+            fromdate: element.timeot_workdate,
+            todate: element.timeot_workdate,
+            detail: this.doConvertHHMM((element.timeot_normalmin + element.timeot_aftermin + element.timeot_beforemin))         
+          }
+        )
+      });
+    });
+  }
+
+  doLoadTimeonsite() {
+    
+    var tmp = new cls_TRTimeonsiteModel();
+    tmp.timeonsite_workdate = this.selectedTimecard.timecard_workdate;
+    tmp.timeonstie_todate = this.selectedTimecard.timecard_workdate;
+    tmp.status = 3;
+    tmp.worker_code = this.selectedTimecard.worker_code;
+
+    this.timeonsiteServices.timeonsite_get(tmp).then(async (res) => {
+      await res.forEach((element: cls_TRTimeonsiteModel) => {
+        this.reqdoc_list.push(
+          {
+            docno: element.worker_code,
+            doctype: "Record",
+            fromdate: element.timeonsite_workdate,
+            todate: element.timeonsite_workdate,
+            detail: element.timeonsite_in + "-" + element.timeonsite_out        
+          }
+        )
+      });
+    });
+
+  }
+
+  doLoadTimedaytype() {
+    
+    var tmp = new cls_TRTimedaytypeModel();
+    tmp.timedaytype_workdate = this.selectedTimecard.timecard_workdate;
+    tmp.timedaytype_todate = this.selectedTimecard.timecard_workdate;
+    tmp.status = 3;
+    tmp.worker_code = this.selectedTimecard.worker_code;
+
+    this.timeDaytypeServices.timedaytype_get(tmp).then(async (res) => {
+      await res.forEach((element: cls_TRTimedaytypeModel) => {
+        this.reqdoc_list.push(
+          {
+            docno: element.worker_code,
+            doctype: "Daytype",
+            fromdate: element.timedaytype_workdate,
+            todate: element.timedaytype_workdate,
+            detail: element.timedaytype_old + " -> " + element.timedaytype_new        
+          }
+        )
+      });
+    });
+
+  }
+
+  doLoadTimeshift() {
+   
+    var tmp = new cls_TRTimeshiftModel();
+    tmp.timeshift_workdate = this.selectedTimecard.timecard_workdate;
+    tmp.timeshift_todate = this.selectedTimecard.timecard_workdate;
+    tmp.status = 3;
+    tmp.worker_code = this.selectedTimecard.worker_code;
+    this.timeShiftServices.timeshift_get(tmp).then(async (res) => {
+      await res.forEach((element: cls_TRTimeshiftModel) => {
+        this.reqdoc_list.push(
+          {
+            docno: element.worker_code,
+            doctype: "Shift",
+            fromdate: element.timeshift_workdate,
+            todate: element.timeshift_workdate,
+            detail: element.timeshift_old + " -> " + element.timeshift_new        
+          }
+        )
+      });      
+    });
+
+  }
+
+
+}
+
+interface DocRequest {
+  docno: string,
+  doctype: string,
+  fromdate: Date,
+  todate: Date,
+  detail:string
 }

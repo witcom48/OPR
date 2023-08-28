@@ -24,11 +24,12 @@
 <div class="tabledata">
     <div class="tableemp">
         <div #TABLE>
-            <p-table #dt2 [value]="combranch_list" [tableStyle]="{'min-width': '70rem'}"  selectionMode="single" [(selection)]="selectedcombranch"
-                (onRowSelect)="onRowSelectCombranch($event)" dataKey="combranch_code" [rows]="10"
-                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            <p-table #dt2 [value]="combranch_list" [tableStyle]="{'min-width': '70rem'}" selectionMode="single"
+                [(selection)]="selectedcombranch" (onRowSelect)="onRowSelectCombranch($event)" dataKey="combranch_code"
+                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['combranch_code','combranch_name_th','sso_combranch_no','modified_by','modified_date']" responsiveLayout="stack" [breakpoint]="'744px'">
+                [globalFilterFields]="['combranch_code','combranch_name_th','sso_combranch_no','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -60,10 +61,11 @@
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                         <td>
-                            <button pButton type="button" class="pi pi-trash gray-button "
-                                (click)="confirmDelete(data)">
+                            <button pButton type="button" class="pi pi-trash gray-button " (click)="confirmDelete(data)"
+                                [disabled]="!this.accessData.accessdata_delete">
                             </button>
                         </td>
+
                     </tr>
                 </ng-template>
 
