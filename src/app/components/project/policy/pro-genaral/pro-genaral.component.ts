@@ -35,7 +35,7 @@ export class ProGenaralComponent implements OnInit {
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
-
+  displaymanage: boolean = false;
   page_type: string = "";
 
 
@@ -263,6 +263,7 @@ export class ProGenaralComponent implements OnInit {
 
             this.new_data = true;
             this.edit_data = false;
+            this.displaymanage = true;
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
           }
@@ -462,7 +463,7 @@ export class ProGenaralComponent implements OnInit {
         // 
         break;
     }
-
+    this.close();
   }
 
   doDeleteGenaral() {
@@ -564,40 +565,48 @@ export class ProGenaralComponent implements OnInit {
     this.doLoadGenaral();
     this.edit_data = false;
     this.new_data = false;
+    this.displaymanage = false;
   }
 
   onRowSelectProbusiness(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProtype(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProuniform(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProslip(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProarea(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
   onRowSelectProgroup(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProcost(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
 
     this.doLoadSelectedProcostType(this.selectedProcost.procost_type)
     this.doLoadSelectedProcostItem(this.selectedProcost.procost_itemcode)
@@ -793,9 +802,9 @@ export class ProGenaralComponent implements OnInit {
 
   }
   close() {
-    console.log("kkkkkkkkkkkk")
     this.new_data = false
     this.edit_data = false
+    this.displaymanage = false;
     this.selectedProbusiness = new ProbusinessModel()
     this.selectedProtype = new ProtypeModel()
     this.selectedProuniform = new ProuniformModel()

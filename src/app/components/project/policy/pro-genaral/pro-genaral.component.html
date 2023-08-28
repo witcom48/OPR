@@ -302,9 +302,9 @@
         </div>
 
     </div>
-    <!-- <div *ngIf="edit_data || new_data" style="z-index: 1084;"
-        class="p-component-overlay p-sidebar-mask p-component-overlay-enter" (click)="close()"></div> -->
-    <p-dialog [(visible)]="edit_data || new_data" position="right" (onHide)="close()">
+    <div *ngIf="displaymanage" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter" (click)="close()"></div>
+    <p-dialog [(visible)]="displaymanage" position="right" (onHide)="close()">
         <div *ngIf="probusiness">
             <div class="formatt">
 
@@ -359,11 +359,11 @@
 
                 <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp; -->
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
                     (click)="confirmRecord()"></button>
 
                 <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
-                    (click)="confirmDelete()"></button>
+                    (click)="confirmDelete()"></button> -->
 
 
             </div>
@@ -392,11 +392,11 @@
 
                 <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp; -->
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
                     (click)="confirmRecord()"></button>
 
                 <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
-                    (click)="confirmDelete()"></button>
+                    (click)="confirmDelete()"></button> -->
 
 
             </div>
@@ -425,11 +425,11 @@
 
                 <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp; -->
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
                     (click)="confirmRecord()"></button>
 
                 <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
-                    (click)="confirmDelete()"></button>
+                    (click)="confirmDelete()"></button> -->
 
 
             </div>
@@ -469,11 +469,11 @@
 
                 <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
             &nbsp; -->
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
                     (click)="confirmRecord()"></button>
 
                 <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
-                    (click)="confirmDelete()"></button>
+                    (click)="confirmDelete()"></button> -->
 
             </div>
         </div>
@@ -504,11 +504,11 @@
 
                 <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp; -->
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
                     (click)="confirmRecord()"></button>
 
                 <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
-                    (click)="confirmDelete()"></button>
+                    (click)="confirmDelete()"></button> -->
 
 
             </div>
@@ -539,15 +539,26 @@
 
                 <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
             &nbsp; -->
-
+                <!-- 
                 <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
                     (click)="confirmRecord()"></button>
 
                 <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
-                    (click)="confirmDelete()"></button>
+                    (click)="confirmDelete()"></button> -->
 
 
             </div>
+
+        </div>
+        <div style="display: flex;flex-direction: column;gap: 10px;">
+            <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{title_save}}" icon="pi pi-check"
+                class="p-button-secondary" (click)="confirmRecord()"></button>
+            <button *ngIf="edit_data" pRipple pButton type="submit" label="{{title_save}}" icon="pi pi-check"
+                [disabled]="!this.accessData.accessdata_edit" class="p-button-secondary"
+                (click)="confirmRecord()"></button>
+            <button *ngIf="edit_data" pRipple pButton type="button" label="{{title_delete}}" (click)="confirmDelete()"
+                icon="pi pi-trash" [disabled]="!this.accessData.accessdata_delete"
+                class="p-button-secondary btndel"></button>
         </div>
     </p-dialog>
 
