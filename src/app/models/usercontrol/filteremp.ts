@@ -29,4 +29,6 @@ export class FillterEmpModel {
     date_fill !: Date;
 
     status_code:string = "";
+
+    project_code:string = "";
 }

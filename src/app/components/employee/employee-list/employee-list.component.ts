@@ -29,6 +29,8 @@ import { PartModel } from 'src/app/models/employee/policy/part';
 import { LevelModel } from 'src/app/models/system/policy/level';
 import { LevelService } from 'src/app/services/system/policy/level.service';
 import { PartService } from 'src/app/services/emp/policy/part.service';
+import { ProjectModel } from 'src/app/models/project/project';
+import { ProjectService } from 'src/app/services/project/project.service';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 
@@ -76,6 +78,7 @@ export class EmployeeListComponent implements OnInit {
     private empdetailService: EmpDetailService,
     private levelService: LevelService,
     private depService: PartService,
+    private projectService: ProjectService,
   ) {
     this.ImportList = [
       { name_th: 'ข้อมูลพนักงาน', name_en: 'Employee info', code: 'EMPLOYEE' },
@@ -117,6 +120,7 @@ export class EmployeeListComponent implements OnInit {
     this.doLoadReason();
     this.doLoadMenu();
     this.doLoadlevelList();
+    this.doLoadProjectList();
     setTimeout(() => {
       // this.doLoadEmployee()
       this.doGetDataFillter();
@@ -182,6 +186,8 @@ export class EmployeeListComponent implements OnInit {
   title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" };
   title_cardno: { [key: string]: string } = { EN: "ID Card", TH: "เลขบัตรประชาชน" };
   title_level: { [key: string]: string } = { EN: "Level", TH: "ระดับ" };
+
+  title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -539,6 +545,12 @@ export class EmployeeListComponent implements OnInit {
       this.deplevelList = await res;
     })
   }
+  projectList: ProjectModel[] = [];
+  doLoadProjectList(){
+    this.projectService.project_get(this.initial_current.CompCode,"").then(async(res)=>{
+        this.projectList = await res
+    })
+  }
 
 
 
@@ -590,6 +602,12 @@ export class EmployeeListComponent implements OnInit {
       fillter.worker_empstatus = this.selectedEmpstatus;
     } else {
       fillter.worker_empstatus = "";
+    }
+    //fillter project
+    if (this.fillterProject) {
+      fillter.project_code = this.selectedProject;
+    } else {
+      fillter.project_code = "";
     }
     //fillter resign
     fillter.worker_resignstatus = this.fillterIncludeResign;
@@ -667,6 +685,15 @@ export class EmployeeListComponent implements OnInit {
   fillterSearchemp: boolean = false;
   doChangeSearchemp(event: any) {
     this.doGetDataFillter();
+  }
+  //-- Project master
+  selectedProject: string = "";
+  fillterProject: boolean = false;
+  doChangeSelectProject() {
+
+    if (this.fillterProject) {
+      this.doGetDataFillter();
+    }
   }
 
   confirmRecord() {

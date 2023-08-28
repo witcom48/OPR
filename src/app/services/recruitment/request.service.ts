@@ -68,6 +68,7 @@ export class RequestService {
       username: this.initial_current.Username,
       company_code: model.company_code || this.initial_current.CompCode,
       request_code: model.request_code,
+      request_status: model.request_status,
     }
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/getreqrequest', data, this.options).toPromise()
@@ -170,6 +171,19 @@ export class RequestService {
         let message = JSON.parse(res);
         return message.data;
       });
+  }
+
+  public request_upstatus(model: RequestModel){
+    const data = {
+      company_code: this.initial_current.CompCode,
+      request_id: model.request_id,
+      request_status: model.request_status,
+      modified_by: this.initial_current.Username
+    }
+    return this.http.post<any>(this.config.ApiRecruitmentModule+ '/request_status', data,this.options).toPromise()
+        .then((res)=>{
+            return res;
+        });
   }
 
 

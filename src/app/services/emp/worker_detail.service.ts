@@ -29,6 +29,7 @@ import { EmpGroupModel } from 'src/app/models/employee/manage/empgroup';
 import { EmpSupplyModel } from 'src/app/models/employee/manage/empsupply';
 import { EmpUniformModel } from 'src/app/models/employee/manage/empuniform';
 import { EmpSuggestModel } from 'src/app/models/employee/manage/empsuggest';
+import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignercard';
 
 
 @Injectable({
@@ -567,6 +568,80 @@ export class EmpDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadForeigner?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  //--Emp Foreigner
+  public getworker_foreignercard(company: string, code: string) {
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: company,
+      language: "",
+      worker_code: code
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empforeignercardlist', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // // console.log(res)
+        return message.data;
+      });
+  }
+  public record_empforeignercard(worker_code: string, list: EmpForeignercardModel[]) {
+    var item_data: string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"foreignercard_id\":\"" + list[i].foreignercard_id + "\"";
+      item_data = item_data + ",\"foreignercard_code\":\"" + list[i].foreignercard_code + "\"";
+      item_data = item_data + ",\"foreignercard_type\":\"" + list[i].foreignercard_type + "\"";
+      item_data = item_data + ",\"foreignercard_issue\":\"" + this.datePipe.transform(list[i].foreignercard_issue) + "\"";
+      item_data = item_data + ",\"foreignercard_expire\":\"" + this.datePipe.transform(list[i].foreignercard_expire) + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if (item_data.length > 2) {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+    // console.log(item_data);
+    var specificData = {
+      transaction_data: item_data,
+      worker_code: worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empforeignercard', specificData, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public delete_empforeignercard(model: EmpForeignercardModel) {
+    const data = {
+      foreignercard_id: model.foreignercard_id,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empforeignercard_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public empforeignercard_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadForeignercard?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });

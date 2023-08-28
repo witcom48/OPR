@@ -109,10 +109,6 @@ export class ApplyworkDetailService {
       item_data = item_data + ",\"address_amphur\":\"" + list[i].address_amphur + "\"";
       item_data = item_data + ",\"province_code\":\"" + list[i].province_code + "\"";
       item_data = item_data + ",\"address_zipcode\":\"" + list[i].address_zipcode + "\"";
-      item_data = item_data + ",\"address_tel\":\"" + list[i].address_tel + "\"";
-      item_data = item_data + ",\"address_email\":\"" + list[i].address_email + "\"";
-      item_data = item_data + ",\"address_line\":\"" + list[i].address_line + "\"";
-      item_data = item_data + ",\"address_facebook\":\"" + list[i].address_facebook + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

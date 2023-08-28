@@ -48,13 +48,25 @@
 
     <div #TABLE>
 
-        <p-table #dt2 [value]="request_list" [scrollable]="true" scrollHeight="60vh" [virtualScroll]="true"
-            selectionMode="single" [(selection)]="selectedRequest" (onRowSelect)="onRowSelectRequest($event)"
-            [rows]="12" [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+        <p-table #dt2 [value]="request_list" selectionMode="single" [(selection)]="selectedRequest"
+            (onRowSelect)="onRowSelectRequest($event)" dataKey="request_code" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['request_id','request_code','request_date','request_agency','request_work','request_job_type','request_employee_type','request_quantity','request_urgency','request_wage_rate','request_overtime','request_another']">
+            [globalFilterFields]="['request_id','request_code','request_date','request_position','request_project','request_employee_type','request_quantity','request_urgency','request_accepted','request_status']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
             <ng-template pTemplate="caption">
                 <div class="flex">
+                    <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
+                        {{title_status[initial_current.Language]}} :
+                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template></p-dropdown>
+                        <p-button icon="pi pi-search" (click)="Search()"></p-button>
+                    </div>
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
@@ -63,7 +75,7 @@
                 </div>
             </ng-template>
 
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th>{{title_code}}</th>
                     <th>{{title_date[initial_current.Language]}}</th>
@@ -80,19 +92,25 @@
                 </tr>
 
             </ng-template>
-            <ng-template pTemplate="body" let-data>
+            <ng-template pTemplate="body" let-data let-columns="columns">
                 <tr [pSelectableRow]="data">
-                    <td>{{data.request_code}}</td>
-                    <td>{{data.request_date| date:'dd/MM/yyyy'}}</td>
-                    <td>{{data.request_startdate| date:'dd/MM/yyyy'}}</td>
-                    <td>{{data.request_enddate| date:'dd/MM/yyyy'}}</td>
-                    <td>{{doGetPositionDetail(data.request_position)}}</td>
-                    <td>{{doGetProjectDetail(data.request_project)}}</td>
-                    <td>{{doGetTypeDetail(data.request_employee_type)}}</td>
-                    <td>{{data.request_quantity}}</td>
-                    <td>{{data.request_urgency}}</td>
-                    <td>{{data.request_accepted}}</td>
-                    <td>{{getFullStatus(data.request_status)}}</td>
+                    <td><span>{{title_code}}</span>{{data.request_code}}</td>
+                    <td><span>{{title_date[initial_current.Language]}}</span>{{data.request_date| date:'dd/MM/yyyy'}}
+                    </td>
+                    <td><span>{{title_startdate[initial_current.Language]}}</span>{{data.request_startdate|
+                        date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{title_enddate[initial_current.Language]}}</span>{{data.request_enddate|
+                        date:'dd/MM/yyyy'}}</td>
+                    <td><span>{{title_position[initial_current.Language]}}</span>{{doGetPositionDetail(data.request_position)}}
+                    </td>
+                    <td><span>{{title_project[initial_current.Language]}}</span>{{doGetProjectDetail(data.request_project)}}
+                    </td>
+                    <td><span>{{title_employee_type}}</span>{{doGetTypeDetail(data.request_employee_type)}}</td>
+                    <td><span>{{title_quantity}}</span>{{data.request_quantity}}</td>
+                    <td><span>{{title_urgency}}</span>{{data.request_urgency}}</td>
+                    <td><span>{{title_accepted[initial_current.Language]}}</span>{{data.request_accepted}}</td>
+                    <td><span>{{title_status[initial_current.Language]}}</span>{{getFullStatus(data.request_status)}}
+                    </td>
                     <td>
                         <button pButton type="button" class="pi pi-bars gray-button"
                             (click)="menu.toggle($event); selectRow(data)"></button>
@@ -221,8 +239,8 @@
 
                     <!-- <button *ngIf="edit_data" pButton type="button" label="{{ title_delete }}" icon="pi pi-trash"
                         class="btndel button-size" (click)="confirmDelete()"></button> -->
-                    <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
-                        class="p-button-secondary" (click)="confirmDelete()"></button>
+                    <!-- <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
+                        class="p-button-secondary" (click)="confirmDelete()"></button> -->
                 </div>
             </div>
         </p-dialog>

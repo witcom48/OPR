@@ -156,7 +156,7 @@
                     &nbsp;
                     <button *ngIf="edit_applywork" pButton pRipple type="button"
                         label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary"
-                        (click)="confirmDelete()"></button>
+                        [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete()"></button>
                 </div>
             </div>
         </p-dialog>
