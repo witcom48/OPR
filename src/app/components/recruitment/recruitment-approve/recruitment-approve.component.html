@@ -121,7 +121,7 @@
             </td>
 
             <td>{{data.worker_hiredate | date:'dd/MM/yyyy'}}</td>
-            <td>{{data.status}}</td>
+            <td>{{getFullStatus(data.status)}}</td>
             <td>
                 <p-button icon="pi pi-user" (click)="doLoadApprove(data.project_code, 'REQ_APY')" label=""
                     styleClass="p-button-text"></p-button>

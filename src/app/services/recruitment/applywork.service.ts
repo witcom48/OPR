@@ -214,6 +214,7 @@ export class ApplyworkService {
                 worker_cardno: reqworker.worker_cardno,
                 worker_cardnoissuedate: reqworker.worker_cardnoissuedate,
                 worker_cardnoexpiredate: reqworker.worker_cardnoexpiredate,
+                status: reqworker.status,
                 modified_by: this.initial_current.Username,
                 reqdocatt_data: reqworker.reqdocatt_data,
             }

@@ -149,14 +149,14 @@
                 <div class="field col-12" style=" text-align: right;">
 
                     <button pButton pRipple type="button" label="{{title_convert[initial_current.Language]}}"
-                    class="p-button-info" (click)="convertToEmp()"></button>
+                    class="p-button-info" (click)="convertToEmp()" [disabled]="this.selectedReqworker.status!='W'"></button>
                     &nbsp;
                     <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
                         (click)="selectComManage()"></button>
                     &nbsp;
                     <button *ngIf="edit_applywork" pButton pRipple type="button"
                         label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary"
-                        [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete()"></button>
+                        [disabled]="!this.accessData.accessdata_delete || this.selectedReqworker.status=='F'" (click)="confirmDelete()"></button>
                 </div>
             </div>
         </p-dialog>
