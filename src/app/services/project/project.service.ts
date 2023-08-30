@@ -129,6 +129,8 @@ export class ProjectService {
       project_probusiness: model.project_probusiness,
       project_roundtime: model.project_roundtime,
       project_roundmoney: model.project_roundmoney,
+      project_proholiday: model.project_proholiday,
+
 
       project_status: model.project_status,
       company_code: model.company_code,

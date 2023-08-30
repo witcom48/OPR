@@ -20,6 +20,8 @@ export class ProjectModel {
     project_probusiness: string = "";
     project_roundtime: string = "";
     project_roundmoney: string = "";
+    project_proholiday: string = "";
+    
     project_status: string = "";
     approve_status: string = "";
 

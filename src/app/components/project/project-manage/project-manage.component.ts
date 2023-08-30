@@ -1213,23 +1213,7 @@ export class ProjectManageComponent implements OnInit {
 
     });
   }
-
-  // doLoadYear() {
-  //   this.yaerList = [];
-  //   var tmp = new YearPeriodModels();
-  //   tmp.year_group = "LEAVE"
-  //   this.yearServices.year_get(tmp).then(async (res) => {
-  //     await res.forEach((element: YearPeriodModels) => {
-  //       this.yaerList.push({ name: (this.selectlang == "EN" ? element.year_name_en : element.year_name_th) + " " + element.year_code, code: element.year_code })
-  //     });
-  //     await this.doLoadPlanholiday();
-  //   });
-
-
-
-  // year_group : string= "";
-
-  // }
+  
   doLoadMaster() {
     this.genaralService.probusiness_get().then((res) => {
       //// console.log(res)

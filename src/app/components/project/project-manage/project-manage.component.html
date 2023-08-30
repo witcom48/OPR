@@ -852,8 +852,8 @@
 
             <div class="field col-12 md:col-6">
                 <label for="lastname2">{{title_project_holiday[initial_current.Language]}} :</label><br>
-                <p-dropdown  placeholder="--" [options]="yeargroup_list" optionValue="progroup_code"
-                [showClear]="true"
+                <p-dropdown  placeholder="--" [options]="yeargroup_list" optionValue="year_code"
+                [(ngModel)]="selectedProject.project_proholiday" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.year_name_th : item.year_name_en}}
