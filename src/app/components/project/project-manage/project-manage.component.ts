@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import { MegaMenuItem,MenuItem } from 'primeng/api';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Router } from '@angular/router';
 
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 import * as XLSX from 'xlsx';
 import { DatePipe } from '@angular/common';
 
@@ -75,6 +75,10 @@ import { LateServices } from 'src/app/services/attendance/late.service';
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
+import { RoundsModel } from 'src/app/models/system/manage/rounds';
+import { RoundsService } from 'src/app/services/system/manage1/rounds.service';
+import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { YearService } from 'src/app/services/system/policy/year.service';
 
 
 @Component({
@@ -89,18 +93,25 @@ export class ProjectManageComponent implements OnInit {
   manage_title: string = ""
   toolbar_menu: MenuItem[] = [];
 
-  days: string[] =["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturay"];
+  days: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturay"];
 
-  costs_title: string[] =["","","","","","","","","",""];
+  costs_title: string[] = ["", "", "", "", "", "", "", "", "", ""];
 
-  project_code:string = "";
+  project_code: string = "";
+  //
+  rounds_type: string = "";
+  time_list: RoundsModel[] = [];
+  currency_list: RoundsModel[] = [];
+
+  yeargroup_list: YearPeriodModels[] = [];
+  //
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
   protype_list: ProtypeModel[] = [];
 
   proarea_list: ProareaModel[] = [];
 
-  progroup_list : ProgroupModel[] = [];
+  progroup_list: ProgroupModel[] = [];
 
   //#region "My Menu"
 
@@ -166,205 +177,209 @@ export class ProjectManageComponent implements OnInit {
   //#endregion "My Menu"
 
   //#region "Language"
-  title_tab_genaral: {[key: string]: string} = {  EN: "Genaral",  TH: "ข้อมูลทั่วไป"}
-  title_tab_contract: {[key: string]: string} = {  EN: "Contract",  TH: "ข้อมูลสัญญา"}
-  title_tab_policy: {[key: string]: string} = {  EN: "Policy",  TH: "นโยบาย"}
-  title_tab_jobmain: {[key: string]: string} = {  EN: "Job",  TH: "งาน"}
-  title_tab_jobclear: {[key: string]: string} = {  EN: "Clear job",  TH: "งานเคลีย์"}
-  title_tab_staff: {[key: string]: string} = {  EN: "Staff",  TH: "พนักงานประจำหน่วยงาน"}
+  title_tab_genaral: { [key: string]: string } = { EN: "Genaral", TH: "ข้อมูลทั่วไป" }
+  title_tab_contract: { [key: string]: string } = { EN: "Contract", TH: "ข้อมูลสัญญา" }
+  title_tab_policy: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" }
+  title_tab_jobmain: { [key: string]: string } = { EN: "Job", TH: "งาน" }
+  title_tab_jobclear: { [key: string]: string } = { EN: "Clear job", TH: "งานเคลีย์" }
+  title_tab_staff: { [key: string]: string } = { EN: "Staff", TH: "พนักงานประจำหน่วยงาน" }
   //
-  title_page: {[key: string]: string} = {  EN: "Project Management",  TH: "จัดการข้อมูลโครงการ"}
-  title_new: {[key: string]: string} = {  EN: "New",  TH: "เพิ่ม"}
-  title_edit: {[key: string]: string} = {  EN: "Edit",  TH: "แก้ไข"}
-  title_delete: {[key: string]: string} = {  EN: "Delete",  TH: "ลบ"}
-  title_btn_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
-  title_btn_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
-  title_btn_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
-  title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
-  title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
-  title_search: {[key: string]: string} = {  EN: "Search",  TH: "ค้นหา"}
-  title_upload: {[key: string]: string} = {  EN: "Upload",  TH: "อัพโหลด"}
-  title_btn_select: {[key: string]: string} = {  EN: "Select",  TH: "เลือก"}
+  title_page: { [key: string]: string } = { EN: "Project Management", TH: "จัดการข้อมูลโครงการ" }
+  title_new: { [key: string]: string } = { EN: "New", TH: "เพิ่ม" }
+  title_edit: { [key: string]: string } = { EN: "Edit", TH: "แก้ไข" }
+  title_delete: { [key: string]: string } = { EN: "Delete", TH: "ลบ" }
+  title_btn_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
+  title_btn_cancel: { [key: string]: string } = { EN: "Cancel", TH: "ยกเลิก" }
+  title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
+  title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
+  title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
+  title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" }
+  title_upload: { [key: string]: string } = { EN: "Upload", TH: "อัพโหลด" }
+  title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
   //
-  title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
-  title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
-  title_page_total: {[key: string]: string} = {  EN: "of",  TH: "จาก"}
-  title_page_record: {[key: string]: string} = {  EN: "entries",  TH: "รายการ"}
+  title_page_from: { [key: string]: string } = { EN: "Showing", TH: "แสดง" }
+  title_page_to: { [key: string]: string } = { EN: "to", TH: "ถึง" }
+  title_page_total: { [key: string]: string } = { EN: "of", TH: "จาก" }
+  title_page_record: { [key: string]: string } = { EN: "entries", TH: "รายการ" }
   //
-  title_import: {[key: string]: string} = {  EN: "Import",  TH: "นำเข้า"}
-  title_export: {[key: string]: string} = {  EN: "Export",  TH: "โอนออก"}
-  title_save: {[key: string]: string} = {  EN: "Save",  TH: "บันทึก"}
-  title_close: {[key: string]: string} = {  EN: "Close",  TH: "ปิด"}
-  title_cancel: {[key: string]: string} = {  EN: "Cancel",  TH: "ยกเลิก"}
-  title_more: {[key: string]: string} = {  EN: "More",  TH: "เพิ่มเติม"}
-  title_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัส"}
-  title_name_th: {[key: string]: string} = {  EN: "Name (Thai)",  TH: "ชื่อไทย"}
-  title_name_en: {[key: string]: string} = {  EN: "Name (Eng.)",  TH: "ชื่ออังกฤษ"}
+  title_import: { [key: string]: string } = { EN: "Import", TH: "นำเข้า" }
+  title_export: { [key: string]: string } = { EN: "Export", TH: "โอนออก" }
+  title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
+  title_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
+  title_cancel: { [key: string]: string } = { EN: "Cancel", TH: "ยกเลิก" }
+  title_more: { [key: string]: string } = { EN: "More", TH: "เพิ่มเติม" }
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
+  title_name_th: { [key: string]: string } = { EN: "Name (Thai)", TH: "ชื่อไทย" }
+  title_name_en: { [key: string]: string } = { EN: "Name (Eng.)", TH: "ชื่ออังกฤษ" }
   //
-  title_shift: {[key: string]: string} = {  EN: "Shift",  TH: "กะการทำงาน"}
-  title_shift_code: {[key: string]: string} = {  EN: "Shift",  TH: "รหัสกะ"}
-  title_shift_name: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
-  title_shift_day: {[key: string]: string} = {  EN: "Working day",  TH: "วันทำงาน"}
-  title_shift_emp: {[key: string]: string} = {  EN: "Manpower",  TH: "จำนวนพนักงาน"}
-  title_shift_working: {[key: string]: string} = {  EN: "Number of work",  TH: "จำนวนทำงาน"}
-  title_shift_hrs: {[key: string]: string} = {  EN: "Working hrs.",  TH: "ชั่วโมงทำงาน"}
-  title_shift_ot: {[key: string]: string} = {  EN: "Overtime hrs.",  TH: "ชั่วโมงโอที"}
+  title_shift: { [key: string]: string } = { EN: "Shift", TH: "กะการทำงาน" }
+  title_shift_code: { [key: string]: string } = { EN: "Shift", TH: "รหัสกะ" }
+  title_shift_name: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
+  title_shift_day: { [key: string]: string } = { EN: "Working day", TH: "วันทำงาน" }
+  title_shift_emp: { [key: string]: string } = { EN: "Manpower", TH: "จำนวนพนักงาน" }
+  title_shift_working: { [key: string]: string } = { EN: "Number of work", TH: "จำนวนทำงาน" }
+  title_shift_hrs: { [key: string]: string } = { EN: "Working hrs.", TH: "ชั่วโมงทำงาน" }
+  title_shift_ot: { [key: string]: string } = { EN: "Overtime hrs.", TH: "ชั่วโมงโอที" }
 
   //
-  title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
-  title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
-  title_confirm_delete: {[key: string]: string} = {  EN: "Confirm to delete",  TH: "คุณต้องการลบรายการ"}
-  title_confirm_yes: {[key: string]: string} = {  EN: "Yes",  TH: "ใช่"}
-  title_confirm_no: {[key: string]: string} = {  EN: "No",  TH: "ยกเลิก"}
-  title_confirm_cancel: {[key: string]: string} = {  EN: "You have cancelled",  TH: "คุณยกเลิกการทำรายการ"}
+  title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" }
+  title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
+  title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
+  title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
+  title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
+  title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
   //
-  title_project_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัสหน่วยงาน"}
-  title_project_name_th: {[key: string]: string} = {  EN: "Description (TH)",  TH: "ชื่อไทย"}
-  title_project_name_en: {[key: string]: string} = {  EN: "Description (EN)",  TH: "ชื่ออังกฤษ"}
-  title_project_codecentral: {[key: string]: string} = {  EN: "Code central",  TH: "รหัสหน่วยงานกลาง"}
-  title_project_name_sub: {[key: string]: string} = {  EN: "Name Sub",  TH: "ชื่อย่อ"}
-  title_project_probusiness: {[key: string]: string} = {  EN: "Business",  TH: "ประเภทธุรกิจ"}
-  title_project_protype: {[key: string]: string} = {  EN: "Type",  TH: "ประเภทงาน"}
-  title_project_roundtime: {[key: string]: string} = {  EN: "Time rounding",  TH: "รูปแบบปัดเศษเวลา"}
-  title_project_roundmoney: {[key: string]: string} = {  EN: "Amount rounding",  TH: "รูปแบบปัดเศษเงิน"}
-  title_project_progarea : {[key: string]: string} = {  EN: "Area ",  TH: "พื้นที่"}
-  title_project_progroup : {[key: string]: string} = {  EN: "Group ",  TH: "กลุ่ม"}
+  title_project_code: { [key: string]: string } = { EN: "Code", TH: "รหัสหน่วยงาน" }
+  title_project_name_th: { [key: string]: string } = { EN: "Description (TH)", TH: "ชื่อไทย" }
+  title_project_name_en: { [key: string]: string } = { EN: "Description (EN)", TH: "ชื่ออังกฤษ" }
+  title_project_codecentral: { [key: string]: string } = { EN: "Code central", TH: "รหัสหน่วยงานกลาง" }
+  title_project_name_sub: { [key: string]: string } = { EN: "Name Sub", TH: "ชื่อย่อ" }
+  title_project_probusiness: { [key: string]: string } = { EN: "Business", TH: "ประเภทธุรกิจ" }
+  title_project_protype: { [key: string]: string } = { EN: "Type", TH: "ประเภทงาน" }
+  title_project_roundtime: { [key: string]: string } = { EN: "Time rounding", TH: "รูปแบบปัดเศษเวลา" }
+  title_project_roundmoney: { [key: string]: string } = { EN: "Amount rounding", TH: "รูปแบบปัดเศษเงิน" }
+  title_project_holiday: { [key: string]: string } = { EN: "Holiday", TH: "วันหยุดประจำปี" }
+
+  title_project_progarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
+  title_project_progroup: { [key: string]: string } = { EN: "Group ", TH: "กลุ่ม" }
   //
-  title_address: {[key: string]: string} = {  EN: "Address",  TH: "ที่อยู่"}
-  title_address_no: {[key: string]: string} = {  EN: "Address No",  TH: "เลขที่"}
-  title_address_moo: {[key: string]: string} = {  EN: "Moo",  TH: "หมู่"}
-  title_address_road: {[key: string]: string} = {  EN: "Road",  TH: "ถนน"}
-  title_address_soi: {[key: string]: string} = {  EN: "Soi",  TH: "ซอย"}
-  title_address_tambon: {[key: string]: string} = {  EN: "Tambon",  TH: "ตำบล"}
-  title_address_amphur: {[key: string]: string} = {  EN: "Amphur",  TH: "อำเภอ"}
-  title_address_province: {[key: string]: string} = {  EN: "Province",  TH: "จังหวัด"}
-  title_address_zipcode: {[key: string]: string} = {  EN: "Zipcode",  TH: "รหัสไปรษณีย์"}
-  title_address_tel: {[key: string]: string} = {  EN: "Tel.",  TH: "เบอร์โทรศัพท์"}
-  title_address_email: {[key: string]: string} = {  EN: "Email",  TH: "อีเมล์"}
-  title_address_note: {[key: string]: string} = {  EN: "Note",  TH: "เพิ่มเติม"}
+  title_address: { [key: string]: string } = { EN: "Address", TH: "ที่อยู่" }
+  title_address_no: { [key: string]: string } = { EN: "Address No", TH: "เลขที่" }
+  title_address_moo: { [key: string]: string } = { EN: "Moo", TH: "หมู่" }
+  title_address_road: { [key: string]: string } = { EN: "Road", TH: "ถนน" }
+  title_address_soi: { [key: string]: string } = { EN: "Soi", TH: "ซอย" }
+  title_address_tambon: { [key: string]: string } = { EN: "Tambon", TH: "ตำบล" }
+  title_address_amphur: { [key: string]: string } = { EN: "Amphur", TH: "อำเภอ" }
+  title_address_province: { [key: string]: string } = { EN: "Province", TH: "จังหวัด" }
+  title_address_zipcode: { [key: string]: string } = { EN: "Zipcode", TH: "รหัสไปรษณีย์" }
+  title_address_tel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรศัพท์" }
+  title_address_email: { [key: string]: string } = { EN: "Email", TH: "อีเมล์" }
+  title_address_note: { [key: string]: string } = { EN: "Note", TH: "เพิ่มเติม" }
   //
-  title_contact: {[key: string]: string} = {  EN: "Contact",  TH: "ผู้ติดต่อ"}
-  title_contact_no: {[key: string]: string} = {  EN: "No",  TH: "ลำดับ"}
-  title_contact_initial: {[key: string]: string} = {  EN: "Initial",  TH: "คำนำหน้า"}
-  title_contact_firstname: {[key: string]: string} = {  EN: "Firstname",  TH: "ชื่อ"}
-  title_contact_lastname: {[key: string]: string} = {  EN: "Lastname",  TH: "นามสกุล"}
-  title_contact_position: {[key: string]: string} = {  EN: "Position",  TH: "ตำแหน่ง"}
-  title_contact_tel: {[key: string]: string} = {  EN: "Tel.",  TH: "เบอร์โทรศัพท์"}
-  title_contact_email: {[key: string]: string} = {  EN: "Email",  TH: "อีเมล์"}
+  title_contact: { [key: string]: string } = { EN: "Contact", TH: "ผู้ติดต่อ" }
+  title_contact_no: { [key: string]: string } = { EN: "No", TH: "ลำดับ" }
+  title_contact_initial: { [key: string]: string } = { EN: "Initial", TH: "คำนำหน้า" }
+  title_contact_firstname: { [key: string]: string } = { EN: "Firstname", TH: "ชื่อ" }
+  title_contact_lastname: { [key: string]: string } = { EN: "Lastname", TH: "นามสกุล" }
+  title_contact_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" }
+  title_contact_tel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรศัพท์" }
+  title_contact_email: { [key: string]: string } = { EN: "Email", TH: "อีเมล์" }
   //
-  title_contract: {[key: string]: string} = {  EN: "Contract",  TH: "ข้อมูลสัญญา"}
-  title_contract_customer: {[key: string]: string} = {  EN: "Customer",  TH: "ชื่อลูกค้า"}
-  title_contract_date: {[key: string]: string} = {  EN: "Date",  TH: "วันที่ทำสัญญา"}
-  title_contract_ref: {[key: string]: string} = {  EN: "Ref.",  TH: "เลขที่สัญญา"}
-  title_contract_amount: {[key: string]: string} = {  EN: "Amount",  TH: "ราคา"}
-  title_contract_fromdate: {[key: string]: string} = {  EN: "Fromdate",  TH: "จากวันที่"}
-  title_contract_todate: {[key: string]: string} = {  EN: "Todate",  TH: "ถึงวันที่"}
-  title_contract_bidder: {[key: string]: string} = {  EN: "Bidder",  TH: "ผู้เสนอราคา"}
-  title_contract_emp_total: {[key: string]: string} = {  EN: "Total emp",  TH: "จำนวนพนักงาน"}
+  title_contract: { [key: string]: string } = { EN: "Contract", TH: "ข้อมูลสัญญา" }
+  title_contract_customer: { [key: string]: string } = { EN: "Customer", TH: "ชื่อลูกค้า" }
+  title_contract_date: { [key: string]: string } = { EN: "Date", TH: "วันที่ทำสัญญา" }
+  title_contract_ref: { [key: string]: string } = { EN: "Ref.", TH: "เลขที่สัญญา" }
+  title_contract_amount: { [key: string]: string } = { EN: "Amount", TH: "ราคา" }
+  title_contract_fromdate: { [key: string]: string } = { EN: "Fromdate", TH: "จากวันที่" }
+  title_contract_todate: { [key: string]: string } = { EN: "Todate", TH: "ถึงวันที่" }
+  title_contract_bidder: { [key: string]: string } = { EN: "Bidder", TH: "ผู้เสนอราคา" }
+  title_contract_emp_total: { [key: string]: string } = { EN: "Total emp", TH: "จำนวนพนักงาน" }
   //
-  title_responsible: {[key: string]: string} = {  EN: "Responsible",  TH: "ผู้รับผิดชอบ"}
-  title_responsible_code: {[key: string]: string} = {  EN: "Emp code",  TH: "รหัสพนักงาน"}
-  title_responsible_name: {[key: string]: string} = {  EN: "Name",  TH: "ชื่อ-นามสกุล"}
-  title_responsible_position: {[key: string]: string} = {  EN: "Position",  TH: "ตำแหน่ง"}
-  title_responsibl_area: {[key: string]: string} = {  EN: "Area",  TH: "เขต"}
-  title_responsible_fromdate: {[key: string]: string} = {  EN: "Fromdate",  TH: "จากวันที่"}
-  title_responsible_todate: {[key: string]: string} = {  EN: "Todate",  TH: "ถึงวันที่"}
+  title_responsible: { [key: string]: string } = { EN: "Responsible", TH: "ผู้รับผิดชอบ" }
+  title_responsible_code: { [key: string]: string } = { EN: "Emp code", TH: "รหัสพนักงาน" }
+  title_responsible_name: { [key: string]: string } = { EN: "Name", TH: "ชื่อ-นามสกุล" }
+  title_responsible_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" }
+  title_responsibl_area: { [key: string]: string } = { EN: "Area", TH: "เขต" }
+  title_responsible_fromdate: { [key: string]: string } = { EN: "Fromdate", TH: "จากวันที่" }
+  title_responsible_todate: { [key: string]: string } = { EN: "Todate", TH: "ถึงวันที่" }
   //
-  title_timepol: {[key: string]: string} = {  EN: "Attendance policy",  TH: "รูปแบบนโยบายเวลา"}
-  title_timepol_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัส"}
-  title_timepol_name: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
-  title_timepol_ot: {[key: string]: string} = {  EN: "Overtime",  TH: "ล่วงเวลา"}
-  title_timepol_allw: {[key: string]: string} = {  EN: "Allowance",  TH: "เงินค่าเวลา"}
-  title_timepol_dg: {[key: string]: string} = {  EN: "Diligence",  TH: "เบี้ยขยัน"}
-  title_timepol_lv: {[key: string]: string} = {  EN: "Leave",  TH: "การลา"}
-  title_timepol_lt: {[key: string]: string} = {  EN: "Late",  TH: "การคิดสาย"}
+  title_timepol: { [key: string]: string } = { EN: "Attendance policy", TH: "รูปแบบนโยบายเวลา" }
+  title_timepol_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
+  title_timepol_name: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
+  title_timepol_ot: { [key: string]: string } = { EN: "Overtime", TH: "ล่วงเวลา" }
+  title_timepol_allw: { [key: string]: string } = { EN: "Allowance", TH: "เงินค่าเวลา" }
+  title_timepol_dg: { [key: string]: string } = { EN: "Diligence", TH: "เบี้ยขยัน" }
+  title_timepol_lv: { [key: string]: string } = { EN: "Leave", TH: "การลา" }
+  title_timepol_lt: { [key: string]: string } = { EN: "Late", TH: "การคิดสาย" }
 
   //
-  title_jobmain: {[key: string]: string} = {  EN: "Job",  TH: "งานหลัก"}
-  title_jobmain_detail: {[key: string]: string} = {  EN: "Detail",  TH: "รายละเอียด"}
-  title_jobmain_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัสงาน"}
-  title_jobmain_name: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
-  title_jobmain_type: {[key: string]: string} = {  EN: "Job type",  TH: "ประเภทงาน"}
-  title_jobmain_emp_total: {[key: string]: string} = {  EN: "Total emp",  TH: "จำนวนพนักงาน"}
-  title_jobmain_poltime: {[key: string]: string} = {  EN: "Time policy",  TH: "นโยบายเวลา"}
-  title_jobmain_polslip: {[key: string]: string} = {  EN: "Slip form",  TH: "รูปแบบสลิป"}
-  title_jobmain_poluniform: {[key: string]: string} = {  EN: "Uniform",  TH: "ชุดฟอร์ม"}
-  title_jobmain_amount_emp: {[key: string]: string} = {  EN: "Per/Emp",  TH: "รวม/คน"}
-  title_jobmain_amount_total: {[key: string]: string} = {  EN: "Total",  TH: "รวมทั้งหมด"}
-  title_jobmain_used: {[key: string]: string} = {  EN: "Used",  TH: "ใช้ไป"}
+  title_jobmain: { [key: string]: string } = { EN: "Job", TH: "งานหลัก" }
+  title_jobmain_detail: { [key: string]: string } = { EN: "Detail", TH: "รายละเอียด" }
+  title_jobmain_code: { [key: string]: string } = { EN: "Code", TH: "รหัสงาน" }
+  title_jobmain_name: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
+  title_jobmain_type: { [key: string]: string } = { EN: "Job type", TH: "ประเภทงาน" }
+  title_jobmain_emp_total: { [key: string]: string } = { EN: "Total emp", TH: "จำนวนพนักงาน" }
+  title_jobmain_poltime: { [key: string]: string } = { EN: "Time policy", TH: "นโยบายเวลา" }
+  title_jobmain_polslip: { [key: string]: string } = { EN: "Slip form", TH: "รูปแบบสลิป" }
+  title_jobmain_poluniform: { [key: string]: string } = { EN: "Uniform", TH: "ชุดฟอร์ม" }
+  title_jobmain_amount_emp: { [key: string]: string } = { EN: "Per/Emp", TH: "รวม/คน" }
+  title_jobmain_amount_total: { [key: string]: string } = { EN: "Total", TH: "รวมทั้งหมด" }
+  title_jobmain_used: { [key: string]: string } = { EN: "Used", TH: "ใช้ไป" }
   //
-  title_cost: {[key: string]: string} = {  EN: "Cost",  TH: "ต้นทุน"}
-  title_cost_code: {[key: string]: string} = {  EN: "Code",  TH: "รหัสต้นทุน"}
-  title_cost_name: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียด"}
-  title_cost_version: {[key: string]: string} = {  EN: "Version",  TH: "เวอร์ชั่น"}
-  title_cost_type: {[key: string]: string} = {  EN: "Type",  TH: "รูปแบบ"}
-  title_cost_amount: {[key: string]: string} = {  EN: "Amount",  TH: "จำนวนเงิน"}
-  title_cost_allw: {[key: string]: string} = {  EN: "Allw. code",  TH: "รหัสเงินได้"}
-  title_cost_auto: {[key: string]: string} = {  EN: "Auto",  TH: "อัตโนมัติ"}
-  title_cost_fromdate: {[key: string]: string} = {  EN: "Fromdate",  TH: "จากวันที่"}
-  title_cost_todate: {[key: string]: string} = {  EN: "Todate",  TH: "ถึงวันที่"}
-  title_cost_status: {[key: string]: string} = {  EN: "Status",  TH: "สถานะ"}
+  title_cost: { [key: string]: string } = { EN: "Cost", TH: "ต้นทุน" }
+  title_cost_code: { [key: string]: string } = { EN: "Code", TH: "รหัสต้นทุน" }
+  title_cost_name: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
+  title_cost_version: { [key: string]: string } = { EN: "Version", TH: "เวอร์ชั่น" }
+  title_cost_type: { [key: string]: string } = { EN: "Type", TH: "รูปแบบ" }
+  title_cost_amount: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" }
+  title_cost_allw: { [key: string]: string } = { EN: "Allw. code", TH: "รหัสเงินได้" }
+  title_cost_auto: { [key: string]: string } = { EN: "Auto", TH: "อัตโนมัติ" }
+  title_cost_fromdate: { [key: string]: string } = { EN: "Fromdate", TH: "จากวันที่" }
+  title_cost_todate: { [key: string]: string } = { EN: "Todate", TH: "ถึงวันที่" }
+  title_cost_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" }
 
   //
-  title_machine: {[key: string]: string} = {  EN: "Finger print",  TH: "เครื่องลงเวลา"}
-  title_machine_ip: {[key: string]: string} = {  EN: "IP Address",  TH: "IP Address"}
-  title_machine_port: {[key: string]: string} = {  EN: "Port",  TH: "Port"}
-  title_machine_enable: {[key: string]: string} = {  EN: "Enable",  TH: "ใช้งาน"}
+  title_machine: { [key: string]: string } = { EN: "Finger print", TH: "เครื่องลงเวลา" }
+  title_machine_ip: { [key: string]: string } = { EN: "IP Address", TH: "IP Address" }
+  title_machine_port: { [key: string]: string } = { EN: "Port", TH: "Port" }
+  title_machine_enable: { [key: string]: string } = { EN: "Enable", TH: "ใช้งาน" }
 
-  title_policy: {[key: string]: string} = {  EN: "Policy",  TH: "นโยบาย"}
-//
-  title_working: {[key: string]: string} = {  EN: "Working",  TH: "การปฎิบัติงาน"}
-  title_working_date: {[key: string]: string} = {  EN: "Date",  TH: "วันที่"}
-  title_working_emp: {[key: string]: string} = {  EN: "Emp code",  TH: "รหัสพนักงาน"}
-  title_working_empname: {[key: string]: string} = {  EN: "Name",  TH: "ชื่อ-นามสกุล"}
-  title_working_in: {[key: string]: string} = {  EN: "In",  TH: "เวลาเข้า"}
-  title_working_out: {[key: string]: string} = {  EN: "Out",  TH: "เวลาออก"}
+  title_policy: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" }
   //
-  title_staff: {[key: string]: string} = {  EN: "Staff",  TH: "ประจำหน่วยงาน"}
-  title_staff_jobcode: {[key: string]: string} = {  EN: "Job code",  TH: "รหัสงาน"}
-  title_staff_jobname: {[key: string]: string} = {  EN: "Description",  TH: "รายละเอียดงาน"}
-  title_staff_empcode: {[key: string]: string} = {  EN: "Emp code",  TH: "รหัสพนักงาน"}
-  title_staff_empname: {[key: string]: string} = {  EN: "Emp name",  TH: "ชื่อ-นามสกุล"}
-  title_staff_empstatus: {[key: string]: string} = {  EN: "Emp status",  TH: "สถานะพนักงาน"}
-  title_staff_fromadate: {[key: string]: string} = {  EN: "Fromdate",  TH: "วันที่โอนย้าย"}
-  title_staff_todate: {[key: string]: string} = {  EN: "Todate",  TH: "วันที่ย้ายออก"}
-  title_staff_status: {[key: string]: string} = {  EN: "Status",  TH: "สถานะ"}
-  title_staff_apprdate: {[key: string]: string} = {  EN: "Approve date",  TH: "วันที่อนุมัติ"}
+  title_working: { [key: string]: string } = { EN: "Working", TH: "การปฎิบัติงาน" }
+  title_working_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
+  title_working_emp: { [key: string]: string } = { EN: "Emp code", TH: "รหัสพนักงาน" }
+  title_working_empname: { [key: string]: string } = { EN: "Name", TH: "ชื่อ-นามสกุล" }
+  title_working_in: { [key: string]: string } = { EN: "In", TH: "เวลาเข้า" }
+  title_working_out: { [key: string]: string } = { EN: "Out", TH: "เวลาออก" }
   //
-  title_emp_total: {[key: string]: string} = {  EN: "Total emp",  TH: "จำนวนพนักงาน"}
-  title_amount_total: {[key: string]: string} = {  EN: "Total amount",  TH: "ราคารวม"}
+  title_staff: { [key: string]: string } = { EN: "Staff", TH: "ประจำหน่วยงาน" }
+  title_staff_jobcode: { [key: string]: string } = { EN: "Job code", TH: "รหัสงาน" }
+  title_staff_jobname: { [key: string]: string } = { EN: "Description", TH: "รายละเอียดงาน" }
+  title_staff_empcode: { [key: string]: string } = { EN: "Emp code", TH: "รหัสพนักงาน" }
+  title_staff_empname: { [key: string]: string } = { EN: "Emp name", TH: "ชื่อ-นามสกุล" }
+  title_staff_empstatus: { [key: string]: string } = { EN: "Emp status", TH: "สถานะพนักงาน" }
+  title_staff_fromadate: { [key: string]: string } = { EN: "Fromdate", TH: "วันที่โอนย้าย" }
+  title_staff_todate: { [key: string]: string } = { EN: "Todate", TH: "วันที่ย้ายออก" }
+  title_staff_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" }
+  title_staff_apprdate: { [key: string]: string } = { EN: "Approve date", TH: "วันที่อนุมัติ" }
+  //
+  title_emp_total: { [key: string]: string } = { EN: "Total emp", TH: "จำนวนพนักงาน" }
+  title_amount_total: { [key: string]: string } = { EN: "Total amount", TH: "ราคารวม" }
 
-  title_regular: {[key: string]: string} = {  EN: "Regular",  TH: "ประจำ"}
-  title_temporary: {[key: string]: string} = {  EN: "Temporary",  TH: "ชั่วคราว"}
+  title_regular: { [key: string]: string } = { EN: "Regular", TH: "ประจำ" }
+  title_temporary: { [key: string]: string } = { EN: "Temporary", TH: "ชั่วคราว" }
 
   //#endregion "Language"
 
 
   constructor(
-    private router:Router,
+    private router: Router,
     private route: ActivatedRoute,
     private projectService: ProjectService,
-    private projectDetailService:ProjectDetailService,
+    private projectDetailService: ProjectDetailService,
     private genaralService: ProgenaralService,
-    private procostService:ProcostService,
+    private procostService: ProcostService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
     private employeeService: EmployeeService,
     private shiftServices: ShiftServices,
     private initialService: InitialService,
-    private positionService:PositionService,
-    private empstatusService:EmpstatusService,
-    private otservices:OTServices,
-    private timeallwservices:TimeAllowanceServices,
-    private diligenceServices:DiligenceServices,
-    private planleaveService:PlanleaveServices,
-    private lateServices:LateServices,
+    private positionService: PositionService,
+    private empstatusService: EmpstatusService,
+    private otservices: OTServices,
+    private timeallwservices: TimeAllowanceServices,
+    private diligenceServices: DiligenceServices,
+    private planleaveService: PlanleaveServices,
+    private lateServices: LateServices,
+    private roundsService: RoundsService,
+    private yearServices: YearService,
 
   ) {
 
 
-   }
+  }
 
   ngOnInit(): void {
 
@@ -377,7 +392,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.doLoadLanguage()
     this.doLoadMaster()
-    
+
 
     setTimeout(() => {
       this.doLoadMenu()
@@ -392,15 +407,15 @@ export class ProjectManageComponent implements OnInit {
 
   }
 
-  doLoadLanguage(){
-    if(this.initial_current.Language == "TH"){
+  doLoadLanguage() {
+    if (this.initial_current.Language == "TH") {
 
 
     }
   }
 
-  public initial_current:InitialCurrent = new InitialCurrent();
-  doGetInitialCurrent(){
+  public initial_current: InitialCurrent = new InitialCurrent();
+  doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
@@ -450,12 +465,12 @@ export class ProjectManageComponent implements OnInit {
 
   }
 
-  doLoadMenu(){
+  doLoadMenu() {
 
     this.toolbar_menu = [
       {
-        label:'Save',
-        icon:'pi pi-fw pi-save',
+        label: 'Save',
+        icon: 'pi pi-fw pi-save',
         command: (event) => {
           this.confirmRecord()
         }
@@ -464,8 +479,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_procontact = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_procontact = true
@@ -477,32 +492,32 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProcontact != null){
-              this.edit_procontact = true
-              this.showManage()
-            }
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProcontact != null) {
+            this.edit_procontact = true
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProcontact != null){
+          if (this.selectedProcontact != null) {
             this.procontact_remove()
           }
         }
@@ -511,8 +526,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_procontract = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_procontract = true
@@ -524,32 +539,32 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProcontract != null){
-              this.edit_procontract = true
-              this.showManage()
-            }
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProcontract != null) {
+            this.edit_procontract = true
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProcontract != null){
+          if (this.selectedProcontract != null) {
             this.procontract_remove()
           }
         }
@@ -558,8 +573,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_proresponsible = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_proresponsible = true
@@ -571,32 +586,32 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProresponsible != null){
-              this.edit_proresponsible = true
-              this.showManage()
-            }
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProresponsible != null) {
+            this.edit_proresponsible = true
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProresponsible != null){
+          if (this.selectedProresponsible != null) {
             this.proresponsible_remove()
           }
         }
@@ -605,8 +620,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_protimepol = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_protimepol = true
@@ -617,33 +632,33 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProtimepol != null){             
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProtimepol != null) {
 
-              this.edit_protimepol = true
-              this.showManage()
-            }
+            this.edit_protimepol = true
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProtimepol != null){
+          if (this.selectedProtimepol != null) {
             this.protimepol_remove()
           }
         }
@@ -652,8 +667,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobmain = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobmain = true
@@ -670,30 +685,30 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobmain != null){
-              this.edit_projobmain = true
-              this.projobmain_loadtran()
-              this.showManage()
-            }
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobmain != null) {
+            this.edit_projobmain = true
+            this.projobmain_loadtran()
+            this.showManage()
+          }
         }
-        ,disabled: this.disable_projobmain,
+        , disabled: this.disable_projobmain,
       }
       ,
       {
-        label:'Reload',
-        icon:'pi pi-fw pi-refresh',
+        label: 'Reload',
+        icon: 'pi pi-fw pi-refresh',
         command: (event) => {
           this.doLoadProjobmain()
         }
       }
       ,
       {
-        label:'Save',
-        icon:'pi pi-fw pi-save',
+        label: 'Save',
+        icon: 'pi pi-fw pi-save',
         command: (event) => {
           this.confirmRecordJobmain()
         }
@@ -710,10 +725,10 @@ export class ProjectManageComponent implements OnInit {
       // }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobmain != null){
+          if (this.selectedProjobmain != null) {
             this.projobmain_remove()
           }
         }
@@ -722,8 +737,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobcontract = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobcontract = true
@@ -736,32 +751,32 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobcontract != null){
-              this.edit_projobcontract = true
-              this.showManage()
-            }
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobcontract != null) {
+            this.edit_projobcontract = true
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobcontract != null){
+          if (this.selectedProjobcontract != null) {
             this.projobcontract_remove()
           }
         }
@@ -770,8 +785,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobcost = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobcost = true
@@ -784,33 +799,33 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobcost != null){
-              this.edit_projobcost = true
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobcost != null) {
+            this.edit_projobcost = true
 
-              this.showManage()
-            }
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobcost != null){
+          if (this.selectedProjobcost != null) {
             this.projobcost_remove()
           }
         }
@@ -819,8 +834,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobmachine = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobmachine = true
@@ -833,33 +848,33 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobmachine != null){
-              this.edit_projobmachine = true
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobmachine != null) {
+            this.edit_projobmachine = true
 
-              this.showManage()
-            }
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobmachine != null){
+          if (this.selectedProjobmachine != null) {
             this.projobmachine_remove()
           }
         }
@@ -868,8 +883,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobpol = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobpol = true
@@ -882,33 +897,33 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobpol != null){
-              this.edit_projobpol = true
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobpol != null) {
+            this.edit_projobpol = true
 
-              this.showManage()
-            }
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobpol != null){
+          if (this.selectedProjobpol != null) {
             this.projobpol_remove()
           }
         }
@@ -917,8 +932,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobshift = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobshift = true
@@ -931,32 +946,32 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobshift != null){
-              this.edit_projobshift = true
-              this.showManage()
-            }
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobshift != null) {
+            this.edit_projobshift = true
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobmachine != null){
+          if (this.selectedProjobmachine != null) {
             this.projobshift_remove()
           }
         }
@@ -965,8 +980,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobsub = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobsub = true
@@ -978,40 +993,40 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobsub != null){
-              this.edit_projobsub = true
-              this.showManage()
-            }
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobsub != null) {
+            this.edit_projobsub = true
+            this.showManage()
+          }
         }
       }
       ,
       {
-        label:'Save',
-        icon:'pi pi-fw pi-save',
+        label: 'Save',
+        icon: 'pi pi-fw pi-save',
         command: (event) => {
           this.confirmRecordJobsub()
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobsub != null){
+          if (this.selectedProjobsub != null) {
             this.projobsub_remove()
           }
         }
@@ -1020,8 +1035,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobsubcontract = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobsubcontract = true
@@ -1034,32 +1049,32 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobsubcontract != null){
-              this.edit_projobsubcontract = true
-              this.showManage()
-            }
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobsubcontract != null) {
+            this.edit_projobsubcontract = true
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobsubcontract != null){
+          if (this.selectedProjobsubcontract != null) {
             this.projobsubcontract_remove()
           }
         }
@@ -1068,8 +1083,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobsubcost = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobsubcost = true
@@ -1082,33 +1097,33 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobsubcost != null){
-              this.edit_projobsubcost = true
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobsubcost != null) {
+            this.edit_projobsubcost = true
 
-              this.showManage()
-            }
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobsubcost != null){
+          if (this.selectedProjobsubcost != null) {
             this.projobsubcost_remove()
           }
         }
@@ -1117,8 +1132,8 @@ export class ProjectManageComponent implements OnInit {
 
     this.menu_projobemp = [
       {
-        label:this.title_new[this.initial_current.Language],
-        icon:'pi pi-fw pi-plus',
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
         command: (event) => {
           this.clearManage()
           this.new_projobemp = true
@@ -1132,33 +1147,33 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if(this.selectedProjobemp != null){
-              this.edit_projobemp = true
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProjobemp != null) {
+            this.edit_projobemp = true
 
-              this.showManage()
-            }
+            this.showManage()
+          }
         }
       }
       ,
       {
-          label:this.title_import[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-import',
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
       }
       ,
       {
-          label:this.title_export[this.initial_current.Language],
-          icon:'pi pi-fw pi-file-export',
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
-        label:this.title_delete[this.initial_current.Language],
-        icon:'pi pi-fw pi-trash',
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if(this.selectedProjobemp != null){
+          if (this.selectedProjobemp != null) {
             this.projobemp_remove()
           }
         }
@@ -1171,13 +1186,13 @@ export class ProjectManageComponent implements OnInit {
 
 
   selectedProject: ProjectModel = new ProjectModel;
-  doLoadProject(){
+  doLoadProject() {
     var project_list: ProjectModel[] = [];
 
     this.projectService.project_get(this.initial_current.CompCode, this.project_code).then(async (res) => {
       project_list = await res;
 
-      if(project_list.length > 0){
+      if (project_list.length > 0) {
         this.selectedProject = project_list[0]
 
         setTimeout(() => {
@@ -1199,7 +1214,23 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
-  doLoadMaster(){
+  // doLoadYear() {
+  //   this.yaerList = [];
+  //   var tmp = new YearPeriodModels();
+  //   tmp.year_group = "LEAVE"
+  //   this.yearServices.year_get(tmp).then(async (res) => {
+  //     await res.forEach((element: YearPeriodModels) => {
+  //       this.yaerList.push({ name: (this.selectlang == "EN" ? element.year_name_en : element.year_name_th) + " " + element.year_code, code: element.year_code })
+  //     });
+  //     await this.doLoadPlanholiday();
+  //   });
+
+
+
+  // year_group : string= "";
+
+  // }
+  doLoadMaster() {
     this.genaralService.probusiness_get().then((res) => {
       //// console.log(res)
       this.probusiness_list = res;
@@ -1216,8 +1247,25 @@ export class ProjectManageComponent implements OnInit {
     this.genaralService.progroup_get().then((res) => {
       this.progroup_list = res;
     });
+    //
+    var tmp = new RoundsModel();
+    tmp.round_group = this.rounds_type = "Time";
+    this.roundsService.rounds_get(tmp).then((res) => {
+      this.time_list = res;
+    });
 
-    
+    tmp.round_group = this.rounds_type = "Currency";
+    this.roundsService.rounds_get(tmp).then((res) => {
+      this.currency_list = res;
+    });
+
+    var tmps = new YearPeriodModels();
+    tmps.year_group = "LEAVE"
+    this.yearServices.year_get(tmps).then((res) => {
+      this.yeargroup_list = res;
+    });
+    //
+
     this.doLoadInitial()
     this.doLoadPosition()
     this.doLoadEmpStatus()
@@ -1236,136 +1284,137 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadPolProuniform()
     this.doLoadPolCost()
     this.doLoadJobemptype()
+    // this.doLoadRounds()
 
   }
 
   confirmRecord() {
     this.confirmationService.confirm({
-        message: this.title_confirm_record[this.initial_current.Language],
-        header: this.title_confirm[this.initial_current.Language],
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.selectedProject.company_code = this.initial_current.CompCode
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.selectedProject.company_code = this.initial_current.CompCode
 
-          this.projectService.project_record(this.selectedProject).then((res) => {
-            let result = JSON.parse(res);
-            if(result.success){
+        this.projectService.project_record(this.selectedProject).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
 
-              //-- Transaction
-              this.proaddress_record()
-              this.procontact_record()
-              this.procontract_record()
-              this.proresponsible_record()
-              this.protimepol_record()
+            //-- Transaction
+            this.proaddress_record()
+            this.procontact_record()
+            this.procontract_record()
+            this.proresponsible_record()
+            this.protimepol_record()
 
-              //this.projobcontract_record()
+            //this.projobcontract_record()
 
-              this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
-              this.doLoadProject()
-            }
-            else{
-              this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
-            }
-          });
-        },
-        reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
-        },
-        key: "myDialog"
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doLoadProject()
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+      },
+      key: "myDialog"
     });
   }
 
   confirmDelete() {
     this.confirmationService.confirm({
-        message: this.title_confirm_delete[this.initial_current.Language],
-        header: this.title_confirm[this.initial_current.Language],
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
+      message: this.title_confirm_delete[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
 
-        },
-        reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
-        },
-        key: "myDialog"
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+      },
+      key: "myDialog"
     });
   }
 
   confirmRecordJobmain() {
     this.confirmationService.confirm({
-        message: this.title_confirm_record[this.initial_current.Language],
-        header: this.title_confirm[this.initial_current.Language],
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
 
-          this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.projobmain_list).then((res) => {
-            let result = JSON.parse(res);
-            if(result.success){
+        this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.projobmain_list).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
 
-              //var jobcontract = this.projobcontract_record()
-              var jobcost = this.projobcost_record()
-              var jobmachine = this.projobmachine_record()
+            //var jobcontract = this.projobcontract_record()
+            var jobcost = this.projobcost_record()
+            var jobmachine = this.projobmachine_record()
 
-              var jobshift = this.projobshift_record()
+            var jobshift = this.projobshift_record()
 
-              var jobpol = this.projobpol_record()
+            var jobpol = this.projobpol_record()
 
-              this.messageService.add({severity:'success', summary: 'Success', detail: "Record Success.."});
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
 
-              this.displayManage = false
+            this.displayManage = false
 
-              setTimeout(() => {
+            setTimeout(() => {
 
-                this.projobmain_loadtran()
+              this.projobmain_loadtran()
 
-              }, 400);
+            }, 400);
 
-            }
-            else{
-              this.messageService.add({severity:'error', summary: 'Error', detail: "Record Not Success.."});
-            }
-          })
-        },
-        reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
-        },
-        key: "myDialog"
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
+          }
+        })
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+      },
+      key: "myDialog"
     });
   }
 
   confirmRecordJobsub() {
     this.confirmationService.confirm({
-        message: this.title_confirm_record[this.initial_current.Language],
-        header: this.title_confirm[this.initial_current.Language],
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
 
-          this.projectDetailService.projobsub_record(this.version_selected, this.selectedProject.project_code, this.projobsub_list).then((res) => {
-            let result = JSON.parse(res);
-            if(result.success){
+        this.projectDetailService.projobsub_record(this.version_selected, this.selectedProject.project_code, this.projobsub_list).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
 
-              this.messageService.add({severity:'success', summary: 'Success', detail: "Record Success.."});
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
 
-              var jobcontract = this.projobsubcontract_record()
-              var jobcost = this.projobsubcost_record()
-              // var jobmachine = this.projobmachine_record()
+            var jobcontract = this.projobsubcontract_record()
+            var jobcost = this.projobsubcost_record()
+            // var jobmachine = this.projobmachine_record()
 
-              // this.displayManage = false
+            // this.displayManage = false
 
-              setTimeout(() => {
-                this.doLoadProjobsubcontract()
-                this.doLoadProjobsubcost()
-              }, 200);
+            setTimeout(() => {
+              this.doLoadProjobsubcontract()
+              this.doLoadProjobsubcost()
+            }, 200);
 
-            }
-            else{
-              this.messageService.add({severity:'error', summary: 'Error', detail: "Record Not Success.."});
-            }
-          })
-        },
-        reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
-        },
-        key: "myDialog"
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
+          }
+        })
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+      },
+      key: "myDialog"
     });
   }
 
@@ -1374,7 +1423,7 @@ export class ProjectManageComponent implements OnInit {
     this.displayUpload = true;
   }
 
-  clearManage(){
+  clearManage() {
     this.new_procontact = false; this.edit_procontact = false;
     this.new_proresponsible = false; this.edit_proresponsible = false;
     this.new_procontract = false; this.edit_procontract = false;
@@ -1390,58 +1439,58 @@ export class ProjectManageComponent implements OnInit {
   showManage() {
     this.displayManage = true;
 
-    if(this.initial_current.Language == "EN"){
+    if (this.initial_current.Language == "EN") {
 
-      if(this.new_procontact || this.edit_procontact){
+      if (this.new_procontact || this.edit_procontact) {
         this.manage_title = "Contact"
       }
-      else if(this.new_proresponsible || this.edit_proresponsible){
+      else if (this.new_proresponsible || this.edit_proresponsible) {
         this.manage_title = "Responsible"
       }
-      else if(this.new_projobcontract || this.edit_projobcontract){
+      else if (this.new_projobcontract || this.edit_projobcontract) {
         this.manage_title = "Contract"
       }
-      else if(this.new_projobcost || this.edit_projobcost){
+      else if (this.new_projobcost || this.edit_projobcost) {
         this.manage_title = "Cost"
       }
-      else if(this.new_projobmachine || this.edit_projobmachine){
+      else if (this.new_projobmachine || this.edit_projobmachine) {
         this.manage_title = "Finger print"
       }
-      else if(this.new_projobsub || this.edit_projobsub){
+      else if (this.new_projobsub || this.edit_projobsub) {
         this.manage_title = "Job Clear"
       }
-      else if(this.new_projobsubcontract || this.edit_projobsubcontract){
+      else if (this.new_projobsubcontract || this.edit_projobsubcontract) {
         this.manage_title = "Contract"
       }
-      else if(this.new_projobsubcost || this.edit_projobsubcost){
+      else if (this.new_projobsubcost || this.edit_projobsubcost) {
         this.manage_title = "Cost"
       }
 
     }
-    else{
+    else {
 
-      if(this.new_procontact || this.edit_procontact){
+      if (this.new_procontact || this.edit_procontact) {
         this.manage_title = "ผู้ติดต่อ"
       }
-      else if(this.new_proresponsible || this.edit_proresponsible){
+      else if (this.new_proresponsible || this.edit_proresponsible) {
         this.manage_title = "ผู้รับผิดชอบ"
       }
-      else if(this.new_projobcontract || this.edit_projobcontract){
+      else if (this.new_projobcontract || this.edit_projobcontract) {
         this.manage_title = "สัญญา"
       }
-      else if(this.new_projobcost || this.edit_projobcost){
+      else if (this.new_projobcost || this.edit_projobcost) {
         this.manage_title = "ต้นทุน"
       }
-      else if(this.new_projobmachine || this.edit_projobmachine){
+      else if (this.new_projobmachine || this.edit_projobmachine) {
         this.manage_title = "เครื่องบันทึกเวลา"
       }
-      else if(this.new_projobsub || this.edit_projobsub){
+      else if (this.new_projobsub || this.edit_projobsub) {
         this.manage_title = "งานเคลีย์"
       }
-      else if(this.new_projobsubcontract || this.edit_projobsubcontract){
+      else if (this.new_projobsubcontract || this.edit_projobsubcontract) {
         this.manage_title = "สัญญา"
       }
-      else if(this.new_projobsubcost || this.edit_projobsubcost){
+      else if (this.new_projobsubcost || this.edit_projobsubcost) {
         this.manage_title = "ต้นทุน"
       }
 
@@ -1452,9 +1501,9 @@ export class ProjectManageComponent implements OnInit {
 
   fileToUpload: File | any = null;
   handleFileInput(file: FileList) {
-    this.fileToUpload=file.item(0);
+    this.fileToUpload = file.item(0);
   }
-  doUploadGenaral(){
+  doUploadGenaral() {
 
     this.displayUpload = false;
 
@@ -1463,12 +1512,12 @@ export class ProjectManageComponent implements OnInit {
 
     this.projectService.project_import(this.fileToUpload, filename, filetype).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
-        this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
+      if (result.success) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
         this.doLoadProject()
       }
-      else{
-      this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
       }
     });
 
@@ -1476,10 +1525,10 @@ export class ProjectManageComponent implements OnInit {
 
   proaddress_list: ProaddressModel[] = [];
   selectedProaddress: ProaddressModel = new ProaddressModel();
-  doLoadProaddress(){
+  doLoadProaddress() {
     this.projectDetailService.proaddress_get(this.project_code).then((res) => {
       this.proaddress_list = res;
-      if(this.proaddress_list.length > 0){
+      if (this.proaddress_list.length > 0) {
         this.selectedProaddress = this.proaddress_list[0]
       }
     });
@@ -1489,25 +1538,25 @@ export class ProjectManageComponent implements OnInit {
     this.selectedProaddress.project_code = this.selectedProject.project_code
     this.projectDetailService.proaddress_record(this.selectedProaddress).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
       }
-      else{
+      else {
       }
     });
   }
 
   procontact_list: ProcontactModel[] = [];
   selectedProcontact: ProcontactModel = new ProcontactModel();
-  doLoadProcontact(){
+  doLoadProcontact() {
     this.projectDetailService.procontact_get(this.project_code).then((res) => {
       this.procontact_list = res;
-      if(this.procontact_list.length > 0){
+      if (this.procontact_list.length > 0) {
         this.selectedProcontact = this.procontact_list[0]
       }
     });
   }
   onRowSelectProcontact(event: Event) {
-    this.edit_procontact= true;
+    this.edit_procontact = true;
 
   }
   procontact_summit() {
@@ -1525,37 +1574,37 @@ export class ProjectManageComponent implements OnInit {
     this.edit_procontact = false
   }
   procontact_cancel() {
-    this.edit_procontact= false
-    this.new_procontact= false
+    this.edit_procontact = false
+    this.new_procontact = false
     this.displayManage = false
   }
-  procontact_addItem(model:ProcontactModel){
-    const itemNew:ProcontactModel[] = [];
+  procontact_addItem(model: ProcontactModel) {
+    const itemNew: ProcontactModel[] = [];
     for (let i = 0; i < this.procontact_list.length; i++) {
-      if(this.procontact_list[i].procontact_ref==model.procontact_ref ){
+      if (this.procontact_list[i].procontact_ref == model.procontact_ref) {
         //-- Notting
       }
-      else{
+      else {
         itemNew.push(this.procontact_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.procontact_ref != "9999"){
+    if (model.procontact_ref != "9999") {
       itemNew.push(model);
     }
     this.procontact_list = [];
     this.procontact_list = itemNew;
-    this.procontact_list.sort(function(a, b) { return parseInt(a.procontact_ref) - parseInt(b.procontact_ref); })
+    this.procontact_list.sort(function (a, b) { return parseInt(a.procontact_ref) - parseInt(b.procontact_ref); })
   }
   procontact_record() {
-    if(this.procontact_list.length == 0){
+    if (this.procontact_list.length == 0) {
       return
     }
     this.projectDetailService.procontact_record(this.selectedProject.project_code, this.procontact_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
       }
-      else{
+      else {
       }
     });
   }
@@ -1563,10 +1612,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project contract
   procontract_list: ProcontractModel[] = [];
   selectedProcontract: ProcontractModel = new ProcontractModel();
-  doLoadProcontract(){
+  doLoadProcontract() {
     this.projectDetailService.procontract_get(this.project_code).then((res) => {
       this.procontract_list = res;
-      if(this.procontract_list.length > 0){
+      if (this.procontract_list.length > 0) {
         this.selectedProcontract = this.procontract_list[0]
       }
     });
@@ -1588,40 +1637,40 @@ export class ProjectManageComponent implements OnInit {
     this.edit_procontract = false
   }
   procontract_cancel() {
-    this.edit_procontract= false
-    this.new_procontract= false
+    this.edit_procontract = false
+    this.new_procontract = false
     this.displayManage = false
   }
-  procontract_addItem(model:ProcontractModel){
+  procontract_addItem(model: ProcontractModel) {
 
     // console.log(model.procontract_ref)
 
-    const itemNew:ProcontractModel[] = [];
+    const itemNew: ProcontractModel[] = [];
     for (let i = 0; i < this.procontract_list.length; i++) {
-      if(this.procontract_list[i].procontract_ref==model.procontract_ref ){
+      if (this.procontract_list[i].procontract_ref == model.procontract_ref) {
         //-- Notting
       }
-      else{
+      else {
         itemNew.push(this.procontract_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.procontract_ref != "9999"){
+    if (model.procontract_ref != "9999") {
       itemNew.push(model);
     }
     this.procontract_list = [];
     this.procontract_list = itemNew;
-    this.procontract_list.sort(function(a, b) { return parseInt(a.procontract_ref) - parseInt(b.procontract_ref); })
+    this.procontract_list.sort(function (a, b) { return parseInt(a.procontract_ref) - parseInt(b.procontract_ref); })
   }
   procontract_record() {
-    if(this.procontract_list.length == 0){
+    if (this.procontract_list.length == 0) {
       return
     }
     this.projectDetailService.procontract_record(this.selectedProject.project_code, this.procontract_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
       }
-      else{
+      else {
       }
     });
   }
@@ -1629,10 +1678,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project responsible
   proresponsible_list: ProresponsibleModel[] = [];
   selectedProresponsible: ProresponsibleModel = new ProresponsibleModel();
-  doLoadProresponsible(){
+  doLoadProresponsible() {
     this.projectDetailService.proresponsible_get(this.project_code).then((res) => {
       this.proresponsible_list = res;
-      if(this.proresponsible_list.length > 0){
+      if (this.proresponsible_list.length > 0) {
         this.selectedProresponsible = this.proresponsible_list[0]
       }
     });
@@ -1653,37 +1702,37 @@ export class ProjectManageComponent implements OnInit {
     this.edit_proresponsible = false
   }
   proresponsible_cancel() {
-    this.edit_proresponsible= false
-    this.new_proresponsible= false
+    this.edit_proresponsible = false
+    this.new_proresponsible = false
     this.displayManage = false
   }
-  proresponsible_addItem(model:ProresponsibleModel){
-    const itemNew:ProresponsibleModel[] = [];
+  proresponsible_addItem(model: ProresponsibleModel) {
+    const itemNew: ProresponsibleModel[] = [];
     for (let i = 0; i < this.proresponsible_list.length; i++) {
-      if(this.proresponsible_list[i].proresponsible_ref==model.proresponsible_ref ){
+      if (this.proresponsible_list[i].proresponsible_ref == model.proresponsible_ref) {
         //-- Notting
       }
-      else{
+      else {
         itemNew.push(this.proresponsible_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.proresponsible_ref != "9999"){
+    if (model.proresponsible_ref != "9999") {
       itemNew.push(model);
     }
     this.proresponsible_list = [];
     this.proresponsible_list = itemNew;
-    this.proresponsible_list.sort(function(a, b) { return parseInt(a.proresponsible_ref) - parseInt(b.proresponsible_ref); })
+    this.proresponsible_list.sort(function (a, b) { return parseInt(a.proresponsible_ref) - parseInt(b.proresponsible_ref); })
   }
   proresponsible_record() {
-    if(this.proresponsible_list.length == 0){
+    if (this.proresponsible_list.length == 0) {
       return
     }
     this.projectDetailService.proresponsible_record(this.selectedProject.project_code, this.proresponsible_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
       }
-      else{
+      else {
       }
     });
   }
@@ -1691,23 +1740,23 @@ export class ProjectManageComponent implements OnInit {
   //-- Project time policy
   polot_list: any[] = [];
   selectedProtimepol_ot: OvertimeModels = new OvertimeModels;
-  doLoadPolOT(){    
+  doLoadPolOT() {
     var tmp = new OvertimeModels();
     this.otservices.ot_get(tmp).then(async (res) => {
       await res.forEach((element: OvertimeModels) => {
         this.polot_list.push(
-          {            
+          {
             name: this.initial_current.Language == "EN" ? element.rateot_name_en : element.rateot_name_th,
             code: element.rateot_code
           }
         )
-      });      
+      });
     });
   }
-  
 
-  polallw_list: any[] = [];  
-  doLoadPolAllw(){    
+
+  polallw_list: any[] = [];
+  doLoadPolAllw() {
     var tmp = new cls_MTPlantimeallw();
     this.timeallwservices.timeallow_get(tmp).then(async (res) => {
       await res.forEach((element: cls_MTPlantimeallw) => {
@@ -1717,12 +1766,12 @@ export class ProjectManageComponent implements OnInit {
             code: element.plantimeallw_code
           }
         )
-      });      
-    });    
-  }  
+      });
+    });
+  }
 
-  poldg_list: any[] = [];   
-  doLoadPolDg(){
+  poldg_list: any[] = [];
+  doLoadPolDg() {
     var tmp = new DiligenceModels();
     this.diligenceServices.diligence_get(tmp).then(async (res) => {
       await res.forEach((element: DiligenceModels) => {
@@ -1732,12 +1781,12 @@ export class ProjectManageComponent implements OnInit {
             code: element.diligence_code
           }
         )
-      });      
+      });
     });
-  }  
+  }
 
-  pollv_list: any[] = [];     
-  doLoadPolLv(){
+  pollv_list: any[] = [];
+  doLoadPolLv() {
     var tmp = new LeaveplanModels();
     this.planleaveService.planleave_get(tmp).then(async (res) => {
       res.forEach((element: LeaveplanModels) => {
@@ -1747,13 +1796,13 @@ export class ProjectManageComponent implements OnInit {
             code: element.planleave_code
           }
         )
-      });      
+      });
     });
   }
-  
 
-  pollt_list: any[] = [];     
-  doLoadPolLt(){
+
+  pollt_list: any[] = [];
+  doLoadPolLt() {
     var tmp = new LateModels();
     this.lateServices.late_get(tmp).then(async (res) => {
       await res.forEach((element: LateModels) => {
@@ -1763,17 +1812,17 @@ export class ProjectManageComponent implements OnInit {
             code: element.late_code
           }
         )
-      });     
+      });
     });
   }
-  
+
 
   protimepol_list: ProtimepolModel[] = [];
   selectedProtimepol: ProtimepolModel = new ProtimepolModel();
-  doLoadProtimepol(){
+  doLoadProtimepol() {
     this.projectDetailService.protimepol_get(this.project_code).then((res) => {
       this.protimepol_list = res;
-      if(this.protimepol_list.length > 0){
+      if (this.protimepol_list.length > 0) {
         this.selectedProtimepol = this.protimepol_list[0]
       }
     });
@@ -1794,37 +1843,37 @@ export class ProjectManageComponent implements OnInit {
     this.edit_protimepol = false
   }
   protimepol_cancel() {
-    this.edit_protimepol= false
-    this.new_protimepol= false
+    this.edit_protimepol = false
+    this.new_protimepol = false
     this.displayManage = false
   }
-  protimepol_addItem(model:ProtimepolModel){
-    const itemNew:ProtimepolModel[] = [];
+  protimepol_addItem(model: ProtimepolModel) {
+    const itemNew: ProtimepolModel[] = [];
     for (let i = 0; i < this.protimepol_list.length; i++) {
-      if(this.protimepol_list[i].protimepol_code==model.protimepol_code ){
+      if (this.protimepol_list[i].protimepol_code == model.protimepol_code) {
         //-- Notting
       }
-      else{
+      else {
         itemNew.push(this.protimepol_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.protimepol_id != 9999){
+    if (model.protimepol_id != 9999) {
       itemNew.push(model);
     }
     this.protimepol_list = [];
     this.protimepol_list = itemNew;
-    this.protimepol_list.sort(function(a, b) { return a.protimepol_id - b.protimepol_id; })
+    this.protimepol_list.sort(function (a, b) { return a.protimepol_id - b.protimepol_id; })
   }
   protimepol_record() {
-    if(this.protimepol_list.length == 0){
+    if (this.protimepol_list.length == 0) {
       return
     }
     this.projectDetailService.protimepol_record(this.selectedProject.project_code, this.protimepol_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
       }
-      else{
+      else {
       }
     });
   }
@@ -1833,31 +1882,31 @@ export class ProjectManageComponent implements OnInit {
 
   version_selected: string = "";
   version_fromdate: string | any = null;
-  version_todate: string | any = null;    
+  version_todate: string | any = null;
 
-  version_transaction_id: string | any = null;   
-  version_custno: string | any = null;   
+  version_transaction_id: string | any = null;
+  version_custno: string | any = null;
 
   projobversion_list: ProjobversionModel[] = [];
   selectedProjobversion: ProjobversionModel = new ProjobversionModel();
 
   manageProjobversion: ProjobversionModel = new ProjobversionModel();
-  
-  doLoadProjobversion(){
+
+  doLoadProjobversion() {
 
     this.selectedProjobversion = new ProjobversionModel()
 
     this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
 
       this.projobversion_list = await res;
-     
-      if(this.projobversion_list.length > 0){        
-        this.selectedProjobversion = this.projobversion_list[0]        
+
+      if (this.projobversion_list.length > 0) {
+        this.selectedProjobversion = this.projobversion_list[0]
         this.printVersion()
-      }      
+      }
 
     });
-    
+
 
     setTimeout(() => {
       this.doLoadProjobmain()
@@ -1865,13 +1914,13 @@ export class ProjectManageComponent implements OnInit {
   }
 
   onSelectProjobversion(event: any) {
-    
+
     setTimeout(() => {
-      this.printVersion()   
+      this.printVersion()
     }, 500);
   }
 
-  printVersion(){
+  printVersion() {
     this.version_selected = this.selectedProjobversion.version
     this.version_fromdate = this.datePipe.transform(this.selectedProjobversion.fromdate, 'dd/MM/yyyy')
     this.version_todate = this.datePipe.transform(this.selectedProjobversion.todate, 'dd/MM/yyyy')
@@ -1883,12 +1932,12 @@ export class ProjectManageComponent implements OnInit {
 
   }
 
-  
-  
+
+
   //-- Project jobmain
   projobmain_list: ProjobmainModel[] = [];
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
-  doLoadProjobmain(){
+  doLoadProjobmain() {
 
     this.projectDetailService.projobmain_get(this.version_selected, this.project_code).then(async (res) => {
       this.projobmain_list = await res;
@@ -1899,13 +1948,13 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
-  doGetProjobmainDetail(code:string) : string {
+  doGetProjobmainDetail(code: string): string {
     for (let i = 0; i < this.projobmain_list.length; i++) {
-      if(this.projobmain_list[i].projobmain_code==code ){
-        if(this.initial_current.Language=="TH"){
+      if (this.projobmain_list[i].projobmain_code == code) {
+        if (this.initial_current.Language == "TH") {
           return this.projobmain_list[i].projobmain_name_th;
         }
-        else{
+        else {
           return this.projobmain_list[i].projobmain_name_en;
         }
       }
@@ -1915,22 +1964,22 @@ export class ProjectManageComponent implements OnInit {
 
   onRowSelectProjobmain(event: Event) {
 
-    if(this.selectedProjobmain == null){
+    if (this.selectedProjobmain == null) {
 
     }
-    else{
-      
+    else {
+
       this.projobmain_loadtran()
 
       this.menu_projobmain[1] =
       {
-          label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
-          command: (event) => {
-            if(this.selectedProjobmain != null){
-              this.edit_projobmain = true
-              this.projobmain_loadtran()
-            }
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          if (this.selectedProjobmain != null) {
+            this.edit_projobmain = true
+            this.projobmain_loadtran()
+          }
         }
       }
 
@@ -1952,39 +2001,39 @@ export class ProjectManageComponent implements OnInit {
     this.edit_projobmain = false
   }
   projobmain_cancel() {
-    this.edit_projobmain= false
-    this.new_projobmain= false
+    this.edit_projobmain = false
+    this.new_projobmain = false
 
     this.displayManage = false
   }
-  projobmain_addItem(model:ProjobmainModel){
-    const itemNew:ProjobmainModel[] = [];
+  projobmain_addItem(model: ProjobmainModel) {
+    const itemNew: ProjobmainModel[] = [];
     for (let i = 0; i < this.projobmain_list.length; i++) {
-      if(this.projobmain_list[i].projobmain_code==model.projobmain_code ){
+      if (this.projobmain_list[i].projobmain_code == model.projobmain_code) {
         //-- Notting
       }
-      else{
+      else {
         itemNew.push(this.projobmain_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.projobmain_id != "9999"){
+    if (model.projobmain_id != "9999") {
       itemNew.push(model);
     }
     this.projobmain_list = [];
     this.projobmain_list = itemNew;
-    this.projobmain_list.sort(function(a, b) { return parseInt(a.projobmain_id) - parseInt(b.projobmain_id); })
+    this.projobmain_list.sort(function (a, b) { return parseInt(a.projobmain_id) - parseInt(b.projobmain_id); })
   }
-  projobmain_record():boolean {
-    if(this.projobmain_list.length == 0){
+  projobmain_record(): boolean {
+    if (this.projobmain_list.length == 0) {
       //return
     }
     this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.projobmain_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
         return true
       }
-      else{
+      else {
         return false
       }
     })
@@ -1993,7 +2042,7 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
-  projobmain_loadtran(){
+  projobmain_loadtran() {
 
     this.doLoadProjobshift()
 
@@ -2006,25 +2055,25 @@ export class ProjectManageComponent implements OnInit {
 
 
   projobtype_list: RadiovalueModel[] = [];
-  doLoadPoljobtype(){
+  doLoadPoljobtype() {
     var tmp = new RadiovalueModel();
-      tmp.value = "R";
-      tmp.text_en = "Regular";
-      tmp.text_th = "ประจำ";
-      this.projobtype_list.push(tmp);
-      tmp = new RadiovalueModel();
-      tmp.value = "C";
-      tmp.text_en = "Casual work";
-      tmp.text_th = "งานจร";
-      this.projobtype_list.push(tmp);
+    tmp.value = "R";
+    tmp.text_en = "Regular";
+    tmp.text_th = "ประจำ";
+    this.projobtype_list.push(tmp);
+    tmp = new RadiovalueModel();
+    tmp.value = "C";
+    tmp.text_en = "Casual work";
+    tmp.text_th = "งานจร";
+    this.projobtype_list.push(tmp);
   }
-  doGetPoljobtypeDetail(code:string) : string {
+  doGetPoljobtypeDetail(code: string): string {
     for (let i = 0; i < this.projobtype_list.length; i++) {
-      if(this.projobtype_list[i].value==code ){
-        if(this.initial_current.Language=="TH"){
+      if (this.projobtype_list[i].value == code) {
+        if (this.initial_current.Language == "TH") {
           return this.projobtype_list[i].text_th;
         }
-        else{
+        else {
           return this.projobtype_list[i].text_en;
         }
       }
@@ -2035,7 +2084,7 @@ export class ProjectManageComponent implements OnInit {
 
   polshift_list: ShiftModels[] = [];
   selectedProjobmain_shift: ShiftModels = new ShiftModels;
-  doLoadPolShift(){
+  doLoadPolShift() {
     var tmp = new ShiftModels();
     tmp.company_code = this.initial_current.CompCode
     this.polshift_list = []
@@ -2043,13 +2092,13 @@ export class ProjectManageComponent implements OnInit {
       this.polshift_list = await res;
     });
   }
-  doGetShiftDetail(code:string) : string {
+  doGetShiftDetail(code: string): string {
     for (let i = 0; i < this.polshift_list.length; i++) {
-      if(this.polshift_list[i].shift_code==code ){
-        if(this.initial_current.Language=="TH"){
+      if (this.polshift_list[i].shift_code == code) {
+        if (this.initial_current.Language == "TH") {
           return this.polshift_list[i].shift_name_th;
         }
-        else{
+        else {
           return this.polshift_list[i].shift_name_en;
         }
       }
@@ -2059,18 +2108,18 @@ export class ProjectManageComponent implements OnInit {
 
 
   poltimepol_list: ProtimepolModel[] = [];
-  doLoadPolProtimepol(){
+  doLoadPolProtimepol() {
     this.projectDetailService.protimepol_get(this.project_code).then(async (res) => {
       this.poltimepol_list = await res;
     });
   }
-  doGetProtimepolDetail(code:string) : string {
+  doGetProtimepolDetail(code: string): string {
     for (let i = 0; i < this.poltimepol_list.length; i++) {
-      if(this.poltimepol_list[i].protimepol_code==code ){
-        if(this.initial_current.Language=="TH"){
+      if (this.poltimepol_list[i].protimepol_code == code) {
+        if (this.initial_current.Language == "TH") {
           return this.poltimepol_list[i].protimepol_name_th;
         }
-        else{
+        else {
           return this.poltimepol_list[i].protimepol_name_en;
         }
       }
@@ -2082,18 +2131,18 @@ export class ProjectManageComponent implements OnInit {
 
 
   polslip_list: ProslipModel[] = [];
-  doLoadPolProslip(){
+  doLoadPolProslip() {
     this.genaralService.proslip_get().then(async (res) => {
       this.polslip_list = await res;
     });
   }
-  doGetSlipDetail(code:string) : string {
+  doGetSlipDetail(code: string): string {
     for (let i = 0; i < this.polslip_list.length; i++) {
-      if(this.polslip_list[i].proslip_code==code ){
-        if(this.initial_current.Language=="TH"){
+      if (this.polslip_list[i].proslip_code == code) {
+        if (this.initial_current.Language == "TH") {
           return this.polslip_list[i].proslip_name_th;
         }
-        else{
+        else {
           return this.polslip_list[i].proslip_name_en;
         }
       }
@@ -2102,18 +2151,18 @@ export class ProjectManageComponent implements OnInit {
   }
 
   poluniform_list: ProuniformModel[] = [];
-  doLoadPolProuniform(){
+  doLoadPolProuniform() {
     this.genaralService.prouniform_get().then(async (res) => {
       this.poluniform_list = await res;
     });
   }
-  doGetUniformDetail(code:string) : string {
+  doGetUniformDetail(code: string): string {
     for (let i = 0; i < this.poluniform_list.length; i++) {
-      if(this.poluniform_list[i].prouniform_code==code ){
-        if(this.initial_current.Language=="TH"){
+      if (this.poluniform_list[i].prouniform_code == code) {
+        if (this.initial_current.Language == "TH") {
           return this.poluniform_list[i].prouniform_name_th;
         }
-        else{
+        else {
           return this.poluniform_list[i].prouniform_name_en;
         }
       }
@@ -2125,7 +2174,7 @@ export class ProjectManageComponent implements OnInit {
   project_summary_emp: number = 0;
   project_summary_cost: number = 0;
 
-  projobmain_summary(){
+  projobmain_summary() {
 
     return
 
@@ -2141,23 +2190,23 @@ export class ProjectManageComponent implements OnInit {
   polcost_list: ProcostModel[] = [];
   polcost_list_cbb: RadiovalueModel[] = [];
   selectedProjobcost_cost: RadiovalueModel = new RadiovalueModel;
-  doLoadPolCost(){
+  doLoadPolCost() {
     this.polcost_list_cbb = []
     this.procostService.procost_get(this.initial_current.CompCode).then((res) => {
 
       this.polcost_list = res;
-      if(this.polcost_list.length > 0){
+      if (this.polcost_list.length > 0) {
         for (let i = 0; i < this.polcost_list.length; i++) {
           var tmp = new RadiovalueModel();
           tmp.value = this.polcost_list[i].procost_code;
-          if(this.initial_current.Language == "EN"){
+          if (this.initial_current.Language == "EN") {
             tmp.text = this.polcost_list[i].procost_name_en
           }
-          else{
+          else {
             tmp.text = this.polcost_list[i].procost_name_th
           }
 
-          this.costs_title[i]= tmp.text
+          this.costs_title[i] = tmp.text
           this.polcost_list_cbb.push(tmp)
 
         }
@@ -2166,36 +2215,36 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
-  doGetProCostType(code:string) : string {
+  doGetProCostType(code: string): string {
     for (let i = 0; i < this.polcost_list.length; i++) {
-      if(this.polcost_list[i].procost_code==code ){
+      if (this.polcost_list[i].procost_code == code) {
         return this.polcost_list[i].procost_type
       }
     }
     return ""
   }
 
-  doGetProCostName(code:string) : string {
+  doGetProCostName(code: string): string {
     for (let i = 0; i < this.polcost_list.length; i++) {
-      if(this.polcost_list[i].procost_code==code ){
+      if (this.polcost_list[i].procost_code == code) {
         return this.initial_current.Language == "TH" ? this.polcost_list[i].procost_name_th : this.polcost_list[i].procost_name_en
       }
     }
     return ""
   }
 
-  doGetProCostAuto(code:string) : boolean {
+  doGetProCostAuto(code: string): boolean {
     for (let i = 0; i < this.polcost_list.length; i++) {
-      if(this.polcost_list[i].procost_code==code ){
+      if (this.polcost_list[i].procost_code == code) {
         return this.polcost_list[i].procost_auto
       }
     }
     return false
   }
 
-  doGetProCostItem(code:string) : string {
+  doGetProCostItem(code: string): string {
     for (let i = 0; i < this.polcost_list.length; i++) {
-      if(this.polcost_list[i].procost_code==code ){
+      if (this.polcost_list[i].procost_code == code) {
         return this.polcost_list[i].procost_itemcode
       }
     }
@@ -2208,10 +2257,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project job contract
   projobcontract_list: ProjobcontractModel[] = [];
   selectedProjobcontract: ProjobcontractModel = new ProjobcontractModel();
-  doLoadProjobcontract(){
+  doLoadProjobcontract() {
     this.projectDetailService.projobcontract_get(this.version_selected, this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
       this.projobcontract_list = res;
-      if(this.projobcontract_list.length > 0){
+      if (this.projobcontract_list.length > 0) {
         this.selectedProjobcontract = this.projobcontract_list[0]
       }
     });
@@ -2235,44 +2284,44 @@ export class ProjectManageComponent implements OnInit {
     this.edit_projobcontract = false
   }
   projobcontract_cancel() {
-    this.edit_projobcontract= false
-    this.new_projobcontract= false
+    this.edit_projobcontract = false
+    this.new_projobcontract = false
     this.displayManage = false
   }
-  projobcontract_addItem(model:ProjobcontractModel){
-    const itemNew:ProjobcontractModel[] = [];
+  projobcontract_addItem(model: ProjobcontractModel) {
+    const itemNew: ProjobcontractModel[] = [];
     for (let i = 0; i < this.projobcontract_list.length; i++) {
-      if(this.projobcontract_list[i].projobcontract_ref==model.projobcontract_ref ){
+      if (this.projobcontract_list[i].projobcontract_ref == model.projobcontract_ref) {
         //-- Notting
       }
-      else{
+      else {
         itemNew.push(this.projobcontract_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.projobcontract_id != "9999"){
+    if (model.projobcontract_id != "9999") {
       itemNew.push(model);
     }
     this.projobcontract_list = [];
     this.projobcontract_list = itemNew;
-    this.projobcontract_list.sort(function(a, b) { return parseInt(a.projobcontract_id) - parseInt(b.projobcontract_id); })
+    this.projobcontract_list.sort(function (a, b) { return parseInt(a.projobcontract_id) - parseInt(b.projobcontract_id); })
   }
-  projobcontract_record():boolean {
+  projobcontract_record(): boolean {
 
-    if(this.selectedProjobmain == null){
+    if (this.selectedProjobmain == null) {
       return false
     }
 
-    if(this.projobcontract_list.length == 0){
+    if (this.projobcontract_list.length == 0) {
       //return false
     }
 
     this.projectDetailService.projobcontract_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobcontract_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
         return true
       }
-      else{
+      else {
         return false
       }
     });
@@ -2283,10 +2332,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project job cost
   projobcost_list: ProjobcostModel[] = [];
   selectedProjobcost: ProjobcostModel = new ProjobcostModel();
-  doLoadProjobcost(){
+  doLoadProjobcost() {
     this.projectDetailService.projobcost_get(this.version_selected, this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
       this.projobcost_list = res;
-      if(this.projobcost_list.length > 0){
+      if (this.projobcost_list.length > 0) {
         this.selectedProjobcost = this.projobcost_list[0]
       }
     });
@@ -2310,17 +2359,17 @@ export class ProjectManageComponent implements OnInit {
     this.edit_projobcost = false
   }
   projobcost_cancel() {
-    this.edit_projobcost= false
-    this.new_projobcost= false
+    this.edit_projobcost = false
+    this.new_projobcost = false
     this.displayManage = false
   }
-  projobcost_addItem(model:ProjobcostModel){
-    const itemNew:ProjobcostModel[] = [];
+  projobcost_addItem(model: ProjobcostModel) {
+    const itemNew: ProjobcostModel[] = [];
     for (let i = 0; i < this.projobcost_list.length; i++) {
-      if(this.projobcost_list[i].projobcost_id==model.projobcost_id ){
+      if (this.projobcost_list[i].projobcost_id == model.projobcost_id) {
         //-- Notting
       }
-      else{
+      else {
 
 
         // var date_tmp = new Date(this.projobcost_list[i].projobcost_todate)
@@ -2337,28 +2386,28 @@ export class ProjectManageComponent implements OnInit {
       }
     }
     //-- 9999 for delete
-    if(model.projobcost_id != "9999"){
+    if (model.projobcost_id != "9999") {
       itemNew.push(model);
     }
     this.projobcost_list = [];
     this.projobcost_list = itemNew;
-    this.projobcost_list.sort(function(a, b) { return parseInt(a.projobcost_id) - parseInt(b.projobcost_id); })
+    this.projobcost_list.sort(function (a, b) { return parseInt(a.projobcost_id) - parseInt(b.projobcost_id); })
   }
-  projobcost_record():boolean {
+  projobcost_record(): boolean {
 
-    if(this.selectedProjobmain == null){
+    if (this.selectedProjobmain == null) {
       return false
     }
 
-    if(this.projobcost_list.length == 0){
+    if (this.projobcost_list.length == 0) {
       //return false
     }
     this.projectDetailService.projobcost_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobcost_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
         return true
       }
-      else{
+      else {
         return false
       }
 
@@ -2367,7 +2416,7 @@ export class ProjectManageComponent implements OnInit {
     return false
   }
 
-  projobcost_summary(){
+  projobcost_summary() {
     for (let i = 0; i < this.projobcost_list.length; i++) {
 
     }
@@ -2376,10 +2425,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project job shift
   projobshift_list: ProjobshiftModel[] = [];
   selectedProjobshift: ProjobshiftModel = new ProjobshiftModel();
-  doLoadProjobshift(){
+  doLoadProjobshift() {
     this.projectDetailService.projobshift_get(this.version_selected, this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
       this.projobshift_list = res;
-      if(this.projobshift_list.length > 0){
+      if (this.projobshift_list.length > 0) {
         this.selectedProjobshift = this.projobshift_list[0]
       }
     });
@@ -2403,44 +2452,44 @@ export class ProjectManageComponent implements OnInit {
     this.edit_projobshift = false
   }
   projobshift_cancel() {
-    this.edit_projobshift= false
-    this.new_projobshift= false
+    this.edit_projobshift = false
+    this.new_projobshift = false
     this.displayManage = false
   }
-  projobshift_addItem(model:ProjobshiftModel){
-    const itemNew:ProjobshiftModel[] = [];
+  projobshift_addItem(model: ProjobshiftModel) {
+    const itemNew: ProjobshiftModel[] = [];
     for (let i = 0; i < this.projobshift_list.length; i++) {
-      if(this.projobshift_list[i].projobshift_id==model.projobshift_id ){
+      if (this.projobshift_list[i].projobshift_id == model.projobshift_id) {
         //-- Notting
       }
-      else{
+      else {
 
         itemNew.push(this.projobshift_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.projobshift_id != "9999"){
+    if (model.projobshift_id != "9999") {
       itemNew.push(model);
     }
     this.projobshift_list = [];
     this.projobshift_list = itemNew;
-    this.projobshift_list.sort(function(a, b) { return parseInt(a.projobshift_id) - parseInt(b.projobshift_id); })
+    this.projobshift_list.sort(function (a, b) { return parseInt(a.projobshift_id) - parseInt(b.projobshift_id); })
   }
-  projobshift_record():boolean {
+  projobshift_record(): boolean {
 
-    if(this.selectedProjobmain == null){
+    if (this.selectedProjobmain == null) {
       return false
     }
 
-    if(this.projobshift_list.length == 0){
+    if (this.projobshift_list.length == 0) {
       //return false
     }
     this.projectDetailService.projobshift_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobshift_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
         return true
       }
-      else{
+      else {
         return false
       }
 
@@ -2452,10 +2501,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project job machine
   projobmachine_list: ProjobmachineModel[] = [];
   selectedProjobmachine: ProjobmachineModel = new ProjobmachineModel();
-  doLoadProjobmachine(){
+  doLoadProjobmachine() {
     this.projectDetailService.projobmachine_get(this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
       this.projobmachine_list = res;
-      if(this.projobmachine_list.length > 0){
+      if (this.projobmachine_list.length > 0) {
         this.selectedProjobmachine = this.projobmachine_list[0]
       }
     });
@@ -2479,46 +2528,46 @@ export class ProjectManageComponent implements OnInit {
     this.edit_projobmachine = false
   }
   projobmachine_cancel() {
-    this.edit_projobmachine= false
-    this.new_projobmachine= false
+    this.edit_projobmachine = false
+    this.new_projobmachine = false
     this.displayManage = false
   }
-  projobmachine_addItem(model:ProjobmachineModel){
-    const itemNew:ProjobmachineModel[] = [];
+  projobmachine_addItem(model: ProjobmachineModel) {
+    const itemNew: ProjobmachineModel[] = [];
     for (let i = 0; i < this.projobmachine_list.length; i++) {
-      if(this.projobmachine_list[i].projobmachine_id==model.projobmachine_id ){
+      if (this.projobmachine_list[i].projobmachine_id == model.projobmachine_id) {
         //-- Notting
       }
-      else{
+      else {
 
         itemNew.push(this.projobmachine_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.projobmachine_id != "9999"){
+    if (model.projobmachine_id != "9999") {
       itemNew.push(model);
     }
     this.projobmachine_list = [];
     this.projobmachine_list = itemNew;
-    this.projobmachine_list.sort(function(a, b) { return parseInt(a.projobmachine_id) - parseInt(b.projobmachine_id); })
+    this.projobmachine_list.sort(function (a, b) { return parseInt(a.projobmachine_id) - parseInt(b.projobmachine_id); })
   }
 
 
-  projobmachine_record():boolean {
+  projobmachine_record(): boolean {
 
-    if(this.selectedProjobmain == null){
+    if (this.selectedProjobmain == null) {
       return false
     }
 
-    if(this.projobmachine_list.length == 0){
+    if (this.projobmachine_list.length == 0) {
       //return false
     }
     this.projectDetailService.projobmachine_record(this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobmachine_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
         return true
       }
-      else{
+      else {
         return false
       }
 
@@ -2530,10 +2579,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project job policy
   projobpol_list: ProjobpolModel[] = [];
   selectedProjobpol: ProjobpolModel = new ProjobpolModel();
-  doLoadProjobpol(){
+  doLoadProjobpol() {
     this.projectDetailService.projobpol_get(this.project_code, this.selectedProjobmain.projobmain_code).then((res) => {
       this.projobpol_list = res;
-      if(this.projobpol_list.length > 0){
+      if (this.projobpol_list.length > 0) {
         this.selectedProjobpol = this.projobpol_list[0]
       }
     });
@@ -2557,47 +2606,47 @@ export class ProjectManageComponent implements OnInit {
     this.edit_projobpol = false
   }
   projobpol_cancel() {
-    this.edit_projobpol= false
-    this.new_projobpol= false
+    this.edit_projobpol = false
+    this.new_projobpol = false
     this.displayManage = false
   }
-  projobpol_addItem(model:ProjobpolModel){
-    const itemNew:ProjobpolModel[] = [];
+  projobpol_addItem(model: ProjobpolModel) {
+    const itemNew: ProjobpolModel[] = [];
     for (let i = 0; i < this.projobpol_list.length; i++) {
-      if(this.projobpol_list[i].projobpol_id==model.projobpol_id ){
+      if (this.projobpol_list[i].projobpol_id == model.projobpol_id) {
         //-- Notting
       }
-      else{
+      else {
 
         itemNew.push(this.projobpol_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.projobpol_id != "9999"){
+    if (model.projobpol_id != "9999") {
       itemNew.push(model);
     }
     this.projobpol_list = [];
     this.projobpol_list = itemNew;
-    this.projobpol_list.sort(function(a, b) { return parseInt(a.projobpol_id) - parseInt(b.projobpol_id); })
+    this.projobpol_list.sort(function (a, b) { return parseInt(a.projobpol_id) - parseInt(b.projobpol_id); })
   }
 
 
-  projobpol_record():boolean {
+  projobpol_record(): boolean {
 
-    if(this.selectedProjobpol == null){
+    if (this.selectedProjobpol == null) {
       return false
     }
 
-    if(this.projobpol_list.length == 0){
+    if (this.projobpol_list.length == 0) {
       //return false
     }
 
     this.projectDetailService.projobpol_record(this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobpol_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
         return true
       }
-      else{
+      else {
         return false
       }
 
@@ -2609,10 +2658,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project job sub
   projobsub_list: ProjobsubModel[] = [];
   selectedProjobsub: ProjobsubModel = new ProjobsubModel();
-  doLoadProjobsub(){
+  doLoadProjobsub() {
     this.projectDetailService.projobsub_get(this.version_selected, this.project_code).then((res) => {
       this.projobsub_list = res;
-      if(this.projobsub_list.length > 0){
+      if (this.projobsub_list.length > 0) {
 
         this.selectedProjobsub = this.projobsub_list[0]
 
@@ -2629,10 +2678,10 @@ export class ProjectManageComponent implements OnInit {
   }
   onRowSelectProjobsub(event: Event) {
 
-    if(this.selectedProjobsub == null){
+    if (this.selectedProjobsub == null) {
 
     }
-    else{
+    else {
       this.doLoadProjobsubcontract()
       this.doLoadProjobsubcost()
       this.doLoadProjobworking()
@@ -2654,41 +2703,41 @@ export class ProjectManageComponent implements OnInit {
     this.edit_projobsub = false
   }
   projobsub_cancel() {
-    this.edit_projobsub= false
-    this.new_projobsub= false
+    this.edit_projobsub = false
+    this.new_projobsub = false
     this.displayManage = false
   }
-  projobsub_addItem(model:ProjobsubModel){
-    const itemNew:ProjobsubModel[] = [];
+  projobsub_addItem(model: ProjobsubModel) {
+    const itemNew: ProjobsubModel[] = [];
     for (let i = 0; i < this.projobsub_list.length; i++) {
-      if(this.projobsub_list[i].projobsub_id==model.projobsub_id ){
+      if (this.projobsub_list[i].projobsub_id == model.projobsub_id) {
         //-- Notting
       }
-      else{
+      else {
 
         itemNew.push(this.projobsub_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.projobsub_id != "9999"){
+    if (model.projobsub_id != "9999") {
       itemNew.push(model);
     }
     this.projobsub_list = [];
     this.projobsub_list = itemNew;
-    this.projobsub_list.sort(function(a, b) { return parseInt(a.projobsub_id) - parseInt(b.projobsub_id); })
+    this.projobsub_list.sort(function (a, b) { return parseInt(a.projobsub_id) - parseInt(b.projobsub_id); })
   }
-  projobsub_record():boolean {
+  projobsub_record(): boolean {
 
-    if(this.projobsub_list.length == 0){
+    if (this.projobsub_list.length == 0) {
       //return false
     }
 
     this.projectDetailService.projobsub_record(this.version_selected, this.selectedProject.project_code, this.projobsub_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
         return true
       }
-      else{
+      else {
         return false
       }
 
@@ -2700,7 +2749,7 @@ export class ProjectManageComponent implements OnInit {
 
   project_summary_clear_cost: number = 0;
 
-  projobsub_summary(){
+  projobsub_summary() {
     this.project_summary_clear_cost = 0
     for (let i = 0; i < this.projobsub_list.length; i++) {
       this.project_summary_clear_cost += this.projobsub_list[i].allow_total
@@ -2710,7 +2759,7 @@ export class ProjectManageComponent implements OnInit {
   //-- Project jobsub contract
   projobsubcontract_list: ProjobcontractModel[] = [];
   selectedProjobsubcontract: ProjobcontractModel = new ProjobcontractModel();
-  doLoadProjobsubcontract(){
+  doLoadProjobsubcontract() {
     this.projectDetailService.projobcontract_get(this.version_selected, this.project_code, this.selectedProjobsub.projobsub_code).then((res) => {
       this.projobsubcontract_list = res;
     });
@@ -2733,45 +2782,45 @@ export class ProjectManageComponent implements OnInit {
     this.edit_projobsubcontract = false
   }
   projobsubcontract_cancel() {
-    this.edit_projobsubcontract= false
-    this.new_projobsubcontract= false
+    this.edit_projobsubcontract = false
+    this.new_projobsubcontract = false
     this.displayManage = false
   }
-  projobsubcontract_addItem(model:ProjobcontractModel){
+  projobsubcontract_addItem(model: ProjobcontractModel) {
 
-    const itemNew:ProjobcontractModel[] = [];
+    const itemNew: ProjobcontractModel[] = [];
     for (let i = 0; i < this.projobsubcontract_list.length; i++) {
-      if(this.projobsubcontract_list[i].projobcontract_ref==model.projobcontract_ref ){
+      if (this.projobsubcontract_list[i].projobcontract_ref == model.projobcontract_ref) {
         //-- Notting
       }
-      else{
+      else {
         itemNew.push(this.projobsubcontract_list[i]);
       }
     }
     //-- 9999 for delete
-    if(model.projobcontract_id != "9999"){
+    if (model.projobcontract_id != "9999") {
       itemNew.push(model);
     }
     this.projobsubcontract_list = [];
     this.projobsubcontract_list = itemNew;
-    this.projobsubcontract_list.sort(function(a, b) { return parseInt(a.projobcontract_id) - parseInt(b.projobcontract_id); })
+    this.projobsubcontract_list.sort(function (a, b) { return parseInt(a.projobcontract_id) - parseInt(b.projobcontract_id); })
   }
-  projobsubcontract_record():boolean {
+  projobsubcontract_record(): boolean {
 
-    if(this.selectedProjobsub == null){
+    if (this.selectedProjobsub == null) {
       return false
     }
 
-    if(this.projobsubcontract_list.length == 0){
+    if (this.projobsubcontract_list.length == 0) {
       //return false
     }
 
     this.projectDetailService.projobcontract_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobsub.projobsub_code, this.projobsubcontract_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
         return true
       }
-      else{
+      else {
         return false
       }
     });
@@ -2782,10 +2831,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project jobsub cost
   projobsubcost_list: ProjobcostModel[] = [];
   selectedProjobsubcost: ProjobcostModel = new ProjobcostModel();
-  doLoadProjobsubcost(){
+  doLoadProjobsubcost() {
     this.projectDetailService.projobcost_get(this.version_selected, this.project_code, this.selectedProjobsub.projobsub_code).then((res) => {
       this.projobsubcost_list = res;
-      if(this.projobsubcost_list.length > 0){
+      if (this.projobsubcost_list.length > 0) {
         this.selectedProjobsubcost = this.projobsubcost_list[0]
       }
     });
@@ -2809,17 +2858,17 @@ export class ProjectManageComponent implements OnInit {
     this.edit_projobsubcost = false
   }
   projobsubcost_cancel() {
-    this.edit_projobsubcost= false
-    this.new_projobsubcost= false
+    this.edit_projobsubcost = false
+    this.new_projobsubcost = false
     this.displayManage = false
   }
-  projobsubcost_addItem(model:ProjobcostModel){
-    const itemNew:ProjobcostModel[] = [];
+  projobsubcost_addItem(model: ProjobcostModel) {
+    const itemNew: ProjobcostModel[] = [];
     for (let i = 0; i < this.projobsubcost_list.length; i++) {
-      if(this.projobsubcost_list[i].projobcost_id==model.projobcost_id ){
+      if (this.projobsubcost_list[i].projobcost_id == model.projobcost_id) {
         //-- Notting
       }
-      else{
+      else {
 
         // var date_tmp = new Date(this.projobsubcost_list[i].projobcost_todate)
 
@@ -2834,28 +2883,28 @@ export class ProjectManageComponent implements OnInit {
       }
     }
     //-- 9999 for delete
-    if(model.projobcost_id != "9999"){
+    if (model.projobcost_id != "9999") {
       itemNew.push(model);
     }
     this.projobsubcost_list = [];
     this.projobsubcost_list = itemNew;
-    this.projobsubcost_list.sort(function(a, b) { return parseInt(a.projobcost_id) - parseInt(b.projobcost_id); })
+    this.projobsubcost_list.sort(function (a, b) { return parseInt(a.projobcost_id) - parseInt(b.projobcost_id); })
   }
-  projobsubcost_record():boolean {
+  projobsubcost_record(): boolean {
 
-    if(this.selectedProjobsub == null){
+    if (this.selectedProjobsub == null) {
       return false
     }
 
-    if(this.projobsubcost_list.length == 0){
+    if (this.projobsubcost_list.length == 0) {
       //return false
     }
     this.projectDetailService.projobcost_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobsub.projobsub_code, this.projobsubcost_list).then((res) => {
       let result = JSON.parse(res);
-      if(result.success){
+      if (result.success) {
         return true
       }
-      else{
+      else {
         return false
       }
 
@@ -2868,9 +2917,9 @@ export class ProjectManageComponent implements OnInit {
   projobemp_list: ProjobempModel[] = [];
   selectedProjobemp: ProjobempModel = new ProjobempModel();
 
-  selectedProjobemp_name:string = ""
+  selectedProjobemp_name: string = ""
 
-  doLoadProjobemp(){
+  doLoadProjobemp() {
     this.projectDetailService.projobemp_get(this.project_code).then((res) => {
       this.projobemp_list = res;
       //if(this.projobemp_list.length > 0){
@@ -2887,7 +2936,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.projobemp_addItem(this.selectedProjobemp)
     this.new_projobemp = false
-    this.edit_projobemp= false
+    this.edit_projobemp = false
 
     this.displayManage = false
   }
@@ -2908,22 +2957,22 @@ export class ProjectManageComponent implements OnInit {
 
         this.projectDetailService.projobemp_delete(this.selectedProjobemp).then((res) => {
           let result = JSON.parse(res);
-          if(result.success){
+          if (result.success) {
 
-            this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
             this.doLoadProjobemp()
 
             this.new_projobemp = false
-            this.edit_projobemp= false
+            this.edit_projobemp = false
             this.displayManage = false
           }
-          else{
-            this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
           }
         });
       },
       reject: () => {
-        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       },
       key: "myDialog"
     });
@@ -2931,35 +2980,35 @@ export class ProjectManageComponent implements OnInit {
 
   }
   projobemp_cancel() {
-    this.edit_projobemp= false
-    this.new_projobemp= false
+    this.edit_projobemp = false
+    this.new_projobemp = false
     this.displayManage = false
   }
-  projobemp_addItem(model:ProjobempModel){
-    const itemNew:ProjobempModel[] = [];
+  projobemp_addItem(model: ProjobempModel) {
+    const itemNew: ProjobempModel[] = [];
     for (let i = 0; i < this.projobemp_list.length; i++) {
-      if(this.projobemp_list[i].projobemp_id==model.projobemp_id ){
+      if (this.projobemp_list[i].projobemp_id == model.projobemp_id) {
         //-- Notting
       }
-      else{
+      else {
 
         var date_tmp = new Date(this.projobemp_list[i].projobemp_fromdate)
 
-        if(this.projobemp_list[i].projobemp_emp==model.projobemp_emp && date_tmp.getTime() == model.projobemp_fromdate.getTime()){
+        if (this.projobemp_list[i].projobemp_emp == model.projobemp_emp && date_tmp.getTime() == model.projobemp_fromdate.getTime()) {
 
         }
-        else{
+        else {
           itemNew.push(this.projobemp_list[i]);
         }
       }
     }
     //-- 9999 for delete
-    if(model.projobemp_id != "9999"){
+    if (model.projobemp_id != "9999") {
       itemNew.push(model);
     }
     this.projobemp_list = [];
     this.projobemp_list = itemNew;
-    this.projobemp_list.sort(function(a, b) { return parseInt(a.projobemp_id) - parseInt(b.projobemp_id); })
+    this.projobemp_list.sort(function (a, b) { return parseInt(a.projobemp_id) - parseInt(b.projobemp_id); })
   }
   projobemp_record() {
 
@@ -2974,22 +3023,22 @@ export class ProjectManageComponent implements OnInit {
 
         this.projectDetailService.projobemp_record(this.selectedProjobemp).then((res) => {
           let result = JSON.parse(res);
-          if(result.success){
+          if (result.success) {
 
-            this.messageService.add({severity:'success', summary: 'Success', detail: result.message});
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
             this.doLoadProjobemp()
 
             this.new_projobemp = false
-            this.edit_projobemp= false
+            this.edit_projobemp = false
             this.displayManage = false
           }
-          else{
-            this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
           }
         });
       },
       reject: () => {
-        this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       },
       key: "myDialog"
     });
@@ -2997,27 +3046,27 @@ export class ProjectManageComponent implements OnInit {
   }
 
   projobemp_type: any[] = [];
-  doLoadJobemptype(){
+  doLoadJobemptype() {
     this.projobemp_type.push(
-      {            
+      {
         name: this.initial_current.Language == "EN" ? "Regular" : "ประจำ",
         code: "R"
       }
     )
     this.projobemp_type.push(
-      {            
+      {
         name: this.initial_current.Language == "EN" ? "Temporary" : "ชั่วคราว",
         code: "T"
       }
     )
   }
 
-  doGetJobemptypeDetail(code:string) : string {
+  doGetJobemptypeDetail(code: string): string {
 
     let result = ""
     for (let i = 0; i < this.projobemp_type.length; i++) {
-      if(this.projobemp_type[i].code==code ){
-        result =  this.projobemp_type[i].name
+      if (this.projobemp_type[i].code == code) {
+        result = this.projobemp_type[i].name
         break
       }
     }
@@ -3025,22 +3074,22 @@ export class ProjectManageComponent implements OnInit {
   }
 
   searchEmp: boolean = false;
-  open_searchemp(){
+  open_searchemp() {
     this.searchEmp = true
   }
 
-  close_searchemp(){
+  close_searchemp() {
     this.searchEmp = false
   }
 
-  select_emp(){
-    
-    let select  = this.selectEmp.selectedEmployee.worker_code
-    if(select != ""){
-      
+  select_emp() {
+
+    let select = this.selectEmp.selectedEmployee.worker_code
+    if (select != "") {
+
       this.selectedProjobemp.projobemp_emp = select
       this.selectedProjobemp_name = this.selectedProjobemp.projobemp_emp + " : " + this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp)
-      this.searchEmp = false      
+      this.searchEmp = false
     }
 
   }
@@ -3051,10 +3100,10 @@ export class ProjectManageComponent implements OnInit {
   //-- Project working
   projobworking_list: ProjobworkingModel[] = [];
   selectedProjobworking: ProjobworkingModel = new ProjobworkingModel();
-  doLoadProjobworking(){
+  doLoadProjobworking() {
     this.projectDetailService.projobworking_get(this.project_code, this.selectedProjobsub.projobsub_code).then((res) => {
       this.projobworking_list = res;
-      if(this.projobworking_list.length > 0){
+      if (this.projobworking_list.length > 0) {
         this.selectedProjobworking = this.projobworking_list[0]
       }
     });
@@ -3064,19 +3113,19 @@ export class ProjectManageComponent implements OnInit {
   }
 
   employee_list: EmployeeModel[] = [];
-  doLoadEmployee(){
-    this.employeeService.worker_get(this.initial_current.CompCode,"").then(async (res) => {
+  doLoadEmployee() {
+    this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
       this.employee_list = await res;
     });
   }
 
-  doGetEmployeeDetail(code:string) : string {
+  doGetEmployeeDetail(code: string): string {
     for (let i = 0; i < this.employee_list.length; i++) {
-      if(this.employee_list[i].worker_code==code ){
-        if(this.initial_current.Language=="TH"){
+      if (this.employee_list[i].worker_code == code) {
+        if (this.initial_current.Language == "TH") {
           return this.employee_list[i].worker_fname_th + ' ' + this.employee_list[i].worker_lname_th;
         }
-        else{
+        else {
           return this.employee_list[i].worker_fname_en + ' ' + this.employee_list[i].worker_lname_en;
         }
       }
@@ -3084,9 +3133,9 @@ export class ProjectManageComponent implements OnInit {
     return ""
   }
 
-  doGetEmployeeStatus(code:string) : string {
+  doGetEmployeeStatus(code: string): string {
     for (let i = 0; i < this.employee_list.length; i++) {
-      if(this.employee_list[i].worker_code==code ){
+      if (this.employee_list[i].worker_code == code) {
         return this.doGetEmpstatusDetail(this.employee_list[i].worker_status)
       }
     }
@@ -3094,48 +3143,48 @@ export class ProjectManageComponent implements OnInit {
   }
 
   initial_list: InitialModel[] = [];
-  doLoadInitial(){
+  doLoadInitial() {
     this.initial_list = []
     this.initialService.initial_get().then(async (res) => {
       this.initial_list = await res;
     });
   }
-  doGetInitialDetail(code:string) : string {
+  doGetInitialDetail(code: string): string {
     for (let i = 0; i < this.initial_list.length; i++) {
-      if(this.initial_list[i].initial_code==code ){
-        return this.initial_current.Language=="TH" ? this.initial_list[i].initial_name_th : this.initial_list[i].initial_name_en
+      if (this.initial_list[i].initial_code == code) {
+        return this.initial_current.Language == "TH" ? this.initial_list[i].initial_name_th : this.initial_list[i].initial_name_en
       }
     }
     return ""
   }
 
   position_list: PositionModel[] = [];
-  doLoadPosition(){
+  doLoadPosition() {
     this.position_list = []
     this.positionService.position_get().then(async (res) => {
       this.position_list = await res;
     });
   }
-  doGetPositionDetail(code:string) : string {
+  doGetPositionDetail(code: string): string {
     for (let i = 0; i < this.position_list.length; i++) {
-      if(this.position_list[i].position_code==code ){
-        return this.initial_current.Language=="TH" ? this.position_list[i].position_name_th : this.position_list[i].position_name_en
+      if (this.position_list[i].position_code == code) {
+        return this.initial_current.Language == "TH" ? this.position_list[i].position_name_th : this.position_list[i].position_name_en
       }
     }
     return ""
   }
 
   empstatus_list: EmpstatusModel[] = [];
-  doLoadEmpStatus(){
+  doLoadEmpStatus() {
     this.empstatus_list = []
     this.empstatusService.status_get().then(async (res) => {
       this.empstatus_list = await res;
     });
   }
-  doGetEmpstatusDetail(code:string) : string {
+  doGetEmpstatusDetail(code: string): string {
     for (let i = 0; i < this.empstatus_list.length; i++) {
-      if(this.empstatus_list[i].status_code==code ){
-        return this.initial_current.Language=="TH" ? this.empstatus_list[i].status_name_th : this.empstatus_list[i].status_name_en
+      if (this.empstatus_list[i].status_code == code) {
+        return this.initial_current.Language == "TH" ? this.empstatus_list[i].status_name_th : this.empstatus_list[i].status_name_en
       }
     }
     return ""
@@ -3143,51 +3192,51 @@ export class ProjectManageComponent implements OnInit {
 
 
   //-- 10/05/2023
-  
-  addVersion(){
+
+  addVersion() {
     this.new_projobversion = true
     this.showManage()
   }
 
-  projobversion_cancel(){
+  projobversion_cancel() {
     this.new_projobversion = false
     this.edit_projobversion = false
     this.displayManage = false
   }
 
-  recordJobversion(){
+  recordJobversion() {
     this.confirmRecordJobversion()
 
   }
 
   confirmRecordJobversion() {
     this.confirmationService.confirm({
-        message: this.title_confirm_record[this.initial_current.Language] + " Version",
-        header: this.title_confirm[this.initial_current.Language],
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          
-          this.manageProjobversion.project_code = this.project_code
+      message: this.title_confirm_record[this.initial_current.Language] + " Version",
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
 
-          this.projectDetailService.projobversion_record(this.manageProjobversion).then((res) => {
-            let result = JSON.parse(res);
-            if(result.success){
-              this.doLoadProjobversion()
-              this.projobversion_cancel()
+        this.manageProjobversion.project_code = this.project_code
 
-              this.messageService.add({severity:'success', summary: 'Success', detail: "Record Success.."});
-            }
-            else{
-              this.messageService.add({severity:'error', summary: 'Error', detail: result.message});
-            }
-                  
-          });
-          
-        },
-        reject: () => {
-          this.messageService.add({severity:'warn', summary:'Cancelled', detail:this.title_confirm_cancel[this.initial_current.Language]});
-        },
-        key: "myDialog"
+        this.projectDetailService.projobversion_record(this.manageProjobversion).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.doLoadProjobversion()
+            this.projobversion_cancel()
+
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+
+        });
+
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+      },
+      key: "myDialog"
     });
   }
 

@@ -818,17 +818,52 @@
             </div>
             <!-- // -->
 
-
+            
+            
             <div class="field col-12 md:col-6">
                 <label for="lastname2">{{title_project_roundtime[initial_current.Language]}} :</label><br>
-                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                <p-dropdown  placeholder="--" [options]="time_list" optionValue="round_code"
+                [(ngModel)]="selectedProject.project_roundtime"  [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
+                    </ng-template>
+                </p-dropdown>
+                 
             </div>
+
+
             <div class="field col-12 md:col-6">
                 <label for="lastname2">{{title_project_roundmoney[initial_current.Language]}} :</label><br>
-                <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                <p-dropdown  placeholder="--" [options]="currency_list" optionValue="round_code"
+                [(ngModel)]="selectedProject.project_roundmoney"  [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
+                    </ng-template>
+                </p-dropdown>
             </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="lastname2">{{title_project_holiday[initial_current.Language]}} :</label><br>
+                <p-dropdown  placeholder="--" [options]="yeargroup_list" optionValue="progroup_code"
+                [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.year_name_th : item.year_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.year_name_th : item.year_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <!-- // -->
             <div class="col-12">
                 <p-accordion>
                     <p-accordionTab header="{{title_address[initial_current.Language]}}" [selected]="false">
