@@ -102,6 +102,8 @@ import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignerc
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { EthnicityModel } from 'src/app/models/system/policy/ethnicity';
 import { EthnicityService } from 'src/app/services/system/policy/ethnicity.service';
+import { SetbonusService } from 'src/app/services/payroll/batch/setbonus.service';
+import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 
 
 
@@ -149,6 +151,8 @@ export class EmployeeManageComponent implements OnInit {
   methodEdit: boolean = false;
 
   emp_code: string = "";
+  emplists: string = "";
+
   manage_title: string = ""
   gender: any;
   toolbar_menu: MenuItem[] = [];
@@ -271,6 +275,9 @@ export class EmployeeManageComponent implements OnInit {
   edit_emptranfer: boolean = false;
   new_tranfer: boolean = false;
 
+  //menu bonus
+  menu_bonus: string = "";
+
 
   displayManage: boolean = false;
 
@@ -318,6 +325,9 @@ export class EmployeeManageComponent implements OnInit {
 
     private genaralService: ProgenaralService,
     private ethnicityService: EthnicityService,
+    private setbonusService: SetbonusService,
+
+
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -403,6 +413,7 @@ export class EmployeeManageComponent implements OnInit {
 
     this.doLoadItemsList();
     this.doLoadethnicityList();
+    this.doLoadBonusList();
 
     setTimeout(() => {
       this.doLoadMenu();
@@ -645,6 +656,7 @@ export class EmployeeManageComponent implements OnInit {
   title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
   title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
+  title_bonus: { [key: string]: string } = { EN: "Bonus", TH: "โบนัส" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -830,6 +842,8 @@ export class EmployeeManageComponent implements OnInit {
       this.title_reducename = "ลดหย่อน";
       this.title_pass = "ผ่าน";
       this.title_notpass = "ไม่ผ่าน";
+
+
     }
   }
 
@@ -2600,6 +2614,15 @@ export class EmployeeManageComponent implements OnInit {
     })
   }
 
+  //SetBonus
+  SetBonus_List: SetBonusModel[] = [];
+  doLoadBonusList() {
+    var tmp = new SetBonusModel();
+    tmp.worker_code = this.emp_code;
+    this.setbonusService.SetBonus_get(this.initial_current.CompCode, tmp).then((res) => {
+      this.SetBonus_List = res;
+    });
+  }
 
   //address
   empaddressList: EmpaddressModel[] = [];

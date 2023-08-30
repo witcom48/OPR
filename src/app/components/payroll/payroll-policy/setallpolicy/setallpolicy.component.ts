@@ -7,6 +7,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 
 import { EmployeeModel } from 'src/app/models/employee/employee';
+import { EmpReduceModel } from 'src/app/models/employee/manage/reduce';
 import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { SetItemModel } from 'src/app/models/payroll/batch/setitem';
 import { SetProvidentModel } from 'src/app/models/payroll/batch/setprovident';
@@ -61,7 +62,7 @@ export class SetallpolicyComponent implements OnInit {
   home: any;
   itemslike: MenuItem[] = [];
 
-
+  emp_code: string = "";
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -138,8 +139,18 @@ export class SetallpolicyComponent implements OnInit {
 
   title_system_payroll: { [key: string]: string } = { EN: "Policy Payroll", TH: "นโยบาย" }
   title_name_policy: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดสิทธิ์" }
+  //
+  title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" }
+  title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
+  title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
+  title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
+  title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
+  title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
+  title_confirm_successfullyl: { [key: string]: string } = { EN: "Retrieved data successfully", TH: "บันทึกข้อมูลสำเร็จ" }
+  title_confirm_selected: { [key: string]: string } = { EN: "No employees selected", TH: "ไม่มีการเลือกพนักงาน" }
 
-
+  //
+  
 
   ngOnInit(): void {
 
@@ -220,25 +231,42 @@ export class SetallpolicyComponent implements OnInit {
     });
   }
 
+
+
   ////ส่วนที่สอง
-  async process(code: string) {
+  async process( ) {
     this.result_list = [];
-    if (this.selectEmp.employee_dest.length > 0) {
-      if (this.policyplanreduceselect && this.policyplanreduce) {
-        await this.SetTRpolReduce();
+    this.confirmationService.confirm({
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: async () => {
+        if (this.selectEmp.employee_dest.length > 0) {
+          if (this.policyplanreduceselect && this.policyplanreduce) {
+            await this.SetTRpolReduce();
+          }
+          if (this.policyprovidentselect && this.policyprovident) {
+            await this.SetTRpolProvident();
+          }
+          if (this.policybonusselect) {
+            await this.Setbatchbonus();
+          }
+          if (this.policyplanitemsselect && this.policyplanitems) {
+            await this.SetTRpolItem();
+          }
+          await this.loadAllData();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: this.title_confirm_successfullyl[this.initial_current.Language] });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail:this.title_confirm_selected[this.initial_current.Language]  });
+        }
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       }
-      if (this.policyprovidentselect && this.policyprovident) {
-        await this.SetTRpolProvident();
-      }
-      if (this.policybonusselect) {
-        await this.Setbatchbonus();
-      }
-      if (this.policyplanitemsselect && this.policyplanitems) {
-        await this.SetTRpolItem();
-      }
-      await this.loadAllData();
-    }
+    });
   }
+  
+
   result_list: Result[] = [];
   selectedEmployeeData: any[] = [];
   onEmployeeSelect(employee: any) {
@@ -307,12 +335,11 @@ export class SetallpolicyComponent implements OnInit {
     data.emp_data = this.selectEmp.employee_dest;
     data.paypolbonus_code = this.policybonusselect.code;
     data.modified_by = this.initial_current.Username;
-    // data.bonus_data = this.selectEmp.employee_dest;
     this.loading = true;
     try {
       const res = await this.setbonusService.SetBonus_record('', data);
       if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
         this.doLoadSetBonusList();
         this.edit_data = false;
       } else {
@@ -345,7 +372,7 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const res = await this.setitemsService.SetItems_record(data);
       if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
         this.doLoadItemList();
         this.edit_data = false;
       } else {
@@ -378,7 +405,7 @@ export class SetallpolicyComponent implements OnInit {
     try {
       const res = await this.setprovidentService.SetProvident_record(data);
       if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
         this.doLoadSetProvidentList();
         this.edit_data = false;
       } else {
@@ -388,9 +415,13 @@ export class SetallpolicyComponent implements OnInit {
       this.loading = false;
     }
   }
-  ///ค่าลดหย่อน
+  // ค่าลดหย่อน
+  empreduceList: EmpReduceModel[] = [];
+  selectedEmpreduce: EmpReduceModel = new EmpReduceModel();
+
   Setreduce_List: SetReduceModel[] = [];
   selectedTRpolReduce: ReducesModel = new ReducesModel();
+
   async doLoadSetReduceList() {
     try {
       const tmp = new SetReduceModel();
@@ -398,27 +429,42 @@ export class SetallpolicyComponent implements OnInit {
     } catch {
     }
   }
+
   async SetTRpolReduce() {
     const data = new SetReduceModel();
     data.company_code = this.initial_current.CompCode;
     data.emp_data = this.selectEmp.employee_dest;
     data.paybatchreduce_code = this.policyplanreduceselect.code;
     data.modified_by = this.initial_current.Username;
-    // data.reduces_data = this.selectEmp.employee_dest;
+
     this.loading = true;
+
     try {
       const res = await this.setreduceService.SetReduce_record(data);
+
       if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+
+        const EmpReduce = new EmpReduceModel();
+        EmpReduce.company_code = data.company_code;
+        EmpReduce.worker_code = data.emp_data[0].worker_code;
+        EmpReduce.reduce_type = data.paybatchreduce_code;
+        EmpReduce.empreduce_amount = "0";
+        EmpReduce.modified_by = data.modified_by;
+        this.empreduceList.push(EmpReduce);
+
         this.doLoadSetReduceList();
         this.edit_data = false;
       } else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message, });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while processing.' });
     } finally {
       this.loading = false;
     }
   }
+
 
 
   function(e: any) {

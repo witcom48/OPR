@@ -10,7 +10,7 @@ import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { BonusModel } from 'src/app/models/payroll/bonus';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SetbonusService {
     public config: AppConfig = new AppConfig();
@@ -61,8 +61,8 @@ export class SetbonusService {
         }
     }
 
-    public SetBonus_get(worker_detail: string, Setup: SetBonusModel) {
-        // console.log('PAYTRB001..');
+    //
+    public SetBonus_get(code: string, Setup: SetBonusModel) {
 
         let emplists: any = [];
         Setup.emp_data.forEach((res: EmployeeModel) => {
@@ -70,6 +70,7 @@ export class SetbonusService {
                 worker_code: res.worker_code,
             };
             emplists.push(ss);
+ 
         });
         let data = {
             device_name: '',
@@ -79,7 +80,11 @@ export class SetbonusService {
             company_code: Setup.company_code || this.initial_current.CompCode,
             paypolbonus_code: Setup.paypolbonus_code,
             worker_code: Setup.worker_code,
+            // worker_code: code,  
+
             worker_detail: Setup.worker_detail,
+            worker_name: Setup.worker_name,
+
             emp_data: emplists,
 
             modified_by: Setup.modified_by || this.initial_current.Username,
@@ -135,7 +140,7 @@ export class SetbonusService {
             });
     }
 
-    public SetBonus_delete( Setup: SetBonusModel) {
+    public SetBonus_delete(Setup: SetBonusModel) {
         // console.log('PAYTRB003..');
         let data = {
             device_name: '',
