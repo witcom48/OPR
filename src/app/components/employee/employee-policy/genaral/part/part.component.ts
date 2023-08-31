@@ -237,7 +237,7 @@ export class PartComponent implements OnInit {
   }
 
   async doRecordDep(data: PartModel) {
-    data.dep_level = this.selectedLevel.level_code
+    // data.dep_level = this.selectedLevel.level_code
     await this.partService.dep_record(data).then((res) => {
       // console.log(res)
       let result = JSON.parse(res);

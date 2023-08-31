@@ -115,7 +115,7 @@ export class RecruitmentApproveComponent implements OnInit {
 
           if (this.selectedApply.worker_code != "") {
             this.approveNote = ""
-            this.approve_apply("W")
+            this.approve_apply("S")
           }
           //this.showManage()
         }

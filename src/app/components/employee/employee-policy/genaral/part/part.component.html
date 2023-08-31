@@ -78,6 +78,21 @@
                         #code="ngModel" required />
                     <p>{{selectedDep.dep_code.length}}/5</p>
                 </div>
+
+                <div class="field col-12" style="display:flex;flex-direction: column;">
+                    <label>{{title_level}}<span style="color: red;"> *</span></label>
+                    <p-dropdown class="selecttype" placeholder="--" [options]="levelList" optionValue="level_code"
+                        [showClear]="true" [(ngModel)]="selectedDep.dep_level" name="dep_level" #dep_level="ngModel"
+                        [required]="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
                 <div class="field col-12" style="display:flex;flex-direction: column;">
                     <label>{{title_name_th}}<span style="color: red;"> *</span></label>
                     <textarea [(ngModel)]="selectedDep.dep_name_th" pInputTextarea [autoResize]="true" name="name_th"
@@ -92,7 +107,8 @@
                     <label>{{title_parentlevel}}</label>
                     <p-dropdown placeholder="--" [options]="parentlevelList" optionValue="level_code" [showClear]="true"
                         [(ngModel)]="selectedDep.parent_level" (onChange)="doChangeSelectLevel()"
-                        [style]="{ width: '100%', overflow: 'visible' }" name="parent_level" #parent_level="ngModel">
+                        [style]="{ width: '100%', overflow: 'visible' }" name="parent_level" #parent_level="ngModel"
+                        [readonly]="this.selectedDep.dep_level=='01'">
                         <ng-template let-item pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
                         </ng-template>
@@ -106,7 +122,7 @@
                     <label>{{title_parent}}</label>
                     <p-dropdown placeholder="--" [options]="depParentList" optionValue="dep_code" [showClear]="true"
                         [(ngModel)]="selectedDep.dep_parent" [style]="{ width: '100%', overflow: 'visible' }"
-                        name="dep_parent" #dep_parent="ngModel">
+                        name="dep_parent" #dep_parent="ngModel" [readonly]="this.selectedLevel.level_code=='01'">
                         <ng-template let-item pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
                         </ng-template>

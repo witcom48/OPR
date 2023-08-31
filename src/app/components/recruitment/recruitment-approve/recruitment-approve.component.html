@@ -79,6 +79,7 @@
     </div>
 
 </p-dialog>
+<br>
 
 <p-menubar [model]="menu_apply"></p-menubar>
 <p-table #dt2 [value]="apply_list" styleClass="p-datatable-sm" [scrollable]="true"
@@ -123,7 +124,7 @@
             <td>{{data.worker_hiredate | date:'dd/MM/yyyy'}}</td>
             <td>{{getFullStatus(data.status)}}</td>
             <td>
-                <p-button icon="pi pi-user" (click)="doLoadApprove(data.project_code, 'REQ_APY')" label=""
+                <p-button icon="pi pi-user" (click)="doLoadApprove(data.worker_code, 'REQ_APY')" label=""
                     styleClass="p-button-text"></p-button>
             </td>
             <td>{{data.modified_by}}</td>
