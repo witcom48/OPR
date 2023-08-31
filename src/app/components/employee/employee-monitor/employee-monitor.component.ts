@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
-import { MegaMenuItem, MenuItem } from 'primeng/api';
+import { ConfirmationService, MegaMenuItem, MenuItem, MessageService } from 'primeng/api';
 import { InitialCurrent } from '.././../../config/initial_current';
 import { ChartData, ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
@@ -15,7 +15,9 @@ import { EmpLocationModel } from 'src/app/models/employee/manage/emplocation';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 import { AppConfig } from 'src/app/config/config';
 import { Subscription } from 'rxjs/internal/Subscription';
- @Component({
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { DatePipe } from '@angular/common';
+@Component({
   selector: 'app-employee-monitor',
   templateUrl: './employee-monitor.component.html',
   styleUrls: ['./employee-monitor.component.scss']
@@ -37,23 +39,38 @@ export class EmployeeMonitorComponent implements OnInit {
   basicOptions: any;
 
   // subscription: Subscription;
-  // config: AppConfig;
+  config: AppConfig | undefined;
 
-  public initial_current: InitialCurrent = new InitialCurrent();
   public workerList: EmployeeModel[] = [];
 
   public locationList: EmpLocationModel[] = [];
   public syslocationList: SysLocationModel[] = [];
-
+  getLanguage(): string {
+    return this.initial_current.Language;
+  }
   constructor(
+    private router: Router,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private datePipe: DatePipe,
+
     private employeeService: EmployeeService,
     private locationService: LocationService,
-    private router: Router
   ) { }
 
+ 
+  public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    if (!this.initial_current) {
+      this.router.navigateByUrl('login');
+    }
+    this.accessData = this.initialData2.dotGetPolmenu('EMP');
+  }
   ngOnInit(): void {
     this.doLoadMenu()
-    this.doLoadChart()
     setTimeout(() => {
       this.doLoadChart();
       this.doLoadChart2();
@@ -62,8 +79,6 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doLoadChart5();
     }, 500);
   }
-
-
   ////////กำลังพล ปัจจุบัน
   doughnut1: ChartData = {
     labels: ['กำลังพล', 'ปัจจุบัน'],
@@ -85,7 +100,6 @@ export class EmployeeMonitorComponent implements OnInit {
     const temp_todate = new Date(this.initial_current.PR_ToDate);
     this.employeeService.worker_get(this.initial_current.CompCode, '').then(async (res) => {
       this.workerList = await res;
-      // console.log(this.workerList);
 
       let personnel: number = 0;
       let currentWorkers: number = 0;
@@ -124,7 +138,7 @@ export class EmployeeMonitorComponent implements OnInit {
       {
         data: [0, 0],
         label: 'Worker Count',
-        backgroundColor: ['#FF6384', '#FFCE56']
+        backgroundColor: ['#FF6384', '#36A2EB']
       }
     ]
   };
@@ -140,24 +154,24 @@ export class EmployeeMonitorComponent implements OnInit {
 
     this.employeeService.worker_get(this.initial_current.CompCode, '').then(async (res) => {
       this.workerList = await res;
-      // console.log( this.workerList,'ee')
       let newWorkers: number = 0;
       let resignedWorkers: number = 0;
 
       for (let i = 0; i < this.workerList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
         const resignDate = new Date(this.workerList[i].worker_resigndate);
-        if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() > temp_fromdate.getTime()) {
+        if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() < temp_fromdate.getTime()) {
           newWorkers++;
         }
-        if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
+        if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime())) {
+          // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
           resignedWorkers++;
+
         }
       }
 
       this.doughnut2.labels = ['เข้าใหม่ (' + newWorkers + ' คน)', 'ลาออก (' + resignedWorkers + ' คน)'];
       this.doughnut2.datasets[0].data = [newWorkers, resignedWorkers];
-      // console.log(resignedWorkers);
 
       this.updateChart2();
     });
@@ -203,11 +217,14 @@ export class EmployeeMonitorComponent implements OnInit {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
         const resignDate = new Date(this.workerList[i].worker_resigndate);
 
-        if (this.workerList[i].worker_resignstatus === false && hireDate.getTime() < temp_fromdate.getTime()) {
+        if (this.workerList[i].worker_status === "F" && hireDate.getTime() <= temp_fromdate.getTime()) {
           regularWorkers++;
 
-          if (hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+          if (this.workerList[i].worker_status === "T" && (resignDate.getTime() >= temp_fromdate.getTime())) {
+            // if (this.workerList[i].worker_resignstatus === true &&hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+
             temporaryWorkers++;
+
           }
         }
       }
@@ -256,50 +273,57 @@ export class EmployeeMonitorComponent implements OnInit {
   async doLoadChart4() {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
-  
+
     try {
       const res = await this.employeeService.locationlist_get(this.initial_current.CompCode, '');
       this.locationList = res;
-      // console.log(res, 'location');
-  
-      let personnelOnDuty: number = 0;
-      let currentWorkers: number = 0;
-  
+
+      let personnelOnDuty = 0;
+      let currentWorkers = 0;
+
       for (let i = 0; i < this.locationList.length; i++) {
-        const hireDate = new Date(this.locationList[i].emplocation_startdate);
-        const resignDate = new Date(this.locationList[i].emplocation_enddate);
-  
+        // const hireDate = new Date(this.locationList[i].emplocation_startdate);
+        // const resignDate = new Date(this.locationList[i].emplocation_enddate);
+
+        const hireDate = new Date(this.workerList[i].worker_hiredate);
+        const resignDate = new Date(this.workerList[i].worker_resigndate);
+
         if (this.locationList[i].worker_code) {
           personnelOnDuty++;
-          // console.log(personnelOnDuty,'oo')
-  
-          if (this.locationList[i].location_code && resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime()) {
+          // console.log(personnelOnDuty, 'กำลังพล');
+
+
+          if (this.locationList[i].worker_code && resignDate.getTime() >= temp_fromdate.getTime()) {
             currentWorkers++;
+            // console.log(currentWorkers, 'จำนวนพนักงานปัจจุบัน');
+
           }
-          // console.log(this.locationList[i].worker_code, 'test6')
         }
       }
-  
+
       const locationLabels = this.locationList.map(location => `${location.location_name_th} (${location.worker_code} คน)`);
-     
 
       this.barChartData4.labels = locationLabels;
-      // console.log( locationLabels, 'teค')
       this.barChartData4.datasets[0].data = Array(locationLabels.length).fill(personnelOnDuty);
       this.barChartData4.datasets[1].data = Array(locationLabels.length).fill(currentWorkers);
-      // console.log(this.barChartData4, 'te')
+
+
       this.updateChart4();
     } catch (error) {
+      console.error(error);
     }
   }
-  
+
   updateChart4() {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
       this.chart.chart.update();
-      // console.log(this.chart.chart.update, '43');
 
     }
   }
+
+
+
+
 
   ////
   ///  พนักงานรายวัน เดือน
@@ -319,7 +343,7 @@ export class EmployeeMonitorComponent implements OnInit {
     maintainAspectRatio: false,
   };
   public emptypeList: EmptypeModel[] = [];
-  
+
   worker_type: any;
   worker_code: any;
   doLoadChart5() {
@@ -328,27 +352,23 @@ export class EmployeeMonitorComponent implements OnInit {
 
     this.employeeService.typelist_get(this.initial_current.CompCode, '').then(async (res) => {
       this.emptypeList = await res;
-      console.log(res,'tt1');
-      let regularWorkers: number = 0; // จำนวนพนักงานรายวัน
+      let regularWorkerst: number = 0; // จำนวนพนักงานรายวัน
       let temporaryWorkers: number = 0; // จำนวนพนักงานรายเดือน
 
       for (let i = 0; i < this.emptypeList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
+        if (this.workerList[i].worker_type === 'M' || this.emptypeList[i].type_code === 'M' && hireDate.getTime() < temp_fromdate.getTime()) {
+          regularWorkerst++;
 
-        if (this.workerList[i].worker_type === 'M' || this.emptypeList[i].type_code === 'D') {
-          regularWorkers++;
-          console.log(this.emptypeList[i],'test1')
         }
 
         if (this.workerList[i].worker_type === 'D' || this.emptypeList[i].type_code === 'D') {
           temporaryWorkers++;
-          console.log(temporaryWorkers,'test1')
         }
       }
 
-      this.doughnut5.labels = ['พนักงานรายวัน (' + regularWorkers + ' คน)', 'พนักงานรายเดือน (' + temporaryWorkers + ' คน)'];
-      this.doughnut5.datasets[0].data = [regularWorkers, temporaryWorkers];
-      // console.log(this.doughnut5, '5');
+      this.doughnut5.labels = ['พนักงานรายวัน (' + regularWorkerst + ' คน)', 'พนักงานรายเดือน (' + temporaryWorkers + ' คน)'];
+      this.doughnut5.datasets[0].data = [regularWorkerst, temporaryWorkers];
 
       this.updateChart5();
     });
@@ -359,94 +379,6 @@ export class EmployeeMonitorComponent implements OnInit {
       this.chart.chart.update();
     }
   }
-
-
-  // doLoadChart(){
-  //   this.data_emptype = {
-  //     labels: ['รายเดือน [500]','รายวัน [800]'],
-  //     datasets: [
-  //         {
-  //             data: [500, 800],
-  //             backgroundColor: [
-  //                 "#FF6384",
-  //                 "#36A2EB"
-  //             ],
-  //             hoverBackgroundColor: [
-  //                 "#FF6384",
-  //                 "#36A2EB"
-  //             ]
-  //         }
-  //     ]
-  //   };
-
-  //   this.data_status = {
-  //     labels: ['ประจำ [1,000]','ชั่วคราว [300]'],
-  //     datasets: [
-  //         {
-  //             data: [1000, 300],
-  //             backgroundColor: [
-  //                 "#FF6384",
-  //                 "#36A2EB"
-  //             ],
-  //             hoverBackgroundColor: [
-  //                 "#FF6384",
-  //                 "#36A2EB"
-  //             ]
-  //         }
-  //     ]
-  //   };
-
-  //   this.data_stay = {
-  //     labels: ['เข้าใหม่ [50]','ลาออก [20]'],
-  //     datasets: [
-  //         {
-  //             data: [50, 20],
-  //             backgroundColor: [
-  //                 "#FF6384",
-  //                 "#36A2EB"
-  //             ],
-  //             hoverBackgroundColor: [
-  //                 "#FF6384",
-  //                 "#36A2EB"
-  //             ]
-  //         }
-  //     ]
-  //   };
-
-  //   this.data_project = {
-  //     labels: ['กำลังพล [300]','ปัจจุบัน [250]'],
-  //     datasets: [
-  //         {
-  //             data: [50, 20],
-  //             backgroundColor: [
-  //                 "#FF6384",
-  //                 "#36A2EB"
-  //             ],
-  //             hoverBackgroundColor: [
-  //                 "#FF6384",
-  //                 "#36A2EB"
-  //             ]
-  //         }
-  //     ]
-  //   };
-
-  //   this.basicData = {
-  //     labels: ['แฟชั่นฯ', 'พรอมมานาด', 'รามคำแหง', 'ฺBig C', 'Lotus มีนบุรี', 'PEA', 'SCB รัชโยธิน'],
-  //     datasets: [
-  //         {
-  //             label: 'กำลังพล',
-  //             backgroundColor: '#42A5F5',
-  //             data: [0, 0, 0, 0, 0, 0, 0]
-  //         },
-  //         {
-  //             label: 'ปัจจุบัน',
-  //             backgroundColor: '#FF6384',
-  //             data: [0, 0, 0, 0, 0, 0, 0]
-  //         }
-  //     ]
-  //   };
-
-  // }
 
   doLoadMenu() {
     this.toolbar_menu = [
@@ -459,7 +391,6 @@ export class EmployeeMonitorComponent implements OnInit {
         label: 'Export',
         icon: 'pi pi-fw pi-file-export',
         command: (event) => {
-          // console.log('Edit')
         }
       },
     ];
@@ -476,7 +407,6 @@ export class EmployeeMonitorComponent implements OnInit {
         label: 'Edit',
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          // console.log('Edit')
         }
       },
       {
