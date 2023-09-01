@@ -336,14 +336,15 @@ export class RecruimentBlacklistComponent implements OnInit {
     this.displayManage = false
   }
 
-  changeEmp(value: any) {
-    console.log(value)
-    if (this.selectedBlacklist.worker_code == "") {
-      this.selectedBlacklist.card_no = ""
-      this.selectedBlacklist.blacklist_fname_th = this.selectedworker.worker_fname_th;
-      this.selectedBlacklist.blacklist_lname_th = this.selectedworker.worker_lname_th;
-      this.selectedBlacklist.blacklist_fname_en = this.selectedworker.worker_fname_en;
-      this.selectedBlacklist.blacklist_lname_en = this.selectedworker.worker_lname_en;
+  changeEmp(code: string) {
+    for (let i = 0; i < this.worker_List.length; i++) {
+      if (this.worker_List[i].worker_code == code) {
+        this.selectedBlacklist.card_no = this.worker_List[i].worker_cardno
+        this.selectedBlacklist.blacklist_fname_th = this.worker_List[i].worker_fname_th
+        this.selectedBlacklist.blacklist_lname_th = this.worker_List[i].worker_lname_th
+        this.selectedBlacklist.blacklist_fname_en = this.worker_List[i].worker_fname_en
+        this.selectedBlacklist.blacklist_lname_en = this.worker_List[i].worker_lname_en
+      }
     }
   }
   clearEmp() {
