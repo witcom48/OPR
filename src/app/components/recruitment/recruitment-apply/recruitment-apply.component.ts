@@ -85,6 +85,7 @@ import { ItemsModel } from 'src/app/models/payroll/items';
 import { EthnicityService } from 'src/app/services/system/policy/ethnicity.service';
 import { EthnicityModel } from 'src/app/models/system/policy/ethnicity';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignercard';
 
 interface Taxmethod {
     name_th: string;
@@ -112,6 +113,11 @@ interface Nation {
     code: string
 }
 interface AttachType {
+    name_th: string,
+    name_en: string,
+    code: string
+}
+interface ForeigType {
     name_th: string,
     name_en: string,
     code: string
@@ -153,6 +159,8 @@ export class RecruitmentApplyComponent implements OnInit {
     nationality: Nation[] = [];
 
     attachType: AttachType[] = [];
+
+    foreignerType: ForeigType[] = [];
 
 
     //menu empsuggest
@@ -299,7 +307,12 @@ export class RecruitmentApplyComponent implements OnInit {
             { name_th: 'PDPA', name_en: 'PDPA', code: 'PDPA' },
             { name_th: 'ใบรับรองแพทย์', name_en: 'Medical Certificate', code: 'MECR' },
             { name_th: 'อื่นๆ', name_en: 'Other', code: 'OTH' },
-        ]
+        ];
+        this.foreignerType = [
+            { name_th: 'หนังสือเดินทาง', name_en: 'Passport', code: 'PASS' },
+            { name_th: 'วีซ่า', name_en: 'VISA', code: 'VISA' },
+            { name_th: 'ใบอนุญาตทำงาน', name_en: 'Work Permit', code: 'WORK' },
+        ];
     }
 
     ngOnInit(): void {
@@ -588,7 +601,11 @@ export class RecruitmentApplyComponent implements OnInit {
     title_cardno: { [key: string]: string } = { EN: "Card No.", TH: "เลขบัตรประจำตัวประชาชน" };
     title_cardissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันออกบัตร" };
     title_cardexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันหมดอายุ" };
-
+    //
+    title_foreignercode: { [key: string]: string } = { EN: "Code", TH: "เลขที่" };
+    title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+    title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
+    title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = "ข้อมูลผู้สมัคร";
@@ -1396,6 +1413,62 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
             },
         ];
+
+        //menu foreigner
+        this.menu_reqforeigner = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.clearManage()
+                    this.new_foreigner = true
+                    var ref = this.reqforeignercardList.length + 100
+                    this.selectedReqforeignercard = new EmpForeignercardModel()
+                    this.selectedReqforeignercard.foreignercard_id = ref.toString()
+                    this.showManage()
+                }
+            },
+            {
+                label: this.title_edit,
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    this.clearManage()
+                    if (this.selectedReqforeignercard != null) {
+                        this.edit_reqforeigner = true
+                        this.showManage()
+                    }
+                }
+            },
+            {
+                label: this.title_delete,
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqforeignercard != null) {
+                                this.reqforeignercard_remove()
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
+                }
+            },
+            // {
+            //   label: this.title_export,
+            //   icon: 'pi pi-fw pi-file-export',
+            //   command: (event) => {
+            //     this.exportAsExcel(this.dtreqforeigner, 'ReqForeigner')
+
+            //   }
+            // },
+        ]
     }
 
     tabChange(e: { index: any }) {
@@ -1543,7 +1616,8 @@ export class RecruitmentApplyComponent implements OnInit {
                         //
                         this.doLoadReqaddressList();
                         this.doLoadReqcardList();
-                        this.doLoadReqForeigner();
+                        // this.doLoadReqForeigner();
+                        this.doLoadReqForeignercardList();
 
                         this.doLoadReqeducationList();
                         this.doLoadReqtrainingList();
@@ -1909,6 +1983,78 @@ export class RecruitmentApplyComponent implements OnInit {
             this.selectedReqworker.worker_code,
             this.selectedReqforeigner
         );
+    }
+    //--foreignercard
+    reqforeignercardList: EmpForeignercardModel[] = [];
+    selectedReqforeignercard: EmpForeignercardModel = new EmpForeignercardModel();
+    doLoadReqForeignercardList() {
+        this.reqdetailService.getapply_foreignercard(this.initial_current.CompCode, this.req_code).then(async (res) => {
+            await res.forEach((element: EmpForeignercardModel) => {
+                element.foreignercard_issue = new Date(element.foreignercard_issue)
+                element.foreignercard_expire = new Date(element.foreignercard_expire)
+            })
+            this.reqforeignercardList = await res;
+            if (this.reqforeignercardList.length > 0) {
+                this.selectedReqforeignercard = this.reqforeignercardList[0];
+            }
+        })
+    }
+    onRowSelectReqForeignercard(event: Event) { }
+    reqforeignercard_summit() {
+        this.reqforeignercard_addItem(this.selectedReqforeignercard)
+        this.new_foreigner = false
+        this.edit_reqforeigner = false
+        this.displayManage = false
+    }
+    reqforeignercard_remove() {
+        this.selectedReqforeignercard.foreignercard_id = "9999";
+        this.reqforeignercard_addItem(this.selectedReqforeignercard)
+        this.new_foreigner = false
+        this.edit_reqforeigner = false
+    }
+    reqforeignercard_delete() {
+        var tmp: EmpForeignercardModel = new EmpForeignercardModel();
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_reqforeignercard(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
+    reqforeignercard_cancel() {
+        this.new_foreigner = false
+        this.edit_reqforeigner = false
+        this.displayManage = false
+    }
+    reqforeignercard_addItem(model: EmpForeignercardModel) {
+        const itemNew: EmpForeignercardModel[] = [];
+        for (let i = 0; i < this.reqforeignercardList.length; i++) {
+            if (this.reqforeignercardList[i].foreignercard_id == model.foreignercard_id) {
+                //-- Notting
+            }
+            else {
+                itemNew.push(this.reqforeignercardList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.foreignercard_id != "9999") {
+            itemNew.push(model);
+        }
+        this.reqforeignercardList = [];
+        this.reqforeignercardList = itemNew;
+        this.reqforeignercardList.sort(function (a, b) { return parseInt(a.foreignercard_id) - parseInt(b.foreignercard_id); })
+    }
+    record_reqforeignercard() {
+        if (this.reqforeignercardList.length == 0) {
+            this.reqforeignercard_delete();
+        } else {
+            this.reqdetailService.record_reqforeignercard(this.selectedReqworker.worker_code, this.reqforeignercardList).then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                }
+                else {
+                }
+            });
+        }
+
     }
 
     //education
@@ -2640,8 +2786,8 @@ export class RecruitmentApplyComponent implements OnInit {
 
                     this.record_reqaddress();
                     this.record_reqcard();
-                    this.record_reqforeigner();
-
+                    // this.record_reqforeigner();
+                    this.record_reqforeignercard();
 
                     this.record_reqeducation();
                     this.record_reqtraining();
@@ -2752,6 +2898,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.new_position = false; this.edit_reqposition = false;
         this.new_project = false; this.edit_reqproject = false;
         this.new_salary = false; this.edit_reqsalary = false;
+        this.new_benefit = false; this.edit_reqbenefit = false;
     }
 
     newDateTime = new Date();
@@ -3809,6 +3956,20 @@ export class RecruitmentApplyComponent implements OnInit {
                 this.history = "มีประวัติเคยทำงาน"
             } else {
                 this.history = "Have Work History"
+            }
+        }
+    }
+
+    //get foreigner type
+    doGetForeignertypeDetail(Foreignertype: string): any {
+        for (let i = 0; i < this.foreignerType.length; i++) {
+            if (this.foreignerType[i].code == Foreignertype) {
+                if (this.initial_current.Language == "TH") {
+                    return this.foreignerType[i].name_th;
+                }
+                else {
+                    return this.foreignerType[i].name_en;
+                }
             }
         }
     }

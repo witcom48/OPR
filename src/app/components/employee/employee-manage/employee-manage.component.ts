@@ -102,6 +102,8 @@ import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignerc
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { EthnicityModel } from 'src/app/models/system/policy/ethnicity';
 import { EthnicityService } from 'src/app/services/system/policy/ethnicity.service';
+import { BlacklistService } from 'src/app/services/recruitment/blacklist.service';
+import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
 
 
 
@@ -318,6 +320,7 @@ export class EmployeeManageComponent implements OnInit {
 
     private genaralService: ProgenaralService,
     private ethnicityService: EthnicityService,
+    private blacklistService: BlacklistService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -4346,6 +4349,9 @@ export class EmployeeManageComponent implements OnInit {
         //image
         this.uploadImages();
 
+        //blacklist
+        this.doRecordEmpBlacklist();
+
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
         this.router.navigateByUrl('employee/list');
       }
@@ -4691,7 +4697,7 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
-  //get provident name
+  //get foreigner type
   doGetForeignertypeDetail(Foreignertype: string): any {
     for (let i = 0; i < this.foreignerType.length; i++) {
       if (this.foreignerType[i].code == Foreignertype) {
@@ -4834,6 +4840,30 @@ export class EmployeeManageComponent implements OnInit {
       } else {
         this.age = agediff + " Year"
       }
+    }
+  }
+
+  doRecordEmpBlacklist() {
+    if (this.selectedEmployee.worker_blackliststatus) {
+      var tmp = new BlacklistModel();
+      tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode,
+        tmp.worker_code = this.selectedEmployee.worker_code
+      tmp.card_no = this.selectedEmployee.worker_cardno
+      tmp.blacklist_fname_th = this.selectedEmployee.worker_fname_th
+      tmp.blacklist_lname_th = this.selectedEmployee.worker_lname_th
+      tmp.blacklist_fname_en = this.selectedEmployee.worker_fname_en
+      tmp.blacklist_lname_en = this.selectedEmployee.worker_lname_en
+      tmp.reason_code = this.selectedEmployee.worker_blacklistreason
+      tmp.blacklist_note = this.selectedEmployee.worker_blacklistnote
+      this.blacklistService.blacklist_record(tmp).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      })
+    } else {
+      return
     }
   }
 

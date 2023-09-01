@@ -33,6 +33,7 @@ import { EmpPositionModel } from 'src/app/models/employee/manage/position';
 import { EmpSalaryModel } from 'src/app/models/employee/manage/salary';
 import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignercard';
 
 
 interface ImportList {
@@ -234,7 +235,7 @@ export class ApplyListComponent implements OnInit {
       {
         label: "Template",
         icon: 'pi-download',
-        items:[
+        items: [
           {
             label: "Recruitment info",
             // icon: 'pi-download',
@@ -316,7 +317,6 @@ export class ApplyListComponent implements OnInit {
 
   doRecordApplywork() {
     this.applyworkService.reqworker_record([this.selectedReqworker]).then((res) => {
-      // console.log(res)
       let result = JSON.parse(res);
 
       if (result.success) {
@@ -666,6 +666,8 @@ export class ApplyListComponent implements OnInit {
             this.edit_applywork = false;
             this.new_applywork = false;
             this.displayManage = false
+            this.doUpdateStatus("S")
+            this.doLoadapplywork();
             return
           }
 
@@ -678,7 +680,9 @@ export class ApplyListComponent implements OnInit {
           });
           this.edit_applywork = false;
           this.new_applywork = false;
-          this.displayManage = false
+          this.displayManage = false;
+          this.doUpdateStatus("S")
+          this.doLoadapplywork();
           return
         }
         if (this.selectedReqworker.checkblacklist) {
@@ -689,12 +693,15 @@ export class ApplyListComponent implements OnInit {
           },);
           this.edit_applywork = false;
           this.new_applywork = false;
-          this.displayManage = false
+          this.displayManage = false;
+          this.doUpdateStatus("S")
+          this.doLoadapplywork();
           return
         }
         this.doGetNewCode()
         this.doLoadReqaddressList()
-        this.doLoadReqForeigner()
+        // this.doLoadReqForeigner()
+        this.doLoadReqForeignercard()
         this.doLoadReqeducationList()
         this.doLoadReqtrainingList()
         this.doLoadReqassessmentList()
@@ -709,10 +716,10 @@ export class ApplyListComponent implements OnInit {
       },
     });
   }
-  doUpdateStatus() {
+  doUpdateStatus(status: string) {
     var tmp = new EmployeeModel();
     tmp.worker_id = this.selectedReqworker.worker_id;
-    tmp.status = 'F'
+    tmp.status = status
     this.applyworkService.requpdate_status(tmp).then(async (res) => {
       let result = await JSON.parse(res);
     })
@@ -770,19 +777,20 @@ export class ApplyListComponent implements OnInit {
       let result = JSON.parse(res);
       if (result.success) {
         //-- transaction
-        // this.record_empaddress()
-        // this.record_empforeigner()
-        // this.record_empeducation()
-        // this.record_emptraining()
-        // this.record_empassessment()
-        // this.record_empcriminal()
-        // this.record_empsuggest()
-        // this.record_empposition()
-        // this.record_empsalary()
-        // this.record_empbenefit()
+        this.record_empaddress(Code)
+        // this.record_empforeigner(Code)
+        this.record_empforeignercard(Code)
+        this.record_empeducation(Code)
+        this.record_emptraining(Code)
+        this.record_empassessment(Code)
+        this.record_empcriminal(Code)
+        this.record_empsuggest(Code)
+        this.record_empposition(Code)
+        this.record_empsalary(Code)
+        this.record_empbenefit(Code)
 
         //--update status
-        this.doUpdateStatus()
+        this.doUpdateStatus("F")
 
         //-- alert
         this.messageService.add({
@@ -820,13 +828,13 @@ export class ApplyListComponent implements OnInit {
         this.reqaddressList = res;
       });
   }
-  async record_empaddress() {
+  async record_empaddress(code: any) {
     if (this.reqaddressList.length == 0) {
       return
     }
     this.empdetailService
       .record_empaddress(
-        this.selectedReqworker.worker_code,
+        code,
         this.reqaddressList
       )
       .then((res) => {
@@ -837,28 +845,53 @@ export class ApplyListComponent implements OnInit {
       });
   }
   //--Foreigner
-  reqforeignerList: EmpForeignerModel[] = [];
-  selectedReqforeigner: EmpForeignerModel = new EmpForeignerModel();
-  doLoadReqForeigner() {
+  // reqforeignerList: EmpForeignerModel[] = [];
+  // selectedReqforeigner: EmpForeignerModel = new EmpForeignerModel();
+  // doLoadReqForeigner() {
+  //   this.reqdetailService
+  //     .getapplywork_foreigner(
+  //       this.initial_current.CompCode,
+  //       this.selectedReqworker.worker_code
+  //     )
+  //     .then(async (res) => {
+  //       this.reqforeignerList = await res;
+  //       if (this.reqforeignerList.length > 0) {
+  //         this.selectedReqforeigner = this.reqforeignerList[0];
+  //       }
+  //     });
+  // }
+  // record_empforeigner(code:any) {
+  //   if (this.reqforeignerList.length == 0) {
+  //     return
+  //   }
+  //   this.empdetailService.record_empforeigner(
+  //     code,
+  //     this.selectedReqforeigner
+  //   );
+  // }
+  //--Foreigner Card
+  reqforeignercardList: EmpForeignercardModel[] = [];
+  selectedEmpforeignercard: EmpForeignercardModel = new EmpForeignercardModel();
+  doLoadReqForeignercard() {
     this.reqdetailService
-      .getapplywork_foreigner(
+      .getapply_foreignercard(
         this.initial_current.CompCode,
         this.selectedReqworker.worker_code
       )
       .then(async (res) => {
-        this.reqforeignerList = await res;
-        if (this.reqforeignerList.length > 0) {
-          this.selectedReqforeigner = this.reqforeignerList[0];
+        this.reqforeignercardList = await res;
+        if (this.reqforeignercardList.length > 0) {
+          this.selectedEmpforeignercard = this.reqforeignercardList[0];
         }
       });
   }
-  record_empforeigner() {
-    if (this.reqforeignerList.length == 0) {
+  record_empforeignercard(code: any) {
+    if (this.reqforeignercardList.length == 0) {
       return
     }
-    this.empdetailService.record_empforeigner(
-      this.selectedReqworker.worker_code,
-      this.selectedReqforeigner
+    this.empdetailService.record_empforeignercard(
+      code,
+      this.reqforeignercardList
     );
   }
   //-- education
@@ -870,13 +903,13 @@ export class ApplyListComponent implements OnInit {
         this.reqeducationList = await res;
       });
   }
-  record_empeducation() {
+  record_empeducation(code: any) {
     if (this.reqeducationList.length == 0) {
       return
     }
     this.empdetailService
       .record_empeducation(
-        this.selectedReqworker.worker_code,
+        code,
         this.reqeducationList
       )
       .then((res) => {
@@ -895,13 +928,13 @@ export class ApplyListComponent implements OnInit {
         this.reqtrainingList = await res;
       });
   }
-  record_emptraining() {
+  record_emptraining(code: any) {
     if (this.reqtrainingList.length == 0) {
       return
     }
     this.empdetailService
       .record_emptraining(
-        this.selectedReqworker.worker_code,
+        code,
         this.reqtrainingList
       )
       .then((res) => {
@@ -921,13 +954,13 @@ export class ApplyListComponent implements OnInit {
         this.reqassessmentList = await res;
       });
   }
-  record_empassessment() {
+  record_empassessment(code: any) {
     if (this.reqassessmentList.length == 0) {
       return
     }
     this.empdetailService
       .record_empassessment(
-        this.selectedReqworker.worker_code,
+        code,
         this.reqassessmentList
       )
       .then((res) => {
@@ -947,13 +980,13 @@ export class ApplyListComponent implements OnInit {
         this.reqCriminalList = await res;
       });
   }
-  record_empcriminal() {
+  record_empcriminal(code: any) {
     if (this.reqCriminalList.length == 0) {
       return
     }
     this.empdetailService
       .record_empcriminal(
-        this.selectedReqworker.worker_code,
+        code,
         this.reqCriminalList
       )
       .then((res) => {
@@ -973,13 +1006,13 @@ export class ApplyListComponent implements OnInit {
         this.reqsuggestList = await res;
       });
   }
-  record_empsuggest() {
+  record_empsuggest(code: any) {
     if (this.reqsuggestList.length == 0) {
       return
     }
     this.empdetailService
       .record_empsuggest(
-        this.selectedReqworker.worker_code,
+        code,
         this.reqsuggestList
       )
       .then((res) => {
@@ -999,13 +1032,17 @@ export class ApplyListComponent implements OnInit {
         this.reqPositionList = await res;
       });
   }
-  record_empposition() {
+  async record_empposition(code: any) {
     if (this.reqPositionList.length == 0) {
       return
     }
+    await this.reqPositionList.forEach((element: EmpPositionModel) => {
+      element.empposition_date = this.selectedReqworker.worker_hiredate
+      element.empposition_reason = ""
+    })
     this.empdetailService
       .record_empposition(
-        this.selectedReqworker.worker_code,
+        code,
         this.reqPositionList
       )
       .then((res) => {
@@ -1025,13 +1062,13 @@ export class ApplyListComponent implements OnInit {
         this.reqSalaryList = await res;
       });
   }
-  record_empsalary() {
+  record_empsalary(code: any) {
     if (this.reqSalaryList.length == 0) {
       return
     }
     this.empdetailService
       .record_empsalary(
-        this.selectedReqworker.worker_code,
+        code,
         this.reqSalaryList
       )
       .then((res) => {
@@ -1051,13 +1088,13 @@ export class ApplyListComponent implements OnInit {
         this.reqBenefitList = await res;
       });
   }
-  record_empbenefit() {
+  record_empbenefit(code: any) {
     if (this.reqBenefitList.length == 0) {
       return
     }
     this.empdetailService
       .record_empbenefit(
-        this.selectedReqworker.worker_code,
+        code,
         this.reqBenefitList
       )
       .then((res) => {

@@ -572,7 +572,7 @@ export class EmpDetailService {
         return res;
       });
   }
-  //--Emp Foreigner
+  //--Emp Foreigner card
   public getworker_foreignercard(company: string, code: string) {
     var filter = {
       device_name: '',
