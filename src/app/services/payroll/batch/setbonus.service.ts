@@ -62,7 +62,7 @@ export class SetbonusService {
     }
 
     //
-    public SetBonus_get(code: string, Setup: SetBonusModel) {
+    public SetBonus_get(worker_code: string,  Setup: SetBonusModel) {
 
         let emplists: any = [];
         Setup.emp_data.forEach((res: EmployeeModel) => {
@@ -83,7 +83,7 @@ export class SetbonusService {
             // worker_code: code,  
 
             worker_detail: Setup.worker_detail,
-            worker_name: Setup.worker_name,
+            bonus_name: Setup.bonus_name,
 
             emp_data: emplists,
 

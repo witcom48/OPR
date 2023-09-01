@@ -61,8 +61,10 @@ export class SetallpolicyComponent implements OnInit {
 
   home: any;
   itemslike: MenuItem[] = [];
+  edit_data = false;
 
   emp_code: string = "";
+  paypolbonus_code: string = "";
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -91,30 +93,22 @@ export class SetallpolicyComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
 
-
-  yaer_list: Year[] = []
-
-  policyselect!: Policy;
-  policyholiday: Policy[] = [];
-  policyholidayselect!: Policy;
-
   policyplanreduce: Policy[] = [];
   policyplanreduceselect!: Policy;
 
-  policyprovident: Policy[] = [];
-  policyprovidentselect!: Policy;
+  // policyprovident: Policy[] = [];
+  // policyprovidentselect!: Policy;
 
   policybonus: Policy[] = [];
   policybonusselect!: Policy;
 
-  policyplanitems: Policy[] = [];
-  policyplanitemsselect!: Policy;
+  // policyplanitems: Policy[] = [];
+  // policyplanitemsselect!: Policy;
 
   policyItems: Policy[] = [];
   policyItemsselect!: Policy;
   new_data: boolean = true;
   loading: boolean = false;
-  // new_data: boolean = false;
   @ViewChild('dt2') table: Table | undefined;
 
   public initial_current: InitialCurrent = new InitialCurrent();
@@ -150,21 +144,21 @@ export class SetallpolicyComponent implements OnInit {
   title_confirm_selected: { [key: string]: string } = { EN: "No employees selected", TH: "ไม่มีการเลือกพนักงาน" }
 
   //
-  
+
 
   ngOnInit(): void {
 
 
     this.doGetInitialCurrent();
     this.doLoadPlanreduc();
-    this.doLoadTRpolProvidentList();
+    // this.doLoadTRpolProvidentList();
     this.doLoadTRBonusList();
-    this.doLoadPlanitems();
+    // this.doLoadPlanitems();
     ////
-    // this.doLoadSetBonusList();
+    this.doLoadSetBonusList();
     // this.doLoadItemList();
     // this.doLoadSetProvidentList();
-    // this.doLoadSetReduceList();
+    this.doLoadSetReduceList();
     this.loadAllData();
 
     this.itemslike = [{ label: this.title_system_payroll[this.initial_current.Language], routerLink: '/payroll/policy' },
@@ -188,19 +182,34 @@ export class SetallpolicyComponent implements OnInit {
   }
 
   ////กองทุนสำรอง
-  doLoadTRpolProvidentList() {
-    var tmp = new ProvidentModel();
-    this.providentService.provident_get(tmp).then(async (res) => {
-      await res.forEach((element: ProvidentModel) => {
-        this.policyprovident.push(
-          {
-            name: this.initial_current.Language == "EN" ? element.provident_name_en : element.provident_name_th,
-            code: element.provident_code
-          }
-        )
-      });
-    });
-  }
+  // doLoadTRpolProvidentList() {
+  //   var tmp = new ProvidentModel();
+  //   this.providentService.provident_get(tmp).then(async (res) => {
+  //     await res.forEach((element: ProvidentModel) => {
+  //       this.policyprovident.push(
+  //         {
+  //           name: this.initial_current.Language == "EN" ? element.provident_name_en : element.provident_name_th,
+  //           code: element.provident_code
+  //         }
+  //       )
+  //     });
+  //   });
+  // }
+  ///เงินได้เงินหักset
+  // doLoadPlanitems() {
+  //   var tmp = new PlanitemsModels();
+  //   this.planitemsService.planitems_get(tmp).then(async (res) => {
+  //     res.forEach((element: PlanitemsModels) => {
+  //       this.policyplanitems.push(
+  //         {
+  //           name: this.initial_current.Language == "EN" ? element.planitems_name_en : element.planitems_name_th,
+  //           code: element.planitems_code
+  //         }
+  //       )
+  //     });
+  //   });
+  // }
+
   ///โบนัส
   doLoadTRBonusList() {
     var tmp = new BonusModel();
@@ -216,25 +225,10 @@ export class SetallpolicyComponent implements OnInit {
 
     });
   }
-  ///เงินได้เงินหักset
-  doLoadPlanitems() {
-    var tmp = new PlanitemsModels();
-    this.planitemsService.planitems_get(tmp).then(async (res) => {
-      res.forEach((element: PlanitemsModels) => {
-        this.policyplanitems.push(
-          {
-            name: this.initial_current.Language == "EN" ? element.planitems_name_en : element.planitems_name_th,
-            code: element.planitems_code
-          }
-        )
-      });
-    });
-  }
-
 
 
   ////ส่วนที่สอง
-  async process( ) {
+  async process() {
     this.result_list = [];
     this.confirmationService.confirm({
       message: this.title_confirm_record[this.initial_current.Language],
@@ -242,22 +236,23 @@ export class SetallpolicyComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: async () => {
         if (this.selectEmp.employee_dest.length > 0) {
-          if (this.policyplanreduceselect && this.policyplanreduce) {
+
+          if (this.policyplanreduceselect) {
             await this.SetTRpolReduce();
           }
-          if (this.policyprovidentselect && this.policyprovident) {
-            await this.SetTRpolProvident();
-          }
+          // if (this.policyprovidentselect && this.policyprovident) {
+          //   await this.SetTRpolProvident();
+          // }
           if (this.policybonusselect) {
             await this.Setbatchbonus();
           }
-          if (this.policyplanitemsselect && this.policyplanitems) {
-            await this.SetTRpolItem();
-          }
+          // if (this.policyplanitemsselect && this.policyplanitems) {
+          //   await this.SetTRpolItem();
+          // }
           await this.loadAllData();
           this.messageService.add({ severity: 'success', summary: 'Success', detail: this.title_confirm_successfullyl[this.initial_current.Language] });
         } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail:this.title_confirm_selected[this.initial_current.Language]  });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_confirm_selected[this.initial_current.Language] });
         }
       },
       reject: () => {
@@ -265,7 +260,7 @@ export class SetallpolicyComponent implements OnInit {
       }
     });
   }
-  
+
 
   result_list: Result[] = [];
   selectedEmployeeData: any[] = [];
@@ -278,18 +273,18 @@ export class SetallpolicyComponent implements OnInit {
   async loadAllData() {
     try {
       const tmp1 = new SetBonusModel();
-      const tmp2 = new SetItemModel();
-      const tmp3 = new SetProvidentModel();
+      // const tmp2 = new SetItemModel();
+      // const tmp3 = new SetProvidentModel();
       const tmp4 = new SetReduceModel();
 
-      const promise1 = this.setbonusService.SetBonus_get('', tmp1);
-      const promise2 = this.setitemsService.SetItems_get(tmp2);
-      const promise3 = this.setprovidentService.SetProvident_get(tmp3);
+      const promise1 = this.setbonusService.SetBonus_get("",tmp1);
+      // const promise2 = this.setitemsService.SetItems_get(tmp2);
+      // const promise3 = this.setprovidentService.SetProvident_get(tmp3);
       const promise4 = this.setreduceService.SetReduce_get(tmp4);
 
-      const [res1, res2, res3, res4] = await Promise.all([promise1, promise2, promise3, promise4]);
+      const [res1, res4] = await Promise.all([promise1, promise4]);
 
-      const maxLength = Math.max(res1.length, res2.length, res3.length, res4.length);
+      const maxLength = Math.max(res1.length, res4.length);
 
       await this.doLoadEmployee();
 
@@ -298,8 +293,8 @@ export class SetallpolicyComponent implements OnInit {
       for (let i = 0; i < maxLength; i++) {
         const combinedItem = {
           bonusData: res1[i] || {},
-          itemData: res2[i] || {},
-          providentData: res3[i] || {},
+          // itemData: res2[i] || {},
+          // providentData: res3[i] || {},
           reduceData: res4[i] || {},
           worker_code: this.worker_list[i]?.worker_code || '',
           worker_detail: `${this.worker_list[i]?.worker_fname_th || ''} ${this.worker_list[i]?.worker_fname_en || ''}`,
@@ -315,26 +310,36 @@ export class SetallpolicyComponent implements OnInit {
 
   async doLoadEmployee() {
     try {
-      const res = await this.employeeService.worker_get(this.initial_current.CompCode, "");
+      const res = await this.employeeService.worker_get(this.initial_current.CompCode, this.emp_code);
       this.worker_list = res;
     } catch { }
   }
 
+
   ///bonus
-  SetBonus_List = [];
-  edit_data = false;
-  async doLoadSetBonusList() {
-    try {
-      const tmp = new SetBonusModel();
-      const res = await this.setbonusService.SetBonus_get('', tmp);
-    } catch { }
+  SetBonusList = [];
+  SetBonus_List: SetBonusModel[] = [];
+  doLoadSetBonusList() {
+    var tmp = new SetBonusModel();
+    tmp.worker_code = this.emp_code;
+     this.setbonusService.SetBonus_get( '',tmp).then((res) => {
+      this.SetBonus_List = res;
+      console.log(res,'rr')
+    });
   }
+  // async doLoadSetBonusList() {
+  //   try {
+  //     const tmp = new SetBonusModel();
+  //     const res = await this.setbonusService.SetBonus_get("",tmp);
+  //   } catch { }
+  // }
   async Setbatchbonus() {
     const data = new SetBonusModel();
     data.company_code = this.initial_current.CompCode;
     data.emp_data = this.selectEmp.employee_dest;
     data.paypolbonus_code = this.policybonusselect.code;
     data.modified_by = this.initial_current.Username;
+    // data.bonus_data = this.selectEmp.employee_dest;
     this.loading = true;
     try {
       const res = await this.setbonusService.SetBonus_record('', data);
@@ -350,71 +355,6 @@ export class SetallpolicyComponent implements OnInit {
     }
   }
   ////
-
-  ///Item
-  SetItems_List: SetItemModel[] = [];
-  selectedTRItem: ItemsModel = new ItemsModel();
-  async doLoadItemList() {
-    try {
-      const tmp = new SetItemModel();
-      const res = await this.setitemsService.SetItems_get(tmp);
-    } catch { }
-  }
-
-  async SetTRpolItem() {
-    const data = new SetItemModel();
-    data.company_code = this.initial_current.CompCode;
-    data.emp_data = this.selectEmp.employee_dest;
-    data.paypolitem_code = this.policyplanitemsselect.code;
-    data.modified_by = this.initial_current.Username;
-    // data.items_data = this.selectEmp.employee_dest;
-    this.loading = true;
-    try {
-      const res = await this.setitemsService.SetItems_record(data);
-      if (res.success) {
-        // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
-        this.doLoadItemList();
-        this.edit_data = false;
-      } else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message, });
-      }
-    } finally {
-      this.loading = false;
-    }
-  }
-
-  ///กองทุนสำรอง
-  SetProvident_List: SetProvidentModel[] = [];
-  selectedTRpolProvident: ProvidentModel = new ProvidentModel();
-  async doLoadSetProvidentList() {
-    try {
-      const tmp = new SetProvidentModel();
-      const res = await this.setprovidentService.SetProvident_get(tmp);
-    } catch {
-    }
-  }
-
-  async SetTRpolProvident() {
-    const data = new SetProvidentModel();
-    data.company_code = this.initial_current.CompCode;
-    data.emp_data = this.selectEmp.employee_dest;
-    data.paypolprovident_code = this.policyprovidentselect.code;
-    data.modified_by = this.initial_current.Username;
-    // data.provident_data = this.selectEmp.employee_dest;
-    this.loading = true;
-    try {
-      const res = await this.setprovidentService.SetProvident_record(data);
-      if (res.success) {
-        // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
-        this.doLoadSetProvidentList();
-        this.edit_data = false;
-      } else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message, });
-      }
-    } finally {
-      this.loading = false;
-    }
-  }
   // ค่าลดหย่อน
   empreduceList: EmpReduceModel[] = [];
   selectedEmpreduce: EmpReduceModel = new EmpReduceModel();
@@ -465,6 +405,147 @@ export class SetallpolicyComponent implements OnInit {
     }
   }
 
+  ///Item
+  // SetItems_List: SetItemModel[] = [];
+  // selectedTRItem: ItemsModel = new ItemsModel();
+  // async doLoadItemList() {
+  //   try {
+  //     const tmp = new SetItemModel();
+  //     const res = await this.setitemsService.SetItems_get(tmp);
+  //   } catch { }
+  // }
+
+  // async SetTRpolItem() {
+  //   const data = new SetItemModel();
+  //   data.company_code = this.initial_current.CompCode;
+  //   data.emp_data = this.selectEmp.employee_dest;
+  //   data.paypolitem_code = this.policyplanitemsselect.code;
+  //   data.modified_by = this.initial_current.Username;
+  //   // data.items_data = this.selectEmp.employee_dest;
+  //   this.loading = true;
+  //   try {
+  //     const res = await this.setitemsService.SetItems_record(data);
+  //     if (res.success) {
+  //       // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
+  //       this.doLoadItemList();
+  //       this.edit_data = false;
+  //     } else {
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message, });
+  //     }
+  //   } finally {
+  //     this.loading = false;
+  //   }
+  // }
+
+  ///กองทุนสำรอง
+  // SetProvident_List: SetProvidentModel[] = [];
+  // selectedTRpolProvident: ProvidentModel = new ProvidentModel();
+  // async doLoadSetProvidentList() {
+  //   try {
+  //     const tmp = new SetProvidentModel();
+  //     const res = await this.setprovidentService.SetProvident_get(tmp);
+  //   } catch {
+  //   }
+  // }
+
+  // async SetTRpolProvident() {
+  //   const data = new SetProvidentModel();
+  //   data.company_code = this.initial_current.CompCode;
+  //   data.emp_data = this.selectEmp.employee_dest;
+  //   data.paypolprovident_code = this.policyprovidentselect.code;
+  //   data.modified_by = this.initial_current.Username;
+  //   // data.provident_data = this.selectEmp.employee_dest;
+  //   this.loading = true;
+  //   try {
+  //     const res = await this.setprovidentService.SetProvident_record(data);
+  //     if (res.success) {
+  //       // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message, });
+  //       this.doLoadSetProvidentList();
+  //       this.edit_data = false;
+  //     } else {
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message, });
+  //     }
+  //   } finally {
+  //     this.loading = false;
+  //   }
+  // }
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+  Deletbonus(data: SetBonusModel) {
+    if (this.policybonusselect) {
+      this.doDeletbonus(data);
+    }
+  }
+  Deletreduce(data: SetReduceModel) {
+    if (this.policyplanreduceselect) {
+      this.doDeletreduce(data);
+    }
+  }
+
+   
+
+
+  async doDeletbonus(data: SetBonusModel) {
+    this.loading = true;
+    await this.setbonusService.SetBonus_delete(data).then((res) => {
+      this.SetBonus_List = this.SetBonus_List.filter(
+        (item) => item !== data
+      );
+      if (res.success) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: res.message,
+        });
+        this.doLoadSetBonusList();
+        this.edit_data = false;
+        this.new_data;
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: res.message,
+        });
+      }
+    });
+  }
+
+
+  async doDeletreduce(data: SetReduceModel) {
+    this.loading = true;
+    await this.setreduceService.SetReduce_delete(data).then((res) => {
+      this.Setreduce_List = this.Setreduce_List.filter(
+        (item) => item !== data
+      );
+      if (res.success) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: res.message,
+        });
+        this.doLoadSetReduceList();
+        this.edit_data = false;
+        this.new_data;
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: res.message,
+        });
+      }
+    });
+  }
 
 
   function(e: any) {

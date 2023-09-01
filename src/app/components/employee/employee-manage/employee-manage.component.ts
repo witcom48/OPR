@@ -2619,7 +2619,7 @@ export class EmployeeManageComponent implements OnInit {
   doLoadBonusList() {
     var tmp = new SetBonusModel();
     tmp.worker_code = this.emp_code;
-    this.setbonusService.SetBonus_get(this.initial_current.CompCode, tmp).then((res) => {
+    this.setbonusService.SetBonus_get( '',tmp).then((res) => {
       this.SetBonus_List = res;
     });
   }
