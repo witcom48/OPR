@@ -150,8 +150,8 @@
 
                         <div>
                             <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
-                            <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code" [showClear]="true"
-                                [(ngModel)]="selectedEmployee.nationality_code"
+                            <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code"
+                                [showClear]="true" [(ngModel)]="selectedEmployee.nationality_code"
                                 [style]="{ width: '100%', overflow: 'visible' }">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.ethnicity_name_th : item.ethnicity_name_en}}
@@ -1444,9 +1444,22 @@
                                     {{initial_current.Language=="TH"? item.name_th : item.name_en}}
                                 </ng-template>
                             </p-dropdown>
-                            <!-- <p-dropdown placeholder="พนักงานจ่ายเอง" optionLabel="name" [showClear]="true"
-                                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+
                         </div>
+
+                        <!-- // -->
+                        <div class="field col-6">
+                            <label for="lastname2">{{title_bonus[initial_current.Language]}}:</label><br>
+                            <div *ngIf="SetBonus_List && SetBonus_List.length > 0">
+                                <div *ngFor="let worker of SetBonus_List">
+                                    <input pInputText type="text" [value]="worker.bonus_name" readonly />
+                                </div>
+                            </div>
+                            <div *ngIf="!SetBonus_List || SetBonus_List.length === 0">
+                                <input placeholder="--" pInputText type="text" value="" readonly />
+                            </div>
+                        </div>
+                        <!-- // -->
 
                         <!-- salary -->
                         <div class="field col-12">
@@ -2779,8 +2792,8 @@
                 #foreignercard_expire="ngModel" [required]="true"><input type="text"></p-calendar>
             <br>
             <div class="field col-12" style=" text-align: right;">
-                <p-button label="{{title_summit}}"
-                    (click)="empforeignercard_summit()" [disabled]="!Form.form.valid"></p-button>
+                <p-button label="{{title_summit}}" (click)="empforeignercard_summit()"
+                    [disabled]="!Form.form.valid"></p-button>
                 &nbsp;
                 <!-- <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
                     (click)="empforeignercard_cancel()"></button> -->

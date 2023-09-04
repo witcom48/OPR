@@ -49,12 +49,12 @@
                     <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.modified_by}}</td>
                     <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.modified_date |
                         date:'dd/MM/yyyy'}}</td>
-                        <td>
-                            <button pButton type="button" class="pi pi-trash gray-button "
-                            (click)="doDeletePlanitems(data)" [disabled]="!this.accessData.accessdata_delete">
-                            </button>
-    
-                        </td>
+                    <td>
+                        <button pButton type="button" class="pi pi-trash gray-button " (click)="doDeletePlanitems(data)"
+                            [disabled]="!this.accessData.accessdata_delete">
+                        </button>
+
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
@@ -63,24 +63,13 @@
 
     <!-- Form input or Edit Data Year Period -->
     <form #Form="ngForm">
-        <p-dialog [(visible)]="displayManage" [style]="{ height: '1500px', 'overflow-y': 'hidden' }"
-            [position]="position" (onHide)="reloadPage()">
-            <div class="formatt p-dialog-content" *ngIf="new_data">
+        <p-dialog header="{{title_new[initial_current.Language]}}" [(visible)]="displayManage" [style]="{width: '60vw' }" [position]="position"
+            (onHide)="reloadPage()">
+            <div class="format grid" *ngIf="new_data">
 
-                <label>{{title_code[initial_current.Language]}}<span style="color: red;"> *</span></label>
-                <input pInputText type="text" [(ngModel)]="itemsplans.planitems_code" maxlength="10"
-                    disabled="{{edit_data}}" name="code" #code="ngModel" required />
-                <p>{{itemsplans.planitems_code.length}}/10</p>
 
-                <label>{{title_detail_th[initial_current.Language]}}<span style="color: red;"> *</span></label>
-                <textarea [(ngModel)]="itemsplans.planitems_name_th" pInputTextarea [autoResize]="true"
-                    name="planitems_name_th" #planitems_name_th="ngModel" required></textarea>
 
-                <label>{{title_detail_en[initial_current.Language]}}<span style="color: red;"> *</span></label>
-                <textarea [(ngModel)]="itemsplans.planitems_name_en" pInputTextarea [autoResize]="true"
-                    name="planitems_name_en" #planitems_name_en="ngModel" required></textarea>
-
-                <p-pickList class="picklistvertical" [metaKeySelection]="false" [responsive]="true"
+                <p-pickList class="field col-12" [metaKeySelection]="false" [responsive]="true"
                     [source]="items_listselect" [target]="itemsplans.itemslists"
                     sourceHeader={{title_IncomeDeduct[initial_current.Language]}}
                     targetHeader={{title_IncomeDeduct_Plan[initial_current.Language]}}
@@ -95,7 +84,44 @@
                         </div>
                     </ng-template>
                 </p-pickList>
-                <br>
+
+                <div class="col-12 md:col-12">
+                    <br>
+                    <div class=" field grid">
+
+                        <div class="field col-12 md:col-6 custom-height">
+                            <label>{{title_code[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                            <input pInputText type="text" [(ngModel)]="itemsplans.planitems_code" maxlength="10"
+                                disabled="{{edit_data}}" name="code" #code="ngModel" required />
+                            <p>{{itemsplans.planitems_code.length}}/10</p>
+                        </div>
+                        <div class="field col-12 md:col-6  "></div>
+
+                        <div class="field col-12 md:col-6 custom-height">
+                            <label>{{title_detail_th[initial_current.Language]}}<span style="color: red;">
+                                    *</span></label>
+                            <input pInputText type="text" [(ngModel)]="itemsplans.planitems_name_th"
+                                name="planitems_name_th" #planitems_name_th="ngModel" required
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            <!-- <textarea [(ngModel)]="itemsplans.planitems_name_th" pInputTextarea [autoResize]="true"
+                                name="planitems_name_th" #planitems_name_th="ngModel" required></textarea> -->
+                        </div>
+
+                        <div class="field col-12 md:col-6 custom-height">
+                            <label>{{title_detail_en[initial_current.Language]}}<span style="color: red;">
+                                    *</span></label>
+                            <input pInputText type="text" [(ngModel)]="itemsplans.planitems_name_en"
+                                name="planitems_name_en" #planitems_name_en="ngModel" required
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            <!-- <textarea [(ngModel)]="itemsplans.planitems_name_en" pInputTextarea [autoResize]="true"
+                                name="planitems_name_en" #planitems_name_en="ngModel" required></textarea> -->
+                        </div>
+
+                    </div>
+                </div>
+
+
+
                 <div style="text-align: right;">
                     <button *ngIf="!edit_data" pRipple pButton type="submit"
                         label="{{title_save[initial_current.Language]}}" icon="pi pi-save" (click)="Save()"
@@ -143,6 +169,6 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-key="myDialog"   rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

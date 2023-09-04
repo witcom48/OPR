@@ -65,6 +65,7 @@ export class ItemsPlanComponent implements OnInit {
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
   title_delete: { [key: string]: string } = { EN: "Delete", TH: "ลบ" }
   title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
+  title_new: { [key: string]: string } = { EN: "New", TH: "เพิ่ม" }
 
   title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
@@ -291,7 +292,7 @@ export class ItemsPlanComponent implements OnInit {
 
   }
   displayManage: boolean = false;
-  position: string = "right";
+  position: string = "center";
   showManage() {
     this.displayManage = true
   }

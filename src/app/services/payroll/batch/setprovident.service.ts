@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 import { SetProvidentModel } from 'src/app/models/payroll/batch/setprovident';
 import { ProvidentModel } from 'src/app/models/payroll/provident';
 
@@ -65,7 +66,7 @@ import { ProvidentModel } from 'src/app/models/payroll/provident';
         // console.log('PAYTRPP001..');
 
         let emplists: any = [];
-        Setup.provident_data.forEach((res: ProvidentModel) => {
+        Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
                 worker_code: res.worker_code,
             };
@@ -100,7 +101,7 @@ import { ProvidentModel } from 'src/app/models/payroll/provident';
     public SetProvident_record( Setup: SetProvidentModel) {
         // console.log('PAYTRPP002..');
         let emplists: any = [];
-        Setup.provident_data.forEach((res: ProvidentModel) => {
+        Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
                 worker_code: res.worker_code,
             };

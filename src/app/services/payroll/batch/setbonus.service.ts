@@ -4,12 +4,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 
 import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { BonusModel } from 'src/app/models/payroll/bonus';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SetbonusService {
     public config: AppConfig = new AppConfig();
@@ -60,15 +61,16 @@ export class SetbonusService {
         }
     }
 
-    public SetBonus_get(worker_detail: string, Setup: SetBonusModel) {
-        // console.log('PAYTRB001..');
+    //
+    public SetBonus_get(worker_code: string,  Setup: SetBonusModel) {
 
         let emplists: any = [];
-        Setup.bonus_data.forEach((res: BonusModel) => {
+        Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
                 worker_code: res.worker_code,
             };
             emplists.push(ss);
+ 
         });
         let data = {
             device_name: '',
@@ -78,7 +80,11 @@ export class SetbonusService {
             company_code: Setup.company_code || this.initial_current.CompCode,
             paypolbonus_code: Setup.paypolbonus_code,
             worker_code: Setup.worker_code,
+            // worker_code: code,  
+
             worker_detail: Setup.worker_detail,
+            bonus_name: Setup.bonus_name,
+
             emp_data: emplists,
 
             modified_by: Setup.modified_by || this.initial_current.Username,
@@ -100,7 +106,7 @@ export class SetbonusService {
         // console.log('PAYTRB002..');
 
         let emplists: any = [];
-        Setup.bonus_data.forEach((res: BonusModel) => {
+        Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
                 worker_code: res.worker_code,
             };
@@ -134,7 +140,7 @@ export class SetbonusService {
             });
     }
 
-    public SetBonus_delete( Setup: SetBonusModel) {
+    public SetBonus_delete(Setup: SetBonusModel) {
         // console.log('PAYTRB003..');
         let data = {
             device_name: '',

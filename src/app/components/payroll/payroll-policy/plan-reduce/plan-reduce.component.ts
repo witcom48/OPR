@@ -315,7 +315,7 @@ export class PlanReduceComponent implements OnInit {
     });
   }
   displayManage: boolean = false;
-  position: string = "right";
+  position: string = "center";
   showManage() {
     this.displayManage = true
   }

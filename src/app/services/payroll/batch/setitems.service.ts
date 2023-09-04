@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 import { SetItemModel } from 'src/app/models/payroll/batch/setitem';
 import { SetProvidentModel } from 'src/app/models/payroll/batch/setprovident';
 import { ItemsModel } from 'src/app/models/payroll/items';
@@ -68,7 +69,7 @@ export class SetitemsService {
         // console.log('PAYTRPI001..');
 
         let emplists: any = [];
-        Setup.items_data.forEach((res: ItemsModel) => {
+        Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
                 worker_code: res.worker_code,
             };
@@ -103,7 +104,7 @@ export class SetitemsService {
     public SetItems_record( Setup: SetItemModel) {
         // console.log('PAYTRPI002..');
         let emplists: any = [];
-        Setup.items_data.forEach((res: ItemsModel) => {
+        Setup.emp_data.forEach((res: EmployeeModel) => {
             let ss = {
                 worker_code: res.worker_code,
             };

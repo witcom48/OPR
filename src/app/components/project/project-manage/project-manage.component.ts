@@ -76,6 +76,10 @@ import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.comp
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { RoundsModel } from 'src/app/models/system/manage/rounds';
+import { RoundsService } from 'src/app/services/system/manage1/rounds.service';
+import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { YearService } from 'src/app/services/system/policy/year.service';
 
 
 @Component({
@@ -95,6 +99,13 @@ export class ProjectManageComponent implements OnInit {
   costs_title: string[] = ["", "", "", "", "", "", "", "", "", ""];
 
   project_code: string = "";
+  //
+  rounds_type: string = "";
+  time_list: RoundsModel[] = [];
+  currency_list: RoundsModel[] = [];
+
+  yeargroup_list: YearPeriodModels[] = [];
+  //
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
   protype_list: ProtypeModel[] = [];
@@ -228,6 +239,8 @@ export class ProjectManageComponent implements OnInit {
   title_project_protype: { [key: string]: string } = { EN: "Type", TH: "ประเภทงาน" }
   title_project_roundtime: { [key: string]: string } = { EN: "Time rounding", TH: "รูปแบบปัดเศษเวลา" }
   title_project_roundmoney: { [key: string]: string } = { EN: "Amount rounding", TH: "รูปแบบปัดเศษเงิน" }
+  title_project_holiday: { [key: string]: string } = { EN: "Holiday", TH: "วันหยุดประจำปี" }
+
   title_project_progarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
   title_project_progroup: { [key: string]: string } = { EN: "Group ", TH: "กลุ่ม" }
   //
@@ -361,6 +374,8 @@ export class ProjectManageComponent implements OnInit {
     private diligenceServices: DiligenceServices,
     private planleaveService: PlanleaveServices,
     private lateServices: LateServices,
+    private roundsService: RoundsService,
+    private yearServices: YearService,
 
   ) {
 
@@ -482,6 +497,28 @@ export class ProjectManageComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
           }
         }
+      }
+      ,
+      {
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProcontact != null) {
+            this.edit_procontact = true
+            this.showManage()
+          }
+        }
+      }
+      ,
+      {
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
+      }
+      ,
+      {
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
@@ -1207,6 +1244,7 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
+  
   doLoadMaster() {
     this.genaralService.probusiness_get().then((res) => {
       //// console.log(res)
@@ -1224,6 +1262,24 @@ export class ProjectManageComponent implements OnInit {
     this.genaralService.progroup_get().then((res) => {
       this.progroup_list = res;
     });
+    //
+    var tmp = new RoundsModel();
+    tmp.round_group = this.rounds_type = "Time";
+    this.roundsService.rounds_get(tmp).then((res) => {
+      this.time_list = res;
+    });
+
+    tmp.round_group = this.rounds_type = "Currency";
+    this.roundsService.rounds_get(tmp).then((res) => {
+      this.currency_list = res;
+    });
+
+    var tmps = new YearPeriodModels();
+    tmps.year_group = "LEAVE"
+    this.yearServices.year_get(tmps).then((res) => {
+      this.yeargroup_list = res;
+    });
+    //
 
 
     this.doLoadInitial()
@@ -1244,6 +1300,7 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadPolProuniform()
     this.doLoadPolCost()
     this.doLoadJobemptype()
+    // this.doLoadRounds()
 
   }
 

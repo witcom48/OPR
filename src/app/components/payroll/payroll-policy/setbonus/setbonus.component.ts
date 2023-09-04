@@ -193,7 +193,7 @@ export class SetbonusComponent implements OnInit {
     doLoadSetBonusList() {
         this.SetBonus_List = [];
         var tmp = new SetBonusModel();
-        this.setbonusService.SetBonus_get('', tmp).then(async (res) => {
+        this.setbonusService.SetBonus_get( '',tmp).then(async (res) => {
             this.SetBonus_List = await res;
         });
     }

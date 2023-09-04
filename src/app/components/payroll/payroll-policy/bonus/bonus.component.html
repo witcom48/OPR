@@ -46,8 +46,8 @@
                 <tr>
                     <th>{{title_no}}</th>
                     <th>{{title_code}}</th>
-                    <th>{{title_detail_en}}</th>
                     <th>{{title_detail_th}}</th>
+                    <th>{{title_detail_en}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
                     <th> </th>
@@ -86,13 +86,15 @@
                     name="bonus_code" #bonus_code="ngModel" disabled="{{edit_data}}" />
                 <p>{{selectedBonus.bonus_code.length}}/10</p>
 
-                <label>{{title_detail_en}}<span style="color: red;"> *</span></label>
-                <textarea [(ngModel)]="selectedBonus.bonus_name_en" pInputTextarea [autoResize]="true" required
-                    name="bonus_name_en" #bonus_name_en="ngModel"></textarea>
 
                 <label>{{title_detail_th}}<span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="selectedBonus.bonus_name_th" pInputTextarea [autoResize]="true" required
                     name="bonus_name_th" #bonus_name_th="ngModel"></textarea>
+
+                <label>{{title_detail_en}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="selectedBonus.bonus_name_en" pInputTextarea [autoResize]="true" required
+                    name="bonus_name_en" #bonus_name_en="ngModel"></textarea>
+
 
 
                 <label>{{title_Item}}</label>
