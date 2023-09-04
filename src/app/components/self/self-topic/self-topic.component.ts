@@ -23,6 +23,8 @@ export class SelfTopicComponent implements OnInit {
     private topicService: TopicServices,
     private messageService: MessageService,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   new_data: boolean = false
   edit_data: boolean = false
   typeList: Type[] = [{ name: "Emp", code: "Emp" }, { name: "PDPA", code: "PDPA" }];
@@ -79,6 +81,8 @@ export class SelfTopicComponent implements OnInit {
     this.edit_data = false;
   }
   doLoadMenu() {
+    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    { label: this.langs.get('topic')[this.selectlang], routerLink: '/self/topic', styleClass: 'activelike' }]
     this.items_menu = [
       {
         label: this.langs.get('new')[this.selectlang],
@@ -91,14 +95,14 @@ export class SelfTopicComponent implements OnInit {
           this.edit_data = false;
         }
       }
-      ,
-      {
-        label: this.langs.get('import')[this.selectlang],
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
+      // ,
+      // {
+      //   label: this.langs.get('import')[this.selectlang],
+      //   icon: 'pi pi-fw pi-file-import',
+      //   command: (event) => {
 
-        }
-      }
+      //   }
+      // }
       ,
       {
         label: this.langs.get('export')[this.selectlang],

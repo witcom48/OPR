@@ -31,6 +31,8 @@ export class SelfWorkflowComponent implements OnInit {
     private positionService: PositionService,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   TypeList: Type[] = [];
   selectedtype: any;
   items_menu: MenuItem[] = [];
@@ -160,7 +162,8 @@ export class SelfWorkflowComponent implements OnInit {
     this.position_level_target = arr;
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    { label: this.langs.get('workflow')[this.selectlang], routerLink: '/self/workflow', styleClass: 'activelike' }]
     this.items_menu = [
       {
         label: this.langs.get('new')[this.selectlang],
@@ -174,14 +177,14 @@ export class SelfWorkflowComponent implements OnInit {
           this.position_level_target = [];
         }
       }
-      ,
-      {
-        label: this.langs.get('import')[this.selectlang],
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
+      // ,
+      // {
+      //   label: this.langs.get('import')[this.selectlang],
+      //   icon: 'pi pi-fw pi-file-import',
+      //   command: (event) => {
 
-        }
-      }
+      //   }
+      // }
       ,
       {
         label: this.langs.get('export')[this.selectlang],

@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,7 +7,8 @@
         <i></i>
         <small>{{langs.get('title_onsite')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
 
@@ -97,13 +98,15 @@
                 (click)="Save(selectedtrtimeonsite)" [disabled]="status_doc"></p-button>
             &nbsp;
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('notapprove')[selectlang]}}"
-                class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedtrtimeonsite)" [disabled]="status_doc"></button>
+                class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedtrtimeonsite)"
+                [disabled]="status_doc"></button>
         </div>
 
     </div>
 </p-dialog>
 
-
+<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
+    (click)="closeManage()"></div>
 <div class="grid">
 
     <div class="col-12">

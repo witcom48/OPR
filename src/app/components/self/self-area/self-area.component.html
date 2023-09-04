@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,7 +7,8 @@
         <i></i>
         <small>{{langs.get('area')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
 <!-- Menu New Import Export Data -->
@@ -22,8 +23,8 @@
             (onRowSelect)="onRowSelect($event)" [rows]="10" [showCurrentPageReport]="true"
             [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}}  {totalRecords} {{langs.get('entries')[selectlang]}}"
-            [globalFilterFields]="['location_code','modified_by','modified_date']"
-            responsiveLayout="stack" [breakpoint]="'744px'">
+            [globalFilterFields]="['location_code','modified_by','modified_date']" responsiveLayout="stack"
+            [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable">
@@ -67,49 +68,55 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <div class="formatt" *ngIf="new_data===true">
-        <i (click)="close()"></i>
+    <p-dialog header="" [(visible)]="new_data" [style]="{width: '25w'}" [position]="'right'" (onHide)="close()">
+        <div class="formgrid grid align-items-end">
+            <div class="formatt" *ngIf="new_data===true">
+                <i (click)="close()"></i>
 
-        <label>{{langs.get('latitude')[selectlang]}}</label>
-        <textarea [(ngModel)]="areas.area_lat" pInputTextarea [autoResize]="true"></textarea>
+                <label>{{langs.get('latitude')[selectlang]}}</label>
+                <textarea [(ngModel)]="areas.area_lat" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>{{langs.get('longitude')[selectlang]}}</label>
-        <textarea [(ngModel)]="areas.area_long" pInputTextarea [autoResize]="true"></textarea>
-        <a style="cursor: pointer;text-align: end;" (click)="openmap()">{{langs.get('selectfrommap')[selectlang]}}</a>
-        <label>{{langs.get('distance')[selectlang]}}</label>
-        <textarea [(ngModel)]="areas.area_distance" pInputTextarea [autoResize]="true"></textarea>
+                <label>{{langs.get('longitude')[selectlang]}}</label>
+                <textarea [(ngModel)]="areas.area_long" pInputTextarea [autoResize]="true"></textarea>
+                <a style="cursor: pointer;text-align: end;"
+                    (click)="openmap()">{{langs.get('selectfrommap')[selectlang]}}</a>
+                <label>{{langs.get('distance')[selectlang]}}</label>
+                <textarea [(ngModel)]="areas.area_distance" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>{{langs.get('location')[selectlang]}}</label>
-        <p-dropdown class="selectyaer" [options]="locationList" [(ngModel)]="selectedlocation"
-            (onChange)="selectlocation()" optionLabel="name"></p-dropdown>
+                <label>{{langs.get('location')[selectlang]}}</label>
+                <p-dropdown class="selectyaer" [options]="locationList" [(ngModel)]="selectedlocation"
+                    (onChange)="selectlocation()" optionLabel="name"></p-dropdown>
 
-        <!-- <label>{{langs.get('project')[selectlang]}}</label>
+                <!-- <label>{{langs.get('project')[selectlang]}}</label>
         <p-dropdown class="selectyaer" [options]="projectList" [(ngModel)]="selectedproject"
             (onChange)="selectproject()" optionLabel="name"></p-dropdown> -->
-        <div class="picklistvertical">
-            <p-pickList [source]="emp_list_source" [target]="emp_list_dest" [metaKeySelection]="false"
-                sourceFilterPlaceholder="{{langs.get('search')[selectlang]}}"
-                targetFilterPlaceholder="{{langs.get('search')[selectlang]}}" 
-                [showSourceControls]="false"
-                [showTargetControls]="false" sourceHeader="{{langs.get('employee')[selectlang]}}"
-                targetHeader="{{langs.get('employee_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
-                [targetStyle]="{ height: '15rem' }"
-                filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
-                <ng-template let-emp pTemplate="item">
-                    <div>
-                        <div style="font-size:14px;float:left;">{{emp.worker_code}} -
-                            {{selectlang=="TH"? emp.worker_fname_th +' '+ emp.worker_lname_th :
-                            emp.worker_fname_en +' '+ emp.worker_lname_en}}
-                        </div>
-                    </div>
-                </ng-template>
-            </p-pickList>
+                <div class="picklistvertical">
+                    <p-pickList [source]="emp_list_source" [target]="emp_list_dest" [metaKeySelection]="false"
+                        sourceFilterPlaceholder="{{langs.get('search')[selectlang]}}"
+                        targetFilterPlaceholder="{{langs.get('search')[selectlang]}}" [showSourceControls]="false"
+                        [showTargetControls]="false" sourceHeader="{{langs.get('employee')[selectlang]}}"
+                        targetHeader="{{langs.get('employee_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
+                        [targetStyle]="{ height: '15rem' }"
+                        filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
+                        <ng-template let-emp pTemplate="item">
+                            <div>
+                                <div style="font-size:14px;float:left;">{{emp.worker_code}} -
+                                    {{selectlang=="TH"? emp.worker_fname_th +' '+ emp.worker_lname_th :
+                                    emp.worker_fname_en +' '+ emp.worker_lname_en}}
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+                </div>
+                <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+                    (click)="Save()"></button>
+                <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                    (click)="Delete()" icon="pi pi-trash" class="p-button-danger"></button>
+            </div>
         </div>
-        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
-            (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" (click)="Delete()"
-            icon="pi pi-trash" class="p-button-danger"></button>
-    </div>
+    </p-dialog>
+    <div *ngIf="new_data" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
+        (click)="close()"></div>
     <!-- --------------End form Input Data ------------------ -->
 </div>
 

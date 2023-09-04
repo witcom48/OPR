@@ -9,7 +9,7 @@ import { ApproveTotalModel } from 'src/app/models/self/approveTotal';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeonsiteModel } from 'src/app/models/self/cls_TRTimeonsite';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
- import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { ApproveServices } from 'src/app/services/self/approve.service';
 import { TimeonsiteServices } from 'src/app/services/self/timeonsite';
 import { LocationService } from 'src/app/services/system/policy/location.service';
@@ -44,6 +44,8 @@ export class SelfApproveRecordtimeComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   Uploadfile: boolean = false;
   reason_list: ReasonsModel[] = [];
@@ -145,7 +147,8 @@ export class SelfApproveRecordtimeComponent implements OnInit {
     this.closeManage()
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    { label: this.langs.get('title_onsite')[this.selectlang], routerLink: '/self/approve_record', styleClass: 'activelike' }]
     this.items = [
 
       {

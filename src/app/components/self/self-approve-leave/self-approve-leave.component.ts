@@ -43,6 +43,8 @@ export class SelfApproveLeaveComponent implements OnInit {
     private reasonService: ReasonsService,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   edit_data: boolean = false
   displayManage: boolean = false;
   Uploadfile: boolean = false;
@@ -166,7 +168,8 @@ export class SelfApproveLeaveComponent implements OnInit {
     this.closeManage()
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    { label: this.langs.get('title_leave')[this.selectlang], routerLink: '/self/approve_leave', styleClass: 'activelike' }]
     this.items = [
       {
         label: this.langs.get('import')[this.selectlang],

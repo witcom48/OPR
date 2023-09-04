@@ -40,6 +40,8 @@ export class SelfReqdocComponent implements OnInit {
     private accountServie: AccountServices,
     private datePipe: DatePipe,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   Uploadfile: boolean = false;
   items: MenuItem[] = [];
@@ -178,6 +180,8 @@ export class SelfReqdocComponent implements OnInit {
     });
   }
   doLoadMenu() {
+    this.mainMenuItems = [{ label: this.langs.get('employee')[this.selectlang], routerLink: '/self/employee' },
+    { label: this.langs.get('title_req')[this.selectlang], routerLink: '/self/req_reqdoc', styleClass: 'activelike' }]
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],

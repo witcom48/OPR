@@ -9,7 +9,7 @@ import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeotModel } from 'src/app/models/self/cls_TRTimeot';
 import { TRAccountModel } from 'src/app/models/self/traccount';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
- import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { TimeotServices } from 'src/app/services/self/timeot.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
@@ -45,6 +45,8 @@ export class SelfOvertimeComponent implements OnInit {
     private accountServie: AccountServices,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   Uploadfile: boolean = false;
   reason_list: ReasonsModel[] = [];
@@ -195,7 +197,8 @@ export class SelfOvertimeComponent implements OnInit {
     });
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: this.langs.get('employee')[this.selectlang], routerLink: '/self/employee' },
+    { label: this.langs.get('title_ot')[this.selectlang], routerLink: '/self/req_overtime', styleClass: 'activelike' }]
     this.items = [
 
       {

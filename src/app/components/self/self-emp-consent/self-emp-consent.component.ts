@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { cls_MTPdpafileModel } from 'src/app/models/self/cls_MTPdpafile';
@@ -26,6 +26,8 @@ export class SelfEmpConsentComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
     private router: Router,) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   pdpa_list: cls_TRPdpaModel[] = [];
   pdpa_select: cls_TRPdpaModel = new cls_TRPdpaModel();
   public initial_current: InitialCurrent = new InitialCurrent();
@@ -37,6 +39,8 @@ export class SelfEmpConsentComponent implements OnInit {
 
     this.selectlang = this.initial_current.Language;
     this.doLoadPdpa();
+    this.mainMenuItems = [{ label: this.langs.get('employee')[this.selectlang], routerLink: '/self/employee' },
+    { label: this.langs.get('title_consent')[this.selectlang], routerLink: '/self/empconsent', styleClass: 'activelike' }]
   }
   ngOnInit(): void {
     this.doGetInitialCurrent();

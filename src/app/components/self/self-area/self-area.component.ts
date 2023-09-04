@@ -6,7 +6,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { ProjectModel } from 'src/app/models/project/project';
 import { MTAreaModel } from 'src/app/models/self/MTArea'
- import { ProjectService } from 'src/app/services/project/project.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
@@ -33,6 +33,8 @@ export class SelfAreaComponent implements OnInit {
     private areaService: AreaServices,
     private messageService: MessageService,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   items_menu: MenuItem[] = [];
   locationList: Type[] = [];
   selectedlocation: any;
@@ -137,6 +139,8 @@ export class SelfAreaComponent implements OnInit {
     return this.projectList.find(({ code }) => code === codes)?.name
   }
   doLoadMenu() {
+    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    { label: this.langs.get('area')[this.selectlang], routerLink: '/self/area', styleClass: 'activelike' }]
     this.items_menu = [
       {
         label: this.langs.get('new')[this.selectlang],
@@ -154,7 +158,7 @@ export class SelfAreaComponent implements OnInit {
           // this.areas.area_long = this.long;
           this.areas.area_distance = 1000;
           this.areas.location_code = this.locationList[0].code;
-          this.areas.project_code = this.projectList[0].code;
+          // this.areas.project_code = this.projectList[0].code;
           this.distance = 1000;
           this.zoom = 14;
           this.emp_list.filter((elm: EmployeeModel) => {
@@ -170,14 +174,14 @@ export class SelfAreaComponent implements OnInit {
           this.edit_data = false;
         }
       }
-      ,
-      {
-        label: this.langs.get('import')[this.selectlang],
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
+      // ,
+      // {
+      //   label: this.langs.get('import')[this.selectlang],
+      //   icon: 'pi pi-fw pi-file-import',
+      //   command: (event) => {
 
-        }
-      }
+      //   }
+      // }
       ,
       {
         label: this.langs.get('export')[this.selectlang],
