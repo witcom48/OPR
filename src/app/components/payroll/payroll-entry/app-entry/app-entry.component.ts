@@ -368,11 +368,13 @@ export class AppEntryComponent implements OnInit {
 
     this.doLoaditem().then((res) => {
       this.item_list = res;
-       this.doSummaryByEmp();
+      this.doSummaryByEmp();
     })
     // this.doSummaryByEmp();
   }
-
+  reloadPage() {
+    this.process()
+}
   process() {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
@@ -401,16 +403,16 @@ export class AppEntryComponent implements OnInit {
     data.item_data = this.selectEmp.employee_dest;
 
     this.loading = true;
-     await this.payitemService.setpayitems_record(this.initial_current.CompCode, data).then((res) => {
-       if (res.success) {
-         this.messageService.add({
+    await this.payitemService.setpayitems_record(this.initial_current.CompCode, data).then((res) => {
+      if (res.success) {
+        this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: res.message,
         });
         this.doLoaditem();
         this.doSetDetailItem();
- 
+
         this.edit_data = false;
       } else {
         this.messageService.add({
@@ -467,8 +469,17 @@ export class AppEntryComponent implements OnInit {
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
-
         },
+      },
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Payitem.xlsx', '_blank');
+        }
+
+
+
       },
       {
         label: this.title_edit,
@@ -552,8 +563,8 @@ export class AppEntryComponent implements OnInit {
   async doDeleteLate(data: PayitemModel) {
     try {
       this.loading = true;
-       const res = await this.payitemService.payitem_delete(data);
-       if (res.success) {
+      const res = await this.payitemService.payitem_delete(data);
+      if (res.success) {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -561,7 +572,7 @@ export class AppEntryComponent implements OnInit {
         });
         await this.doLoaditem();
         this.doSetDetailItem();
-         this.edit_data = false;
+        this.edit_data = false;
         this.new_data = false;
       } else {
         this.messageService.add({
@@ -627,7 +638,7 @@ export class AppEntryComponent implements OnInit {
 
   select_item() {
     let select = this.searchitem_popup.selectedPayitem.item_code
-     if (select != "") {
+    if (select != "") {
       this.doGetIndexWorker(select)
       this.searchItem = false
     }
@@ -645,33 +656,15 @@ export class AppEntryComponent implements OnInit {
     this.doSetDetailItem();
 
   }
-
-
   exportAsExcel() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-      this.table.nativeElement
-    ); //converts a DOM TABLE element to a worksheet
-    for (var i in ws) {
-      if (i.startsWith('!') || i.charAt(1) !== '1') {
-        continue;
-      }
-      var n = 0;
-      for (var j in ws) {
-        if (
-          j.startsWith(i.charAt(0)) &&
-          j.charAt(1) !== '1' &&
-          ws[i].v !== ''
-        ) {
-          ws[j].v = ws[j].v.replace(ws[i].v, '');
-        } else {
-          n += 1;
-        }
-      }
-    }
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     XLSX.writeFile(wb, 'Export_Reason.xlsx');
+
   }
+
+
 }
 

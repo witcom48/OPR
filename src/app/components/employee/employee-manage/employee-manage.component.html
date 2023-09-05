@@ -1452,7 +1452,7 @@
                             <label for="lastname2">{{title_bonus[initial_current.Language]}}:</label><br>
                             <div *ngIf="SetBonus_List && SetBonus_List.length > 0">
                                 <div *ngFor="let worker of SetBonus_List">
-                                    <input pInputText type="text" [value]="worker.bonus_name" readonly />
+                                    <input placeholder="--" pInputText type="text" [value]="worker.bonus_name" readonly />
                                 </div>
                             </div>
                             <div *ngIf="!SetBonus_List || SetBonus_List.length === 0">

@@ -324,7 +324,6 @@ export class SetallpolicyComponent implements OnInit {
     tmp.worker_code = this.emp_code;
      this.setbonusService.SetBonus_get( '',tmp).then((res) => {
       this.SetBonus_List = res;
-      console.log(res,'rr')
     });
   }
   // async doLoadSetBonusList() {
