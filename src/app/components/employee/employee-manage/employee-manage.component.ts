@@ -2616,13 +2616,15 @@ export class EmployeeManageComponent implements OnInit {
 
   //SetBonus
   SetBonus_List: SetBonusModel[] = [];
+  tmp: SetBonusModel = new SetBonusModel(); 
   doLoadBonusList() {
-    var tmp = new SetBonusModel();
-    tmp.worker_code = this.emp_code;
-    this.setbonusService.SetBonus_get( '',tmp).then((res) => {
-      this.SetBonus_List = res;
-    });
+      this.tmp.worker_code = this.emp_code;
+      this.setbonusService.SetBonus_get('', this.tmp).then((res) => {
+          this.SetBonus_List = res;
+          console.log(res,'gg')
+      });
   }
+  
 
   //address
   empaddressList: EmpaddressModel[] = [];
