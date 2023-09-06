@@ -2621,8 +2621,7 @@ export class EmployeeManageComponent implements OnInit {
       this.tmp.worker_code = this.emp_code;
       this.setbonusService.SetBonus_get('', this.tmp).then((res) => {
           this.SetBonus_List = res;
-          console.log(res,'gg')
-      });
+       });
   }
   
 
@@ -3167,8 +3166,7 @@ export class EmployeeManageComponent implements OnInit {
     tmp.reason_group = 'BLACK';
     this.reasonsService.reason_get(tmp).then(async (res) => {
       this.reason_list = await res;
-      console.log(res, 'te')
-    });
+     });
   }
 
 
