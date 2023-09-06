@@ -42,6 +42,8 @@ export class SelfLeaveComponent implements OnInit {
     private accountServie: AccountServices,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   edit_data: boolean = false
   displayManage: boolean = false;
   Uploadfile: boolean = false;
@@ -219,7 +221,8 @@ export class SelfLeaveComponent implements OnInit {
     })
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: 'Self Services', routerLink: '/self/employee' },
+    { label: this.langs.get('employee')[this.selectlang], routerLink: '/self/employee', styleClass: 'activelike' }]
     this.items = [
 
       {

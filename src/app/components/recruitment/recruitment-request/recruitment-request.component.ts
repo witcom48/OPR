@@ -213,6 +213,13 @@ export class RecruitmentRequestComponent implements OnInit {
       }
       ,
       {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import req/(OPR)Import Request.xlsx', '_blank');
+        }
+      },
+      {
         label: this.title_import,
         icon: 'pi pi-fw pi-file-import',
         command: (event) => {
@@ -234,19 +241,6 @@ export class RecruitmentRequestComponent implements OnInit {
     this.itemsOptions = [{
 
       items: [
-        {
-          label: this.title_edit,
-          icon: 'pi pi-fw pi-pencil',
-          command: (event) => {
-            if (this.accessData.accessdata_edit) {
-              this.showManage()
-              this.edit_data = true;
-            } else {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
-            }
-          }
-        }
-        ,
         {
           label: this.title_delete,
           icon: 'pi pi-trash',

@@ -281,6 +281,42 @@ th {
   }
 }
 
+.formattleaveplan {
+  .step {
+    button {
+      min-height: 10px
+    }
+  }
+
+  button {
+    min-height: 40px
+  }
+
+  // min-height: 50vh;
+  // max-height: 75vh;
+  // overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 1vw;
+  min-width: 370px;
+  width: 40vw;
+
+  // i:before {
+  //   content: "\e90b";
+  //   display: flex;
+  //   flex-direction: row-reverse;
+  //   color: red;
+  //   font-size: 20px;
+  //   cursor: pointer;
+  // }
+
+  p {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}
+
 .selecttype {
   min-width: 200px !important;
 
@@ -391,17 +427,19 @@ p-inputnumber {
     display: none !important;
   }
 }
+
 .button-size {
   width: 100px;
   height: 40px;
 }
 
-.btndel{
+.btndel {
   color: #444 !important;
   background: #fff !important;
   border: 1px solid #64748B;
 }
-.btndel:hover{
+
+.btndel:hover {
   color: #fff !important;
   background: #64748B !important;
   border: 1px solid #64748B;

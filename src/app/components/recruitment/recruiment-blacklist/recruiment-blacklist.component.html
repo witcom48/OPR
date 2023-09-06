@@ -97,7 +97,7 @@
             <p-dropdown placeholder="--" [options]="worker_List" optionValue="worker_code" [showClear]="true"
                 [(ngModel)]="selectedBlacklist.worker_code" [style]="{ width: '100%', overflow: 'visible' }"
                 [filter]="true" filterBy="worker_code,worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en"
-                name="code" #code="ngModel" (onChange)="changeEmp($event)" (onClear)="clearEmp()">
+                name="code" #code="ngModel" (onChange)="changeEmp($event.value)" (onClear)="clearEmp()">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.worker_code+"-"+item.worker_fname_th +"
                     "+item.worker_lname_th :

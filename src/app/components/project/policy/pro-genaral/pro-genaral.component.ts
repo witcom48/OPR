@@ -21,6 +21,7 @@ import { ProcostModel } from '../../../../models/project/policy/procost';
 import { ProcostService } from '../../../../services/project/procost.service';
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 
 @Component({
   selector: 'app-pro-genaral',
@@ -34,7 +35,7 @@ export class ProGenaralComponent implements OnInit {
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
-
+  displaymanage: boolean = false;
   page_type: string = "";
 
 
@@ -107,11 +108,14 @@ export class ProGenaralComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('PRO');
   }
 
   doLoadPageType() {
@@ -227,38 +231,42 @@ export class ProGenaralComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          if (this.accessData.accessdata_new) {
+            var ref = this.probusiness_list.length + 100
+            this.selectedProbusiness = new ProbusinessModel();
+            this.selectedProbusiness.probusiness_id = ref.toString()
 
-          var ref = this.probusiness_list.length + 100
-          this.selectedProbusiness = new ProbusinessModel();
-          this.selectedProbusiness.probusiness_id = ref.toString()
+            ref = this.protype_list.length + 100
+            this.selectedProtype = new ProtypeModel();
+            this.selectedProtype.protype_id = ref.toString()
 
-          ref = this.protype_list.length + 100
-          this.selectedProtype = new ProtypeModel();
-          this.selectedProtype.protype_id = ref.toString()
+            ref = this.prouniform_list.length + 100
+            this.selectedProuniform = new ProuniformModel();
+            this.selectedProuniform.prouniform_id = ref.toString()
 
-          ref = this.prouniform_list.length + 100
-          this.selectedProuniform = new ProuniformModel();
-          this.selectedProuniform.prouniform_id = ref.toString()
+            ref = this.proslip_list.length + 100
+            this.selectedProslip = new ProslipModel();
+            this.selectedProslip.proslip_id = ref.toString()
 
-          ref = this.proslip_list.length + 100
-          this.selectedProslip = new ProslipModel();
-          this.selectedProslip.proslip_id = ref.toString()
+            ref = this.procost_list.length + 100
+            this.selectedProcost = new ProcostModel();
+            this.selectedProcost.procost_id = ref.toString()
 
-          ref = this.procost_list.length + 100
-          this.selectedProcost = new ProcostModel();
-          this.selectedProcost.procost_id = ref.toString()
+            ref = this.proarea_list.length + 100
+            this.selectedProarea = new ProareaModel();
+            this.selectedProarea.proarea_id = ref.toString()
 
-          ref = this.proarea_list.length + 100
-          this.selectedProarea = new ProareaModel();
-          this.selectedProarea.proarea_id = ref.toString()
-
-          ref = this.progroup_list.length + 100
-          this.selectedProgroup = new ProgroupModel();
-          this.selectedProgroup.progroup_id = ref.toString()
+            ref = this.progroup_list.length + 100
+            this.selectedProgroup = new ProgroupModel();
+            this.selectedProgroup.progroup_id = ref.toString()
 
 
-          this.new_data = true;
-          this.edit_data = false;
+            this.new_data = true;
+            this.edit_data = false;
+            this.displaymanage = true;
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
       }
       ,
@@ -455,7 +463,7 @@ export class ProGenaralComponent implements OnInit {
         // 
         break;
     }
-
+    this.close();
   }
 
   doDeleteGenaral() {
@@ -557,40 +565,48 @@ export class ProGenaralComponent implements OnInit {
     this.doLoadGenaral();
     this.edit_data = false;
     this.new_data = false;
+    this.displaymanage = false;
   }
 
   onRowSelectProbusiness(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProtype(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProuniform(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProslip(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProarea(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
   onRowSelectProgroup(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
   }
 
   onRowSelectProcost(event: Event) {
     this.edit_data = true;
     this.new_data = false;
+    this.displaymanage = true;
 
     this.doLoadSelectedProcostType(this.selectedProcost.procost_type)
     this.doLoadSelectedProcostItem(this.selectedProcost.procost_itemcode)
@@ -787,7 +803,8 @@ export class ProGenaralComponent implements OnInit {
   }
   close() {
     this.new_data = false
-    this.edit_data=false
+    this.edit_data = false
+    this.displaymanage = false;
     this.selectedProbusiness = new ProbusinessModel()
     this.selectedProtype = new ProtypeModel()
     this.selectedProuniform = new ProuniformModel()

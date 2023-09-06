@@ -75,6 +75,7 @@ import { LateServices } from 'src/app/services/attendance/late.service';
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { RoundsModel } from 'src/app/models/system/manage/rounds';
 import { RoundsService } from 'src/app/services/system/manage1/rounds.service';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
@@ -415,11 +416,14 @@ export class ProjectManageComponent implements OnInit {
   }
 
   public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.accessData = this.initialData2.dotGetPolmenu('PRO');
   }
 
   tabChange(e: { index: any; }) {
@@ -482,13 +486,39 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_new[this.initial_current.Language],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.clearManage()
-          this.new_procontact = true
-          var ref = this.procontact_list.length + 100
-          this.selectedProcontact = new ProcontactModel()
-          this.selectedProcontact.procontact_ref = ref.toString()
-          this.showManage()
+          if (this.accessData.accessdata_new) {
+            this.clearManage()
+            this.new_procontact = true
+            var ref = this.procontact_list.length + 100
+            this.selectedProcontact = new ProcontactModel()
+            this.selectedProcontact.procontact_ref = ref.toString()
+            this.showManage()
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
         }
+      }
+      ,
+      {
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProcontact != null) {
+            this.edit_procontact = true
+            this.showManage()
+          }
+        }
+      }
+      ,
+      {
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
+      }
+      ,
+      {
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
       }
       ,
       {
@@ -1213,6 +1243,7 @@ export class ProjectManageComponent implements OnInit {
 
     });
   }
+
   
   doLoadMaster() {
     this.genaralService.probusiness_get().then((res) => {
@@ -1249,6 +1280,7 @@ export class ProjectManageComponent implements OnInit {
       this.yeargroup_list = res;
     });
     //
+
 
     this.doLoadInitial()
     this.doLoadPosition()
