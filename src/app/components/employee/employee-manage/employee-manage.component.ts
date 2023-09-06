@@ -387,6 +387,8 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadHospitalList();
     this.doLoadDeplevel1List();
     this.doLoadDeplevel2List();
+    this.doLoadDeplevel3List();
+    this.doLoadDeplevel4List();
 
     this.doLoadinstituteList();
     this.doLoadfacultyList();
@@ -2504,6 +2506,24 @@ export class EmployeeManageComponent implements OnInit {
     tmp.level_code = "02";
     this.depService.dep_get(tmp).then(async (res) => {
       this.deplevel2List = await res;
+    })
+
+  }
+  deplevel3List: PartModel[] = [];
+  doLoadDeplevel3List() {
+    var tmp = new LevelModel();
+    tmp.level_code = "03";
+    this.depService.dep_get(tmp).then(async (res) => {
+      this.deplevel3List = await res;
+    })
+
+  }
+  deplevel4List: PartModel[] = [];
+  doLoadDeplevel4List() {
+    var tmp = new LevelModel();
+    tmp.level_code = "04";
+    this.depService.dep_get(tmp).then(async (res) => {
+      this.deplevel3List = await res;
     })
 
   }
@@ -4846,8 +4866,8 @@ export class EmployeeManageComponent implements OnInit {
   doRecordEmpBlacklist() {
     if (this.selectedEmployee.worker_blackliststatus) {
       var tmp = new BlacklistModel();
-      tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode,
-        tmp.worker_code = this.selectedEmployee.worker_code
+      tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode
+      tmp.worker_code = this.selectedEmployee.worker_code
       tmp.card_no = this.selectedEmployee.worker_cardno
       tmp.blacklist_fname_th = this.selectedEmployee.worker_fname_th
       tmp.blacklist_lname_th = this.selectedEmployee.worker_lname_th
@@ -4863,7 +4883,13 @@ export class EmployeeManageComponent implements OnInit {
         }
       })
     } else {
-      return
+      var tmp = new BlacklistModel();
+      tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode
+      tmp.card_no = this.selectedEmployee.worker_cardno
+      tmp.worker_code = this.selectedEmployee.worker_code
+      this.blacklistService.blacklist_delete(tmp).then((res)=>{
+
+      })
     }
   }
 

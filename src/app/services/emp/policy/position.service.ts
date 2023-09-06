@@ -94,6 +94,7 @@ export class PositionService {
   public position_delete(model: PositionModel) {
     // console.log('LCT003..');
     const data = {
+      company_code: this.initial_current.CompCode,
       position_id: model.position_id,
       position_code: model.position_code,
       modified_by: this.initial_current.Username

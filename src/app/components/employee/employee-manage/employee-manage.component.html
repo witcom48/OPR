@@ -150,8 +150,8 @@
 
                         <div>
                             <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
-                            <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code" [showClear]="true"
-                                [(ngModel)]="selectedEmployee.nationality_code"
+                            <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code"
+                                [showClear]="true" [(ngModel)]="selectedEmployee.nationality_code"
                                 [style]="{ width: '100%', overflow: 'visible' }">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.ethnicity_name_th : item.ethnicity_name_en}}
@@ -1768,250 +1768,322 @@
 
 <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position" (onHide)="clearManage()">
     <!-- Form Emp Address -->
-    <div class="formatt" *ngIf="edit_empaddress==true || new_empaddress==true">
-        <label>{{title_addresstype}}<span style="color: red;"> *</span></label>
-        <p-dropdown placeholder="--" [options]="addresstypeList" optionValue="addresstype_code" [showClear]="true"
-            [(ngModel)]="selectedEmpAddress.address_type" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
-            </ng-template>
-        </p-dropdown>
+    <form #AddForm="ngForm">
+        <div class="formatt" *ngIf="edit_empaddress==true || new_empaddress==true">
+            <label>{{title_addresstype}}<span style="color: red;"> *</span></label>
+            <p-dropdown placeholder="--" [options]="addresstypeList" optionValue="addresstype_code" [showClear]="true"
+                [(ngModel)]="selectedEmpAddress.address_type" [style]="{ width: '100%', overflow: 'visible' }"
+                name="address_type" #address_type="ngModel" [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
+                </ng-template>
+            </p-dropdown>
 
-        <label>{{title_no}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_no">
+            <label>{{title_no}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_no" name="address_no"
+                #address_no="ngModel">
 
-        <label>{{title_moo}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_moo">
+            <label>{{title_moo}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_moo" name="address_moo"
+                #address_moo="ngModel">
 
-        <label>{{title_soi}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_soi">
+            <label>{{title_soi}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_soi" name="address_soi"
+                #address_soi="ngModel">
 
-        <label>{{title_road}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_road">
+            <label>{{title_road}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_road" name="address_road"
+                #address_road="ngModel">
 
-        <label>{{title_tambon}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_tambon">
+            <label>{{title_tambon}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_tambon" name="address_tambon"
+                #address_tambon="ngModel">
 
-        <label>{{title_amphur}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_amphur">
+            <label>{{title_amphur}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_amphur" name="address_amphur"
+                #address_amphur="ngModel">
 
-        <label>{{title_province}}</label>
-        <p-dropdown placeholder="--" [options]="provinceList" optionValue="province_code" [showClear]="true"
-            [(ngModel)]="selectedEmpAddress.province_code" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
-            </ng-template>
-        </p-dropdown>
+            <label>{{title_province}}</label>
+            <p-dropdown placeholder="--" [options]="provinceList" optionValue="province_code" [showClear]="true"
+                [(ngModel)]="selectedEmpAddress.province_code" [style]="{ width: '100%', overflow: 'visible' }"
+                name="address_province" #address_province="ngModel">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
+                </ng-template>
+            </p-dropdown>
 
-        <label>{{title_zipcode}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_zipcode">
-        <br>
-        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
-            (click)="empaddress_summit()"></button>
-        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
-            (click)="empaddress_cancel()"></button>
+            <label>{{title_zipcode}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpAddress.address_zipcode" name="address_zipcode"
+                #address_zipcode="ngModel">
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="empaddress_summit()"
+                    [disabled]="!AddForm.form.valid"></p-button>
+                &nbsp;
+                <!-- <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                (click)="empaddress_cancel()"></button> -->
+            </div>
 
-    </div>
+        </div>
+    </form>
     <!-- Form Emp Card -->
-    <div class="formatt" *ngIf="edit_empcard==true || new_card==true">
-        <label>{{title_cardcode}}<span style="color: red;"> *</span></label>
-        <input pInputText type="text" id="card_no" [(ngModel)]="selectedEmpcard.card_code">
+    <form #CardForm="ngForm">
+        <div class="formatt" *ngIf="edit_empcard==true || new_card==true">
+            <label>{{title_cardcode}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" id="card_no" [(ngModel)]="selectedEmpcard.card_code" name="cardcode"
+                #cardcode="ngModel" required>
 
-        <label>{{title_issuedate}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedEmpcard.card_issue"><input type="text"></p-calendar>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_issue"> -->
+            <label>{{title_issuedate}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="selectedEmpcard.card_issue"
+                name="cardissue" #cardissue="ngModel" [required]="true"><input type="text"></p-calendar>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_issue"> -->
 
-        <label>{{title_expiredate}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="selectedEmpcard.card_expire">
-            <input type="text"></p-calendar>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
+            <label>{{title_expiredate}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpcard.card_expire" name="cardexpire" #cardexpire="ngModel" [required]="true">
+                <input type="text"></p-calendar>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
 
-        <label>{{title_cardtype}}<span style="color: red;"> *</span></label>
-        <p-dropdown placeholder="--" [options]="cardtypeList" optionValue="cardtype_code" [showClear]="true"
-            [(ngModel)]="selectedEmpcard.card_type" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
-            </ng-template>
-        </p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_type"> -->
+            <label>{{title_cardtype}}<span style="color: red;"> *</span></label>
+            <p-dropdown placeholder="--" [options]="cardtypeList" optionValue="cardtype_code" [showClear]="true"
+                [(ngModel)]="selectedEmpcard.card_type" [style]="{ width: '100%', overflow: 'visible' }" name="cardtype"
+                #cardtype="ngModel" [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                </ng-template>
+            </p-dropdown>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_type"> -->
 
-        <br>
-        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empcard_summit()"></button>
-        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
-            (click)="empcard_cancel()"></button>
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="empcard_summit()"
+                    [disabled]="!CardForm.form.valid"></p-button>
+                &nbsp;
+                <!-- <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empcard_summit()"
+                [disabled]="!CardForm.form.valid"></button> -->
+                <!-- <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                (click)="empcard_cancel()"></button> -->
+            </div>
 
-    </div>
+        </div>
+    </form>
     <!-- Form Emp Bank -->
-    <div class="formatt" *ngIf="edit_empbank==true || new_bank==true">
-        <label>{{title_bankname}}</label>
-        <p-dropdown placeholder="--" [options]="bankList" optionValue="bank_code" [showClear]="true"
-            [(ngModel)]="selectedEmpbank.bank_code" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
-            </ng-template>
-        </p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_code"> -->
+    <form #BankForm="ngForm">
+        <div class="formatt" *ngIf="edit_empbank==true || new_bank==true">
+            <label>{{title_bankname}}<span style="color: red;"> *</span></label>
+            <p-dropdown placeholder="--" [options]="bankList" optionValue="bank_code" [showClear]="true"
+                [(ngModel)]="selectedEmpbank.bank_code" [style]="{ width: '100%', overflow: 'visible' }" name="bankname"
+                #bankname="ngModel" [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
+                </ng-template>
+            </p-dropdown>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_code"> -->
 
-        <label>{{title_bankname2}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpbank.bank_bankname">
+            <label>{{title_bankname2}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpbank.bank_bankname" name="bankname2"
+                #bankname2="ngModel" required>
 
-        <label>{{title_bankcode}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpbank.bank_account">
+            <label>{{title_bankcode}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpbank.bank_account" name="bankcode" #bankname="ngModel"
+                required>
 
-        <label>{{title_bankper}}</label>
-        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
-            [(ngModel)]="selectedEmpbank.bank_percent" suffix="%">
-        </p-inputNumber>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_percent"> -->
+            <label>{{title_bankper}}</label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
+                [(ngModel)]="selectedEmpbank.bank_percent" suffix="%" name="bankper" #bankper="ngModel">
+            </p-inputNumber>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_percent"> -->
 
-        <label>{{title_cashper}}</label>
-        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
-            [(ngModel)]="selectedEmpbank.bank_cashpercent" suffix="%">
-        </p-inputNumber>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_cashpercent"> -->
+            <label>{{title_cashper}}</label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="100"
+                [(ngModel)]="selectedEmpbank.bank_cashpercent" suffix="%" name="cashper" #cashper="ngModel">
+            </p-inputNumber>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbank.bank_cashpercent"> -->
 
-        <br>
-        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empbank_summit()"></button>
-        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
-            (click)="empbank_cancel()"></button>
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="empbank_summit()"
+                    [disabled]="!BankForm.form.valid"></p-button>
+                &nbsp;
+                <!-- <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+                (click)="empbank_summit()"></button>
+            <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                (click)="empbank_cancel()"></button> -->
+            </div>
 
-    </div>
+        </div>
+    </form>
     <!-- Form Emp Family -->
-    <div class="formatt" *ngIf="edit_empfamily==true || new_family==true">
-        <!-- <label>{{title_familycode}}<span style="color: red;"> *</span></label>
+    <form #FamilyForm="ngForm">
+        <div class="formatt" *ngIf="edit_empfamily==true || new_family==true">
+            <!-- <label>{{title_familycode}}<span style="color: red;"> *</span></label>
         <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_code"> -->
 
-        <label>{{title_fname_th}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_fname_th">
+            <label>{{title_fname_th}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_fname_th" name="familyfnameth"
+                #familyfnameth="ngModel">
 
-        <label>{{title_lname_th}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_lname_th">
+            <label>{{title_lname_th}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_lname_th" name="familylnameth"
+                #familylnameth="ngModel">
 
-        <label>{{title_fname_en}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_fname_en">
+            <label>{{title_fname_en}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_fname_en" name="familyfnameen"
+                #familyfnameen="ngModel">
 
-        <label>{{title_lname_en}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_lname_en">
+            <label>{{title_lname_en}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_lname_en" name="familylnameen"
+                #familylnameen="ngModel">
 
-        <!-- <label>{{title_birthdate}}</label>
+            <!-- <label>{{title_birthdate}}</label>
         <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
             [(ngModel)]="selectedEmpfamily.family_birthdate"><input type="text"></p-calendar> -->
 
-        <label>{{title_familytype}}<span style="color: red;"> *</span></label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="familytypeList" optionValue="family_code"
-            [showClear]="true" [(ngModel)]="selectedEmpfamily.family_type"
-            [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.family_name_th : item.family_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.family_name_th : item.family_name_en}}
-            </ng-template>
-        </p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_type"> -->
+            <label>{{title_familytype}}<span style="color: red;"> *</span></label>
+            <p-dropdown appendTo="body" placeholder="--" [options]="familytypeList" optionValue="family_code"
+                [showClear]="true" [(ngModel)]="selectedEmpfamily.family_type"
+                [style]="{ width: '100%', overflow: 'visible' }" name="familytype" #familytype="ngModel"
+                [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.family_name_th : item.family_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.family_name_th : item.family_name_en}}
+                </ng-template>
+            </p-dropdown>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpfamily.family_type"> -->
 
-        <label>{{title_familyocc[initial_current.Language]}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_occupation">
+            <label>{{title_familyocc[initial_current.Language]}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_occupation" name="familyocc"
+                #familyocc="ngModel">
 
-        <label>{{title_familytel[initial_current.Language]}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_tel" max="10">
+            <label>{{title_familytel[initial_current.Language]}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpfamily.family_tel" max="10" name="familytel"
+                #familytel="ngModel">
 
-        <label>{{title_familyaddress[initial_current.Language]}}</label>
-        <textarea [(ngModel)]="selectedEmpfamily.family_address" pInputTextarea [autoResize]="true"></textarea>
+            <label>{{title_familyaddress[initial_current.Language]}}</label>
+            <textarea [(ngModel)]="selectedEmpfamily.family_address" pInputTextarea [autoResize]="true" name="familyadd"
+                #familyadd="ngModel"></textarea>
 
-        <br>
-        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empfamily_summit()"></button>
-        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
-            (click)="empfamily_cancel()"></button>
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="empfamily_summit()"
+                    [disabled]="!FamilyForm.form.valid"></p-button>
+                &nbsp;
+                <!-- <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+                (click)="empfamily_summit()"></button>
+            <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                (click)="empfamily_cancel()"></button> -->
+            </div>
 
-    </div>
+        </div>
+    </form>
 
     <!-- Form Emp Hospital -->
-    <div class="formatt" *ngIf="edit_emphospital==true || new_hospital==true">
-        <label>{{title_hospitalname}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="hospitalList" optionValue="hospital_code"
-            [showClear]="true" [(ngModel)]="selectedEmphospital.emphospital_code"
-            [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.hospital_name_th : item.hospital_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.hospital_name_th : item.hospital_name_en}}
-            </ng-template>
-        </p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_code"> -->
+    <form #HosForm="ngForm">
+        <div class="formatt" *ngIf="edit_emphospital==true || new_hospital==true">
+            <label>{{title_hospitalname}}<span style="color: red;"> *</span></label>
+            <p-dropdown appendTo="body" placeholder="--" [options]="hospitalList" optionValue="hospital_code"
+                [showClear]="true" [(ngModel)]="selectedEmphospital.emphospital_code"
+                [style]="{ width: '100%', overflow: 'visible' }" name="hos_name" #hos_name="ngModel" [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.hospital_name_th : item.hospital_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.hospital_name_th : item.hospital_name_en}}
+                </ng-template>
+            </p-dropdown>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_code"> -->
 
-        <label>{{title_date}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedEmphospital.emphospital_date"><input type="text"></p-calendar>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_date"> -->
+            <label>{{title_date}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmphospital.emphospital_date" name="hos_date" #hos_date="ngModel"
+                [required]="true"><input type="text"></p-calendar>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_date"> -->
 
-        <br>
-        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
-            (click)="emphospital_summit()"></button>
-        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
-            (click)="emphospital_cancel()"></button>
-    </div>
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="emphospital_summit()"
+                    [disabled]="!HosForm.form.valid"></p-button>
+                &nbsp;
+                <!-- <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+                (click)="emphospital_summit()"></button>
+            <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                (click)="emphospital_cancel()"></button> -->
+            </div>
+        </div>
+    </form>
 
     <!-- Form Emp Dep -->
-    <div class="formatt" *ngIf="edit_empdep==true || new_dep==true">
-        <label>{{title_date}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedEmpdep.empdep_date"><input type="text"></p-calendar>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_date"> -->
+    <form #DepForm="ngForm">
+        <div class="formatt" *ngIf="edit_empdep==true || new_dep==true">
+            <label>{{title_date}}</label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="selectedEmpdep.empdep_date"
+                name="dep_date" #dep_date="ngModel" [required]="true"><input type="text"></p-calendar>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_date"> -->
 
-        <label>{{title_lv1}}</label>
-        <p-dropdown placeholder="--" [options]="deplevel1List" optionValue="dep_code" [showClear]="true"
-            [(ngModel)]="selectedEmpdep.empdep_level01" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
-            </ng-template>
-        </p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level01"> -->
+            <label>{{title_lv1}}</label>
+            <p-dropdown placeholder="--" [options]="deplevel1List" optionValue="dep_code" [showClear]="true"
+                [(ngModel)]="selectedEmpdep.empdep_level01" [style]="{ width: '100%', overflow: 'visible' }"
+                name="dep_lv1" #dep_lv1="ngModel">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                </ng-template>
+            </p-dropdown>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level01"> -->
 
-        <label>{{title_lv2}}</label>
-        <p-dropdown placeholder="--" [options]="deplevel2List" optionValue="dep_code" [showClear]="true"
-            [(ngModel)]="selectedEmpdep.empdep_level02" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
-            </ng-template>
-        </p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level02"> -->
+            <label>{{title_lv2}}</label>
+            <p-dropdown placeholder="--" [options]="deplevel2List" optionValue="dep_code" [showClear]="true"
+                [(ngModel)]="selectedEmpdep.empdep_level02" [style]="{ width: '100%', overflow: 'visible' }"
+                name="dep_lv2" #dep_lv2="ngModel">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                </ng-template>
+            </p-dropdown>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level02"> -->
 
-        <label>{{title_lv3}}</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level03"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level03"> -->
+            <label>{{title_lv3}}</label>
+            <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                [(ngModel)]="selectedEmpdep.empdep_level03" [style]="{ width: '100%', overflow: 'visible' }"
+                name="dep_lv3" #dep_lv3="ngModel"></p-dropdown>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level03"> -->
 
-        <label>{{title_reason}}</label>
-        <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_reason"
-            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_reason"> -->
+            <label>{{title_reason}}</label>
+            <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+                [(ngModel)]="selectedEmpdep.empdep_reason" [style]="{ width: '100%', overflow: 'visible' }"
+                name="dep_reason" #dep_reason="ngModel"></p-dropdown>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_reason"> -->
 
-        <br>
-        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check" (click)="empdep_summit()"></button>
-        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
-            (click)="empdep_cancel()"></button>
-    </div>
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}"
+                    (click)="empdep_summit()" [disabled]="!DepForm.form.valid"></p-button>
+                &nbsp;
+                <!-- <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+                (click)="empdep_summit()"></button>
+            <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                (click)="empdep_cancel()"></button> -->
+            </div>
+        </div>
+    </form>
 
     <!-- Form Emp Position -->
     <div class="formatt" *ngIf="edit_empposition==true || new_position==true">
@@ -2748,7 +2820,7 @@
     <!-- END EMP Location -->
 
     <!-- Form Emp foreigner -->
-    <form #Form="ngForm">
+    <form #ForeForm="ngForm">
         <div class="formatt" *ngIf="edit_empforeigner==true || new_foreigner==true">
             <label>{{title_foreignertype[initial_current.Language]}}<span style="color: red;">*</span></label>
             <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
@@ -2779,8 +2851,8 @@
                 #foreignercard_expire="ngModel" [required]="true"><input type="text"></p-calendar>
             <br>
             <div class="field col-12" style=" text-align: right;">
-                <p-button label="{{title_summit}}"
-                    (click)="empforeignercard_summit()" [disabled]="!Form.form.valid"></p-button>
+                <p-button label="{{title_summit}}" (click)="empforeignercard_summit()"
+                    [disabled]="!ForeForm.form.valid"></p-button>
                 &nbsp;
                 <!-- <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
                     (click)="empforeignercard_cancel()"></button> -->
