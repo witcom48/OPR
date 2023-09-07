@@ -122,8 +122,8 @@ export class BonusComponent implements OnInit {
 
             this.title_Item = 'รหัสเงินได้';
             this.title_Workage = 'อัตราตามอายุงาน';
-            this.title_Rate = 'อัตรา';
-            this.title_From = 'จาก';
+            this.title_Rate = 'อัตรา (บาท)';
+            this.title_From = 'จาก (ปี)';
             this.title_no = 'อันดับ';
 
             this.title_edit = 'แก้ไข';
@@ -142,9 +142,9 @@ export class BonusComponent implements OnInit {
             this.title_upload = 'อัพโหลด';
 
             this.title_page_from = 'แสดง';
-            this.title_page_to = 'ถึง';
+            this.title_page_to = 'ถึง (ปี)';
             this.title_page_total = 'จาก';
-            this.title_page_record = 'รายการ';
+            this.title_page_record = 'รายการ  ';
 
             this.title_confirm = 'ยืนยันการทำรายการ';
             this.title_confirm_record = 'คุณต้องการบันทึกการทำรายการ';
@@ -444,30 +444,16 @@ export class BonusComponent implements OnInit {
         this.displayManage = true;
     }
 
+
     exportAsExcel() {
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-            this.table.nativeElement
-        );
-        for (var i in ws) {
-            if (i.startsWith('!') || i.charAt(1) !== '1') {
-                continue;
-            }
-            var n = 0;
-            for (var j in ws) {
-                if (
-                    j.startsWith(i.charAt(0)) &&
-                    j.charAt(1) !== '1' &&
-                    ws[i].v !== ''
-                ) {
-                    ws[j].v = ws[j].v.replace(ws[i].v, '');
-                } else {
-                    n += 1;
-                }
-            }
-        }
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
         XLSX.writeFile(wb, 'Export_Late.xlsx');
+
     }
+
 }
+
+
