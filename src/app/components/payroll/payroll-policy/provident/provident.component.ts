@@ -118,8 +118,8 @@ export class ProvidentComponent implements OnInit {
             this.title_deduct = 'เงินหัก';
 
             this.title_Workage = 'อัตราตามอายุงาน';
-            this.title_From = 'จาก';
-            this.title_To = 'ถึง';
+            this.title_From = 'จาก (ปี)';
+            this.title_To = 'ถึง (ปี)';
             this.title_Rateemp = 'พนักงาน (%)';
             this.title_Ratecom = 'สมทบ (%)';
             this.title_no = 'อันดับ';

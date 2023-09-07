@@ -28,6 +28,7 @@ import { BonusService } from 'src/app/services/payroll/bonus.service';
 import { PlanitemsService } from 'src/app/services/payroll/planitems.service';
 import { PlanreduceService } from 'src/app/services/payroll/planreduce.service';
 import { ProvidentService } from 'src/app/services/payroll/provident.service';
+import { ReduceService } from 'src/app/services/system/policy/reduce.service';
 interface Policy {
   name: string,
   code: string
@@ -74,7 +75,7 @@ export class SetallpolicyComponent implements OnInit {
     private bonusService: BonusService,
     private providentService: ProvidentService,
     private planitemsService: PlanitemsService,
-    private planreduceService: PlanreduceService,
+    private reduceService: ReduceService,
 
     ///SetServices
     private setbonusService: SetbonusService,
@@ -168,18 +169,31 @@ export class SetallpolicyComponent implements OnInit {
   //ส่วนที่1
   ///ค่าลดหย่อน 
   doLoadPlanreduc() {
-    var tmp = new PlanreduceModels();
-    this.planreduceService.planreduce_get(tmp).then(async (res) => {
-      await res.forEach(async (element: PlanreduceModels) => {
+    var tmp = new ReducesModel();
+    this.reduceService.reduce_get( ).then(async (res) => {
+      await res.forEach(async (element: ReducesModel) => {
         this.policyplanreduce.push(
           {
-            name: this.initial_current.Language == "EN" ? element.planreduce_name_en : element.planreduce_name_th,
-            code: element.planreduce_code
+            name: this.initial_current.Language == "EN" ? element.reduce_name_en : element.reduce_name_th,
+            code: element.reduce_code
           }
         )
       });
     });
   }
+  // doLoadPlanreduc() {
+  //   var tmp = new PlanreduceModels();
+  //   this.planreduceService.planreduce_get(tmp).then(async (res) => {
+  //     await res.forEach(async (element: PlanreduceModels) => {
+  //       this.policyplanreduce.push(
+  //         {
+  //           name: this.initial_current.Language == "EN" ? element.planreduce_name_en : element.planreduce_name_th,
+  //           code: element.planreduce_code
+  //         }
+  //       )
+  //     });
+  //   });
+  // }
 
   ////กองทุนสำรอง
   // doLoadTRpolProvidentList() {
@@ -361,12 +375,13 @@ export class SetallpolicyComponent implements OnInit {
   Setreduce_List: SetReduceModel[] = [];
   selectedTRpolReduce: ReducesModel = new ReducesModel();
 
-  async doLoadSetReduceList() {
-    try {
-      const tmp = new SetReduceModel();
-      const res = await this.setreduceService.SetReduce_get(tmp);
-    } catch {
-    }
+ 
+  doLoadSetReduceList() {
+    var tmp = new SetReduceModel();
+    tmp.worker_code = this.emp_code;
+     this.setreduceService.SetReduce_get( tmp).then((res) => {
+      this.Setreduce_List = res;
+     });
   }
 
   async SetTRpolReduce() {
@@ -468,18 +483,6 @@ export class SetallpolicyComponent implements OnInit {
   //     this.loading = false;
   //   }
   // }
-
-
-
-
-
-
-
-
-
-
- 
-
 
   Deletbonus(data: SetBonusModel) {
     if (this.policybonusselect) {

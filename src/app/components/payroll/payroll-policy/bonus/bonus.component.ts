@@ -122,8 +122,8 @@ export class BonusComponent implements OnInit {
 
             this.title_Item = 'รหัสเงินได้';
             this.title_Workage = 'อัตราตามอายุงาน';
-            this.title_Rate = 'อัตรา';
-            this.title_From = 'จาก';
+            this.title_Rate = 'อัตรา (บาท)';
+            this.title_From = 'จาก (ปี)';
             this.title_no = 'อันดับ';
 
             this.title_edit = 'แก้ไข';
@@ -142,9 +142,9 @@ export class BonusComponent implements OnInit {
             this.title_upload = 'อัพโหลด';
 
             this.title_page_from = 'แสดง';
-            this.title_page_to = 'ถึง';
+            this.title_page_to = 'ถึง (ปี)';
             this.title_page_total = 'จาก';
-            this.title_page_record = 'รายการ';
+            this.title_page_record = 'รายการ  ';
 
             this.title_confirm = 'ยืนยันการทำรายการ';
             this.title_confirm_record = 'คุณต้องการบันทึกการทำรายการ';

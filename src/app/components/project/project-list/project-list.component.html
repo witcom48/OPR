@@ -108,9 +108,9 @@
 
             <div class="field col-12">
                 <button *ngIf="new_data" pButton label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
-                    (onClick)="confirmRecord()"></button>
+                    (click)="confirmRecord()"></button>
                 <button *ngIf="edit_data" pButton label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
-                    (onClick)="confirmRecord()" [disabled]="!this.accessData.accessdata_edit"></button>
+                    (click)="confirmRecord()" [disabled]="!this.accessData.accessdata_edit"></button>
                 &nbsp;
                 <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
                     (click)="selectProject()" class="p-button-secondary"></button>
