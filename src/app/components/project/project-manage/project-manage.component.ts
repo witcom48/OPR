@@ -1267,6 +1267,7 @@ export class ProjectManageComponent implements OnInit {
     tmp.round_group = this.rounds_type = "Time";
     this.roundsService.rounds_get(tmp).then((res) => {
       this.time_list = res;
+      console.log(res,'Time')
     });
 
     tmp.round_group = this.rounds_type = "Currency";
@@ -1314,6 +1315,7 @@ export class ProjectManageComponent implements OnInit {
 
         this.projectService.project_record(this.selectedProject).then((res) => {
           let result = JSON.parse(res);
+          console.log(res,'rrr')
           if (result.success) {
 
             //-- Transaction

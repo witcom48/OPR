@@ -73,8 +73,10 @@
 
                     </td>
                 </tr>
+
             </ng-template>
         </p-table>
+
     </div>
     <!-- -----------------------END Table-------------------------- -->
 
@@ -100,8 +102,7 @@
                 <label>{{title_detail_en}}<span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="selectedMTItem.item_name_en" pInputTextarea [autoResize]="true" required
                     name="item_name_en" #item_name_en="ngModel"></textarea>
-
-
+                <br>
                 <div class="radiorole">
                     <div class="radioroledata">
                         <!-- ประเภท -->
@@ -118,15 +119,16 @@
                         </div>
 
                         <!-- รูปแบบ -->
+                        <br>
                         <label>{{title_regular}}</label>
 
                         <div>
                             <input type="radio" name="regular" value="1" [(ngModel)]="selectedMTItem.item_regular">
-                            <label>Fix</label>
+                            <label>{{title_Fix[initial_current.Language]}}</label>
                         </div>
                         <div>
                             <input type="radio" name="regular" value="2" [(ngModel)]="selectedMTItem.item_regular">
-                            <label>Var</label>
+                            <label>{{title_Var[initial_current.Language]}}</label>
                         </div>
 
 
@@ -160,8 +162,12 @@
                         <label>{{title_Allowance}}</label>
                     </div>
 
-
+                    <br>
                     <div class="inputincheckbox">
+
+                        <!-- รูปแบบ -->
+                        <!-- <label>อัตราภาษีหัก ณ ที่จ่าย </label> -->
+
                         <div class="inputcheckbox">
                             <input type="checkbox" value="N" [(ngModel)]="selectedMTItem.item_contax" name="item_contax"
                                 #item_contax="ngModel">
@@ -175,14 +181,15 @@
                                     #contax="ngModel">
                                 </p-inputNumber> -->
 
-                                <p-inputNumber [(ngModel)]="selectedMTItem.item_rate"  [minFractionDigits]="2" [max]="100" [min]="0" [step]="0.5"
-                                    [useGrouping]="false" [disabled]="!selectedMTItem.item_contax" name="contax"
+                                <p-inputNumber [(ngModel)]="selectedMTItem.item_rate" [minFractionDigits]="2"
+                                    [max]="100" [min]="0" [step]="0.5" [useGrouping]="false"
+                                    [disabled]="!selectedMTItem.item_contax" name="contax"
                                     #contax="ngModel"></p-inputNumber>
                             </div>
 
                         </div>
                     </div>
-
+                    <br>
                     <!-- มาตรา -->
                     <label>{{title_Section}}</label>
 
@@ -199,12 +206,6 @@
 
                     <div>
                         <input type="radio" name="item" value="3" [(ngModel)]="selectedMTItem.item_section"
-                            name="item_section" #item_section="ngModel">
-                        <label>40(3)</label>
-                    </div>
-
-                    <div>
-                        <input type="radio" name="item" value="4" [(ngModel)]="selectedMTItem.item_section"
                             name="item_section" #item_section="ngModel">
                         <label>40(1)(2)</label>
                     </div>
@@ -234,6 +235,7 @@
                         [disabled]="!this.accessData.accessdata_delete"></button>
                 </div>
             </div>
+
         </p-dialog>
 
         <div *ngIf="displayManage" style="z-index: 1084;"

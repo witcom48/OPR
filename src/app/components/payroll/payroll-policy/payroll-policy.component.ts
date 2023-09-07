@@ -102,35 +102,35 @@ export class PayrollPolicyComponent implements OnInit {
                 title: this.title_IncomeDeduct,
                 link: 'items',
                 accessCode: 'PAY001-002'
-            },
-            {
-                title: this.title_Income_educt_Plan[this.initial_current.Language] ,
-                link: 'itemsplan',
-                accessCode: 'PAY001-003'
+            // },
+            // {
+            //     title: this.title_Income_educt_Plan[this.initial_current.Language] ,
+            //     link: 'itemsplan',
+            //     accessCode: 'PAY001-003'
             },
             {
                 title: this.title_Provident_Fund,
                 link: 'pay-provident',
-                accessCode: 'PAY001-004'
+                accessCode: 'PAY001-003'
             },
             {
                 title: this.title_Bonus,
                 link: 'pay-bonus',
-                accessCode: 'PAY001-005'
+                accessCode: 'PAY001-004'
             },
             
             {
                 title: this.title_Personal_Income_Tax[this.initial_current.Language],
                 link: 'personalincometax',
-                accessCode: 'PAY001-006'
+                accessCode: 'PAY001-005'
             },
              
-            {
-                title: this.title_reduceplan[this.initial_current.Language] ,
-                link: 'planreduce',
-                accessCode: 'PAY001-007'
-            }
-            ,
+            // {
+            //     title: this.title_reduceplan[this.initial_current.Language] ,
+            //     link: 'planreduce',
+            //     accessCode: 'PAY001-007'
+            // }
+            // ,
             
            
             // ... other setup menu items ...
@@ -145,7 +145,7 @@ export class PayrollPolicyComponent implements OnInit {
             {
                 title: this.title_SetBatch[this.initial_current.Language] ,
                 link: 'setallpolicy',
-                accessCode: 'PAY001-008'
+                accessCode: 'PAY001-006'
             },
             
             // {

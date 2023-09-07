@@ -1448,18 +1448,23 @@
                         </div>
 
                         <!-- // -->
+                        <!-- <div class="field col-6" *ngIf="tmp.worker_code">
+                            <label for="lastname2">{{ title_bonus[initial_current.Language] }}:</label><br>
+                            <div *ngFor="let worker of SetBonus_List">
+                                <input placeholder="--" pInputText type="text" [value]="worker.bonus_name" readonly />
+                            </div>
+                        </div> -->
+                        
                         <div class="field col-6">
-                            <label for="lastname2">{{title_bonus[initial_current.Language]}}:</label><br>
-                            <div *ngIf="SetBonus_List && SetBonus_List.length > 0">
+                            <label for="lastname2">{{title_bonus[initial_current.Language]}} :</label><br>
+                            <ng-container *ngIf="tmp.worker_code">
                                 <div *ngFor="let worker of SetBonus_List">
-                                    <input pInputText type="text" [value]="worker.bonus_name" readonly />
+                                    <input placeholder="--" pInputText type="text" [value]="worker.bonus_name" readonly />
                                 </div>
-                            </div>
-                            <div *ngIf="!SetBonus_List || SetBonus_List.length === 0">
-                                <input placeholder="--" pInputText type="text" value="" readonly />
-                            </div>
+                            </ng-container>
                         </div>
                         <!-- // -->
+
 
                         <!-- salary -->
                         <div class="field col-12">

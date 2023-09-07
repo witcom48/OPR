@@ -47,6 +47,8 @@ export class ItemsComponent implements OnInit {
 
     }
     title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+    title_Fix: { [key: string]: string } = { EN: "Fix ", TH: "คงที่" }
+    title_Var: { [key: string]: string } = { EN: "Var ", TH: "ไม่สม่ำเสมอ" }
 
     title_payroll: string = 'Payroll';
     title_policy: string = 'Set Policy';
@@ -115,7 +117,7 @@ export class ItemsComponent implements OnInit {
             this.title_Calsso = 'คำนวณประกันสังคม';
             this.title_Allowance = 'คำนวณเงินได้ค่าเวลา';
 
-            this.title_Contax = 'หัก ณ ที่จ่าย';
+            this.title_Contax = 'อัตราภาษีหัก ณ ที่จ่าย';
             this.title_Section = 'มาตรา';
             this.title_Rate = 'อัตรา';
             this.title_Account = 'รหัสบัญชี';

@@ -134,8 +134,8 @@ export class CalculationperiodComponent implements OnInit {
       this.title_new = 'เพิ่ม';
       this.title_type = 'ประเภท';
 
-      this.title_monthly = 'เดือน';
-      this.title_daily = 'วัน';
+      this.title_monthly = 'รายเดือน';
+      this.title_daily = 'รายวัน';
       this.title_date = 'วันที่จ่าย';
       this.title_payment = 'วันที่ชำระเงิน'
       this.title_fromdate = 'จากวันที่'
