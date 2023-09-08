@@ -80,9 +80,9 @@
                 <!-- <i (click)="close()"></i> -->
 
                 <label>{{title_code}}<span style="color: red;"> *</span></label>
-                <input pInputText type="text" [(ngModel)]="selectedHospital.hospital_code" maxlength="5"
+                <input pInputText type="text" [(ngModel)]="selectedHospital.hospital_code" maxlength="10"
                     [disabled]="edit_data" name="code" #code="ngModel" required />
-                <p>{{selectedHospital.hospital_code.length}}/5</p>
+                <p>{{selectedHospital.hospital_code.length}}/10</p>
 
                 <label>{{title_name_th}}<span style="color: red;"> *</span></label>
                 <textarea [(ngModel)]="selectedHospital.hospital_name_th" pInputTextarea [autoResize]="true"
