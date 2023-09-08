@@ -220,7 +220,7 @@ export class SystemCompanyComponent implements OnInit {
     }
 
     doLoadCompany() {
-        this.companyService.company_get('').then((res) => {
+        this.companyService.company_get(this.initial_current.CompCode).then((res) => {
             this.company_list = res;
         });
     }

@@ -205,7 +205,7 @@ export class BranchComponent implements OnInit {
         ];
     }
     doLoadCombranch() {
-        this.combranchService.combranch_get('').then((res) => {
+        this.combranchService.combranch_get(this.initial_current.CompCode).then((res) => {
             this.combranch_list = res;
         });
     }

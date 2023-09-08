@@ -143,6 +143,7 @@ export class EmployeeService {
     const data = {
       worker_id: model.worker_id,
       worker_code: model.worker_code,
+      company_code: model.company_code || this.initial_current.CompCode,
       modified_by: this.initial_current.Username
     };
 

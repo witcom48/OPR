@@ -543,15 +543,30 @@ export class ProjectManageComponent implements OnInit {
         icon: 'pi pi-fw pi-file-export',
       }
       ,
+      //
+      
+      //
       {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProcontact != null) {
-            this.procontact_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProcontact != null) {
+                this.procontact_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
     ];
 
     this.menu_procontract = [
@@ -594,11 +609,25 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProcontract != null) {
-            this.procontract_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProcontract != null) {
+                this.procontract_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+
+          
     ];
 
     this.menu_proresponsible = [
@@ -641,11 +670,25 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProresponsible != null) {
-            this.proresponsible_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProresponsible != null) {
+                this.proresponsible_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+
+          
     ];
 
     this.menu_protimepol = [
@@ -688,11 +731,25 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProtimepol != null) {
-            this.protimepol_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProtimepol != null) {
+                this.protimepol_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+
+           
     ];
 
     this.menu_projobmain = [
@@ -758,11 +815,24 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobmain != null) {
-            this.projobmain_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobmain != null) {
+                this.projobmain_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+          
     ];
 
     this.menu_projobcontract = [
@@ -806,11 +876,24 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobcontract != null) {
-            this.projobcontract_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobcontract != null) {
+                this.projobcontract_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+           
     ];
 
     this.menu_projobcost = [
@@ -855,11 +938,24 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobcost != null) {
-            this.projobcost_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobcost != null) {
+                this.projobcost_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+      
     ];
 
     this.menu_projobmachine = [
@@ -904,11 +1000,24 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobmachine != null) {
-            this.projobmachine_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobmachine != null) {
+                this.projobmachine_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+       
     ];
 
     this.menu_projobpol = [
@@ -953,11 +1062,25 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobpol != null) {
-            this.projobpol_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobpol != null) {
+                this.projobpol_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+       
+        
     ];
 
     this.menu_projobshift = [
@@ -1001,11 +1124,24 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobmachine != null) {
-            this.projobshift_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobmachine != null) {
+                this.projobshift_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+      
     ];
 
     this.menu_projobsub = [
@@ -1056,11 +1192,24 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobsub != null) {
-            this.projobsub_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobsub != null) {
+                this.projobsub_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+       
     ];
 
     this.menu_projobsubcontract = [
@@ -1104,11 +1253,24 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobsubcontract != null) {
-            this.projobsubcontract_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobsubcontract != null) {
+                this.projobsubcontract_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+      
     ];
 
     this.menu_projobsubcost = [
@@ -1153,11 +1315,24 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobsubcost != null) {
-            this.projobsubcost_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobsubcost != null) {
+                this.projobsubcost_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+ 
     ];
 
     this.menu_projobemp = [
@@ -1203,11 +1378,24 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          if (this.selectedProjobemp != null) {
-            this.projobemp_remove()
-          }
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+             icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProjobemp != null) {
+                this.projobemp_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
         }
-      }
+      },
+ 
     ];
 
 

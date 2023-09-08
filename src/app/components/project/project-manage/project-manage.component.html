@@ -36,14 +36,14 @@
 </p-dialog>
 
 <p-dialog header="" [(visible)]="displayManage" styleClass="dialog-overflow" [style]="{width: '35vw'}"
-    [position]="position" [closable]="false">
+    [position]="position"  >
     <p-scrollPanel [style]="{width: '30vw', height: '650px'}">
 
         <div class="formgrid grid" *ngIf="edit_procontact==true || new_procontact==true">
             <h3>{{title_contact[initial_current.Language]}}</h3>
             <div class="field col-12">
                 <label for="procost_type">{{title_contact_initial[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="initial_list" optionValue="initial_code"
+                <p-dropdown placeholder="--"  [options]="initial_list" optionValue="initial_code"
                     [(ngModel)]="selectedProcontact.initial_code" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -77,7 +77,7 @@
             </div>
             <div class="field col-12">
                 <label for="procost_type">{{title_contact_position[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="position_list" optionValue="position_code"
+                <p-dropdown placeholder="--"  [options]="position_list" optionValue="position_code"
                     [(ngModel)]="selectedProcontact.position_code" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -101,12 +101,13 @@
             <div class="field col-12">
                 <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
                     (click)="procontact_summit()"></p-button>
-                &nbsp;
+                <!-- &nbsp;
                 <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
-                    class="p-button-outlined p-button-secondary" (click)="procontact_cancel()"></button>
+                    class="p-button-outlined p-button-secondary" (click)="procontact_cancel()"></button> -->
             </div>
         </div>
-
+        
+        <!-- contact -->
         <div class="formgrid grid" *ngIf="edit_procontract==true || new_procontract==true">
             <h3>{{title_contact[initial_current.Language]}}</h3>
             <div class="field col-12 ">
@@ -246,7 +247,7 @@
             <h3>{{title_cost[initial_current.Language]}}</h3>
             <div class="field col-12">
                 <label for="selectedProjobcost_cost">{{title_cost[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="polcost_list" optionValue="procost_code"
+                <p-dropdown placeholder="--"  [options]="polcost_list" optionValue="procost_code"
                     [(ngModel)]="selectedProjobcost.projobcost_code" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -344,7 +345,7 @@
             <h3>{{title_cost[initial_current.Language]}}</h3>
             <div class="field col-12">
                 <label for="selectedProjobcost_cost">{{title_cost[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="polcost_list" optionValue="procost_code"
+                <p-dropdown placeholder="--"  [options]="polcost_list" optionValue="procost_code"
                     [(ngModel)]="selectedProjobsubcost.projobcost_code" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -388,7 +389,7 @@
 
             <div class="field col-12">
                 <label for="selectedProjobcost_cost">{{title_staff_jobname[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="projobmain_list" optionValue="projobmain_code"
+                <p-dropdown placeholder="--"  [options]="projobmain_list" optionValue="projobmain_code"
                     [(ngModel)]="selectedProjobemp.projob_code" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -437,7 +438,7 @@
             <h3>{{title_shift[initial_current.Language]}}</h3>
             <div class="field col-12">
                 <label for="selectedProjobshift_shift">{{title_shift[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="polshift_list" optionValue="shift_code"
+                <p-dropdown placeholder="--"  [options]="polshift_list" optionValue="shift_code"
                     [(ngModel)]="selectedProjobshift.shift_code" [showClear]="false"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -552,7 +553,7 @@
             <label for="version">{{title_policy[initial_current.Language]}}</label>
             <div class="field col-12">
                 <label for="projobpol_type">{{title_jobmain_type[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="projobtype_list" optionValue="value"
+                <p-dropdown placeholder="--"  [options]="projobtype_list" optionValue="value"
                     [(ngModel)]="selectedProjobpol.projobpol_type" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -566,7 +567,7 @@
 
             <div class="field col-12">
                 <label for="projobpol_timepol">{{title_jobmain_poltime[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="poltimepol_list" optionValue="protimepol_code"
+                <p-dropdown placeholder="--"  [options]="poltimepol_list" optionValue="protimepol_code"
                     [(ngModel)]="selectedProjobpol.projobpol_timepol" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -579,7 +580,7 @@
             </div>
             <div class="field col-12">
                 <label for="projobpol_slip">{{title_jobmain_polslip[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="polslip_list" optionValue="proslip_code"
+                <p-dropdown placeholder="--"  [options]="polslip_list" optionValue="proslip_code"
                     [(ngModel)]="selectedProjobpol.projobpol_slip" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -592,7 +593,7 @@
             </div>
             <div class="field col-12">
                 <label for="projobpol_uniform">{{title_jobmain_poluniform[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="poluniform_list" optionValue="prouniform_code"
+                <p-dropdown placeholder="--"  [options]="poluniform_list" optionValue="prouniform_code"
                     [(ngModel)]="selectedProjobpol.projobpol_uniform" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -631,31 +632,31 @@
             </div>
             <div class="field col-12">
                 <label for="selectedProtimepol_ot">{{title_timepol_ot[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="polot_list" optionValue="code" optionLabel="name"
+                <p-dropdown placeholder="--"  [options]="polot_list" optionValue="code" optionLabel="name"
                     [(ngModel)]="this.selectedProtimepol.protimepol_ot" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
             <div class="field col-12">
                 <label for="selectedProtimepol_allw">{{title_timepol_allw[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="polallw_list" optionValue="code" optionLabel="name"
+                <p-dropdown placeholder="--"  [options]="polallw_list" optionValue="code" optionLabel="name"
                     [(ngModel)]="this.selectedProtimepol.protimepol_allw" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
             <div class="field col-12">
                 <label for="selectedProtimepol_dg">{{title_timepol_dg[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="poldg_list" optionValue="code" optionLabel="name"
+                <p-dropdown placeholder="--"  [options]="poldg_list" optionValue="code" optionLabel="name"
                     [(ngModel)]="this.selectedProtimepol.protimepol_dg" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
             <div class="field col-12">
                 <label for="selectedProtimepol_lv">{{title_timepol_lv[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="pollv_list" optionValue="code" optionLabel="name"
+                <p-dropdown placeholder="--"  [options]="pollv_list" optionValue="code" optionLabel="name"
                     [(ngModel)]="this.selectedProtimepol.protimepol_lv" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
             <div class="field col-12">
                 <label for="selectedProtimepol_lt">{{title_timepol_lt[initial_current.Language]}}</label><br>
-                <p-dropdown [options]="pollt_list" optionValue="code" optionLabel="name"
+                <p-dropdown placeholder="--"  [options]="pollt_list" optionValue="code" optionLabel="name"
                     [(ngModel)]="this.selectedProtimepol.protimepol_lt" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
             </div>
@@ -905,7 +906,7 @@
                             <div class="field col-6">
                                 <label for="lastname2">{{title_address_province[initial_current.Language]}}
                                     :</label><br>
-                                <p-dropdown placeholder="Select a Type" optionLabel="name" [showClear]="true"
+                                <p-dropdown placeholder="--"  placeholder="Select a Type" optionLabel="name" [showClear]="true"
                                     [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                             </div>
                             <div class="field col-6">
@@ -1142,7 +1143,7 @@
         <div class="formgrid grid align-items-end">
             <div class="col-12 md:col-3">
                 <label>Version</label><br>
-                <p-dropdown [options]="projobversion_list" optionLabel="version" [(ngModel)]="selectedProjobversion"
+                <p-dropdown placeholder="--"  [options]="projobversion_list" optionLabel="version" [(ngModel)]="selectedProjobversion"
                     [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
                     (onChange)="onSelectProjobversion($event)"></p-dropdown>
             </div>

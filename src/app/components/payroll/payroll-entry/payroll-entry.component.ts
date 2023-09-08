@@ -444,8 +444,6 @@ export class PayrollEntryComponent implements OnInit {
         this.new_data = false;
         this.edit_data = false;
         this.displayManage = false;
-
-
     }
 
     doSummaryByEmp() {
@@ -465,7 +463,7 @@ export class PayrollEntryComponent implements OnInit {
             }
         }
         this.byemp_netpay = this.byemp_income - this.byemp_deduct;
-        this.byemp_netpay = Math.abs(this.byemp_netpay);
+        // this.byemp_netpay = Math.abs(this.byemp_netpay);
     }
     async doDeletePayitem(data: PayitemModel) {
         try {
