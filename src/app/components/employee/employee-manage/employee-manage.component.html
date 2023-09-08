@@ -2079,9 +2079,15 @@
             <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level02"> -->
 
             <label>{{title_lv3}}</label>
-            <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+            <p-dropdown placeholder="--" [options]="deplevel2List" optionValue="dep_code" [showClear]="true"
                 [(ngModel)]="selectedEmpdep.empdep_level03" [style]="{ width: '100%', overflow: 'visible' }"
-                name="dep_lv3" #dep_lv3="ngModel"></p-dropdown>
+                name="dep_lv3" #dep_lv3="ngModel">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                </ng-template></p-dropdown>
             <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level03"> -->
 
             <label>{{title_reason}}</label>
@@ -2092,8 +2098,8 @@
 
             <br>
             <div class="field col-12" style=" text-align: right;">
-                <p-button label="{{title_summit}}"
-                    (click)="empdep_summit()" [disabled]="!DepForm.form.valid"></p-button>
+                <p-button label="{{title_summit}}" (click)="empdep_summit()"
+                    [disabled]="!DepForm.form.valid"></p-button>
                 &nbsp;
                 <!-- <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
                 (click)="empdep_summit()"></button>
