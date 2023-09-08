@@ -137,6 +137,7 @@ export class InitialComponent implements OnInit {
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           if (this.accessData.accessdata_new) {
+            this.showManage();
             this.selectedInitial = new InitialModel();
             this.new_data = true;
             this.edit_data = false;
@@ -253,6 +254,7 @@ export class InitialComponent implements OnInit {
   onRowSelectInitial(event: any) {
     this.edit_data = true;
     this.new_data = true;
+    this.displayManage = true
   }
 
   fileToUpload: File | any = null;

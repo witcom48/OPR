@@ -75,7 +75,7 @@
                 <div class="field col-12" style="display:flex;flex-direction: column;">
                     <label>{{title_code}}<span style="color: red;"> *</span></label>
                     <input pInputText type="text" [(ngModel)]="selectedDep.dep_code" maxlength="5" name="code"
-                        #code="ngModel" required />
+                        #code="ngModel" required [readOnly]="edit_data" />
                     <p>{{selectedDep.dep_code.length}}/5</p>
                 </div>
 
@@ -83,7 +83,7 @@
                     <label>{{title_level}}<span style="color: red;"> *</span></label>
                     <p-dropdown class="selecttype" placeholder="--" [options]="levelList" optionValue="level_code"
                         [showClear]="true" [(ngModel)]="selectedDep.dep_level" name="dep_level" #dep_level="ngModel"
-                        [required]="true">
+                        [required]="true" [readonly]="edit_data">
                         <ng-template let-item pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
                         </ng-template>
