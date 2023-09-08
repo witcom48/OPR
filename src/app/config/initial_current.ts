@@ -25,7 +25,7 @@ export class InitialCurrent {
   PR_Year: string = new Date().getFullYear().toString();
   PR_Period: string = "01";
   PR_Enable: boolean = true;
-
+  showloding: boolean = false;
   Token: string = "";
 
   PolMenu: PolmenuModel = new PolmenuModel();
