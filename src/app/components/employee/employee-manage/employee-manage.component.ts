@@ -104,6 +104,7 @@ import { EthnicityModel } from 'src/app/models/system/policy/ethnicity';
 import { EthnicityService } from 'src/app/services/system/policy/ethnicity.service';
 import { BlacklistService } from 'src/app/services/recruitment/blacklist.service';
 import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
+import { EmpExperienceModel } from 'src/app/models/employee/manage/experience';
 
 
 
@@ -272,6 +273,10 @@ export class EmployeeManageComponent implements OnInit {
   menu_emptranfer: MenuItem[] = [];
   edit_emptranfer: boolean = false;
   new_tranfer: boolean = false;
+  //menu empexperience
+  menu_empexperience: MenuItem[] = [];
+  edit_empexperience: boolean = false;
+  new_experience: boolean = false;
 
 
   displayManage: boolean = false;
@@ -650,6 +655,14 @@ export class EmployeeManageComponent implements OnInit {
   title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
   title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
+
+  title_experience: { [key: string]: string } = { EN: "Experience", TH: "ประสบการณ์ทำงาน" };
+  title_expcom: { [key: string]: string } = { EN: "Company", TH: "บริษัท" };
+  title_expposition: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" };
+  title_expsalary: { [key: string]: string } = { EN: "Salary", TH: "เงินเดือน" };
+  title_expstart: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
+  title_expend: { [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
+  title_expdes: { [key: string]: string } = { EN: "Description", TH: "เหตุผลที่เปลี่ยนงาน" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -2075,6 +2088,61 @@ export class EmployeeManageComponent implements OnInit {
         }
       },
     ]
+
+    //menu experience
+    // this.menu_empexperience = [
+    //   {
+    //     label: this.title_new,
+    //     icon: 'pi pi-fw pi-plus',
+    //     command: (event) => {
+    //       this.clearManage()
+    //       this.new_experience = true
+    //       var ref = this.empexperienceList.length + 100
+    //       this.selectedEmpExperience = new EmpExperienceModel()
+    //       this.selectedEmpExperience.emplocation_id = ref.toString()
+    //       this.showManage()
+    //     }
+    //   },
+    //   {
+    //     label: this.title_edit,
+    //     icon: 'pi pi-fw pi-pencil',
+    //     command: (event) => {
+    //       this.clearManage()
+    //       if (this.selectedEmpLocation != null) {
+    //         this.edit_emplocation = true
+    //         this.showManage()
+    //       }
+    //     }
+    //   },
+    //   {
+    //     label: this.title_delete,
+    //     icon: 'pi pi-fw pi-trash',
+    //     command: (event) => {
+    //       this.confirmationService.confirm({
+    //         message: this.title_confirm_delete,
+    //         header: this.title_confirm,
+    //         icon: 'pi pi-exclamation-triangle',
+    //         accept: () => {
+    //           if (this.selectedEmpLocation != null) {
+    //             this.emplocation_remove()
+    //           }
+    //         },
+    //         reject: () => {
+    //           this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+    //         },
+    //         key: "myDialog"
+    //       });
+
+    //     }
+    //   },
+    //   {
+    //     label: this.title_export,
+    //     icon: 'pi pi-fw pi-file-export',
+    //     command: (event) => {
+    //       this.exportAsExcel(this.dtemplocation, 'EmpLocation')
+
+    //     }
+    //   }];
 
   }
 
@@ -4832,6 +4900,7 @@ export class EmployeeManageComponent implements OnInit {
   @ViewChild('tableprovident') dtempprovident: ElementRef | any = null;
   @ViewChild('tablereduce') dtempreduce: ElementRef | any = null;
   @ViewChild('tableforeigner') dtempforeigner: ElementRef | any = null;
+  @ViewChild('tableexperience') dtempemperience: ElementRef | any = null;
 
 
   exportAsExcel(table: ElementRef, name: string) {
