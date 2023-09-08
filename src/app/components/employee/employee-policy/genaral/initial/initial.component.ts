@@ -207,6 +207,9 @@ export class InitialComponent implements OnInit {
       if (result.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
         this.doLoadInitial()
+        this.edit_data = false;
+        this.new_data = false;
+        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -239,6 +242,7 @@ export class InitialComponent implements OnInit {
         this.doLoadInitial();
         this.edit_data = false;
         this.new_data = false;
+        this.displayManage = false
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
