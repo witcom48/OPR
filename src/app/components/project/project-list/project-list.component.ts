@@ -291,7 +291,28 @@ export class ProjectListComponent implements OnInit {
 
 
   }
-
+  deleteProject(project: ProjectModel) {
+    this.projectService.project_delete(project).then((res) => {
+      if (res.success) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: res.message,
+        });
+        // กรณีลบสำเร็จ ทำอย่างอื่นที่คุณต้องการทำ
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: res.message,
+        });
+        // กรณีเกิดข้อผิดพลาดในการลบ
+      }
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+      }
+    });
+  }
   confirmRecord() {
     this.confirmationService.confirm({
       message: this.title_confirm_record[this.initial_current.Language],
@@ -307,8 +328,9 @@ export class ProjectListComponent implements OnInit {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
             this.doLoadProject()
 
-            this.displayManage = false
-          }
+            this.new_data = false;
+            this.edit_data = false;
+            this.displayManage = false;          }
           else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
           }
@@ -319,7 +341,10 @@ export class ProjectListComponent implements OnInit {
       }
     });
   }
+ 
 
+  
+  
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete[this.initial_current.Language],
@@ -331,7 +356,9 @@ export class ProjectListComponent implements OnInit {
           if (result.success) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
             this.doLoadProject()
-
+            this.new_data = false;
+            this.edit_data = false;
+            this.displayManage = false;
           }
           else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });

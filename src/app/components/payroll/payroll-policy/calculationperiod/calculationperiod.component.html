@@ -111,7 +111,7 @@
 
                 <label>{{title_no}}<span style="color: red;"> *</span></label>
                 <input pInputText type="text" [(ngModel)]="selectedPeriods.period_no" maxlength="2" name="code"
-                    #code="ngModel" disabled="{{edit_data}}" />
+                    #code="ngModel" disabled="{{edit_data}}" required />
                 <p>{{selectedPeriods.period_no.length}}/2</p>
 
                 <label>{{title_detail_th}}<span style="color: red;"> *</span></label>
