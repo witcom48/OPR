@@ -52,7 +52,7 @@
     </ng-template>
 </p-dialog>
 <div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
-    (click)="close_manage()"></div>
+     ></div>
 
 <p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage" styleClass="dialog-overflow"
     [style]="{width: '30vw'}" [position]="position">
@@ -114,9 +114,15 @@
                 &nbsp;
                 <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
                     (click)="selectProject()" class="p-button-secondary"></button>
+                <!-- &nbsp; -->
+                <!-- <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="close_manage()"></button> -->
+
+
                 &nbsp;
-                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
-                    class="p-button-outlined p-button-secondary" (click)="close_manage()"></button>
+                <button *ngIf="edit_data" pButton type="button" label="{{title_delete[initial_current.Language]}}"
+                    icon="pi pi-trash" class="p-button-secondary button-size btndel" (click)="confirmDelete( )"
+                    [disabled]="!this.accessData.accessdata_delete"></button>
             </div>
 
 
@@ -185,6 +191,10 @@
 
                     <td>{{project.modified_by}}</td>
                     <td>{{project.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <!-- <button pButton type="button" class="pi pi-trash gray-button"
+                        [disabled]="!accessData.accessdata_delete" (click)="confirmDeletes(project)">
+                    </button> -->
+
                     <td class="text-center">
                         <i class="pi pi-search" style="font-size: 1rem" (click)="selectionProject(project)"></i>
                     </td>
