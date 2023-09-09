@@ -56,7 +56,6 @@ export class VerifyComponent implements OnInit {
   account_list: AccountModel = new AccountModel();
   selectaccount: TRAccountModel = new TRAccountModel();
   initail_current: InitialCurrent = new InitialCurrent();
-  initail_current2: InitialCurrent = new InitialCurrent();
   ngOnInit(): void {
     this.doLoadLocation();
   }
@@ -95,11 +94,8 @@ export class VerifyComponent implements OnInit {
     });
   }
   doLoadLocation() {
-    console.log("aaaaaaaaaaa")
-    this.initail_current2.setLoading(true);
     this.company_list = [];
     this.companyService.company_get("").then(async (res) => {
-      this.initail_current2.setLoading(false);
       res.forEach((obj: CompanyModel) => {
         obj.company_name_en = obj.company_code + " " + obj.company_name_en
         obj.company_name_th = obj.company_code + " " + obj.company_name_th

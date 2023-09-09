@@ -174,7 +174,7 @@ export class AppMenuComponent implements OnInit {
 
         if (moduleMenuConfig[initialSessionData.Usertype]) {
             this.menuItems[0].items = [moduleMenuConfig[initialSessionData.Usertype]];
-            // this.initialData.setLoading(false);
+            this.initialData.setLoading(false);
         }
 
         if (initialSessionData.PolMenu_Code) {
