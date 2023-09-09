@@ -62,7 +62,7 @@ export class CombranchService {
             device_name: '',
             ip: 'localhost',
             username: this.initial_current.Username,
-            company_code:code ,
+            company_code: this.initial_current.CompCode,
             combranch_code: '',
             combranch_id: '',
             language: '',
