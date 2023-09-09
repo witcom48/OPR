@@ -188,7 +188,9 @@ export class SystemQualificationComponent implements OnInit {
     this.doLoadQualification()
   }
   doLoadQualification() {
-    this.qualificationService.qualification_get().then((res) => {
+    var tmp = new QualificationModel();
+
+    this.qualificationService.qualification_get(tmp).then((res) => {
       this.qualification_list = res;
     });
   }

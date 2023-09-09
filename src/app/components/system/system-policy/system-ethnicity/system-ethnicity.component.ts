@@ -184,7 +184,9 @@ export class SystemEthnicityComponent implements OnInit {
     this.doLoadEthnicity()
   }
   doLoadEthnicity() {
-    this.ethnicityService.ethnicity_get().then((res) => {
+    var tmp = new EthnicityModel();
+
+    this.ethnicityService.ethnicity_get(tmp).then((res) => {
       this.ethnicity_list = res;
     });
   }

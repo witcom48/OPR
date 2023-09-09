@@ -182,7 +182,9 @@ export class SystemMajorComponent implements OnInit {
   }
 
   doLoadMajor() {
-    this.majorService.major_get().then((res) => {
+    var tmp = new MajorModel();
+
+    this.majorService.major_get(tmp).then((res) => {
       this.Major_list = res;
     });
   }

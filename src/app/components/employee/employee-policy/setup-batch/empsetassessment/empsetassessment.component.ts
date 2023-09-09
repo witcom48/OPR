@@ -102,7 +102,9 @@ export class EmpsetassessmentComponent implements OnInit {
   //Institite
   instituteList: InstituteModel[] = [];
   doLoadinstituteList() {
-    this.instituteService.institute_get().then((res) => {
+    var tmp = new InstituteModel();
+
+    this.instituteService.institute_get(tmp).then((res) => {
       this.instituteList = res;
     });
   }

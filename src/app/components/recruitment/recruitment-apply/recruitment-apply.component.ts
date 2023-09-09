@@ -1671,21 +1671,27 @@ export class RecruitmentApplyComponent implements OnInit {
     // ศาสนา
     religionList: ReligionModel[] = [];
     doLoadReligionList() {
-        this.religionService.religion_get().then((res) => {
+        var tmp = new ReligionModel();
+
+        this.religionService.religion_get(tmp).then((res) => {
             this.religionList = res;
         });
     }
     // กรุ๊ปเลือด
     bloodtypeList: BloodtypeModel[] = [];
     doLoadBloodtypeList() {
-        this.bloodtypeService.bloodtype_get().then((res) => {
+        var tmp = new BloodtypeModel();
+
+        this.bloodtypeService.bloodtype_get(tmp).then((res) => {
             this.bloodtypeList = res;
         });
     }
     // ที่อยู่
     addresstypeList: AddresstypeModel[] = [];
     doLoadaddresstypeList() {
-        this.addresstypeService.addresstype_get().then((res) => {
+        var tmp = new AddresstypeModel();
+
+        this.addresstypeService.addresstype_get(tmp).then((res) => {
             this.addresstypeList = res;
         });
     }
@@ -1693,49 +1699,63 @@ export class RecruitmentApplyComponent implements OnInit {
     // บัตร
     cardtypeList: CardtypeModel[] = [];
     doLoadcardtypeList() {
-        this.cardtypeService.cardtype_get().then((res) => {
+        var tmp = new CardtypeModel();
+
+        this.cardtypeService.cardtype_get(tmp).then((res) => {
             this.cardtypeList = res;
         });
     }
     // จังหวัด
     provinceList: ProvinceModel[] = [];
     doLoadprovinceList() {
-        this.provinceService.province_get().then((res) => {
+        var tmp = new ProvinceModel();
+
+        this.provinceService.province_get(tmp).then((res) => {
             this.provinceList = res;
         });
     }
     // สถานศึกษา/อบรม
     instituteList: InstituteModel[] = [];
     doLoadinstituteList() {
-        this.instituteService.institute_get().then((res) => {
+        var tmp = new InstituteModel();
+
+        this.instituteService.institute_get(tmp).then((res) => {
             this.instituteList = res;
         });
     }
     // course
     courseList: CourseModel[] = [];
     doLoadcourseList() {
-        this.courseService.course_get().then((res) => {
+        var tmp = new CourseModel();
+
+        this.courseService.course_get(tmp).then((res) => {
             this.courseList = res;
         });
     }
     // Faculty
     facultyList: FacultyModel[] = [];
     doLoadfacultyList() {
-        this.facultyService.faculty_get().then((res) => {
+        var tmp = new FacultyModel();
+
+        this.facultyService.faculty_get(tmp).then((res) => {
             this.facultyList = res;
         });
     }
     // Major
     majorList: MajorModel[] = [];
     doLoadmajorList() {
-        this.majorService.major_get().then((res) => {
+        var tmp = new MajorModel();
+
+        this.majorService.major_get(tmp).then((res) => {
             this.majorList = res;
         });
     }
     // วุฒิการศึกษา
     qualificationList: QualificationModel[] = [];
     doLoadqualificationList() {
-        this.qualificationService.qualification_get().then((res) => {
+        var tmp = new QualificationModel();
+
+        this.qualificationService.qualification_get(tmp).then((res) => {
             this.qualificationList = res;
         });
     }
@@ -1782,7 +1802,9 @@ export class RecruitmentApplyComponent implements OnInit {
     //Ethnicity
     ethnicityList: EthnicityModel[] = [];
     doLoadEthnicityList() {
-        this.ethnicityService.ethnicity_get().then((res) => {
+        var tmp = new EthnicityModel();
+
+        this.ethnicityService.ethnicity_get(tmp).then((res) => {
             this.ethnicityList = res;
         })
     }

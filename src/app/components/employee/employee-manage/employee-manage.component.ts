@@ -2458,35 +2458,35 @@ export class EmployeeManageComponent implements OnInit {
   bloodtypeList: BloodtypeModel[] = [];
   doLoadBloodtypeList() {
     var tmp = new BloodtypeModel();
-    this.bloodtypeService.bloodtype_get().then(async (res) => {
+    this.bloodtypeService.bloodtype_get(tmp).then(async (res) => {
       this.bloodtypeList = await res;
     })
   }
   religionList: ReligionModel[] = [];
   doLoadReligionList() {
     var tmp = new ReligionModel();
-    this.religionService.religion_get().then(async (res) => {
+    this.religionService.religion_get(tmp).then(async (res) => {
       this.religionList = await res;
     })
   }
   addresstypeList: AddresstypeModel[] = [];
   doLoadAddresstypeList() {
     var tmp = new AddresstypeModel();
-    this.addresstypeService.addresstype_get().then(async (res) => {
+    this.addresstypeService.addresstype_get(tmp).then(async (res) => {
       this.addresstypeList = await res;
     })
   }
   cardtypeList: CardtypeModel[] = [];
   doLoadCardtypeList() {
     var tmp = new CardtypeModel();
-    this.cardtypeService.cardtype_get().then(async (res) => {
+    this.cardtypeService.cardtype_get(tmp).then(async (res) => {
       this.cardtypeList = await res;
     })
   }
   bankList: BankModel[] = [];
   doLoadBankList() {
     var tmp = new BankModel();
-    this.bankService.bank_get().then(async (res) => {
+    this.bankService.bank_get(tmp).then(async (res) => {
       this.bankList = await res;
     })
   }
@@ -2500,7 +2500,7 @@ export class EmployeeManageComponent implements OnInit {
   hospitalList: HospitalModel[] = [];
   doLoadHospitalList() {
     var tmp = new HospitalModel();
-    this.hospitalService.hospital_get().then(async (res) => {
+    this.hospitalService.hospital_get(tmp).then(async (res) => {
       this.hospitalList = await res;
     })
   }
@@ -2531,49 +2531,63 @@ export class EmployeeManageComponent implements OnInit {
   //Institite
   instituteList: InstituteModel[] = [];
   doLoadinstituteList() {
-    this.instituteService.institute_get().then((res) => {
+    var tmp = new InstituteModel();
+
+    this.instituteService.institute_get(tmp).then((res) => {
       this.instituteList = res;
     });
   }
   // Course
   courseList: CourseModel[] = [];
   doLoadcourseList() {
-    this.courseService.course_get().then((res) => {
+    var tmp = new CourseModel();
+
+    this.courseService.course_get(tmp).then((res) => {
       this.courseList = res;
     });
   }
   // Faculty
   facultyList: FacultyModel[] = [];
   doLoadfacultyList() {
-    this.facultyService.faculty_get().then((res) => {
+    var tmp = new FacultyModel();
+
+    this.facultyService.faculty_get(tmp).then((res) => {
       this.facultyList = res;
     });
   }
   //Major
   majorList: MajorModel[] = [];
   doLoadmajorList() {
-    this.majorService.major_get().then((res) => {
+    var tmp = new MajorModel();
+
+    this.majorService.major_get(tmp).then((res) => {
       this.majorList = res;
     });
   }
   //Qualification
   qualificationList: QualificationModel[] = [];
   doLoadqualificationList() {
-    this.qualificationService.qualification_get().then((res) => {
+    var tmp = new QualificationModel();
+
+    this.qualificationService.qualification_get(tmp).then((res) => {
       this.qualificationList = res;
     });
   }
   //Province
   provinceList: ProvinceModel[] = [];
   doLoadprovinceList() {
-    this.provinceService.province_get().then((res) => {
+    var tmp = new ProvinceModel();
+
+    this.provinceService.province_get(tmp).then((res) => {
       this.provinceList = res;
     })
   }
   //drop supply
   supplyList: SupplyModel[] = [];
   doLoadSupplyList() {
-    this.supplyService.supply_get().then((res) => {
+    var tmp = new SupplyModel();
+
+    this.supplyService.supply_get(tmp).then((res) => {
       this.supplyList = res;
     })
   }
@@ -2612,7 +2626,9 @@ export class EmployeeManageComponent implements OnInit {
   //drop ethnicity
   ethnicityList: EthnicityModel[] = [];
   doLoadethnicityList() {
-    this.ethnicityService.ethnicity_get().then((res) => {
+    var tmp = new EthnicityModel();
+
+    this.ethnicityService.ethnicity_get(tmp).then((res) => {
       this.ethnicityList = res;
     })
   }

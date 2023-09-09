@@ -186,7 +186,9 @@ export class SystemInstituteComponent implements OnInit {
     this.doLoadInstitute()
   }
   doLoadInstitute() {
-    this.instituteService.institute_get().then((res) => {
+    var tmp = new InstituteModel();
+
+    this.instituteService.institute_get(tmp).then((res) => {
       this.institute_list = res;
     });
   }

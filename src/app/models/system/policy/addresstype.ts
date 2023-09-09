@@ -2,6 +2,7 @@ export class AddresstypeModel {
     constructor() {
 
     }
+    company_code: string = "";
 
     addresstype_id: string = "0";
     addresstype_code: string = "";

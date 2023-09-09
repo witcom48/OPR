@@ -188,7 +188,9 @@ export class SystemHospitalComponent implements OnInit {
     this.doLoadHospital()
   }
   doLoadHospital() {
-    this.hospitalService.hospital_get().then((res) => {
+    var tmp = new HospitalModel();
+
+    this.hospitalService.hospital_get(tmp).then((res) => {
       this.hospital_list = res;
     });
   }

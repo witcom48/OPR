@@ -56,21 +56,37 @@ export class FacultyService {
         this.router.navigateByUrl('login');
       }
     }
+    public faculty_get(model:FacultyModel) {
+      let data = {
+         device_name: "phone",
+         ip: "127.0.0.1",
+         username: this.initial_current.Username,
+         company_code:  this.initial_current.CompCode,
+         faculty_id: model.faculty_id,
+         faculty_code: model.faculty_code
+     }
+     return this.http.post<any>(this.config.ApiSystemModule + '/faculty_list', data, this.options).toPromise()
+         .then((res) => {
+             let message = JSON.parse(res);
+             return message.data;
+         });
+  }
+    // public faculty_get(){
+    //   // console.log('FAC001..');
 
-    public faculty_get(){
-      // console.log('FAC001..');
-
-      return this.http.post<any>(this.config.ApiSystemModule + '/faculty_list', this.basicRequest, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        // console.log(res)
-        return message.data;
-      });
-    }
+    //   return this.http.post<any>(this.config.ApiSystemModule + '/faculty_list', this.basicRequest, this.options).toPromise()
+    //   .then((res) => {
+    //     let message = JSON.parse(res);
+    //     // console.log(res)
+    //     return message.data;
+    //   });
+    // }
 
     public faculty_record(model:FacultyModel) {
       // console.log('FAC002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         faculty_id: model.faculty_id,
         faculty_code: model.faculty_code,
         faculty_name_th: model.faculty_name_th,
@@ -89,6 +105,8 @@ export class FacultyService {
     public faculty_delete(model:FacultyModel) {
       // console.log('FAC003..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         faculty_id: model.faculty_id,
         faculty_code: model.faculty_code,
         modified_by: this.initial_current.Username

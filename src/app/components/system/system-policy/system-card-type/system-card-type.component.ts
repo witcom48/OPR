@@ -183,7 +183,9 @@ export class SystemCardTypeComponent implements OnInit {
     this.doLoadCardtype()
   }
   doLoadCardtype() {
-    this.cardtypeService.cardtype_get().then((res) => {
+    var tmp = new CardtypeModel();
+
+    this.cardtypeService.cardtype_get(tmp).then((res) => {
       this.cardtype_list = res;
     });
   }
