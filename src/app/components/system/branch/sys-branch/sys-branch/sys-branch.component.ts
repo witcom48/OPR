@@ -445,11 +445,13 @@ export class SysBranchComponent implements OnInit {
 
     doLoadCombranch() {
         var Combranch_list: CombranchModel[] = [];
-        this.combranchService
-            .combranch_get(this.combranch_code)
+        var tmp = new CombranchModel();
+
+        this.combranchService.combranch_get(this.combranch_code)
+       
             .then(async (res) => {
                 await res.forEach((element: CombranchModel) => { });
-
+                console.log(tmp,'tt')
                 Combranch_list = await res;
                 // console.log(res);
 
