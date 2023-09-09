@@ -185,7 +185,9 @@ export class SystemFacultyComponent implements OnInit {
     this.doLoadFaculty()
   }
   doLoadFaculty() {
-    this.facultyService.faculty_get().then((res) => {
+    var tmp = new FacultyModel();
+
+    this.facultyService.faculty_get(tmp).then((res) => {
       this.faculty_list = res;
     });
   }

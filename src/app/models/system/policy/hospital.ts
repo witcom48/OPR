@@ -2,7 +2,7 @@ export class HospitalModel {
     constructor() {
 
     }
-
+    company_code: string = "";
     hospital_id: string = "0";
     hospital_code: string = "";
     hospital_name_th: string = "";

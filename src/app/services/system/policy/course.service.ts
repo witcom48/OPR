@@ -57,21 +57,37 @@ export class CourseService {
         this.router.navigateByUrl('login');
       }
     }
+    public course_get(model:CourseModel) {
+      let data = {
+         device_name: "phone",
+         ip: "127.0.0.1",
+         username: this.initial_current.Username,
+         company_code:  this.initial_current.CompCode,
+         course_id: model.course_id,
+         course_code: model.course_code
+     }
+     return this.http.post<any>(this.config.ApiSystemModule + '/course_list', data, this.options).toPromise()
+         .then((res) => {
+             let message = JSON.parse(res);
+             return message.data;
+         });
+  }
+    // public course_get(){
+    //   // console.log('COURSE001..');
 
-    public course_get(){
-      // console.log('COURSE001..');
-
-      return this.http.post<any>(this.config.ApiSystemModule + '/course_list', this.basicRequest, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        // console.log(res)
-        return message.data;
-      });
-    }
+    //   return this.http.post<any>(this.config.ApiSystemModule + '/course_list', this.basicRequest, this.options).toPromise()
+    //   .then((res) => {
+    //     let message = JSON.parse(res);
+    //     // console.log(res)
+    //     return message.data;
+    //   });
+    // }
 
     public course_record(model:CourseModel) {
       // console.log('COURSE002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         course_id: model.course_id,
         course_code: model.course_code,
         course_name_th: model.course_name_th,
@@ -90,6 +106,8 @@ export class CourseService {
     public course_delete(model:CourseModel) {
       // console.log('COURSE00..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         course_id: model.course_id,
         course_code: model.course_code,
         modified_by: this.initial_current.Username

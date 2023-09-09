@@ -182,7 +182,9 @@ export class SystemProvinceComponent implements OnInit {
     this.doLoadProvince()
   }
   doLoadProvince() {
-    this.provinceService.province_get().then((res) => {
+    var tmp = new ProvinceModel();
+
+    this.provinceService.province_get(tmp).then((res) => {
       this.province_list = res;
     });
   }
