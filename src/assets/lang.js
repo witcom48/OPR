@@ -74,8 +74,9 @@ var rounddecimal = new Map([
     ["descriptionen", { TH: "รายละเอียด (อังกฤษ)", EN: "Description (Eng)" }],
 
     ["description", { TH: "รายละเอียด", EN: "Description" }],
-
+ 
     ["rounddecimal", { TH: "การปัดเศษ", EN: "Round Decimal" }],
+    ["rounds", { TH: "การปัดเศษ", EN: "Rounds  " }],
 
     ["currency", { TH: "ทศนิยม", EN: "Currency" }],
     ["from", { TH: "จาก", EN: "From" }],
