@@ -1978,6 +1978,7 @@ export class EmpDetailService {
       item_data = item_data + ",\"salary\":\"" + list[i].salary + "\"";
       item_data = item_data + ",\"startdate\":\"" + this.datePipe.transform(list[i].startdate) + "\"";
       item_data = item_data + ",\"enddate\":\"" + this.datePipe.transform(list[i].enddate) + "\"";
+      item_data = item_data + ",\"description\":\"" + list[i].description + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

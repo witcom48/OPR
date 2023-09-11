@@ -9,6 +9,7 @@ export class EmpExperienceModel {
     salary:number = 0;
     startdate!: Date;
     enddate!: Date;
+    description: string = "";
 
     modified_by: string= "";
     modified_date: string= "";

@@ -7,6 +7,7 @@ export class EmpstatusModel {
     status_code: string = "";
     status_name_th: string = "";
     status_name_en: string = "";    
+    company_code : string = "";
     modified_by: string = "";
     modified_date: string = "";
     index: number = 0;
