@@ -24,6 +24,7 @@ export class DiligenceComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  @ViewChild('importFile') importFile: any
   @ViewChild('TABLE') table: ElementRef | any = null;
   itemslike: MenuItem[] = [];
   home: any;
@@ -123,7 +124,10 @@ export class DiligenceComponent implements OnInit {
     this.fileToUpload = file.item(0);
   }
 
-
+  closedupload() {
+    this.importFile.nativeElement.value = null
+    this.fileToUpload = null;
+  }
   doLoadMenu() {
     this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
       label: this.langs.get('diligence')[this.selectlang], styleClass: 'activelike'
@@ -191,6 +195,7 @@ export class DiligenceComponent implements OnInit {
     // console.log(this.diligencestep)
   }
   showUpload() {
+    this.closedupload();
     this.displayUpload = true;
   }
   Uploadfile() {

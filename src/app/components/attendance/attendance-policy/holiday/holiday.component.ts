@@ -31,6 +31,7 @@ export class HolidayComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  @ViewChild('importFile') importFile: any
   @ViewChild('TABLE') table: ElementRef | any = null;
   @ViewChild('TABLELIST') tablelist: ElementRef | any = null;
   itemslike: MenuItem[] = [];
@@ -143,6 +144,10 @@ export class HolidayComponent implements OnInit {
       }
       this.fileToUpload = null;
     });
+  }
+  closedupload() {
+    this.importFile.nativeElement.value = null
+    this.fileToUpload = null;
   }
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
@@ -263,6 +268,7 @@ export class HolidayComponent implements OnInit {
     ]
   }
   showUpload() {
+    this.closedupload();
     this.displayUpload = true;
   }
   Uploadfile() {

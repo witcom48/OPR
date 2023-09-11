@@ -119,13 +119,13 @@
 </div>
 
 <!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload" (onHide)="closedupload()">
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
         <input type="file"
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            required (change)="handleFileInput($any($event).target.files)">
+            required (change)="handleFileInput($any($event).target.files)" #importFile>
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>

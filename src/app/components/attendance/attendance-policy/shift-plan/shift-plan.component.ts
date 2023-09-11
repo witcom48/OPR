@@ -27,6 +27,7 @@ export class ShiftPlanComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  @ViewChild('importFile') importFile: any
   @ViewChild('TABLE') table: ElementRef | any = null;
   @ViewChild('TABLELIST') tablelist: ElementRef | any = null;
   itemslike: MenuItem[] = [];
@@ -139,7 +140,10 @@ export class ShiftPlanComponent implements OnInit {
     this.fileToUpload = file.item(0);
   }
 
-
+  closedupload() {
+    this.importFile.nativeElement.value = null
+    this.fileToUpload = null;
+  }
   doLoadMenu() {
     this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
       label: this.langs.get('shiftplan')[this.selectlang], styleClass: 'activelike'
@@ -200,6 +204,7 @@ export class ShiftPlanComponent implements OnInit {
     ]
   }
   showUpload() {
+    this.closedupload();
     this.displayUpload = true;
   }
   Uploadfile() {

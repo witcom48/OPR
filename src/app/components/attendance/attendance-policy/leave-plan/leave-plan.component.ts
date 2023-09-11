@@ -27,6 +27,7 @@ export class LeavePlanComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  @ViewChild('importFile') importFile: any
   @ViewChild('TABLE') table: ElementRef | any = null;
   itemslike: MenuItem[] = [];
   home: any;
@@ -125,6 +126,10 @@ export class LeavePlanComponent implements OnInit {
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
+  closedupload() {
+    this.importFile.nativeElement.value = null
+    this.fileToUpload = null;
+  }
   getnameList(leave_codes: string) {
     let result = this.leaves_list.find((obj: LeaveModels) => {
       return obj.leave_code === leave_codes;
@@ -185,6 +190,7 @@ export class LeavePlanComponent implements OnInit {
   }
 
   showUpload() {
+    this.closedupload();
     this.displayUpload = true;
   }
   Uploadfile() {

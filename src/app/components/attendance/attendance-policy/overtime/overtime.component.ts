@@ -29,6 +29,7 @@ export class OvertimeComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  @ViewChild('importFile') importFile: any
   @ViewChild('TABLE') table: ElementRef | any = null;
   itemslike: MenuItem[] = [];
   home: any;
@@ -139,6 +140,10 @@ export class OvertimeComponent implements OnInit {
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
+  closedupload() {
+    this.importFile.nativeElement.value = null
+    this.fileToUpload = null;
+  }
 
   onRowSelectList(event: any) {
     this.select_daytype = { name: this.daytype.filter((e) => e.code == this.rate.rateot_daytype)[0].name, code: this.rate.rateot_daytype }
@@ -206,6 +211,7 @@ export class OvertimeComponent implements OnInit {
     ];
   }
   showUpload() {
+    this.closedupload();
     this.displayUpload = true;
   }
   Uploadfile() {
