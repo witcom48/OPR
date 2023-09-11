@@ -112,7 +112,7 @@ export class TransferBankComponent implements OnInit {
   doLoadBank() {
 
     var tmp = new BankModel();
-    this.bankService.bank_get().then((res) => {
+    this.bankService.bank_get(tmp).then((res) => {
       this.bank_list = res;
     });
   }

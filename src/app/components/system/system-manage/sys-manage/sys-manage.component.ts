@@ -50,7 +50,7 @@ export class SysManageComponent implements OnInit {
     title_structure_code: string = 'Structure Code';
     title_year_period: string = 'Year Period';
     title_rounding: string = 'Rounding';
-    title_round_decimal: string = 'Round Decimal';
+    title_round_decimal: string = 'Rounds';
     title_round_time: string = 'Round Time';
     title_round_polrounds: string = 'Currency Rounding';
     manageMenuItems: Menu[] = [];
@@ -68,7 +68,7 @@ export class SysManageComponent implements OnInit {
             this.title_structure_code = 'โครงสร้างรหัสพนักงาน';
             this.title_year_period = 'ปี';
             this.title_rounding = 'การปัดเศษ';
-            this.title_round_decimal = 'ทศนิยม';
+            this.title_round_decimal = 'การปัดเศษ';
             this.title_round_time = 'เวลา';
             this.title_round_polrounds = 'กำหนดรูปแบบการปัดเศษ';
         }
@@ -108,15 +108,15 @@ export class SysManageComponent implements OnInit {
                 link: 'sys-roundComponent',
                 accessCode: 'SYS001-006'
             },
-            {
-                title: this.title_round_time,
-                link: 'sys-addroun',
-                accessCode: 'SYS001-007'
-            },
+            // {
+            //     title: this.title_round_time,
+            //     link: 'sys-addroun',
+            //     accessCode: 'SYS001-007'
+            // },
             {
                 title: this.title_round_polrounds,
                 link: 'system-polrounds',
-                accessCode: 'SYS001-008'
+                accessCode: 'SYS001-007'
             },
 
             // ... other setup menu items ...

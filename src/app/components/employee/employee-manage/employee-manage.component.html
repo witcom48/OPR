@@ -1376,7 +1376,50 @@
                                 </p-accordionTab>
                             </p-accordion>
                         </div>
+                        <!-- Experience -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_experience[initial_current.Language]}}" *ngIf="hasAccessMenu('EMP002-019')">
+                                    <p-menubar [model]="menu_empexperience"></p-menubar>
+                                    <div #tableexperience>
+                                        <p-table #dtexperience [value]="empexperienceList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedEmpExperience"
+                                            (onRowSelect)="onRowSelectEmpExperience($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_expcom[initial_current.Language]}}</th>
+                                                    <th>{{title_expposition[initial_current.Language]}}</th>
+                                                    <th>{{title_expsalary[initial_current.Language]}}</th>
+                                                    <th>{{title_expstart[initial_current.Language]}}</th>
+                                                    <th>{{title_expend[initial_current.Language]}}</th>
+                                                    <th>{{title_expdes[initial_current.Language]}}</th>
+                                                    <th>{{title_modified_by}}</th>
+                                                    <th>{{title_modified_date}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empexperience>
+                                                <tr [pSelectableRow]="empexperience">
+                                                    <td>{{empexperience.company_name}}</td>
+                                                    <td>{{empexperience.position}}</td>
+                                                    <td>{{empexperience.salary}}</td>
+                                                    <td>{{empexperience.startdate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empexperience.enddate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empexperience.description}}</td>
+                                                    <td>{{empexperience.modified_by}}</td>
+                                                    <td>{{empexperience.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
                         <!-- Resign record -->
                         <div class="field col-12">
                             <p-accordion>
@@ -2885,6 +2928,50 @@
         </div>
     </form>
     <!-- END EMP Location -->
+
+    <!-- Form Emp experience -->
+    <form #ExperienceForm="ngForm">
+        <div class="formatt" *ngIf="edit_empexperience==true || new_experience==true">
+
+            <label>{{title_expcom[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpExperience.company_name"
+                name="company_name" #company_name="ngModel" required>
+
+            <label>{{title_expposition[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpExperience.position" name="position"
+                #position="ngModel" required>
+
+            <label>{{title_expsalary[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+                [maxFractionDigits]="2" [(ngModel)]="selectedEmpExperience.salary" name="salary" #salary="ngModel"
+                [required]="true">
+            </p-inputNumber>
+
+            <label>{{title_expstart[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpExperience.startdate" name="startdate" #startdate="ngModel"
+                [required]="true"><input type="text"></p-calendar>
+
+            <label>{{title_expend[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpExperience.enddate" name="enddate" #enddate="ngModel" [required]="true">
+                <input type="text"></p-calendar>
+
+            <label>{{title_expdes[initial_current.Language]}}</label>
+            <textarea [(ngModel)]="selectedEmpExperience.description" pInputTextarea [autoResize]="true"
+                name="description" #description="ngModel"></textarea>
+
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="empexperience_summit()"
+                    [disabled]="!ExperienceForm.form.valid"></p-button>
+                &nbsp;
+
+            </div>
+
+        </div>
+    </form>
+    <!-- END FORM EXPERIENCE -->
 </p-dialog>
 <!-- END FORM DIALOG-->
 

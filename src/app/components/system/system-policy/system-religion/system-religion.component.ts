@@ -187,7 +187,9 @@ export class SystemReligionComponent implements OnInit {
         this.doLoadReligion()
     }
     doLoadReligion() {
-        this.religionService.religion_get().then((res) => {
+        var tmp = new ReligionModel();
+
+        this.religionService.religion_get(tmp).then((res) => {
             this.religion_list = res;
         });
     }

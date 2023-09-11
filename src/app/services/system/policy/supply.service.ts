@@ -59,17 +59,35 @@ export class SupplyService {
     }
   }
 
-  public supply_get(){
-    return this.http.post<any>(this.config.ApiSystemModule + '/supply_list', this.basicRequest, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      // console.log(res)
-      return message.data;
-    });
-  }
+  public supply_get(model:SupplyModel) {
+    let data = {
+       device_name: "phone",
+       ip: "127.0.0.1",
+       username: this.initial_current.Username,
+       company_code:  this.initial_current.CompCode,
+       supply_id: model.supply_id,
+       supply_code: model.supply_code
+   }
+   return this.http.post<any>(this.config.ApiSystemModule + '/supply_list', data, this.options).toPromise()
+       .then((res) => {
+           let message = JSON.parse(res);
+           return message.data;
+       });
+}
+
+  // public supply_get(){
+  //   return this.http.post<any>(this.config.ApiSystemModule + '/supply_list', this.basicRequest, this.options).toPromise()
+  //   .then((res) => {
+  //     let message = JSON.parse(res);
+  //     // console.log(res)
+  //     return message.data;
+  //   });
+  // }
 
   public supply_record(model:SupplyModel) {
     const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
       supply_id: model.supply_id,
       supply_code: model.supply_code,
       supply_name_th: model.supply_name_th,
@@ -85,6 +103,8 @@ export class SupplyService {
 
   public supply_delete(model:SupplyModel) {
     const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
         supply_id: model.supply_id,
         supply_code: model.supply_code,
         modified_by: this.initial_current.Username

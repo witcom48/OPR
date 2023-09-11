@@ -106,14 +106,18 @@ export class EmpsettrainingComponent implements OnInit {
   //Institite
   instituteList: InstituteModel[] = [];
   doLoadinstituteList() {
-    this.instituteService.institute_get().then((res) => {
+    var tmp = new InstituteModel();
+
+    this.instituteService.institute_get(tmp).then((res) => {
       this.instituteList = res;
     });
   }
   // Course
   courseList: CourseModel[] = [];
   doLoadcourseList() {
-    this.courseService.course_get().then((res) => {
+    var tmp = new CourseModel();
+
+    this.courseService.course_get(tmp).then((res) => {
       this.courseList = res;
     });
   }

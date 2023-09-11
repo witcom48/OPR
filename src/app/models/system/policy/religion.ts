@@ -2,7 +2,7 @@ export class ReligionModel {
     constructor() {
 
     }
-
+    company_code: string = "";
     religion_id: string = "0";
     religion_code: string = "";
     religion_name_th: string = "";

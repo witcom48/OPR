@@ -58,18 +58,39 @@ export class CodePolcodeService {
       this.router.navigateByUrl('login');
     }
   }
+  public TRPolcode_get(model: TRPolcodeModel) {
+    let data = {
+       device_name: "Desktop",
+       ip: "127.0.0.1",
+       username: this.initial_current.Username,
+       company_code: model.company_code || this.initial_current.CompCode,
 
-  public TRPolcode_get() {
-    // console.log('CBR001..');
+        polcode_id: model.polcode_id,
+       codestructure_code: model.codestructure_code,
 
-    var filter = {
-      device_name: '',
-      ip: "localhost",
-      username: this.initial_current.Username,
-      language: "",
-      polcode_id: "",
+ 
 
-    };
+       modified_by: this.initial_current.Username,
+       fag: false,
+
+   }
+   return this.http.post<any>(this.config.ApiSystemModule + '/TRPolcode_list', data, this.options).toPromise()
+       .then((res) => {
+           let message = JSON.parse(res);
+           return message.data;
+       });
+ 
+  // public TRPolcode_get() {
+  //   // console.log('CBR001..');
+
+  //   var filter = {
+  //     device_name: '',
+  //     ip: "localhost",
+  //     username: this.initial_current.Username,
+  //     language: "",
+  //     polcode_id: "",
+
+  //   };
 
     return this.http.post<any>(this.config.ApiSystemModule + '/TRPolcode_list', this.basicRequest, this.options).toPromise()
       .then((res) => {
@@ -82,6 +103,8 @@ export class CodePolcodeService {
   public TRPolcode_record(model: TRPolcodeModel) {
     // console.log('CBR002..');
     const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
       polcode_id: model.polcode_id,
       codestructure_code: model.codestructure_code,
       polcode_lenght: model.polcode_lenght.toString(),
@@ -101,6 +124,8 @@ export class CodePolcodeService {
   public TRPolcode_delete(model: TRPolcodeModel) {
     // console.log('CBR003..');
     const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
       codestructure_code: model.codestructure_code,
       polcode_id: model.polcode_id,
       modified_by: this.initial_current.Username

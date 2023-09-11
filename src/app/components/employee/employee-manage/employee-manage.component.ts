@@ -2104,59 +2104,59 @@ export class EmployeeManageComponent implements OnInit {
     ]
 
     //menu experience
-    // this.menu_empexperience = [
-    //   {
-    //     label: this.title_new,
-    //     icon: 'pi pi-fw pi-plus',
-    //     command: (event) => {
-    //       this.clearManage()
-    //       this.new_experience = true
-    //       var ref = this.empexperienceList.length + 100
-    //       this.selectedEmpExperience = new EmpExperienceModel()
-    //       this.selectedEmpExperience.emplocation_id = ref.toString()
-    //       this.showManage()
-    //     }
-    //   },
-    //   {
-    //     label: this.title_edit,
-    //     icon: 'pi pi-fw pi-pencil',
-    //     command: (event) => {
-    //       this.clearManage()
-    //       if (this.selectedEmpLocation != null) {
-    //         this.edit_emplocation = true
-    //         this.showManage()
-    //       }
-    //     }
-    //   },
-    //   {
-    //     label: this.title_delete,
-    //     icon: 'pi pi-fw pi-trash',
-    //     command: (event) => {
-    //       this.confirmationService.confirm({
-    //         message: this.title_confirm_delete,
-    //         header: this.title_confirm,
-    //         icon: 'pi pi-exclamation-triangle',
-    //         accept: () => {
-    //           if (this.selectedEmpLocation != null) {
-    //             this.emplocation_remove()
-    //           }
-    //         },
-    //         reject: () => {
-    //           this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-    //         },
-    //         key: "myDialog"
-    //       });
+    this.menu_empexperience = [
+      {
+        label: this.title_new,
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.clearManage()
+          this.new_experience = true
+          var ref = this.empexperienceList.length + 100
+          this.selectedEmpExperience = new EmpExperienceModel()
+          this.selectedEmpExperience.experience_id = ref.toString()
+          this.showManage()
+        }
+      },
+      {
+        label: this.title_edit,
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedEmpExperience != null) {
+            this.edit_empexperience = true
+            this.showManage()
+          }
+        }
+      },
+      {
+        label: this.title_delete,
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpLocation != null) {
+                this.empexperience_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
 
-    //     }
-    //   },
-    //   {
-    //     label: this.title_export,
-    //     icon: 'pi pi-fw pi-file-export',
-    //     command: (event) => {
-    //       this.exportAsExcel(this.dtemplocation, 'EmpLocation')
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempexperience, 'EmpExperience')
 
-    //     }
-    //   }];
+        }
+      }];
 
   }
 
@@ -2234,7 +2234,10 @@ export class EmployeeManageComponent implements OnInit {
     //
     this.edit_emptranfer = false;
     this.new_tranfer = false;
-
+    //
+    this.edit_empexperience = false;
+    this.new_experience = false;
+    //
     this.displayManage = false
 
   }
@@ -2317,7 +2320,10 @@ export class EmployeeManageComponent implements OnInit {
       }
       else if (this.new_tranfer || this.edit_emptranfer) {
         this.manage_title = "Tranfer"
+      }else if (this.new_experience || this.edit_empexperience) {
+        this.manage_title = "Experience"
       }
+      
     } else {
       if (this.new_emplocation || this.edit_emplocation) {
         this.manage_title = "สถานที่ปฏิบัติงาน"
@@ -2390,6 +2396,8 @@ export class EmployeeManageComponent implements OnInit {
       }
       else if (this.new_tranfer || this.edit_emptranfer) {
         this.manage_title = "ประวัติการโอนย้ายหน่วยงาน"
+      }else if (this.new_experience || this.edit_empexperience) {
+        this.manage_title = "ประสบการณ์ทำงาน"
       }
     }
   }
@@ -2462,6 +2470,8 @@ export class EmployeeManageComponent implements OnInit {
           this.doLoadEmpprovidentList();
           this.doLoadEmpreduceList();
 
+          this.doLoadEmpExperienceList();
+
           this.CalculateAge();
         }, 300);
 
@@ -2518,45 +2528,46 @@ export class EmployeeManageComponent implements OnInit {
       this.locationList = await res;
     })
   }
+  combranch_code: string = '';
   combranchList: CombranchModel[] = [];
   doLoadCombranchList() {
     var tmp = new CombranchModel();
-    this.combranchService.combranch_get('').then(async (res) => {
+    this.combranchService.combranch_get(this.combranch_code).then(async (res) => {
       this.combranchList = await res;
     })
   }
   bloodtypeList: BloodtypeModel[] = [];
   doLoadBloodtypeList() {
     var tmp = new BloodtypeModel();
-    this.bloodtypeService.bloodtype_get().then(async (res) => {
+    this.bloodtypeService.bloodtype_get(tmp).then(async (res) => {
       this.bloodtypeList = await res;
     })
   }
   religionList: ReligionModel[] = [];
   doLoadReligionList() {
     var tmp = new ReligionModel();
-    this.religionService.religion_get().then(async (res) => {
+    this.religionService.religion_get(tmp).then(async (res) => {
       this.religionList = await res;
     })
   }
   addresstypeList: AddresstypeModel[] = [];
   doLoadAddresstypeList() {
     var tmp = new AddresstypeModel();
-    this.addresstypeService.addresstype_get().then(async (res) => {
+    this.addresstypeService.addresstype_get(tmp).then(async (res) => {
       this.addresstypeList = await res;
     })
   }
   cardtypeList: CardtypeModel[] = [];
   doLoadCardtypeList() {
     var tmp = new CardtypeModel();
-    this.cardtypeService.cardtype_get().then(async (res) => {
+    this.cardtypeService.cardtype_get(tmp).then(async (res) => {
       this.cardtypeList = await res;
     })
   }
   bankList: BankModel[] = [];
   doLoadBankList() {
     var tmp = new BankModel();
-    this.bankService.bank_get().then(async (res) => {
+    this.bankService.bank_get(tmp).then(async (res) => {
       this.bankList = await res;
     })
   }
@@ -2570,7 +2581,7 @@ export class EmployeeManageComponent implements OnInit {
   hospitalList: HospitalModel[] = [];
   doLoadHospitalList() {
     var tmp = new HospitalModel();
-    this.hospitalService.hospital_get().then(async (res) => {
+    this.hospitalService.hospital_get(tmp).then(async (res) => {
       this.hospitalList = await res;
     })
   }
@@ -2619,49 +2630,63 @@ export class EmployeeManageComponent implements OnInit {
   //Institite
   instituteList: InstituteModel[] = [];
   doLoadinstituteList() {
-    this.instituteService.institute_get().then((res) => {
+    var tmp = new InstituteModel();
+
+    this.instituteService.institute_get(tmp).then((res) => {
       this.instituteList = res;
     });
   }
   // Course
   courseList: CourseModel[] = [];
   doLoadcourseList() {
-    this.courseService.course_get().then((res) => {
+    var tmp = new CourseModel();
+
+    this.courseService.course_get(tmp).then((res) => {
       this.courseList = res;
     });
   }
   // Faculty
   facultyList: FacultyModel[] = [];
   doLoadfacultyList() {
-    this.facultyService.faculty_get().then((res) => {
+    var tmp = new FacultyModel();
+
+    this.facultyService.faculty_get(tmp).then((res) => {
       this.facultyList = res;
     });
   }
   //Major
   majorList: MajorModel[] = [];
   doLoadmajorList() {
-    this.majorService.major_get().then((res) => {
+    var tmp = new MajorModel();
+
+    this.majorService.major_get(tmp).then((res) => {
       this.majorList = res;
     });
   }
   //Qualification
   qualificationList: QualificationModel[] = [];
   doLoadqualificationList() {
-    this.qualificationService.qualification_get().then((res) => {
+    var tmp = new QualificationModel();
+
+    this.qualificationService.qualification_get(tmp).then((res) => {
       this.qualificationList = res;
     });
   }
   //Province
   provinceList: ProvinceModel[] = [];
   doLoadprovinceList() {
-    this.provinceService.province_get().then((res) => {
+    var tmp = new ProvinceModel();
+
+    this.provinceService.province_get(tmp).then((res) => {
       this.provinceList = res;
     })
   }
   //drop supply
   supplyList: SupplyModel[] = [];
   doLoadSupplyList() {
-    this.supplyService.supply_get().then((res) => {
+    var tmp = new SupplyModel();
+
+    this.supplyService.supply_get(tmp).then((res) => {
       this.supplyList = res;
     })
   }
@@ -2700,7 +2725,9 @@ export class EmployeeManageComponent implements OnInit {
   //drop ethnicity
   ethnicityList: EthnicityModel[] = [];
   doLoadethnicityList() {
-    this.ethnicityService.ethnicity_get().then((res) => {
+    var tmp = new EthnicityModel();
+
+    this.ethnicityService.ethnicity_get(tmp).then((res) => {
       this.ethnicityList = res;
     })
   }
@@ -4389,6 +4416,80 @@ export class EmployeeManageComponent implements OnInit {
 
   }
 
+  //emp experience
+  empexperienceList: EmpExperienceModel[] = [];
+  selectedEmpExperience: EmpExperienceModel = new EmpExperienceModel();
+  doLoadEmpExperienceList() {
+    this.empdetailService.getworker_experience(this.initial_current.CompCode, this.emp_code).then(async (res) => {
+      await res.forEach((element: EmpExperienceModel) => {
+        element.startdate = new Date(element.startdate)
+        element.enddate = new Date(element.enddate)
+
+      })
+      this.empexperienceList = await res;
+      if (this.empexperienceList.length > 0) {
+        this.selectedEmpExperience = this.empexperienceList[0];
+      }
+    })
+  }
+  onRowSelectEmpExperience(event: Event) { }
+  empexperience_summit() {
+    this.empexperience_addItem(this.selectedEmpExperience)
+    this.new_experience = false
+    this.edit_empexperience = false
+    this.displayManage = false
+  }
+  empexperience_remove() {
+    this.selectedEmpExperience.experience_id = "9999";
+    this.empexperience_addItem(this.selectedEmpExperience)
+    this.new_experience = false
+    this.edit_empexperience = false
+  }
+  empexperience_delete() {
+    var tmp: EmpExperienceModel = new EmpExperienceModel();
+    tmp.worker_code = this.selectedEmployee.worker_code;
+    this.empdetailService.delete_empexperience(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
+  empexperience_cancel() {
+    this.new_experience = false
+    this.edit_empexperience = false
+    this.displayManage = false
+  }
+  empexperience_addItem(model: EmpExperienceModel) {
+    const itemNew: EmpExperienceModel[] = [];
+    for (let i = 0; i < this.empexperienceList.length; i++) {
+      if (this.empexperienceList[i].experience_id == model.experience_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.empexperienceList[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.experience_id != "9999") {
+      itemNew.push(model);
+    }
+    this.empexperienceList = [];
+    this.empexperienceList = itemNew;
+    this.empexperienceList.sort(function (a, b) { return parseInt(a.experience_id) - parseInt(b.experience_id); })
+  }
+  record_empexperience() {
+    if (this.empexperienceList.length == 0) {
+      this.empexperience_delete();
+    } else {
+      this.empdetailService.record_empexperience(this.selectedEmployee.worker_code, this.empexperienceList).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      });
+    }
+
+  }
+
   closeAcc() {
     this.new_accumalate = false;
     this.selectedEmpaccumalate = new EmpAccumalateModel();
@@ -4456,6 +4557,8 @@ export class EmployeeManageComponent implements OnInit {
         this.record_empbenefit();
         this.record_empprovident();
         this.record_empreduce();
+
+        this.record_empexperience();
 
         //image
         this.uploadImages();
@@ -4923,7 +5026,7 @@ export class EmployeeManageComponent implements OnInit {
   @ViewChild('tableprovident') dtempprovident: ElementRef | any = null;
   @ViewChild('tablereduce') dtempreduce: ElementRef | any = null;
   @ViewChild('tableforeigner') dtempforeigner: ElementRef | any = null;
-  @ViewChild('tableexperience') dtempemperience: ElementRef | any = null;
+  @ViewChild('tableexperience') dtempexperience: ElementRef | any = null;
 
 
   exportAsExcel(table: ElementRef, name: string) {
@@ -4979,7 +5082,7 @@ export class EmployeeManageComponent implements OnInit {
       tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode
       tmp.card_no = this.selectedEmployee.worker_cardno
       tmp.worker_code = this.selectedEmployee.worker_code
-      this.blacklistService.blacklist_delete(tmp).then((res)=>{
+      this.blacklistService.blacklist_delete(tmp).then((res) => {
 
       })
     }

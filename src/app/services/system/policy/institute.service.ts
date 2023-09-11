@@ -56,21 +56,37 @@ export class InstituteService {
         this.router.navigateByUrl('login');
       }
     }
+    public institute_get(model:InstituteModel) {
+      let data = {
+         device_name: "phone",
+         ip: "127.0.0.1",
+         username: this.initial_current.Username,
+         company_code:  this.initial_current.CompCode,
+         institute_id: model.institute_id,
+         institute_code: model.institute_code
+     }
+     return this.http.post<any>(this.config.ApiSystemModule + '/institute_list', data, this.options).toPromise()
+         .then((res) => {
+             let message = JSON.parse(res);
+             return message.data;
+         });
+  }
+    // public institute_get(){
+    //   // console.log('INS001..');
 
-    public institute_get(){
-      // console.log('INS001..');
-
-      return this.http.post<any>(this.config.ApiSystemModule + '/institute_list', this.basicRequest, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        // console.log(res)
-        return message.data;
-      });
-    }
+    //   return this.http.post<any>(this.config.ApiSystemModule + '/institute_list', this.basicRequest, this.options).toPromise()
+    //   .then((res) => {
+    //     let message = JSON.parse(res);
+    //     // console.log(res)
+    //     return message.data;
+    //   });
+    // }
 
     public institute_record(model:InstituteModel) {
       // console.log('INS002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         institute_id: model.institute_id,
         institute_code: model.institute_code,
         institute_name_th: model.institute_name_th,
@@ -89,6 +105,8 @@ export class InstituteService {
     public institute_delete(model:InstituteModel) {
       // console.log('INS003..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         institute_id: model.institute_id,
         institute_code: model.institute_code,
         modified_by: this.initial_current.Username

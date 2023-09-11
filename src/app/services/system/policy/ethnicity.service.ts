@@ -58,21 +58,37 @@ export class EthnicityService {
         this.router.navigateByUrl('login');
       }
     }
+    public ethnicity_get(model:EthnicityModel) {
+      let data = {
+         device_name: "phone",
+         ip: "127.0.0.1",
+         username: this.initial_current.Username,
+         company_code:  this.initial_current.CompCode,
+         ethnicity_id: model.ethnicity_id,
+         ethnicity_code: model.ethnicity_code
+     }
+     return this.http.post<any>(this.config.ApiSystemModule + '/ethnicity_list', data, this.options).toPromise()
+         .then((res) => {
+             let message = JSON.parse(res);
+             return message.data;
+         });
+  }
+    // public ethnicity_get(){
+    //   // console.log('ENT001..');
 
-    public ethnicity_get(){
-      // console.log('ENT001..');
-
-      return this.http.post<any>(this.config.ApiSystemModule + '/ethnicity_list', this.basicRequest, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        // console.log(res)
-        return message.data;
-      });
-    }
+    //   return this.http.post<any>(this.config.ApiSystemModule + '/ethnicity_list', this.basicRequest, this.options).toPromise()
+    //   .then((res) => {
+    //     let message = JSON.parse(res);
+    //     // console.log(res)
+    //     return message.data;
+    //   });
+    // }
 
     public ethnicity_record(model:EthnicityModel) {
       // console.log('ENT002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         ethnicity_id: model.ethnicity_id,
         ethnicity_code: model.ethnicity_code,
         ethnicity_name_th: model.ethnicity_name_th,
@@ -91,6 +107,8 @@ export class EthnicityService {
     public ethnicity_delete(model:EthnicityModel) {
       // console.log('ENT002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         ethnicity_id: model.ethnicity_id,
         ethnicity_code: model.ethnicity_code,
         modified_by: this.initial_current.Username

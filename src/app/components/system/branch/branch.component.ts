@@ -23,6 +23,8 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
     styleUrls: ['./branch.component.scss'],
 })
 export class BranchComponent implements OnInit {
+    combranch_code: string = '';
+
     combranch_list: CombranchModel[] = [];
     selectedcombranch: CombranchModel = new CombranchModel();
     items: MenuItem[] = [];
@@ -205,7 +207,7 @@ export class BranchComponent implements OnInit {
         ];
     }
     doLoadCombranch() {
-        this.combranchService.combranch_get(this.initial_current.CompCode).then((res) => {
+        this.combranchService.combranch_get(this.combranch_code).then((res) => {
             this.combranch_list = res;
         });
     }

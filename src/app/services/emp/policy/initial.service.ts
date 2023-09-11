@@ -59,8 +59,15 @@ export class InitialService {
 
   public initial_get(){
     // console.log('INT001..');
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:this.initial_current.CompCode,
+      language:"",
+    }
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/initial_list', this.basicRequest, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/initial_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
       // console.log(res)
@@ -75,6 +82,7 @@ export class InitialService {
         initial_code: model.initial_code,
         initial_name_th: model.initial_name_th,
         initial_name_en: model.initial_name_en,
+        company_code: model.company_code || this.initial_current.CompCode,
         modified_by: this.initial_current.Username
     };
 
@@ -89,6 +97,7 @@ export class InitialService {
     const data = {
         initial_id: model.initial_id,
         initial_code: model.initial_code,
+        company_code : model.company_code || this.initial_current.CompCode,
         modified_by: this.initial_current.Username
     };
 

@@ -2,6 +2,7 @@ export class CardtypeModel {
     constructor() {
 
     }
+    company_code: string = "";
 
     cardtype_id: string = "0";
     cardtype_code: string = "";
