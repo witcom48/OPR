@@ -1434,32 +1434,36 @@ export class ProjectManageComponent implements OnInit {
 
   
   doLoadMaster() {
-    this.genaralService.probusiness_get().then((res) => {
+    var tmp = new ProbusinessModel();
+
+    this.genaralService.probusiness_get(tmp).then((res) => {
       //// console.log(res)
       this.probusiness_list = res;
     });
+    var tmp2 = new ProtypeModel();
 
-    this.genaralService.protype_get().then((res) => {
+    this.genaralService.protype_get(tmp2).then((res) => {
       this.protype_list = res;
     });
-
-    this.genaralService.proarea_get().then((res) => {
+    var tmp5 = new ProareaModel();
+    this.genaralService.proarea_get(tmp5).then((res) => {
       this.proarea_list = res;
     });
+    var tmp6 = new ProgroupModel();
 
-    this.genaralService.progroup_get().then((res) => {
+    this.genaralService.progroup_get(tmp6).then((res) => {
       this.progroup_list = res;
     });
     //
-    var tmp = new RoundsModel();
-    tmp.round_group = this.rounds_type = "Time";
-    this.roundsService.rounds_get(tmp).then((res) => {
+    var tmpr = new RoundsModel();
+    tmpr.round_group = this.rounds_type = "Time";
+    this.roundsService.rounds_get(tmpr).then((res) => {
       this.time_list = res;
       console.log(res,'Time')
     });
 
-    tmp.round_group = this.rounds_type = "Currency";
-    this.roundsService.rounds_get(tmp).then((res) => {
+    tmpr.round_group = this.rounds_type = "Currency";
+    this.roundsService.rounds_get(tmpr).then((res) => {
       this.currency_list = res;
     });
 
@@ -2338,7 +2342,9 @@ export class ProjectManageComponent implements OnInit {
 
   polslip_list: ProslipModel[] = [];
   doLoadPolProslip() {
-    this.genaralService.proslip_get().then(async (res) => {
+    var tmp4 = new ProslipModel();
+
+    this.genaralService.proslip_get(tmp4).then(async (res) => {
       this.polslip_list = await res;
     });
   }
@@ -2357,8 +2363,10 @@ export class ProjectManageComponent implements OnInit {
   }
 
   poluniform_list: ProuniformModel[] = [];
-  doLoadPolProuniform() {
-    this.genaralService.prouniform_get().then(async (res) => {
+  doLoadPolProuniform() 
+  {
+    var tmp3 = new ProuniformModel();
+    this.genaralService.prouniform_get(tmp3).then(async (res) => {
       this.poluniform_list = await res;
     });
   }

@@ -192,12 +192,14 @@ export class ProjectListComponent implements OnInit {
   }
 
   doLoadMaster() {
-    this.genaralService.probusiness_get().then((res) => {
+    var tmp = new ProbusinessModel();
+
+    this.genaralService.probusiness_get(tmp).then((res) => {
       //// console.log(res)
       this.probusiness_list = res;
     });
-
-    this.genaralService.protype_get().then((res) => {
+    var tmp2 = new ProtypeModel();
+    this.genaralService.protype_get(tmp2).then((res) => {
       this.protype_list = res;
     });
   }

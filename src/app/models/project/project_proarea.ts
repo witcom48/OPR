@@ -2,6 +2,8 @@ export class ProareaModel {
     constructor() {
      
     }
+    
+    company_code: string = "";
     proarea_id: string = "1";
     proarea_code: string = "";
     proarea_name_th: string = "";
