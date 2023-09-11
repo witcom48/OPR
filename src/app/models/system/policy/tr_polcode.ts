@@ -3,6 +3,7 @@ export class TRPolcodeModel {
     }
 
 
+    company_code: string = "";
 
     polcode_id: string = "0";
     codestructure_code: string = "";

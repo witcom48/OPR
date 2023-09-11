@@ -2518,10 +2518,11 @@ export class EmployeeManageComponent implements OnInit {
       this.locationList = await res;
     })
   }
+  combranch_code: string = '';
   combranchList: CombranchModel[] = [];
   doLoadCombranchList() {
     var tmp = new CombranchModel();
-    this.combranchService.combranch_get('').then(async (res) => {
+    this.combranchService.combranch_get(this.combranch_code).then(async (res) => {
       this.combranchList = await res;
     })
   }

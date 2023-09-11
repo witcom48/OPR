@@ -48,6 +48,8 @@ export class RoundsService {
                     device_name: "Desktop",
                     ip: "127.0.0.1",
                     username: this.initial_current.Username,
+                    company_code:  this.initial_current.CompCode,
+
                     round_group: Rounds.round_group,
                     round_id: Rounds.round_id,
                     round_code: Rounds.round_code,
@@ -73,6 +75,7 @@ export class RoundsService {
             device_name: "Desktop",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
+            company_code:  this.initial_current.CompCode,
 
             round_id: Rounds.round_id,
             round_group: Rounds.round_group,
@@ -100,6 +103,8 @@ export class RoundsService {
             device_name: "Desktop",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
+            company_code:  this.initial_current.CompCode,
+
             round_group: Rounds.round_group,
             round_id: Rounds.round_id,
             round_code: Rounds.round_code,

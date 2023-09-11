@@ -87,7 +87,7 @@ export class AddresstypeService {
     public addresstype_record(model:AddresstypeModel) {
       // console.log('ADD002..');
       const data = {
-        company_code:  this.initial_current.CompCode,
+        company_code: model.company_code || this.initial_current.CompCode,
 
         addresstype_id: model.addresstype_id,
         addresstype_code: model.addresstype_code,

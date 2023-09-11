@@ -287,7 +287,7 @@ export class RoundComponent implements OnInit {
 
   doLoadMenu() {
     this.itemslike = [{ label: this.langs.get('system')[this.selectlang], routerLink: '/system/sys-manage' }, {
-      label: this.langs.get('decimal')[this.selectlang], styleClass: 'activelike'
+      label: this.langs.get('rounds')[this.selectlang], styleClass: 'activelike'
     }];
 
     this.home = { icon: 'pi pi-home', routerLink: '/' };

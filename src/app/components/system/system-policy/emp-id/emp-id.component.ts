@@ -233,7 +233,9 @@ export class EmpIDComponent implements OnInit {
   }
 
   doLoadTRPolcode() {
-    this.codePolcodeService.TRPolcode_get().then((res) => {
+    var tmp = new TRPolcodeModel();
+
+    this.codePolcodeService.TRPolcode_get(tmp).then((res) => {
       this.TRPolcode_list = res;
       this.examplecode = '';
       res.forEach((item:TRPolcodeModel)=>{
@@ -565,7 +567,9 @@ export class EmpIDComponent implements OnInit {
   // Load TRPolcode data
   async doLoadTRPolcodeid() {
     try {
-      const response = await this.codePolcodeService.TRPolcode_get();
+      var tmp = new TRPolcodeModel();
+
+      const response = await this.codePolcodeService.TRPolcode_get(tmp);
       if (typeof response === 'string') {
         this.TRPolcode_list = JSON.parse(response);
         console.log(this.TRPolcode_list); 

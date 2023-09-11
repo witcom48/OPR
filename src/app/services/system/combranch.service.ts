@@ -54,8 +54,24 @@ export class CombranchService {
             this.router.navigateByUrl('login');
         }
     }
+    // public combranch_get(model:CombranchModel) {
+    //     let data = {
+    //        device_name: "phone",
+    //        ip: "127.0.0.1",
+    //        username: this.initial_current.Username,
+    //        company_code:  this.initial_current.CompCode,
+    //        combranch_id: model.combranch_id,
+    //        combranch_code: model.combranch_code
+           
+    //    }
+    //    return this.http.post<any>(this.config.ApiSystemModule + '/combranch_list', data, this.options).toPromise()
+    //        .then((res) => {
+    //            let message = JSON.parse(res);
+    //            return message.data;
+    //        });
+    // }
 
-    public combranch_get(code: string) {
+    public combranch_get( code: string ) {
         // console.log('CBR001..');
 
         var filter = {
@@ -63,7 +79,7 @@ export class CombranchService {
             ip: 'localhost',
             username: this.initial_current.Username,
             company_code: this.initial_current.CompCode,
-            combranch_code: '',
+            combranch_code: code,
             combranch_id: '',
             language: '',
             //   company_code:code
@@ -74,9 +90,9 @@ export class CombranchService {
         .then((res) => {let message = JSON.parse(res);// console.log(res);
             return message.data;
         });
-
-
     }
+
+  
 
     public combranch_record(model: CombranchModel) {
         // console.log('CBR002..');
