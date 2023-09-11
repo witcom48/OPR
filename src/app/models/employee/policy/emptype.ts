@@ -7,6 +7,7 @@ export class EmptypeModel {
     type_code: string = "";
     type_name_th: string = "";
     type_name_en: string = "";
+    company_code: string = "";
     modified_by: string = "";
     modified_date: string = "";
     index: number = 0;
