@@ -9,7 +9,7 @@ import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimeonsiteModel } from 'src/app/models/self/cls_TRTimeonsite';
 import { TRAccountModel } from 'src/app/models/self/traccount';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
- import { ReasonsModel } from 'src/app/models/system/policy/reasons';
+import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { TimeonsiteServices } from 'src/app/services/self/timeonsite';
 import { LocationService } from 'src/app/services/system/policy/location.service';
@@ -45,6 +45,8 @@ export class SelfRecordtimeComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   Uploadfile: boolean = false;
   reason_list: ReasonsModel[] = [];
@@ -194,7 +196,8 @@ export class SelfRecordtimeComponent implements OnInit {
     });
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: this.langs.get('employee')[this.selectlang], routerLink: '/self/employee' },
+    { label: this.langs.get('title_onsite')[this.selectlang], routerLink: '/self/req_record', styleClass: 'activelike' }]
     this.items = [
 
       {

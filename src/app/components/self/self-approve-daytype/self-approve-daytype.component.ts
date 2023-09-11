@@ -40,6 +40,8 @@ export class SelfApproveDaytypeComponent implements OnInit {
     private timecardService: TimecardService,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   Uploadfile: boolean = false;
   daytype_list: DaytypeModels[] = [];
@@ -156,7 +158,8 @@ export class SelfApproveDaytypeComponent implements OnInit {
     this.closeManage()
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    { label: this.langs.get('title_daytype')[this.selectlang], routerLink: '/self/approve_daytype', styleClass: 'activelike' }]
     this.items = [
 
       {

@@ -94,6 +94,7 @@ export class PartService {
   public dep_delete(model:PartModel) {
     // console.log('DEP003..');
     const data = {
+      company_code : this.initial_current.CompCode,
       dep_id: model.dep_id,
       dep_code: model.dep_code,
       modified_by: this.initial_current.Username

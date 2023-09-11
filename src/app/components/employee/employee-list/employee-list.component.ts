@@ -744,6 +744,7 @@ export class EmployeeListComponent implements OnInit {
 
   doDeleteEmployee() {
     var tmp: EmployeeModel = new EmployeeModel();
+    tmp.company_code = this.initial_current.CompCode
     tmp.worker_code = this.selectedemployee.worker_code
     tmp.worker_id = this.selectedemployee.worker_id
     this.employeeService.worker_delete(tmp).then((res) => {

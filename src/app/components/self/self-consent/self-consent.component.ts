@@ -29,6 +29,8 @@ export class SelfConsentComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   items_attfile: MenuItem[] = [];
   pdpafile_list: cls_MTPdpafileModel[] = [];
@@ -50,6 +52,8 @@ export class SelfConsentComponent implements OnInit {
     this.doLoadPdpafile();
   }
   doLoadMenu() {
+    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    { label: this.langs.get('title_consent')[this.selectlang], routerLink: '/self/consent', styleClass: 'activelike' }]
     this.items_attfile = [
 
       {

@@ -39,6 +39,8 @@ export class SelfApproveReqdocComponent implements OnInit {
     private approveService: ApproveServices,
     private datePipe: DatePipe,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   Uploadfile: boolean = false;
   items: MenuItem[] = [];
@@ -132,6 +134,8 @@ export class SelfApproveReqdocComponent implements OnInit {
     this.closeManage()
   }
   doLoadMenu() {
+    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    { label: this.langs.get('title_req')[this.selectlang], routerLink: '/self/approve_reqdoc', styleClass: 'activelike' }]
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],

@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,7 +7,8 @@
         <i></i>
         <small>{{langs.get('workflow')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
 <!-- Menu New Import Export Data -->
@@ -67,72 +68,79 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <div class="formatt" *ngIf="new_data==true">
-        <i (click)="close()"></i>
+    <p-dialog header="" [(visible)]="new_data" [style]="{width: '25w'}" [position]="'right'" (onHide)="close()">
+        <div class="formgrid grid align-items-end">
+            <div class="formatt" *ngIf="new_data==true">
+                <i (click)="close()"></i>
 
-        <label>{{langs.get('code')[selectlang]}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedWorkflow.workflow_code" maxlength="10"
-            disabled="{{edit_data}}" />
-        <p>{{selectedWorkflow.workflow_code.length}}/10</p>
+                <label>{{langs.get('code')[selectlang]}}</label>
+                <input pInputText type="text" [(ngModel)]="selectedWorkflow.workflow_code" maxlength="10"
+                    disabled="{{edit_data}}" />
+                <p>{{selectedWorkflow.workflow_code.length}}/10</p>
 
-        <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
-        <textarea [(ngModel)]="selectedWorkflow.workflow_name_en" pInputTextarea [autoResize]="true"></textarea>
+                <label>{{langs.get('description')[selectlang]}} (Eng.)</label>
+                <textarea [(ngModel)]="selectedWorkflow.workflow_name_en" pInputTextarea [autoResize]="true"></textarea>
 
-        <label>{{langs.get('description')[selectlang]}} (Thai)</label>
-        <textarea [(ngModel)]="selectedWorkflow.workflow_name_th" pInputTextarea [autoResize]="true"></textarea>
+                <label>{{langs.get('description')[selectlang]}} (Thai)</label>
+                <textarea [(ngModel)]="selectedWorkflow.workflow_name_th" pInputTextarea [autoResize]="true"></textarea>
 
-        <label for="workflow_name_en">{{langs.get('type')[selectlang]}}</label>
-        <p-dropdown class="selectyaer" [options]="TypeList" [(ngModel)]="selectedtype" (onChange)="selectType()"
-            optionLabel="name"></p-dropdown>
-        <div class="step">
-            <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 1</label><br>
-            <p-inputNumber [(ngModel)]="selectedWorkflow.step1" mode="decimal" [showButtons]="true"
-                inputId="minmax-buttons" [min]="0" [max]="5">
-            </p-inputNumber>
-        </div>
-        <div class="step">
-            <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 2</label><br>
-            <p-inputNumber [(ngModel)]="selectedWorkflow.step2" mode="decimal" [showButtons]="true"
-                inputId="minmax-buttons" [min]="0" [max]="5">
-            </p-inputNumber>
-        </div>
-        <div class="step">
-            <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 3</label><br>
-            <p-inputNumber [(ngModel)]="selectedWorkflow.step3" mode="decimal" [showButtons]="true"
-                inputId="minmax-buttons" [min]="0" [max]="5">
-            </p-inputNumber>
-        </div>
-        <div class="step">
-            <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 4</label><br>
-            <p-inputNumber [(ngModel)]="selectedWorkflow.step4" mode="decimal" [showButtons]="true"
-                inputId="minmax-buttons" [min]="0" [max]="5">
-            </p-inputNumber>
-        </div>
-        <div class="step">
-            <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 5</label><br>
-            <p-inputNumber [(ngModel)]="selectedWorkflow.step5" mode="decimal" [showButtons]="true"
-                inputId="minmax-buttons" [min]="0" [max]="5">
-            </p-inputNumber>
-        </div>
-
-        <p-pickList class="picklistvertical" [metaKeySelection]="true" [responsive]="true"
-            [source]="position_level_source" [target]="position_level_target"
-            sourceHeader="{{langs.get('position_level')[selectlang]}}" targetHeader="{{langs.get('position_select')[selectlang]}}"
-            [sourceStyle]="{'height':'15rem'}" [targetStyle]="{'height':'15rem'}" (onSourceSelect)="teset($event)"
-            (onTargetSelect)="teset2($event)">
-            <ng-template let-data pTemplate="item">
-                <div>
-                    <div style="font-size:14px;float:left;">{{data.position_level}} - {{selectlang
-                        =='EN'?data.position_name_en:data.position_name_th }}</div>
+                <label for="workflow_name_en">{{langs.get('type')[selectlang]}}</label>
+                <p-dropdown class="selectyaer" [options]="TypeList" [(ngModel)]="selectedtype" (onChange)="selectType()"
+                    optionLabel="name"></p-dropdown>
+                <div class="step">
+                    <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 1</label><br>
+                    <p-inputNumber [(ngModel)]="selectedWorkflow.step1" mode="decimal" [showButtons]="true"
+                        inputId="minmax-buttons" [min]="0" [max]="5">
+                    </p-inputNumber>
                 </div>
-            </ng-template>
-        </p-pickList>
+                <div class="step">
+                    <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 2</label><br>
+                    <p-inputNumber [(ngModel)]="selectedWorkflow.step2" mode="decimal" [showButtons]="true"
+                        inputId="minmax-buttons" [min]="0" [max]="5">
+                    </p-inputNumber>
+                </div>
+                <div class="step">
+                    <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 3</label><br>
+                    <p-inputNumber [(ngModel)]="selectedWorkflow.step3" mode="decimal" [showButtons]="true"
+                        inputId="minmax-buttons" [min]="0" [max]="5">
+                    </p-inputNumber>
+                </div>
+                <div class="step">
+                    <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 4</label><br>
+                    <p-inputNumber [(ngModel)]="selectedWorkflow.step4" mode="decimal" [showButtons]="true"
+                        inputId="minmax-buttons" [min]="0" [max]="5">
+                    </p-inputNumber>
+                </div>
+                <div class="step">
+                    <label for="minmax-buttons">{{langs.get('step')[selectlang]}} 5</label><br>
+                    <p-inputNumber [(ngModel)]="selectedWorkflow.step5" mode="decimal" [showButtons]="true"
+                        inputId="minmax-buttons" [min]="0" [max]="5">
+                    </p-inputNumber>
+                </div>
+
+                <p-pickList class="picklistvertical" [metaKeySelection]="true" [responsive]="true"
+                    [source]="position_level_source" [target]="position_level_target"
+                    sourceHeader="{{langs.get('position_level')[selectlang]}}"
+                    targetHeader="{{langs.get('position_select')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
+                    [targetStyle]="{'height':'15rem'}" (onSourceSelect)="teset($event)"
+                    (onTargetSelect)="teset2($event)">
+                    <ng-template let-data pTemplate="item">
+                        <div>
+                            <div style="font-size:14px;float:left;">{{data.position_level}} - {{selectlang
+                                =='EN'?data.position_name_en:data.position_name_th }}</div>
+                        </div>
+                    </ng-template>
+                </p-pickList>
 
 
-        <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
-            (click)="Save()"></button>
-        <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}" icon="pi pi-trash"
-            class="p-button-danger" (click)="Delete()"></button>
-    </div>
+                <button pButton type="button" label="{{langs.get('save')[selectlang]}}" icon="pi pi-check"
+                    (click)="Save()"></button>
+                <button *ngIf="edit_data" pButton type="button" label="{{langs.get('delete')[selectlang]}}"
+                    icon="pi pi-trash" class="p-button-danger" (click)="Delete()"></button>
+            </div>
+        </div>
+    </p-dialog>
+    <div *ngIf="new_data" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
+    (click)="close()"></div>
     <!-- --------------End form Input Data ------------------ -->
 </div>

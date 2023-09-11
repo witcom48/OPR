@@ -95,6 +95,7 @@ export class GroupService {
   public group_delete(model:GroupModel) {
     // console.log('GRP003..');
     const data = {
+        company_code: this.initial_current.CompCode,
         group_id: model.group_id,
         group_code: model.group_code,
         modified_by: this.initial_current.Username

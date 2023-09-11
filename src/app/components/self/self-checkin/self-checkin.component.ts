@@ -7,7 +7,7 @@ import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
 import { cls_MTReqdocumentModel } from 'src/app/models/self/cls_MTReqdocument';
 import { cls_TRTimecheckinModel } from 'src/app/models/self/cls_TRTimecheckin';
- import { TimecheckinServices } from 'src/app/services/self/timecheckin.service';
+import { TimecheckinServices } from 'src/app/services/self/timecheckin.service';
 import { LocationService } from 'src/app/services/system/policy/location.service';
 import { AreaServices } from 'src/app/services/self/area.service';
 import { MTAreaModel } from 'src/app/models/self/MTArea';
@@ -51,6 +51,8 @@ export class SelfCheckinComponent implements OnInit {
     private accountServie: AccountServices,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   Uploadfile: boolean = false;
   markers: any = [];
@@ -217,6 +219,8 @@ export class SelfCheckinComponent implements OnInit {
     });
   }
   doLoadMenu() {
+    this.mainMenuItems = [{ label: this.langs.get('employee')[this.selectlang], routerLink: '/self/employee' },
+    { label: this.langs.get('title_checkin')[this.selectlang], routerLink: '/self/req_checkin', styleClass: 'activelike' }]
     this.items = [
       {
         label: this.langs.get('new')[this.selectlang],

@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,7 +7,8 @@
         <i></i>
         <small>{{langs.get('title_daytype')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
 <hr>
 <div class="grid">
@@ -139,7 +140,7 @@
             <textarea [(ngModel)]="selectedtimedaytype.timedaytype_note" pInputTextarea [autoResize]="true"></textarea>
 
         </div>
-        <div class="field col-12" *ngIf="!edit_data&&initial_current.Usertype == 'GRP'" >
+        <div class="field col-12" *ngIf="!edit_data&&initial_current.Usertype == 'GRP'">
             <p-pickList [source]="account_list_source" [target]="account_list_dest"
                 sourceFilterPlaceholder="{{langs.get('search')[selectlang]}}"
                 targetFilterPlaceholder="{{langs.get('search')[selectlang]}}" [showSourceControls]="false"
@@ -209,7 +210,8 @@
 
     </div>
 </p-dialog>
-
+<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
+    (click)="closeManage()"></div>
 <p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>

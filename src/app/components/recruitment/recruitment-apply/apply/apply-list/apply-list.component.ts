@@ -710,6 +710,8 @@ export class ApplyListComponent implements OnInit {
         this.doLoadReqPositionList()
         this.doLoadReqSalaryList()
         this.doLoadReqBenefitList()
+        //image
+        // this.doLoadImageReq()
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
@@ -788,6 +790,8 @@ export class ApplyListComponent implements OnInit {
         this.record_empposition(Code)
         this.record_empsalary(Code)
         this.record_empbenefit(Code)
+        //--image
+        // this.uploadImageEmp(Code)
 
         //--update status
         this.doUpdateStatus("F")
@@ -1103,5 +1107,20 @@ export class ApplyListComponent implements OnInit {
         } else {
         }
       });
+  }
+
+  fileToUploadEmp: File | any = null;
+  doLoadImageReq() {
+    this.applyworkService.doGetReqImages(this.initial_current.CompCode, this.selectedReqworker.worker_code).then((res) => {
+      let resultJSON = JSON.parse(res);
+      if (resultJSON.result == "1") {
+        this.fileToUploadEmp = resultJSON.data;
+      }
+    })
+  }
+  uploadImageEmp(code: any) {
+    this.employeeService.uploadImages(this.fileToUploadEmp, this.initial_current.CompCode, code).then((res) => {
+      let resultJSON = JSON.parse(res);
+    })
   }
 }

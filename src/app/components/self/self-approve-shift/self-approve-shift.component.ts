@@ -46,6 +46,8 @@ export class SelfApproveShiftComponent implements OnInit {
     private timecardService: TimecardService,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   reason_list: ReasonsModel[] = [];
   reasonselected: ReasonsModel = new ReasonsModel();
   shift_new_list: ShiftModels[] = [];
@@ -155,7 +157,8 @@ export class SelfApproveShiftComponent implements OnInit {
     this.closeManage()
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    { label: this.langs.get('title_shfit')[this.selectlang], routerLink: '/self/approve_shift', styleClass: 'activelike' }]
     this.items = [
 
       {

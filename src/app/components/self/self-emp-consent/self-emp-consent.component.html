@@ -1,5 +1,5 @@
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>{{langs.get('title')[selectlang]}}</span>
     <div>
         <i></i>
@@ -7,9 +7,10 @@
         <i></i>
         <small>{{langs.get('title_consent')[selectlang]}}</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <!-- ---------END Link Page----------- -->
-<hr>
+<!-- <hr> -->
 <div class="field col-12">
     <!-- <p-menubar [model]="items_attfile"></p-menubar> -->
     <p-table #dt1 [value]="pdpa_list" selectionMode="single" [(selection)]="pdpa_select"
@@ -68,3 +69,6 @@
         </div>
     </div>
 </p-dialog>
+
+<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
