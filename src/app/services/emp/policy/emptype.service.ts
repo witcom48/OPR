@@ -59,7 +59,15 @@ export class EmptypeService {
   public type_get(){
     // console.log('ETP001..');
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/type_list', this.basicRequest, this.options).toPromise()
+    var filter = {
+      device_name:'',
+      ip:"localhost",
+      username:this.initial_current.Username,
+      company_code:this.initial_current.CompCode,
+      language:"",
+    }
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/type_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
       // console.log(res)
@@ -74,6 +82,7 @@ export class EmptypeService {
         type_code: model.type_code,
         type_name_th: model.type_name_th,
         type_name_en: model.type_name_en,
+        company_code : model.company_code||this.initial_current.CompCode,
         modified_by: this.initial_current.Username
     };
 
@@ -88,6 +97,7 @@ export class EmptypeService {
     const data = {
         type_id: model.type_id,
         type_code: model.type_code,
+        company_code : model.company_code || this.initial_current.CompCode,
         modified_by: this.initial_current.Username
     };
 

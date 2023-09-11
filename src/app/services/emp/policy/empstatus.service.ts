@@ -64,7 +64,15 @@ export class EmpstatusService {
   public status_get(){
     // console.log('STT001..');
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/status_list', this.basicRequest, this.options).toPromise()
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      language: ""
+    };
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/status_list', filter, this.options).toPromise()
     .then((res) => {
       let message = JSON.parse(res);
       // console.log(res)
@@ -79,6 +87,7 @@ export class EmpstatusService {
         status_code: model.status_code,
         status_name_th: model.status_name_th,
         status_name_en: model.status_name_en,
+        company_code : model.company_code || this.initial_current.CompCode,
         modified_by: this.initial_current.Username
     };
 
@@ -93,6 +102,7 @@ export class EmpstatusService {
     const data = {
         status_id: model.status_id,
         status_code: model.status_code,
+        company_code: model.company_code || this.initial_current.CompCode,
         modified_by: this.initial_current.Username
     };
 

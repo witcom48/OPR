@@ -25,12 +25,17 @@ export class InitialCurrent {
   PR_Year: string = new Date().getFullYear().toString();
   PR_Period: string = "01";
   PR_Enable: boolean = true;
-
   Token: string = "";
 
   PolMenu: PolmenuModel = new PolmenuModel();
   PolMenu_Code: string = ""
-
+  private loading: boolean = false;
+  public setLoading(loading: boolean) {
+    this.loading = loading;
+  }
+  public getLoading(): boolean {
+    return this.loading;
+  }
   public doGetJSONInitialCurrent(): string {
     var item_data: string = "";
     item_data = item_data + "{";

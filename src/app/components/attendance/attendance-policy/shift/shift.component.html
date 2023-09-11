@@ -352,12 +352,12 @@
     </p-dialog>
 </form>
 <!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload">
+<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload" (onHide)="closedupload()">
     <label class="drop-container">
         <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
         <input type="file"
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            required (change)="handleFileInput($any($event).target.files)">
+            required (change)="handleFileInput($any($event).target.files)" #importFile>
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>

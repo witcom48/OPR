@@ -3,7 +3,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
-
+import { CommonModule } from '@angular/common';
 import { NgChartsModule } from 'ng2-charts';
  
 import { DatePipe } from '@angular/common';
@@ -31,6 +31,7 @@ registerLocaleData(localeth);
         LeafletModule,
         EditorModule,
         NgChartsModule,
+        CommonModule
      ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

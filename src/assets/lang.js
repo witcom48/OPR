@@ -272,7 +272,7 @@ var planholiday = new Map([
     ["date", { TH: "วันที่", EN: "Date" }],
     ["daytype", { TH: "ประเภทวัน", EN: "Day Type" }],
     ["ratepay", { TH: "อัตราการจ่าย", EN: "Rate Payment" }],
-    ["holiday", { TH: "วันหยุดเทศการ", EN: "Holiday" }],
+    ["holiday", { TH: "วันหยุดประเพณี", EN: "Holiday" }],
     ["companyday", { TH: "วันหยุดบริษัท", EN: "Company day" }],
 ]);
 
@@ -489,7 +489,7 @@ var rateot = new Map([
     ["break", { TH: "เวลาพัก (ชม.)", EN: "Break (Hrs.)" }],
     ["after", { TH: "หลังเลิกงาน (ชม.)", EN: "After (Hrs.)" }],
     ["offday", { TH: "วันหยุด", EN: "Offday" }],
-    ["holiday", { TH: "วันหยุดเทศการ", EN: "Holiday" }],
+    ["holiday", { TH: "วันหยุดประเพณี", EN: "Holiday" }],
     ["companyday", { TH: "วันหยุดบริษัท", EN: "Companyday" }],
     ["normalday", { TH: "วันทำงานปกติ", EN: "Normalday" }],
 ]);
