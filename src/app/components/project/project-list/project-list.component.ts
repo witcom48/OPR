@@ -148,9 +148,11 @@ export class ProjectListComponent implements OnInit {
             this.selectedProject = new ProjectModel();
             this.selectedProbusiness = new ProbusinessModel();
             this.selectedProtype = new ProtypeModel();
-            this.new_data = true;
-            this.edit_data = false;
-            this.showManage()
+            this.selectProject();
+
+            // this.new_data = true;
+            // this.edit_data = false;
+            // this.showManage()
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
           }
@@ -192,12 +194,14 @@ export class ProjectListComponent implements OnInit {
   }
 
   doLoadMaster() {
-    this.genaralService.probusiness_get().then((res) => {
+    var tmp = new ProbusinessModel();
+
+    this.genaralService.probusiness_get(tmp).then((res) => {
       //// console.log(res)
       this.probusiness_list = res;
     });
-
-    this.genaralService.protype_get().then((res) => {
+    var tmp2 = new ProtypeModel();
+    this.genaralService.protype_get(tmp2).then((res) => {
       this.protype_list = res;
     });
   }

@@ -2,6 +2,8 @@ export class  ProgroupModel {
     constructor() {
      
     }
+    company_code: string = "";
+
     progroup_id: string = "1";
     progroup_code: string = "";
     progroup_name_th: string = "";

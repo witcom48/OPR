@@ -294,22 +294,27 @@ export class ProGenaralComponent implements OnInit {
 
     switch (this.page_type) {
       case "probusiness":
-        this.genaralService.probusiness_get().then((res) => {
+        var tmp = new ProbusinessModel();
+        this.genaralService.probusiness_get(tmp).then((res) => {
           this.probusiness_list = res;
         });
         break;
       case "protype":
-        this.genaralService.protype_get().then((res) => {
+        var tmp2 = new ProtypeModel();
+        this.genaralService.protype_get(tmp2).then((res) => {
           this.protype_list = res;
         });
         break;
       case "prouniform":
-        this.genaralService.prouniform_get().then((res) => {
+        var tmp3 = new ProuniformModel();
+        this.genaralService.prouniform_get(tmp3).then((res) => {
           this.prouniform_list = res;
         });
         break;
       case "proslip":
-        this.genaralService.proslip_get().then((res) => {
+        var tmp4 = new ProslipModel();
+
+        this.genaralService.proslip_get(tmp4).then((res) => {
           this.proslip_list = res;
         });
         break;
@@ -319,12 +324,16 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
       case "proarea":
-        this.genaralService.proarea_get().then((res) => {
+        var tmp5 = new ProareaModel();
+
+        this.genaralService.proarea_get(tmp5).then((res) => {
           this.proarea_list = res;
         });
         break;
       case "progroup":
-        this.genaralService.progroup_get().then((res) => {
+        var tmp6 = new ProgroupModel();
+
+        this.genaralService.progroup_get(tmp6).then((res) => {
           this.progroup_list = res;
         });
         break;

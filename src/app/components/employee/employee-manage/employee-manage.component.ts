@@ -2694,7 +2694,9 @@ export class EmployeeManageComponent implements OnInit {
   //drop uniform
   uniformList: ProuniformModel[] = [];
   doLoadUniformList() {
-    this.genaralService.prouniform_get().then((res) => {
+    var tmp3 = new ProuniformModel();
+
+    this.genaralService.prouniform_get(tmp3).then((res) => {
       this.uniformList = res;
     })
   }

@@ -80,6 +80,8 @@ import { RoundsModel } from 'src/app/models/system/manage/rounds';
 import { RoundsService } from 'src/app/services/system/manage1/rounds.service';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { YearService } from 'src/app/services/system/policy/year.service';
+import { ProvinceModel } from 'src/app/models/system/policy/province';
+import { ProvinceService } from 'src/app/services/system/policy/province.service';
 
 
 @Component({
@@ -93,6 +95,7 @@ export class ProjectManageComponent implements OnInit {
 
   manage_title: string = ""
   toolbar_menu: MenuItem[] = [];
+  toolbar_menubar: MenuItem[] = [];
 
   days: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturay"];
 
@@ -103,8 +106,9 @@ export class ProjectManageComponent implements OnInit {
   rounds_type: string = "";
   time_list: RoundsModel[] = [];
   currency_list: RoundsModel[] = [];
-
   yeargroup_list: YearPeriodModels[] = [];
+  provinceList: ProvinceModel[] = [];
+  
   //
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
@@ -350,6 +354,7 @@ export class ProjectManageComponent implements OnInit {
 
   title_regular: { [key: string]: string } = { EN: "Regular", TH: "ประจำ" }
   title_temporary: { [key: string]: string } = { EN: "Temporary", TH: "ชั่วคราว" }
+  title_back: { [key: string]: string } = { EN: "Back", TH: "ย้อนกลับ" }
 
   //#endregion "Language"
 
@@ -376,8 +381,9 @@ export class ProjectManageComponent implements OnInit {
     private lateServices: LateServices,
     private roundsService: RoundsService,
     private yearServices: YearService,
+    private provinceService: ProvinceService,
 
-  ) {
+   ) {
 
 
   }
@@ -401,10 +407,18 @@ export class ProjectManageComponent implements OnInit {
 
     setTimeout(() => {
 
-      this.doLoadProject()
-      this.doLoadEmployee()
+       this.doLoadEmployee()
 
     }, 400);
+
+  
+  setTimeout(() => {
+      if (this.project_code != "") {
+          this.doLoadProject();
+      }
+  }, 400);
+
+
 
   }
 
@@ -470,6 +484,27 @@ export class ProjectManageComponent implements OnInit {
   }
 
   doLoadMenu() {
+    this.toolbar_menubar = [
+      {
+        label: this.title_back[this.initial_current.Language],
+        icon: 'pi-arrow-left',
+        command: (event) => {
+          this.router.navigateByUrl('project/list');
+        }
+      },
+      {
+        label: this.title_save[this.initial_current.Language],
+        icon: 'pi pi-fw pi-save',
+        command: (event) => {
+          if (this.accessData.accessdata_edit) {
+            // console.log('Save');
+            this.confirmRecord();
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
+        }
+
+      },];
 
     this.toolbar_menu = [
       {
@@ -520,32 +555,30 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_export[this.initial_current.Language],
         icon: 'pi pi-fw pi-file-export',
       }
+      // ,
+      // {
+      //   label: this.title_edit[this.initial_current.Language],
+      //   icon: 'pi pi-fw pi-pencil',
+      //   command: (event) => {
+      //     this.clearManage()
+      //     if (this.selectedProcontact != null) {
+      //       this.edit_procontact = true
+      //       this.showManage()
+      //     }
+      //   }
+      // }
+      // ,
+      // {
+      //   label: this.title_import[this.initial_current.Language],
+      //   icon: 'pi pi-fw pi-file-import',
+      // }
+      // ,
+      // {
+      //   label: this.title_export[this.initial_current.Language],
+      //   icon: 'pi pi-fw pi-file-export',
+      // }
       ,
-      {
-        label: this.title_edit[this.initial_current.Language],
-        icon: 'pi pi-fw pi-pencil',
-        command: (event) => {
-          this.clearManage()
-          if (this.selectedProcontact != null) {
-            this.edit_procontact = true
-            this.showManage()
-          }
-        }
-      }
-      ,
-      {
-        label: this.title_import[this.initial_current.Language],
-        icon: 'pi pi-fw pi-file-import',
-      }
-      ,
-      {
-        label: this.title_export[this.initial_current.Language],
-        icon: 'pi pi-fw pi-file-export',
-      }
-      ,
-      //
-      
-      //
+ 
       {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
@@ -1434,32 +1467,36 @@ export class ProjectManageComponent implements OnInit {
 
   
   doLoadMaster() {
-    this.genaralService.probusiness_get().then((res) => {
+    var tmp = new ProbusinessModel();
+
+    this.genaralService.probusiness_get(tmp).then((res) => {
       //// console.log(res)
       this.probusiness_list = res;
     });
+    var tmp2 = new ProtypeModel();
 
-    this.genaralService.protype_get().then((res) => {
+    this.genaralService.protype_get(tmp2).then((res) => {
       this.protype_list = res;
     });
-
-    this.genaralService.proarea_get().then((res) => {
+    var tmp5 = new ProareaModel();
+    this.genaralService.proarea_get(tmp5).then((res) => {
       this.proarea_list = res;
     });
+    var tmp6 = new ProgroupModel();
 
-    this.genaralService.progroup_get().then((res) => {
+    this.genaralService.progroup_get(tmp6).then((res) => {
       this.progroup_list = res;
     });
     //
-    var tmp = new RoundsModel();
-    tmp.round_group = this.rounds_type = "Time";
-    this.roundsService.rounds_get(tmp).then((res) => {
+    var tmpr = new RoundsModel();
+    tmpr.round_group = this.rounds_type = "Time";
+    this.roundsService.rounds_get(tmpr).then((res) => {
       this.time_list = res;
       console.log(res,'Time')
     });
 
-    tmp.round_group = this.rounds_type = "Currency";
-    this.roundsService.rounds_get(tmp).then((res) => {
+    tmpr.round_group = this.rounds_type = "Currency";
+    this.roundsService.rounds_get(tmpr).then((res) => {
       this.currency_list = res;
     });
 
@@ -1468,8 +1505,22 @@ export class ProjectManageComponent implements OnInit {
     this.yearServices.year_get(tmps).then((res) => {
       this.yeargroup_list = res;
     });
-    //
 
+    var tmp7 = new ProvinceModel();
+    this.provinceService.province_get(tmp7).then((res) => {
+      this.provinceList = res;
+    });
+
+ 
+    //
+    // provinceList: ProvinceModel[] = [];
+    // doLoadprovinceList() {
+    //     var tmp = new ProvinceModel();
+
+    //     this.provinceService.provinceService(tmp).then((res) => {
+    //         this.provinceList = res;
+    //     });
+    // }
 
     this.doLoadInitial()
     this.doLoadPosition()
@@ -1503,7 +1554,7 @@ export class ProjectManageComponent implements OnInit {
 
         this.projectService.project_record(this.selectedProject).then((res) => {
           let result = JSON.parse(res);
-          console.log(res,'rrr')
+          // console.log(res,'rrr')
           if (result.success) {
 
             //-- Transaction
@@ -1516,9 +1567,10 @@ export class ProjectManageComponent implements OnInit {
             //this.projobcontract_record()
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-            this.doLoadProject()
-          }
-          else {
+
+            this.router.navigateByUrl('project/list');
+            this.doLoadProject();
+          }else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
           }
         });
@@ -1575,6 +1627,7 @@ export class ProjectManageComponent implements OnInit {
             }, 400);
 
           }
+          
           else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
           }
@@ -1637,7 +1690,13 @@ export class ProjectManageComponent implements OnInit {
     this.new_projobmachine = false; this.edit_projobmachine = false;
 
     this.edit_projobversion = false; this.new_projobversion = false;
-
+    this.new_projobcontract = false; this.edit_projobcontract = false;
+    this.new_projobsub = false; this.edit_projobsub = false;
+    this.new_projobsubcontract = false; this.edit_projobsubcontract = false;
+    this.new_projobsubcost = false; this.edit_projobsubcost = false;
+    this.new_projobmain = false;this.edit_projobmain = false;
+    this.new_projobshift = false; this.edit_projobshift = false;
+    this.new_projobpol = false; this.edit_projobpol = false;
   }
 
   displayManage: boolean = false;
@@ -2338,7 +2397,9 @@ export class ProjectManageComponent implements OnInit {
 
   polslip_list: ProslipModel[] = [];
   doLoadPolProslip() {
-    this.genaralService.proslip_get().then(async (res) => {
+    var tmp4 = new ProslipModel();
+
+    this.genaralService.proslip_get(tmp4).then(async (res) => {
       this.polslip_list = await res;
     });
   }
@@ -2357,8 +2418,10 @@ export class ProjectManageComponent implements OnInit {
   }
 
   poluniform_list: ProuniformModel[] = [];
-  doLoadPolProuniform() {
-    this.genaralService.prouniform_get().then(async (res) => {
+  doLoadPolProuniform() 
+  {
+    var tmp3 = new ProuniformModel();
+    this.genaralService.prouniform_get(tmp3).then(async (res) => {
       this.poluniform_list = await res;
     });
   }
@@ -2382,7 +2445,7 @@ export class ProjectManageComponent implements OnInit {
 
   projobmain_summary() {
 
-    return
+    // return
 
     this.project_summary_emp = 0
     this.project_summary_cost = 0
