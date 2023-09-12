@@ -62,11 +62,13 @@ export class HolidayComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
+    this.initial_current.loading = true;
     this.doGetInitialCurrent();
     this.doLoadMenu()
     this.doLoadYear();
   }
   doLoadYear() {
+    this.initial_current.loading = true;
     this.yaerList = [];
     var tmp = new YearPeriodModels();
     tmp.year_group = "LEAVE"
@@ -80,6 +82,7 @@ export class HolidayComponent implements OnInit {
   }
 
   doLoadPlanholiday() {
+    this.initial_current.loading = true;
     this.holiday_lists = [];
     var tmp = new HolidayModels();
     if (this.selectedyear) {
@@ -96,10 +99,12 @@ export class HolidayComponent implements OnInit {
         })
       });
       this.holiday_lists = await res;
+      this.initial_current.loading = false;
     });
   }
 
   async doRecordPlanholiday(data: HolidayModels) {
+    this.initial_current.loading = true
     data.year_code = this.selectedyear.code;
     await this.planholidayService.planholiday_record(data).then((res) => {
       if (res.success) {
@@ -109,12 +114,13 @@ export class HolidayComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   async doDeletePlanholiday(data: HolidayModels) {
+    this.initial_current.loading = true;
     await this.planholidayService.planholiday_delete(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -123,12 +129,13 @@ export class HolidayComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   doUploadPlanholiday() {
+    this.initial_current.loading = true;
     const filename = "PLANHOLIDAY_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.planholidayService.planholiday_import(this.fileToUpload, filename, filetype).then((res) => {
@@ -143,6 +150,7 @@ export class HolidayComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
       this.fileToUpload = null;
+      this.initial_current.loading = false;
     });
   }
   closedupload() {

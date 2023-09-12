@@ -106,6 +106,7 @@ export class SetuppolicyComponent implements OnInit {
     this.selectlang = this.initial_current.Language;
   }
   ngOnInit(): void {
+    this.initial_current.loading = true;
     this.doGetInitialCurrent();
     this.doLoadYear();
     this.doLoadPlanshift();
@@ -117,6 +118,7 @@ export class SetuppolicyComponent implements OnInit {
     this.doLoadPlanAllowance();
   }
   doLoadPlanholiday() {
+    this.initial_current.loading = true;
     this.policyholiday = [];
     var tmp = new HolidayModels();
     tmp.year_code = this.initial_current.PR_Year
@@ -133,9 +135,11 @@ export class SetuppolicyComponent implements OnInit {
       //   name: this.policyholiday[0]?.name,
       //   code: this.policyholiday[0]?.code
       // }
+      this.initial_current.loading = false;
     });
   }
   doLoadPlanshift() {
+    this.initial_current.loading = true;
     var tmp = new ShiftplanModels();
     this.planshiftService.planshift_get(tmp).then(async (res) => {
       await res.forEach(async (element: ShiftplanModels) => {
@@ -153,9 +157,11 @@ export class SetuppolicyComponent implements OnInit {
       //     code: this.policyshift[0]?.code
       //   }
       // }
+      this.initial_current.loading = false;
     });
   }
   doLoadOt() {
+    this.initial_current.loading = true;
     var tmp = new OvertimeModels();
     this.OtService.ot_get(tmp).then(async (res) => {
       await res.forEach((element: OvertimeModels) => {
@@ -173,9 +179,11 @@ export class SetuppolicyComponent implements OnInit {
       //     code: this.policyOT[0]?.code
       //   }
       // }
+      this.initial_current.loading = false;
     });
   }
   doLoadDiligence() {
+    this.initial_current.loading = true;
     var tmp = new DiligenceModels();
     this.diligenceServices.diligence_get(tmp).then(async (res) => {
       await res.forEach((element: DiligenceModels) => {
@@ -193,10 +201,12 @@ export class SetuppolicyComponent implements OnInit {
       //     code: this.policydiligence[0]?.code
       //   }
       // }
+      this.initial_current.loading = false;
     });
   }
 
   doLoadLate() {
+    this.initial_current.loading = true;
     var tmp = new LateModels();
     this.lateService.late_get(tmp).then(async (res) => {
       await res.forEach((element: LateModels) => {
@@ -214,10 +224,12 @@ export class SetuppolicyComponent implements OnInit {
       //     code: this.policylate[0]?.code
       //   }
       // }
+      this.initial_current.loading = false;
     });
   }
 
   doLoadPlanleave() {
+    this.initial_current.loading = true;
     var tmp = new LeaveplanModels();
     this.planleaveService.planleave_get(tmp).then(async (res) => {
       res.forEach((element: LeaveplanModels) => {
@@ -235,10 +247,12 @@ export class SetuppolicyComponent implements OnInit {
       //     code: this.policyleave[0]?.code
       //   }
       // }
+      this.initial_current.loading = false;
     });
   }
 
   doLoadPlanAllowance() {
+    this.initial_current.loading = true;
     var tmp = new cls_MTPlantimeallw();
     this.timeallow.timeallow_get(tmp).then(async (res) => {
       await res.forEach((element: cls_MTPlantimeallw) => {
@@ -256,9 +270,11 @@ export class SetuppolicyComponent implements OnInit {
       //     code: this.policyallow[0]?.code
       //   }
       // }
+      this.initial_current.loading = false;
     });
   }
   async process(pol_type: string) {
+    this.initial_current.loading = true;
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       // console.log("select", pol_type);
@@ -322,6 +338,7 @@ export class SetuppolicyComponent implements OnInit {
   }
 
   async SetPolicyAtt(pol_type: string, policy: string) {
+    this.initial_current.loading = true;
     var data = new SetPolicyAttModels();
     data.pol_code = policy
     data.pol_type = pol_type;
@@ -340,9 +357,11 @@ export class SetuppolicyComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: pol_type + " : " + res.message });
       }
       this.loading = false;
+      this.initial_current.loading = false;
     });
   }
   async SetShift() {
+    this.initial_current.loading = true;
     var data = new SetShiftModels();
     data.planshift_code = this.policyshiftselect.code
     data.year_code = this.yearselect.code;
@@ -361,6 +380,7 @@ export class SetuppolicyComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Shift : ' + res.result_text });
       }
       this.loading = false;
+      this.initial_current.loading = false;
     });
   }
 

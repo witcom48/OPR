@@ -29,13 +29,7 @@ export class InitialCurrent {
 
   PolMenu: PolmenuModel = new PolmenuModel();
   PolMenu_Code: string = ""
-  private loading: boolean = false;
-  public setLoading(loading: boolean) {
-    this.loading = loading;
-  }
-  public getLoading(): boolean {
-    return this.loading;
-  }
+  loading: boolean = false;
   public doGetJSONInitialCurrent(): string {
     var item_data: string = "";
     item_data = item_data + "{";
@@ -60,6 +54,7 @@ export class InitialCurrent {
     item_data = item_data + ",\"PR_Period\":\"" + this.PR_Period + "\"";
     item_data = item_data + ",\"PolMenu_Code\":\"" + this.PolMenu_Code + "\"";
     item_data = item_data + ",\"PolMenu\":\"" + this.PolMenu + "\"";
+    item_data = item_data + ",\"loading\":\"" + this.loading + "\"";
 
     item_data = item_data + "}";
 

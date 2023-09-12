@@ -93,6 +93,7 @@ export class SetAttpayComponent implements OnInit {
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
   ngOnInit(): void {
+    this.initial_current.loading = true;
     this.doGetInitialCurrent();
 
     setTimeout(() => {
@@ -102,6 +103,7 @@ export class SetAttpayComponent implements OnInit {
   }
 
   doLoadResult() {
+    this.initial_current.loading = true;
     var tmp = new EmpattitemModel();
     this.empAttItemServices.EmpAttItem_get(tmp).then(async (res) => {
       await res.forEach((element: EmpattitemModel) => {
@@ -120,6 +122,7 @@ export class SetAttpayComponent implements OnInit {
           }
         )
       });
+      this.initial_current.loading = false;
     });
   }
 
@@ -133,6 +136,7 @@ export class SetAttpayComponent implements OnInit {
   itemslv_list: any[] = [];
 
   doLoadItemsList() {
+    this.initial_current.loading = true;
     var tmp = new ItemsModel();
     this.itemService.item_get(tmp).then(async (res) => {
       await res.forEach((element: ItemsModel) => {
@@ -155,6 +159,7 @@ export class SetAttpayComponent implements OnInit {
 
 
       });
+      this.initial_current.loading = false;
     });
 
   }
@@ -187,6 +192,7 @@ export class SetAttpayComponent implements OnInit {
   }
 
   async SetPolicyAtt() {
+    this.initial_current.loading = true;
     var data = new EmpattitemModel();
     data.item_sa = this.selectedItem.item_sa
     data.item_ot = this.selectedItem.item_ot
@@ -215,6 +221,7 @@ export class SetAttpayComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
       this.loading = false;
+      this.initial_current.loading = false;
     });
   }
 

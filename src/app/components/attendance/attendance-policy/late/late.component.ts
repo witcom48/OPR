@@ -51,19 +51,23 @@ export class LateComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
+    this.initial_current.loading = true;
     this.doGetInitialCurrent();
     this.doLoadMenu();
     this.doLoadLate();
   }
 
   doLoadLate() {
+    this.initial_current.loading = true;
     this.late_list = [];
     var tmp = new LateModels();
     this.lateService.late_get(tmp).then(async (res) => {
       this.late_list = await res;
+      this.initial_current.loading = false;
     });
   }
   async doRecordLate(data: LateModels) {
+    this.initial_current.loading = true;
     await this.lateService.late_record(data).then((res) => {
       // console.log(res)
       if (res.success) {
@@ -73,12 +77,13 @@ export class LateComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   async doDeleteLate(data: LateModels) {
+    this.initial_current.loading = true;
     await this.lateService.late_delete(data).then((res) => {
       // console.log(res)
       if (res.success) {
@@ -88,12 +93,13 @@ export class LateComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   doUploadLate() {
+    this.initial_current.loading = true;
     const filename = "LATE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.lateService.late_import(this.fileToUpload, filename, filetype).then((res) => {
@@ -108,6 +114,7 @@ export class LateComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
       this.fileToUpload = null;
+      this.initial_current.loading = false;
     });
   }
   handleFileInput(file: FileList) {

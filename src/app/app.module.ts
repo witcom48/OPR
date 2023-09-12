@@ -16,6 +16,7 @@ import { ToastModule } from 'primeng/toast';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { EditorModule } from 'primeng/editor';
 import localeth from '@angular/common/locales/th';
+import { SystemModule } from './components/system/system.module';
 registerLocaleData(localeth);
 
 @NgModule({
@@ -31,7 +32,8 @@ registerLocaleData(localeth);
         LeafletModule,
         EditorModule,
         NgChartsModule,
-        CommonModule
+        CommonModule,
+        SystemModule
      ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

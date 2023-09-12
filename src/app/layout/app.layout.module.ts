@@ -22,6 +22,7 @@ import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SystemModule } from '../components/system/system.module';
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
         DropdownModule,
         PdfViewerModule,
         DialogModule,
-        ButtonModule
+        ButtonModule,
+        SystemModule
     ],
     exports: [AppLayoutComponent]
 })

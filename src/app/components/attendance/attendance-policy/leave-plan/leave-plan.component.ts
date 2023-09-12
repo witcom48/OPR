@@ -52,20 +52,24 @@ export class LeavePlanComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
+    this.initial_current.loading = true;
     this.doGetInitialCurrent();
     this.doLoadMenu();
     this.doLoadLeave();
   }
 
   doLoadLeave() {
+    this.initial_current.loading = true;
     this.leaves_list = [];
     var tmp = new LeaveModels();
     this.leaveService.leave_get(tmp).then(async (res) => {
       this.leaves_list = await res;
+      this.initial_current.loading = false;
       this.doLoadPlanleave();
     });
   }
   doLoadPlanleave() {
+    this.initial_current.loading = true;
     this.leaveplan_list = [];
     var tmp = new LeaveplanModels();
     this.planleaveService.planleave_get(tmp).then(async (res) => {
@@ -77,9 +81,11 @@ export class LeavePlanComponent implements OnInit {
         })
       });
       this.leaveplan_list = await res;
+      this.initial_current.loading = false;
     });
   }
   async doRecordPlanleave(data: LeaveplanModels) {
+    this.initial_current.loading = true;
     await this.planleaveService.planleave_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -88,12 +94,13 @@ export class LeavePlanComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   async doDeletePlanleave(data: LeaveplanModels) {
+    this.initial_current.loading = true;
     await this.planleaveService.planleave_delete(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -102,12 +109,13 @@ export class LeavePlanComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   doUploadPlanleave() {
+    this.initial_current.loading = true;
     const filename = "PLANLEAVE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.planleaveService.planleave_import(this.fileToUpload, filename, filetype).then((res) => {
@@ -121,6 +129,7 @@ export class LeavePlanComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
       this.fileToUpload = null;
+      this.initial_current.loading = false;
     });
   }
   handleFileInput(file: FileList) {
