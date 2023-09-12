@@ -51,13 +51,13 @@
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
-<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
-     ></div>
+<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 
-<p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage" styleClass="dialog-overflow"
-    [style]="{width: '30vw'}" [position]="position">
+<p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage"
+    [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position">
     <p-scrollPanel [style]="{width: '25vw', height: '500px'}">
-        <div class="formgrid grid" *ngIf="edit_data==true || new_data==true">
+        <div class="formgrid grid   p-dialog-content" *ngIf="edit_data==true || new_data==true">
 
             <div class="field col-12 ">
                 <label for="ppos_code">{{title_projectcode[initial_current.Language]}}</label>
@@ -67,19 +67,24 @@
 
             <div class="field col-12 ">
                 <label for="ppos_name_th">{{title_projectname[initial_current.Language]}} (TH)</label>
+                <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_name_th"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <!-- </div>
                 <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProject.project_name_th" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
+                    pInputTextarea [autoResize]="true"></textarea> -->
             </div>
             <div class="field col-12 ">
                 <label for="ppos_name_en">{{title_projectname[initial_current.Language]}} (EN)</label>
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProject.project_name_en" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
+                <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_name_en"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <!-- <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProject.project_name_en" [cols]="30"
+                    pInputTextarea [autoResize]="true"></textarea> -->
             </div>
 
             <div class="field col-12">
                 <label for="lastname2">{{title_probusiness[initial_current.Language]}}</label><br>
 
-                <p-dropdown [options]="probusiness_list" optionValue="probusiness_code"
+                <p-dropdown placeholder="--" [options]="probusiness_list" optionValue="probusiness_code"
                     [(ngModel)]="selectedProject.project_probusiness" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -94,7 +99,7 @@
             <div class="field col-12">
                 <label for="lastname2">{{title_protype[initial_current.Language]}}</label><br>
 
-                <p-dropdown [options]="protype_list" optionValue="protype_code"
+                <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
                     [(ngModel)]="selectedProject.project_protype" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -106,14 +111,15 @@
                 </p-dropdown>
             </div>
 
-            <div class="field col-12">
+            <div style="text-align: right;">
+                <br />
                 <button *ngIf="new_data" pButton label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
                     (click)="confirmRecord()"></button>
                 <button *ngIf="edit_data" pButton label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
                     (click)="confirmRecord()" [disabled]="!this.accessData.accessdata_edit"></button>
                 &nbsp;
                 <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
-                    (click)="selectProject()" class="p-button-secondary"></button>
+                    (click)="selectProject()"   class="p-button-secondary"></button>
                 <!-- &nbsp; -->
                 <!-- <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
                     class="p-button-outlined p-button-secondary" (click)="close_manage()"></button> -->
@@ -168,7 +174,10 @@
                     <th></th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-project>
+            <ng-template pTemplate="body" let-project let-i="rowIndex">
+                 
+
+            <!-- <ng-template pTemplate="body" let-project> -->
                 <tr>
                     <td>{{project.project_code}}</td>
                     <td class="text-left">

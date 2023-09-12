@@ -148,9 +148,11 @@ export class ProjectListComponent implements OnInit {
             this.selectedProject = new ProjectModel();
             this.selectedProbusiness = new ProbusinessModel();
             this.selectedProtype = new ProtypeModel();
-            this.new_data = true;
-            this.edit_data = false;
-            this.showManage()
+            this.selectProject();
+
+            // this.new_data = true;
+            // this.edit_data = false;
+            // this.showManage()
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
           }
