@@ -152,7 +152,7 @@ export class SystemProvinceComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Province.xlsx', '_blank');
@@ -182,7 +182,9 @@ export class SystemProvinceComponent implements OnInit {
     this.doLoadProvince()
   }
   doLoadProvince() {
-    this.provinceService.province_get().then((res) => {
+    var tmp = new ProvinceModel();
+
+    this.provinceService.province_get(tmp).then((res) => {
       this.province_list = res;
     });
   }

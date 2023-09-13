@@ -65,10 +65,18 @@ export class ItemsPlanComponent implements OnInit {
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
   title_delete: { [key: string]: string } = { EN: "Delete", TH: "ลบ" }
   title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
+  title_new: { [key: string]: string } = { EN: "New", TH: "เพิ่ม" }
 
   title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
 
-
+  //
+  title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" }
+  title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
+  title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
+  title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
+  title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
+  title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
+  //
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu();
@@ -106,8 +114,7 @@ export class ItemsPlanComponent implements OnInit {
   }
   async doRecordPlanitems(data: PlanitemsModels) {
     await this.planitemsService.planitems_record(data).then((res) => {
-      console.log(data, 'l')
-      if (res.success) {
+       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadPlanitems();
       }
@@ -137,6 +144,7 @@ export class ItemsPlanComponent implements OnInit {
     this.displayManage = false;
 
   }
+   
   doUploadPlanitems() {
     const filename = "PLANitems_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
@@ -185,7 +193,7 @@ export class ItemsPlanComponent implements OnInit {
       }
       ,
       {
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Planitems.xlsx', '_blank');
@@ -224,7 +232,7 @@ export class ItemsPlanComponent implements OnInit {
         header: "Import File",
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-           this.displayUpload = false;
+          this.displayUpload = false;
           this.doUploadPlanitems()
         },
         reject: () => {
@@ -252,11 +260,28 @@ export class ItemsPlanComponent implements OnInit {
     this.itemsplans = new PlanitemsModels()
   }
   Save() {
-    console.log(this.itemsplans)
-    this.doRecordPlanitems(this.itemsplans)
+    this.confirmationService.confirm({
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doRecordPlanitems(this.itemsplans)
+      },
+      reject: () => {
+      }
+    });
   }
   Delete() {
-     this.doDeletePlanitems(this.itemsplans)
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletePlanitems(this.itemsplans)
+      },
+      reject: () => {
+      }
+    });
   }
   onRowSelect(event: any) {
     this.items_listselect = []
@@ -267,7 +292,7 @@ export class ItemsPlanComponent implements OnInit {
 
   }
   displayManage: boolean = false;
-  position: string = "right";
+  position: string = "center";
   showManage() {
     this.displayManage = true
   }

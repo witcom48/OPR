@@ -346,24 +346,30 @@ export class ProjectMonitorComponent implements OnInit {
 
   probusiness_list: ProbusinessModel[] = []; 
   doLoadProjectBusiness(){       
-    this.probusiness_list = []   
-    this.progenaralService.probusiness_get().then(async (res) => {
+    this.probusiness_list = []  
+    var tmp = new ProbusinessModel();
+ 
+    this.progenaralService.probusiness_get(tmp).then(async (res) => {
       this.probusiness_list = await res;      
     }); 
   }
 
   protype_list: ProtypeModel[] = [];  
   doLoadProjectType(){      
-    this.protype_list = []   
-    this.progenaralService.protype_get().then(async (res) => {
+    this.protype_list = []  
+    var tmp = new ProtypeModel();
+
+    this.progenaralService.protype_get(tmp).then(async (res) => {
       this.protype_list = await res;      
     });     
   }
   //
   proarea_list: ProareaModel[] = [];  
   doLoadProareaType(){      
-    this.proarea_list = []   
-    this.progenaralService.proarea_get().then(async (res) => {
+    this.proarea_list = [] 
+    var tmp = new ProareaModel();
+  
+    this.progenaralService.proarea_get(tmp).then(async (res) => {
       this.proarea_list = await res;      
     });     
   }
@@ -371,7 +377,9 @@ export class ProjectMonitorComponent implements OnInit {
   progroup_list: ProgroupModel[] = [];  
   doLoadProgroupType(){      
     this.progroup_list = []   
-    this.progenaralService.progroup_get().then(async (res) => {
+    var tmp = new ProgroupModel();
+
+    this.progenaralService.progroup_get(tmp).then(async (res) => {
       this.progroup_list = await res;      
     });     
   }

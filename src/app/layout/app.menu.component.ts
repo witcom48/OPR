@@ -6,6 +6,7 @@ import { PolmenuServices } from '../services/system/security/polmenu.service';
 import { PolmenuModel } from '../models/system/security/polmenu';
 import { AccessdataModel } from '../models/system/security/accessdata';
 import { AccessmenuModel } from '../models/system/security/accessmenu';
+import { InitialCurrent } from '../config/initial_current';
 
 // Define TypeScript enum for module codes
 enum ModuleCode {
@@ -28,16 +29,19 @@ enum ModuleCode {
 })
 export class AppMenuComponent implements OnInit {
     menuItems: any[] = [{ label: '', items: [] }];
-
+    initialData: InitialCurrent = new InitialCurrent();
     constructor(
         private router: Router,
         private polmenuServices: PolmenuServices,
     ) { }
 
     ngOnInit() {
+        this.initialData.loading = true;
         const initialSessionData = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
 
         if (!initialSessionData.Token) {
+            // this.initialData.setLoading(false);
+            this.initialData.loading = false;
             this.router.navigateByUrl('login');
             return;
         }
@@ -170,6 +174,8 @@ export class AppMenuComponent implements OnInit {
 
         if (moduleMenuConfig[initialSessionData.Usertype]) {
             this.menuItems[0].items = [moduleMenuConfig[initialSessionData.Usertype]];
+            // this.initialData.setLoading(false);
+            this.initialData.loading = false;
         }
 
         if (initialSessionData.PolMenu_Code) {
@@ -192,6 +198,8 @@ export class AppMenuComponent implements OnInit {
                             });
                         }
                     });
+                    this.initialData.loading = false;
+                    // this.initialData.setLoading(false);
                     // Generate menu items for other modules based on their access permissions...
                 });
         }

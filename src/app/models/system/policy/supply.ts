@@ -2,7 +2,7 @@ export class SupplyModel {
     constructor() {
              
     }
-    
+    company_code: string = "";
     supply_id: string = "0";
     supply_code: string = "";
     supply_name_th: string = "";

@@ -29,11 +29,10 @@
 <div class="tabledata">
     <div #TABLE>
         <div *ngIf="probusiness">
-            <p-table #dt2 [value]="probusiness_list" [tableStyle]="{'min-width': '60rem'}"
-                [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-                [(selection)]="selectedProbusiness" (onRowSelect)="onRowSelectProbusiness($event)"
-                dataKey="probusiness_code" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true"
+            <p-table #dt2 [value]="probusiness_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProbusiness"
+                (onRowSelect)="onRowSelectProbusiness($event)" dataKey="probusiness_code" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                 [globalFilterFields]="['probusiness_code','probusiness_name_th','probusiness_name_en']">
                 <ng-template pTemplate="caption">
@@ -69,10 +68,10 @@
         </div>
 
         <div *ngIf="protype">
-            <p-table #dt3 [value]="protype_list"   [tableStyle]="{'min-width': '60rem'}"
-                [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-                [(selection)]="selectedProtype" (onRowSelect)="onRowSelectProtype($event)" dataKey="protype_code"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            <p-table #dt3 [value]="protype_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProtype"
+                (onRowSelect)="onRowSelectProtype($event)" dataKey="protype_code" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                 [globalFilterFields]="['protype_code','protype_name_th','protype_name_en']">
                 <ng-template pTemplate="caption">
@@ -108,11 +107,10 @@
         </div>
 
         <div *ngIf="prouniform">
-            <p-table #dt4 [value]="prouniform_list"   [tableStyle]="{'min-width': '60rem'}"
-                [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-                [(selection)]="selectedProuniform" (onRowSelect)="onRowSelectProuniform($event)"
-                dataKey="prouniform_code" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true"
+            <p-table #dt4 [value]="prouniform_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProuniform"
+                (onRowSelect)="onRowSelectProuniform($event)" dataKey="prouniform_code" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                 [globalFilterFields]="['prouniform_code','prouniform_name_th','prouniform_name_en']">
                 <ng-template pTemplate="caption">
@@ -148,10 +146,10 @@
         </div>
 
         <div *ngIf="proslip">
-            <p-table #dt5 [value]="proslip_list"   [tableStyle]="{'min-width': '60rem'}"
-                [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-                [(selection)]="selectedProslip" (onRowSelect)="onRowSelectProslip($event)" dataKey="proslip_code"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            <p-table #dt5 [value]="proslip_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProslip"
+                (onRowSelect)="onRowSelectProslip($event)" dataKey="proslip_code" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                 [globalFilterFields]="['proslip_code','proslip_name_th','proslip_name_en']">
                 <ng-template pTemplate="caption">
@@ -187,10 +185,10 @@
         </div>
 
         <div *ngIf="procost">
-            <p-table #dt6 [value]="procost_list"   [tableStyle]="{'min-width': '60rem'}"
-                [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-                [(selection)]="selectedProcost" (onRowSelect)="onRowSelectProcost($event)" dataKey="procost_code"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            <p-table #dt6 [value]="procost_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProcost"
+                (onRowSelect)="onRowSelectProcost($event)" dataKey="procost_code" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                 [globalFilterFields]="['procost_code','procost_name_th','procost_name_en']">
                 <ng-template pTemplate="caption">
@@ -226,10 +224,10 @@
         </div>
 
         <div *ngIf="proarea">
-            <p-table #dt5 [value]="proarea_list"   [tableStyle]="{'min-width': '60rem'}"
-                [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-                [(selection)]="selectedProarea" (onRowSelect)="onRowSelectProarea($event)" dataKey="proarea_code"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            <p-table #dt5 [value]="proarea_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProarea"
+                (onRowSelect)="onRowSelectProarea($event)" dataKey="proarea_code" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                 [globalFilterFields]="['proarea_code','proarea_name_th','proarea_name_en']">
                 <ng-template pTemplate="caption">
@@ -304,248 +302,292 @@
         </div>
 
     </div>
+    <form #Form="ngForm">
+        <div *ngIf="displaymanage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter" ></div>
+        <p-dialog [(visible)]="displaymanage" position="right">
+            <div *ngIf="probusiness">
+                <div class="formatt">
 
+                    <i (click)="close()"></i>
 
-    <div *ngIf="probusiness">
-        <div class="formatt" *ngIf="edit_data==true || new_data==true">
-
-            <i (click)="close()"></i>
-            
-                <label for="ppos_code">{{title_code}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedProbusiness.probusiness_code"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [readonly]="edit_data">
+                    <label for="ppos_code">{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedProbusiness.probusiness_code"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        maxlength="10" disabled="{{edit_data}}" name="probusiness_code" #probusiness_code="ngModel"
+                        required>
                     <p>{{selectedProbusiness.probusiness_code.length}}/10</p>
 
-                <label for="ppos_name_th">{{title_name_th}}</label>
-           
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProbusiness.probusiness_name_th" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
-        
-                <label for="ppos_name_en">{{title_name_en}}</label>
-           
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProbusiness.probusiness_name_en" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
-      
-                <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+                    <label for="ppos_name_th">{{title_name_th}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProbusiness.probusiness_name_th"
+                        [cols]="30" pInputTextarea [autoResize]="true" name="probusiness_name_th"
+                        #probusiness_name_th="ngModel" required></textarea>
+
+                    <label for="ppos_name_en">{{title_name_en}}<span style="color: red;"> *</span></label>
+
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProbusiness.probusiness_name_en"
+                        [cols]="30" pInputTextarea [autoResize]="true" name="probusinesprobusiness_name_ens_name_th"
+                        #probusiness_name_en="ngModel" required></textarea>
+
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp; -->
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-save" (click)="confirmRecord()"></button>
+                    <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                    (click)="confirmRecord()"></button>
 
-                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
-                    class="btndel" (click)="confirmDelete()"></button>
-        
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
+                    (click)="confirmDelete()"></button> -->
+                </div>
+            </div>
 
-        </div>
-    </div>
+            <div *ngIf="protype">
+                <div class="formatt" *ngIf="edit_data==true || new_data==true">
 
-    <div *ngIf="protype">
-        <div class="formatt" *ngIf="edit_data==true || new_data==true">
+                    <i (click)="close()"></i>
 
-            <i (click)="close()"></i>
-           
-                <label for="ppos_code">{{title_code}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedProtype.protype_code"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [readonly]="edit_data">
+                    <label for="ppos_code">{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedProtype.protype_code"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        maxlength="10" disabled="{{edit_data}}" name="protype_code" #protype_code="ngModel" required>
                     <p>{{selectedProtype.protype_code.length}}/10</p>
 
-                <label for="ppos_name_th">{{title_name_th}}</label>
-             
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProtype.protype_name_th" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
-    
-                <label for="ppos_name_en">{{title_name_en}}</label>
-             
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProtype.protype_name_en" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
-          
-                <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+                    <label for="ppos_name_th">{{title_name_th}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProtype.protype_name_th" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="protype_name_th" #protype_name_th="ngModel"
+                        required></textarea>
+
+                    <label for="ppos_name_en">{{title_name_en}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProtype.protype_name_en" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="protype_name_en" #protype_name_en="ngModel"
+                        required></textarea>
+
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp; -->
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-save" (click)="confirmRecord()"></button>
+                    <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                    (click)="confirmRecord()"></button>
 
-                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
-                    class="btndel" (click)="confirmDelete()"></button>
-          
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
+                    (click)="confirmDelete()"></button> -->
 
-        </div>
-    </div>
 
-    <div *ngIf="prouniform">
-        <div class="formatt" *ngIf="edit_data==true || new_data==true">
+                </div>
+            </div>
 
-            <i (click)="close()"></i>
-            
-                <label for="ppos_code">{{title_code}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedProuniform.prouniform_code"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [readonly]="edit_data">
+            <div *ngIf="prouniform">
+                <div class="formatt" *ngIf="edit_data==true || new_data==true">
+
+                    <i (click)="close()"></i>
+
+                    <label for="ppos_code">{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedProuniform.prouniform_code"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        maxlength="10" disabled="{{edit_data}}" name="prouniform_code" #prouniform_code="ngModel"
+                        required>
                     <p>{{selectedProuniform.prouniform_code.length}}/10</p>
 
-                <label for="ppos_name_th">{{title_name_th}}</label>
-              
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProuniform.prouniform_name_th" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
-           
-                <label for="ppos_name_en">{{title_name_en}}</label>
-             
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProuniform.prouniform_name_en" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
-        
-                <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+                    <label for="ppos_name_th">{{title_name_th}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProuniform.prouniform_name_th"
+                        [cols]="30" pInputTextarea [autoResize]="true" name="prouniform_name_th"
+                        #prouniform_name_th="ngModel" required></textarea>
+
+                    <label for="ppos_name_en">{{title_name_en}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProuniform.prouniform_name_en"
+                        [cols]="30" pInputTextarea [autoResize]="true" name="prouniform_name_en"
+                        #prouniform_name_en="ngModel" required></textarea>
+
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp; -->
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-save" (click)="confirmRecord()"></button>
+                    <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                    (click)="confirmRecord()"></button>
 
-                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
-                    class="btndel" (click)="confirmDelete()"></button>
-         
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
+                    (click)="confirmDelete()"></button> -->
 
-        </div>
-    </div>
 
-    <div *ngIf="proslip">
-        <div class="formatt" *ngIf="edit_data==true || new_data==true">
+                </div>
+            </div>
 
-            <i (click)="close()"></i>
-           
-                <label for="ppos_code">{{title_code}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedProslip.proslip_code"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                    maxlength="10" [readonly]="edit_data">
+            <div *ngIf="proslip">
+                <div class="formatt" *ngIf="edit_data==true || new_data==true">
+
+                    <i (click)="close()"></i>
+
+                    <label for="ppos_code">{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedProslip.proslip_code"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        maxlength="10" disabled="{{edit_data}}" name="proslip_code" #proslip_code="ngModel" required>
                     <p>{{selectedProslip.proslip_code.length}}/10</p>
 
-                <label for="ppos_name_th">{{title_name_th}}</label>
-            
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProslip.proslip_name_th" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
-       
-                <label for="ppos_name_en">{{title_name_en}}</label>
-            
-                <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProslip.proslip_name_en" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea>
-      
-                <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+                    <label for="ppos_name_th">{{title_name_th}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProslip.proslip_name_th" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="proslip_name_th" #proslip_name_th="ngModel"
+                        required></textarea>
+
+                    <label for="ppos_name_en">{{title_name_en}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProslip.proslip_name_en" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="proslip_name_en" #proslip_name_en="ngModel"
+                        required></textarea>
+
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp; -->
-                <button pButton type="button" label="{{title_save}}" icon="pi pi-save" (click)="confirmRecord()"></button>
+                    <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                    (click)="confirmRecord()"></button>
 
-                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}"
-                    class="btndel" (click)="confirmDelete()"></button>
-      
-
-        </div>
-    </div>
-
-    <div *ngIf="procost">
-        <div class="formatt" *ngIf="edit_data==true || new_data==true">
-
-            <i (click)="close()"></i>
-
-            <label for="ppos_code">{{title_code}}</label>
-            <input type="text" id="ppos_code" [(ngModel)]="selectedProcost.procost_code"
-                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                maxlength="10" [readonly]="edit_data">
-                <p>{{selectedProcost.procost_code.length}}/10</p>
-
-            <label for="ppos_name_th">{{title_name_th}}</label>
-
-            <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProcost.procost_name_th" [cols]="30"
-                pInputTextarea [autoResize]="true"></textarea>
-
-            <label for="ppos_name_en">{{title_name_en}}</label>
-
-            <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProcost.procost_name_en" [cols]="30"
-                pInputTextarea [autoResize]="true"></textarea>
-
-            <label for="procost_type">{{title_type}}</label> 
-            <p-dropdown placeholder="--" [options]="procosttype_list" [(ngModel)]="selectedProcostType"
-                optionLabel="text" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-
-            <label for="procost_itemcode">{{title_itemcode}}</label>
-            <p-dropdown placeholder="--" [options]="procostitem_list" [(ngModel)]="selectedProcostItem"
-                optionLabel="text" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
+                    (click)="confirmDelete()"></button> -->
 
 
-            <p-checkbox [(ngModel)]="selectedProcost.procost_auto" [binary]="true"></p-checkbox>&nbsp;{{title_auto}}
+                </div>
+            </div>
 
-            <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+            <div *ngIf="procost">
+                <div class="formatt" *ngIf="edit_data==true || new_data==true">
+
+                    <i (click)="close()"></i>
+
+                    <label for="ppos_code">{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedProcost.procost_code"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        maxlength="10" disabled="{{edit_data}}" name="procost_code" #procost_code="ngModel" required>
+                    <p>{{selectedProcost.procost_code.length}}/10</p>
+
+                    <label for="ppos_name_th">{{title_name_th}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProcost.procost_name_th" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="procost_name_th" #procost_name_th="ngModel"
+                        required></textarea>
+
+                    <label for="ppos_name_en">{{title_name_en}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProcost.procost_name_en" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="procost_name_en" #procost_name_en="ngModel"
+                        required></textarea>
+
+                    <label for="procost_type">{{title_type}}</label>
+                    <p-dropdown placeholder="--" [options]="procosttype_list" [(ngModel)]="selectedProcostType"
+                        optionLabel="text" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
+                        name="Type" #Type="ngModel"></p-dropdown>
+
+                    <label for="procost_itemcode">{{title_itemcode}}</label>
+                    <p-dropdown placeholder="--" [options]="procostitem_list" [(ngModel)]="selectedProcostItem"
+                        optionLabel="text" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
+                        name="item" #item="ngModel"></p-dropdown>
+
+
+                    <p-checkbox [(ngModel)]="selectedProcost.procost_auto"
+                        [binary]="true"></p-checkbox>&nbsp;{{title_auto}}
+
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
             &nbsp; -->
-            <button pButton type="button" label="{{title_save}}" icon="pi pi-save" (click)="confirmRecord()"></button>
+                    <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                    (click)="confirmRecord()"></button>
 
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
-                (click)="confirmDelete()"></button>
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
+                    (click)="confirmDelete()"></button> -->
 
-        </div>
-    </div>
+                </div>
+            </div>
 
-    <div *ngIf="proarea">
-        <div class="formatt" *ngIf="edit_data==true || new_data==true">
+            <div *ngIf="proarea">
+                <div class="formatt" *ngIf="edit_data==true || new_data==true">
 
-            <i (click)="close()"></i>
-
-
-            <label for="ppos_code">{{title_code}}</label>
-            <input type="text" id="ppos_code" [(ngModel)]="selectedProarea.proarea_code"
-                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                maxlength="10" [readonly]="edit_data">
-                <p>{{selectedProarea.proarea_code.length}}/10</p>
+                    <i (click)="close()"></i>
 
 
-            <label for="ppos_name_th">{{title_name_th}}</label>
+                    <label for="ppos_code">{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedProarea.proarea_code"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        maxlength="10" disabled="{{edit_data}}" name="proarea_code" #proarea_code="ngModel" required>
+                    <p>{{selectedProarea.proarea_code.length}}/10</p>
 
-            <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProarea.proarea_name_th" [cols]="30"
-                pInputTextarea [autoResize]="true"></textarea>
+
+                    <label for="ppos_name_th">{{title_name_th}}<span style="color: red;"> *</span></label>
+
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProarea.proarea_name_th" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="proarea_name_th" #proarea_name_th="ngModel"
+                        required></textarea>
 
 
-            <label for="ppos_name_en">{{title_name_en}}</label>
+                    <label for="ppos_name_en">{{title_name_en}}<span style="color: red;"> *</span></label>
 
-            <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProarea.proarea_name_en" [cols]="30"
-                pInputTextarea [autoResize]="true"></textarea>
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProarea.proarea_name_en" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="proarea_name_en" #proarea_name_en="ngModel"
+                        required></textarea>
 
-            <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
                 &nbsp; -->
-            <button pButton type="button" label="{{title_save}}" icon="pi pi-save" (click)="confirmRecord()"></button>
+                    <!-- <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                    (click)="confirmRecord()"></button>
 
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
-                (click)="confirmDelete()"></button>
-
-
-        </div>
-    </div>
-
-    <div *ngIf="progroup">
-        <div class="formatt" *ngIf="edit_data==true || new_data==true">
-
-            <i (click)="close()"></i>
-
-            <label for="ppos_code">{{title_code}}</label>
-            <input type="text" id="ppos_code" [(ngModel)]="selectedProgroup.progroup_code"
-                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                maxlength="10" [readonly]="edit_data">
-            <p>{{selectedProgroup.progroup_code.length}}/10</p>
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
+                    (click)="confirmDelete()"></button> -->
 
 
+                </div>
+            </div>
 
-            <label for="ppos_name_th">{{title_name_th}}</label>
+            <div *ngIf="progroup">
+                <div class="formatt" *ngIf="edit_data==true || new_data==true">
 
-            <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProgroup.progroup_name_th" [cols]="30"
-                pInputTextarea [autoResize]="true"></textarea>
+                    <i (click)="close()"></i>
 
-            <label for="ppos_name_en">{{title_name_en}}</label>
+                    <label for="ppos_code">{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedProgroup.progroup_code"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        maxlength="10" disabled="{{edit_data}}" name="progroup_code" #progroup_code="ngModel" required>
+                    <p>{{selectedProgroup.progroup_code.length}}/10</p>
 
-            <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProgroup.progroup_name_en" [cols]="30"
-                pInputTextarea [autoResize]="true"></textarea>
 
-            <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+
+                    <label for="ppos_name_th">{{title_name_th}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProgroup.progroup_name_th" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="progroup_name_th" #progroup_name_th="ngModel"
+                        required></textarea>
+
+                    <label for="ppos_name_en">{{title_name_en}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProgroup.progroup_name_en" [cols]="30"
+                        pInputTextarea [autoResize]="true" name="progroup_name_en" #progroup_name_en="ngModel"
+                        required></textarea>
+
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
             &nbsp; -->
+                    <!-- 
+                <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                    (click)="confirmRecord()"></button>
 
-            <button pButton type="button" label="{{title_save}}" icon="pi pi-save" (click)="confirmRecord()"></button>
-
-            <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
-                (click)="confirmDelete()"></button>
-
-
-        </div>
-    </div>
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
+                    (click)="confirmDelete()"></button> -->
 
 
+                </div>
+
+            </div>
+            <div style="text-align: right;">
+                <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                    [disabled]="!Form.form.valid" (click)="confirmRecord()" class="button-size"></button>
+
+                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()"
+                    label="{{ title_save }}" icon="pi pi-save"
+                    [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                    class="button-size"></button>
+
+
+                <!-- <button pButton type="button" class="button-size" label="{{title_save}}" icon="pi pi-save"
+                   [disabled]="!Form.form.valid" (click)="Save()"></button> -->
+                &nbsp;
+                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                    class="p-button-secondary button-size btndel" (click)="confirmDelete()"
+                    [disabled]="!this.accessData.accessdata_delete"></button>
+            </div>
+
+            <!-- <div style="display: flex;flex-direction: column;gap: 10px;">
+                <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{title_save}}" icon="pi pi-check"
+                    class="p-button-secondary" (click)="confirmRecord()"></button>
+                <button *ngIf="edit_data" pRipple pButton type="submit" label="{{title_save}}" icon="pi pi-check"
+                    [disabled]="!this.accessData.accessdata_edit" class="p-button-secondary"
+                    (click)="confirmRecord()"></button>
+                <button *ngIf="edit_data" pRipple pButton type="button" label="{{title_delete}}"
+                    (click)="confirmDelete()" icon="pi pi-trash" [disabled]="!this.accessData.accessdata_delete"
+                    class="p-button-secondary btndel"></button>
+            </div> -->
+        </p-dialog>
+    </form>
 
 </div>

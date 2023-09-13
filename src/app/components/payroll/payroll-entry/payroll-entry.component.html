@@ -122,7 +122,7 @@
                     <!-- -----------------------END Table-------------------------- -->
 
                     <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
-                        [position]="position" >
+                    (onHide)="reloadPage()"  [position]="position" >
                         <div class="formatt" *ngIf="new_data">
                             <!-- <i class="pi pi-times" (click)="close()"></i> -->
                             <div>
@@ -225,7 +225,7 @@
             <!-- ConfirmDialog and toast Noti -->
             <p-toast position="top-right"></p-toast>
             <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-                rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+            key="myDialog" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
             <!-- ----------------------END Confirm and Toast------------------------ -->
 
             <p-tabPanel>

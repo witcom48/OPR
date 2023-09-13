@@ -29,6 +29,7 @@ export class OvertimeComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  @ViewChild('importFile') importFile: any
   @ViewChild('TABLE') table: ElementRef | any = null;
   itemslike: MenuItem[] = [];
   home: any;
@@ -57,6 +58,7 @@ export class OvertimeComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
+    this.initial_current.loading = true;
     this.doGetInitialCurrent();
     this.doLoadMenu()
     this.doLoadOt();
@@ -80,13 +82,16 @@ export class OvertimeComponent implements OnInit {
     ]
   }
   doLoadOt() {
+    this.initial_current.loading = true;
     this.overtime_list = [];
     var tmp = new OvertimeModels();
     this.OtService.ot_get(tmp).then(async (res) => {
       this.overtime_list = await res;
+      this.initial_current.loading = false;
     });
   }
   async doRecordOt(data: OvertimeModels) {
+    this.initial_current.loading = true;
     await this.OtService.ot_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -95,13 +100,14 @@ export class OvertimeComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
 
   async doDeleteOt(data: OvertimeModels) {
+    this.initial_current.loading = true;
     await this.OtService.ot_delete(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -110,12 +116,13 @@ export class OvertimeComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   doUploadOt() {
+    this.initial_current.loading = true;
     const filename = "RATEOT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.OtService.ot_import(this.fileToUpload, filename, filetype).then((res) => {
@@ -129,6 +136,7 @@ export class OvertimeComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
       this.fileToUpload = null;
+      this.initial_current.loading = false;
     });
   }
 
@@ -138,6 +146,10 @@ export class OvertimeComponent implements OnInit {
 
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+  }
+  closedupload() {
+    this.importFile.nativeElement.value = null
+    this.fileToUpload = null;
   }
 
   onRowSelectList(event: any) {
@@ -206,6 +218,7 @@ export class OvertimeComponent implements OnInit {
     ];
   }
   showUpload() {
+    this.closedupload();
     this.displayUpload = true;
   }
   Uploadfile() {

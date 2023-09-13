@@ -57,6 +57,7 @@ export class VerifyComponent implements OnInit {
   selectaccount: TRAccountModel = new TRAccountModel();
   initail_current: InitialCurrent = new InitialCurrent();
   ngOnInit(): void {
+    this.initail_current.loading = true;
     this.doLoadLocation();
   }
   doLoadYear(com: string) {
@@ -77,6 +78,7 @@ export class VerifyComponent implements OnInit {
     });
   }
   doPeriod(com: string) {
+    this.initail_current.loading = true;
     this.periods_list = [];
     var tmp = new PeriodsModels();
     tmp.year_code = this.yearperiods_select.year_code;
@@ -90,10 +92,12 @@ export class VerifyComponent implements OnInit {
       // console.log(res)
       this.periods_list = await res;
       this.periods_select = await res[0]
+      this.initail_current.loading = false;
       // // console.log(this.datePipe.transform(this.periods_select.period_from, 'dd') + " - " + this.datePipe.transform(this.periods_select.period_payment, 'dd MMM yyyy', "", this.localdis) + "(" + this.datePipe.transform(this.periods_select.period_from, 'dd MMM yyyy', "", this.localdis) + " - " + this.datePipe.transform(this.periods_select.period_to, 'dd MMM yyyy', "", this.localdis) + ")")
     });
   }
   doLoadLocation() {
+    this.initail_current.loading = true;
     this.company_list = [];
     this.companyService.company_get("").then(async (res) => {
       res.forEach((obj: CompanyModel) => {
@@ -102,10 +106,12 @@ export class VerifyComponent implements OnInit {
       });
       this.company_list = await res;
       this.comselected = res[0];
+      this.initail_current.loading = false;
     });
   }
 
   doLogin() {
+    this.initail_current.loading = true;
     // console.log(this.comselected.company_code)
     // console.log(this.user)
     // console.log(this.pass)
@@ -183,6 +189,7 @@ export class VerifyComponent implements OnInit {
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('incorrect')[this.selectlang] })
       }
+      this.initail_current.loading = false;
     });
   }
   selectcom() {
@@ -212,6 +219,7 @@ export class VerifyComponent implements OnInit {
 
   }
   selectuser() {
+    this.initail_current.loading = true;
     this.initail_current.PR_Year = this.yearperiods_select.year_code;
     this.initail_current.PR_FromDate = new Date(this.periods_select.period_from);
     this.initail_current.PR_ToDate = new Date(this.periods_select.period_to);
@@ -223,6 +231,7 @@ export class VerifyComponent implements OnInit {
     this.initail_current.TA_FromDate = new Date(this.periods_select.period_from);
     this.initail_current.TA_ToDate = new Date(this.periods_select.period_to);
     localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
+    this.initail_current.loading = false;
     if (this.initail_current.Token) {
       window.location.href = "";
       // this.router.navigateByUrl('');

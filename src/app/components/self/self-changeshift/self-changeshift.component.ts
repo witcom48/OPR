@@ -47,6 +47,8 @@ export class SelfChangeshiftComponent implements OnInit {
     private accountServie: AccountServices,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   reason_list: ReasonsModel[] = [];
   reasonselected: ReasonsModel = new ReasonsModel();
   shift_new_list: ShiftModels[] = [];
@@ -208,7 +210,8 @@ export class SelfChangeshiftComponent implements OnInit {
     this.closeManage()
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: this.langs.get('employee')[this.selectlang], routerLink: '/self/employee' },
+    { label: this.langs.get('title_shfit')[this.selectlang], routerLink: '/self/req_shift', styleClass: 'activelike' }]
     this.items = [
 
       {

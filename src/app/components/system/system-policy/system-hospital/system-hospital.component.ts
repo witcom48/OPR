@@ -158,7 +158,7 @@ export class SystemHospitalComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Hospital.xlsx', '_blank');
@@ -188,7 +188,9 @@ export class SystemHospitalComponent implements OnInit {
     this.doLoadHospital()
   }
   doLoadHospital() {
-    this.hospitalService.hospital_get().then((res) => {
+    var tmp = new HospitalModel();
+
+    this.hospitalService.hospital_get(tmp).then((res) => {
       this.hospital_list = res;
     });
   }

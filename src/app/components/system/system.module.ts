@@ -83,6 +83,7 @@ import { AddYearComponent } from './system-manage/year/add-year/add-year.compone
 import { SystemSupplyComponent } from './system-policy/system-supply/system-supply.component';
 import { SystemUniformComponent } from './system-policy/system-uniform/system-uniform.component';
 import { PolroundsComponent } from './system-manage/polrounds/polrounds.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 @NgModule({
@@ -170,7 +171,8 @@ import { PolroundsComponent } from './system-manage/polrounds/polrounds.componen
         SystemSupplyComponent,
         SystemUniformComponent,
         PolroundsComponent,
-     ],
-    exports: [YearComponent, ReasonComponent, LocationComponent,SystemReduceComponent],
+        SpinnerComponent,
+    ],
+    exports: [YearComponent, ReasonComponent, LocationComponent, SystemReduceComponent, SpinnerComponent],
 })
-export class SystemModule {}
+export class SystemModule { }

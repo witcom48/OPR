@@ -24,6 +24,7 @@ export class DiligenceComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
   ) { }
+  @ViewChild('importFile') importFile: any
   @ViewChild('TABLE') table: ElementRef | any = null;
   itemslike: MenuItem[] = [];
   home: any;
@@ -51,11 +52,13 @@ export class DiligenceComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
+    this.initial_current.loading = true;
     this.doGetInitialCurrent();
     this.doLoadMenu();
     this.doLoadDiligence();
   }
   doLoadDiligence() {
+    this.initial_current.loading = true;
     this.diligence_list = [];
     var tmp = new DiligenceModels();
     this.diligenceServices.diligence_get(tmp).then(async (res) => {
@@ -67,9 +70,11 @@ export class DiligenceComponent implements OnInit {
         element.diligence_someperiod = element.diligence_someperiod == "Y" ? true : false;
       });
       this.diligence_list = await res;
+      this.initial_current.loading = false;
     });
   }
   async doRecordDiligence(data: DiligenceModels) {
+    this.initial_current.loading = true;
     await this.diligenceServices.diligence_record(data).then((res) => {
       // console.log(res)
       if (res.success) {
@@ -79,13 +84,14 @@ export class DiligenceComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
 
   async doDeleteDiligence(data: DiligenceModels) {
+    this.initial_current.loading = true;
     await this.diligenceServices.diligence_delete(data).then((res) => {
       // console.log(res)
       if (res.success) {
@@ -95,13 +101,14 @@ export class DiligenceComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
 
   doUploadDiligence() {
+    this.initial_current.loading = true;
     const filename = "DILIGENCE_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.diligenceServices.diligence_import(this.fileToUpload, filename, filetype).then((res) => {
@@ -116,6 +123,7 @@ export class DiligenceComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
       this.fileToUpload = null;
+      this.initial_current.loading = false;
     });
   }
 
@@ -123,7 +131,10 @@ export class DiligenceComponent implements OnInit {
     this.fileToUpload = file.item(0);
   }
 
-
+  closedupload() {
+    this.importFile.nativeElement.value = null
+    this.fileToUpload = null;
+  }
   doLoadMenu() {
     this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
       label: this.langs.get('diligence')[this.selectlang], styleClass: 'activelike'
@@ -191,6 +202,7 @@ export class DiligenceComponent implements OnInit {
     // console.log(this.diligencestep)
   }
   showUpload() {
+    this.closedupload();
     this.displayUpload = true;
   }
   Uploadfile() {

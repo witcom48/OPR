@@ -157,7 +157,7 @@ export class SystemBloodtypeComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Bloodtype.xlsx', '_blank');
@@ -187,7 +187,9 @@ export class SystemBloodtypeComponent implements OnInit {
     this.doLoadBloodtype()
   }
   doLoadBloodtype() {
-    this.bloodtypeService.bloodtype_get().then((res) => {
+    var tmp = new BloodtypeModel();
+
+    this.bloodtypeService.bloodtype_get(tmp).then((res) => {
       this.bloodtype_list = res;
     });
   }

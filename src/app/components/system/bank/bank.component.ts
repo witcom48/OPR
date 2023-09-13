@@ -160,7 +160,7 @@ export class BankComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Bank.xlsx', '_blank');
@@ -190,10 +190,18 @@ export class BankComponent implements OnInit {
     this.doLoadBank()
   }
   doLoadBank() {
-    this.bankService.bank_get().then((res) => {
-      this.bank_list = res;
+    this.bank_list = [];
+    var tmp = new BankModel();
+    this.bankService.bank_get(tmp).then(async (res) => {
+      this.bank_list = await res;
     });
   }
+
+  // doLoadBank() {
+  //   this.bankService.bank_get().then((res) => {
+  //     this.bank_list = res;
+  //   });
+  // }
 
   confirmRecord() {
     this.confirmationService.confirm({

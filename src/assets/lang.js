@@ -74,8 +74,9 @@ var rounddecimal = new Map([
     ["descriptionen", { TH: "รายละเอียด (อังกฤษ)", EN: "Description (Eng)" }],
 
     ["description", { TH: "รายละเอียด", EN: "Description" }],
-
+ 
     ["rounddecimal", { TH: "การปัดเศษ", EN: "Round Decimal" }],
+    ["rounds", { TH: "การปัดเศษ", EN: "Rounds  " }],
 
     ["currency", { TH: "ทศนิยม", EN: "Currency" }],
     ["from", { TH: "จาก", EN: "From" }],
@@ -271,7 +272,7 @@ var planholiday = new Map([
     ["date", { TH: "วันที่", EN: "Date" }],
     ["daytype", { TH: "ประเภทวัน", EN: "Day Type" }],
     ["ratepay", { TH: "อัตราการจ่าย", EN: "Rate Payment" }],
-    ["holiday", { TH: "วันหยุดเทศการ", EN: "Holiday" }],
+    ["holiday", { TH: "วันหยุดประเพณี", EN: "Holiday" }],
     ["companyday", { TH: "วันหยุดบริษัท", EN: "Company day" }],
 ]);
 
@@ -488,7 +489,7 @@ var rateot = new Map([
     ["break", { TH: "เวลาพัก (ชม.)", EN: "Break (Hrs.)" }],
     ["after", { TH: "หลังเลิกงาน (ชม.)", EN: "After (Hrs.)" }],
     ["offday", { TH: "วันหยุด", EN: "Offday" }],
-    ["holiday", { TH: "วันหยุดเทศการ", EN: "Holiday" }],
+    ["holiday", { TH: "วันหยุดประเพณี", EN: "Holiday" }],
     ["companyday", { TH: "วันหยุดบริษัท", EN: "Companyday" }],
     ["normalday", { TH: "วันทำงานปกติ", EN: "Normalday" }],
 ]);
@@ -688,6 +689,7 @@ var setpolicy = new Map([
 var workflow = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
+    ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["workflow", { TH: "สายงานการอนุมัติ", EN: "Workflow" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
@@ -818,6 +820,7 @@ var account = new Map([
 
 var area = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
+    ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["area", { TH: "กำนหดพื้นที่เช็คอิน", EN: "Area" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
@@ -1272,6 +1275,7 @@ var reqcheckin = new Map([
 var topic = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
+    ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["topic", { TH: "หัวข้อ", EN: "Topic" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
@@ -1391,6 +1395,7 @@ var login = new Map([
 
 var consent = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
+    ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["title_consent", { TH: "เอกสารยินยอมฯ", EN: "Consent" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],

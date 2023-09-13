@@ -57,21 +57,37 @@ export class CardtypeService {
         this.router.navigateByUrl('login');
       }
     }
+    public cardtype_get(model:CardtypeModel) {
+      let data = {
+         device_name: "phone",
+         ip: "127.0.0.1",
+         username: this.initial_current.Username,
+         company_code:  this.initial_current.CompCode,
+         cardtype_id: model.cardtype_id,
+         cardtype_code: model.cardtype_code
+     }
+     return this.http.post<any>(this.config.ApiSystemModule + '/cardtype_list', data, this.options).toPromise()
+         .then((res) => {
+             let message = JSON.parse(res);
+             return message.data;
+         });
+  }
+    // public cardtype_get(){
+    //   // console.log('CRD001..');
 
-    public cardtype_get(){
-      // console.log('CRD001..');
-
-      return this.http.post<any>(this.config.ApiSystemModule + '/cardtype_list', this.basicRequest, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        // console.log(res)
-        return message.data;
-      });
-    }
+    //   return this.http.post<any>(this.config.ApiSystemModule + '/cardtype_list', this.basicRequest, this.options).toPromise()
+    //   .then((res) => {
+    //     let message = JSON.parse(res);
+    //     // console.log(res)
+    //     return message.data;
+    //   });
+    // }
 
     public cardtype_record(model:CardtypeModel) {
       // console.log('CRD002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         cardtype_id: model.cardtype_id,
         cardtype_code: model.cardtype_code,
         cardtype_name_th: model.cardtype_name_th,
@@ -91,6 +107,8 @@ export class CardtypeService {
     public cardtype_delete(model:CardtypeModel) {
       // console.log('CRD002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         cardtype_id: model.cardtype_id,
         cardtype_code: model.cardtype_code,
           modified_by: this.initial_current.Username

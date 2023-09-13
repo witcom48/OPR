@@ -134,8 +134,8 @@ export class CalculationperiodComponent implements OnInit {
       this.title_new = 'เพิ่ม';
       this.title_type = 'ประเภท';
 
-      this.title_monthly = 'เดือน';
-      this.title_daily = 'วัน';
+      this.title_monthly = 'รายเดือน';
+      this.title_daily = 'รายวัน';
       this.title_date = 'วันที่จ่าย';
       this.title_payment = 'วันที่ชำระเงิน'
       this.title_fromdate = 'จากวันที่'
@@ -245,20 +245,43 @@ export class CalculationperiodComponent implements OnInit {
   async doDeletePeriods(data: PeriodsModels) {
     await this.periodsService.period_delete(data).then((res) => {
       if (res.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-        this.doLoadPeriod()
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: res.message,
+        });
+        this.doLoadPeriod();
         this.new_data = false;
         this.edit_data = false;
         this.displayManage = false;
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-      }
 
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: res.message,
+        });
+      }
     });
-    // this.new_data = false;
-    // this.edit_data = false;
+
+
   }
+  //
+  confirmDelete(data: PeriodsModels) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletePeriods(data);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+ 
 
   doUploadPeriod() {
     const filename = "PERIOD_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
@@ -302,7 +325,7 @@ export class CalculationperiodComponent implements OnInit {
       }
       ,
       {
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Periods.xlsx', '_blank');
@@ -355,12 +378,40 @@ export class CalculationperiodComponent implements OnInit {
     this.selectedPeriods = new PeriodsModels()
   }
   Save() {
-    this.selectedPeriods.emptype_code = this.emptype;
-    this.selectedPeriods.year_code = this.selectedyear.code;
-    this.doRecordPeriod(this.selectedPeriods)
+    this.confirmationService.confirm({
+      message: this.title_confirm_record,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.selectedPeriods.emptype_code = this.emptype;
+        this.selectedPeriods.year_code = this.selectedyear.code;
+        this.doRecordPeriod(this.selectedPeriods)
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+      }
+    });
+
+
   }
+
   Delete() {
-    this.doDeletePeriods(this.selectedPeriods)
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeletePeriods(this.selectedPeriods);
+
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+
+      }
+    });
+
+
   }
   selectYear() {
     this.doLoadPeriod()
@@ -377,27 +428,20 @@ export class CalculationperiodComponent implements OnInit {
     this.displayManage = true;
   }
   exportAsExcel() {
-
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
-    for (var i in ws) {
-      if (i.startsWith("!") || i.charAt(1) !== "1") {
-        continue;
+    const fileToExport = this.periods_list.map((items: any) => {
+      return {
+        "period_no": items?.period_no,
+        "period_name_th": items?.period_name_th,
+        "period_name_en": items?.period_name_en,
+        "period_from": items?.period_from,
+        "period_to": items?.period_to,
+        "period_payment": items?.period_payment,
+        "period_dayonperiod": items?.period_dayonperiod,
       }
-      var n = 0;
-      for (var j in ws) {
-        if (j.startsWith(i.charAt(0)) && j.charAt(1) !== "1" && ws[i].v !== "") {
-          ws[j].v = ws[j].v.replace(ws[i].v, "")
-        } else {
-          n += 1;
-        }
-
-      }
-    }
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileToExport);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
     XLSX.writeFile(wb, 'Export_Period.xlsx');
-
   }
-
 }

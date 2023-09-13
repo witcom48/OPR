@@ -3,7 +3,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
-
+import { CommonModule } from '@angular/common';
 import { NgChartsModule } from 'ng2-charts';
  
 import { DatePipe } from '@angular/common';
@@ -16,6 +16,7 @@ import { ToastModule } from 'primeng/toast';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { EditorModule } from 'primeng/editor';
 import localeth from '@angular/common/locales/th';
+import { SystemModule } from './components/system/system.module';
 registerLocaleData(localeth);
 
 @NgModule({
@@ -31,6 +32,8 @@ registerLocaleData(localeth);
         LeafletModule,
         EditorModule,
         NgChartsModule,
+        CommonModule,
+        SystemModule
      ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

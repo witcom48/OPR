@@ -79,7 +79,7 @@ export class YearComponent implements OnInit {
         element.year_todate = new Date(element.year_todate);
         return element;
       }));
-      console.log(this.year_type);
+      // console.log(this.year_type);
       this.yearperiods_list = res;
     });
   }
@@ -166,7 +166,7 @@ export class YearComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Year.xlsx', '_blank');

@@ -195,7 +195,7 @@ export class SystemCompanyComponent implements OnInit {
             },
             {
 
-                label: this.title_file[this.initial_current.Language],
+                label: "Template",
                 icon: 'pi-download',
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Company.xlsx', '_blank');
@@ -220,7 +220,7 @@ export class SystemCompanyComponent implements OnInit {
     }
 
     doLoadCompany() {
-        this.companyService.company_get('').then((res) => {
+        this.companyService.company_get(this.initial_current.CompCode).then((res) => {
             this.company_list = res;
         });
     }

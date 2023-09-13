@@ -40,6 +40,8 @@ export class SelfDaytypeComponent implements OnInit {
     private accountServie: AccountServices,
     private router: Router,
   ) { }
+  mainMenuItems: MenuItem[] = [];
+  homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
   Uploadfile: boolean = false;
   daytype_list: DaytypeModels[] = [];
@@ -215,7 +217,8 @@ export class SelfDaytypeComponent implements OnInit {
 
   }
   doLoadMenu() {
-
+    this.mainMenuItems = [{ label: this.langs.get('employee')[this.selectlang], routerLink: '/self/employee' },
+    { label: this.langs.get('title_daytype')[this.selectlang], routerLink: '/self/req_daytype', styleClass: 'activelike' }]
     this.items = [
 
       {

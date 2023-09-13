@@ -158,7 +158,7 @@ export class SystemQualificationComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Qualification.xlsx', '_blank');
@@ -188,7 +188,9 @@ export class SystemQualificationComponent implements OnInit {
     this.doLoadQualification()
   }
   doLoadQualification() {
-    this.qualificationService.qualification_get().then((res) => {
+    var tmp = new QualificationModel();
+
+    this.qualificationService.qualification_get(tmp).then((res) => {
       this.qualification_list = res;
     });
   }

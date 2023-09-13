@@ -158,7 +158,7 @@ export class SystemSupplyComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System SUPPLY.xlsx', '_blank');
@@ -188,7 +188,9 @@ export class SystemSupplyComponent implements OnInit {
     this.doLoadSupply()
   }
   doLoadSupply() {
-    this.supplyService.supply_get().then((res) => {
+    var tmp = new SupplyModel();
+
+    this.supplyService.supply_get(tmp).then((res) => {
       this.supply_List = res;
     });
   }

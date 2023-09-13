@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ProjectModel } from '../../../models/project/project';
 import { AppConfig } from '../../../config/config';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { InitialCurrent } from '../../../config/initial_current';
 
 import { RoundsModel } from 'src/app/models/system/manage/rounds';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class RoundsService {
     public config: AppConfig = new AppConfig();
@@ -44,35 +44,38 @@ export class RoundsService {
     }
 
     public rounds_get(Rounds: RoundsModel) {
-                 let data = {
-                    device_name: "Desktop",
-                    ip: "127.0.0.1",
-                    username: this.initial_current.Username,
-                    round_group: Rounds.round_group,
-                    round_id: Rounds.round_id,
-                    round_code: Rounds.round_code,
-        
-                    round_name_th: Rounds.round_name_th,
-                    round_name_en: Rounds.round_name_en,
+        let data = {
+            device_name: "Desktop",
+            ip: "127.0.0.1",
+            username: this.initial_current.Username,
+            company_code: this.initial_current.CompCode,
 
-                    modified_by: this.initial_current.Username,
-                    fag: false,
-         
-                }
-                return this.http.post<any>(this.config.ApiSystemModule + '/rounds_list', data, this.options).toPromise()
-                    .then((res) => {
-                        let message = JSON.parse(res);
-                        return message.data;
-                    });
-            }
+            round_group: Rounds.round_group,
+            round_id: Rounds.round_id,
+            round_code: Rounds.round_code,
 
-     
+            round_name_th: Rounds.round_name_th,
+            round_name_en: Rounds.round_name_en,
+
+            modified_by: this.initial_current.Username,
+            fag: false,
+
+        }
+        return this.http.post<any>(this.config.ApiSystemModule + '/rounds_list', data, this.options).toPromise()
+            .then((res) => {
+                let message = JSON.parse(res);
+                return message.data;
+            });
+    }
+
+
 
     public rounds_record(Rounds: RoundsModel) {
         let data = {
             device_name: "Desktop",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
+            company_code: this.initial_current.CompCode,
 
             round_id: Rounds.round_id,
             round_group: Rounds.round_group,
@@ -80,11 +83,11 @@ export class RoundsService {
 
             round_name_th: Rounds.round_name_th,
             round_name_en: Rounds.round_name_en,
-      
-             modified_by: this.initial_current.Username,
 
-             flag: Rounds.flag,
-             round_data: Rounds.round_data
+            modified_by: this.initial_current.Username,
+
+            flag: Rounds.flag,
+            round_data: Rounds.round_data
 
 
         }
@@ -96,17 +99,19 @@ export class RoundsService {
             });
     }
     public rounds_delete(Rounds: RoundsModel) {
-         let data = {
+        let data = {
             device_name: "Desktop",
             ip: "127.0.0.1",
             username: this.initial_current.Username,
+            company_code: this.initial_current.CompCode,
+
             round_group: Rounds.round_group,
             round_id: Rounds.round_id,
             round_code: Rounds.round_code,
-        
+
             round_name_th: Rounds.round_name_th,
             round_name_en: Rounds.round_name_en,
-            
+
 
             modified_by: this.initial_current.Username,
             fag: false,
@@ -115,14 +120,14 @@ export class RoundsService {
         }
         return this.http.post<any>(this.config.ApiSystemModule + '/rounds_del', data, this.options).toPromise()
             .then((res) => {
-                 let message = JSON.parse(res);
+                let message = JSON.parse(res);
                 return message;
             });
     }
 
 
     public rounds_import(file: File, file_name: string, file_type: string) {
-         const formData = new FormData();
+        const formData = new FormData();
         formData.append('file', file);
 
         var para = "fileName=" + file_name + "." + file_type;
@@ -137,4 +142,3 @@ export class RoundsService {
     }
 
 }
- 

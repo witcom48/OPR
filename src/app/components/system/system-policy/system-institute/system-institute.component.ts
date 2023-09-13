@@ -156,7 +156,7 @@ export class SystemInstituteComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Institute.xlsx', '_blank');
@@ -186,7 +186,9 @@ export class SystemInstituteComponent implements OnInit {
     this.doLoadInstitute()
   }
   doLoadInstitute() {
-    this.instituteService.institute_get().then((res) => {
+    var tmp = new InstituteModel();
+
+    this.instituteService.institute_get(tmp).then((res) => {
       this.institute_list = res;
     });
   }

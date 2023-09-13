@@ -445,11 +445,13 @@ export class SysBranchComponent implements OnInit {
 
     doLoadCombranch() {
         var Combranch_list: CombranchModel[] = [];
-        this.combranchService
-            .combranch_get(this.combranch_code)
+        var tmp = new CombranchModel();
+
+        this.combranchService.combranch_get(this.combranch_code)
+       
             .then(async (res) => {
                 await res.forEach((element: CombranchModel) => { });
-
+                console.log(tmp,'tt')
                 Combranch_list = await res;
                 // console.log(res);
 
@@ -468,19 +470,25 @@ export class SysBranchComponent implements OnInit {
 
     cardList: CardtypeModel[] = [];
     doLoadcardList() {
-        this.cardtypeService.cardtype_get().then((res) => {
+        var tmp = new CardtypeModel();
+
+        this.cardtypeService.cardtype_get(tmp).then((res) => {
             this.cardList = res;
         });
     }
     addressList: AddresstypeModel[] = [];
     doLoadaddressList() {
-        this.addresstypeService.addresstype_get().then((res) => {
+        var tmp = new AddresstypeModel();
+
+        this.addresstypeService.addresstype_get(tmp).then((res) => {
             this.addressList = res;
         });
     }
     provinceList: ProvinceModel[] = [];
     doLoadprovinceList() {
-        this.provinceService.province_get().then((res) => {
+        var tmp = new ProvinceModel();
+
+        this.provinceService.province_get(tmp).then((res) => {
             this.provinceList = res;
         });
     }

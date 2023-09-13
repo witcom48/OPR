@@ -104,6 +104,8 @@ import { EthnicityModel } from 'src/app/models/system/policy/ethnicity';
 import { EthnicityService } from 'src/app/services/system/policy/ethnicity.service';
 import { BlacklistService } from 'src/app/services/recruitment/blacklist.service';
 import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
+import { SetbonusService } from 'src/app/services/payroll/batch/setbonus.service';
+import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { EmpExperienceModel } from 'src/app/models/employee/manage/experience';
 
 
@@ -152,6 +154,8 @@ export class EmployeeManageComponent implements OnInit {
   methodEdit: boolean = false;
 
   emp_code: string = "";
+  emplists: string = "";
+
   manage_title: string = ""
   gender: any;
   toolbar_menu: MenuItem[] = [];
@@ -278,6 +282,9 @@ export class EmployeeManageComponent implements OnInit {
   edit_empexperience: boolean = false;
   new_experience: boolean = false;
 
+  //menu bonus
+  menu_bonus: string = "";
+
 
   displayManage: boolean = false;
 
@@ -326,6 +333,9 @@ export class EmployeeManageComponent implements OnInit {
     private genaralService: ProgenaralService,
     private ethnicityService: EthnicityService,
     private blacklistService: BlacklistService,
+    private setbonusService: SetbonusService,
+
+
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -413,6 +423,7 @@ export class EmployeeManageComponent implements OnInit {
 
     this.doLoadItemsList();
     this.doLoadethnicityList();
+    this.doLoadBonusList();
 
     setTimeout(() => {
       this.doLoadMenu();
@@ -655,6 +666,7 @@ export class EmployeeManageComponent implements OnInit {
   title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
   title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
+  title_bonus: { [key: string]: string } = { EN: "Bonus", TH: "โบนัส" };
 
   title_experience: { [key: string]: string } = { EN: "Experience", TH: "ประสบการณ์ทำงาน" };
   title_expcom: { [key: string]: string } = { EN: "Company", TH: "บริษัท" };
@@ -848,6 +860,8 @@ export class EmployeeManageComponent implements OnInit {
       this.title_reducename = "ลดหย่อน";
       this.title_pass = "ผ่าน";
       this.title_notpass = "ไม่ผ่าน";
+
+
     }
   }
 
@@ -2516,45 +2530,46 @@ export class EmployeeManageComponent implements OnInit {
       this.locationList = await res;
     })
   }
+  combranch_code: string = '';
   combranchList: CombranchModel[] = [];
   doLoadCombranchList() {
     var tmp = new CombranchModel();
-    this.combranchService.combranch_get('').then(async (res) => {
+    this.combranchService.combranch_get(this.combranch_code).then(async (res) => {
       this.combranchList = await res;
     })
   }
   bloodtypeList: BloodtypeModel[] = [];
   doLoadBloodtypeList() {
     var tmp = new BloodtypeModel();
-    this.bloodtypeService.bloodtype_get().then(async (res) => {
+    this.bloodtypeService.bloodtype_get(tmp).then(async (res) => {
       this.bloodtypeList = await res;
     })
   }
   religionList: ReligionModel[] = [];
   doLoadReligionList() {
     var tmp = new ReligionModel();
-    this.religionService.religion_get().then(async (res) => {
+    this.religionService.religion_get(tmp).then(async (res) => {
       this.religionList = await res;
     })
   }
   addresstypeList: AddresstypeModel[] = [];
   doLoadAddresstypeList() {
     var tmp = new AddresstypeModel();
-    this.addresstypeService.addresstype_get().then(async (res) => {
+    this.addresstypeService.addresstype_get(tmp).then(async (res) => {
       this.addresstypeList = await res;
     })
   }
   cardtypeList: CardtypeModel[] = [];
   doLoadCardtypeList() {
     var tmp = new CardtypeModel();
-    this.cardtypeService.cardtype_get().then(async (res) => {
+    this.cardtypeService.cardtype_get(tmp).then(async (res) => {
       this.cardtypeList = await res;
     })
   }
   bankList: BankModel[] = [];
   doLoadBankList() {
     var tmp = new BankModel();
-    this.bankService.bank_get().then(async (res) => {
+    this.bankService.bank_get(tmp).then(async (res) => {
       this.bankList = await res;
     })
   }
@@ -2568,7 +2583,7 @@ export class EmployeeManageComponent implements OnInit {
   hospitalList: HospitalModel[] = [];
   doLoadHospitalList() {
     var tmp = new HospitalModel();
-    this.hospitalService.hospital_get().then(async (res) => {
+    this.hospitalService.hospital_get(tmp).then(async (res) => {
       this.hospitalList = await res;
     })
   }
@@ -2617,49 +2632,63 @@ export class EmployeeManageComponent implements OnInit {
   //Institite
   instituteList: InstituteModel[] = [];
   doLoadinstituteList() {
-    this.instituteService.institute_get().then((res) => {
+    var tmp = new InstituteModel();
+
+    this.instituteService.institute_get(tmp).then((res) => {
       this.instituteList = res;
     });
   }
   // Course
   courseList: CourseModel[] = [];
   doLoadcourseList() {
-    this.courseService.course_get().then((res) => {
+    var tmp = new CourseModel();
+
+    this.courseService.course_get(tmp).then((res) => {
       this.courseList = res;
     });
   }
   // Faculty
   facultyList: FacultyModel[] = [];
   doLoadfacultyList() {
-    this.facultyService.faculty_get().then((res) => {
+    var tmp = new FacultyModel();
+
+    this.facultyService.faculty_get(tmp).then((res) => {
       this.facultyList = res;
     });
   }
   //Major
   majorList: MajorModel[] = [];
   doLoadmajorList() {
-    this.majorService.major_get().then((res) => {
+    var tmp = new MajorModel();
+
+    this.majorService.major_get(tmp).then((res) => {
       this.majorList = res;
     });
   }
   //Qualification
   qualificationList: QualificationModel[] = [];
   doLoadqualificationList() {
-    this.qualificationService.qualification_get().then((res) => {
+    var tmp = new QualificationModel();
+
+    this.qualificationService.qualification_get(tmp).then((res) => {
       this.qualificationList = res;
     });
   }
   //Province
   provinceList: ProvinceModel[] = [];
   doLoadprovinceList() {
-    this.provinceService.province_get().then((res) => {
+    var tmp = new ProvinceModel();
+
+    this.provinceService.province_get(tmp).then((res) => {
       this.provinceList = res;
     })
   }
   //drop supply
   supplyList: SupplyModel[] = [];
   doLoadSupplyList() {
-    this.supplyService.supply_get().then((res) => {
+    var tmp = new SupplyModel();
+
+    this.supplyService.supply_get(tmp).then((res) => {
       this.supplyList = res;
     })
   }
@@ -2667,7 +2696,9 @@ export class EmployeeManageComponent implements OnInit {
   //drop uniform
   uniformList: ProuniformModel[] = [];
   doLoadUniformList() {
-    this.genaralService.prouniform_get().then((res) => {
+    var tmp3 = new ProuniformModel();
+
+    this.genaralService.prouniform_get(tmp3).then((res) => {
       this.uniformList = res;
     })
   }
@@ -2698,11 +2729,23 @@ export class EmployeeManageComponent implements OnInit {
   //drop ethnicity
   ethnicityList: EthnicityModel[] = [];
   doLoadethnicityList() {
-    this.ethnicityService.ethnicity_get().then((res) => {
+    var tmp = new EthnicityModel();
+
+    this.ethnicityService.ethnicity_get(tmp).then((res) => {
       this.ethnicityList = res;
     })
   }
 
+  //SetBonus
+  SetBonus_List: SetBonusModel[] = [];
+  tmp: SetBonusModel = new SetBonusModel(); 
+  doLoadBonusList() {
+      this.tmp.worker_code = this.emp_code;
+      this.setbonusService.SetBonus_get('', this.tmp).then((res) => {
+          this.SetBonus_List = res;
+       });
+  }
+  
 
   //address
   empaddressList: EmpaddressModel[] = [];
@@ -3245,8 +3288,7 @@ export class EmployeeManageComponent implements OnInit {
     tmp.reason_group = 'BLACK';
     this.reasonsService.reason_get(tmp).then(async (res) => {
       this.reason_list = await res;
-      console.log(res, 'te')
-    });
+     });
   }
 
 

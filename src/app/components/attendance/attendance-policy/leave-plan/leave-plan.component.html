@@ -70,7 +70,7 @@
     <form (ngSubmit)="Save()" #Form="ngForm">
         <p-dialog [(visible)]="new_data" position="right" (onHide)="close()">
             <div style="display: flex;justify-content: center;" *ngIf="new_data">
-                <div class="formatt">
+                <div class="formattleaveplan">
                     <i (click)="close()"></i>
 
                     <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
@@ -85,7 +85,7 @@
                     <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
                     <textarea [(ngModel)]="leaveplans.planleave_name_th" pInputTextarea [autoResize]="true"
                         name="planleave_name_th" #planleave_name_th="ngModel" required></textarea>
-                    <p-pickList class="picklistvertical" [metaKeySelection]="false" [responsive]="true"
+                    <p-pickList [metaKeySelection]="false" [responsive]="true"
                         [source]="leaves_listselect" [target]="leaveplans.leavelists"
                         sourceHeader="{{langs.get('leavelist')[selectlang]}}"
                         targetHeader="{{langs.get('planleave')[selectlang]}}" [sourceStyle]="{'height':'15rem'}"
@@ -119,13 +119,13 @@
 </div>
 
 <!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload">
+<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload" (onHide)="closedupload()">
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
         <input type="file"
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            required (change)="handleFileInput($any($event).target.files)">
+            required (change)="handleFileInput($any($event).target.files)" #importFile>
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
@@ -137,6 +137,7 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
+<app-spinner [loadding]="initial_current.loading"></app-spinner>
 <!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
     rejectButtonStyleClass="p-button-text"></p-confirmDialog> -->
 <!-- ----------------------END Confirm and Toast------------------------ -->

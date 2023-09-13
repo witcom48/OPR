@@ -155,7 +155,7 @@ export class SystemFacultyComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Faculty.xlsx', '_blank');
@@ -185,7 +185,9 @@ export class SystemFacultyComponent implements OnInit {
     this.doLoadFaculty()
   }
   doLoadFaculty() {
-    this.facultyService.faculty_get().then((res) => {
+    var tmp = new FacultyModel();
+
+    this.facultyService.faculty_get(tmp).then((res) => {
       this.faculty_list = res;
     });
   }

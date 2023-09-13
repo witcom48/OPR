@@ -2,7 +2,7 @@ export class ProvinceModel {
     constructor() {
 
     }
-
+company_code: string = "";
     province_id: string = "0";
     province_code: string = "";
     province_name_th: string = "";

@@ -68,153 +68,181 @@
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     <td>
                         <button pButton type="button" class="pi pi-trash gray-button "
-                            [disabled]="!this.accessData.accessdata_delete" (click)="doDeleteMTItem(data)">
+                            [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete(data)">
                         </button>
 
                     </td>
                 </tr>
+
             </ng-template>
         </p-table>
+
     </div>
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <p-dialog [(visible)]="displayManage" [style]="{ height: '1000px', 'overflow-y': 'hidden' }" [position]="position"
-        (onHide)="reloadPage()">
-        <div class="formatt p-dialog-content" *ngIf="new_data">
-            <!-- <i (click)="close()"></i> -->
+    <form (ngSubmit)="Save()" #Form="ngForm">
+        <p-dialog [(visible)]="displayManage" [style]="{ height: '1000px', 'overflow-y': 'hidden' }"
+            [position]="position" (onHide)="reloadPage()">
+            <div class="formatt p-dialog-content" *ngIf="new_data">
+                <!-- <i (click)="close()"></i> -->
 
-            <label>{{title_code}}</label>
-            <input pInputText type="text" [(ngModel)]="selectedMTItem.item_code" maxlength="20"
-                disabled="{{edit_data}}" />
-            <p>{{selectedMTItem.item_code.length}}/20</p>
-
-
-            <label>{{title_detail_th}}</label>
-            <textarea [(ngModel)]="selectedMTItem.item_name_th" pInputTextarea [autoResize]="true"></textarea>
-
-            <label>{{title_detail_en}}</label>
-            <textarea [(ngModel)]="selectedMTItem.item_name_en" pInputTextarea [autoResize]="true"></textarea>
+                <label>{{title_code}}<span style="color: red;"> *</span></label>
+                <input pInputText type="text" required [(ngModel)]="selectedMTItem.item_code" maxlength="20" name="code"
+                    #code="ngModel" disabled="{{edit_data}}">
+                <p>{{selectedMTItem.item_code.length}}/20</p>
 
 
-            <div class="radiorole">
-                <div class="radioroledata">
-                    <!-- ประเภท -->
-                    <label>{{title_type}}</label>
-                    <div>
-                        <input type="radio" name="roel" value="IN" [(ngModel)]="selectedMTItem.item_type">
-                        <label>{{title_income}}</label>
 
-                    </div>
-
-                    <div>
-                        <input type="radio" name="roel" value="DE" [(ngModel)]="selectedMTItem.item_type">
-                        <label>{{title_deduct}}</label>
-                    </div>
-
-                    <!-- รูปแบบ -->
-                    <label>{{title_regular}}</label>
-
-                    <div>
-                        <input type="radio" name="regular" value="1" [(ngModel)]="selectedMTItem.item_regular">
-                        <label>Fix</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="regular" value="2" [(ngModel)]="selectedMTItem.item_regular">
-                        <label>Var</label>
-                    </div>
+                <label>{{title_detail_th}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="selectedMTItem.item_name_th" pInputTextarea [autoResize]="true" required
+                    name="item_name_th" #item_name_th="ngModel"></textarea>
 
 
-                </div>
-            </div>
-            <div class="inputincheckbox">
-                <div class="inputcheckbox">
-                    <input type="checkbox" name="caltax" value="N" [(ngModel)]="selectedMTItem.item_caltax">
-                    <label>{{title_Caltax}}</label>
-                </div>
-                <div class="inputcheckbox">
-                    <input type="checkbox" name="calpf" value="N" [(ngModel)]="selectedMTItem.item_calpf">
-                    <label>{{title_Calpf}}</label>
-                </div>
-                <div class="inputcheckbox">
-                    <input type="checkbox" name="calot" value="N" [(ngModel)]="selectedMTItem.item_calot">
-                    <label>{{title_Calot}}</label>
-                </div>
-                <div class="inputcheckbox">
-                    <input type="checkbox" name="calsso" value="N" [(ngModel)]="selectedMTItem.item_calsso">
-                    <label>{{title_Calsso}}</label>
-                </div>
-                <div class="inputcheckbox">
-                    <input type="checkbox" name="allowance" value="N" [(ngModel)]="selectedMTItem.item_allowance">
-                    <label>{{title_Allowance}}</label>
-                </div>
-
-
-                <div class="inputincheckbox">
-                    <div class="inputcheckbox">
-                        <input type="checkbox" value="N" [(ngModel)]="selectedMTItem.item_contax">
-                        <label>{{title_Contax}}%</label>
-                    </div>
-                    <div class="inputvalue">
+                <label>{{title_detail_en}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="selectedMTItem.item_name_en" pInputTextarea [autoResize]="true" required
+                    name="item_name_en" #item_name_en="ngModel"></textarea>
+                <br>
+                <div class="radiorole">
+                    <div class="radioroledata">
+                        <!-- ประเภท -->
+                        <label>{{title_type}}</label>
                         <div>
-                            <p-inputNumber [(ngModel)]="selectedMTItem.item_rate" [max]="100" [min]="0" [step]="0.5"
-                                [useGrouping]="false" [disabled]="!selectedMTItem.item_contax"></p-inputNumber>
+                            <input type="radio" name="roel" value="IN" [(ngModel)]="selectedMTItem.item_type">
+                            <label>{{title_income}}</label>
+
                         </div>
 
+                        <div>
+                            <input type="radio" name="roel" value="DE" [(ngModel)]="selectedMTItem.item_type">
+                            <label>{{title_deduct}}</label>
+                        </div>
+
+                        <!-- รูปแบบ -->
+                        <br>
+                        <label>{{title_regular}}</label>
+
+                        <div>
+                            <input type="radio" name="regular" value="1" [(ngModel)]="selectedMTItem.item_regular">
+                            <label>{{title_Fix[initial_current.Language]}}</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="regular" value="2" [(ngModel)]="selectedMTItem.item_regular">
+                            <label>{{title_Var[initial_current.Language]}}</label>
+                        </div>
+
+
                     </div>
                 </div>
+                <!-- /// -->
+                <div class="inputincheckbox">
+                    <div class="inputcheckbox">
+                        <input type="checkbox" name="caltax" value="N" [(ngModel)]="selectedMTItem.item_caltax"
+                            name="item_caltax" #item_caltax="ngModel">
+                        <label>{{title_Caltax}}</label>
+                    </div>
+                    <div class="inputcheckbox">
+                        <input type="checkbox" name="calpf" value="N" [(ngModel)]="selectedMTItem.item_calpf"
+                            name="item_calpf" #item_calpf="ngModel">
+                        <label>{{title_Calpf}}</label>
+                    </div>
+                    <div class="inputcheckbox">
+                        <input type="checkbox" name="calot" value="N" [(ngModel)]="selectedMTItem.item_calot"
+                            name="item_calot" #item_calot="ngModel">
+                        <label>{{title_Calot}}</label>
+                    </div>
+                    <div class="inputcheckbox">
+                        <input type="checkbox" name="calsso" value="N" [(ngModel)]="selectedMTItem.item_calsso"
+                            name="item_calsso" #item_calsso="ngModel">
+                        <label>{{title_Calsso}}</label>
+                    </div>
+                    <div class="inputcheckbox">
+                        <input type="checkbox" name="allowance" value="N" [(ngModel)]="selectedMTItem.item_allowance"
+                            name="item_allowance" #item_allowance="ngModel">
+                        <label>{{title_Allowance}}</label>
+                    </div>
 
-                <!-- มาตรา -->
-                <label>{{title_Section}}</label>
+                    <br>
+                    <div class="inputincheckbox">
 
-                <div>
-                    <input type="radio" name="item" value="1" [(ngModel)]="selectedMTItem.item_section">
-                    <label>40(1)</label>
+                        <!-- รูปแบบ -->
+                        <!-- <label>อัตราภาษีหัก ณ ที่จ่าย </label> -->
+
+                        <div class="inputcheckbox">
+                            <input type="checkbox" value="N" [(ngModel)]="selectedMTItem.item_contax" name="item_contax"
+                                #item_contax="ngModel">
+                            <label>{{title_Contax}}%</label>
+                        </div>
+                        <div class="inputvalue">
+                            <div>
+                                <!-- <p-inputNumber [(ngModel)]="selectedMTItem.item_rate" mode="decimal" [useGrouping]="false"  
+                                    [minFractionDigits]="2" [maxFractionDigits]="2" [step]="0.5" 
+                                    [disabled]="!selectedMTItem.item_contax" name="contax"
+                                    #contax="ngModel">
+                                </p-inputNumber> -->
+
+                                <p-inputNumber [(ngModel)]="selectedMTItem.item_rate" [minFractionDigits]="2"
+                                    [max]="100" [min]="0" [step]="0.5" [useGrouping]="false"
+                                    [disabled]="!selectedMTItem.item_contax" name="contax"
+                                    #contax="ngModel"></p-inputNumber>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <!-- มาตรา -->
+                    <label>{{title_Section}}</label>
+
+                    <div>
+                        <input type="radio" name="item" value="1" [(ngModel)]="selectedMTItem.item_section"
+                            name="item_section" #item_section="ngModel">
+                        <label>40(1)</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="item" value="2" [(ngModel)]="selectedMTItem.item_section"
+                            name="item_section" #item_section="ngModel">
+                        <label>40(2)</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" name="item" value="3" [(ngModel)]="selectedMTItem.item_section"
+                            name="item_section" #item_section="ngModel">
+                        <label>40(1)(2)</label>
+                    </div>
+
                 </div>
-                <div>
-                    <input type="radio" name="item" value="2" [(ngModel)]="selectedMTItem.item_section">
-                    <label>40(2)</label>
-                </div>
-
-                <div>
-                    <input type="radio" name="item" value="3" [(ngModel)]="selectedMTItem.item_section">
-                    <label>40(3)</label>
-                </div>
-
-                <div>
-                    <input type="radio" name="item" value="4" [(ngModel)]="selectedMTItem.item_section">
-                    <label>40(1)(2)</label>
-                </div>
-
-            </div>
 
 
-            <br>
-            <div style="text-align: right;">
-                <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
-                    (click)="Save()" class="button-size"></button>
+                <br>
+                <div style="text-align: right;">
+                    <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                        [disabled]="!Form.form.valid" class="button-size"></button>
 
-                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()" label="{{ title_save }}"
-                    icon="pi pi-save" [disabled]="(!this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
-                    class="button-size"></button> 
 
-                <!-- <button pButton type="button" label="{{title_save}}" class="button-size" icon="pi pi-save"
+                    <!-- <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                        (click)="Save()" class="button-size" [disabled]="!Form.form.valid"></button> -->
+
+                    <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()" label="{{ title_save }}"
+                        icon="pi pi-save"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="button-size"></button>
+
+                    <!-- <button pButton type="button" label="{{title_save}}" class="button-size" icon="pi pi-save"
                     (click)="Save()"></button> -->
-                &nbsp;
-                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
-                    key="myDialog" class="p-button-secondary button-size btndel" (click)="Delete()"
-                    [disabled]="!this.accessData.accessdata_delete"></button>
+                    &nbsp;
+                    <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                        key="myDialog" class="p-button-secondary button-size btndel" (click)="Delete()"
+                        [disabled]="!this.accessData.accessdata_delete"></button>
+                </div>
             </div>
-        </div>
-    </p-dialog>
-    <div *ngIf="displayManage" style="z-index: 1084;"
-        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+
+        </p-dialog>
+
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+    </form>
     <!-- --------------End form Input Data ------------------ -->
 </div>
-
-
-
-
 
 
 

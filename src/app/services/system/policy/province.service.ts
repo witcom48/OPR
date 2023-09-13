@@ -58,21 +58,37 @@ export class ProvinceService {
         this.router.navigateByUrl('login');
       }
     }
+    public province_get(model:ProvinceModel) {
+      let data = {
+         device_name: "phone",
+         ip: "127.0.0.1",
+         username: this.initial_current.Username,
+         company_code:  this.initial_current.CompCode,
+         province_id: model.province_id,
+         province_code: model.province_code
+     }
+     return this.http.post<any>(this.config.ApiSystemModule + '/province_list', data, this.options).toPromise()
+         .then((res) => {
+             let message = JSON.parse(res);
+             return message.data;
+         });
+  }
+    // public province_get(){
+    //   // console.log('PRV001..');
 
-    public province_get(){
-      // console.log('PRV001..');
-
-      return this.http.post<any>(this.config.ApiSystemModule + '/province_list', this.basicRequest, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        // console.log(res)
-        return message.data;
-      });
-    }
+    //   return this.http.post<any>(this.config.ApiSystemModule + '/province_list', this.basicRequest, this.options).toPromise()
+    //   .then((res) => {
+    //     let message = JSON.parse(res);
+    //     // console.log(res)
+    //     return message.data;
+    //   });
+    // }
 
     public province_record(model:ProvinceModel) {
       // console.log('PRV002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         province_id: model.province_id,
         province_code: model.province_code,
         province_name_th: model.province_name_th,
@@ -91,6 +107,8 @@ export class ProvinceService {
     public province_delete(model:ProvinceModel) {
       // console.log('PRV002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         province_id: model.province_id,
         province_code: model.province_code,
         modified_by: this.initial_current.Username

@@ -153,7 +153,7 @@ export class SystemCardTypeComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Card type.xlsx', '_blank');
@@ -183,7 +183,9 @@ export class SystemCardTypeComponent implements OnInit {
     this.doLoadCardtype()
   }
   doLoadCardtype() {
-    this.cardtypeService.cardtype_get().then((res) => {
+    var tmp = new CardtypeModel();
+
+    this.cardtypeService.cardtype_get(tmp).then((res) => {
       this.cardtype_list = res;
     });
   }

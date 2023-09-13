@@ -154,7 +154,7 @@ export class SystemEthnicityComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Ethnicity.xlsx', '_blank');
@@ -184,7 +184,9 @@ export class SystemEthnicityComponent implements OnInit {
     this.doLoadEthnicity()
   }
   doLoadEthnicity() {
-    this.ethnicityService.ethnicity_get().then((res) => {
+    var tmp = new EthnicityModel();
+
+    this.ethnicityService.ethnicity_get(tmp).then((res) => {
       this.ethnicity_list = res;
     });
   }

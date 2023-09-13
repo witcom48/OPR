@@ -1,7 +1,7 @@
 export class ProbusinessModel {
     constructor() {             
     }
-    
+    company_code: string = "";
     probusiness_id: string = "1";
     probusiness_code: string = "";
     probusiness_name_th: string = "";
@@ -16,7 +16,7 @@ export class ProbusinessModel {
   export class ProtypeModel {
     constructor() {             
     }
-    
+    company_code: string = "";
     protype_id: string = "1";
     protype_code: string = "";
     protype_name_th: string = "";
@@ -30,7 +30,7 @@ export class ProbusinessModel {
   export class ProuniformModel {
     constructor() {             
     }
-    
+    company_code: string = "";
     prouniform_id: string = "1";
     prouniform_code: string = "";
     prouniform_name_th: string = "";
@@ -44,7 +44,7 @@ export class ProbusinessModel {
   export class ProslipModel {
     constructor() {             
     }
-    
+    company_code: string = "";
     proslip_id: string = "1";
     proslip_code: string = "";
     proslip_name_th: string = "";

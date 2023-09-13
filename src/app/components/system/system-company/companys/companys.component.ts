@@ -77,7 +77,7 @@ export class CompanysComponent implements OnInit {
     new_comaddresseen: boolean = false;
 
     onBankTypeChange(event: any): void {
-        console.log('Selected bank type:', event.target.value);
+        // console.log('Selected bank type:', event.target.value);
         // You can perform additional actions here
     }
 
@@ -691,25 +691,32 @@ export class CompanysComponent implements OnInit {
 
     bankList: BankModel[] = [];
     doLoadbankList() {
-        this.bankService.bank_get().then((res) => {
+        var tmp = new BankModel();
+        this.bankService.bank_get(tmp).then((res) => {
             this.bankList = res;
         });
     }
     cardList: CardtypeModel[] = [];
     doLoadcardList() {
-        this.cardtypeService.cardtype_get().then((res) => {
+        var tmp = new CardtypeModel();
+
+        this.cardtypeService.cardtype_get(tmp).then((res) => {
             this.cardList = res;
         });
     }
     addressList: AddresstypeModel[] = [];
     doLoadaddressList() {
-        this.addresstypeService.addresstype_get().then((res) => {
+        var tmp = new AddresstypeModel();
+
+        this.addresstypeService.addresstype_get(tmp).then((res) => {
             this.addressList = res;
         });
     }
     provinceList: ProvinceModel[] = [];
     doLoadprovinceList() {
-        this.provinceService.province_get().then((res) => {
+        var tmp = new ProvinceModel();
+
+        this.provinceService.province_get(tmp).then((res) => {
             this.provinceList = res;
         });
     }

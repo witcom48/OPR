@@ -1487,9 +1487,27 @@
                                     {{initial_current.Language=="TH"? item.name_th : item.name_en}}
                                 </ng-template>
                             </p-dropdown>
-                            <!-- <p-dropdown placeholder="พนักงานจ่ายเอง" optionLabel="name" [showClear]="true"
-                                [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
+
                         </div>
+
+                        <!-- // -->
+                        <!-- <div class="field col-6" *ngIf="tmp.worker_code">
+                            <label for="lastname2">{{ title_bonus[initial_current.Language] }}:</label><br>
+                            <div *ngFor="let worker of SetBonus_List">
+                                <input placeholder="--" pInputText type="text" [value]="worker.bonus_name" readonly />
+                            </div>
+                        </div> -->
+                        
+                        <div class="field col-6">
+                            <label for="lastname2">{{title_bonus[initial_current.Language]}} :</label><br>
+                            <ng-container *ngIf="tmp.worker_code">
+                                <div *ngFor="let worker of SetBonus_List">
+                                    <input placeholder="--" pInputText type="text" [value]="worker.bonus_name" readonly />
+                                </div>
+                            </ng-container>
+                        </div>
+                        <!-- // -->
+
 
                         <!-- salary -->
                         <div class="field col-12">

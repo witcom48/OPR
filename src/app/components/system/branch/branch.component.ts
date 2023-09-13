@@ -23,6 +23,8 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
     styleUrls: ['./branch.component.scss'],
 })
 export class BranchComponent implements OnInit {
+    combranch_code: string = '';
+
     combranch_list: CombranchModel[] = [];
     selectedcombranch: CombranchModel = new CombranchModel();
     items: MenuItem[] = [];
@@ -181,7 +183,7 @@ export class BranchComponent implements OnInit {
             },
             {
 
-                label: this.title_file[this.initial_current.Language],
+                label: "Template",
                 icon: 'pi-download',
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Combranch.xlsx', '_blank');
@@ -205,7 +207,7 @@ export class BranchComponent implements OnInit {
         ];
     }
     doLoadCombranch() {
-        this.combranchService.combranch_get('').then((res) => {
+        this.combranchService.combranch_get(this.combranch_code).then((res) => {
             this.combranch_list = res;
         });
     }

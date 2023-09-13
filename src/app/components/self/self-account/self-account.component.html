@@ -237,7 +237,7 @@
         </div>
 
         <!-- PickList component for selecting Modules  (ADM) -->
-        <div class="field col-12" *ngIf="selectedAccountType.code == 'ADM'">
+        <!-- <div class="field col-12" *ngIf="selectedAccountType.code == 'ADM'">
             <p-pickList [source]="availableModules" [target]="selectedModules"
                 sourceHeader="{{ accountLanguages.get('module')[selectedLanguage] }}"
                 targetHeader="{{ accountLanguages.get('module_select')[selectedLanguage] }}"
@@ -249,7 +249,7 @@
                     </div>
                 </ng-template>
             </p-pickList>
-        </div>
+        </div> -->
 
         <div class="field col-12">
             <!-- Save button -->
@@ -263,6 +263,9 @@
         </div>
     </div>
 </p-dialog>
+
+<div *ngIf="isDisplayingManagement" style="z-index: 1084;"
+    class="p-component-overlay p-sidebar-mask p-component-overlay-enter" (click)="closeManagement()"></div>
 
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{ width: '50vw' }" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">

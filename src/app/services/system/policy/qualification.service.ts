@@ -55,21 +55,37 @@ export class QualificationService {
         this.router.navigateByUrl('login');
       }
     }
+    public qualification_get(model:QualificationModel) {
+      let data = {
+         device_name: "phone",
+         ip: "127.0.0.1",
+         username: this.initial_current.Username,
+         company_code:  this.initial_current.CompCode,
+         qualification_id: model.qualification_id,
+         qualification_code: model.qualification_code
+     }
+     return this.http.post<any>(this.config.ApiSystemModule + '/qualification_list', data, this.options).toPromise()
+         .then((res) => {
+             let message = JSON.parse(res);
+             return message.data;
+         });
+  }
+    // public qualification_get(){
+    //   // console.log('QUA001..');
 
-    public qualification_get(){
-      // console.log('QUA001..');
-
-      return this.http.post<any>(this.config.ApiSystemModule + '/qualification_list', this.basicRequest, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        // console.log(res)
-        return message.data;
-      });
-    }
+    //   return this.http.post<any>(this.config.ApiSystemModule + '/qualification_list', this.basicRequest, this.options).toPromise()
+    //   .then((res) => {
+    //     let message = JSON.parse(res);
+    //     // console.log(res)
+    //     return message.data;
+    //   });
+    // }
 
     public qualification_record(model:QualificationModel) {
       // console.log('QUA002..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         qualification_id: model.qualification_id,
         qualification_code: model.qualification_code,
         qualification_name_th: model.qualification_name_th,
@@ -88,6 +104,8 @@ export class QualificationService {
     public qualification_delete(model:QualificationModel) {
       // console.log('QUA003..');
       const data = {
+        company_code: model.company_code || this.initial_current.CompCode,
+
         qualification_id: model.qualification_id,
         qualification_code: model.qualification_code,
         modified_by: this.initial_current.Username

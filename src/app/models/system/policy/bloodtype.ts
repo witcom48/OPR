@@ -2,6 +2,7 @@ export class BloodtypeModel {
     constructor() {
 
     }
+    company_code: string = "";
 
     bloodtype_id: string = "0";
     bloodtype_code: string = "";

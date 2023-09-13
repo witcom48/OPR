@@ -154,7 +154,7 @@ export class SystemMajorComponent implements OnInit {
       ,
       {
 
-        label: this.title_file[this.initial_current.Language],
+        label: "Template",
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Major.xlsx', '_blank');
@@ -182,7 +182,9 @@ export class SystemMajorComponent implements OnInit {
   }
 
   doLoadMajor() {
-    this.majorService.major_get().then((res) => {
+    var tmp = new MajorModel();
+
+    this.majorService.major_get(tmp).then((res) => {
       this.Major_list = res;
     });
   }

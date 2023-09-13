@@ -92,7 +92,7 @@
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                     <td>
                         <button pButton type="button" class="pi pi-trash gray-button "
-                            [disabled]="!this.accessData.accessdata_delete" (click)="doDeletePeriods(data)">
+                            [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete(data)">
                         </button>
 
                     </td>
@@ -103,67 +103,79 @@
     <!-- -----------------------END Table-------------------------- -->
 
     <!-- Form input or Edit Data Year Period -->
-    <p-dialog [(visible)]="displayManage" [style]="{ height: '700px', 'overflow-y': 'hidden' }" [position]="position"
-        (onHide)="reloadPage()">
-        <div class="formatt p-dialog-content" *ngIf="new_data">
+    <form (ngSubmit)="Save()" #Form="ngForm">
 
-            <label>{{title_no}}</label>
-            <input pInputText type="text" [(ngModel)]="selectedPeriods.period_no" maxlength="2"
-                disabled="{{edit_data}}" />
-            <p>{{selectedPeriods.period_no.length}}/2</p>
+        <p-dialog [(visible)]="displayManage" [style]="{ height: '700px', 'overflow-y': 'hidden' }"
+            [position]="position" (onHide)="reloadPage()">
+            <div class="formatt p-dialog-content" *ngIf="new_data">
 
-            <label>{{title_detail_th}}</label>
-            <textarea [(ngModel)]="selectedPeriods.period_name_th" pInputTextarea [autoResize]="true"></textarea>
+                <label>{{title_no}}<span style="color: red;"> *</span></label>
+                <input pInputText type="text" [(ngModel)]="selectedPeriods.period_no" maxlength="2" name="code"
+                    #code="ngModel" disabled="{{edit_data}}" required />
+                <p>{{selectedPeriods.period_no.length}}/2</p>
 
-            <label>{{title_detail_en}}</label>
-            <textarea [(ngModel)]="selectedPeriods.period_name_en" pInputTextarea [autoResize]="true"></textarea>
+                <label>{{title_detail_th}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="selectedPeriods.period_name_th" pInputTextarea [autoResize]="true" required
+                    name="period_name_th" #period_name_th="ngModel"></textarea>
 
-            <label>{{title_fromdate}}</label>
-            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedPeriods.period_from"></p-calendar>
+                <label>{{title_detail_en}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="selectedPeriods.period_name_en" pInputTextarea [autoResize]="true" required
+                    name="period_name_en" #period_name_en="ngModel"></textarea>
+
+                <label>{{title_fromdate}}<span style="color: red;"> *</span></label>
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                    [(ngModel)]="selectedPeriods.period_from" name="period_from" #period_from="ngModel"></p-calendar>
 
 
-            <!-- <label>{{title_fromdate}}</label>
+                <!-- <label>{{title_fromdate}}</label>
             <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_from" dateFormat="dd/mm/yy"><input
                     type="text"></p-calendar> -->
 
-            <label>{{title_todate}}</label>
-            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedPeriods.period_to"></p-calendar>
+                <label>{{title_todate}}<span style="color: red;"> *</span></label>
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                    [(ngModel)]="selectedPeriods.period_to" name="period_to" #period_to="ngModel"></p-calendar>
 
-            <!-- <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_to" dateFormat="dd/mm/yy"><input
+                <!-- <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_to" dateFormat="dd/mm/yy"><input
                     type="text"></p-calendar> -->
 
-            <label>{{title_payment}}</label>
-            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedPeriods.period_payment"></p-calendar>
+                <label>{{title_payment}}<span style="color: red;"> *</span></label>
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                    [(ngModel)]="selectedPeriods.period_payment" name="period_payment"
+                    #period_payment="ngModel"></p-calendar>
 
-            <!-- <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_payment" dateFormat="dd/mm/yy"><input
+                <!-- <p-calendar appendTo="body" [(ngModel)]="selectedPeriods.period_payment" dateFormat="dd/mm/yy"><input
                     type="text"></p-calendar> -->
-            <div>
-                <input type="checkbox" value="1" [(ngModel)]="selectedPeriods.period_dayonperiod">
-                <label>{{title_day_pay}}</label>
-            </div>
-            <br>
-            <div style="text-align: right;">
-                <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
-                    (click)="Save()" class="button-size"></button>
+                <div>
+                    <input type="checkbox" value="1" [(ngModel)]="selectedPeriods.period_dayonperiod"
+                        name="period_dayonperiod" #period_dayonperiod="ngModel">
+                    <label>{{title_day_pay}}</label>
+                </div>
+                <br>
+                <div style="text-align: right;">
+                    <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                        [disabled]="!Form.form.valid" class="button-size"></button>
 
-                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()" label="{{ title_save }}"
-                    icon="pi pi-save" [disabled]="(!this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
-                    class="button-size"></button>
-                <!-- 
+                    <!-- <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
+                        (click)="Save()" class="button-size"></button> -->
+
+                    <button *ngIf="edit_data" pRipple pButton type="submit" (click)="Save()" label="{{ title_save }}"
+                        icon="pi pi-save"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="button-size"></button>
+                    <!-- 
                 <button pButton type="button" label="{{title_save}}" class="button-size" icon="pi pi-save"
                     (click)="Save()"></button> -->
-                &nbsp;
-                <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" (click)="Delete()"
-                    icon="pi pi-trash" class="p-button-secondary button-size btndel"
-                    [disabled]="!this.accessData.accessdata_delete"></button>
+                    &nbsp;
+                    <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}" (click)="Delete()"
+                        icon="pi pi-trash" class="p-button-secondary button-size btndel"
+                        [disabled]="!this.accessData.accessdata_delete"></button>
+                </div>
             </div>
-        </div>
-    </p-dialog>
-    <div *ngIf="displayManage" style="z-index: 1084;"
-        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+        </p-dialog>
+        <div *ngIf="displayManage" style="z-index: 1084;"
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
+    </form>
+
     <!-- --------------End form Input Data ------------------ -->
 </div>
 

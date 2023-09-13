@@ -2,7 +2,8 @@ export class BankModel {
     constructor() {
              
     }
-    
+    company_code: string = "";
+
     bank_id: string = "0";
     bank_code: string = "";
     bank_name_th: string = "";
