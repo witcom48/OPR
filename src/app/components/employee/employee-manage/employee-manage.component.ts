@@ -2039,12 +2039,14 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          this.clearManage()
-          this.new_foreigner = true
-          var ref = this.empforeignercardList.length + 100
-          this.selectedEmpforeignercard = new EmpForeignercardModel()
-          this.selectedEmpforeignercard.foreignercard_id = ref.toString()
-          this.showManage()
+          if(this.empforeignercardList.length < 1){
+            this.clearManage()
+            this.new_foreigner = true
+            var ref = this.empforeignercardList.length + 100
+            this.selectedEmpforeignercard = new EmpForeignercardModel()
+            this.selectedEmpforeignercard.foreignercard_id = ref.toString()
+            this.showManage()
+          }
         }
       },
       {

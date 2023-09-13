@@ -1,3 +1,5 @@
+import { EmpForeignercardModel } from "./foreignercard";
+
 export class EmpForeignerModel {
     constructor() {
     }
@@ -26,4 +28,6 @@ export class EmpForeignerModel {
 
     index: number = 0;
     select: boolean = false;
+
+    forecard_list: EmpForeignercardModel[] = [];
 }
