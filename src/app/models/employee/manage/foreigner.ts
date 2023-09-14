@@ -22,6 +22,10 @@ export class EmpForeignerModel {
     otherdoc_no: string= "";
     otherdoc_expire!: Date;
 
+    //--new
+    foreigner_type: string = "";
+    sent_sso: boolean = false ;
+
     modified_by: string= "";
     modified_date: string= "";
 
@@ -29,5 +33,5 @@ export class EmpForeignerModel {
     index: number = 0;
     select: boolean = false;
 
-    forecard_list: EmpForeignercardModel[] = [];
+    foreigner_card: EmpForeignercardModel[] = [];
 }

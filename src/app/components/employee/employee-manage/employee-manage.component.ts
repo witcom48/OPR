@@ -209,6 +209,10 @@ export class EmployeeManageComponent implements OnInit {
   menu_empforeigner: MenuItem[] = [];
   edit_empforeigner: boolean = false;
   new_foreigner: boolean = false;
+  //menu empforeignercard
+  menu_empforeignercard: MenuItem[] = [];
+  edit_empforeignercard: boolean = false;
+  new_foreignercard: boolean = false;
   //menu empfamily
   menu_empdep: MenuItem[] = [];
   edit_empdep: boolean = false;
@@ -664,8 +668,11 @@ export class EmployeeManageComponent implements OnInit {
 
   title_foreignercode: { [key: string]: string } = { EN: "Code", TH: "เลขที่" };
   title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+  title_foreignercard: { [key: string]: string } = { EN: "Card", TH: "บัตร" };
+  title_foreignercardtype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
   title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
+  title_foreignersso: { [key: string]: string } = { EN: "Sent SSO", TH: "นำส่งประกันสังคม" };
   title_bonus: { [key: string]: string } = { EN: "Bonus", TH: "โบนัส" };
 
   title_experience: { [key: string]: string } = { EN: "Experience", TH: "ประสบการณ์ทำงาน" };
@@ -2053,12 +2060,12 @@ export class EmployeeManageComponent implements OnInit {
         label: this.title_new,
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
-          if(this.empforeignercardList.length < 1){
+          if (this.empforeignerList.length < 1) {
             this.clearManage()
             this.new_foreigner = true
-            var ref = this.empforeignercardList.length + 100
-            this.selectedEmpforeignercard = new EmpForeignercardModel()
-            this.selectedEmpforeignercard.foreignercard_id = ref.toString()
+            var ref = this.empforeignerList.length + 100
+            this.selectedEmpforeigner = new EmpForeignerModel()
+            this.selectedEmpforeigner.foreigner_id = ref.toString()
             this.showManage()
           }
         }
@@ -2068,9 +2075,63 @@ export class EmployeeManageComponent implements OnInit {
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
           this.clearManage()
-          if (this.selectedEmpforeignercard != null) {
+          if (this.selectedEmpforeigner != null) {
             this.edit_empforeigner = true
             this.showManage()
+          }
+        }
+      },
+      {
+        label: this.title_delete,
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete,
+            header: this.title_confirm,
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedEmpforeigner != null) {
+                this.empforeigner_remove()
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+            },
+            key: "myDialog"
+          });
+
+        }
+      },
+      {
+        label: this.title_export,
+        icon: 'pi pi-fw pi-file-export',
+        command: (event) => {
+          this.exportAsExcel(this.dtempforeigner, 'EmpForeigner')
+
+        }
+      },
+    ]
+
+    //menu foreigner card
+    this.menu_empforeignercard = [
+      {
+        label: this.title_new,
+        icon: 'pi-plus',
+        command: (event) => {
+          this.new_foreignercard = true
+          var ref = this.empforeignercardList.length + 100
+          this.selectedEmpforeignercard.foreignercard_id = ref.toString()
+          this.selectedEmpforeignercard = new EmpForeignercardModel();
+          this.displayForeCard = true;
+        }
+      },
+      {
+        label: this.title_edit,
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          if (this.selectedEmpforeignercard != null) {
+            this.edit_empforeignercard = true
+            this.displayForeCard = true
           }
         }
       },
@@ -2092,14 +2153,6 @@ export class EmployeeManageComponent implements OnInit {
             },
             key: "myDialog"
           });
-
-        }
-      },
-      {
-        label: this.title_export,
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-          this.exportAsExcel(this.dtempforeigner, 'EmpForeigner')
 
         }
       },
@@ -2322,10 +2375,10 @@ export class EmployeeManageComponent implements OnInit {
       }
       else if (this.new_tranfer || this.edit_emptranfer) {
         this.manage_title = "Tranfer"
-      }else if (this.new_experience || this.edit_empexperience) {
+      } else if (this.new_experience || this.edit_empexperience) {
         this.manage_title = "Experience"
       }
-      
+
     } else {
       if (this.new_emplocation || this.edit_emplocation) {
         this.manage_title = "สถานที่ปฏิบัติงาน"
@@ -2398,7 +2451,7 @@ export class EmployeeManageComponent implements OnInit {
       }
       else if (this.new_tranfer || this.edit_emptranfer) {
         this.manage_title = "ประวัติการโอนย้ายหน่วยงาน"
-      }else if (this.new_experience || this.edit_empexperience) {
+      } else if (this.new_experience || this.edit_empexperience) {
         this.manage_title = "ประสบการณ์ทำงาน"
       }
     }
@@ -2453,7 +2506,7 @@ export class EmployeeManageComponent implements OnInit {
           this.doLoadEmpbankList();
           this.doLoadEmpfamilyList();
           this.doLoadEmpHospitalList();
-          // this.doLoadEmpForeigner();
+          this.doLoadEmpForeigner();
           this.doLoadEmpForeignercardList();
 
           this.doLoadEmpDepList();
@@ -2738,14 +2791,14 @@ export class EmployeeManageComponent implements OnInit {
 
   //SetBonus
   SetBonus_List: SetBonusModel[] = [];
-  tmp: SetBonusModel = new SetBonusModel(); 
+  tmp: SetBonusModel = new SetBonusModel();
   doLoadBonusList() {
-      this.tmp.worker_code = this.emp_code;
-      this.setbonusService.SetBonus_get('', this.tmp).then((res) => {
-          this.SetBonus_List = res;
-       });
+    this.tmp.worker_code = this.emp_code;
+    this.setbonusService.SetBonus_get('', this.tmp).then((res) => {
+      this.SetBonus_List = res;
+    });
   }
-  
+
 
   //address
   empaddressList: EmpaddressModel[] = [];
@@ -3111,21 +3164,66 @@ export class EmployeeManageComponent implements OnInit {
   doLoadEmpForeigner() {
     this.empdetailService.getworker_foreigner(this.initial_current.CompCode, this.emp_code).then(async (res) => {
       await res.forEach((element: EmpForeignerModel) => {
-        element.passport_issue = new Date(element.passport_issue)
-        element.passport_expire = new Date(element.passport_expire)
-        element.visa_issue = new Date(element.visa_issue)
-        element.visa_expire = new Date(element.visa_expire)
-        element.workpermit_issue = new Date(element.workpermit_issue)
-        element.workpermit_expire = new Date(element.workpermit_expire)
         element.entry_date = new Date(element.entry_date)
-        element.certificate_expire = new Date(element.certificate_expire)
-        element.otherdoc_expire = new Date(element.otherdoc_expire)
+        // element.passport_issue = new Date(element.passport_issue)
+        // element.passport_expire = new Date(element.passport_expire)
+        // element.visa_issue = new Date(element.visa_issue)
+        // element.visa_expire = new Date(element.visa_expire)
+        // element.workpermit_issue = new Date(element.workpermit_issue)
+        // element.workpermit_expire = new Date(element.workpermit_expire)
+        // element.entry_date = new Date(element.entry_date)
+        // element.certificate_expire = new Date(element.certificate_expire)
+        // element.otherdoc_expire = new Date(element.otherdoc_expire)
       })
       this.empforeignerList = await res;
+      console.log(res)
       if (this.empforeignerList.length > 0) {
         this.selectedEmpforeigner = this.empforeignerList[0];
       }
     })
+  }
+  onRowSelectEmpForeigner(event: Event) { }
+  empforeigner_summit() {
+    this.empforeigner_addItem(this.selectedEmpforeigner)
+    this.new_foreigner = false
+    this.edit_empforeigner = false
+    this.displayManage = false
+  }
+  empforeigner_remove() {
+    this.selectedEmpforeigner.foreigner_id = "9999";
+    this.empforeigner_addItem(this.selectedEmpforeigner)
+    this.new_foreigner = false
+    this.edit_empforeigner = false
+  }
+  empforeigner_delete() {
+    var tmp: EmpForeignerModel = new EmpForeignerModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
+    this.empdetailService.delete_empforeigner(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
+  empforeigner_cancel() {
+    this.new_foreigner = false
+    this.edit_empforeigner = false
+    this.displayManage = false
+  }
+  empforeigner_addItem(model: EmpForeignerModel) {
+    const itemNew: EmpForeignerModel[] = [];
+    for (let i = 0; i < this.empforeignerList.length; i++) {
+      if (this.empforeignerList[i].foreigner_id == model.foreigner_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.empforeignerList[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.foreigner_id != "9999") {
+      itemNew.push(model);
+    }
+    this.empforeignerList = [];
+    this.empforeignerList = itemNew;
+    this.empforeignerList.sort(function (a, b) { return parseInt(a.foreigner_id) - parseInt(b.foreigner_id); })
   }
   record_empforeigner() {
     if (this.empforeignerList.length == 0) {
@@ -3135,6 +3233,7 @@ export class EmployeeManageComponent implements OnInit {
     this.empdetailService.record_empforeigner(this.selectedEmployee.worker_code, this.selectedEmpforeigner)
   }
   //--foreignercard
+  displayForeCard: boolean = false;
   empforeignercardList: EmpForeignercardModel[] = [];
   selectedEmpforeignercard: EmpForeignercardModel = new EmpForeignercardModel();
   doLoadEmpForeignercardList() {
@@ -3152,15 +3251,15 @@ export class EmployeeManageComponent implements OnInit {
   onRowSelectEmpForeignercard(event: Event) { }
   empforeignercard_summit() {
     this.empforeignercard_addItem(this.selectedEmpforeignercard)
-    this.new_foreigner = false
-    this.edit_empforeigner = false
-    this.displayManage = false
+    this.new_foreignercard = false
+    this.edit_empforeignercard = false
+    this.displayForeCard = false
   }
   empforeignercard_remove() {
     this.selectedEmpforeignercard.foreignercard_id = "9999";
     this.empforeignercard_addItem(this.selectedEmpforeignercard)
-    this.new_foreigner = false
-    this.edit_empforeigner = false
+    this.new_foreignercard = false
+    this.edit_empforeignercard = false
   }
   empforeignercard_delete() {
     var tmp: EmpForeignercardModel = new EmpForeignercardModel();
@@ -3170,9 +3269,9 @@ export class EmployeeManageComponent implements OnInit {
     });
   }
   empforeignercard_cancel() {
-    this.new_foreigner = false
-    this.edit_empforeigner = false
-    this.displayManage = false
+    this.new_foreignercard = false
+    this.edit_empforeignercard = false
+    this.displayForeCard = false
   }
   empforeignercard_addItem(model: EmpForeignercardModel) {
     const itemNew: EmpForeignercardModel[] = [];
@@ -3205,6 +3304,27 @@ export class EmployeeManageComponent implements OnInit {
       });
     }
 
+  }
+  Saveforecard(){
+    if(!this.displayForeCard){
+      this.selectedEmpforeigner.foreigner_card = this.selectedEmpforeigner.foreigner_card.concat({
+        company_code: this.selectedEmpforeigner.company_code,
+        worker_code : this.selectedEmpforeigner.worker_code,
+        foreignercard_id: "0",
+        foreignercard_code: this.selectedEmpforeignercard.foreignercard_code,
+        foreignercard_type: this.selectedEmpforeignercard.foreignercard_type,
+        foreignercard_issue: this.selectedEmpforeignercard.foreignercard_issue,
+        foreignercard_expire: this.selectedEmpforeignercard.foreignercard_expire,
+        modified_by: this.initial_current.Username,
+        modified_date: ""
+      })
+      console.log("AAAAA")
+      this.selectedEmpforeignercard = new EmpForeignercardModel();
+      this.displayForeCard = false;
+    }
+  }
+  closeforecard(){
+    this.selectedEmpforeignercard = new EmpForeignercardModel();
   }
 
   //dep
@@ -3288,7 +3408,7 @@ export class EmployeeManageComponent implements OnInit {
     tmp.reason_group = 'BLACK';
     this.reasonsService.reason_get(tmp).then(async (res) => {
       this.reason_list = await res;
-     });
+    });
   }
 
 
