@@ -48,6 +48,7 @@ import { PasswordModule } from 'primeng/password';
 import { PolapproveComponent } from './polapprove/polapprove.component';
 import { SelfModule } from '../self/self.module';
 import { TreeModule } from 'primeng/tree';
+import { SystemModule } from '../system/system.module';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -91,7 +92,8 @@ import { TreeModule } from 'primeng/tree';
 		CheckboxModule,
 		PasswordModule,
 		SelfModule,
-		TreeModule
+		TreeModule,
+		SystemModule
 
 
 	],

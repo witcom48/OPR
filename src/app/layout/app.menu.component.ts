@@ -36,12 +36,12 @@ export class AppMenuComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.log("test2")
-        this.initialData.setLoading(true);
+        this.initialData.loading = true;
         const initialSessionData = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
 
         if (!initialSessionData.Token) {
-            this.initialData.setLoading(false);
+            // this.initialData.setLoading(false);
+            this.initialData.loading = false;
             this.router.navigateByUrl('login');
             return;
         }
@@ -174,7 +174,8 @@ export class AppMenuComponent implements OnInit {
 
         if (moduleMenuConfig[initialSessionData.Usertype]) {
             this.menuItems[0].items = [moduleMenuConfig[initialSessionData.Usertype]];
-            this.initialData.setLoading(false);
+            // this.initialData.setLoading(false);
+            this.initialData.loading = false;
         }
 
         if (initialSessionData.PolMenu_Code) {
@@ -197,7 +198,8 @@ export class AppMenuComponent implements OnInit {
                             });
                         }
                     });
-                    this.initialData.setLoading(false);
+                    this.initialData.loading = false;
+                    // this.initialData.setLoading(false);
                     // Generate menu items for other modules based on their access permissions...
                 });
         }

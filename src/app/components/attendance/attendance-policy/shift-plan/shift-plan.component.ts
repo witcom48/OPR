@@ -60,19 +60,23 @@ export class ShiftPlanComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
+    this.initial_current.loading = true;
     this.doGetInitialCurrent();
     this.doLoadMenu();
     this.doLoadShift();
     this.doLoadPlanshift();
   }
   doLoadShift() {
+    this.initial_current.loading = true;
     this.ShiftList = [];
     var tmp = new ShiftModels();
     this.shiftService.shift_get(tmp).then(async (res) => {
       this.ShiftList = await res;
+      this.initial_current.loading = false;
     });
   }
   doLoadPlanshift() {
+    this.initial_current.loading = true;
     this.shiftplan_lists = [];
     var tmp = new ShiftplanModels();
     this.planshiftService.planshift_get(tmp).then(async (res) => {
@@ -90,9 +94,11 @@ export class ShiftPlanComponent implements OnInit {
         });
       });
       this.shiftplan_lists = await res;
+      this.initial_current.loading = false;
     });
   }
   async doRecorddPlanshift(data: ShiftplanModels) {
+    this.initial_current.loading = true;
     await this.planshiftService.planshift_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -101,12 +107,13 @@ export class ShiftPlanComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   async doDeletedPlanshift(data: ShiftplanModels) {
+    this.initial_current.loading = true;
     await this.planshiftService.planshift_delete(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -115,12 +122,13 @@ export class ShiftPlanComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   doUploadPlanshift() {
+    this.initial_current.loading = true;
     const filename = "PLANSHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.planshiftService.planshift_import(this.fileToUpload, filename, filetype).then((res) => {
@@ -134,6 +142,7 @@ export class ShiftPlanComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
       this.fileToUpload = null;
+      this.initial_current.loading = false;
     });
   }
   handleFileInput(file: FileList) {

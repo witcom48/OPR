@@ -59,7 +59,7 @@
                 <p-button label="Process" (click)="process()"></p-button>
             </div>
         </div>
-        <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        <!-- <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar> -->
     </p-tabPanel>
     <p-tabPanel>
         <ng-template pTemplate="header">
@@ -117,3 +117,4 @@
     </p-tabPanel>
 
 </p-tabView>
+<app-spinner [loadding]="initial_current.loading"></app-spinner>

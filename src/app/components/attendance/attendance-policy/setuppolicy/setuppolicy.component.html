@@ -90,9 +90,9 @@
             <div *ngIf="!loading" class="field col-12 md:col-12">
                 <p-button label="{{langs.get('process')[selectlang]}}" (click)="process('AW')"></p-button>
             </div>
-            <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading" mode="indeterminate"
+            <!-- <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading" mode="indeterminate"
                     [style]="{'height': '6px'}"></p-progressBar>
-            </div>
+            </div> -->
         </div>
     </p-tabPanel>
     <p-tabPanel>
@@ -140,3 +140,6 @@
     </p-tabPanel>
 
 </p-tabView>
+
+
+<app-spinner [loadding]="initial_current.loading"></app-spinner>

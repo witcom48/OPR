@@ -56,18 +56,22 @@ export class ShiftComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('ATT');
   }
   ngOnInit(): void {
+    this.initial_current.loading = true;
     this.doGetInitialCurrent();
     this.doLoadMenu()
     this.doLoadShift();
   }
   doLoadShift() {
+    this.initial_current.loading = true
     this.shift_list = [];
     var tmp = new ShiftModels();
     this.shiftService.shift_get(tmp).then(async (res) => {
       this.shift_list = await res;
+      this.initial_current.loading = false;
     });
   }
   async doRecordShift(data: ShiftModels) {
+    this.initial_current.loading = true;
     await this.shiftService.shift_record(data).then((res) => {
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -76,12 +80,13 @@ export class ShiftComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   async doDeleteShift(data: ShiftModels) {
+    this.initial_current.loading = true;
     await this.shiftService.shift_delete(data).then((res) => {
       // console.log(res)
       if (res.success) {
@@ -91,12 +96,13 @@ export class ShiftComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.new_data = false;
     this.edit_data = false;
   }
   doUploadShift() {
+    this.initial_current.loading = true
     const filename = "SHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
     this.shiftService.shift_import(this.fileToUpload, filename, filetype).then((res) => {
@@ -111,6 +117,7 @@ export class ShiftComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
       this.fileToUpload = null;
+      this.initial_current.loading = false;
     });
   }
   handleFileInput(file: FileList) {
