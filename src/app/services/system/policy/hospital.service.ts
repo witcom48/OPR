@@ -58,31 +58,31 @@ export class HospitalService {
         this.router.navigateByUrl('login');
       }
     }
-    public hospital_get(model:HospitalModel) {
-      let data = {
-         device_name: "phone",
-         ip: "127.0.0.1",
-         username: this.initial_current.Username,
-         company_code:  this.initial_current.CompCode,
-         hospital_id: model.hospital_id,
-         hospital_code: model.hospital_code
-     }
-     return this.http.post<any>(this.config.ApiSystemModule + '/hospital_list', data, this.options).toPromise()
-         .then((res) => {
-             let message = JSON.parse(res);
-             return message.data;
-         });
-  }
-    // public hospital_get(){
-    //   // console.log('HPT001..');
+  //   public hospital_get(model:HospitalModel) {
+  //     let data = {
+  //        device_name: "phone",
+  //        ip: "127.0.0.1",
+  //        username: this.initial_current.Username,
+  //        company_code:  this.initial_current.CompCode,
+  //        hospital_id: model.hospital_id,
+  //        hospital_code: model.hospital_code
+  //    }
+  //    return this.http.post<any>(this.config.ApiSystemModule + '/hospital_list', data, this.options).toPromise()
+  //        .then((res) => {
+  //            let message = JSON.parse(res);
+  //            return message.data;
+  //        });
+  // }
+    public hospital_get(){
+      // console.log('HPT001..');
 
-    //   return this.http.post<any>(this.config.ApiSystemModule + '/hospital_list', this.basicRequest, this.options).toPromise()
-    //   .then((res) => {
-    //     let message = JSON.parse(res);
-    //     // console.log(res)
-    //     return message.data;
-    //   });
-    // }
+      return this.http.post<any>(this.config.ApiSystemModule + '/hospital_list', this.basicRequest, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // console.log(res)
+        return message.data;
+      });
+    }
 
     public hospital_record(model:HospitalModel) {
       // console.log('HPT002..');

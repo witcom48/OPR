@@ -1209,6 +1209,13 @@ export class ProjectManageComponent implements OnInit {
         command: (event) => {
           this.confirmRecordJobsub()
         }
+      },
+      {
+        label: 'Reload',
+        icon: 'pi pi-fw pi-refresh',
+        command: (event) => {
+          this.doLoadProjobsub()
+        }
       }
       ,
       {
@@ -1244,7 +1251,7 @@ export class ProjectManageComponent implements OnInit {
       },
        
     ];
-
+/////
     this.menu_projobsubcontract = [
       {
         label: this.title_new[this.initial_current.Language],
@@ -1507,7 +1514,7 @@ export class ProjectManageComponent implements OnInit {
     });
 
     var tmp7 = new ProvinceModel();
-    this.provinceService.province_get(tmp7).then((res) => {
+    this.provinceService.province_get( ).then((res) => {
       this.provinceList = res;
     });
 

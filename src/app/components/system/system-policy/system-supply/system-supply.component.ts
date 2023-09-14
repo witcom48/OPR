@@ -190,7 +190,7 @@ export class SystemSupplyComponent implements OnInit {
   doLoadSupply() {
     var tmp = new SupplyModel();
 
-    this.supplyService.supply_get(tmp).then((res) => {
+    this.supplyService.supply_get( ).then((res) => {
       this.supply_List = res;
     });
   }

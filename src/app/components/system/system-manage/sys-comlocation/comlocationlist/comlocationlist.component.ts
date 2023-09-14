@@ -450,7 +450,7 @@ export class ComlocationlistComponent implements OnInit {
     doLoadcardList() {
         var tmp = new CardtypeModel();
 
-        this.cardtypeService.cardtype_get(tmp).then((res) => {
+        this.cardtypeService.cardtype_get( ).then((res) => {
             this.cardList = res;
         });
     }
@@ -458,7 +458,7 @@ export class ComlocationlistComponent implements OnInit {
     doLoadaddressList() {
         var tmp = new AddresstypeModel();
 
-        this.addresstypeService.addresstype_get(tmp).then((res) => {
+        this.addresstypeService.addresstype_get( ).then((res) => {
             this.addressList = res;
         });
     }
@@ -466,7 +466,7 @@ export class ComlocationlistComponent implements OnInit {
     doLoadprovinceList() {
         var tmp = new ProvinceModel();
 
-        this.provinceService.province_get(tmp).then((res) => {
+        this.provinceService.province_get( ).then((res) => {
             this.provinceList = res;
         });
     }

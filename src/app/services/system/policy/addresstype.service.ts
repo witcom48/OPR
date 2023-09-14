@@ -58,31 +58,31 @@ export class AddresstypeService {
         this.router.navigateByUrl('login');
       }
     }
-    public addresstype_get(model:AddresstypeModel) {
-      let data = {
-         device_name: "phone",
-         ip: "127.0.0.1",
-         username: this.initial_current.Username,
-         company_code:  this.initial_current.CompCode,
-         addresstype_id: model.addresstype_id,
-         addresstype_code: model.addresstype_code
-     }
-     return this.http.post<any>(this.config.ApiSystemModule + '/addresstype_list', data, this.options).toPromise()
-         .then((res) => {
-             let message = JSON.parse(res);
-             return message.data;
-         });
- }
-    // public addresstype_get(){
-    //   // console.log('ADD001..');
+//     public addresstype_get(model:AddresstypeModel) {
+//       let data = {
+//          device_name: "phone",
+//          ip: "127.0.0.1",
+//          username: this.initial_current.Username,
+//          company_code:  this.initial_current.CompCode,
+//          addresstype_id: model.addresstype_id,
+//          addresstype_code: model.addresstype_code
+//      }
+//      return this.http.post<any>(this.config.ApiSystemModule + '/addresstype_list', data, this.options).toPromise()
+//          .then((res) => {
+//              let message = JSON.parse(res);
+//              return message.data;
+//          });
+//  }
+    public addresstype_get(){
+      // console.log('ADD001..');
 
-    //   return this.http.post<any>(this.config.ApiSystemModule + '/addresstype_list', this.basicRequest, this.options).toPromise()
-    //   .then((res) => {
-    //     let message = JSON.parse(res);
-    //     // console.log(res)
-    //     return message.data;
-    //   });
-    // }
+      return this.http.post<any>(this.config.ApiSystemModule + '/addresstype_list', this.basicRequest, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // console.log(res)
+        return message.data;
+      });
+    }
 
     public addresstype_record(model:AddresstypeModel) {
       // console.log('ADD002..');

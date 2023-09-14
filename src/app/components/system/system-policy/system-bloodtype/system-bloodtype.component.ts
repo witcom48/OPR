@@ -189,7 +189,7 @@ export class SystemBloodtypeComponent implements OnInit {
   doLoadBloodtype() {
     var tmp = new BloodtypeModel();
 
-    this.bloodtypeService.bloodtype_get(tmp).then((res) => {
+    this.bloodtypeService.bloodtype_get( ).then((res) => {
       this.bloodtype_list = res;
     });
   }

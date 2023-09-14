@@ -108,7 +108,7 @@ export class EmpsettrainingComponent implements OnInit {
   doLoadinstituteList() {
     var tmp = new InstituteModel();
 
-    this.instituteService.institute_get(tmp).then((res) => {
+    this.instituteService.institute_get( ).then((res) => {
       this.instituteList = res;
     });
   }
@@ -117,7 +117,7 @@ export class EmpsettrainingComponent implements OnInit {
   doLoadcourseList() {
     var tmp = new CourseModel();
 
-    this.courseService.course_get(tmp).then((res) => {
+    this.courseService.course_get( ).then((res) => {
       this.courseList = res;
     });
   }

@@ -2,8 +2,7 @@ export class FamilyModel {
     constructor() {
 
     }
-    company_code: string = "";
-
+ 
     family_id: string = "0";
     family_code: string = "";
     family_name_th: string = "";

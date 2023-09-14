@@ -192,7 +192,7 @@ export class SystemAddressTypeComponent implements OnInit {
   // }
   doLoadAddresstype() {
     var tmp = new AddresstypeModel();
-    this.addresstypeService.addresstype_get(tmp).then((res) => {
+    this.addresstypeService.addresstype_get( ).then((res) => {
       this.addresstype_list = res;
     });
   }
