@@ -59,31 +59,31 @@ export class BloodtypeService {
       this.router.navigateByUrl('login');
     }
   }
-  public bloodtype_get(model:BloodtypeModel) {
-    let data = {
-       device_name: "phone",
-       ip: "127.0.0.1",
-       username: this.initial_current.Username,
-       company_code:  this.initial_current.CompCode,
-       bloodtype_id: model.bloodtype_id,
-       bloodtype_code: model.bloodtype_code
-   }
-   return this.http.post<any>(this.config.ApiSystemModule + '/bloodtype_list', data, this.options).toPromise()
-       .then((res) => {
-           let message = JSON.parse(res);
-           return message.data;
-       });
-}
-  // public bloodtype_get(){
-  //   // console.log('BLD001..');
+//   public bloodtype_get(model:BloodtypeModel) {
+//     let data = {
+//        device_name: "phone",
+//        ip: "127.0.0.1",
+//        username: this.initial_current.Username,
+//        company_code:  this.initial_current.CompCode,
+//        bloodtype_id: model.bloodtype_id,
+//        bloodtype_code: model.bloodtype_code
+//    }
+//    return this.http.post<any>(this.config.ApiSystemModule + '/bloodtype_list', data, this.options).toPromise()
+//        .then((res) => {
+//            let message = JSON.parse(res);
+//            return message.data;
+//        });
+// }
+  public bloodtype_get(){
+    // console.log('BLD001..');
 
-  //   return this.http.post<any>(this.config.ApiSystemModule + '/bloodtype_list', this.basicRequest, this.options).toPromise()
-  //   .then((res) => {
-  //     let message = JSON.parse(res);
-  //     // console.log(res)
-  //     return message.data;
-  //   });
-  // }
+    return this.http.post<any>(this.config.ApiSystemModule + '/bloodtype_list', this.basicRequest, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      // console.log(res)
+      return message.data;
+    });
+  }
 
   public bloodtype_record(model:BloodtypeModel) {
     // console.log('BLD002..');

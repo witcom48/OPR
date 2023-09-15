@@ -150,6 +150,8 @@ export class ProjectService {
     const data = {
       project_id: model.project_id,
       project_code: model.project_code,
+      company_code: model.company_code || this.initial_current.CompCode,
+
       modified_by: this.initial_current.Username
     };
 

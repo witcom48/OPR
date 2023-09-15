@@ -59,38 +59,37 @@ export class BankService {
     }
   }
 
-  public bank_get(model:BankModel) {
-     let data = {
-        device_name: "phone",
-        ip: "127.0.0.1",
-        username: this.initial_current.Username,
-        company_code:  this.initial_current.CompCode,
-        bank_id: model.bank_id,
-        bank_code: model.bank_code
-    }
-    return this.http.post<any>(this.config.ApiSystemModule + '/bank_list', data, this.options).toPromise()
-        .then((res) => {
-            let message = JSON.parse(res);
-            return message.data;
-        });
-}
+//   public bank_get(model:BankModel) {
+//      let data = {
+//         device_name: "phone",
+//         ip: "127.0.0.1",
+//         username: this.initial_current.Username,
+//         company_code:  this.initial_current.CompCode,
+//         bank_id: model.bank_id,
+//         bank_code: model.bank_code
+//     }
+//     return this.http.post<any>(this.config.ApiSystemModule + '/bank_list', data, this.options).toPromise()
+//         .then((res) => {
+//             let message = JSON.parse(res);
+//             return message.data;
+//         });
+// }
 
-  // public bank_get(){
-  //   // console.log('SYS001..');
+  public bank_get(){
+    // console.log('SYS001..');
 
-  //   return this.http.post<any>(this.config.ApiSystemModule + '/bank_list', this.basicRequest, this.options).toPromise()
-  //   .then((res) => {
-  //     let message = JSON.parse(res);
-  //     // console.log(res)
-  //     return message.data;
-  //   });
-  // }
+    return this.http.post<any>(this.config.ApiSystemModule + '/bank_list', this.basicRequest, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      // console.log(res)
+      return message.data;
+    });
+  }
 
   public bank_record(model:BankModel) {
     // console.log('SYS002..');
     const data = {
-      company_code: model.company_code || this.initial_current.CompCode,
-
+ 
       bank_id: model.bank_id,
       bank_code: model.bank_code,
       bank_name_th: model.bank_name_th,
@@ -109,8 +108,7 @@ export class BankService {
   public bank_delete(model:BankModel) {
     // console.log('SYS002..');
     const data = {
-      company_code:  this.initial_current.CompCode,
-
+ 
       bank_id: model.bank_id,
       bank_code: model.bank_code,
       modified_by: this.initial_current.Username

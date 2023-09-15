@@ -473,7 +473,7 @@ export class ProjectMonitorComponent implements OnInit {
   selectedJobmain: RadiovalueModel = new RadiovalueModel;
   doLoadPolJobmain(){      
     this.jobmain_list = []   
-    this.projectDetailService.projobmain_get("", "").then(async (res) => {
+    this.projectDetailService.projobmain_get("","", "").then(async (res) => {
       this.jobmain_list = await res;
     });   
   }

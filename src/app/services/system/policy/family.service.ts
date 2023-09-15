@@ -58,39 +58,38 @@ export class FamilyService {
     }
 
 
-    public family_get(model: FamilyModel){
-      var filter = {
-        device_name:'',
-        ip:"localhost",
-        username:this.initial_current.Username,
-        company_code:this.initial_current.CompCode,
-        language:"",
-        family_code: model.family_code
-      }
-      return this.http.post<any>(this.config.ApiSystemModule + '/family_list', filter, this.options).toPromise()
-      .then((res) => {
-        let message = JSON.parse(res);
-        return message.data;
-      });
-    }
-
-
-    // public family_get(){
-    //   // console.log('FML001..');
-
-    //   return this.http.post<any>(this.config.ApiSystemModule + '/family_list', this.basicRequest, this.options).toPromise()
+    // public family_get(model: FamilyModel){
+    //   var filter = {
+    //     device_name:'',
+    //     ip:"localhost",
+    //     username:this.initial_current.Username,
+    //     company_code:this.initial_current.CompCode,
+    //     language:"",
+    //     family_code: model.family_code
+    //   }
+    //   return this.http.post<any>(this.config.ApiSystemModule + '/family_list', filter, this.options).toPromise()
     //   .then((res) => {
     //     let message = JSON.parse(res);
-    //     // console.log(res)
     //     return message.data;
     //   });
     // }
 
+
+    public family_get(){
+      // console.log('FML001..');
+
+      return this.http.post<any>(this.config.ApiSystemModule + '/family_list', this.basicRequest, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // console.log(res)
+        return message.data;
+      });
+    }
+
     public family_record(model:FamilyModel) {
       // console.log('FML002..');
       const data = {
-        company_code: this.initial_current.CompCode,
-        family_id: model.family_id,
+         family_id: model.family_id,
         family_code: model.family_code,
         family_name_th: model.family_name_th,
         family_name_en: model.family_name_en,

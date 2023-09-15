@@ -58,31 +58,31 @@ export class ReligionService {
         this.router.navigateByUrl('login');
       }
     }
-    public religion_get(model:ReligionModel) {
-      let data = {
-         device_name: "phone",
-         ip: "127.0.0.1",
-         username: this.initial_current.Username,
-         company_code:  this.initial_current.CompCode,
-         religion_id: model.religion_id,
-         religion_code: model.religion_code
-     }
-     return this.http.post<any>(this.config.ApiSystemModule + '/religion_list', data, this.options).toPromise()
-         .then((res) => {
-             let message = JSON.parse(res);
-             return message.data;
-         });
-  }
-    // public religion_get(){
-    //   // console.log('RLG001..');
+  //   public religion_get(model:ReligionModel) {
+  //     let data = {
+  //        device_name: "phone",
+  //        ip: "127.0.0.1",
+  //        username: this.initial_current.Username,
+  //        company_code:  this.initial_current.CompCode,
+  //        religion_id: model.religion_id,
+  //        religion_code: model.religion_code
+  //    }
+  //    return this.http.post<any>(this.config.ApiSystemModule + '/religion_list', data, this.options).toPromise()
+  //        .then((res) => {
+  //            let message = JSON.parse(res);
+  //            return message.data;
+  //        });
+  // }
+    public religion_get(){
+      // console.log('RLG001..');
 
-    //   return this.http.post<any>(this.config.ApiSystemModule + '/religion_list', this.basicRequest, this.options).toPromise()
-    //   .then((res) => {
-    //     let message = JSON.parse(res);
-    //     // console.log(res)
-    //     return message.data;
-    //   });
-    // }
+      return this.http.post<any>(this.config.ApiSystemModule + '/religion_list', this.basicRequest, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // console.log(res)
+        return message.data;
+      });
+    }
 
     public religion_record(model:ReligionModel) {
       // console.log('RLG002..');

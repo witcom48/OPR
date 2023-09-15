@@ -232,15 +232,15 @@ export class ProjectTransferComponent implements OnInit {
 
       });
       
-      await this.doLoadJob(this.selectedProject, version)
+      await this.doLoadJob(this.selectedProject, version, '')
     });
 
   }
 
   job_list: any[] = [];
-  doLoadJob(project:string, version:string){        
+  doLoadJob(project:string, version:string, type:string){        
     
-    this.projectDetailService.projobmain_get(version, project).then(async (res) => {
+    this.projectDetailService.projobmain_get(version, project, type).then(async (res) => {
       await res.forEach((element: ProjobmainModel) => {
 
         this.job_list.push(
@@ -301,7 +301,7 @@ export class ProjectTransferComponent implements OnInit {
   projobmain_list: ProjobmainModel[] = [];
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
   doLoadProjobmain(){
-    this.projectDetailService.projobmain_get("", "").then(async (res) => {
+    this.projectDetailService.projobmain_get("","", "").then(async (res) => {
       this.projobmain_list = await res;      
     });
   }

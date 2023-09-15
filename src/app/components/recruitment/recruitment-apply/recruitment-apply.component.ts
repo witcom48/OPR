@@ -1673,7 +1673,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadReligionList() {
         var tmp = new ReligionModel();
 
-        this.religionService.religion_get(tmp).then((res) => {
+        this.religionService.religion_get( ).then((res) => {
             this.religionList = res;
         });
     }
@@ -1682,7 +1682,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadBloodtypeList() {
         var tmp = new BloodtypeModel();
 
-        this.bloodtypeService.bloodtype_get(tmp).then((res) => {
+        this.bloodtypeService.bloodtype_get( ).then((res) => {
             this.bloodtypeList = res;
         });
     }
@@ -1691,7 +1691,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadaddresstypeList() {
         var tmp = new AddresstypeModel();
 
-        this.addresstypeService.addresstype_get(tmp).then((res) => {
+        this.addresstypeService.addresstype_get( ).then((res) => {
             this.addresstypeList = res;
         });
     }
@@ -1701,7 +1701,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadcardtypeList() {
         var tmp = new CardtypeModel();
 
-        this.cardtypeService.cardtype_get(tmp).then((res) => {
+        this.cardtypeService.cardtype_get( ).then((res) => {
             this.cardtypeList = res;
         });
     }
@@ -1710,7 +1710,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadprovinceList() {
         var tmp = new ProvinceModel();
 
-        this.provinceService.province_get(tmp).then((res) => {
+        this.provinceService.province_get( ).then((res) => {
             this.provinceList = res;
         });
     }
@@ -1719,7 +1719,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadinstituteList() {
         var tmp = new InstituteModel();
 
-        this.instituteService.institute_get(tmp).then((res) => {
+        this.instituteService.institute_get( ).then((res) => {
             this.instituteList = res;
         });
     }
@@ -1728,7 +1728,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadcourseList() {
         var tmp = new CourseModel();
 
-        this.courseService.course_get(tmp).then((res) => {
+        this.courseService.course_get( ).then((res) => {
             this.courseList = res;
         });
     }
@@ -1746,7 +1746,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadmajorList() {
         var tmp = new MajorModel();
 
-        this.majorService.major_get(tmp).then((res) => {
+        this.majorService.major_get( ).then((res) => {
             this.majorList = res;
         });
     }
@@ -1755,7 +1755,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadqualificationList() {
         var tmp = new QualificationModel();
 
-        this.qualificationService.qualification_get(tmp).then((res) => {
+        this.qualificationService.qualification_get( ).then((res) => {
             this.qualificationList = res;
         });
     }
@@ -1804,7 +1804,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadEthnicityList() {
         var tmp = new EthnicityModel();
 
-        this.ethnicityService.ethnicity_get(tmp).then((res) => {
+        this.ethnicityService.ethnicity_get( ).then((res) => {
             this.ethnicityList = res;
         })
     }

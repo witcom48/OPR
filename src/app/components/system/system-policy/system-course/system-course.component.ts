@@ -187,7 +187,7 @@ export class SystemCourseComponent implements OnInit {
   doLoadCourse() {
     var tmp = new CourseModel();
 
-    this.courseService.course_get(tmp).then((res) => {
+    this.courseService.course_get( ).then((res) => {
       this.course_list = res;
     });
   }

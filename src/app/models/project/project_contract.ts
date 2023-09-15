@@ -11,7 +11,9 @@ export class ProcontractModel {
     procontract_todate: Date = new Date();
     procontract_customer: string = "";
     procontract_bidder: string = "";
-    project_code: string = "";   
+    project_code: string = "";  
+    procontract_type : string = "";
+ 
     modified_by: string = "";
     modified_date: Date = new Date();
     index: number = 0;

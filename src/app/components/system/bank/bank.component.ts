@@ -189,19 +189,19 @@ export class BankComponent implements OnInit {
   reloadPage() {
     this.doLoadBank()
   }
-  doLoadBank() {
-    this.bank_list = [];
-    var tmp = new BankModel();
-    this.bankService.bank_get(tmp).then(async (res) => {
-      this.bank_list = await res;
-    });
-  }
-
   // doLoadBank() {
-  //   this.bankService.bank_get().then((res) => {
-  //     this.bank_list = res;
+  //   this.bank_list = [];
+  //   var tmp = new BankModel();
+  //   this.bankService.bank_get( ).then(async (res) => {
+  //     this.bank_list = await res;
   //   });
   // }
+
+  doLoadBank() {
+    this.bankService.bank_get().then((res) => {
+      this.bank_list = res;
+    });
+  }
 
   confirmRecord() {
     this.confirmationService.confirm({

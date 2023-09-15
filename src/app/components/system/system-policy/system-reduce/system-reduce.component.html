@@ -106,14 +106,14 @@
                     name="reduce_name_en" #late_name_en="ngModel" required></textarea>
 
 
-                <label>{{title_amount}}<span style="color: red;"> *</span></label>
+                <label>{{title_amount}}</label>
                 <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
                     [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedReduce.reduce_amount" name="reduce_amount"
                     #reduce_amount="ngModel">
                 </p-inputNumber>
 
                 <!--  -->
-                <label>{{title_amountmax[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <label>{{title_amountmax[initial_current.Language]}}</label>
                 <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
                     [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedReduce.reduce_amount_max" name="reduce_amount_max"
                     #reduce_amount_max="ngModel">
@@ -121,7 +121,7 @@
 
                 <!--  -->
 
-                <label>{{title_percent}}<span style="color: red;"> *</span></label>
+                <label>{{title_percent}}</label>
                 <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
                     [maxFractionDigits]="2" [step]="0.5" [(ngModel)]="selectedReduce.reduce_percent"
                     name="reduce_percent" #reduce_percent="ngModel">
