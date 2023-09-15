@@ -83,7 +83,10 @@ import { YearService } from 'src/app/services/system/policy/year.service';
 import { ProvinceModel } from 'src/app/models/system/policy/province';
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
 
-
+interface SummaryCost {
+  label: string,
+  value: number
+}
 @Component({
   selector: 'app-project-manage',
   templateUrl: './project-manage.component.html',
@@ -108,7 +111,7 @@ export class ProjectManageComponent implements OnInit {
   currency_list: RoundsModel[] = [];
   yeargroup_list: YearPeriodModels[] = [];
   provinceList: ProvinceModel[] = [];
-  
+
   //
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
@@ -180,7 +183,7 @@ export class ProjectManageComponent implements OnInit {
   edit_projobversion: boolean = false;
   new_projobversion: boolean = false;
   //#endregion "My Menu"
-
+  SummaryCostList: SummaryCost[] = [{ label: "Summary1", value: 100 }, { label: "Summary2", value: 90 }];
   //#region "Language"
   title_tab_genaral: { [key: string]: string } = { EN: "Genaral", TH: "ข้อมูลทั่วไป" }
   title_tab_contract: { [key: string]: string } = { EN: "Contract", TH: "ข้อมูลสัญญา" }
@@ -188,6 +191,7 @@ export class ProjectManageComponent implements OnInit {
   title_tab_jobmain: { [key: string]: string } = { EN: "Job", TH: "งาน" }
   title_tab_jobclear: { [key: string]: string } = { EN: "Clear job", TH: "งานเคลีย์" }
   title_tab_staff: { [key: string]: string } = { EN: "Staff", TH: "พนักงานประจำหน่วยงาน" }
+  title_tab_summary: { [key: string]: string } = { EN: "Summary of costs", TH: "สรุปต้นทุน" }
   //
   title_page: { [key: string]: string } = { EN: "Project Management", TH: "จัดการข้อมูลโครงการ" }
   title_new: { [key: string]: string } = { EN: "New", TH: "เพิ่ม" }
@@ -383,7 +387,7 @@ export class ProjectManageComponent implements OnInit {
     private yearServices: YearService,
     private provinceService: ProvinceService,
 
-   ) {
+  ) {
 
 
   }
@@ -407,16 +411,16 @@ export class ProjectManageComponent implements OnInit {
 
     setTimeout(() => {
 
-       this.doLoadEmployee()
+      this.doLoadEmployee()
 
     }, 400);
 
-  
-  setTimeout(() => {
+
+    setTimeout(() => {
       if (this.project_code != "") {
-          this.doLoadProject();
+        this.doLoadProject();
       }
-  }, 400);
+    }, 400);
 
 
 
@@ -578,7 +582,7 @@ export class ProjectManageComponent implements OnInit {
       //   icon: 'pi pi-fw pi-file-export',
       // }
       ,
- 
+
       {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
@@ -586,7 +590,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProcontact != null) {
                 this.procontact_remove()
@@ -645,7 +649,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProcontract != null) {
                 this.procontract_remove()
@@ -660,7 +664,7 @@ export class ProjectManageComponent implements OnInit {
         }
       },
 
-          
+
     ];
 
     this.menu_proresponsible = [
@@ -706,7 +710,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProresponsible != null) {
                 this.proresponsible_remove()
@@ -721,7 +725,7 @@ export class ProjectManageComponent implements OnInit {
         }
       },
 
-          
+
     ];
 
     this.menu_protimepol = [
@@ -767,7 +771,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProtimepol != null) {
                 this.protimepol_remove()
@@ -782,7 +786,7 @@ export class ProjectManageComponent implements OnInit {
         }
       },
 
-           
+
     ];
 
     this.menu_projobmain = [
@@ -851,7 +855,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobmain != null) {
                 this.projobmain_remove()
@@ -865,7 +869,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-          
+
     ];
 
     this.menu_projobcontract = [
@@ -912,7 +916,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobcontract != null) {
                 this.projobcontract_remove()
@@ -926,7 +930,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-           
+
     ];
 
     this.menu_projobcost = [
@@ -974,7 +978,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobcost != null) {
                 this.projobcost_remove()
@@ -988,7 +992,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-      
+
     ];
 
     this.menu_projobmachine = [
@@ -1036,7 +1040,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobmachine != null) {
                 this.projobmachine_remove()
@@ -1050,7 +1054,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-       
+
     ];
 
     this.menu_projobpol = [
@@ -1098,7 +1102,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobpol != null) {
                 this.projobpol_remove()
@@ -1112,8 +1116,8 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-       
-        
+
+
     ];
 
     this.menu_projobshift = [
@@ -1160,7 +1164,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobmachine != null) {
                 this.projobshift_remove()
@@ -1174,7 +1178,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-      
+
     ];
 
     this.menu_projobsub = [
@@ -1228,7 +1232,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobsub != null) {
                 this.projobsub_remove()
@@ -1242,7 +1246,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-       
+
     ];
 
     this.menu_projobsubcontract = [
@@ -1289,7 +1293,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobsubcontract != null) {
                 this.projobsubcontract_remove()
@@ -1303,7 +1307,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-      
+
     ];
 
     this.menu_projobsubcost = [
@@ -1351,7 +1355,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobsubcost != null) {
                 this.projobsubcost_remove()
@@ -1365,7 +1369,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
- 
+
     ];
 
     this.menu_projobemp = [
@@ -1414,7 +1418,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobemp != null) {
                 this.projobemp_remove()
@@ -1428,7 +1432,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
- 
+
     ];
 
 
@@ -1465,7 +1469,7 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
-  
+
   doLoadMaster() {
     var tmp = new ProbusinessModel();
 
@@ -1492,7 +1496,7 @@ export class ProjectManageComponent implements OnInit {
     tmpr.round_group = this.rounds_type = "Time";
     this.roundsService.rounds_get(tmpr).then((res) => {
       this.time_list = res;
-      console.log(res,'Time')
+      console.log(res, 'Time')
     });
 
     tmpr.round_group = this.rounds_type = "Currency";
@@ -1511,7 +1515,7 @@ export class ProjectManageComponent implements OnInit {
       this.provinceList = res;
     });
 
- 
+
     //
     // provinceList: ProvinceModel[] = [];
     // doLoadprovinceList() {
@@ -1570,7 +1574,7 @@ export class ProjectManageComponent implements OnInit {
 
             this.router.navigateByUrl('project/list');
             this.doLoadProject();
-          }else {
+          } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
           }
         });
@@ -1627,7 +1631,7 @@ export class ProjectManageComponent implements OnInit {
             }, 400);
 
           }
-          
+
           else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
           }
@@ -1694,7 +1698,7 @@ export class ProjectManageComponent implements OnInit {
     this.new_projobsub = false; this.edit_projobsub = false;
     this.new_projobsubcontract = false; this.edit_projobsubcontract = false;
     this.new_projobsubcost = false; this.edit_projobsubcost = false;
-    this.new_projobmain = false;this.edit_projobmain = false;
+    this.new_projobmain = false; this.edit_projobmain = false;
     this.new_projobshift = false; this.edit_projobshift = false;
     this.new_projobpol = false; this.edit_projobpol = false;
   }
@@ -2206,6 +2210,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.projectDetailService.projobmain_get(this.version_selected, this.project_code).then(async (res) => {
       this.projobmain_list = await res;
+      console.log(res)
       setTimeout(() => {
         this.projobmain_summary()
         this.projobmain_loadtran()
@@ -2418,8 +2423,7 @@ export class ProjectManageComponent implements OnInit {
   }
 
   poluniform_list: ProuniformModel[] = [];
-  doLoadPolProuniform() 
-  {
+  doLoadPolProuniform() {
     var tmp3 = new ProuniformModel();
     this.genaralService.prouniform_get(tmp3).then(async (res) => {
       this.poluniform_list = await res;

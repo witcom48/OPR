@@ -1670,7 +1670,7 @@
                 </p-table>
                 <br>
                 <p-accordion>
-                    <p-accordionTab header="{{title_contract[initial_current.Language]}}"  >
+                    <p-accordionTab header="{{title_contract[initial_current.Language]}}">
                         <p-menubar [model]="menu_projobsubcontract"></p-menubar>
                         <p-table #dtJobsubcontract [value]="projobsubcontract_list" styleClass="p-datatable-sm"
                             [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="250px"
@@ -1704,7 +1704,7 @@
                 </p-accordion>
                 <br>
                 <p-accordion>
-                    <p-accordionTab header="{{title_cost[initial_current.Language]}}"  >
+                    <p-accordionTab header="{{title_cost[initial_current.Language]}}">
                         <p-menubar [model]="menu_projobsubcost"></p-menubar>
                         <p-table #dtJobsubcost [value]="projobsubcost_list" styleClass="p-datatable-sm"
                             [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="250px"
@@ -1811,6 +1811,20 @@
                 </ng-template>
 
             </p-table>
+        </p-tabPanel>
+        <!-- Summary -->
+        <p-tabPanel>
+            <ng-template pTemplate="header">
+                <i class="pi pi-chart-bar"></i>&nbsp;&nbsp;
+                <span>{{title_tab_summary[initial_current.Language]}}</span>
+            </ng-template>
+            <div class="card flex flex-wrap gap-3">
+                <div class="flex-auto" style="max-width: 250px;"  *ngFor="let item of SummaryCostList;">
+                    <label >{{item.label}}</label>
+                    <p-inputNumber [(ngModel)]="item.value" [readonly]="true"> </p-inputNumber>
+                </div>
+            </div>
+
         </p-tabPanel>
     </p-tabView>
     <p></p>
