@@ -12,6 +12,4 @@ export class EmpForeignercardModel {
     modified_by: string= "";
     modified_date: string= "";
 
-    index: number = 0;
-    select: boolean = false;
   }

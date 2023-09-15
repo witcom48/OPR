@@ -1,3 +1,5 @@
+import { EmpForeignercardModel } from "./foreignercard";
+
 export class EmpForeignerModel {
     constructor() {
     }
@@ -20,10 +22,16 @@ export class EmpForeignerModel {
     otherdoc_no: string= "";
     otherdoc_expire!: Date;
 
+    //--new
+    foreigner_type: string = "";
+    sent_sso: boolean = false ;
+
     modified_by: string= "";
     modified_date: string= "";
 
 
     index: number = 0;
     select: boolean = false;
+
+    foreigner_card: EmpForeignercardModel[] = [];
 }

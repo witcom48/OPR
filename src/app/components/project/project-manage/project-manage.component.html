@@ -1945,6 +1945,26 @@
 
             </p-table>
         </p-tabPanel>
+        <!-- Summary -->
+        <p-tabPanel>
+            <ng-template pTemplate="header">
+                <i class="pi pi-chart-bar"></i>&nbsp;&nbsp;
+                <span>{{title_tab_summary[initial_current.Language]}}</span>
+            </ng-template>
+            <div class="card flex flex-wrap gap-3">
+                <div class="flex-auto" style="max-width: 220px;" *ngFor="let item of SummaryCostList;">
+                    <label>{{item.label}}</label>
+                    <p-inputNumber [(ngModel)]="item.value" [readonly]="true"> </p-inputNumber>
+                </div>
+                <div class="flex-auto" style="max-width: 220px; font-weight: 900;
+                color: black;">
+                    <label>{{title_amount_total[initial_current.Language]}}</label>
+                    <p-inputNumber class="summary" [(ngModel)]="project_summary_costall" [readonly]="true">
+                    </p-inputNumber>
+                </div>
+            </div>
+
+        </p-tabPanel>
     </p-tabView>
     <p></p>
     <!-- <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"

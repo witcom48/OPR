@@ -87,7 +87,10 @@ import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 import { EmptypeService } from 'src/app/services/emp/policy/emptype.service';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 
-
+interface SummaryCost {
+  label: string,
+  value: number
+}
 @Component({
   selector: 'app-project-manage',
   templateUrl: './project-manage.component.html',
@@ -186,7 +189,7 @@ export class ProjectManageComponent implements OnInit {
   edit_projobversion: boolean = false;
   new_projobversion: boolean = false;
   //#endregion "My Menu"
-
+  SummaryCostList: SummaryCost[] = [];
   //#region "Language"
   title_tab_genaral: { [key: string]: string } = { EN: "Genaral", TH: "ข้อมูลทั่วไป" }
   title_tab_contract: { [key: string]: string } = { EN: "Contract", TH: "ข้อมูลสัญญา" }
@@ -194,6 +197,7 @@ export class ProjectManageComponent implements OnInit {
   title_tab_jobmain: { [key: string]: string } = { EN: "Job", TH: "งาน" }
   title_tab_jobclear: { [key: string]: string } = { EN: "Clear job", TH: "งานเคลีย์" }
   title_tab_staff: { [key: string]: string } = { EN: "Staff", TH: "พนักงานประจำหน่วยงาน" }
+  title_tab_summary: { [key: string]: string } = { EN: "Summary of costs", TH: "สรุปต้นทุน" }
   //
   title_page: { [key: string]: string } = { EN: "Project Management", TH: "จัดการข้อมูลโครงการ" }
   title_new: { [key: string]: string } = { EN: "New", TH: "เพิ่ม" }
@@ -2509,17 +2513,34 @@ export class ProjectManageComponent implements OnInit {
 
   project_summary_emp: number = 0;
   project_summary_cost: number = 0;
+  project_summary_costall: number = 0;
+  calculateSum(array: any, property: any) {
+    const total = array.reduce((accumulator: any, object: any) => {
+      return accumulator + object[property] * object['emp_total'];
+    }, 0);
 
+    return total;
+  }
   projobmain_summary() {
-
+    this.SummaryCostList = [];
     // return
 
     this.project_summary_emp = 0
     this.project_summary_cost = 0
+    this.project_summary_costall = 0;
     for (let i = 0; i < this.projobmain_list.length; i++) {
       this.project_summary_emp += this.projobmain_list[i].emp_total
       this.project_summary_cost += this.projobmain_list[i].allow_total
     }
+    console.log(this.projobsub_list)
+    this.costs_title.forEach((cost, index) => {
+      if (cost !== "") {
+        const result = this.calculateSum(this.projobmain_list, `allow${index + 1}`);
+        const result2 = this.calculateSum(this.projobsub_list, `allow${index + 1}`);
+        this.project_summary_costall += result + result2;
+        this.SummaryCostList.push({ label: cost, value: result + result2 });
+      }
+    })
   }
 
 
