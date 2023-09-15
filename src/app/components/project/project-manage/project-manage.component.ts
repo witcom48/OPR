@@ -2281,7 +2281,6 @@ export class ProjectManageComponent implements OnInit {
 
     this.projectDetailService.projobmain_get(this.version_selected, this.project_code, this.procontract_type).then(async (res) => {
       this.projobmain_list = await res;
-      console.log(res)
       setTimeout(() => {
         this.projobmain_summary()
         this.projobmain_loadtran()
@@ -2524,10 +2523,17 @@ export class ProjectManageComponent implements OnInit {
 
     this.project_summary_emp = 0
     this.project_summary_cost = 0
+    console.log(this.projobmain_list)
+    // console.log(this.costs_title)
     for (let i = 0; i < this.projobmain_list.length; i++) {
       this.project_summary_emp += this.projobmain_list[i].emp_total
       this.project_summary_cost += this.projobmain_list[i].allow_total
     }
+    this.costs_title.forEach((cost) => {
+      if (cost !== "") {
+        console.log(cost);
+      }
+    })
   }
 
 
@@ -3535,65 +3541,65 @@ export class ProjectManageComponent implements OnInit {
   }
 
   statusList: EmpstatusModel[] = [];
-doLoadEmpstatusList() {
-  this.empstatusService.status_get().then((res) => {
-    this.statusList = res;
-    console.log(res, 'tttt');
-  });
-}
+  doLoadEmpstatusList() {
+    this.empstatusService.status_get().then((res) => {
+      this.statusList = res;
+      console.log(res, 'tttt');
+    });
+  }
 
-workerList: EmployeeModel[] = [];
-doLoadblackList() {
-  this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
-    this.workerList = res;
-    console.log(res, 'oooo');
-  });
-}
+  workerList: EmployeeModel[] = [];
+  doLoadblackList() {
+    this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
+      this.workerList = res;
+      console.log(res, 'oooo');
+    });
+  }
 
-emptypeList: EmptypeModel[] = [];
-doLoadEmptypeList() {
-  this.emptypeService.type_get().then((res) => {
-    this.emptypeList = res;
-  });
-}
+  emptypeList: EmptypeModel[] = [];
+  doLoadEmptypeList() {
+    this.emptypeService.type_get().then((res) => {
+      this.emptypeList = res;
+    });
+  }
 
   // fillterIncludeResign: boolean = false;
-  
+
 
   doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     const fillter: FillterEmpModel = new FillterEmpModel();
-  
+
     fillter.company_code = this.initial_current.CompCode;
-  
+
     if (this.filltercontract) {
       fillter.worker_emptype = this.selectedcontract;
     } else {
       fillter.worker_emptype = '';
     }
-  
+
     if (this.filltertype) {
       workerfillter.projobmain_code = this.selectedType;
     } else {
       workerfillter.projobmain_code = '';
     }
-  
+
     if (this.fillterEmptype) {
       fillter.worker_code = this.selectedEmptype;
     } else {
       fillter.worker_code = '';
     }
-  
+
     if (this.fillterEmpstatus) {
       fillter.worker_empstatus = this.selectedEmpstatus;
     } else {
       fillter.worker_empstatus = '';
     }
-  
+
     fillter.searchemp = this.selectedSearchemp;
     this.projectDetailService.projobemp_getbyfillter(workerfillter).then(async (res) => {
 
-    // this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
+      // this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
       // await res.forEach((element: EmployeeModel) => {
       //   element.worker_birthdate = new Date(element.worker_birthdate);
       //   element.worker_hiredate = new Date(element.worker_hiredate);
@@ -3601,12 +3607,12 @@ doLoadEmptypeList() {
       //   element.worker_probationdate = new Date(element.worker_probationdate);
       //   element.worker_probationenddate = new Date(element.worker_probationenddate);
       // });
-  
+
       this.projobemp_list = await res;
       console.log(res);
     });
   }
-  
+
 
   //-- Type รหัสพนักงาน
   selectedEmptype: string = "";
@@ -3662,7 +3668,7 @@ doLoadEmptypeList() {
     }
   }
 
-  
+
 
   //-- 10/05/2023
 
