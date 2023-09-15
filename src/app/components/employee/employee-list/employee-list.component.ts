@@ -94,7 +94,7 @@ export class EmployeeListComponent implements OnInit {
       { name_th: 'ข้อมูลการฝึกอบรม', name_en: 'Employee Training', code: 'EMPTRAINING' },
       { name_th: 'ข้อมูลการประเมิน', name_en: 'Employee Appraisal', code: 'EMPASSESSMENT' },
       { name_th: 'ข้อมูลอาชญากรรม', name_en: 'Employee Criminal', code: 'EMPCRIMINAL' },
-      { name_th: 'ข้อมูลgเงินเดือนพนักงาน', name_en: 'Employee Salary', code: 'EMPSALARY' },
+      { name_th: 'ข้อมูลเงินเดือนพนักงาน', name_en: 'Employee Salary', code: 'EMPSALARY' },
       { name_th: 'ข้อมูลกองทุนสำรองฯ', name_en: 'Employee Provident', code: 'EMPPROVIDENT' },
       { name_th: 'ข้อมูลสวัสดิการพนักงาน', name_en: 'Employee Benefits', code: 'EMPBENEFIT' },
       { name_th: 'ข้อมูลค่าลดหย่อนพนักงาน', name_en: 'Employee Reduce', code: 'EMPREDUCE' },
@@ -104,6 +104,8 @@ export class EmployeeListComponent implements OnInit {
       { name_th: 'ข้อมูลอุปกรณ์สำนักงาน', name_en: 'Employee Supply', code: 'EMPSUPPLY' },
       { name_th: 'ข้อมูลชุดของพนักงาน', name_en: 'Employee Uniform', code: 'EMPUNIFORM' },
       { name_th: 'ข้อมูลผู้แนะนำของพนักงาน', name_en: 'Employee Suggest', code: 'EMPSUGGEST' },
+      { name_th: 'ข้อมูลประสบการทำงาน', name_en: 'Employee Experience', code: 'EMPEXPERIENCE' },
+
     ];
 
   }
@@ -301,6 +303,13 @@ export class EmployeeListComponent implements OnInit {
                 }
               },
               {
+                label: "Employee Card",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Card.xlsx', '_blank');
+                }
+              },
+              {
                 label: "Employee Bank Account",
                 // icon: 'pi-download',
                 command: (event) => {
@@ -394,6 +403,13 @@ export class EmployeeListComponent implements OnInit {
                 // icon: 'pi-download',
                 command: (event) => {
                   window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Criminal.xlsx', '_blank');
+                }
+              },
+              {
+                label: "Employee Experience",
+                // icon: 'pi-download',
+                command: (event) => {
+                  window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Employee Exp.xlsx', '_blank');
                 }
               },
             ],
@@ -1143,6 +1159,22 @@ export class EmployeeListComponent implements OnInit {
             //import emp suggest
             case 'EMPSUGGEST':
               this.empdetailService.empsuggest_import(this.fileToUpload, filename, filetype).then((res) => {
+                let result = JSON.parse(res);
+
+                if (result.success) {
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+                  this.doGetDataFillter();
+                  this.edit_employee = false;
+                  this.new_employee = false;
+                }
+                else {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+                }
+              })
+              break;
+              //import Emp Experience
+              case 'EMPEXPERIENCE':
+              this.empdetailService.empexperience_import(this.fileToUpload, filename, filetype).then((res) => {
                 let result = JSON.parse(res);
 
                 if (result.success) {
