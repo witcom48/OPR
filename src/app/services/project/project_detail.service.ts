@@ -995,8 +995,8 @@ export class ProjectDetailService {
       return res;
     });
   }
+///////////ทำตรงนี้
 
-  
   public projobemp_getbyfillter(fillter: FillterProjectModel) {
 
     const fillterS = {
@@ -1006,8 +1006,18 @@ export class ProjectDetailService {
       language: "",
 
       company_code: fillter.company_code,
+
+      projobemp_id: fillter.projobemp_id,
+      projobemp_emp: fillter.projobemp_emp,
+      projobemp_fromdate: this.datePipe.transform(fillter.projobemp_fromdate),
+      projobemp_todate: this.datePipe.transform(fillter.projobemp_todate),
+      projobemp_type: fillter.projobemp_type,
+      projobemp_status: fillter.projobemp_status,
+      projob_code: fillter.projob_code,
       project_code: fillter.project_code,
-      project_name_th: fillter.project_name_th,
+
+///
+       project_name_th: fillter.project_name_th,
       project_name_en: fillter.project_name_en,
       project_name_sub: fillter.project_name_sub,
       project_codecentral: fillter.project_codecentral,
@@ -1016,14 +1026,14 @@ export class ProjectDetailService {
       
     };
 
-    return this.http.post<any>(this.config.ApiProjectModule + '/projobemp_list', fillterS, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobempfillter_list', fillterS, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         return message.data;
       });
 
   }
-
+///////////ทำตรงนี้>>>
 
   //-- Job emp
   public projobemp_get(project:string){

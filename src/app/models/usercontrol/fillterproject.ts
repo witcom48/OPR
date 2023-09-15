@@ -1,6 +1,19 @@
 export class FillterProjectModel {
     constructor() {}
+
+        
+    projobemp_id: string = "1";
+    projobemp_emp: string = "";   
+    projobemp_fromdate: Date = new Date();
+    projobemp_todate: Date = new Date();    
+    projobemp_type: string = "";
+    projobemp_status: string = "W";
     
+    projob_code: string = "";
+    project_code: string = "";
+    ///
+    searchemp :string = "";
+
     projobmain_id: string = "1";
     projobmain_code: string = "";
     projobmain_name_th: string = "";
@@ -11,8 +24,7 @@ export class FillterProjectModel {
     projobmain_slip: string = "";
     projobmain_uniform: string = "";
 
-    project_code: string = "";
-
+ 
     version: string = "";
  
     modified_by: string = "";
