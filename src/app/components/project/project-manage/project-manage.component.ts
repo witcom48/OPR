@@ -189,7 +189,7 @@ export class ProjectManageComponent implements OnInit {
   edit_projobversion: boolean = false;
   new_projobversion: boolean = false;
   //#endregion "My Menu"
-  SummaryCostList: SummaryCost[] = [{ label: "Summary1", value: 100 }, { label: "Summary2", value: 90 }];
+  SummaryCostList: SummaryCost[] = [];
   //#region "Language"
   title_tab_genaral: { [key: string]: string } = { EN: "Genaral", TH: "ข้อมูลทั่วไป" }
   title_tab_contract: { [key: string]: string } = { EN: "Contract", TH: "ข้อมูลสัญญา" }
@@ -2516,22 +2516,32 @@ export class ProjectManageComponent implements OnInit {
 
   project_summary_emp: number = 0;
   project_summary_cost: number = 0;
+  project_summary_costall: number = 0;
+  calculateSum(array: any, property: any) {
+    const total = array.reduce((accumulator: any, object: any) => {
+      return accumulator + object[property] * object['emp_total'];
+    }, 0);
 
+    return total;
+  }
   projobmain_summary() {
-
+    this.SummaryCostList = [];
     // return
 
     this.project_summary_emp = 0
     this.project_summary_cost = 0
-    console.log(this.projobmain_list)
-    // console.log(this.costs_title)
+    this.project_summary_costall = 0;
     for (let i = 0; i < this.projobmain_list.length; i++) {
       this.project_summary_emp += this.projobmain_list[i].emp_total
       this.project_summary_cost += this.projobmain_list[i].allow_total
     }
-    this.costs_title.forEach((cost) => {
+    console.log(this.projobsub_list)
+    this.costs_title.forEach((cost, index) => {
       if (cost !== "") {
-        console.log(cost);
+        const result = this.calculateSum(this.projobmain_list, `allow${index + 1}`);
+        const result2 = this.calculateSum(this.projobsub_list, `allow${index + 1}`);
+        this.project_summary_costall += result + result2;
+        this.SummaryCostList.push({ label: cost, value: result + result2 });
       }
     })
   }

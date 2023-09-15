@@ -1870,9 +1870,9 @@
                                     (onChange)="doChangeSelecttypes()"></p-checkbox> &nbsp;
                                 <label for="lastname2">{{title_jobmain_type[initial_current.Language]}} :</label>
                             </div>
-                            <p-dropdown placeholder="--" [options]="projobmain_list" optionValue="projobmain_code" [showClear]="true"
-                                [(ngModel)]="selectedType" (onChange)="doChangeSelecttypes()" [disabled]="!filltertype"
-                                [style]="{ width: '100%', overflow: 'visible' }">
+                            <p-dropdown placeholder="--" [options]="projobmain_list" optionValue="projobmain_code"
+                                [showClear]="true" [(ngModel)]="selectedType" (onChange)="doChangeSelecttypes()"
+                                [disabled]="!filltertype" [style]="{ width: '100%', overflow: 'visible' }">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.projobmain_name_th :
                                     item.projobmain_name_en}}
@@ -1882,10 +1882,10 @@
                                     item.projobmain_name_en}}
                                 </ng-template>
                             </p-dropdown>
-                        
-                        
-                        
-                        
+
+
+
+
                         </div>
                         <!-- สัญญา -->
                         <!-- <div class="select">
@@ -1959,9 +1959,15 @@
                 <span>{{title_tab_summary[initial_current.Language]}}</span>
             </ng-template>
             <div class="card flex flex-wrap gap-3">
-                <div class="flex-auto" style="max-width: 250px;"  *ngFor="let item of SummaryCostList;">
-                    <label >{{item.label}}</label>
+                <div class="flex-auto" style="max-width: 220px;" *ngFor="let item of SummaryCostList;">
+                    <label>{{item.label}}</label>
                     <p-inputNumber [(ngModel)]="item.value" [readonly]="true"> </p-inputNumber>
+                </div>
+                <div class="flex-auto" style="max-width: 220px; font-weight: 900;
+                color: black;">
+                    <label>{{title_amount_total[initial_current.Language]}}</label>
+                    <p-inputNumber class="summary" [(ngModel)]="project_summary_costall" [readonly]="true">
+                    </p-inputNumber>
                 </div>
             </div>
 
