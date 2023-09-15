@@ -836,7 +836,7 @@
                             <p-accordionTab header="{{title_foreigner}}" *ngIf="hasAccessMenu('EMP002-010')">
                                 <p-menubar [model]="menu_empforeigner"></p-menubar>
                                 <div #tableforeigner>
-                                    <p-table #dtempforeigner [value]="empforeignercardList" styleClass="p-datatable-sm"
+                                    <p-table #dtempforeigner [value]="empforeignerList" styleClass="p-datatable-sm"
                                         [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
                                         [virtualScroll]="true" selectionMode="single"
                                         [(selection)]="selectedEmpforeignercard"
@@ -846,20 +846,25 @@
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>{{title_foreignercode[initial_current.Language]}}</th>
+                                                <!-- <th>{{title_foreignercode[initial_current.Language]}}</th>
                                                 <th>{{title_foreignertype[initial_current.Language]}}</th>
                                                 <th>{{title_foreignerissue[initial_current.Language]}}</th>
-                                                <th>{{title_foreignerexpire[initial_current.Language]}}</th>
+                                                <th>{{title_foreignerexpire[initial_current.Language]}}</th> -->
+                                                <th>{{title_foreignertype[initial_current.Language]}}</th>
+                                                <th>{{title_entrydate}}</th>
+
                                                 <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empforeigner>
                                             <tr [pSelectableRow]="empforeigner">
-                                                <td>{{doGetForeignertypeDetail(empforeigner.foreignercard_type)}}</td>
+                                                <!-- <td>{{doGetForeignertypeDetail(empforeigner.foreignercard_type)}}</td>
                                                 <td>{{empforeigner.foreignercard_code}}</td>
                                                 <td>{{empforeigner.foreignercard_issue | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{empforeigner.foreignercard_expire | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{empforeigner.foreignercard_expire | date:'dd/MM/yyyy'}}</td> -->
+                                                <td>{{empforeigner.foreigner_type}}</td>
+                                                <td>{{empforeigner.entry_date | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{empforeigner.modified_by}}</td>
                                                 <td>{{empforeigner.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -1379,7 +1384,8 @@
                         <!-- Experience -->
                         <div class="field col-12">
                             <p-accordion>
-                                <p-accordionTab header="{{title_experience[initial_current.Language]}}" *ngIf="hasAccessMenu('EMP002-019')">
+                                <p-accordionTab header="{{title_experience[initial_current.Language]}}"
+                                    *ngIf="hasAccessMenu('EMP002-019')">
                                     <p-menubar [model]="menu_empexperience"></p-menubar>
                                     <div #tableexperience>
                                         <p-table #dtexperience [value]="empexperienceList" styleClass="p-datatable-sm"
@@ -1497,12 +1503,13 @@
                                 <input placeholder="--" pInputText type="text" [value]="worker.bonus_name" readonly />
                             </div>
                         </div> -->
-                        
+
                         <div class="field col-6">
                             <label for="lastname2">{{title_bonus[initial_current.Language]}} :</label><br>
                             <ng-container *ngIf="tmp.worker_code">
                                 <div *ngFor="let worker of SetBonus_List">
-                                    <input placeholder="--" pInputText type="text" [value]="worker.bonus_name" readonly />
+                                    <input placeholder="--" pInputText type="text" [value]="worker.bonus_name"
+                                        readonly />
                                 </div>
                             </ng-container>
                         </div>
@@ -2889,11 +2896,10 @@
     <!-- Form Emp foreigner -->
     <form #ForeForm="ngForm">
         <div class="formatt" *ngIf="edit_empforeigner==true || new_foreigner==true">
-            <label>{{title_foreignertype[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <label>{{title_foreignertype[initial_current.Language]}}<span style="color: red;"> *</span></label>
             <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
-                [(ngModel)]="selectedEmpforeignercard.foreignercard_type"
-                [style]="{ width: '100%', overflow: 'visible' }" name="foreigner_type" #foreigner_type="ngModel"
-                [required]="true">
+                [(ngModel)]="selectedEmpforeigner.foreigner_type" [style]="{ width: '100%', overflow: 'visible' }"
+                name="foreigner_type" #foreigner_type="ngModel" [required]="true">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.name_th : item.name_en}}
                 </ng-template>
@@ -2902,40 +2908,56 @@
                 </ng-template>
             </p-dropdown>
 
-            <label>{{title_foreignercode[initial_current.Language]}}<span style="color: red;">*</span></label>
-            <input pInputText type="text" id="foreignercard_no"
-                [(ngModel)]="selectedEmpforeignercard.foreignercard_code" name="foreignercard_no" maxlength="20"
-                #foreignercard_no="ngModel" required>
-
-            <label>{{title_foreignerissue[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <label>{{title_entrydate}}<span style="color: red;"> *</span></label>
             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedEmpforeignercard.foreignercard_issue" name="foreignercard_issue"
-                #foreignercard_issue="ngModel" [required]="true"><input type="text"></p-calendar>
+                [(ngModel)]="selectedEmpforeigner.entry_date" name="entry_date" #entry_date="ngModel"
+                [required]="true"><input type="text"></p-calendar>
 
-            <label>{{title_foreignerexpire[initial_current.Language]}}<span style="color: red;">*</span></label>
-            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedEmpforeignercard.foreignercard_expire" name="foreignercard_expire"
-                #foreignercard_expire="ngModel" [required]="true"><input type="text"></p-calendar>
-            <br>
-            <div class="field col-12" style=" text-align: right;">
-                <p-button label="{{title_summit}}" (click)="empforeignercard_summit()"
-                    [disabled]="!ForeForm.form.valid"></p-button>
-                &nbsp;
-                <!-- <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
-                    (click)="empforeignercard_cancel()"></button> -->
+            <div class="checkbreak">
+                <p-checkbox name="selectedEmpforeigner.sent_sso" [(ngModel)]="selectedEmpforeigner.sent_sso"
+                    [binary]="true"></p-checkbox> &nbsp;
+                <label>{{title_foreignersso[initial_current.Language]}}</label>
             </div>
 
+            <div #TABLELIST>
+                <p-accordion>
+                    <p-accordionTab header="{{title_foreignercard[initial_current.Language]}}">
+                        <p-menubar [model]="menu_empforeignercard"></p-menubar>
+                        <p-table [value]="selectedEmpforeigner.foreigner_card" styleClass="p-datatable-sm"
+                            (onRowSelect)="onRowSelectEmpForeignercard($event)" [scrollable]="true" scrollHeight="220px"
+                            [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpforeignercard">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{title_foreignercardtype[initial_current.Language]}}</th>
+                                    <th>{{title_foreignercode[initial_current.Language]}}</th>
+                                    <th>{{title_foreignerissue[initial_current.Language]}}</th>
+                                    <th>{{title_foreignerexpire[initial_current.Language]}}</th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-empforecard let-i="rowIndex">
+                                <tr [pSelectableRow]="empforecard">
+                                    <td>{{doGetForeignertypeDetail(empforecard.foreignercard_type)}}</td>
+                                    <td>{{empforecard.foreignercard_code}}</td>
+                                    <td>{{empforecard.foreignercard_issue | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{empforecard.foreignercard_expire | date:'dd/MM/yyyy'}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
         </div>
     </form>
-    <!-- END EMP Location -->
+    <!-- END EMP Foreigner -->
 
     <!-- Form Emp experience -->
     <form #ExperienceForm="ngForm">
         <div class="formatt" *ngIf="edit_empexperience==true || new_experience==true">
 
             <label>{{title_expcom[initial_current.Language]}}<span style="color: red;"> *</span></label>
-            <input pInputText type="text" [(ngModel)]="selectedEmpExperience.company_name"
-                name="company_name" #company_name="ngModel" required>
+            <input pInputText type="text" [(ngModel)]="selectedEmpExperience.company_name" name="company_name"
+                #company_name="ngModel" required>
 
             <label>{{title_expposition[initial_current.Language]}}<span style="color: red;"> *</span></label>
             <input pInputText type="text" [(ngModel)]="selectedEmpExperience.position" name="position"
@@ -2974,6 +2996,52 @@
     <!-- END FORM EXPERIENCE -->
 </p-dialog>
 <!-- END FORM DIALOG-->
+
+<form (ngSubmit)="Saveforecard()" #ForeForm2="ngForm">
+    <p-dialog header="Card" [(visible)]="displayForeCard" (onHide)="closeforecard()" >
+        <div class="formatt" *ngIf="edit_empforeignercard==true || new_foreignercard==true">
+            <label>{{title_foreignercardtype[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
+                [(ngModel)]="selectedEmpforeignercard.foreignercard_type"
+                [style]="{ width: '100%', overflow: 'visible' }" name="foreigner_type" #foreigner_type="ngModel"
+                [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                </ng-template>
+            </p-dropdown>
+
+            <label>{{title_foreignercode[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <input pInputText type="text" id="foreignercard_no"
+                [(ngModel)]="selectedEmpforeignercard.foreignercard_code" name="foreignercard_no" maxlength="20"
+                #foreignercard_no="ngModel" required>
+
+            <label>{{title_foreignerissue[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpforeignercard.foreignercard_issue" name="foreignercard_issue"
+                #foreignercard_issue="ngModel" [required]="true"><input type="text"></p-calendar>
+
+            <label>{{title_foreignerexpire[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpforeignercard.foreignercard_expire" name="foreignercard_expire"
+                #foreignercard_expire="ngModel" [required]="true"><input type="text"></p-calendar>
+            <br>
+            <!-- <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="empforeignercard_summit()"
+                    [disabled]="!ForeForm2.form.valid"></p-button>
+                &nbsp;
+                <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                (click)="empforeignercard_cancel()"></button>
+            </div> -->
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button label="{{title_summit}}" 
+                [disabled]="!ForeForm2.form.valid"></p-button>
+        </ng-template>
+    </p-dialog>
+</form>
 
 
 
