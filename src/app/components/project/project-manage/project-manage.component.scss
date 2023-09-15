@@ -71,3 +71,26 @@ h3{
     margin-left: 15px;
 }
 
+
+.checkselect {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px;
+
+    .select {
+        // display: flex;
+        // flex-wrap: wrap;
+        // flex-direction: column;
+        display: grid;
+        grid-template-columns: 145px 1fr;
+        gap: 5px;
+        // align-self: center;s
+    }
+
+    .resign {
+        align-self: center;
+        display: flex;
+    }
+}

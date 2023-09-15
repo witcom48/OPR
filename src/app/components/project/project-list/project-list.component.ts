@@ -247,14 +247,13 @@ export class ProjectListComponent implements OnInit {
       }
     }
   }
-  project_code: string = "";
 
   selectedProject: ProjectModel = new ProjectModel;
   doLoadProject() {
 
-    this.projectService.project_get(this.initial_current.CompCode,  "").then(async (res) => {
+    this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
       this.project_list = await res;
-console.log(this.project_code,'ttttq')
+
       setTimeout(() => {
         this.calculateTotal()
       }, 1000);

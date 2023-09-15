@@ -24,6 +24,7 @@ import { ProjobshiftModel } from '../../models/project/project_jobshift';
 
 import { ProjobversionModel } from '../../models/project/project_jobversion';
 import { ProjobpolModel } from '../../models/project/project_jobpol';
+import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 
 @Injectable({
   providedIn: 'root'
@@ -291,6 +292,9 @@ export class ProjectDetailService {
       item_data = item_data + ",\"procontract_customer\":\"" + list[i].procontract_customer + "\"";
       item_data = item_data + ",\"procontract_bidder\":\"" + list[i].procontract_bidder + "\"";
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
+      item_data = item_data + ",\"procontract_type\":\"" + list[i].procontract_type + "\"";
+
+ 
       item_data = item_data + "}" + ",";
     }
     if(item_data.length > 2)
@@ -517,7 +521,7 @@ export class ProjectDetailService {
   }
 
   //-- Job main
-  public projobmain_get(version:string, project:string){
+  public projobmain_get(version:string, project:string,type:string,){
 
     var filter = {
       device_name:'',
@@ -532,7 +536,8 @@ export class ProjectDetailService {
       project_codecentral:"",
       project_protype:"",
       project_probusiness:"",
-      version:version
+      version:version,
+      procontract_type:type
     };
 
 
@@ -544,7 +549,7 @@ export class ProjectDetailService {
     });
   }
 
-  public projobmain_record(version:string, project:string, list:ProjobmainModel[]) {
+  public projobmain_record(version:string, project:string, type:string, list:ProjobmainModel[]) {
 
     var item_data:string = "[";
     for (let i = 0; i < list.length; i++) {
@@ -562,6 +567,7 @@ export class ProjectDetailService {
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
 
       item_data = item_data + ",\"version\":\"" + version + "\"";
+      item_data = item_data + ",\"procontract_type\":\"" + type + "\"";
 
       item_data = item_data + "}" + ",";
     }
@@ -585,12 +591,14 @@ export class ProjectDetailService {
     });
   }
 
-  public projobmain_delete(version:string, model:ProjobmainModel) {
+  public projobmain_delete(version:string, type:string, model:ProjobmainModel) {
     const data = {
       projobmain_id: model.projobmain_id,
       projobmain_code: model.projobmain_code,
       project_code: model.project_code,
       version: version,
+      procontract_type: type,
+
       modified_by: this.initial_current.Username
     };
 
@@ -987,6 +995,35 @@ export class ProjectDetailService {
       return res;
     });
   }
+
+  
+  public projobemp_getbyfillter(fillter: FillterProjectModel) {
+
+    const fillterS = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      language: "",
+
+      company_code: fillter.company_code,
+      project_code: fillter.project_code,
+      project_name_th: fillter.project_name_th,
+      project_name_en: fillter.project_name_en,
+      project_name_sub: fillter.project_name_sub,
+      project_codecentral: fillter.project_codecentral,
+      project_protype: fillter.project_protype,
+      project_probusiness: fillter.project_probusiness,
+      
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobemp_list', fillterS, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+
+  }
+
 
   //-- Job emp
   public projobemp_get(project:string){

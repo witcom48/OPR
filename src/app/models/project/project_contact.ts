@@ -14,7 +14,6 @@ export class ProcontactModel {
     position_code: string = "";
     initial_code: string = "";
     project_code: string = "";
-        
     modified_by: string = "";
     modified_date: Date = new Date();
    

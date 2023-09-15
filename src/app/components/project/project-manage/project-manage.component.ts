@@ -82,6 +82,10 @@ import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { YearService } from 'src/app/services/system/policy/year.service';
 import { ProvinceModel } from 'src/app/models/system/policy/province';
 import { ProvinceService } from 'src/app/services/system/policy/province.service';
+import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
+import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
+import { EmptypeService } from 'src/app/services/emp/policy/emptype.service';
+import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 
 
 @Component({
@@ -102,13 +106,15 @@ export class ProjectManageComponent implements OnInit {
   costs_title: string[] = ["", "", "", "", "", "", "", "", "", ""];
 
   project_code: string = "";
+  procontract_type: string = "";
+
   //
   rounds_type: string = "";
   time_list: RoundsModel[] = [];
   currency_list: RoundsModel[] = [];
   yeargroup_list: YearPeriodModels[] = [];
   provinceList: ProvinceModel[] = [];
-  
+
   //
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
@@ -274,6 +280,8 @@ export class ProjectManageComponent implements OnInit {
   title_contract_customer: { [key: string]: string } = { EN: "Customer", TH: "ชื่อลูกค้า" }
   title_contract_date: { [key: string]: string } = { EN: "Date", TH: "วันที่ทำสัญญา" }
   title_contract_ref: { [key: string]: string } = { EN: "Ref.", TH: "เลขที่สัญญา" }
+  title_contract_Type: { [key: string]: string } = { EN: "Type", TH: "ประเภทงาน" }
+
   title_contract_amount: { [key: string]: string } = { EN: "Amount", TH: "ราคา" }
   title_contract_fromdate: { [key: string]: string } = { EN: "Fromdate", TH: "จากวันที่" }
   title_contract_todate: { [key: string]: string } = { EN: "Todate", TH: "ถึงวันที่" }
@@ -356,6 +364,14 @@ export class ProjectManageComponent implements OnInit {
   title_temporary: { [key: string]: string } = { EN: "Temporary", TH: "ชั่วคราว" }
   title_back: { [key: string]: string } = { EN: "Back", TH: "ย้อนกลับ" }
 
+  //
+  title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" };
+  title_emptype: { [key: string]: string } = { EN: "Include Resign", TH: "ประเภทพนักงาน" };
+  title_position: { [key: string]: string } = { EN: " Position", TH: "ตำแหน่ง" };
+  title_status: { [key: string]: string } = { EN: " Status", TH: "สถานะ" };
+
+
+
   //#endregion "Language"
 
 
@@ -382,8 +398,9 @@ export class ProjectManageComponent implements OnInit {
     private roundsService: RoundsService,
     private yearServices: YearService,
     private provinceService: ProvinceService,
+    private emptypeService: EmptypeService,
 
-   ) {
+  ) {
 
 
   }
@@ -401,22 +418,27 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadMaster()
 
 
+    //
+    this.doLoadEmptypeList();
+    this.doLoadEmpstatusList();
+    this.doLoadblackList();
+    // this.doLoadjobpol();
     setTimeout(() => {
       this.doLoadMenu()
     }, 100);
 
     setTimeout(() => {
 
-       this.doLoadEmployee()
+      this.doLoadEmployee()
 
     }, 400);
 
-  
-  setTimeout(() => {
+
+    setTimeout(() => {
       if (this.project_code != "") {
-          this.doLoadProject();
+        this.doLoadProject();
       }
-  }, 400);
+    }, 400);
 
 
 
@@ -578,7 +600,7 @@ export class ProjectManageComponent implements OnInit {
       //   icon: 'pi pi-fw pi-file-export',
       // }
       ,
- 
+
       {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
@@ -586,7 +608,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProcontact != null) {
                 this.procontact_remove()
@@ -645,7 +667,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProcontract != null) {
                 this.procontract_remove()
@@ -660,7 +682,7 @@ export class ProjectManageComponent implements OnInit {
         }
       },
 
-          
+
     ];
 
     this.menu_proresponsible = [
@@ -706,7 +728,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProresponsible != null) {
                 this.proresponsible_remove()
@@ -721,7 +743,7 @@ export class ProjectManageComponent implements OnInit {
         }
       },
 
-          
+
     ];
 
     this.menu_protimepol = [
@@ -767,7 +789,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProtimepol != null) {
                 this.protimepol_remove()
@@ -782,7 +804,7 @@ export class ProjectManageComponent implements OnInit {
         }
       },
 
-           
+
     ];
 
     this.menu_projobmain = [
@@ -851,7 +873,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobmain != null) {
                 this.projobmain_remove()
@@ -865,7 +887,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-          
+
     ];
 
     this.menu_projobcontract = [
@@ -912,7 +934,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobcontract != null) {
                 this.projobcontract_remove()
@@ -926,7 +948,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-           
+
     ];
 
     this.menu_projobcost = [
@@ -974,7 +996,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobcost != null) {
                 this.projobcost_remove()
@@ -988,7 +1010,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-      
+
     ];
 
     this.menu_projobmachine = [
@@ -1036,7 +1058,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobmachine != null) {
                 this.projobmachine_remove()
@@ -1050,7 +1072,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-       
+
     ];
 
     this.menu_projobpol = [
@@ -1098,7 +1120,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobpol != null) {
                 this.projobpol_remove()
@@ -1112,8 +1134,8 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-       
-        
+
+
     ];
 
     this.menu_projobshift = [
@@ -1160,7 +1182,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobmachine != null) {
                 this.projobshift_remove()
@@ -1174,7 +1196,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-      
+
     ];
 
     this.menu_projobsub = [
@@ -1235,7 +1257,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobsub != null) {
                 this.projobsub_remove()
@@ -1249,9 +1271,9 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-       
+
     ];
-/////
+    /////
     this.menu_projobsubcontract = [
       {
         label: this.title_new[this.initial_current.Language],
@@ -1296,7 +1318,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobsubcontract != null) {
                 this.projobsubcontract_remove()
@@ -1310,7 +1332,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-      
+
     ];
 
     this.menu_projobsubcost = [
@@ -1358,7 +1380,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobsubcost != null) {
                 this.projobsubcost_remove()
@@ -1372,7 +1394,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
- 
+
     ];
 
     this.menu_projobemp = [
@@ -1421,7 +1443,7 @@ export class ProjectManageComponent implements OnInit {
           this.confirmationService.confirm({
             message: this.title_confirm_delete[this.initial_current.Language],
             header: this.title_confirm[this.initial_current.Language],
-             icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProjobemp != null) {
                 this.projobemp_remove()
@@ -1435,7 +1457,7 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
- 
+
     ];
 
 
@@ -1472,7 +1494,7 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
-  
+
   doLoadMaster() {
     var tmp = new ProbusinessModel();
 
@@ -1499,7 +1521,7 @@ export class ProjectManageComponent implements OnInit {
     tmpr.round_group = this.rounds_type = "Time";
     this.roundsService.rounds_get(tmpr).then((res) => {
       this.time_list = res;
-      console.log(res,'Time')
+      console.log(res, 'Time')
     });
 
     tmpr.round_group = this.rounds_type = "Currency";
@@ -1514,11 +1536,11 @@ export class ProjectManageComponent implements OnInit {
     });
 
     var tmp7 = new ProvinceModel();
-    this.provinceService.province_get( ).then((res) => {
+    this.provinceService.province_get().then((res) => {
       this.provinceList = res;
     });
 
- 
+
     //
     // provinceList: ProvinceModel[] = [];
     // doLoadprovinceList() {
@@ -1577,7 +1599,7 @@ export class ProjectManageComponent implements OnInit {
 
             this.router.navigateByUrl('project/list');
             this.doLoadProject();
-          }else {
+          } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
           }
         });
@@ -1611,7 +1633,7 @@ export class ProjectManageComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
 
-        this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.projobmain_list).then((res) => {
+        this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.selectedProject.project_code, this.projobmain_list).then((res) => {
           let result = JSON.parse(res);
           if (result.success) {
 
@@ -1634,7 +1656,7 @@ export class ProjectManageComponent implements OnInit {
             }, 400);
 
           }
-          
+
           else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
           }
@@ -1701,7 +1723,7 @@ export class ProjectManageComponent implements OnInit {
     this.new_projobsub = false; this.edit_projobsub = false;
     this.new_projobsubcontract = false; this.edit_projobsubcontract = false;
     this.new_projobsubcost = false; this.edit_projobsubcost = false;
-    this.new_projobmain = false;this.edit_projobmain = false;
+    this.new_projobmain = false; this.edit_projobmain = false;
     this.new_projobshift = false; this.edit_projobshift = false;
     this.new_projobpol = false; this.edit_projobpol = false;
   }
@@ -2204,6 +2226,48 @@ export class ProjectManageComponent implements OnInit {
 
   }
 
+  // porojobversion_selected: string = "";
+
+
+  // // projobversion_list: ProjobversionModel[] = [];
+  // // selectedProjobversion: ProjobversionModel = new ProjobversionModel();
+
+  // // manageProjobversion: ProjobversionModel = new ProjobversionModel();
+
+  // doLoadPorojobversion() {
+
+  //   this.selectedProjobversion = new ProjobversionModel()
+
+  //   this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
+
+  //     this.projobversion_list = await res;
+
+  //     if (this.projobversion_list.length > 0) {
+  //       this.selectedProjobversion = this.projobversion_list[0]
+  //       this.Procontract()
+  //     }
+
+  //   });
+
+  //   onSelectProcontract(event: any) {
+
+  //     setTimeout(() => {
+  //       this.Procontract()
+  //     }, 500);
+  //   }
+
+  // Procontract() {
+  //   this.version_selected = this.selectedProjobversion.version
+  //   this.version_fromdate = this.datePipe.transform(this.selectedProjobversion.fromdate, 'dd/MM/yyyy')
+  //   this.version_todate = this.datePipe.transform(this.selectedProjobversion.todate, 'dd/MM/yyyy')
+  //   this.version_transaction_id = this.selectedProjobversion.transaction_id
+  //   this.version_custno = this.selectedProjobversion.custno
+
+  //   this.doLoadProjobmain()
+  //   this.doLoadProjobsub()
+
+  // }
+
 
 
   //-- Project jobmain
@@ -2211,7 +2275,7 @@ export class ProjectManageComponent implements OnInit {
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
   doLoadProjobmain() {
 
-    this.projectDetailService.projobmain_get(this.version_selected, this.project_code).then(async (res) => {
+    this.projectDetailService.projobmain_get(this.version_selected, this.project_code, this.procontract_type).then(async (res) => {
       this.projobmain_list = await res;
       setTimeout(() => {
         this.projobmain_summary()
@@ -2300,7 +2364,7 @@ export class ProjectManageComponent implements OnInit {
     if (this.projobmain_list.length == 0) {
       //return
     }
-    this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.projobmain_list).then((res) => {
+    this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.procontract_type, this.projobmain_list).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
         return true
@@ -2425,8 +2489,7 @@ export class ProjectManageComponent implements OnInit {
   }
 
   poluniform_list: ProuniformModel[] = [];
-  doLoadPolProuniform() 
-  {
+  doLoadPolProuniform() {
     var tmp3 = new ProuniformModel();
     this.genaralService.prouniform_get(tmp3).then(async (res) => {
       this.poluniform_list = await res;
@@ -3466,6 +3529,135 @@ export class ProjectManageComponent implements OnInit {
     return ""
   }
 
+  statusList: EmpstatusModel[] = [];
+doLoadEmpstatusList() {
+  this.empstatusService.status_get().then((res) => {
+    this.statusList = res;
+    console.log(res, 'tttt');
+  });
+}
+
+workerList: EmployeeModel[] = [];
+doLoadblackList() {
+  this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
+    this.workerList = res;
+    console.log(res, 'oooo');
+  });
+}
+
+emptypeList: EmptypeModel[] = [];
+doLoadEmptypeList() {
+  this.emptypeService.type_get().then((res) => {
+    this.emptypeList = res;
+  });
+}
+
+  // fillterIncludeResign: boolean = false;
+  
+
+  doGetDataFillter() {
+    const workerfillter: FillterProjectModel = new FillterProjectModel();
+    const fillter: FillterEmpModel = new FillterEmpModel();
+  
+    fillter.company_code = this.initial_current.CompCode;
+  
+    if (this.filltercontract) {
+      fillter.worker_emptype = this.selectedcontract;
+    } else {
+      fillter.worker_emptype = '';
+    }
+  
+    if (this.filltertype) {
+      workerfillter.projobmain_code = this.selectedType;
+    } else {
+      workerfillter.projobmain_code = '';
+    }
+  
+    if (this.fillterEmptype) {
+      fillter.worker_code = this.selectedEmptype;
+    } else {
+      fillter.worker_code = '';
+    }
+  
+    if (this.fillterEmpstatus) {
+      fillter.worker_empstatus = this.selectedEmpstatus;
+    } else {
+      fillter.worker_empstatus = '';
+    }
+  
+    fillter.searchemp = this.selectedSearchemp;
+    this.projectDetailService.projobemp_getbyfillter(workerfillter).then(async (res) => {
+
+    // this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
+      // await res.forEach((element: EmployeeModel) => {
+      //   element.worker_birthdate = new Date(element.worker_birthdate);
+      //   element.worker_hiredate = new Date(element.worker_hiredate);
+      //   element.worker_resigndate = new Date(element.worker_resigndate);
+      //   element.worker_probationdate = new Date(element.worker_probationdate);
+      //   element.worker_probationenddate = new Date(element.worker_probationenddate);
+      // });
+  
+      this.projobemp_list = await res;
+      console.log(res);
+    });
+  }
+  
+
+  //-- Type รหัสพนักงาน
+  selectedEmptype: string = "";
+  fillterEmptype: boolean = false;
+  doChangeSelectEmptype() {
+
+    if (this.fillterEmptype) {
+      this.doGetDataFillter();
+    }
+  }
+
+
+  //-- Status สถานะ
+  selectedEmpstatus: string = "";
+  fillterEmpstatus: boolean = false;
+  doChangeSelectEmpstatus() {
+
+    if (this.fillterEmpstatus) {
+      this.doGetDataFillter();
+    }
+  }
+  //--type master ประเภทงาน
+  selectedType: string = "";
+  filltertype: boolean = false;
+  doChangeSelecttypes() {
+    if (this.filltertype) {
+      this.doGetDataFillter();
+    }
+  }
+
+  //--สัญญา master
+  selectedcontract: string = "";
+  filltercontract: boolean = false;
+  doChangeSelectcontract() {
+    if (this.filltercontract) {
+      this.doGetDataFillter();
+    }
+  }
+
+  //-- Emp master
+  selectedSearchemp: string = "";
+  fillterSearchemp: boolean = false;
+  doChangeSearchemp(event: any) {
+    this.doGetDataFillter();
+  }
+  //-- Project master
+  // selectedProject: string = "";
+  fillterProject: boolean = false;
+  doChangeSelectProject() {
+
+    if (this.fillterProject) {
+      this.doGetDataFillter();
+    }
+  }
+
+  
 
   //-- 10/05/2023
 

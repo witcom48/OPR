@@ -525,7 +525,7 @@ export class AttendanceViewComponent implements OnInit {
 
   projobmain_list: ProjobmainModel[] = []; 
   doLoadProjobmain(){
-    this.projectDetailService.projobmain_get("", "").then(async (res) => {
+    this.projectDetailService.projobmain_get("","", "").then(async (res) => {
       this.projobmain_list = await res;      
     });
   }

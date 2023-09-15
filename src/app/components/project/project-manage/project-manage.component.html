@@ -113,14 +113,41 @@
             <div class="field col-12 ">
                 <label for="procontract_date">{{title_contract_date[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedProcontract.procontract_date" dateFormat="dd/mm/yy"
-                    inputId="selectedProcontract.procontract_date"></p-calendar>
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                    [(ngModel)]="selectedProcontract.procontract_date" name="procontract_date"
+                    #procontract_date="ngModel">
+                    <input type="text"></p-calendar>
+
+                <!-- <p-calendar [(ngModel)]="selectedProcontract.procontract_date" dateFormat="dd/mm/yy"
+                    inputId="selectedProcontract.procontract_date"></p-calendar> -->
             </div>
             <div class="field col-12 ">
                 <label for="procontract_ref">{{title_contract_ref[initial_current.Language]}}</label>
                 <input type="text" id="procontract_ref" [(ngModel)]="selectedProcontract.procontract_ref"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
+
+            <!--  เริ่ม-->
+            <div class="field col-12">
+                <label for="protype_name_th">{{title_project_protype[initial_current.Language]}} :</label><br>
+                <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
+                    [(ngModel)]="selectedProcontract.procontract_type" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
+                    </ng-template>
+                </p-dropdown>
+
+            </div>
+
+            <!--  -->
+
+
+
+
             <div class="field col-12 ">
                 <label for="procontract_amount">{{title_contract_amount[initial_current.Language]}}</label>
                 <br>
@@ -522,6 +549,7 @@
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
 
+
             <div class="field col-12 ">
                 <label for="fromdate">{{title_contract_fromdate[initial_current.Language]}}</label>
                 <br>
@@ -792,7 +820,8 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-                <div class="field col-12 md:col-6">
+                <!-- ประเภทงาน -->
+                <!-- <div class="field col-12 md:col-6">
                     <label for="protype_name_th">{{title_project_protype[initial_current.Language]}} :</label><br>
                     <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
                         [(ngModel)]="selectedProject.project_protype" [showClear]="true"
@@ -804,7 +833,7 @@
                             {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
                         </ng-template>
                     </p-dropdown>
-                </div>
+                </div> -->
                 <!-- // -->
                 <div class="field col-12 md:col-6">
                     <label for="proarea_name_th">{{title_project_progarea[initial_current.Language]}} :</label><br>
@@ -1053,6 +1082,8 @@
                                 <th>{{title_contract_customer[initial_current.Language]}}</th>
                                 <th>{{title_contract_date[initial_current.Language]}}</th>
                                 <th>{{title_contract_ref[initial_current.Language]}}</th>
+                                <th>{{title_contract_Type[initial_current.Language]}}</th>
+
                                 <th>{{title_contract_amount[initial_current.Language]}}</th>
                                 <th>{{title_contract_fromdate[initial_current.Language]}}</th>
                                 <th>{{title_contract_todate[initial_current.Language]}}</th>
@@ -1066,6 +1097,8 @@
                                 <td>{{procontract.procontract_customer}}</td>
                                 <td>{{procontract.procontract_date | date:'dd/MM/yyyy'}}</td>
                                 <td>{{procontract.procontract_ref}}</td>
+                                <td>{{procontract.procontract_type}}</td>
+
                                 <td>{{procontract.procontract_amount | number:'1.2-2'}}</td>
                                 <td>{{procontract.procontract_fromdate | date:'dd/MM/yyyy'}}</td>
                                 <td>{{procontract.procontract_todate | date:'dd/MM/yyyy'}}</td>
@@ -1197,6 +1230,9 @@
             </table>
             <br>
             <div class="formgrid grid align-items-end">
+                <!--  -->
+
+
                 <div class="col-12 md:col-3">
                     <label>Version</label><br>
                     <p-dropdown placeholder="--" [options]="projobversion_list" optionLabel="version"
@@ -1204,11 +1240,25 @@
                         [style]="{ width: '100%', overflow: 'visible' }"
                         (onChange)="onSelectProjobversion($event)"></p-dropdown>
                 </div>
+
                 <div class="col-12 md:col-9">
                     <button pButton pRipple type="button" label="+" (click)="addVersion()"
                         class="p-button-sm p-button-secondary"></button>
 
                 </div>
+
+                <!--  -->
+                <!-- <div class="field col-3">
+                    <label for="projobpol_timepol">สัญญา</label><br>
+                    <p-dropdown placeholder="--" [options]="procontract_list" optionLabel="procontract_ref"
+                        optionValue="procontract_ref" [(ngModel)]="selectedProjobpol.projobpol_timepol"
+                        [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
+                    </p-dropdown>
+                </div> -->
+
+                <!--  -->
+                <!-- <div class="col-12 md:col-9"></div> -->
+                <br>
                 <div class="pt-2 col-12 md:col-3">
                     <label for="fromdate">From</label>
                     <input type="text" id="fromdate" [(ngModel)]="version_fromdate" readonly
@@ -1670,7 +1720,7 @@
                 </p-table>
                 <br>
                 <p-accordion>
-                    <p-accordionTab header="{{title_contract[initial_current.Language]}}"  >
+                    <p-accordionTab header="{{title_contract[initial_current.Language]}}">
                         <p-menubar [model]="menu_projobsubcontract"></p-menubar>
                         <p-table #dtJobsubcontract [value]="projobsubcontract_list" styleClass="p-datatable-sm"
                             [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="250px"
@@ -1704,7 +1754,7 @@
                 </p-accordion>
                 <br>
                 <p-accordion>
-                    <p-accordionTab header="{{title_cost[initial_current.Language]}}"  >
+                    <p-accordionTab header="{{title_cost[initial_current.Language]}}">
                         <p-menubar [model]="menu_projobsubcost"></p-menubar>
                         <p-table #dtJobsubcost [value]="projobsubcost_list" styleClass="p-datatable-sm"
                             [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="250px"
@@ -1779,6 +1829,96 @@
                 dataKey="projobemp_id" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                 [paginator]="true"
                 currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
+                <ng-template pTemplate="caption">
+                    <div class="checkselect">
+                        <div class="select">
+                            <!-- รหัสพนักงาน -->
+                            <div>
+                                <p-checkbox [(ngModel)]="fillterEmptype" name="type" [binary]="true"
+                                    (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                                <label for="lastname2">รหัสพนักงาน:</label>
+                            </div>
+                            <p-dropdown placeholder="--" [options]="workerList" optionLabel="worker_code"
+                                optionValue="worker_code" [showClear]="true" [(ngModel)]="selectedEmptype"
+                                (onChange)="doChangeSelectEmptype()" [disabled]="!fillterEmptype"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                            </p-dropdown>
+                        </div>
+                        <div class="select">
+                            <!-- สถานะ  -->
+                            <div>
+                                <p-checkbox [(ngModel)]="fillterEmpstatus" name="type" [binary]="true"
+                                    (onChange)="doChangeSelectEmpstatus()"></p-checkbox> &nbsp;
+                                <label for="lastname2">{{title_status[initial_current.Language]}} :</label>
+                            </div>
+                            <p-dropdown placeholder="--" [options]="statusList" optionValue="status_code"
+                                [showClear]="true" [(ngModel)]="selectedEmpstatus"
+                                (onChange)="doChangeSelectEmpstatus()" [disabled]="!fillterEmpstatus"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="select">
+                            <!-- ประเภทงาน projobpol_list -->
+                            <div>
+                                <p-checkbox [(ngModel)]="filltertype" name="type" [binary]="true"
+                                    (onChange)="doChangeSelecttypes()"></p-checkbox> &nbsp;
+                                <label for="lastname2">{{title_jobmain_type[initial_current.Language]}} :</label>
+                            </div>
+                            <p-dropdown placeholder="--" [options]="projobmain_list" optionValue="projobmain_code" [showClear]="true"
+                                [(ngModel)]="selectedType" (onChange)="doChangeSelecttypes()" [disabled]="!filltertype"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.projobmain_name_th :
+                                    item.projobmain_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.projobmain_name_th :
+                                    item.projobmain_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        
+                        
+                        
+                        
+                        </div>
+                        <!-- สัญญา -->
+                        <!-- <div class="select">
+                          
+                            <div>
+                                <p-checkbox [(ngModel)]="filltercontract" name="type" [binary]="true"
+                                    (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                                <label for="lastname2">{{title_contract[initial_current.Language]}} :</label>
+                            </div>
+                            <p-dropdown placeholder="--" [options]="statusList" optionValue="status_code"
+                                [showClear]="true" [(ngModel)]="selectedEmpstatus"
+                                (onChange)="doChangeSelectEmpstatus()" [disabled]="!filltercontract"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div> -->
+                        <div style="grid-column: 1;">
+                            <span class="p-input-icon-left ml-auto">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" [(ngModel)]="selectedSearchemp"
+                                    (input)="doChangeSearchemp($event)"
+                                    placeholder="{{title_search[initial_current.Language]}}" />
+                            </span>
+                        </div>
+
+                    </div>
+                </ng-template>
+
                 <ng-template pTemplate="header">
                     <tr>
                         <th>{{title_staff_jobcode[initial_current.Language]}}</th>

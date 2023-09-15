@@ -1,8 +1,6 @@
-export class ProjobmainModel {
-    constructor() {
-     
-    }
-       
+export class FillterProjectModel {
+    constructor() {}
+    
     projobmain_id: string = "1";
     projobmain_code: string = "";
     projobmain_name_th: string = "";
@@ -16,8 +14,7 @@ export class ProjobmainModel {
     project_code: string = "";
 
     version: string = "";
-    procontract_type: string = "";
-
+ 
     modified_by: string = "";
     modified_date: string = "";
     index: number = 0;
@@ -37,6 +34,29 @@ export class ProjobmainModel {
     allow_total: number = 0;
 
     emp_total: number = 0;
+
+
+    ///
+
+    project_id: string = "";
+     project_name_th: string = "";
+    project_name_en: string = "";
+    project_name_sub: string = "";
+    project_codecentral: string = "";
+    project_protype: string = "";
+    project_proarea: string = "";
+    project_progroup: string = "";
+    project_probusiness: string = "";
+    project_roundtime: string = "";
+    project_roundmoney: string = "";
+    project_proholiday: string = "";
+    project_status: string = "";
+    company_code: string = "";
+
+    project_emp = "";
+    project_cost = "";
+    project_start = "";
+    project_end = "";
    
   }
   
