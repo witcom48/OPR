@@ -2535,6 +2535,7 @@ export class ProjectManageComponent implements OnInit {
       this.project_summary_cost += this.projobmain_list[i].allow_total
     }
     console.log(this.projobsub_list)
+    console.log(this.projobmain_list)
     this.costs_title.forEach((cost, index) => {
       if (cost !== "") {
         const result = this.calculateSum(this.projobmain_list, `allow${index + 1}`);
@@ -3017,6 +3018,8 @@ export class ProjectManageComponent implements OnInit {
   projobsub_list: ProjobsubModel[] = [];
   selectedProjobsub: ProjobsubModel = new ProjobsubModel();
   doLoadProjobsub() {
+    console.log(this.version_selected)
+    console.log(this.project_code)
     this.projectDetailService.projobsub_get(this.version_selected, this.project_code).then((res) => {
       this.projobsub_list = res;
       if (this.projobsub_list.length > 0) {

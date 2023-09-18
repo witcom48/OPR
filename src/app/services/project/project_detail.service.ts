@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from '../../config/config';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { InitialCurrent } from '../../config/initial_current';
@@ -31,12 +31,12 @@ import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 })
 export class ProjectDetailService {
   comaddlocation_get(project_code: string) {
-      throw new Error('Method not implemented.');
+    throw new Error('Method not implemented.');
   }
 
-  public config:AppConfig = new AppConfig();
+  public config: AppConfig = new AppConfig();
 
-  public initial_current:InitialCurrent = new InitialCurrent();
+  public initial_current: InitialCurrent = new InitialCurrent();
 
   httpHeaders = new HttpHeaders({});
   options = {
@@ -44,17 +44,17 @@ export class ProjectDetailService {
   };
 
   basicRequest = {
-    device_name:'',
-    ip:'',
-    username:''
+    device_name: '',
+    ip: '',
+    username: ''
   };
 
-  constructor(private http:HttpClient, private router: Router, private datePipe: DatePipe) {
+  constructor(private http: HttpClient, private router: Router, private datePipe: DatePipe) {
     this.doGetInitialCurrent();
   }
 
 
-  doGetInitialCurrent(){
+  doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (this.initial_current) {
       this.httpHeaders = new HttpHeaders({
@@ -69,44 +69,44 @@ export class ProjectDetailService {
       };
 
       this.basicRequest = {
-        device_name:'',
-        ip:"localhost",
-        username:this.initial_current.Username
+        device_name: '',
+        ip: "localhost",
+        username: this.initial_current.Username
       };
 
     }
-    else{
+    else {
       this.router.navigateByUrl('login');
     }
   }
 
-  public proaddress_get(project:string){
+  public proaddress_get(project: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/proaddress_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public proaddress_record(model:ProaddressModel) {
+  public proaddress_record(model: ProaddressModel) {
     const data = {
       proaddress_id: model.proaddress_id,
       proaddress_type: model.proaddress_type,
@@ -128,12 +128,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/proaddress', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public proaddress_delete(model:ProaddressModel) {
+  public proaddress_delete(model: ProaddressModel) {
     const data = {
       proaddress_id: model.proaddress_id,
       proaddress_type: model.proaddress_type,
@@ -142,13 +142,13 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/proaddress_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
 
-  public proaddress_import(file: File, file_name:string, file_type:string){
+  public proaddress_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -156,41 +156,41 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProaddress?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //--
-  public procontact_get(project:string){
+  public procontact_get(project: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/procontact_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public procontact_record(project:string, list:ProcontactModel[]) {
+  public procontact_record(project: string, list: ProcontactModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"procontact_id\":\"" + list[i].procontact_id + "\"";
@@ -206,25 +206,24 @@ export class ProjectDetailService {
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/procontacts', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public procontact_delete(model:ProcontactModel) {
+  public procontact_delete(model: ProcontactModel) {
     const data = {
       procontact_id: model.procontact_id,
       procontact_ref: model.procontact_ref,
@@ -233,12 +232,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/procontact_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public procontact_import(file: File, file_name:string, file_type:string){
+  public procontact_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -246,41 +245,41 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProcontact?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //--
-  public procontract_get(project:string){
+  public procontract_get(project: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/procontract_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public procontract_record(project:string, list:ProcontractModel[]) {
+  public procontract_record(project: string, list: ProcontractModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"procontract_id\":\"" + list[i].procontract_id + "\"";
@@ -294,28 +293,27 @@ export class ProjectDetailService {
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
       item_data = item_data + ",\"procontract_type\":\"" + list[i].procontract_type + "\"";
 
- 
+
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/procontracts', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public procontract_delete(model:ProcontractModel) {
+  public procontract_delete(model: ProcontractModel) {
     const data = {
       procontract_id: model.procontract_id,
       procontract_ref: model.procontract_ref,
@@ -324,12 +322,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/procontract_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public procontract_import(file: File, file_name:string, file_type:string){
+  public procontract_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -337,41 +335,41 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProcontract?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //--
-  public proresponsible_get(project:string){
+  public proresponsible_get(project: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/proresponsible_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public proresponsible_record(project:string, list:ProresponsibleModel[]) {
+  public proresponsible_record(project: string, list: ProresponsibleModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"proresponsible_id\":\"" + list[i].proresponsible_id + "\"";
@@ -384,25 +382,24 @@ export class ProjectDetailService {
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/proresponsibles', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public proresponsible_delete(model:ProcontractModel) {
+  public proresponsible_delete(model: ProcontractModel) {
     const data = {
       procontract_id: model.procontract_id,
       procontract_ref: model.procontract_ref,
@@ -411,12 +408,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/proresponsible_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public proresponsible_import(file: File, file_name:string, file_type:string){
+  public proresponsible_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -424,41 +421,41 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProresponsible?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //--
-  public protimepol_get(project:string){
+  public protimepol_get(project: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/protimepol_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public protimepol_record(project:string, list:ProtimepolModel[]) {
+  public protimepol_record(project: string, list: ProtimepolModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"protimepol_id\":\"" + list[i].protimepol_id + "\"";
@@ -475,25 +472,24 @@ export class ProjectDetailService {
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/protimepols', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public protimepol_delete(model:ProtimepolModel) {
+  public protimepol_delete(model: ProtimepolModel) {
     const data = {
       protimepol_id: model.protimepol_id,
       protimepol_code: model.protimepol_code,
@@ -502,12 +498,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/protimepol_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public protimepol_import(file: File, file_name:string, file_type:string){
+  public protimepol_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -515,51 +511,51 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProtimepol?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //-- Job main
-  public projobmain_get(version:string, project:string,type:string,){
+  public projobmain_get(version: string, project: string, type: string,) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-      version:version,
-      procontract_type:type
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      version: version,
+      procontract_type: type
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobmain_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobmain_record(version:string, project:string, type:string, list:ProjobmainModel[]) {
+  public projobmain_record(version: string, project: string, type: string, list: ProjobmainModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"projobmain_id\":\"" + list[i].projobmain_id + "\"";
       item_data = item_data + ",\"projobmain_code\":\"" + list[i].projobmain_code + "\"";
       item_data = item_data + ",\"projobmain_name_th\":\"" + list[i].projobmain_name_th + "\"";
       item_data = item_data + ",\"projobmain_name_en\":\"" + list[i].projobmain_name_en + "\"";
-      item_data = item_data + ",\"projobmain_type\":\"" + list[i].projobmain_type + "\"";     
-      
+      item_data = item_data + ",\"projobmain_type\":\"" + list[i].projobmain_type + "\"";
+
       item_data = item_data + ",\"projobmain_timepol\":\"" + list[i].projobmain_timepol + "\"";
       item_data = item_data + ",\"projobmain_slip\":\"" + list[i].projobmain_slip + "\"";
       item_data = item_data + ",\"projobmain_uniform\":\"" + list[i].projobmain_uniform + "\"";
@@ -571,27 +567,26 @@ export class ProjectDetailService {
 
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      version:version,
-      job_code:'',
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      version: version,
+      job_code: '',
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobmains', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobmain_delete(version:string, type:string, model:ProjobmainModel) {
+  public projobmain_delete(version: string, type: string, model: ProjobmainModel) {
     const data = {
       projobmain_id: model.projobmain_id,
       projobmain_code: model.projobmain_code,
@@ -603,12 +598,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobmain_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobmain_import(file: File, file_name:string, file_type:string){
+  public projobmain_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -616,45 +611,45 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProjobmain?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //-- Job contract
-  public projobcontract_get(version:string, project:string, job:string){
+  public projobcontract_get(version: string, project: string, job: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-      job_code:job,
-      version:version
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      job_code: job,
+      version: version
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobcontract_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobcontract_record(version:string, project:string, job:string, list:ProjobcontractModel[]) {
+  public projobcontract_record(version: string, project: string, job: string, list: ProjobcontractModel[]) {
 
     //// console.log(job)
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"projobcontract_id\":\"" + list[i].projobcontract_id + "\"";
@@ -667,27 +662,26 @@ export class ProjectDetailService {
       item_data = item_data + ",\"version\":\"" + version + "\"";
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      job_code:job,
-      version:version,
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      job_code: job,
+      version: version,
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobcontracts', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobcontract_delete(version:string, model:ProjobcontractModel) {
+  public projobcontract_delete(version: string, model: ProjobcontractModel) {
     const data = {
       projobcontract_id: model.projobcontract_id,
       projobcontract_ref: model.projobcontract_ref,
@@ -698,12 +692,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobcontract_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobcontract_import(file: File, file_name:string, file_type:string){
+  public projobcontract_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -711,50 +705,50 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobcontract?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //-- Job cost
-  public projobcost_get(version:string, project:string, job:string){
+  public projobcost_get(version: string, project: string, job: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-      job_code:job,
-      version:version
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      job_code: job,
+      version: version
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobcost_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobcost_record(version:string, project:string, job:string, list:ProjobcostModel[]) {
+  public projobcost_record(version: string, project: string, job: string, list: ProjobcostModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"projobcost_id\":\"" + list[i].projobcost_id + "\"";
       item_data = item_data + ",\"projobcost_code\":\"" + list[i].projobcost_code + "\"";
       item_data = item_data + ",\"projobcost_amount\":\"" + list[i].projobcost_amount + "\"";
 
-      
+
       item_data = item_data + ",\"projobcost_status\":\"" + list[i].projobcost_status + "\"";
 
       item_data = item_data + ",\"projob_code\":\"" + job + "\"";
@@ -768,43 +762,42 @@ export class ProjectDetailService {
 
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      job_code:job,
-      version:version,
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      job_code: job,
+      version: version,
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobcosts', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobcost_delete(version:string, model:ProjobcostModel) {
+  public projobcost_delete(version: string, model: ProjobcostModel) {
     const data = {
       projobcost_id: model.projobcost_id,
-      projobcost_code: model.projobcost_code,      
+      projobcost_code: model.projobcost_code,
       projob_code: model.projob_code,
       project_code: model.project_code,
-      version:version,
+      version: version,
       modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobcost_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobcost_import(file: File, file_name:string, file_type:string){
+  public projobcost_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -812,42 +805,42 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobcost?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //-- Job machine
-  public projobmachine_get(project:string, job:string){
+  public projobmachine_get(project: string, job: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-      job_code:job,
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      job_code: job,
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobmachine_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobmachine_record(project:string, job:string, list:ProjobmachineModel[]) {
+  public projobmachine_record(project: string, job: string, list: ProjobmachineModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"projobcost_id\":\"" + list[i].projobmachine_id + "\"";
@@ -859,26 +852,25 @@ export class ProjectDetailService {
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      job_code:job,
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      job_code: job,
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobmachines', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobmachine_delete(model:ProjobmachineModel) {
+  public projobmachine_delete(model: ProjobmachineModel) {
     const data = {
       projobmachine_id: model.projobmachine_id,
       projobmachine_ip: model.projobmachine_ip,
@@ -888,12 +880,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobmachine_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobmachine_import(file: File, file_name:string, file_type:string){
+  public projobmachine_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -901,43 +893,44 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobmachine?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
 
   //-- Job sub
-  public projobsub_get(version:string, project:string){
+  public projobsub_get(version: string, project: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-      version:version
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      version: version,
+      procontract_type: ""
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobsub_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobsub_record(version:string, project:string, list:ProjobsubModel[]) {
+  public projobsub_record(version: string, project: string, list: ProjobsubModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"projobsub_id\":\"" + list[i].projobsub_id + "\"";
@@ -948,42 +941,41 @@ export class ProjectDetailService {
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      version:version,
-      job_code:'',
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      version: version,
+      job_code: '',
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobsubs', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobsub_delete(version:string, model:ProjobsubModel) {
+  public projobsub_delete(version: string, model: ProjobsubModel) {
     const data = {
       projobsub_id: model.projobsub_id,
       projobsub_code: model.projobsub_code,
       project_code: model.project_code,
-      version:version,
+      version: version,
       modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobsub_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobsub_import(file: File, file_name:string, file_type:string){
+  public projobsub_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -991,11 +983,11 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProjobsub?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
-///////////ทำตรงนี้
+  ///////////ทำตรงนี้
 
   public projobemp_getbyfillter(fillter: FillterProjectModel) {
 
@@ -1016,14 +1008,14 @@ export class ProjectDetailService {
       projob_code: fillter.projob_code,
       project_code: fillter.project_code,
 
-///
-       project_name_th: fillter.project_name_th,
+      ///
+      project_name_th: fillter.project_name_th,
       project_name_en: fillter.project_name_en,
       project_name_sub: fillter.project_name_sub,
       project_codecentral: fillter.project_codecentral,
       project_protype: fillter.project_protype,
       project_probusiness: fillter.project_probusiness,
-      
+
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobempfillter_list', fillterS, this.options).toPromise()
@@ -1033,36 +1025,36 @@ export class ProjectDetailService {
       });
 
   }
-///////////ทำตรงนี้>>>
+  ///////////ทำตรงนี้>>>
 
   //-- Job emp
-  public projobemp_get(project:string){
+  public projobemp_get(project: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobemp_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobemp_record(model:ProjobempModel) {
+  public projobemp_record(model: ProjobempModel) {
     const data = {
       projobemp_id: model.projobemp_id,
       projobemp_emp: model.projobemp_emp,
@@ -1079,14 +1071,14 @@ export class ProjectDetailService {
     // console.log(this.config.ApiProjectModule)
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobemp', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobemp_record2(project:string, list:ProjobempModel[]) {
+  public projobemp_record2(project: string, list: ProjobempModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"projobemp_id\":\"" + list[i].projobemp_id + "\"";
@@ -1100,26 +1092,25 @@ export class ProjectDetailService {
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      job_code:'',
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      job_code: '',
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobemps', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobemp_delete(model:ProjobempModel) {
+  public projobemp_delete(model: ProjobempModel) {
     const data = {
       projobemp_id: model.projobemp_id,
       projobemp_emp: model.projobemp_emp,
@@ -1130,12 +1121,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobemp_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobemp_import(file: File, file_name:string, file_type:string){
+  public projobemp_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -1143,42 +1134,42 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobemp?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //-- Job working
-  public projobworking_get(project:string, job:string){
+  public projobworking_get(project: string, job: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-      job_code:job
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      job_code: job
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobworking_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobworking_record(project:string, list:ProjobworkingModel[]) {
+  public projobworking_record(project: string, list: ProjobworkingModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"projobworking_id\":\"" + list[i].projobworking_id + "\"";
@@ -1192,26 +1183,25 @@ export class ProjectDetailService {
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      job_code:'',
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      job_code: '',
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobworkings', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobworking_delete(model:ProjobworkingModel) {
+  public projobworking_delete(model: ProjobworkingModel) {
     const data = {
       projobworking_id: model.projobworking_id,
       projobworking_emp: model.projobworking_emp,
@@ -1222,12 +1212,12 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobworking_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobworking_import(file: File, file_name:string, file_type:string){
+  public projobworking_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -1235,45 +1225,45 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobworking?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
 
 
   //-- Job shift
-  public projobshift_get(version:string, project:string, job:string){
+  public projobshift_get(version: string, project: string, job: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-      job_code:job,
-      version:version,
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      job_code: job,
+      version: version,
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobshift_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobshift_record(version:string, project:string, job:string, list:ProjobshiftModel[]) {
+  public projobshift_record(version: string, project: string, job: string, list: ProjobshiftModel[]) {
 
-    var item_data:string = "[";
+    var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
 
@@ -1297,42 +1287,41 @@ export class ProjectDetailService {
       item_data = item_data + ",\"version\":\"" + version + "\"";
       item_data = item_data + "}" + ",";
     }
-    if(item_data.length > 2)
-    {
+    if (item_data.length > 2) {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
 
     var specificData = {
-      transaction_data:item_data,
-      project_code:project,
-      job_code:job,
-      modified_by:this.initial_current.Username
+      transaction_data: item_data,
+      project_code: project,
+      job_code: job,
+      modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobshifts', specificData, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobshift_delete(version:string, model:ProjobshiftModel) {
+  public projobshift_delete(version: string, model: ProjobshiftModel) {
     const data = {
       projobshift_id: model.projobshift_id,
       shift_code: model.shift_code,
       projob_code: model.projob_code,
       project_code: model.project_code,
-      version:version,
+      version: version,
       modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobshift_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobshift_import(file: File, file_name:string, file_type:string){
+  public projobshift_import(file: File, file_name: string, file_type: string) {
     const formData = new FormData();
     formData.append('file', file);
     var para = "fileName=" + file_name + "." + file_type;
@@ -1340,41 +1329,41 @@ export class ProjectDetailService {
     para += "&by=" + this.initial_current.Username;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobshift?' + para, formData).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //-- Job version
-  public projobversion_get(project:string){
+  public projobversion_get(project: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-      fromdate:"",
-      todate:""
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      fromdate: "",
+      todate: ""
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobversion_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobversion_record(model:ProjobversionModel) {
+  public projobversion_record(model: ProjobversionModel) {
     const data = {
       projobversion_id: model.projobversion_id,
       version: model.version,
@@ -1385,56 +1374,56 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobversion', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobversion_delete(model:ProjobversionModel) {
+  public projobversion_delete(model: ProjobversionModel) {
     const data = {
       projobversion_id: model.projobversion_id,
-      version: model.version,     
+      version: model.version,
       project_code: model.project_code,
       modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobversion_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
   //-- Job policy
-  public projobpol_get(project:string, job:string){
+  public projobpol_get(project: string, job: string) {
 
     var filter = {
-      device_name:'',
-      ip:"localhost",
-      username:this.initial_current.Username,
-      company:"",
-      language:"",
-      project_code:project,
-      project_name_th:"",
-      project_name_en:"",
-      project_name_sub:"",
-      project_codecentral:"",
-      project_protype:"",
-      project_probusiness:"",
-      fromdate:"",
-      todate:"",
-      job_code:job,
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      fromdate: "",
+      todate: "",
+      job_code: job,
     };
 
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobpol_list', filter, this.options).toPromise()
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
   }
 
-  public projobpol_record(project:string, job:string, list:ProjobpolModel[]) {
+  public projobpol_record(project: string, job: string, list: ProjobpolModel[]) {
 
     var model = list[0]
 
@@ -1450,23 +1439,23 @@ export class ProjectDetailService {
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobpol', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
-  public projobpol_delete(model:ProjobpolModel) {
+  public projobpol_delete(model: ProjobpolModel) {
     const data = {
-      projobpol_id: model.projobpol_id,       
+      projobpol_id: model.projobpol_id,
       project_code: model.project_code,
       projobmain_code: model.projob_code,
       modified_by: this.initial_current.Username
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobpol_del', data, this.options).toPromise()
-    .then((res) => {
-      return res;
-    });
+      .then((res) => {
+        return res;
+      });
   }
 
 
