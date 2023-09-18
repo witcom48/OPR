@@ -2122,40 +2122,41 @@ export class EmployeeManageComponent implements OnInit {
           var ref = this.empforeignercardList.length + 100
           this.selectedEmpforeignercard.foreignercard_id = ref.toString()
           this.selectedEmpforeignercard = new EmpForeignercardModel();
-          this.displayForeCard = true;
+          this.displayaddForeCard = true;
+          this.displayeditForeCard = false;
         }
       },
-      {
-        label: this.title_edit,
-        icon: 'pi pi-fw pi-pencil',
-        command: (event) => {
-          if (this.selectedEmpforeignercard != null) {
-            this.edit_empforeignercard = true
-            this.displayForeCard = true
-          }
-        }
-      },
-      {
-        label: this.title_delete,
-        icon: 'pi pi-fw pi-trash',
-        command: (event) => {
-          this.confirmationService.confirm({
-            message: this.title_confirm_delete,
-            header: this.title_confirm,
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-              if (this.selectedEmpforeignercard != null) {
-                this.empforeignercard_remove()
-              }
-            },
-            reject: () => {
-              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-            },
-            key: "myDialog"
-          });
+      // {
+      //   label: this.title_edit,
+      //   icon: 'pi pi-fw pi-pencil',
+      //   command: (event) => {
+      //     if (this.selectedEmpforeignercard != null) {
+      //       this.edit_empforeignercard = true
+      //       this.displayForeCard = true
+      //     }
+      //   }
+      // },
+      // {
+      //   label: this.title_delete,
+      //   icon: 'pi pi-fw pi-trash',
+      //   command: (event) => {
+      //     this.confirmationService.confirm({
+      //       message: this.title_confirm_delete,
+      //       header: this.title_confirm,
+      //       icon: 'pi pi-exclamation-triangle',
+      //       accept: () => {
+      //         if (this.selectedEmpforeignercard != null) {
+      //           this.empforeignercard_remove()
+      //         }
+      //       },
+      //       reject: () => {
+      //         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      //       },
+      //       key: "myDialog"
+      //     });
 
-        }
-      },
+      //   }
+      // },
     ]
 
     //menu experience
@@ -3228,12 +3229,13 @@ export class EmployeeManageComponent implements OnInit {
   record_empforeigner() {
     if (this.empforeignerList.length == 0) {
     } else {
-
     }
     this.empdetailService.record_empforeigner(this.selectedEmployee.worker_code, this.selectedEmpforeigner)
+    console.log(this.selectedEmpforeigner)
   }
   //--foreignercard
-  displayForeCard: boolean = false;
+  displayaddForeCard: boolean = false;
+  displayeditForeCard: boolean = false;
   empforeignercardList: EmpForeignercardModel[] = [];
   selectedEmpforeignercard: EmpForeignercardModel = new EmpForeignercardModel();
   doLoadEmpForeignercardList() {
@@ -3248,12 +3250,16 @@ export class EmployeeManageComponent implements OnInit {
       }
     })
   }
-  onRowSelectEmpForeignercard(event: Event) { }
+  onRowSelectEmpForeignercard(event: Event) {
+    this.displayaddForeCard = false;
+    this.displayeditForeCard = false;
+   }
   empforeignercard_summit() {
     this.empforeignercard_addItem(this.selectedEmpforeignercard)
     this.new_foreignercard = false
     this.edit_empforeignercard = false
-    this.displayForeCard = false
+    this.displayaddForeCard = false
+    this.displayeditForeCard = false
   }
   empforeignercard_remove() {
     this.selectedEmpforeignercard.foreignercard_id = "9999";
@@ -3271,7 +3277,8 @@ export class EmployeeManageComponent implements OnInit {
   empforeignercard_cancel() {
     this.new_foreignercard = false
     this.edit_empforeignercard = false
-    this.displayForeCard = false
+    this.displayaddForeCard = false
+    this.displayeditForeCard = false
   }
   empforeignercard_addItem(model: EmpForeignercardModel) {
     const itemNew: EmpForeignercardModel[] = [];
@@ -3306,7 +3313,7 @@ export class EmployeeManageComponent implements OnInit {
 
   }
   Saveforecard(){
-    if(!this.displayForeCard){
+    if(!this.displayeditForeCard){
       this.selectedEmpforeigner.foreigner_card = this.selectedEmpforeigner.foreigner_card.concat({
         company_code: this.selectedEmpforeigner.company_code,
         worker_code : this.selectedEmpforeigner.worker_code,
@@ -3318,10 +3325,18 @@ export class EmployeeManageComponent implements OnInit {
         modified_by: this.initial_current.Username,
         modified_date: ""
       })
-      console.log("AAAAA")
       this.selectedEmpforeignercard = new EmpForeignercardModel();
-      this.displayForeCard = false;
+      this.displayaddForeCard = false;
+      this.displayeditForeCard = false;
     }
+  }
+  DeleteForecard() {
+    this.selectedEmpforeigner.foreigner_card = this.selectedEmpforeigner.foreigner_card.filter((item) => {
+      return item !== this.selectedEmpforeignercard;
+    });
+    this.selectedEmpforeignercard = new EmpForeignercardModel();
+    this.displayaddForeCard = false;
+    this.displayeditForeCard= false;
   }
   closeforecard(){
     this.selectedEmpforeignercard = new EmpForeignercardModel();
@@ -4663,8 +4678,8 @@ export class EmployeeManageComponent implements OnInit {
         this.record_empbank();
         this.record_empfamily();
         this.record_emphospital();
-        // this.record_empforeigner();
-        this.record_empforeignercard();
+        this.record_empforeigner();
+        // this.record_empforeignercard();
 
         this.record_empdep();
         this.record_empposition();

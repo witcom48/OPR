@@ -2947,6 +2947,13 @@
                     </p-accordionTab>
                 </p-accordion>
             </div>
+
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="empforeigner_summit()"
+                    [disabled]="!ForeForm.form.valid"></p-button>
+                &nbsp;
+
+            </div>
         </div>
     </form>
     <!-- END EMP Foreigner -->
@@ -2998,7 +3005,7 @@
 <!-- END FORM DIALOG-->
 
 <form (ngSubmit)="Saveforecard()" #ForeForm2="ngForm">
-    <p-dialog header="Card" [(visible)]="displayForeCard" (onHide)="closeforecard()" >
+    <p-dialog header="Card" [(visible)]="displayaddForeCard" (onHide)="closeforecard()" >
         <div class="formatt" *ngIf="edit_empforeignercard==true || new_foreignercard==true">
             <label>{{title_foreignercardtype[initial_current.Language]}}<span style="color: red;">*</span></label>
             <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
@@ -3037,8 +3044,10 @@
             </div> -->
         </div>
         <ng-template pTemplate="footer">
-            <p-button label="{{title_summit}}" 
-                [disabled]="!ForeForm2.form.valid"></p-button>
+            <button *ngIf="displayeditForeCard" pButton type="button" label="{{title_delete}}"
+                icon="pi pi-trash" class="p-button-danger" (click)="DeleteForecard()"></button>
+            <button pButton type="submit" label="{{title_summit}}" icon="pi pi-check"
+                [disabled]="!ForeForm2.form.valid"></button>
         </ng-template>
     </p-dialog>
 </form>

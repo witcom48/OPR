@@ -152,6 +152,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplyAddress?' + para, formData).toPromise()
       .then((res) => {
@@ -228,6 +229,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplyCard?' + para, formData).toPromise()
       .then((res) => {
@@ -309,6 +311,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadreqEducation?' + para, formData).toPromise()
       .then((res) => {
@@ -391,6 +394,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadreqTraining?' + para, formData).toPromise()
       .then((res) => {
@@ -470,6 +474,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqAssessment?' + para, formData).toPromise()
       .then((res) => {
@@ -547,6 +552,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqCriminal?' + para, formData).toPromise()
       .then((res) => {
@@ -621,6 +627,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadForeigner?' + para, formData).toPromise()
       .then((res) => {
@@ -695,6 +702,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadreqForeignercard?' + para, formData).toPromise()
       .then((res) => {
@@ -773,6 +781,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadreqSuggest?' + para, formData).toPromise()
       .then((res) => {
@@ -846,6 +855,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplyPosition?' + para, formData).toPromise()
       .then((res) => {
@@ -919,6 +929,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplyProject?' + para, formData).toPromise()
       .then((res) => {
@@ -997,6 +1008,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplySalary?' + para, formData).toPromise()
       .then((res) => {
@@ -1081,6 +1093,7 @@ export class ApplyworkDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplyBenefit?' + para, formData).toPromise()
       .then((res) => {

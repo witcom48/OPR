@@ -183,6 +183,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadAddress?' + para, formData).toPromise()
       .then((res) => {
@@ -259,6 +260,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadCard?' + para, formData).toPromise()
       .then((res) => {
@@ -340,6 +342,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadBank?' + para, formData).toPromise()
       .then((res) => {
@@ -420,6 +423,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadFamily?' + para, formData).toPromise()
       .then((res) => {
@@ -493,6 +497,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadHospital?' + para, formData).toPromise()
       .then((res) => {
@@ -519,28 +524,48 @@ export class EmpDetailService {
       });
   }
   public record_empforeigner(worker_code: string, model: EmpForeignerModel) {
-    const data = {
+    let forecard_list:any =[]
+    model.foreigner_card.forEach((res:EmpForeignercardModel)=>{
+      let ss = {
+        "company_code" : model.company_code || this.initial_current.CompCode,
+        "worker_code" : model.worker_code,
+        "foreignercard_id" : res.foreignercard_id,
+        "foreignercard_code" : res.foreignercard_code,
+        "foreignercard_type" : res.foreignercard_type,
+        "foreignercard_issue" : res.foreignercard_issue,
+        "foreignercard_expire" : res.foreignercard_expire,
+        "modified_by" : this.initial_current.Username
+      }
+      forecard_list.push(ss)
+    })
+    let data = {
       company_code: this.initial_current.CompCode,
       worker_code: worker_code,
       foreigner_id: model.foreigner_id,
-      passport_no: model.passport_no,
-      passport_issue: model.passport_issue,
-      passport_expire: model.passport_expire,
-      visa_no: model.visa_no,
-      visa_issue: model.visa_issue,
-      visa_expire: model.visa_expire,
-      workpermit_no: model.workpermit_no,
-      workpermit_by: model.workpermit_by,
-      workpermit_issue: model.workpermit_issue,
-      workpermit_expire: model.workpermit_expire,
+      // passport_no: model.passport_no,
+      // passport_issue: model.passport_issue,
+      // passport_expire: model.passport_expire,
+      // visa_no: model.visa_no,
+      // visa_issue: model.visa_issue,
+      // visa_expire: model.visa_expire,
+      // workpermit_no: model.workpermit_no,
+      // workpermit_by: model.workpermit_by,
+      // workpermit_issue: model.workpermit_issue,
+      // workpermit_expire: model.workpermit_expire,
+      // entry_date: model.entry_date,
+      // certificate_no: model.certificate_no,
+      // certificate_expire: model.certificate_expire,
+      // otherdoc_no: model.otherdoc_no,
+      // otherdoc_expire: model.otherdoc_expire,
+      foreigner_type:model.foreigner_type,
       entry_date: model.entry_date,
-      certificate_no: model.certificate_no,
-      certificate_expire: model.certificate_expire,
-      otherdoc_no: model.otherdoc_no,
-      otherdoc_expire: model.otherdoc_expire,
+      sent_sso: model.sent_sso,
+
+      foreigner_card: forecard_list,
 
       modified_by: this.initial_current.Username
     };
+    console.log(data)
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empforeigner', data, this.options).toPromise()
       .then((res) => {
@@ -567,6 +592,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadForeigner?' + para, formData).toPromise()
       .then((res) => {
@@ -641,6 +667,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadForeignercard?' + para, formData).toPromise()
       .then((res) => {
@@ -725,6 +752,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpDep?' + para, formData).toPromise()
       .then((res) => {
@@ -800,6 +828,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpPosition?' + para, formData).toPromise()
       .then((res) => {
@@ -874,6 +903,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpGroup?' + para, formData).toPromise()
       .then((res) => {
@@ -953,6 +983,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpEducation?' + para, formData).toPromise()
       .then((res) => {
@@ -1036,6 +1067,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpTraining?' + para, formData).toPromise()
       .then((res) => {
@@ -1114,6 +1146,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpAssessment?' + para, formData).toPromise()
       .then((res) => {
@@ -1191,6 +1224,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpCriminal?' + para, formData).toPromise()
       .then((res) => {
@@ -1268,6 +1302,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpSalary?' + para, formData).toPromise()
       .then((res) => {
@@ -1351,6 +1386,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpBenefit?' + para, formData).toPromise()
       .then((res) => {
@@ -1430,6 +1466,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpProvident?' + para, formData).toPromise()
       .then((res) => {
@@ -1506,6 +1543,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpReduce?' + para, formData).toPromise()
       .then((res) => {
@@ -1552,6 +1590,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpReduce?' + para, formData).toPromise()
       .then((res) => {
@@ -1628,6 +1667,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpLocation?' + para, formData).toPromise()
       .then((res) => {
@@ -1704,6 +1744,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpBranch?' + para, formData).toPromise()
       .then((res) => {
@@ -1785,6 +1826,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpSupply?' + para, formData).toPromise()
       .then((res) => {
@@ -1863,6 +1905,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpUnifrom?' + para, formData).toPromise()
       .then((res) => {
@@ -1943,6 +1986,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpSuggest?' + para, formData).toPromise()
       .then((res) => {
@@ -2020,6 +2064,7 @@ export class EmpDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpExperience?' + para, formData).toPromise()
       .then((res) => {
