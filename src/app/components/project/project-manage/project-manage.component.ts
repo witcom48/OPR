@@ -314,7 +314,7 @@ export class ProjectManageComponent implements OnInit {
   title_jobmain_detail: { [key: string]: string } = { EN: "Detail", TH: "รายละเอียด" }
   title_jobmain_code: { [key: string]: string } = { EN: "Code", TH: "รหัสงาน" }
   title_jobmain_name: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
-  title_jobmain_type: { [key: string]: string } = { EN: "Job type", TH: "ประเภทงาน" }
+  title_jobmain_type: { [key: string]: string } = { EN: "Job Type", TH: "ประเภทงาน" }
   title_jobmain_emp_total: { [key: string]: string } = { EN: "Total emp", TH: "จำนวนพนักงาน" }
   title_jobmain_poltime: { [key: string]: string } = { EN: "Time policy", TH: "นโยบายเวลา" }
   title_jobmain_polslip: { [key: string]: string } = { EN: "Slip form", TH: "รูปแบบสลิป" }
@@ -373,7 +373,9 @@ export class ProjectManageComponent implements OnInit {
   title_emptype: { [key: string]: string } = { EN: "Include Resign", TH: "ประเภทพนักงาน" };
   title_position: { [key: string]: string } = { EN: " Position", TH: "ตำแหน่ง" };
   title_status: { [key: string]: string } = { EN: " Status", TH: "สถานะ" };
+  title_empid: { [key: string]: string } = { EN: " Code", TH: "สถานะ" };
 
+  
 
 
   //#endregion "Language"

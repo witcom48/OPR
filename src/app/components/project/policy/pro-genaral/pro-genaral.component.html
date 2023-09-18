@@ -1,5 +1,7 @@
-<span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <a
-    routerLink="/project/policy">Policy</a><i class="pi pi-angle-right"></i>&nbsp;<small>{{title_page}}</small>
+<!-- <span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <a
+    routerLink="/project/policy">Policy</a><i class="pi pi-angle-right"></i>&nbsp;<small>{{title_page}}</small> -->
+
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 <hr>
 
 
@@ -304,7 +306,7 @@
     </div>
     <form #Form="ngForm">
         <div *ngIf="displaymanage" style="z-index: 1084;"
-            class="p-component-overlay p-sidebar-mask p-component-overlay-enter" ></div>
+            class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
         <p-dialog [(visible)]="displaymanage" position="right">
             <div *ngIf="probusiness">
                 <div class="formatt">

@@ -30,7 +30,8 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 })
 export class ProGenaralComponent implements OnInit {
 
-
+  home: any;
+  itemslike: MenuItem[] = [];
 
   items: MenuItem[] = [];
   edit_data: boolean = false;
@@ -190,7 +191,7 @@ export class ProGenaralComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
-
+  title_system_project: string = "Project";
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ข้อมูลทั่วไป";
@@ -221,10 +222,17 @@ export class ProGenaralComponent implements OnInit {
       this.title_confirm_no = "ยกเลิก";
       this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
 
+      this.title_system_project = "Project";
+
     }
   }
 
   doLoadMenu() {
+
+    this.itemslike = [{ label: this.title_system_project, routerLink: "/project/policy" },
+    { label: this.title_page, styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+
 
     this.items = [
       {
@@ -266,6 +274,66 @@ export class ProGenaralComponent implements OnInit {
             this.displaymanage = true;
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+          }
+        }
+      }
+      ,
+      {
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          switch (this.page_type) {
+            case "probusiness":
+              this.probusiness = true
+              var ref = this.probusiness_list.length + 100
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Probusiness.xlsx', '_blank');
+              break;
+
+            case "protype":
+              this.protype = true
+              ref = this.protype_list.length + 100
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Protype.xlsx', '_blank');
+              break;
+
+
+            case "prouniform":
+              this.prouniform = true
+              ref = this.prouniform_list.length + 100
+
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Prouniform.xlsx', '_blank');
+
+              break;
+            case "proslip":
+              this.proslip = true
+              ref = this.proslip_list.length + 100
+
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Proslip.xlsx', '_blank');
+
+              break;
+            case "procost":
+              this.procost = true
+              ref = this.procost_list.length + 100
+
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Procost.xlsx', '_blank');
+
+              break;
+            case "proarea":
+              this.proarea = true
+              ref = this.proarea_list.length + 100
+
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Proarea.xlsx', '_blank');
+
+              break;
+            case "progroup":
+              this.progroup = true
+              ref = this.progroup_list.length + 100
+
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Progroup.xlsx', '_blank');
+
+              break;
+            default:
+              // 
+              break;
           }
         }
       }

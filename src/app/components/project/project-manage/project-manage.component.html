@@ -1836,7 +1836,7 @@
                             <div>
                                 <p-checkbox [(ngModel)]="fillterEmptype" name="worker_code" [binary]="true"
                                     (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
-                                <label for="lastname2">รหัสพนักงาน:</label>
+                                <label for="lastname2"> {{title_empid[initial_current.Language]}} :</label>
                             </div>
                             <p-dropdown placeholder="--" [options]="workerList" optionLabel="worker_code"
                                 optionValue="worker_code" [showClear]="true" [(ngModel)]="selectedEmptype"
