@@ -107,6 +107,7 @@ export class LocationService {
       var para = "fileName=" + file_name + "." + file_type;
       para += "&token=" + this.initial_current.Token;
       para += "&by=" + this.initial_current.Username;
+      para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadLocation?' + para, formData).toPromise()
     .then((res) => {
