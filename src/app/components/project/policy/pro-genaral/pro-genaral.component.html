@@ -298,6 +298,13 @@
                         <td>{{data.progroup_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <!-- <td>
+                            <button pButton type="button" class="pi pi-trash gray-button"
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="progroup" (click)="confirmDeleteProgroup(data)">
+                            </button>
+                        </td> -->
+                        
+                        
                     </tr>
                 </ng-template>
             </p-table>
