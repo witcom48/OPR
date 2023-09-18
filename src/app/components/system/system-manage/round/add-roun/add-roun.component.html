@@ -89,7 +89,7 @@
 
     <!-- Form input or Edit Data Year Period -->
     <form #Form="ngForm">
-        <p-dialog [(visible)]="displayManage" [style]="{ height: '1500px', 'overflow-y': 'hidden' }"
+        <p-dialog [(visible)]="new_data" [style]="{ height: '1500px', 'overflow-y': 'hidden' }"
             [position]="position" (onHide)="reloadPage()">
             <div class="formatt  p-dialog-content" *ngIf="new_data">
 
@@ -163,7 +163,7 @@
         </p-dialog>
 
 
-        <div *ngIf="displayManage" style="z-index: 1084;"
+        <div *ngIf="new_data" style="z-index: 1084;"
             class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
     </form>
     <!-- --------------End form Input Data ------------------ -->

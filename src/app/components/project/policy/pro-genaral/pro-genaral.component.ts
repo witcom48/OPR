@@ -427,6 +427,37 @@ export class ProGenaralComponent implements OnInit {
 
     });
   }
+  ////////////////////////////////////////////////////////////////
+
+  async doDeleteLate(data: ProgroupModel) {
+    try {
+      const res = await this.genaralService.progroup_delete(data);
+      if (res.success) {
+        this.messageService.add({severity: 'success',summary: 'Success',detail: res.message});
+        this.doLoadGenaral();  
+      } else {
+        this.messageService.add({severity: 'error',summary: 'Error',detail: res.message});
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      this.messageService.add({severity: 'error',summary: 'Error',detail: 'An error occurred while deleting.'});
+    }
+  }
+  
+  confirmDeleteProgroup(data: ProgroupModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteLate(data);
+      },
+      reject: () => {
+        this.messageService.add({severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel});
+      }
+    });
+  }
+  ////////////////////////////////////////////////////////////////
 
   confirmDelete() {
     this.confirmationService.confirm({
@@ -442,6 +473,8 @@ export class ProGenaralComponent implements OnInit {
       key: "myDialog"
     });
   }
+
+
 
   doRecordGenaral() {
     switch (this.page_type) {
