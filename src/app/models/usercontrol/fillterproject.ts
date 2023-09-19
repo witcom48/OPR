@@ -13,6 +13,7 @@ export class FillterProjectModel {
     project_code: string = "";
     ///
     searchemp :string = "";
+    worker_resignstatus : boolean = false;
 
     projobmain_id: string = "1";
     projobmain_code: string = "";

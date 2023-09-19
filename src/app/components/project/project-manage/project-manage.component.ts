@@ -373,9 +373,9 @@ export class ProjectManageComponent implements OnInit {
   title_emptype: { [key: string]: string } = { EN: "Include Resign", TH: "ประเภทพนักงาน" };
   title_position: { [key: string]: string } = { EN: " Position", TH: "ตำแหน่ง" };
   title_status: { [key: string]: string } = { EN: " Status", TH: "สถานะ" };
-  title_empid: { [key: string]: string } = { EN: " Code", TH: "สถานะ" };
-
-  
+  title_empid: { [key: string]: string } = { EN: "Emp code", TH: "รหัสพนักงาน" }
+ 
+  title_searchemp: { [key: string]: string } = { EN: "Serch Employee", TH: "ค้นหาพนักงาน" }
 
 
   //#endregion "Language"
@@ -3579,9 +3579,9 @@ export class ProjectManageComponent implements OnInit {
 
     // สัญญา
     // if (this.filltercontract) {
-    //   fillter.worker_emptype = this.selectedcontract;
+    //   workerfillter.worker_emptype = this.selectedcontract;
     // } else {
-    //   fillter.worker_emptype = '';
+    //   workerfillter.worker_emptype = '';
     // }
     // ประเภทงาน
     if (this.filltertype) {
@@ -3604,7 +3604,12 @@ export class ProjectManageComponent implements OnInit {
     } else {
       workerfillter.projobemp_type = '';
     }
-
+    // เสริชชื่อ นามสกุล
+     if(this.fillterSearchemp){
+      workerfillter.searchemp = this.selectedSearchemp;
+    }else{
+      workerfillter.searchemp = "";
+     }
 
     workerfillter.searchemp = this.selectedSearchemp;
 
@@ -3658,11 +3663,15 @@ export class ProjectManageComponent implements OnInit {
     }
   }
 
+  
+
   //-- Emp master
+  
   selectedSearchemp: string = "";
   fillterSearchemp: boolean = false;
   doChangeSearchemp(event: any) {
     this.doGetDataFillter();
+    this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp);
   }
   //-- Project master
   // selectedProject: string = "";

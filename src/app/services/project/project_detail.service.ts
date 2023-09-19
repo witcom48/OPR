@@ -1015,6 +1015,7 @@ export class ProjectDetailService {
       project_codecentral: fillter.project_codecentral,
       project_protype: fillter.project_protype,
       project_probusiness: fillter.project_probusiness,
+      searchemp: fillter.searchemp,
 
     };
 

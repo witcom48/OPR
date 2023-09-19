@@ -1881,33 +1881,45 @@
 
                         </div>
                         <!-- สัญญา -->
-                        <!-- <div class="select">
-                          
+                        <div class="select">
+
                             <div>
                                 <p-checkbox [(ngModel)]="filltercontract" name="type" [binary]="true"
                                     (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                                 <label for="lastname2">{{title_contract[initial_current.Language]}} :</label>
                             </div>
-                            <p-dropdown placeholder="--" [options]="statusList" optionValue="status_code"
+                            <p-dropdown placeholder="--"  optionValue="status_code"
                                 [showClear]="true" [(ngModel)]="selectedEmpstatus"
                                 (onChange)="doChangeSelectEmpstatus()" [disabled]="!filltercontract"
                                 [style]="{ width: '100%', overflow: 'visible' }">
-                                <ng-template let-item pTemplate="selectedItem">
+                                <!-- <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
                                 </ng-template>
                                 <ng-template let-item pTemplate="item">
                                     {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
-                                </ng-template>
+                                </ng-template> -->
                             </p-dropdown>
-                        </div> -->
-                        <div style="grid-column: 1;">
+                        </div>
+
+                        <!-- Search Employee -->
+                        <div class="select">
+                            <div>
+                                <p-checkbox [(ngModel)]="fillterSearchemp" name="searchemp" [binary]="true"
+                                    (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                                <label for="lastname2"> {{title_searchemp[initial_current.Language]}} :</label>
+                            </div>
+                            <input pInputText [(ngModel)]="selectedSearchemp" [disabled]="!fillterSearchemp" type="text"
+                                id="searchemp" (input)="doChangeSearchemp($event)">
+                        </div>
+
+                        <!-- <div style="grid-column: 1;">
                             <span class="p-input-icon-left ml-auto">
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" [(ngModel)]="selectedSearchemp"
                                     (input)="doChangeSearchemp($event)"
                                     placeholder="{{title_search[initial_current.Language]}}" />
                             </span>
-                        </div>
+                        </div> -->
 
                     </div>
                 </ng-template>
