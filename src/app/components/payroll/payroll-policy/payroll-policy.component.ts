@@ -142,17 +142,17 @@ export class PayrollPolicyComponent implements OnInit {
             //     link: 'setitems',
             //     accessCode: 'PAY001-006'
             // },
+            // {
+            //     title: this.title_SetBatch[this.initial_current.Language] ,
+            //     link: 'setallpolicy',
+            //     accessCode: 'PAY001-006'
+            // },
+            
             {
-                title: this.title_SetBatch[this.initial_current.Language] ,
-                link: 'setallpolicy',
+                title: this.title_SetBonus,
+                link: 'setbonus',
                 accessCode: 'PAY001-006'
             },
-            
-            // {
-            //     title: this.title_SetBonus,
-            //     link: 'setbonus',
-            //     accessCode: 'PAY001-007'
-            // },
             // {
             //     title:  this.title_reduce[this.initial_current.Language] ,
             //     link: 'setprovident',
