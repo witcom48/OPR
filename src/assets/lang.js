@@ -23,7 +23,7 @@ var yearperiod = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["System", { TH: "จัดการ", EN: "Manage System" }],
     ["policy", { TH: "นะโยบาย", EN: "Policy" }],
-    ["yearperiod", { TH: "ปี", EN: "Year Period" }],
+    ["yearperiod", { TH: "งวดปี", EN: "Year Period" }],
     ["selecttype", { TH: "เลือกประเภท", EN: "Select Type" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],

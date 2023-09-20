@@ -1834,15 +1834,15 @@
                 <ng-template pTemplate="caption">
                     <div class="checkselect">
                         <div class="select">
-                            <!-- รหัสพนักงาน -->
+                            <!-- รหัสงาน -->
                             <div>
-                                <p-checkbox [(ngModel)]="fillterEmptype" name="worker_code" [binary]="true"
+                                <p-checkbox [(ngModel)]="fillterEmptype" name="projob_code" [binary]="true"
                                     (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                                 <label for="lastname2"> {{title_empid[initial_current.Language]}} :</label>
                             </div>
-                            <p-dropdown placeholder="--" [options]="workerList" optionLabel="worker_code"
-                                optionValue="worker_code" [showClear]="true" [(ngModel)]="selectedEmptype"
-                                (onChange)="doChangeSelectEmptype()" [disabled]="!fillterEmptype"
+                            <p-dropdown [options]="projobsubcostList" optionLabel="projob_code"
+                                optionValue="projob_code" [showClear]="true" [(ngModel)]="selectedEmptype"
+                                [editable]="true" (onChange)="doGetDataFillter()" [disabled]="!fillterEmptype"
                                 [style]="{ width: '100%', overflow: 'visible' }">
                             </p-dropdown>
                         </div>
@@ -1853,6 +1853,7 @@
                                     (onChange)="doChangeSelectEmpstatus()"></p-checkbox> &nbsp;
                                 <label for="lastname2">{{title_status[initial_current.Language]}} :</label>
                             </div>
+
                             <p-dropdown placeholder="--" [options]="[{ label: title_regular[initial_current.Language], value: 'R' },
                             { label: title_temporary[initial_current.Language], value: 'T' }]" optionLabel="label"
                                 optionValue="value" [showClear]="true" [(ngModel)]="selectedEmpstatus"
@@ -1907,13 +1908,37 @@
                             <div>
                                 <p-checkbox [(ngModel)]="fillterSearchemp" name="searchemp" [binary]="true"
                                     (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
-                                <label for="lastname2"> {{title_searchemp[initial_current.Language]}} :</label>
+                                <label for="lastname2">{{title_searchemp[initial_current.Language]}}:</label>
                             </div>
-                            <input pInputText [(ngModel)]="selectedSearchemp" [disabled]="!fillterSearchemp" type="text"
-                                id="searchemp" (input)="doChangeSearchemp($event)">
+
+                            <p-dropdown [options]="workerList" optionLabel="worker_code" optionValue="worker_code"
+                                [showClear]="true" [(ngModel)]="selectedSearchemp" [editable]="true"
+                                (onChange)="doGetDataFillter()" [disabled]="!fillterSearchemp"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{ item.worker_code }} - {{ (initial_current.Language == 'TH') ?
+                                    item.worker_fname_th + ' ' + item.worker_lname_th : item.worker_fname_en + ' ' +
+                                    item.worker_lname_en }}
+                                </ng-template>
+
+                                <ng-template let-item pTemplate="item">
+                                    {{ item.worker_code }} - {{ (initial_current.Language == 'TH') ?
+                                    item.worker_fname_th + ' ' + item.worker_lname_th : item.worker_fname_en + ' ' +
+                                    item.worker_lname_en }}
+                                </ng-template>
+                            </p-dropdown>
                         </div>
 
-                        <!-- <div style="grid-column: 1;">
+
+
+
+
+                        <!-- <input pInputText [(ngModel)]="selectedSearchemp" [disabled]="!fillterSearchemp" type="text"
+                                id="searchemp" (input)="doChangeSearchemp($event)">-->
+                    </div>
+
+                    <!-- <div style="grid-column: 1;">
                             <span class="p-input-icon-left ml-auto">
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" [(ngModel)]="selectedSearchemp"
@@ -1922,8 +1947,7 @@
                             </span>
                         </div> -->
 
-                    </div>
-                </ng-template>
+                 </ng-template>
 
                 <ng-template pTemplate="header">
                     <tr>

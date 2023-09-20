@@ -290,25 +290,33 @@ export class PayrollEntryComponent implements OnInit {
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Payitem.xlsx', '_blank');
                 }
-            }
+            },
+            {
+                label: 'Reload',
+                icon: 'pi pi-fw pi-refresh',
+                command: (event) => {
+                    this.doLoadPayitem()                
+                }
+              }
+            // ,
+            // {
+            //     label: this.title_edit,
+            //     icon: 'pi pi-fw pi-pencil',
+            //     command: (event) => {
+            //         this.showManage();
+            //         this.new_data = true;
+            //         this.edit_data = false;
+            //     },
+            // },
+            // {
+            //     label: this.title_delete,
+            //     icon: 'pi pi-fw pi-trash',
+            //     command: (event) => {
+            //         this.Delete();
+            //         this.doSetDetailWorker();
+            //     },
+            // }
             ,
-            {
-                label: this.title_edit,
-                icon: 'pi pi-fw pi-pencil',
-                command: (event) => {
-                    this.showManage();
-                    this.new_data = true;
-                    this.edit_data = false;
-                },
-            },
-            {
-                label: this.title_delete,
-                icon: 'pi pi-fw pi-trash',
-                command: (event) => {
-                    this.Delete();
-                    this.doSetDetailWorker();
-                },
-            },
             {
                 label: this.title_import,
                 icon: 'pi-file-import',

@@ -44,9 +44,14 @@
                             <input type="radio" name="fav_language" value="M" [(ngModel)]="emptype"
                                 (change)="selectYear()">
                             <label>{{title_monthly}}</label>
+                            &nbsp;
                             <input type="radio" name="fav_language" value="D" [(ngModel)]="emptype"
                                 (change)="selectYear()">
                             <label>{{title_daily}}</label>
+                            &nbsp;
+                            <input type="radio" name="fav_language" value="T" [(ngModel)]="emptype"
+                                (change)="selectYear()">
+                            <label>เวลา</label>
                         </div>
                         <!-- -----------END Radio Select------------ -->
                     </div>
