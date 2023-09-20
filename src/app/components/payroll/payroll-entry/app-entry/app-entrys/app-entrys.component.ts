@@ -480,6 +480,15 @@ export class AppEntrysComponent implements OnInit {
         }
       },
       {
+        label: 'Reload',
+        icon: 'pi pi-fw pi-refresh',
+        command: (event) => {
+          this.doLoaditem();
+          this.doSetDetailItem();     
+          this.showManage();        
+        }
+      },
+      {
         label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
@@ -492,6 +501,12 @@ export class AppEntrysComponent implements OnInit {
       {
         label: 'Add copy',
         icon: 'pi pi-fw pi-copy',
+        command: (event) => {
+          this.displayaddholiday = true;
+          this.displayeditholiday = false;
+          this.showManage();
+          this.doLoaditem();
+        },
       },
       {
         label: this.title_delete,

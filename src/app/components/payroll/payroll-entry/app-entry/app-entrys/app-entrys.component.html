@@ -180,5 +180,18 @@
         </tr>
     </div>
     <!-- --------------End form summary ------------------ -->
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">{{title_dropfileshere}}</span>
+        <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
+    </ng-template>
+</p-dialog>
+<div *ngIf="displayUpload" style="z-index: 1084;"
+    class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
 
+<!-- -----------------End Dialog Choose File-------------------- -->
 </div>

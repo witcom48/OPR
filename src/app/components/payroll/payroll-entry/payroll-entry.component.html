@@ -122,7 +122,7 @@
                     <!-- -----------------------END Table-------------------------- -->
 
                     <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
-                    (onHide)="reloadPage()"  [position]="position" >
+                        (onHide)="reloadPage()" [position]="position">
                         <div class="formatt" *ngIf="new_data">
                             <!-- <i class="pi pi-times" (click)="close()"></i> -->
                             <div>
@@ -175,8 +175,8 @@
                             [(ngModel)]="payitems.payitem_date">
                             <input type="text"></p-calendar> -->
                             <div style="text-align: right;">
-                                <button pButton type="button" class="button-size p-button-secondary" label="{{title_save}}"
-                                    icon="pi pi-save" (click)="Save()"></button>
+                                <button pButton type="button" class="button-size p-button-secondary"
+                                    label="{{title_save}}" icon="pi pi-save" (click)="Save()"></button>
                                 &nbsp;
                                 <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}"
                                     icon="pi pi-trash" class="btndel button-size" (click)="Delete()"></button>
@@ -224,8 +224,8 @@
 
             <!-- ConfirmDialog and toast Noti -->
             <p-toast position="top-right"></p-toast>
-            <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
-            key="myDialog" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+            <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" key="myDialog"
+                rejectButtonStyleClass="p-button-text"></p-confirmDialog>
             <!-- ----------------------END Confirm and Toast------------------------ -->
 
             <p-tabPanel>
@@ -398,7 +398,8 @@
                                     icon="pi pi-save" (click)="Save()"></button>
                                 &nbsp;
                                 <button *ngIf="edit_data" pButton type="button" label="{{title_delete}}"
-                                    icon="pi pi-trash" class="p-button-secondary button-size" (click)="Delete()"></button>
+                                    icon="pi pi-trash" class="p-button-secondary button-size"
+                                    (click)="Delete()"></button>
                             </div>
                         </div>
                     </p-dialog>
@@ -439,5 +440,18 @@
         </p-tabView>
 
     </p-tabPanel>
+    <!-- Dialog Choose File Import -->
+    <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+        <label class="drop-container">
+            <span class="drop-title">{{title_dropfileshere}}</span>
+            <input type="file" accept="xlxs/*" required (change)="handleFileInput($any($event).target.files)">
+        </label>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{title_upload}}"></p-button>
+        </ng-template>
+    </p-dialog>
+    <div *ngIf="displayUpload" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
 
+    <!-- -----------------End Dialog Choose File-------------------- -->
 </p-tabView>

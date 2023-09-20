@@ -350,9 +350,8 @@ export class AppEntryComponent implements OnInit {
 
     try {
       const res = await this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate, tmp.worker_code, this.item_type, tmp.item_code);
-
-      return res;
-    } catch (error) { }
+       return res;
+    } catch   { }
   }
 
   doSetDetailItem() {
@@ -374,7 +373,7 @@ export class AppEntryComponent implements OnInit {
   }
   reloadPage() {
     this.process()
-}
+  }
   process() {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
@@ -477,23 +476,42 @@ export class AppEntryComponent implements OnInit {
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Payitem.xlsx', '_blank');
         }
-
-
-
       },
+
+      {
+        label: 'Reload',
+        icon: 'pi pi-fw pi-refresh',
+        command: (event) => {
+            this.doLoaditem();
+            this.doSetDetailItem();     
+            this.showManage();
+         
+      }},
+
+      
       {
         label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          if (this.payitems != null) {
+            this.displayaddholiday = true
+            this.displayeditholiday = false;
+            this.doLoaditem();
+            this.showManage()
+            
+            this.doSetDetailItem();
+          }
+        },
+      },
+      {
+        label: 'Add copy',
+        icon: 'pi pi-fw pi-copy',
         command: (event) => {
           this.displayaddholiday = true;
           this.displayeditholiday = false;
           this.showManage();
           this.doLoaditem();
         },
-      },
-      {
-        label: 'Add copy',
-        icon: 'pi pi-fw pi-copy',
       },
       {
         label: this.title_delete,
