@@ -190,6 +190,7 @@ export class ProjectManageComponent implements OnInit {
   new_projobversion: boolean = false;
   //#endregion "My Menu"
   SummaryCostList: SummaryCost[] = [];
+  SummaryCostListm: SummaryCost[] = [];
   //#region "Language"
   title_tab_genaral: { [key: string]: string } = { EN: "Genaral", TH: "ข้อมูลทั่วไป" }
   title_tab_contract: { [key: string]: string } = { EN: "Contract", TH: "ข้อมูลสัญญา" }
@@ -374,7 +375,7 @@ export class ProjectManageComponent implements OnInit {
   title_position: { [key: string]: string } = { EN: " Position", TH: "ตำแหน่ง" };
   title_status: { [key: string]: string } = { EN: " Status", TH: "สถานะ" };
   title_empid: { [key: string]: string } = { EN: "Emp code", TH: "รหัสพนักงาน" }
- 
+
   title_searchemp: { [key: string]: string } = { EN: "Serch Employee", TH: "ค้นหาพนักงาน" }
 
 
@@ -415,7 +416,7 @@ export class ProjectManageComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.project_code = params['project'];
-     });
+    });
 
     this.doGetInitialCurrent()
 
@@ -527,7 +528,7 @@ export class ProjectManageComponent implements OnInit {
         icon: 'pi pi-fw pi-save',
         command: (event) => {
           if (this.accessData.accessdata_edit) {
-             this.confirmRecord();
+            this.confirmRecord();
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
           }
@@ -1506,7 +1507,7 @@ export class ProjectManageComponent implements OnInit {
     var tmp = new ProbusinessModel();
 
     this.genaralService.probusiness_get(tmp).then((res) => {
-       this.probusiness_list = res;
+      this.probusiness_list = res;
     });
     var tmp2 = new ProtypeModel();
 
@@ -1527,7 +1528,7 @@ export class ProjectManageComponent implements OnInit {
     tmpr.round_group = this.rounds_type = "Time";
     this.roundsService.rounds_get(tmpr).then((res) => {
       this.time_list = res;
-     });
+    });
 
     tmpr.round_group = this.rounds_type = "Currency";
     this.roundsService.rounds_get(tmpr).then((res) => {
@@ -1588,7 +1589,7 @@ export class ProjectManageComponent implements OnInit {
 
         this.projectService.project_record(this.selectedProject).then((res) => {
           let result = JSON.parse(res);
-           if (result.success) {
+          if (result.success) {
 
             //-- Transaction
             this.proaddress_record()
@@ -1941,7 +1942,7 @@ export class ProjectManageComponent implements OnInit {
   }
   procontract_addItem(model: ProcontractModel) {
 
- 
+
     const itemNew: ProcontractModel[] = [];
     for (let i = 0; i < this.procontract_list.length; i++) {
       if (this.procontract_list[i].procontract_ref == model.procontract_ref) {
@@ -2516,6 +2517,7 @@ export class ProjectManageComponent implements OnInit {
   project_summary_emp: number = 0;
   project_summary_cost: number = 0;
   project_summary_costall: number = 0;
+  project_summary_costallm: number = 0;
   calculateSum(array: any, property: any) {
     const total = array.reduce((accumulator: any, object: any) => {
       return accumulator + object[property] * object['emp_total'];
@@ -2523,25 +2525,34 @@ export class ProjectManageComponent implements OnInit {
 
     return total;
   }
+  cosresult: [] = [];
   projobmain_summary() {
     this.SummaryCostList = [];
+    this.SummaryCostListm = [];
     // return
 
     this.project_summary_emp = 0
     this.project_summary_cost = 0
     this.project_summary_costall = 0;
+    this.project_summary_costallm = 0;
     for (let i = 0; i < this.projobmain_list.length; i++) {
       this.project_summary_emp += this.projobmain_list[i].emp_total
       this.project_summary_cost += this.projobmain_list[i].allow_total
     }
-    console.log(this.projobsub_list)
-    console.log(this.projobmain_list)
-    this.costs_title.forEach((cost, index) => {
-      if (cost !== "") {
-        const result = this.calculateSum(this.projobmain_list, `allow${index + 1}`);
-        const result2 = this.calculateSum(this.projobsub_list, `allow${index + 1}`);
+    this.polcost_list_cbb.forEach((element: RadiovalueModel) => {
+
+    });
+    this.polcost_list_cbb.forEach((cost, index) => {
+      if (cost.type === "D") {
+        const result = this.calculateSum(this.projobmain_list, cost.value);
+        const result2 = this.calculateSum(this.projobsub_list, cost.value);
         this.project_summary_costall += result + result2;
-        this.SummaryCostList.push({ label: cost, value: result + result2 });
+        this.SummaryCostList.push({ label: cost.text, value: result + result2 });
+      } if (cost.type === "M") {
+        const result = this.calculateSum(this.projobmain_list, cost.value);
+        const result2 = this.calculateSum(this.projobsub_list, cost.value);
+        this.project_summary_costallm += result + result2;
+        this.SummaryCostListm.push({ label: cost.text, value: result + result2 });
       }
     })
   }
@@ -2559,13 +2570,13 @@ export class ProjectManageComponent implements OnInit {
         for (let i = 0; i < this.polcost_list.length; i++) {
           var tmp = new RadiovalueModel();
           tmp.value = this.polcost_list[i].procost_code;
+          tmp.type = this.polcost_list[i].procost_type;
           if (this.initial_current.Language == "EN") {
-            tmp.text = this.polcost_list[i].procost_name_en
+            tmp.text = this.polcost_list[i].procost_name_en + " (" + this.polcost_list[i].procost_type + ")";
           }
           else {
-            tmp.text = this.polcost_list[i].procost_name_th
+            tmp.text = this.polcost_list[i].procost_name_th + " (" + this.polcost_list[i].procost_type + ")";
           }
-
           this.costs_title[i] = tmp.text
           this.polcost_list_cbb.push(tmp)
 
@@ -2733,7 +2744,7 @@ export class ProjectManageComponent implements OnInit {
 
 
         // var date_tmp = new Date(this.projobcost_list[i].projobcost_todate)
- 
+
         // if(this.projobcost_list[i].projobcost_code==model.projobcost_code && date_tmp.getTime() > model.projobcost_fromdate.getTime()){
 
         //   this.projobcost_list[i].projobcost_todate = new Date(model.projobcost_fromdate)
@@ -3555,14 +3566,14 @@ export class ProjectManageComponent implements OnInit {
   doLoadEmpstatusList() {
     this.empstatusService.status_get().then((res) => {
       this.statusList = res;
-     });
+    });
   }
 
   workerList: EmployeeModel[] = [];
   doLoadblackList() {
     this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
       this.workerList = res;
-     });
+    });
   }
 
   emptypeList: EmptypeModel[] = [];
@@ -3596,7 +3607,7 @@ export class ProjectManageComponent implements OnInit {
     } else {
       workerfillter.projobemp_emp = '';
 
- 
+
     }
     // สถานะ
     if (this.fillterEmpstatus) {
@@ -3605,11 +3616,11 @@ export class ProjectManageComponent implements OnInit {
       workerfillter.projobemp_type = '';
     }
     // เสริชชื่อ นามสกุล
-     if(this.fillterSearchemp){
+    if (this.fillterSearchemp) {
       workerfillter.searchemp = this.selectedSearchemp;
-    }else{
+    } else {
       workerfillter.searchemp = "";
-     }
+    }
 
     workerfillter.searchemp = this.selectedSearchemp;
 
@@ -3621,7 +3632,7 @@ export class ProjectManageComponent implements OnInit {
       });
 
       this.projobemp_list = await res;
-     });
+    });
   }
 
 
@@ -3663,10 +3674,10 @@ export class ProjectManageComponent implements OnInit {
     }
   }
 
-  
+
 
   //-- Emp master
-  
+
   selectedSearchemp: string = "";
   fillterSearchemp: boolean = false;
   doChangeSearchemp(event: any) {

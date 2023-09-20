@@ -1304,7 +1304,7 @@
                             <!-- <th>{{title_jobmain_poltime[initial_current.Language]}}</th>
                         <th>{{title_jobmain_polslip[initial_current.Language]}}</th>
                         <th>{{title_jobmain_poluniform[initial_current.Language]}}</th> -->
-                            <th *ngIf="costs_title[0] !=''">{{costs_title[0]}}</th>
+                            <!-- <th *ngIf="costs_title[0] !=''">{{costs_title[0]}}</th>
                             <th *ngIf="costs_title[1] !=''">{{costs_title[1]}}</th>
                             <th *ngIf="costs_title[2] !=''">{{costs_title[2]}}</th>
                             <th *ngIf="costs_title[3] !=''">{{costs_title[3]}}</th>
@@ -1313,7 +1313,9 @@
                             <th *ngIf="costs_title[6] !=''">{{costs_title[6]}}</th>
                             <th *ngIf="costs_title[7] !=''">{{costs_title[7]}}</th>
                             <th *ngIf="costs_title[8] !=''">{{costs_title[8]}}</th>
-                            <th *ngIf="costs_title[9] !=''">{{costs_title[9]}}</th>
+                            <th *ngIf="costs_title[9] !=''">{{costs_title[9]}}</th> -->
+                            <th *ngFor="let col of polcost_list_cbb; let idx=index;">
+                                {{col.text}}</th>
                             <th>{{title_jobmain_amount_emp[initial_current.Language]}}</th>
                             <th>{{title_jobmain_amount_total[initial_current.Language]}}</th>
                             <th>{{title_modified_by[initial_current.Language]}}</th>
@@ -1888,10 +1890,9 @@
                                     (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                                 <label for="lastname2">{{title_contract[initial_current.Language]}} :</label>
                             </div>
-                            <p-dropdown placeholder="--"  optionValue="status_code"
-                                [showClear]="true" [(ngModel)]="selectedEmpstatus"
-                                (onChange)="doChangeSelectEmpstatus()" [disabled]="!filltercontract"
-                                [style]="{ width: '100%', overflow: 'visible' }">
+                            <p-dropdown placeholder="--" optionValue="status_code" [showClear]="true"
+                                [(ngModel)]="selectedEmpstatus" (onChange)="doChangeSelectEmpstatus()"
+                                [disabled]="!filltercontract" [style]="{ width: '100%', overflow: 'visible' }">
                                 <!-- <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
                                 </ng-template>
@@ -1970,8 +1971,20 @@
                 </div>
                 <div class="flex-auto" style="max-width: 220px; font-weight: 900;
                 color: black;">
-                    <label>{{title_amount_total[initial_current.Language]}}</label>
+                    <label>{{title_amount_total[initial_current.Language]}} (D)</label>
                     <p-inputNumber class="summary" [(ngModel)]="project_summary_costall" [readonly]="true">
+                    </p-inputNumber>
+                </div>
+            </div>
+            <div class="card flex flex-wrap gap-3">
+                <div class="flex-auto" style="max-width: 220px;" *ngFor="let item of SummaryCostListm;">
+                    <label>{{item.label}}</label>
+                    <p-inputNumber [(ngModel)]="item.value" [readonly]="true"> </p-inputNumber>
+                </div>
+                <div class="flex-auto" style="max-width: 220px; font-weight: 900;
+                color: black;">
+                    <label>{{title_amount_total[initial_current.Language]}} (M)</label>
+                    <p-inputNumber class="summary" [(ngModel)]="project_summary_costallm" [readonly]="true">
                     </p-inputNumber>
                 </div>
             </div>
