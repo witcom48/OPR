@@ -40,6 +40,7 @@ export class EmpsetpositionComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" }
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" }
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" }
+  title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
   title_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
@@ -125,6 +126,9 @@ export class EmpsetpositionComponent implements OnInit {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchposition();
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
+
     }
   }
 

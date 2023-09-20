@@ -38,6 +38,7 @@ export class EmpsetassessmentComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
   title_institute: { [key: string]: string } = { EN: "Institute", TH: "สถานบัน/สถานที่" };
   title_topic: { [key: string]: string } = { EN: "Topic", TH: "หัวข้อ" };
   title_fromdate: { [key: string]: string } = { EN: "From Date", TH: "จากวันที่" };
@@ -127,6 +128,8 @@ export class EmpsetassessmentComponent implements OnInit {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchassessment();
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
     }
   }
 

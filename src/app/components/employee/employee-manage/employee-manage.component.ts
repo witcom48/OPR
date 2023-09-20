@@ -107,6 +107,7 @@ import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
 import { SetbonusService } from 'src/app/services/payroll/batch/setbonus.service';
 import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { EmpExperienceModel } from 'src/app/models/employee/manage/experience';
+import { ProvidentWorkageModel } from 'src/app/models/payroll/provident_workage';
 
 
 
@@ -138,6 +139,11 @@ interface Nation {
   code: string
 }
 interface ForeigType {
+  name_th: string,
+  name_en: string,
+  code: string
+}
+interface PFType {
   name_th: string,
   name_en: string,
   code: string
@@ -176,6 +182,7 @@ export class EmployeeManageComponent implements OnInit {
   militarystatus: Milit[] = [];
   nationality: Nation[] = [];
   foreignerType: ForeigType[] = [];
+  pfType: PFType[] = [];
 
   //menu emplocation
   menu_emplocation: MenuItem[] = [];
@@ -375,6 +382,12 @@ export class EmployeeManageComponent implements OnInit {
       { name_th: 'หนังสือเดินทาง', name_en: 'Passport', code: 'PASS' },
       { name_th: 'วีซ่า', name_en: 'VISA', code: 'VISA' },
       { name_th: 'ใบอนุญาตทำงาน', name_en: 'Work Permit', code: 'WORK' },
+    ]
+    this.pfType = [
+      { name_th: 'ตามอายุกองทุนสำรองเลี้ยงชีพ', name_en: 'By Age PF', code: 'A' },
+      { name_th: 'ค่าคงที่', name_en: 'Fix Value', code: 'F' },
+      { name_th: 'ตามอายุกองทุนฯ|พนักงานคงที่', name_en: 'By Age PF|Fix Value', code: 'C' },
+
     ]
   }
 
@@ -673,7 +686,7 @@ export class EmployeeManageComponent implements OnInit {
   title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
   title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
   title_foreignersso: { [key: string]: string } = { EN: "Sent SSO", TH: "นำส่งประกันสังคม" };
-  title_bonus: { [key: string]: string } = { EN: "Bonus", TH: "โบนัส" };
+  title_bonus: { [key: string]: string } = { EN: "Bonus Policy", TH: "นโยบายโบนัส" };
 
   title_experience: { [key: string]: string } = { EN: "Experience", TH: "ประสบการณ์ทำงาน" };
   title_expcom: { [key: string]: string } = { EN: "Company", TH: "บริษัท" };
@@ -682,6 +695,13 @@ export class EmployeeManageComponent implements OnInit {
   title_expstart: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
   title_expend: { [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
   title_expdes: { [key: string]: string } = { EN: "Description", TH: "เหตุผลที่เปลี่ยนงาน" };
+  //
+  title_pfcode: { [key: string]: string } = { EN: "PF Code", TH: "รหัสกองทุนฯ" };
+  title_pfname: { [key: string]: string } = { EN: "PF Name", TH: "ชื่อกองทุนฯ" };
+  title_pfage: { [key: string]: string } = { EN: "PF Age", TH: "อายุกองทุนฯ" };
+  title_pftype: { [key: string]: string } = { EN: "PF Type", TH: "วิธีกำหนดอัตราการจ่าย" };
+  title_pfemp: { [key: string]: string } = { EN: "Comp.(%)", TH: "บริษัท(%)" };
+  title_pfcom: { [key: string]: string } = { EN: "Emp.(%)", TH: "พนักงาน(%)" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -860,7 +880,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_break = "พักการจ่าย";
       this.title_breakreason = "เหตุผล(พักการจ่าย)";
       this.title_provident = "นโยบาย";
-      this.title_pfno = "รหัสกองทุนฯ";
+      this.title_pfno = "เลขที่กองทุนฯ";
       this.title_pfentry = "วันที่เข้า";
       this.title_pfstart = "วันที่เริ่ม";
       this.title_pfend = "วันที่ออก";
@@ -2772,6 +2792,10 @@ export class EmployeeManageComponent implements OnInit {
       this.providentList = res;
     })
   }
+  //provident workage
+  providentWorkList() {
+
+  }
   //drop reduce
   reduceList: ReducesModel[] = [];
   doLoadReduceList() {
@@ -3253,7 +3277,7 @@ export class EmployeeManageComponent implements OnInit {
   onRowSelectEmpForeignercard(event: Event) {
     this.displayaddForeCard = false;
     this.displayeditForeCard = false;
-   }
+  }
   empforeignercard_summit() {
     this.empforeignercard_addItem(this.selectedEmpforeignercard)
     this.new_foreignercard = false
@@ -3312,11 +3336,11 @@ export class EmployeeManageComponent implements OnInit {
     }
 
   }
-  Saveforecard(){
-    if(!this.displayeditForeCard){
+  Saveforecard() {
+    if (!this.displayeditForeCard) {
       this.selectedEmpforeigner.foreigner_card = this.selectedEmpforeigner.foreigner_card.concat({
         company_code: this.selectedEmpforeigner.company_code,
-        worker_code : this.selectedEmpforeigner.worker_code,
+        worker_code: this.selectedEmpforeigner.worker_code,
         foreignercard_id: "0",
         foreignercard_code: this.selectedEmpforeignercard.foreignercard_code,
         foreignercard_type: this.selectedEmpforeignercard.foreignercard_type,
@@ -3336,9 +3360,9 @@ export class EmployeeManageComponent implements OnInit {
     });
     this.selectedEmpforeignercard = new EmpForeignercardModel();
     this.displayaddForeCard = false;
-    this.displayeditForeCard= false;
+    this.displayeditForeCard = false;
   }
-  closeforecard(){
+  closeforecard() {
     this.selectedEmpforeignercard = new EmpForeignercardModel();
   }
 
@@ -4182,6 +4206,7 @@ export class EmployeeManageComponent implements OnInit {
         element.empprovident_entry = new Date(element.empprovident_entry)
         element.empprovident_start = new Date(element.empprovident_start)
         element.empprovident_end = new Date(element.empprovident_end)
+        element.empprovident_age = this.CalculatePFAge(element.empprovident_entry)
       })
       this.empprovidentList = await res;
       if (this.empprovidentList.length > 0) {
@@ -5024,6 +5049,37 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
+  ratecom: boolean = true;
+  rateemp: boolean = true;
+  getProvidentworkage(ProvidentCode: string) {
+    if (this.selectedEmpprovident.empprovident_type == 'A') {
+      for (let i = 0; i < this.providentList.length; i++) {
+        if (this.providentList[i].provident_code == ProvidentCode) {
+          this.providentList[i].providentWorkage_data.forEach((ele: ProvidentWorkageModel) => {
+            this.selectedEmpprovident.rate_com = ele.rate_com;
+            this.selectedEmpprovident.rate_emp = ele.rate_emp;
+          })
+        }
+      }
+    } else if(this.selectedEmpprovident.empprovident_type == 'C'){
+      for (let i = 0; i < this.providentList.length; i++) {
+        if (this.providentList[i].provident_code == ProvidentCode) {
+          this.providentList[i].providentWorkage_data.forEach((ele: ProvidentWorkageModel) => {
+            this.selectedEmpprovident.rate_com = ele.rate_com;
+          })
+        }
+      }
+    }
+  }
+  changePFType(){
+    if(this.selectedEmpprovident.empprovident_type == 'A'){
+      this.ratecom = true; this.rateemp = true;
+    }else if(this.selectedEmpprovident.empprovident_type == 'C'){
+      this.ratecom = true; this.rateemp = false;
+    }else{
+      this.ratecom = false; this.rateemp = false;
+    }
+  }
   //get reduce name
   doGetReduceDetail(ReduceCode: string): any {
     for (let i = 0; i < this.reduceList.length; i++) {
@@ -5059,6 +5115,20 @@ export class EmployeeManageComponent implements OnInit {
         }
         else {
           return this.foreignerType[i].name_en;
+        }
+      }
+    }
+  }
+
+  //get pf type
+  doGetPFtypeDetail(pftype: string): any {
+    for (let i = 0; i < this.pfType.length; i++) {
+      if (this.pfType[i].code == pftype) {
+        if (this.initial_current.Language == "TH") {
+          return this.pfType[i].name_th;
+        }
+        else {
+          return this.pfType[i].name_en;
         }
       }
     }
@@ -5195,6 +5265,9 @@ export class EmployeeManageComponent implements OnInit {
         this.age = agediff + " Year"
       }
     }
+  }
+  CalculatePFAge(date: Date) {
+    return "";
   }
 
   doRecordEmpBlacklist() {

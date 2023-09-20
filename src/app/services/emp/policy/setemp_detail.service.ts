@@ -436,6 +436,9 @@ export class SetEmpDetailService {
       empprovident_entry: this.datePipe.transform(Setup.empprovident_entry),
       empprovident_start: this.datePipe.transform(Setup.empprovident_start),
       empprovident_end: this.datePipe.transform(Setup.empprovident_end),
+      empprovident_type: Setup.empprovident_type,
+      rate_com: Setup.rate_com,
+      rate_emp: Setup.rate_emp,
       emp_data: emplists,
       modified_by: Setup.modified_by || this.initial_current.Username,
     }

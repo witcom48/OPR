@@ -38,6 +38,7 @@ export class EmpsetbenefitsComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
   title_startdate: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
   title_enddate: { [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
   title_incomededuct: { [key: string]: string } = { EN: "Income/Deduct", TH: "เงินได้/เงินหัก" };
@@ -124,6 +125,8 @@ export class EmpsetbenefitsComponent implements OnInit {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchbenefits();
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
     }
   }
 

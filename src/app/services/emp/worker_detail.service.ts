@@ -1424,6 +1424,10 @@ export class EmpDetailService {
       if (this.datePipe.transform(list[i].empprovident_end)) {
         item_data = item_data + ",\"empprovident_end\":\"" + this.datePipe.transform(list[i].empprovident_end) + "\"";
       }
+      item_data = item_data + ",\"empprovident_type\":\"" + list[i].empprovident_type + "\"";
+      item_data = item_data + ",\"rate_com\":\"" + list[i].rate_com + "\"";
+      item_data = item_data + ",\"rate_emp\":\"" + list[i].rate_emp + "\"";
+      
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";
