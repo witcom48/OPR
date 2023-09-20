@@ -152,7 +152,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'View Calculate', routerLink: ['/payroll/view'], accessCode: 'PAY005' },
                     { label: 'Summary', routerLink: ['/payroll/summary'], accessCode: 'PAY006' },
                     { label: 'Transfer', routerLink: ['/payroll/transfer'], accessCode: 'PAY007' },
-                    { label: 'Approval list', routerLink: ['/payroll/approve'], accessCode: 'PAY008' },
+                    // { label: 'Approval list', routerLink: ['/payroll/approve'], accessCode: 'PAY008' },
                     { label: 'Reports', routerLink: ['/payroll/reports'], accessCode: 'PAY009' },
                 ]
             },

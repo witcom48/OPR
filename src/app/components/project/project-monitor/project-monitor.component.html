@@ -142,7 +142,7 @@
 <table *ngIf="show_fillter == true">
     <tr>
         <td colspan="4">
-            <table class="table_fillter">
+            <table class="table_fillter select" >
                 <tr>
                     <td class="text-left" style="width: 120px;">{{title_date[initial_current.Language]}}</td>
                     <td>
@@ -159,8 +159,8 @@
                         </div>
                     </td>
                     <td>
-                        <p-dropdown [options]="protype_list" optionValue="protype_code"
-                            [(ngModel)]="selectedType_fillter" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
+                            [(ngModel)]="selectedType_fillter" [showClear]="true" [disabled]="!type_fillter"
                             [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
@@ -181,8 +181,8 @@
                         </div>
                     </td>
                     <td>
-                        <p-dropdown [options]="probusiness_list" optionValue="probusiness_code"
-                            [(ngModel)]="selectedBusiness_fillter" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="probusiness_list" optionValue="probusiness_code"
+                            [(ngModel)]="selectedBusiness_fillter" [showClear]="true" [disabled]="!business_fillter"
                             [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
@@ -203,8 +203,8 @@
                         </div>
                     </td>
                     <td>
-                        <p-dropdown [options]="proarea_list" optionValue="proarea_code"
-                            [(ngModel)]="selectedProarea_fillter" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="proarea_list" optionValue="proarea_code"
+                            [(ngModel)]="selectedProarea_fillter" [showClear]="true" [disabled]="!proarea_fillter"
                             [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
@@ -224,8 +224,8 @@
                         </div>
                     </td>
                     <td>
-                        <p-dropdown [options]="progroup_list" optionValue="progroup_code"
-                            [(ngModel)]="selectedProgroup_fillter" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="progroup_list" optionValue="progroup_code"
+                            [(ngModel)]="selectedProgroup_fillter" [showClear]="true" [disabled]="!progroup_fillter"
                             [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.progroup_name_th : item.progroup_name_en}}
@@ -240,7 +240,7 @@
         </td>
     </tr>
 </table>
- 
+
 
 <div #scrollMe style="overflow: scroll; height: 600px;">
 
