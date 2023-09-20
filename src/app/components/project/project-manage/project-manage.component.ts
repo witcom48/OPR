@@ -373,9 +373,9 @@ export class ProjectManageComponent implements OnInit {
   title_emptype: { [key: string]: string } = { EN: "Include Resign", TH: "ประเภทพนักงาน" };
   title_position: { [key: string]: string } = { EN: " Position", TH: "ตำแหน่ง" };
   title_status: { [key: string]: string } = { EN: " Status", TH: "สถานะ" };
-  title_empid: { [key: string]: string } = { EN: "Emp code", TH: "รหัสพนักงาน" }
+  title_empid: { [key: string]: string } = { EN: "Job Code", TH: "รหัสงาน" }
  
-  title_searchemp: { [key: string]: string } = { EN: "Serch Employee", TH: "ค้นหาพนักงาน" }
+  title_searchemp: { [key: string]: string } = { EN:"Serch Employee", TH: "ค้นหาพนักงาน" }
 
 
   //#endregion "Language"
@@ -427,6 +427,7 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadEmptypeList();
     this.doLoadEmpstatusList();
     this.doLoadblackList();
+    this.doLoadProjobsubcostList();
     // this.doLoadjobpol();
     setTimeout(() => {
       this.doLoadMenu()
@@ -3572,8 +3573,20 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
+  projobsubcostList: ProjobempModel[] = [];
+  doLoadProjobsubcostList() {
+    this.projectDetailService.projobemp_get(this.project_code).then((res) => {
+      const uniqueProjobCodes = new Set(res.map((item: { projob_code: any; }) => item.projob_code));
+      this.projobsubcostList = Array.from(uniqueProjobCodes).map(projob_code => {
+        return res.find((item: { projob_code: unknown; }) => item.projob_code === projob_code);
+      });
+    });
+  }
+
   doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
+ 
+    
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_code = this.project_code;
 
@@ -3590,11 +3603,11 @@ export class ProjectManageComponent implements OnInit {
       workerfillter.projob_code = '';
 
     }
-    // รหัสพนักงาน
+    // รหัสงาน
     if (this.fillterEmptype) {
-      workerfillter.projobemp_emp = this.selectedEmptype;
+      workerfillter.projob_code = this.selectedEmptype;
     } else {
-      workerfillter.projobemp_emp = '';
+      workerfillter.projob_code = '';
 
  
     }
@@ -3625,7 +3638,7 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
-  //-- Type รหัสพนักงาน
+  //-- Type รหัสงาน
   selectedEmptype: string = "";
   fillterEmptype: boolean = false;
   doChangeSelectEmptype() {

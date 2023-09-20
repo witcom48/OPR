@@ -8,8 +8,8 @@ export class PayitemModel {
     worker_code: string = "1";
     item_code: string = "";
     payitem_date!: Date ;
-    payitem_amount: string = "";
-    payitem_quantity: string = "";
+    payitem_amount: string = "0.00";
+    payitem_quantity: string = "0.00";
     payitem_paytype: string = "";
     payitem_note: string = "";
     item_detail: string = "";
