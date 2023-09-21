@@ -1889,14 +1889,17 @@
                                     (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                                 <label for="lastname2">{{title_contract[initial_current.Language]}} :</label>
                             </div>
-                            <p-dropdown placeholder="--" optionValue="status_code" [showClear]="true"
-                                [(ngModel)]="selectedEmpstatus" (onChange)="doChangeSelectEmpstatus()"
-                                [disabled]="!filltercontract" [style]="{ width: '100%', overflow: 'visible' }">
+                            <p-dropdown placeholder="--" [options]="procontractlist" optionLabel="procontract_customer"
+                                optionValue="procontract_customer" [showClear]="true" [(ngModel)]="selectedcontract"
+                                (onChange)="doGetDataFillter()" [disabled]="!filltercontract"
+                                [style]="{ width: '100%', overflow: 'visible' }">
                                 <!-- <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                    {{initial_current.Language=="TH"? item.projobmain_name_th :
+                                    item.projobmain_name_en}}
                                 </ng-template>
                                 <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
+                                    {{initial_current.Language=="TH"? item.projobmain_name_th :
+                                    item.projobmain_name_en}}
                                 </ng-template> -->
                             </p-dropdown>
                         </div>
@@ -1945,7 +1948,7 @@
                             </span>
                         </div> -->
 
-                 </ng-template>
+                </ng-template>
 
                 <ng-template pTemplate="header">
                     <tr>

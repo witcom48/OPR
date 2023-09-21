@@ -151,7 +151,7 @@ export class ProjectListComponent implements OnInit {
             this.selectProject();
 
             // this.new_data = true;
-            // this.edit_data = false;
+            // this.edit_data = true;
             // this.showManage()
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
@@ -203,6 +203,7 @@ export class ProjectListComponent implements OnInit {
     var tmp2 = new ProtypeModel();
     this.genaralService.protype_get(tmp2).then((res) => {
       this.protype_list = res;
+      
     });
   }
 
@@ -224,8 +225,9 @@ export class ProjectListComponent implements OnInit {
   }
 
   onRowSelectProject(event: Event) {
+    this.new_data = true;
     this.edit_data = true;
-
+    this.displayManage = true;
     this.doLoadSelectedProbusiness(this.selectedProject.project_probusiness);
     this.doLoadSelectedProtype(this.selectedProject.project_protype);
   }
@@ -303,15 +305,13 @@ export class ProjectListComponent implements OnInit {
           summary: 'Success',
           detail: res.message,
         });
-        // กรณีลบสำเร็จ ทำอย่างอื่นที่คุณต้องการทำ
-      } else {
+       } else {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
           detail: res.message,
         });
-        // กรณีเกิดข้อผิดพลาดในการลบ
-      }
+       }
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       }

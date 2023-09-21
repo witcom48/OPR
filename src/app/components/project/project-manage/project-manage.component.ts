@@ -3573,6 +3573,18 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
+  procontractlist: ProcontractModel[] = [];
+  // selectedcontract: ProcontractModel = new ProcontractModel();
+  doLoadProcontractList() {
+    this.projectDetailService.procontract_get(this.project_code).then((res) => {
+      this.procontractlist = res;
+      // if (this.procontractlist.length > 0) {
+      //   this.selectedcontract = this.procontractlist[0]
+      // }
+    });
+  }
+
+
   projobsubcostList: ProjobempModel[] = [];
   doLoadProjobsubcostList() {
     this.projectDetailService.projobemp_get(this.project_code).then((res) => {
@@ -3585,17 +3597,20 @@ export class ProjectManageComponent implements OnInit {
 
   doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
- 
+    const procontractfillter: ProcontractModel = new ProcontractModel();
+
     
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_code = this.project_code;
 
     // สัญญา
-    // if (this.filltercontract) {
-    //   workerfillter.worker_emptype = this.selectedcontract;
-    // } else {
-    //   workerfillter.worker_emptype = '';
-    // }
+
+    if (this.filltercontract) {
+      procontractfillter.procontract_customer = this.selectedcontract;
+    } else {
+      procontractfillter.procontract_customer = '';
+    }
+    
     // ประเภทงาน
     if (this.filltertype) {
       workerfillter.projob_code = this.selectedType;
