@@ -79,6 +79,7 @@ import { TimeallowanceComponent } from './attendance-policy/timeallowance/timeal
 import { SetTimeallowanceComponent } from './attendance-policy/set-timeallowance/set-timeallowance.component';
 import { SetAttpayComponent } from './attendance-policy/set-attpay/set-attpay.component';
 import { AttendanceSummaryComponent } from './attendance-summary/attendance-summary.component';
+import { AttendanceShiftComponent } from './attendance-policy/attendance-shift/attendance-shift.component';
 
 
 @NgModule({
@@ -165,7 +166,8 @@ import { AttendanceSummaryComponent } from './attendance-summary/attendance-summ
 		SetTimeallowanceComponent,
 		SetAttpayComponent,
 		AttendanceSummaryComponent,
+		AttendanceShiftComponent,
 	],
-	exports: [],
+	exports: [ShiftComponent],
 })
 export class AttendanceModule { }

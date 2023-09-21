@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
@@ -17,6 +17,8 @@ declare var shfit: any;
   styleUrls: ['./shift.component.scss']
 })
 export class ShiftComponent implements OnInit {
+  @Input() project: boolean = false;
+  @Input() module: string = 'ATT';
   langs: any = shfit;
   selectlang: string = "EN";
   constructor(private messageService: MessageService,
@@ -53,7 +55,7 @@ export class ShiftComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
-    this.accessData = this.initialData2.dotGetPolmenu('ATT');
+    this.accessData = this.initialData2.dotGetPolmenu(this.module);
   }
   ngOnInit(): void {
     this.initial_current.loading = true;
@@ -65,12 +67,14 @@ export class ShiftComponent implements OnInit {
     this.initial_current.loading = true
     this.shift_list = [];
     var tmp = new ShiftModels();
+    tmp.project = this.project;
     this.shiftService.shift_get(tmp).then(async (res) => {
       this.shift_list = await res;
       this.initial_current.loading = false;
     });
   }
   async doRecordShift(data: ShiftModels) {
+    data.project = this.project;
     this.initial_current.loading = true;
     await this.shiftService.shift_record(data).then((res) => {
       if (res.success) {

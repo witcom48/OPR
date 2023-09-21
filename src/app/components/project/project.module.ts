@@ -54,6 +54,8 @@ import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component'
 import { UsercontrolModule } from '../usercontrol/usercontrol.module';
 import { ProjectTransferComponent } from './project-transfer/project-transfer.component';
 import { ProjectCompareComponent } from './project-compare/project-compare.component';
+import { ProShiftComponent } from './policy/pro-shift/pro-shift.component';
+import { AttendanceModule } from '../attendance/attendance.module';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -92,11 +94,12 @@ import { ProjectCompareComponent } from './project-compare/project-compare.compo
 		DialogModule,
 		CheckboxModule,
 		UsercontrolModule,
+		AttendanceModule
 
 
 
 
 	],
-	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent, ProjectTransferComponent, ProjectCompareComponent]
+	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent, ProjectTransferComponent, ProjectCompareComponent, ProShiftComponent]
 })
 export class ProjectModule { }
