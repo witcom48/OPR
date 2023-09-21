@@ -178,7 +178,7 @@ export class ProjectListComponent implements OnInit {
         icon: 'pi pi-fw pi-file-import',
         command: (event) => {
           this.showUpload()
-          this.showManage()
+          // this.showManage()
         }
       }
       ,

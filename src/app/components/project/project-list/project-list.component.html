@@ -42,12 +42,16 @@
 
 <!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog> -->
 
-<p-dialog header="{{title_upload[initial_current.Language]}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
-    <p class="custom-file-upload">
-        <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
-    </p>
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
+    </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload[initial_current.Language]}}"
+        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}"
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
@@ -55,14 +59,18 @@
 </div>
 
 <p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage"
-    [style]="{ height: '600px', 'overflow-y': 'hidden' }" [position]="position">
+    [style]="{ height: '500px', 'overflow-y': 'hidden' }" [position]="position">
     <p-scrollPanel [style]="{width: '25vw', height: '500px'}">
-        <div class="formgrid grid   p-dialog-content" *ngIf="edit_data==true || new_data==true">
+        <div class="formgrid grid  " *ngIf="edit_data==true || new_data==true">
 
             <div class="field col-12 ">
                 <label for="ppos_code">{{title_projectcode[initial_current.Language]}}</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_code"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <input pInputText type="text" [(ngModel)]="selectedProject.project_code" maxlength="20"
+                    [disabled]="edit_data" name="code" #code="ngModel" required
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+
+                <!-- <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_code"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"> -->
             </div>
 
             <div class="field col-12 ">
@@ -96,7 +104,7 @@
                 </p-dropdown>
             </div>
 
-            <div class="field col-12">
+            <!-- <div class="field col-12">
                 <label for="lastname2">{{title_protype[initial_current.Language]}}</label><br>
 
                 <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
@@ -109,9 +117,9 @@
                         {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
                     </ng-template>
                 </p-dropdown>
-            </div>
+            </div> -->
 
-            <div style="text-align: right;">
+            <div class="p-dialog-content " style="text-align: right; display: flex; justify-content: flex-end;">
                 <br />
                 <button *ngIf="new_data" pButton label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
                     (click)="confirmRecord()"></button>
@@ -119,17 +127,14 @@
                     (click)="confirmRecord()" [disabled]="!this.accessData.accessdata_edit"></button>
                 &nbsp;
                 <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
-                    (click)="selectProject()"   class="p-button-secondary"></button>
-                <!-- &nbsp; -->
-                <!-- <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
-                    class="p-button-outlined p-button-secondary" (click)="close_manage()"></button> -->
-
-
+                    (click)="selectProject()" class="p-button-secondary"></button>
+            
                 &nbsp;
                 <button *ngIf="edit_data" pButton type="button" label="{{title_delete[initial_current.Language]}}"
-                    icon="pi pi-trash" class="p-button-secondary button-size btndel" (click)="confirmDelete( )"
+                    icon="pi pi-trash" class="p-button-secondary button-size btndel" (click)="confirmDelete()"
                     [disabled]="!this.accessData.accessdata_delete"></button>
             </div>
+            
 
 
         </div>
@@ -175,9 +180,9 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-project let-i="rowIndex">
-                 
 
-            <!-- <ng-template pTemplate="body" let-project> -->
+
+                <!-- <ng-template pTemplate="body" let-project> -->
                 <tr>
                     <td>{{project.project_code}}</td>
                     <td class="text-left">
