@@ -3201,7 +3201,6 @@ export class EmployeeManageComponent implements OnInit {
         // element.otherdoc_expire = new Date(element.otherdoc_expire)
       })
       this.empforeignerList = await res;
-      console.log(res)
       if (this.empforeignerList.length > 0) {
         this.selectedEmpforeigner = this.empforeignerList[0];
       }
