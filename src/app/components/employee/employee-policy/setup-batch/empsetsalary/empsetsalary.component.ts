@@ -36,6 +36,7 @@ export class EmpsetsalaryComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
   title_incbath: { [key: string]: string } = { EN: "Increment(Bath)", TH: "อัตราปรับ(บาท)" };
   title_incper: { [key: string]: string } = { EN: "Increment(%)", TH: "อัตราปรับ(%)" };
   title_quality: { [key: string]: string } = { EN: "Quality", TH: "จำนวน" };
@@ -110,6 +111,8 @@ export class EmpsetsalaryComponent implements OnInit {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchsalary();
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
     }
   }
 

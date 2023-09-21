@@ -4,9 +4,13 @@ import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
 import { InitialCurrent } from 'src/app/config/initial_current';
+import { ReasonModels } from 'src/app/models/attendance/reason';
 import { EmployeeModel } from 'src/app/models/employee/employee';
+import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
 import { TRSysApproveModel } from 'src/app/models/system/security/sys_approve';
 import { ApplyworkService } from 'src/app/services/recruitment/applywork.service';
+import { BlacklistService } from 'src/app/services/recruitment/blacklist.service';
+import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import { SysApproveServices } from 'src/app/services/system/security/sysapprove.service';
 
 interface Status {
@@ -85,6 +89,9 @@ export class RecruitmentApproveComponent implements OnInit {
 
   title_popup_approve: { [key: string]: string } = { EN: "Approve", TH: "อนุมัติ" }
 
+  title_requestmcer: { [key: string]: string } = { EN: "Medical Certificate", TH: "ใบรับรองแพทย์" };
+  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "Blacklist" };
+
   total_apply: number = 0
 
   constructor(
@@ -94,12 +101,16 @@ export class RecruitmentApproveComponent implements OnInit {
     private datePipe: DatePipe,
     private sysApproveServices: SysApproveServices,
     private applyworkService: ApplyworkService,
+    private blacklistService: BlacklistService,
+    private reasonService: ReasonsService,
   ) { }
 
   ngOnInit(): void {
     this.doLoadMenu()
-    this.doGetInitialCurrent()
-
+    this.doGetInitialCurrent();
+    //
+    this.doLoadBlacklistList();
+    this.doLoadReasonList();
     setTimeout(() => {
       this.doLoadApply()
     }, 300);
@@ -148,16 +159,22 @@ export class RecruitmentApproveComponent implements OnInit {
   }
   apply_list: EmployeeModel[] = [];
   selectedApply: EmployeeModel = new EmployeeModel;
+  fillterBlacklist: boolean = false;
   doLoadApply() {
     var tmp = new EmployeeModel();
     tmp.company_code = this.initial_current.CompCode
     tmp.worker_code = ""
     tmp.status = "S"
+    tmp.blacklist = this.fillterBlacklist
     this.applyworkService.reqworker_get(tmp).then(async (res) => {
       await res.forEach((element: EmployeeModel) => {
         element.worker_hiredate = new Date(element.worker_hiredate)
+        element.worker_birthdate = new Date(element.worker_birthdate)
+        element.blacklist_reason = this.getBlacklistReason(element.worker_cardno)
+        element.certificate = this.checkMCer(element.worker_birthdate, element.checkcertificate)
       })
       this.apply_list = await res;
+      console.log(res)
       this.total_apply = this.apply_list.length;
     })
   }
@@ -254,5 +271,56 @@ export class RecruitmentApproveComponent implements OnInit {
         }
       }
     }
+  }
+
+  blacklistList: BlacklistModel[] = [];
+  doLoadBlacklistList() {
+    this.blacklistService.blacklist_get(this.initial_current.CompCode, "", "").then((res) => {
+      this.blacklistList = res;
+    })
+  }
+  reasonList: ReasonModels[] = [];
+  doLoadReasonList() {
+    var tmp = new ReasonModels();
+    tmp.reason_group = "BLACK";
+    this.reasonService.reason_get(tmp).then((res) => {
+      this.reasonList = res;
+    })
+  }
+  getBlacklistReason(Code: string): any {
+    for (let i = 0; i < this.blacklistList.length; i++) {
+      if (this.blacklistList[i].card_no == Code) {
+        return this.blacklistReason(this.blacklistList[i].reason_code);
+      }
+    }
+  }
+  blacklistReason(Code: string): any {
+    for (let i = 0; i < this.reasonList.length; i++) {
+      if (this.reasonList[i].reason_code == Code) {
+        if (this.initial_current.Language == "TH") {
+          return this.reasonList[i].reason_name_th;
+        }
+        else {
+          return this.reasonList[i].reason_name_en;
+        }
+      }
+    }
+  }
+  checkMCer(Birth: Date, check: Boolean): any {
+    if (this.CalculateAge(Birth) >= 50) {
+      if (check) {
+        return "Attached";
+      } else {
+        return "Wait";
+      }
+    }
+  }
+  age: number = 0
+  CalculateAge(birthdate: Date): number {
+    if (birthdate) {
+      let timeDiff = Math.abs(Date.now() - birthdate.getTime());
+      this.age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
+    }
+    return this.age;
   }
 }

@@ -1642,27 +1642,32 @@
                                         </ng-template> -->
                                             <ng-template pTemplate="header">
                                                 <tr>
-                                                    <th>{{title_provident}}</th>
+                                                    <th>{{title_pfcode[initial_current.Language]}}</th>
+                                                    <th>{{title_pfname[initial_current.Language]}}</th>
                                                     <th>{{title_pfno}}</th>
                                                     <th>{{title_pfentry}}</th>
                                                     <th>{{title_pfstart}}</th>
                                                     <th>{{title_pfend}}</th>
-                                                    <th>สะสม %</th>
-                                                    <th>สมทบ %</th>
-                                                    <th>{{title_pfend}}</th>
+                                                    <th>{{title_pfage[initial_current.Language]}}</th>
+                                                    <th>{{title_pftype[initial_current.Language]}}</th>
+                                                    <th>{{title_pfcom[initial_current.Language]}}</th>
+                                                    <th>{{title_pfemp[initial_current.Language]}}</th>
                                                     <th>{{title_modified_by}}</th>
                                                     <th>{{title_modified_date}}</th>
                                                 </tr>
                                             </ng-template>
                                             <ng-template pTemplate="body" let-empprovident>
                                                 <tr [pSelectableRow]="empprovident">
+                                                    <td>{{empprovident.provident_code}}</td>
                                                     <td>{{doGetProvidentDetail(empprovident.provident_code)}}</td>
                                                     <td>{{empprovident.empprovident_card}}</td>
                                                     <td>{{empprovident.empprovident_entry| date:'dd/MM/yyyy'}}</td>
                                                     <td>{{empprovident.empprovident_start| date:'dd/MM/yyyy'}}</td>
                                                     <td>{{empprovident.empprovident_end| date:'dd/MM/yyyy'}}</td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>{{empprovident.empprovident_age}}</td>
+                                                    <td>{{empprovident.empprovident_type}}</td>
+                                                    <td>{{empprovident.rate_emp}}</td>
+                                                    <td>{{empprovident.rate_com}}</td>
                                                     <td>{{empprovident.modified_by}}</td>
                                                     <td>{{empprovident.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                                 </tr>
@@ -2601,45 +2606,84 @@
     </div>
 
     <!-- Form Emp provident -->
-    <div class="formatt" *ngIf="edit_empprovident==true || new_provident==true">
-        <label>{{title_provident}}</label>
-        <p-dropdown placeholder="--" [options]="providentList" optionValue="provident_code" [showClear]="true"
-            [(ngModel)]="selectedEmpprovident.provident_code" [style]="{ width: '100%', overflow: 'visible' }">
-            <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
-            </ng-template>
-            <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.provident_name_th : item.provident_name_en}}
-            </ng-template>
-        </p-dropdown>
-        <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
+    <form #PfForm="ngForm">
+        <div class="formatt" *ngIf="edit_empprovident==true || new_provident==true">
+            <label>{{title_pfname[initial_current.Language]}}</label>
+            <p-dropdown placeholder="--" [options]="providentList" optionValue="provident_code" [showClear]="true"
+                [(ngModel)]="selectedEmpprovident.provident_code" [style]="{ width: '100%', overflow: 'visible' }"
+                (onChange)="getProvidentworkage($event.value)" name="pf_code" #pf_code="ngModel" [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.provident_code+"-"+item.provident_name_th :
+                    item.provident_code+"-"+item.provident_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.provident_code+"-"+item.provident_name_th :
+                    item.provident_code+"-"+item.provident_name_en}}
+                </ng-template>
+            </p-dropdown>
+            <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true"
             [(ngModel)]="selectedEmpprovident.provident_code"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
-        <label>{{title_pfno}}</label>
-        <input pInputText type="text" [(ngModel)]="selectedEmpprovident.empprovident_card">
+            <label>{{title_pfno}}</label>
+            <input pInputText type="text" [(ngModel)]="selectedEmpprovident.empprovident_card" name="pf_no"
+                #pf_no="ngModel" required>
 
-        <label>{{title_pfentry}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedEmpprovident.empprovident_entry"><input type="text"></p-calendar>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_entry"> -->
+            <label>{{title_pfentry}}</label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpprovident.empprovident_entry" name="pf_entry" #pf_entry="ngModel"
+                [required]="true"><input type="text"></p-calendar>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_entry"> -->
 
-        <label>{{title_pfstart}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedEmpprovident.empprovident_start"><input type="text"></p-calendar>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_start"> -->
+            <label>{{title_pfstart}}</label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpprovident.empprovident_start" name="pf_start" #pf_start="ngModel"
+                [required]="true"><input type="text"></p-calendar>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_start"> -->
 
-        <label>{{title_pfend}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-            [(ngModel)]="selectedEmpprovident.empprovident_end"><input type="text"></p-calendar>
-        <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_end"> -->
+            <label>{{title_pfend}}</label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedEmpprovident.empprovident_end" name="pf_end" #pf_end="ngModel"><input
+                    type="text"></p-calendar>
+            <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpprovident.empprovident_end"> -->
 
-        <br>
-        <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
-            (click)="empprovident_summit()"></button>
-        <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
-            (click)="empprovident_cancel()"></button>
-    </div>
+            <label>{{title_pftype[initial_current.Language]}}</label>
+            <p-dropdown placeholder="--" [options]="pfType" optionValue="code" [showClear]="true"
+                [(ngModel)]="selectedEmpprovident.empprovident_type" [style]="{ width: '100%', overflow: 'visible' }"
+                (onChange)="changePFType()" name="pf_type" #pf_type="ngModel" [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                </ng-template>
+            </p-dropdown>
+
+            <label>{{title_pfcom[initial_current.Language]}}</label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax"
+                [(ngModel)]="selectedEmpprovident.rate_com" [max]="10" [disabled]="ratecom" name="rate_com"
+                #rate_com="ngModel">
+            </p-inputNumber>
+
+            <label>{{title_pfemp[initial_current.Language]}}</label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax"
+                [(ngModel)]="selectedEmpprovident.rate_emp" [max]="10" [disabled]="rateemp" name="rate_emp"
+                #rate_emp="ngModel">
+            </p-inputNumber>
+
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="empprovident_summit()"
+                    [disabled]="!PfForm.form.valid"></p-button>
+                &nbsp;
+                <!-- <button pButton type="button" label="{{title_summit}}" icon="pi pi-check"
+                    (click)="empprovident_summit()"></button>
+                <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                    (click)="empprovident_cancel()"></button> -->
+            </div>
+
+        </div>
+    </form>
 
     <!-- Form Emp benefit -->
     <div class="formatt" *ngIf="edit_empbenefit==true || new_benefit==true">
@@ -3005,7 +3049,7 @@
 <!-- END FORM DIALOG-->
 
 <form (ngSubmit)="Saveforecard()" #ForeForm2="ngForm">
-    <p-dialog header="Card" [(visible)]="displayaddForeCard" (onHide)="closeforecard()" >
+    <p-dialog header="Card" [(visible)]="displayaddForeCard" (onHide)="closeforecard()">
         <div class="formatt" *ngIf="edit_empforeignercard==true || new_foreignercard==true">
             <label>{{title_foreignercardtype[initial_current.Language]}}<span style="color: red;">*</span></label>
             <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
@@ -3044,8 +3088,8 @@
             </div> -->
         </div>
         <ng-template pTemplate="footer">
-            <button *ngIf="displayeditForeCard" pButton type="button" label="{{title_delete}}"
-                icon="pi pi-trash" class="p-button-danger" (click)="DeleteForecard()"></button>
+            <button *ngIf="displayeditForeCard" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                class="p-button-danger" (click)="DeleteForecard()"></button>
             <button pButton type="submit" label="{{title_summit}}" icon="pi pi-check"
                 [disabled]="!ForeForm2.form.valid"></button>
         </ng-template>

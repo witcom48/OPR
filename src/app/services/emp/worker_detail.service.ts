@@ -532,8 +532,8 @@ export class EmpDetailService {
         "foreignercard_id" : res.foreignercard_id,
         "foreignercard_code" : res.foreignercard_code,
         "foreignercard_type" : res.foreignercard_type,
-        "foreignercard_issue" : res.foreignercard_issue,
-        "foreignercard_expire" : res.foreignercard_expire,
+        "foreignercard_issue" : this.datePipe.transform(res.foreignercard_issue),
+        "foreignercard_expire" : this.datePipe.transform(res.foreignercard_expire),
         "modified_by" : this.initial_current.Username
       }
       forecard_list.push(ss)
@@ -1424,6 +1424,10 @@ export class EmpDetailService {
       if (this.datePipe.transform(list[i].empprovident_end)) {
         item_data = item_data + ",\"empprovident_end\":\"" + this.datePipe.transform(list[i].empprovident_end) + "\"";
       }
+      item_data = item_data + ",\"empprovident_type\":\"" + list[i].empprovident_type + "\"";
+      item_data = item_data + ",\"rate_com\":\"" + list[i].rate_com + "\"";
+      item_data = item_data + ",\"rate_emp\":\"" + list[i].rate_emp + "\"";
+      
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

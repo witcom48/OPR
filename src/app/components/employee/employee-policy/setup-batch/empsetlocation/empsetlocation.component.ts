@@ -38,6 +38,7 @@ export class EmpsetlocationComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
   title_location: { [key: string]: string } = { EN: "Location", TH: "สถาที่ปฎิบัติงาน" };
   title_fromdate: { [key: string]: string } = { EN: "From Date", TH: "วันที่เริ่ม" };
   title_todate: { [key: string]: string } = { EN: "To Date", TH: "วันที่สิ้นสุด" };
@@ -119,6 +120,9 @@ export class EmpsetlocationComponent implements OnInit {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchlocation()
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
+
     }
   }
 
