@@ -154,6 +154,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProaddress?' + para, formData).toPromise()
       .then((res) => {
@@ -243,6 +244,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProcontact?' + para, formData).toPromise()
       .then((res) => {
@@ -333,6 +335,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProcontract?' + para, formData).toPromise()
       .then((res) => {
@@ -419,6 +422,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProresponsible?' + para, formData).toPromise()
       .then((res) => {
@@ -509,6 +513,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProtimepol?' + para, formData).toPromise()
       .then((res) => {
@@ -609,6 +614,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProjobmain?' + para, formData).toPromise()
       .then((res) => {
@@ -703,6 +709,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobcontract?' + para, formData).toPromise()
       .then((res) => {
@@ -803,6 +810,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobcost?' + para, formData).toPromise()
       .then((res) => {
@@ -891,6 +899,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobmachine?' + para, formData).toPromise()
       .then((res) => {
@@ -981,6 +990,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProjobsub?' + para, formData).toPromise()
       .then((res) => {
@@ -1133,6 +1143,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobemp?' + para, formData).toPromise()
       .then((res) => {
@@ -1224,6 +1235,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobworking?' + para, formData).toPromise()
       .then((res) => {
@@ -1328,6 +1340,7 @@ export class ProjectDetailService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProjobshift?' + para, formData).toPromise()
       .then((res) => {

@@ -777,13 +777,25 @@
             </ng-template>
 
             <div class="formgrid grid">
+
+                <div class="field col-6 custom-height">
+                    <label>{{title_project_code[initial_current.Language]}}</label>
+                    <input pInputText type="text" [(ngModel)]="selectedProject.project_code" maxlength="20"
+                    [readonly]="project_code" name="code" #code="ngModel"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                    <p>{{selectedProject.project_code.length}}/20</p>
+
+                </div>
+                <!-- 
                 <div class="field col-12 md:col-6">
                     <label for="project_code">{{title_project_code[initial_current.Language]}} </label>
-                    <input id="project_code" type="text" [(ngModel)]="selectedProject.project_code" name="project_code"
+                    <input id="project_code" type="text" [(ngModel)]="selectedProject.project_code"    name="project_code"
                         #project_code="ngModel" required
                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                </div>
+                </div> -->
+
                 <div class="field col-12 md:col-6"></div>
+
                 <div class="field col-12 md:col-6">
                     <label for="project_name_th">{{title_project_name_th[initial_current.Language]}} </label>
                     <input id="project_name_th" type="text" [(ngModel)]="selectedProject.project_name_th"
@@ -1887,19 +1899,14 @@
                         <div class="select">
 
                             <div>
-                                <p-checkbox [(ngModel)]="filltercontract" name="type" [binary]="true"
+                                <p-checkbox [(ngModel)]="filltercontract" name="procontract_customer" [binary]="true"
                                     (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                                 <label for="lastname2">{{title_contract[initial_current.Language]}} :</label>
                             </div>
-                            <p-dropdown placeholder="--" optionValue="status_code" [showClear]="true"
-                                [(ngModel)]="selectedEmpstatus" (onChange)="doChangeSelectEmpstatus()"
-                                [disabled]="!filltercontract" [style]="{ width: '100%', overflow: 'visible' }">
-                                <!-- <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
-                                </ng-template>
-                                <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
-                                </ng-template> -->
+                            <p-dropdown placeholder="--" [options]="procontractlist" optionLabel="procontract_customer"
+                                optionValue="procontract_customer" [showClear]="true" [(ngModel)]="selectedcontract"
+                                (onChange)="doGetDataFillter()" [disabled]="!filltercontract"
+                                [style]="{ width: '100%', overflow: 'visible' }">
                             </p-dropdown>
                         </div>
 
@@ -1947,7 +1954,7 @@
                             </span>
                         </div> -->
 
-                 </ng-template>
+                </ng-template>
 
                 <ng-template pTemplate="header">
                     <tr>

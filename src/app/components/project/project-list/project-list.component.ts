@@ -151,7 +151,7 @@ export class ProjectListComponent implements OnInit {
             this.selectProject();
 
             // this.new_data = true;
-            // this.edit_data = false;
+            // this.edit_data = true;
             // this.showManage()
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
@@ -178,7 +178,7 @@ export class ProjectListComponent implements OnInit {
         icon: 'pi pi-fw pi-file-import',
         command: (event) => {
           this.showUpload()
-          this.showManage()
+          // this.showManage()
         }
       }
       ,
@@ -203,6 +203,7 @@ export class ProjectListComponent implements OnInit {
     var tmp2 = new ProtypeModel();
     this.genaralService.protype_get(tmp2).then((res) => {
       this.protype_list = res;
+      
     });
   }
 
@@ -223,9 +224,10 @@ export class ProjectListComponent implements OnInit {
     this.router.navigate(["project/manage"], navigationExtras);
   }
 
-  onRowSelectProject(event: Event) {
+  onRowSelectProject(event: any) {
     this.edit_data = true;
-
+    this.new_data = true;
+    this.displayManage = true
     this.doLoadSelectedProbusiness(this.selectedProject.project_probusiness);
     this.doLoadSelectedProtype(this.selectedProject.project_protype);
   }
@@ -302,16 +304,15 @@ export class ProjectListComponent implements OnInit {
           severity: 'success',
           summary: 'Success',
           detail: res.message,
+          
         });
-        // กรณีลบสำเร็จ ทำอย่างอื่นที่คุณต้องการทำ
-      } else {
+       } else {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
           detail: res.message,
         });
-        // กรณีเกิดข้อผิดพลาดในการลบ
-      }
+       }
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       }
@@ -334,7 +335,8 @@ export class ProjectListComponent implements OnInit {
 
             this.new_data = false;
             this.edit_data = false;
-            this.displayManage = false;          }
+            this.displayManage = false;          
+          }
           else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
           }
@@ -421,7 +423,9 @@ export class ProjectListComponent implements OnInit {
     this.displayManage = true
 
   }
-
+  reloadPage() {
+    this.doLoadProject()
+  }
   close_manage() {
     this.displayManage = false
   }

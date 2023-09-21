@@ -3,7 +3,7 @@ export class ProjectModel {
      
     }
     
-    project_id: string = "1";
+    project_id: string = "0";
     project_code: string = "";
     project_name_th: string = "";
     project_name_en: string = "";
