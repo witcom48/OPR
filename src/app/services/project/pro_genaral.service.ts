@@ -123,6 +123,7 @@ export class ProgenaralService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProbusiness?' + para, formData).toPromise()
       .then((res) => {
@@ -194,6 +195,7 @@ export class ProgenaralService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProtype?' + para, formData).toPromise()
       .then((res) => {
@@ -266,6 +268,7 @@ export class ProgenaralService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProuniform?' + para, formData).toPromise()
       .then((res) => {
@@ -338,6 +341,7 @@ export class ProgenaralService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProslip?' + para, formData).toPromise()
       .then((res) => {
@@ -410,6 +414,7 @@ export class ProgenaralService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProarea?' + para, formData).toPromise()
       .then((res) => {
@@ -481,6 +486,7 @@ export class ProgenaralService {
     var para = "fileName=" + file_name + "." + file_type;
     para += "&token=" + this.initial_current.Token;
     para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProgroup?' + para, formData).toPromise()
       .then((res) => {

@@ -429,6 +429,7 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadEmpstatusList();
     this.doLoadblackList();
     this.doLoadProjobsubcostList();
+    this.doLoadProcontractList();
     // this.doLoadjobpol();
     setTimeout(() => {
       this.doLoadMenu()
@@ -3592,6 +3593,7 @@ export class ProjectManageComponent implements OnInit {
       // if (this.procontractlist.length > 0) {
       //   this.selectedcontract = this.procontractlist[0]
       // }
+      console.log(res,'contract')
     });
   }
 

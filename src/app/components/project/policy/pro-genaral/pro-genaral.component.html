@@ -13,7 +13,7 @@
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
     key="myDialog"></p-confirmDialog>
 
-<p-dialog header="{{title_upload}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
+<!-- <p-dialog  header="{{title_upload}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
     <p class="custom-file-upload">
         <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
     </p>
@@ -21,8 +21,22 @@
         <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}"
             styleClass="p-button-text"></p-button>
     </ng-template>
+</p-dialog> -->
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+    <label class="drop-container">
+        <span class="drop-title">Drop files here</span>
+        or
+        <input type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            required (change)="handleFileInput($any($event).target.files)">
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
 </p-dialog>
-
+<div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 <!-- <p-menubar [model]="items"></p-menubar> -->
 <div>
     <p-menubar [model]="items"></p-menubar>

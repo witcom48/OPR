@@ -1887,7 +1887,7 @@
                         <div class="select">
 
                             <div>
-                                <p-checkbox [(ngModel)]="filltercontract" name="type" [binary]="true"
+                                <p-checkbox [(ngModel)]="filltercontract" name="procontract_customer" [binary]="true"
                                     (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                                 <label for="lastname2">{{title_contract[initial_current.Language]}} :</label>
                             </div>
@@ -1895,14 +1895,6 @@
                                 optionValue="procontract_customer" [showClear]="true" [(ngModel)]="selectedcontract"
                                 (onChange)="doGetDataFillter()" [disabled]="!filltercontract"
                                 [style]="{ width: '100%', overflow: 'visible' }">
-                                <!-- <ng-template let-item pTemplate="selectedItem">
-                                    {{initial_current.Language=="TH"? item.projobmain_name_th :
-                                    item.projobmain_name_en}}
-                                </ng-template>
-                                <ng-template let-item pTemplate="item">
-                                    {{initial_current.Language=="TH"? item.projobmain_name_th :
-                                    item.projobmain_name_en}}
-                                </ng-template> -->
                             </p-dropdown>
                         </div>
 
