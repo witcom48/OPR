@@ -224,10 +224,10 @@ export class ProjectListComponent implements OnInit {
     this.router.navigate(["project/manage"], navigationExtras);
   }
 
-  onRowSelectProject(event: Event) {
-    this.new_data = true;
+  onRowSelectProject(event: any) {
     this.edit_data = true;
-    this.displayManage = true;
+    this.new_data = true;
+    this.displayManage = true
     this.doLoadSelectedProbusiness(this.selectedProject.project_probusiness);
     this.doLoadSelectedProtype(this.selectedProject.project_protype);
   }
@@ -304,6 +304,7 @@ export class ProjectListComponent implements OnInit {
           severity: 'success',
           summary: 'Success',
           detail: res.message,
+          
         });
        } else {
         this.messageService.add({
@@ -334,7 +335,8 @@ export class ProjectListComponent implements OnInit {
 
             this.new_data = false;
             this.edit_data = false;
-            this.displayManage = false;          }
+            this.displayManage = false;          
+          }
           else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
           }
@@ -421,7 +423,9 @@ export class ProjectListComponent implements OnInit {
     this.displayManage = true
 
   }
-
+  reloadPage() {
+    this.doLoadProject()
+  }
   close_manage() {
     this.displayManage = false
   }

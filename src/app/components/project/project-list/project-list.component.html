@@ -55,104 +55,29 @@
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
-<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
-</div>
-
-<p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage"
-    [style]="{ height: '500px', 'overflow-y': 'hidden' }" [position]="position">
-    <p-scrollPanel [style]="{width: '25vw', height: '500px'}">
-        <div class="formgrid grid  " *ngIf="edit_data==true || new_data==true">
-
-            <div class="field col-12 ">
-                <label for="ppos_code">{{title_projectcode[initial_current.Language]}}</label>
-                <input pInputText type="text" [(ngModel)]="selectedProject.project_code" maxlength="20"
-                    [disabled]="edit_data" name="code" #code="ngModel" required
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
-
-                <!-- <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_code"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"> -->
-            </div>
-
-            <div class="field col-12 ">
-                <label for="ppos_name_th">{{title_projectname[initial_current.Language]}} (TH)</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_name_th"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                <!-- </div>
-                <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedProject.project_name_th" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea> -->
-            </div>
-            <div class="field col-12 ">
-                <label for="ppos_name_en">{{title_projectname[initial_current.Language]}} (EN)</label>
-                <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_name_en"
-                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                <!-- <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedProject.project_name_en" [cols]="30"
-                    pInputTextarea [autoResize]="true"></textarea> -->
-            </div>
-
-            <div class="field col-12">
-                <label for="lastname2">{{title_probusiness[initial_current.Language]}}</label><br>
-
-                <p-dropdown placeholder="--" [options]="probusiness_list" optionValue="probusiness_code"
-                    [(ngModel)]="selectedProject.project_probusiness" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
-                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
-                    </ng-template>
-                </p-dropdown>
-            </div>
-
-            <!-- <div class="field col-12">
-                <label for="lastname2">{{title_protype[initial_current.Language]}}</label><br>
-
-                <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
-                    [(ngModel)]="selectedProject.project_protype" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
-                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
-                    </ng-template>
-                </p-dropdown>
-            </div> -->
-
-            <div class="p-dialog-content " style="text-align: right; display: flex; justify-content: flex-end;">
-                <br />
-                <button *ngIf="new_data" pButton label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
-                    (click)="confirmRecord()"></button>
-                <button *ngIf="edit_data" pButton label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
-                    (click)="confirmRecord()" [disabled]="!this.accessData.accessdata_edit"></button>
-                &nbsp;
-                <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
-                    (click)="selectProject()" class="p-button-secondary"></button>
-            
-                &nbsp;
-                <button *ngIf="edit_data" pButton type="button" label="{{title_delete[initial_current.Language]}}"
-                    icon="pi pi-trash" class="p-button-secondary button-size btndel" (click)="confirmDelete()"
-                    [disabled]="!this.accessData.accessdata_delete"></button>
-            </div>
-            
-
-
-        </div>
-    </p-scrollPanel>
-</p-dialog>
 
 
 
 <p-menubar [model]="items"></p-menubar>
 
-<div class="grid">
-    <div class="col-12">
-        <p-table #dt2 [value]="project_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}"
-            [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-            [(selection)]="selectedProject" (onRowSelect)="onRowSelectProject($event)" dataKey="project_code"
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+<div class="tabledata">
+    <!-- Table Show Data -->
+    <div #TABLE>
+        <p-table #dt2 [value]="project_list" selectionMode="single" [(selection)]="selectedProject" [scrollable]="true"
+            (onRowSelect)="onRowSelectProject($event)" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-            [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']">
+            [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']"
+            responsiveLayout="stack" [breakpoint]="'744px'" responsiveLayout="stack" [breakpoint]="'744px'">
+            <!-- <p-table #dt2 [value]="project_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}"
+                    [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
+                    [(selection)]="selectedProject" (onRowSelect)="onRowSelectProject($event)" dataKey="project_code"
+                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                    currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+                    [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']" responsiveLayout="stack" [breakpoint]="'744px'"> -->
+
+
+            <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="flex">
                     <span class="p-input-icon-left ml-auto">
@@ -162,6 +87,8 @@
                     </span>
                 </div>
             </ng-template>
+
+            <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>
                     <th style="width:9%">{{title_projectcode[initial_current.Language]}}</th>
@@ -183,7 +110,7 @@
 
 
                 <!-- <ng-template pTemplate="body" let-project> -->
-                <tr>
+                <tr (click)="selectionProject(project)">
                     <td>{{project.project_code}}</td>
                     <td class="text-left">
                         <div *ngIf="this.initial_current.Language == 'TH'">
@@ -216,5 +143,88 @@
             </ng-template>
         </p-table>
     </div>
+    <!-- -----------------------END Table-------------------------- -->
 
+    <div *ngIf="displayManage" style="z-index: 1084;"
+        class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+    </div>
+
+    <p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage"
+        [style]="{ height: '500px', 'overflow-y': 'hidden' }" [position]="position" (onHide)="reloadPage()">
+        <p-scrollPanel [style]="{width: '25vw', height: '500px'}">
+            <div class="formgrid grid  " *ngIf="edit_data==true || new_data==true">
+
+                <div class="field col-12 ">
+                    <label for="ppos_code">{{title_projectcode[initial_current.Language]}}</label>
+                    <input pInputText type="text" [(ngModel)]="selectedProject.project_code" maxlength="20"
+                        [disabled]="edit_data" name="code" #code="ngModel" required
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+
+
+                </div>
+
+                <div class="field col-12 ">
+                    <label for="ppos_name_th">{{title_projectname[initial_current.Language]}} (TH)</label>
+                    <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_name_th"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
+                </div>
+                <div class="field col-12 ">
+                    <label for="ppos_name_en">{{title_projectname[initial_current.Language]}} (EN)</label>
+                    <input type="text" id="ppos_code" [(ngModel)]="selectedProject.project_name_en"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
+                </div>
+
+                <div class="field col-12">
+                    <label for="lastname2">{{title_probusiness[initial_current.Language]}}</label><br>
+
+                    <p-dropdown placeholder="--" [options]="probusiness_list" optionValue="probusiness_code"
+                        [(ngModel)]="selectedProject.project_probusiness" [showClear]="true"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                <!-- <div class="field col-12">
+                    <label for="lastname2">{{title_protype[initial_current.Language]}}</label><br>
+    
+                    <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
+                        [(ngModel)]="selectedProject.project_protype" [showClear]="true"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div> -->
+
+                <div class="p-dialog-content " style="text-align: right; display: flex; justify-content: flex-end;">
+                    <br />
+                    <button *ngIf="new_data" pButton label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                        (click)="confirmRecord()"></button>
+                    <button *ngIf="edit_data" pButton label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                        (click)="confirmRecord()" [disabled]="!this.accessData.accessdata_edit"></button>
+                    &nbsp;
+                    <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
+                        (click)="selectProject()" class="p-button-secondary"></button>
+
+                    &nbsp;
+                    <button *ngIf="edit_data" pButton type="button" label="{{title_delete[initial_current.Language]}}"
+                        icon="pi pi-trash" class="p-button-secondary button-size btndel" (click)="confirmDelete()"
+                        [disabled]="!this.accessData.accessdata_delete"></button>
+                </div>
+
+
+
+            </div>
+        </p-scrollPanel>
+    </p-dialog>
 </div>
