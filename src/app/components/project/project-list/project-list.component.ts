@@ -174,6 +174,14 @@ export class ProjectListComponent implements OnInit {
       // }
       ,
       {
+          label: "Template",
+          icon: 'pi-download',
+          command: (event) => {
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project.xlsx', '_blank');
+          }
+      }
+      ,
+      {
         label: this.title_import[this.initial_current.Language],
         icon: 'pi pi-fw pi-file-import',
         command: (event) => {

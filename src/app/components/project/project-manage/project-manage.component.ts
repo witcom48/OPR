@@ -375,8 +375,8 @@ export class ProjectManageComponent implements OnInit {
   title_position: { [key: string]: string } = { EN: " Position", TH: "ตำแหน่ง" };
   title_status: { [key: string]: string } = { EN: " Status", TH: "สถานะ" };
   title_empid: { [key: string]: string } = { EN: "Job Code", TH: "รหัสงาน" }
- 
-  title_searchemp: { [key: string]: string } = { EN:"Serch Employee", TH: "ค้นหาพนักงาน" }
+
+  title_searchemp: { [key: string]: string } = { EN: "Serch Employee", TH: "ค้นหาพนักงาน" }
 
 
   //#endregion "Language"
@@ -1643,7 +1643,10 @@ export class ProjectManageComponent implements OnInit {
         this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.selectedProject.project_code, this.projobmain_list).then((res) => {
           let result = JSON.parse(res);
           if (result.success) {
-
+            this.projobmain_record()
+            this.projobshift_record()
+            this.projobcost_record()
+            this.projobmachine_record()
             //var jobcontract = this.projobcontract_record()
             var jobcost = this.projobcost_record()
             var jobmachine = this.projobmachine_record()
@@ -1899,7 +1902,8 @@ export class ProjectManageComponent implements OnInit {
   }
   procontact_record() {
     if (this.procontact_list.length == 0) {
-      return
+
+      this.procontact_delete();
     }
     this.projectDetailService.procontact_record(this.selectedProject.project_code, this.procontact_list).then((res) => {
       let result = JSON.parse(res);
@@ -1909,6 +1913,14 @@ export class ProjectManageComponent implements OnInit {
       }
     });
   }
+
+  procontact_delete() {
+    var tmp: ProcontactModel = new ProcontactModel();
+    this.projectDetailService.procontact_delete(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
+
 
   //-- Project contract
   procontract_list: ProcontractModel[] = [];
@@ -1964,7 +1976,7 @@ export class ProjectManageComponent implements OnInit {
   }
   procontract_record() {
     if (this.procontract_list.length == 0) {
-      return
+      this.procontract_delete();
     }
     this.projectDetailService.procontract_record(this.selectedProject.project_code, this.procontract_list).then((res) => {
       let result = JSON.parse(res);
@@ -1972,6 +1984,13 @@ export class ProjectManageComponent implements OnInit {
       }
       else {
       }
+    });
+  }
+
+  procontract_delete() {
+    var tmp: ProcontractModel = new ProcontractModel();
+    this.projectDetailService.procontract_delete(tmp).then((res) => {
+      let result = JSON.parse(res);
     });
   }
 
@@ -2026,7 +2045,7 @@ export class ProjectManageComponent implements OnInit {
   }
   proresponsible_record() {
     if (this.proresponsible_list.length == 0) {
-      return
+      this.proresponsible_delete();
     }
     this.projectDetailService.proresponsible_record(this.selectedProject.project_code, this.proresponsible_list).then((res) => {
       let result = JSON.parse(res);
@@ -2036,7 +2055,12 @@ export class ProjectManageComponent implements OnInit {
       }
     });
   }
-
+  proresponsible_delete() {
+    var tmp: ProcontractModel = new ProcontractModel();
+    this.projectDetailService.proresponsible_delete(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
   //-- Project time policy
   polot_list: any[] = [];
   selectedProtimepol_ot: OvertimeModels = new OvertimeModels;
@@ -2368,7 +2392,7 @@ export class ProjectManageComponent implements OnInit {
   }
   projobmain_record(): boolean {
     if (this.projobmain_list.length == 0) {
-      //return
+      this.projobmain_delete();
     }
     this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.procontract_type, this.projobmain_list).then((res) => {
       let result = JSON.parse(res);
@@ -2422,7 +2446,16 @@ export class ProjectManageComponent implements OnInit {
     }
     return ""
   }
+  projobmain_delete() {
+    var tmp: ProjobmainModel = new ProjobmainModel();
+    tmp.projobmain_code = this.selectedProjobmain.projobmain_code
 
+    this.projectDetailService.projobmain_delete(this.version_selected, this.selectedProject.project_code, this.procontract_type, tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
+
+  ////
 
   polshift_list: ShiftModels[] = [];
   selectedProjobmain_shift: ShiftModels = new ShiftModels;
@@ -2772,7 +2805,7 @@ export class ProjectManageComponent implements OnInit {
     }
 
     if (this.projobcost_list.length == 0) {
-      //return false
+      this.projobcost_delete()
     }
     this.projectDetailService.projobcost_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobcost_list).then((res) => {
       let result = JSON.parse(res);
@@ -2793,6 +2826,16 @@ export class ProjectManageComponent implements OnInit {
 
     }
   }
+  projobcost_delete() {
+    var tmp: ProjobcostModel = new ProjobcostModel();
+    tmp.projobcost_code = this.selectedProjobcost.projobcost_code
+    this.projectDetailService.projobcost_delete(this.selectedProject.project_code, this.selectedProjobcost.projob_code, this.version_selected, tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
+  //
+
+
 
   //-- Project job shift
   projobshift_list: ProjobshiftModel[] = [];
@@ -2854,7 +2897,8 @@ export class ProjectManageComponent implements OnInit {
     }
 
     if (this.projobshift_list.length == 0) {
-      //return false
+      this.projobshift_delete()
+
     }
     this.projectDetailService.projobshift_record(this.version_selected, this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobshift_list).then((res) => {
       let result = JSON.parse(res);
@@ -2869,6 +2913,15 @@ export class ProjectManageComponent implements OnInit {
 
     return false
   }
+
+  projobshift_delete() {
+    var tmp: ProjobshiftModel = new ProjobshiftModel();
+    tmp.shift_code = this.selectedProjobshift.shift_code
+    this.projectDetailService.projobshift_delete(this.selectedProject.project_code, this.selectedProjobshift.projob_code, this.version_selected, tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
+  ///
 
   //-- Project job machine
   projobmachine_list: ProjobmachineModel[] = [];
@@ -2932,7 +2985,7 @@ export class ProjectManageComponent implements OnInit {
     }
 
     if (this.projobmachine_list.length == 0) {
-      //return false
+      this.projobmachine_delete()
     }
     this.projectDetailService.projobmachine_record(this.selectedProject.project_code, this.selectedProjobmain.projobmain_code, this.projobmachine_list).then((res) => {
       let result = JSON.parse(res);
@@ -2947,6 +3000,14 @@ export class ProjectManageComponent implements OnInit {
 
     return false
   }
+  projobmachine_delete() {
+    var tmp: ProjobmachineModel = new ProjobmachineModel();
+    // tmp.projobcost_code = this.selectedProjobcost.projobcost_code
+    this.projectDetailService.projobmachine_delete(tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
+  ////
 
   //-- Project job policy
   projobpol_list: ProjobpolModel[] = [];
@@ -3201,6 +3262,7 @@ export class ProjectManageComponent implements OnInit {
 
     return false
   }
+
 
   //-- Project jobsub cost
   projobsubcost_list: ProjobcostModel[] = [];
@@ -3593,7 +3655,7 @@ export class ProjectManageComponent implements OnInit {
       // if (this.procontractlist.length > 0) {
       //   this.selectedcontract = this.procontractlist[0]
       // }
-      console.log(res,'contract')
+      console.log(res, 'contract')
     });
   }
 
@@ -3612,7 +3674,7 @@ export class ProjectManageComponent implements OnInit {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     const procontractfillter: ProcontractModel = new ProcontractModel();
 
-    
+
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_code = this.project_code;
 
@@ -3623,7 +3685,7 @@ export class ProjectManageComponent implements OnInit {
     } else {
       procontractfillter.procontract_customer = '';
     }
-    
+
     // ประเภทงาน
     if (this.filltertype) {
       workerfillter.projob_code = this.selectedType;

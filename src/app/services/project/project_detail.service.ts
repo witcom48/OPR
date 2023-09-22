@@ -591,11 +591,11 @@ export class ProjectDetailService {
       });
   }
 
-  public projobmain_delete(version: string, type: string, model: ProjobmainModel) {
+  public projobmain_delete(version: string, project: string, type: string, model: ProjobmainModel) {
     const data = {
       projobmain_id: model.projobmain_id,
       projobmain_code: model.projobmain_code,
-      project_code: model.project_code,
+      project_code: project,
       version: version,
       procontract_type: type,
 
@@ -788,12 +788,12 @@ export class ProjectDetailService {
       });
   }
 
-  public projobcost_delete(version: string, model: ProjobcostModel) {
+  public projobcost_delete(project: string, job: string,  version: string, model: ProjobcostModel) {
     const data = {
       projobcost_id: model.projobcost_id,
       projobcost_code: model.projobcost_code,
-      projob_code: model.projob_code,
-      project_code: model.project_code,
+      projob_code: job,
+      project_code: project,
       version: version,
       modified_by: this.initial_current.Username
     };
@@ -1318,12 +1318,12 @@ export class ProjectDetailService {
       });
   }
 
-  public projobshift_delete(version: string, model: ProjobshiftModel) {
+  public projobshift_delete( project: string,job: string,version: string, model: ProjobshiftModel) {
     const data = {
       projobshift_id: model.projobshift_id,
       shift_code: model.shift_code,
-      projob_code: model.projob_code,
-      project_code: model.project_code,
+      projob_code: job,
+      project_code: project,
       version: version,
       modified_by: this.initial_current.Username
     };
