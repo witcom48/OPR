@@ -68,6 +68,7 @@ import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group
 import { EmpsettrainingComponent } from './employee-policy/setup-batch/empsettraining/empsettraining.component';
 import { EmpsetassessmentComponent } from './employee-policy/setup-batch/empsetassessment/empsetassessment.component';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { ForetypeComponent } from './employee-policy/genaral/foretype/foretype.component';
 
 
 @NgModule({
@@ -141,7 +142,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     EmployeePositionComponent,
     EmployeeGroupComponent,
     EmpsettrainingComponent,
-    EmpsetassessmentComponent
+    EmpsetassessmentComponent,
+    ForetypeComponent,
   ]
 })
 export class EmployeeModule { }

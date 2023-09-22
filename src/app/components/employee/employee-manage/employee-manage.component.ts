@@ -108,6 +108,8 @@ import { SetbonusService } from 'src/app/services/payroll/batch/setbonus.service
 import { SetBonusModel } from 'src/app/models/payroll/batch/setbonus';
 import { EmpExperienceModel } from 'src/app/models/employee/manage/experience';
 import { ProvidentWorkageModel } from 'src/app/models/payroll/provident_workage';
+import { ForetypeService } from 'src/app/services/emp/policy/foretype.service';
+import { ForetypeModel } from 'src/app/models/employee/policy/foretype';
 
 
 
@@ -345,7 +347,7 @@ export class EmployeeManageComponent implements OnInit {
     private ethnicityService: EthnicityService,
     private blacklistService: BlacklistService,
     private setbonusService: SetbonusService,
-
+    private foretypeService: ForetypeService,
 
   ) {
     this.taxM = [
@@ -402,6 +404,9 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadLanguage();
     // Dropdown
     this.doLoadReason();
+    this.doLoadReasonResign();
+    this.doLoadReasonSalary();
+    this.doLoadReasonPos();
     this.doLoadInitialList();
     this.doLoadEmptypeList();
     this.doLoadEmpstatusList();
@@ -441,6 +446,8 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadItemsList();
     this.doLoadethnicityList();
     this.doLoadBonusList();
+
+    this.doLoadForetypeList();
 
     setTimeout(() => {
       this.doLoadMenu();
@@ -2824,6 +2831,14 @@ export class EmployeeManageComponent implements OnInit {
     });
   }
 
+  //drop foretype
+  foretype_List: ForetypeModel[] = [];
+  doLoadForetypeList(){
+    this.foretypeService.foretype_get().then((res)=>{
+      this.foretype_List = res;
+    })
+  }
+
 
   //address
   empaddressList: EmpaddressModel[] = [];
@@ -3446,6 +3461,33 @@ export class EmployeeManageComponent implements OnInit {
     tmp.reason_group = 'BLACK';
     this.reasonsService.reason_get(tmp).then(async (res) => {
       this.reason_list = await res;
+    });
+  }
+  reason_salary: ReasonsModel[] = [];
+  doLoadReasonSalary(){
+    this.reason_salary = [];
+    var tmp = new ReasonsModel();
+    tmp.reason_group = 'SAL';
+    this.reasonsService.reason_get(tmp).then(async (res) => {
+      this.reason_salary = await res;
+    });
+  }
+  reason_resign:ReasonsModel[] = [];
+  doLoadReasonResign(){
+    this.reason_resign = [];
+    var tmp = new ReasonsModel();
+    tmp.reason_group = 'EMP';
+    this.reasonsService.reason_get(tmp).then(async (res) => {
+      this.reason_resign = await res;
+    });
+  }
+  reason_pos:ReasonsModel[] = [];
+  doLoadReasonPos(){
+    this.reason_pos = [];
+    var tmp = new ReasonsModel();
+    tmp.reason_group = 'POS';
+    this.reasonsService.reason_get(tmp).then(async (res) => {
+      this.reason_pos = await res;
     });
   }
 
@@ -5128,6 +5170,57 @@ export class EmployeeManageComponent implements OnInit {
         }
         else {
           return this.pfType[i].name_en;
+        }
+      }
+    }
+  }
+
+  //get reason 
+  doGetreasonSalary(reason:string):any{
+    for (let i = 0; i < this.reason_salary.length; i++) {
+      if (this.reason_salary[i].reason_code == reason) {
+        if (this.initial_current.Language == "TH") {
+          return this.reason_salary[i].reason_name_th;
+        }
+        else {
+          return this.reason_salary[i].reason_name_en;
+        }
+      }
+    }
+  }
+  doGetreasonResign(reason:string):any{
+    for (let i = 0; i < this.reason_resign.length; i++) {
+      if (this.reason_resign[i].reason_code == reason) {
+        if (this.initial_current.Language == "TH") {
+          return this.reason_resign[i].reason_name_th;
+        }
+        else {
+          return this.reason_resign[i].reason_name_en;
+        }
+      }
+    }
+  }
+  doGetreasonPos(reason:string):any{
+    for (let i = 0; i < this.reason_pos.length; i++) {
+      if (this.reason_pos[i].reason_code == reason) {
+        if (this.initial_current.Language == "TH") {
+          return this.reason_pos[i].reason_name_th;
+        }
+        else {
+          return this.reason_pos[i].reason_name_en;
+        }
+      }
+    }
+  }
+
+  doGetforetype(Code:string):any{
+    for (let i = 0; i < this.foretype_List.length; i++) {
+      if (this.foretype_List[i].foretype_code == Code) {
+        if (this.initial_current.Language == "TH") {
+          return this.foretype_List[i].foretype_name_th;
+        }
+        else {
+          return this.foretype_List[i].foretype_name_en;
         }
       }
     }

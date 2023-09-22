@@ -27,6 +27,7 @@ export class EmployeePolicyComponent implements OnInit {
   title_initial: { [key: string]: string } = { EN: "Title Name", TH: "คำนำหน้าชื่อ" };
   title_emptype: { [key: string]: string } = { EN: "Employee Type", TH: "ประเภทพนักงาน" };
   title_empstatus: { [key: string]: string } = { EN: "Employee Status", TH: "สถานะพนักงาน" };
+  title_foretype: { [key: string]: string } = { EN: "Foreigner Type", TH: "ประเภทพนักงานต่างด้าว" };
 
   //set batch
   title_setbatch: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดแบบกลุ่ม" }
