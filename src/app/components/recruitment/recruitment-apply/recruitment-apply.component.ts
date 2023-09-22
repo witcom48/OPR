@@ -86,6 +86,8 @@ import { EthnicityService } from 'src/app/services/system/policy/ethnicity.servi
 import { EthnicityModel } from 'src/app/models/system/policy/ethnicity';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignercard';
+import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
+import { BlacklistService } from 'src/app/services/recruitment/blacklist.service';
 
 interface Taxmethod {
     name_th: string;
@@ -255,6 +257,7 @@ export class RecruitmentApplyComponent implements OnInit {
 
         private requestService: RequestService,
         private ethnicityService: EthnicityService,
+        private blacklistService: BlacklistService,
     ) {
         this.taxM = [
             { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -345,6 +348,8 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doLoadEmpstatusList();
         this.doLoadItemList();
         this.doLoadEthnicityList();
+
+        this.doLoadBlacklistList();
 
         setTimeout(() => {
             this.doLoadMenu();
@@ -606,6 +611,10 @@ export class RecruitmentApplyComponent implements OnInit {
     title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
     title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
     title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
+    //
+    title_haveblack: { [key: string]: string } = { EN: "Have Blacklist want to continue?", TH: "ผู้สมัครนี้มีประวัติ blacklist ต้องการดำเนินการต่อหรือไม่?" };
+    title_50nocer: { [key: string]: string } = { EN: "More than 50 year old Require Medical Certificate want to continue?", TH: "ผู้สมัครนี้มีอายุมากกว่า 50 จำเป็นต้องมีใบรับรองแพทย์ ต้องการดำเนินการต่อหรือไม่?" };
+
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = "ข้อมูลผู้สมัคร";
@@ -1605,7 +1614,6 @@ export class RecruitmentApplyComponent implements OnInit {
                 });
 
                 this.reqworkerList = await res;
-                console.log(res)
 
                 if (this.reqworkerList.length > 0) {
                     this.selectedReqworker = this.reqworkerList[0];
@@ -1806,6 +1814,13 @@ export class RecruitmentApplyComponent implements OnInit {
 
         this.ethnicityService.ethnicity_get( ).then((res) => {
             this.ethnicityList = res;
+        })
+    }
+    //Blacklist
+    blacklistList: BlacklistModel[] = [];
+    doLoadBlacklistList() {
+        this.blacklistService.blacklist_get(this.initial_current.CompCode, "", "").then((res) => {
+            this.blacklistList = res;
         })
     }
 
@@ -2853,19 +2868,50 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     confirmRecord() {
-        this.confirmationService.confirm({
-            message: this.title_confirm_record,
-            header: this.title_confirm,
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.doRecordApplywork()
-            },
-            reject: () => {
-                this.record_fileApp();
-                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-            },
-            key: "myDialog"
-        });
+        if (this.checkBlacklist(this.selectedReqworker.worker_cardno) == this.selectedReqworker.worker_cardno) {
+            this.confirmationService.confirm({
+                message: this.title_haveblack[this.initial_current.Language],
+                header: this.title_confirm,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.doRecordApplywork()
+                },
+                reject: () => {
+                    this.record_fileApp();
+                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                },
+                key: "myDialog"
+            });
+        } else if (this.agenum >= 50 && this.reqdocattMCer.length<=0) {
+            this.confirmationService.confirm({
+                message: this.title_50nocer[this.initial_current.Language],
+                header: this.title_confirm,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.doRecordApplywork()
+                },
+                reject: () => {
+                    this.record_fileApp();
+                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                },
+                key: "myDialog"
+            });
+        } else {
+            this.confirmationService.confirm({
+                message: this.title_confirm_record,
+                header: this.title_confirm,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.doRecordApplywork()
+                },
+                reject: () => {
+                    this.record_fileApp();
+                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                },
+                key: "myDialog"
+            });
+        }
+
     }
 
     close() {
@@ -3946,17 +3992,27 @@ export class RecruitmentApplyComponent implements OnInit {
             }
         }
     }
+    //check blacklist
+    checkBlacklist(Code: string): any {
+        for (let i = 0; i < this.blacklistList.length; i++) {
+            if (this.blacklistList[i].card_no == Code) {
+                return this.blacklistList[i].card_no;
+            }
+
+        }
+    }
 
     //age Calculate
     age: string = "";
+    agenum: number = 0;
     CalculateAge() {
         if (this.selectedReqworker.worker_birthdate) {
             let timeDiff = Math.abs(Date.now() - this.selectedReqworker.worker_birthdate.getTime());
-            let agediff = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
+            this.agenum = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
             if (this.initial_current.Language == 'TH') {
-                this.age = agediff + " ปี"
+                this.age = this.agenum + " ปี"
             } else {
-                this.age = agediff + " Year"
+                this.age = this.agenum + " Year"
             }
         }
     }

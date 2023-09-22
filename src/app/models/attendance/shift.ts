@@ -41,4 +41,5 @@ export class ShiftModels {
     shift_flexiblebreak: boolean = false;
     shift_break: ShiftbreakModels[] = [];
     shift_allowance: ShiftallowanceModels[] = [];
+    project: boolean = false;
 }

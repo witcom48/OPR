@@ -33,6 +33,7 @@ import { SetTimeallowanceComponent } from './attendance-policy/set-timeallowance
 import { SetAttpayComponent } from './attendance-policy/set-attpay/set-attpay.component';
 import { AttendanceSummaryComponent } from './attendance-summary/attendance-summary.component';
 import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolicy.component';
+import { AttendanceShiftComponent } from './attendance-policy/attendance-shift/attendance-shift.component';
 
 
 @NgModule({
@@ -50,7 +51,7 @@ import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolic
         { path: 'policy/reason', component: AttendanceReasonComponent },
         { path: 'policy/location', component: AttendanceLocationComponent },
         { path: 'policy/holiday', component: HolidayComponent },
-        { path: 'policy/shift', component: ShiftComponent },
+        { path: 'policy/shift', component: AttendanceShiftComponent },
         { path: 'policy/shiftplan', component: ShiftPlanComponent },
         { path: 'policy/leave', component: LeaveComponent },
         { path: 'policy/leaveplan', component: LeavePlanComponent },

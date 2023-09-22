@@ -171,6 +171,7 @@ export class ApplyworkService {
             language: "",
             worker_code: reqworkers.worker_code,
             status: reqworkers.status,
+            blacklist: reqworkers.blacklist,
         };
 
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqworker_list', filter, this.options).toPromise()

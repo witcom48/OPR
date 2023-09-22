@@ -30,7 +30,17 @@
             <div class="provident field col-12 md:col-8">
                 <div>
                     <label>{{title_pfno[initial_current.Language]}}</label>
-                    <input pInputText type="text" [(ngModel)]="selectedEmpProvident.empprovident_card">
+                    <p-dropdown placeholder="--" [options]="providentList" optionValue="provident_code"
+                        [showClear]="true" [(ngModel)]="selectedEmpProvident.provident_code"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{item.provident_code}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{item.provident_code}}
+                        </ng-template>
+                    </p-dropdown>
+                    <!-- <input pInputText type="text" [(ngModel)]="selectedEmpProvident.empprovident_card"> -->
                 </div>
                 <div style="grid-column: 1/2">
                     <label>{{title_pf[initial_current.Language]}}</label>

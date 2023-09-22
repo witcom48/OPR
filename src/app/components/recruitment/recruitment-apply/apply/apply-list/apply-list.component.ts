@@ -34,6 +34,10 @@ import { EmpSalaryModel } from 'src/app/models/employee/manage/salary';
 import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignercard';
+import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
+import { BlacklistService } from 'src/app/services/recruitment/blacklist.service';
+import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
+import { ReasonModels } from 'src/app/models/attendance/reason';
 
 
 interface ImportList {
@@ -45,6 +49,10 @@ interface Status {
   name_th: string,
   name_en: string,
   code: string
+}
+interface StatusCer {
+  name: string,
+  value: string
 }
 
 @Component({
@@ -67,6 +75,8 @@ export class ApplyListComponent implements OnInit {
   status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
   status_doc: boolean = false
 
+  statusCer: StatusCer[] = [{name:'Wait',value:'Wait'},{name:'Attached',value:'Attached'},]
+  statusCer_select = "";
   constructor(
     private applyworkService: ApplyworkService,
     private applydetailService: ApplyworkDetailService,
@@ -82,6 +92,8 @@ export class ApplyListComponent implements OnInit {
     private positionService: PositionService,
     private empdetailService: EmpDetailService,
     private reqdetailService: ApplyworkDetailService,
+    private blacklistService: BlacklistService,
+    private reasonService: ReasonsService,
   ) {
     this.ImportList = [
       { name_th: 'ข้อมูลผู้สมัครงาน', name_en: 'Recruiment Info', code: 'REQWORKER' },
@@ -102,6 +114,8 @@ export class ApplyListComponent implements OnInit {
     this.doLoadLanguage()
 
     this.doLoadInitialList();
+    this.doLoadBlacklistList();
+    this.doLoadReasonList();
     // this.doLoadEmptypeList();
     // this.doLoadEmpstatusList();
 
@@ -167,8 +181,11 @@ export class ApplyListComponent implements OnInit {
   title_searchemp: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" };
 
   title_apprstatus: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
+  title_McerFil: { [key: string]: string } = { EN: "Blacklist", TH: "Blacklist" };
 
   title_convert: { [key: string]: string } = { EN: "Convert", TH: "Convert" };
+  title_requestmcer: { [key: string]: string } = { EN: "Require Medical Certificate", TH: "ใบรับรองแพทย์" };
+  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "Blacklist" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -272,7 +289,20 @@ export class ApplyListComponent implements OnInit {
       this.initialList = res;
     })
   }
-
+  blacklistList: BlacklistModel[] = [];
+  doLoadBlacklistList() {
+    this.blacklistService.blacklist_get(this.initial_current.CompCode, "", "").then((res) => {
+      this.blacklistList = res;
+    })
+  }
+  reasonList: ReasonModels[] = [];
+  doLoadReasonList() {
+    var tmp = new ReasonModels();
+    tmp.reason_group = "BLACK";
+    this.reasonService.reason_get(tmp).then((res) => {
+      this.reasonList = res;
+    })
+  }
   Search() {
     if (this.status_select.code) {
       this.status_doc = true;
@@ -283,17 +313,20 @@ export class ApplyListComponent implements OnInit {
   }
 
   applyworkCurrent: number = 0;
-
+  fillterBlacklist: boolean = false;
   doLoadapplywork() {
     this.reqworkerList = [];
     var tmp = new EmployeeModel();
     tmp.company_code = this.selectedReqworker.company_code || this.initial_current.CompCode
     tmp.worker_code = ""
     tmp.status = this.status_select.code
+    tmp.blacklist = this.fillterBlacklist
     this.applyworkService.reqworker_get(tmp).then(async (res) => {
       await res.forEach((element: EmployeeModel) => {
         element.worker_hiredate = new Date(element.worker_hiredate)
         element.worker_birthdate = new Date(element.worker_birthdate)
+        element.blacklist_reason = this.getBlacklistReason(element.worker_cardno)
+        element.certificate = this.checkMCer(element.worker_birthdate, element.checkcertificate)
       })
       this.reqworkerList = await res;
       this.applyworkCurrent = this.reqworkerList.length;
@@ -638,10 +671,39 @@ export class ApplyListComponent implements OnInit {
       }
     }
   }
+
+  getBlacklistReason(Code: string): any {
+    for (let i = 0; i < this.blacklistList.length; i++) {
+      if (this.blacklistList[i].card_no == Code) {
+        return this.blacklistReason(this.blacklistList[i].reason_code);
+      }
+    }
+  }
+  blacklistReason(Code: string): any {
+    for (let i = 0; i < this.reasonList.length; i++) {
+      if (this.reasonList[i].reason_code == Code) {
+        if (this.initial_current.Language == "TH") {
+          return this.reasonList[i].reason_name_th;
+        }
+        else {
+          return this.reasonList[i].reason_name_en;
+        }
+      }
+    }
+  }
+  checkMCer(Birth: Date, check: Boolean): any {
+    if (this.CalculateAge(Birth) >= 50) {
+      if (check) {
+        return "Attached";
+      } else {
+        return "Wait";
+      }
+    }
+  }
   age: number = 0
   CalculateAge(birthdate: Date): number {
     if (birthdate) {
-      let timeDiff = Math.abs(Date.now() - this.selectedReqworker.worker_birthdate.getTime());
+      let timeDiff = Math.abs(Date.now() - birthdate.getTime());
       this.age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
     }
     return this.age;

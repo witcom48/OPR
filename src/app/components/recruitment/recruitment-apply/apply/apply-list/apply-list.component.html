@@ -50,20 +50,41 @@
             (onRowSelect)="onRowSelectApplywork($event)" dataKey="worker_code" [rows]="10"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-            [globalFilterFields]="['worker_code','worker_initial','worker_fnamename_th','worker_lnamename_th','worker_type','worker_position','worker_hiredate']">
+            [globalFilterFields]="['worker_code','worker_initial','worker_fnamename_th','worker_lnamename_th','worker_type','worker_position','worker_hiredate','certificate']">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
                 <div class="searchtable1">
                     <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
-                        {{title_apprstatus[initial_current.Language]}} :
-                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select">
-                            <ng-template let-item pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
-                            </ng-template>
-                            <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
-                            </ng-template></p-dropdown>
+                        <div>
+                            {{title_apprstatus[initial_current.Language]}} :
+                            <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                                [style]="{ width: '100vw', overflow: 'visible' }">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
                         <p-button icon="pi pi-search" (click)="Search()"></p-button>
+
+                        &nbsp;&nbsp;
+                        <div>
+                            {{title_McerFil[initial_current.Language]}} :
+                            <p-dropdown [ngModel]="statusCer_select" [options]="statusCer" placeholder="--"
+                                optionLabel="name" [showClear]="true" optionValue="value"
+                                (onChange)="dt2.filter($event.value, 'certificate', 'equals')" dataKey="value">
+                            </p-dropdown>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div>
+                            <p-checkbox name="resign" [binary]="true" [(ngModel)]="fillterBlacklist"
+                                (onChange)="doLoadapplywork()"></p-checkbox>&nbsp;
+                            <label>{{title_blacklist[initial_current.Language]}}</label>
+                        </div>
+
+
                     </div>
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
@@ -81,6 +102,8 @@
                     <!-- <th>{{title_Lname}}</th> -->
                     <th>{{title_hiredate}}</th>
                     <th>{{title_apprstatus[initial_current.Language]}}</th>
+                    <th>{{title_requestmcer[initial_current.Language]}}</th>
+                    <th>{{title_blacklist[initial_current.Language]}}</th>
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
                 </tr>
@@ -97,6 +120,8 @@
                     <!-- <td>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td> -->
                     <td>{{data.worker_hiredate | date:'dd/MM/yyyy'}}</td>
                     <td>{{getFullStatus(data.status)}}</td>
+                    <td>{{data.certificate || "-"}}</td>
+                    <td>{{data.blacklist_reason || "-"}}</td>
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
@@ -136,27 +161,31 @@
                 <div class="field col-12">
                     <label for="ppos_name_th">ชื่อ</label>
                     <textarea [rows]="2" id="ppos_name_th" [(ngModel)]="selectedReqworker.worker_fname_th" [cols]="30"
-                        pInputTextarea [autoResize]="true" name="req_fname" #req_fname="ngModel" [readOnly]="true"></textarea>
+                        pInputTextarea [autoResize]="true" name="req_fname" #req_fname="ngModel"
+                        [readOnly]="true"></textarea>
                 </div>
 
                 <div class="field col-12">
                     <label for="ppos_name_en">นามสกุล</label>
                     <textarea [rows]="2" id="ppos_name_en" [(ngModel)]="selectedReqworker.worker_lname_th" [cols]="30"
-                        pInputTextarea [autoResize]="true" name="req_lname" #req_lname="ngModel" [readOnly]="true"></textarea>
+                        pInputTextarea [autoResize]="true" name="req_lname" #req_lname="ngModel"
+                        [readOnly]="true"></textarea>
                 </div>
 
                 <br>
                 <div class="field col-12" style=" text-align: right;">
 
                     <button pButton pRipple type="button" label="{{title_convert[initial_current.Language]}}"
-                    class="p-button-info" (click)="convertToEmp()" [disabled]="this.selectedReqworker.status!='W'"></button>
+                        class="p-button-info" (click)="convertToEmp()"
+                        [disabled]="this.selectedReqworker.status!='W'"></button>
                     &nbsp;
                     <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
                         (click)="selectComManage()"></button>
                     &nbsp;
                     <button *ngIf="edit_applywork" pButton pRipple type="button"
                         label="{{title_deletes[initial_current.Language]}}" class="p-button-secondary"
-                        [disabled]="!this.accessData.accessdata_delete || this.selectedReqworker.status=='F'" (click)="confirmDelete()"></button>
+                        [disabled]="!this.accessData.accessdata_delete || this.selectedReqworker.status=='F'"
+                        (click)="confirmDelete()"></button>
                 </div>
             </div>
         </p-dialog>

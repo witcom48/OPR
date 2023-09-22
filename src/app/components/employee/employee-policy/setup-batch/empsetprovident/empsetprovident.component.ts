@@ -8,6 +8,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { EmpProvidentModel } from 'src/app/models/employee/manage/provident';
 import { SetProvidentModel } from 'src/app/models/employee/policy/batch/setprovident';
 import { ProvidentModel } from 'src/app/models/payroll/provident';
+import { ProvidentWorkageModel } from 'src/app/models/payroll/provident_workage';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SetEmpDetailService } from 'src/app/services/emp/policy/setemp_detail.service';
 import { ProvidentService } from 'src/app/services/payroll/provident.service';
@@ -38,6 +39,7 @@ export class EmpsetprovidentComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
   title_pfno: { [key: string]: string } = { EN: "Provident No.", TH: "รหัสกองทุนฯ" };
   title_pf: { [key: string]: string } = { EN: "PF Policy ", TH: "นโยบาย" };
   title_entry: { [key: string]: string } = { EN: "Entry Date", TH: "วันที่เข้ากองทุนฯ" };
@@ -118,6 +120,8 @@ export class EmpsetprovidentComponent implements OnInit {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchprovident();
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
     }
   }
 
@@ -128,8 +132,11 @@ export class EmpsetprovidentComponent implements OnInit {
     data.empprovident_entry = this.selectedEmpProvident.empprovident_entry;
     data.empprovident_start = this.selectedEmpProvident.empprovident_start;
     data.empprovident_end = this.selectedEmpProvident.empprovident_end;
-    data.company_code = this.initial_current.CompCode
-    data.modified_by = this.initial_current.Username
+    data.empprovident_type = "A";
+    data.rate_com = this.getRate_com(this.selectedEmpProvident.provident_code);
+    data.rate_emp = this.getRate_emp(this.selectedEmpProvident.provident_code);
+    data.company_code = this.initial_current.CompCode;
+    data.modified_by = this.initial_current.Username;
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
     await this.setempdetailService.SetProvident_record(data).then((res) => {
@@ -145,6 +152,25 @@ export class EmpsetprovidentComponent implements OnInit {
       }
       this.loading = false;
     });
+  }
+
+  getRate_com(code : string): any {
+    for (let i = 0; i < this.providentList.length; i++) {
+      if (this.providentList[i].provident_code == code) {
+        this.providentList[i].providentWorkage_data.forEach((ele: ProvidentWorkageModel) => {
+          return ele.rate_com;
+        })
+      }
+    }
+  }
+  getRate_emp(code : string): any {
+    for (let i = 0; i < this.providentList.length; i++) {
+      if (this.providentList[i].provident_code == code) {
+        this.providentList[i].providentWorkage_data.forEach((ele: ProvidentWorkageModel) => {
+          return ele.rate_emp;
+        })
+      }
+    }
   }
 
   function(e: any) {

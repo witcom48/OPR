@@ -16,9 +16,10 @@ import { ProGenaralComponent } from './policy/pro-genaral/pro-genaral.component'
 
 import { ProjectTransferComponent } from './project-transfer/project-transfer.component';
 import { ProjectCompareComponent } from './project-compare/project-compare.component';
+import { ProShiftComponent } from './policy/pro-shift/pro-shift.component';
 
 @NgModule({
-    imports: [RouterModule.forChild([ 
+    imports: [RouterModule.forChild([
         { path: 'manage', component: ProjectManageComponent },
         { path: 'list', component: ProjectListComponent },
         { path: 'policy', component: ProjectPolicyComponent },
@@ -34,6 +35,7 @@ import { ProjectCompareComponent } from './project-compare/project-compare.compo
 
         { path: 'pro_genaral', component: ProGenaralComponent },
         { path: 'procost', component: ProGenaralComponent },
+        { path: 'shift', component: ProShiftComponent },
 
         { path: '**', redirectTo: '/notfound' }
     ])],

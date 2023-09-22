@@ -51,7 +51,8 @@ export class ShiftServices {
             username: this.initial_current.Username,
             company_code: Shift.company_code || this.initial_current.CompCode,
             shift_id: Shift.shift_id,
-            shift_code: Shift.shift_code
+            shift_code: Shift.shift_code,
+            project: Shift.project
         }
         return this.http.post<any>(this.config.ApiAttendanceModule + '/shift_list', data, this.options).toPromise()
             .then((res) => {
@@ -95,6 +96,7 @@ export class ShiftServices {
             shift_otout_max: Shift.shift_otout_max,
             modified_by: this.initial_current.Username,
             flag: Shift.flag,
+            project: Shift.project,
             shift_flexiblebreak: Shift.shift_flexiblebreak,
             shift_break: Shift.shift_break,
             shift_allowance: Shift.shift_allowance

@@ -73,12 +73,16 @@ export class EmployeeModel {
   reqdocatt_data: ApplyMTDocattModel[] = []
   worker_age: number = 0;
   nationality_code: string = "";
-  checkblacklist: Boolean = false
+  checkblacklist: Boolean = false;
+  blacklist: Boolean = false;
   checkhistory: Boolean = false
   counthistory: number = 0;
   checkcertificate: Boolean = false
+  certificate:string = "";
+  blacklist_reason: string = "";
   status: string = "";
 
+  //
   worker_cardno: string = "";
   worker_cardnoissuedate!: Date;
   worker_cardnoexpiredate!: Date;

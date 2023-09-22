@@ -40,6 +40,7 @@ export class EmpsettrainingComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
   title_course: { [key: string]: string } = { EN: "Course", TH: "หลักสูตร" };
   title_coursestatus: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
   title_coursehour: { [key: string]: string } = { EN: "Hour", TH: "ชั่วโมง" };
@@ -139,6 +140,9 @@ export class EmpsettrainingComponent implements OnInit {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchtraining();
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
+
     }
   }
 
