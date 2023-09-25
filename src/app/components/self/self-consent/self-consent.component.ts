@@ -52,7 +52,7 @@ export class SelfConsentComponent implements OnInit {
     this.doLoadPdpafile();
   }
   doLoadMenu() {
-    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    this.mainMenuItems = [{ label: this.langs.get('setup')[this.selectlang], routerLink: '/self/approve' },
     { label: this.langs.get('title_consent')[this.selectlang], routerLink: '/self/consent', styleClass: 'activelike' }]
     this.items_attfile = [
 
@@ -60,6 +60,7 @@ export class SelfConsentComponent implements OnInit {
         label: this.langs.get('new')[this.selectlang],
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
+          console.log(this.fileUploader.nativeElement);
           this.Uploadfile = true;
         }
       },
@@ -115,6 +116,7 @@ export class SelfConsentComponent implements OnInit {
     })
   }
   handleFileInputholidaylist(file: FileList) {
+    console.log(this.fileUploader);
     this.fileToUpload = file.item(0);
   }
   onRowSelectfile(event: Event) {

@@ -30,7 +30,7 @@
         <p-divider align="left">
             <div>
                 <i class="pi pi-list mr-3"></i>
-                <b>Approve</b>
+                <b>{{langs.get('approve')[selectedLanguage]}}</b>
             </div>
         </p-divider>
         <div *ngFor="let item of approvalMenuItems">
@@ -64,7 +64,7 @@
         <p-divider align="left">
             <div>
                 <i class="pi pi-list mr-2"></i>
-                <b>Setup</b>
+                <b>{{langs.get('setup')[selectedLanguage]}}</b>
             </div>
         </p-divider>
         <div *ngFor="let item of setupMenuItems">

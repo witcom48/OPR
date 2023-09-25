@@ -22,13 +22,15 @@ enum ModuleCode {
     SELF = "SELF",
     // Add more module codes here...
 }
-
+declare var menumain: any;
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent implements OnInit {
+    langs: any = menumain;
     menuItems: any[] = [{ label: '', items: [] }];
+    selectlang: string = "EN";
     initialData: InitialCurrent = new InitialCurrent();
     constructor(
         private router: Router,
@@ -38,7 +40,7 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.initialData.loading = true;
         const initialSessionData = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
-
+        this.selectlang = initialSessionData.Language;
         if (!initialSessionData.Token) {
             // this.initialData.setLoading(false);
             this.initialData.loading = false;
@@ -55,8 +57,8 @@ export class AppMenuComponent implements OnInit {
                 label: 'Self Services',
                 icon: 'pi-id-card',
                 items: [
-                    { label: 'Manager', routerLink: ['/self/approve'], accessCode: 'SELF002' },
-                    { label: 'Reports', routerLink: ['/self/reports'], accessCode: 'SELF003' },
+                    { label: this.langs.get('manager')[this.selectlang], routerLink: ['/self/approve'], accessCode: 'SELF002' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/self/reports'], accessCode: 'SELF003' },
                     // Add more menu items for the 'Self Services' module based on access codes...
                 ]
             },
@@ -66,7 +68,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Self Services',
                 icon: 'pi-id-card',
                 items: [
-                    { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
+                    { label: this.langs.get('employee')[this.selectlang], routerLink: ['/self/employee'], accessCode: 'SELF001' },
                 ]
             },
 
@@ -74,7 +76,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Self Services',
                 icon: 'pi-id-card',
                 items: [
-                    { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
+                    { label: this.langs.get('employee')[this.selectlang], routerLink: ['/self/employee'], accessCode: 'SELF001' },
                 ]
             },
 
@@ -83,9 +85,9 @@ export class AppMenuComponent implements OnInit {
                 label: 'Self Services',
                 icon: 'pi-id-card',
                 items: [
-                    { label: 'Employee', routerLink: ['/self/employee'], accessCode: 'SELF001' },
-                    { label: 'Manager', routerLink: ['/self/approve'], accessCode: 'SELF002' },
-                    { label: 'Reports', routerLink: ['/self/reports'], accessCode: 'SELF003' },
+                    { label: this.langs.get('employee')[this.selectlang], routerLink: ['/self/employee'], accessCode: 'SELF001' },
+                    { label: this.langs.get('manager')[this.selectlang], routerLink: ['/self/approve'], accessCode: 'SELF002' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/self/reports'], accessCode: 'SELF003' },
                 ]
             },
             [ModuleCode.PRO]: {
@@ -99,18 +101,18 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Transfer record', routerLink: ['/project/transfer'], accessCode: 'PRO005' },
                     { label: 'Cost comparison', routerLink: ['/project/compare'], accessCode: 'PRO006' },
                     { label: 'Approval list', routerLink: ['/project/approve'], accessCode: 'PRO007' },
-                    { label: 'Reports', routerLink: ['/project/reports'], accessCode: 'PRO008' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/project/reports'], accessCode: 'PRO008' },
                 ]
             },
 
             [ModuleCode.EMP]: {
-                label: 'Employee',
+                label: this.langs.get('employee')[this.selectlang],
                 icon: 'pi-users',
                 items: [
                     { label: 'Policy', routerLink: ['/employee/policy'], accessCode: 'EMP001' },
                     { label: 'Employee info', routerLink: ['/employee/list'], accessCode: 'EMP002' },
                     { label: 'Monitor', routerLink: ['/employee/monitor'], accessCode: 'EMP003' },
-                    { label: 'Reports', routerLink: ['/employee/reports'], accessCode: 'EMP004' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/employee/reports'], accessCode: 'EMP004' },
                 ]
             },
 
@@ -123,7 +125,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Request', routerLink: ['/recruitment/request'], accessCode: 'REQ003' },
                     { label: 'Apply work', routerLink: ['/recruitment/applylist'], accessCode: 'REQ004' },
                     { label: 'Approval list', routerLink: ['/recruitment/approve'], accessCode: 'REQ005' },
-                    { label: 'Reports', routerLink: ['/recruitment/reports'], accessCode: 'REQ006' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/recruitment/reports'], accessCode: 'REQ006' },
                 ]
             },
 
@@ -137,7 +139,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'View Time', routerLink: ['/attendance/view'], accessCode: 'ATT004' },
                     { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'], accessCode: 'ATT005' },
                     { label: 'Summary', routerLink: ['/attendance/summary'], accessCode: 'ATT006' },
-                    { label: 'Reports', routerLink: ['/attendance/reports'], accessCode: 'ATT007' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/attendance/reports'], accessCode: 'ATT007' },
                 ]
             },
 
@@ -153,7 +155,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Summary', routerLink: ['/payroll/summary'], accessCode: 'PAY006' },
                     { label: 'Transfer', routerLink: ['/payroll/transfer'], accessCode: 'PAY007' },
                     // { label: 'Approval list', routerLink: ['/payroll/approve'], accessCode: 'PAY008' },
-                    { label: 'Reports', routerLink: ['/payroll/reports'], accessCode: 'PAY009' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/payroll/reports'], accessCode: 'PAY009' },
                 ]
             },
 
@@ -165,7 +167,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'General', routerLink: ['/system/general'], accessCode: 'SYS002' },
                     { label: 'Security', routerLink: ['/system/security'], accessCode: 'SYS003' },
                     { label: 'Notification', routerLink: ['/system/notification'], accessCode: 'SYS004' },
-                    { label: 'Reports', routerLink: ['/system/reports'], accessCode: 'SYS005' },
+                    { label: this.langs.get('report')[this.selectlang], routerLink: ['/system/reports'], accessCode: 'SYS005' },
                 ]
             },
 

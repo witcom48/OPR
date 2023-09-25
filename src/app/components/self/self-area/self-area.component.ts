@@ -139,7 +139,7 @@ export class SelfAreaComponent implements OnInit {
     return this.projectList.find(({ code }) => code === codes)?.name
   }
   doLoadMenu() {
-    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    this.mainMenuItems = [{ label: this.langs.get('setup')[this.selectlang], routerLink: '/self/approve' },
     { label: this.langs.get('area')[this.selectlang], routerLink: '/self/area', styleClass: 'activelike' }]
     this.items_menu = [
       {

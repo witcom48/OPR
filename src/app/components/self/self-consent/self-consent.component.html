@@ -98,15 +98,19 @@
 
 </div>
 
-<p-dialog class="uploadfile" header="Upload" [(visible)]="Uploadfile">
-    <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
+<p-dialog class="uploadfile" header="{{initial_current.Language=='TH'?'อัปโหลด':'Upload'}}" [(visible)]="Uploadfile">
+    <!-- <label class="drop-container">
+        <span class="drop-title">{{initial_current.Language=="TH"?"วางไฟล์ที่นี้":"Drop files here"}}</span>
+        {{initial_current.Language=="TH"?"หรือ":"or"}}
+        <input type="file" #fileUploader accept="" required 
             (change)="handleFileInputholidaylist($any($event).target.files)">
-    </label>
+    </label> -->
+    <div class="file-input-container">
+        <input #fileUploader type="file" id="myFileInput" class="custom-file-input">
+        <label for="myFileInput" class="custom-file-label">Select</label>
+      </div>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="{{initial_current.Language=='TH'?'อัปโหลด':'Upload'}}"></p-button>
     </ng-template>
 </p-dialog>
 

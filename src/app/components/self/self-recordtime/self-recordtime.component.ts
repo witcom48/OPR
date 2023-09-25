@@ -233,15 +233,15 @@ export class SelfRecordtimeComponent implements OnInit {
       // }
 
       // ,
-      {
-        label: this.langs.get('import')[this.selectlang],
-        icon: 'pi pi-fw pi-file-import',
-      }
-      ,
-      {
-        label: this.langs.get('export')[this.selectlang],
-        icon: 'pi pi-fw pi-file-export',
-      }
+      // {
+      //   label: this.langs.get('import')[this.selectlang],
+      //   icon: 'pi pi-fw pi-file-import',
+      // }
+      // ,
+      // {
+      //   label: this.langs.get('export')[this.selectlang],
+      //   icon: 'pi pi-fw pi-file-export',
+      // }
 
     ];
 
