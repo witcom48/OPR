@@ -239,15 +239,15 @@ export class SelfCheckinComponent implements OnInit {
           this.showManage()
         }
       },
-      {
-        label: this.langs.get('import')[this.selectlang],
-        icon: 'pi pi-fw pi-file-import',
-      }
-      ,
-      {
-        label: this.langs.get('export')[this.selectlang],
-        icon: 'pi pi-fw pi-file-export',
-      }
+      // {
+      //   label: this.langs.get('import')[this.selectlang],
+      //   icon: 'pi pi-fw pi-file-import',
+      // }
+      // ,
+      // {
+      //   label: this.langs.get('export')[this.selectlang],
+      //   icon: 'pi pi-fw pi-file-export',
+      // }
     ];
     this.items_attfile = [
       {

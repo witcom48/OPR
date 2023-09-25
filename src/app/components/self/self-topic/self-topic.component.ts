@@ -81,7 +81,7 @@ export class SelfTopicComponent implements OnInit {
     this.edit_data = false;
   }
   doLoadMenu() {
-    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    this.mainMenuItems = [{ label: this.langs.get('setup')[this.selectlang], routerLink: '/self/approve' },
     { label: this.langs.get('topic')[this.selectlang], routerLink: '/self/topic', styleClass: 'activelike' }]
     this.items_menu = [
       {

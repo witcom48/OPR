@@ -10,13 +10,14 @@ interface Menu {
   link: string;
   accessCode: string;
 }
-
+declare var slefappemp: any;
 @Component({
   selector: 'app-self-approve',
   templateUrl: './self-approve.component.html',
   styleUrls: ['./self-approve.component.scss']
 })
 export class SelfApproveComponent implements OnInit {
+  langs: any = slefappemp;
   mainMenuItems: MenuItem[] = [{ label: 'Self Services', routerLink: '/self/approve', styleClass: 'activelike' }];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   approvalMenuItems: Menu[] = [];
@@ -109,6 +110,67 @@ export class SelfApproveComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectedLanguage = this.initialData.Language;
+    this.approvalMenuList = [{
+      title: this.langs.get('leave')[this.selectedLanguage],
+      link: 'approve_leave',
+      accessCode: 'SELF002-001'
+    },
+    {
+      title: this.langs.get('shift')[this.selectedLanguage],
+      link: 'approve_shift',
+      accessCode: 'SELF002-002'
+    },
+    {
+      title: this.langs.get('ot')[this.selectedLanguage],
+      link: 'approve_overtime',
+      accessCode: 'SELF002-003'
+    },
+    {
+      title: this.langs.get('daytype')[this.selectedLanguage],
+      link: 'approve_daytype',
+      accessCode: 'SELF002-004'
+    },
+    {
+      title: this.langs.get('punchcard')[this.selectedLanguage],
+      link: 'approve_record',
+      accessCode: 'SELF002-005'
+    },
+    {
+      title: this.langs.get('checkin')[this.selectedLanguage],
+      link: 'approve_checkin',
+      accessCode: 'SELF002-006'
+    },
+    {
+      title: this.langs.get('reqdoc')[this.selectedLanguage],
+      link: 'approve_reqdoc',
+      accessCode: 'SELF002-007'
+    },]
+
+    this.setupMenuList = [{
+      title: this.langs.get('account')[this.selectedLanguage],
+      link: 'account',
+      accessCode: 'SELF002-008'
+    },
+    {
+      title: this.langs.get('workflow')[this.selectedLanguage],
+      link: 'workflow',
+      accessCode: 'SELF002-009'
+    },
+    {
+      title: this.langs.get('area')[this.selectedLanguage],
+      link: 'area',
+      accessCode: 'SELF002-010'
+    },
+    {
+      title: this.langs.get('topic')[this.selectedLanguage],
+      link: 'topic',
+      accessCode: 'SELF002-011'
+    },
+    {
+      title: this.langs.get('consent')[this.selectedLanguage],
+      link: 'consent',
+      accessCode: 'SELF002-012'
+    },]
     this.setMenus();
   }
 
