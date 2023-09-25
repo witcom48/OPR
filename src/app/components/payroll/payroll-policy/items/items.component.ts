@@ -50,6 +50,26 @@ export class ItemsComponent implements OnInit {
     title_Fix: { [key: string]: string } = { EN: "Fix ", TH: "คงที่" }
     title_Var: { [key: string]: string } = { EN: "Var ", TH: "ไม่สม่ำเสมอ" }
 
+    //กำหนดค่าคงที่ เงินได้/เงินหัก
+    title_setitem: { [key: string]: string } = { EN: "Set Constant  ", TH: "กำหนดค่าคงที่ เงินได้/เงินหัก" }
+    title_ot: { [key: string]: string } = { EN: "OT = Overtime", TH: "OT = ค่าล่วงเวลา" }
+    title_dg: { [key: string]: string } = { EN: "DG = Diligence", TH: "DG = เบี้ยขยัน" }
+    title_vl: { [key: string]: string } = { EN: "VL = Leave", TH: "VL = ลางาน" }
+    title_lt: { [key: string]: string } = { EN: "LT = Late", TH: "LT = สาย" }
+    title_ab: { [key: string]: string } = { EN: "AB = Absent", TH: "AB = ขาดงาน" }
+    title_sa: { [key: string]: string } = { EN: "SA = Salary", TH: "SA = เงินเดือน" }
+    title_bo: { [key: string]: string } = { EN: "BO = Bonus", TH: "BO = โบนัส" }
+    title_intax: { [key: string]: string } = { EN: "INTAX = ภาษีที่บริษัทออกให้", TH: "INTAX = ภาษีที่บริษัทออกให้" }
+    title_ch: { [key: string]: string } = { EN: "CH = เงินช่วยเหลือบุตร", TH: "CH = เงินช่วยเหลือบุตร" }
+    title_slf1: { [key: string]: string } = { EN: "SLF1 = กยศ.", TH: "SLF1 = กยศ." }
+    title_slf2: { [key: string]: string } = { EN: "SLF2 = กรอ.", TH: "SLF2 = กรอ." }
+
+
+ 
+
+
+    //
+
     title_payroll: string = 'Payroll';
     title_policy: string = 'Set Policy';
     title_page: string = 'Income / Deduct';
