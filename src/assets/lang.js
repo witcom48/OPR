@@ -200,6 +200,8 @@ var reason = new Map([
     ["onsitereq", { TH: "บันทึกการลงเวลา", EN: "Onsite req." }],
     ["salaryreq", { TH: "การปรับเงินเดือน", EN: "Salary adjust" }],
     ["blackreq", { TH: "เบล็คลิสต์", EN: "Black List" }],
+    ["deppos", { TH: "การปรับสังกัด/ตำแหน่ง", EN: "Change Department/Position" }],
+
 ]);
 var locationpage = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
