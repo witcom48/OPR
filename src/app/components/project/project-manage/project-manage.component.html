@@ -4,15 +4,23 @@
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
     key="myDialog"></p-confirmDialog>
-<p-dialog header="{{title_upload}}" [(visible)]="displayUpload" [style]="{width: '40vw'}">
-    <p class="custom-file-upload">
-        <input type="file" id="file" style="width: 300px;" (change)="handleFileInput($any($event).target.files)">
-    </p>
-    <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}"
-            styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-dialog>
+
+    <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+        <label class="drop-container">
+            <span class="drop-title">Drop files here</span>
+            or
+            <input type="file"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                required (change)="handleFileInput($any($event).target.files)">
+        </label>
+        <!-- <button (click)="doUploadGenaral('PROJECT_CONTACT')">Upload PROJECT_CONTACT</button>
+<button (click)="doUploadGenaral('SOME_OTHER_TYPE')">Upload SOME_OTHER_TYPE</button> -->
+
+        <!-- <ng-template pTemplate="footer">
+            <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}"
+                styleClass="p-button-text"></p-button>
+        </ng-template> -->
+    </p-dialog>
 
 <p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
     <div class="grid">

@@ -1,7 +1,7 @@
 export class TaxrateModel {
     constructor() {}
     company_code: string= "";
-    taxrate_id: string = "1";
+    taxrate_id: string = "0";
     taxrate_from: number = 0;
     taxrate_to: number = 0;
     taxrate_tax: number = 0;

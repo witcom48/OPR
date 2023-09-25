@@ -86,7 +86,11 @@ import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 import { EmptypeService } from 'src/app/services/emp/policy/emptype.service';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
-
+interface ImportList {
+  name_th: string,
+  name_en: string,
+  code: string
+}
 interface SummaryCost {
   label: string,
   value: number
@@ -99,7 +103,7 @@ interface SummaryCost {
 export class ProjectManageComponent implements OnInit {
 
   @ViewChild(SearchEmpComponent) selectEmp: any;
-
+  ImportList: ImportList[] = [];
   manage_title: string = ""
   toolbar_menu: MenuItem[] = [];
   toolbar_menubar: MenuItem[] = [];
@@ -408,8 +412,9 @@ export class ProjectManageComponent implements OnInit {
     private emptypeService: EmptypeService,
 
   ) {
-
-
+    this.ImportList = [
+      { name_th: 'ผู้ติดต่อ', name_en: 'Contact', code: 'PROJECT_CONTACT' },
+    ];
   }
 
   ngOnInit(): void {
@@ -567,6 +572,15 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
+
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Procontact.xlsx', '_blank');
+        }
+      }
+      ,
+      {
         label: this.title_edit[this.initial_current.Language],
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
@@ -581,6 +595,9 @@ export class ProjectManageComponent implements OnInit {
       {
         label: this.title_import[this.initial_current.Language],
         icon: 'pi pi-fw pi-file-import',
+        command: (event) => {
+          this.showUpload()
+        }
       }
       ,
       {
@@ -1807,25 +1824,99 @@ export class ProjectManageComponent implements OnInit {
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
-  doUploadGenaral() {
+  // doUploadGenaral() {
+  //   this.displayUpload = false;
+  //   const filename = "Project_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+  //   const filetype = "xls";
 
-    this.displayUpload = false;
+  //   this.projectDetailService.procontact_import(this.fileToUpload, filename, filetype).then((res) => {
+  //     let result = JSON.parse(res);
+  //     if (result.success) {
+  //       this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+  //       this.doLoadProject()
+  //     }
+  //     else {
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+  //     }
+  //   });
+  // }
 
-    const filename = "Project_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-    const filetype = "xls";
+  // doUploadGenaral(uploadType: string) {
+  //   this.displayUpload = false;
+  //   const filename = uploadType + "_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+  //   const filetype = "xls";
 
-    this.projectService.project_import(this.fileToUpload, filename, filetype).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-        this.doLoadProject()
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-      }
-    });
+  //   switch (uploadType) {
+  //     case 'PROJECT_CONTACT':
+  //       this.projectDetailService.procontact_import(this.fileToUpload, filename, filetype).then((res) => {
+  //         let result = JSON.parse(res);
+  //         if (result.success) {
+  //           this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+  //           this.doLoadProject()
+  //         } else {
+  //           this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+  //         }
+  //       });
+  //       break;
 
-  }
+  //     case 'PROJECT_CONTRACT':
+  //       this.projectDetailService.procontract_import(this.fileToUpload, filename, filetype).then((res) => {
+  //         let result = JSON.parse(res);
+  //         if (result.success) {
+  //           this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+  //           this.doLoadProject()
+  //         } else {
+  //           this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+  //         }
+  //       });
+  //       break;
+
+
+  //   }
+  // }
+
+
+
+
+  // doUploadGenaral() {
+  //   if (this.fileToUpload) {
+  //     this.confirmationService.confirm({
+  //       message: "Confirm Upload file : " + this.fileToUpload.name,
+  //       header: "Import File",
+  //       icon: 'pi pi-exclamation-triangle',
+  //       accept: () => {
+  //         const filename = this.selectedProcontact.selected_Import + "_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+  //         const filetype = "xls";
+
+  //         switch (this.selectedProcontact.selected_Import) {
+  //           case 'PROJECT_CONTACT':
+  //             this.projectDetailService.procontact_import(this.fileToUpload, filename, filetype).then((res) => {
+  //               let result = JSON.parse(res);
+  //               if (result.success) {
+  //                 this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+  //                 this.doGetDataFillter();
+  //                 this.doLoadProject()
+  //               } else {
+  //                 this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+  //               }
+  //             });
+  //             break;
+
+  //         }
+
+  //         this.displayUpload = false;
+  //       },
+  //       reject: () => {
+  //         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: "Not Upload" });
+  //         this.displayUpload = false;
+  //       }
+  //     });
+  //   } else {
+  //     this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+  //   }
+  // }
+
+
 
   proaddress_list: ProaddressModel[] = [];
   selectedProaddress: ProaddressModel = new ProaddressModel();
@@ -3841,7 +3932,3 @@ export class ProjectManageComponent implements OnInit {
 
 }
 
-interface Combobox {
-  name: string,
-  code: string
-}

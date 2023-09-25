@@ -2,7 +2,8 @@ export class ProcontactModel {
     constructor() {
      
     }
-       
+    selected_Import: string = "";
+
     procontact_id: string = "1";
     procontact_ref: string = "";
     procontact_firstname_th: string = "";
