@@ -109,7 +109,7 @@ export class ShiftComponent implements OnInit {
     this.initial_current.loading = true
     const filename = "SHIFT_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     const filetype = "xls";
-    this.shiftService.shift_import(this.fileToUpload, filename, filetype).then((res) => {
+    this.shiftService.shift_import(this.fileToUpload, filename, filetype,this.project).then((res) => {
       // console.log(res)
       if (res.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });

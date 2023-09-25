@@ -127,14 +127,18 @@ export class ShiftServices {
     }
 
 
-    public shift_import(file: File, file_name: string, file_type: string) {
+    public shift_import(file: File, file_name: string, file_type: string, project: boolean) {
         // console.log('ATT004..');
         const formData = new FormData();
         formData.append('file', file);
 
         var para = "fileName=" + file_name + "." + file_type;
         para += "&token=" + this.initial_current.Token;
-        para += "&by=" + this.initial_current.Username;
+        if (project) {
+            para += "&by=" + this.initial_current.Username + '.pro';
+        } else {
+            para += "&by=" + this.initial_current.Username + '.att';
+        }
         para += "&com=" + this.initial_current.CompCode;
 
         return this.http.post<any>(this.config.ApiAttendanceModule + '/doUploadMTShift?' + para, formData).toPromise()
