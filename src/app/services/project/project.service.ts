@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { InitialCurrent } from '../../config/initial_current';
 import { ProjectModel } from '../../models/project/project';
+import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 
 @Injectable({
   providedIn: 'root'
@@ -71,20 +72,58 @@ export class ProjectService {
       project_name_en: "",
       project_name_sub: "",
       project_codecentral: "",
-      project_protype: "",      
+      project_protype: "",
       project_proarea: "",
       project_progroup: "",
       project_probusiness: "",
-      status:""
+      status: ""
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/project_list', filter, this.options).toPromise()
       .then((res) => {
-        let message = JSON.parse(res);      
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+  ///////////ทำตรงนี้getMTProjectFillterList
+
+  public MTProject_getbyfillter(fillter: FillterProjectModel) {
+
+    const fillterS = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      language: "",
+      company_code: fillter.company_code,
+
+      project_code: fillter.project_code,
+      project_name_th: fillter.project_name_th,
+     
+      project_name_en: fillter.project_name_en,
+      project_name_sub: fillter.project_name_sub,
+      project_codecentral: fillter.project_codecentral,
+      project_protype: fillter.project_protype,
+
+      ///
+      project_proarea: fillter.project_proarea,
+      project_progroup: fillter.project_progroup,
+      project_probusiness: fillter.project_probusiness,
+      status: fillter.project_status,
+       
+      // projobemp_fromdate: this.datePipe.transform(fillter.projobemp_fromdate),
+      // projobemp_todate: this.datePipe.transform(fillter.projobemp_todate),
+
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/MTProjectFillter_list', fillterS, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
         return message.data;
       });
   }
 
+ 
+  ///////////ทำตรงนี้>>>
   public project_get_withstatus(company: string, project: string, status: string) {
 
     var filter = {
@@ -98,16 +137,16 @@ export class ProjectService {
       project_name_en: "",
       project_name_sub: "",
       project_codecentral: "",
-      project_protype: "",      
+      project_protype: "",
       project_proarea: "",
       project_progroup: "",
       project_probusiness: "",
-      status:status
+      status: status
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/project_list', filter, this.options).toPromise()
       .then((res) => {
-        let message = JSON.parse(res);      
+        let message = JSON.parse(res);
         return message.data;
       });
   }
@@ -182,7 +221,7 @@ export class ProjectService {
       device_name: '',
       ip: "localhost",
       username: this.initial_current.Username,
-      company_code:  this.initial_current.CompCode,
+      company_code: this.initial_current.CompCode,
       language: "",
       project_code: "",
       project_name_th: "",
@@ -209,7 +248,7 @@ export class ProjectService {
       });
   }
 
-  public job_monitor(company: string, project: string, workdate: Date) {
+  public job_monitor(company: string, project: string, workdate: Date, workdateto: Date) {
 
     var filter = {
       device_name: '',
@@ -228,9 +267,9 @@ export class ProjectService {
       project_progroup: "",
 
       project_probusiness: "",
-      
+
       fromdate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
-      todate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
+      todate: this.datePipe.transform(workdateto, 'yyyy-MM-dd'),
     };
 
 
@@ -242,13 +281,14 @@ export class ProjectService {
       });
   }
 
-  public cost_compare(company: string, workdate: Date, protype: string, probusiness: string, proarea: string, progroup: string) {
-
+  public cost_compare(company: string, fromdate: Date, todate: Date, protype: string, probusiness: string, proarea: string, progroup: string) {
+    let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
     var filter = {
       device_name: '',
       ip: "localhost",
       username: this.initial_current.Username,
-      company: company,
+      company_code: this.initial_current.CompCode,
       language: "",
       project_code: "",
       project_name_th: "",
@@ -261,9 +301,12 @@ export class ProjectService {
       project_progroup: progroup,
 
       project_probusiness: probusiness,
+      fromdate: datefrom,
+      todate: dateto,
+      // fromdate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
+      // todate: this.datePipe.transform(workdateto, 'yyyy-MM-dd'),
 
-      fromdate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
-      todate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
+
     };
 
 

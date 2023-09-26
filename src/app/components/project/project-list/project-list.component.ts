@@ -19,6 +19,11 @@ import { ProgenaralService } from '../../../services/project/pro_genaral.service
 
 import { ProjectService } from '../../../services/project/project.service';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
+import { ProcontractModel } from 'src/app/models/project/project_contract';
+import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
+import { ProjobempModel } from 'src/app/models/project/project_jobemp';
+import { ProareaModel } from 'src/app/models/project/project_proarea';
 
 @Component({
   selector: 'app-project-list',
@@ -26,7 +31,10 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
   styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
-
+  project_code: string = "";
+  projobemp_status: string = "";
+  procontract_type: string = "";
+  project_status: string = "";
   loading: boolean = true;
   project_list: ProjectModel[] = [];
   ptype_list: ProjectTypeModel[] = [];
@@ -39,11 +47,17 @@ export class ProjectListComponent implements OnInit {
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
 
+  proarea_list: ProareaModel[] = [];
+
+
   protype_list: ProtypeModel[] = [];
   selectedProtype: ProtypeModel = new ProtypeModel();
 
   edit_data: boolean = false;
   new_data: boolean = false;
+
+
+
 
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
@@ -93,6 +107,21 @@ export class ProjectListComponent implements OnInit {
 
   title_manage: { [key: string]: string } = { EN: "Manage", TH: "จัดการข้อมูล" }
 
+
+  title_defaultstatus: { [key: string]: string } = { EN: "Status", TH: "สถานะอนุมัติ" }
+  title_wait: { [key: string]: string } = { EN: "Wait", TH: "รออนุมัติ" }
+  title_approved: { [key: string]: string } = { EN: "Approved", TH: "อนุมัติแล้ว" }
+  title_notApprove: { [key: string]: string } = { EN: "Not Approve", TH: "ไม่อนุมัติ" }
+  title_project_progarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
+  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
+
+
+
+
+
+
+
+
   total_project: number = 0
   new_project: number = 0
   total_emp: number = 0
@@ -121,7 +150,10 @@ export class ProjectListComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+
+    private projectDetailService: ProjectDetailService,
+
   ) { }
 
   ngOnInit(): void {
@@ -134,6 +166,9 @@ export class ProjectListComponent implements OnInit {
     setTimeout(() => {
       this.doLoadProject()
     }, 300);
+    setTimeout(() => {
+      this.doGetDataFillter();
+    }, 500);
 
   }
 
@@ -174,11 +209,11 @@ export class ProjectListComponent implements OnInit {
       // }
       ,
       {
-          label: "Template",
-          icon: 'pi-download',
-          command: (event) => {
-              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project.xlsx', '_blank');
-          }
+        label: "Template",
+        icon: 'pi-download',
+        command: (event) => {
+          window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project.xlsx', '_blank');
+        }
       }
       ,
       {
@@ -211,7 +246,10 @@ export class ProjectListComponent implements OnInit {
     var tmp2 = new ProtypeModel();
     this.genaralService.protype_get(tmp2).then((res) => {
       this.protype_list = res;
-      
+    });
+    var tmp5 = new ProareaModel();
+    this.genaralService.proarea_get(tmp5).then((res) => {
+      this.proarea_list = res;
     });
   }
 
@@ -312,15 +350,15 @@ export class ProjectListComponent implements OnInit {
           severity: 'success',
           summary: 'Success',
           detail: res.message,
-          
+
         });
-       } else {
+      } else {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
           detail: res.message,
         });
-       }
+      }
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       }
@@ -343,7 +381,7 @@ export class ProjectListComponent implements OnInit {
 
             this.new_data = false;
             this.edit_data = false;
-            this.displayManage = false;          
+            this.displayManage = false;
           }
           else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -355,10 +393,10 @@ export class ProjectListComponent implements OnInit {
       }
     });
   }
- 
 
-  
-  
+
+
+
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete[this.initial_current.Language],
@@ -462,5 +500,90 @@ export class ProjectListComponent implements OnInit {
     }
   }
 
+  ///
+  doGetDataFillter() {
+    const workerfillter: FillterProjectModel = new FillterProjectModel();
+    const procontractfillter: ProcontractModel = new ProcontractModel();
 
+
+    workerfillter.company_code = this.initial_current.CompCode;
+    workerfillter.project_code = this.project_code;
+
+
+
+    // สถานะ
+    if (this.fillterStatus) {
+      workerfillter.project_status = this.selectedstatus;
+    } else {
+      workerfillter.project_status = '';
+    }
+
+    // ประเภทธุรกิจ
+    if (this.fillterbusiness) {
+      workerfillter.project_probusiness = this.selectedbusiness;
+    } else {
+      workerfillter.project_probusiness = '';
+    }
+
+    // พื้นที่
+    if (this.fillterproarea) {
+      workerfillter.project_proarea = this.selectedproarea;
+    } else {
+      workerfillter.project_proarea = '';
+    }
+
+    // วันที่
+    if (this.fillterdate) {
+      workerfillter.project_start = this.selecteddate;
+    } else {
+      workerfillter.project_start = '';
+    }
+
+    this.projectService.MTProject_getbyfillter(workerfillter).then(async (res) => {
+      await res.forEach((element: ProjectModel) => {
+        element.project_start = new Date(element.project_start);
+        element.project_end = new Date(element.project_end);
+
+      });
+      console.log(res, 'f')
+      this.project_list = await res;
+    });
+  }
+  //-- Status สถานะ
+  selectedstatus: string = "";
+  fillterStatus: boolean = false;
+  doChangeSelectstatus() {
+
+    if (this.fillterStatus) {
+      this.doGetDataFillter();
+    }
+  }
+
+  //-- ประเภทธุรกิจ
+  selectedbusiness: string = "";
+  fillterbusiness: boolean = false;
+  doChangeSelectbusiness() {
+
+    if (this.fillterbusiness) {
+      this.doGetDataFillter();
+    }
+  }
+  //-- พื้นที่
+  selectedproarea: string = "";
+  fillterproarea: boolean = false;
+  doChangeSelectproarea() {
+
+    if (this.fillterproarea) {
+      this.doGetDataFillter();
+    }
+  }
+  //-- วันที่
+  selecteddate: string = "";
+  fillterdate: boolean = false;
+  doChangeSelectdate() {
+
+    if (this.fillterdate) {
+      this.doGetDataFillter();
+    }
+  }
 }

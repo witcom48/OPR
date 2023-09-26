@@ -65,6 +65,7 @@ export class ProjectCompareComponent implements OnInit {
 //
 
   selectedDate_fillter :Date = new Date()
+  selectedToDate_fillter :Date = new Date()
 
   edit_workflow: boolean = false;
 
@@ -106,7 +107,9 @@ export class ProjectCompareComponent implements OnInit {
   title_fromdate: {[key: string]: string} = {  EN: "From",  TH: "จาก"}
   title_todate: {[key: string]: string} = {  EN: "To",  TH: "ถึง"}
 
-  
+  title_filter: {[key: string]: string} = {  EN: "Filter",  TH: "กรอง"}
+  title_staff_fromadate: {[key: string]: string} = {  EN: "Fromdate",  TH: "วันที่เริ่ม"}
+  title_staff_todate: {[key: string]: string} = {  EN: "Todate",  TH: "วันที่สิ้นสุด"}
   
 
   show_fillter: boolean = false;
@@ -285,6 +288,7 @@ export class ProjectCompareComponent implements OnInit {
 
   doFillter(){
     this.doLoadProjectMonitor()
+    console.log('ttt')
   }
 
   cost_compare: CostcompareModel[] = [];
@@ -313,9 +317,11 @@ export class ProjectCompareComponent implements OnInit {
       progroup = this.selectedProgroup_fillter;   
        
     }
+    console.log(this.selectedDate_fillter,this.selectedToDate_fillter,'res')
+
     
 
-    this.projectService.cost_compare(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness,proarea,progroup).then(async (res) => {
+    this.projectService.cost_compare(this.initial_current.CompCode, this.selectedDate_fillter,this.selectedToDate_fillter, protype, probusiness,proarea,progroup).then(async (res) => {
       this.cost_compare = await res;
       setTimeout(() => {
         //this.calculateTotal()
@@ -403,7 +409,7 @@ export class ProjectCompareComponent implements OnInit {
   timeout: string | null | undefined
 
   doLoadTimecard(){    
-    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedCostcompare.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
+    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedCostcompare.project_code, "", this.selectedDate_fillter, this.selectedToDate_fillter).then(async (res) => {
       this.timecard_list = await res;
     });
   }
@@ -466,7 +472,7 @@ export class ProjectCompareComponent implements OnInit {
   job_monitor: JobMonitorModel[] = [];
   selectedJobMonitor: JobMonitorModel = new JobMonitorModel;
   doLoadJobMonitor(){        
-    this.projectService.job_monitor(this.initial_current.CompCode, this.selectedCostcompare.project_code, this.selectedDate_fillter).then(async (res) => {
+    this.projectService.job_monitor(this.initial_current.CompCode, this.selectedCostcompare.project_code, this.selectedDate_fillter,this.selectedToDate_fillter).then(async (res) => {
       this.job_monitor = await res;
       setTimeout(() => {
         

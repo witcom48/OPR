@@ -734,8 +734,10 @@ export class SystemBankaccountComponent implements OnInit {
    combankList: CombankModel[] = [];
    selectedCombank: CombankModel = new CombankModel();
    doLoadCombankList() {
+    var tmp = new CombankModel();
+
        this.companyDetailService
-           .getcompany_bank(this.initial_current.CompCode, this.company_code)
+           .getcompany_bank(this.initial_current.CompCode, this.company_code,tmp)
            .then((res) => {
                this.combankList = res;
                if (this.combankList.length > 0) {

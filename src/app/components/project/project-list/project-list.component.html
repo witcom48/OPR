@@ -75,16 +75,97 @@
                     [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                     currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
                     [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']" responsiveLayout="stack" [breakpoint]="'744px'"> -->
-
-
             <!-- Form Search Table -->
+
+
             <ng-template pTemplate="caption">
-                <div class="flex">
+                <!--  -->
+                <div class="checkselect">
+                    <div class="select">
+                        <!-- ช่วงวันที่  -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterdate" name="project_status" [binary]="true"
+                                (onChange)="doChangeSelectdate()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{ title_date[initial_current.Language] }} :</label>
+                        </div>
+
+                        <div>
+
+                            <p-calendar [(ngModel)]="selecteddate" dateFormat="dd/mm/yy" [showIcon]="true"
+                                [showTime]="false" (onSelect)="doChangeSelectdate()" inputId="selecteddate"
+                                [disabled]="!fillterdate"></p-calendar>
+
+                        </div>
+
+                    </div>
+
+                    <div class="select">
+                        <!--  สถานะอนุมัติ (Default All)  -->
+
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterStatus" name="project_status" [binary]="true"
+                                (onChange)="doChangeSelectstatus()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{ title_defaultstatus[initial_current.Language] }} :</label>
+                        </div>
+
+                        <p-dropdown placeholder="--" [options]="[
+                                { label: title_wait[initial_current.Language], value: 'W' },
+                                { label: title_approved[initial_current.Language], value: 'F' },
+                                { label: title_notApprove[initial_current.Language], value: 'C' }]" optionLabel="label"
+                            optionValue="value" [showClear]="true" [(ngModel)]="selectedstatus"
+                            (onChange)="doChangeSelectstatus()" [disabled]="!fillterStatus"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                        </p-dropdown>
+                    </div>
+
+                    <div class="select">
+                        <!--  ประเภทธุรกิจ  -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterbusiness" name="project_probusiness" [binary]="true"
+                                (onChange)="doChangeSelectbusiness()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{ title_probusiness[initial_current.Language] }} :</label>
+                        </div>
+
+                        <p-dropdown placeholder="--" [options]="probusiness_list" optionLabel="probusiness_code"
+                            optionValue="probusiness_code" [showClear]="true" [(ngModel)]="selectedbusiness"
+                            (onChange)="doChangeSelectbusiness()" [disabled]="!fillterbusiness"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+
+                    <div class="select">
+                        <!-- พื้นที่  -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterproarea" name="proarea_code" [binary]="true"
+                                (onChange)="doChangeSelectproarea()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{ title_project_progarea[initial_current.Language] }} :</label>
+                        </div>
+
+                        <p-dropdown placeholder="--" [options]="proarea_list" optionValue="proarea_code"
+                            [(ngModel)]="selectedproarea" (onChange)="doChangeSelectproarea()" [showClear]="true"
+                            [disabled]="!fillterproarea" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <!--  -->
+                    <!-- <div class="flex">
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
                             placeholder="{{title_search[initial_current.Language]}}" />
                     </span>
+                </div> -->
                 </div>
             </ng-template>
 
@@ -191,6 +272,20 @@
                     </p-dropdown>
                 </div>
 
+
+                <!-- <div class="field col-12">
+                    <label for="lastname2">{{title_project_progarea[initial_current.Language]}}</label><br>
+                    <p-dropdown placeholder="--" [options]="proarea_list" optionValue="proarea_code"
+                    [(ngModel)]="selectedProject.project_proarea"   [showClear]="true"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div> -->
                 <!-- <div class="field col-12">
                     <label for="lastname2">{{title_protype[initial_current.Language]}}</label><br>
     

@@ -61,6 +61,7 @@ export class ProjectMonitorComponent implements OnInit {
 //
 
   selectedDate_fillter :Date = new Date()
+  selectedToDate_fillter :Date = new Date()
 
   edit_workflow: boolean = false;
 
@@ -490,7 +491,7 @@ export class ProjectMonitorComponent implements OnInit {
   job_monitor: JobMonitorModel[] = [];
   selectedJobMonitor: JobMonitorModel = new JobMonitorModel;
   doLoadJobMonitor(){        
-    this.projectService.job_monitor(this.initial_current.CompCode, this.selectedProjectMonitor.project_code, this.selectedDate_fillter).then(async (res) => {
+    this.projectService.job_monitor(this.initial_current.CompCode, this.selectedProjectMonitor.project_code, this.selectedDate_fillter, this.selectedToDate_fillter).then(async (res) => {
       this.job_monitor = await res;
       setTimeout(() => {
         
