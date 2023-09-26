@@ -166,9 +166,9 @@ export class ProjectListComponent implements OnInit {
     setTimeout(() => {
       this.doLoadProject()
     }, 300);
-    setTimeout(() => {
-      this.doGetDataFillter();
-    }, 500);
+    // setTimeout(() => {
+    //   this.doGetDataFillter();
+    // }, 500);
 
   }
 
@@ -503,8 +503,7 @@ export class ProjectListComponent implements OnInit {
   ///
   doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
-    const procontractfillter: ProcontractModel = new ProcontractModel();
-
+ 
 
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_code = this.project_code;
@@ -545,8 +544,7 @@ export class ProjectListComponent implements OnInit {
         element.project_end = new Date(element.project_end);
 
       });
-      console.log(res, 'f')
-      // this.project_list = await res;
+      this.project_list = await res;
     });
   }
   //-- Status สถานะ

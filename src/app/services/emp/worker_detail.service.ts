@@ -532,8 +532,8 @@ export class EmpDetailService {
         "foreignercard_id" : res.foreignercard_id,
         "foreignercard_code" : res.foreignercard_code,
         "foreignercard_type" : res.foreignercard_type,
-        "foreignercard_issue" : this.datePipe.transform(res.foreignercard_issue),
-        "foreignercard_expire" : this.datePipe.transform(res.foreignercard_expire),
+        "foreignercard_issue" : res.foreignercard_issue,
+        "foreignercard_expire" : res.foreignercard_expire,
         "modified_by" : this.initial_current.Username
       }
       forecard_list.push(ss)

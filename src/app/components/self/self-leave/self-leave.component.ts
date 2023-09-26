@@ -255,15 +255,15 @@ export class SelfLeaveComponent implements OnInit {
       //   label: 'Delete',
       //   icon: 'pi pi-fw pi-trash',
       // },
-      {
-        label: this.langs.get('import')[this.selectlang],
-        icon: 'pi pi-fw pi-file-import',
-      }
-      ,
-      {
-        label: this.langs.get('export')[this.selectlang],
-        icon: 'pi pi-fw pi-file-export',
-      }
+      // {
+      //   label: this.langs.get('import')[this.selectlang],
+      //   icon: 'pi pi-fw pi-file-import',
+      // }
+      // ,
+      // {
+      //   label: this.langs.get('export')[this.selectlang],
+      //   icon: 'pi pi-fw pi-file-export',
+      // }
 
     ];
 

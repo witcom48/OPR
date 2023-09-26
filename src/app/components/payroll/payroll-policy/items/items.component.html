@@ -34,28 +34,27 @@
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
+                <th>{{title_setitem[initial_current.Language]}}</th>
+                <div class="formatsetitem"
+                    style=" display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;color: green; font-weight: 500;">
 
-                <div class="formatsetitem    field col-12 md:col-12 ">
-                    <label>{{title_setitem[initial_current.Language]}}</label>
                     <tr>
-                        <th>{{title_ot[initial_current.Language]}}</th> &nbsp;
-                        <th>{{title_dg[initial_current.Language]}}</th> &nbsp;
-                        <th>{{title_vl[initial_current.Language]}}</th> &nbsp;
-                        <th>{{title_lt[initial_current.Language]}}</th> &nbsp;
-                        <th>{{title_ab[initial_current.Language]}}</th> &nbsp;
-                        <th>{{title_sa[initial_current.Language]}}</th>&nbsp;
-                        <th>{{title_bo[initial_current.Language]}}</th> &nbsp;
-                        <th>{{title_intax[initial_current.Language]}}</th> &nbsp;
-                        
+                        <span>{{title_ot[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_dg[initial_current.Language]}}</span>&nbsp;
+                        <span> {{title_vl[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_lt[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_ab[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_sa[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_bo[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_intax[initial_current.Language]}}</span>&nbsp;
                     </tr>
-                    <div>
-                        <tr>
-                            <th>{{title_ch[initial_current.Language]}}</th>&nbsp;
-                            <th>{{title_slf1[initial_current.Language]}}</th>&nbsp;
-                            <th>{{title_slf2[initial_current.Language]}}</th>
-                        </tr>
-                    </div>
+                    <tr>
+                        <span>{{title_ch[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_slf1[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_slf2[initial_current.Language]}}</span>&nbsp;
+                    </tr>
                 </div>
+
                 <div class="searchtable">
                     <div></div>
                     <span class="p-input-icon-left">

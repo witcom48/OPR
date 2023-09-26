@@ -162,7 +162,7 @@ export class SelfWorkflowComponent implements OnInit {
     this.position_level_target = arr;
   }
   doLoadMenu() {
-    this.mainMenuItems = [{ label: this.langs.get('approve')[this.selectlang], routerLink: '/self/approve' },
+    this.mainMenuItems = [{ label: this.langs.get('setup')[this.selectlang], routerLink: '/self/approve' },
     { label: this.langs.get('workflow')[this.selectlang], routerLink: '/self/workflow', styleClass: 'activelike' }]
     this.items_menu = [
       {
