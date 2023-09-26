@@ -2505,13 +2505,17 @@ export class EmployeeManageComponent implements OnInit {
       await res.forEach((element: EmployeeModel) => {
         element.worker_birthdate = new Date(element.worker_birthdate)
         element.worker_hiredate = new Date(element.worker_hiredate)
-        element.worker_resigndate = new Date(element.worker_resigndate)
+        if (element.worker_resigndate != null) {
+          element.worker_resigndate = new Date(element.worker_resigndate)
+        }
         element.worker_probationdate = new Date(element.worker_probationdate)
         element.worker_probationenddate = new Date(element.worker_probationenddate)
         element.worker_cardnoissuedate = new Date(element.worker_cardnoissuedate)
         element.worker_cardnoexpiredate = new Date(element.worker_cardnoexpiredate)
         element.worker_socialnoissuedate = new Date(element.worker_socialnoissuedate)
-        element.worker_socialnoexpiredate = new Date(element.worker_socialnoexpiredate)
+        if (element.worker_socialnoexpiredate != null) {
+          element.worker_socialnoexpiredate = new Date(element.worker_socialnoexpiredate)
+        }
         element.worker_socialsentdate = new Date(element.worker_socialsentdate)
 
       })
@@ -2521,6 +2525,7 @@ export class EmployeeManageComponent implements OnInit {
 
       if (employee_list.length > 0) {
         this.selectedEmployee = employee_list[0]
+
 
         setTimeout(() => {
           //
@@ -2622,49 +2627,49 @@ export class EmployeeManageComponent implements OnInit {
   bloodtypeList: BloodtypeModel[] = [];
   doLoadBloodtypeList() {
     var tmp = new BloodtypeModel();
-    this.bloodtypeService.bloodtype_get( ).then(async (res) => {
+    this.bloodtypeService.bloodtype_get().then(async (res) => {
       this.bloodtypeList = await res;
     })
   }
   religionList: ReligionModel[] = [];
   doLoadReligionList() {
     var tmp = new ReligionModel();
-    this.religionService.religion_get( ).then(async (res) => {
+    this.religionService.religion_get().then(async (res) => {
       this.religionList = await res;
     })
   }
   addresstypeList: AddresstypeModel[] = [];
   doLoadAddresstypeList() {
     var tmp = new AddresstypeModel();
-    this.addresstypeService.addresstype_get( ).then(async (res) => {
+    this.addresstypeService.addresstype_get().then(async (res) => {
       this.addresstypeList = await res;
     })
   }
   cardtypeList: CardtypeModel[] = [];
   doLoadCardtypeList() {
     var tmp = new CardtypeModel();
-    this.cardtypeService.cardtype_get( ).then(async (res) => {
+    this.cardtypeService.cardtype_get().then(async (res) => {
       this.cardtypeList = await res;
     })
   }
   bankList: BankModel[] = [];
   doLoadBankList() {
     var tmp = new BankModel();
-    this.bankService.bank_get( ).then(async (res) => {
+    this.bankService.bank_get().then(async (res) => {
       this.bankList = await res;
     })
   }
   familytypeList: FamilyModel[] = [];
   doLoadFamilytypeList() {
     var tmp = new FamilyModel();
-    this.familytypeService.family_get( ).then(async (res) => {
+    this.familytypeService.family_get().then(async (res) => {
       this.familytypeList = await res;
     })
   }
   hospitalList: HospitalModel[] = [];
   doLoadHospitalList() {
     var tmp = new HospitalModel();
-    this.hospitalService.hospital_get( ).then(async (res) => {
+    this.hospitalService.hospital_get().then(async (res) => {
       this.hospitalList = await res;
     })
   }
@@ -2715,7 +2720,7 @@ export class EmployeeManageComponent implements OnInit {
   doLoadinstituteList() {
     var tmp = new InstituteModel();
 
-    this.instituteService.institute_get( ).then((res) => {
+    this.instituteService.institute_get().then((res) => {
       this.instituteList = res;
     });
   }
@@ -2724,7 +2729,7 @@ export class EmployeeManageComponent implements OnInit {
   doLoadcourseList() {
     var tmp = new CourseModel();
 
-    this.courseService.course_get( ).then((res) => {
+    this.courseService.course_get().then((res) => {
       this.courseList = res;
     });
   }
@@ -2742,7 +2747,7 @@ export class EmployeeManageComponent implements OnInit {
   doLoadmajorList() {
     var tmp = new MajorModel();
 
-    this.majorService.major_get( ).then((res) => {
+    this.majorService.major_get().then((res) => {
       this.majorList = res;
     });
   }
@@ -2751,7 +2756,7 @@ export class EmployeeManageComponent implements OnInit {
   doLoadqualificationList() {
     var tmp = new QualificationModel();
 
-    this.qualificationService.qualification_get( ).then((res) => {
+    this.qualificationService.qualification_get().then((res) => {
       this.qualificationList = res;
     });
   }
@@ -2760,7 +2765,7 @@ export class EmployeeManageComponent implements OnInit {
   doLoadprovinceList() {
     var tmp = new ProvinceModel();
 
-    this.provinceService.province_get( ).then((res) => {
+    this.provinceService.province_get().then((res) => {
       this.provinceList = res;
     })
   }
@@ -2769,7 +2774,7 @@ export class EmployeeManageComponent implements OnInit {
   doLoadSupplyList() {
     var tmp = new SupplyModel();
 
-    this.supplyService.supply_get( ).then((res) => {
+    this.supplyService.supply_get().then((res) => {
       this.supplyList = res;
     })
   }
@@ -2816,7 +2821,7 @@ export class EmployeeManageComponent implements OnInit {
   doLoadethnicityList() {
     var tmp = new EthnicityModel();
 
-    this.ethnicityService.ethnicity_get( ).then((res) => {
+    this.ethnicityService.ethnicity_get().then((res) => {
       this.ethnicityList = res;
     })
   }
@@ -2833,8 +2838,8 @@ export class EmployeeManageComponent implements OnInit {
 
   //drop foretype
   foretype_List: ForetypeModel[] = [];
-  doLoadForetypeList(){
-    this.foretypeService.foretype_get().then((res)=>{
+  doLoadForetypeList() {
+    this.foretypeService.foretype_get().then((res) => {
       this.foretype_List = res;
     })
   }
@@ -3464,7 +3469,7 @@ export class EmployeeManageComponent implements OnInit {
     });
   }
   reason_salary: ReasonsModel[] = [];
-  doLoadReasonSalary(){
+  doLoadReasonSalary() {
     this.reason_salary = [];
     var tmp = new ReasonsModel();
     tmp.reason_group = 'SAL';
@@ -3472,8 +3477,8 @@ export class EmployeeManageComponent implements OnInit {
       this.reason_salary = await res;
     });
   }
-  reason_resign:ReasonsModel[] = [];
-  doLoadReasonResign(){
+  reason_resign: ReasonsModel[] = [];
+  doLoadReasonResign() {
     this.reason_resign = [];
     var tmp = new ReasonsModel();
     tmp.reason_group = 'EMP';
@@ -3481,8 +3486,8 @@ export class EmployeeManageComponent implements OnInit {
       this.reason_resign = await res;
     });
   }
-  reason_pos:ReasonsModel[] = [];
-  doLoadReasonPos(){
+  reason_pos: ReasonsModel[] = [];
+  doLoadReasonPos() {
     this.reason_pos = [];
     var tmp = new ReasonsModel();
     tmp.reason_group = 'POS';
@@ -5102,7 +5107,7 @@ export class EmployeeManageComponent implements OnInit {
           })
         }
       }
-    } else if(this.selectedEmpprovident.empprovident_type == 'C'){
+    } else if (this.selectedEmpprovident.empprovident_type == 'C') {
       for (let i = 0; i < this.providentList.length; i++) {
         if (this.providentList[i].provident_code == ProvidentCode) {
           this.providentList[i].providentWorkage_data.forEach((ele: ProvidentWorkageModel) => {
@@ -5112,12 +5117,12 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
-  changePFType(){
-    if(this.selectedEmpprovident.empprovident_type == 'A'){
+  changePFType() {
+    if (this.selectedEmpprovident.empprovident_type == 'A') {
       this.ratecom = true; this.rateemp = true;
-    }else if(this.selectedEmpprovident.empprovident_type == 'C'){
+    } else if (this.selectedEmpprovident.empprovident_type == 'C') {
       this.ratecom = true; this.rateemp = false;
-    }else{
+    } else {
       this.ratecom = false; this.rateemp = false;
     }
   }
@@ -5176,7 +5181,7 @@ export class EmployeeManageComponent implements OnInit {
   }
 
   //get reason 
-  doGetreasonSalary(reason:string):any{
+  doGetreasonSalary(reason: string): any {
     for (let i = 0; i < this.reason_salary.length; i++) {
       if (this.reason_salary[i].reason_code == reason) {
         if (this.initial_current.Language == "TH") {
@@ -5188,7 +5193,7 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
-  doGetreasonResign(reason:string):any{
+  doGetreasonResign(reason: string): any {
     for (let i = 0; i < this.reason_resign.length; i++) {
       if (this.reason_resign[i].reason_code == reason) {
         if (this.initial_current.Language == "TH") {
@@ -5200,7 +5205,7 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
-  doGetreasonPos(reason:string):any{
+  doGetreasonPos(reason: string): any {
     for (let i = 0; i < this.reason_pos.length; i++) {
       if (this.reason_pos[i].reason_code == reason) {
         if (this.initial_current.Language == "TH") {
@@ -5213,7 +5218,7 @@ export class EmployeeManageComponent implements OnInit {
     }
   }
 
-  doGetforetype(Code:string):any{
+  doGetforetype(Code: string): any {
     for (let i = 0; i < this.foretype_List.length; i++) {
       if (this.foretype_List[i].foretype_code == Code) {
         if (this.initial_current.Language == "TH") {
