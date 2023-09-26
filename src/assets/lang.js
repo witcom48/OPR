@@ -419,6 +419,12 @@ var leave = new Map([
     ["calculate_diligence", { TH: "คำนวณเบี้ยขยัน", EN: "Calculate diligence" }],
     ["by_workag", { TH: "วันลาตามอายุงาน", EN: "By Workage" }],
     ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
+    ["lb", { TH: "ลากิจ", EN: "Business Leave" }],
+    ["ls", { TH: "ลาป่วย", EN: "Sick Leave" }],
+    ["lh", { TH: "ลาพักร้อน", EN: "Holiday Leave" }],
+    ["lo", { TH: "ลาบวช", EN: "Ordination Leave" }],
+    ["lm", { TH: "ลาคลอด", EN: "Matemity Leave" }],
+    ["la", { TH: "ลากลับก่อน", EN: "Early Leave" }],
 ]);
 
 var planleave = new Map([
