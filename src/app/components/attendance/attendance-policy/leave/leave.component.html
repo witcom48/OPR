@@ -71,7 +71,14 @@
             <div style="display: flex;justify-content: center;" *ngIf="new_data">
                 <div class="formatt">
                     <i (click)="close()"></i>
-
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; color: green; font-weight: 500;">
+                        <span>LB = {{langs.get('lb')[selectlang]}}</span>
+                        <span>LS = {{langs.get('ls')[selectlang]}}</span>
+                        <span>LH = {{langs.get('lh')[selectlang]}}</span>
+                        <span>LO = {{langs.get('lo')[selectlang]}}</span>
+                        <span>LM = {{langs.get('lm')[selectlang]}}</span>
+                        <span>LA = {{langs.get('la')[selectlang]}}</span>
+                    </div>
                     <label>{{langs.get('code')[selectlang]}}<span style="color: red;"> *</span></label>
                     <input pInputText type="text" [(ngModel)]="leaves.leave_code" maxlength="4" disabled="{{edit_data}}"
                         name="code" #code="ngModel" required />

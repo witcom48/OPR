@@ -385,8 +385,8 @@ export class ProjectManageComponent implements OnInit {
   title_position: { [key: string]: string } = { EN: " Position", TH: "ตำแหน่ง" };
   title_status: { [key: string]: string } = { EN: " Status", TH: "สถานะ" };
   title_empid: { [key: string]: string } = { EN: "Job Code", TH: "รหัสงาน" }
- 
-  title_searchemp: { [key: string]: string } = { EN:"Serch Employee", TH: "ค้นหาพนักงาน" }
+
+  title_searchemp: { [key: string]: string } = { EN: "Serch Employee", TH: "ค้นหาพนักงาน" }
 
 
   //
@@ -2626,17 +2626,14 @@ export class ProjectManageComponent implements OnInit {
 
     });
     this.polcost_list_cbb.forEach((cost, index) => {
-      if (cost.type === "D") {
-        const result = this.calculateSum(this.projobmain_list, cost.value);
-        const result2 = this.calculateSum(this.projobsub_list, cost.value);
-        this.project_summary_costall += result + result2;
-        this.SummaryCostList.push({ label: cost.text, value: result + result2 });
-      } if (cost.type === "M") {
-        const result = this.calculateSum(this.projobmain_list, cost.value);
-        const result2 = this.calculateSum(this.projobsub_list, cost.value);
-        this.project_summary_costallm += result + result2;
-        this.SummaryCostListm.push({ label: cost.text, value: result + result2 });
-      }
+      // const result = this.calculateSum(this.projobmain_list, cost.value);
+      // const result2 = this.calculateSum(this.projobsub_list, cost.value);
+      // this.project_summary_costallm += result + result2;
+      // this.SummaryCostListm.push({ label: cost.text, value: result + result2 });
+      const result = this.calculateSum(this.projobmain_list, cost.value);
+      const result2 = this.calculateSum(this.projobsub_list, cost.value);
+      this.project_summary_costall += result + result2;
+      this.SummaryCostList.push({ label: cost.text, value: result + result2 });
     })
   }
 
@@ -3674,7 +3671,7 @@ export class ProjectManageComponent implements OnInit {
       // if (this.procontractlist.length > 0) {
       //   this.selectedcontract = this.procontractlist[0]
       // }
-      console.log(res,'contract')
+      console.log(res, 'contract')
     });
   }
 
@@ -3693,7 +3690,7 @@ export class ProjectManageComponent implements OnInit {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     const procontractfillter: ProcontractModel = new ProcontractModel();
 
-    
+
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_code = this.project_code;
 
@@ -3704,7 +3701,7 @@ export class ProjectManageComponent implements OnInit {
     } else {
       procontractfillter.procontract_customer = '';
     }
-    
+
     // ประเภทงาน
     if (this.filltertype) {
       workerfillter.projob_code = this.selectedType;
