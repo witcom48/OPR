@@ -40,6 +40,8 @@ import { ProjobsubModel } from '../../../models/project/project_jobsub';
 import { ProjobempModel } from '../../../models/project/project_jobemp';
 import { ProjobworkingModel } from '../../../models/project/project_jobworking';
 
+import { ProequipmentReqModel, ProequipmentTypeModel } from '../../../models/project/project_equipment';
+
 import { InitialModel } from '../../../models/employee/policy/initial';
 import { InitialService } from 'src/app/services/emp/policy/initial.service';
 
@@ -188,7 +190,15 @@ export class ProjectManageComponent implements OnInit {
   //
   edit_projobversion: boolean = false;
   new_projobversion: boolean = false;
+  //
+  menu_proequipmentreq: MenuItem[] = [];
+  edit_proequipmentreq: boolean = false;
+  new_proequipmentreq: boolean = false;
+
+
   //#endregion "My Menu"
+
+
   SummaryCostList: SummaryCost[] = [];
   SummaryCostListm: SummaryCost[] = [];
   //#region "Language"
@@ -378,6 +388,16 @@ export class ProjectManageComponent implements OnInit {
  
   title_searchemp: { [key: string]: string } = { EN:"Serch Employee", TH: "ค้นหาพนักงาน" }
 
+
+  //
+  title_equipment: { [key: string]: string } = { EN: "Uniform Request", TH: "เบิกชุดฟอร์ม" }
+  title_equipment_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
+  title_equipment_name: { [key: string]: string } = { EN: "Uniform", TH: "ชุดฟอร์ม" }
+  title_equipment_date: { [key: string]: string } = { EN: "Req. Date", TH: "วันที่เบิก" }
+  title_equipment_type: { [key: string]: string } = { EN: "Req. Type", TH: "รูปแบบการเบิก" }
+  title_equipment_qty: { [key: string]: string } = { EN: "Qty", TH: "จำนวน" }
+  title_equipment_note: { [key: string]: string } = { EN: "Note", TH: "บันทึก" }
+  title_equipment_by: { [key: string]: string } = { EN: "Req. by", TH: "ผู้ขอเบิก" }
 
   //#endregion "Language"
 
@@ -1471,6 +1491,66 @@ export class ProjectManageComponent implements OnInit {
     ];
 
 
+    this.menu_proequipmentreq = [
+      {
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.clearManage()
+          this.new_proequipmentreq = true
+          var ref = this.proequipmentreq_list.length + 100
+          this.selectedProequipmentreq = new ProequipmentReqModel()
+          this.selectedProequipmentreq.proequipmentreq_id = ref.toString()
+          this.showManage()
+        }
+      }
+      ,
+      {
+        label: this.title_edit[this.initial_current.Language],
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          this.clearManage()
+          if (this.selectedProequipmentreq != null) {
+            this.edit_proequipmentreq = true
+            this.showManage()
+          }
+        }
+      }
+      ,
+      {
+        label: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-import',
+      }
+      ,
+      {
+        label: this.title_export[this.initial_current.Language],
+        icon: 'pi pi-fw pi-file-export',
+      }
+      ,
+      {
+        label: this.title_delete[this.initial_current.Language],
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          this.confirmationService.confirm({
+            message: this.title_confirm_delete[this.initial_current.Language],
+            header: this.title_confirm[this.initial_current.Language],
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              if (this.selectedProequipmentreq != null) {
+                
+              }
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+            },
+            key: "myDialog"
+          });
+
+        }
+      },
+
+
+    ];
 
   }
 
@@ -2318,9 +2398,10 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_edit[this.initial_current.Language],
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
+          this.clearManage()
           if (this.selectedProjobmain != null) {
-            this.edit_projobmain = true
-            this.projobmain_loadtran()
+            this.edit_projobmain = true           
+            this.showManage()
           }
         }
       }
@@ -3775,7 +3856,22 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
+  //-- 26/09/2023
+  //-- Project equipment request
+  proequipmentreq_list: ProequipmentReqModel[] = [];
+  selectedProequipmentreq: ProequipmentReqModel = new ProequipmentReqModel();
 
+  proequipmentreq_summit() {
+
+    
+  }
+
+  proequipmentreq_cancel() {
+    this.edit_proequipmentreq = false
+    this.new_proequipmentreq = false
+
+    this.displayManage = false
+  }
 
 }
 

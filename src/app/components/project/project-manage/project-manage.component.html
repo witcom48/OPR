@@ -745,6 +745,67 @@
             </div>
         </div>
 
+        <!-- Equipment Request -->
+        <div class="formgrid grid" *ngIf="edit_proequipmentreq==true || new_proequipmentreq==true">
+            <h3 for="proequipmentreq">{{title_equipment[initial_current.Language]}}</h3>
+            
+
+            <div class="field col-12">
+                <label for="proequipmentreq_name">{{title_jobmain[initial_current.Language]}}</label><br>
+                <p-dropdown placeholder="พนักงานทำความสะอาด">                    
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12 ">
+                <label for="proequipmentreq_date">{{title_equipment_date[initial_current.Language]}}</label>
+                <br>
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                    [(ngModel)]="selectedProequipmentreq.proequipmentreq_date" name="proequipmentreq_date"
+                    #proequipmentreq_date="ngModel">
+                    <input type="text"></p-calendar>
+            </div>
+            
+            <div class="field col-12">
+                <label for="proequipmentreq_name">{{title_equipment_name[initial_current.Language]}}</label><br>
+                <p-dropdown placeholder="UNI001:ชุดพาดขาว">                    
+                </p-dropdown>
+            </div>
+            <div class="field col-12">
+                <label for="proequipmentreq_name">{{title_equipment_type[initial_current.Language]}}</label><br>
+                <p-dropdown placeholder="TYE001:สวัสดิการ">                    
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12">
+                <label for="minmax-buttons">{{title_equipment_qty[initial_current.Language]}}</label><br>
+                <p-inputNumber [(ngModel)]="selectedProequipmentreq.proequipmentreq_qty" mode="decimal" [showButtons]="true"
+                    inputId="minmax-buttons" [min]="1" [max]="100">
+                </p-inputNumber>
+            </div>
+
+            <div class="field col-12 ">
+                <label for="proequipmentreq_by">{{title_equipment_by[initial_current.Language]}}</label>
+                <input type="text" id="proequipmentreq_by" [(ngModel)]="selectedProequipmentreq.proequipmentreq_by"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+
+            <div class="field col-12">
+                <label for="ppos_name_en">{{title_equipment_note[initial_current.Language]}}</label>
+                <textarea [rows]="2" id="equipment_note" [cols]="30" pInputTextarea
+                    [autoResize]="true" [(ngModel)]="selectedProequipmentreq.proequipmentreq_note"></textarea>
+            </div>
+
+            
+            <div class="field col-12">
+                <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="proequipmentreq_summit()"></p-button>
+                &nbsp;
+                <button pButton pRipple type="button" label="{{title_close[initial_current.Language]}}"
+                    class="p-button-outlined p-button-secondary" (click)="proequipmentreq_cancel()"></button>
+            </div>
+        </div>
+
+
     </p-scrollPanel>
 
 </p-dialog>
@@ -1081,7 +1142,7 @@
 
             <p-accordion>
 
-                <p-accordionTab header="{{title_contact[initial_current.Language]}}">
+                <p-accordionTab header="{{title_tab_contract[initial_current.Language]}}">
                     <p-menubar [model]="menu_procontract"></p-menubar>
                     <p-table #dtContract [value]="procontract_list" styleClass="p-datatable-sm"
                         [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="200px"
@@ -1160,6 +1221,49 @@
                     </p-table>
                 </p-accordionTab>
             </p-accordion>
+            <br>
+
+            <p-accordion>
+
+                <p-accordionTab header="{{title_equipment[initial_current.Language]}}">
+                    <p-menubar [model]="menu_proequipmentreq"></p-menubar>
+                    <p-table #dtEquipment [value]="proequipmentreq_list" styleClass="p-datatable-sm"
+                        [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="500px"
+                        [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProequipmentreq"
+                        dataKey="proequipmentreq_id" [rows]="10"
+                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                        currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th></th>
+                                <th>{{title_equipment_code[initial_current.Language]}}</th>
+                                <th>{{title_equipment_name[initial_current.Language]}}</th>
+                                <th>{{title_equipment_date[initial_current.Language]}}</th>
+                                <th>{{title_equipment_type[initial_current.Language]}}</th>
+                                <th>{{title_equipment_qty[initial_current.Language]}}</th>     
+                                <th>{{title_equipment_by[initial_current.Language]}}</th>                                                            
+                                <th>{{title_modified_by[initial_current.Language]}}</th>
+                                <th>{{title_modified_date[initial_current.Language]}}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-proequipment let-i="rowIndex">
+                            <tr [pSelectableRow]="proequipment">
+                                <td style="text-align: center;">{{i+1}}</td> 
+                                <td>{{proequipment.prouniform_code}}</td>
+                                <td>{{proequipment.prouniform_code}}</td>
+                                <td>{{proequipment.proequipmentreq_date | date:'dd/MM/yyyy'}}</td>
+                                <td>{{proequipment.proequipmenttype_code}}</td>
+                                <td>{{proequipment.proequipmentreq_qty}}</td>
+                                <td>{{proequipment.proequipmentreq_by}}</td>
+                                <td>{{proequipment.modified_by}}</td>
+                                <td>{{proequipment.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-accordionTab>
+            </p-accordion>
+
+
         </p-tabPanel>
         <!-- <p-tabPanel>
             <ng-template pTemplate="header">
