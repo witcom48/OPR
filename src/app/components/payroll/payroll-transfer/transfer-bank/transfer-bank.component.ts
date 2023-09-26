@@ -126,8 +126,7 @@ export class TransferBankComponent implements OnInit {
     this.companyDetailService.getcompany_bank(this.initial_current.CompCode,'',tmp)
       .then((res) => {
         this.combankList = res;
-        console.log(res,'k')
-        if (this.combankList.length > 0) {
+         if (this.combankList.length > 0) {
           this.selectedCombank = this.combankList[0];
         }
       });
@@ -147,8 +146,7 @@ export class TransferBankComponent implements OnInit {
   }
 
   process(): void {
-    console.log(this.selectedBank);
-
+ 
     if (this.selectEmp.employee_dest.length === 0) {
       let message = "Please select an employee";
       this.doPrintMessage(message, "1");

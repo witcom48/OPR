@@ -546,7 +546,7 @@ export class ProjectListComponent implements OnInit {
 
       });
       console.log(res, 'f')
-      this.project_list = await res;
+      // this.project_list = await res;
     });
   }
   //-- Status สถานะ
