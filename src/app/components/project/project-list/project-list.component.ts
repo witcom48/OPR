@@ -544,7 +544,7 @@ export class ProjectListComponent implements OnInit {
         element.project_end = new Date(element.project_end);
 
       });
-      this.project_list = await res;
+      // this.project_list = await res;
     });
   }
   //-- Status สถานะ
