@@ -404,6 +404,7 @@ export class ApplyListComponent implements OnInit {
     this.edit_applywork = true;
     this.new_applywork = true;
     this.displayManage = true
+    console.log(this.selectedReqworker)
   }
 
   fileToUpload: File | any = null;

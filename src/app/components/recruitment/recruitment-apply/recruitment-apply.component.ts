@@ -613,7 +613,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
     //
     title_haveblack: { [key: string]: string } = { EN: "Have Blacklist want to continue?", TH: "ผู้สมัครนี้มีประวัติ blacklist ต้องการดำเนินการต่อหรือไม่?" };
-    title_50nocer: { [key: string]: string } = { EN: "More than 50 year old Require Medical Certificate want to continue?", TH: "ผู้สมัครนี้มีอายุมากกว่า 50 จำเป็นต้องมีใบรับรองแพทย์ ต้องการดำเนินการต่อหรือไม่?" };
+    title_50nocer: { [key: string]: string } = { EN: "This applicant is over 50 years old and must provide a medical certificate. Do you want to save now?", TH: "ผู้สมัครดังกล่าวมีอายุมากกว่า 50 ปี ต้องเพิ่มใบรับรองแพทย์ด้วย จะให้บันทึกในระบบเลยหรือไม่?" };
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
@@ -1681,7 +1681,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadReligionList() {
         var tmp = new ReligionModel();
 
-        this.religionService.religion_get( ).then((res) => {
+        this.religionService.religion_get().then((res) => {
             this.religionList = res;
         });
     }
@@ -1690,7 +1690,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadBloodtypeList() {
         var tmp = new BloodtypeModel();
 
-        this.bloodtypeService.bloodtype_get( ).then((res) => {
+        this.bloodtypeService.bloodtype_get().then((res) => {
             this.bloodtypeList = res;
         });
     }
@@ -1699,7 +1699,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadaddresstypeList() {
         var tmp = new AddresstypeModel();
 
-        this.addresstypeService.addresstype_get( ).then((res) => {
+        this.addresstypeService.addresstype_get().then((res) => {
             this.addresstypeList = res;
         });
     }
@@ -1709,7 +1709,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadcardtypeList() {
         var tmp = new CardtypeModel();
 
-        this.cardtypeService.cardtype_get( ).then((res) => {
+        this.cardtypeService.cardtype_get().then((res) => {
             this.cardtypeList = res;
         });
     }
@@ -1718,7 +1718,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadprovinceList() {
         var tmp = new ProvinceModel();
 
-        this.provinceService.province_get( ).then((res) => {
+        this.provinceService.province_get().then((res) => {
             this.provinceList = res;
         });
     }
@@ -1727,7 +1727,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadinstituteList() {
         var tmp = new InstituteModel();
 
-        this.instituteService.institute_get( ).then((res) => {
+        this.instituteService.institute_get().then((res) => {
             this.instituteList = res;
         });
     }
@@ -1736,7 +1736,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadcourseList() {
         var tmp = new CourseModel();
 
-        this.courseService.course_get( ).then((res) => {
+        this.courseService.course_get().then((res) => {
             this.courseList = res;
         });
     }
@@ -1754,7 +1754,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadmajorList() {
         var tmp = new MajorModel();
 
-        this.majorService.major_get( ).then((res) => {
+        this.majorService.major_get().then((res) => {
             this.majorList = res;
         });
     }
@@ -1763,7 +1763,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadqualificationList() {
         var tmp = new QualificationModel();
 
-        this.qualificationService.qualification_get( ).then((res) => {
+        this.qualificationService.qualification_get().then((res) => {
             this.qualificationList = res;
         });
     }
@@ -1812,7 +1812,7 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadEthnicityList() {
         var tmp = new EthnicityModel();
 
-        this.ethnicityService.ethnicity_get( ).then((res) => {
+        this.ethnicityService.ethnicity_get().then((res) => {
             this.ethnicityList = res;
         })
     }
@@ -2882,7 +2882,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 },
                 key: "myDialog"
             });
-        } else if (this.agenum >= 50 && this.reqdocattMCer.length<=0) {
+        } else if (this.agenum >= 50 && this.reqdocattMCer.length <= 0) {
             this.confirmationService.confirm({
                 message: this.title_50nocer[this.initial_current.Language],
                 header: this.title_confirm,
