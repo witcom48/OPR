@@ -47,6 +47,7 @@ export class EmpsetdepComponent implements OnInit {
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
   title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
+  title_select_date: { [key: string]: string } = { EN: "Please Select Date", TH: "กรุณาเลือกวันที่มีผล" };
   title_success: { [key: string]: string } = { EN: "Successfully", TH: "เพิ่มข้อมูลสำเร็จ" };
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
   title_level01: { [key: string]: string } = { EN: "Level 01", TH: "ระดับ 1" };
@@ -233,7 +234,11 @@ export class EmpsetdepComponent implements OnInit {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       // this.Setbatchdep();
-      this.setupBatch();
+      if (this.selectedEmpDep.empdep_date) {
+        this.setupBatch();
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select_date[this.initial_current.Language] });
+      }
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
     }
@@ -241,6 +246,7 @@ export class EmpsetdepComponent implements OnInit {
 
   //Dep
   async Setbatchdep() {
+    this.loading = true
     var data = new SetDepModel();
     data.empdep_date = this.selectedEmpDep.empdep_date;
     data.empdep_level01 = this.selectedEmpDep.empdep_level01;
@@ -257,6 +263,7 @@ export class EmpsetdepComponent implements OnInit {
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetdepList();
         this.new_data;
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: this.title_success[this.initial_current.Language] });
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -266,6 +273,7 @@ export class EmpsetdepComponent implements OnInit {
 
   //Grpup
   async Setbatchgroup() {
+    this.loading = true
     var data = new SetGroupModel();
     data.empgroup_date = this.selectedEmpDep.empdep_date;
     data.empgroup_code = this.selectedgroupcode;
@@ -279,6 +287,7 @@ export class EmpsetdepComponent implements OnInit {
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetgroupList();
         this.new_data;
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: this.title_success[this.initial_current.Language] });
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -288,6 +297,7 @@ export class EmpsetdepComponent implements OnInit {
 
   //Position
   async Setbatchposition() {
+    this.loading = true
     var data = new SetPositionModel();
     data.empposition_date = this.selectedEmpDep.empdep_date;
     data.empposition_position = this.selectedempPosition;
@@ -301,6 +311,7 @@ export class EmpsetdepComponent implements OnInit {
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetpositionList();
         this.new_data;
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: this.title_success[this.initial_current.Language] });
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -309,8 +320,7 @@ export class EmpsetdepComponent implements OnInit {
   }
 
   async setupBatch() {
-    this.loading = true
-    if (this.selectedEmpDep.empdep_level01) {
+    if (this.selectedEmpDep.empdep_level01 || this.selectedEmpDep.empdep_level02 || this.selectedEmpDep.empdep_level03 || this.selectedEmpDep.empdep_level04 || this.selectedEmpDep.empdep_level05) {
       await this.Setbatchdep();
       this.loading = false;
     }
@@ -322,7 +332,6 @@ export class EmpsetdepComponent implements OnInit {
       await this.Setbatchgroup();
       this.loading = false;
     }
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: this.title_success[this.initial_current.Language] });
   }
 
   function(e: any) {
