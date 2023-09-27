@@ -75,7 +75,7 @@ export class ApplyListComponent implements OnInit {
   status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
   status_doc: boolean = false
 
-  statusCer: StatusCer[] = [{name:'Wait',value:'Wait'},{name:'Attached',value:'Attached'},]
+  statusCer: StatusCer[] = [{ name: 'Wait', value: 'Wait' }, { name: 'Attached', value: 'Attached' },]
   statusCer_select = "";
   constructor(
     private applyworkService: ApplyworkService,
@@ -720,45 +720,39 @@ export class ApplyListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
-          if (!this.selectedReqworker.checkcertificate) {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: "อายุเกิน 50 และ ไม่มีใบรับรองแพทย์"
-            });
-            this.edit_applywork = false;
-            this.new_applywork = false;
-            this.displayManage = false
-            this.doUpdateStatus("S")
-            this.doLoadapplywork();
-            return
-          }
-
+          // this.messageService.add({
+          //   severity: 'error',
+          //   summary: 'Error',
+          //   detail: "อายุเกิน 50 และ ไม่มีใบรับรองแพทย์"
+          // });
+          this.edit_applywork = false;
+          this.new_applywork = false;
+          this.displayManage = false
+          this.doUpdateStatus("S")
+          return
         }
         if (this.selectedReqworker.counthistory >= 3) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: "ทำงานมาเกิน2ครั้ง"
-          });
+          // this.messageService.add({
+          //   severity: 'error',
+          //   summary: 'Error',
+          //   detail: "ทำงานมาเกิน2ครั้ง"
+          // });
           this.edit_applywork = false;
           this.new_applywork = false;
           this.displayManage = false;
           this.doUpdateStatus("S")
-          this.doLoadapplywork();
           return
         }
         if (this.selectedReqworker.checkblacklist) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: "มี blacklist"
-          },);
+          // this.messageService.add({
+          //   severity: 'error',
+          //   summary: 'Error',
+          //   detail: "มี blacklist"
+          // },);
           this.edit_applywork = false;
           this.new_applywork = false;
           this.displayManage = false;
           this.doUpdateStatus("S")
-          this.doLoadapplywork();
           return
         }
         this.doGetNewCode()
@@ -787,6 +781,7 @@ export class ApplyListComponent implements OnInit {
     tmp.status = status
     this.applyworkService.requpdate_status(tmp).then(async (res) => {
       let result = await JSON.parse(res);
+      this.doLoadapplywork();
     })
   }
 
