@@ -40,7 +40,7 @@ import { ProjobsubModel } from '../../../models/project/project_jobsub';
 import { ProjobempModel } from '../../../models/project/project_jobemp';
 import { ProjobworkingModel } from '../../../models/project/project_jobworking';
 
-import { ProequipmentReqModel, ProequipmentTypeModel } from '../../../models/project/project_equipment';
+import { ProequipmentReqModel} from '../../../models/project/project_equipment';
 
 import { InitialModel } from '../../../models/employee/policy/initial';
 import { InitialService } from 'src/app/services/emp/policy/initial.service';
