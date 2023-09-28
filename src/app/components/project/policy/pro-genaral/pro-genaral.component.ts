@@ -412,8 +412,11 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
       case "procost":
-        this.procostService.procost_get(this.initial_current.CompCode).then((res) => {
+        var tmp8 = new ProcostModel();
+
+        this.procostService.procost_get(tmp8).then((res) => {
           this.procost_list = res;
+          console.log(res,'cost')
         });
         break;
       case "proarea":

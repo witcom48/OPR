@@ -2785,8 +2785,10 @@ export class ProjectManageComponent implements OnInit {
   polcost_list_cbb: RadiovalueModel[] = [];
   selectedProjobcost_cost: RadiovalueModel = new RadiovalueModel;
   doLoadPolCost() {
+    var tmp = new ProcostModel();
+
     this.polcost_list_cbb = []
-    this.procostService.procost_get(this.initial_current.CompCode).then((res) => {
+    this.procostService.procost_get(tmp).then((res) => {
 
       this.polcost_list = res;
       if (this.polcost_list.length > 0) {

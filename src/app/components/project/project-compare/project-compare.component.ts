@@ -491,8 +491,9 @@ export class ProjectCompareComponent implements OnInit {
 
 
   doLoadPolCost(){
-  
-    this.procostService.procost_get(this.initial_current.CompCode).then((res) => {
+    var tmp = new ProcostModel();
+
+    this.procostService.procost_get(tmp).then((res) => {
 
       this.polcost_list = res;
       if(this.polcost_list.length > 0){
