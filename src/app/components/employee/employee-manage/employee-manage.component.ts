@@ -2498,7 +2498,16 @@ export class EmployeeManageComponent implements OnInit {
       }
     });
   }
-
+  test(){
+    if(!this.selectedEmployee.index){
+      this.selectedEmployee.worker_socialno = this.selectedEmployee.worker_cardno;
+    }
+  }
+  onSelectHiredate() {
+    if (!this.selectedEmployee.worker_socialnoissuedate && !this.selectedEmployee.index) {
+      this.selectedEmployee.worker_socialnoissuedate = this.selectedEmployee.worker_hiredate;
+    }
+  }
   doLoadEmployee() {
     var employee_list: EmployeeModel[] = [];
     this.employeeService.worker_get(this.initial_current.CompCode, this.emp_code).then(async (res) => {

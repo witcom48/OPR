@@ -182,7 +182,7 @@
                         <div style="grid-column: 1;">
                             <label for="lastname2">{{title_startdate}} : <span style="color: red;"> *</span></label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                                [(ngModel)]="selectedEmployee.worker_hiredate">
+                                [(ngModel)]="selectedEmployee.worker_hiredate"  (onSelect)="onSelectHiredate()">
                                 <input type="text">
                             </p-calendar>
                             <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
@@ -313,7 +313,7 @@
                             <label>{{title_cardno[initial_current.Language]}}: <span style="color: red;">
                                     *</span></label>
                             <input pInputText maxlength="13" [(ngModel)]="selectedEmployee.worker_cardno"
-                                [pKeyFilter]="'int'" required>
+                                [pKeyFilter]="'int'" required (change)="test()">
                         </div>
 
                         <div>
