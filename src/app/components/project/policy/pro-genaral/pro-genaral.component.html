@@ -240,7 +240,7 @@
         </div>
 
         <div *ngIf="proarea">
-            <p-table #dt5 [value]="proarea_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt7 [value]="proarea_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProarea"
                 (onRowSelect)="onRowSelectProarea($event)" dataKey="proarea_code" [rows]="10"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
@@ -251,7 +251,7 @@
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text"
-                                (input)="dt5.filterGlobal($any($event).target.value, 'contains')"
+                                (input)="dt7.filterGlobal($any($event).target.value, 'contains')"
                                 placeholder="{{title_search}}" />
                         </span>
                     </div>
@@ -279,7 +279,7 @@
         </div>
 
         <div *ngIf="progroup">
-            <p-table #dt5 [value]="progroup_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt8 [value]="progroup_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProgroup"
                 (onRowSelect)="onRowSelectProgroup($event)" dataKey="progroup_code" [rows]="10"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
@@ -290,7 +290,7 @@
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text"
-                                (input)="dt5.filterGlobal($any($event).target.value, 'contains')"
+                                (input)="dt8.filterGlobal($any($event).target.value, 'contains')"
                                 placeholder="{{title_search}}" />
                         </span>
                     </div>
@@ -317,12 +317,57 @@
                                 [disabled]="!this.accessData.accessdata_delete" *ngIf="progroup" (click)="confirmDeleteProgroup(data)">
                             </button>
                         </td> -->
-                        
-                        
+
+
                     </tr>
                 </ng-template>
             </p-table>
         </div>
+
+        <!-- // -->
+        <div *ngIf="proequipmenttype">
+            <p-table #dt9 [value]="proequipmenttype_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
+                [(selection)]="selectedProequipmenttype" (onRowSelect)="onRowSelectProequipmenttype($event)"
+                dataKey="proequipmenttype_code" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['proequipmenttype_code','proequipmenttype_name_th','proequipmenttype_name_en']">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt9.filterGlobal($any($event).target.value, 'contains')"
+                                placeholder="{{title_search}}" />
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{title_code}}</th>
+                        <th>{{title_name_th}}</th>
+                        <th>{{title_name_en}}</th>
+                        <th>{{title_modified_by}}</th>
+                        <th>{{title_modified_date}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                    <tr [pSelectableRow]="data">
+                        <td>{{data.proequipmenttype_code}}</td>
+                        <td>{{data.proequipmenttype_name_th}}</td>
+                        <td>{{data.proequipmenttype_name_en}}</td>
+                        <td>{{data.modified_by}}</td>
+                        <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+
+
+
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <!-- // -->
 
     </div>
     <form #Form="ngForm">
@@ -582,6 +627,49 @@
                 </div>
 
             </div>
+
+            <!-- // -->
+            <div *ngIf="proequipmenttype">
+                <div class="formatt" *ngIf="edit_data==true || new_data==true">
+
+                    <i (click)="close()"></i>
+
+                    <label for="ppos_code">{{title_code}}<span style="color: red;"> *</span></label>
+                    <input pInputText type="text" id="ppos_code"
+                        [(ngModel)]="selectedProequipmenttype.proequipmenttype_code"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        maxlength="10" disabled="{{edit_data}}" name="proequipmenttype_code"
+                        #proequipmenttype_code="ngModel" required>
+                    <p>{{selectedProequipmenttype.proequipmenttype_code.length}}/10</p>
+
+
+
+                    <label for="ppos_name_th">{{title_name_th}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_th"
+                        [(ngModel)]="selectedProequipmenttype.proequipmenttype_name_th" [cols]="30" pInputTextarea
+                        [autoResize]="true" name="proequipmenttype_name_th" #proequipmenttype_name_th="ngModel"
+                        required></textarea>
+
+                    <label for="ppos_name_en">{{title_name_en}}<span style="color: red;"> *</span></label>
+                    <textarea [rows]="2" id="ppos_name_en"
+                        [(ngModel)]="selectedProequipmenttype.proequipmenttype_name_en" [cols]="30" pInputTextarea
+                        [autoResize]="true" name="proequipmenttype_name_en" #proequipmenttype_name_en="ngModel"
+                        required></textarea>
+
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()"></p-button>
+            &nbsp; -->
+                    <!-- 
+                <button pButton type="button" label="{{title_save}}" icon="pi pi-save"
+                    (click)="confirmRecord()"></button>
+
+                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete}}" class="btndel"
+                    (click)="confirmDelete()"></button> -->
+
+
+                </div>
+
+            </div>
+            <!-- // -->
             <div style="text-align: right;">
                 <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save }}" icon="pi pi-save"
                     [disabled]="!Form.form.valid" (click)="confirmRecord()" class="button-size"></button>

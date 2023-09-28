@@ -7,6 +7,7 @@ import { InitialCurrent } from '../../config/initial_current';
 import { ProbusinessModel, ProtypeModel, ProslipModel, ProuniformModel } from '../../models/project/policy/pro_genaral';
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
+import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
 
 
 @Injectable({
@@ -495,4 +496,74 @@ export class ProgenaralService {
   }
 
 
+  //-- proequipmenttype
+  public proequipmenttype_get(model:ProequipmenttypeModel) {
+    let data = {
+       device_name: "phone",
+       ip: "127.0.0.1",
+       username: this.initial_current.Username,
+      //  company_code:  this.initial_current.CompCode,
+       proequipmenttype_id: model.proequipmenttype_id,
+       proequipmenttype_code: model.proequipmenttype_code
+   }
+   return this.http.post<any>(this.config.ApiProjectModule + '/proequipmenttype_list', data, this.options).toPromise()
+       .then((res) => {
+           let message = JSON.parse(res);
+           return message.data;
+       });
+}
+
+  // public proequipmenttype_get() {
+  //   return this.http.post<any>(this.config.ApiProjectModule + '/proequipmenttype_list', this.basicRequest, this.options).toPromise()
+  //     .then((res) => {
+  //       let message = JSON.parse(res);
+
+  //       return message.data;
+  //     });
+  // }
+
+  public proequipmenttype_record(model: ProequipmenttypeModel) {
+    const data = {
+ 
+      proequipmenttype_id: model.proequipmenttype_id,
+      proequipmenttype_code: model.proequipmenttype_code,
+      proequipmenttype_name_th: model.proequipmenttype_name_th,
+      proequipmenttype_name_en: model.proequipmenttype_name_en,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/proequipmenttype', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  public proequipmenttype_delete(model: ProequipmenttypeModel) {
+    const data = {
+ 
+      proequipmenttype_id: model.proequipmenttype_id,
+      proequipmenttype_code: model.proequipmenttype_code,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/proequipmenttype_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+
+  public proequipmenttype_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProequipmenttype?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
 }

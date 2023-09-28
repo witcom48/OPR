@@ -25,6 +25,7 @@ import { ProjobshiftModel } from '../../models/project/project_jobshift';
 import { ProjobversionModel } from '../../models/project/project_jobversion';
 import { ProjobpolModel } from '../../models/project/project_jobpol';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
+import { ProequipmentreqModel } from 'src/app/models/project/project_proequipmenttype ';
 
 @Injectable({
   providedIn: 'root'
@@ -788,7 +789,7 @@ export class ProjectDetailService {
       });
   }
 
-  public projobcost_delete(project: string, job: string,  version: string, model: ProjobcostModel) {
+  public projobcost_delete(project: string, job: string, version: string, model: ProjobcostModel) {
     const data = {
       projobcost_id: model.projobcost_id,
       projobcost_code: model.projobcost_code,
@@ -881,8 +882,7 @@ export class ProjectDetailService {
   public projobmachine_delete(model: ProjobmachineModel) {
     const data = {
       projobmachine_id: model.projobmachine_id,
-      projobmachine_ip: model.projobmachine_ip,
-      projob_code: model.projob_code,
+       projob_code: model.projob_code,
       project_code: model.project_code,
       modified_by: this.initial_current.Username
     };
@@ -1318,7 +1318,7 @@ export class ProjectDetailService {
       });
   }
 
-  public projobshift_delete( project: string,job: string,version: string, model: ProjobshiftModel) {
+  public projobshift_delete(project: string, job: string, version: string, model: ProjobshiftModel) {
     const data = {
       projobshift_id: model.projobshift_id,
       shift_code: model.shift_code,
@@ -1471,6 +1471,103 @@ export class ProjectDetailService {
         return res;
       });
   }
+  //--
+  public proequipmentreq_get(project: string) {
 
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      prouniform_code: "",
+      proequipmentreq_date: "",
+      proequipmentreq_qty: "",
+      proequipmentreq_note: "",
+      proequipmentreq_by: "",
+      proequipmenttype_code: "",
+      projob_code: "",
+      project_code: project,
+    };
+
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/TRProequipmentreq_list', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
+  }
+
+  public proequipmentreq_record(project: string,   list: ProequipmentreqModel[]) {
+
+    var item_data: string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"proequipmentreq_id\":\"" + list[i].proequipmentreq_id + "\"";
+      item_data = item_data + ",\"prouniform_code\":\"" + list[i].prouniform_code + "\"";
+ 
+      item_data = item_data + ",\"proequipmentreq_date\":\"" + this.datePipe.transform(list[i].proequipmentreq_date, 'yyyy-MM-dd') + "\"";
+      item_data = item_data + ",\"proequipmentreq_qty\":\"" + list[i].proequipmentreq_qty + "\"";
+      item_data = item_data + ",\"proequipmentreq_note\":\"" + list[i].proequipmentreq_note + "\"";
+      item_data = item_data + ",\"proequipmentreq_by\":\"" + list[i].proequipmentreq_by + "\"";
+      item_data = item_data + ",\"proequipmenttype_code\":\"" + list[i].proequipmenttype_code + "\"";
+      item_data = item_data + ",\"project_code\":\"" + project + "\"";
+      item_data = item_data + ",\"projob_code\":\""+ list[i].projob_code + "\"";
+
+
+      item_data = item_data + "}" + ",";
+    }
+    if (item_data.length > 2) {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data: item_data,
+      project_code: project,
+      // projob_code: projob,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/TRProequipmentreq', specificData, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+ 
+  public proequipmentreq_delete(project: string , model: ProequipmentreqModel) {
+    const data = {
+      proequipmentreq_id: model.proequipmentreq_id,
+      prouniform_code: model.prouniform_code,
+      proequipmentreq_date: this.datePipe.transform(model.proequipmentreq_date),
+      proequipmentreq_qty: model.proequipmentreq_qty,
+      proequipmentreq_note: model.proequipmentreq_note,
+      proequipmentreq_by: model.proequipmentreq_by,
+      proequipmenttype_code: model.proequipmenttype_code,
+      project_code: project,
+      projob_code: model.projob_code,
+      modified_by: this.initial_current.Username
+    };
+    return this.http.post<any>(this.config.ApiProjectModule + '/TRProequipmentreqdel', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  public proequipmentreq_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadTRProequipmentreq?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
 
 }

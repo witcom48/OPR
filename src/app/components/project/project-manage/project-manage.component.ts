@@ -88,6 +88,8 @@ import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 import { EmptypeService } from 'src/app/services/emp/policy/emptype.service';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
+import { ProequipmentreqModel } from 'src/app/models/project/project_proequipmenttype ';
+import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
 interface ImportList {
   name_th: string,
   name_en: string,
@@ -123,7 +125,7 @@ export class ProjectManageComponent implements OnInit {
   currency_list: RoundsModel[] = [];
   yeargroup_list: YearPeriodModels[] = [];
   provinceList: ProvinceModel[] = [];
-
+  Proequipmenttype_list: ProequipmenttypeModel[] = [];
   //
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
@@ -402,6 +404,7 @@ export class ProjectManageComponent implements OnInit {
   title_equipment_qty: { [key: string]: string } = { EN: "Qty", TH: "จำนวน" }
   title_equipment_note: { [key: string]: string } = { EN: "Note", TH: "บันทึก" }
   title_equipment_by: { [key: string]: string } = { EN: "Req. by", TH: "ผู้ขอเบิก" }
+  title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
 
   //#endregion "Language"
 
@@ -486,6 +489,9 @@ export class ProjectManageComponent implements OnInit {
 
     }
   }
+
+
+  
 
   public initial_current: InitialCurrent = new InitialCurrent();
   initialData2: InitialCurrent = new InitialCurrent();
@@ -1516,7 +1522,7 @@ export class ProjectManageComponent implements OnInit {
           this.clearManage()
           this.new_proequipmentreq = true
           var ref = this.proequipmentreq_list.length + 100
-          this.selectedProequipmentreq = new ProequipmentReqModel()
+          this.selectedProequipmentreq = new ProequipmentreqModel()
           this.selectedProequipmentreq.proequipmentreq_id = ref.toString()
           this.showManage()
         }
@@ -1554,7 +1560,8 @@ export class ProjectManageComponent implements OnInit {
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
               if (this.selectedProequipmentreq != null) {
-                
+                this.proequipmentreq_remove()
+
               }
             },
             reject: () => {
@@ -1646,6 +1653,13 @@ export class ProjectManageComponent implements OnInit {
     });
 
 
+    var tmp8 = new ProequipmenttypeModel();
+    this.genaralService.proequipmenttype_get(tmp8).then((res) => {
+      this.Proequipmenttype_list = res;
+    });
+
+
+
     //
     // provinceList: ProvinceModel[] = [];
     // doLoadprovinceList() {
@@ -1694,6 +1708,8 @@ export class ProjectManageComponent implements OnInit {
             this.proaddress_record()
             this.procontact_record()
             this.procontract_record()
+            this.proequipmenttype_record()
+
             this.proresponsible_record()
             this.protimepol_record()
 
@@ -1701,7 +1717,7 @@ export class ProjectManageComponent implements OnInit {
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
 
-            this.router.navigateByUrl('project/list');
+            // this.router.navigateByUrl('project/list');
             this.doLoadProject();
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -1833,6 +1849,9 @@ export class ProjectManageComponent implements OnInit {
     this.new_projobmain = false; this.edit_projobmain = false;
     this.new_projobshift = false; this.edit_projobshift = false;
     this.new_projobpol = false; this.edit_projobpol = false;
+
+    this.new_proequipmentreq = false; this.edit_proequipmentreq = false;
+
   }
 
   displayManage: boolean = false;
@@ -2515,7 +2534,7 @@ export class ProjectManageComponent implements OnInit {
         command: (event) => {
           this.clearManage()
           if (this.selectedProjobmain != null) {
-            this.edit_projobmain = true           
+            this.edit_projobmain = true
             this.showManage()
           }
         }
@@ -3261,8 +3280,7 @@ export class ProjectManageComponent implements OnInit {
   projobsub_list: ProjobsubModel[] = [];
   selectedProjobsub: ProjobsubModel = new ProjobsubModel();
   doLoadProjobsub() {
-    console.log(this.version_selected)
-    console.log(this.project_code)
+
     this.projectDetailService.projobsub_get(this.version_selected, this.project_code).then((res) => {
       this.projobsub_list = res;
       if (this.projobsub_list.length > 0) {
@@ -3274,6 +3292,7 @@ export class ProjectManageComponent implements OnInit {
           this.doLoadProjobsubcontract()
           this.doLoadProjobsubcost()
           this.doLoadProjobworking()
+          this.doLoadProequipmentreq()
         }, 500);
 
 
@@ -3289,6 +3308,8 @@ export class ProjectManageComponent implements OnInit {
       this.doLoadProjobsubcontract()
       this.doLoadProjobsubcost()
       this.doLoadProjobworking()
+      this.doLoadProequipmentreq()
+
     }
 
   }
@@ -3824,7 +3845,6 @@ export class ProjectManageComponent implements OnInit {
       // if (this.procontractlist.length > 0) {
       //   this.selectedcontract = this.procontractlist[0]
       // }
-      console.log(res, 'contract')
     });
   }
 
@@ -4008,20 +4028,192 @@ export class ProjectManageComponent implements OnInit {
 
   //-- 26/09/2023
   //-- Project equipment request
-  proequipmentreq_list: ProequipmentReqModel[] = [];
-  selectedProequipmentreq: ProequipmentReqModel = new ProequipmentReqModel();
-
-  proequipmentreq_summit() {
-
-    
+  proequipmentreq_list: ProequipmentreqModel[] = [];
+  selectedProequipmentreq: ProequipmentreqModel = new ProequipmentreqModel();
+  doLoadProequipmentreq() {
+    this.projectDetailService.proequipmentreq_get(this.project_code).then((res) => {
+      this.proequipmentreq_list = res;
+      console.log(res, 'dddd')
+      if (this.proequipmentreq_list.length > 0) {
+        this.selectedProequipmentreq = this.proequipmentreq_list[0]
+      }
+    });
   }
+  onRowSelectProequipmentreq(event: Event) {
+  }
+  proequipmentreq_summit() {
+    this.proequipmentreq_addItem(this.selectedProequipmentreq)
+    this.new_proequipmentreq = false
+    this.edit_proequipmentreq = false
+    this.displayManage = false
 
+  }
+  proequipmentreq_remove() {
+    this.selectedProequipmentreq.proequipmentreq_id = "9999";
+    this.proequipmentreq_addItem(this.selectedProequipmentreq)
+    this.new_proequipmentreq = false
+    this.edit_proequipmentreq = false
+  }
   proequipmentreq_cancel() {
     this.edit_proequipmentreq = false
     this.new_proequipmentreq = false
-
     this.displayManage = false
   }
+  proequipmentreq_addItem(model: ProequipmentreqModel) {
+    const itemNew: ProequipmentreqModel[] = [];
+    for (let i = 0; i < this.proequipmentreq_list.length; i++) {
+      if (this.proequipmentreq_list[i].proequipmentreq_id == model.proequipmentreq_id) {
+        //-- Notting
+      }
+      else {
+        itemNew.push(this.proequipmentreq_list[i]);
+      }
+    }
+    //-- 9999 for delete
+    if (model.proequipmentreq_id != "9999") {
+      itemNew.push(model);
+    }
+    this.proequipmentreq_list = [];
+    this.proequipmentreq_list = itemNew;
+    this.proequipmentreq_list.sort(function (a, b) { return parseInt(a.proequipmentreq_id) - parseInt(b.proequipmentreq_id); })
+
+   }
+  proequipmenttype_record() {
+    if (this.proequipmentreq_list.length == 0) {
+      this.proequipmentreq_delete();
+    }
+    this.projectDetailService.proequipmentreq_record(this.selectedProject.project_code,  this.proequipmentreq_list).then((res) => {
+      let result = JSON.parse(res);
+
+      if (result.success) {
+      }
+      else {
+      }
+    });
+  }
+  proequipmentreq_delete() {
+    var tmp: ProequipmentreqModel = new ProequipmentreqModel();
+    this.projectDetailService.proequipmentreq_delete(this.selectedProject.project_code,  tmp).then((res) => {
+      let result = JSON.parse(res);
+    });
+  }
+
+
+  // proequipmentreq_delete() {
+  //   var tmp: ProequipmentreqModel = new ProequipmentreqModel();
+  //   // tmp.projobcost_code = this.selectedProjobcost.projobcost_code
+  //   this.projectDetailService.proequipmentreq_delete(tmp).then((res) => {
+  //     let result = JSON.parse(res);
+  //   });
+  // }
+
+  /////////
+  // proequipmentreq_list: ProequipmentreqModel[] = [];
+  // selectedProequipmentreq: ProequipmentreqModel = new ProequipmentreqModel();
+  // doLoadProequipmentreq() {
+  //   this.projectDetailService.proequipmenttype_get(this.project_code).then((res) => {
+  //     this.proequipmentreq_list = res;
+  //     if (this.proequipmentreq_list.length > 0) {
+  //       this.selectedProequipmentreq = this.proequipmentreq_list[0]
+  //     }
+  //   });
+  // }
+  // onRowSelectProequipmentreq(event: Event) {
+  // }
+  // proequipmentreq_summit() {
+
+  // this.proequipmentreq_addItem(this.selectedProequipmentreq)
+  // this.new_proequipmentreq = false
+  // this.edit_proequipmentreq = false
+  // this.displayManage = false
+  // }
+  // proequipmentreq_remove() {
+  //   this.selectedProequipmentreq.proequipmenttype_code = "9999";
+  //   this.proequipmentreq_addItem(this.selectedProequipmentreq)
+  //   this.new_proequipmentreq = false
+  //   this.edit_proequipmentreq = false
+  // }
+
+
+  // proequipmentreq_cancel() {
+  //   this.edit_proequipmentreq = false
+  //   this.new_proequipmentreq = false
+  //   this.displayManage = false
+  // }
+  // proequipmentreq_addItem(model: ProequipmentreqModel) {
+  //   const itemNew: ProequipmentreqModel[] = [];
+  //   for (let i = 0; i < this.proequipmentreq_list.length; i++) {
+  //     if (this.proequipmentreq_list[i].proequipmenttype_code == model.proequipmenttype_code) {
+  //       //-- Notting
+  //     }
+  //     else {
+  //       itemNew.push(this.proequipmentreq_list[i]);
+  //     }
+  //   }
+  //   //-- 9999 for delete
+  //   if (model.proequipmentreq_id != "9999") {
+  //     itemNew.push(model);
+  //   }
+  //   this.proequipmentreq_list = [];
+  //   this.proequipmentreq_list = itemNew;
+  //   this.proequipmentreq_list.sort(function (a, b) { return parseInt(a.proequipmentreq_id) - parseInt(b.proequipmentreq_id); })
+  // }
+
+  // proaddress_record() {
+  //   this.selectedProaddress.proaddress_type = "1"
+  //   this.selectedProaddress.project_code = this.selectedProject.project_code
+  //   this.projectDetailService.proaddress_record(this.selectedProaddress).then((res) => {
+  //     let result = JSON.parse(res);
+  //     if (result.success) {
+  //     }
+  //     else {
+  //     }
+  //   });
+  // }
+
+
+  // proequipmenttype_record() {
+  // if (this.proequipmentreq_list.length == 0) {
+  //   this.proequipmentreq_delete();
+  // }
+  //   this.projectDetailService.proequipmenttype_record(this.selectedProequipmentreq).then((res) => {
+  //     let result = JSON.parse(res);
+  //     if (result.success) {
+  //     }
+  //     else {
+  //     }
+  //   });
+  // }
+  // proequipmentreq_delete() {
+  //   var tmp: ProequipmentreqModel = new ProequipmentreqModel();
+  //   this.projectDetailService.proequipmenttype_delete(tmp).then((res) => {
+  //     let result = JSON.parse(res);
+  //   });
+  // }
+
+
+
+  // doLoadProequipmentreq() {
+  //   this.projectDetailService.procontact_get(this.project_code).then((res) => {
+  //     this.procontact_list = res;
+  //     if (this.procontact_list.length > 0) {
+  //       this.selectedProcontact = this.procontact_list[0]
+  //     }
+  //   });
+  // }
+
+
+  // proequipmentreq_summit() {
+
+
+  // }
+
+  // proequipmentreq_cancel() {
+  //   this.edit_proequipmentreq = false
+  //   this.new_proequipmentreq = false
+
+  //   this.displayManage = false
+  // }
 
 }
 

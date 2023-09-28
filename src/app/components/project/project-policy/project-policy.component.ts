@@ -64,6 +64,12 @@ export class ProjectPolicyComponent implements OnInit {
       accessCode: 'PRO001-007',
       queryParamsdata: "progroup"
     },
+    {
+      title: 'Equipment Type',
+      link: 'pro_genaral',
+      accessCode: 'PRO001-008',
+      queryParamsdata: "proequipmenttype"
+    },
 
     // ... other approval menu items ...
   ];
@@ -72,7 +78,7 @@ export class ProjectPolicyComponent implements OnInit {
     {
       title: 'Project',
       link: 'workflow',
-      accessCode: 'PRO001-008',
+      accessCode: 'PRO001-009',
       queryParamsdata: ''
     }
     // ... other setup menu items ...

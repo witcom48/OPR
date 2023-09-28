@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
@@ -22,6 +20,7 @@ import { ProcostService } from '../../../../services/project/procost.service';
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
 
 @Component({
   selector: 'app-pro-genaral',
@@ -63,7 +62,11 @@ export class ProGenaralComponent implements OnInit {
   proarea: boolean = false;
   proarea_list: ProareaModel[] = [];
   selectedProarea: ProareaModel = new ProareaModel();
-
+  ///
+  proequipmenttype: boolean = false;
+  proequipmenttype_list: ProequipmenttypeModel[] = [];
+  selectedProequipmenttype: ProequipmenttypeModel = new ProequipmenttypeModel();
+  ////
   progroup: boolean = false;
   progroup_list: ProgroupModel[] = [];
   selectedProgroup: ProgroupModel = new ProgroupModel();
@@ -87,8 +90,7 @@ export class ProGenaralComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.page_type = params['type'];
 
-      // console.log(this.page_type);
-    });
+     });
 
 
     //this.page_type = this.route.snapshot.queryParamMap.get('type') !== null ? this.route.snapshot.queryParamMap.get('type') : '';
@@ -128,6 +130,7 @@ export class ProGenaralComponent implements OnInit {
     this.procost = false
     this.proarea = false
     this.progroup = false
+    this.proequipmenttype = false
 
 
     switch (this.page_type) {
@@ -152,6 +155,11 @@ export class ProGenaralComponent implements OnInit {
       case "progroup":
         this.progroup = true
         break;
+
+      case "proequipmenttype":
+        this.proequipmenttype = true
+        break;
+
       default:
         // 
         break;
@@ -267,6 +275,13 @@ export class ProGenaralComponent implements OnInit {
             ref = this.progroup_list.length + 100
             this.selectedProgroup = new ProgroupModel();
             this.selectedProgroup.progroup_id = ref.toString()
+ 
+            ///
+             ref = this.proequipmenttype_list.length + 100
+            this.selectedProequipmenttype = new ProequipmenttypeModel();
+            this.selectedProequipmenttype.proequipmenttype_id = ref.toString()
+ 
+            ///
 
 
             this.new_data = true;
@@ -331,6 +346,16 @@ export class ProGenaralComponent implements OnInit {
               window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Progroup.xlsx', '_blank');
 
               break;
+
+            //
+            case "proequipmenttype":
+              this.proequipmenttype = true
+              ref = this.proequipmenttype_list.length + 100
+
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Proequipmenttype.xlsx', '_blank');
+
+              break;
+            //
             default:
               // 
               break;
@@ -403,8 +428,19 @@ export class ProGenaralComponent implements OnInit {
 
         this.genaralService.progroup_get(tmp6).then((res) => {
           this.progroup_list = res;
+ 
         });
         break;
+      //
+      case "proequipmenttype":
+        var tmp7 = new ProequipmenttypeModel();
+
+        this.genaralService.proequipmenttype_get(tmp7).then((res) => {
+          this.proequipmenttype_list = res;
+ 
+        });
+        break;
+      //
       default:
         // 
         break;
@@ -427,38 +463,7 @@ export class ProGenaralComponent implements OnInit {
 
     });
   }
-  ////////////////////////////////////////////////////////////////
-
-  async doDeleteLate(data: ProgroupModel) {
-    try {
-      const res = await this.genaralService.progroup_delete(data);
-      if (res.success) {
-        this.messageService.add({severity: 'success',summary: 'Success',detail: res.message});
-        this.doLoadGenaral();  
-      } else {
-        this.messageService.add({severity: 'error',summary: 'Error',detail: res.message});
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      this.messageService.add({severity: 'error',summary: 'Error',detail: 'An error occurred while deleting.'});
-    }
-  }
-  
-  confirmDeleteProgroup(data: ProgroupModel) {
-    this.confirmationService.confirm({
-      message: this.title_confirm_delete,
-      header: this.title_confirm,
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.doDeleteLate(data);
-      },
-      reject: () => {
-        this.messageService.add({severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel});
-      }
-    });
-  }
-  ////////////////////////////////////////////////////////////////
-
+   
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete,
@@ -569,6 +574,19 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
 
+      case "proequipmenttype":
+        this.genaralService.proequipmenttype_record(this.selectedProequipmenttype).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doLoadGenaral()
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
       default:
         // 
         break;
@@ -664,6 +682,21 @@ export class ProGenaralComponent implements OnInit {
           }
         });
         break;
+
+      //
+      case "proequipmenttype":
+        this.genaralService.proequipmenttype_delete(this.selectedProequipmenttype).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+      //
       default:
         // 
         break;
@@ -712,6 +745,14 @@ export class ProGenaralComponent implements OnInit {
     this.new_data = false;
     this.displaymanage = true;
   }
+
+  //
+  onRowSelectProequipmenttype(event: Event) {
+    this.edit_data = true;
+    this.new_data = false;
+    this.displaymanage = true;
+  }
+  //
 
   onRowSelectProcost(event: Event) {
     this.edit_data = true;
@@ -821,6 +862,21 @@ export class ProGenaralComponent implements OnInit {
           }
         });
         break;
+
+      //
+      case "proequipmenttype":
+        this.genaralService.proequipmenttype_import(this.fileToUpload, filename, filetype).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+      //
       default:
         // 
         break;
@@ -922,6 +978,8 @@ export class ProGenaralComponent implements OnInit {
     this.selectedProcost = new ProcostModel()
     this.selectedProarea = new ProareaModel()
     this.selectedProgroup = new ProgroupModel()
+    this.selectedProequipmenttype = new ProequipmenttypeModel()
+
   }
 
   doLoadSelectedProcostItem(value: string) {

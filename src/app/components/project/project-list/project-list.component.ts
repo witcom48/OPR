@@ -301,11 +301,12 @@ export class ProjectListComponent implements OnInit {
 
     this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
       this.project_list = await res;
-
+      console.log(res,'tt')
       setTimeout(() => {
         this.calculateTotal()
       }, 1000);
     });
+    
   }
 
   selectionProject(project: ProjectModel) {
@@ -329,11 +330,10 @@ export class ProjectListComponent implements OnInit {
       this.total_project++;
       this.total_emp += project.project_emp;
       this.total_cost += project.project_cost;
-
+      
       if (project.approve_status == "W") {
         this.new_project++;
       }
-
 
       //if (project.project_start.getTime() >= this.initial_current.PR_FromDate.getTime()) {
       //  this.new_project++;
