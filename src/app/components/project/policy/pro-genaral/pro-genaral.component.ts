@@ -179,6 +179,7 @@ export class ProGenaralComponent implements OnInit {
   title_name_en: string = "Name (Eng.)";
 
   title_type: string = "Type";
+  
   title_auto: string = "Auto";
   title_itemcode: string = "Item";
 
@@ -231,6 +232,8 @@ export class ProGenaralComponent implements OnInit {
       this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
 
       this.title_system_project = "Project";
+      this.title_type= "ประเภทการจ่าย";
+      this.title_itemcode= "เงินได้";
 
     }
   }
