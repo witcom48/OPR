@@ -56,7 +56,8 @@ export class ProjectListComponent implements OnInit {
   edit_data: boolean = false;
   new_data: boolean = false;
 
-
+  selectedDate_fillter :Date = new Date()
+  selectedToDate_fillter :Date = new Date()
 
 
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
@@ -168,7 +169,7 @@ export class ProjectListComponent implements OnInit {
     }, 300);
     // setTimeout(() => {
     //   this.doGetDataFillter();
-    // }, 500);
+    // }, 300);
 
   }
 
@@ -499,7 +500,9 @@ export class ProjectListComponent implements OnInit {
         return 'danger';
     }
   }
-
+  doFillter(){
+    this.doGetDataFillter()
+   }
   ///
   doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
@@ -532,19 +535,22 @@ export class ProjectListComponent implements OnInit {
     }
 
     // วันที่
-    if (this.fillterdate) {
-      workerfillter.project_start = this.selecteddate;
-    } else {
-      workerfillter.project_start = '';
-    }
+    // if (this.fillterfromdate) {
+    //   workerfillter.projobemp_fromdate = new Date(this.selectedfromdate);
+    // } else {
+    //   workerfillter.projobemp_fromdate = new Date();  
+    // }
+    
+    // if (this.filltertodate) {
+    //   workerfillter.projobemp_todate = new Date(this.selectedtodate);
+    // } else {
+    //   workerfillter.projobemp_todate = new Date();  
+    // }
+    
 
-    this.projectService.MTProject_getbyfillter(workerfillter).then(async (res) => {
-      await res.forEach((element: ProjectModel) => {
-        element.project_start = new Date(element.project_start);
-        element.project_end = new Date(element.project_end);
-
-      });
-      // this.project_list = await res;
+    this.projectService.MTProject_getbyfillter(  workerfillter).then( (res) => {
+      this.project_list = res;
+      console.log(res)
     });
   }
   //-- Status สถานะ
@@ -575,12 +581,21 @@ export class ProjectListComponent implements OnInit {
       this.doGetDataFillter();
     }
   }
-  //-- วันที่
-  selecteddate: string = "";
-  fillterdate: boolean = false;
-  doChangeSelectdate() {
+  //-- วันที่เริ่ม
+  selectedfromdate: string = "";
+  fillterfromdate: boolean = false;
+  doChangeSelectfillterfromdate() {
 
-    if (this.fillterdate) {
+    if (this.fillterfromdate) {
+      this.doGetDataFillter();
+    }
+  }
+  //-- วันที่สิ้นสุด
+  selectedtodate: string = "";
+  filltertodate: boolean = false;
+  doChangeSelectfilltertodate() {
+
+    if (this.filltertodate) {
       this.doGetDataFillter();
     }
   }

@@ -78,8 +78,8 @@ export class ProjectTransferComponent implements OnInit {
   title_staff_empcode: {[key: string]: string} = {  EN: "Emp code",  TH: "รหัสพนักงาน"}
   title_staff_empname: {[key: string]: string} = {  EN: "Emp name",  TH: "ชื่อ-นามสกุล"}
   title_staff_empstatus: {[key: string]: string} = {  EN: "Emp status",  TH: "สถานะพนักงาน"}
-  title_staff_fromadate: {[key: string]: string} = {  EN: "Fromdate",  TH: "วันที่โอนย้าย"}
-  title_staff_todate: {[key: string]: string} = {  EN: "Todate",  TH: "วันที่ย้ายออก"}
+  title_staff_fromadate: {[key: string]: string} = {  EN: "Fromdate",  TH: "วันที่"}
+  title_staff_todate: {[key: string]: string} = {  EN: "Todate",  TH: "ถึง"}
   title_staff_status: {[key: string]: string} = {  EN: "Status",  TH: "สถานะ"}
   title_staff_apprdate: {[key: string]: string} = {  EN: "Approve date",  TH: "วันที่อนุมัติ"}
 
@@ -270,7 +270,10 @@ export class ProjectTransferComponent implements OnInit {
       this.project_monitor = await res;
       setTimeout(() => {
         //this.calculateTotal()
+             
+
       }, 500);
+      this.projobemp_list = await res;
     }); 
   }
 

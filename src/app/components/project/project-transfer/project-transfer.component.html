@@ -130,12 +130,12 @@
             <div class="pt-3 col-6 md:col-3">
                 <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy" inputId="selectedFromdate"></p-calendar>
+                <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy"[showIcon]="true" [showTime]="false" inputId="selectedFromdate"></p-calendar>
             </div>
             <div class="col-6 md:col-3">
                 <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedToDate" dateFormat="dd/mm/yy" inputId="selectedToDate"></p-calendar>
+                <p-calendar [(ngModel)]="selectedToDate" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"inputId="selectedToDate"></p-calendar>
             </div>   
             <div class="pt-3 col-6">
                 &nbsp;

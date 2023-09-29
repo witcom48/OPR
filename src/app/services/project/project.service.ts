@@ -110,8 +110,8 @@ export class ProjectService {
       project_probusiness: fillter.project_probusiness,
       status: fillter.project_status,
        
-      // projobemp_fromdate: this.datePipe.transform(fillter.projobemp_fromdate),
-      // projobemp_todate: this.datePipe.transform(fillter.projobemp_todate),
+      projobemp_fromdate: this.datePipe.transform(fillter.projobemp_fromdate),
+      projobemp_todate: this.datePipe.transform(fillter.projobemp_todate),
 
     };
 
@@ -214,7 +214,7 @@ export class ProjectService {
         return res;
       });
   }
-
+ 
   public project_monitor(company: string, workdate: Date, protype: string, probusiness: string, proarea: string, progroup: string) {
 
     var filter = {

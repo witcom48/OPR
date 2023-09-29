@@ -288,8 +288,7 @@ export class ProjectCompareComponent implements OnInit {
 
   doFillter(){
     this.doLoadProjectMonitor()
-    console.log('ttt')
-  }
+   }
 
   cost_compare: CostcompareModel[] = [];
   selectedCostcompare: CostcompareModel = new CostcompareModel;

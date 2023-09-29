@@ -83,19 +83,23 @@
                 <div class="checkselect">
                     <div class="select">
                         <!-- ช่วงวันที่  -->
-                        <div>
-                            <p-checkbox [(ngModel)]="fillterdate" name="project_status" [binary]="true"
-                                (onChange)="doChangeSelectdate()"></p-checkbox> &nbsp;
+                        <!-- <div>
+                            <p-checkbox [(ngModel)]="fillterfromdate" name="project_status" [binary]="true"
+                                (onChange)="doChangeSelectfillterfromdate()"></p-checkbox> &nbsp;
                             <label for="lastname2">{{ title_date[initial_current.Language] }} :</label>
-                        </div>
+                        </div> -->
 
                         <div>
-
-                            <p-calendar [(ngModel)]="selecteddate" dateFormat="dd/mm/yy" [showIcon]="true"
-                                [showTime]="false" (onSelect)="doChangeSelectdate()" inputId="selecteddate"
-                                [disabled]="!fillterdate"></p-calendar>
-
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                                [(ngModel)]="selectedDate_fillter" (onSelect)="doFillter()"
+                                inputId="selectedDate_fillter"></p-calendar>
                         </div>
+                        <!-- &nbsp;
+                        <div>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                                [(ngModel)]="selectedDate_fillter" (onSelect)="doFillter()"
+                                inputId="selectedDate_fillter"></p-calendar>
+                        </div> -->
 
                     </div>
 
@@ -104,7 +108,7 @@
 
                         <div>
                             <p-checkbox [(ngModel)]="fillterStatus" name="project_status" [binary]="true"
-                                (onChange)="doChangeSelectstatus()"></p-checkbox> &nbsp;
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                             <label for="lastname2">{{ title_defaultstatus[initial_current.Language] }} :</label>
                         </div>
 
@@ -122,7 +126,7 @@
                         <!--  ประเภทธุรกิจ  -->
                         <div>
                             <p-checkbox [(ngModel)]="fillterbusiness" name="project_probusiness" [binary]="true"
-                                (onChange)="doChangeSelectbusiness()"></p-checkbox> &nbsp;
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                             <label for="lastname2">{{ title_probusiness[initial_current.Language] }} :</label>
                         </div>
 
@@ -143,7 +147,7 @@
                         <!-- พื้นที่  -->
                         <div>
                             <p-checkbox [(ngModel)]="fillterproarea" name="proarea_code" [binary]="true"
-                                (onChange)="doChangeSelectproarea()"></p-checkbox> &nbsp;
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                             <label for="lastname2">{{ title_project_progarea[initial_current.Language] }} :</label>
                         </div>
 
