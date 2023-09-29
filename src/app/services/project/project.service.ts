@@ -254,7 +254,7 @@ export class ProjectService {
       device_name: '',
       ip: "localhost",
       username: this.initial_current.Username,
-      company: company,
+      company_code: company,
       language: "",
       project_code: project,
       project_name_th: "",
