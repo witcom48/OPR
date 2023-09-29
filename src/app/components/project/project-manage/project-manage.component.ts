@@ -2653,6 +2653,7 @@ export class ProjectManageComponent implements OnInit {
   doLoadPolShift() {
     var tmp = new ShiftModels();
     tmp.company_code = this.initial_current.CompCode
+    tmp.project = true;
     this.polshift_list = []
     this.shiftServices.shift_get(tmp).then(async (res) => {
       this.polshift_list = await res;
