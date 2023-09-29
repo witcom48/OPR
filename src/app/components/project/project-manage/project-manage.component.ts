@@ -1717,7 +1717,7 @@ export class ProjectManageComponent implements OnInit {
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
 
-            // this.router.navigateByUrl('project/list');
+            this.router.navigateByUrl('project/list');
             this.doLoadProject();
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
@@ -4101,121 +4101,7 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
-  // proequipmentreq_delete() {
-  //   var tmp: ProequipmentreqModel = new ProequipmentreqModel();
-  //   // tmp.projobcost_code = this.selectedProjobcost.projobcost_code
-  //   this.projectDetailService.proequipmentreq_delete(tmp).then((res) => {
-  //     let result = JSON.parse(res);
-  //   });
-  // }
-
-  /////////
-  // proequipmentreq_list: ProequipmentreqModel[] = [];
-  // selectedProequipmentreq: ProequipmentreqModel = new ProequipmentreqModel();
-  // doLoadProequipmentreq() {
-  //   this.projectDetailService.proequipmenttype_get(this.project_code).then((res) => {
-  //     this.proequipmentreq_list = res;
-  //     if (this.proequipmentreq_list.length > 0) {
-  //       this.selectedProequipmentreq = this.proequipmentreq_list[0]
-  //     }
-  //   });
-  // }
-  // onRowSelectProequipmentreq(event: Event) {
-  // }
-  // proequipmentreq_summit() {
-
-  // this.proequipmentreq_addItem(this.selectedProequipmentreq)
-  // this.new_proequipmentreq = false
-  // this.edit_proequipmentreq = false
-  // this.displayManage = false
-  // }
-  // proequipmentreq_remove() {
-  //   this.selectedProequipmentreq.proequipmenttype_code = "9999";
-  //   this.proequipmentreq_addItem(this.selectedProequipmentreq)
-  //   this.new_proequipmentreq = false
-  //   this.edit_proequipmentreq = false
-  // }
-
-
-  // proequipmentreq_cancel() {
-  //   this.edit_proequipmentreq = false
-  //   this.new_proequipmentreq = false
-  //   this.displayManage = false
-  // }
-  // proequipmentreq_addItem(model: ProequipmentreqModel) {
-  //   const itemNew: ProequipmentreqModel[] = [];
-  //   for (let i = 0; i < this.proequipmentreq_list.length; i++) {
-  //     if (this.proequipmentreq_list[i].proequipmenttype_code == model.proequipmenttype_code) {
-  //       //-- Notting
-  //     }
-  //     else {
-  //       itemNew.push(this.proequipmentreq_list[i]);
-  //     }
-  //   }
-  //   //-- 9999 for delete
-  //   if (model.proequipmentreq_id != "9999") {
-  //     itemNew.push(model);
-  //   }
-  //   this.proequipmentreq_list = [];
-  //   this.proequipmentreq_list = itemNew;
-  //   this.proequipmentreq_list.sort(function (a, b) { return parseInt(a.proequipmentreq_id) - parseInt(b.proequipmentreq_id); })
-  // }
-
-  // proaddress_record() {
-  //   this.selectedProaddress.proaddress_type = "1"
-  //   this.selectedProaddress.project_code = this.selectedProject.project_code
-  //   this.projectDetailService.proaddress_record(this.selectedProaddress).then((res) => {
-  //     let result = JSON.parse(res);
-  //     if (result.success) {
-  //     }
-  //     else {
-  //     }
-  //   });
-  // }
-
-
-  // proequipmenttype_record() {
-  // if (this.proequipmentreq_list.length == 0) {
-  //   this.proequipmentreq_delete();
-  // }
-  //   this.projectDetailService.proequipmenttype_record(this.selectedProequipmentreq).then((res) => {
-  //     let result = JSON.parse(res);
-  //     if (result.success) {
-  //     }
-  //     else {
-  //     }
-  //   });
-  // }
-  // proequipmentreq_delete() {
-  //   var tmp: ProequipmentreqModel = new ProequipmentreqModel();
-  //   this.projectDetailService.proequipmenttype_delete(tmp).then((res) => {
-  //     let result = JSON.parse(res);
-  //   });
-  // }
-
-
-
-  // doLoadProequipmentreq() {
-  //   this.projectDetailService.procontact_get(this.project_code).then((res) => {
-  //     this.procontact_list = res;
-  //     if (this.procontact_list.length > 0) {
-  //       this.selectedProcontact = this.procontact_list[0]
-  //     }
-  //   });
-  // }
-
-
-  // proequipmentreq_summit() {
-
-
-  // }
-
-  // proequipmentreq_cancel() {
-  //   this.edit_proequipmentreq = false
-  //   this.new_proequipmentreq = false
-
-  //   this.displayManage = false
-  // }
+ 
 
 }
 

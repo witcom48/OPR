@@ -109,7 +109,7 @@ export class ProcostService {
 
   public procost_delete(model:ProcostModel) {    
     const data = {
-      company_code: model.company_code || this.initial_current.CompCode,
+      company_code:this.initial_current.CompCode,
 
       procost_id: model.procost_id,
       procost_code: model.procost_code,       

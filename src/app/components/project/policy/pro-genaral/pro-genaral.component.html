@@ -536,15 +536,15 @@
                         pInputTextarea [autoResize]="true" name="procost_name_en" #procost_name_en="ngModel"
                         required></textarea>
 
-                    <label for="procost_type">{{title_type}}</label>
+                    <label for="procost_type">{{title_type}}<span style="color: red;"> *</span></label>
                     <p-dropdown placeholder="--" [options]="procosttype_list" [(ngModel)]="selectedProcostType"
                         optionLabel="text" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
-                        name="Type" #Type="ngModel"></p-dropdown>
+                        name="Type" #Type="ngModel" ></p-dropdown>
 
-                    <label for="procost_itemcode">{{title_itemcode}}</label>
+                    <label for="procost_itemcode">{{title_itemcode}}<span style="color: red;"> *</span></label>
                     <p-dropdown placeholder="--" [options]="procostitem_list" [(ngModel)]="selectedProcostItem"
                         optionLabel="text" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
-                        name="item" #item="ngModel"></p-dropdown>
+                        name="item" #item="ngModel" ></p-dropdown>
 
 
                     <p-checkbox [(ngModel)]="selectedProcost.procost_auto"
