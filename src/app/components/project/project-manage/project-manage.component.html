@@ -1266,31 +1266,24 @@
                                 <th>{{title_equipment_type[initial_current.Language]}}</th>
                                 <th>{{title_equipment_qty[initial_current.Language]}}</th>
                                 <th>{{title_equipment_by[initial_current.Language]}}</th>
-                                <<<<<<< HEAD <th>{{title_equipment_note[initial_current.Language]}}</th>
-                                    =======
-                                    >>>>>>> 4b3275760dc1a331df0e9a2f48afe73ac164ab1e
-                                    <th>{{title_modified_by[initial_current.Language]}}</th>
-                                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                                <th>{{title_equipment_note[initial_current.Language]}}</th>
+
+                                <th>{{title_modified_by[initial_current.Language]}}</th>
+                                <th>{{title_modified_date[initial_current.Language]}}</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-proequipment let-i="rowIndex">
                             <tr [pSelectableRow]="proequipment">
                                 <td style="text-align: center;">{{i+1}}</td>
-                                <<<<<<< HEAD <td>{{proequipment.projob_code}}</td>
-
-
-                                    =======
-                                    <td>{{proequipment.prouniform_code}}</td>
-                                    <td>{{proequipment.prouniform_code}}</td>
-                                    >>>>>>> 4b3275760dc1a331df0e9a2f48afe73ac164ab1e
-                                    <td>{{proequipment.proequipmentreq_date | date:'dd/MM/yyyy'}}</td>
-                                    <td>{{proequipment.prouniform_code}}</td>
-                                    <td>{{proequipment.proequipmenttype_code}}</td>
-                                    <td>{{proequipment.proequipmentreq_qty}}</td>
-                                    <td>{{proequipment.proequipmentreq_by}}</td>
-                                    <td>{{proequipment.proequipmentreq_note}}</td>
-                                    <td>{{proequipment.modified_by}}</td>
-                                    <td>{{proequipment.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                <td>{{proequipment.projob_code}}</td>
+                                <td>{{proequipment.proequipmentreq_date | date:'dd/MM/yyyy'}}</td>
+                                <td>{{proequipment.prouniform_code}}</td>
+                                <td>{{proequipment.proequipmenttype_code}}</td>
+                                <td>{{proequipment.proequipmentreq_qty}}</td>
+                                <td>{{proequipment.proequipmentreq_by}}</td>
+                                <td>{{proequipment.proequipmentreq_note}}</td>
+                                <td>{{proequipment.modified_by}}</td>
+                                <td>{{proequipment.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                             </tr>
                         </ng-template>
                     </p-table>
