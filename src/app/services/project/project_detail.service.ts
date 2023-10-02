@@ -1036,6 +1036,36 @@ export class ProjectDetailService {
       });
 
   }
+
+  //
+  public projobemp2_get(project: string,fromdate: Date, todate: Date,) {
+    let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: "",
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      fromdate: datefrom,
+      todate: dateto,
+    };
+
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobemp2_list', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
+  }
   ///////////ทำตรงนี้>>>
 
   //-- Job emp

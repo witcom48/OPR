@@ -226,7 +226,9 @@ export class ProjectApproveComponent implements OnInit {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_status = this.selectedstatus;
-    this.project_list = await this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter
+  
+    this.project_list = await this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, 
+      workerfillter
     );
   }
   selectedstatus: string = "";

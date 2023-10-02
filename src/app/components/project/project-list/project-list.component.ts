@@ -56,8 +56,8 @@ export class ProjectListComponent implements OnInit {
   edit_data: boolean = false;
   new_data: boolean = false;
 
-  selectedDate_fillter :Date = new Date()
-  selectedToDate_fillter :Date = new Date()
+  selectedDate_fillter: Date = new Date()
+  selectedToDate_fillter: Date = new Date()
 
 
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
@@ -234,6 +234,7 @@ export class ProjectListComponent implements OnInit {
 
         }
       }
+
     ];
   }
 
@@ -302,12 +303,12 @@ export class ProjectListComponent implements OnInit {
 
     this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
       this.project_list = await res;
-      console.log(res,'tt')
+      console.log(res, 'tt')
       setTimeout(() => {
         this.calculateTotal()
       }, 1000);
     });
-    
+
   }
 
   selectionProject(project: ProjectModel) {
@@ -331,7 +332,7 @@ export class ProjectListComponent implements OnInit {
       this.total_project++;
       this.total_emp += project.project_emp;
       this.total_cost += project.project_cost;
-      
+
       if (project.approve_status == "W") {
         this.new_project++;
       }
@@ -500,13 +501,16 @@ export class ProjectListComponent implements OnInit {
         return 'danger';
     }
   }
-  doFillter(){
+
+
+
+  doFillter() {
     this.doGetDataFillter()
-   }
+  }
   ///
   doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
- 
+
 
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_code = this.project_code;
@@ -534,11 +538,25 @@ export class ProjectListComponent implements OnInit {
       workerfillter.project_proarea = '';
     }
 
+    if (this.fillterDate) {
+    } else {
+      this.selectedDate_fillter = new Date();
+      this.selectedToDate_fillter = new Date();
+    }
 
-    
-    this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter,this.selectedToDate_fillter, workerfillter).then( (res) => {
+    //วันที่
+    if (this.fillterDate) {
+    } else {
+      this.selectedDate_fillter = new Date();
+      this.selectedToDate_fillter = new Date();
+    }
+
+
+
+
+    this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter).then((res) => {
       this.project_list = res;
-      console.log(res,'MTProject')
+      console.log(res, 'MTProject')
     });
   }
   //-- Status สถานะ
@@ -550,6 +568,18 @@ export class ProjectListComponent implements OnInit {
       this.doGetDataFillter();
     }
   }
+
+  fillterDate: boolean = false;
+  doToggleDateFilter() {
+    if (!this.fillterDate) {
+      this.doGetDataFillter();
+      this.selectedDate_fillter = new Date();
+      this.selectedToDate_fillter = new Date();
+    }
+  }
+
+
+
 
   //-- ประเภทธุรกิจ
   selectedbusiness: string = "";
@@ -569,15 +599,11 @@ export class ProjectListComponent implements OnInit {
       this.doGetDataFillter();
     }
   }
-  //-- วันที่เริ่ม
-  selectedfromdate: string = "";
-  fillterfromdate: boolean = false;
-  doChangeSelectfillterfromdate() {
 
-    if (this.fillterfromdate) {
-      this.doGetDataFillter();
-    }
-  }
+
+
+  //-- วันที่เริ่ม
+
   //-- วันที่สิ้นสุด
   selectedtodate: string = "";
   filltertodate: boolean = false;
@@ -587,4 +613,21 @@ export class ProjectListComponent implements OnInit {
       this.doGetDataFillter();
     }
   }
+
+  //
+  doFillter2() {
+    this.doGetDataFillter2()
+  }
+
+  doGetDataFillter2() {
+    const workerfillter: FillterProjectModel = new FillterProjectModel();
+    workerfillter.company_code = this.initial_current.CompCode;
+    workerfillter.project_code = this.project_code
+    this.projectService.MTProject_getbyfillter2(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter).then((res) => {
+      this.project_list = res;
+      console.log(res, 'doGetDataFillter2')
+    });
+  }
+
+
 }

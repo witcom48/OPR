@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import {ConfirmationService, ConfirmEventType, MenuItem, MessageService} from 'primeng/api';
 import { PrjectEmpdailyModel } from '../../../models/project/project_empdaily';
 import { Router } from '@angular/router';
 import { AppConfig } from '../../../config/config';
@@ -25,6 +25,7 @@ import { PrjectMonitorModel } from '../../../models/project/project_monitor'
 import { JobMonitorModel } from '../../../models/project/job_monitor'
 
 import { EmployeeService } from 'src/app/services/emp/worker.service';
+import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 
 interface Combobox {
   name: string,
@@ -51,7 +52,7 @@ interface Manpower {
   styleUrls: ['./project-transfer.component.scss']
 })
 export class ProjectTransferComponent implements OnInit {
-
+  project_code: string = "";
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
 
@@ -97,6 +98,23 @@ export class ProjectTransferComponent implements OnInit {
   title_staff_total: {[key: string]: string} = {  EN: "Total",  TH: "รวม"}
   title_staff_diff: {[key: string]: string} = {  EN: "Diff.",  TH: "ส่วนต่าง"}
 
+
+  menu_Reload: MenuItem[] = [];
+  doLoadMenu() {
+ 
+    this.menu_Reload = [
+        
+      {
+         icon: 'pi pi-fw pi-refresh',
+        command: (event) => {
+          this.doLoadProjobemp()
+          console.log( this.doLoadProjobemp(),'dd')
+        }
+      }
+    ] 
+  }
+
+
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
@@ -117,7 +135,9 @@ export class ProjectTransferComponent implements OnInit {
       this.doLoadProjobmain()
       this.doLoadProjectMonitor()
     }, 200);
-
+ setTimeout(() => {
+      this.doLoadMenu()
+    }, 100);
     setTimeout(() => {  
       this.doLoadProjobemp()
     }, 1000);
@@ -190,6 +210,7 @@ export class ProjectTransferComponent implements OnInit {
     
   }
   
+  
   selectedProject:string = ""
   selectedJob:string = ""
   selectedType:string = "R"
@@ -257,7 +278,8 @@ export class ProjectTransferComponent implements OnInit {
   //-- Project monitor
   project_monitor: PrjectMonitorModel[] = [];
   selectedProjectMonitor: PrjectMonitorModel = new PrjectMonitorModel;
-  selectedDate_fillter :Date = new Date()
+   selectedDate_fillter :Date = new Date()
+  selectedToDate_fillter :Date = new Date()
   doLoadProjectMonitor(){
     
     var probusiness = ""
@@ -268,6 +290,7 @@ export class ProjectTransferComponent implements OnInit {
 
     this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness,proarea,progroup).then(async (res) => {
       this.project_monitor = await res;
+      console.log(res,'yyyy')
       setTimeout(() => {
         //this.calculateTotal()
              
@@ -322,7 +345,34 @@ export class ProjectTransferComponent implements OnInit {
     }
     return ""
   }
+//
+doFillter(){
+  this.doGetDataFillter()
+ }
 
+ doReload() {
+  this.doLoadProject();
+  console.log(this.doLoadProject(), 'doReload');
+}
+
+///
+doGetDataFillter() {
+  const workerfillter: FillterProjectModel = new FillterProjectModel();
+
+
+  workerfillter.company_code = this.initial_current.CompCode;
+  workerfillter.project_code = this.project_code;
+
+
+  
+  this.projectDetailService.projobemp2_get(this.project_code, this.selectedDate_fillter,this.selectedToDate_fillter).then( (res) => {
+    this.projobemp_list = res;
+    console.log(res,'doGetDataFillter')
+    
+  });      
+  
+}
+//
   //-- Project emp
   projobemp_list: ProjobempModel[] = [];
   selectedProjobemp: ProjobempModel = new ProjobempModel();

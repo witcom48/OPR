@@ -547,6 +547,9 @@ export class ProjectManageComponent implements OnInit {
 
   }
 
+
+
+
   doLoadMenu() {
     this.toolbar_menubar = [
       {
@@ -859,6 +862,7 @@ export class ProjectManageComponent implements OnInit {
 
 
     ];
+
 
     this.menu_projobmain = [
       {

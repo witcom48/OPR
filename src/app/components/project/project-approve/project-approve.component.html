@@ -86,7 +86,7 @@
                 <ng-template pTemplate="body" let-approve>
                     <tr [pSelectableRow]="approve">
                         <td>{{approve.approve_by}}</td>
-                        <td class="text-left">{{approve.approve_status}}</td>
+                        <td >{{approve.approve_status}}</td>
                         <td>
                             <div *ngIf="approve.approve_status != '-'">{{approve.approve_date | date:'dd/MM/yyyy
                                 HH:mm'}}</div>

@@ -1,20 +1,22 @@
 <span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Transfer</small>
 <hr>
 
-<p-toast position="top-right"></p-toast> 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
-<p-tabView >
-    
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
+<p-tabView>
+
     <p-tabPanel [selected]="true">
-        <ng-template pTemplate = "header">
+        <ng-template pTemplate="header">
             <i class="pi pi-users"></i>&nbsp;&nbsp;
             <span>Man power</span>
-        </ng-template>        
-        <p-scrollPanel [style]="{width: '100%', height: '650px'}" >
+        </ng-template>
+        <p-scrollPanel [style]="{width: '100%', height: '650px'}">
             <p-table #dtManpower [value]="project_monitor" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
-                selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [(selection)]="selectedProjectMonitor"
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                [(selection)]="selectedProjectMonitor" [paginator]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -27,9 +29,9 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th></th>                        
+                        <th></th>
                         <th>{{title_project_code[initial_current.Language]}}</th>
-                        <th>{{title_project_name[initial_current.Language]}}</th>     
+                        <th>{{title_project_name[initial_current.Language]}}</th>
                         <th>{{title_emp_total[initial_current.Language]}}</th>
                         <th>{{title_staff_regular[initial_current.Language]}}</th>
                         <th>{{title_staff_temp[initial_current.Language]}}</th>
@@ -43,13 +45,16 @@
                     <tr [pSelectableRow]="project">
                         <td>{{i+1}}</td>
                         <td>{{project.project_code}}</td>
-                        <td style="text-align: left;">{{initial_current.Language=="TH"? project.project_name_th : project.project_name_en}}</td>                           
+                        <td style="text-align: left;">{{initial_current.Language=="TH"? project.project_name_th :
+                            project.project_name_en}}</td>
                         <td style="text-align: center;">{{project.project_manpower}}</td>
                         <td style="text-align: center;">{{project.project_staff_regular}}</td>
                         <td style="text-align: center;">{{project.project_staff_temp}}</td>
                         <td style="text-align: center;">{{project.project_staff_resign}}</td>
-                        <td style="text-align: center;">{{project.project_staff_regular + project.project_staff_temp}}</td>
-                        <td style="text-align: center;">{{project.project_manpower - (project.project_staff_regular + project.project_staff_temp)}}</td>
+                        <td style="text-align: center;">{{project.project_staff_regular + project.project_staff_temp}}
+                        </td>
+                        <td style="text-align: center;">{{project.project_manpower - (project.project_staff_regular +
+                            project.project_staff_temp)}}</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -57,34 +62,38 @@
         </p-scrollPanel>
 
     </p-tabPanel>
-    
-    <p-tabPanel  >
-        <ng-template pTemplate = "header">
+
+    <p-tabPanel>
+        <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
             <span>Transfer</span>
         </ng-template>
-        
+
         <div class="formgrid grid align-items-end">
 
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
-            </div>            
+            </div>
 
             <div class="col-12 md:col-6">
-                <label for="selectedProtimepol_ot">Project</label><br>                       
-                <p-dropdown [options]="project_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedProject" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doGetLastVersion()"></p-dropdown>
+                <label for="selectedProtimepol_ot">Project</label><br>
+                <p-dropdown [options]="project_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedProject"
+                    [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
+                    (onChange)="doGetLastVersion()"></p-dropdown>
 
             </div>
             <div class="col-12 md:col-6">
-                <label for="selectedProtimepol_ot">Job</label><br>                       
-                <p-dropdown [options]="job_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedJob" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                <label for="selectedProtimepol_ot">Job</label><br>
+                <p-dropdown [options]="job_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedJob"
+                    [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
 
             </div>
 
             <div class="pt-3 col-6 md:col-3">
                 <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy" inputId="selectedFromdate"></p-calendar>
+                <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy"
+                    inputId="selectedFromdate"></p-calendar>
             </div>
             <div class="pt-3 col-6 md:col-3">
                 <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
@@ -109,44 +118,70 @@
                 </table>
 
             </div>
-    
-            
+
+
 
 
             <div class="pt-3 col-12">
                 <p-button label="Process" (click)="process()"></p-button>
             </div>
-            
+
         </div>
     </p-tabPanel>
-        
-    <p-tabPanel >
-        <ng-template pTemplate = "header">
+
+    <p-tabPanel>
+        <ng-template pTemplate="header">
             <i class="pi pi-list"></i>&nbsp;&nbsp;
             <span>History</span>
-        </ng-template>        
+        </ng-template>
         <div class="formgrid grid align-items-end">
-                     
-            <div class="pt-3 col-6 md:col-3">
+
+            <div>
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                    [(ngModel)]="selectedDate_fillter" (onSelect)="doFillter()"
+                    inputId="selectedDate_fillter"></p-calendar>
+            </div>
+
+            <!-- <div class="pt-3 col-6 md:col-3">
                 <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
                 <br>
                 <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy"[showIcon]="true" [showTime]="false" inputId="selectedFromdate"></p-calendar>
+            </div> -->
+            &nbsp;
+            <div>
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                    [(ngModel)]="selectedToDate_fillter" (onSelect)="doFillter()"
+                    inputId="selectedToDate_fillter"></p-calendar>
             </div>
-            <div class="col-6 md:col-3">
+                <!-- <p-menubar [model]="menu_Reload"></p-menubar> -->
+
+            <!-- <div class="col-6 md:col-3">
                 <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
                 <br>
                 <p-calendar [(ngModel)]="selectedToDate" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"inputId="selectedToDate"></p-calendar>
-            </div>   
+            </div>    -->
+            &nbsp;&nbsp;
+            <button pButton type="button" icon="pi pi-fw pi-refresh" class="p-button-secondary button-size btndel"><p-menubar [model]="menu_Reload"></p-menubar></button>
+
+                
+
             <div class="pt-3 col-6">
                 &nbsp;
-            </div>        
+            </div>
+
+
+
         </div>
+
+
         <p></p>
-        <p-scrollPanel [style]="{width: '100%', height: '650px'}" >
-            <p-table #dtJobemp [value]="projobemp_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProjobemp" (onRowSelect)="onRowSelectProjobemp($event)" dataKey="projobemp_id"
-                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-            >
+        <p-scrollPanel [style]="{width: '100%', height: '650px'}">
+            <p-table #dtJobemp [value]="projobemp_list" styleClass="p-datatable-sm"
+                [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true"
+                selectionMode="single" [(selection)]="selectedProjobemp" (onRowSelect)="onRowSelectProjobemp($event)"
+                dataKey="projobemp_id" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                [paginator]="true"
+                currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>{{title_project_code[initial_current.Language]}}</th>
@@ -189,5 +224,3 @@
     </p-tabPanel>
 
 </p-tabView>
-
-
