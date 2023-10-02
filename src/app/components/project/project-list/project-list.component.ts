@@ -534,23 +534,11 @@ export class ProjectListComponent implements OnInit {
       workerfillter.project_proarea = '';
     }
 
-    // วันที่
-    // if (this.fillterfromdate) {
-    //   workerfillter.projobemp_fromdate = new Date(this.selectedfromdate);
-    // } else {
-    //   workerfillter.projobemp_fromdate = new Date();  
-    // }
-    
-    // if (this.filltertodate) {
-    //   workerfillter.projobemp_todate = new Date(this.selectedtodate);
-    // } else {
-    //   workerfillter.projobemp_todate = new Date();  
-    // }
-    
 
-    this.projectService.MTProject_getbyfillter(  workerfillter).then( (res) => {
+    
+    this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter,this.selectedToDate_fillter, workerfillter).then( (res) => {
       this.project_list = res;
-      console.log(res)
+      console.log(res,'MTProject')
     });
   }
   //-- Status สถานะ

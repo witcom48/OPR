@@ -47,15 +47,10 @@
         </div>
     </p-scrollPanel>
 </p-dialog>
-<!-- <div class="grid">
-    <div class="col-3" style="margin-top: 10px;">
-         <p-dropdown   optionLabel="text"  [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"  ></p-dropdown>
-       
-    </div>   
-</div> -->
+
 <p-dialog header="{{title_notapprove[initial_current.Language]}}" [(visible)]="displayApproveNote"
     styleClass="dialog-overflow" [style]="{width: '27vw'}" [position]="position">
-    
+
     <p-scrollPanel [style]="{width: '25vw', height: '150px'}">
         <div class="formgrid grid">
 
@@ -116,7 +111,17 @@
             [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']">
             <ng-template pTemplate="caption">
                 <div class="flex">
-                    <span class="p-input-icon-left ml-auto">
+                    <!--  สถานะอนุมัติ (Default All)  -->
+                    <div class="col-6 md:col-3">
+                        <p-dropdown [options]="[{ label: title_wait[initial_current.Language], value: 'W' },
+                                        { label: title_approved[initial_current.Language], value: 'F' },
+                                        { label: title_notApprove[initial_current.Language], value: 'C' }]"
+                            optionLabel="label" optionValue="value" [showClear]="false" [(ngModel)]="selectedstatus"
+                            (onChange)="doChangeSelectstatus()" [style]="{ width: '100%', overflow: 'visible' }">
+                        </p-dropdown>
+                    </div>
+
+                    <span class="p-input-icon-left ml-auto search-input">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
                             placeholder="{{title_search[initial_current.Language]}}" />

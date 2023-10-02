@@ -316,8 +316,7 @@ export class ProjectCompareComponent implements OnInit {
       progroup = this.selectedProgroup_fillter;   
        
     }
-    console.log(this.selectedDate_fillter,this.selectedToDate_fillter,'res')
-
+ 
     
 
     this.projectService.cost_compare(this.initial_current.CompCode, this.selectedDate_fillter,this.selectedToDate_fillter, protype, probusiness,proarea,progroup).then(async (res) => {
