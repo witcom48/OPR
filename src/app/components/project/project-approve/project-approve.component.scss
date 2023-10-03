@@ -34,3 +34,17 @@
 small{
     font-size: 15px;
 }
+
+.search-input {
+    display: flex;
+    align-items: center;
+ 
+    border-radius: 4px;
+    padding: 4px;
+ 
+}
+
+.search-input i {
+    margin-right: 8px;
+    color: #ccc;
+}

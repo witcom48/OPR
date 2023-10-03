@@ -87,8 +87,9 @@ export class ProjectService {
   }
   ///////////ทำตรงนี้getMTProjectFillterList
 
-  public MTProject_getbyfillter(fillter: FillterProjectModel) {
-
+  public MTProject_getbyfillter( project: string,fromdate: Date, todate: Date,fillter: FillterProjectModel) {
+    let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
     const fillterS = {
       device_name: '',
       ip: "localhost",
@@ -96,7 +97,7 @@ export class ProjectService {
       language: "",
       company_code: fillter.company_code,
 
-      project_code: fillter.project_code,
+      project_code: project,
       project_name_th: fillter.project_name_th,
      
       project_name_en: fillter.project_name_en,
@@ -109,13 +110,51 @@ export class ProjectService {
       project_progroup: fillter.project_progroup,
       project_probusiness: fillter.project_probusiness,
       status: fillter.project_status,
-       
+      fromdate: datefrom,
+      todate: dateto,
       // projobemp_fromdate: this.datePipe.transform(fillter.projobemp_fromdate),
       // projobemp_todate: this.datePipe.transform(fillter.projobemp_todate),
 
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/MTProjectFillter_list', fillterS, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public MTProject_getbyfillter2( project: string,fromdate: Date, todate: Date,fillter: FillterProjectModel) {
+    let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
+    const fillterS = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      language: "",
+      company_code: fillter.company_code,
+
+      project_code: project,
+      project_name_th: fillter.project_name_th,
+     
+      project_name_en: fillter.project_name_en,
+      project_name_sub: fillter.project_name_sub,
+      project_codecentral: fillter.project_codecentral,
+      project_protype: fillter.project_protype,
+
+      ///
+      project_proarea: fillter.project_proarea,
+      project_progroup: fillter.project_progroup,
+      project_probusiness: fillter.project_probusiness,
+      status: fillter.project_status,
+      fromdate: datefrom,
+      todate: dateto,
+      // projobemp_fromdate: this.datePipe.transform(fillter.projobemp_fromdate),
+      // projobemp_todate: this.datePipe.transform(fillter.projobemp_todate),
+
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/MTProjectFillter2_list', fillterS, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         return message.data;
