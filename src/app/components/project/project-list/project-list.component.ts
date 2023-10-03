@@ -242,8 +242,7 @@ export class ProjectListComponent implements OnInit {
     var tmp = new ProbusinessModel();
 
     this.genaralService.probusiness_get(tmp).then((res) => {
-      //// console.log(res)
-      this.probusiness_list = res;
+       this.probusiness_list = res;
     });
     var tmp2 = new ProtypeModel();
     this.genaralService.protype_get(tmp2).then((res) => {
@@ -260,9 +259,6 @@ export class ProjectListComponent implements OnInit {
   }
 
   selectProject() {
-
-    //console.log(this.selectedProject.project_code)
-
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "project": this.selectedProject.project_code
@@ -303,8 +299,7 @@ export class ProjectListComponent implements OnInit {
 
     this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
       this.project_list = await res;
-      console.log(res, 'tt')
-      setTimeout(() => {
+       setTimeout(() => {
         this.calculateTotal()
       }, 1000);
     });
@@ -556,8 +551,7 @@ export class ProjectListComponent implements OnInit {
 
     this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter).then((res) => {
       this.project_list = res;
-      console.log(res, 'MTProject')
-    });
+     });
   }
   //-- Status สถานะ
   selectedstatus: string = "";
@@ -614,7 +608,7 @@ export class ProjectListComponent implements OnInit {
     }
   }
 
-  //
+  //// กรองวันที่FROMDATE
   doFillter2() {
     this.doGetDataFillter2()
   }
@@ -623,10 +617,23 @@ export class ProjectListComponent implements OnInit {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_code = this.project_code
-    this.projectService.MTProject_getbyfillter2(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter).then((res) => {
+    this.projectService.MTProject_getbyfillter2(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedDate_fillter, workerfillter).then((res) => {
       this.project_list = res;
-      console.log(res, 'doGetDataFillter2')
-    });
+     });
+  }
+
+// กรองวันที่ToDate
+  doFillter3() {
+    this.doGetDataFillter3()
+  }
+
+  doGetDataFillter3() {
+    const workerfillter: FillterProjectModel = new FillterProjectModel();
+    workerfillter.company_code = this.initial_current.CompCode;
+    workerfillter.project_code = this.project_code
+    this.projectService.MTProject_getbyfillter3(this.selectedProject.project_code, this.selectedToDate_fillter, this.selectedToDate_fillter, workerfillter).then((res) => {
+      this.project_list = res;
+     });
   }
 
 

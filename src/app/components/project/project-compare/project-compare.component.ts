@@ -41,7 +41,7 @@ export class ProjectCompareComponent implements OnInit {
   items: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
   menu_timecard: MenuItem[] = [];
-
+  toolbar_refresh: MenuItem[] = [];
   manage_title: string = "Time sheet"
   displayManage: boolean = false;
   searchEmp: boolean = false;
@@ -207,6 +207,16 @@ export class ProjectCompareComponent implements OnInit {
       },    
     ];
 
+    this.toolbar_refresh = [
+    
+      {
+         
+        icon: 'pi pi-fw pi-refresh',
+          command: (event) => {
+            this.doLoadProjectMonitor()
+          }        
+      },    
+    ];
  
     this.items = [
    
