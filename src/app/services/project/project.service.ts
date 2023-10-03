@@ -161,6 +161,44 @@ export class ProjectService {
       });
   }
 
+  public MTProject_getbyfillter3( project: string,fromdate: Date, todate: Date,fillter: FillterProjectModel) {
+    let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
+    const fillterS = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      language: "",
+      company_code: fillter.company_code,
+
+      project_code: project,
+      project_name_th: fillter.project_name_th,
+     
+      project_name_en: fillter.project_name_en,
+      project_name_sub: fillter.project_name_sub,
+      project_codecentral: fillter.project_codecentral,
+      project_protype: fillter.project_protype,
+
+      ///
+      project_proarea: fillter.project_proarea,
+      project_progroup: fillter.project_progroup,
+      project_probusiness: fillter.project_probusiness,
+      status: fillter.project_status,
+      fromdate: datefrom,
+      todate: dateto,
+      // projobemp_fromdate: this.datePipe.transform(fillter.projobemp_fromdate),
+      // projobemp_todate: this.datePipe.transform(fillter.projobemp_todate),
+
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/MTProjectFillter3_list', fillterS, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+
  
   ///////////ทำตรงนี้>>>
   public project_get_withstatus(company: string, project: string, status: string) {
@@ -356,6 +394,45 @@ export class ProjectService {
         return message.data;
       });
   }
+
+  //
+  public cost_compare2(company: string, fromdate: Date, todate: Date, protype: string, probusiness: string, proarea: string, progroup: string) {
+    let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      language: "",
+      project_code: "",
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: protype,
+
+      project_proarea: proarea,
+      project_progroup: progroup,
+
+      project_probusiness: probusiness,
+      fromdate: datefrom,
+      todate: dateto,
+      // fromdate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
+      // todate: this.datePipe.transform(workdateto, 'yyyy-MM-dd'),
+
+
+    };
+
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/cost_compare2', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
+  }
+  //
 
 
 
