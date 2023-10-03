@@ -64,7 +64,7 @@ export class ProcostService {
        device_name: "phone",
        ip: "127.0.0.1",
        username: this.initial_current.Username,
-       company_code:  this.initial_current.CompCode,
+       company:  this.initial_current.CompCode,
        procost_id: model.procost_id,
        procost_code: model.procost_code
    }

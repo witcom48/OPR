@@ -445,14 +445,14 @@
             <div class="field col-12 ">
                 <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_fromdate" dateFormat="dd/mm/yy"
+                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_fromdate" appendTo="body" dateFormat="dd/mm/yy"
                     inputId="projobemp_fromdate"></p-calendar>
             </div>
             <div class="field col-12 ">
                 <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
                 <br>
                 <p-calendar [(ngModel)]="selectedProjobemp.projobemp_todate" dateFormat="dd/mm/yy"
-                    inputId="projobemp_todate"></p-calendar>
+                    inputId="projobemp_todate" appendTo="body"></p-calendar>
             </div>
 
             <div class="field col-12">
@@ -778,7 +778,7 @@
                 <label for="proequipmentreq_date">{{title_equipment_date[initial_current.Language]}}</label>
                 <br>
                 <p-calendar [(ngModel)]="selectedProequipmentreq.proequipmentreq_date" dateFormat="dd/mm/yy"
-                [showIcon]="true"   inputId="proresponsible_fromdate"></p-calendar>
+                    [showIcon]="true" inputId="proresponsible_fromdate"></p-calendar>
             </div>
 
             <div class="field col-12">
@@ -863,8 +863,9 @@
 
                 <div class="field col-6 custom-height">
                     <label>{{title_project_code[initial_current.Language]}}</label>
-                    <input pInputText type="text" [(ngModel)]="selectedProject.project_code" maxlength="20"
-                        [readonly]="project_code" name="code" #code="ngModel"
+                    <input pInputText type="text" (change)="project_code=selectedProject.project_code"
+                        [(ngModel)]="selectedProject.project_code" maxlength="20" [readonly]="project_code" name="code"
+                        #code="ngModel"
                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                     <p>{{selectedProject.project_code.length}}/20</p>
 
@@ -1266,6 +1267,7 @@
                                 <th>{{title_equipment_qty[initial_current.Language]}}</th>
                                 <th>{{title_equipment_by[initial_current.Language]}}</th>
                                 <th>{{title_equipment_note[initial_current.Language]}}</th>
+
                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                 <th>{{title_modified_date[initial_current.Language]}}</th>
                             </tr>
@@ -1274,8 +1276,6 @@
                             <tr [pSelectableRow]="proequipment">
                                 <td style="text-align: center;">{{i+1}}</td>
                                 <td>{{proequipment.projob_code}}</td>
-
-                            
                                 <td>{{proequipment.proequipmentreq_date | date:'dd/MM/yyyy'}}</td>
                                 <td>{{proequipment.prouniform_code}}</td>
                                 <td>{{proequipment.proequipmenttype_code}}</td>

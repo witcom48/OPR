@@ -1497,20 +1497,20 @@ export class ProjectManageComponent implements OnInit {
         label: this.title_delete[this.initial_current.Language],
         icon: 'pi pi-fw pi-trash',
         command: (event) => {
-          this.confirmationService.confirm({
-            message: this.title_confirm_delete[this.initial_current.Language],
-            header: this.title_confirm[this.initial_current.Language],
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
+          // this.confirmationService.confirm({
+          //   message: this.title_confirm_delete[this.initial_current.Language],
+          //   header: this.title_confirm[this.initial_current.Language],
+          //   icon: 'pi pi-exclamation-triangle',
+          //   accept: () => {
               if (this.selectedProjobemp != null) {
                 this.projobemp_remove()
               }
-            },
-            reject: () => {
-              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
-            },
-            key: "myDialog"
-          });
+          //   },
+          //   reject: () => {
+          //     this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+          //   },
+          //   key: "myDialog"
+          // });
 
         }
       },
@@ -2657,6 +2657,7 @@ export class ProjectManageComponent implements OnInit {
   doLoadPolShift() {
     var tmp = new ShiftModels();
     tmp.company_code = this.initial_current.CompCode
+    tmp.project = true;
     this.polshift_list = []
     this.shiftServices.shift_get(tmp).then(async (res) => {
       this.polshift_list = await res;
