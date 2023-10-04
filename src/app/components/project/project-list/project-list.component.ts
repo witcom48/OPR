@@ -40,7 +40,8 @@ export class ProjectListComponent implements OnInit {
   ptype_list: ProjectTypeModel[] = [];
   pbusiness_list: ProjectBusinessModel[] = [];
   statuses: any[] = [];
-
+  home: any;
+  itemslike: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
   items: MenuItem[] = [];
 
@@ -174,7 +175,8 @@ export class ProjectListComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_page[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.items = [
       {
         label: this.title_new[this.initial_current.Language],

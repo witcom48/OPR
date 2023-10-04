@@ -90,7 +90,7 @@ export class ProGenaralComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.page_type = params['type'];
 
-     });
+    });
 
 
     //this.page_type = this.route.snapshot.queryParamMap.get('type') !== null ? this.route.snapshot.queryParamMap.get('type') : '';
@@ -106,7 +106,9 @@ export class ProGenaralComponent implements OnInit {
       this.doLoadMenu()
       this.doLoadGenaral()
     }, 500);
-
+  }
+    reloadPage() {
+      this.doLoadGenaral()
 
   }
 
@@ -166,6 +168,18 @@ export class ProGenaralComponent implements OnInit {
     }
 
   }
+  title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
+  title_cost: { [key: string]: string } = { EN: "Cost", TH: "ต้นทุน" }
+  title_project_protype: { [key: string]: string } = { EN: "Type", TH: "ประเภทงาน" }
+  title_project_probusiness: { [key: string]: string } = { EN: "Business", TH: "ประเภทธุรกิจ" }
+  title_jobmain_poluniform: { [key: string]: string } = { EN: "Uniform", TH: "ชุดฟอร์ม" }
+  title_project_proarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
+  title_project_proroup: { [key: string]: string } = { EN: "Group ", TH: "กลุ่ม" }
+  title_equipment_type: { [key: string]: string } = { EN: "Equipment Type", TH: "รูปแบบการเบิก" }
+  title_shift: { [key: string]: string } = { EN: "Shift", TH: "กะการทำงาน" }
+  title_general: { [key: string]: string } = { EN: "Genaral", TH: "ทั่วไป" };
+  title_slipform: { [key: string]: string } = { EN: "Slip form", TH: "ฟอร์มสลิป" };
+
 
   title_page: string = "Geanral";
   title_new: string = "New";
@@ -179,7 +193,7 @@ export class ProGenaralComponent implements OnInit {
   title_name_en: string = "Name (Eng.)";
 
   title_type: string = "Type";
-  
+
   title_auto: string = "Auto";
   title_itemcode: string = "Item";
 
@@ -231,18 +245,63 @@ export class ProGenaralComponent implements OnInit {
       this.title_confirm_no = "ยกเลิก";
       this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
 
-      this.title_system_project = "Project";
-      this.title_type= "ประเภทการจ่าย";
-      this.title_itemcode= "เงินได้";
+      this.title_system_project = "โครงการ";
+      this.title_type = "ประเภทการจ่าย";
+      this.title_itemcode = "เงินได้";
 
     }
   }
 
   doLoadMenu() {
+    switch (this.page_type) {
+      case "procost":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_cost[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
 
-    this.itemslike = [{ label: this.title_system_project, routerLink: "/project/policy" },
-    { label: this.title_page, styleClass: 'activelike' }];
-    this.home = { icon: 'pi pi-home', routerLink: '/' };
+      case "protype":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_protype[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "prouniform":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_jobmain_poluniform[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "proslip":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_slipform[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "proarea":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_proarea[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "progroup":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_proroup[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "proequipmenttype":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_equipment_type[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "probusiness":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_probusiness[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+    }
 
 
     this.items = [
@@ -278,12 +337,12 @@ export class ProGenaralComponent implements OnInit {
             ref = this.progroup_list.length + 100
             this.selectedProgroup = new ProgroupModel();
             this.selectedProgroup.progroup_id = ref.toString()
- 
+
             ///
-             ref = this.proequipmenttype_list.length + 100
+            ref = this.proequipmenttype_list.length + 100
             this.selectedProequipmenttype = new ProequipmenttypeModel();
             this.selectedProequipmenttype.proequipmenttype_id = ref.toString()
- 
+
             ///
 
 
@@ -419,7 +478,7 @@ export class ProGenaralComponent implements OnInit {
 
         this.procostService.procost_get(tmp8).then((res) => {
           this.procost_list = res;
-          console.log(res,'cost')
+          console.log(res, 'cost')
         });
         break;
       case "proarea":
@@ -434,7 +493,7 @@ export class ProGenaralComponent implements OnInit {
 
         this.genaralService.progroup_get(tmp6).then((res) => {
           this.progroup_list = res;
- 
+
         });
         break;
       //
@@ -443,7 +502,7 @@ export class ProGenaralComponent implements OnInit {
 
         this.genaralService.proequipmenttype_get(tmp7).then((res) => {
           this.proequipmenttype_list = res;
- 
+
         });
         break;
       //
@@ -469,7 +528,7 @@ export class ProGenaralComponent implements OnInit {
 
     });
   }
-   
+
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete,

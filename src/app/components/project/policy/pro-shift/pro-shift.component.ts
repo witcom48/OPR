@@ -23,11 +23,14 @@ export class ProShiftComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
-    this.itemslike = [{ label: 'Policy project', routerLink: '/project/policy' }, {
-      label: 'Shift', styleClass: 'activelike'
+    this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: '/project/policy' }, {
+      label: this.title_shift[this.initial_current.Language]  , styleClass: 'activelike'
     }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
+  title_shift: { [key: string]: string } = { EN: "Shift", TH: "กะการทำงาน" }
+  title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
+
   ngOnInit(): void {
     this.doGetInitialCurrent();
   }

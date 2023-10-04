@@ -33,7 +33,8 @@ export class ProjectMonitorComponent implements OnInit {
 
   @ViewChild('scrollMe')
   private myScrollContainer!: ElementRef;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   items: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
   menu_timecard: MenuItem[] = [];
@@ -118,8 +119,10 @@ export class ProjectMonitorComponent implements OnInit {
 
   title_staff_total: {[key: string]: string} = {  EN: "Total",  TH: "รวม"}
   title_staff_diff: {[key: string]: string} = {  EN: "Diff.",  TH: "ส่วนต่าง"}
-  
+  title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
+  title_monitor: { [key: string]: string } = { EN: "Monitor", TH: "Monitor" };
 
+  
   show_fillter: boolean = false;
 
   constructor(
@@ -198,6 +201,10 @@ export class ProjectMonitorComponent implements OnInit {
   }
 
   doLoadMenu(){
+    this.itemslike = [{ label: this.title_monitor[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+
+
     this.toolbar_menu = [
       {
         label:'Save',

@@ -1,8 +1,8 @@
 <!-- <span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <a
     routerLink="/project/policy">Policy</a><i class="pi pi-angle-right"></i>&nbsp;<small>{{title_page}}</small> -->
 
-<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
-<hr>
+<!-- <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<hr> -->
 
 
 
@@ -38,6 +38,46 @@
 <div *ngIf="displayUpload" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
 </div>
 <!-- <p-menubar [model]="items"></p-menubar> -->
+
+<div *ngIf="procost">
+    <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
+</div>
+<div *ngIf="protype">
+    <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
+</div>
+<div *ngIf="prouniform">
+    <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
+</div>
+<div *ngIf="proslip">
+    <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
+</div>
+<div *ngIf="proarea">
+    <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
+</div>
+<div *ngIf="progroup">
+    <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
+</div>
+<div *ngIf="proequipmenttype">
+    <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
+</div>
+<div *ngIf="probusiness">
+    <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
+</div>
+
+
+
+
+
+
+
 <div>
     <p-menubar [model]="items"></p-menubar>
 </div>
@@ -45,12 +85,19 @@
 <div class="tabledata">
     <div #TABLE>
         <div *ngIf="probusiness">
-            <p-table #dt2 [value]="probusiness_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt2 [value]="probusiness_list" selectionMode="single" [(selection)]="selectedProbusiness"
+                (onRowSelect)="onRowSelectProbusiness($event)" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['bonus_code','bonus_name_th','bonus_name_en','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+
+                <!-- <p-table #dt2 [value]="probusiness_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProbusiness"
                 (onRowSelect)="onRowSelectProbusiness($event)" dataKey="probusiness_code" [rows]="10"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['probusiness_code','probusiness_name_th','probusiness_name_en']">
+                [globalFilterFields]="['probusiness_code','probusiness_name_th','probusiness_name_en']"> -->
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -84,12 +131,18 @@
         </div>
 
         <div *ngIf="protype">
-            <p-table #dt3 [value]="protype_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt3 [value]="protype_list" selectionMode="single" [(selection)]="selectedProtype"
+                (onRowSelect)="onRowSelectProtype($event)" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['protype_code','protype_name_th','protype_name_en','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+                <!-- <p-table #dt3 [value]="protype_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProtype"
                 (onRowSelect)="onRowSelectProtype($event)" dataKey="protype_code" [rows]="10"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['protype_code','protype_name_th','protype_name_en']">
+                [globalFilterFields]="['protype_code','protype_name_th','protype_name_en']"> -->
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -123,12 +176,18 @@
         </div>
 
         <div *ngIf="prouniform">
-            <p-table #dt4 [value]="prouniform_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt4 [value]="prouniform_list" selectionMode="single" [(selection)]="selectedProuniform"
+                (onRowSelect)="onRowSelectProuniform($event)" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['prouniform_code','prouniform_name_th','prouniform_name_en','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+                <!-- <p-table #dt4 [value]="prouniform_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProuniform"
                 (onRowSelect)="onRowSelectProuniform($event)" dataKey="prouniform_code" [rows]="10"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['prouniform_code','prouniform_name_th','prouniform_name_en']">
+                [globalFilterFields]="['prouniform_code','prouniform_name_th','prouniform_name_en']"> -->
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -162,12 +221,18 @@
         </div>
 
         <div *ngIf="proslip">
-            <p-table #dt5 [value]="proslip_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt5 [value]="proslip_list" selectionMode="single" [(selection)]="selectedProslip"
+                (onRowSelect)="onRowSelectProslip($event)" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['proslip_code','proslip_name_th','proslip_name_en','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+                <!-- <p-table #dt5 [value]="proslip_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProslip"
                 (onRowSelect)="onRowSelectProslip($event)" dataKey="proslip_code" [rows]="10"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['proslip_code','proslip_name_th','proslip_name_en']">
+                [globalFilterFields]="['proslip_code','proslip_name_th','proslip_name_en']"> -->
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -201,12 +266,18 @@
         </div>
 
         <div *ngIf="procost">
-            <p-table #dt6 [value]="procost_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt6 [value]="procost_list" selectionMode="single" [(selection)]="selectedProcost"
+                (onRowSelect)="onRowSelectProcost($event)" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['procost_code','procost_name_th','procost_name_en','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+                <!-- <p-table #dt6 [value]="procost_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProcost"
                 (onRowSelect)="onRowSelectProcost($event)" dataKey="procost_code" [rows]="10"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['procost_code','procost_name_th','procost_name_en']">
+                [globalFilterFields]="['procost_code','procost_name_th','procost_name_en']"> -->
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -238,7 +309,7 @@
 
                         <td>{{data.procost_itemcode}}</td>
 
-                        
+
 
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -248,12 +319,19 @@
         </div>
 
         <div *ngIf="proarea">
-            <p-table #dt7 [value]="proarea_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt7 [value]="proarea_list" selectionMode="single" [(selection)]="selectedProarea"
+                (onRowSelect)="onRowSelectProarea($event)" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['proarea_code','proarea_name_th','proarea_name_en','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+
+                <!-- <p-table #dt7 [value]="proarea_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProarea"
                 (onRowSelect)="onRowSelectProarea($event)" dataKey="proarea_code" [rows]="10"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['proarea_code','proarea_name_th','proarea_name_en']">
+                [globalFilterFields]="['proarea_code','proarea_name_th','proarea_name_en']"> -->
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -287,12 +365,18 @@
         </div>
 
         <div *ngIf="progroup">
-            <p-table #dt8 [value]="progroup_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt8 [value]="progroup_list" selectionMode="single" [(selection)]="selectedProgroup"
+                (onRowSelect)="onRowSelectProgroup($event)" [rows]="10" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['progroup_code','progroup_name_th','progroup_name_en','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+                <!-- <p-table #dt8 [value]="progroup_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProgroup"
                 (onRowSelect)="onRowSelectProgroup($event)" dataKey="progroup_code" [rows]="10"
                 [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['progroup_code','progroup_name_th','progroup_name_en']">
+                [globalFilterFields]="['progroup_code','progroup_name_th','progroup_name_en']"> -->
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -334,13 +418,20 @@
 
         <!-- // -->
         <div *ngIf="proequipmenttype">
-            <p-table #dt9 [value]="proequipmenttype_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+            <p-table #dt9 [value]="proequipmenttype_list" selectionMode="single"
+                [(selection)]="selectedProequipmenttype" (onRowSelect)="onRowSelectProequipmenttype($event)" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}}  {totalRecords} {{title_page_record}}"
+                [globalFilterFields]="['proequipmenttype_code','proequipmenttype_name_th','proequipmenttype_name_en','modified_by','modified_date']"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+
+                <!-- <p-table #dt9 [value]="proequipmenttype_list" [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
                 scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
                 [(selection)]="selectedProequipmenttype" (onRowSelect)="onRowSelectProequipmenttype($event)"
                 dataKey="proequipmenttype_code" [rows]="10" [showCurrentPageReport]="true"
                 [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                 currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                [globalFilterFields]="['proequipmenttype_code','proequipmenttype_name_th','proequipmenttype_name_en']">
+                [globalFilterFields]="['proequipmenttype_code','proequipmenttype_name_th','proequipmenttype_name_en']"> -->
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
@@ -381,7 +472,7 @@
     <form #Form="ngForm">
         <div *ngIf="displaymanage" style="z-index: 1084;"
             class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>
-        <p-dialog [(visible)]="displaymanage" position="right">
+        <p-dialog [(visible)]="displaymanage" position="right" (onHide)="reloadPage()">
             <div *ngIf="probusiness">
                 <div class="formatt">
 
@@ -539,12 +630,12 @@
                     <label for="procost_type">{{title_type}}<span style="color: red;"> *</span></label>
                     <p-dropdown placeholder="--" [options]="procosttype_list" [(ngModel)]="selectedProcostType"
                         optionLabel="text" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
-                        name="Type" #Type="ngModel" ></p-dropdown>
+                        name="Type" #Type="ngModel"></p-dropdown>
 
                     <label for="procost_itemcode">{{title_itemcode}}<span style="color: red;"> *</span></label>
                     <p-dropdown placeholder="--" [options]="procostitem_list" [(ngModel)]="selectedProcostItem"
                         optionLabel="text" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
-                        name="item" #item="ngModel" ></p-dropdown>
+                        name="item" #item="ngModel"></p-dropdown>
 
 
                     <p-checkbox [(ngModel)]="selectedProcost.procost_auto"

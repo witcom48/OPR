@@ -26,7 +26,8 @@ export class ProjectApproveComponent implements OnInit {
 
   items: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
-
+  home: any;
+  itemslike: MenuItem[] = [];
   menu_project: MenuItem[] = [];
 
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
@@ -93,6 +94,9 @@ export class ProjectApproveComponent implements OnInit {
   title_project_progarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
 
+  title_approve_list: { [key: string]: string } = { EN: "Approve List", TH: "รายการอนุมัติ" }
+
+  
   total_project: number = 0
   total_transfer: number = 0
 
@@ -116,7 +120,8 @@ export class ProjectApproveComponent implements OnInit {
   }
 
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_approve_list[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.menu_project = [
       {
         label: this.title_approve[this.initial_current.Language],

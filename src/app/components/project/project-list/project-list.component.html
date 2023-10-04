@@ -1,3 +1,5 @@
+<!-- <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>  -->
 <table class="table_head" style="width: 100%;">
     <tr>
         <td align="left">
@@ -80,21 +82,21 @@
                             <label for="lastname2">{{ title_date[initial_current.Language] }} :</label>
                         </div>
 
-                        <div>
-                            <div>
-                                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
-                                    [(ngModel)]="selectedDate_fillter" (onSelect)="doFillter2()"
-                                    [disabled]="!fillterDate" inputId="selectedDate_fillter">
-                                </p-calendar>
-                            </div>
 
-                            <div>
-                                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
-                                    [(ngModel)]="selectedToDate_fillter" (onSelect)="doFillter3()"
-                                    [disabled]="!fillterDate" inputId="selectedToDate_fillter">
-                                </p-calendar>
-                            </div>
+                        <div>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                                [(ngModel)]="selectedDate_fillter" (onSelect)="doFillter2()" [disabled]="!fillterDate"
+                                inputId="selectedDate_fillter"
+                                [style]="{ width: '100%', overflow: 'visible', 'max-width': '200px' }">
+                            </p-calendar>
+                            &nbsp;&nbsp;
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                                [(ngModel)]="selectedToDate_fillter" (onSelect)="doFillter3()" [disabled]="!fillterDate"
+                                inputId="selectedToDate_fillter"
+                                [style]="{ width: '100%', overflow: 'visible', 'max-width': '200px' }">
+                            </p-calendar>
                         </div>
+
                     </div>
 
                     <div class="select">

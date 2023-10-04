@@ -37,7 +37,8 @@ export class ProjectCompareComponent implements OnInit {
 
   @ViewChild('scrollMe')
   private myScrollContainer!: ElementRef;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   items: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
   menu_timecard: MenuItem[] = [];
@@ -110,8 +111,9 @@ export class ProjectCompareComponent implements OnInit {
   title_filter: {[key: string]: string} = {  EN: "Filter",  TH: "กรอง"}
   title_staff_fromadate: {[key: string]: string} = {  EN: "Fromdate",  TH: "วันที่เริ่ม"}
   title_staff_todate: {[key: string]: string} = {  EN: "Todate",  TH: "วันที่สิ้นสุด"}
-  
+  title_staff_cost_compare: {[key: string]: string} = {  EN: "Cost Compare",  TH: "Cost Compare"}
 
+  
   show_fillter: boolean = false;
 
   constructor(
@@ -192,6 +194,9 @@ export class ProjectCompareComponent implements OnInit {
   }
 
   doLoadMenu(){
+    this.itemslike = [{ label: this.title_staff_cost_compare[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+
     this.toolbar_menu = [
       {
         label:'Save',
