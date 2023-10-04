@@ -102,13 +102,13 @@ export class ProGenaralComponent implements OnInit {
 
     setTimeout(() => {
       this.doLoadPageType();
-      this.doLoadLanguage()
+      this.doLoadLanguage();
       this.doLoadMenu()
       this.doLoadGenaral()
     }, 500);
   }
-    reloadPage() {
-      this.doLoadGenaral()
+  reloadPage() {
+    this.doLoadGenaral()
 
   }
 
@@ -658,6 +658,197 @@ export class ProGenaralComponent implements OnInit {
     }
     this.close();
   }
+
+  // Delete
+  Delete_Progroup(data: ProgroupModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.progroup_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+
+  Delete_protype(data: ProtypeModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.protype_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+
+  Delete_prouniform(data: ProuniformModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.prouniform_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+
+  Delete_probusiness(data: ProbusinessModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.probusiness_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+  Delete_proslip(data: ProslipModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.proslip_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+  Delete_procost(data: ProcostModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.procostService.procost_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+
+  Delete_proarea(data: ProareaModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.proarea_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+  Delete_proequipmenttype(data: ProequipmenttypeModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.proequipmenttype_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+  // ลบ
 
   doDeleteGenaral() {
 

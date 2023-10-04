@@ -116,6 +116,7 @@
                         <th>{{title_name_en}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
+                        <th> </th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
@@ -125,6 +126,12 @@
                         <td>{{data.probusiness_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <td>
+                            <button pButton type="button" class="pi pi-trash gray-button"
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="probusiness"
+                                (click)="Delete_probusiness(data)">
+                            </button>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -161,6 +168,7 @@
                         <th>{{title_name_en}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
+                        <th></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
@@ -170,6 +178,12 @@
                         <td>{{data.protype_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <td>
+                            <button pButton type="button" class="pi pi-trash gray-button"
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="protype"
+                                (click)="Delete_protype(data)">
+                            </button>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -206,6 +220,7 @@
                         <th>{{title_name_en}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
+                        <th></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
@@ -215,6 +230,12 @@
                         <td>{{data.prouniform_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <td>
+                            <button pButton type="button" class="pi pi-trash gray-button"
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="prouniform"
+                                (click)="Delete_prouniform(data)">
+                            </button>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -251,6 +272,8 @@
                         <th>{{title_name_en}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
+                        <th></th>
+
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
@@ -260,6 +283,12 @@
                         <td>{{data.proslip_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <td>
+                            <button pButton type="button" class="pi pi-trash gray-button"
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="proslip"
+                                (click)="Delete_proslip(data)">
+                            </button>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -298,6 +327,8 @@
                         <th>{{title_itemcode}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
+                        <th></th>
+
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
@@ -313,6 +344,12 @@
 
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <td>
+                            <button pButton type="button" class="pi pi-trash gray-button"
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="procost"
+                                (click)="Delete_procost(data)">
+                            </button>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -350,6 +387,8 @@
                         <th>{{title_name_en}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
+                        <th></th>
+
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
@@ -359,6 +398,12 @@
                         <td>{{data.proarea_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                        <td>
+                            <button pButton type="button" class="pi pi-trash gray-button"
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="proarea"
+                                (click)="Delete_proarea(data)">
+                            </button>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -395,6 +440,7 @@
                         <th>{{title_name_en}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
+                        <th> </th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
@@ -404,11 +450,13 @@
                         <td>{{data.progroup_name_en}}</td>
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                        <!-- <td>
+                        <td>
                             <button pButton type="button" class="pi pi-trash gray-button"
-                                [disabled]="!this.accessData.accessdata_delete" *ngIf="progroup" (click)="confirmDeleteProgroup(data)">
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="progroup"
+                                (click)="Delete_Progroup(data)">
                             </button>
-                        </td> -->
+                        </td>
+
 
 
                     </tr>
@@ -450,6 +498,8 @@
                         <th>{{title_name_en}}</th>
                         <th>{{title_modified_by}}</th>
                         <th>{{title_modified_date}}</th>
+                        <th></th>
+
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
@@ -460,7 +510,12 @@
                         <td>{{data.modified_by}}</td>
                         <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
 
-
+                        <td>
+                            <button pButton type="button" class="pi pi-trash gray-button"
+                                [disabled]="!this.accessData.accessdata_delete" *ngIf="proequipmenttype"
+                                (click)="Delete_proequipmenttype(data)">
+                            </button>
+                        </td>
 
                     </tr>
                 </ng-template>
