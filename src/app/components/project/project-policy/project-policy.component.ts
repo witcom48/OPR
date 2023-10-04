@@ -110,7 +110,7 @@ export class ProjectPolicyComponent implements OnInit {
   title_equipment_type: { [key: string]: string } = { EN: "Equipment Type", TH: "รูปแบบการเบิก" }
   title_shift: { [key: string]: string } = { EN: "Shift", TH: "กะการทำงาน" }
   title_general: { [key: string]: string } = { EN: "Genaral", TH: "ทั่วไป" };
-  title_slipform: { [key: string]: string } = { EN: "Slip form", TH: "ฟอร์มสลิป" };
+  title_slipform: { [key: string]: string } = { EN: "Slip form", TH: "สลิป" };
 
   
   loadInitialData(): void {
