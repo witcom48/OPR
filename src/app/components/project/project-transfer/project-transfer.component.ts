@@ -55,7 +55,8 @@ export class ProjectTransferComponent implements OnInit {
   project_code: string = "";
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" }
   title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }
   title_confirm_delete: { [key: string]: string } = { EN: "Confirm to delete", TH: "คุณต้องการลบรายการ" }
@@ -97,11 +98,13 @@ export class ProjectTransferComponent implements OnInit {
 
   title_staff_total: { [key: string]: string } = { EN: "Total", TH: "รวม" }
   title_staff_diff: { [key: string]: string } = { EN: "Diff.", TH: "ส่วนต่าง" }
-
+  
+  title_staff_transfer: { [key: string]: string } = { EN: "Transfer", TH: "Transfer" }
 
   menu_Reload: MenuItem[] = [];
   doLoadMenu() {
-
+    this.itemslike = [{ label: this.title_staff_transfer[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.menu_Reload = [
 
       {

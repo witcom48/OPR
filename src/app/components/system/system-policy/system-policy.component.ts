@@ -90,7 +90,7 @@ export class SystemPolicyComponent implements OnInit {
       this.title_ethnicity = 'เชื้อชาติ';
       this.title_bloodtype = 'กรุ๊ปเลือด';
       this.title_hospital = 'โรงพยาบาล';
-      this.title_location = 'สถานที่';
+      this.title_location = 'สถานที่ปฎิบัติงาน';
       this.title_reduce = 'ค่าลดหย่อน';
       this.title_set_structure_code = 'กำหนดรหัสโครงสร้าง';
       this.title_training = 'การฝึกอบรม';

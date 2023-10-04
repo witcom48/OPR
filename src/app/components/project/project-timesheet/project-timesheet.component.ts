@@ -46,6 +46,8 @@ export class ProjectTimesheetComponent implements OnInit {
 
   @ViewChild(SearchEmpComponent) selectEmp: any;
 
+  home: any;
+  itemslike: MenuItem[] = [];
   menu_timecard: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
 
@@ -98,8 +100,9 @@ export class ProjectTimesheetComponent implements OnInit {
   title_working_after: {[key: string]: string} = {  EN: "OT out",  TH: "โอทีหลังเลิกงาน"}
   title_working_late: {[key: string]: string} = {  EN: "Late",  TH: "สาย"}
   title_working_leave: {[key: string]: string} = {  EN: "Leave",  TH: "ลางาน"}
-  
+  title_working_timesheet: {[key: string]: string} = {  EN: "Timesheet",  TH: "Timesheet"}
 
+  
 
   constructor(
     private router:Router, 
@@ -158,6 +161,11 @@ export class ProjectTimesheetComponent implements OnInit {
   }
 
   doLoadMenu(){
+
+    this.itemslike = [{ label: this.title_working_timesheet[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+
+
     this.toolbar_menu = [
       {
         label:'Save',

@@ -1,5 +1,5 @@
-<span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Approve</small>
-<hr>
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
 
 <table class="table_summary_">
     <tr>
@@ -117,7 +117,7 @@
                                         { label: title_approved[initial_current.Language], value: 'F' },
                                         { label: title_notApprove[initial_current.Language], value: 'C' }]"
                             optionLabel="label" optionValue="value" [showClear]="false" [(ngModel)]="selectedstatus"
-                            (onChange)="doChangeSelectstatus()" [style]="{ width: '100%', overflow: 'visible' }">
+                            (onChange)="doChangeSelectstatus()" [style]="{ width: '100%', overflow: 'visible', 'max-width': '130px' }">
                         </p-dropdown>
                     </div>
 
