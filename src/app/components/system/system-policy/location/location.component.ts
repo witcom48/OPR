@@ -95,6 +95,38 @@ export class LocationComponent implements OnInit {
     });
   }
 
+  confirmDelete(data: SysLocationModel) {
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteLocation(data)
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.langs.get('Cancelled')[this.selectlang] });
+      },
+      key: "myDialog"
+    });
+  }
+ 
+  Delete() {
+    this.confirmationService.confirm({
+      message: this.langs.get('confirm_delete')[this.selectlang],
+      header: this.langs.get('delete')[this.selectlang],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteLocation(this.locations)
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.langs.get('Cancelled')[this.selectlang] });
+      },
+      key: "myDialog"
+    });
+  }
+ 
+  
+  
   async doDeleteLocation(data: SysLocationModel) {
     await this.locationService.location_delete(data).then((res) => {
       // console.log(res)
@@ -217,9 +249,7 @@ export class LocationComponent implements OnInit {
   Save() {
     this.doRecordLocation(this.locations)
   }
-  Delete() {
-    this.doDeleteLocation(this.locations)
-  }
+  
   onRowSelect(event: any) {
     this.new_data = true
     this.edit_data = true;
