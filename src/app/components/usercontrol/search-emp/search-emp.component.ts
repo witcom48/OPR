@@ -11,6 +11,7 @@ import { InitialCurrent } from '../../../config/initial_current';
 import { RadiovalueModel } from '../../../models/project/radio_value';
 import { EmployeeModel } from '../../../models/employee/employee';
 import { EmployeeService } from 'src/app/services/emp/worker.service';
+import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 
 @Component({
   selector: 'app-search-emp',
@@ -18,7 +19,6 @@ import { EmployeeService } from 'src/app/services/emp/worker.service';
   styleUrls: ['./search-emp.component.scss']
 })
 export class SearchEmpComponent implements OnInit {
-
   title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
   title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
   title_page_total: {[key: string]: string} = {  EN: "of",  TH: "จาก"}
@@ -31,6 +31,7 @@ export class SearchEmpComponent implements OnInit {
   title_lastname: {[key: string]: string} = {  EN: "Lastname",  TH: "นามสกุล"}
   title_position: {[key: string]: string} = {  EN: "Position",  TH: "ตำแหน่งงาน"}
   title_emptype: {[key: string]: string} = {  EN: "Emptype",  TH: "ประเภทพนักงาน"}
+  worker_code: string = "";
 
   constructor(private employeeService: EmployeeService,
    
@@ -66,10 +67,12 @@ export class SearchEmpComponent implements OnInit {
   }
 
   selectedEmployee:EmployeeModel = new EmployeeModel();
-  worker_list: EmployeeModel[] = []; 
-  doLoadEmployee(){
-    this.employeeService.worker_get(this.initial_current.CompCode, "").then((res) =>{
-      this.worker_list = res;   
+   // doLoadEmployee(){this.employeeService.worker_get(this.initial_current.CompCode, "").then((res) =>{this.worker_list = res;   });}
+  worker_list: EmployeeModel[] = [];
+  doLoadEmployee() {
+    var fillter: FillterEmpModel = new FillterEmpModel;
+    this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
+      this.worker_list = res;
     });
   }
 

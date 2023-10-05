@@ -3830,9 +3830,16 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
+  // workerList: EmployeeModel[] = [];
+  // doLoadblackList() {
+  //   this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
+  //     this.workerList = res;
+  //   });
+  // }
   workerList: EmployeeModel[] = [];
   doLoadblackList() {
-    this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
+    var fillter: FillterEmpModel = new FillterEmpModel;
+    this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
       this.workerList = res;
     });
   }
