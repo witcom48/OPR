@@ -31,6 +31,8 @@ import { PlanReduceComponent } from './payroll-policy/plan-reduce/plan-reduce.co
 import { ItemsPlanComponent } from './payroll-policy/items-plan/items-plan.component';
 import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolicy.component';
 
+import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.component';
+
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -49,6 +51,8 @@ import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolic
         { path: 'calculationperiod', component: CalculationperiodComponent },
 
         { path: 'summary', component: PayrollSummaryComponent },
+
+        { path: 'calbonus', component: PayrollCalbonusComponent },
 
 
         { path: 'transferbank', component: TransferBankComponent },
