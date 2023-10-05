@@ -19,6 +19,9 @@
 <div>
     <p-menubar [model]="items"></p-menubar>
 </div>
+
+
+
 <!-- ----------------END MENU----------------- -->
 <div class="tabledata">
     <!-- Table Show Data Year Period -->
@@ -31,9 +34,29 @@
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
+                <th>{{title_setitem[initial_current.Language]}}</th>
+                <div class="formatsetitem"
+                    style=" display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;color: green; font-weight: 500;">
+
+                    <tr>
+                        <span>{{title_ot[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_dg[initial_current.Language]}}</span>&nbsp;
+                        <span> {{title_vl[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_lt[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_ab[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_sa[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_bo[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_intax[initial_current.Language]}}</span>&nbsp;
+                    </tr>
+                    <tr>
+                        <span>{{title_ch[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_slf1[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_slf2[initial_current.Language]}}</span>&nbsp;
+                    </tr>
+                </div>
+
                 <div class="searchtable">
-                    <div>
-                    </div>
+                    <div></div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
@@ -41,6 +64,8 @@
                     </span>
                 </div>
             </ng-template>
+
+
             <!-- --------------END Form Search Table------------------ -->
             <ng-template pTemplate="header">
                 <tr>

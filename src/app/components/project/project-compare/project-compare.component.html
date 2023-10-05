@@ -1,9 +1,9 @@
-<span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Cost Compare</small>
-<hr>
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
 
 <table class="table_summary_">
     <tr>
-       
+
         <td valign="bottom">
             <button type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain mr-2"
                 [icon]="show_fillter ? 'pi pi-chevron-up' : 'pi pi-chevron-down'" (click)="doShowFillter()"></button>
@@ -12,16 +12,32 @@
 
 </table>
 <table *ngIf="show_fillter == true">
-    <tr>
-        <td colspan="4">
+    <td colspan="4">
+        <div class="formgrid grid align-items-end">
+
+
+
+            <div class="pt-6 col-6 md:col-4">
+                <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                    [(ngModel)]="selectedDate_fillter" (onSelect)="doFillter()"
+                    inputId="selectedDate_fillter"></p-calendar>
+            </div>
+            &nbsp;
+            <div class="pt-6 col-6 md:col-4">
+                <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
+                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                    [(ngModel)]="selectedToDate_fillter" (onSelect)="doFillter()"
+                    inputId="selectedToDate_fillter"></p-calendar>
+            </div>
+
+<p-menubar [model]="toolbar_refresh"></p-menubar>
+
+            
+        </div>
+        <div class="formgrid grid align-items-end">
             <table class="table_fillter">
-                <tr>
-                    <td class="text-left" style="width: 120px;">{{title_date[initial_current.Language]}}</td>
-                    <td>
-                        <p-calendar [(ngModel)]="selectedDate_fillter" dateFormat="dd/mm/yy" [showTime]="false"
-                            (onSelect)="doFillter()" inputId="selectedDate_fillter"></p-calendar>
-                    </td>
-                </tr>
+                <br>
                 <tr>
                     <td>
                         <div class="field-checkbox">
@@ -31,8 +47,8 @@
                         </div>
                     </td>
                     <td>
-                        <p-dropdown [options]="protype_list" optionValue="protype_code"
-                            [(ngModel)]="selectedType_fillter" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
+                            [(ngModel)]="selectedType_fillter" [showClear]="true" [disabled]="!type_fillter"
                             [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
@@ -53,14 +69,16 @@
                         </div>
                     </td>
                     <td>
-                        <p-dropdown [options]="probusiness_list" optionValue="probusiness_code"
-                            [(ngModel)]="selectedBusiness_fillter" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="probusiness_list" optionValue="probusiness_code"
+                            [(ngModel)]="selectedBusiness_fillter" [showClear]="true" [disabled]="!business_fillter"
                             [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                                {{initial_current.Language=="TH"? item.probusiness_name_th :
+                                item.probusiness_name_en}}
                             </ng-template>
                             <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                                {{initial_current.Language=="TH"? item.probusiness_name_th :
+                                item.probusiness_name_en}}
                             </ng-template>
                         </p-dropdown>
                     </td>
@@ -75,8 +93,8 @@
                         </div>
                     </td>
                     <td>
-                        <p-dropdown [options]="proarea_list" optionValue="proarea_code"
-                            [(ngModel)]="selectedProarea_fillter" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="proarea_list" optionValue="proarea_code"
+                            [(ngModel)]="selectedProarea_fillter" [showClear]="true" [disabled]="!proarea_fillter"
                             [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
@@ -96,23 +114,25 @@
                         </div>
                     </td>
                     <td>
-                        <p-dropdown [options]="progroup_list" optionValue="progroup_code"
-                            [(ngModel)]="selectedProgroup_fillter" [showClear]="true"
+                        <p-dropdown placeholder="--" [options]="progroup_list" optionValue="progroup_code"
+                            [(ngModel)]="selectedProgroup_fillter" [showClear]="true" [disabled]="!progroup_fillter"
                             [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.progroup_name_th : item.progroup_name_en}}
+                                {{initial_current.Language=="TH"? item.progroup_name_th :
+                                item.progroup_name_en}}
                             </ng-template>
                             <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.progroup_name_th : item.progroup_name_en}}
+                                {{initial_current.Language=="TH"? item.progroup_name_th :
+                                item.progroup_name_en}}
                             </ng-template>
                         </p-dropdown>
                     </td>
                 </tr>
             </table>
-        </td>
-    </tr>
+        </div>
+    </td>
 </table>
- 
+
 
 <div #scrollMe style="overflow: scroll; height: 600px;">
 
@@ -138,12 +158,12 @@
         <ng-template pTemplate="header">
             <tr>
                 <th></th>
-                <th >{{title_project_code[initial_current.Language]}}</th>
+                <th>{{title_project_code[initial_current.Language]}}</th>
                 <th>{{title_project_name[initial_current.Language]}}</th>
-                
+
                 <!-- <th style="width:10%">{{title_job_code[initial_current.Language]}}</th>
                 <th style="width:15%">{{title_job_name[initial_current.Language]}}</th> -->
-                
+
                 <th>{{title_version[initial_current.Language]}}</th>
                 <th>{{title_fromdate[initial_current.Language]}}</th>
                 <th>{{title_todate[initial_current.Language]}}</th>
@@ -172,9 +192,9 @@
                         [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                 </td>
                 <td><b>{{project.project_code}}</b></td>
-                <td style="padding: 5px;"  align="left">{{initial_current.Language=="TH"? project.project_name_th :
-                    project.project_name_en}}</td>   
-                    <td></td>
+                <td style="padding: 5px;" align="left">{{initial_current.Language=="TH"? project.project_name_th :
+                    project.project_name_en}}</td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -187,16 +207,16 @@
                 <td *ngIf="costs_title[6] !=''"></td>
                 <td *ngIf="costs_title[7] !=''"></td>
                 <td *ngIf="costs_title[8] !=''"></td>
-                <td *ngIf="costs_title[9] !=''"></td>   
-                <td></td>            
+                <td *ngIf="costs_title[9] !=''"></td>
+                <td></td>
             </tr>
-        </ng-template>        
+        </ng-template>
 
 
         <ng-template pTemplate="rowexpansion" let-projobmain>
             <tr>
-                <td></td>                
-                
+                <td></td>
+
                 <td>{{ projobmain.projobmain_code }}</td>
                 <td style="text-align: left;">{{initial_current.Language=="TH"? projobmain.projobmain_name_th :
                     projobmain.projobmain_name_en}}</td>
@@ -231,4 +251,3 @@
         </ng-template>
     </p-table>
 </div>
-

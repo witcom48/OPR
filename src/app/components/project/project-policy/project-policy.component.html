@@ -3,25 +3,28 @@
 
 <span>Links</span> -->
 <p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
-<p></p>
-<div class="grid">
+<hr>
 
 
-    <div class="col-12 md:col-3">
-        <!-- <b>Genaral</b> -->
-        <p-divider align="left">
-            <div>
-                <i class="pi pi-list mr-2"></i>
-                <b>Genaral</b>
+<div class="card" style="min-width: 600px; min-height: 500px">
+    <div class="grid">
+
+
+        <div class="col-12 md:col-3">
+            <!-- <b>Genaral</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_general[initialData.Language]}}</b>
+                </div>
+            </p-divider>
+            <div *ngFor="let item of genaralMenuItems">
+                <a routerLink="../../project/{{item.link}}"
+                    [queryParams]="{ type: item.queryParamsdata }">{{item.title}}</a>
             </div>
-        </p-divider>
-        <div *ngFor="let item of genaralMenuItems">
-            <a routerLink="../../project/{{item.link}}"
-                [queryParams]="{ type: item.queryParamsdata }">{{item.title}}</a>
-        </div>
-        <a routerLink="../../project/shift">Shift</a>
+            <a routerLink="../../project/shift">{{title_shift[initialData.Language]}}</a>
 
-        <!-- <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'procost'}">Cost</a>
+            <!-- <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'procost'}">Cost</a>
         <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'protype'}">Project Type</a>
         <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'probusiness'}">Project Business</a>
         <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'prouniform'}">Uniform</a>
@@ -29,9 +32,9 @@
 
         <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'proarea'}">Area</a>
         <a routerLink="../../project/pro_genaral" [queryParams]="{type: 'progroup'}">Group</a> -->
-    </div>
+        </div>
 
-    <!-- <div class="col-12 md:col-3">
+        <!-- <div class="col-12 md:col-3">
         <b>Attendance</b>
         <a >Period</a>      
         <a >Shift</a>
@@ -43,14 +46,14 @@
         
     </div> -->
 
-    <!-- <div class="col-12 md:col-3">
+        <!-- <div class="col-12 md:col-3">
         <b>Payroll</b>
         <a >Income / Deduct</a>  
         <a >Period</a>       
         <a >GL Account</a>
     </div> -->
 
-    <!-- <div class="col-3">
+        <!-- <div class="col-3">
         <p-divider align="left">
             <div>
                 <i class="pi pi-list mr-2"></i>
@@ -62,4 +65,5 @@
         </div>
     </div> -->
 
+    </div>
 </div>

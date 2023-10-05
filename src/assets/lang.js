@@ -233,7 +233,7 @@ var locationpage = new Map([
     ["delete", { TH: "ลบ", EN: "Delete" }],
     ["upload", { TH: "อัปโหลดไฟล์", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
-    ["location", { TH: "สถานที่", EN: "Location" }],
+    ["location", { TH: "สถานที่ปฎิบัติงาน", EN: "Location" }],
     ["detail", { TH: "รายละเอียด", EN: "Detail" }],
     ["lat", { TH: "ละติจูด", EN: "Latitude" }],
     ["long", { TH: "ลองจิจูด", EN: "Longitude " }],

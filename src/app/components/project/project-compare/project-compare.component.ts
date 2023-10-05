@@ -37,11 +37,12 @@ export class ProjectCompareComponent implements OnInit {
 
   @ViewChild('scrollMe')
   private myScrollContainer!: ElementRef;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   items: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
   menu_timecard: MenuItem[] = [];
-
+  toolbar_refresh: MenuItem[] = [];
   manage_title: string = "Time sheet"
   displayManage: boolean = false;
   searchEmp: boolean = false;
@@ -65,6 +66,7 @@ export class ProjectCompareComponent implements OnInit {
 //
 
   selectedDate_fillter :Date = new Date()
+  selectedToDate_fillter :Date = new Date()
 
   edit_workflow: boolean = false;
 
@@ -106,9 +108,12 @@ export class ProjectCompareComponent implements OnInit {
   title_fromdate: {[key: string]: string} = {  EN: "From",  TH: "จาก"}
   title_todate: {[key: string]: string} = {  EN: "To",  TH: "ถึง"}
 
-  
-  
+  title_filter: {[key: string]: string} = {  EN: "Filter",  TH: "กรอง"}
+  title_staff_fromadate: {[key: string]: string} = {  EN: "Fromdate",  TH: "วันที่เริ่ม"}
+  title_staff_todate: {[key: string]: string} = {  EN: "Todate",  TH: "วันที่สิ้นสุด"}
+  title_staff_cost_compare: {[key: string]: string} = {  EN: "Cost Compare",  TH: "Cost Compare"}
 
+  
   show_fillter: boolean = false;
 
   constructor(
@@ -189,6 +194,9 @@ export class ProjectCompareComponent implements OnInit {
   }
 
   doLoadMenu(){
+    this.itemslike = [{ label: this.title_staff_cost_compare[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+
     this.toolbar_menu = [
       {
         label:'Save',
@@ -204,6 +212,16 @@ export class ProjectCompareComponent implements OnInit {
       },    
     ];
 
+    this.toolbar_refresh = [
+    
+      {
+         
+        icon: 'pi pi-fw pi-refresh',
+          command: (event) => {
+            this.doLoadProjectMonitor()
+          }        
+      },    
+    ];
  
     this.items = [
    
@@ -285,7 +303,7 @@ export class ProjectCompareComponent implements OnInit {
 
   doFillter(){
     this.doLoadProjectMonitor()
-  }
+   }
 
   cost_compare: CostcompareModel[] = [];
   selectedCostcompare: CostcompareModel = new CostcompareModel;
@@ -313,9 +331,10 @@ export class ProjectCompareComponent implements OnInit {
       progroup = this.selectedProgroup_fillter;   
        
     }
+ 
     
 
-    this.projectService.cost_compare(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness,proarea,progroup).then(async (res) => {
+    this.projectService.cost_compare(this.initial_current.CompCode, this.selectedDate_fillter,this.selectedToDate_fillter, protype, probusiness,proarea,progroup).then(async (res) => {
       this.cost_compare = await res;
       setTimeout(() => {
         //this.calculateTotal()
@@ -403,7 +422,7 @@ export class ProjectCompareComponent implements OnInit {
   timeout: string | null | undefined
 
   doLoadTimecard(){    
-    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedCostcompare.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
+    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedCostcompare.project_code, "", this.selectedDate_fillter, this.selectedToDate_fillter).then(async (res) => {
       this.timecard_list = await res;
     });
   }
@@ -466,7 +485,7 @@ export class ProjectCompareComponent implements OnInit {
   job_monitor: JobMonitorModel[] = [];
   selectedJobMonitor: JobMonitorModel = new JobMonitorModel;
   doLoadJobMonitor(){        
-    this.projectService.job_monitor(this.initial_current.CompCode, this.selectedCostcompare.project_code, this.selectedDate_fillter).then(async (res) => {
+    this.projectService.job_monitor(this.initial_current.CompCode, this.selectedCostcompare.project_code, this.selectedDate_fillter,this.selectedToDate_fillter).then(async (res) => {
       this.job_monitor = await res;
       setTimeout(() => {
         
@@ -485,8 +504,9 @@ export class ProjectCompareComponent implements OnInit {
 
 
   doLoadPolCost(){
-  
-    this.procostService.procost_get(this.initial_current.CompCode).then((res) => {
+    var tmp = new ProcostModel();
+
+    this.procostService.procost_get(tmp).then((res) => {
 
       this.polcost_list = res;
       if(this.polcost_list.length > 0){

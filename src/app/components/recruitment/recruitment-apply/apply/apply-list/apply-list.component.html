@@ -71,7 +71,7 @@
 
                         &nbsp;&nbsp;
                         <div>
-                            {{title_McerFil[initial_current.Language]}} :
+                            {{title_requestmcer[initial_current.Language]}} :
                             <p-dropdown [ngModel]="statusCer_select" [options]="statusCer" placeholder="--"
                                 optionLabel="name" [showClear]="true" optionValue="value"
                                 (onChange)="dt2.filter($event.value, 'certificate', 'equals')" dataKey="value">
@@ -177,7 +177,7 @@
 
                     <button pButton pRipple type="button" label="{{title_convert[initial_current.Language]}}"
                         class="p-button-info" (click)="convertToEmp()"
-                        [disabled]="this.selectedReqworker.status!='W'"></button>
+                        [disabled]="this.selectedReqworker.status!='W' || this.selectedReqworker.certificate=='Wait'"></button>
                     &nbsp;
                     <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
                         (click)="selectComManage()"></button>

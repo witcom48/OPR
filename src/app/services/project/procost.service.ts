@@ -58,15 +58,31 @@ export class ProcostService {
       this.router.navigateByUrl('login');
     } 
   }
-     
-  public procost_get(company:string){      
-        return this.http.post<any>(this.config.ApiProjectModule + '/procost_list', this.basicRequest, this.options).toPromise()   
-    .then((res) => {
-      let message = JSON.parse(res);
-      //// console.log(res)
-      return message.data;
-    });
-  }
+   
+  public procost_get(model:ProcostModel) {
+    let data = {
+       device_name: "phone",
+       ip: "127.0.0.1",
+       username: this.initial_current.Username,
+       company:  this.initial_current.CompCode,
+       procost_id: model.procost_id,
+       procost_code: model.procost_code
+   }
+   return this.http.post<any>(this.config.ApiProjectModule + '/procost_list', data, this.options).toPromise()
+       .then((res) => {
+           let message = JSON.parse(res);
+           return message.data;
+       });
+}
+
+  // public procost_get(company:string){      
+  //       return this.http.post<any>(this.config.ApiProjectModule + '/procost_list', this.basicRequest, this.options).toPromise()   
+  //   .then((res) => {
+  //     let message = JSON.parse(res);
+  //     //// console.log(res)
+  //     return message.data;
+  //   });
+  // }
  
   public procost_record(model:ProcostModel) {   
     const data = {
@@ -78,7 +94,7 @@ export class ProcostService {
       procost_type: model.procost_type,    
       procost_auto: model.procost_auto,    
       procost_itemcode: model.procost_itemcode,    
-      company_code: model.company_code,    
+      company_code: model.company_code || this.initial_current.CompCode,
 
       modified_by: this.initial_current.Username
     };    
@@ -93,6 +109,8 @@ export class ProcostService {
 
   public procost_delete(model:ProcostModel) {    
     const data = {
+      company_code:this.initial_current.CompCode,
+
       procost_id: model.procost_id,
       procost_code: model.procost_code,       
       modified_by: this.initial_current.Username

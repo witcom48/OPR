@@ -51,15 +51,12 @@
             <div class="field col-12 md:col-6">
                 <div>
                     <label>BANK</label>
-                    <p-dropdown placeholder="--" [options]="bank_list" optionValue="bank_code" [showClear]="true"
-                        [showClear]="true" [(ngModel)]="selectedBank" [style]="{ width: '100%', overflow: 'visible' }">
-                        <ng-template let-item pTemplate="selectedItem">
-                            {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
-                        </ng-template>
-                        <ng-template let-item pTemplate="item">
-                            {{initial_current.Language=="TH"? item.bank_name_th : item.bank_name_en}}
-                        </ng-template>
-                    </p-dropdown>
+
+                    <p-dropdown placeholder="--" [options]="combankList" optionLabel="name_detail"
+                        [(ngModel)]="selectedBank" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
+                        (onChange)="doLoadCombankList( )"></p-dropdown>
+
+
                 </div>
             </div>
             <div class="field col-12 md:col-6">

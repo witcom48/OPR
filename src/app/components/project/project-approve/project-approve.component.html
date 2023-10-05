@@ -1,5 +1,5 @@
-<span style="font-size: 20px;">Project</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Approve</small>
-<hr>
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>
 
 <table class="table_summary_">
     <tr>
@@ -18,7 +18,7 @@
                     <span class="spn_title">{{title_total_transfer[initial_current.Language]}}</span>
                 </div>
             </div>
-        </td>        
+        </td>
         <!-- <td>
             <div class="main_div">
                 <span class="spn_value">5</span>
@@ -27,149 +27,168 @@
                 </div>
             </div>
         </td> -->
-                                              
+
     </tr>
-</table>  
+</table>
 
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
     key="myDialog"></p-confirmDialog>
 
-<p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage" styleClass="dialog-overflow" [style]="{width: '800vw'}" [position]="position">
-    <p-scrollPanel [style]="{width: '25vw', height: '500px'}" >
+<p-dialog header="{{title_manage[initial_current.Language]}}" [(visible)]="displayManage" styleClass="dialog-overflow"
+    [style]="{width: '800vw'}" [position]="position">
+    <p-scrollPanel [style]="{width: '25vw', height: '500px'}">
         <div class="formgrid grid">
-            
+
             <div class="field col-12 ">
-                
-            </div>	                                   
+
+            </div>
 
         </div>
     </p-scrollPanel>
 </p-dialog>
 
-<p-dialog header="{{title_notapprove[initial_current.Language]}}" [(visible)]="displayApproveNote" styleClass="dialog-overflow" [style]="{width: '27vw'}" [position]="position">
-    <p-scrollPanel [style]="{width: '25vw', height: '150px'}" >
+<p-dialog header="{{title_notapprove[initial_current.Language]}}" [(visible)]="displayApproveNote"
+    styleClass="dialog-overflow" [style]="{width: '27vw'}" [position]="position">
+
+    <p-scrollPanel [style]="{width: '25vw', height: '150px'}">
         <div class="formgrid grid">
-            
-            <div class="field col-12 ">                
-                <textarea [rows]="3" id="approve_note" [(ngModel)]="approveNote"
-                    [cols]="60" pInputTextarea [autoResize]="true"></textarea>
-            </div>	       
+
+            <div class="field col-12 ">
+                <textarea [rows]="3" id="approve_note" [(ngModel)]="approveNote" [cols]="60" pInputTextarea
+                    [autoResize]="true"></textarea>
+            </div>
             <div class="field col-12 ">
                 <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
-    styleClass="p-button-raised p-button-secondary" (click)="
+                    styleClass="p-button-raised p-button-secondary" (click)="
     confirm_notapprove()"></p-button>
-            </div>                            
+            </div>
 
         </div>
     </p-scrollPanel>
 </p-dialog>
 
-<p-dialog header="{{title_popup_approve[initial_current.Language]}}" [(visible)]="displayApprove" styleClass="dialog-overflow" [style]="{width: '40vw'}" [position]="position">
-    
-    <div class="formgrid grid">            
+<p-dialog header="{{title_popup_approve[initial_current.Language]}}" [(visible)]="displayApprove"
+    styleClass="dialog-overflow" [style]="{width: '40vw'}" [position]="position">
+
+    <div class="formgrid grid">
         <div class="field col-12 ">
-            <p-table #dtApprove  [value]="approve_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '35vw'}" [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedApprove"  dataKey="approve_by" >
+            <p-table #dtApprove [value]="approve_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '35vw'}"
+                [scrollable]="true" scrollHeight="250px" [virtualScroll]="true" selectionMode="single"
+                [(selection)]="selectedApprove" dataKey="approve_by">
                 <ng-template pTemplate="header">
-                    <tr>                   
+                    <tr>
                         <th>{{title_username[initial_current.Language]}}</th>
-                        <th>{{title_status[initial_current.Language]}}</th>                        
-                        <th>{{title_approve_date[initial_current.Language]}}</th>                                                                        
-                    </tr>	                    
+                        <th>{{title_status[initial_current.Language]}}</th>
+                        <th>{{title_approve_date[initial_current.Language]}}</th>
+                    </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-approve>
-                    <tr [pSelectableRow]="approve">        
-                        <td >{{approve.approve_by}}</td>   
-                        <td class="text-left">{{approve.approve_status}}</td>                              
+                    <tr [pSelectableRow]="approve">
+                        <td>{{approve.approve_by}}</td>
+                        <td >{{approve.approve_status}}</td>
                         <td>
-                            <div *ngIf="approve.approve_status != '-'">{{approve.approve_date | date:'dd/MM/yyyy HH:mm'}}</div>
+                            <div *ngIf="approve.approve_status != '-'">{{approve.approve_date | date:'dd/MM/yyyy
+                                HH:mm'}}</div>
                         </td>
                     </tr>
-                </ng-template>  
+                </ng-template>
             </p-table>
-        </div>	 
+        </div>
     </div>
-    
+
 </p-dialog>
 
-<p></p> 
+<p></p>
 <p-accordion>
-    <p-accordionTab header="Project" [selected]="true">        
+    <p-accordionTab header="Project" [selected]="true">
         <p-menubar [model]="menu_project"></p-menubar>
-        <p-table #dt2  [value]="project_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedProject"  dataKey="project_code"
-            
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-            [paginator]="true" currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-            [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']"
-            >
+        <p-table #dt2 [value]="project_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}"
+            [scrollable]="true" scrollHeight="400px" [virtualScroll]="true" selectionMode="single"
+            [(selection)]="selectedProject" dataKey="project_code" [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+            [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']">
             <ng-template pTemplate="caption">
                 <div class="flex">
-                    <span class="p-input-icon-left ml-auto">
+                    <!--  สถานะอนุมัติ (Default All)  -->
+                    <div class="col-6 md:col-3">
+                        <p-dropdown [options]="[{ label: title_wait[initial_current.Language], value: 'W' },
+                                        { label: title_approved[initial_current.Language], value: 'F' },
+                                        { label: title_notApprove[initial_current.Language], value: 'C' }]"
+                            optionLabel="label" optionValue="value" [showClear]="false" [(ngModel)]="selectedstatus"
+                            (onChange)="doChangeSelectstatus()" [style]="{ width: '100%', overflow: 'visible', 'max-width': '130px' }">
+                        </p-dropdown>
+                    </div>
+
+                    <span class="p-input-icon-left ml-auto search-input">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search[initial_current.Language]}}" />
+                        <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
+                            placeholder="{{title_search[initial_current.Language]}}" />
                     </span>
                 </div>
             </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>		                        
-                        <th style="width:9%">{{title_projectcode[initial_current.Language]}}</th>
-                        <th style="width:12%">{{title_projectname[initial_current.Language]}}</th>                      
-                        <th>{{title_probusiness[initial_current.Language]}}</th>
-                        <th>{{title_protype[initial_current.Language]}}</th>                        
-                        <th>{{title_manpower[initial_current.Language]}}</th>
-                        <th>{{title_cost[initial_current.Language]}}</th>
-                        <th>{{title_fromdate[initial_current.Language]}}</th>
-                        <th>{{title_todate[initial_current.Language]}}</th>
-                        <th>{{title_status[initial_current.Language]}}</th>       
-                        <th>{{title_view_approve[initial_current.Language]}}</th>                 
-                        <th>{{title_modified_by[initial_current.Language]}}</th>
-                        <th>{{title_modified_date[initial_current.Language]}}</th>                                                
-                    </tr>	                    
-                </ng-template>
-                <ng-template pTemplate="body" let-project>
-                    <tr [pSelectableRow]="project">        
-                        <td >{{project.project_code}}</td>                                
-                        <td class="text-left">
-                            <div *ngIf="this.initial_current.Language == 'TH'">
-                                {{project.project_name_th}}
-                            </div>
-                            <div *ngIf="this.initial_current.Language != 'TH'">
-                                {{project.project_name_en}}
-                            </div>
-                        </td>                        
-                        <td class="text-left">{{project.project_probusiness}}</td>
-                        <td>{{project.project_protype}}</td>
-                        <td class="text-right">{{project.project_emp}}</td>
-                        <td class="text-right">{{project.project_cost | number:'1.2-2'}}</td>         
-                        <td>{{project.project_start | date:'dd/MM/yyyy '}}</td>  
-                        <td>{{project.project_end | date:'dd/MM/yyyy '}}</td>  
-                        <td>{{project.approve_status}}</td>  
-                        <td>
-                            <p-button icon="pi pi-user" (click)="doLoadApprove(project.project_code, 'PRO_NEW')" label=""
-                                 styleClass="p-button-text"></p-button>
-                        </td>
-                        <td>{{project.modified_by}}</td>      
-                        <td>{{project.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                    </tr>
-                </ng-template>  
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:9%">{{title_projectcode[initial_current.Language]}}</th>
+                    <th style="width:12%">{{title_projectname[initial_current.Language]}}</th>
+                    <th>{{title_probusiness[initial_current.Language]}}</th>
+                    <th>{{title_protype[initial_current.Language]}}</th>
+                    <th>{{title_manpower[initial_current.Language]}}</th>
+                    <th>{{title_cost[initial_current.Language]}}</th>
+                    <th>{{title_fromdate[initial_current.Language]}}</th>
+                    <th>{{title_todate[initial_current.Language]}}</th>
+                    <th>{{title_status[initial_current.Language]}}</th>
+                    <th>{{title_view_approve[initial_current.Language]}}</th>
+                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-project>
+                <tr [pSelectableRow]="project">
+                    <td>{{project.project_code}}</td>
+                    <td class="text-left">
+                        <div *ngIf="this.initial_current.Language == 'TH'">
+                            {{project.project_name_th}}
+                        </div>
+                        <div *ngIf="this.initial_current.Language != 'TH'">
+                            {{project.project_name_en}}
+                        </div>
+                    </td>
+                    <td class="text-left">{{project.project_probusiness}}</td>
+                    <td>{{project.project_protype}}</td>
+                    <td class="text-right">{{project.project_emp}}</td>
+                    <td class="text-right">{{project.project_cost | number:'1.2-2'}}</td>
+                    <td>{{project.project_start | date:'dd/MM/yyyy '}}</td>
+                    <td>{{project.project_end | date:'dd/MM/yyyy '}}</td>
+                    <td>{{project.approve_status}}</td>
+                    <td>
+                        <p-button icon="pi pi-user" (click)="doLoadApprove(project.project_code, 'PRO_NEW')" label=""
+                            styleClass="p-button-text"></p-button>
+                    </td>
+                    <td>{{project.modified_by}}</td>
+                    <td>{{project.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>
         </p-table>
     </p-accordionTab>
 </p-accordion>
-<p></p> 
+<p></p>
 <p-accordion>
-    <p-accordionTab header="Transfer Emp." >        
-        <p-table  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="220px" [virtualScroll]="true" selectionMode="single" >
+    <p-accordionTab header="Transfer Emp.">
+        <p-table styleClass="p-datatable-sm" [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+            scrollHeight="220px" [virtualScroll]="true" selectionMode="single">
             <ng-template pTemplate="header">
-                <tr>		                        
+                <tr>
                     <th style="width:8%">โครงการ</th>
-                    <th style="width:12%">ชื่อโครงการ</th>                    
+                    <th style="width:12%">ชื่อโครงการ</th>
                     <th>รหัสพนักงาน</th>
                     <th>ชื่อ-นามสกุล</th>
                     <th>จากวันที่</th>
-                    <th>ถึงวันที่</th>                             
+                    <th>ถึงวันที่</th>
                     <th>ผู้ทำรายการ</th>
-                    <th>วันที่ทำรายการ</th>                                                
-                </tr>	
+                    <th>วันที่ทำรายการ</th>
+                </tr>
             </ng-template>
         </p-table>
     </p-accordionTab>

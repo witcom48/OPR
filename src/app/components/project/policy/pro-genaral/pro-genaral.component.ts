@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Table } from 'primeng/table';
@@ -22,6 +20,7 @@ import { ProcostService } from '../../../../services/project/procost.service';
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
 
 @Component({
   selector: 'app-pro-genaral',
@@ -63,7 +62,11 @@ export class ProGenaralComponent implements OnInit {
   proarea: boolean = false;
   proarea_list: ProareaModel[] = [];
   selectedProarea: ProareaModel = new ProareaModel();
-
+  ///
+  proequipmenttype: boolean = false;
+  proequipmenttype_list: ProequipmenttypeModel[] = [];
+  selectedProequipmenttype: ProequipmenttypeModel = new ProequipmenttypeModel();
+  ////
   progroup: boolean = false;
   progroup_list: ProgroupModel[] = [];
   selectedProgroup: ProgroupModel = new ProgroupModel();
@@ -87,7 +90,6 @@ export class ProGenaralComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.page_type = params['type'];
 
-      // console.log(this.page_type);
     });
 
 
@@ -100,11 +102,13 @@ export class ProGenaralComponent implements OnInit {
 
     setTimeout(() => {
       this.doLoadPageType();
-      this.doLoadLanguage()
+      this.doLoadLanguage();
       this.doLoadMenu()
       this.doLoadGenaral()
     }, 500);
-
+  }
+  reloadPage() {
+    this.doLoadGenaral()
 
   }
 
@@ -128,6 +132,7 @@ export class ProGenaralComponent implements OnInit {
     this.procost = false
     this.proarea = false
     this.progroup = false
+    this.proequipmenttype = false
 
 
     switch (this.page_type) {
@@ -152,12 +157,29 @@ export class ProGenaralComponent implements OnInit {
       case "progroup":
         this.progroup = true
         break;
+
+      case "proequipmenttype":
+        this.proequipmenttype = true
+        break;
+
       default:
         // 
         break;
     }
 
   }
+  title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
+  title_cost: { [key: string]: string } = { EN: "Cost", TH: "ต้นทุน" }
+  title_project_protype: { [key: string]: string } = { EN: "Type", TH: "ประเภทงาน" }
+  title_project_probusiness: { [key: string]: string } = { EN: "Business", TH: "ประเภทธุรกิจ" }
+  title_jobmain_poluniform: { [key: string]: string } = { EN: "Uniform", TH: "ชุดฟอร์ม" }
+  title_project_proarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
+  title_project_proroup: { [key: string]: string } = { EN: "Group ", TH: "กลุ่ม" }
+  title_equipment_type: { [key: string]: string } = { EN: "Equipment Type", TH: "รูปแบบการเบิก" }
+  title_shift: { [key: string]: string } = { EN: "Shift", TH: "กะการทำงาน" }
+  title_general: { [key: string]: string } = { EN: "Genaral", TH: "ทั่วไป" };
+  title_slipform: { [key: string]: string } = { EN: "Slip form", TH: "ฟอร์มสลิป" };
+
 
   title_page: string = "Geanral";
   title_new: string = "New";
@@ -171,6 +193,7 @@ export class ProGenaralComponent implements OnInit {
   title_name_en: string = "Name (Eng.)";
 
   title_type: string = "Type";
+
   title_auto: string = "Auto";
   title_itemcode: string = "Item";
 
@@ -222,16 +245,63 @@ export class ProGenaralComponent implements OnInit {
       this.title_confirm_no = "ยกเลิก";
       this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
 
-      this.title_system_project = "Project";
+      this.title_system_project = "โครงการ";
+      this.title_type = "ประเภทการจ่าย";
+      this.title_itemcode = "เงินได้";
 
     }
   }
 
   doLoadMenu() {
+    switch (this.page_type) {
+      case "procost":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_cost[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
 
-    this.itemslike = [{ label: this.title_system_project, routerLink: "/project/policy" },
-    { label: this.title_page, styleClass: 'activelike' }];
-    this.home = { icon: 'pi pi-home', routerLink: '/' };
+      case "protype":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_protype[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "prouniform":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_jobmain_poluniform[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "proslip":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_slipform[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "proarea":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_proarea[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "progroup":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_proroup[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "proequipmenttype":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_equipment_type[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "probusiness":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_probusiness[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+    }
 
 
     this.items = [
@@ -267,6 +337,13 @@ export class ProGenaralComponent implements OnInit {
             ref = this.progroup_list.length + 100
             this.selectedProgroup = new ProgroupModel();
             this.selectedProgroup.progroup_id = ref.toString()
+
+            ///
+            ref = this.proequipmenttype_list.length + 100
+            this.selectedProequipmenttype = new ProequipmenttypeModel();
+            this.selectedProequipmenttype.proequipmenttype_id = ref.toString()
+
+            ///
 
 
             this.new_data = true;
@@ -331,6 +408,16 @@ export class ProGenaralComponent implements OnInit {
               window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Progroup.xlsx', '_blank');
 
               break;
+
+            //
+            case "proequipmenttype":
+              this.proequipmenttype = true
+              ref = this.proequipmenttype_list.length + 100
+
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Proequipmenttype.xlsx', '_blank');
+
+              break;
+            //
             default:
               // 
               break;
@@ -387,8 +474,11 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
       case "procost":
-        this.procostService.procost_get(this.initial_current.CompCode).then((res) => {
+        var tmp8 = new ProcostModel();
+
+        this.procostService.procost_get(tmp8).then((res) => {
           this.procost_list = res;
+          console.log(res, 'cost')
         });
         break;
       case "proarea":
@@ -403,8 +493,19 @@ export class ProGenaralComponent implements OnInit {
 
         this.genaralService.progroup_get(tmp6).then((res) => {
           this.progroup_list = res;
+
         });
         break;
+      //
+      case "proequipmenttype":
+        var tmp7 = new ProequipmenttypeModel();
+
+        this.genaralService.proequipmenttype_get(tmp7).then((res) => {
+          this.proequipmenttype_list = res;
+
+        });
+        break;
+      //
       default:
         // 
         break;
@@ -427,37 +528,6 @@ export class ProGenaralComponent implements OnInit {
 
     });
   }
-  ////////////////////////////////////////////////////////////////
-
-  async doDeleteLate(data: ProgroupModel) {
-    try {
-      const res = await this.genaralService.progroup_delete(data);
-      if (res.success) {
-        this.messageService.add({severity: 'success',summary: 'Success',detail: res.message});
-        this.doLoadGenaral();  
-      } else {
-        this.messageService.add({severity: 'error',summary: 'Error',detail: res.message});
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      this.messageService.add({severity: 'error',summary: 'Error',detail: 'An error occurred while deleting.'});
-    }
-  }
-  
-  confirmDeleteProgroup(data: ProgroupModel) {
-    this.confirmationService.confirm({
-      message: this.title_confirm_delete,
-      header: this.title_confirm,
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.doDeleteLate(data);
-      },
-      reject: () => {
-        this.messageService.add({severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel});
-      }
-    });
-  }
-  ////////////////////////////////////////////////////////////////
 
   confirmDelete() {
     this.confirmationService.confirm({
@@ -569,12 +639,216 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
 
+      case "proequipmenttype":
+        this.genaralService.proequipmenttype_record(this.selectedProequipmenttype).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doLoadGenaral()
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
       default:
         // 
         break;
     }
     this.close();
   }
+
+  // Delete
+  Delete_Progroup(data: ProgroupModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.progroup_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+
+  Delete_protype(data: ProtypeModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.protype_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+
+  Delete_prouniform(data: ProuniformModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.prouniform_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+
+  Delete_probusiness(data: ProbusinessModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.probusiness_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+  Delete_proslip(data: ProslipModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.proslip_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+  Delete_procost(data: ProcostModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.procostService.procost_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+
+  Delete_proarea(data: ProareaModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.proarea_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+  Delete_proequipmenttype(data: ProequipmenttypeModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.proequipmenttype_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+  // ลบ
 
   doDeleteGenaral() {
 
@@ -664,6 +938,21 @@ export class ProGenaralComponent implements OnInit {
           }
         });
         break;
+
+      //
+      case "proequipmenttype":
+        this.genaralService.proequipmenttype_delete(this.selectedProequipmenttype).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+      //
       default:
         // 
         break;
@@ -712,6 +1001,14 @@ export class ProGenaralComponent implements OnInit {
     this.new_data = false;
     this.displaymanage = true;
   }
+
+  //
+  onRowSelectProequipmenttype(event: Event) {
+    this.edit_data = true;
+    this.new_data = false;
+    this.displaymanage = true;
+  }
+  //
 
   onRowSelectProcost(event: Event) {
     this.edit_data = true;
@@ -821,6 +1118,21 @@ export class ProGenaralComponent implements OnInit {
           }
         });
         break;
+
+      //
+      case "proequipmenttype":
+        this.genaralService.proequipmenttype_import(this.fileToUpload, filename, filetype).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+      //
       default:
         // 
         break;
@@ -922,6 +1234,8 @@ export class ProGenaralComponent implements OnInit {
     this.selectedProcost = new ProcostModel()
     this.selectedProarea = new ProareaModel()
     this.selectedProgroup = new ProgroupModel()
+    this.selectedProequipmenttype = new ProequipmenttypeModel()
+
   }
 
   doLoadSelectedProcostItem(value: string) {

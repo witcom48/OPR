@@ -16,6 +16,8 @@ import { TaskService } from '../../../../services/task.service'
 import * as xlsx from 'xlsx';
 import { BankService } from 'src/app/services/system/policy/bank.service';
 import { BankModel } from 'src/app/models/system/policy/bank';
+import { CombankModel } from 'src/app/models/system/combank';
+import { CompanyDetailService } from 'src/app/services/system/company_detail.service';
 
 interface Policy {
   name: string,
@@ -61,11 +63,11 @@ export class TransferBankComponent implements OnInit {
 
     ///Service
     private bankService: BankService,
-
+    private companyDetailService: CompanyDetailService
 
   ) { }
 
- 
+
 
   timesheet_list: PrjectEmpdailyModel[] = [];
   timesheet_dest: PrjectEmpdailyModel[] = [];
@@ -83,7 +85,7 @@ export class TransferBankComponent implements OnInit {
     //dropdown
     this.doLoadBank();
 
-
+    this.doLoadCombankList();
 
     setTimeout(() => {
       this.selectedBank = "002";
@@ -112,9 +114,23 @@ export class TransferBankComponent implements OnInit {
   doLoadBank() {
 
     var tmp = new BankModel();
-    this.bankService.bank_get( ).then((res) => {
+    this.bankService.bank_get().then((res) => {
       this.bank_list = res;
     });
+  }
+
+  combankList: CombankModel[] = [];
+  selectedCombank: CombankModel = new CombankModel();
+  doLoadCombankList() {
+    var tmp = new CombankModel();
+    this.companyDetailService.getcompany_bank(this.initial_current.CompCode,'',tmp)
+      .then((res) => {
+        this.combankList = res;
+         if (this.combankList.length > 0) {
+          this.selectedCombank = this.combankList[0];
+        }
+      });
+     
   }
 
 
@@ -123,42 +139,41 @@ export class TransferBankComponent implements OnInit {
   public taskWhoseList: TaskWhoseModel[] = [];
 
   public fillauto: boolean = false;
-  
-  public effdate : Date = new Date();
+
+  public effdate: Date = new Date();
   updateEffdate(event: any): void {
     console.log('Selected date:', this.effdate);
   }
-  
+
   process(): void {
-    console.log(this.selectedBank);
-  
+ 
     if (this.selectEmp.employee_dest.length === 0) {
       let message = "Please select an employee";
       this.doPrintMessage(message, "1");
       return;
     }
-  
+
     // Step 1: Task master
     this.task.company_code = this.initial_current.CompCode;
     this.task.task_type = 'TRN_BANK';
     this.task.task_status = 'W';
-  
+
     // Step 2: Task detail
     let process = this.selectedBank;
     process += this.fillauto ? '|AUTO' : '|COMPARE';
-  
+
     let fromDate = this.effdate;
     let toDate = this.effdate;
-  
+
     this.taskDetail.taskdetail_process = 'BANK';
     this.taskDetail.taskdetail_process = process;
     this.taskDetail.taskdetail_fromdate = fromDate;
     this.taskDetail.taskdetail_todate = toDate;
     this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
-  
+
     // Step 3: Task whose
     this.taskWhoseList = [];
-  
+
     this.confirmationService.confirm({
       message: this.title_confirm_record,
       header: this.title_confirm,
@@ -167,7 +182,7 @@ export class TransferBankComponent implements OnInit {
         this.taskService.task_record(this.task, this.taskDetail, this.selectEmp.employee_dest)
           .then((res) => {
             let result = JSON.parse(res);
-  
+
             if (result.success) {
               // Show success message
               this.messageService.add({
@@ -175,27 +190,27 @@ export class TransferBankComponent implements OnInit {
                 summary: 'Success',
                 detail: 'Record Success..',
               });
-  
+
               console.log("test result_link");
               console.log(result.result_link);
-  
+
               let link = result.result_link;
-  
+
               if (link !== "") {
                 console.log(this.initial_current + '/File/' + link + "/");
                 console.log(link.split("\\").pop());
-  
+
                 this.taskService.get_file(link).then((res) => {
                   const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
                   const fileName: string = link.split("\\").pop();
                   const objectUrl: string = URL.createObjectURL(blob);
                   const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
-  
+
                   a.href = objectUrl;
                   a.download = fileName;
                   document.body.appendChild(a);
                   a.click();
-  
+
                   document.body.removeChild(a);
                   URL.revokeObjectURL(objectUrl);
                 });
@@ -220,7 +235,7 @@ export class TransferBankComponent implements OnInit {
       key: "myDialog"
     });
   }
-  
+
 
 
   // updateEffdate(event: string | number | Date) {

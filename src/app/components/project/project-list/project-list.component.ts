@@ -19,6 +19,11 @@ import { ProgenaralService } from '../../../services/project/pro_genaral.service
 
 import { ProjectService } from '../../../services/project/project.service';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
+import { ProcontractModel } from 'src/app/models/project/project_contract';
+import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
+import { ProjobempModel } from 'src/app/models/project/project_jobemp';
+import { ProareaModel } from 'src/app/models/project/project_proarea';
 
 @Component({
   selector: 'app-project-list',
@@ -26,24 +31,35 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
   styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
-
+  project_code: string = "";
+  projobemp_status: string = "";
+  procontract_type: string = "";
+  project_status: string = "";
   loading: boolean = true;
   project_list: ProjectModel[] = [];
   ptype_list: ProjectTypeModel[] = [];
   pbusiness_list: ProjectBusinessModel[] = [];
   statuses: any[] = [];
-
+  home: any;
+  itemslike: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
   items: MenuItem[] = [];
 
   probusiness_list: ProbusinessModel[] = [];
   selectedProbusiness: ProbusinessModel = new ProbusinessModel();
 
+  proarea_list: ProareaModel[] = [];
+
+
   protype_list: ProtypeModel[] = [];
   selectedProtype: ProtypeModel = new ProtypeModel();
 
   edit_data: boolean = false;
   new_data: boolean = false;
+
+  selectedDate_fillter: Date = new Date()
+  selectedToDate_fillter: Date = new Date()
+
 
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
@@ -93,6 +109,21 @@ export class ProjectListComponent implements OnInit {
 
   title_manage: { [key: string]: string } = { EN: "Manage", TH: "จัดการข้อมูล" }
 
+
+  title_defaultstatus: { [key: string]: string } = { EN: "Status", TH: "สถานะอนุมัติ" }
+  title_wait: { [key: string]: string } = { EN: "Wait", TH: "รออนุมัติ" }
+  title_approved: { [key: string]: string } = { EN: "Approved", TH: "อนุมัติแล้ว" }
+  title_notApprove: { [key: string]: string } = { EN: "Not Approve", TH: "ไม่อนุมัติ" }
+  title_project_progarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
+  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
+
+
+
+
+
+
+
+
   total_project: number = 0
   new_project: number = 0
   total_emp: number = 0
@@ -121,7 +152,10 @@ export class ProjectListComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+
+    private projectDetailService: ProjectDetailService,
+
   ) { }
 
   ngOnInit(): void {
@@ -134,325 +168,502 @@ export class ProjectListComponent implements OnInit {
     setTimeout(() => {
       this.doLoadProject()
     }, 300);
-
-  }
-
-  doLoadMenu() {
-
-    this.items = [
-      {
-        label: this.title_new[this.initial_current.Language],
-        icon: 'pi pi-fw pi-plus',
-        command: (event) => {
-          if (this.accessData.accessdata_new) {
-            this.selectedProject = new ProjectModel();
-            this.selectedProbusiness = new ProbusinessModel();
-            this.selectedProtype = new ProtypeModel();
-            this.selectProject();
-
-            // this.new_data = true;
-            // this.edit_data = true;
-            // this.showManage()
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
-          }
-
-        }
-      }
-      // ,
-      // {
-      //     label:this.title_edit[this.initial_current.Language],
-      //     icon:'pi pi-fw pi-pencil',
-      //     command: (event) => {
-
-      //       if(this.selectedProject != null){
-      //         this.new_data= false;
-      //         this.edit_data = true
-      //         this.showManage()
-      //       }
-      //   }
-      // }
-      ,
-      {
-        label: this.title_import[this.initial_current.Language],
-        icon: 'pi pi-fw pi-file-import',
-        command: (event) => {
-          this.showUpload()
-          // this.showManage()
-        }
-      }
-      ,
-      {
-        label: this.title_export[this.initial_current.Language],
-        icon: 'pi pi-fw pi-file-export',
-        command: (event) => {
-          this.exportAsExcel()
-
-        }
-      }
-    ];
-  }
-
-  doLoadMaster() {
-    var tmp = new ProbusinessModel();
-
-    this.genaralService.probusiness_get(tmp).then((res) => {
-      //// console.log(res)
-      this.probusiness_list = res;
-    });
-    var tmp2 = new ProtypeModel();
-    this.genaralService.protype_get(tmp2).then((res) => {
-      this.protype_list = res;
-      
-    });
-  }
-
-  clear(table: Table) {
-    table.clear();
-  }
-
-  selectProject() {
-
-    //console.log(this.selectedProject.project_code)
-
-    let navigationExtras: NavigationExtras = {
-      queryParams: {
-        "project": this.selectedProject.project_code
-      }
-    };
-
-    this.router.navigate(["project/manage"], navigationExtras);
-  }
-
-  onRowSelectProject(event: any) {
-    this.edit_data = true;
-    this.new_data = true;
-    this.displayManage = true
-    this.doLoadSelectedProbusiness(this.selectedProject.project_probusiness);
-    this.doLoadSelectedProtype(this.selectedProject.project_protype);
-  }
-
-  doLoadSelectedProbusiness(value: string) {
-    for (let i = 0; i < this.probusiness_list.length; i++) {
-      if (this.probusiness_list[i].probusiness_code == value) {
-        this.selectedProbusiness = this.probusiness_list[i];
-        break;
-      }
-    }
-  }
-
-  doLoadSelectedProtype(value: string) {
-    for (let i = 0; i < this.protype_list.length; i++) {
-      if (this.protype_list[i].protype_code == value) {
-        this.selectedProtype = this.protype_list[i];
-        break;
-      }
-    }
-  }
-
-  selectedProject: ProjectModel = new ProjectModel;
-  doLoadProject() {
-
-    this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
-      this.project_list = await res;
-
-      setTimeout(() => {
-        this.calculateTotal()
-      }, 1000);
-    });
-  }
-
-  selectionProject(project: ProjectModel) {
-    this.selectedProject = project
-
-    this.new_data = false;
-    this.edit_data = true
-    this.showManage()
-
-  }
-
-  calculateTotal() {
-
-    this.total_project = 0;
-    this.total_emp = 0;
-    this.new_project = 0;
-    this.total_cost = 0;
-
-
-    for (let project of this.project_list) {
-      this.total_project++;
-      this.total_emp += project.project_emp;
-      this.total_cost += project.project_cost;
-
-      if (project.approve_status == "W") {
-        this.new_project++;
-      }
-
-
-      //if (project.project_start.getTime() >= this.initial_current.PR_FromDate.getTime()) {
-      //  this.new_project++;
-      //}
-
-    }
-
-
-  }
-  deleteProject(project: ProjectModel) {
-    this.projectService.project_delete(project).then((res) => {
-      if (res.success) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: res.message,
-          
-        });
-       } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: res.message,
-        });
-       }
-      reject: () => {
-        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
-      }
-    });
-  }
-  confirmRecord() {
-    this.confirmationService.confirm({
-      message: this.title_confirm_record[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-
-        this.selectedProject.company_code = this.initial_current.CompCode
-
-        this.projectService.project_record(this.selectedProject).then((res) => {
-          let result = JSON.parse(res);
-          if (result.success) {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-            this.doLoadProject()
-
-            this.new_data = false;
-            this.edit_data = false;
-            this.displayManage = false;          
-          }
-          else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-          }
-        });
-      },
-      reject: () => {
-        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
-      }
-    });
-  }
+    // setTimeout(() => {
+    //   this.doGetDataFillter();
+    // }, 300);
  
+}
 
-  
-  
-  confirmDelete() {
-    this.confirmationService.confirm({
-      message: this.title_confirm_delete[this.initial_current.Language],
-      header: this.title_confirm[this.initial_current.Language],
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.projectService.project_delete(this.selectedProject).then((res) => {
-          let result = JSON.parse(res);
-          if (result.success) {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-            this.doLoadProject()
-            this.new_data = false;
-            this.edit_data = false;
-            this.displayManage = false;
-          }
-          else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-          }
-        });
-      },
-      reject: () => {
-        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+doLoadMenu() {
+  this.itemslike = [{ label: this.title_page[this.initial_current.Language], styleClass: 'activelike' }];
+  this.home = { icon: 'pi pi-home', routerLink: '/' };
+  this.items = [
+    {
+      label: this.title_new[this.initial_current.Language],
+      icon: 'pi pi-fw pi-plus',
+      command: (event) => {
+        if (this.accessData.accessdata_new) {
+          this.selectedProject = new ProjectModel();
+          this.selectedProbusiness = new ProbusinessModel();
+          this.selectedProtype = new ProtypeModel();
+          this.selectProject();
+
+          // this.new_data = true;
+          // this.edit_data = true;
+          // this.showManage()
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permission denied' });
+        }
+
       }
-    });
-  }
+    }
+    // ,
+    // {
+    //     label:this.title_edit[this.initial_current.Language],
+    //     icon:'pi pi-fw pi-pencil',
+    //     command: (event) => {
 
-  displayUpload: boolean = false;
-  showUpload() {
-    this.displayUpload = true;
-  }
-
-  @ViewChild('TABLE') table: ElementRef | any = null;
-
-  exportAsExcel() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    XLSX.writeFile(wb, 'Export_genaral.xlsx');
-
-  }
-
-  fileToUpload: File | any = null;
-  handleFileInput(file: FileList) {
-    this.fileToUpload = file.item(0);
-  }
-  doUploadGenaral() {
-
-    this.displayUpload = false;
-
-    const filename = "Project_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
-    const filetype = "xls";
-
-    this.projectService.project_import(this.fileToUpload, filename, filetype).then((res) => {
-      let result = JSON.parse(res);
-      if (result.success) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-        this.doLoadProject()
+    //       if(this.selectedProject != null){
+    //         this.new_data= false;
+    //         this.edit_data = true
+    //         this.showManage()
+    //       }
+    //   }
+    // }
+    ,
+    {
+      label: "Template",
+      icon: 'pi-download',
+      command: (event) => {
+        window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project.xlsx', '_blank');
       }
-      else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+    }
+    ,
+    {
+      label: this.title_import[this.initial_current.Language],
+      icon: 'pi pi-fw pi-file-import',
+      command: (event) => {
+        this.showUpload()
+        // this.showManage()
       }
-    });
-
-  }
-
-  displayManage: boolean = false;
-  position: string = "right";
-  showManage() {
-    this.displayManage = true
-
-  }
-  reloadPage() {
-    this.doLoadProject()
-  }
-  close_manage() {
-    this.displayManage = false
-  }
-
-
-  doGetStatusDetail(status: string): any {
-    if (status == "W") {
-      return this.initial_current.Language == "EN" ? "Wait" : "รออนุมัติ"
     }
-    else if (status == "F") {
-      return this.initial_current.Language == "EN" ? "Approved" : "อนุมัติแล้ว"
+    ,
+    {
+      label: this.title_export[this.initial_current.Language],
+      icon: 'pi pi-fw pi-file-export',
+      command: (event) => {
+        this.exportAsExcel()
+
+      }
     }
-    else if (status == "C") {
-      return this.initial_current.Language == "EN" ? "Not Approve" : "ไม่อนุมัติ"
+
+  ];
+}
+
+doLoadMaster() {
+  var tmp = new ProbusinessModel();
+
+  this.genaralService.probusiness_get(tmp).then((res) => {
+    this.probusiness_list = res;
+  });
+  var tmp2 = new ProtypeModel();
+  this.genaralService.protype_get(tmp2).then((res) => {
+    this.protype_list = res;
+  });
+  var tmp5 = new ProareaModel();
+  this.genaralService.proarea_get(tmp5).then((res) => {
+    this.proarea_list = res;
+  });
+}
+
+clear(table: Table) {
+  table.clear();
+}
+
+selectProject() {
+  let navigationExtras: NavigationExtras = {
+    queryParams: {
+      "project": this.selectedProject.project_code
     }
+  };
+
+  this.router.navigate(["project/manage"], navigationExtras);
+}
+
+onRowSelectProject(event: any) {
+  this.edit_data = true;
+  this.new_data = true;
+  this.displayManage = true
+  this.doLoadSelectedProbusiness(this.selectedProject.project_probusiness);
+  this.doLoadSelectedProtype(this.selectedProject.project_protype);
+}
+
+doLoadSelectedProbusiness(value: string) {
+  for (let i = 0; i < this.probusiness_list.length; i++) {
+    if (this.probusiness_list[i].probusiness_code == value) {
+      this.selectedProbusiness = this.probusiness_list[i];
+      break;
+    }
+  }
+}
+
+doLoadSelectedProtype(value: string) {
+  for (let i = 0; i < this.protype_list.length; i++) {
+    if (this.protype_list[i].protype_code == value) {
+      this.selectedProtype = this.protype_list[i];
+      break;
+    }
+  }
+}
+
+selectedProject: ProjectModel = new ProjectModel;
+doLoadProject() {
+
+  this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
+    this.project_list = await res;
+    setTimeout(() => {
+      this.calculateTotal()
+    }, 1000);
+  });
+
+}
+
+selection(project: ProjectModel) {
+  this.selectedProject = project
+
+  this.new_data = false;
+  this.edit_data = true
+  this.showManage()
+
+}
+
+calculateTotal() {
+
+  this.total_project = 0;
+  this.total_emp = 0;
+  this.new_project = 0;
+  this.total_cost = 0;
+
+
+  for (let project of this.project_list) {
+    this.total_project++;
+    this.total_emp += project.project_emp;
+    this.total_cost += project.project_cost;
+
+    if (project.approve_status == "W") {
+      this.new_project++;
+    }
+
+    //if (project.project_start.getTime() >= this.initial_current.PR_FromDate.getTime()) {
+    //  this.new_project++;
+    //}
+
   }
 
-  getSeverity(status: string): any {
-    switch (status) {
-      case 'F':
-        return 'success';
-      case 'W':
-        return 'Info';
-      case 'C':
-        return 'danger';
+
+}
+deleteProject(project: ProjectModel) {
+  this.projectService.project_delete(project).then((res) => {
+    if (res.success) {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: res.message,
+
+      });
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: res.message,
+      });
     }
+    reject: () => {
+      this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+    }
+  });
+}
+confirmRecord() {
+  this.confirmationService.confirm({
+    message: this.title_confirm_record[this.initial_current.Language],
+    header: this.title_confirm[this.initial_current.Language],
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+
+      this.selectedProject.company_code = this.initial_current.CompCode
+
+      this.projectService.project_record(this.selectedProject).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+          this.doLoadProject()
+
+          this.new_data = false;
+          this.edit_data = false;
+          this.displayManage = false;
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+        }
+      });
+    },
+    reject: () => {
+      this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+    }
+  });
+}
+
+
+
+Delete_Project(project: ProjectModel) {
+  this.confirmationService.confirm({
+    message: this.title_confirm_delete[this.initial_current.Language],
+    header: this.title_confirm[this.initial_current.Language],
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.projectService.project_delete(project).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+          this.doLoadProject()
+          this.new_data = false;
+          this.edit_data = false;
+          this.displayManage = false;
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+        }
+      });
+    },
+    reject: () => {
+      this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+    }
+  });
+}
+
+
+
+confirmDelete() {
+  this.confirmationService.confirm({
+    message: this.title_confirm_delete[this.initial_current.Language],
+    header: this.title_confirm[this.initial_current.Language],
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.projectService.project_delete(this.selectedProject).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+          this.doLoadProject()
+          this.new_data = false;
+          this.edit_data = false;
+          this.displayManage = false;
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+        }
+      });
+    },
+    reject: () => {
+      this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+    }
+  });
+}
+
+displayUpload: boolean = false;
+showUpload() {
+  this.displayUpload = true;
+}
+
+@ViewChild('TABLE') table: ElementRef | any = null;
+
+exportAsExcel() {
+  const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  XLSX.writeFile(wb, 'Export_genaral.xlsx');
+
+}
+
+fileToUpload: File | any = null;
+handleFileInput(file: FileList) {
+  this.fileToUpload = file.item(0);
+}
+doUploadGenaral() {
+
+  this.displayUpload = false;
+
+  const filename = "Project_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
+  const filetype = "xls";
+
+  this.projectService.project_import(this.fileToUpload, filename, filetype).then((res) => {
+    let result = JSON.parse(res);
+    if (result.success) {
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+      this.doLoadProject()
+    }
+    else {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+    }
+  });
+
+}
+
+displayManage: boolean = false;
+position: string = "right";
+showManage() {
+  this.displayManage = true
+
+}
+reloadPage() {
+  this.doLoadProject()
+}
+close_manage() {
+  this.displayManage = false
+}
+
+
+doGetStatusDetail(status: string): any {
+  if (status == "W") {
+    return this.initial_current.Language == "EN" ? "Wait" : "รออนุมัติ"
   }
+  else if (status == "F") {
+    return this.initial_current.Language == "EN" ? "Approved" : "อนุมัติแล้ว"
+  }
+  else if (status == "C") {
+    return this.initial_current.Language == "EN" ? "Not Approve" : "ไม่อนุมัติ"
+  }
+}
+
+getSeverity(status: string): any {
+  switch (status) {
+    case 'F':
+      return 'success';
+    case 'W':
+      return 'Info';
+    case 'C':
+      return 'danger';
+  }
+}
+
+
+
+doFillter() {
+  this.doGetDataFillter()
+}
+///
+doGetDataFillter() {
+  const workerfillter: FillterProjectModel = new FillterProjectModel();
+
+
+  workerfillter.company_code = this.initial_current.CompCode;
+  workerfillter.project_code = this.project_code;
+
+
+
+  // สถานะ
+  if (this.fillterStatus) {
+    workerfillter.project_status = this.selectedstatus;
+  } else {
+    workerfillter.project_status = '';
+  }
+
+  // ประเภทธุรกิจ
+  if (this.fillterbusiness) {
+    workerfillter.project_probusiness = this.selectedbusiness;
+  } else {
+    workerfillter.project_probusiness = '';
+  }
+
+  // พื้นที่
+  if (this.fillterproarea) {
+    workerfillter.project_proarea = this.selectedproarea;
+  } else {
+    workerfillter.project_proarea = '';
+  }
+
+  if (this.fillterDate) {
+  } else {
+    this.selectedDate_fillter = new Date();
+    this.selectedToDate_fillter = new Date();
+  }
+
+  //วันที่
+  if (this.fillterDate) {
+  } else {
+    this.selectedDate_fillter = new Date();
+    this.selectedToDate_fillter = new Date();
+  }
+
+
+
+
+  this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter).then((res) => {
+    this.project_list = res;
+  });
+}
+//-- Status สถานะ
+selectedstatus: string = "";
+fillterStatus: boolean = false;
+doChangeSelectstatus() {
+
+  if (this.fillterStatus) {
+    this.doGetDataFillter();
+  }
+}
+
+fillterDate: boolean = false;
+doToggleDateFilter() {
+  if (!this.fillterDate) {
+    this.doGetDataFillter();
+    this.selectedDate_fillter = new Date();
+    this.selectedToDate_fillter = new Date();
+  }
+}
+
+
+
+
+//-- ประเภทธุรกิจ
+selectedbusiness: string = "";
+fillterbusiness: boolean = false;
+doChangeSelectbusiness() {
+
+  if (this.fillterbusiness) {
+    this.doGetDataFillter();
+  }
+}
+//-- พื้นที่
+selectedproarea: string = "";
+fillterproarea: boolean = false;
+doChangeSelectproarea() {
+
+  if (this.fillterproarea) {
+    this.doGetDataFillter();
+  }
+}
+
+
+
+//-- วันที่เริ่ม
+
+//-- วันที่สิ้นสุด
+selectedtodate: string = "";
+filltertodate: boolean = false;
+doChangeSelectfilltertodate() {
+
+  if (this.filltertodate) {
+    this.doGetDataFillter();
+  }
+}
+
+//// กรองวันที่FROMDATE
+doFillter2() {
+  this.doGetDataFillter2()
+}
+
+doGetDataFillter2() {
+  const workerfillter: FillterProjectModel = new FillterProjectModel();
+  workerfillter.company_code = this.initial_current.CompCode;
+  workerfillter.project_code = this.project_code
+  this.projectService.MTProject_getbyfillter2(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedDate_fillter, workerfillter).then((res) => {
+    this.project_list = res;
+  });
+}
+
+// กรองวันที่ToDate
+doFillter3() {
+  this.doGetDataFillter3()
+}
+
+doGetDataFillter3() {
+  const workerfillter: FillterProjectModel = new FillterProjectModel();
+  workerfillter.company_code = this.initial_current.CompCode;
+  workerfillter.project_code = this.project_code
+  this.projectService.MTProject_getbyfillter3(this.selectedProject.project_code, this.selectedToDate_fillter, this.selectedToDate_fillter, workerfillter).then((res) => {
+    this.project_list = res;
+  });
+}
 
 
 }

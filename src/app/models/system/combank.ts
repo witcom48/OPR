@@ -11,7 +11,7 @@ export class CombankModel {
 
     combank_banktype: string = "";
     combank_branch: string = "";
-
+    name_detail: string = "";
     created_by: string = "";
     modified_by: string = "";
     index: number = 0;

@@ -74,9 +74,9 @@
 
                 <div class="field col-12" style="display:flex;flex-direction: column;">
                     <label>{{title_code}}<span style="color: red;"> *</span></label>
-                    <input pInputText type="text" [(ngModel)]="selectedDep.dep_code" maxlength="5" name="code"
+                    <input pInputText type="text" [(ngModel)]="selectedDep.dep_code" maxlength="10" name="code"
                         #code="ngModel" required [readOnly]="edit_data" />
-                    <p>{{selectedDep.dep_code.length}}/5</p>
+                    <p>{{selectedDep.dep_code.length}}/10</p>
                 </div>
 
                 <div class="field col-12" style="display:flex;flex-direction: column;">

@@ -1,3 +1,5 @@
+<!-- <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+    <hr>  -->
 <table class="table_head" style="width: 100%;">
     <tr>
         <td align="left">
@@ -69,22 +71,101 @@
             currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
             [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']"
             responsiveLayout="stack" [breakpoint]="'744px'" responsiveLayout="stack" [breakpoint]="'744px'">
-            <!-- <p-table #dt2 [value]="project_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}"
-                    [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
-                    [(selection)]="selectedProject" (onRowSelect)="onRowSelectProject($event)" dataKey="project_code"
-                    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                    currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-                    [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']" responsiveLayout="stack" [breakpoint]="'744px'"> -->
-
-
-            <!-- Form Search Table -->
             <ng-template pTemplate="caption">
-                <div class="flex">
+                <!--  -->
+                <div class="checkselect">
+                    <div class="select">
+                        <!-- ช่วงวันที่  -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterDate" name="selectedDate_fillter" [binary]="true"
+                                (onChange)="doLoadProject()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{ title_date[initial_current.Language] }} :</label>
+                        </div>
+
+
+                        <div>
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                                [(ngModel)]="selectedDate_fillter" (onSelect)="doFillter2()" [disabled]="!fillterDate"
+                                inputId="selectedDate_fillter"
+                                [style]="{ width: '100%', overflow: 'visible', 'max-width': '200px' }">
+                            </p-calendar>
+                            &nbsp;&nbsp;
+                            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
+                                [(ngModel)]="selectedToDate_fillter" (onSelect)="doFillter3()" [disabled]="!fillterDate"
+                                inputId="selectedToDate_fillter"
+                                [style]="{ width: '100%', overflow: 'visible', 'max-width': '200px' }">
+                            </p-calendar>
+                        </div>
+
+                    </div>
+
+                    <div class="select">
+                        <!--  สถานะอนุมัติ (Default All)  -->
+
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterStatus" name="project_status" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{ title_defaultstatus[initial_current.Language] }} :</label>
+                        </div>
+
+                        <p-dropdown placeholder="--" [options]="[
+                                { label: title_wait[initial_current.Language], value: 'W' },
+                                { label: title_approved[initial_current.Language], value: 'F' },
+                                { label: title_notApprove[initial_current.Language], value: 'C' }]" optionLabel="label"
+                            optionValue="value" [showClear]="true" [(ngModel)]="selectedstatus"
+                            (onChange)="doChangeSelectstatus()" [disabled]="!fillterStatus"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                        </p-dropdown>
+                    </div>
+
+                    <div class="select">
+                        <!--  ประเภทธุรกิจ  -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterbusiness" name="project_probusiness" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{ title_probusiness[initial_current.Language] }} :</label>
+                        </div>
+
+                        <p-dropdown placeholder="--" [options]="probusiness_list" optionLabel="probusiness_code"
+                            optionValue="probusiness_code" [showClear]="true" [(ngModel)]="selectedbusiness"
+                            (onChange)="doChangeSelectbusiness()" [disabled]="!fillterbusiness"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+
+                    <div class="select">
+                        <!-- พื้นที่  -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterproarea" name="proarea_code" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{ title_project_progarea[initial_current.Language] }} :</label>
+                        </div>
+
+                        <p-dropdown placeholder="--" [options]="proarea_list" optionValue="proarea_code"
+                            [(ngModel)]="selectedproarea" (onChange)="doChangeSelectproarea()" [showClear]="true"
+                            [disabled]="!fillterproarea" [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <!--  -->
+                    <!-- <div class="flex">
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
                             placeholder="{{title_search[initial_current.Language]}}" />
                     </span>
+                </div> -->
                 </div>
             </ng-template>
 
@@ -110,9 +191,11 @@
 
 
                 <!-- <ng-template pTemplate="body" let-project> -->
-                <tr (click)="selectionProject(project)">
-                    <td>{{project.project_code}}</td>
-                    <td class="text-left">
+                <tr>
+                    <!-- <tr> -->
+
+                    <td (click)="selection(project)">{{project.project_code}}</td>
+                    <td (click)="selection(project)" class="text-left">
                         <div *ngIf="this.initial_current.Language == 'TH'">
                             {{project.project_name_th}}
                         </div>
@@ -120,25 +203,28 @@
                             {{project.project_name_en}}
                         </div>
                     </td>
-                    <td><p-tag [value]="doGetStatusDetail(project.project_status)"
+                    <td (click)="selection(project)"><p-tag [value]="doGetStatusDetail(project.project_status)"
                             [severity]="getSeverity(project.project_status)"></p-tag></td>
                     <!-- <td class="text-left">{{project.project_probusiness}}</td>
                         <td>{{project.project_protype}}</td> -->
-                    <td class="text-center">{{project.project_emp}}</td>
-                    <td class="text-right">{{project.project_cost | number:'1.2-2'}}</td>
-                    <td>{{project.project_start | date:'dd/MM/yyyy '}}</td>
-                    <td>{{project.project_end | date:'dd/MM/yyyy '}}</td>
+                    <td (click)="selection(project)" class="text-center">{{project.project_emp}}</td>
+                    <td (click)="selection(project)" class="text-right">{{project.project_cost | number:'1.2-2'}}</td>
+                    <td (click)="selection(project)">{{project.project_start | date:'dd/MM/yyyy '}}</td>
+                    <td (click)="selection(project)">{{project.project_end | date:'dd/MM/yyyy '}}</td>
 
 
-                    <td>{{project.modified_by}}</td>
-                    <td>{{project.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                    <!-- <button pButton type="button" class="pi pi-trash gray-button"
-                        [disabled]="!accessData.accessdata_delete" (click)="confirmDeletes(project)">
-                    </button> -->
+                    <td (click)="selection(project)">{{project.modified_by}}</td>
+                    <td (click)="selection(project)">{{project.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
 
-                    <td class="text-center">
-                        <i class="pi pi-search" style="font-size: 1rem" (click)="selectionProject(project)"></i>
+                    <td>
+                        <button pButton type="button" class="pi pi-trash gray-button" (click)="Delete_Project(project)">
+                        </button>
                     </td>
+
+                    <!-- <td class="text-center">
+                        <i class="pi pi-search" style="font-size: 1rem" (click)="selectionProject(project)"></i>
+                    </td> -->
+
                 </tr>
             </ng-template>
         </p-table>
@@ -191,6 +277,20 @@
                     </p-dropdown>
                 </div>
 
+
+                <!-- <div class="field col-12">
+                    <label for="lastname2">{{title_project_progarea[initial_current.Language]}}</label><br>
+                    <p-dropdown placeholder="--" [options]="proarea_list" optionValue="proarea_code"
+                    [(ngModel)]="selectedProject.project_proarea"   [showClear]="true"
+                        [style]="{ width: '100%', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div> -->
                 <!-- <div class="field col-12">
                     <label for="lastname2">{{title_protype[initial_current.Language]}}</label><br>
     

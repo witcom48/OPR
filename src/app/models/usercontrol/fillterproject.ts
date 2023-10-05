@@ -2,7 +2,7 @@ export class FillterProjectModel {
     constructor() {}
 
         
-    projobemp_id: string = "1";
+    projobemp_id: string = "0";
     projobemp_emp: string = "";   
     projobemp_fromdate: Date = new Date();
     projobemp_todate: Date = new Date();    
@@ -15,7 +15,7 @@ export class FillterProjectModel {
     searchemp :string = "";
     worker_resignstatus : boolean = false;
 
-    projobmain_id: string = "1";
+    projobmain_id: string = "0";
     projobmain_code: string = "";
     projobmain_name_th: string = "";
     projobmain_name_en: string = "";
