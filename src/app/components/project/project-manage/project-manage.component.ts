@@ -389,7 +389,7 @@ export class ProjectManageComponent implements OnInit {
   title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" };
   title_emptype: { [key: string]: string } = { EN: "Include Resign", TH: "ประเภทพนักงาน" };
   title_position: { [key: string]: string } = { EN: " Position", TH: "ตำแหน่ง" };
-  title_status: { [key: string]: string } = { EN: " Status", TH: "สถานะ" };
+  title_status: { [key: string]: string } = { EN: " Status", TH: "สถานะพนักงาน" };
   title_empid: { [key: string]: string } = { EN: "Job Code", TH: "รหัสงาน" }
 
   title_searchemp: { [key: string]: string } = { EN: "Serch Employee", TH: "ค้นหาพนักงาน" }
@@ -474,7 +474,7 @@ export class ProjectManageComponent implements OnInit {
       if (this.project_code != "") {
         this.doLoadProject();
       }
-    }, 400);
+    }, 300);
     setTimeout(() => {
       // this.doLoadEmployee()
       this.doGetDataFillter();
@@ -3876,7 +3876,8 @@ export class ProjectManageComponent implements OnInit {
   doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     const procontractfillter: ProcontractModel = new ProcontractModel();
-
+    
+    const Radiovalue: RadiovalueModel = new RadiovalueModel();
 
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_code = this.project_code;
@@ -3889,11 +3890,11 @@ export class ProjectManageComponent implements OnInit {
       procontractfillter.procontract_customer = '';
     }
 
-    // ประเภทงาน
+    // ประเภทงานRadiovalueModel
     if (this.filltertype) {
-      workerfillter.projob_code = this.selectedType;
+      procontractfillter.procontract_type = this.selectedType;
     } else {
-      workerfillter.projob_code = '';
+      procontractfillter.procontract_type = '';
 
     }
     // รหัสงาน
@@ -3919,7 +3920,7 @@ export class ProjectManageComponent implements OnInit {
 
     workerfillter.searchemp = this.selectedSearchemp;
 
-    this.projectDetailService.projobemp_getbyfillter(workerfillter).then(async (res) => {
+    this.projectDetailService.projobemp_getbyfillter(workerfillter,Radiovalue).then(async (res) => {
       await res.forEach((element: ProjobempModel) => {
         element.projobemp_fromdate = new Date(element.projobemp_fromdate);
         element.projobemp_todate = new Date(element.projobemp_todate);
@@ -3975,7 +3976,7 @@ export class ProjectManageComponent implements OnInit {
 
   selectedSearchemp: string = "";
   fillterSearchemp: boolean = false;
-  doChangeSearchemp(event: any) {
+  doChangeSearchemp( ) {
     this.doGetDataFillter();
     this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp);
   }
@@ -3988,7 +3989,6 @@ export class ProjectManageComponent implements OnInit {
       this.doGetDataFillter();
     }
   }
-
 
   //-- 10/05/2023
 

@@ -2007,11 +2007,25 @@
                         <div class="select">
                             <!-- ประเภทงาน projobpol_list -->
                             <div>
-                                <p-checkbox [(ngModel)]="filltertype" name="type" [binary]="true"
+                                <p-checkbox [(ngModel)]="filltertype" name="value" [binary]="true"
                                     (onChange)="doChangeSelecttypes()"></p-checkbox> &nbsp;
                                 <label for="lastname2">{{title_jobmain_type[initial_current.Language]}} :</label>
                             </div>
-                            <p-dropdown placeholder="--" [options]="projobmain_list" optionLabel="projobmain_code"
+                            <p-dropdown placeholder="--" [options]="projobtype_list" optionLabel="value"
+                                optionValue="value" [showClear]="true" [(ngModel)]="selectedType"
+                                (ngModelChange)="doChangeSelecttypes()" [disabled]="!filltertype"
+                                [style]="{ width: '100%', overflow: 'visible' }">
+
+                                <ng-template let-tmp pTemplate="selectedItem">
+                                    {{ initial_current.Language === 'TH' ? tmp.text_th : tmp.text_en }}
+                                </ng-template>
+
+                                <ng-template let-tmp pTemplate="item">
+                                    {{ initial_current.Language === 'TH' ? tmp.text_th : tmp.text_en }}
+                                </ng-template>
+                            </p-dropdown>
+
+                            <!-- <p-dropdown placeholder="--" [options]="projobmain_list" optionLabel="projobmain_code"
                                 optionValue="projobmain_code" [showClear]="true" [(ngModel)]="selectedType"
                                 (onChange)="doChangeSelecttypes()" [disabled]="!filltertype"
                                 [style]="{ width: '100%', overflow: 'visible' }">
@@ -2023,7 +2037,7 @@
                                     {{initial_current.Language=="TH"? item.projobmain_name_th :
                                     item.projobmain_name_en}}
                                 </ng-template>
-                            </p-dropdown>
+                            </p-dropdown> -->
 
                         </div>
                         <!-- สัญญา -->

@@ -26,6 +26,7 @@ import { ProjobversionModel } from '../../models/project/project_jobversion';
 import { ProjobpolModel } from '../../models/project/project_jobpol';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 import { ProequipmentreqModel } from 'src/app/models/project/project_proequipmenttype ';
+import { RadiovalueModel } from 'src/app/models/project/radio_value';
 
 @Injectable({
   providedIn: 'root'
@@ -999,7 +1000,7 @@ export class ProjectDetailService {
   }
   ///////////ทำตรงนี้
 
-  public projobemp_getbyfillter(fillter: FillterProjectModel) {
+  public projobemp_getbyfillter(fillter: FillterProjectModel,Radiovalue:RadiovalueModel) {
 
     const fillterS = {
       device_name: '',
