@@ -137,6 +137,8 @@
         <div class="formgrid grid align-items-end">
 
             <div>
+                <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
+                <br>
                 <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
                     [(ngModel)]="selectedDate_fillter" (onSelect)="doFillter()"
                     inputId="selectedDate_fillter"></p-calendar>
@@ -149,6 +151,8 @@
             </div> -->
             &nbsp;
             <div>
+                 <label for="projobemp_fromdate">{{title_staff_todate[initial_current.Language]}}</label>
+                <br>
                 <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
                     [(ngModel)]="selectedToDate_fillter" (onSelect)="doFillter3()"
                     inputId="selectedToDate_fillter"></p-calendar>

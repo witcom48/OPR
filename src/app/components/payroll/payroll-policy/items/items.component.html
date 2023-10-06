@@ -34,26 +34,7 @@
             responsiveLayout="stack" [breakpoint]="'744px'">
             <!-- Form Search Table -->
             <ng-template pTemplate="caption">
-                <th>{{title_setitem[initial_current.Language]}}</th>
-                <div class="formatsetitem"
-                    style=" display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;color: green; font-weight: 500;">
 
-                    <tr>
-                        <span>{{title_ot[initial_current.Language]}}</span>&nbsp;
-                        <span>{{title_dg[initial_current.Language]}}</span>&nbsp;
-                        <span> {{title_vl[initial_current.Language]}}</span>&nbsp;
-                        <span>{{title_lt[initial_current.Language]}}</span>&nbsp;
-                        <span>{{title_ab[initial_current.Language]}}</span>&nbsp;
-                        <span>{{title_sa[initial_current.Language]}}</span>&nbsp;
-                        <span>{{title_bo[initial_current.Language]}}</span>&nbsp;
-                        <span>{{title_intax[initial_current.Language]}}</span>&nbsp;
-                    </tr>
-                    <tr>
-                        <span>{{title_ch[initial_current.Language]}}</span>&nbsp;
-                        <span>{{title_slf1[initial_current.Language]}}</span>&nbsp;
-                        <span>{{title_slf2[initial_current.Language]}}</span>&nbsp;
-                    </tr>
-                </div>
 
                 <div class="searchtable">
                     <div></div>
@@ -111,7 +92,36 @@
             [position]="position" (onHide)="reloadPage()">
             <div class="formatt p-dialog-content" *ngIf="new_data">
                 <!-- <i (click)="close()"></i> -->
+                <!--  -->
+                <th style=" font-weight: 450;">{{title_setitem[initial_current.Language]}}</th>
 
+                <div class="formatsetitem"
+                
+                    style=" display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;color: green; font-weight: 450;">
+                    <tr>
+                        <span>{{title_ot[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_dg[initial_current.Language]}}</span>&nbsp;
+                        <span> {{title_vl[initial_current.Language]}}</span>&nbsp;
+                    </tr>
+                    <tr>
+                        <span>{{title_lt[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_ab[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_sa[initial_current.Language]}}</span>&nbsp;
+                    </tr>
+                    <tr>
+                        <span>{{title_bo[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_intax[initial_current.Language]}}</span>&nbsp;
+                       
+                    </tr>
+                    <tr>
+                        <span>{{title_ch[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_slf1[initial_current.Language]}}</span>&nbsp;
+                        <span>{{title_slf2[initial_current.Language]}}</span>&nbsp;
+                    </tr>
+                
+                </div>
+                <br>
+                <!--  -->
                 <label>{{title_code}}<span style="color: red;"> *</span></label>
                 <input pInputText type="text" required [(ngModel)]="selectedMTItem.item_code" maxlength="20" name="code"
                     #code="ngModel" disabled="{{edit_data}}">
