@@ -207,7 +207,7 @@ export class EmployeeService {
       username: this.initial_current.Username,
       language: "",
 
-      company_code: fillter.company_code,
+      company_code: this.initial_current.CompCode,
       worker_id: fillter.worker_id,
       worker_code: fillter.worker_code,
       worker_card: fillter.worker_card,
