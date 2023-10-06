@@ -61,6 +61,9 @@ export class SetbonusComponent implements OnInit {
         { label: this.title_page, styleClass: 'activelike' }];
         this.home = { icon: 'pi pi-home', routerLink: '/' };
     }
+
+    title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
+
     title_payroll: string = 'Payroll';
 
     title_policy: string = 'Set Policy';
@@ -202,9 +205,12 @@ export class SetbonusComponent implements OnInit {
     process() {
         this.result_list = [];
         if (this.selectEmp.employee_dest.length > 0) {
-            this.Setbatchbonus();
+          this.Setbatchbonus();
+        }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
         }
-    }
+      }
+
 
     async Setbatchbonus() {
         var data = new SetBonusModel();

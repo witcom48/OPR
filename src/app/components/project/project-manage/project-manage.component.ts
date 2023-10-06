@@ -3830,9 +3830,16 @@ export class ProjectManageComponent implements OnInit {
     });
   }
 
+  // workerList: EmployeeModel[] = [];
+  // doLoadblackList() {
+  //   this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
+  //     this.workerList = res;
+  //   });
+  // }
   workerList: EmployeeModel[] = [];
   doLoadblackList() {
-    this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
+    var fillter: FillterEmpModel = new FillterEmpModel;
+    this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
       this.workerList = res;
     });
   }
@@ -4040,8 +4047,7 @@ export class ProjectManageComponent implements OnInit {
   doLoadProequipmentreq() {
     this.projectDetailService.proequipmentreq_get(this.project_code).then((res) => {
       this.proequipmentreq_list = res;
-      console.log(res, 'dddd')
-      if (this.proequipmentreq_list.length > 0) {
+       if (this.proequipmentreq_list.length > 0) {
         this.selectedProequipmentreq = this.proequipmentreq_list[0]
       }
     });
