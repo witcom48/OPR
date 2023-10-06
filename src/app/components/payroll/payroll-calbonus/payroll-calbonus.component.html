@@ -1,0 +1,46 @@
+<!-- <span style="font-size: 20px;">Payroll</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Calculate Tax</small> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
+<hr>
+
+<p-toast position="top-right"></p-toast> 
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-tabView >
+    <p-tabPanel  [selected]="true">
+        <ng-template pTemplate = "header">
+            <i class="pi pi-cog"></i>&nbsp;&nbsp;
+            <span>Process</span>
+        </ng-template>
+        
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-select-emp></app-select-emp>
+            </div>            
+            <div class="field col-12">
+                <p-button label="Process" (click)="process()"></p-button>
+            </div>
+            
+        </div>
+    </p-tabPanel>
+    
+    <p-tabPanel >
+        <ng-template pTemplate = "header">
+            <i class="pi pi-file-import"></i>&nbsp;&nbsp;
+            <span>Logs</span>
+        </ng-template>
+        
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-task></app-task>
+            </div>
+                       
+        </div>
+
+
+    </p-tabPanel>
+
+</p-tabView>
+
+

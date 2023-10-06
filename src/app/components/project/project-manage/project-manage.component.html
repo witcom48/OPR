@@ -783,6 +783,7 @@
 
             <div class="field col-12">
                 <label for="proequipmentreq_name">{{title_equipment_name[initial_current.Language]}}</label><br>
+
                 <p-dropdown placeholder="--" [options]="poluniform_list" optionValue="prouniform_code"
                     [(ngModel)]="selectedProequipmentreq.prouniform_code" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
@@ -792,6 +793,7 @@
                     <ng-template let-item pTemplate="item">
                         {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
                     </ng-template>
+
                 </p-dropdown>
 
                 <!-- <p-dropdown placeholder="UNI001:ชุดพาดขาว">
@@ -799,6 +801,7 @@
             </div>
             <div class="field col-12">
                 <label for="proequipmentreq_name">{{title_equipment_type[initial_current.Language]}}</label><br>
+
                 <p-dropdown placeholder="--" [options]="Proequipmenttype_list" optionValue="proequipmenttype_code"
                     [(ngModel)]="selectedProequipmentreq.proequipmenttype_code" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
@@ -810,6 +813,7 @@
                         {{initial_current.Language=="TH"? item.proequipmenttype_name_th :
                         item.proequipmenttype_name_en}}
                     </ng-template>
+
                 </p-dropdown>
             </div>
 

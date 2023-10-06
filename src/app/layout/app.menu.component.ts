@@ -149,6 +149,9 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Policy', routerLink: ['/payroll/policy'], accessCode: 'PAY001' },
                     { label: 'Calculate', routerLink: ['/payroll/calculate'], accessCode: 'PAY002' },
+
+                    { label: 'Calculate Bonus', routerLink: ['/payroll/calbonus'], accessCode: 'PAY009' },
+
                     { label: 'Income / Deduct', routerLink: ['/payroll/entry'], accessCode: 'PAY003' },
                     { label: 'Calculate Tax', routerLink: ['/payroll/caltax'], accessCode: 'PAY004' },
                     { label: 'View Calculate', routerLink: ['/payroll/view'], accessCode: 'PAY005' },
