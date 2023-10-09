@@ -135,43 +135,42 @@
             <span>History</span>
         </ng-template>
         <div class="formgrid grid align-items-end">
-
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <div>
+                <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
+                <br>
                 <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
                     [(ngModel)]="selectedDate_fillter" (onSelect)="doFillter()"
                     inputId="selectedDate_fillter"></p-calendar>
             </div>
-
             <!-- <div class="pt-3 col-6 md:col-3">
                 <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
                 <br>
                 <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy"[showIcon]="true" [showTime]="false" inputId="selectedFromdate"></p-calendar>
             </div> -->
-            &nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <div>
+                <label for="projobemp_fromdate">{{title_staff_todate[initial_current.Language]}}</label>
+                <br>
                 <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"
                     [(ngModel)]="selectedToDate_fillter" (onSelect)="doFillter3()"
                     inputId="selectedToDate_fillter"></p-calendar>
             </div>
-            <!-- <p-menubar [model]="menu_Reload"></p-menubar> -->
-
             <!-- <div class="col-6 md:col-3">
                 <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
                 <br>
                 <p-calendar [(ngModel)]="selectedToDate" dateFormat="dd/mm/yy" [showIcon]="true" [showTime]="false"inputId="selectedToDate"></p-calendar>
             </div>    -->
             &nbsp;&nbsp;
-            <button pButton type="button" icon="pi pi-fw pi-refresh"
-                class="p-button-secondary button-size btndel"><p-menubar [model]="menu_Reload"></p-menubar></button>
 
+            <button pButton type="button" class="p-button-secondary button-size-small btndel" (click)="reloadPage()">
+                <i class="pi pi-refresh icon-small"></i>
+            </button>
 
 
             <div class="pt-3 col-6">
                 &nbsp;
             </div>
-
-
-
         </div>
 
 

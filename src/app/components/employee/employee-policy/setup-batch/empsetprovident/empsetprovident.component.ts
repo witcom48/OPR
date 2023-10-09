@@ -120,7 +120,7 @@ export class EmpsetprovidentComponent implements OnInit {
     this.result_list = [];
     if (this.selectEmp.employee_dest.length > 0) {
       this.Setbatchprovident();
-    }else{
+    } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
     }
   }
@@ -133,16 +133,18 @@ export class EmpsetprovidentComponent implements OnInit {
     data.empprovident_start = this.selectedEmpProvident.empprovident_start;
     data.empprovident_end = this.selectedEmpProvident.empprovident_end;
     data.empprovident_type = "A";
-    data.rate_com = this.getRate_com(this.selectedEmpProvident.provident_code);
-    data.rate_emp = this.getRate_emp(this.selectedEmpProvident.provident_code);
+    data.rate_com = this.rate_com;
+    data.rate_emp = this.rate_emp;
+    // data.rate_com = this.getRate_com(this.selectedEmpProvident.provident_code);
+    // data.rate_emp = this.getRate_emp(this.selectedEmpProvident.provident_code);
     data.company_code = this.initial_current.CompCode;
     data.modified_by = this.initial_current.Username;
     data.emp_data = this.selectEmp.employee_dest;
     this.loading = true;
+ 
     await this.setempdetailService.SetProvident_record(data).then((res) => {
       if (res.success) {
-        // console.log(res.message)
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         this.doLoadsetprovidentList();
         this.edit_data = false;
         this.new_data;
@@ -154,24 +156,38 @@ export class EmpsetprovidentComponent implements OnInit {
     });
   }
 
-  getRate_com(code : string): any {
+  
+
+  rate_com: number = 0;
+  rate_emp: number = 0;
+  getProvidentWorkage(Code: string) {
     for (let i = 0; i < this.providentList.length; i++) {
-      if (this.providentList[i].provident_code == code) {
+      if (this.providentList[i].provident_code == Code) {
         this.providentList[i].providentWorkage_data.forEach((ele: ProvidentWorkageModel) => {
-          return ele.rate_com;
+          this.rate_com = ele.rate_com;
+          this.rate_emp = ele.rate_emp;
         })
       }
     }
   }
-  getRate_emp(code : string): any {
-    for (let i = 0; i < this.providentList.length; i++) {
-      if (this.providentList[i].provident_code == code) {
-        this.providentList[i].providentWorkage_data.forEach((ele: ProvidentWorkageModel) => {
-          return ele.rate_emp;
-        })
-      }
-    }
-  }
+  // getRate_com(code: string) {
+  //   for (let i = 0; i < this.providentList.length; i++) {
+  //     if (this.providentList[i].provident_code == code) {
+  //       this.providentList[i].providentWorkage_data.forEach((ele: ProvidentWorkageModel) => {
+  //         this.rate_com = ele.rate_com;
+  //       })
+  //     }
+  //   }
+  // }
+  // getRate_emp(code: string): any {
+  //   for (let i = 0; i < this.providentList.length; i++) {
+  //     if (this.providentList[i].provident_code == code) {
+  //       this.providentList[i].providentWorkage_data.forEach((ele: ProvidentWorkageModel) => {
+  //         return ele.rate_emp;
+  //       })
+  //     }
+  //   }
+  // }
 
   function(e: any) {
     var page = e.index;

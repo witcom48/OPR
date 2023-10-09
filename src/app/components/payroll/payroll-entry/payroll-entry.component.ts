@@ -20,6 +20,7 @@ import { ItemService } from 'src/app/services/payroll/item.service';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 
 
 interface Type {
@@ -351,13 +352,21 @@ export class PayrollEntryComponent implements OnInit {
     byemp_income: number = 0;
     byemp_deduct: number = 0;
     byemp_netpay: number = 0;
+    // doLoadEmployee() {
+    //     this.employeeService.worker_get(this.initial_current.CompCode, '').then((res) => {
+    //         this.worker_list = res;
+
+    //     });
+    // }
+
+
     doLoadEmployee() {
-        this.employeeService
-            .worker_get(this.initial_current.CompCode, '')
-            .then((res) => {
-                this.worker_list = res;
-            });
-    }
+        var fillter: FillterEmpModel = new FillterEmpModel;
+        this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
+            this.worker_list = res;
+        });
+      }
+
 
     doNextWorker() {
         if (this.worker_index < this.worker_list.length - 1) {

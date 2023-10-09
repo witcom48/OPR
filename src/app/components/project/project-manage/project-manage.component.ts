@@ -1514,7 +1514,14 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-
+       
+      {
+          label: 'Reload',
+          icon: 'pi pi-fw pi-refresh',
+          command: (event) => {
+              this.doLoadProjobemp()                
+          }
+        }
     ];
 
 
@@ -3977,6 +3984,8 @@ export class ProjectManageComponent implements OnInit {
   selectedSearchemp: string = "";
   fillterSearchemp: boolean = false;
   doChangeSearchemp( ) {
+    this.doLoadProjobemp()
+
     this.doGetDataFillter();
     this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp);
   }

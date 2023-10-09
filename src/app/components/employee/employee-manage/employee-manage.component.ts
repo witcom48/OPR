@@ -2498,8 +2498,8 @@ export class EmployeeManageComponent implements OnInit {
       }
     });
   }
-  test(){
-    if(!this.selectedEmployee.index){
+  test() {
+    if (!this.selectedEmployee.index) {
       this.selectedEmployee.worker_socialno = this.selectedEmployee.worker_cardno;
     }
   }
@@ -2570,6 +2570,7 @@ export class EmployeeManageComponent implements OnInit {
           this.doLoadEmpExperienceList();
 
           this.CalculateAge();
+          this.doLoadEmpprovidentList();
         }, 300);
 
       }
@@ -4255,20 +4256,26 @@ export class EmployeeManageComponent implements OnInit {
   //Provident
   empprovidentList: EmpProvidentModel[] = [];
   selectedEmpprovident: EmpProvidentModel = new EmpProvidentModel();
-  doLoadEmpprovidentList() {
-    this.empdetailService.getworker_provident(this.initial_current.CompCode, this.emp_code).then(async (res) => {
-      await res.forEach((element: EmpProvidentModel) => {
-        element.empprovident_entry = new Date(element.empprovident_entry)
-        element.empprovident_start = new Date(element.empprovident_start)
-        element.empprovident_end = new Date(element.empprovident_end)
-        element.empprovident_age = this.CalculatePFAge(element.empprovident_entry)
-      })
-      this.empprovidentList = await res;
-      if (this.empprovidentList.length > 0) {
+  async doLoadEmpprovidentList() {
+    const res = await this.empdetailService.getworker_provident(this.initial_current.CompCode, this.emp_code);
+
+    const promises = res.map(async (element: EmpProvidentModel) => {
+        element.empprovident_entry = new Date(element.empprovident_entry);
+        element.empprovident_start = new Date(element.empprovident_start);
+        element.empprovident_end = new Date(element.empprovident_end);
+        element.empprovident_age = await this.CalculatePFAge(element.empprovident_start);
+        return element;
+    });
+
+    const modifiedRes = await Promise.all(promises);
+
+    this.empprovidentList = modifiedRes;
+    if (this.empprovidentList.length > 0) {
         this.selectedEmpprovident = this.empprovidentList[0];
-      }
-    })
-  }
+    }
+    
+}    
+
   onRowSelectEmpprovident(event: Event) { }
   empprovident_summit() {
     this.empprovident_addItem(this.selectedEmpprovident)
@@ -5372,9 +5379,40 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
-  CalculatePFAge(date: Date) {
-    return "";
+  // CalculatePFAge(date: Date) {
+  //   return "";
+  // }
+
+ ///ทำตรงนี้ 06/10/2023
+  PFAge: string = "";
+  async CalculatePFAge(date: Date): Promise<string> {
+    const incrementDate = (inputDate: Date) => {
+      const newDate = new Date(inputDate);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate;
+    }
+  
+    if (this.selectedEmpprovident.empprovident_start) {
+      let currentDate = new Date(this.selectedEmpprovident.empprovident_start);
+      let daysCount = 0;
+      while (true) {
+        daysCount++;
+        currentDate = incrementDate(currentDate);
+  
+        if (currentDate > new Date()) {
+          return `${daysCount} day`;  
+        }
+      }
+    }
+  
+    return '';
   }
+  
+  
+  
+
+
+
 
   doRecordEmpBlacklist() {
     if (this.selectedEmployee.worker_blackliststatus) {

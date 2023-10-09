@@ -341,7 +341,9 @@ export class ProjectCompareComponent implements OnInit {
       }, 500);
     }); 
   }
-
+  reloadPage() {
+    this.doLoadProjectMonitor();
+   }
   selectedProject(code:string){
     for (let i = 0; i < this.cost_compare.length; i++) {
       if(this.cost_compare[i].project_code==code ){

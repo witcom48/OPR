@@ -3,6 +3,7 @@ import { SetProvidentModel } from "./batch/setprovident";
 import { ProvidentWorkageModel } from "./provident_workage";
 
 export class ProvidentModel {
+    rate_emp:  number = 0;
 
     constructor() {}
     company_code: string= "";

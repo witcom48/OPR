@@ -30,8 +30,10 @@
                     [(ngModel)]="selectedToDate_fillter" (onSelect)="doFillter()"
                     inputId="selectedToDate_fillter"></p-calendar>
             </div>
-
-<p-menubar [model]="toolbar_refresh"></p-menubar>
+            <button pButton type="button" class="p-button-secondary button-size-small btndel" (click)="reloadPage()">
+                <i class="pi pi-refresh icon-small"></i>
+            </button>
+<!-- <p-menubar [model]="toolbar_refresh"></p-menubar> -->
 
             
         </div>
