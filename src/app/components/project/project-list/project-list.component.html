@@ -167,7 +167,7 @@
                             <label for="lastname2">{{ title_project[initial_current.Language] }} :</label>
                         </div>
 
-                        <p-dropdown [options]="projects_list" optionLabel="project_code" optionValue="project_code"
+                        <p-dropdown placeholder="--" [options]="projects_list" optionLabel="project_code" optionValue="project_code"
                                 [showClear]="true" [(ngModel)]="selectedprojects" [editable]="true"
                                 (onChange)="doChangeSelectprojects($event)" [disabled]="!fillterprojects"
                                 [style]="{ width: '100%', overflow: 'visible' }">
