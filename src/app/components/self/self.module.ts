@@ -72,6 +72,10 @@ import { EditorModule } from 'primeng/editor';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SelfEmpConsentComponent } from './self-emp-consent/self-emp-consent.component';
 import { SeftAccountManageComponent } from './seft-account-manage/seft-account-manage.component';
+import { SelfRequestComponent } from './self-request/self-request.component';
+import { SelfTransferComponent } from './self-transfer/self-transfer.component';
+import { RecruitmentModule } from '../recruitment/recruitment.module';
+import { ProjectModule } from '../project/project.module';
 
 @NgModule({
 	imports: [
@@ -118,7 +122,9 @@ import { SeftAccountManageComponent } from './seft-account-manage/seft-account-m
 		UsercontrolModule,
 		LeafletModule,
 		EditorModule,
-		PdfViewerModule
+		PdfViewerModule,
+		RecruitmentModule,
+		ProjectModule
 	],
 	declarations: [
 		SelfPolicyComponent,
@@ -145,7 +151,9 @@ import { SeftAccountManageComponent } from './seft-account-manage/seft-account-m
 		SelfApproveComponent,
 		SelfConsentComponent,
 		SelfEmpConsentComponent,
-  SeftAccountManageComponent
+		SeftAccountManageComponent,
+		SelfRequestComponent,
+		SelfTransferComponent
 	],
 	exports: [SelfAccountComponent],
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -32,7 +32,7 @@ interface Status {
   styleUrls: ['./recruitment-request.component.scss']
 })
 export class RecruitmentRequestComponent implements OnInit {
-
+  @Input() module: string = "'REQ'";
   toolbar_menu: MenuItem[] = [];
   items: MenuItem[] = [];
 
@@ -95,7 +95,7 @@ export class RecruitmentRequestComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
-    this.accessData = this.initialData2.dotGetPolmenu('REQ');
+    this.accessData = this.initialData2.dotGetPolmenu(this.module);
   }
 
   title_page: string = "Request";
