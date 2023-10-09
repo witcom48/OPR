@@ -1436,8 +1436,6 @@ export class EmpDetailService {
       item_data = item_data.substr(0, item_data.length - 1);
     }
     item_data = item_data + "]";
-
-    // console.log(item_data)
     var specificData = {
       transaction_data: item_data,
       worker_code: worker_code,

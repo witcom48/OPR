@@ -80,8 +80,8 @@ export class ProjectTransferComponent implements OnInit {
   title_staff_empcode: { [key: string]: string } = { EN: "Emp code", TH: "รหัสพนักงาน" }
   title_staff_empname: { [key: string]: string } = { EN: "Emp name", TH: "ชื่อ-นามสกุล" }
   title_staff_empstatus: { [key: string]: string } = { EN: "Emp status", TH: "สถานะพนักงาน" }
-  title_staff_fromadate: { [key: string]: string } = { EN: "Fromdate", TH: "วันที่" }
-  title_staff_todate: { [key: string]: string } = { EN: "Todate", TH: "ถึง" }
+  title_staff_fromadate: { [key: string]: string } = { EN: "Fromdate", TH: "วันที่เข้า" }
+  title_staff_todate: { [key: string]: string } = { EN: "Todate", TH: "ออก" }
   title_staff_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" }
   title_staff_apprdate: { [key: string]: string } = { EN: "Approve date", TH: "วันที่อนุมัติ" }
 
@@ -115,7 +115,7 @@ export class ProjectTransferComponent implements OnInit {
       }
     ]
   }
-
+  
 
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -379,6 +379,7 @@ export class ProjectTransferComponent implements OnInit {
 
   }
   //
+ 
   //-- Project emp
   projobemp_list: ProjobempModel[] = [];
   selectedProjobemp: ProjobempModel = new ProjobempModel();
@@ -421,5 +422,8 @@ export class ProjectTransferComponent implements OnInit {
     }
     return result
   }
-
+  reloadPage() {
+    this.doLoadProjobemp();
+    console.log(this.reloadPage,'ttt')
+  }
 }

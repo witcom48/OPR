@@ -32,7 +32,8 @@
                     <label>{{title_pfno[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" [options]="providentList" optionValue="provident_code"
                         [showClear]="true" [(ngModel)]="selectedEmpProvident.provident_code"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [style]="{ width: '100%', overflow: 'visible' }"
+                        (onChange) = "getProvidentWorkage($event.value)">
                         <ng-template let-item pTemplate="selectedItem">
                             {{item.provident_code}}
                         </ng-template>
