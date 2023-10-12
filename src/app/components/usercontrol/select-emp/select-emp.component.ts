@@ -13,10 +13,12 @@ import { PositionService } from 'src/app/services/emp/policy/position.service';
 import { EmpDetailService } from 'src/app/services/emp/worker_detail.service';
 import { EmptypeModel } from 'src/app/models/employee/policy/emptype';
 import { PositionModel } from 'src/app/models/employee/policy/position';
- import { LocationService } from 'src/app/services/system/policy/location.service';
+import { LocationService } from 'src/app/services/system/policy/location.service';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 import { LevelService } from 'src/app/services/system/policy/level.service';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
+import { ProjectModel } from 'src/app/models/project/project';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 @Component({
 
@@ -32,15 +34,16 @@ export class SelectEmpComponent implements OnInit {
   fillterIncludeResign: boolean = false;
 
   constructor(
-    private employeeService: EmployeeService, 
+    private employeeService: EmployeeService,
     private empdetailService: EmpDetailService,
     private router: Router,
     private depService: PartService,
     private levelService: LevelService,
     private emptypeService: EmptypeService,
     private positionService: PositionService,
+    private projectService: ProjectService,
     private locationService: LocationService,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
@@ -52,7 +55,7 @@ export class SelectEmpComponent implements OnInit {
     this.doLoadPositionList();
     this.doLoadEmptypeList();
     this.doLoadLanguage();
-
+    this.doLoadProjectList();
     // console.log(window.location.hash.split("/").pop())
     setTimeout(() => {
       // this.doLoadEmployee()
@@ -66,16 +69,18 @@ export class SelectEmpComponent implements OnInit {
   title_emptype: string = "Type";
   title_location: string = "Location";
   title_resign: string = "Include Resign";
-  title_searchemp :string = "Serch Employee";
+  title_searchemp: string = "Serch Employee";
+  title_project: string = "Project";
 
   doLoadLanguage() {
     if (this.initial_current.Language == 'TH') {
-      this.title_level= "ระดับ";
-      this.title_position= "ตำแหน่ง";
-      this.title_emptype= "ประเภทพนักงาน";
-      this.title_location= "สถานที่ปฏิบัตืงาน";
-      this.title_resign= "รวมพนักงานลาออก";
+      this.title_level = "ระดับ";
+      this.title_position = "ตำแหน่ง";
+      this.title_emptype = "ประเภทพนักงาน";
+      this.title_location = "สถานที่ปฏิบัตืงาน";
+      this.title_resign = "รวมพนักงานลาออก";
       this.title_searchemp = "ค้นหาพนักงาน";
+      this.title_project = "โปรเจค"
 
     }
   }
@@ -90,10 +95,10 @@ export class SelectEmpComponent implements OnInit {
 
   //dropdown
   levelList: LevelModel[] = [];
-  doLoadlevelList(){
+  doLoadlevelList() {
     var tmp = new LevelModel();
     tmp.level_code = this.selectedLevel;
-    this.levelService.level_get(tmp).then(async(res)=>{
+    this.levelService.level_get(tmp).then(async (res) => {
       this.levelList = await res;
     })
   }
@@ -135,49 +140,58 @@ export class SelectEmpComponent implements OnInit {
 
     });
   }
-
+  projectList: ProjectModel[] = [];
+  doLoadProjectList() {
+    this.projectService.project_get(this.initial_current.CompCode, "").then((res) => {
+      this.projectList = res;
+    })
+  }
   //fillter
-  doGetDataFillter(){
-    
-    var fillter : FillterEmpModel = new FillterEmpModel;
+  doGetDataFillter() {
+
+    var fillter: FillterEmpModel = new FillterEmpModel;
 
     fillter.company_code = this.initial_current.CompCode;
     //fillter dep
-    if(this.fillterLevel){
+    if (this.fillterLevel) {
       fillter.level_code = this.selectedLevel;
       fillter.dep_code = this.selectedDep;
-    }else{
+    } else {
       fillter.level_code = "";
       fillter.dep_code = "";
     }
     //fillter position
-    if(this.fillterPosition){
+    if (this.fillterPosition) {
       fillter.position_code = this.selectedPosition;
-    }else{
+    } else {
       fillter.position_code = "";
     }
     //fillter emptype
-    if(this.fillterEmptype){
+    if (this.fillterEmptype) {
       fillter.worker_emptype = this.selectedEmptype;
-    }else{
+    } else {
       fillter.worker_emptype = "";
     }
     //fillter location
-    if(this.fillterLocation){
+    if (this.fillterLocation) {
       fillter.location_code = this.selectedLocation;
-    }else{
+    } else {
       fillter.location_code = "";
     }
-    
+
     fillter.worker_resignstatus = this.fillterIncludeResign;
-    if(this.fillterSearchemp){
+    if (this.fillterSearchemp) {
       fillter.searchemp = this.selectedSearchemp;
-    }else{
+    } else {
       fillter.searchemp = "";
     }
-    
+    if (this.fillterProject) {
+      fillter.project_code = this.selectedProject;
+    } else {
+      fillter.project_code = "";
+    }
 
-    this.employeeService.worker_getbyfillter(fillter).then(async(res) =>{
+    this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
       this.employee_source = res;
     })
   }
@@ -187,7 +201,7 @@ export class SelectEmpComponent implements OnInit {
   fillterEmptype: boolean = false;
   doChangeSelectEmptype() {
 
-    if(this.fillterEmptype){
+    if (this.fillterEmptype) {
       this.doGetDataFillter();
     }
   }
@@ -197,40 +211,49 @@ export class SelectEmpComponent implements OnInit {
   fillterLocation: boolean = false;
   doChangeSelectLocation() {
 
-    if(this.fillterLocation){
+    if (this.fillterLocation) {
       this.doGetDataFillter();
     }
   }
   //-- Level
-  selectedLevel:string = "";
+  selectedLevel: string = "";
   fillterLevel: boolean = false;
-  doChangeSelectLevel(){
+  doChangeSelectLevel() {
     this.doLoadDeplevelList();
   }
 
   //-- Dep master
-  selectedDep:string = "";
+  selectedDep: string = "";
   doChangeSelectDep() {
 
-    if(this.fillterLevel){
+    if (this.fillterLevel) {
       this.doGetDataFillter();
     }
   }
-   //-- Position master
+  //-- Position master
   selectedPosition: string = "";
   fillterPosition: boolean = false;
   doChangeSelectPosition() {
 
-    if(this.fillterPosition){
+    if (this.fillterPosition) {
+      this.doGetDataFillter();
+    }
+  }
+
+  selectedProject: string = "";
+  fillterProject: boolean = false;
+  doChangeSelectProject() {
+
+    if (this.fillterProject) {
       this.doGetDataFillter();
     }
   }
 
   //-- Emp master
-  selectedSearchemp:string = "";
-  fillterSearchemp:boolean = false;
-  doChangeSearchemp(event: any){
-    if(this.fillterSearchemp){
+  selectedSearchemp: string = "";
+  fillterSearchemp: boolean = false;
+  doChangeSearchemp(event: any) {
+    if (this.fillterSearchemp) {
       this.doGetDataFillter();
       // // console.log(this.selectedSearchemp)
     }
