@@ -1516,4 +1516,8 @@ var slefappemp = new Map([
     ["topic", { TH: "หัวข้อเรื่อง", EN: "Topic" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["setup", { TH: "การตั้งค่า", EN: "Setup" }],
+    ["recruitement", { TH: "รับสมัคร", EN: "Recruitement" }],
+    ["requestment", { TH: "รับสมัครพนักงาน", EN: "Request" }],
+    ["project", { TH: "โปรเจค", EN: "Project" }],
+    ["transfer", { TH: "Transfer Record", EN: "Transfer Record" }],
 ]);

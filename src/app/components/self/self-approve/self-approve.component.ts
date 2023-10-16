@@ -22,7 +22,10 @@ export class SelfApproveComponent implements OnInit {
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   approvalMenuItems: Menu[] = [];
   setupMenuItems: Menu[] = [];
-
+  reqMenuItems: Menu[] = [];
+  proMenuItems: Menu[] = [];
+  reqMenuList: Menu[] = [];
+  proMenuList: Menu[] = [];
   approvalMenuList: Menu[] = [
     {
       title: 'Leave',
@@ -171,6 +174,18 @@ export class SelfApproveComponent implements OnInit {
       link: 'consent',
       accessCode: 'SELF002-012'
     },]
+    this.reqMenuList = [{
+      title: this.langs.get('requestment')[this.selectedLanguage],
+      link: 'request',
+      accessCode: 'SELF002-013'
+    },]
+    this.proMenuList = [
+      {
+        title: this.langs.get('transfer')[this.selectedLanguage],
+        link: 'transfer',
+        accessCode: 'SELF002-014'
+      },
+    ]
     this.setMenus();
   }
 
@@ -183,6 +198,8 @@ export class SelfApproveComponent implements OnInit {
 
       this.approvalMenuItems = this.approvalMenuList.filter(item => this.hasAccessMenu(item.accessCode));
       this.setupMenuItems = this.setupMenuList.filter(item => this.hasAccessMenu(item.accessCode));
+      this.reqMenuItems = this.reqMenuList.filter(item => this.hasAccessMenu(item.accessCode));
+      this.proMenuItems = this.proMenuList.filter(item => this.hasAccessMenu(item.accessCode));
     }
   }
 

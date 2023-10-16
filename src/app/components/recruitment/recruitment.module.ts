@@ -32,8 +32,8 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ChipModule } from 'primeng/chip';
-import {ChartModule} from 'primeng/chart';
-import {ImageModule} from 'primeng/image';
+import { ChartModule } from 'primeng/chart';
+import { ImageModule } from 'primeng/image';
 import { RecruitmentRequestComponent } from './recruitment-request/recruitment-request.component';
 import { RecruitmentApplyComponent } from './recruitment-apply/recruitment-apply.component';
 import { RecruitmentPolicyComponent } from './recruitment-policy/recruitment-policy.component';
@@ -86,7 +86,7 @@ import { RecruitmentApproveComponent } from './recruitment-approve/recruitment-a
 		ChipModule,
 		ChartModule,
 		ImageModule,
-        ToastModule,
+		ToastModule,
 		ConfirmDialogModule,
 		DialogModule,
 		RadioButtonModule,
@@ -102,13 +102,14 @@ import { RecruitmentApproveComponent } from './recruitment-approve/recruitment-a
 	declarations: [
 
 
-    RecruitmentRequestComponent,
-           RecruitmentApplyComponent,
-           RecruitmentPolicyComponent,
-           ApplyListComponent,
-           RecruimentBlacklistComponent,
-           SetBlacklistComponent,
-           RecruitmentApproveComponent
-  ]
+		RecruitmentRequestComponent,
+		RecruitmentApplyComponent,
+		RecruitmentPolicyComponent,
+		ApplyListComponent,
+		RecruimentBlacklistComponent,
+		SetBlacklistComponent,
+		RecruitmentApproveComponent
+	],
+	exports: [RecruitmentRequestComponent],
 })
 export class RecruitmentModule { }

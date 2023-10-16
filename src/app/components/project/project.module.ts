@@ -100,6 +100,7 @@ import { AttendanceModule } from '../attendance/attendance.module';
 
 
 	],
-	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent, ProjectTransferComponent, ProjectCompareComponent, ProShiftComponent]
+	declarations: [ProjectPolicyComponent, ProjectListComponent, ProjectManageComponent, ProjectWorkflowComponent, ProjectMonitorComponent, ProjectTimesheetComponent, ProjectApproveComponent, ProjectPackageComponent, CostSetupComponent, ProGenaralComponent, ProjectTransferComponent, ProjectCompareComponent, ProShiftComponent],
+	exports: [ProjectTransferComponent],
 })
 export class ProjectModule { }
