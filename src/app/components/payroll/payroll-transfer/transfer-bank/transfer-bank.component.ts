@@ -39,6 +39,7 @@ export class TransferBankComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
+  title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
 
   title_confirm: string = "Are you sure?";
   title_confirm_record: string = "Confirm to process";
@@ -148,8 +149,11 @@ export class TransferBankComponent implements OnInit {
   process(): void {
  
     if (this.selectEmp.employee_dest.length === 0) {
-      let message = "Please select an employee";
-      this.doPrintMessage(message, "1");
+
+      if (this.selectEmp.employee_dest.length > 0 ) {
+       }else{
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
+      }
       return;
     }
 

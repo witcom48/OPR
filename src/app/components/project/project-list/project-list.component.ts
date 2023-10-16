@@ -118,8 +118,9 @@ export class ProjectListComponent implements OnInit {
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
 
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" }
+  title_fillter: { [key: string]: string } = { EN: "Fillter", TH: "ตัวกรอง" }
 
-
+  
 
 
 
