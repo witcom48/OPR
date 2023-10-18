@@ -32,7 +32,7 @@ interface Status {
   styleUrls: ['./recruitment-request.component.scss']
 })
 export class RecruitmentRequestComponent implements OnInit {
-  @Input() module: string = "'REQ'";
+  @Input() module: string = "REQ";
   toolbar_menu: MenuItem[] = [];
   items: MenuItem[] = [];
 

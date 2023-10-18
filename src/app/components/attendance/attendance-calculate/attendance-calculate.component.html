@@ -1,56 +1,65 @@
-<span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Calculate Time Cost</small>
+<span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Calculate Time
+    Cost</small>
 <hr>
 
-<p-toast position="top-right"></p-toast> 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
-<p-tabView >
-    <p-tabPanel  [selected]="true">
-        <ng-template pTemplate = "header">
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
+<p-tabView>
+    <p-tabPanel [selected]="true">
+        <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
             <span>Process</span>
         </ng-template>
-        
+
         <div class="formgrid grid align-items-end">
 
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
-            </div>            
+            </div>
             <div class="field col-12 md:col-12">
-                <div style="display: inline" >
-                    
-                    <input type="checkbox"  [(ngModel)]="selectedSalary" name="selectedSalary"/> {{labSalary[initial_current.Language]}}
-                    <input type="checkbox"  [(ngModel)]="selectedOvertime" name="selectedOvertime"/> {{labOvertime[initial_current.Language]}}
-                    <input type="checkbox"  [(ngModel)]="selectedDiligence" name="selectedDiligence"/> {{labDiligence[initial_current.Language]}}
-                    <input type="checkbox"  [(ngModel)]="selectedAllowance" name="selectedAllowance"/> {{labAllowance[initial_current.Language]}}
-                    <input type="checkbox"  [(ngModel)]="selectedLeave" name="selectedLeave" /> {{labLeave[initial_current.Language]}}
-                    <input type="checkbox"  [(ngModel)]="selectedAbsent" name="selectedAbsent" /> {{labAbsent[initial_current.Language]}}
-                    <input type="checkbox"  [(ngModel)]="selectedLate" name="selectedLate" /> {{labLate[initial_current.Language]}}                    
+                <div style="display: flex; gap: 6px;">
+
+                    <input type="checkbox" [(ngModel)]="selectall" name="selectall" (change)="all()" /> <span
+                        style="font-weight: bold;">{{title_all[initial_current.Language]}}</span>
+                    <input type="checkbox" [(ngModel)]="selectedSalary" name="selectedSalary" />
+                    {{labSalary[initial_current.Language]}}
+                    <input type="checkbox" [(ngModel)]="selectedOvertime" name="selectedOvertime" />
+                    {{labOvertime[initial_current.Language]}}
+                    <input type="checkbox" [(ngModel)]="selectedDiligence" name="selectedDiligence" />
+                    {{labDiligence[initial_current.Language]}}
+                    <input type="checkbox" [(ngModel)]="selectedAllowance" name="selectedAllowance" />
+                    {{labAllowance[initial_current.Language]}}
+                    <input type="checkbox" [(ngModel)]="selectedLeave" name="selectedLeave" />
+                    {{labLeave[initial_current.Language]}}
+                    <input type="checkbox" [(ngModel)]="selectedAbsent" name="selectedAbsent" />
+                    {{labAbsent[initial_current.Language]}}
+                    <input type="checkbox" [(ngModel)]="selectedLate" name="selectedLate" />
+                    {{labLate[initial_current.Language]}}
                 </div>
             </div>
-            
+
             <div class="field col-12">
                 <p-button label="Process" (click)="process()"></p-button>
             </div>
         </div>
     </p-tabPanel>
-    
-    <p-tabPanel >
-        <ng-template pTemplate = "header">
+
+    <p-tabPanel>
+        <ng-template pTemplate="header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
             <span>Logs</span>
         </ng-template>
-        
+
         <div class="formgrid grid align-items-end">
 
             <div class="field col-12">
                 <app-task></app-task>
             </div>
-                       
+
         </div>
 
 
     </p-tabPanel>
 
 </p-tabView>
-
-
