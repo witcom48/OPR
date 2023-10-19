@@ -5,9 +5,9 @@
         <td align="left">
             <h4>{{this.title_page}}</h4>
             <br>
-            <a>Manage</a>
+            <a>{{this.title_manage[initial_current.Language]}}</a>
             |
-            <a>Link</a>
+            <a>{{this.title_link[initial_current.Language]}}</a>
         </td>
         <td align="right">
 
@@ -73,8 +73,14 @@
                         <div>
                             {{title_requestmcer[initial_current.Language]}} :
                             <p-dropdown [ngModel]="statusCer_select" [options]="statusCer" placeholder="--"
-                                optionLabel="name" [showClear]="true" optionValue="value"
+                                [showClear]="true" optionValue="value"
                                 (onChange)="dt2.filter($event.value, 'certificate', 'equals')" dataKey="value">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                                </ng-template>
                             </p-dropdown>
                         </div>
                         &nbsp;&nbsp;
@@ -89,7 +95,7 @@
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="Search keyword" />
+                            placeholder="{{title_search}}" />
                     </span>
                 </div>
             </ng-template>
@@ -210,11 +216,19 @@
         <br>
     </div>
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file"
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <!-- <input type="file"
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            required (change)="handleFileInput($any($event).target.files)">
+            required (change)="handleFileInput($any($event).target.files)"> -->
+        <div class="attach">
+            <input id="file" type="file" #fileUploader
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                required (change)="handleFileInput($any($event).target.files)" style="display: none;">
+            <label for="file" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="doUploadApplywork()" label="{{title_upload}}"

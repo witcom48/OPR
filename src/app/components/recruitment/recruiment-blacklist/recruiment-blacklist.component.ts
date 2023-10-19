@@ -68,12 +68,14 @@ export class RecruimentBlacklistComponent implements OnInit {
   title_worker: { [key: string]: string } = { EN: "Emp. ID", TH: "รหัสพนักงาน" };
   title_name: { [key: string]: string } = { EN: "Name", TH: "ชื่อ-นามสกุล" };
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
-  title_note: { [key: string]: string } = { EN: "Note", TH: "เพิ่มเติม" };
+  title_note: { [key: string]: string } = { EN: "Note", TH: "หมายเหตุ" };
   title_card: { [key: string]: string } = { EN: "Card No.", TH: "เลขบัตรประจำตัวประชาชน" };
   title_fname_th: { [key: string]: string } = { EN: "First Name(TH)", TH: "ชื่อ(ไทย)" };
   title_lname_th: { [key: string]: string } = { EN: "Last Name(TH)", TH: "นามสกุล(ไทย)" };
   title_fname_en: { [key: string]: string } = { EN: "First Name(EN)", TH: "ชื่อ(อังกฤษ)" };
   title_lname_en: { [key: string]: string } = { EN: "Last Name(TH)", TH: "นามสกุล(อังกฤษ)" };
+
+  title_template: { [key: string]: string } = { EN: "Template", TH: "เทมเพลต" };
 
   title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" };
 
@@ -95,6 +97,12 @@ export class RecruimentBlacklistComponent implements OnInit {
 
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" };
 
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  
   doLoadMenu() {
 
     this.items = [
@@ -128,7 +136,7 @@ export class RecruimentBlacklistComponent implements OnInit {
       }
       ,
       {
-        label: "Template",
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import req/(OPR)Import Blacklist.xlsx', '_blank');
@@ -269,8 +277,14 @@ export class RecruimentBlacklistComponent implements OnInit {
   }
 
   fileToUpload: File | any = null;
+  selectedFileName: string = '';
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.title_nofile[this.initial_current.Language];
+    }
   }
 
   doUploadBlacklist() {

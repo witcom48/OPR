@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <p-menubar [model]="toolbar_menu"></p-menubar>
-<p-card header="Apply work" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
+<p-card header="{{title_page}}" [style]="{'margin-top': '0px','margin-bottom': '2em' }">
     <div>
         <div>
             <p-tabView (onChange)="tabChange($event)">
@@ -14,8 +14,14 @@
                         <p-image [src]="base64Image" id="imgReq" name="imgReq" alt="Image" width="175"
                             height="175"></p-image>
                         <!-- <p-button class="upload" label="Upload Images"></p-button> -->
-                        <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*">
-
+                        <div class="btnupload">
+                            <input class="upload" type="file" id="file" (change)="onselectFile($event)"
+                                accept="image/*">
+                            <label for="file" class="uploadlabe">{{title_choose[initial_current.Language]}}</label>
+                            <span class="chosen-text"
+                                *ngIf="!selectedimageName">{{title_nofile[this.initial_current.Language]}}</span>
+                            <span class="chosen-text" *ngIf="selectedimageName">{{selectedimageName}}</span>
+                        </div>
                         <div style="grid-column: 1;">
                             <label for="code">{{title_code}} : <span style="color: red;"> *</span></label>
                             <input pInputText id="lastname2" type="text" [(ngModel)]="selectedReqworker.worker_code"
@@ -108,8 +114,8 @@
                         </div>
                         <div>
                             <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
-                            <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code" [showClear]="true"
-                                [(ngModel)]="selectedReqworker.nationality_code"
+                            <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code"
+                                [showClear]="true" [(ngModel)]="selectedReqworker.nationality_code"
                                 [style]="{ width: '100%', overflow: 'visible' }">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.ethnicity_name_th : item.ethnicity_name_en}}
@@ -211,7 +217,7 @@
                                     [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqSuggest"
                                     (onRowSelect)="onRowSelectReqSuggest($event)" [rows]="10"
                                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_suggestname}}</th>
@@ -247,7 +253,7 @@
                                     [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqPosition"
                                     (onRowSelect)="onRowSelectReqposition($event)" [rows]="10"
                                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_position}}</th>
@@ -281,7 +287,7 @@
                                     [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqProject"
                                     (onRowSelect)="onRowSelectReqproject($event)" [rows]="10"
                                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_project[initial_current.Language]}}</th>
@@ -315,7 +321,7 @@
                                     [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqSalary"
                                     (onRowSelect)="onRowSelectReqsalary($event)" [rows]="10"
                                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_date}}</th>
@@ -353,7 +359,7 @@
                                     [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqBenefit"
                                     (onRowSelect)="onRowSelectReqbenefit($event)" [rows]="10"
                                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_date}}</th>
@@ -502,7 +508,7 @@
                                     [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqAddress"
                                     (onRowSelect)="onRowSelectReqAddress($event)" [rows]="10"
                                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                    currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th>{{title_addresstype}}</th>
@@ -600,7 +606,7 @@
                                         (onRowSelect)="onRowSelectReqForeignercard($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_foreignercode[initial_current.Language]}}</th>
@@ -758,7 +764,7 @@
                                         (onRowSelect)="onRowSelectReqeducation($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
 
                                         <ng-template pTemplate="header">
                                             <tr>
@@ -802,7 +808,7 @@
                                         (onRowSelect)="onRowSelectReqtraining($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
 
                                         <ng-template pTemplate="header">
                                             <tr>
@@ -843,7 +849,7 @@
                                         (onRowSelect)="onRowSelectReqassessment($event)" selectionMode="single"
                                         [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                         <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -894,7 +900,7 @@
                                         (onRowSelect)="onRowSelectReqcriminal($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                         <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -955,7 +961,7 @@
                                     <p-table #dt3 [value]="reqdocattApp" selectionMode="single"
                                         [(selection)]="selecteddocattApp" (onRowSelect)="onRowSelectfileApp($event)"
                                         [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                                         [globalFilterFields]="['document_name','created_by','created_date']"
                                         responsiveLayout="stack" [breakpoint]="'744px'">
 
@@ -1006,7 +1012,7 @@
                                     <p-table #dt3 [value]="reqdocattID" selectionMode="single"
                                         [(selection)]="selecteddocattID" (onRowSelect)="onRowSelectfileID($event)"
                                         [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                                         [globalFilterFields]="['document_name','created_by','created_date']"
                                         responsiveLayout="stack" [breakpoint]="'744px'">
 
@@ -1057,7 +1063,7 @@
                                     <p-table #dt3 [value]="reqdocattHos" selectionMode="single"
                                         [(selection)]="selecteddocattHos" (onRowSelect)="onRowSelectfileHos($event)"
                                         [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                                         [globalFilterFields]="['document_name','created_by','created_date']"
                                         responsiveLayout="stack" [breakpoint]="'744px'">
 
@@ -1108,7 +1114,7 @@
                                     <p-table #dt3 [value]="reqdocattPho" selectionMode="single"
                                         [(selection)]="selecteddocattPho" (onRowSelect)="onRowSelectfilePho($event)"
                                         [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                                         [globalFilterFields]="['document_name','created_by','created_date']"
                                         responsiveLayout="stack" [breakpoint]="'744px'">
 
@@ -1159,7 +1165,7 @@
                                     <p-table #dt3 [value]="reqdocattPDPA" selectionMode="single"
                                         [(selection)]="selecteddocattPDPA" (onRowSelect)="onRowSelectfilePDPA($event)"
                                         [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                                         [globalFilterFields]="['document_name','created_by','created_date']"
                                         responsiveLayout="stack" [breakpoint]="'744px'">
 
@@ -1209,7 +1215,7 @@
                                     <p-table #dt3 [value]="reqdocattMCer" selectionMode="single"
                                         [(selection)]="selecteddocattMCer" (onRowSelect)="onRowSelectfileMCer($event)"
                                         [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                                         [globalFilterFields]="['document_name','created_by','created_date']"
                                         responsiveLayout="stack" [breakpoint]="'744px'">
 
@@ -1260,7 +1266,7 @@
                                     <p-table #dt3 [value]="reqdocattOther" selectionMode="single"
                                         [(selection)]="selecteddocattOther" (onRowSelect)="onRowSelectfileOther($event)"
                                         [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
                                         [globalFilterFields]="['document_name','created_by','created_date']"
                                         responsiveLayout="stack" [breakpoint]="'744px'">
 
@@ -1860,8 +1866,8 @@
                 #foreignercard_expire="ngModel" [required]="true"><input type="text"></p-calendar>
             <br>
             <div class="field col-12" style=" text-align: right;">
-                <p-button label="{{title_summit}}"
-                    (click)="reqforeignercard_summit()" [disabled]="!Form.form.valid"></p-button>
+                <p-button label="{{title_summit}}" (click)="reqforeignercard_summit()"
+                    [disabled]="!Form.form.valid"></p-button>
                 &nbsp;
                 <!-- <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
                     (click)="empforeignercard_cancel()"></button> -->
@@ -1879,92 +1885,127 @@
 
 
 <!-- Attach App -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileApp">
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfileApp" (onHide)="clearattachname()">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
-            (change)="handleFileAppInputDoclist($any($event).target.files)">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input id="fileattach" type="file" #fileUploader accept="" required
+                (change)="handleFileAppInputDoclist($any($event).target.files)" style="display: none;">
+            <label for="fileattach" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="UploadfileAppdoc()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="UploadfileAppdoc()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
 
 <!-- Attach ID card -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileID">
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfileID" (onHide)="clearattachname()">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
-            (change)="handleFileIDInputDoclist($any($event).target.files)">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input type="file" id="fileattach" #fileUploader accept="" required
+                (change)="handleFileIDInputDoclist($any($event).target.files)" style="display: none;">
+            <label for="fileattach" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="UploadfileIDdoc()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="UploadfileIDdoc()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
 
 <!-- Attach House -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileHos">
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfileHos" (onHide)="clearattachname()">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
-            (change)="handleFileHosInputDoclist($any($event).target.files)">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input type="file" id="fileattach" #fileUploader accept="" required
+                (change)="handleFileHosInputDoclist($any($event).target.files)" style="display: none;">
+            <label for="fileattach" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="UploadfileHosdoc()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="UploadfileHosdoc()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
 
 <!-- Attach Photo -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfilePho">
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfilePho" (onHide)="clearattachname()">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
-            (change)="handleFilePhoInputDoclist($any($event).target.files)">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input type="file" id="fileattach" #fileUploader accept="" required
+                (change)="handleFilePhoInputDoclist($any($event).target.files)" style="display: none;">
+            <label for="fileattach" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="UploadfilePhodoc()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="UploadfilePhodoc()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
 
 <!-- Attach PDPA -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfilePDPA">
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfilePDPA" (onHide)="clearattachname()"> 
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
-            (change)="handleFilePDPAInputDoclist($any($event).target.files)">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input type="file" id="fileattach" #fileUploader accept="" required
+                (change)="handleFilePDPAInputDoclist($any($event).target.files)" style="display: none;">
+            <label for="fileattach" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="UploadfilePDPAdoc()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="UploadfilePDPAdoc()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
 
 <!-- Attach Medic Certificate-->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileMCer">
+<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileMCer" (onHide)="clearattachname()">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
-            (change)="handleFileMCerInputDoclist($any($event).target.files)">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input type="file" id="fileattach" #fileUploader accept="" required
+                (change)="handleFileMCerInputDoclist($any($event).target.files)" style="display: none;">
+            <label for="fileattach" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="UploadfileMCerdoc()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="UploadfileMCerdoc()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
 
 <!-- Attach other -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="UploadfileOther">
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfileOther" (onHide)="clearattachname()">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file" #fileUploader accept="" required
-            (change)="handleFileOtherInputDoclist($any($event).target.files)">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input type="file" id="fileattach" #fileUploader accept="" required
+                (change)="handleFileOtherInputDoclist($any($event).target.files)" style="display: none;">
+            <label for="fileattach" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="UploadfileOtherdoc()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="UploadfileOtherdoc()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>

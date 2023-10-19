@@ -1497,6 +1497,14 @@ var menumain = new Map([
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["manager", { TH: "การจัดการ", EN: "Manager" }],
     ["report", { TH: "รายงาน", EN: "Report" }],
+
+    //req
+    ["recruitment", { TH: "รับสมัครงาน", EN: "Recruitment" }],
+    ["blacklist", { TH: "แบล็คลิสต์", EN: "Black List" }],
+    ["request", { TH: "ร้องขอพนักงานเพิ่ม", EN: "Request" }],
+    ["applywork", { TH: "ประวัติผู้สมัครงาน", EN: "Apply work"}],
+    ["reqappr", { TH: "รับสมัครงาน", EN: "Approval List"}],
+    
 ]);
 
 var slefappemp = new Map([

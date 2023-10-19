@@ -7,6 +7,7 @@ import { InitialCurrent } from 'src/app/config/initial_current';
 import { ReasonModels } from 'src/app/models/attendance/reason';
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
+import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { TRSysApproveModel } from 'src/app/models/system/security/sys_approve';
 import { ApplyworkService } from 'src/app/services/recruitment/applywork.service';
 import { BlacklistService } from 'src/app/services/recruitment/blacklist.service';
@@ -28,6 +29,47 @@ export class RecruitmentApproveComponent implements OnInit {
 
   menu_apply: MenuItem[] = [];
   status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }];
+
+  total_apply: number = 0
+
+  constructor(
+    private router: Router,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private datePipe: DatePipe,
+    private sysApproveServices: SysApproveServices,
+    private applyworkService: ApplyworkService,
+    private blacklistService: BlacklistService,
+    private reasonService: ReasonsService,
+  ) { }
+
+  ngOnInit(): void {
+    this.doGetInitialCurrent();
+    //
+    this.doLoadBlacklistList();
+    this.doLoadReasonList();
+    setTimeout(() => {
+      this.doLoadApply()
+      this.doLoadMenu()
+    }, 300);
+  }
+  public initial_current: InitialCurrent = new InitialCurrent();
+  initialData2: InitialCurrent = new InitialCurrent();
+  accessData: AccessdataModel = new AccessdataModel();
+  doGetInitialCurrent() {
+    this.initial_current = JSON.parse(
+      localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
+    );
+    if (!this.initial_current) {
+      this.router.navigateByUrl('login');
+    }
+    this.accessData = this.initialData2.dotGetPolmenu('REQ');
+  }
+  hasAccessMenu(accessCode: string): boolean {
+    return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
+  }
+
+  title_page: { [key: string]: string } = { EN: "Approval list", TH: "อนุมัติผู้สมัครงาน" }
 
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
@@ -61,8 +103,6 @@ export class RecruitmentApproveComponent implements OnInit {
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
 
-  title_page: { [key: string]: string } = { EN: "Project management", TH: "ข้อมูลโครงการ" }
-
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
   title_name_th: { [key: string]: string } = { EN: "Name (Thai)", TH: "ชื่อไทย" }
   title_name_en: { [key: string]: string } = { EN: "Name (Eng.)", TH: "ชื่ออังกฤษ" }
@@ -90,31 +130,8 @@ export class RecruitmentApproveComponent implements OnInit {
   title_popup_approve: { [key: string]: string } = { EN: "Approve", TH: "อนุมัติ" }
 
   title_requestmcer: { [key: string]: string } = { EN: "Medical Certificate", TH: "ใบรับรองแพทย์" };
-  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "Blacklist" };
+  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "เบล็คลิสต์" };
 
-  total_apply: number = 0
-
-  constructor(
-    private router: Router,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService,
-    private datePipe: DatePipe,
-    private sysApproveServices: SysApproveServices,
-    private applyworkService: ApplyworkService,
-    private blacklistService: BlacklistService,
-    private reasonService: ReasonsService,
-  ) { }
-
-  ngOnInit(): void {
-    this.doLoadMenu()
-    this.doGetInitialCurrent();
-    //
-    this.doLoadBlacklistList();
-    this.doLoadReasonList();
-    setTimeout(() => {
-      this.doLoadApply()
-    }, 300);
-  }
 
   doLoadMenu() {
 
@@ -150,13 +167,7 @@ export class RecruitmentApproveComponent implements OnInit {
   }
 
 
-  public initial_current: InitialCurrent = new InitialCurrent();
-  doGetInitialCurrent() {
-    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
-    if (!this.initial_current) {
-      this.router.navigateByUrl('login');
-    }
-  }
+
   apply_list: EmployeeModel[] = [];
   selectedApply: EmployeeModel = new EmployeeModel;
   fillterBlacklist: boolean = false;

@@ -117,14 +117,14 @@ export class AppMenuComponent implements OnInit {
             },
 
             [ModuleCode.REQ]: {
-                label: 'Recruitment',
+                label: this.langs.get('recruitment')[this.selectlang],
                 icon: 'pi-user-plus',
                 items: [
                     { label: 'Policy', routerLink: ['/recruitment/policy'], accessCode: 'REQ001' },
-                    { label: 'Black List', routerLink: ['/recruitment/blacklist'], accessCode: 'REQ002' },
-                    { label: 'Request', routerLink: ['/recruitment/request'], accessCode: 'REQ003' },
-                    { label: 'Apply work', routerLink: ['/recruitment/applylist'], accessCode: 'REQ004' },
-                    { label: 'Approval list', routerLink: ['/recruitment/approve'], accessCode: 'REQ005' },
+                    { label: this.langs.get('blacklist')[this.selectlang], routerLink: ['/recruitment/blacklist'], accessCode: 'REQ002' },
+                    { label: this.langs.get('request')[this.selectlang], routerLink: ['/recruitment/request'], accessCode: 'REQ003' },
+                    { label: this.langs.get('applywork')[this.selectlang], routerLink: ['/recruitment/applylist'], accessCode: 'REQ004' },
+                    { label: this.langs.get('reqappr')[this.selectlang], routerLink: ['/recruitment/approve'], accessCode: 'REQ005' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/recruitment/reports'], accessCode: 'REQ006' },
                 ]
             },
