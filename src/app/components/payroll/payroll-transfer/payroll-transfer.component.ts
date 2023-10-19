@@ -35,7 +35,7 @@ export class PayrollTransferComponent implements OnInit {
       accessCode: 'PAY007-003'
     },
     {
-      title: 'ประกันสังคม',
+      title: 'Transfer SSO',
       link: 'transfersso',
       accessCode: 'PAY007-004'
     },

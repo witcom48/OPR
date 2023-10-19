@@ -64,11 +64,11 @@ export class SystemSecurityComponent implements OnInit {
         link: 'account',
         accessCode: 'SYS003-002'
       },
-      {
-        title: 'Workflow',
-        link: 'workflow',
-        accessCode: 'SYS003-003'
-      },
+      // {
+      //   title: 'Workflow',
+      //   link: 'workflow',
+      //   accessCode: 'SYS003-003'
+      // },
       {
         // title: 'Allow IP/Port',
         title: this.title_allow[this.initialData.Language],

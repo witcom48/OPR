@@ -64,7 +64,7 @@ export class ProjectMonitorComponent implements OnInit {
   selectedDate_fillter :Date = new Date()
   selectedToDate_fillter :Date = new Date()
 
-  edit_workflow: boolean = false;
+  // edit_workflow: boolean = false;
 
   title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
   title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
@@ -349,9 +349,9 @@ export class ProjectMonitorComponent implements OnInit {
     }
   }
 
-  onRowSelectProject(event: Event) {
-    this.edit_workflow= true;
-  }
+  // onRowSelectProject(event: Event) {
+  //   this.edit_workflow= true;
+  // }
 
   probusiness_list: ProbusinessModel[] = []; 
   doLoadProjectBusiness(){       
