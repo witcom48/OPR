@@ -153,7 +153,7 @@ export class ShiftComponent implements OnInit {
       }
       ,
       {
-        label: "Template",
+        label: this.langs.get('template')[this.selectlang],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Attendance/(OPR)Import Shift.xlsx', '_blank');

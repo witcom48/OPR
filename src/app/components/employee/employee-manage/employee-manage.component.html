@@ -16,10 +16,11 @@
 
                         <p-image [src]="base64Image" id="imgWorker" name="imgWorker" alt="Image" width="175"
                             height="175"></p-image>
+                            <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*">
                         <!-- <p-fileUpload class="upload" mode="basic" chooseLabel="Upload Images" [maxFileSize]="1000000"
                             accept="image/*" cancelIcon="true" [customUpload]="true"
                             (onSelect)="onselectFile($event)"></p-fileUpload> -->
-                        <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*">
+                        
                         <!-- <div>
                             <input type="URL" name="myURL" [(ngModel)]="myURL" placeholder="insert image URL here" (change)="onURLinserted() ">
                         </div> -->
@@ -391,7 +392,7 @@
                                         (onRowSelect)="onRowSelectEmpLocation($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_locationname}}</th>
@@ -434,7 +435,7 @@
                                         (onRowSelect)="onRowSelectEmpBranch($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_branchname}}</th>
@@ -477,7 +478,7 @@
                                         (onRowSelect)="onRowSelectEmpSuggest($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_suggestname}}</th>
@@ -624,7 +625,7 @@
                                         (onRowSelect)="onRowSelectEmpAddress($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_addresstype}}</th>
@@ -680,7 +681,7 @@
                                         (onRowSelect)="onRowSelectEmpCard($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_cardtype}}</th>
@@ -722,7 +723,7 @@
                                         (onRowSelect)="onRowSelectEmpbank($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_bankname}}</th>
@@ -766,7 +767,7 @@
                                         (onRowSelect)="onRowSelectEmpFamily($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_familytype}}</th>
@@ -813,7 +814,7 @@
                                         (onRowSelect)="onRowSelectEmpHospital($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_hospitalname}}</th>
@@ -851,7 +852,7 @@
                                         (onRowSelect)="onRowSelectEmpForeignercard($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <!-- <th>{{title_foreignercode[initial_current.Language]}}</th>
@@ -1001,7 +1002,7 @@
                                             (onRowSelect)="onRowSelectEmpDep($event)" selectionMode="single" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
 
                                             <ng-template pTemplate="header">
                                                 <tr>
@@ -1043,7 +1044,7 @@
                                             (onRowSelect)="onRowSelectEmpPosition($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <ng-template pTemplate="header">
                                                 <tr>
                                                     <th>{{title_date}}</th>
@@ -1082,7 +1083,7 @@
                                             [(selection)]="selectedEmpGroup" (onRowSelect)="onRowSelectEmpGroup($event)"
                                             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <ng-template pTemplate="header">
                                                 <tr>
                                                     <th>{{title_date}}</th>
@@ -1118,7 +1119,7 @@
                                             (onRowSelect)="onRowSelectEmpeducation($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
 
                                             <ng-template pTemplate="header">
                                                 <tr>
@@ -1166,7 +1167,7 @@
                                             (onRowSelect)="onRowSelectEmpSupply($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <ng-template pTemplate="header">
                                                 <tr>
                                                     <th>{{title_supplyissue}}</th>
@@ -1210,7 +1211,7 @@
                                             (onRowSelect)="onRowSelectEmpUniform($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <ng-template pTemplate="header">
                                                 <tr>
                                                     <th>{{title_uniformissue}}</th>
@@ -1252,7 +1253,7 @@
                                             (onRowSelect)="onRowSelectEmptraining($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
 
                                             <ng-template pTemplate="header">
                                                 <tr>
@@ -1296,7 +1297,7 @@
                                             (onRowSelect)="onRowSelectEmpassessment($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -1309,7 +1310,7 @@
                                         </ng-template> -->
                                             <ng-template pTemplate="header">
                                                 <tr>
-                                                    <th>{{title_institute}}</th>
+                                                    <!-- <th>{{title_institute}}</th> -->
                                                     <th>{{title_topic}}</th>
                                                     <th>{{title_fromdate}}</th>
                                                     <th>{{title_todate}}</th>
@@ -1321,8 +1322,8 @@
                                             </ng-template>
                                             <ng-template pTemplate="body" let-empassessment>
                                                 <tr [pSelectableRow]="empassessment">
-                                                    <td>{{doGetInstituteDetail(empassessment.empassessment_location)}}
-                                                    </td>
+                                                    <!-- <td>{{doGetInstituteDetail(empassessment.empassessment_location)}}
+                                                    </td> -->
                                                     <td>{{empassessment.empassessment_topic}}</td>
                                                     <td>{{empassessment.empassessment_fromdate | date:'dd/MM/yyyy'}}
                                                     </td>
@@ -1351,7 +1352,7 @@
                                             (onRowSelect)="onRowSelectEmpcriminal($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -1403,7 +1404,7 @@
                                             (onRowSelect)="onRowSelectEmpExperience($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
 
                                             <ng-template pTemplate="header">
                                                 <tr>
@@ -1444,7 +1445,7 @@
                                         (onRowSelect)="onRowSelectEmpresign($event)" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -1537,7 +1538,7 @@
                                             (onRowSelect)="onRowSelectEmpsalary($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -1584,7 +1585,7 @@
                                             (onRowSelect)="onRowSelectEmpbenefit($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -1637,7 +1638,7 @@
                                             (onRowSelect)="onRowSelectEmpprovident($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -1698,7 +1699,7 @@
                                             (onRowSelect)="onRowSelectEmpreduce($event)" [rows]="10"
                                             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                             [paginator]="true"
-                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                             <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -1739,7 +1740,7 @@
                                         scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"
                                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                                         [paginator]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -1810,14 +1811,14 @@
                     <p-table #dt17 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true"
                         scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"
                         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                         <ng-template pTemplate="caption">
                             <div class="flex">
                                 <span class="p-input-icon-left ml-auto">
                                     <i class="pi pi-search"></i>
                                     <input pInputText type="text"
                                         (input)="dt17.filterGlobal($any($event).target.value, 'contains')"
-                                        placeholder="Search keyword" />
+                                        placeholder={{title_search_keyword[initial_current.Language]}} />
                                 </span>
                             </div>
                         </ng-template>
@@ -2504,8 +2505,8 @@
 
     <!-- Form Emp Assessment -->
     <div class="formatt" *ngIf="edit_empassessment==true || new_assessment==true">
-        <label>{{title_institute}}</label>
-        <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
+         <!-- <label>{{title_institute}}</label> -->
+       <!-- <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
             [(ngModel)]="selectedEmpassessment.empassessment_location" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
@@ -2513,7 +2514,7 @@
             <ng-template let-item pTemplate="item">
                 {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
             </ng-template>
-        </p-dropdown>
+        </p-dropdown> -->
 
         <label>{{title_topic}}</label>
         <input pInputText type="text" [(ngModel)]="selectedEmpassessment.empassessment_topic">
@@ -3085,7 +3086,7 @@
 <!-- END FORM DIALOG-->
 
 <form (ngSubmit)="Saveforecard()" #ForeForm2="ngForm">
-    <p-dialog header="Card" [(visible)]="displayaddForeCard" (onHide)="closeforecard()">
+    <p-dialog header={{title_cards[initial_current.Language]}} [(visible)]="displayaddForeCard" (onHide)="closeforecard()">
         <div class="formatt" *ngIf="edit_empforeignercard==true || new_foreignercard==true">
             <label>{{title_foreignercardtype[initial_current.Language]}}<span style="color: red;">*</span></label>
             <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"

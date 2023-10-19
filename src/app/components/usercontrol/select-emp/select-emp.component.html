@@ -132,7 +132,7 @@
 
         <div class="field col-12">
             <p-pickList [metaKeySelection]="false" [responsive]="true" [source]="employee_source"
-                [target]="employee_dest" sourceHeader="Source List" targetHeader="Target List"
+                [target]="employee_dest" sourceHeader="{{title_source_list}}" targetHeader="{{title_target_list}}"
                 [sourceStyle]="{'height':'15rem'}" [targetStyle]="{'height':'15rem'}" [dragdrop]="true">
                 <ng-template let-emp pTemplate="item">
                     <div>

@@ -324,6 +324,8 @@ var shfit = new Map([
     ["time", { TH: "เวลา", EN: "Time" }],
     ["amount", { TH: "จำนวนเงิน", EN: "Amount" }],
     ["allowance", { TH: "เงินได้ค่าเวลา", EN: "Allowance" }],
+    ["template", { TH: "เทมเพลต", EN: "Template" }],
+
 
 ]);
 
@@ -876,9 +878,10 @@ var selfemp = new Map([
     ["shift", { TH: "เปลี่ยนกะการทำงาน", EN: "Shift" }],
     ["ot", { TH: "การทำโอที", EN: "Overtime" }],
     ["daytype", { TH: "เปลี่ยนประเภทวัน", EN: "Daytype" }],
-    ["punchcard", { TH: "ลืมลงเวลา", EN: "Punchcard" }],
+    // ["punchcard", { TH: "ลืมลงเวลา", EN: "Punchcard" }],
+    ["punchcard", { TH: "ลืมลงเวลา", EN: "Onsite / Not Terminal" }],
     ["checkin", { TH: "เช็คอิน", EN: "Check IN/OUT" }],
-    ["reqdoc", { TH: "ขอเปลี่ยนแปลงข้อมูล", EN: "Req doc" }],
+    ["reqdoc", { TH: "ขอเปลี่ยนแปลงข้อมูล", EN: "Change Record" }],
     ["consent", { TH: "ความยินยอม", EN: "Consent" }],
     ["request", { TH: "บันทึกเอกสาร", EN: "Request" }],
 ]);
@@ -886,7 +889,7 @@ var selfemp = new Map([
 var reqleave = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
     ["title_leave", { TH: "การลา", EN: "Leave" }],
-    ["employee", { TH: "บันทึกเอกสาร", EN: "Request" }],
+    ["employee", { TH: "บันทึกเอกสาร", EN: "Employee" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
     ["workflow", { TH: "สายงานการอนุมัติ", EN: "Workflow" }],
@@ -959,7 +962,7 @@ var reqleave = new Map([
 
 var reqshift = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
-    ["title_shfit", { TH: "เปลี่ยนกะการทำงาน", EN: "Change Shift" }],
+    ["title_shfit", { TH: "เปลี่ยนกะการทำงาน", EN: "Shift" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
@@ -1023,7 +1026,7 @@ var reqshift = new Map([
 
 var reqot = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
-    ["title_ot", { TH: "การทำโอที", EN: "OT" }],
+    ["title_ot", { TH: "การทำโอที", EN: "Overtime" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
@@ -1091,7 +1094,7 @@ var reqot = new Map([
 
 var reqonsite = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
-    ["title_onsite", { TH: "การลืมลงเวลา", EN: "Onsite" }],
+    ["title_onsite", { TH: "การลืมลงเวลา", EN: "Onsite / Not Terminal" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
@@ -1228,7 +1231,7 @@ var reqdaytype = new Map([
 
 var reqcheckin = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
-    ["title_checkin", { TH: "การเช็คอิน / การเช็คเอาท์", EN: "Check in / out" }],
+    ["title_checkin", { TH: "การเช็คอิน / การเช็คเอาท์", EN: "Check IN/OUT" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
@@ -1299,7 +1302,7 @@ var topic = new Map([
     ["title", { TH: "Attendance", EN: "Attendance" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
-    ["topic", { TH: "หัวข้อเรื่อง", EN: "Topic" }],
+    ["topic", { TH: "หัวข้อเรื่อง", EN: "Change Record Topic" }],
     ["new", { TH: "เพิ่ม", EN: "New" }],
     ["import", { TH: "นำเข้า", EN: "Import" }],
     ["confirm_upload", { TH: "ยืนยันนำเข้าไฟล์ : ", EN: "Confirm Upload file : " }],
@@ -1340,7 +1343,7 @@ var topic = new Map([
 
 var reqdoc = new Map([
     ["title", { TH: "Self Services", EN: "Self Services" }],
-    ["title_req", { TH: "การขอเปลี่ยนแปลงข้อมูล", EN: "Req doc" }],
+    ["title_req", { TH: "การขอเปลี่ยนแปลงข้อมูล", EN: "Change Record" }],
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["notapprove", { TH: "ไม่อนุมัติเอกสาร", EN: "Not Approve" }],
@@ -1497,6 +1500,36 @@ var menumain = new Map([
     ["employee", { TH: "พนักงาน", EN: "Employee" }],
     ["manager", { TH: "การจัดการ", EN: "Manager" }],
     ["report", { TH: "รายงาน", EN: "Report" }],
+
+    ["policy", { TH: "กำหนด", EN: "Policy" }],
+    ["employeeinfo", { TH: "ประวัติพนักงาน", EN: "Employee info" }],
+    ["monitor", { TH: "กระดานแสดงผล", EN: "Monitor" }],
+    
+    
+    
+    // sys
+    ["system", { TH: "ตั้งค่าระบบ", EN: "System" }],
+    ["manage", { TH: "จัดการ", EN: "Manage" }],
+    ["general", { TH: "ทั่วไป", EN: "General" }],
+    ["security", { TH: "การรักษาความปลอดภัย", EN: "Security" }],
+    ["notification", { TH: "การแจ้งเตือน", EN: "Notification" }],
+
+    // project
+    ["projects", { TH: "โครงการ", EN: "Project" }],
+    ["policy", { TH: "การกำหนดรูปแบบ", EN: "Policy" }],
+    ["project", { TH: "ข้อมูลโครงการ", EN: "Project" }],
+    ["monitor", { TH: "กระดานแสดงผล", EN: "Monitor" }],
+    ["timesheet", { TH: "ตารางเวลาทำงาน", EN: "Timesheet" }],
+    ["transferrecord", { TH: "บันทึกการโอนย้าย", EN: "Transfer record" }],
+    ["costcomparison", { TH: "เปรียบเที่ยบค่าใช้จ่าย", EN: "Cost comparison" }],
+    ["approvalist", { TH: "รายการอนุมัติโครงการ", EN: "Approval list" }],
+
+    
+
+
+ 
+
+
 ]);
 
 var slefappemp = new Map([
@@ -1505,15 +1538,15 @@ var slefappemp = new Map([
     ["shift", { TH: "เปลี่ยนกะการทำงาน", EN: "Shift" }],
     ["ot", { TH: "การทำโอที", EN: "Overtime" }],
     ["daytype", { TH: "เปลี่ยนประเภทวัน", EN: "Daytype" }],
-    ["punchcard", { TH: "ลืมลงเวลา", EN: "Punchcard" }],
+    ["punchcard", { TH: "ลืมลงเวลา",EN: "Onsite / Not Terminal" }],
     ["checkin", { TH: "เช็คอิน / เช็คเอาท์", EN: "Check IN/OUT" }],
-    ["reqdoc", { TH: "การขอเปลี่ยนแปลงข้อมูล", EN: "Req doc" }],
+    ["reqdoc", { TH: "การขอเปลี่ยนแปลงข้อมูล", EN: "Change Record" }],
     ["consent", { TH: "ความยินยอม", EN: "Consent" }],
     ["request", { TH: "บันทึกเอกสาร", EN: "Request" }],
     ["account", { TH: "บัญชีผู้ใช้งาน", EN: "Account" }],
     ["workflow", { TH: "ระดับสายงานผู้อนุมัติ", EN: "Workflow" }],
     ["area", { TH: "พื้นที่การทำงาน", EN: "Area" }],
-    ["topic", { TH: "หัวข้อเรื่อง", EN: "Topic" }],
+    ["topic", { TH: "หัวข้อเรื่อง", EN: "Change Record Topic" }],
     ["approve", { TH: "อนุมัติเอกสาร", EN: "Approve" }],
     ["setup", { TH: "การตั้งค่า", EN: "Setup" }],
     ["recruitement", { TH: "รับสมัคร", EN: "Recruitement" }],

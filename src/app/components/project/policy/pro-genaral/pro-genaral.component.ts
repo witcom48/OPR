@@ -168,10 +168,11 @@ export class ProGenaralComponent implements OnInit {
     }
 
   }
-  title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
+ 
+  title_project: { [key: string]: string } = { EN: "Policy", TH: "การกำหนดรูปแบบ" };
   title_cost: { [key: string]: string } = { EN: "Cost", TH: "ต้นทุน" }
-  title_project_protype: { [key: string]: string } = { EN: "Type", TH: "ประเภทงาน" }
-  title_project_probusiness: { [key: string]: string } = { EN: "Business", TH: "ประเภทธุรกิจ" }
+  title_project_protype: { [key: string]: string } = { EN: "Job Type ", TH: "ประเภทงาน" }
+  title_project_probusiness: { [key: string]: string } = { EN: "Business Type", TH: "ประเภทธุรกิจ" }
   title_jobmain_poluniform: { [key: string]: string } = { EN: "Uniform", TH: "ชุดฟอร์ม" }
   title_project_proarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
   title_project_proroup: { [key: string]: string } = { EN: "Group ", TH: "กลุ่ม" }
@@ -179,6 +180,7 @@ export class ProGenaralComponent implements OnInit {
   title_shift: { [key: string]: string } = { EN: "Shift", TH: "กะการทำงาน" }
   title_general: { [key: string]: string } = { EN: "Genaral", TH: "ทั่วไป" };
   title_slipform: { [key: string]: string } = { EN: "Slip form", TH: "ฟอร์มสลิป" };
+  title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
 
   title_page: string = "Geanral";
@@ -222,7 +224,7 @@ export class ProGenaralComponent implements OnInit {
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
       this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
+      this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
       this.title_code = "รหัส";
       this.title_name_th = "ชื่อไทย";
@@ -248,6 +250,7 @@ export class ProGenaralComponent implements OnInit {
       this.title_system_project = "โครงการ";
       this.title_type = "ประเภทการจ่าย";
       this.title_itemcode = "เงินได้";
+      this.title_auto = "อัตโนมัติ";
 
     }
   }
@@ -356,7 +359,7 @@ export class ProGenaralComponent implements OnInit {
       }
       ,
       {
-        label: "Template",
+        label:this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           switch (this.page_type) {

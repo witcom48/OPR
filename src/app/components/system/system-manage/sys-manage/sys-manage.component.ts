@@ -50,9 +50,9 @@ export class SysManageComponent implements OnInit {
     title_structure_code: string = 'Structure Code';
     title_year_period: string = 'Year Period';
     title_rounding: string = 'Rounding';
-    title_round_decimal: string = 'Rounds';
+    title_round_decimal: string = 'Rounds (Currency/Time)';
     title_round_time: string = 'Round Time';
-    title_round_polrounds: string = 'Currency Rounding';
+    title_round_polrounds: string = 'Rounds Setting';
     manageMenuItems: Menu[] = [];
     roundingMenuItems: Menu[] = [];
     manageMenuList: Menu[] = [];

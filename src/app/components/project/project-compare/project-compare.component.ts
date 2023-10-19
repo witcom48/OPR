@@ -111,7 +111,8 @@ export class ProjectCompareComponent implements OnInit {
   title_filter: {[key: string]: string} = {  EN: "Filter",  TH: "กรอง"}
   title_staff_fromadate: {[key: string]: string} = {  EN: "Fromdate",  TH: "วันที่เริ่ม"}
   title_staff_todate: {[key: string]: string} = {  EN: "Todate",  TH: "วันที่สิ้นสุด"}
-  title_staff_cost_compare: {[key: string]: string} = {  EN: "Cost Compare",  TH: "Cost Compare"}
+  title_staff_cost_compare: {[key: string]: string} = {  EN: "Cost Compare",  TH: "เปรียบเทียบค่าใช้จ่าย"}
+  title_search : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
 
   
   show_fillter: boolean = false;

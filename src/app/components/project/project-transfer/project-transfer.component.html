@@ -9,21 +9,21 @@
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-users"></i>&nbsp;&nbsp;
-            <span>Man power</span>
+            <span>{{title_emp_total[initial_current.Language]}}</span>
         </ng-template>
         <p-scrollPanel [style]="{width: '100%', height: '650px'}">
             <p-table #dtManpower [value]="project_monitor" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '50rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
                 selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                 [(selection)]="selectedProjectMonitor" [paginator]="true"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text"
                                 (input)="dtManpower.filterGlobal($any($event).target.value, 'contains')"
-                                placeholder="Search keyword" />
+                                placeholder={{title_search[initial_current.Language]}} />
                         </span>
                     </div>
                 </ng-template>
@@ -66,7 +66,7 @@
     <p-tabPanel>
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
-            <span>Transfer</span>
+            <span>{{title_staff_transfer[initial_current.Language]}}</span>
         </ng-template>
 
         <div class="formgrid grid align-items-end">
@@ -76,14 +76,14 @@
             </div>
 
             <div class="col-12 md:col-6">
-                <label for="selectedProtimepol_ot">Project</label><br>
+                <label for="selectedProtimepol_ot">{{title_project[initial_current.Language]}}</label><br>
                 <p-dropdown [options]="project_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedProject"
                     [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
                     (onChange)="doGetLastVersion()"></p-dropdown>
 
             </div>
             <div class="col-12 md:col-6">
-                <label for="selectedProtimepol_ot">Job</label><br>
+                <label for="selectedProtimepol_ot">{{title_job[initial_current.Language]}}</label><br>
                 <p-dropdown [options]="job_list" optionValue="code" optionLabel="name" [(ngModel)]="selectedJob"
                     [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
 
@@ -123,7 +123,7 @@
 
 
             <div class="pt-3 col-12">
-                <p-button label="Process" (click)="process()"></p-button>
+                <p-button label="{{title_process[initial_current.Language]}}" (click)="process()"></p-button>
             </div>
 
         </div>
@@ -132,7 +132,7 @@
     <p-tabPanel>
         <ng-template pTemplate="header">
             <i class="pi pi-list"></i>&nbsp;&nbsp;
-            <span>History</span>
+            <span>{{title_history[initial_current.Language]}}</span>
         </ng-template>
         <div class="formgrid grid align-items-end">
             &nbsp;&nbsp;&nbsp;&nbsp;

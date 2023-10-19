@@ -1099,8 +1099,7 @@ export class EmpDetailService {
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"empassessment_id\":\"" + list[i].empassessment_id + "\"";
-      item_data = item_data + ",\"empassessment_location\":\"" + list[i].empassessment_location + "\"";
-      item_data = item_data + ",\"empassessment_topic\":\"" + list[i].empassessment_topic + "\"";
+       item_data = item_data + ",\"empassessment_topic\":\"" + list[i].empassessment_topic + "\"";
       item_data = item_data + ",\"empassessment_fromdate\":\"" + this.datePipe.transform(list[i].empassessment_fromdate) + "\"";
       item_data = item_data + ",\"empassessment_todate\":\"" + this.datePipe.transform(list[i].empassessment_todate) + "\"";
       item_data = item_data + ",\"empassessment_count\":\"" + list[i].empassessment_count + "\"";

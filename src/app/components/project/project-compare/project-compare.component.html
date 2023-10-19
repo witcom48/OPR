@@ -1,5 +1,5 @@
 <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
-    <hr>
+<hr>
 
 <table class="table_summary_">
     <tr>
@@ -33,9 +33,9 @@
             <button pButton type="button" class="p-button-secondary button-size-small btndel" (click)="reloadPage()">
                 <i class="pi pi-refresh icon-small"></i>
             </button>
-<!-- <p-menubar [model]="toolbar_refresh"></p-menubar> -->
+            <!-- <p-menubar [model]="toolbar_refresh"></p-menubar> -->
 
-            
+
         </div>
         <div class="formgrid grid align-items-end">
             <table class="table_fillter">
@@ -152,7 +152,7 @@
                 <span class="p-input-icon-left ml-auto">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                        placeholder="Search keyword" />
+                        placeholder={{title_search[initial_current.Language]}}/>
                 </span>
             </div>
         </ng-template>

@@ -4,21 +4,22 @@
 <span>Links</span> -->
 <p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <p></p>
-<div class="grid">
+<div class="card" style="min-width: 600px; min-height: 500px">
+    <div class="grid">
 
 
-    <div class="col-12 md:col-3">
-        <!-- <b>{{title_general[initialData.Language]}}</b> -->
-        <p-divider align="left">
-            <div>
-                <i class="pi pi-list mr-2"></i>
-                <b>{{title_general[initialData.Language]}}</b>
+        <div class="col-12 md:col-3">
+            <!-- <b>{{title_general[initialData.Language]}}</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_general[initialData.Language]}}</b>
+                </div>
+            </p-divider>
+            <div *ngFor="let item of genaralMenuItems">
+                <a routerLink="../../employee/policy/{{item.link}}">{{item.title}}</a>
             </div>
-        </p-divider>
-        <div *ngFor="let item of genaralMenuItems">
-            <a routerLink="../../employee/policy/{{item.link}}">{{item.title}}</a>
-        </div>
-        <!-- <a routerLink="../../employee/policy/location">{{title_location[initialData.Language]}}</a>
+            <!-- <a routerLink="../../employee/policy/location">{{title_location[initialData.Language]}}</a>
         <a routerLink="../../employee/policy/part">{{title_dep[initialData.Language]}}</a>
         <a routerLink="../../employee/policy/position">{{title_position[initialData.Language]}}</a>
         <a routerLink="../../employee/policy/group">{{title_group[initialData.Language]}}</a>
@@ -26,9 +27,9 @@
         <a routerLink="../../employee/policy/emptype">{{title_emptype[initialData.Language]}}</a>
         <a routerLink="../../employee/policy/empstatus">{{title_empstatus[initialData.Language]}}</a> -->
 
-    </div>
+        </div>
 
-    <!-- <div class="col-12 md:col-3">
+        <!-- <div class="col-12 md:col-3">
         <b>Setup</b>
         <a >Wage</a>      
         <a >Provident Fund</a>
@@ -37,33 +38,33 @@
         <a >Group</a>  
     </div> -->
 
-    <div class="col-12 md:col-3">
-        <!-- <b>{{title_setbatch[initialData.Language]}}</b> -->
-        <p-divider align="left">
-            <div>
-                <i class="pi pi-list mr-2"></i>
-                <b>{{title_setbatch[initialData.Language]}}</b>
+        <div class="col-12 md:col-3">
+            <!-- <b>{{title_setbatch[initialData.Language]}}</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_setbatch[initialData.Language]}}</b>
+                </div>
+            </p-divider>
+            <div *ngFor="let item of setbatchMenuItems">
+                <a routerLink="../../employee/policy/batch/{{item.link}}">{{item.title}}</a>
             </div>
-        </p-divider>
-        <div *ngFor="let item of setbatchMenuItems">
-            <a routerLink="../../employee/policy/batch/{{item.link}}">{{item.title}}</a>
-        </div>
-        <!-- <a routerLink="../../employee/policy/batch/empposition">Position</a> -->
-        <!-- <a routerLink="../../employee/policy/batch/empdetail">{{title_setdetail[initialData.Language]}}</a>
+            <!-- <a routerLink="../../employee/policy/batch/empposition">Position</a> -->
+            <!-- <a routerLink="../../employee/policy/batch/empdetail">{{title_setdetail[initialData.Language]}}</a>
         <a routerLink="../../employee/policy/batch/empassessment">{{title_setassessment[initialData.Language]}}</a>
         <a routerLink="../../employee/policy/batch/emptraining">{{title_settraining[initialData.Language]}}</a>
         <a routerLink="../../employee/policy/batch/empsalary">{{title_setsalary[initialData.Language]}}</a> -->
-        <!-- <a routerLink="../../employee/policy/batch/empgroup">Group</a> -->
-        <!-- <a routerLink="../../employee/policy/batch/emplocation">{{title_setlocation[initialData.Language]}}</a>
+            <!-- <a routerLink="../../employee/policy/batch/empgroup">Group</a> -->
+            <!-- <a routerLink="../../employee/policy/batch/emplocation">{{title_setlocation[initialData.Language]}}</a>
         <a routerLink="../../employee/policy/batch/empprovident">{{title_setprovident[initialData.Language]}}</a>
         <a routerLink="../../employee/policy/batch/empbenefits">{{title_setbenefit[initialData.Language]}}</a> -->
-        <!-- <b>Payroll</b>
+            <!-- <b>Payroll</b>
         <a >Income / Deduct</a>  
         <a >Period</a>       
         <a >GL Account</a> -->
-    </div>
+        </div>
 
-    <!-- <div class="col-12">
+        <!-- <div class="col-12">
         <b>Workflow</b>
         <a >Hire</a>
         <a >Lay off</a>
@@ -71,4 +72,4 @@
         <a >Adjust</a>       
     </div> -->
 
-</div>
+    </div>

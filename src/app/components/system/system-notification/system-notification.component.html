@@ -1,42 +1,41 @@
 <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
-<hr>
- 
+<br> 
 <div class="card" style="min-width: 600px; min-height: 500px">
 
     <div class="grid">
         <div class="col-12 md:col-2">
-            <h5>พนักงานเข้าใหม่</h5>
+            <h5>{{this.title_newemployee[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-2">
-            <h5>พนักงานลาออก</h5>
+            <h5>{{this.title_resign[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-2">
-            <h5>สมัครงาน</h5>
+            <h5>{{this.title_aplication[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-2">
-            <h5>ว่าจ้าง</h5>
+            <h5>{{this.title_hire[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
 
         <div class="col-12 md:col-4"></div>
 
         <div class="col-12 md:col-2">
-            <h5>วันเกิด</h5>
+            <h5>{{this.title_birthday[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-2">
-            <h5>บัตรหมดอายุ</h5>
+            <h5>{{this.title_expired[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-2">
-            <h5>พนักงานพ้นทดลองงาน</h5>
+            <h5>{{this.title_end[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-2">
-            <h5>อายุพนักงานเกิน</h5>
+            <h5>{{this.title_over[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-4"></div>
@@ -45,19 +44,19 @@
             <hr>
         </div>
         <div class="col-12 md:col-2">
-            <h5>หน่วยงานใหม่</h5>
+            <h5>{{this.title_newUnitproject[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-2">
-            <h5>ปรับเปลี่ยนต้นทุน</h5>
+            <h5>{{this.title_adjust[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-2">
-            <h5>โอนย้ายพนักงาน</h5>
+            <h5>{{this.title_transfer[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-2">
-            <h5>ค่าจ้างเกินต้นทุน</h5>
+            <h5>{{this.title_wage[this.initial_current.Language]}}</h5>
             <p-inputSwitch></p-inputSwitch>
         </div>
         <div class="col-12 md:col-4"></div>

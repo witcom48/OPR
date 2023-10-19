@@ -28,12 +28,13 @@ export class EmployeePolicyComponent implements OnInit {
   title_emptype: { [key: string]: string } = { EN: "Employee Type", TH: "ประเภทพนักงาน" };
   title_empstatus: { [key: string]: string } = { EN: "Employee Status", TH: "สถานะพนักงาน" };
   title_foretype: { [key: string]: string } = { EN: "Foreigner Type", TH: "ประเภทพนักงานต่างด้าว" };
+  
 
   //set batch
   title_setbatch: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดแบบกลุ่ม" }
-  title_setdetail: { [key: string]: string } = { EN: "Employee Details", TH: "ข้อมูลอื่นๆ" };
+  title_setdetail: { [key: string]: string } = { EN: "Employee Details", TH: "สังกัดพนักงาน" };
   title_setassessment: { [key: string]: string } = { EN: "Appraisal", TH: "การประเมิน" };
-  title_settraining: { [key: string]: string } = { EN: "Training", TH: "ฝึกอบรม" };
+  title_settraining: { [key: string]: string } = { EN: "Training", TH: "การฝึกอบรม" };
   title_setsalary: { [key: string]: string } = { EN: "Adjust Salary", TH: "ปรับเงินเดือน" };
   title_setlocation: { [key: string]: string } = { EN: "Location", TH: "สถานที่ปฎิบัติงาน" };
   title_setprovident: { [key: string]: string } = { EN: "Provident Fund", TH: "กองทุนฯ" };

@@ -99,17 +99,18 @@ export class ProjectPolicyComponent implements OnInit {
     this.loadInitialData();
   }
 
+  title_project: { [key: string]: string } = { EN: "Policy", TH: "การกำหนดรูปแบบ" };
 
-  title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
+  // title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
   title_cost: { [key: string]: string } = { EN: "Cost", TH: "ต้นทุน" }
-  title_project_protype: { [key: string]: string } = { EN: "Type", TH: "ประเภทงาน" }
-  title_project_probusiness: { [key: string]: string } = { EN: "Business", TH: "ประเภทธุรกิจ" }
+  title_project_protype: { [key: string]: string } = { EN: "Job Type", TH: "ประเภทงาน" }
+  title_project_probusiness: { [key: string]: string } = { EN: "Business Type", TH: "ประเภทธุรกิจ" }
   title_jobmain_poluniform: { [key: string]: string } = { EN: "Uniform", TH: "ชุดฟอร์ม" }
   title_project_proarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
   title_project_proroup: { [key: string]: string } = { EN: "Group ", TH: "กลุ่ม" }
   title_equipment_type: { [key: string]: string } = { EN: "Equipment Type", TH: "รูปแบบการเบิก" }
   title_shift: { [key: string]: string } = { EN: "Shift", TH: "กะการทำงาน" }
-  title_general: { [key: string]: string } = { EN: "Genaral", TH: "ทั่วไป" };
+  title_general: { [key: string]: string } = { EN: "Genaral", TH: "การกำหนดรูปแบบ" };
   title_slipform: { [key: string]: string } = { EN: "Slip form", TH: "สลิป" };
 
   

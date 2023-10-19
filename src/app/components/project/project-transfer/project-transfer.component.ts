@@ -81,7 +81,7 @@ export class ProjectTransferComponent implements OnInit {
   title_staff_empname: { [key: string]: string } = { EN: "Emp name", TH: "ชื่อ-นามสกุล" }
   title_staff_empstatus: { [key: string]: string } = { EN: "Emp status", TH: "สถานะพนักงาน" }
   title_staff_fromadate: { [key: string]: string } = { EN: "Fromdate", TH: "วันที่เข้า" }
-  title_staff_todate: { [key: string]: string } = { EN: "Todate", TH: "ออก" }
+  title_staff_todate: { [key: string]: string } = { EN: "Todate", TH: "วันที่ออก" }
   title_staff_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" }
   title_staff_apprdate: { [key: string]: string } = { EN: "Approve date", TH: "วันที่อนุมัติ" }
 
@@ -90,7 +90,7 @@ export class ProjectTransferComponent implements OnInit {
 
   title_project_code: { [key: string]: string } = { EN: "Code", TH: "รหัสโครงการ" }
   title_project_name: { [key: string]: string } = { EN: "Description", TH: "โครงการ" }
-  title_emp_total: { [key: string]: string } = { EN: "Man power", TH: "อัตรากำลัง" }
+  title_emp_total: { [key: string]: string } = { EN: "Man power", TH: "กำลังแรงงาน" }
 
   title_staff_regular: { [key: string]: string } = { EN: "Regular", TH: "พนักงานประจำ" }
   title_staff_temp: { [key: string]: string } = { EN: "Temporary", TH: "พนักงานชั่วคราว" }
@@ -99,8 +99,19 @@ export class ProjectTransferComponent implements OnInit {
   title_staff_total: { [key: string]: string } = { EN: "Total", TH: "รวม" }
   title_staff_diff: { [key: string]: string } = { EN: "Diff.", TH: "ส่วนต่าง" }
   
-  title_staff_transfer: { [key: string]: string } = { EN: "Transfer", TH: "Transfer" }
+  title_staff_transfer: { [key: string]: string } = { EN: "Transfer", TH: "โอนย้ายแรงงาน" }
+  title_history: { [key: string]: string } = { EN: "History", TH: "ประวัติการโอนย้าย" }
+  title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" }
+  title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
 
+  title_to : { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
+  title_of : { [key: string]: string } = { EN: "  of ", TH: "จาก" }
+  title_entries : { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
+  title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" }
+  title_job: { [key: string]: string } = { EN: "Job", TH: "งาน" }
+  title_process: { [key: string]: string } = { EN: "Process", TH: "ประมวลผล" }
+
+  
   menu_Reload: MenuItem[] = [];
   doLoadMenu() {
     this.itemslike = [{ label: this.title_staff_transfer[this.initial_current.Language], styleClass: 'activelike' }];

@@ -1,6 +1,6 @@
 <!-- <p>empsetbenefits works!</p> -->
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>Employee</span>
     <div>
         <i></i>
@@ -8,7 +8,9 @@
         <i></i>
         <small>Benefits</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <!-- ---------END Link Page----------- -->
 <hr>
 <p-toast position="top-right"></p-toast>
@@ -107,8 +109,8 @@
             <p-table *ngIf="new_data==true" #dt2 [value]="setbenefitList" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
                 selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                [globalFilterFields]="['worker_detail','company_code','worker_code','item_code','modified_by','modified_date']"
+                [paginator]="true" currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} "
+                [globalFilterFields]="['worker_detail','company_code','worker_code','item_code','modified_by','modified_date']">
 
                 <ng-template pTemplate="caption">
                     <div class="flex">
@@ -116,7 +118,7 @@
                             <i class="pi pi-search"></i>
                             <input pInputText type="text"
                                 (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                                placeholder="Search keyword" />
+                                placeholder={{title_search[initial_current.Language]}} />
                         </span>
                     </div>
                 </ng-template>

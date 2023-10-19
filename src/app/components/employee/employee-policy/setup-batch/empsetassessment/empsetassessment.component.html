@@ -1,6 +1,6 @@
 <!-- <p>empsetassessment works!</p> -->
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>Employee</span>
     <div>
         <i></i>
@@ -8,7 +8,9 @@
         <i></i>
         <small>Appraisal</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <!-- ---------END Link Page----------- -->
 <hr>
 
@@ -25,7 +27,7 @@
                 <app-select-emp></app-select-emp>
             </div>
             <div class="assessment field col-12 md:col-8">
-                <div style="grid-column: 1/3">
+                <!-- <div style="grid-column: 1/3">
                     <label>{{title_institute[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code"
                         [showClear]="true" [(ngModel)]="selectedEmpassessment.empassessment_location"
@@ -37,7 +39,7 @@
                             {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
                         </ng-template>
                     </p-dropdown>
-                </div>
+                </div> -->
                 <div style="grid-column: 1/3">
                     <label>{{title_topic[initial_current.Language]}}</label>
                     <input pInputText type="text" id="ppos_code"
@@ -97,8 +99,8 @@
             <p-table *ngIf="new_data==true" #dt2 [value]="setassessmentList" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
                 selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                [globalFilterFields]="['worker_detail','company_code','worker_code','course_code','modified_by','modified_date']"
+                [paginator]="true" currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} "
+                [globalFilterFields]="['worker_detail','company_code','worker_code','course_code','modified_by','modified_date']">
 
                 <ng-template pTemplate="caption">
                     <div class="flex">
@@ -106,7 +108,7 @@
                             <i class="pi pi-search"></i>
                             <input pInputText type="text"
                                 (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                                placeholder="Search keyword" />
+                                placeholder={{title_search[initial_current.Language]}} />
                         </span>
                     </div>
                 </ng-template>

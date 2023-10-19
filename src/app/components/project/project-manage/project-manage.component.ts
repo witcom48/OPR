@@ -99,22 +99,26 @@ interface SummaryCost {
   label: string,
   value: number
 }
+ 
 @Component({
   selector: 'app-project-manage',
   templateUrl: './project-manage.component.html',
   styleUrls: ['./project-manage.component.scss']
 })
 export class ProjectManageComponent implements OnInit {
-
+   
   @ViewChild(SearchEmpComponent) selectEmp: any;
   ImportList: ImportList[] = [];
   manage_title: string = ""
   toolbar_menu: MenuItem[] = [];
   toolbar_menubar: MenuItem[] = [];
 
-  days: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturay"];
+  // days: string[] = [  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturay"];
 
-  costs_title: string[] = ["", "", "", "", "", "", "", "", "", ""];
+  // languageText: string[]= []
+  days: string[]= []
+
+  costs_title: string[] = [ ];
 
   project_code: string = "";
   procontract_type: string = "";
@@ -205,14 +209,26 @@ export class ProjectManageComponent implements OnInit {
   //#endregion "My Menu"
 
 
+
+
   SummaryCostList: SummaryCost[] = [];
   SummaryCostListm: SummaryCost[] = [];
   //#region "Language"
+
+  title_sunday: { [key: string]: string } = { EN: "Sunday", TH: "วันอาทิตย์" }
+  title_monday: { [key: string]: string } = { EN: "Monday", TH: "วันจันทร์" }
+  title_tuesday: { [key: string]: string } = { EN: "Tuesday", TH: "วันอังคาร" }
+  title_wednesday: { [key: string]: string } = { EN: "Wednesday", TH: "วันพุธ" }
+  title_thursday: { [key: string]: string } = { EN: "Thursday", TH: "วันพฤหัสบดี" }
+  title_friday: { [key: string]: string } = { EN: "Friday", TH: "วันศุกร์" }
+  title_saturay: { [key: string]: string } = { EN: "Saturay", TH: "วันเสาร์" }
+
+  
   title_tab_genaral: { [key: string]: string } = { EN: "Genaral", TH: "ข้อมูลทั่วไป" }
   title_tab_contract: { [key: string]: string } = { EN: "Contract", TH: "ข้อมูลสัญญา" }
   title_tab_policy: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" }
   title_tab_jobmain: { [key: string]: string } = { EN: "Job", TH: "งาน" }
-  title_tab_jobclear: { [key: string]: string } = { EN: "Clear job", TH: "งานเคลีย์" }
+  title_tab_jobclear: { [key: string]: string } = { EN: "Clear job", TH: "งานเคลียร์" }
   title_tab_staff: { [key: string]: string } = { EN: "Staff", TH: "พนักงานประจำหน่วยงาน" }
   title_tab_summary: { [key: string]: string } = { EN: "Summary of costs", TH: "สรุปต้นทุน" }
   //
@@ -235,7 +251,7 @@ export class ProjectManageComponent implements OnInit {
   title_page_record: { [key: string]: string } = { EN: "entries", TH: "รายการ" }
   //
   title_import: { [key: string]: string } = { EN: "Import", TH: "นำเข้า" }
-  title_export: { [key: string]: string } = { EN: "Export", TH: "โอนออก" }
+  title_export: { [key: string]: string } = { EN: "Export", TH: "ส่งออกไฟล์" }
   title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
   title_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
   title_cancel: { [key: string]: string } = { EN: "Cancel", TH: "ยกเลิก" }
@@ -327,7 +343,7 @@ export class ProjectManageComponent implements OnInit {
   title_timepol_lt: { [key: string]: string } = { EN: "Late", TH: "การคิดสาย" }
 
   //
-  title_jobmain: { [key: string]: string } = { EN: "Job", TH: "งานหลัก" }
+  title_jobmain: { [key: string]: string } = { EN: "Job", TH: "รายละเอียด" }
   title_jobmain_detail: { [key: string]: string } = { EN: "Detail", TH: "รายละเอียด" }
   title_jobmain_code: { [key: string]: string } = { EN: "Code", TH: "รหัสงาน" }
   title_jobmain_name: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
@@ -405,10 +421,16 @@ export class ProjectManageComponent implements OnInit {
   title_equipment_note: { [key: string]: string } = { EN: "Note", TH: "บันทึก" }
   title_equipment_by: { [key: string]: string } = { EN: "Req. by", TH: "ผู้ขอเบิก" }
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
+  title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
+  title_transaction: { [key: string]: string } = { EN: "Transaction ID ", TH: "รหัสธุรกรรม" }
+  title_post: { [key: string]: string } = { EN: "Post By ", TH: "โพสต์โดย" }
+  title_reload: { [key: string]: string } = { EN: "Reload", TH: "โหลดใหม่" }
+
+  
   //#endregion "Language"
 
-
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -435,9 +457,7 @@ export class ProjectManageComponent implements OnInit {
     private emptypeService: EmptypeService,
 
   ) {
-    this.ImportList = [
-      { name_th: 'ผู้ติดต่อ', name_en: 'Contact', code: 'PROJECT_CONTACT' },
-    ];
+    this.ImportList = [{ name_th: 'ผู้ติดต่อ', name_en: 'Contact', code: 'PROJECT_CONTACT' },];
   }
 
   ngOnInit(): void {
@@ -445,7 +465,6 @@ export class ProjectManageComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.project_code = params['project'];
     });
-
     this.doGetInitialCurrent()
 
     this.doLoadLanguage()
@@ -502,6 +521,19 @@ export class ProjectManageComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.accessData = this.initialData2.dotGetPolmenu('PRO');
+    this.initial_current.Language == "TH"
+    this.days  = [ this.title_sunday[this.initial_current.Language]  , this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language] , this.title_wednesday[this.initial_current.Language] , this.title_thursday[this.initial_current.Language] , this.title_friday[this.initial_current.Language] , this.title_saturay[this.initial_current.Language]];
+    this.costs_title  = ["", "", "", "", "", "", "", "", "", ""];
+
+    // this.languageText  = [ this.title_sunday[this.initial_current.Language]];
+    // this.languageText  = [ this.title_sunday[this.initial_current.Language]  , this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language] , this.title_wednesday[this.initial_current.Language] , this.title_thursday[this.initial_current.Language] , this.title_friday[this.initial_current.Language] , this.title_saturay[this.initial_current.Language]];
+
+    // const languageText: LanguageText = {
+    //   en: {sun: 'Sun',mon: 'Mon',tue: 'Tue',wed: 'Wed',thu: 'Thu',fri: 'Fri',sat: 'Sat',},
+    //   th: {sun: 'อาทิตย์',mon: 'จันทร์',tue: 'อังคาร',wed: 'พุธ',thu: 'พฤหัสบดี',fri: 'ศุกร์',sat: 'เสาร์',
+    //   },
+    // };
+    
   }
 
   tabChange(e: { index: any; }) {
@@ -602,7 +634,7 @@ export class ProjectManageComponent implements OnInit {
       ,
       {
 
-        label: "Template",
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Procontact.xlsx', '_blank');
@@ -898,7 +930,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-        label: 'Reload',
+        label: this.title_reload[this.initial_current.Language],
         icon: 'pi pi-fw pi-refresh',
         command: (event) => {
           this.doLoadProjobmain()
@@ -906,7 +938,7 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-        label: 'Save',
+        label: this.title_save[this.initial_current.Language],
         icon: 'pi pi-fw pi-save',
         command: (event) => {
           this.confirmRecordJobmain()
@@ -1283,15 +1315,16 @@ export class ProjectManageComponent implements OnInit {
       }
       ,
       {
-        label: 'Save',
+        label: this.title_save[this.initial_current.Language],
         icon: 'pi pi-fw pi-save',
         command: (event) => {
           this.confirmRecordJobsub()
         }
       },
       {
-        label: 'Reload',
-        icon: 'pi pi-fw pi-refresh',
+        label: this.title_reload[this.initial_current.Language],
+
+         icon: 'pi pi-fw pi-refresh',
         command: (event) => {
           this.doLoadProjobsub()
         }
@@ -1516,7 +1549,7 @@ export class ProjectManageComponent implements OnInit {
       },
        
       {
-          label: 'Reload',
+        label: this.title_reload[this.initial_current.Language],
           icon: 'pi pi-fw pi-refresh',
           command: (event) => {
               this.doLoadProjobemp()                
@@ -1862,7 +1895,9 @@ export class ProjectManageComponent implements OnInit {
     this.new_projobpol = false; this.edit_projobpol = false;
 
     this.new_proequipmentreq = false; this.edit_proequipmentreq = false;
+    this.new_projobemp = false; this.edit_projobemp = false;
 
+     
   }
 
   displayManage: boolean = false;
@@ -1891,17 +1926,28 @@ export class ProjectManageComponent implements OnInit {
         this.manage_title = "Job Clear"
       }
       else if (this.new_projobsubcontract || this.edit_projobsubcontract) {
-        this.manage_title = "Contract"
+        this.manage_title = "Job Clear"
       }
       else if (this.new_projobsubcost || this.edit_projobsubcost) {
-        this.manage_title = "Cost"
+        this.manage_title = "Job Clear"
       }
-
+      else if (this.edit_procontract || this.edit_procontract) {
+        this.manage_title = "Contract"
+      }
+      else if (this.new_proequipmentreq || this.edit_proequipmentreq) {
+        this.manage_title = "Uniform Request"
+      }
+      else if (this.new_projobmain || this.edit_projobmain) {
+        this.manage_title = "Job"
+      }
+      else if (this.new_projobshift || this.edit_projobshift) {
+        this.manage_title = "Job"
+      }
     }
     else {
 
       if (this.new_procontact || this.edit_procontact) {
-        this.manage_title = "ผู้ติดต่อ"
+        this.manage_title = "ผู้ติดต่อๅ"
       }
       else if (this.new_proresponsible || this.edit_proresponsible) {
         this.manage_title = "ผู้รับผิดชอบ"
@@ -1910,21 +1956,41 @@ export class ProjectManageComponent implements OnInit {
         this.manage_title = "สัญญา"
       }
       else if (this.new_projobcost || this.edit_projobcost) {
-        this.manage_title = "ต้นทุน"
+        this.manage_title = "งาน"
       }
       else if (this.new_projobmachine || this.edit_projobmachine) {
-        this.manage_title = "เครื่องบันทึกเวลา"
+        this.manage_title = "งาน"
       }
       else if (this.new_projobsub || this.edit_projobsub) {
         this.manage_title = "งานเคลีย์"
       }
       else if (this.new_projobsubcontract || this.edit_projobsubcontract) {
-        this.manage_title = "สัญญา"
+        this.manage_title = "งานเคลีย์"
       }
       else if (this.new_projobsubcost || this.edit_projobsubcost) {
-        this.manage_title = "ต้นทุน"
+        this.manage_title = "งานเคลีย์"
       }
 
+      else if (this.new_procontract || this.edit_procontract) {
+        this.manage_title = "ข้อมูลสัญญา"
+      }
+      else if (this.new_proequipmentreq || this.edit_proequipmentreq) {
+        this.manage_title = "เบิกชุดฟอร์ม"
+      }
+
+      else if (this.new_projobmain || this.edit_projobmain) {
+        this.manage_title = "งาน"
+      }
+
+      else if (this.new_projobshift || this.edit_projobshift) {
+        this.manage_title = "งาน"
+      }
+      else if (this.new_projobemp || this.edit_projobemp) {
+        this.manage_title = "พนักงานประจำหน่วยงาน"
+      }
+      
+
+      
     }
 
 
@@ -3048,6 +3114,7 @@ export class ProjectManageComponent implements OnInit {
       if (this.projobshift_list.length > 0) {
         this.selectedProjobshift = this.projobshift_list[0]
       }
+      console.log(res,'kko')
     });
   }
   onRowSelectProjobshift(event: Event) {

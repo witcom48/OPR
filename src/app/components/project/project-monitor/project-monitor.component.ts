@@ -120,10 +120,11 @@ export class ProjectMonitorComponent implements OnInit {
   title_staff_total: {[key: string]: string} = {  EN: "Total",  TH: "รวม"}
   title_staff_diff: {[key: string]: string} = {  EN: "Diff.",  TH: "ส่วนต่าง"}
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
-  title_monitor: { [key: string]: string } = { EN: "Monitor", TH: "Monitor" };
+  title_monitor: { [key: string]: string } = { EN: "Monitor", TH: "กระดานแสดงผล" };
+  title_search : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
+  title_jobdetail: {[key: string]: string} = {  EN: "Job detail",  TH: "รายละเอียดงาน"}
 
-  
-  show_fillter: boolean = false;
+   show_fillter: boolean = false;
 
   constructor(
     private router:Router, 
@@ -164,7 +165,7 @@ export class ProjectMonitorComponent implements OnInit {
     setTimeout(() => {
       //this.doLoadTimecard()
       //this.scrollToBottom()
-      this.manage_title = "Job detail"
+      // this.manage_title = "Job detail"
       this.doLoadJobMonitor()
       this.displayManage = true
 

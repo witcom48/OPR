@@ -64,7 +64,9 @@ export class BankComponent implements OnInit {
 
   }
   title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+  title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
+  
   title_system: string = "System";
   title_genaral: string = "Genaral";
 
@@ -160,7 +162,7 @@ export class BankComponent implements OnInit {
       ,
       {
 
-        label: "Template",
+        label:this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Bank.xlsx', '_blank');

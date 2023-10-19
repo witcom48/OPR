@@ -72,7 +72,7 @@ export class ProjectListComponent implements OnInit {
   title_edit: { [key: string]: string } = { EN: "Edit", TH: "แก้ไข" }
   title_delete: { [key: string]: string } = { EN: "Delete", TH: "ลบ" }
   title_import: { [key: string]: string } = { EN: "Import", TH: "นำเข้า" }
-  title_export: { [key: string]: string } = { EN: "Export", TH: "โอนออก" }
+  title_export: { [key: string]: string } = { EN: "Export", TH: "ส่งออกไฟล์" }
   title_save: { [key: string]: string } = { EN: "Save", TH: "บันทึก" }
   title_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
   title_cancel: { [key: string]: string } = { EN: "Cancel", TH: "ยกเลิก" }
@@ -120,10 +120,8 @@ export class ProjectListComponent implements OnInit {
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" }
   title_fillter: { [key: string]: string } = { EN: "Fillter", TH: "ตัวกรอง" }
 
-  
 
-
-
+  title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
 
 
@@ -217,7 +215,7 @@ export class ProjectListComponent implements OnInit {
       // }
       ,
       {
-        label: "Template",
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project.xlsx', '_blank');

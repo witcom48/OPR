@@ -24,7 +24,8 @@ import { DatePipe } from '@angular/common';
 })
 export class EmployeeMonitorComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   items: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
 
@@ -58,7 +59,7 @@ export class EmployeeMonitorComponent implements OnInit {
     private locationService: LocationService,
   ) { }
 
- 
+
   public initial_current: InitialCurrent = new InitialCurrent();
   initialData2: InitialCurrent = new InitialCurrent();
   accessData: AccessdataModel = new AccessdataModel();
@@ -69,7 +70,22 @@ export class EmployeeMonitorComponent implements OnInit {
     }
     this.accessData = this.initialData2.dotGetPolmenu('EMP');
   }
+
+  title_employee: { [key: string]: string } = { EN: " Employee ", TH: "พนักงาน" }
+  title_monitor: { [key: string]: string } = { EN: " Monitor ", TH: "กระดานแสดงผล" }
+
+  title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
+  title_to : { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
+  title_of : { [key: string]: string } = { EN: "  of ", TH: "จาก" }
+  title_entries : { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
+  
   ngOnInit(): void {
+    this.doGetInitialCurrent();
+    this.itemslike = [{ label: this.title_employee[this.initial_current.Language], routerLink: '/employee/policy' },
+    { label: this.title_monitor[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+   
+
     this.doLoadMenu()
     setTimeout(() => {
       this.doLoadChart();
@@ -78,7 +94,11 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doLoadChart4();
       this.doLoadChart5();
     }, 500);
+
+
   }
+
+
   ////////กำลังพล ปัจจุบัน
   doughnut1: ChartData = {
     labels: ['กำลังพล', 'ปัจจุบัน'],

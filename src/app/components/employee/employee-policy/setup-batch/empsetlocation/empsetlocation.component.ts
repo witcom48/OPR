@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/select-emp.component';
 import { TaskComponent } from 'src/app/components/usercontrol/task/task.component';
 import { AppConfig } from 'src/app/config/config';
@@ -30,7 +30,8 @@ interface Result {
   styleUrls: ['./empsetlocation.component.scss']
 })
 export class EmpsetlocationComponent implements OnInit {
-
+  home: any;
+  itemslike: MenuItem[] = [];
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
 
@@ -56,6 +57,16 @@ export class EmpsetlocationComponent implements OnInit {
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
 
+  
+   title_policy: { [key: string]: string } = { EN: "Policy", TH: "กำหนด" }
+  title_employee : { [key: string]: string } = { EN: " Employee ", TH: "พนักงาน" }
+  title_search : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
+  title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
+
+  title_to : { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
+  title_of : { [key: string]: string } = { EN: "  of ", TH: "จาก" }
+  title_entries : { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
+
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
   loading: boolean = false;
@@ -80,6 +91,11 @@ export class EmpsetlocationComponent implements OnInit {
 
     //dropdown
     this.doLoadLocationList();
+
+
+    this.itemslike = [{ label: this.title_employee[this.initial_current.Language], routerLink: '/employee/policy' },
+    { label: this.title_location[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
   initialData2: InitialCurrent = new InitialCurrent();
