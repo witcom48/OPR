@@ -62,9 +62,6 @@ export class TransferTaxComponent implements OnInit {
       private confirmationService: ConfirmationService,
       private taskService: TaskService,
       private router: Router,
-
-      ///Service
-      private bankService: BankService
   ) { }
 
   timesheet_list: PrjectEmpdailyModel[] = [];
@@ -76,16 +73,8 @@ export class TransferTaxComponent implements OnInit {
   @ViewChild('dt2') table: Table | undefined;
   ngOnInit(): void {
       this.doGetInitialCurrent();
-
-
- 
-
       setTimeout(() => {
-          this.selectedBank = '002';
-      }, 1000);
-
-      setTimeout(() => {
-          // this.doLoadTask()
+          this.doLoadTask()
       }, 200);
   }
 
@@ -125,14 +114,14 @@ export class TransferTaxComponent implements OnInit {
       this.task.task_status = 'W';
 
       // Step 2: Task detail
-      let process = this.selectedBank;
-      process += this.fillauto ? '|AUTO' : '|COMPARE';
+    //   let process = this.selectedBank;
+    //   process += this.fillauto ? '|AUTO' : '|COMPARE';
 
       let fromDate = this.effdate;
       let toDate = this.effdate;
 
       this.taskDetail.taskdetail_process = 'TAX';
-      this.taskDetail.taskdetail_process = process; 
+    //   this.taskDetail.taskdetail_process = process; 
       this.taskDetail.taskdetail_fromdate = this.initial_current.PR_FromDate;
       this.taskDetail.taskdetail_todate = this.initial_current.PR_ToDate;
       this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;

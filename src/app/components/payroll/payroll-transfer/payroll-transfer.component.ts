@@ -31,11 +31,12 @@ export class PayrollTransferComponent implements OnInit {
     },
     {
       title: 'Bonus',
-      link: 'transferbonus',
+      link: ' ',
+      // link: 'transferbonus',
       accessCode: 'PAY007-003'
     },
     {
-      title: 'Transfer SSO',
+      title: 'ประกันสังคม',
       link: 'transfersso',
       accessCode: 'PAY007-004'
     },
