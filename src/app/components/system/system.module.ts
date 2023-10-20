@@ -84,6 +84,7 @@ import { SystemSupplyComponent } from './system-policy/system-supply/system-supp
 import { SystemUniformComponent } from './system-policy/system-uniform/system-uniform.component';
 import { PolroundsComponent } from './system-manage/polrounds/polrounds.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { SystemForetypeComponent } from './system-policy/system-foretype/system-foretype.component';
 
 
 @NgModule({
@@ -172,6 +173,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
         SystemUniformComponent,
         PolroundsComponent,
         SpinnerComponent,
+        SystemForetypeComponent,
     ],
     exports: [YearComponent, ReasonComponent, LocationComponent, SystemReduceComponent, SpinnerComponent],
 })
