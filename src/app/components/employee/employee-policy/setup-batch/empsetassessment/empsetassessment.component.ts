@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { SelectEmpComponent } from 'src/app/components/usercontrol/select-emp/select-emp.component';
 import { TaskComponent } from 'src/app/components/usercontrol/task/task.component';
 import { AppConfig } from 'src/app/config/config';
@@ -30,7 +30,8 @@ interface Result {
   styleUrls: ['./empsetassessment.component.scss']
 })
 export class EmpsetassessmentComponent implements OnInit {
-
+  home: any;
+  itemslike: MenuItem[] = [];
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
 
@@ -39,7 +40,7 @@ export class EmpsetassessmentComponent implements OnInit {
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
   title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
-  title_institute: { [key: string]: string } = { EN: "Institute", TH: "สถานบัน/สถานที่" };
+  title_institute: { [key: string]: string } = { EN: "Institute", TH: "สถาบัน/สถาที่" };
   title_topic: { [key: string]: string } = { EN: "Topic", TH: "หัวข้อ" };
   title_fromdate: { [key: string]: string } = { EN: "From Date", TH: "จากวันที่" };
   title_todate: { [key: string]: string } = { EN: "To Date", TH: "ถึงวันที่" };
@@ -60,6 +61,17 @@ export class EmpsetassessmentComponent implements OnInit {
   title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
+
+
+  title_appraisal: { [key: string]: string } = { EN: "Appraisal", TH: "การประเมิน" }
+  title_policy: { [key: string]: string } = { EN: "Policy", TH: "กำหนด" }
+  title_employee : { [key: string]: string } = { EN: " Employee ", TH: "พนักงาน" }
+  title_search : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
+  title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
+
+  title_to : { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
+  title_of : { [key: string]: string } = { EN: "  of ", TH: "จาก" }
+  title_entries : { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
 
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
@@ -85,6 +97,10 @@ export class EmpsetassessmentComponent implements OnInit {
     this.doGetInitialCurrent();
 
     this.doLoadinstituteList();
+
+    this.itemslike = [{ label: this.title_employee[this.initial_current.Language], routerLink: '/employee/policy' },
+    { label: this.title_appraisal[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
   initialData2: InitialCurrent = new InitialCurrent();
@@ -117,7 +133,7 @@ export class EmpsetassessmentComponent implements OnInit {
   doLoadtrainingList() {
     this.setassessmentList = [];
     var tmp = new SetAssessmentModel();
-    tmp.empassessment_location = this.selectedEmpassessment.empassessment_location
+    // tmp.empassessment_location = this.selectedEmpassessment.empassessment_location
     tmp.empassessment_fromdate = this.selectedEmpassessment.empassessment_fromdate
     this.setempdetailService.SetAssessment_get(tmp).then(async (res) => {
       this.setassessmentList = await res;
@@ -135,7 +151,7 @@ export class EmpsetassessmentComponent implements OnInit {
 
   async Setbatchassessment() {
     var data = new SetAssessmentModel();
-    data.empassessment_location = this.selectedEmpassessment.empassessment_location;
+    // data.empassessment_location = this.selectedEmpassessment.empassessment_location;
     data.empassessment_topic = this.selectedEmpassessment.empassessment_topic;
     data.empassessment_fromdate = this.selectedEmpassessment.empassessment_fromdate;
     data.empassessment_todate = this.selectedEmpassessment.empassessment_todate;

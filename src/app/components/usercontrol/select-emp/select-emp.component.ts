@@ -71,7 +71,9 @@ export class SelectEmpComponent implements OnInit {
   title_resign: string = "Include Resign";
   title_searchemp: string = "Serch Employee";
   title_project: string = "Project";
-
+  title_source_list: string = "Source List";
+  title_target_list: string = "Target List";
+  
   doLoadLanguage() {
     if (this.initial_current.Language == 'TH') {
       this.title_level = "ระดับ";
@@ -80,7 +82,9 @@ export class SelectEmpComponent implements OnInit {
       this.title_location = "สถานที่ปฏิบัตืงาน";
       this.title_resign = "รวมพนักงานลาออก";
       this.title_searchemp = "ค้นหาพนักงาน";
-      this.title_project = "โปรเจค"
+      this.title_project = "โครงการ"
+      this.title_source_list= "รายการที่ไม่ได้เลือก"
+      this.title_target_list= "รายการที่เลือก"
 
     }
   }

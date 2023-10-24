@@ -291,7 +291,7 @@ export class CompanysComponent implements OnInit {
     title_address_note: string = 'Note';
     title_address_line: string = 'Line';
     title_address_facebook: string = 'Facebook';
-    title_contack: string = 'Contack';
+    title_contack: string = 'Contact';
     title_fax: string = 'Fax';
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {

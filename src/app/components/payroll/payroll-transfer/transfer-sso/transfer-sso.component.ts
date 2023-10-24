@@ -40,7 +40,17 @@ export class TransferSsoComponent implements OnInit {
     [x: string]: any;
     @ViewChild(SelectEmpComponent) selectEmp: any;
     @ViewChild(TaskComponent) taskView: any;
-
+    title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
+    title_bank: { [key: string]: string } = { EN: "Bank", TH: "ธนาคาร" };
+    title_transfer : { [key: string]: string } = { EN: "Transfer Data", TH: "Transfer Data" };
+   
+    
+    title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
+    title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+    title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+    title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+    title_transferbank: { [key: string]: string } = { EN: " Transfer Bank", TH: "ธนาคาร" };
+  
     title_confirm: string = 'Are you sure?';
     title_confirm_record: string = 'Confirm to process';
     title_confirm_delete: string = 'Confirm to delete';
@@ -55,7 +65,7 @@ export class TransferSsoComponent implements OnInit {
     @Input() policy_list: Policy[] = [];
     @Input() title: string = '';
     index: number = 0;
-
+    dialog: any;
     constructor(
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
@@ -77,15 +87,10 @@ export class TransferSsoComponent implements OnInit {
         this.doGetInitialCurrent();
 
 
-        //dropdown
-        this.doLoadBank();
+       
 
         setTimeout(() => {
-            this.selectedBank = '002';
-        }, 1000);
-
-        setTimeout(() => {
-            // this.doLoadTask()
+            this.doLoadTask()
         }, 200);
     }
 
@@ -100,118 +105,193 @@ export class TransferSsoComponent implements OnInit {
             this.router.navigateByUrl('');
         }
     }
-
-    //get  data dropdown bank
-    bank_list: BankModel[] = [];
-    doLoadBank() {
-        var tmp = new BankModel();
-        this.bankService.bank_get( ).then((res) => {
-            this.bank_list = res;
-        });
-    }
-
     public task: TaskModel = new TaskModel();
     public taskDetail: TaskDetailModel = new TaskDetailModel();
     public taskWhoseList: TaskWhoseModel[] = [];
 
     public fillauto: boolean = false;
 
-    process() {
-        // console.log(this.selectedBank);
-
-        if (this.selectEmp.employee_dest.length == 0) {
-            let message = "Please select an employee";
-
-            this.doPrintMessage(message, "1");
-            return;
+    process(): void {
+ 
+        if (this.selectEmp.employee_dest.length === 0) {
+    
+          if (this.selectEmp.employee_dest.length > 0 ) {
+           }else{
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
+          }
+          return;
         }
-
-
+    
         // Step 1: Task master
         this.task.company_code = this.initial_current.CompCode;
         this.task.task_type = 'TRN_SSO';
         this.task.task_status = 'W';
-
+    
         // Step 2: Task detail
-        let process = this.selectedBank;
-        process += this.fillauto ? '|AUTO' : '|COMPARE';
-
-        let fromDate = new Date(this.initial_current.PR_PayDate);
-        let toDate = new Date(this.initial_current.PR_PayDate);
-
+    
+        let fromDate = this.effdate;
+        let toDate = this.effdate;
+    
         this.taskDetail.taskdetail_process = 'SSO';
-        this.taskDetail.taskdetail_process = process;
+        // this.taskDetail.taskdetail_process = process;
         this.taskDetail.taskdetail_fromdate = fromDate;
         this.taskDetail.taskdetail_todate = toDate;
         this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
+    
         // Step 3: Task whose
         this.taskWhoseList = [];
+    
         this.confirmationService.confirm({
-            message: this.title_confirm_record,
-            header: this.title_confirm,
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.taskService
-                    .task_record(this.task, this.taskDetail, this.selectEmp.employee_dest)
-                    .then((res) => {
-                        let result = JSON.parse(res);
-
-                        if (result.success) {
-                            // Show success message
-                            this.messageService.add({
-                                severity: 'success',
-                                summary: 'Success',
-                                detail: 'Record Success..',
-                            });
-
-                            // console.log("test result_link");
-                            // console.log(result.result_link);
-
-                            let link = result.result_link;
-
-                            if (link !== "") {
-                                // console.log(this.initial_current + '/File/' + link + "/");
-                                // console.log(link.split("\\").pop())
-                                this.taskService.get_file(link).then((res) => {
-
-                                    const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
-                                    const fileName: string = link.split("\\").pop();
-                                    const objectUrl: string = URL.createObjectURL(blob);
-                                    const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
-
-                                    a.href = objectUrl;
-                                    a.download = fileName;
-                                    document.body.appendChild(a);
-                                    a.click();
-
-                                    document.body.removeChild(a);
-                                    URL.revokeObjectURL(objectUrl);
-
-                                })
-
-                            }
-                        } else {
-                            this.messageService.add({
-                                severity: 'error',
-                                summary: 'Error',
-                                detail: 'Record Not Success..',
-                            });
-                            this.doPrintMessage(result.result_text, "2");
-                        }
+          message: this.title_confirm_record,
+          header: this.title_confirm,
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.taskService.task_record(this.task, this.taskDetail, this.selectEmp.employee_dest)
+              .then((res) => {
+                let result = JSON.parse(res);
+    
+                if (result.success) {
+                  // Show success message
+                  this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Record Success..',
+                  });
+    
+                  console.log(this.selectEmp.employee_dest,'selectEmp');
+                //   console.log(result.result_link);
+    
+                  let link = result.result_link;
+    
+                  if (link !== "") {
+                    console.log(this.initial_current + '/File/' + link + "/");
+                    console.log(link.split("\\").pop());
+    
+                    this.taskService.get_file(link).then((res) => {
+                      const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
+                      const fileName: string = link.split("\\").pop();
+                      const objectUrl: string = URL.createObjectURL(blob);
+                      const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
+    
+                      a.href = objectUrl;
+                      a.download = fileName;
+                      document.body.appendChild(a);
+                      a.click();
+    
+                      document.body.removeChild(a);
+                      URL.revokeObjectURL(objectUrl);
                     });
-            },
-
-            reject: () => {
-                this.messageService.add({
-                    severity: 'warn',
-                    summary: 'Cancelled',
-                    detail: this.title_confirm_cancel,
-                });
-            },
+                  }
+                } else {
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Record Not Success..',
+                  });
+                  this.doPrintMessage(result.result_text, "2");
+                }
+              });
+          },
+          reject: () => {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Cancelled',
+              detail: this.title_confirm_cancel,
+            });
+          },
+          key: "myDialog"
         });
+      }
 
 
-    }
+
+    // process() {
+    //     // console.log(this.selectedBank);
+
+    //     if (this.selectEmp.employee_dest.length === 0) {
+    //         let message = "Please select an employee";
+
+    //         this.doPrintMessage(message, "1");
+    //         return;
+    //     }
+
+
+    //     // Step 1: Task master
+    //     this.task.company_code = this.initial_current.CompCode;
+    //     this.task.task_type = 'TRN_SSO';
+    //     this.task.task_status = 'W';
+
+    //     // Step 2: Task detail
+    //     let process = this.selectedBank;
+    //     process += this.fillauto ? '|AUTO' : '|COMPARE';
+
+    //     let fromDate = new Date(this.initial_current.PR_PayDate);
+    //     let toDate = new Date(this.initial_current.PR_PayDate);
+
+    //     this.taskDetail.taskdetail_process = 'SSO';
+    //     // this.taskDetail.taskdetail_process = process;
+    //     this.taskDetail.taskdetail_fromdate = fromDate;
+    //     this.taskDetail.taskdetail_todate = toDate;
+    //     this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
+    //     // Step 3: Task whose
+    //     this.taskWhoseList = [];
+    //     this.confirmationService.confirm({
+    //         message: this.title_confirm_record,
+    //         header: this.title_confirm,
+    //         icon: 'pi pi-exclamation-triangle',
+    //         accept: () => {
+    //             this.taskService.task_record(this.task, this.taskDetail, this.selectEmp.employee_dest).then((res) => {
+    //                 let result = JSON.parse(res);
+    //                 if (result.success) {
+    //                     // Show success message
+    //                     this.messageService.add({
+    //                         severity: 'success',
+    //                         summary: 'Success',
+    //                         detail: 'Record Success..',
+    //                     });
+    //                     let link = result.result_link;
+    //                     if (link !== "") {
+    //                         this.taskService.get_file(link).then((res) => {
+    //                             const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
+    //                             const fileName: string = link.split("\\").pop();
+    //                             const objectUrl: string = URL.createObjectURL(blob);
+    //                             const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
+
+    //                             a.href = objectUrl;
+    //                             a.download = fileName;
+    //                             document.body.appendChild(a);
+    //                             a.click();
+
+    //                             document.body.removeChild(a);
+    //                             URL.revokeObjectURL(objectUrl);
+
+    //                         })
+
+    //                     }
+    //                 } else {
+    //                     this.messageService.add({
+    //                         severity: 'error',
+    //                         summary: 'Error',
+    //                         detail: 'Record Not Success..',
+    //                     });
+    //                     this.doPrintMessage(result.result_text, "2");
+    //                 }
+    //             });
+    //         },
+
+    //         reject: () => {
+    //             this.messageService.add({
+    //                 severity: 'warn',
+    //                 summary: 'Cancelled',
+    //                 detail: this.title_confirm_cancel,
+    //             });
+    //         },
+    //         key: "myDialog"
+
+    //     });
+
+
+    // }
 
     doLoadTask() {
         this.taskView.taskType = "TRN_SSO";
@@ -237,11 +317,20 @@ export class TransferSsoComponent implements OnInit {
     }
 
     doPrintMessage(message: string, status: string) {
-        const dialogRef = this['dialog'].open(this.messageService, {
-            width: '500px',
-            data: {
-                message: message
-            }
+        const dialogRef = this.dialog.open(this.messageService, {
+          width: '500px',
+          data: {
+            message: message
+          }
         });
-    }
+      }
+
+    // doPrintMessage(message: string, status: string) {
+    //     const dialogRef = this['dialog'].open(this.messageService, {
+    //         width: '500px',
+    //         data: {
+    //             message: message
+    //         }
+    //     });
+    // }
 }

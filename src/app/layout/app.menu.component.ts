@@ -91,16 +91,16 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             [ModuleCode.PRO]: {
-                label: 'Project',
-                icon: 'pi-box',
+                label: this.langs.get('projects')[this.selectlang],
+                 icon: 'pi-box',
                 items: [
-                    { label: 'Policy', routerLink: ['/project/policy'], accessCode: 'PRO001' },
-                    { label: 'Project', routerLink: ['/project/list'], accessCode: 'PRO002' },
-                    { label: 'Monitor', routerLink: ['/project/monitor'], accessCode: 'PRO003' },
-                    { label: 'Timesheet', routerLink: ['/project/timesheet'], accessCode: 'PRO004' },
-                    { label: 'Transfer record', routerLink: ['/project/transfer'], accessCode: 'PRO005' },
-                    { label: 'Cost comparison', routerLink: ['/project/compare'], accessCode: 'PRO006' },
-                    { label: 'Approval list', routerLink: ['/project/approve'], accessCode: 'PRO007' },
+                    {label: this.langs.get('policy')[this.selectlang]  , routerLink: ['/project/policy'], accessCode: 'PRO001' },
+                    {label: this.langs.get('project')[this.selectlang]  , routerLink: ['/project/list'], accessCode: 'PRO002' },
+                    { label: this.langs.get('monitor')[this.selectlang] , routerLink: ['/project/monitor'], accessCode: 'PRO003' },
+                    { label: this.langs.get('timesheet')[this.selectlang] , routerLink: ['/project/timesheet'], accessCode: 'PRO004' },
+                    { label: this.langs.get('transferrecord')[this.selectlang] , routerLink: ['/project/transfer'], accessCode: 'PRO005' },
+                    { label: this.langs.get('costcomparison')[this.selectlang] , routerLink: ['/project/compare'], accessCode: 'PRO006' },
+                    { label: this.langs.get('approvalist')[this.selectlang] , routerLink: ['/project/approve'], accessCode: 'PRO007' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/project/reports'], accessCode: 'PRO008' },
                 ]
             },
@@ -109,9 +109,9 @@ export class AppMenuComponent implements OnInit {
                 label: this.langs.get('employee')[this.selectlang],
                 icon: 'pi-users',
                 items: [
-                    { label: 'Policy', routerLink: ['/employee/policy'], accessCode: 'EMP001' },
-                    { label: 'Employee info', routerLink: ['/employee/list'], accessCode: 'EMP002' },
-                    { label: 'Monitor', routerLink: ['/employee/monitor'], accessCode: 'EMP003' },
+                    { label: this.langs.get('policy')[this.selectlang], routerLink: ['/employee/policy'], accessCode: 'EMP001' },
+                    { label: this.langs.get('employeeinfo')[this.selectlang], routerLink: ['/employee/list'], accessCode: 'EMP002' },
+                    { label: this.langs.get('monitor')[this.selectlang], routerLink: ['/employee/monitor'], accessCode: 'EMP003' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/employee/reports'], accessCode: 'EMP004' },
                 ]
             },
@@ -163,13 +163,13 @@ export class AppMenuComponent implements OnInit {
             },
 
             [ModuleCode.SYS]: {
-                label: 'System',
+                label: this.langs.get('system')[this.selectlang],
                 icon: 'pi-cog',
                 items: [
-                    { label: 'Manage', routerLink: ['/system/sys-manage'], accessCode: 'SYS001' },
-                    { label: 'General', routerLink: ['/system/general'], accessCode: 'SYS002' },
-                    { label: 'Security', routerLink: ['/system/security'], accessCode: 'SYS003' },
-                    { label: 'Notification', routerLink: ['/system/notification'], accessCode: 'SYS004' },
+                    { label: this.langs.get('manage')[this.selectlang], routerLink: ['/system/sys-manage'], accessCode: 'SYS001' },
+                    { label: this.langs.get('general')[this.selectlang], routerLink: ['/system/general'], accessCode: 'SYS002' },
+                    { label: this.langs.get('security')[this.selectlang] , routerLink: ['/system/security'], accessCode: 'SYS003' },
+                    { label: this.langs.get('notification')[this.selectlang], routerLink: ['/system/notification'], accessCode: 'SYS004' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/system/reports'], accessCode: 'SYS005' },
                 ]
             },

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MenuItem, MessageService } from 'primeng/api';
 import { PrjectEmpdailyModel } from '../../../../models/project/project_empdaily';
 import { Router } from '@angular/router';
 import { AppConfig } from '../../../../config/config';
@@ -39,7 +39,20 @@ export class TransferBankComponent implements OnInit {
 
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
+  home: any;
+  itemslike: MenuItem[] = [];
+  title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
+  title_bank: { [key: string]: string } = { EN: "Bank", TH: "ธนาคาร" };
+  title_transfer : { [key: string]: string } = { EN: "Transfer Data", TH: "Transfer Data" };
+ 
+  
+  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
+  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_transferbank: { [key: string]: string } = { EN: " Transfer Bank", TH: "ธนาคาร" };
 
+ 
   title_confirm: string = "Are you sure?";
   title_confirm_record: string = "Confirm to process";
   title_confirm_delete: string = "Confirm to delete";
@@ -94,6 +107,9 @@ export class TransferBankComponent implements OnInit {
     setTimeout(() => {
       // this.doLoadTask()
     }, 200);
+
+    this.itemslike = [ { label: this.title_transferbank[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
 
@@ -148,8 +164,11 @@ export class TransferBankComponent implements OnInit {
   process(): void {
  
     if (this.selectEmp.employee_dest.length === 0) {
-      let message = "Please select an employee";
-      this.doPrintMessage(message, "1");
+
+      if (this.selectEmp.employee_dest.length > 0 ) {
+       }else{
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
+      }
       return;
     }
 

@@ -1,6 +1,6 @@
 <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
     <hr> 
-<p-dialog header="{{manage_title}}" [(visible)]="displayManage" [style]="{width: '70vw'}" [position]="position">
+<p-dialog header="{{title_jobdetail[initial_current.Language]}}" [(visible)]="displayManage" [style]="{width: '70vw'}" [position]="position">
     <p-scrollPanel [style]="{width: '100%', height: '650px'}">
 
         <p-table #dtJob [value]="job_monitor" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}"
@@ -248,7 +248,7 @@
 
     <p-table #dt2 [value]="project_monitor" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}"
         [scrollable]="true" scrollHeight="450px" [virtualScroll]="true" selectionMode="single"
-        [(selection)]="selectedProjectMonitor" (onRowSelect)="onRowSelectProject($event)" dataKey="project_code"
+        [(selection)]="selectedProjectMonitor"   dataKey="project_code"
         [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
         currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
         [globalFilterFields]="['project_code','project_name_th','project_name_short','project_business','project_type','project_start','project_end']"
@@ -258,7 +258,7 @@
                 <span class="p-input-icon-left ml-auto">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                        placeholder="Search keyword" />
+                    placeholder={{title_search[initial_current.Language]}} />
                 </span>
             </div>
         </ng-template>
@@ -267,7 +267,7 @@
             <tr>
                 <th></th>
                 <th style="width:10%">{{title_project_code[initial_current.Language]}}</th>
-                <th style="width:15%">{{title_project_name[initial_current.Language]}}</th>
+                <th style="width:10%">{{title_project_name[initial_current.Language]}}</th>
                 <th>{{title_emp_total[initial_current.Language]}}</th>
 
                 <th>{{title_staff_regular[initial_current.Language]}}</th>
@@ -363,6 +363,8 @@
                 <th>{{title_absent[initial_current.Language]}}</th>
                 <th>{{title_cost[initial_current.Language]}}</th>
                 <th>{{title_actual[initial_current.Language]}}</th>
+                <th></th>
+
         </ng-template>
 
         <ng-template pTemplate="body" let-projobmain>
@@ -386,7 +388,7 @@
                 <td style="text-align: center;">{{projobmain.projobmain_absent}}</td>
                 <td style="text-align: right; padding-right: 30px;">{{projobmain.projobmain_cost | number:'1.2-2'}}</td>
                 <td style="text-align: right; padding-right: 30px;">{{projobmain.projobmain_pay | number:'1.2-2'}}</td>
-
+                <th></th>
             </tr>
         </ng-template>
     </p-table>

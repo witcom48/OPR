@@ -1,6 +1,6 @@
 <!-- <p>empsetdep works!</p> -->
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>Employee</span>
     <div>
         <i></i>
@@ -8,7 +8,9 @@
         <i></i>
         <small>Set Employee Details</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <!-- ---------END Link Page----------- -->
 <hr>
 <p-toast position="top-right"></p-toast>
@@ -99,8 +101,7 @@
                 <div style="grid-column: 1;">
                     <label>{{title_position[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" [options]="positionList" optionValue="position_code" [showClear]="true"
-                        [(ngModel)]="selectedempPosition"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [(ngModel)]="selectedempPosition" [style]="{ width: '100%', overflow: 'visible' }">
                         <ng-template let-item pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
                         </ng-template>
@@ -113,8 +114,7 @@
                 <div>
                     <label>{{title_group[initial_current.Language]}}</label>
                     <p-dropdown placeholder="--" [options]="groupList" optionValue="group_code" [showClear]="true"
-                        [(ngModel)]="selectedgroupcode"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [(ngModel)]="selectedgroupcode" [style]="{ width: '100%', overflow: 'visible' }">
                         <ng-template let-item pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.group_name_th : item.group_name_en}}
                         </ng-template>
@@ -130,7 +130,7 @@
                 <p-button label="{{title_btnprocess[initial_current.Language]}}" (click)="process()"></p-button>
             </div>
             <div *ngIf="loading" class="field col-12 md:col-6">
-            <p-progressBar  mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+                <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
             </div>
 
         </div>
@@ -154,8 +154,9 @@
             <p-table *ngIf="new_data==true" #dt2 [value]="setdepList" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
                 selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                [globalFilterFields]="['worker_detail','company_code','worker_code','empdep_level01','modified_by','modified_date']"
+                [paginator]="true"
+                currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} "
+                [globalFilterFields]="['worker_detail','company_code','worker_code','empdep_level01','modified_by','modified_date']">
 
                 <ng-template pTemplate="caption">
                     <div class="flex">
@@ -163,7 +164,7 @@
                             <i class="pi pi-search"></i>
                             <input pInputText type="text"
                                 (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                                placeholder="Search keyword" />
+                                placeholder={{title_search[initial_current.Language]}} />
                         </span>
                     </div>
                 </ng-template>

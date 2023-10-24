@@ -79,7 +79,7 @@ export class SystemPolicyComponent implements OnInit {
       this.title_Supply = "อุปกรณ์สำนักงาน";
       this.title_fore = "ประเภทพนักงานต่างด้าว";
 
-      this.title_genaral_system = 'ระบบทั่วไป';
+      this.title_genaral_system = 'ทั่วไป';
       this.title_links = 'ลิงค์';
       this.title_genaral = 'ทั่วไป';
       this.title_level = 'ระดับ';

@@ -110,9 +110,9 @@
         </div>
 
         <!-- contact -->
-
+        <!-- //////////////////////////////////// -->
         <div class="formgrid grid" *ngIf="edit_procontract==true || new_procontract==true">
-            <h3>{{title_contact[initial_current.Language]}}</h3>
+            <h3>{{title_contract[initial_current.Language]}}</h3>
             <div class="field col-12 ">
                 <label for="procontract_customer">{{title_contract_customer[initial_current.Language]}}</label>
                 <input type="text" id="procontract_customer" [(ngModel)]="selectedProcontract.procontract_customer"
@@ -338,7 +338,7 @@
         </div>
 
         <div class="formgrid grid" *ngIf="edit_projobsubcontract==true || new_projobsubcontract==true">
-            <h3>{{title_contact[initial_current.Language]}}</h3>
+            <h3>{{title_contract[initial_current.Language]}}</h3>
             <div class="field col-12 ">
                 <label for="projobcontract_ref">{{title_contract_ref[initial_current.Language]}}</label>
                 <input type="text" id="projobcontract_ref" [(ngModel)]="selectedProjobsubcontract.projobcontract_ref"
@@ -402,7 +402,10 @@
         </div>
         <!-- staff -->
         <div class="formgrid grid" *ngIf="edit_projobemp==true || new_projobemp==true">
-            <h3>{{title_staff[initial_current.Language]}}</h3>
+            <h3 *ngIf="new_projobemp==true">{{title_new[initial_current.Language]}}</h3>
+
+            <h3 *ngIf="edit_projobemp==true">{{title_edit[initial_current.Language]}}</h3>
+            <!-- <h3 *ngIf="edit_projobemp == true || new_projobemp==ดพ">แก้ไข{{title_new[initial_current.Language]}}</h3> -->
 
             <div class="field col-12">
                 <label for="projobemp_emp">{{title_staff_empname[initial_current.Language]}}</label><br>
@@ -552,7 +555,7 @@
 
         <div class="formgrid grid" *ngIf="edit_projobversion==true || new_projobversion==true">
             <div class="field col-12 ">
-                <label for="version">Version</label>
+                <label for="version">{{title_cost_version[initial_current.Language]}}</label>
                 <input type="text" id="version" [(ngModel)]="manageProjobversion.version"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
@@ -728,7 +731,7 @@
         </div>
 
         <div class="formgrid grid" *ngIf="edit_projobsub==true || new_projobsub==true">
-            <h3>{{title_tab_jobclear[initial_current.Language]}}</h3>
+            <h3>{{title_jobmain_detail[initial_current.Language]}}</h3>
             <div class="field col-12 ">
                 <label for="projobsub_code">{{title_jobmain_code[initial_current.Language]}}</label>
                 <input type="text" id="projobsub_code" [(ngModel)]="selectedProjobsub.projobsub_code"
@@ -1381,7 +1384,7 @@
 
 
                 <div class="col-12 md:col-3">
-                    <label>Version</label><br>
+                    <label>{{title_cost_version[initial_current.Language]}}</label><br>
                     <p-dropdown placeholder="--" [options]="projobversion_list" optionLabel="version"
                         [(ngModel)]="selectedProjobversion" [showClear]="true"
                         [style]="{ width: '100%', overflow: 'visible' }"
@@ -1407,22 +1410,22 @@
                 <!-- <div class="col-12 md:col-9"></div> -->
                 <br>
                 <div class="pt-2 col-12 md:col-3">
-                    <label for="fromdate">From</label>
+                    <label for="fromdate">{{title_page_to[initial_current.Language]}}</label>
                     <input type="text" id="fromdate" [(ngModel)]="version_fromdate" readonly
                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                 </div>
                 <div class="col-12 md:col-3">
-                    <label for="todate">To</label>
+                    <label for="todate">{{title_page_total[initial_current.Language]}}</label>
                     <input type="text" id="todate" [(ngModel)]="version_todate" readonly
                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                 </div>
                 <div class="pt-2 col-12 md:col-3">
-                    <label for="transaction_id">Transaction ID</label>
+                    <label for="transaction_id">{{title_transaction[initial_current.Language]}}</label>
                     <input type="text" id="transaction_id" [(ngModel)]="version_transaction_id" readonly
                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                 </div>
                 <div class="col-12 md:col-3">
-                    <label for="custno">Post By</label>
+                    <label for="custno">{{title_post[initial_current.Language]}}</label>
                     <input type="text" id="custno" [(ngModel)]="version_custno" readonly
                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                 </div>
@@ -1561,7 +1564,20 @@
                                 <tr [pSelectableRow]="projobshift">
                                     <td>{{projobshift.shift_code}}</td>
                                     <td>{{doGetShiftDetail(projobshift.shift_code)}}</td>
+
                                     <td>
+                                        <div style="display: inline">
+                                          {{ true == projobshift.projobshift_sun ? (initial_current.Language === 'EN' ? ' Sun |' : ' อา.  |') : '' }}
+                                          {{ true == projobshift.projobshift_mon ? (initial_current.Language === 'EN' ? ' Mon |' : ' จ. |') : '' }}
+                                          {{ true == projobshift.projobshift_tue ? (initial_current.Language === 'EN' ? ' Tue |' : ' อ.|') : '' }}
+                                          {{ true == projobshift.projobshift_wed ? (initial_current.Language === 'EN' ? ' Wed |' : ' พ. |') : '' }}
+                                          {{ true == projobshift.projobshift_thu ? (initial_current.Language === 'EN' ? ' Thu |' : ' พฤ. |') : '' }}
+                                          {{ true == projobshift.projobshift_fri ? (initial_current.Language === 'EN' ? ' Fri |' : ' ศ. |') : '' }}
+                                          {{ true == projobshift.projobshift_sat ? (initial_current.Language === 'EN' ? ' Sat |' : ' ส. |') : '' }}
+                                        </div>
+                                      </td>
+                                      
+                                    <!-- <td>
                                         <div style="display: inline">
                                             {{true == projobshift.projobshift_sun ? ' Sun |' : '' }}
                                             {{true == projobshift.projobshift_mon ? ' Mon |' : '' }}
@@ -1571,7 +1587,7 @@
                                             {{true == projobshift.projobshift_fri ? ' Fri |' : '' }}
                                             {{true == projobshift.projobshift_sat ? ' Sat ' : '' }}
                                         </div>
-                                    </td>
+                                    </td> -->
                                     <td>{{projobshift.projobshift_emp}}</td>
                                     <td>{{projobshift.projobshift_working}}</td>
                                     <td>{{projobshift.projobshift_hrsperday}}</td>
@@ -1775,11 +1791,11 @@
                         <div class="main_div">
                             <span class="spn_value">{{project_summary_clear_cost | number:'1.2-2'}}</span>
                             <div class="sub_div">
-                                <span class="spn_title">ราคารวม</span>
+                                <span class="spn_title">{{title_amount_total[initial_current.Language]}}</span>
                             </div>
                         </div>
                     </td>
-                    <td>version : {{version_selected}}</td>
+                    <td>{{title_cost_version[initial_current.Language]}} : {{version_selected}}</td>
                 </tr>
             </table>
             <p-card header="{{title_jobmain_detail[initial_current.Language]}}"

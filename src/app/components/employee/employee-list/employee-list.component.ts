@@ -141,7 +141,12 @@ export class EmployeeListComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('EMP');
 
   }
+  title_manage: { [key: string]: string } = { EN: "Manage", TH: "จัดการ" };
+  title_link: { [key: string]: string } = { EN: "Link", TH: "ลิงก์" };
+  title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
+
+  
   title_page: string = "Employee management";
   title_num_emp: string = "Employee";
   title_new_emp: string = "New";
@@ -193,7 +198,7 @@ export class EmployeeListComponent implements OnInit {
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
-      this.title_page = "ข้อมูลพนักงาน";
+      this.title_page = "ประวัติพนักงาน";
       this.title_num_emp = "จำนวนพนักงาน";
       this.title_new_emp = "พนักงานใหม่";
       this.title_resign_emp = "พนักงานลาออก";
@@ -253,7 +258,7 @@ export class EmployeeListComponent implements OnInit {
 
       },
       {
-        label: "Template",
+        label: this.title_manage[this.initial_current.Language],
         icon: 'pi-download',
         // command: (event) => {
         //   window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Emptype.xlsx', '_blank');

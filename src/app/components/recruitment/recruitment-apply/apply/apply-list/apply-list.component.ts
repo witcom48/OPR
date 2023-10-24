@@ -137,7 +137,7 @@ export class ApplyListComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('REQ');
   }
 
-  title_page: string = "Applywork";
+  title_page: string = "APPLICATION";
   title_num_emp: string = "Applywork";
   title_new_emp: string = "New";
   title_resign_emp: string = "Resign";

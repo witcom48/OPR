@@ -709,6 +709,13 @@ export class EmployeeManageComponent implements OnInit {
   title_pftype: { [key: string]: string } = { EN: "PF Type", TH: "วิธีกำหนดอัตราการจ่าย" };
   title_pfemp: { [key: string]: string } = { EN: "Comp.(%)", TH: "บริษัท(%)" };
   title_pfcom: { [key: string]: string } = { EN: "Emp.(%)", TH: "พนักงาน(%)" };
+  
+  title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
+  title_to : { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
+  title_of : { [key: string]: string } = { EN: "  of ", TH: "จาก" }
+  title_entries : { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
+  title_cards : { [key: string]: string } = { EN: "  Card ", TH: "บัตร" }
+  title_search_keyword : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
 
   //
   title_capital: { [key: string]: string } = { EN: "Capital amount", TH: "เงินต้น" };
@@ -717,7 +724,7 @@ export class EmployeeManageComponent implements OnInit {
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
-      this.title_page = "ข้อมูลพนักงาน";
+      this.title_page = "ประวัติพนักงาน";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -729,7 +736,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_summit = "บันทึก";
       this.title_cancel = "ยกเลิก";
 
-      this.title_genaral = 'ข้อมูลทั่วไป';
+      this.title_genaral = 'ข้อมูลพนักงาน';
       this.title_code = "รหัสพนักงาน";
       this.title_cardid = "รหัสบัตร";
       this.title_fname_th = "ชื่อจริง (ไทย)";
@@ -779,7 +786,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_criminal = 'ประวัติการตรวจสอบอาชญากรรม';
       this.title_resignrecord = 'ประวัติการลาออก';
 
-      this.title_finance = 'การเงิน';
+      this.title_finance = 'ข้อมูลการเงิน';
       this.title_taxmethod = 'การคำนวนภาษี';
       this.title_salary = 'เงินเดือน/ค่าจ้าง';
       this.title_benefit = 'สวัสดิการ';
@@ -856,7 +863,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_reason = "เหตุผล";
       this.title_positionname = "ตำแหน่ง";
       this.title_groupname = "กลุ่มพนักงาน";
-      this.title_institute = "สถานบัน/สถานที่";
+      this.title_institute = "สถาบัน/สถาที่";
       this.title_faculty = "คณะ";
       this.title_major = "วิชาเอก";
       this.title_qualification = "วุฒิการศึกษา";

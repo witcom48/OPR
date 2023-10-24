@@ -122,7 +122,7 @@ export class RecruitmentApproveComponent implements OnInit {
 
   title_total_project: { [key: string]: string } = { EN: "New Project", TH: "โครงการใหม่" }
   title_total_transfer: { [key: string]: string } = { EN: "Transfer Emp.", TH: "โอนย้าย" }
-  title_total_apply: { [key: string]: string } = { EN: "Apply Work", TH: "ผู้สมัคร" }
+  title_total_apply: { [key: string]: string } = { EN: "APPLICATION", TH: "ผู้สมัคร" }
 
   title_username: { [key: string]: string } = { EN: "Username", TH: "ผู้อนุมัติ" }
   title_approve_date: { [key: string]: string } = { EN: "Approve date", TH: "วันที่อนุมัติ" }

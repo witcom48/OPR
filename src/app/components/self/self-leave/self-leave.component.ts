@@ -237,6 +237,7 @@ export class SelfLeaveComponent implements OnInit {
           this.selectedtrtimeleave.reason_code = this.reason_list[0].reason_code
           this.time_half = "00:00"
           this.selectLeaveType();
+          this.doLoadLeaveactualday();
           this.showManage();
           if (this.initial_current.Usertype == "GRP") {
             this.selectedtrtimeleave.worker_code = this.selectedAccount.worker_code;
