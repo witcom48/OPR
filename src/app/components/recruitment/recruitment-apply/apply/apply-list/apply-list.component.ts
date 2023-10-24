@@ -51,7 +51,8 @@ interface Status {
   code: string
 }
 interface StatusCer {
-  name: string,
+  name_th: string,
+  name_en: string,
   value: string
 }
 
@@ -75,7 +76,7 @@ export class ApplyListComponent implements OnInit {
   status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
   status_doc: boolean = false
 
-  statusCer: StatusCer[] = [{ name: 'Wait', value: 'Wait' }, { name: 'Attached', value: 'Attached' },]
+  statusCer: StatusCer[] = [{ name_th: 'รอเอกสาร', name_en: 'Wait', value: 'Wait' }, { name_th: 'แนบเอกสารแล้ว', name_en: 'Attached', value: 'Attached' },]
   statusCer_select = "";
   constructor(
     private applyworkService: ApplyworkService,
@@ -181,16 +182,27 @@ export class ApplyListComponent implements OnInit {
   title_searchemp: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" };
 
   title_apprstatus: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
-  title_McerFil: { [key: string]: string } = { EN: "Blacklist", TH: "Blacklist" };
+  title_McerFil: { [key: string]: string } = { EN: "Blacklist", TH: "แบล็คลิสต์" };
 
   title_convert: { [key: string]: string } = { EN: "Convert", TH: "Convert" };
   title_requestmcer: { [key: string]: string } = { EN: "Require Medical Certificate", TH: "ใบรับรองแพทย์" };
-  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "Blacklist" };
+  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "แบล็คลิสต์" };
+
+  title_manage: { [key: string]: string } = { EN: "Manage", TH: "จัดการ" };
+  title_link: { [key: string]: string } = { EN: "Link", TH: "ลิงก์" };
+  title_template: { [key: string]: string } = { EN: "Template", TH: "เทมเพลต" };
+  title_reqinfo: { [key: string]: string } = { EN: "Recruitment Info", TH: "ข้อมูลรับสมัครพนักงาน" };
+
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
-      this.title_page = "ข้อมูลพนักงาน";
-      this.title_num_emp = "จำนวนพนักงาน";
+      this.title_page = "ประวัติผู้สมัครงาน";
+      this.title_num_emp = "จำนวนผู้สมัคร";
       this.title_new_emp = "พนักงานใหม่";
       this.title_resign_emp = "พนักงานลาออก";
       this.title_new = "เพิ่ม";
@@ -250,11 +262,11 @@ export class ApplyListComponent implements OnInit {
 
       },
       {
-        label: "Template",
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         items: [
           {
-            label: "Recruitment info",
+            label: this.title_reqinfo[this.initial_current.Language],
             // icon: 'pi-download',
             command: (event) => {
               window.open('assets/OPRFileImport/(OPR)Import req/(OPR)Import Recruitment.xlsx', '_blank');
@@ -408,8 +420,14 @@ export class ApplyListComponent implements OnInit {
   }
 
   fileToUpload: File | any = null;
+  selectedFileName: string = '';
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.title_nofile[this.initial_current.Language];
+    }
   }
 
   doUploadApplywork() {

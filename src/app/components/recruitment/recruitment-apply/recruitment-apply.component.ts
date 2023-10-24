@@ -132,6 +132,7 @@ interface ForeigType {
 })
 export class RecruitmentApplyComponent implements OnInit {
     @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
+
     req_code: string = '';
 
     emp_code: string = '';
@@ -380,7 +381,7 @@ export class RecruitmentApplyComponent implements OnInit {
         return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
     }
 
-    title_page: string = "Recruiment Management";
+    title_page: string = "Apply work";
     title_new: string = "New";
     title_edit: string = "Edit";
     title_delete: string = "Delete";
@@ -564,13 +565,17 @@ export class RecruitmentApplyComponent implements OnInit {
     title_pass: string = "Pass";
     title_notpass: string = "Not Pass";
 
-    title_attfile: { [key: string]: string } = { EN: "Attach File", TH: "แนบไฟล์" };
+    title_attfile: { [key: string]: string } = { EN: "Attach File", TH: "แนบไฟล์เอกสาร" };
     title_uploadno: { [key: string]: string } = { EN: "No.", TH: "ลำดับที่" };
     title_filename: { [key: string]: string } = { EN: "File Name", TH: "ชื่อไฟล์" };
     title_modified_by: { [key: string]: string } = { EN: "Modified by", TH: "ผู้ทำรายการ" };
     title_modified_date: { [key: string]: string } = { EN: "Modified date", TH: "วันที่ทำรายการ" };
     title_deleteupload: { [key: string]: string } = { EN: "Delete", TH: "ลบ" };
     title_age: { [key: string]: string } = { EN: "Age", TH: "อายุ" };
+
+    title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+    title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+
 
     title_contact: { [key: string]: string } = { EN: "Contact", TH: "ข้อมูลติดต่อ" };
     title_military: { [key: string]: string } = { EN: "Military Staus", TH: "สถานภาพทางทหาร" };
@@ -597,7 +602,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_idcard: { [key: string]: string } = { EN: "ID Card", TH: "บัตรประชาชน" };
     title_house: { [key: string]: string } = { EN: "House REGISTRATION", TH: "สำเนาทะเบียนบ้าน" };
     title_photo: { [key: string]: string } = { EN: "Photo with ID Card", TH: "รูปถ่ายพนักงานที่ถือบัตรประชาชน" };
-    title_pdpa: { [key: string]: string } = { EN: "PDPA", TH: "PDPA" };
+    title_pdpa: { [key: string]: string } = { EN: "PDPA", TH: "พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล" };
     title_certi: { [key: string]: string } = { EN: "Medical Certificate", TH: "ใบรับรองแพทย์" };
     title_otherfile: { [key: string]: string } = { EN: "Other", TH: "อื่นๆ" };
     //
@@ -615,9 +620,12 @@ export class RecruitmentApplyComponent implements OnInit {
     title_haveblack: { [key: string]: string } = { EN: "Have Blacklist want to continue?", TH: "ผู้สมัครนี้มีประวัติ blacklist ต้องการดำเนินการต่อหรือไม่?" };
     title_50nocer: { [key: string]: string } = { EN: "This applicant is over 50 years old and must provide a medical certificate. Do you want to save now?", TH: "ผู้สมัครดังกล่าวมีอายุมากกว่า 50 ปี ต้องเพิ่มใบรับรองแพทย์ด้วย จะให้บันทึกในระบบเลยหรือไม่?" };
 
+    title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+    title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_page = "ข้อมูลผู้สมัคร";
+            this.title_page = "ประวัติผู้สัมครงาน";
             this.title_new = "เพิ่ม";
             this.title_edit = "แก้ไข";
             this.title_delete = "ลบ";
@@ -628,7 +636,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_summit = "บันทึก";
             this.title_cancel = "ยกเลิก";
 
-            this.title_genaral = 'ข้อมูลทั่วไป';
+            this.title_genaral = 'ข้อมูลผู้สมัครงาน';
             this.title_code = "รหัสผู้สมัคร";
             this.title_cardid = "รหัสบัตร";
             this.title_fname_th = "ชื่อจริง (ไทย)";
@@ -708,7 +716,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_locationname = "สถานที่";
             this.title_start = "วันที่เริ่ม";
             this.title_end = "วันที่สิ้นสุด";
-            this.title_description = "เพิ่มเติม";
+            this.title_description = "หมายเหตุ";
             this.title_branchname = "สาขา";
             this.title_suggestname = "ผู้แนะนำ";
             this.title_addresstype = "ประเภทที่อยู่อาศัย";
@@ -2921,7 +2929,15 @@ export class RecruitmentApplyComponent implements OnInit {
 
     fileToUpload: File | any = null;
 
+    selectedimageName: string = '';
     onselectFile(event: any) {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            this.selectedimageName = selectedFile.name;
+        } else {
+            this.selectedimageName = this.title_nofile[this.initial_current.Language];
+        }
+
         const reader = new FileReader();
         reader.onload = (e: any) => {
             // Set image src
@@ -2974,7 +2990,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.selectedReqworker.worker_code = "REQ" + this.datePipe.transform(this.newDateTime, 'yyyyMMddHHmm');
     }
 
-
+    selectedFileName: string = '';
     //Attach File Application
     UploadfileApp: boolean = false;
     fileDocToUploadApp: File | any = null;
@@ -2982,6 +2998,11 @@ export class RecruitmentApplyComponent implements OnInit {
     selecteddocattApp: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFileAppInputDoclist(file: FileList) {
         this.fileDocToUploadApp = file.item(0);
+        if (this.fileDocToUploadApp) {
+            this.selectedFileName = this.fileDocToUploadApp.name;
+        } else {
+            this.selectedFileName = this.title_nofile[this.initial_current.Language];
+        }
     }
     doGetFileApp() {
         var tmp = new ApplyMTDocattModel();
@@ -3104,6 +3125,11 @@ export class RecruitmentApplyComponent implements OnInit {
     selecteddocattID: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFileIDInputDoclist(file: FileList) {
         this.fileDocToUploadID = file.item(0);
+        if (this.fileDocToUploadID) {
+            this.selectedFileName = this.fileDocToUploadID.name;
+        } else {
+            this.selectedFileName = this.title_nofile[this.initial_current.Language];
+        }
     }
     doGetFileID() {
         var tmp = new ApplyMTDocattModel();
@@ -3226,6 +3252,11 @@ export class RecruitmentApplyComponent implements OnInit {
     selecteddocattHos: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFileHosInputDoclist(file: FileList) {
         this.fileDocToUploadHos = file.item(0);
+        if (this.fileDocToUploadHos) {
+            this.selectedFileName = this.fileDocToUploadHos.name;
+        } else {
+            this.selectedFileName = this.title_nofile[this.initial_current.Language];
+        }
     }
     doGetFileHos() {
         var tmp = new ApplyMTDocattModel();
@@ -3348,6 +3379,11 @@ export class RecruitmentApplyComponent implements OnInit {
     selecteddocattPho: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFilePhoInputDoclist(file: FileList) {
         this.fileDocToUploadPho = file.item(0);
+        if (this.fileDocToUploadPho) {
+            this.selectedFileName = this.fileDocToUploadPho.name;
+        } else {
+            this.selectedFileName = this.title_nofile[this.initial_current.Language];
+        }
     }
     doGetFilePho() {
         var tmp = new ApplyMTDocattModel();
@@ -3470,6 +3506,11 @@ export class RecruitmentApplyComponent implements OnInit {
     selecteddocattPDPA: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFilePDPAInputDoclist(file: FileList) {
         this.fileDocToUploadPDPA = file.item(0);
+        if (this.fileDocToUploadPDPA) {
+            this.selectedFileName = this.fileDocToUploadPDPA.name;
+        } else {
+            this.selectedFileName = this.title_nofile[this.initial_current.Language];
+        }
     }
     doGetFilePDPA() {
         var tmp = new ApplyMTDocattModel();
@@ -3592,6 +3633,11 @@ export class RecruitmentApplyComponent implements OnInit {
     selecteddocattMCer: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFileMCerInputDoclist(file: FileList) {
         this.fileDocToUploadMCer = file.item(0);
+        if (this.fileDocToUploadMCer) {
+            this.selectedFileName = this.fileDocToUploadMCer.name;
+        } else {
+            this.selectedFileName = this.title_nofile[this.initial_current.Language];
+        }
     }
     doGetFileMCer() {
         var tmp = new ApplyMTDocattModel();
@@ -3714,6 +3760,11 @@ export class RecruitmentApplyComponent implements OnInit {
     selecteddocattOther: ApplyMTDocattModel = new ApplyMTDocattModel();
     handleFileOtherInputDoclist(file: FileList) {
         this.fileDocToUploadOther = file.item(0);
+        if (this.fileDocToUploadOther) {
+            this.selectedFileName = this.fileDocToUploadOther.name;
+        } else {
+            this.selectedFileName = this.title_nofile[this.initial_current.Language];
+        }
     }
     doGetFileOther() {
         var tmp = new ApplyMTDocattModel();
@@ -3830,6 +3881,10 @@ export class RecruitmentApplyComponent implements OnInit {
 
     viewAttfile(data: ApplyMTDocattModel) {
         this.doGetReqAttfileApp(data.document_path, data.document_type)
+    }
+
+    clearattachname(){
+        this.selectedFileName = ''
     }
     //end
 

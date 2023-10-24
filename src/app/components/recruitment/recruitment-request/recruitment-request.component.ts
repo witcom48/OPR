@@ -137,20 +137,30 @@ export class RecruitmentRequestComponent implements OnInit {
   title_overtime: string = "Overtime";
   title_another: string = "Another";
 
+  title_req: { [key: string]: string } = { EN: "Request", TH: "ร้องขอ" };
+  title_link: { [key: string]: string } = { EN: "Link", TH: "ลิงก์" };
+  title_template: { [key: string]: string } = { EN: "Template", TH: "เทมเพลต" };
+
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่ทำรายการ" };
   title_startdate: { [key: string]: string } = { EN: "Startdate", TH: "ตั้งแต่วันที่" };
   title_enddate: { [key: string]: string } = { EN: "Duedate", TH: "ถึงวันที่" };
   title_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" };
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
-  title_note: { [key: string]: string } = { EN: "More", TH: "เพิ่มเติม" };
+  title_note: { [key: string]: string } = { EN: "More", TH: "หมายเหตุ" };
 
   title_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
   title_accepted: { [key: string]: string } = { EN: "Accepted", TH: "รับแล้ว" };
   title_complete: { [key: string]: string } = { EN: "Complete", TH: "สำเร็จ" };
 
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
-      this.title_page = "ร้องขอกำลังพล";
+      this.title_page = "ร้องขอพนักงานเพิ่ม";
       this.title_new = "เพิ่ม";
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
@@ -213,7 +223,7 @@ export class RecruitmentRequestComponent implements OnInit {
       }
       ,
       {
-        label: "Template",
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import req/(OPR)Import Request.xlsx', '_blank');
@@ -401,8 +411,15 @@ export class RecruitmentRequestComponent implements OnInit {
 
 
   fileToUpload: File | any = null;
+  selectedFileName: string = '';
+
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.title_nofile[this.initial_current.Language];
+    }
   }
 
   doUploadRequest() {

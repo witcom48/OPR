@@ -22,7 +22,9 @@ export class SetBlacklistComponent implements OnInit {
   @ViewChild(TaskComponent) taskView: any;
 
   //
-  title_black: { [key: string]: string } = { EN: "Blacklist", TH: "เบล็คลิสต์" };
+  title_black: { [key: string]: string } = { EN: "Black List", TH: "เบล็คลิสต์" };
+  title_batch: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดแบบกลุ่ม" };
+
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };

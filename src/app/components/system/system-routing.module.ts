@@ -49,6 +49,7 @@ import { PolroundsComponent } from './system-manage/polrounds/polrounds.componen
 
 
 import { BloodtypeComponent } from './system-policy/bloodtype/bloodtype.component';
+import { SystemForetypeComponent } from './system-policy/system-foretype/system-foretype.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -99,6 +100,7 @@ import { BloodtypeComponent } from './system-policy/bloodtype/bloodtype.componen
         { path: 'year', component: YearComponent },
         { path: 'system-yearperiods', component: AddYearComponent },
         { path: 'system-polrounds', component: PolroundsComponent },
+        { path: 'system-foretype', component: SystemForetypeComponent },
 
         
 
