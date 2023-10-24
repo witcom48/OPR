@@ -29,7 +29,7 @@ export class SetBlacklistComponent implements OnInit {
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
-  title_note: { [key: string]: string } = { EN: "Note", TH: "เพิ่มเติม" };
+  title_note: { [key: string]: string } = { EN: "Note", TH: "หมายเหตุ" };
   //
   title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" };
   title_confirm_record: { [key: string]: string } = { EN: "Confirm to record", TH: "คุณต้องการบันทึกการทำรายการ" }

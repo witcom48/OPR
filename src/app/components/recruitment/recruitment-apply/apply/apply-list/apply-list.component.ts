@@ -211,7 +211,7 @@ export class ApplyListComponent implements OnInit {
       this.title_import = "นำเข้า";
       this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
-      this.title_code = "รหัสพนักงาน";
+      this.title_code = "รหัสผู้สมัคร";
       this.title_initial = "คำนำหน้า";
       this.title_emptype = "ประเภทพนักงาน";
       this.title_position = "ตำแหน่ง";
@@ -224,7 +224,7 @@ export class ApplyListComponent implements OnInit {
       this.title_modified_by = "ผู้ทำรายการ";
       this.title_modified_date = "วันที่ทำรายการ";
       this.title_search = "ค้นหา";
-      this.title_upload = "อัพโหลด";
+      this.title_upload = "อัปโหลด";
 
       this.title_page_from = "แสดง";
       this.title_page_to = "ถึง";

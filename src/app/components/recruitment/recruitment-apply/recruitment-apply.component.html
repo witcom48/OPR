@@ -2018,8 +2018,13 @@
 </p-dialog>
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
-    key="myDialog"></p-confirmDialog>
+<p-confirmDialog #cd [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog">
+    <ng-template pTemplate="footer">
+        <button type="button" pButton icon="pi pi-times" label="{{title_confirm_no}}" (click)="cd.reject()"></button>
+        <button type="button" pButton icon="pi pi-check" label="{{title_confirm_yes}}" (click)="cd.accept()"></button>
+    </ng-template>
+</p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
 
 

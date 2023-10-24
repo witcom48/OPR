@@ -570,7 +570,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_pass: string = "Pass";
     title_notpass: string = "Not Pass";
 
-    title_attfile: { [key: string]: string } = { EN: "Attach File", TH: "แนบไฟล์เอกสาร" };
+    title_attfile: { [key: string]: string } = { EN: "Attach File", TH: "เอกสารแนบ" };
     title_uploadno: { [key: string]: string } = { EN: "No.", TH: "ลำดับที่" };
     title_filename: { [key: string]: string } = { EN: "File Name", TH: "ชื่อไฟล์" };
     title_modified_by: { [key: string]: string } = { EN: "Modified by", TH: "ผู้ทำรายการ" };
@@ -588,7 +588,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_kg: { [key: string]: string } = { EN: "k.g.", TH: "ก.ก." };
 
     title_familyocc: { [key: string]: string } = { EN: "Occupation", TH: "อาชีพ" };
-    title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรฯ" };
+    title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรศัพท์" };
     title_familyaddress: { [key: string]: string } = { EN: "Address", TH: "ที่อยู่" };
     title_familynameth: { [key: string]: string } = { EN: "Name(Eng.)", TH: "ชื่อ(อังกฤษ)" };
     title_familynameen: { [key: string]: string } = { EN: "Name(Thai)", TH: "ชื่อ(ไทย)" };
@@ -623,7 +623,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
     //
     title_haveblack: { [key: string]: string } = { EN: "Have Blacklist want to continue?", TH: "ผู้สมัครนี้มีประวัติ blacklist ต้องการดำเนินการต่อหรือไม่?" };
-    title_50nocer: { [key: string]: string } = { EN: "This applicant is over 50 years old and must provide a medical certificate. Do you want to save now?", TH: "ผู้สมัครดังกล่าวมีอายุมากกว่า 50 ปี ต้องเพิ่มใบรับรองแพทย์ด้วย จะให้บันทึกในระบบเลยหรือไม่?" };
+    title_50nocer: { [key: string]: string } = { EN: "This applicant is over 50 years old and must provide a medical certificate. Do you want to save now?", TH: "ผู้สมัครดังกล่าวมีอายุมากกว่า 50 ปี ต้องเพิ่มใบรับรองแพทย์ด้วย ต้องการบันทึกหรือไม่?" };
 
     title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
     title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
@@ -715,7 +715,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
 
             this.title_search = "ค้นหา";
-            this.title_upload = "อัพโหลด";
+            this.title_upload = "อัปโหลด";
 
             this.title_page_from = "แสดง";
             this.title_page_to = "ถึง";
@@ -726,8 +726,8 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
             this.title_confirm_delete = "คุณต้องการลบรายการ";
 
-            this.title_confirm_yes = "ใช่";
-            this.title_confirm_no = "ยกเลิก";
+            this.title_confirm_yes = "บันทึก";
+            this.title_confirm_no = "ไม่บันทึก";
             this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
 
             this.title_locationname = "สถานที่";
@@ -748,7 +748,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_tel = "เบอร์โทรฯ";
             this.title_email = "อีเมล";
             this.title_line = "ไลน์";
-            this.title_facebook = "เฟสบุ๊ค";
+            this.title_facebook = "เฟซบุ๊ค";
             this.title_cardcode = "เลขที่";
             this.title_issuedate = "วันที่ออก";
             this.title_expiredate = "วันที่หมดอายุ";
@@ -788,7 +788,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_educationend = "วันที่จบ";
             this.title_supplyissue = "วันที่เบิก";
             this.title_supplyename = "อุปกรณื";
-            this.title_amount = "จำนวน";
+            this.title_amount = "จำนวนเงิน";
             this.title_return = "คืนอุปกรณ์";
             this.title_returndate = "วันที่คืนอุปกรณ์";
             this.title_uniformissue = "วันที่เบิก";
