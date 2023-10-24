@@ -350,7 +350,7 @@
                     </div>
 
                     <!-- benefit -->
-                    <div class="accordion">
+                    <!-- <div class="accordion">
                         <p-accordion>
                             <p-accordionTab header="{{title_benefit}}">
                                 <p-menubar [model]="menu_reqbenefit"></p-menubar>
@@ -389,7 +389,7 @@
                                 </p-table>
                             </p-accordionTab>
                         </p-accordion>
-                    </div>
+                    </div> -->
 
                 </p-tabPanel>
 
@@ -965,6 +965,7 @@
                                                     <th>{{title_expstart[initial_current.Language]}}</th>
                                                     <th>{{title_expend[initial_current.Language]}}</th>
                                                     <th>{{title_expdes[initial_current.Language]}}</th>
+                                                    <th>{{title_expage[initial_current.Language]}}</th>
                                                     <th>{{title_modified_by[initial_current.Language]}}</th>
                                                     <th>{{title_modified_date[initial_current.Language]}}</th>
                                                 </tr>
@@ -977,6 +978,7 @@
                                                     <td>{{empexperience.startdate | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{empexperience.enddate | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{empexperience.description}}</td>
+                                                    <td>{{empexperience.workage}}</td>
                                                     <td>{{empexperience.modified_by}}</td>
                                                     <td>{{empexperience.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                                 </tr>

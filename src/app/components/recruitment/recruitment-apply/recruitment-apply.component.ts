@@ -638,6 +638,8 @@ export class RecruitmentApplyComponent implements OnInit {
     title_expstart: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
     title_expend: { [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
     title_expdes: { [key: string]: string } = { EN: "Description", TH: "เหตุผลที่เปลี่ยนงาน" };
+    title_expage: { [key: string]: string } = { EN: "Workage", TH: "อายุงาน" };
+
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = "ประวัติผู้สัมครงาน";
@@ -1503,59 +1505,59 @@ export class RecruitmentApplyComponent implements OnInit {
         ];
 
         //menu experience
-    this.menu_reqexperience = [
-        {
-          label: this.title_new,
-          icon: 'pi pi-fw pi-plus',
-          command: (event) => {
-            this.clearManage()
-            this.new_experience = true
-            var ref = this.reqexperienceList.length + 100
-            this.selectedReqExperience = new EmpExperienceModel()
-            this.selectedReqExperience.experience_id = ref.toString()
-            this.showManage()
-          }
-        },
-        {
-          label: this.title_edit,
-          icon: 'pi pi-fw pi-pencil',
-          command: (event) => {
-            this.clearManage()
-            if (this.selectedReqExperience != null) {
-              this.edit_reqexperience = true
-              this.showManage()
-            }
-          }
-        },
-        {
-          label: this.title_delete,
-          icon: 'pi pi-fw pi-trash',
-          command: (event) => {
-            this.confirmationService.confirm({
-              message: this.title_confirm_delete,
-              header: this.title_confirm,
-              icon: 'pi pi-exclamation-triangle',
-              accept: () => {
-                if (this.selectedReqExperience != null) {
-                  this.reqexperience_remove()
+        this.menu_reqexperience = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.clearManage()
+                    this.new_experience = true
+                    var ref = this.reqexperienceList.length + 100
+                    this.selectedReqExperience = new EmpExperienceModel()
+                    this.selectedReqExperience.experience_id = ref.toString()
+                    this.showManage()
                 }
-              },
-              reject: () => {
-                this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-              },
-              key: "myDialog"
-            });
-  
-          }
-        },
-        // {
-        //   label: this.title_export,
-        //   icon: 'pi pi-fw pi-file-export',
-        //   command: (event) => {
-        //     this.exportAsExcel(this.dtreqexperience, 'EmpExperience')
-  
-        //   }
-        // }
+            },
+            {
+                label: this.title_edit,
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    this.clearManage()
+                    if (this.selectedReqExperience != null) {
+                        this.edit_reqexperience = true
+                        this.showManage()
+                    }
+                }
+            },
+            {
+                label: this.title_delete,
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqExperience != null) {
+                                this.reqexperience_remove()
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
+                }
+            },
+            // {
+            //   label: this.title_export,
+            //   icon: 'pi pi-fw pi-file-export',
+            //   command: (event) => {
+            //     this.exportAsExcel(this.dtreqexperience, 'EmpExperience')
+
+            //   }
+            // }
         ];
     }
 
@@ -1726,7 +1728,7 @@ export class RecruitmentApplyComponent implements OnInit {
                         this.doLoadReqPositionList();
                         this.doLoadReqProjectList();
                         this.doLoadReqSalaryList();
-                        this.doLoadReqBenefitList();
+                        // this.doLoadReqBenefitList();
 
                         this.doLoadReqExperienceList();
 
@@ -2909,78 +2911,112 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     //req experience
-  reqexperienceList: EmpExperienceModel[] = [];
-  selectedReqExperience: EmpExperienceModel = new EmpExperienceModel();
-  doLoadReqExperienceList() {
-    this.reqdetailService.getapplywork_experience(this.initial_current.CompCode, this.emp_code).then(async (res) => {
-      await res.forEach((element: EmpExperienceModel) => {
-        element.startdate = new Date(element.startdate)
-        element.enddate = new Date(element.enddate)
+    reqexperienceList: EmpExperienceModel[] = [];
+    selectedReqExperience: EmpExperienceModel = new EmpExperienceModel();
+    async doLoadReqExperienceList() {
+        const res = await this.reqdetailService.getapplywork_experience(this.initial_current.CompCode, this.req_code);
 
-      })
-      this.reqexperienceList = await res;
-      if (this.reqexperienceList.length > 0) {
-        this.selectedReqExperience = this.reqexperienceList[0];
-      }
-    })
-  }
-  onRowSelectReqExperience(event: Event) { }
-  reqexperience_summit() {
-    this.reqexperience_addItem(this.selectedReqExperience)
-    this.new_experience = false
-    this.edit_reqexperience = false
-    this.displayManage = false
-  }
-  reqexperience_remove() {
-    this.selectedReqExperience.experience_id = "9999";
-    this.reqexperience_addItem(this.selectedReqExperience)
-    this.new_experience = false
-    this.edit_reqexperience = false
-  }
-  reqexperience_delete() {
-    var tmp: EmpExperienceModel = new EmpExperienceModel();
-    tmp.worker_code = this.selectedReqworker.worker_code;
-    this.reqdetailService.delete_reqexperience(tmp).then((res) => {
-      let result = JSON.parse(res);
-    });
-  }
-  reqexperience_cancel() {
-    this.new_experience = false
-    this.edit_reqexperience = false
-    this.displayManage = false
-  }
-  reqexperience_addItem(model: EmpExperienceModel) {
-    const itemNew: EmpExperienceModel[] = [];
-    for (let i = 0; i < this.reqexperienceList.length; i++) {
-      if (this.reqexperienceList[i].experience_id == model.experience_id) {
-        //-- Notting
-      }
-      else {
-        itemNew.push(this.reqexperienceList[i]);
-      }
-    }
-    //-- 9999 for delete
-    if (model.experience_id != "9999") {
-      itemNew.push(model);
-    }
-    this.reqexperienceList = [];
-    this.reqexperienceList = itemNew;
-    this.reqexperienceList.sort(function (a, b) { return parseInt(a.experience_id) - parseInt(b.experience_id); })
-  }
-  record_reqexperience() {
-    if (this.reqexperienceList.length == 0) {
-      this.reqexperience_delete();
-    } else {
-      this.reqdetailService.record_reqexperience(this.selectedReqworker.worker_code, this.reqexperienceList).then((res) => {
-        let result = JSON.parse(res);
-        if (result.success) {
-        }
-        else {
-        }
-      });
-    }
+        const promises = res.map(async (element: EmpExperienceModel) => {
+            element.startdate = new Date(element.startdate);
+            element.enddate = new Date(element.enddate);
+            element.workage = await this.calculateWorkExp(element.startdate, element.enddate)
+            return element;
+        })
 
-  }
+        const modifiedRes = await Promise.all(promises);
+
+        this.reqexperienceList = modifiedRes;
+        if (this.reqexperienceList.length > 0) {
+            this.selectedReqExperience = this.reqexperienceList[0];
+        }
+    }
+    onRowSelectReqExperience(event: Event) { }
+    reqexperience_summit() {
+        this.reqexperience_addItem(this.selectedReqExperience)
+        this.new_experience = false
+        this.edit_reqexperience = false
+        this.displayManage = false
+    }
+    reqexperience_remove() {
+        this.selectedReqExperience.experience_id = "9999";
+        this.reqexperience_addItem(this.selectedReqExperience)
+        this.new_experience = false
+        this.edit_reqexperience = false
+    }
+    reqexperience_delete() {
+        var tmp: EmpExperienceModel = new EmpExperienceModel();
+        tmp.worker_code = this.selectedReqworker.worker_code;
+        this.reqdetailService.delete_reqexperience(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
+    reqexperience_cancel() {
+        this.new_experience = false
+        this.edit_reqexperience = false
+        this.displayManage = false
+    }
+    reqexperience_addItem(model: EmpExperienceModel) {
+        const itemNew: EmpExperienceModel[] = [];
+        for (let i = 0; i < this.reqexperienceList.length; i++) {
+            if (this.reqexperienceList[i].experience_id == model.experience_id) {
+                //-- Notting
+            }
+            else {
+                itemNew.push(this.reqexperienceList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.experience_id != "9999") {
+            itemNew.push(model);
+        }
+        this.reqexperienceList = [];
+        this.reqexperienceList = itemNew;
+        this.reqexperienceList.sort(function (a, b) { return parseInt(a.experience_id) - parseInt(b.experience_id); })
+    }
+    record_reqexperience() {
+        if (this.reqexperienceList.length == 0) {
+            this.reqexperience_delete();
+        } else {
+            this.reqdetailService.record_reqexperience(this.selectedReqworker.worker_code, this.reqexperienceList).then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                }
+                else {
+                }
+            });
+        }
+    }
+    async calculateWorkExp(start: Date, end: Date): Promise<string> {
+        // let workage: { year: number, months: number, days: number };
+        if (start && end) {
+            const from = new Date(start);
+            const to = new Date(end);
+
+            let years = to.getFullYear() - from.getFullYear();
+            let months = to.getMonth() - from.getMonth();
+            let days = to.getDate() - from.getDate();
+
+            if (months < 0 || (months === 0 && to.getDate() < from.getDate())) {
+                years--;
+                months += 12;
+            }
+
+            if (days < 0) {
+                months--;
+                days += this.daysInMonth(to.getMonth() - 1, to.getFullYear());
+            }
+
+            if (this.initial_current.Language == 'TH') {
+                return `${years} ปี ${months} เดือน ${days} วัน `
+            } else {
+                return `${years} years ${months} months ${days} days `
+            }
+        }
+        return "";
+    }
+    private daysInMonth(month: number, year: number): number {
+        return new Date(year, month + 1, 0).getDate();
+    }
 
     doRecordApplywork() {
         this.applyworkService
@@ -3007,7 +3043,7 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.record_reqposition();
                     this.record_reqproject();
                     this.record_reqsalary();
-                    this.record_reqbenefit();
+                    // this.record_reqbenefit();
 
                     this.record_reqexperience();
 

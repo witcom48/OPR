@@ -784,7 +784,7 @@ export class ApplyListComponent implements OnInit {
         this.doLoadReqSuggestList()
         this.doLoadReqPositionList()
         this.doLoadReqSalaryList()
-        this.doLoadReqBenefitList()
+        // this.doLoadReqBenefitList()
         //image
         // this.doLoadImageReq()
       },
@@ -865,7 +865,7 @@ export class ApplyListComponent implements OnInit {
         this.record_empsuggest(Code)
         this.record_empposition(Code)
         this.record_empsalary(Code)
-        this.record_empbenefit(Code)
+        // this.record_empbenefit(Code)
         //--image
         // this.uploadImageEmp(Code)
 
