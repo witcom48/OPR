@@ -1050,6 +1050,8 @@ export class ApplyworkDetailService {
       item_data = item_data + ",\"empbenefit_breakreason\":\"" + list[i].empbenefit_breakreason + "\"";
       item_data = item_data + ",\"empbenefit_conditionpay\":\"" + list[i].empbenefit_conditionpay + "\"";
       item_data = item_data + ",\"empbenefit_payfirst\":\"" + list[i].empbenefit_payfirst + "\"";
+      item_data = item_data + ",\"empbenefit_capitalamount\":\"" + list[i].empbenefit_capitalamount + "\"";
+      item_data = item_data + ",\"empbenefit_period\":\"" + list[i].empbenefit_period + "\"";
       item_data = item_data + ",\"item_code\":\"" + list[i].item_code + "\"";
       
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";

@@ -509,6 +509,9 @@ export class SetEmpDetailService {
       empbenefit_breakreason: Setup.empbenefit_breakreason,
       empbenefit_conditionpay: Setup.empbenefit_conditionpay,
       empbenefit_payfirst: Setup.empbenefit_payfirst,
+      empbenefit_capitalamount: Setup.empbenefit_capitalamount,
+      empbenefit_period: Setup.empbenefit_period,
+
       emp_data: emplists,
       modified_by: Setup.modified_by || this.initial_current.Username,
     }

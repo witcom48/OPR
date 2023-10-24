@@ -8,7 +8,7 @@ export class SetBenefitsModel {
     item_code: string= "";
 
     empbenefit_id: string= "";
-    empbenefit_amount: string= "";
+    empbenefit_amount: number= 0;
     empbenefit_startdate!: Date;
     empbenefit_enddate!: Date;
     empbenefit_reason: string= "";
@@ -20,6 +20,10 @@ export class SetBenefitsModel {
 
     empbenefit_conditionpay: string= "";
     empbenefit_payfirst: string= "";
+    
+    empbenefit_capitalamount: number= 0;
+    empbenefit_period: number= 0;
+    empbenefit_perperiod: number= 0;
     
     emp_data: EmployeeModel[] = [];
     modified_by: string = "";

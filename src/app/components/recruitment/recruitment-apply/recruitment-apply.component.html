@@ -364,6 +364,8 @@
                                         <tr>
                                             <th>{{title_date}}</th>
                                             <th>{{title_incomededuct}}</th>
+                                            <th>{{title_capital[initial_current.Language]}}</th>
+                                            <th>{{title_capperiod[initial_current.Language]}}</th>
                                             <th>{{title_amount}}</th>
                                             <th>{{title_conditionpay}}</th>
                                             <th>{{title_reason}}</th>
@@ -375,6 +377,8 @@
                                         <tr [pSelectableRow]="empbenefit">
                                             <td>{{empbenefit.empbenefit_startdate | date:'dd/MM/yyyy'}}</td>
                                             <td>{{doGetitemDetail(empbenefit.item_code)}}</td>
+                                            <td>{{empbenefit.empbenefit_capitalamount}}</td>
+                                            <td>{{empbenefit.empbenefit_period}}</td>
                                             <td>{{empbenefit.empbenefit_amount}}</td>
                                             <td>{{empbenefit.empbenefit_conditionpay}}</td>
                                             <td>{{empbenefit.empbenefit_reason}}</td>
@@ -1773,6 +1777,17 @@
             </ng-template>
         </p-dropdown>
 
+        <label>{{title_capital[initial_current.Language]}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedReqBenefit.empbenefit_capitalamount"
+            (ngModelChange)="changebenefitamount()">
+        </p-inputNumber>
+
+        <label>{{title_capperiod[initial_current.Language]}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" [(ngModel)]="selectedReqBenefit.empbenefit_period"
+            (ngModelChange)="changebenefitamount()">
+        </p-inputNumber>
+
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedReqBenefit.empbenefit_amount">
@@ -1957,7 +1972,7 @@
 </p-dialog>
 
 <!-- Attach PDPA -->
-<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfilePDPA" (onHide)="clearattachname()"> 
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfilePDPA" (onHide)="clearattachname()">
     <label class="drop-container">
         <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
         {{title_or[initial_current.Language]}}

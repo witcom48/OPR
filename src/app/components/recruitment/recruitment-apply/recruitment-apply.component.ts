@@ -622,7 +622,9 @@ export class RecruitmentApplyComponent implements OnInit {
 
     title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
     title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
-
+    //
+    title_capital: { [key: string]: string } = { EN: "Capital amount", TH: "เงินต้น" };
+  title_capperiod: { [key: string]: string } = { EN: "Period", TH: "จำนวนงวด" };
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = "ประวัติผู้สัมครงาน";
@@ -2819,6 +2821,12 @@ export class RecruitmentApplyComponent implements OnInit {
                 }
             });
     }
+    //
+    changebenefitamount() {
+        if(this.selectedReqBenefit.empbenefit_capitalamount != 0 && this.selectedReqBenefit.empbenefit_period !=0){
+           this.selectedReqBenefit.empbenefit_amount = (this.selectedReqBenefit.empbenefit_capitalamount/this.selectedReqBenefit.empbenefit_period)
+        }
+      }
 
     doRecordApplywork() {
         this.applyworkService

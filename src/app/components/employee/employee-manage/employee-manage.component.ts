@@ -710,6 +710,11 @@ export class EmployeeManageComponent implements OnInit {
   title_pfemp: { [key: string]: string } = { EN: "Comp.(%)", TH: "บริษัท(%)" };
   title_pfcom: { [key: string]: string } = { EN: "Emp.(%)", TH: "พนักงาน(%)" };
 
+  //
+  title_capital: { [key: string]: string } = { EN: "Capital amount", TH: "เงินต้น" };
+  title_capperiod: { [key: string]: string } = { EN: "Period", TH: "จำนวนงวด" };
+  title_capperperiod: { [key: string]: string } = { EN: "Amount Per Period", TH: "จำนวนต่องวด" };
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ข้อมูลพนักงาน";
@@ -4411,6 +4416,11 @@ export class EmployeeManageComponent implements OnInit {
       });
     }
 
+  }
+  changebenefitamount() {
+    if(this.selectedEmpbenefit.empbenefit_capitalamount != 0 && this.selectedEmpbenefit.empbenefit_period !=0){
+       this.selectedEmpbenefit.empbenefit_amount = (this.selectedEmpbenefit.empbenefit_capitalamount/this.selectedEmpbenefit.empbenefit_period)
+    }
   }
 
   //reduce
