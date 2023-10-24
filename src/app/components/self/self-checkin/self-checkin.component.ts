@@ -15,6 +15,7 @@ import { TRAccountModel } from 'src/app/models/self/traccount';
 import { AccountModel } from 'src/app/models/self/account';
 import { AccountServices } from 'src/app/services/self/account.service';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
+import { interval, Subscription } from 'rxjs';
 declare var reqcheckin: any;
 interface Status { name: string, code: number }
 interface Area {
@@ -51,6 +52,7 @@ export class SelfCheckinComponent implements OnInit {
     private accountServie: AccountServices,
     private router: Router,
   ) { }
+  subscription: Subscription = new Subscription;
   mainMenuItems: MenuItem[] = [];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   fileToUpload: File | any = null;
@@ -97,6 +99,7 @@ export class SelfCheckinComponent implements OnInit {
       this.doLoadTimecheckin();
     }
   }
+  // intervalId = setInterval(() => this.setMap(), 1000);
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu();
@@ -236,6 +239,7 @@ export class SelfCheckinComponent implements OnInit {
               this.account_list_source.push(obj)
             })
           }
+          this.subscription = interval(1000).subscribe(val => { this.setMap(); });
           this.showManage()
         }
       },
@@ -334,7 +338,7 @@ export class SelfCheckinComponent implements OnInit {
   toRad(Value: number) {
     return Value * Math.PI / 180;
   }
-  getLocation(): void {
+  async getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const longitude = position.coords.longitude;
@@ -350,7 +354,7 @@ export class SelfCheckinComponent implements OnInit {
     }
   }
   async setMap() {
-    this.getLocation();
+    await this.getLocation();
     await new Promise(resolve => setTimeout(resolve, 400));
     if (this.map == undefined) {
       try {
@@ -428,17 +432,19 @@ export class SelfCheckinComponent implements OnInit {
             }
           });
           if (!checkdistance) {
-            this.confirmationService.confirm({
-              message: this.langs.get('confirm_doc')[this.selectlang],
-              header: this.langs.get('title_checkin')[this.selectlang],
-              icon: 'pi pi-exclamation-triangle',
-              accept: () => {
-                // // console.log(this.selectedtimecheckin)
-              },
-              reject: () => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs == "EN" ? 'Not in the designated area' : 'ไม่อยู่ในพื้นที่ที่กำหนด' });
+            this.closeManage()
+            // this.confirmationService.confirm({
+            //   message: this.langs.get('confirm_doc')[this.selectlang],
+            //   header: this.langs.get('title_checkin')[this.selectlang],
+            //   icon: 'pi pi-exclamation-triangle',
+            //   accept: () => {
+            //     // // console.log(this.selectedtimecheckin)
+            //   },
+            //   reject: () => {
 
-              }
-            });
+            //   }
+            // });
           } else {
             // // console.log(this.selectedtimecheckin)
             this.doRecordTimecheckin(data_doc)
@@ -459,17 +465,19 @@ export class SelfCheckinComponent implements OnInit {
             }
           });
           if (!checkdistance) {
-            this.confirmationService.confirm({
-              message: this.langs.get('confirm_delete_doc')[this.selectlang],
-              header: this.langs.get('title_checkin')[this.selectlang],
-              icon: 'pi pi-exclamation-triangle',
-              accept: () => {
-                // // console.log(this.selectedtimecheckin)
-              },
-              reject: () => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs == "EN" ? 'Not in the designated area' : 'ไม่อยู่ในพื้นที่ที่กำหนด' });
+            this.closeManage()
+            // this.confirmationService.confirm({
+            //   message: this.langs.get('confirm_delete_doc')[this.selectlang],
+            //   header: this.langs.get('title_checkin')[this.selectlang],
+            //   icon: 'pi pi-exclamation-triangle',
+            //   accept: () => {
+            //     // // console.log(this.selectedtimecheckin)
+            //   },
+            //   reject: () => {
 
-              }
-            });
+            //   }
+            // });
           } else {
             // // console.log(this.selectedtimecheckin)
             this.doRecordTimecheckin([this.selectedtimecheckin])
@@ -505,7 +513,7 @@ export class SelfCheckinComponent implements OnInit {
   closeManage() {
     this.selectedtimecheckin = new cls_TRTimecheckinModel();
     this.displayManage = false
-
+    this.subscription.unsubscribe();
   }
   selectlocation() {
     this.selectedtimecheckin.location_code = this.locationselected.location_code;
@@ -517,6 +525,7 @@ export class SelfCheckinComponent implements OnInit {
     this.doGetfileTimecheckin(this.selectedreqdoc.document_path, this.selectedreqdoc.document_type)
   }
   onRowSelect(event: Event) {
+    this.subscription.unsubscribe();
     this.location_list.forEach((obj: SysLocationModel) => {
       if (obj.location_code == this.selectedtimecheckin.location_code) {
         this.locationselected = obj;
