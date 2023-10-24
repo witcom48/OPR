@@ -88,6 +88,7 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignercard';
 import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
 import { BlacklistService } from 'src/app/services/recruitment/blacklist.service';
+import { EmpExperienceModel } from 'src/app/models/employee/manage/experience';
 
 interface Taxmethod {
     name_th: string;
@@ -222,6 +223,10 @@ export class RecruitmentApplyComponent implements OnInit {
     menu_reqbenefit: MenuItem[] = [];
     edit_reqbenefit: boolean = false;
     new_benefit: boolean = false;
+    /////////////////////////////////menu reqexperience
+    menu_reqexperience: MenuItem[] = [];
+    edit_reqexperience: boolean = false;
+    new_experience: boolean = false;
 
     displayManage: boolean = false;
 
@@ -565,7 +570,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_pass: string = "Pass";
     title_notpass: string = "Not Pass";
 
-    title_attfile: { [key: string]: string } = { EN: "Attach File", TH: "แนบไฟล์เอกสาร" };
+    title_attfile: { [key: string]: string } = { EN: "Attach File", TH: "เอกสารแนบ" };
     title_uploadno: { [key: string]: string } = { EN: "No.", TH: "ลำดับที่" };
     title_filename: { [key: string]: string } = { EN: "File Name", TH: "ชื่อไฟล์" };
     title_modified_by: { [key: string]: string } = { EN: "Modified by", TH: "ผู้ทำรายการ" };
@@ -583,7 +588,7 @@ export class RecruitmentApplyComponent implements OnInit {
     title_kg: { [key: string]: string } = { EN: "k.g.", TH: "ก.ก." };
 
     title_familyocc: { [key: string]: string } = { EN: "Occupation", TH: "อาชีพ" };
-    title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรฯ" };
+    title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรศัพท์" };
     title_familyaddress: { [key: string]: string } = { EN: "Address", TH: "ที่อยู่" };
     title_familynameth: { [key: string]: string } = { EN: "Name(Eng.)", TH: "ชื่อ(อังกฤษ)" };
     title_familynameen: { [key: string]: string } = { EN: "Name(Thai)", TH: "ชื่อ(ไทย)" };
@@ -618,13 +623,23 @@ export class RecruitmentApplyComponent implements OnInit {
     title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
     //
     title_haveblack: { [key: string]: string } = { EN: "Have Blacklist want to continue?", TH: "ผู้สมัครนี้มีประวัติ blacklist ต้องการดำเนินการต่อหรือไม่?" };
-    title_50nocer: { [key: string]: string } = { EN: "This applicant is over 50 years old and must provide a medical certificate. Do you want to save now?", TH: "ผู้สมัครดังกล่าวมีอายุมากกว่า 50 ปี ต้องเพิ่มใบรับรองแพทย์ด้วย จะให้บันทึกในระบบเลยหรือไม่?" };
+    title_50nocer: { [key: string]: string } = { EN: "This applicant is over 50 years old and must provide a medical certificate. Do you want to save now?", TH: "ผู้สมัครดังกล่าวมีอายุมากกว่า 50 ปี ต้องเพิ่มใบรับรองแพทย์ด้วย ต้องการบันทึกหรือไม่?" };
 
     title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
     title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
     //
     title_capital: { [key: string]: string } = { EN: "Capital amount", TH: "เงินต้น" };
-  title_capperiod: { [key: string]: string } = { EN: "Period", TH: "จำนวนงวด" };
+    title_capperiod: { [key: string]: string } = { EN: "Period", TH: "จำนวนงวด" };
+    //
+    title_experience: { [key: string]: string } = { EN: "Experience", TH: "ประสบการณ์ทำงาน" };
+    title_expcom: { [key: string]: string } = { EN: "Company", TH: "บริษัท" };
+    title_expposition: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" };
+    title_expsalary: { [key: string]: string } = { EN: "Salary", TH: "เงินเดือน" };
+    title_expstart: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
+    title_expend: { [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
+    title_expdes: { [key: string]: string } = { EN: "Description", TH: "เหตุผลที่เปลี่ยนงาน" };
+    title_expage: { [key: string]: string } = { EN: "Workage", TH: "อายุงาน" };
+
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
             this.title_page = "ประวัติผู้สัมครงาน";
@@ -700,7 +715,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_tranfer = 'ประวัติการโอนย้ายหน่วยงาน';
 
             this.title_search = "ค้นหา";
-            this.title_upload = "อัพโหลด";
+            this.title_upload = "อัปโหลด";
 
             this.title_page_from = "แสดง";
             this.title_page_to = "ถึง";
@@ -711,8 +726,8 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
             this.title_confirm_delete = "คุณต้องการลบรายการ";
 
-            this.title_confirm_yes = "ใช่";
-            this.title_confirm_no = "ยกเลิก";
+            this.title_confirm_yes = "บันทึก";
+            this.title_confirm_no = "ไม่บันทึก";
             this.title_confirm_cancel = "คุณยกเลิกการทำรายการ";
 
             this.title_locationname = "สถานที่";
@@ -733,7 +748,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_tel = "เบอร์โทรฯ";
             this.title_email = "อีเมล";
             this.title_line = "ไลน์";
-            this.title_facebook = "เฟสบุ๊ค";
+            this.title_facebook = "เฟซบุ๊ค";
             this.title_cardcode = "เลขที่";
             this.title_issuedate = "วันที่ออก";
             this.title_expiredate = "วันที่หมดอายุ";
@@ -773,7 +788,7 @@ export class RecruitmentApplyComponent implements OnInit {
             this.title_educationend = "วันที่จบ";
             this.title_supplyissue = "วันที่เบิก";
             this.title_supplyename = "อุปกรณื";
-            this.title_amount = "จำนวน";
+            this.title_amount = "จำนวนเงิน";
             this.title_return = "คืนอุปกรณ์";
             this.title_returndate = "วันที่คืนอุปกรณ์";
             this.title_uniformissue = "วันที่เบิก";
@@ -1487,7 +1502,63 @@ export class RecruitmentApplyComponent implements OnInit {
 
             //   }
             // },
-        ]
+        ];
+
+        //menu experience
+        this.menu_reqexperience = [
+            {
+                label: this.title_new,
+                icon: 'pi pi-fw pi-plus',
+                command: (event) => {
+                    this.clearManage()
+                    this.new_experience = true
+                    var ref = this.reqexperienceList.length + 100
+                    this.selectedReqExperience = new EmpExperienceModel()
+                    this.selectedReqExperience.experience_id = ref.toString()
+                    this.showManage()
+                }
+            },
+            {
+                label: this.title_edit,
+                icon: 'pi pi-fw pi-pencil',
+                command: (event) => {
+                    this.clearManage()
+                    if (this.selectedReqExperience != null) {
+                        this.edit_reqexperience = true
+                        this.showManage()
+                    }
+                }
+            },
+            {
+                label: this.title_delete,
+                icon: 'pi pi-fw pi-trash',
+                command: (event) => {
+                    this.confirmationService.confirm({
+                        message: this.title_confirm_delete,
+                        header: this.title_confirm,
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: () => {
+                            if (this.selectedReqExperience != null) {
+                                this.reqexperience_remove()
+                            }
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                        },
+                        key: "myDialog"
+                    });
+
+                }
+            },
+            // {
+            //   label: this.title_export,
+            //   icon: 'pi pi-fw pi-file-export',
+            //   command: (event) => {
+            //     this.exportAsExcel(this.dtreqexperience, 'EmpExperience')
+
+            //   }
+            // }
+        ];
     }
 
     tabChange(e: { index: any }) {
@@ -1528,6 +1599,9 @@ export class RecruitmentApplyComponent implements OnInit {
         //
         this.edit_reqbenefit = false;
         this.new_benefit = false;
+        //
+        this.edit_reqexperience = false;
+        this.new_experience = false;
 
         this.displayManage = false;
     }
@@ -1563,6 +1637,9 @@ export class RecruitmentApplyComponent implements OnInit {
             else if (this.new_benefit || this.edit_reqbenefit) {
                 this.manage_title = 'Other Income';
             }
+            else if (this.new_experience || this.edit_reqexperience) {
+                this.manage_title = 'Experience';
+            }
         } else {
             if (this.new_reqsuggest || this.edit_reqsuggest) {
                 this.manage_title = 'ผู้แนะนำ';
@@ -1589,6 +1666,9 @@ export class RecruitmentApplyComponent implements OnInit {
             }
             else if (this.new_benefit || this.edit_reqbenefit) {
                 this.manage_title = 'รายได้อื่นๆ';
+            }
+            else if (this.new_experience || this.edit_reqexperience) {
+                this.manage_title = 'ประสบการณ์ทำงาน';
             }
         }
     }
@@ -1648,7 +1728,9 @@ export class RecruitmentApplyComponent implements OnInit {
                         this.doLoadReqPositionList();
                         this.doLoadReqProjectList();
                         this.doLoadReqSalaryList();
-                        this.doLoadReqBenefitList();
+                        // this.doLoadReqBenefitList();
+
+                        this.doLoadReqExperienceList();
 
                         this.CalculateAge();
 
@@ -2823,10 +2905,118 @@ export class RecruitmentApplyComponent implements OnInit {
     }
     //
     changebenefitamount() {
-        if(this.selectedReqBenefit.empbenefit_capitalamount != 0 && this.selectedReqBenefit.empbenefit_period !=0){
-           this.selectedReqBenefit.empbenefit_amount = (this.selectedReqBenefit.empbenefit_capitalamount/this.selectedReqBenefit.empbenefit_period)
+        if (this.selectedReqBenefit.empbenefit_capitalamount != 0 && this.selectedReqBenefit.empbenefit_period != 0) {
+            this.selectedReqBenefit.empbenefit_amount = (this.selectedReqBenefit.empbenefit_capitalamount / this.selectedReqBenefit.empbenefit_period)
         }
-      }
+    }
+
+    //req experience
+    reqexperienceList: EmpExperienceModel[] = [];
+    selectedReqExperience: EmpExperienceModel = new EmpExperienceModel();
+    async doLoadReqExperienceList() {
+        const res = await this.reqdetailService.getapplywork_experience(this.initial_current.CompCode, this.req_code);
+
+        const promises = res.map(async (element: EmpExperienceModel) => {
+            element.startdate = new Date(element.startdate);
+            element.enddate = new Date(element.enddate);
+            element.workage = await this.calculateWorkExp(element.startdate, element.enddate)
+            return element;
+        })
+
+        const modifiedRes = await Promise.all(promises);
+
+        this.reqexperienceList = modifiedRes;
+        if (this.reqexperienceList.length > 0) {
+            this.selectedReqExperience = this.reqexperienceList[0];
+        }
+    }
+    onRowSelectReqExperience(event: Event) { }
+    reqexperience_summit() {
+        this.reqexperience_addItem(this.selectedReqExperience)
+        this.new_experience = false
+        this.edit_reqexperience = false
+        this.displayManage = false
+    }
+    reqexperience_remove() {
+        this.selectedReqExperience.experience_id = "9999";
+        this.reqexperience_addItem(this.selectedReqExperience)
+        this.new_experience = false
+        this.edit_reqexperience = false
+    }
+    reqexperience_delete() {
+        var tmp: EmpExperienceModel = new EmpExperienceModel();
+        tmp.worker_code = this.selectedReqworker.worker_code;
+        this.reqdetailService.delete_reqexperience(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
+    reqexperience_cancel() {
+        this.new_experience = false
+        this.edit_reqexperience = false
+        this.displayManage = false
+    }
+    reqexperience_addItem(model: EmpExperienceModel) {
+        const itemNew: EmpExperienceModel[] = [];
+        for (let i = 0; i < this.reqexperienceList.length; i++) {
+            if (this.reqexperienceList[i].experience_id == model.experience_id) {
+                //-- Notting
+            }
+            else {
+                itemNew.push(this.reqexperienceList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.experience_id != "9999") {
+            itemNew.push(model);
+        }
+        this.reqexperienceList = [];
+        this.reqexperienceList = itemNew;
+        this.reqexperienceList.sort(function (a, b) { return parseInt(a.experience_id) - parseInt(b.experience_id); })
+    }
+    record_reqexperience() {
+        if (this.reqexperienceList.length == 0) {
+            this.reqexperience_delete();
+        } else {
+            this.reqdetailService.record_reqexperience(this.selectedReqworker.worker_code, this.reqexperienceList).then((res) => {
+                let result = JSON.parse(res);
+                if (result.success) {
+                }
+                else {
+                }
+            });
+        }
+    }
+    async calculateWorkExp(start: Date, end: Date): Promise<string> {
+        // let workage: { year: number, months: number, days: number };
+        if (start && end) {
+            const from = new Date(start);
+            const to = new Date(end);
+
+            let years = to.getFullYear() - from.getFullYear();
+            let months = to.getMonth() - from.getMonth();
+            let days = to.getDate() - from.getDate();
+
+            if (months < 0 || (months === 0 && to.getDate() < from.getDate())) {
+                years--;
+                months += 12;
+            }
+
+            if (days < 0) {
+                months--;
+                days += this.daysInMonth(to.getMonth() - 1, to.getFullYear());
+            }
+
+            if (this.initial_current.Language == 'TH') {
+                return `${years} ปี ${months} เดือน ${days} วัน `
+            } else {
+                return `${years} years ${months} months ${days} days `
+            }
+        }
+        return "";
+    }
+    private daysInMonth(month: number, year: number): number {
+        return new Date(year, month + 1, 0).getDate();
+    }
 
     doRecordApplywork() {
         this.applyworkService
@@ -2853,7 +3043,9 @@ export class RecruitmentApplyComponent implements OnInit {
                     this.record_reqposition();
                     this.record_reqproject();
                     this.record_reqsalary();
-                    this.record_reqbenefit();
+                    // this.record_reqbenefit();
+
+                    this.record_reqexperience();
 
                     //image
                     this.uploadImages();
@@ -3891,7 +4083,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doGetReqAttfileApp(data.document_path, data.document_type)
     }
 
-    clearattachname(){
+    clearattachname() {
         this.selectedFileName = ''
     }
     //end

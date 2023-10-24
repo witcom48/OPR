@@ -103,7 +103,7 @@ export class RecruitmentApproveComponent implements OnInit {
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
 
-  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัสผู้สมัคร" }
   title_name_th: { [key: string]: string } = { EN: "Name (Thai)", TH: "ชื่อไทย" }
   title_name_en: { [key: string]: string } = { EN: "Name (Eng.)", TH: "ชื่ออังกฤษ" }
   title_name: { [key: string]: string } = { EN: "Name", TH: "ชื่อ-นามสกุล" }
@@ -130,7 +130,7 @@ export class RecruitmentApproveComponent implements OnInit {
   title_popup_approve: { [key: string]: string } = { EN: "Approve", TH: "อนุมัติ" }
 
   title_requestmcer: { [key: string]: string } = { EN: "Medical Certificate", TH: "ใบรับรองแพทย์" };
-  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "เบล็คลิสต์" };
+  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "แบล็คลิสต์" };
 
 
   doLoadMenu() {

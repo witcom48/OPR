@@ -82,7 +82,7 @@ export class RecruimentBlacklistComponent implements OnInit {
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
   title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" };
-  title_upload: { [key: string]: string } = { EN: "Upload", TH: "อัพโหลด" };
+  title_upload: { [key: string]: string } = { EN: "Upload", TH: "อัปโหลด" };
 
   title_page_from: { [key: string]: string } = { EN: "Showing", TH: "แสดง" };
   title_page_to: { [key: string]: string } = { EN: "to", TH: "ถึง" };

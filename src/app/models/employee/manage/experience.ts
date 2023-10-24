@@ -14,7 +14,7 @@ export class EmpExperienceModel {
     modified_by: string= "";
     modified_date: string= "";
 
-
+    workage:string = "";
     index: number = 0;
     select: boolean = false;
 }
