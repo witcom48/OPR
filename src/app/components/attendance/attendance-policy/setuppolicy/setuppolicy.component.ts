@@ -282,8 +282,13 @@ export class SetuppolicyComponent implements OnInit {
         await this.SetPolicyAtt('HO', this.policyholidayselect.code);
         // console.log("setting policyholiday");
       }
-      if (this.policyshiftselect && this.yearselect) {
-        await this.SetShift();
+      if (this.policyshiftselect) {
+        if (this.yearselect) {
+          await this.SetShift();
+        } else {
+          this.initial_current.loading = false;
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('selectyear')[this.selectlang] });
+        }
         // console.log("setting shift");
       }
       if (this.policyOTselect) {
@@ -316,6 +321,13 @@ export class SetuppolicyComponent implements OnInit {
       //   reject: () => {
       //   }
       // });
+      if (!this.policyholidayselect && !this.policyshiftselect && !this.policyOTselect && !this.policydiligenceselect && !this.policylateselect && !this.policyleaveselect && !this.policyallowselect) {
+        this.initial_current.loading = false;
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('selectpolicy')[this.selectlang] });
+      }
+    } else {
+      this.initial_current.loading = false;
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.langs.get('selectemp')[this.selectlang] });
     }
   }
 
