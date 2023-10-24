@@ -183,7 +183,7 @@
                         <div style="grid-column: 1;">
                             <label for="lastname2">{{title_startdate}} : <span style="color: red;"> *</span></label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                                [(ngModel)]="selectedEmployee.worker_hiredate"  (onSelect)="onSelectHiredate()">
+                                [(ngModel)]="selectedEmployee.worker_hiredate" (onSelect)="onSelectHiredate()">
                                 <input type="text">
                             </p-calendar>
                             <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
@@ -1600,6 +1600,8 @@
                                                 <tr>
                                                     <th>{{title_date}}</th>
                                                     <th>{{title_incomededuct}}</th>
+                                                    <th>{{title_capital[initial_current.Language]}}</th>
+                                                    <th>{{title_capperiod[initial_current.Language]}}</th>
                                                     <th>{{title_amount}}</th>
                                                     <th>{{title_conditionpay}}</th>
                                                     <th>{{title_reason}}</th>
@@ -1612,10 +1614,13 @@
                                                 <tr [pSelectableRow]="empbenefit">
                                                     <td>{{empbenefit.empbenefit_startdate | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{doGetitemDetail(empbenefit.item_code)}}</td>
+                                                    <td>{{empbenefit.empbenefit_capitalamount}}</td>
+                                                    <td>{{empbenefit.empbenefit_period}}</td>
                                                     <td>{{empbenefit.empbenefit_amount}}</td>
                                                     <td>{{empbenefit.empbenefit_conditionpay}}</td>
                                                     <td>{{doGetreasonSalary(empbenefit.empbenefit_reason)}}</td>
                                                     <td>{{empbenefit.empbenefit_break}}</td>
+
                                                     <td>{{empbenefit.modified_by}}</td>
                                                     <td>{{empbenefit.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                                 </tr>
@@ -2732,11 +2737,20 @@
             [(ngModel)]="selectedEmpbenefit.item_code" [showClear]="true"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
 
+        <label>{{title_capital[initial_current.Language]}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedEmpbenefit.empbenefit_capitalamount"
+            (ngModelChange)="changebenefitamount()">
+        </p-inputNumber>
 
+        <label>{{title_capperiod[initial_current.Language]}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" [(ngModel)]="selectedEmpbenefit.empbenefit_period"
+            (ngModelChange)="changebenefitamount()">
+        </p-inputNumber>
 
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
-            [maxFractionDigits]="2" [(ngModel)]="selectedEmpbenefit.empbenefit_amount">
+            [maxFractionDigits]="2" [(ngModel)]="selectedEmpbenefit.empbenefit_amount" [readonly]="true">
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpbenefit.empbenefit_amount"> -->
 

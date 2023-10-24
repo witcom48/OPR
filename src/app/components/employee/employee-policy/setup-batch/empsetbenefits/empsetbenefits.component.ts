@@ -23,6 +23,11 @@ interface Result {
   modified_by: string,
   modified_date: string,
 }
+interface ConPay {
+  name_th: string,
+  name_en: string,
+  value: string
+}
 
 @Component({
   selector: 'app-empsetbenefits',
@@ -61,6 +66,13 @@ export class EmpsetbenefitsComponent implements OnInit {
   title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
+  //
+  title_capital: { [key: string]: string } = { EN: "Capital amount", TH: "เงินต้น" };
+  title_capperiod: { [key: string]: string } = { EN: "Period", TH: "จำนวนงวด" };
+  title_conditionpay: { [key: string]: string } = { EN: "Pay Condition", TH: "เงื่อนไขการจ่าย" }
+  title_period: { [key: string]: string } = { EN: "Period", TH: "งวด" }
+  title_odd: { [key: string]: string } = { EN: "Odd Period", TH: "งวดแรก" }
+  title_even: { [key: string]: string } = { EN: "Even Period", TH: "งวดที่สอง" }
 
   title_benefits: { [key: string]: string } = { EN: "Benefits", TH: "สวัสดิการ" }
   title_policy: { [key: string]: string } = { EN: "Policy", TH: "กำหนด" }
@@ -76,6 +88,7 @@ export class EmpsetbenefitsComponent implements OnInit {
   loading: boolean = false;
   index: number = 0;
   result_list: Result[] = [];
+  conPay: ConPay[] = [];
   edit_data: boolean = false;
 
   constructor(
@@ -86,7 +99,12 @@ export class EmpsetbenefitsComponent implements OnInit {
     private setempdetailService: SetEmpDetailService,
 
     private itemService: ItemService,
-  ) { }
+  ) {
+    this.conPay = [
+      { name_th: 'ต่องวด', name_en: 'Per Period', value: 'F' },
+      { name_th: 'งวดเว้นงวด', name_en: 'Switch Period', value: 'H' },
+    ]
+  }
 
   new_data: boolean = false;
 
@@ -157,6 +175,9 @@ export class EmpsetbenefitsComponent implements OnInit {
     data.empbenefit_breakreason = this.selectedEmpBenefits.empbenefit_breakreason;
     data.empbenefit_conditionpay = this.selectedEmpBenefits.empbenefit_conditionpay;
     data.empbenefit_payfirst = this.selectedEmpBenefits.empbenefit_payfirst;
+    data.empbenefit_capitalamount = this.selectedEmpBenefits.empbenefit_capitalamount;
+    data.empbenefit_period = this.selectedEmpBenefits.empbenefit_period;
+
     data.company_code = this.initial_current.CompCode
     data.modified_by = this.initial_current.Username
     data.emp_data = this.selectEmp.employee_dest;
@@ -187,6 +208,12 @@ export class EmpsetbenefitsComponent implements OnInit {
       }, 300);
     } else {
       this.new_data = false;
+    }
+  }
+
+  changebenefitamount() {
+    if(this.selectedEmpBenefits.empbenefit_capitalamount != 0 && this.selectedEmpBenefits.empbenefit_period !=0){
+       this.selectedEmpBenefits.empbenefit_amount = (this.selectedEmpBenefits.empbenefit_capitalamount/this.selectedEmpBenefits.empbenefit_period)
     }
   }
 

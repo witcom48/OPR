@@ -717,6 +717,11 @@ export class EmployeeManageComponent implements OnInit {
   title_cards : { [key: string]: string } = { EN: "  Card ", TH: "บัตร" }
   title_search_keyword : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
 
+  //
+  title_capital: { [key: string]: string } = { EN: "Capital amount", TH: "เงินต้น" };
+  title_capperiod: { [key: string]: string } = { EN: "Period", TH: "จำนวนงวด" };
+  title_capperperiod: { [key: string]: string } = { EN: "Amount Per Period", TH: "จำนวนต่องวด" };
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ประวัติพนักงาน";
@@ -4418,6 +4423,11 @@ export class EmployeeManageComponent implements OnInit {
       });
     }
 
+  }
+  changebenefitamount() {
+    if(this.selectedEmpbenefit.empbenefit_capitalamount != 0 && this.selectedEmpbenefit.empbenefit_period !=0){
+       this.selectedEmpbenefit.empbenefit_amount = (this.selectedEmpbenefit.empbenefit_capitalamount/this.selectedEmpbenefit.empbenefit_period)
+    }
   }
 
   //reduce
