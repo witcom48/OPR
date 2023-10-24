@@ -467,3 +467,31 @@ p-inputnumber {
   background: #64748B !important;
   border: 1px solid #64748B;
 }
+
+//Attach file
+.attach {
+  width: 40vw;
+  max-width: 100%;
+  color: #444;
+  padding: 15px 5px 15px 5px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #555;
+}
+.btnattach {
+  margin-right: 20px;
+  border: none;
+  background: #084cdf;
+  padding: 10px 30px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+.btnattach:hover {
+  background: #0d45a5;
+}
+.chosen-attach {
+  max-width: 100%;
+  align-self: center;
+}

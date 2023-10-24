@@ -41,6 +41,7 @@ export class SystemPolicyComponent implements OnInit {
     }
   }
   title_Supply: string = "Supply Office";
+  title_fore: string = "Foreigner Type";
 
   title_genaral_system: string = 'Genaral System';
   title_links: string = 'Links';
@@ -76,6 +77,7 @@ export class SystemPolicyComponent implements OnInit {
   doLoadLanguage() {
     if (this.initial_current.Language == 'TH') {
       this.title_Supply = "อุปกรณ์สำนักงาน";
+      this.title_fore = "ประเภทพนักงานต่างด้าว";
 
       this.title_genaral_system = 'ทั่วไป';
       this.title_links = 'ลิงค์';
@@ -167,6 +169,12 @@ export class SystemPolicyComponent implements OnInit {
         title: this.title_Supply,
         link: 'system-supply',
         accessCode: 'SYS002-013'
+      },
+
+      {
+        title: this.title_fore,
+        link: 'system-foretype',
+        accessCode: 'SYS002-019'
       },
 
       // ... other setup menu items ...
