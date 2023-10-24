@@ -142,6 +142,7 @@ export class SelfApproveLeaveComponent implements OnInit {
     data.reason_group = "LEAVE"
     this.reasonService.reason_get(data).then(async (res) => {
       this.reason_list = await res;
+      this.initial_current.loading = false;
     });
   }
   async doGetfileTimeleave(file_path: string, type: string) {
@@ -152,6 +153,7 @@ export class SelfApproveLeaveComponent implements OnInit {
     })
   }
   async doApproveJob(data: ApproveModel) {
+    this.initial_current.loading = true;
     data.job_type = "LEA";
     data.lang = this.selectlang;
     await this.approveService.approveJob(data).then((res) => {
@@ -162,7 +164,7 @@ export class SelfApproveLeaveComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.leavetype = "F"
     this.closeManage()

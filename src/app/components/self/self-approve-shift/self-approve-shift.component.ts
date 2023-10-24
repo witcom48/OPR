@@ -120,6 +120,7 @@ export class SelfApproveShiftComponent implements OnInit {
     let data = new ShiftModels()
     this.shiftService.shift_get(data).then(async (res) => {
       this.shift_new_list = await res;
+      this.initial_current.loading = false;
     });
   }
   doLoadShfitOld() {
@@ -141,6 +142,7 @@ export class SelfApproveShiftComponent implements OnInit {
     })
   }
   async doApproveJob(data: ApproveModel) {
+    this.initial_current.loading = true;
     data.job_type = "SHT";
     data.lang = this.selectlang;
     await this.approveService.approveJob(data).then((res) => {
@@ -151,7 +153,7 @@ export class SelfApproveShiftComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.leavetype = "F"
     this.closeManage()

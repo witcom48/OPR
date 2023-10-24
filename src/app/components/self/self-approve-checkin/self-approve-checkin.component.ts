@@ -118,6 +118,7 @@ export class SelfApproveCheckinComponent implements OnInit {
       });
       this.timecheckin_list = await res.data
       this.approveTotal = await res.total;
+      this.initial_current.loading = false;
     });
   }
   doLoadLocation() {
@@ -125,6 +126,7 @@ export class SelfApproveCheckinComponent implements OnInit {
     let data = new SysLocationModel()
     this.locationService.location_get(data).then(async (res) => {
       this.location_list = await res;
+      this.initial_current.loading = false;
     });
   }
   // circledata: any = [L.circle([13.755402, 100.6130647], { radius: 1000, attribution: "00000" }), L.circle([13.734110815755576, 100.63175066697202], { radius: 2000, attribution: "11111" })];
@@ -152,6 +154,7 @@ export class SelfApproveCheckinComponent implements OnInit {
     })
   }
   async doApproveJob(data: ApproveModel) {
+    this.initial_current.loading = true;
     data.job_type = "CI";
     data.lang = this.selectlang;
     await this.approveService.approveJob(data).then((res) => {
@@ -162,7 +165,7 @@ export class SelfApproveCheckinComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.closeManage()
   }
