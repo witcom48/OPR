@@ -14,16 +14,22 @@
 
                     <div class="empinfo">
 
-                        <p-image [src]="base64Image" id="imgWorker" name="imgWorker" alt="Image" width="175"
+                        <!-- <p-image [src]="base64Image" id="imgWorker" name="imgWorker" alt="Image" width="175"
                             height="175"></p-image>
-                            <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*">
-                        <!-- <p-fileUpload class="upload" mode="basic" chooseLabel="Upload Images" [maxFileSize]="1000000"
-                            accept="image/*" cancelIcon="true" [customUpload]="true"
-                            (onSelect)="onselectFile($event)"></p-fileUpload> -->
-                        
-                        <!-- <div>
-                            <input type="URL" name="myURL" [(ngModel)]="myURL" placeholder="insert image URL here" (change)="onURLinserted() ">
-                        </div> -->
+                            <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*"> -->
+                        <!--  -->
+                        <p-image [src]="base64Image" id="imgReq" name="imgReq" alt="Image" width="175"
+                            height="175"></p-image>
+                        <!-- <p-button class="upload" label="Upload Images"></p-button> -->
+                        <div class="btnupload">
+                            <input class="upload" type="file" id="file" (change)="onselectFile($event)"
+                                accept="image/*">
+                            <label for="file" class="uploadlabe">{{title_choose[initial_current.Language]}}</label>
+                            <span class="chosen-text"
+                                *ngIf="!selectedimageName">{{title_nofile[this.initial_current.Language]}}</span>
+                            <span class="chosen-text" *ngIf="selectedimageName">{{selectedimageName}}</span>
+                        </div>
+                        <!--  -->
                         <div style="grid-column: 1;">
                             <label for="code">{{title_code}} : <span style="color: red;"> *</span></label>
                             <input pInputText id="code" type="text" class="p-inputtext-sm"
@@ -183,7 +189,7 @@
                         <div style="grid-column: 1;">
                             <label for="lastname2">{{title_startdate}} : <span style="color: red;"> *</span></label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                                [(ngModel)]="selectedEmployee.worker_hiredate"  (onSelect)="onSelectHiredate()">
+                                [(ngModel)]="selectedEmployee.worker_hiredate" (onSelect)="onSelectHiredate()">
                                 <input type="text">
                             </p-calendar>
                             <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
@@ -2505,8 +2511,8 @@
 
     <!-- Form Emp Assessment -->
     <div class="formatt" *ngIf="edit_empassessment==true || new_assessment==true">
-         <!-- <label>{{title_institute}}</label> -->
-       <!-- <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
+        <!-- <label>{{title_institute}}</label> -->
+        <!-- <p-dropdown placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
             [(ngModel)]="selectedEmpassessment.empassessment_location" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
@@ -3086,7 +3092,8 @@
 <!-- END FORM DIALOG-->
 
 <form (ngSubmit)="Saveforecard()" #ForeForm2="ngForm">
-    <p-dialog header={{title_cards[initial_current.Language]}} [(visible)]="displayaddForeCard" (onHide)="closeforecard()">
+    <p-dialog header={{title_cards[initial_current.Language]}} [(visible)]="displayaddForeCard"
+        (onHide)="closeforecard()">
         <div class="formatt" *ngIf="edit_empforeignercard==true || new_foreignercard==true">
             <label>{{title_foreignercardtype[initial_current.Language]}}<span style="color: red;">*</span></label>
             <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"

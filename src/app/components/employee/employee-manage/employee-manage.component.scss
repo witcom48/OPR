@@ -28,6 +28,40 @@
         flex-direction: row;
         align-items: center;
     }
+    .btnupload {
+        grid-column: 2/4;
+        padding: 1vw;
+        align-self: flex-end;
+        width: 100%;
+        max-width: 100%;
+        border: none;
+        flex-direction: row;
+
+        .upload {
+            display: none;
+        }
+    }
+    .uploadlabe {
+        width: 10vw;
+        max-width: 100%;
+        margin-right: 20px;
+        border: none;
+        background: #084cdf;
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        transition: background .2s ease-in-out;
+        text-align: center;
+    }
+    
+    .uploadlabe:hover {
+        background: #0d45a5;
+    }
+    .chosen-text {
+        max-width: 100%;
+        align-self: center;
+    }
     
 }
 .empinfo2{

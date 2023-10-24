@@ -1524,18 +1524,12 @@ var menumain = new Map([
     ["costcomparison", { TH: "เปรียบเที่ยบค่าใช้จ่าย", EN: "Cost comparison" }],
     ["approvalist", { TH: "รายการอนุมัติโครงการ", EN: "Approval list" }],
 
-    
-
-
- 
-
-
     //req
     ["recruitment", { TH: "รับสมัครงาน", EN: "Recruitment" }],
     ["blacklist", { TH: "แบล็คลิสต์", EN: "Black List" }],
     ["request", { TH: "ร้องขอพนักงานเพิ่ม", EN: "Request" }],
-    ["applywork", { TH: "ประวัติผู้สมัครงาน", EN: "Apply work"}],
-    ["reqappr", { TH: "รับสมัครงาน", EN: "Approval List"}],
+    ["applywork", { TH: "ประวัติผู้สมัครงาน", EN: "Application"}],
+    ["reqappr", { TH: "อนุมัติผู้สมัครงาน", EN: "Approval List"}],
     
 ]);
 

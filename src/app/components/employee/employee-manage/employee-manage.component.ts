@@ -717,6 +717,8 @@ export class EmployeeManageComponent implements OnInit {
   title_cards : { [key: string]: string } = { EN: "  Card ", TH: "บัตร" }
   title_search_keyword : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
 
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ประวัติพนักงาน";
@@ -4819,18 +4821,39 @@ export class EmployeeManageComponent implements OnInit {
     this.fileToUpload = files.item(0);
   }
 
+  selectedimageName: string = '';
   onselectFile(event: any) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+        this.selectedimageName = selectedFile.name;
+    } else {
+        this.selectedimageName = this.title_nofile[this.initial_current.Language];
+    }
+
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      // Set image src
-      this.base64Image = e.target.result;
+        // Set image src
+        this.base64Image = e.target.result;
     }
     reader.readAsDataURL(event.target.files[0])
-    // reader.readAsDataURL(event.files[0]);
-    // // console.log(event.target.files.item(0))
     this.fileToUpload = event.target.files.item(0);
 
-  }
+}
+
+
+
+  // onselectFile(event: any) {
+  //   const reader = new FileReader();
+  //   reader.onload = (e: any) => {
+  //     // Set image src
+  //     this.base64Image = e.target.result;
+  //   }
+  //   reader.readAsDataURL(event.target.files[0])
+  //   // reader.readAsDataURL(event.files[0]);
+  //   // // console.log(event.target.files.item(0))
+  //   this.fileToUpload = event.target.files.item(0);
+
+  // }
 
 
 

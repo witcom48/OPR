@@ -109,7 +109,7 @@ export class ProjectTransferComponent implements OnInit {
   title_entries : { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" }
   title_job: { [key: string]: string } = { EN: "Job", TH: "งาน" }
-  title_process: { [key: string]: string } = { EN: "Process", TH: "ประมวลผล" }
+  title_process: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" }
 
   
   menu_Reload: MenuItem[] = [];

@@ -105,8 +105,8 @@ export class ProjectCompareComponent implements OnInit {
   title_total: {[key: string]: string} = {  EN: "Total",  TH: "รวม"}
 
   title_version: {[key: string]: string} = {  EN: "Version",  TH: "เวอร์ชั่น"}
-  title_fromdate: {[key: string]: string} = {  EN: "From",  TH: "จาก"}
-  title_todate: {[key: string]: string} = {  EN: "To",  TH: "ถึง"}
+  title_fromdate: {[key: string]: string} = {  EN: "From",  TH: "จากวันที่"}
+  title_todate: {[key: string]: string} = {  EN: "To",  TH: "ถึงวันที่"}
 
   title_filter: {[key: string]: string} = {  EN: "Filter",  TH: "กรอง"}
   title_staff_fromadate: {[key: string]: string} = {  EN: "Fromdate",  TH: "วันที่เริ่ม"}
