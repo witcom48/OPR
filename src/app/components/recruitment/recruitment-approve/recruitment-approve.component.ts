@@ -29,6 +29,7 @@ export class RecruitmentApproveComponent implements OnInit {
 
   menu_apply: MenuItem[] = [];
   status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }];
+  status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
 
   total_apply: number = 0
 
