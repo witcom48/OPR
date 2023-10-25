@@ -50,8 +50,9 @@ export class RecruitmentApproveComponent implements OnInit {
     this.doLoadBlacklistList();
     this.doLoadReasonList();
     setTimeout(() => {
-      this.doLoadApply()
+      // this.doLoadApply()
       this.doLoadMenu()
+      this.doLoadApply()
     }, 300);
   }
   public initial_current: InitialCurrent = new InitialCurrent();
@@ -176,7 +177,9 @@ export class RecruitmentApproveComponent implements OnInit {
     var tmp = new EmployeeModel();
     tmp.company_code = this.initial_current.CompCode
     tmp.worker_code = ""
-    tmp.status = "S"
+    // tmp.status = "S"
+    tmp.status = this.status_select.code
+
     tmp.blacklist = this.fillterBlacklist
     this.applyworkService.reqworker_get(tmp).then(async (res) => {
       await res.forEach((element: EmployeeModel) => {
@@ -284,7 +287,39 @@ export class RecruitmentApproveComponent implements OnInit {
       }
     }
   }
+// 
+// doLoadApplys() {
+//   var tmp = new EmployeeModel();
+//   tmp.company_code = this.initial_current.CompCode
+//   tmp.worker_code = ""
+//   // tmp.status = "S"
+//   tmp.status = this.status_select.code
 
+//   tmp.blacklist = this.fillterBlacklist
+//   this.applyworkService.reqworker_get(tmp).then(async (res) => {
+//     await res.forEach((element: EmployeeModel) => {
+//       element.worker_hiredate = new Date(element.worker_hiredate)
+//       element.worker_birthdate = new Date(element.worker_birthdate)
+//       element.blacklist_reason = this.getBlacklistReason(element.worker_cardno)
+//       element.certificate = this.checkMCer(element.worker_birthdate, element.checkcertificate)
+//     })
+//     this.apply_list = await res;
+//     console.log(res)
+//     this.total_apply = this.apply_list.length;
+//   })
+//   console.log(tmp.status,'tttt')
+// }
+status_doc: boolean = false
+
+Search() {
+  if (this.status_select.code) {
+    this.status_doc = true;
+  } else {
+    this.status_doc = false;
+  }
+  this.doLoadApply();
+}
+// 
   blacklistList: BlacklistModel[] = [];
   doLoadBlacklistList() {
     this.blacklistService.blacklist_get(this.initial_current.CompCode, "", "").then((res) => {

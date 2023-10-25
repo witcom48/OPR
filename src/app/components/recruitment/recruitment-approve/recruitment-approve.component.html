@@ -94,17 +94,22 @@
     [globalFilterFields]="['worker_code_code','worker_fname_th','worker_lname_th','worker_fname_en','worker_lname_en','project_end']">
     <ng-template pTemplate="caption">
         <div class="flex">
-            <div>
-                {{title_status[initial_current.Language]}} :
-                <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
-                    [style]="{ width: '100vw', overflow: 'visible' }">
-                    <ng-template let-item pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.name_th : item.name_en}}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.name_th : item.name_en}}
-                    </ng-template>
-                </p-dropdown>
+            <div class="col-6 md:col-3">
+                <!--  สถานะอนุมัติ (Default All)  -->
+                <div>
+                    {{title_status[initial_current.Language]}} :
+                    <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                        [style]="{ width: '100vw', overflow: 'visible' }">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <p-button icon="pi pi-search" (click)="Search()"></p-button>
+
             </div>
             <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
