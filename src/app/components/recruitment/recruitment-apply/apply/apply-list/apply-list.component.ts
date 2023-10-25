@@ -72,7 +72,7 @@ export class ApplyListComponent implements OnInit {
   new_applywork: boolean = false;
   ImportList: ImportList[] = [];
 
-  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'รอเอกสารแนบ', name_en: 'Wait Attach', code: 'R' },{ name_th: 'ทั้งหมด', name_en: 'All', code: '' }];
+  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'รอเอกสารแนบ', name_en: 'Wait Attach', code: 'R' }, { name_th: 'ทั้งหมด', name_en: 'All', code: '' }];
   status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
   status_doc: boolean = false
 
@@ -737,42 +737,45 @@ export class ApplyListComponent implements OnInit {
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
-          // this.messageService.add({
-          //   severity: 'error',
-          //   summary: 'Error',
-          //   detail: "อายุเกิน 50 และ ไม่มีใบรับรองแพทย์"
-          // });
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false
-          this.doUpdateStatus("S")
-          return
-        }
-        if (this.selectedReqworker.counthistory >= 3) {
-          // this.messageService.add({
-          //   severity: 'error',
-          //   summary: 'Error',
-          //   detail: "ทำงานมาเกิน2ครั้ง"
-          // });
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S")
-          return
-        }
-        if (this.selectedReqworker.checkblacklist) {
-          // this.messageService.add({
-          //   severity: 'error',
-          //   summary: 'Error',
-          //   detail: "มี blacklist"
-          // },);
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S")
-          return
-        }
+        // if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
+        //   this.messageService.add({
+        //     severity: 'error',
+        //     summary: 'Error',
+        //     detail: "อายุเกิน 50 และ ไม่มีใบรับรองแพทย์"
+        //   });
+        //   this.edit_applywork = false;
+        //   this.new_applywork = false;
+        //   this.displayManage = false
+        //   this.doUpdateStatus("S")
+        //   return
+        // }
+        // if (this.selectedReqworker.counthistory >= 3) {
+        //   this.messageService.add({
+        //     severity: 'error',
+        //     summary: 'Error',
+        //     detail: "ทำงานมาเกิน2ครั้ง"
+        //   });
+        //   this.edit_applywork = false;
+        //   this.new_applywork = false;
+        //   this.displayManage = false;
+        //   this.doUpdateStatus("S")
+        //   return
+        // }
+        // if (this.selectedReqworker.checkblacklist) {
+        //   this.messageService.add({
+        //     severity: 'error',
+        //     summary: 'Error',
+        //     detail: "มี blacklist"
+        //   },);
+        //   this.edit_applywork = false;
+        //   this.new_applywork = false;
+        //   this.displayManage = false;
+        //   this.doUpdateStatus("S")
+        //   return
+        // }
+        this.edit_applywork = false;
+        this.new_applywork = false;
+        this.displayManage = false
         this.doGetNewCode()
         this.doLoadReqaddressList()
         // this.doLoadReqForeigner()
