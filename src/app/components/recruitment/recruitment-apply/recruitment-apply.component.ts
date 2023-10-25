@@ -3018,7 +3018,9 @@ export class RecruitmentApplyComponent implements OnInit {
         return new Date(year, month + 1, 0).getDate();
     }
 
-    doRecordApplywork() {
+    doRecordApplywork(status:string) {
+        this.selectedReqworker.status = status;
+
         this.applyworkService
             .reqworker_record([this.selectedReqworker])
             .then((res) => {
@@ -3082,7 +3084,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 header: this.title_confirm,
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
-                    this.doRecordApplywork()
+                    this.doRecordApplywork("S")
                 },
                 reject: () => {
                     this.record_fileApp();
@@ -3096,7 +3098,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 header: this.title_confirm,
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
-                    this.doRecordApplywork()
+                    this.doRecordApplywork("R")
                 },
                 reject: () => {
                     this.record_fileApp();
@@ -3110,7 +3112,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 header: this.title_confirm,
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
-                    this.doRecordApplywork()
+                    this.doRecordApplywork("W")
                 },
                 reject: () => {
                     this.record_fileApp();
