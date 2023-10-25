@@ -43,7 +43,8 @@
                     <td><span>{{title_name_th[initial_current.Language]}}</span>{{data.foretype_name_th}}</td>
                     <td><span>{{title_name_en[initial_current.Language]}}</span>{{data.foretype_name_en}}</td>
                     <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.modified_by}}</td>
-                    <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.modified_date |
+                        date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
             </ng-template>
         </p-table>
@@ -54,37 +55,39 @@
     <form #Form="ngForm">
         <p-dialog [(visible)]="displayManage" [style]="{ height: '600px', 'overflow-y': 'hidden' }"
             [position]="position" (onHide)="reloadPage()">
-        <div class="formatt p-dialog-content" *ngIf="new_data==true">
+            <div class="formatt p-dialog-content" *ngIf="new_data==true">
 
-            <label>{{title_code[initial_current.Language]}}</label>
-            <input pInputText type="text" [(ngModel)]="selectedForetype.foretype_code" maxlength="5"name="code"
-            #code="ngModel" required [readOnly]="edit_data" />
-            <p>{{selectedForetype.foretype_code.length}}/5</p>
+                <label>{{title_code[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <input pInputText type="text" [(ngModel)]="selectedForetype.foretype_code" maxlength="5" name="code"
+                    #code="ngModel" required [readOnly]="edit_data" />
+                <p *ngIf="selectedForetype.foretype_code !== null && selectedForetype.foretype_code !== undefined">
+                    {{selectedForetype.foretype_code.length}}/5</p>
 
-            <label>{{title_name_th[initial_current.Language]}}</label>
-            <textarea [(ngModel)]="selectedForetype.foretype_name_th" pInputTextarea [autoResize]="true" name="name_th"
-            #name_th="ngModel"></textarea>
+                <label>{{title_name_th[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="selectedForetype.foretype_name_th" pInputTextarea [autoResize]="true"
+                    name="name_th" #name_th="ngModel" required></textarea>
 
-            <label>{{title_name_en[initial_current.Language]}}</label>
-            <textarea [(ngModel)]="selectedForetype.foretype_name_en" pInputTextarea [autoResize]="true" name="name_en"
-            #name_en="ngModel"></textarea>
+                <label>{{title_name_en[initial_current.Language]}}<span style="color: red;"> *</span></label>
+                <textarea [(ngModel)]="selectedForetype.foretype_name_en" pInputTextarea [autoResize]="true"
+                    name="name_en" #name_en="ngModel" required></textarea>
 
-            
-            <div class="field col-12" style=" text-align: right;">
-                <button *ngIf="!edit_data" pRipple pButton type="submit" label="{{ title_save[initial_current.Language] }}" icon="pi pi-save"
-                    (click)="confirmRecord()" [disabled]="!Form.form.valid" class="button-size"></button>
-                
-                <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()" label="{{ title_save[initial_current.Language] }}"
-                    icon="pi pi-save"
-                    [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
-                    class="button-size "></button>
-                <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()" [disabled]="!Form.form.valid"></p-button> -->
-                &nbsp;
-                <button *ngIf="edit_data" pButton pRipple type="button" label="{{title_delete[initial_current.Language]}}"
-                    class="p-button-secondary button-size btndel" [disabled]="!this.accessData.accessdata_delete"
-                    (click)="confirmDelete()"></button>
+
+                <div class="field col-12" style=" text-align: right;">
+                    <button *ngIf="!edit_data" pRipple pButton type="submit"
+                        label="{{ title_save[initial_current.Language] }}" icon="pi pi-save" (click)="confirmRecord()"
+                        [disabled]="!Form.form.valid" class="button-size"></button>
+
+                    <button *ngIf="edit_data" pRipple pButton type="submit" (click)="confirmRecord()"
+                        label="{{ title_save[initial_current.Language] }}" icon="pi pi-save"
+                        [disabled]="(!Form.form.valid == this.accessData.accessdata_edit)|| !this.accessData.accessdata_edit"
+                        class="button-size "></button>
+                    <!-- <p-button label="{{title_save}}" icon="pi pi-save" (onClick)="confirmRecord()" [disabled]="!Form.form.valid"></p-button> -->
+                    &nbsp;
+                    <button *ngIf="edit_data" pButton pRipple type="button"
+                        label="{{title_delete[initial_current.Language]}}" class="p-button-secondary button-size btndel"
+                        [disabled]="!this.accessData.accessdata_delete" (click)="confirmDelete()"></button>
+                </div>
             </div>
-        </div>
         </p-dialog>
         <div *ngIf="displayManage" style="z-index: 1084;"
             class="p-component-overlay p-sidebar-mask p-component-overlay-enter"></div>

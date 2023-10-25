@@ -53,13 +53,6 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-                <div>
-                    <label>{{title_amount[initial_current.Language]}}</label>
-                    <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
-                        [maxFractionDigits]="2" [(ngModel)]="selectedEmpBenefits.empbenefit_amount" [readonly]="true">
-                    </p-inputNumber>
-                </div>
-
                 <div style="grid-column: 1;">
                     <label>{{title_capital[initial_current.Language]}}</label>
                     <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
@@ -73,7 +66,12 @@
                         [(ngModel)]="selectedEmpBenefits.empbenefit_period" (ngModelChange)="changebenefitamount()">
                     </p-inputNumber>
                 </div>
-
+                <div>
+                    <label>{{title_amount[initial_current.Language]}}</label>
+                    <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+                        [maxFractionDigits]="2" [(ngModel)]="selectedEmpBenefits.empbenefit_amount" [readonly]="true">
+                    </p-inputNumber>
+                </div>
                 <div style="grid-column: 1/3;">
                     <label>{{title_type[initial_current.Language]}}</label>
                     <div class="radio">
