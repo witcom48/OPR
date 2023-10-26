@@ -624,6 +624,7 @@ export class RecruitmentApplyComponent implements OnInit {
     //
     title_haveblack: { [key: string]: string } = { EN: "Have Blacklist want to continue?", TH: "ผู้สมัครนี้มีประวัติ blacklist ต้องการดำเนินการต่อหรือไม่?" };
     title_50nocer: { [key: string]: string } = { EN: "This applicant is over 50 years old and must provide a medical certificate. Do you want to save now?", TH: "ผู้สมัครดังกล่าวมีอายุมากกว่า 50 ปี ต้องเพิ่มใบรับรองแพทย์ด้วย ต้องการบันทึกหรือไม่?" };
+    title_50havecer: { [key: string]: string } = { EN: "This applicant is over 50 years old and provide a medical certificate. Do you want to continue? ", TH: "ผู้สมัครดังกล่าวมีอายุมากกว่า 50 ปี พร้อมใบรับรองแพทย์แล้ว ต้องการดำเนินการต่อหรือไม่?" };
 
     title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
     title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
@@ -3099,6 +3100,20 @@ export class RecruitmentApplyComponent implements OnInit {
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
                     this.doRecordApplywork("R")
+                },
+                reject: () => {
+                    this.record_fileApp();
+                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+                },
+                key: "myDialog"
+            });
+        } else if (this.agenum >= 50 && this.reqdocattMCer.length >= 1) {
+            this.confirmationService.confirm({
+                message: this.title_50havecer[this.initial_current.Language],
+                header: this.title_confirm,
+                icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.doRecordApplywork("S")
                 },
                 reject: () => {
                     this.record_fileApp();

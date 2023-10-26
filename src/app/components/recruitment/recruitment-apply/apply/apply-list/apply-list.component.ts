@@ -72,7 +72,7 @@ export class ApplyListComponent implements OnInit {
   new_applywork: boolean = false;
   ImportList: ImportList[] = [];
 
-  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'รอเอกสารแนบ', name_en: 'Wait Attach', code: 'R' },{ name_th: 'ทั้งหมด', name_en: 'All', code: '' }];
+  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'รอเอกสารแนบ', name_en: 'Wait Attach', code: 'R' }, { name_th: 'ทั้งหมด', name_en: 'All', code: '' }];
   status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
   status_doc: boolean = false
 
@@ -737,42 +737,45 @@ export class ApplyListComponent implements OnInit {
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
-          // this.messageService.add({
-          //   severity: 'error',
-          //   summary: 'Error',
-          //   detail: "อายุเกิน 50 และ ไม่มีใบรับรองแพทย์"
-          // });
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false
-          this.doUpdateStatus("S")
-          return
-        }
-        if (this.selectedReqworker.counthistory >= 3) {
-          // this.messageService.add({
-          //   severity: 'error',
-          //   summary: 'Error',
-          //   detail: "ทำงานมาเกิน2ครั้ง"
-          // });
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S")
-          return
-        }
-        if (this.selectedReqworker.checkblacklist) {
-          // this.messageService.add({
-          //   severity: 'error',
-          //   summary: 'Error',
-          //   detail: "มี blacklist"
-          // },);
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S")
-          return
-        }
+        // if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
+        //   this.messageService.add({
+        //     severity: 'error',
+        //     summary: 'Error',
+        //     detail: "อายุเกิน 50 และ ไม่มีใบรับรองแพทย์"
+        //   });
+        //   this.edit_applywork = false;
+        //   this.new_applywork = false;
+        //   this.displayManage = false
+        //   this.doUpdateStatus("S")
+        //   return
+        // }
+        // if (this.selectedReqworker.counthistory >= 3) {
+        //   this.messageService.add({
+        //     severity: 'error',
+        //     summary: 'Error',
+        //     detail: "ทำงานมาเกิน2ครั้ง"
+        //   });
+        //   this.edit_applywork = false;
+        //   this.new_applywork = false;
+        //   this.displayManage = false;
+        //   this.doUpdateStatus("S")
+        //   return
+        // }
+        // if (this.selectedReqworker.checkblacklist) {
+        //   this.messageService.add({
+        //     severity: 'error',
+        //     summary: 'Error',
+        //     detail: "มี blacklist"
+        //   },);
+        //   this.edit_applywork = false;
+        //   this.new_applywork = false;
+        //   this.displayManage = false;
+        //   this.doUpdateStatus("S")
+        //   return
+        // }
+        this.edit_applywork = false;
+        this.new_applywork = false;
+        this.displayManage = false
         this.doGetNewCode()
         this.doLoadReqaddressList()
         // this.doLoadReqForeigner()
@@ -787,6 +790,7 @@ export class ApplyListComponent implements OnInit {
         // this.doLoadReqBenefitList()
         //image
         // this.doLoadImageReq()
+        this.doLoadattdocreq()
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
@@ -868,6 +872,7 @@ export class ApplyListComponent implements OnInit {
         // this.record_empbenefit(Code)
         //--image
         // this.uploadImageEmp(Code)
+        this.record_empdocatt(Code)
 
         //--update status
         this.doUpdateStatus("F")
@@ -1199,4 +1204,32 @@ export class ApplyListComponent implements OnInit {
       let resultJSON = JSON.parse(res);
     })
   }
+  reqdocatt: ApplyMTDocattModel[] = [];
+  doLoadattdocreq(){
+    var tmp = new ApplyMTDocattModel();
+    tmp.company_code = this.initial_current.CompCode
+    tmp.worker_code = this.selectedReqworker.worker_code
+    this.applyworkService.getreq_filelist(tmp).then((res)=>{
+      this.reqdocatt = res;
+    })
+  }
+  record_empdocatt(code: any) {
+    if (this.reqdocatt.length == 0) {
+      return
+    }
+    this.employeeService
+      .record_empfile(
+        code,
+        this.reqdocatt,
+        ''
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+          console.log("Comp")
+        } else {
+        }
+      });
+  }
+
 }
