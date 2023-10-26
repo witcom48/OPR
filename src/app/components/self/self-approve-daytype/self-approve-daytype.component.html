@@ -117,27 +117,27 @@
             </ng-template>
         </p-table>
         <p-table #dt2 [value]="approveTotal" responsiveLayout="stack" [breakpoint]="'744px'"
-        styleClass="p-datatable-gridlines">
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                <th>{{langs.get('doc_wait')[selectlang]}}</th>
-                <th>{{langs.get('doc_approve')[selectlang]}}</th>
-                <th>{{langs.get('doc_notapprove')[selectlang]}}</th>
-                <th>{{langs.get('doc_all')[selectlang]}}</th>
+            styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>{{langs.get('doc_wait')[selectlang]}}</th>
+                    <th>{{langs.get('doc_approve')[selectlang]}}</th>
+                    <th>{{langs.get('doc_notapprove')[selectlang]}}</th>
+                    <th>{{langs.get('doc_all')[selectlang]}}</th>
 
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
-            <tr class="tablenotselect">
-                <td><span>{{langs.get('doc_wait')[selectlang]}}</span>{{data.docapprove_wait}}
-                </td>
-                <td><span>{{langs.get('doc_approve')[selectlang]}}</span>{{data.docapprove_approve}}</td>
-                <td><span>{{langs.get('doc_notapprove')[selectlang]}}</span>{{data.docapprove_reject}}</td>
-                <td><span>{{langs.get('doc_all')[selectlang]}}</span>{{data.docapprove_all}}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                <tr class="tablenotselect">
+                    <td><span>{{langs.get('doc_wait')[selectlang]}}</span>{{data.docapprove_wait}}
+                    </td>
+                    <td><span>{{langs.get('doc_approve')[selectlang]}}</span>{{data.docapprove_approve}}</td>
+                    <td><span>{{langs.get('doc_notapprove')[selectlang]}}</span>{{data.docapprove_reject}}</td>
+                    <td><span>{{langs.get('doc_all')[selectlang]}}</span>{{data.docapprove_all}}</td>
 
-            </tr>
-        </ng-template>
-    </p-table>
+                </tr>
+            </ng-template>
+        </p-table>
     </div>
 </div>
 <p-dialog header="{{langs.get('manage')[selectlang]}}" [(visible)]="displayManage" [style]="{width: '50vw'}"
@@ -223,10 +223,13 @@
                 (click)="Save(selectedtimedaytype)" [disabled]="status_doc"></p-button>
             &nbsp;
             <button *ngIf="edit_data" pButton pRipple type="button" label="{{langs.get('notapprove')[selectlang]}}"
-                class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedtimedaytype)" [disabled]="status_doc"></button>
+                class="p-button-danger" icon="pi pi-times" (click)="Delete(selectedtimedaytype)"
+                [disabled]="status_doc"></button>
         </div>
 
     </div>
 </p-dialog>
 <div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
     (click)="closeManage()"></div>
+
+<app-spinner [loadding]="initial_current.loading"></app-spinner>

@@ -702,6 +702,8 @@ export class EmployeeManageComponent implements OnInit {
   title_expstart: { [key: string]: string } = { EN: "Start Date", TH: "วันที่เริ่ม" };
   title_expend: { [key: string]: string } = { EN: "End Date", TH: "วันที่สิ้นสุด" };
   title_expdes: { [key: string]: string } = { EN: "Description", TH: "เหตุผลที่เปลี่ยนงาน" };
+  title_expage: { [key: string]: string } = { EN: "Workage", TH: "อายุงาน" };
+
   //
   title_pfcode: { [key: string]: string } = { EN: "PF Code", TH: "รหัสกองทุนฯ" };
   title_pfname: { [key: string]: string } = { EN: "PF Name", TH: "ชื่อกองทุนฯ" };
@@ -709,13 +711,18 @@ export class EmployeeManageComponent implements OnInit {
   title_pftype: { [key: string]: string } = { EN: "PF Type", TH: "วิธีกำหนดอัตราการจ่าย" };
   title_pfemp: { [key: string]: string } = { EN: "Comp.(%)", TH: "บริษัท(%)" };
   title_pfcom: { [key: string]: string } = { EN: "Emp.(%)", TH: "พนักงาน(%)" };
-  
-  title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
-  title_to : { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
-  title_of : { [key: string]: string } = { EN: "  of ", TH: "จาก" }
-  title_entries : { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
-  title_cards : { [key: string]: string } = { EN: "  Card ", TH: "บัตร" }
-  title_search_keyword : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
+
+  title_showing: { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
+  title_to: { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
+  title_of: { [key: string]: string } = { EN: "  of ", TH: "จาก" }
+  title_entries: { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
+  title_cards: { [key: string]: string } = { EN: "  Card ", TH: "บัตร" }
+  title_search_keyword: { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
+
+  //
+  title_capital: { [key: string]: string } = { EN: "Capital amount", TH: "เงินต้น" };
+  title_capperiod: { [key: string]: string } = { EN: "Period", TH: "จำนวนงวด" };
+  title_capperperiod: { [key: string]: string } = { EN: "Amount Per Period", TH: "จำนวนต่องวด" };
 
   title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
   title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
@@ -2229,7 +2236,7 @@ export class EmployeeManageComponent implements OnInit {
             header: this.title_confirm,
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-              if (this.selectedEmpLocation != null) {
+              if (this.selectedEmpExperience != null) {
                 this.empexperience_remove()
               }
             },
@@ -4269,21 +4276,21 @@ export class EmployeeManageComponent implements OnInit {
     const res = await this.empdetailService.getworker_provident(this.initial_current.CompCode, this.emp_code);
 
     const promises = res.map(async (element: EmpProvidentModel) => {
-        element.empprovident_entry = new Date(element.empprovident_entry);
-        element.empprovident_start = new Date(element.empprovident_start);
-        element.empprovident_end = new Date(element.empprovident_end);
-        element.empprovident_age = await this.CalculatePFAge(element.empprovident_start);
-        return element;
+      element.empprovident_entry = new Date(element.empprovident_entry);
+      element.empprovident_start = new Date(element.empprovident_start);
+      element.empprovident_end = new Date(element.empprovident_end);
+      element.empprovident_age = await this.CalculatePFAge(element.empprovident_start);
+      return element;
     });
 
     const modifiedRes = await Promise.all(promises);
 
     this.empprovidentList = modifiedRes;
     if (this.empprovidentList.length > 0) {
-        this.selectedEmpprovident = this.empprovidentList[0];
+      this.selectedEmpprovident = this.empprovidentList[0];
     }
-    
-}    
+
+  }
 
   onRowSelectEmpprovident(event: Event) { }
   empprovident_summit() {
@@ -4420,6 +4427,11 @@ export class EmployeeManageComponent implements OnInit {
       });
     }
 
+  }
+  changebenefitamount() {
+    if (this.selectedEmpbenefit.empbenefit_capitalamount != 0 && this.selectedEmpbenefit.empbenefit_period != 0) {
+      this.selectedEmpbenefit.empbenefit_amount = (this.selectedEmpbenefit.empbenefit_capitalamount / this.selectedEmpbenefit.empbenefit_period)
+    }
   }
 
   //reduce
@@ -4654,18 +4666,33 @@ export class EmployeeManageComponent implements OnInit {
   //emp experience
   empexperienceList: EmpExperienceModel[] = [];
   selectedEmpExperience: EmpExperienceModel = new EmpExperienceModel();
-  doLoadEmpExperienceList() {
-    this.empdetailService.getworker_experience(this.initial_current.CompCode, this.emp_code).then(async (res) => {
-      await res.forEach((element: EmpExperienceModel) => {
-        element.startdate = new Date(element.startdate)
-        element.enddate = new Date(element.enddate)
+  async doLoadEmpExperienceList() {
+    const res = await this.empdetailService.getworker_experience(this.initial_current.CompCode, this.emp_code);
 
-      })
-      this.empexperienceList = await res;
-      if (this.empexperienceList.length > 0) {
-        this.selectedEmpExperience = this.empexperienceList[0];
-      }
+    const promises = res.map(async (element: EmpExperienceModel) => {
+      element.startdate = new Date(element.startdate);
+      element.enddate = new Date(element.enddate);
+      element.workage = await this.calculateWorkExp(element.startdate, element.enddate)
+      return element;
     })
+
+    const modifiedRes = await Promise.all(promises);
+
+    this.empexperienceList = modifiedRes;
+    if (this.empexperienceList.length > 0) {
+      this.selectedEmpExperience = this.empexperienceList[0];
+    }
+    // this.empdetailService.getworker_experience(this.initial_current.CompCode, this.emp_code).then(async (res) => {
+    //   await res.forEach((element: EmpExperienceModel) => {
+    //     element.startdate = new Date(element.startdate)
+    //     element.enddate = new Date(element.enddate)
+    //     element.workage = this.calculateWorkExp(element.startdate,element.enddate)
+    //   })
+    //   this.empexperienceList = await res;
+    //   if (this.empexperienceList.length > 0) {
+    //     this.selectedEmpExperience = this.empexperienceList[0];
+    //   }
+    // })
   }
   onRowSelectEmpExperience(event: Event) { }
   empexperience_summit() {
@@ -4723,6 +4750,37 @@ export class EmployeeManageComponent implements OnInit {
       });
     }
 
+  }
+  async calculateWorkExp(start: Date, end: Date): Promise<string> {
+    // let workage: { year: number, months: number, days: number };
+    if (start && end) {
+      const from = new Date(start);
+      const to = new Date(end);
+
+      let years = to.getFullYear() - from.getFullYear();
+      let months = to.getMonth() - from.getMonth();
+      let days = to.getDate() - from.getDate();
+
+      if (months < 0 || (months === 0 && to.getDate() < from.getDate())) {
+        years--;
+        months += 12;
+      }
+
+      if (days < 0) {
+        months--;
+        days += this.daysInMonth(to.getMonth() - 1, to.getFullYear());
+      }
+
+      if (this.initial_current.Language == 'TH') {
+        return `${years} ปี ${months} เดือน ${days} วัน `
+      } else {
+        return `${years} years ${months} months ${days} days `
+      }
+    }
+    return "";
+  }
+  private daysInMonth(month: number, year: number): number {
+    return new Date(year, month + 1, 0).getDate();
   }
 
   closeAcc() {
@@ -5413,7 +5471,7 @@ export class EmployeeManageComponent implements OnInit {
   //   return "";
   // }
 
- ///ทำตรงนี้ 06/10/2023
+  ///ทำตรงนี้ 06/10/2023
   PFAge: string = "";
   async CalculatePFAge(date: Date): Promise<string> {
     const incrementDate = (inputDate: Date) => {
@@ -5421,25 +5479,25 @@ export class EmployeeManageComponent implements OnInit {
       newDate.setDate(newDate.getDate() + 1);
       return newDate;
     }
-  
+
     if (this.selectedEmpprovident.empprovident_start) {
       let currentDate = new Date(this.selectedEmpprovident.empprovident_start);
       let daysCount = 0;
       while (true) {
         daysCount++;
         currentDate = incrementDate(currentDate);
-  
+
         if (currentDate > new Date()) {
-          return `${daysCount} day`;  
+          return `${daysCount} day`;
         }
       }
     }
-  
+
     return '';
   }
-  
-  
-  
+
+
+
 
 
 

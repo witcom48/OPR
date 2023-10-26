@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app/config/config';
@@ -16,6 +17,8 @@ import * as XLSX from 'xlsx';
 })
 export class SystemForetypeComponent implements OnInit {
 
+  @ViewChild('Form') form!: NgForm;
+  
   items: MenuItem[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
@@ -138,6 +141,7 @@ export class SystemForetypeComponent implements OnInit {
 
   reloadPage() {
     this.doLoadForetype()
+    this.form.resetForm()
   }
 
   doLoadForetype() {

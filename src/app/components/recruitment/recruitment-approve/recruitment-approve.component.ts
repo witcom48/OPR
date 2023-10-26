@@ -28,8 +28,8 @@ interface Status {
 export class RecruitmentApproveComponent implements OnInit {
 
   menu_apply: MenuItem[] = [];
-  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }];
-  status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
+  status_list: Status[] = [{ name_th: 'รออนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' },  { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' } ];
+  status_select: Status = { name_th: 'รออนุมัติ', name_en: 'Send Approve', code: 'S' }
 
   total_apply: number = 0
 
@@ -105,7 +105,7 @@ export class RecruitmentApproveComponent implements OnInit {
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
 
-  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
+  title_code: { [key: string]: string } = { EN: "Code", TH: "รหัสผู้สมัคร" }
   title_name_th: { [key: string]: string } = { EN: "Name (Thai)", TH: "ชื่อไทย" }
   title_name_en: { [key: string]: string } = { EN: "Name (Eng.)", TH: "ชื่ออังกฤษ" }
   title_name: { [key: string]: string } = { EN: "Name", TH: "ชื่อ-นามสกุล" }
@@ -132,8 +132,11 @@ export class RecruitmentApproveComponent implements OnInit {
   title_popup_approve: { [key: string]: string } = { EN: "Approve", TH: "อนุมัติ" }
 
   title_requestmcer: { [key: string]: string } = { EN: "Medical Certificate", TH: "ใบรับรองแพทย์" };
-  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "เบล็คลิสต์" };
+  title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "แบล็คลิสต์" };
 
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  title_chooseall: { [key: string]: string } = { EN: "All", TH: "ทั้งหมด" };
 
   doLoadMenu() {
 
@@ -146,6 +149,7 @@ export class RecruitmentApproveComponent implements OnInit {
           if (this.selectedApply.worker_code != "") {
             this.approveNote = ""
             this.approve_apply("S")
+            
           }
           //this.showManage()
         }
@@ -159,6 +163,7 @@ export class RecruitmentApproveComponent implements OnInit {
           if (this.selectedApply.worker_code != "") {
             this.approveNote = ""
             this.openNotapprove()
+            this.toggleSelect()
           }
 
         }
@@ -222,6 +227,7 @@ export class RecruitmentApproveComponent implements OnInit {
           if (result.success) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
             this.doLoadApply()
+            this.toggleSelect()
 
             //this.displayManage = false
           }
@@ -288,26 +294,31 @@ export class RecruitmentApproveComponent implements OnInit {
     }
   }
 // 
-// doLoadApplys() {
-//   var tmp = new EmployeeModel();
-//   tmp.company_code = this.initial_current.CompCode
-//   tmp.worker_code = ""
-//   // tmp.status = "S"
-//   tmp.status = this.status_select.code
+checked: boolean = false;
 
-//   tmp.blacklist = this.fillterBlacklist
-//   this.applyworkService.reqworker_get(tmp).then(async (res) => {
-//     await res.forEach((element: EmployeeModel) => {
-//       element.worker_hiredate = new Date(element.worker_hiredate)
-//       element.worker_birthdate = new Date(element.worker_birthdate)
-//       element.blacklist_reason = this.getBlacklistReason(element.worker_cardno)
-//       element.certificate = this.checkMCer(element.worker_birthdate, element.checkcertificate)
-//     })
-//     this.apply_list = await res;
-//     console.log(res)
-//     this.total_apply = this.apply_list.length;
-//   })
-//   console.log(tmp.status,'tttt')
+  buttonVisible: boolean = true;
+
+
+
+  selectAllChecked: boolean = false;
+  showButton: boolean = false;
+  toggleSelectAll() {
+    this.selectAllChecked = !this.selectAllChecked;
+    this.showButton = this.selectAllChecked;
+    console.log(this.selectAllChecked,'dddd')
+
+    //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
+  }
+
+  data = {
+    checked: false
+  };
+  toggleSelect() {
+    this.checked = !this.checked;
+    console.log(this.checked,'ooo')
+  }
+
+
 // }
 status_doc: boolean = false
 
@@ -318,6 +329,14 @@ Search() {
     this.status_doc = false;
   }
   this.doLoadApply();
+}
+
+selection(data: EmployeeModel) {
+  if (data) {
+    this.selectedApply = data;
+   
+    this.displayManage = false;
+  }
 }
 // 
   blacklistList: BlacklistModel[] = [];

@@ -165,7 +165,7 @@ export class RecruitmentRequestComponent implements OnInit {
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
       this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
+      this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
       this.title_code = "รหัส";
       this.title_name_th = "ชื่อไทย";
@@ -173,7 +173,7 @@ export class RecruitmentRequestComponent implements OnInit {
       this.title_modified_by = "ผู้ทำรายการ";
       this.title_modified_date = "วันที่ทำรายการ";
       this.title_search = "ค้นหา";
-      this.title_upload = "อัพโหลด";
+      this.title_upload = "อัปโหลด";
 
       this.title_page_from = "แสดง";
       this.title_page_to = "ถึง";

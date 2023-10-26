@@ -350,7 +350,7 @@
                     </div>
 
                     <!-- benefit -->
-                    <div class="accordion">
+                    <!-- <div class="accordion">
                         <p-accordion>
                             <p-accordionTab header="{{title_benefit}}">
                                 <p-menubar [model]="menu_reqbenefit"></p-menubar>
@@ -364,6 +364,8 @@
                                         <tr>
                                             <th>{{title_date}}</th>
                                             <th>{{title_incomededuct}}</th>
+                                            <th>{{title_capital[initial_current.Language]}}</th>
+                                            <th>{{title_capperiod[initial_current.Language]}}</th>
                                             <th>{{title_amount}}</th>
                                             <th>{{title_conditionpay}}</th>
                                             <th>{{title_reason}}</th>
@@ -375,6 +377,8 @@
                                         <tr [pSelectableRow]="empbenefit">
                                             <td>{{empbenefit.empbenefit_startdate | date:'dd/MM/yyyy'}}</td>
                                             <td>{{doGetitemDetail(empbenefit.item_code)}}</td>
+                                            <td>{{empbenefit.empbenefit_capitalamount}}</td>
+                                            <td>{{empbenefit.empbenefit_period}}</td>
                                             <td>{{empbenefit.empbenefit_amount}}</td>
                                             <td>{{empbenefit.empbenefit_conditionpay}}</td>
                                             <td>{{empbenefit.empbenefit_reason}}</td>
@@ -385,7 +389,7 @@
                                 </p-table>
                             </p-accordionTab>
                         </p-accordion>
-                    </div>
+                    </div> -->
 
                 </p-tabPanel>
 
@@ -553,7 +557,7 @@
                     </div>
 
                     <!-- card -->
-                    <!-- <div class="accordion">
+                    <div class="accordion">
                         <p-accordion>
                             <p-accordionTab header="{{title_card}}">
                                 <p-menubar [model]="menu_reqcard"></p-menubar>
@@ -587,11 +591,11 @@
                                 </p-table>
                             </p-accordionTab>
                         </p-accordion>
-                    </div> -->
+                    </div>
 
-                    <!-- <div class="horizontal">
+                    <div class="horizontal">
                         <br>
-                    </div> -->
+                    </div>
 
                     <!-- foreigner -->
                     <div class="accordion">
@@ -938,6 +942,52 @@
                             </p-accordion>
                         </div>
 
+                        <!-- Experience -->
+                        <div class="field col-12">
+                            <p-accordion>
+                                <p-accordionTab header="{{title_experience[initial_current.Language]}}">
+                                    <p-menubar [model]="menu_reqexperience"></p-menubar>
+                                    <div #tableexperience>
+                                        <p-table #dtexperience [value]="reqexperienceList" styleClass="p-datatable-sm"
+                                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+                                            scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
+                                            [(selection)]="selectedReqExperience"
+                                            (onRowSelect)="onRowSelectReqExperience($event)" [rows]="10"
+                                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                            [paginator]="true"
+                                            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
+
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>{{title_expcom[initial_current.Language]}}</th>
+                                                    <th>{{title_expposition[initial_current.Language]}}</th>
+                                                    <th>{{title_expsalary[initial_current.Language]}}</th>
+                                                    <th>{{title_expstart[initial_current.Language]}}</th>
+                                                    <th>{{title_expend[initial_current.Language]}}</th>
+                                                    <th>{{title_expdes[initial_current.Language]}}</th>
+                                                    <th>{{title_expage[initial_current.Language]}}</th>
+                                                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                                                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-empexperience>
+                                                <tr [pSelectableRow]="empexperience">
+                                                    <td>{{empexperience.company_name}}</td>
+                                                    <td>{{empexperience.position}}</td>
+                                                    <td>{{empexperience.salary}}</td>
+                                                    <td>{{empexperience.startdate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empexperience.enddate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{empexperience.description}}</td>
+                                                    <td>{{empexperience.workage}}</td>
+                                                    <td>{{empexperience.modified_by}}</td>
+                                                    <td>{{empexperience.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
 
 
                     </div>
@@ -1377,8 +1427,43 @@
 
     </div>
 
+    <form #CardForm="ngForm">
+        <div class="formatt" *ngIf="edit_reqcard==true || new_card==true">
+            <label>{{title_cardcode}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" id="card_no" [(ngModel)]="selectedReqcard.card_code" name="cardcode"
+                #cardcode="ngModel" required>
+
+            <label>{{title_issuedate}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="selectedReqcard.card_issue"
+                name="cardissue" #cardissue="ngModel" [required]="true"><input type="text"></p-calendar>
+
+            <label>{{title_expiredate}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedReqcard.card_expire" name="cardexpire" #cardexpire="ngModel" [required]="true">
+                <input type="text"></p-calendar>
+
+            <label>{{title_cardtype}}<span style="color: red;"> *</span></label>
+            <p-dropdown placeholder="--" [options]="cardtypeList" optionValue="cardtype_code" [showClear]="true"
+                [(ngModel)]="selectedReqcard.card_type" [style]="{ width: '100%', overflow: 'visible' }" name="cardtype"
+                #cardtype="ngModel" [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
+                </ng-template>
+            </p-dropdown>
+
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="reqcard_summit()"
+                    [disabled]="!CardForm.form.valid"></p-button>
+                &nbsp;
+            </div>
+
+        </div>
+    </form>
     <!-- <div class="formatt" *ngIf="edit_reqcard==true || new_card==true">
-        
         <div>
             <label for="lastname2">{{title_cardtype}} :</label>
             <p-dropdown placeholder="--" [options]="cardtypeList" optionValue="cardtype_code" [showClear]="true"
@@ -1773,6 +1858,17 @@
             </ng-template>
         </p-dropdown>
 
+        <label>{{title_capital[initial_current.Language]}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [(ngModel)]="selectedReqBenefit.empbenefit_capitalamount"
+            (ngModelChange)="changebenefitamount()">
+        </p-inputNumber>
+
+        <label>{{title_capperiod[initial_current.Language]}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" [(ngModel)]="selectedReqBenefit.empbenefit_period"
+            (ngModelChange)="changebenefitamount()">
+        </p-inputNumber>
+
         <label>{{title_amount}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedReqBenefit.empbenefit_amount">
@@ -1876,11 +1972,59 @@
         </div>
     </form>
 
+    <!-- Form Emp experience -->
+    <form #ExperienceForm="ngForm">
+        <div class="formatt" *ngIf="edit_reqexperience==true || new_experience==true">
+
+            <label>{{title_expcom[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedReqExperience.company_name" name="company_name"
+                #company_name="ngModel" required>
+
+            <label>{{title_expposition[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <input pInputText type="text" [(ngModel)]="selectedReqExperience.position" name="position"
+                #position="ngModel" required>
+
+            <label>{{title_expsalary[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
+                [maxFractionDigits]="2" [(ngModel)]="selectedReqExperience.salary" name="salary" #salary="ngModel"
+                [required]="true">
+            </p-inputNumber>
+
+            <label>{{title_expstart[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedReqExperience.startdate" name="startdate" #startdate="ngModel"
+                [required]="true"><input type="text"></p-calendar>
+
+            <label>{{title_expend[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedReqExperience.enddate" name="enddate" #enddate="ngModel" [required]="true">
+                <input type="text"></p-calendar>
+
+            <label>{{title_expdes[initial_current.Language]}}</label>
+            <textarea [(ngModel)]="selectedReqExperience.description" pInputTextarea [autoResize]="true"
+                name="description" #description="ngModel"></textarea>
+
+            <br>
+            <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="reqexperience_summit()"
+                    [disabled]="!ExperienceForm.form.valid"></p-button>
+                &nbsp;
+
+            </div>
+
+        </div>
+    </form>
+    <!-- END FORM EXPERIENCE -->
 </p-dialog>
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
-    key="myDialog"></p-confirmDialog>
+<p-confirmDialog #cd [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog">
+    <ng-template pTemplate="footer">
+        <button type="button" pButton icon="pi pi-times" label="{{title_confirm_no}}" (click)="cd.reject()"></button>
+        <button type="button" pButton icon="pi pi-check" label="{{title_confirm_yes}}" (click)="cd.accept()"></button>
+    </ng-template>
+</p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->
 
 
@@ -1957,7 +2101,7 @@
 </p-dialog>
 
 <!-- Attach PDPA -->
-<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfilePDPA" (onHide)="clearattachname()"> 
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfilePDPA" (onHide)="clearattachname()">
     <label class="drop-container">
         <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
         {{title_or[initial_current.Language]}}

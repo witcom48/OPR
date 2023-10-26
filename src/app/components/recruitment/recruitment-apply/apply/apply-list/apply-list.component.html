@@ -72,7 +72,7 @@
                         <div>
                             {{title_apprstatus[initial_current.Language]}} :
                             <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
-                                [style]="{ width: '100vw', overflow: 'visible' }">
+                                [style]="{ width: '100vw', overflow: 'visible' }" (onChange)="Search()">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.name_th : item.name_en}}
                                 </ng-template>

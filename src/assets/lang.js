@@ -694,6 +694,9 @@ var setpolicy = new Map([
     ["modified_by", { TH: "ผู้ทำรายการ", EN: "Modified by" }],
     ["modified_date", { TH: "วันที่ทำรายการ", EN: "Modified date" }],
     ["worker_code", { TH: "รหัสพนักงาน", EN: "Worker Code" }],
+    ["selectyear", { TH: "กรุณาเลือกปี", EN: "Please select year" }],
+    ["selectpolicy", { TH: "กรุณาเลือกนะโยบาย", EN: "Please choose a policy." }],
+    ["selectemp", { TH: "กรุณาเลือกพนักงาน", EN: "Please select an employee." }],
 ]);
 
 var workflow = new Map([

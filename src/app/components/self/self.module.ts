@@ -76,6 +76,7 @@ import { SelfRequestComponent } from './self-request/self-request.component';
 import { SelfTransferComponent } from './self-transfer/self-transfer.component';
 import { RecruitmentModule } from '../recruitment/recruitment.module';
 import { ProjectModule } from '../project/project.module';
+import { SystemModule } from '../system/system.module';
 
 @NgModule({
 	imports: [
@@ -124,7 +125,8 @@ import { ProjectModule } from '../project/project.module';
 		EditorModule,
 		PdfViewerModule,
 		RecruitmentModule,
-		ProjectModule
+		ProjectModule,
+		SystemModule
 	],
 	declarations: [
 		SelfPolicyComponent,

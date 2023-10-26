@@ -105,6 +105,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
       });
       this.trtimeot_list = await res.data
       this.approveTotal = await res.total;
+      this.initial_current.loading = false;
     });
     // var tmp = new cls_TRTimeotModel();
     // tmp.timeot_workdate = new Date(`${this.initial_current.PR_Year}-01-01`)
@@ -129,6 +130,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
     let data = new SysLocationModel()
     this.locationService.location_get(data).then(async (res) => {
       this.location_list = await res;
+      this.initial_current.loading = false;
     });
   }
   async doRecordTimeot(data: cls_TRTimeotModel[]) {
@@ -191,6 +193,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
     });
   }
   async doApproveJob(data: ApproveModel) {
+    this.initial_current.loading = true;
     data.job_type = "OT";
     data.lang = this.selectlang;
     await this.approveService.approveJob(data).then((res) => {
@@ -201,7 +204,7 @@ export class SelfApproveOvertimeComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.closeManage()
   }

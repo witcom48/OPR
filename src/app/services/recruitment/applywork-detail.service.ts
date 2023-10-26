@@ -25,6 +25,7 @@ import { ReqProjectModel } from 'src/app/models/recruitment/reqproject';
 import { EmpSalaryModel } from 'src/app/models/employee/manage/salary';
 import { EmpBenefitsModel } from 'src/app/models/employee/manage/benefits';
 import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignercard';
+import { EmpExperienceModel } from 'src/app/models/employee/manage/experience';
 
 @Injectable({
   providedIn: 'root'
@@ -1050,6 +1051,8 @@ export class ApplyworkDetailService {
       item_data = item_data + ",\"empbenefit_breakreason\":\"" + list[i].empbenefit_breakreason + "\"";
       item_data = item_data + ",\"empbenefit_conditionpay\":\"" + list[i].empbenefit_conditionpay + "\"";
       item_data = item_data + ",\"empbenefit_payfirst\":\"" + list[i].empbenefit_payfirst + "\"";
+      item_data = item_data + ",\"empbenefit_capitalamount\":\"" + list[i].empbenefit_capitalamount + "\"";
+      item_data = item_data + ",\"empbenefit_period\":\"" + list[i].empbenefit_period + "\"";
       item_data = item_data + ",\"item_code\":\"" + list[i].item_code + "\"";
       
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
@@ -1096,6 +1099,84 @@ export class ApplyworkDetailService {
     para += "&com=" + this.initial_current.CompCode;
 
     return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadApplyBenefit?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  //Req Experience
+  public getapplywork_experience(company: string, code: string) {
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: company,
+      language: "",
+      worker_code: code
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqexperiencelist', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        // // console.log(res)
+        return message.data;
+      });
+  }
+  public record_reqexperience(worker_code: string, list: EmpExperienceModel[]) {
+    var item_data: string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"experience_id\":\"" + list[i].experience_id + "\"";
+      item_data = item_data + ",\"company_name\":\"" + list[i].company_name + "\"";
+      item_data = item_data + ",\"position\":\"" + list[i].position + "\"";
+      item_data = item_data + ",\"salary\":\"" + list[i].salary + "\"";
+      item_data = item_data + ",\"startdate\":\"" + this.datePipe.transform(list[i].startdate) + "\"";
+      item_data = item_data + ",\"enddate\":\"" + this.datePipe.transform(list[i].enddate) + "\"";
+      item_data = item_data + ",\"description\":\"" + list[i].description + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if (item_data.length > 2) {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data: item_data,
+      worker_code: worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqexperience', specificData, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public delete_reqexperience(model: EmpExperienceModel) {
+    const data = {
+      experience_id: model.experience_id,
+      worker_code: model.worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/reqexperience_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public reqexperience_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
+
+    return this.http.post<any>(this.config.ApiRecruitmentModule + '/doUploadReqExperience?' + para, formData).toPromise()
       .then((res) => {
         return res;
       });

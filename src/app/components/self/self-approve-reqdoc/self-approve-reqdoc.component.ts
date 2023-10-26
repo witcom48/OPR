@@ -102,6 +102,7 @@ export class SelfApproveReqdocComponent implements OnInit {
       // console.log(res)
       this.reqdoc_list = await res.data
       this.approveTotal = await res.total;
+      this.initial_current.loading = false;
     });
   }
   doLoadTopic() {
@@ -109,6 +110,7 @@ export class SelfApproveReqdocComponent implements OnInit {
     let data = new cls_MTTopicModel()
     this.topicService.topic_get(data).then(async (res) => {
       this.topic_list = await res;
+      this.initial_current.loading = false;
     });
   }
   async doGetfileTimereqdoc(file_path: string, type: string) {
@@ -119,6 +121,7 @@ export class SelfApproveReqdocComponent implements OnInit {
     })
   }
   async doApproveJob(data: ApproveModel) {
+    this.initial_current.loading = true;
     data.job_type = "REQ";
     data.lang = this.selectlang;
     await this.approveService.approveJob(data).then((res) => {
@@ -129,7 +132,7 @@ export class SelfApproveReqdocComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.closeManage()
   }
