@@ -224,11 +224,13 @@ export class RecruitmentApproveComponent implements OnInit {
 
         this.sysApproveServices.approve_record(data).then((res) => {
           let result = JSON.parse(res);
+
           if (result.success) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
             this.doLoadApply()
             this.toggleSelect()
-
+            this.selection
+ 
             //this.displayManage = false
           }
           else {
@@ -239,7 +241,9 @@ export class RecruitmentApproveComponent implements OnInit {
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       }
+      
     });
+
   }
 
 
@@ -335,8 +339,8 @@ selection(data: EmployeeModel) {
   if (data) {
     this.selectedApply = data;
    
-    this.displayManage = false;
-  }
+   }
+   console.log(data,'ppp')
 }
 // 
   blacklistList: BlacklistModel[] = [];

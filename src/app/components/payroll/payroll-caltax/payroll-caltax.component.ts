@@ -43,6 +43,9 @@ export class PayrollCaltaxComponent implements OnInit {
   labOvertime: { [key: string]: string } = { EN: "Overtime", TH: "ล่วงเวลา" }
   labDiligence: { [key: string]: string } = { EN: "Diligence", TH: "เบี้ยขยัน" }
   labAllowance: { [key: string]: string } = { EN: "Allowance", TH: "เงินค่าเวลา" }
+  title_process: { [key: string]: string } = { EN: "Process", TH: "กระบวนการ" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
 
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,

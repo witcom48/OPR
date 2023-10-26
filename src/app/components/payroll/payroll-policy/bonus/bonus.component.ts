@@ -62,6 +62,7 @@ export class BonusComponent implements OnInit {
 
     }
     title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
+    title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
     title_payroll: string = 'Payroll';
     title_policy: string = 'Set Policy';
@@ -124,12 +125,12 @@ export class BonusComponent implements OnInit {
             this.title_Workage = 'อัตราตามอายุงาน';
             this.title_Rate = 'อัตรา (บาท)';
             this.title_From = 'จาก (ปี)';
-            this.title_no = 'อันดับ';
+            this.title_no = 'ลำดับ';
 
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';
-            this.title_export = 'โอนออก';
+            this.title_export = 'ส่งออกไฟล์';
             this.title_save = 'บันทึก';
             this.title_code = 'รหัส';
             this.title_name_th = 'ชื่อไทย';
@@ -290,7 +291,7 @@ export class BonusComponent implements OnInit {
                 },
             },
             {
-                label: "Template",
+                label: this.title_template[this.initial_current.Language],
                 icon: 'pi-download',
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Bonus.xlsx', '_blank');

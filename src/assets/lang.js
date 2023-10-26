@@ -1533,7 +1533,20 @@ var menumain = new Map([
     ["request", { TH: "ร้องขอพนักงานเพิ่ม", EN: "Request" }],
     ["applywork", { TH: "ประวัติผู้สมัครงาน", EN: "Application"}],
     ["reqappr", { TH: "อนุมัติผู้สมัครงาน", EN: "Approval List"}],
+
+    //pay
+    ["payroll", { TH: "ระบบบริหารเงินเดือน", EN: "Payroll" }],
+    ["policy", { TH: "นโยบายเงินเดือน", EN: "Policy" }],
+    ["calculate", { TH: "คำนวณเงินเดือน", EN: "Calculate" }],
+    ["calculatebonus", { TH: "คำนวณโบนัส", EN: "Calculate Bonus"}],
+    ["incomededuct", { TH: "บันทึกเงินได้/เงินหัก", EN: "Income / Deduct"}],
+    ["calculatetax", { TH: "คำนวณภาษี", EN: "Calculate Tax" }],
+    ["viewcalculate", { TH: "ตรวจสอบการคำนวณ", EN: "View Calculate" }],
+    ["summary", { TH: "สรุปรายการรวม", EN: "Summary" }],
+    ["transfer", { TH: "โอนย้ายข้อมูล", EN: "Transfer"}],
     
+    
+
 ]);
 
 var slefappemp = new Map([

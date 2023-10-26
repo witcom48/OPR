@@ -144,7 +144,11 @@ export class AppEntryComponent implements OnInit {
   }
   title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
   title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
+  title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
+  title_reload: { [key: string]: string } = { EN: "Reload ", TH: "โหลดใหม่" }
+  title_addcopy: { [key: string]: string } = { EN: "Add copy ", TH: "ทำรายการซ้ำ" }
 
+  
   title_page: string = 'Geanral';
   title_new: string = 'New';
   title_edit: string = 'Edit';
@@ -240,7 +244,7 @@ export class AppEntryComponent implements OnInit {
       this.title_edit = 'แก้ไข';
       this.title_delete = 'ลบ';
       this.title_import = 'นำเข้า';
-      this.title_export = 'โอนออก';
+      this.title_export = 'ส่งออกไฟล์';
       this.title_save = 'บันทึก';
       this.title_more = 'เพิ่มเติม';
       this.title_code = 'รหัส';
@@ -471,7 +475,7 @@ export class AppEntryComponent implements OnInit {
         },
       },
       {
-        label: "Template",
+                label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Payitem.xlsx', '_blank');
@@ -479,7 +483,7 @@ export class AppEntryComponent implements OnInit {
       },
 
       {
-        label: 'Reload',
+        label: this.title_reload[this.initial_current.Language],
         icon: 'pi pi-fw pi-refresh',
         command: (event) => {
             this.doLoaditem();
@@ -504,7 +508,7 @@ export class AppEntryComponent implements OnInit {
         },
       },
       {
-        label: 'Add copy',
+        label: this.title_addcopy[this.initial_current.Language],
         icon: 'pi pi-fw pi-copy',
         command: (event) => {
           this.displayaddholiday = true;

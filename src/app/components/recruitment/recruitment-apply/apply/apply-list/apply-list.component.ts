@@ -892,6 +892,8 @@ export class ApplyListComponent implements OnInit {
         this.doLoadReqSuggestList()
         this.doLoadReqPositionList()
         this.doLoadReqSalaryList()
+        this.buttonVisible = false;
+
         // this.doLoadReqBenefitList()
         //image
         // this.doLoadImageReq()

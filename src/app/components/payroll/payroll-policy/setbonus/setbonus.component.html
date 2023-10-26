@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div *ngIf="!loading" class="field col-12 md:col-6">
-                <p-button label="Process" (click)="process()"></p-button>
+                <p-button label="{{title_btnprocess[initial_current.Language]}}" (click)="process()"></p-button>
             </div>
         </div>
         <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>

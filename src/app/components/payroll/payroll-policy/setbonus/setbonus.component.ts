@@ -63,6 +63,7 @@ export class SetbonusComponent implements OnInit {
     }
 
     title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
+    title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
 
     title_payroll: string = 'Payroll';
 

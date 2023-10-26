@@ -55,7 +55,7 @@ export class ItemsPlanComponent implements OnInit {
   title_system_payroll: { [key: string]: string } = { EN: "Policy Payroll ", TH: "นโยบาย" }
   title_page: { [key: string]: string } = { EN: "Income / Deduct Plan ", TH: "นโยบายเงินได้เงินหัก" }
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" }
-  title_no: { [key: string]: string } = { EN: "No", TH: "อันดับ" }
+  title_no: { [key: string]: string } = { EN: "No", TH: "ลำดับ" }
   title_description: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
   title_detail_en: { [key: string]: string } = { EN: "Description(Eng)", TH: "รายละเอียด (อังกฤษ)" }
   title_detail_th: { [key: string]: string } = { EN: "Description(Thai)", TH: "รายละเอียด (ไทย)" }
@@ -77,6 +77,8 @@ export class ItemsPlanComponent implements OnInit {
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
   //
+  title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
+
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.doLoadMenu();
@@ -193,7 +195,7 @@ export class ItemsPlanComponent implements OnInit {
       }
       ,
       {
-        label: "Template",
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Planitems.xlsx', '_blank');

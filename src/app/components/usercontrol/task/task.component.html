@@ -10,32 +10,41 @@
 <div class="grid">
     
     <div class="col-12" style="margin-top: 20px;">
-        <p-table #dt2  [value]="task_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTask" (onRowSelect)="onRowSelectTask($event)" dataKey="task_id"
+        <p-table #dt2 [value]="task_list" selectionMode="single" [(selection)]="selectedTask"
+            (onRowSelect)="onRowSelectTask($event)" [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} "
+            [globalFilterFields]="['task_type','task_status']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            
+        <!-- <p-table #dt2  [value]="task_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '70rem'}" 
+        [scrollable]="true" scrollHeight="300px" [virtualScroll]="true" selectionMode="single" 
+        [(selection)]="selectedTask" (onRowSelect)="onRowSelectTask($event)" dataKey="task_id"
         
         [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
-        [paginator]="true" currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+        [paginator]="true"  currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} "
         [globalFilterFields]="['task_type','task_status']"
-        >
+        > -->
         <ng-template pTemplate="caption">
             <div class="flex">
                 <span class="p-input-icon-left ml-auto">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_search}}" />
+                    <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')" placeholder="{{title_Search[initial_current.Language]}}" />
                 </span>
             </div>
         </ng-template>
 
             <ng-template pTemplate="header">
                 <tr>		                        
-                    <th style="width:9%">No.</th>
-                    <th style="width:12%">Task ID</th>                      
-                    <th>Task Type</th>
-                    <th>Detail</th>
-                    <th>Status</th>
-                    <th>Start</th>
-                    <th>Finish</th>
-                    <th>Modified By</th>
-                    <th>Modified Date</th>               
+                    <th style="width:9%">{{title_No[initial_current.Language]}}</th>
+                    <th style="width:12%">{{title_Task[initial_current.Language]}}</th>                      
+                    <th>{{title_TaskType[initial_current.Language]}}</th>
+                    <th>{{title_Detail[initial_current.Language]}}</th>
+                    <th>{{title_Status[initial_current.Language]}}</th>
+                    <th>{{title_Start[initial_current.Language]}}</th>
+                    <th>{{title_Finish[initial_current.Language]}}</th>
+                    <th>{{title_modifiedby[initial_current.Language]}}</th> 
+                    <th>{{title_modifieddate[initial_current.Language]}}</th>               
                 </tr>
                 
             </ng-template>

@@ -60,7 +60,7 @@
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                            placeholder="Search keyword" />
+                            placeholder="{{title_search}}" />
                     </span>
                 </div>
             </ng-template>
@@ -106,7 +106,7 @@
     <!-- -----------------------END Table-------------------------- -->
 
 
-    <p-dialog class="displayaddholiday" header="NEW" [(visible)]="displayaddholiday" [maximizable]="true"
+    <p-dialog class="displayaddholiday" header="{{title_new}}" [(visible)]="displayaddholiday" [maximizable]="true"
         (onHide)="closedispaly()">
 
         <div class="formgrid grid align-items-end">

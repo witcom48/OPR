@@ -64,7 +64,8 @@ export class SystemReduceComponent implements OnInit {
   title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
   title_amountmax: { [key: string]: string } = { EN: "Amount Max ", TH: "จำนวนเงินสูงสุด" }
 
-  
+  title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
+
   title_system: string = "System";
   title_genaral: string = "Genaral";
   title_page: string = "Reduces";
@@ -106,7 +107,7 @@ export class SystemReduceComponent implements OnInit {
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_genaral_system = 'ระบบทั่วไป';
-      this.title_no = 'อันดับ';
+      this.title_no = 'ลำดับ';
 
       this.title_system = "ระบบ";
       this.title_genaral = "ทั่วไป";
@@ -115,7 +116,7 @@ export class SystemReduceComponent implements OnInit {
       this.title_edit = "แก้ไข";
       this.title_delete = "ลบ";
       this.title_import = "นำเข้า";
-      this.title_export = "โอนออก";
+      this.title_export = "ส่งออกไฟล์";
       this.title_save = "บันทึก";
       this.title_code = "รหัส";
       this.title_name_th = "รายละเอียด(ไทย)";
@@ -169,7 +170,7 @@ export class SystemReduceComponent implements OnInit {
       ,
       {
 
-        label: "Template",
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Reduce.xlsx', '_blank');

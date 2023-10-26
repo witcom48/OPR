@@ -42,9 +42,9 @@
     <p-menubar [model]="items">
         <td>
 
-            <p-button *ngIf="selectAllChecked || checked && buttonVisible" (click)="convertToEmptest(selectedReqworker)"
+            <p-button *ngIf="selectAllChecked || checked && buttonVisible" (click)="convertToEmp()"
                 label="{{title_convert[initial_current.Language]}}"
-                [disabled]="this.selectedReqworker.status!='W' || this.selectedReqworker.certificate=='Wait'"></p-button>
+                 ></p-button>
         </td>
     </p-menubar>
 </div>
@@ -116,7 +116,7 @@
 
             <ng-template pTemplate="header">
                 <tr>
-                    <th>
+                    <th (click)="selection(data)">
                         <!-- เลือกทั้งหมด -->
                         <button pButton class=" gray-button " *ngIf="status_select.code === 'W'"
                             (click)="toggleSelectAll()">{{title_chooseall[initial_current.Language]}}</button>
@@ -209,7 +209,7 @@
 
                     <button pButton pRipple type="button" label="{{title_convert[initial_current.Language]}}"
                         class="p-button-info" (click)="convertToEmp()"
-                        [disabled]="this.selectedReqworker.status!='W' || this.selectedReqworker.certificate=='Wait'"></button>
+                        [disabled]="this.selectedReqworker.status!='W'"></button>
                     &nbsp;
                     <button pButton pRipple type="button" label="{{title_more[initial_current.Language]}}"
                         (click)="selectComManage()"></button>

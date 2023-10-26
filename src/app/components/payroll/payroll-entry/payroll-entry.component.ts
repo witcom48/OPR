@@ -128,7 +128,10 @@ export class PayrollEntryComponent implements OnInit {
 
     title_btn_select: { [key: string]: string } = { EN: "Select", TH: "เลือก" }
     title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
+    title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
+    title_reload: { [key: string]: string } = { EN: "Reload ", TH: "โหลดใหม่" }
 
+    
     title_page: string = 'Geanral';
     title_new: string = 'New';
     title_edit: string = 'Edit';
@@ -198,7 +201,7 @@ export class PayrollEntryComponent implements OnInit {
             this.title_page = 'ข้อมูลทั่วไป';
             this.title_manage = 'บันทึกเงินได้/เงินหัก';
             this.title_payroll = 'บัญชี ';
-            this.title_by_income = 'ตามรายได้ ';
+            this.title_by_income = 'ตามเงินได้ ';
             this.title_codeitem = 'รหัสเงินหัก ';
             this.title_employee = 'พนักงาน ';
             this.title_protype = 'ประเภท';
@@ -207,7 +210,7 @@ export class PayrollEntryComponent implements OnInit {
             this.title_code = 'รหัส';
             this.title_details = 'รายละเอียด';
             this.title_amount = 'จำนวนเงิน';
-            this.title_quantity = 'ปริมาณ';
+            this.title_quantity = 'จำนวน';
             this.title_bank_transfer_cash = 'โอนธนาคาร/เงินสด';
             this.title_note = 'หมายเหตุ';
             this.title_no = 'ลำดับที่';
@@ -218,7 +221,7 @@ export class PayrollEntryComponent implements OnInit {
             this.title_deduct = 'หัก';
             this.title_net = 'จ่ายสุทธิ';
             this.title_dropfileshere = 'วางไฟล์ที่นี่';
-            this.title_by_deduct = 'เงินหัก';
+            this.title_by_deduct = 'ตามเงินหัก';
 
 
 
@@ -227,7 +230,7 @@ export class PayrollEntryComponent implements OnInit {
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';
-            this.title_export = 'โอนออก';
+            this.title_export = 'ส่งออกไฟล์';
             this.title_save = 'บันทึก';
             this.title_more = 'เพิ่มเติม';
             this.title_code = 'รหัส';
@@ -286,14 +289,14 @@ export class PayrollEntryComponent implements OnInit {
                 },
             },
             {
-                label: "Template",
+                label: this.title_template[this.initial_current.Language],
                 icon: 'pi-download',
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Payitem.xlsx', '_blank');
                 }
             },
             {
-                label: 'Reload',
+                label: this.title_reload[this.initial_current.Language],
                 icon: 'pi pi-fw pi-refresh',
                 command: (event) => {
                     this.doLoadPayitem()                

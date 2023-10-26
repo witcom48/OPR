@@ -144,19 +144,19 @@ export class AppMenuComponent implements OnInit {
             },
 
             [ModuleCode.PAY]: {
-                label: 'Payroll',
+                label: this.langs.get('payroll')[this.selectlang],
                 icon: 'pi-wallet',
                 items: [
-                    { label: 'Policy', routerLink: ['/payroll/policy'], accessCode: 'PAY001' },
-                    { label: 'Calculate', routerLink: ['/payroll/calculate'], accessCode: 'PAY002' },
+                    { label: this.langs.get('policy')[this.selectlang], routerLink: ['/payroll/policy'], accessCode: 'PAY001' },
+                    { label: this.langs.get('calculate')[this.selectlang], routerLink: ['/payroll/calculate'], accessCode: 'PAY002' },
 
-                    { label: 'Calculate Bonus', routerLink: ['/payroll/calbonus'], accessCode: 'PAY009' },
+                    { label: this.langs.get('calculatebonus')[this.selectlang], routerLink: ['/payroll/calbonus'], accessCode: 'PAY009' },
 
-                    { label: 'Income / Deduct', routerLink: ['/payroll/entry'], accessCode: 'PAY003' },
-                    { label: 'Calculate Tax', routerLink: ['/payroll/caltax'], accessCode: 'PAY004' },
-                    { label: 'View Calculate', routerLink: ['/payroll/view'], accessCode: 'PAY005' },
-                    { label: 'Summary', routerLink: ['/payroll/summary'], accessCode: 'PAY006' },
-                    { label: 'Transfer', routerLink: ['/payroll/transfer'], accessCode: 'PAY007' },
+                    { label: this.langs.get('incomededuct')[this.selectlang], routerLink: ['/payroll/entry'], accessCode: 'PAY003' },
+                    { label: this.langs.get('calculatetax')[this.selectlang], routerLink: ['/payroll/caltax'], accessCode: 'PAY004' },
+                    { label: this.langs.get('viewcalculate')[this.selectlang], routerLink: ['/payroll/view'], accessCode: 'PAY005' },
+                    { label: this.langs.get('summary')[this.selectlang], routerLink: ['/payroll/summary'], accessCode: 'PAY006' },
+                    { label: this.langs.get('transfer')[this.selectlang], routerLink: ['/payroll/transfer'], accessCode: 'PAY007' },
                     // { label: 'Approval list', routerLink: ['/payroll/approve'], accessCode: 'PAY008' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/payroll/reports'], accessCode: 'PAY009' },
                 ]

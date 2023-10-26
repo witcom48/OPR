@@ -49,6 +49,7 @@ export class ItemsComponent implements OnInit {
     title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
     title_Fix: { [key: string]: string } = { EN: "Fix ", TH: "คงที่" }
     title_Var: { [key: string]: string } = { EN: "Var ", TH: "ไม่สม่ำเสมอ" }
+    title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
     //กำหนดค่าคงที่ เงินได้/เงินหัก
     title_setitem: { [key: string]: string } = { EN: "Set Constant  ", TH: "กำหนดค่าคงที่ เงินได้/เงินหัก" }
@@ -141,11 +142,11 @@ export class ItemsComponent implements OnInit {
             this.title_Section = 'มาตรา';
             this.title_Rate = 'อัตรา';
             this.title_Account = 'รหัสบัญชี';
-            this.title_no = 'อันดับ';
+            this.title_no = 'ลำดับ';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';
-            this.title_export = 'โอนออก';
+            this.title_export = 'ส่งออกไฟล์';
             this.title_save = 'บันทึก';
             this.title_code = 'รหัส';
             this.title_name_th = 'ชื่อไทย';
@@ -304,7 +305,7 @@ export class ItemsComponent implements OnInit {
                 },
             },
             {
-                label: "Template",
+                label: this.title_template[this.initial_current.Language],
                 icon: 'pi-download',
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll IncomeDeduct.xlsx', '_blank');
