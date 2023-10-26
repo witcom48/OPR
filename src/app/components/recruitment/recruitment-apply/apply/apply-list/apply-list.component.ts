@@ -790,6 +790,7 @@ export class ApplyListComponent implements OnInit {
         // this.doLoadReqBenefitList()
         //image
         // this.doLoadImageReq()
+        this.doLoadattdocreq()
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
@@ -871,6 +872,7 @@ export class ApplyListComponent implements OnInit {
         // this.record_empbenefit(Code)
         //--image
         // this.uploadImageEmp(Code)
+        this.record_empdocatt(Code)
 
         //--update status
         this.doUpdateStatus("F")
@@ -1202,4 +1204,32 @@ export class ApplyListComponent implements OnInit {
       let resultJSON = JSON.parse(res);
     })
   }
+  reqdocatt: ApplyMTDocattModel[] = [];
+  doLoadattdocreq(){
+    var tmp = new ApplyMTDocattModel();
+    tmp.company_code = this.initial_current.CompCode
+    tmp.worker_code = this.selectedReqworker.worker_code
+    this.applyworkService.getreq_filelist(tmp).then((res)=>{
+      this.reqdocatt = res;
+    })
+  }
+  record_empdocatt(code: any) {
+    if (this.reqdocatt.length == 0) {
+      return
+    }
+    this.employeeService
+      .record_empfile(
+        code,
+        this.reqdocatt,
+        ''
+      )
+      .then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+          console.log("Comp")
+        } else {
+        }
+      });
+  }
+
 }
