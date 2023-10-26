@@ -40,7 +40,8 @@ import { AccessdataModel } from 'src/app/models/system/security/accessdata';
   styleUrls: ['./sec-account.component.scss']
 })
 export class SecAccountComponent implements OnInit {
-  Type: string = "'GRP','APR','Emp'"
+  // Type: string = "'GRP','APR','Emp'"
+  Type: string = ""
   itemslike: MenuItem[] = [{ label: 'Security system', routerLink: '/system/security' }, { label: 'Account', routerLink: '/sec/account', styleClass: 'activelike' }];
   home: any = { icon: 'pi pi-home', routerLink: '/' }
   items_menu: MenuItem[] = [];
