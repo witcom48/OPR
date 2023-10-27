@@ -16,6 +16,7 @@
 
                         <!-- <p-image [src]="base64Image" id="imgWorker" name="imgWorker" alt="Image" width="175"
                             height="175"></p-image>
+<<<<<<< HEAD
                             <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*"> -->
                         <!--  -->
                         <p-image [src]="base64Image" id="imgReq" name="imgReq" alt="Image" width="175"
@@ -30,6 +31,16 @@
                             <span class="chosen-text" *ngIf="selectedimageName">{{selectedimageName}}</span>
                         </div>
                         <!--  -->
+=======
+                        <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*">
+                        <!-- <p-fileUpload class="upload" mode="basic" chooseLabel="Upload Images" [maxFileSize]="1000000"
+                            accept="image/*" cancelIcon="true" [customUpload]="true"
+                            (onSelect)="onselectFile($event)"></p-fileUpload> -->
+
+                        <!-- <div>
+                            <input type="URL" name="myURL" [(ngModel)]="myURL" placeholder="insert image URL here" (change)="onURLinserted() ">
+                        </div> -->
+>>>>>>> 1cff849b796cb65d0527eb4fd9572ac9e627560b
                         <div style="grid-column: 1;">
                             <label for="code">{{title_code}} : <span style="color: red;"> *</span></label>
                             <input pInputText id="code" type="text" class="p-inputtext-sm"
@@ -1853,6 +1864,57 @@
 
                 </p-tabPanel>
                 <!-- tab tranfer-->
+
+                <!-- tab attach file -->
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <i class="pi pi-file-o"></i>&nbsp;&nbsp;
+                        <span>{{title_attfile[initial_current.Language]}}</span>
+                    </ng-template>
+                    <div class="formgrid grid">
+                        <div class="field col-12">
+                            <!-- <p-menubar [model]="items_attfile"></p-menubar> -->
+                            <p-table #dt3 [value]="empdocatt" selectionMode="single" [(selection)]="selecteddocatt"
+                                (onRowSelect)="onRowSelectfile($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+                                [paginator]="false"
+                                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                                [globalFilterFields]="['document_name','created_by','created_date']"
+                                responsiveLayout="stack" [breakpoint]="'744px'">
+
+                                <!-- --------------END Form Search Table------------------ -->
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th>{{title_uploadno[initial_current.Language]}}</th>
+                                        <th>{{title_filename[initial_current.Language]}}</th>
+                                        <th>{{title_filetype[initial_current.Language]}}</th>
+                                        <th>{{title_modified_by}}</th>
+                                        <th>{{title_modified_date}}</th>
+                                        <th>{{title_viewfile[initial_current.Language]}}</th>
+
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                    <tr [pSelectableRow]="data">
+                                        <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                        </td>
+                                        <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                        </td>
+                                        <td><span>{{title_filename[initial_current.Language]}}</span>{{doGetfiletype(data.job_type)}}
+                                        </td>
+                                        <td><span>{{title_modified_by}}</span>{{data.created_by}}
+                                        </td>
+                                        <td><span>{{title_modified_date}}</span>{{data.created_date|date:'dd/MM/yyyy'}}
+                                        </td>
+                                        <td><span>{{title_viewfile[initial_current.Language]}}</span>
+                                            <p-button icon="pi pi-eye" (click)="viewAttfile(data)"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <!-- tab attach file -->
             </p-tabView>
 
         </div>

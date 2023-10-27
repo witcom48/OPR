@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { InitialCurrent } from '../../config/initial_current';
 import { EmployeeModel } from 'src/app/models/employee/employee';
 import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
+import { EmpMTDocattModel } from 'src/app/models/employee/manage/empMTDocatt';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +62,7 @@ export class EmployeeService {
   }
 
   public worker_get(company: string, code: string) {
-     var filter = {
+    var filter = {
       device_name: '',
       ip: "localhost",
       username: this.initial_current.Username,
@@ -73,12 +74,12 @@ export class EmployeeService {
     return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-         return message.data;
+        return message.data;
       });
   }
 
   public worker_recordall(model: EmployeeModel) {
-     const data = {
+    const data = {
       company_code: this.initial_current.CompCode,
       worker_id: model.worker_id,
       worker_code: model.worker_code,
@@ -119,16 +120,16 @@ export class EmployeeService {
 
       nationality_code: model.nationality_code,
 
-      worker_cardno : model.worker_cardno,
-      worker_cardnoissuedate : model.worker_cardnoissuedate,
-      worker_cardnoexpiredate : model.worker_cardnoexpiredate,
+      worker_cardno: model.worker_cardno,
+      worker_cardnoissuedate: model.worker_cardnoissuedate,
+      worker_cardnoexpiredate: model.worker_cardnoexpiredate,
 
-      worker_socialno : model.worker_socialno,
-      worker_socialnoissuedate : model.worker_socialnoissuedate,
-      worker_socialnoexpiredate : model.worker_socialnoexpiredate,
-      worker_socialsentdate : model.worker_socialsentdate,
-      worker_socialnotsent : model.worker_socialnotsent,
-      
+      worker_socialno: model.worker_socialno,
+      worker_socialnoissuedate: model.worker_socialnoissuedate,
+      worker_socialnoexpiredate: model.worker_socialnoexpiredate,
+      worker_socialsentdate: model.worker_socialsentdate,
+      worker_socialnotsent: model.worker_socialnotsent,
+
       modified_by: this.initial_current.Username
     };
 
@@ -283,6 +284,63 @@ export class EmployeeService {
         let message = JSON.parse(res);
         // console.log(res)
         return message.data;
+      });
+  }
+
+  //attach file
+  public getemp_filelist(model: EmpMTDocattModel) {
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: model.company_code,
+      language: "",
+      worker_code: model.worker_code,
+      job_type: model.job_type,
+    }
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empdoc_list', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      })
+  }
+  public record_empfile(worker_code: string, list: EmpMTDocattModel[], type: string) {
+    var item_data: string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"document_id\":\"" + list[i].document_id + "\"";
+      item_data = item_data + ",\"job_type\":\"" + list[i].job_type + "\"";
+      item_data = item_data + ",\"document_name\":\"" + list[i].document_name + "\"";
+      item_data = item_data + ",\"document_type\":\"" + list[i].document_type + "\"";
+      item_data = item_data + ",\"document_path\":\"" + list[i].document_path.replace(/\\/g, '\\\\') + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if (item_data.length > 2) {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data: item_data,
+      worker_code: worker_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username,
+      job_type: type
+    };
+    console.log(item_data)
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empdoc', specificData, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public get_file(file_path: string) {
+    var para = "file_path=" + file_path;
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doGetEmpDocatt?' + para, this.options).toPromise()
+      .then((res) => {
+        return res;
       });
   }
 }

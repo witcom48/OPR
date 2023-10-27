@@ -110,6 +110,7 @@ import { EmpExperienceModel } from 'src/app/models/employee/manage/experience';
 import { ProvidentWorkageModel } from 'src/app/models/payroll/provident_workage';
 import { ForetypeService } from 'src/app/services/emp/policy/foretype.service';
 import { ForetypeModel } from 'src/app/models/employee/policy/foretype';
+import { EmpMTDocattModel } from 'src/app/models/employee/manage/empMTDocatt';
 
 
 
@@ -150,6 +151,11 @@ interface PFType {
   name_en: string,
   code: string
 }
+interface Doctype {
+  name_th: string,
+  name_en: string,
+  code: string
+}
 
 
 @Component({
@@ -185,6 +191,7 @@ export class EmployeeManageComponent implements OnInit {
   nationality: Nation[] = [];
   foreignerType: ForeigType[] = [];
   pfType: PFType[] = [];
+  docType: Doctype[] = [];
 
   //menu emplocation
   menu_emplocation: MenuItem[] = [];
@@ -389,7 +396,15 @@ export class EmployeeManageComponent implements OnInit {
       { name_th: 'ตามอายุกองทุนสำรองเลี้ยงชีพ', name_en: 'By Age PF', code: 'A' },
       { name_th: 'ค่าคงที่', name_en: 'Fix Value', code: 'F' },
       { name_th: 'ตามอายุกองทุนฯ|พนักงานคงที่', name_en: 'By Age PF|Fix Value', code: 'C' },
-
+    ]
+    this.docType = [
+      { name_th: 'ใบสมัคร', name_en: 'Application', code: 'APPT' },
+      { name_th: 'บัตรประชาชน', name_en: 'ID Card', code: 'IDCARD' },
+      { name_th: 'สำเนาทะเบียนบ้าน', name_en: 'House REGISTRATION', code: 'HOUSE' },
+      { name_th: 'รูปถ่ายพนักงานที่ถือบัตรประชาชน', name_en: 'Photo with ID Card', code: 'PHOID' },
+      { name_th: 'PDPA', name_en: 'PDPA', code: 'PDPA' },
+      { name_th: 'ใบรับรองแพทย์', name_en: 'Medical Certificate', code: 'MECR' },
+      { name_th: 'อื่นๆ', name_en: 'Other', code: 'OTHER' },
     ]
   }
 
@@ -723,6 +738,13 @@ export class EmployeeManageComponent implements OnInit {
   title_capital: { [key: string]: string } = { EN: "Capital amount", TH: "เงินต้น" };
   title_capperiod: { [key: string]: string } = { EN: "Period", TH: "จำนวนงวด" };
   title_capperperiod: { [key: string]: string } = { EN: "Amount Per Period", TH: "จำนวนต่องวด" };
+  //
+  title_attfile: { [key: string]: string } = { EN: "Attach File", TH: "เอกสารแนบ" };
+  title_uploadno: { [key: string]: string } = { EN: "No.", TH: "ลำดับที่" };
+  title_filename: { [key: string]: string } = { EN: "File Name", TH: "ชื่อไฟล์" };
+  title_deleteupload: { [key: string]: string } = { EN: "Delete", TH: "ลบ" };
+  title_filetype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+  title_viewfile: { [key: string]: string } = { EN: "View", TH: "ดูไฟล์" };
 
   title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
   title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
@@ -2590,6 +2612,8 @@ export class EmployeeManageComponent implements OnInit {
 
           this.CalculateAge();
           this.doLoadEmpprovidentList();
+
+          this.doGetFile();
         }, 300);
 
       }
@@ -5500,11 +5524,6 @@ export class EmployeeManageComponent implements OnInit {
   }
 
 
-
-
-
-
-
   doRecordEmpBlacklist() {
     if (this.selectedEmployee.worker_blackliststatus) {
       var tmp = new BlacklistModel();
@@ -5532,6 +5551,45 @@ export class EmployeeManageComponent implements OnInit {
       this.blacklistService.blacklist_delete(tmp).then((res) => {
 
       })
+    }
+  }
+
+  Uploadfile: boolean = false;
+  fileDocToUpload: File | any = null;
+  empdocatt: EmpMTDocattModel[] = [];
+  selecteddocatt: EmpMTDocattModel = new EmpMTDocattModel();
+
+  doGetFile() {
+    var tmp = new EmpMTDocattModel();
+    tmp.company_code = this.initial_current.CompCode
+    tmp.worker_code = this.selectedEmployee.worker_code
+    tmp.job_type = ""
+    this.employeeService.getemp_filelist(tmp).then((res) => {
+      this.empdocatt = res;
+    })
+  }
+  onRowSelectfile(event: Event) {
+  }
+  async doGetReqAttfile(file_path: string, type: string) {
+    this.employeeService.get_file(file_path).then((res) => {
+      var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+      window.open(url);
+      this.selecteddocatt = new EmpMTDocattModel();
+    })
+  }
+  viewAttfile(data: EmpMTDocattModel) {
+    this.doGetReqAttfile(data.document_path, data.document_type)
+  }
+  doGetfiletype(Code: string): any {
+    for (let i = 0; i < this.docType.length; i++) {
+      if (this.docType[i].code == Code) {
+        if (this.initial_current.Language == "TH") {
+          return this.docType[i].name_th;
+        }
+        else {
+          return this.docType[i].name_en;
+        }
+      }
     }
   }
 
