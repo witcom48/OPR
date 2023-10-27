@@ -115,12 +115,24 @@
 
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
-    <label class="drop-container">
+    <!-- <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
         <input type="file"
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             required (change)="handleFileInput($any($event).target.files)">
+    </label> -->
+    <label class="drop-container">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input id="file" type="file" #fileUploader
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                required (change)="handleFileInput($any($event).target.files)" style="display: none;">
+            <label for="file" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="doUploadFamily()" label="{{title_upload}}"

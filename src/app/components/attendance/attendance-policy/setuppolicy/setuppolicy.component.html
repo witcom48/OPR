@@ -88,7 +88,7 @@
                     [(ngModel)]="policyallowselect"></p-dropdown>
             </div>
             <div *ngIf="!loading" class="field col-12 md:col-12">
-                <p-button label="{{langs.get('process')[selectlang]}}" (click)="process('AW')"></p-button>
+                <p-button label="{{langs.get('proces')[selectlang]}}" (click)="process('AW')"></p-button>
             </div>
             <!-- <div class="field col-12 md:col-12"> <p-progressBar *ngIf="loading" mode="indeterminate"
                     [style]="{'height': '6px'}"></p-progressBar>
@@ -104,14 +104,14 @@
             <p-table *ngIf="new_data==true" #dt2 [value]="result_list" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '80rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
                 selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                [paginator]="true" currentPageReportTemplate="{{langs.get('showing')[selectlang]}} {first} {{langs.get('to')[selectlang]}} {last} {{langs.get('of')[selectlang]}} {totalRecords} {{langs.get('entries')[selectlang]}}">
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text"
                                 (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                                placeholder="Search keyword" />
+                                placeholder="{{langs.get('search')[selectlang]}}" />
                         </span>
                     </div>
                 </ng-template>

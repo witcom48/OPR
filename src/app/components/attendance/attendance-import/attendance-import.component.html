@@ -1,20 +1,22 @@
-<p-toast position="top-right"></p-toast> 
+<p-toast position="top-right"></p-toast>
 
 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text" key="myDialog"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
 
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 
-<span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Import Time</small>
+<!-- <span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Import Time</small> -->
 <hr>
 
 <div class="grid">
 
     <div class="col-12">
-        <p-tabView >
-            <p-tabPanel  [selected]="true">
-                <ng-template pTemplate = "header">
+        <p-tabView>
+            <p-tabPanel [selected]="true">
+                <ng-template pTemplate="header">
                     <i class="pi pi-file-import"></i>&nbsp;&nbsp;
-                    <span>Import</span>
+                    <span>{{importt[initial_current.Language]}}</span>
                 </ng-template>
 
 
@@ -22,34 +24,39 @@
                     <div class="field col-12 md:col-9">
                         <label for="file">{{labChooseFile[initial_current.Language]}}</label>
                         &nbsp;
-                        <input type="file"
-                                id="file_import" name="file_import" #importFile
-                                (change)="handleFileImport($any($event).target.files)">    
+                        <input type="file" id="file_import" name="file_import" #importFile
+                            (change)="handleFileImport($any($event).target.files)"style="display: none;">
+                        <label for="file" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+                        <span class="chosen-attach"
+                            *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+                        <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
                     </div>
                     <div class="field col-12 md:col-3">
-                        <p-button label="Import" icon="pi pi-save" (click)="import()"></p-button>  
+                        <p-button label="{{setimport[this.initial_current.Language]}}" icon="pi pi-save" (click)="import()"></p-button>
                     </div>
                     <div class="field col-12">
                         <app-task></app-task>
                     </div>
                 </div>
 
-                
+
             </p-tabPanel>
-            <p-tabPanel >
-                <ng-template pTemplate = "header">
+            <p-tabPanel>
+                <ng-template pTemplate="header">
                     <i class="pi pi-cog"></i>&nbsp;&nbsp;
-                    <span>Setting</span>
+                    <span>{{setting[initial_current.Language]}}</span>
                 </ng-template>
                 <div class="formgrid grid">
 
                     <div class="field col-12 md:col-12">
                         <label for="file">{{labChooseFile[initial_current.Language]}}</label>
                         &nbsp;
-                        <input type="file"
-                                id="file"
-                                (change)="handleFileInput($any($event).target.files)">               
-                    </div>   
+                        <input type="file" id="file" (change)="handleFileInput($any($event).target.files)"style="display: none;">
+                        <label for="file" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+                        <span class="chosen-attach"
+                            *ngIf="!selectedFileNames">{{title_nofile[this.initial_current.Language]}}</span>
+                        <span class="chosen-attach" *ngIf="selectedFileNames">{{selectedFileName}}</span>
+                    </div>
 
                     <div class="field col-12 md:col-12">
                         {{examInput}}
@@ -57,122 +64,149 @@
 
                     <div class="field col-12 md:col-3">
                         <label for="lastname2">{{labFormat[initial_current.Language]}} :</label><br>
-                        
-                        <p-dropdown [options]="dateformatList" optionValue="code" optionLabel="text" [(ngModel)]="this.formatDetail.date_format" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
-                    
+
+                        <p-dropdown [options]="dateformatList" optionValue="code" optionLabel="text"
+                            [(ngModel)]="this.formatDetail.date_format" [showClear]="true"
+                            [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+
                     </div>
                     <div class="field col-12 md:col-6"></div>
-                    
+
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">{{labCard[initial_current.Language]}} {{labStart[initial_current.Language]}}</label>
+                        <label for="lastname2">{{labCard[initial_current.Language]}}
+                            {{labStart[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.card_start" (onInput)="onChangeFormatCard($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.card_start" (onInput)="onChangeFormatCard($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labLenght[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.card_lenght" (onInput)="onChangeFormatCard($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.card_lenght" (onInput)="onChangeFormatCard($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labExample[initial_current.Language]}}</label>
-                            <input id="lastname2" type="text" [(ngModel)]="examCard" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                        <input id="lastname2" type="text" [(ngModel)]="examCard"
+                            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                     </div>
 
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">{{labDate[initial_current.Language]}} {{labStart[initial_current.Language]}}</label>
+                        <label for="lastname2">{{labDate[initial_current.Language]}}
+                            {{labStart[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.date_start" (onInput)="onChangeFormatDate($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.date_start" (onInput)="onChangeFormatDate($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labLenght[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.date_lenght" (onInput)="onChangeFormatDate($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.date_lenght" (onInput)="onChangeFormatDate($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labExample[initial_current.Language]}}</label>
-                            <input id="lastname2" type="text" [(ngModel)]="examDate" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                        <input id="lastname2" type="text" [(ngModel)]="examDate"
+                            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                     </div>
 
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">{{labHours[initial_current.Language]}} {{labStart[initial_current.Language]}}</label>
+                        <label for="lastname2">{{labHours[initial_current.Language]}}
+                            {{labStart[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.hours_start" (onInput)="onChangeFormatHours($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.hours_start" (onInput)="onChangeFormatHours($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labLenght[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.hours_lenght" (onInput)="onChangeFormatHours($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.hours_lenght" (onInput)="onChangeFormatHours($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">ตัวอย่าง</label>
-                            <input id="lastname2" type="text" [(ngModel)]="examHours" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                        <input id="lastname2" type="text" [(ngModel)]="examHours"
+                            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                     </div>
 
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">{{labMinute[initial_current.Language]}} {{labStart[initial_current.Language]}}</label>
+                        <label for="lastname2">{{labMinute[initial_current.Language]}}
+                            {{labStart[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.minute_start" (onInput)="onChangeFormatMinute($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.minute_start" (onInput)="onChangeFormatMinute($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labLenght[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.minute_lenght" (onInput)="onChangeFormatMinute($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.minute_lenght" (onInput)="onChangeFormatMinute($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labExample[initial_current.Language]}}</label>
-                            <input id="lastname2" type="text" [(ngModel)]="examMinute" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                        <input id="lastname2" type="text" [(ngModel)]="examMinute"
+                            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                     </div>
 
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">{{labFunction[initial_current.Language]}} {{labStart[initial_current.Language]}}</label>
+                        <label for="lastname2">{{labFunction[initial_current.Language]}}
+                            {{labStart[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.function_start" (onInput)="onChangeFormatFunction($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.function_start" (onInput)="onChangeFormatFunction($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labLenght[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.function_lenght" (onInput)="onChangeFormatFunction($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.function_lenght" (onInput)="onChangeFormatFunction($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labExample[initial_current.Language]}}</label>
-                            <input id="lastname2" type="text" [(ngModel)]="examFunction"  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                        <input id="lastname2" type="text" [(ngModel)]="examFunction"
+                            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                     </div>
 
                     <div class="field col-12 md:col-4">
-                        <label for="lastname2">{{labMachine[initial_current.Language]}} {{labStart[initial_current.Language]}}</label>
+                        <label for="lastname2">{{labMachine[initial_current.Language]}}
+                            {{labStart[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.machine_start" (onInput)="onChangeFormatMachine($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.machine_start" (onInput)="onChangeFormatMachine($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labLenght[initial_current.Language]}}</label>
                         <br>
-                        <p-inputNumber  mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50" [(ngModel)]="formatDetail.machine_lenght" (onInput)="onChangeFormatMachine($event.value)">
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="50"
+                            [(ngModel)]="formatDetail.machine_lenght" (onInput)="onChangeFormatMachine($event.value)">
                         </p-inputNumber>
                     </div>
                     <div class="field col-12 md:col-4">
                         <label for="lastname2">{{labExample[initial_current.Language]}}</label>
-                            <input id="lastname2" type="text" [(ngModel)]="examMachine" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">                         
+                        <input id="lastname2" type="text" [(ngModel)]="examMachine"
+                            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                     </div>
 
                     <div class="field col-12">
-                        <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save" (click)="summit()"></p-button>  
-                       
+                        <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
+                            (click)="summit()"></p-button>
+
                     </div>
 
                 </div>
 
-                
+
             </p-tabPanel>
 
             <!-- <p-tabPanel >
@@ -185,5 +219,5 @@
         </p-tabView>
 
     </div>
-    
+
 </div>

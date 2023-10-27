@@ -24,7 +24,7 @@ export class AttendanceLocationComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
-    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+    this.itemslike = [{ label: this.langs.get('title')[this.selectlang], routerLink: '/attendance/policy' }, {
       label: this.langs.get('location')[this.selectlang], styleClass: 'activelike'
     }];
 

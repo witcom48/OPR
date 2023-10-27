@@ -82,13 +82,34 @@ export class SetAttpayComponent implements OnInit {
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
 
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+  title_template: { [key: string]: string } = { EN: "Template", TH: "เทมเพลต" };
+  title_attendance: { [key: string]: string } = { EN: "Attendance", TH: "กำหนดนโยบาย" };
+  title_setdeductionincomecode: { [key: string]: string } = { EN: "Set Deduction Income code", TH: "กำหนดนโยบายเงินหัก" };
+  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+  title_proces: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  title_no: { [key: string]: string } = { EN: "No", TH: "ลำดับ" };
+  title_worker: { [key: string]: string } = { EN: "Worker", TH: "รหัสพนักงาน" };
+  title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
+  title_to : { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
+  title_of : { [key: string]: string } = { EN: "  of ", TH: "จาก" }
+  title_entries : { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
+  title_search : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
+
+  
+  
+  
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('');
     }
-    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, { label: 'Set Deduction Income code', routerLink: '/attendance/policy/setattpay', styleClass: 'activelike' }];
+    this.itemslike = [{ label: this.title_attendance[this.initial_current.Language], routerLink: '/attendance/policy' }, { label: this.title_setdeductionincomecode[this.initial_current.Language] , routerLink: '/attendance/policy/setattpay', styleClass: 'activelike' }];
 
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }

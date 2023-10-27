@@ -48,7 +48,7 @@ declare var setpolicy: any;
 export class SetuppolicyComponent implements OnInit {
   langs: any = setpolicy;
   selectlang: string = "EN";
-  mainMenuItems: MenuItem[] = [{ label: 'Attendance', routerLink: '/attendance/policy' }, { label: 'Set Polilcy', routerLink: '/attendance/policy/setallpolicy', styleClass: 'activelike' }];
+  mainMenuItems: MenuItem[]=[];
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   constructor(
     private messageService: MessageService,
@@ -104,6 +104,8 @@ export class SetuppolicyComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
     this.selectlang = this.initial_current.Language;
+    this.mainMenuItems  = [{ label: this.langs.get('title')[this.selectlang], routerLink: '/attendance/policy' }, { label: this.langs.get('setpolilcy')[this.selectlang], routerLink: '/attendance/policy/setallpolicy', styleClass: 'activelike' }];
+
   }
   ngOnInit(): void {
     this.initial_current.loading = true;

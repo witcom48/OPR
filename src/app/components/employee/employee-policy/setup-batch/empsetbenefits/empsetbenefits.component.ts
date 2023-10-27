@@ -53,7 +53,7 @@ export class EmpsetbenefitsComponent implements OnInit {
   title_fullamount: { [key: string]: string } = { EN: "Amount", TH: "เต็มจำนวน" };
   title_byday: { [key: string]: string } = { EN: "Working Day", TH: "ตามวันที่ทำงาน" };
   title_reason: { [key: string]: string } = { EN: "Reason", TH: "เหตุผล" };
-  title_note: { [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
+  title_note: { [key: string]: string } = { EN: "Description", TH: "หมายเหตุ" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
   title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };

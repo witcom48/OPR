@@ -3,37 +3,39 @@
 <p-breadcrumb class="max-w-full" [model]="mainMenuItems" [home]="homeIcon"></p-breadcrumb>
 <!-- <span>Links</span> -->
 <p></p>
-<div class="grid">
+<div class="card" style="min-width: 600px; min-height: 500px">
 
-    <div class="col-12 md:col-3">
-        <!-- <b>Genaral</b> -->
-        <p-divider align="left">
-            <div>
-                <i class="pi pi-list mr-2"></i>
-                <b>Genaral</b>
+    <div class="grid">
+
+        <div class="col-12 md:col-3">
+            <!-- <b>Genaral</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_general[initialData.Language]}}</b>
+                </div>
+            </p-divider>
+            <div *ngFor="let item of genaralMenuItems">
+                <a routerLink="/attendance/policy/{{item.link}}">{{item.title}}</a>
             </div>
-        </p-divider>
-        <div *ngFor="let item of genaralMenuItems">
-            <a routerLink="/attendance/policy/{{item.link}}">{{item.title}}</a>
-        </div>
-        <!-- <a routerLink="/attendance/policy/yearperiod">Year Period</a> -->
-        <!-- <a routerLink="/attendance/policy/timeperiod">Time Period</a> -->
-        <!-- <a routerLink="/attendance/policy/reason">Reason</a>
+            <!-- <a routerLink="/attendance/policy/yearperiod">Year Period</a> -->
+            <!-- <a routerLink="/attendance/policy/timeperiod">Time Period</a> -->
+            <!-- <a routerLink="/attendance/policy/reason">Reason</a>
         <a routerLink="/attendance/policy/location">Location</a> -->
-    </div>
-
-    <div class="col-12 md:col-3">
-        <!-- <b>Policy</b> -->
-        <p-divider align="left">
-            <div>
-                <i class="pi pi-list mr-2"></i>
-                <b>Policy</b>
-            </div>
-        </p-divider>
-        <div *ngFor="let item of policyMenuItems">
-            <a routerLink="/attendance/policy/{{item.link}}">{{item.title}}</a>
         </div>
-        <!-- <a routerLink="/attendance/policy/holiday">Holiday</a>
+
+        <div class="col-12 md:col-3">
+            <!-- <b>Policy</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_policy[initialData.Language]}}</b>
+                </div>
+            </p-divider>
+            <div *ngFor="let item of policyMenuItems">
+                <a routerLink="/attendance/policy/{{item.link}}">{{item.title}}</a>
+            </div>
+            <!-- <a routerLink="/attendance/policy/holiday">Holiday</a>
         <a routerLink="/attendance/policy/shift">Shift</a>
         <a routerLink="/attendance/policy/shiftplan">Shift plan</a>
         <a routerLink="/attendance/policy/leave">Leave</a>
@@ -43,20 +45,20 @@
         <a routerLink="/attendance/policy/late">Late</a>
         <a routerLink="/attendance/policy/timeallowance">Time Allowance</a> -->
 
-    </div>
-
-    <div class="col-12 md:col-3">
-        <!-- <b>Set Policy</b> -->
-        <p-divider align="left">
-            <div>
-                <i class="pi pi-list mr-2"></i>
-                <b>Set Policy</b>
-            </div>
-        </p-divider>
-        <div *ngFor="let item of setpolicyMenuItems">
-            <a routerLink="/attendance/policy/{{item.link}}">{{item.title}}</a>
         </div>
-        <!-- <a routerLink="/attendance/policy/setholiday">Holiday</a>
+
+        <div class="col-12 md:col-3">
+            <!-- <b>Set Policy</b> -->
+            <p-divider align="left">
+                <div>
+                    <i class="pi pi-list mr-2"></i>
+                    <b>{{title_set_policy[initialData.Language]}}</b>
+                </div>
+            </p-divider>
+            <div *ngFor="let item of setpolicyMenuItems">
+                <a routerLink="/attendance/policy/{{item.link}}">{{item.title}}</a>
+            </div>
+            <!-- <a routerLink="/attendance/policy/setholiday">Holiday</a>
         <a routerLink="/attendance/policy/setshift">Shift</a>
         <a routerLink="/attendance/policy/setovertime">Overtime</a>
         <a routerLink="/attendance/policy/setdiligence">Diligence</a>
@@ -64,19 +66,20 @@
         <a routerLink="/attendance/policy/setleave">Leave</a>
         <a routerLink="/attendance/policy/settimeallowance">Time Allowance</a>
         <a routerLink="/attendance/policy/setattpay">Deduction/Income code </a> -->
-        <!-- <a>Workflow</a> -->
-    </div>
+            <!-- <a>Workflow</a> -->
+        </div>
 
-    <div class="col-12 md:col-3">
-        <!-- <b>Payroll</b>
+        <div class="col-12 md:col-3">
+            <!-- <b>Payroll</b>
         <a >Income / Deduct</a>  
         <a >Period</a>       
         <a >GL Account</a> -->
-    </div>
+        </div>
 
-    <!-- <div class="col-12">
+        <!-- <div class="col-12">
         <b>Workflow</b>
         <a>Approval Form</a>
     </div> -->
 
+    </div>
 </div>

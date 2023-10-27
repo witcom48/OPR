@@ -163,8 +163,14 @@ export class LocationComponent implements OnInit {
       this.fileToUpload = null;
     });
   }
+  selectedFileName: string = '';
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.langs.get('nofilechosen')[this.selectlang];
+    }
   }
   doLoadMenu() {
 

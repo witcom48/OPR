@@ -147,8 +147,11 @@ export class AppEntryComponent implements OnInit {
   title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
   title_reload: { [key: string]: string } = { EN: "Reload ", TH: "โหลดใหม่" }
   title_addcopy: { [key: string]: string } = { EN: "Add copy ", TH: "ทำรายการซ้ำ" }
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
 
-  
   title_page: string = 'Geanral';
   title_new: string = 'New';
   title_edit: string = 'Edit';
@@ -253,7 +256,7 @@ export class AppEntryComponent implements OnInit {
       this.title_modified_by = 'ผู้ทำรายการ';
       this.title_modified_date = 'วันที่ทำรายการ';
       this.title_search = 'ค้นหา';
-      this.title_upload = 'อัพโหลด';
+      this.title_upload = 'อัปโหลด';
 
       this.title_page_from = 'แสดง';
       this.title_page_to = 'ถึง';
@@ -354,8 +357,8 @@ export class AppEntryComponent implements OnInit {
 
     try {
       const res = await this.payitemService.payitem_get(this.initial_current.CompCode, this.initial_current.PR_PayDate, tmp.worker_code, this.item_type, tmp.item_code);
-       return res;
-    } catch   { }
+      return res;
+    } catch { }
   }
 
   doSetDetailItem() {
@@ -475,7 +478,7 @@ export class AppEntryComponent implements OnInit {
         },
       },
       {
-                label: this.title_template[this.initial_current.Language],
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Payitem.xlsx', '_blank');
@@ -486,13 +489,14 @@ export class AppEntryComponent implements OnInit {
         label: this.title_reload[this.initial_current.Language],
         icon: 'pi pi-fw pi-refresh',
         command: (event) => {
-            this.doLoaditem();
-            this.doSetDetailItem();     
-            this.showManage();
-         
-      }},
+          this.doLoaditem();
+          this.doSetDetailItem();
+          this.showManage();
 
-      
+        }
+      },
+
+
       {
         label: this.title_edit,
         icon: 'pi pi-fw pi-pencil',
@@ -502,7 +506,7 @@ export class AppEntryComponent implements OnInit {
             this.displayeditholiday = false;
             this.doLoaditem();
             this.showManage()
-            
+
             this.doSetDetailItem();
           }
         },
@@ -573,8 +577,19 @@ export class AppEntryComponent implements OnInit {
     this.displayUpload = true;
   }
 
+  // handleFileInput(file: FileList) {
+  //   this.fileToUpload = file.item(0);
+  // }
+  selectedFileName: string = '';
+
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.title_nofile[this.initial_current.Language];
+    }
+
   }
   Saveitem() {
     this.SetTRpolItem();

@@ -43,8 +43,7 @@
         <td>
 
             <p-button *ngIf="selectAllChecked || checked && buttonVisible" (click)="convertToEmp()"
-                label="{{title_convert[initial_current.Language]}}"
-                 ></p-button>
+                label="{{title_convert[initial_current.Language]}}"></p-button>
         </td>
     </p-menubar>
 </div>
@@ -116,11 +115,13 @@
 
             <ng-template pTemplate="header">
                 <tr>
-                    <th (click)="selection(data)">
+                    <th>
                         <!-- เลือกทั้งหมด -->
                         <button pButton class=" gray-button " *ngIf="status_select.code === 'W'"
                             (click)="toggleSelectAll()">{{title_chooseall[initial_current.Language]}}</button>
                     </th>
+
+
 
                     <th>{{title_code}}</th>
                     <!-- <th>{{title_initial}}</th> -->
@@ -136,12 +137,13 @@
             </ng-template>
 
             <ng-template pTemplate="body" let-data>
+
                 <tr [pSelectableRow]="data" (click)="selection(data)">
                     <td>
                         <!-- เลือกที่ละฟิล -->
-                        <p-checkbox  *ngIf="data.status === 'W'" [(ngModel)]="data.checked"
-                            [binary]="true" inputId="checked" [ngModelOptions]="{standalone: true}"
-                            (click)="toggleSelect()" [ngModel]="selectAllChecked"></p-checkbox>
+                        <p-checkbox *ngIf="data.status === 'W'" [(ngModel)]="data.checked" [binary]="true"
+                            inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect()"
+                            [ngModel]="selectAllChecked"></p-checkbox>
                     </td>
 
 

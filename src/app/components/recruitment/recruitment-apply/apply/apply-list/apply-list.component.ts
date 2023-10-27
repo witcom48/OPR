@@ -752,18 +752,41 @@ export class ApplyListComponent implements OnInit {
 
   selectAllChecked: boolean = false;
   showButton: boolean = false;
-  toggleSelectAll() {
+  toggleSelectAll( ) {
     this.selectAllChecked = !this.selectAllChecked;
     this.showButton = this.selectAllChecked;
+    this.selection(this.selectedReqworker)
+
+    console.log(this.showButton,'ttt')
     //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
   }
+  
+
+
+
+  
 
   data = {
     checked: false
   };
+  // toggleSelect() {
+  //   this.checked = !this.checked;
+  // }
+
   toggleSelect() {
-    this.checked = !this.checked;
-  }
+    // ทำงานเมื่อคลิก Checkbox ในแถวข้อมูล
+    if (!this.checked) {
+        this.checked = true;
+        // กรณีที่เลือก
+        console.log("ข้อมูลถูกเลือก: ", this.data);
+        // ทำงานเพิ่มเติมหลังจากการเลือก
+    } else {
+        this.checked = false;
+        // กรณีที่ยกเลิกเลือก
+        console.log("การเลือกถูกยกเลิก: ", this.data);
+        // ทำงานเพิ่มเติมหลังการยกเลิกเลือก
+    }
+}
 
 
 
@@ -774,13 +797,13 @@ export class ApplyListComponent implements OnInit {
       this.new_applywork = false;
       this.displayManage = false;
     }
-  }
-  selections(data: EmployeeModel) {
-    this.selectedReqworker = data
+    console.log(data,'data')
 
-    this.new_applywork = true;
-    this.edit_applywork = true
-    this.showManage()
+  }
+  selections(data: EmployeeModel ) {
+    this.selectedReqworker 
+    this.selection(data)
+    console.log(this.selectedReqworker,'tttt')
   }
 
 
@@ -826,7 +849,7 @@ export class ApplyListComponent implements OnInit {
         this.doLoadReqSalaryList();
         this.doLoadReqBenefitList();
         this.buttonVisible = false;
-
+        this.selection
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });

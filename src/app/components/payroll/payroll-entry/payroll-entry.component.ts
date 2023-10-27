@@ -122,7 +122,7 @@ export class PayrollEntryComponent implements OnInit {
             this.router.navigateByUrl('login');
         }
         this.accessData = this.initialData2.dotGetPolmenu('PAY');
- 
+
 
     }
 
@@ -130,8 +130,12 @@ export class PayrollEntryComponent implements OnInit {
     title_btn_close: { [key: string]: string } = { EN: "Close", TH: "ปิด" }
     title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
     title_reload: { [key: string]: string } = { EN: "Reload ", TH: "โหลดใหม่" }
+    title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+    title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+    title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+    title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
 
-    
+
     title_page: string = 'Geanral';
     title_new: string = 'New';
     title_edit: string = 'Edit';
@@ -239,7 +243,7 @@ export class PayrollEntryComponent implements OnInit {
             this.title_modified_by = 'ผู้ทำรายการ';
             this.title_modified_date = 'วันที่ทำรายการ';
             this.title_search = 'ค้นหา';
-            this.title_upload = 'อัพโหลด';
+            this.title_upload = 'อัปโหลด';
 
             this.title_page_from = 'แสดง';
             this.title_page_to = 'ถึง';
@@ -299,9 +303,9 @@ export class PayrollEntryComponent implements OnInit {
                 label: this.title_reload[this.initial_current.Language],
                 icon: 'pi pi-fw pi-refresh',
                 command: (event) => {
-                    this.doLoadPayitem()                
+                    this.doLoadPayitem()
                 }
-              }
+            }
             // ,
             // {
             //     label: this.title_edit,
@@ -368,7 +372,7 @@ export class PayrollEntryComponent implements OnInit {
         this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
             this.worker_list = res;
         });
-      }
+    }
 
 
     doNextWorker() {
@@ -429,7 +433,7 @@ export class PayrollEntryComponent implements OnInit {
             const deItems = res.filter((item: { item_type: string }) => item.item_type === 'DE');
             this.payitem_list = [...inItems, ...deItems];
         } catch (error) {
-         }
+        }
         this.doSummaryByEmp();
     }
     async doRecordPayitem(data: PayitemModel) {
@@ -446,7 +450,7 @@ export class PayrollEntryComponent implements OnInit {
                 });
                 await this.doLoadPayitem();
                 this.doSetDetailWorker();
-             } else {
+            } else {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
@@ -488,14 +492,14 @@ export class PayrollEntryComponent implements OnInit {
     async doDeletePayitem(data: PayitemModel) {
         try {
             const res = await this.payitemService.payitem_delete(data);
-             if (res.success) {
+            if (res.success) {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
                     detail: res.message,
                 });
                 await Promise.all([this.doLoadPayitem(), this.doSetDetailWorker()]);
- 
+
                 this.new_data = false;
                 this.edit_data = false;
                 this.displayManage = false;
@@ -508,7 +512,7 @@ export class PayrollEntryComponent implements OnInit {
                 });
             }
         } catch (error) {
-             this.messageService.add({
+            this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
                 detail: 'An error occurred while deleting payitem',
@@ -588,9 +592,16 @@ export class PayrollEntryComponent implements OnInit {
     showUpload() {
         this.displayUpload = true;
     }
+    selectedFileName: string = '';
 
     handleFileInput(file: FileList) {
         this.fileToUpload = file.item(0);
+        if (this.fileToUpload) {
+            this.selectedFileName = this.fileToUpload.name;
+        } else {
+            this.selectedFileName = this.title_nofile[this.initial_current.Language];
+        }
+
     }
     Save() {
         this.doRecordPayitem(this.payitems);
@@ -663,13 +674,13 @@ export class PayrollEntryComponent implements OnInit {
         XLSX.writeFile(wb, 'Export_Reason.xlsx');
 
     }
-    
+
 
 
     position: string = "right";
     searchEmp: boolean = false;
     open_searchemp() {
-         this.searchEmp = true
+        this.searchEmp = true
     }
 
     close_searchemp() {

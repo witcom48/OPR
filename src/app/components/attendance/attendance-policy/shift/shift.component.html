@@ -77,11 +77,11 @@
                         disabled="{{edit_data}}" name="shift_code" #shift_code="ngModel" required />
                     <p>{{shifts.shift_code.length}}/10</p>
 
-                    <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
+                    <label>{{langs.get('description')[selectlang]}} {{langs.get('eng')[selectlang]}}<span style="color: red;"> *</span></label>
                     <textarea [(ngModel)]="shifts.shift_name_en" pInputTextarea [autoResize]="true" name="shift_name_en"
                         #shift_name_en="ngModel" required></textarea>
 
-                    <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
+                    <label>{{langs.get('description')[selectlang]}} {{langs.get('thai')[selectlang]}}<span style="color: red;"> *</span></label>
                     <textarea [(ngModel)]="shifts.shift_name_th" pInputTextarea [autoResize]="true" name="shift_name_th"
                         #shift_name_th="ngModel" required></textarea>
                     <h3>{{langs.get('working')[selectlang]}}</h3>
@@ -294,7 +294,7 @@
 
 </div>
 <form (ngSubmit)="Savebreak()" #Form2="ngForm">
-    <p-dialog header="{{langs.get('uploadinfo')[selectlang]}}" [(visible)]="displayaddbreak" (onHide)="closedispaly()">
+    <p-dialog header="{{langs.get('break')[selectlang]}}" [(visible)]="displayaddbreak" (onHide)="closedispaly()">
         <div class="formatt">
             <div>
                 <div class="timeto">
@@ -323,14 +323,14 @@
     </p-dialog>
 </form>
 <form (ngSubmit)="Saveallowance()" #Form3="ngForm">
-    <p-dialog header="{{langs.get('uploadinfo')[selectlang]}}" [(visible)]="displayaddallowance"
+    <p-dialog header="{{langs.get('allowance')[selectlang]}} " [(visible)]="displayaddallowance"
         (onHide)="closedispaly()">
         <div class="formatt">
-            <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
+            <label>{{langs.get('description')[selectlang]}} {{langs.get('eng')[selectlang]}}<span style="color: red;"> *</span></label> 
             <textarea [(ngModel)]="shifts_allowance.shiftallowance_name_en" pInputTextarea [autoResize]="true"
                 name="shiftallowance_name_en" #shiftallowance_name_en="ngModel" required></textarea>
 
-            <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
+            <label>{{langs.get('description')[selectlang]}} {{langs.get('thai')[selectlang]}}<span style="color: red;"> *</span></label>
             <textarea [(ngModel)]="shifts_allowance.shiftallowance_name_th" pInputTextarea [autoResize]="true"
                 name="shiftallowance_name_th" #shiftallowance_name_th="ngModel" required></textarea>
 
@@ -354,10 +354,19 @@
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload" (onHide)="closedupload()">
     <label class="drop-container">
-        <span class="drop-title">{{langs.get('dropfile')[selectlang]}}</span>
-        <input type="file"
+        <span class="drop-title"> {{langs.get('dropfile')[selectlang]}}</span>
+         
+        <!-- <input type="file"
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            required (change)="handleFileInput($any($event).target.files)" #importFile>
+            required (change)="handleFileInput($any($event).target.files)"> -->
+        <div class="attach">
+            <input id="file" type="file" #importFile
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                required (change)="handleFileInput($any($event).target.files)" style="display: none;">
+            <label for="file" class="btnattach"> {{langs.get('choosefile')[selectlang]}} </label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{langs.get('nofilechosen')[selectlang]}}  </span>
+            <span class="chosen-attach" *ngIf="selectedFileName">  {{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>

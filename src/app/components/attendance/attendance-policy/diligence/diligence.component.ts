@@ -127,16 +127,22 @@ export class DiligenceComponent implements OnInit {
     });
   }
 
+  selectedFileName: string = '';
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
-  }
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.langs.get('nofilechosen')[this.selectlang];
+    }
+   }
 
   closedupload() {
     this.importFile.nativeElement.value = null
     this.fileToUpload = null;
   }
   doLoadMenu() {
-    this.itemslike = [{ label: 'Attendance', routerLink: '/attendance/policy' }, {
+    this.itemslike = [{ label: this.langs.get('title')[this.selectlang], routerLink: '/attendance/policy' }, {
       label: this.langs.get('diligence')[this.selectlang], styleClass: 'activelike'
     }];
 
@@ -158,7 +164,7 @@ export class DiligenceComponent implements OnInit {
       }
       ,
       {
-        label: "Template",
+        label: this.langs.get('template')[this.selectlang],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import Attendance/(OPR)Import Diligence.xlsx', '_blank');

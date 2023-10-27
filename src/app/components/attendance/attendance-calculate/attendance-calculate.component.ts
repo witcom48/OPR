@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MenuItem, MessageService } from 'primeng/api';
 import { PrjectEmpdailyModel } from '../../../models/project/project_empdaily';
 import { Router } from '@angular/router';
 import { AppConfig } from '../../../config/config';
@@ -20,7 +20,8 @@ import { TaskService } from '../../../services/task.service'
   styleUrls: ['./attendance-calculate.component.scss']
 })
 export class AttendanceCalculateComponent implements OnInit {
-
+  itemslike: MenuItem[] = [];
+  home: any;
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
 
@@ -41,7 +42,12 @@ export class AttendanceCalculateComponent implements OnInit {
   labOvertime: { [key: string]: string } = { EN: "Overtime", TH: "ล่วงเวลา" }
   labDiligence: { [key: string]: string } = { EN: "Diligence", TH: "เบี้ยขยัน" }
   labAllowance: { [key: string]: string } = { EN: "Allowance", TH: "เงินค่าเวลา" }
+  calculatetimecost: { [key: string]: string } = { EN: "Calculate Time Cost", TH: "เงินค่าเวลา" }
 
+  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+  title_proces: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
@@ -64,6 +70,9 @@ export class AttendanceCalculateComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
+    this.itemslike = [{ label: this.calculatetimecost[this.initial_current.Language], styleClass: 'activelike' },];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+
   }
 
   doLoadLanguage() {

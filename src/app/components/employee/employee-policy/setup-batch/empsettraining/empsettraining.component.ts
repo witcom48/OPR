@@ -50,7 +50,7 @@ export class EmpsettrainingComponent implements OnInit {
   title_pass: { [key: string]: string } = { EN: "Pass", TH: "ผ่าน" };
   title_notpass: { [key: string]: string } = { EN: "Not Pass", TH: "ไม่ผ่าน" };
   title_cost: { [key: string]: string } = { EN: "Cost", TH: "ค่าใช้จ่าย" };
-  title_note: { [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
+  title_note: { [key: string]: string } = { EN: "Description", TH: "หมายเหตุ" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
   title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };

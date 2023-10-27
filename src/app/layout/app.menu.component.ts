@@ -130,15 +130,15 @@ export class AppMenuComponent implements OnInit {
             },
 
             [ModuleCode.ATT]: {
-                label: 'Attendance',
+                label: this.langs.get('attendance')[this.selectlang],
                 icon: 'pi-clock',
                 items: [
-                    { label: 'Policy', routerLink: ['/attendance/policy'], accessCode: 'ATT001' },
-                    { label: 'Import Time', routerLink: ['/attendance/import'], accessCode: 'ATT002' },
-                    { label: 'Processing Time', routerLink: ['/attendance/process'], accessCode: 'ATT003' },
-                    { label: 'View Time', routerLink: ['/attendance/view'], accessCode: 'ATT004' },
-                    { label: 'Calculate Time Cost', routerLink: ['/attendance/calculate'], accessCode: 'ATT005' },
-                    { label: 'Summary', routerLink: ['/attendance/summary'], accessCode: 'ATT006' },
+                    { label: this.langs.get('policy')[this.selectlang], routerLink: ['/attendance/policy'], accessCode: 'ATT001' },
+                    { label: this.langs.get('importtime')[this.selectlang], routerLink: ['/attendance/import'], accessCode: 'ATT002' },
+                    { label: this.langs.get('processingtime')[this.selectlang], routerLink: ['/attendance/process'], accessCode: 'ATT003' },
+                    { label: this.langs.get('viewtime')[this.selectlang], routerLink: ['/attendance/view'], accessCode: 'ATT004' },
+                    { label: this.langs.get('calculatetimeCost')[this.selectlang], routerLink: ['/attendance/calculate'], accessCode: 'ATT005' },
+                    { label: this.langs.get('summary')[this.selectlang], routerLink: ['/attendance/summary'], accessCode: 'ATT006' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/attendance/reports'], accessCode: 'ATT007' },
                 ]
             },
@@ -155,7 +155,7 @@ export class AppMenuComponent implements OnInit {
                     { label: this.langs.get('incomededuct')[this.selectlang], routerLink: ['/payroll/entry'], accessCode: 'PAY003' },
                     { label: this.langs.get('calculatetax')[this.selectlang], routerLink: ['/payroll/caltax'], accessCode: 'PAY004' },
                     { label: this.langs.get('viewcalculate')[this.selectlang], routerLink: ['/payroll/view'], accessCode: 'PAY005' },
-                    { label: this.langs.get('summary')[this.selectlang], routerLink: ['/payroll/summary'], accessCode: 'PAY006' },
+                    { label: this.langs.get('summarys')[this.selectlang], routerLink: ['/payroll/summary'], accessCode: 'PAY006' },
                     { label: this.langs.get('transfer')[this.selectlang], routerLink: ['/payroll/transfer'], accessCode: 'PAY007' },
                     // { label: 'Approval list', routerLink: ['/payroll/approve'], accessCode: 'PAY008' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/payroll/reports'], accessCode: 'PAY009' },
