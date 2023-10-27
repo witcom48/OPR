@@ -42,7 +42,7 @@ export class AttendanceCalculateComponent implements OnInit {
   labOvertime: { [key: string]: string } = { EN: "Overtime", TH: "ล่วงเวลา" }
   labDiligence: { [key: string]: string } = { EN: "Diligence", TH: "เบี้ยขยัน" }
   labAllowance: { [key: string]: string } = { EN: "Allowance", TH: "เงินค่าเวลา" }
-  calculatetimecost: { [key: string]: string } = { EN: "Calculate Time Cost", TH: "เงินค่าเวลา" }
+  calculatetimecost: { [key: string]: string } = { EN: "Calculate Time Cost", TH: "คำนวณเงินค่าเวลา" }
 
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_proces: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
