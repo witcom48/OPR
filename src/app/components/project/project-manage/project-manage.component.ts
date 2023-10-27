@@ -1789,6 +1789,7 @@ export class ProjectManageComponent implements OnInit {
       key: "myDialog"
     });
   }
+  
 
   confirmRecordJobmain() {
     this.confirmationService.confirm({
@@ -1800,7 +1801,7 @@ export class ProjectManageComponent implements OnInit {
         this.projectDetailService.projobmain_record(this.version_selected, this.selectedProject.project_code, this.selectedProject.project_code, this.projobmain_list).then((res) => {
           let result = JSON.parse(res);
           if (result.success) {
-            this.projobmain_record()
+            // this.projobmain_record()
             this.projobshift_record()
             this.projobcost_record()
             this.projobmachine_record()
@@ -1810,7 +1811,8 @@ export class ProjectManageComponent implements OnInit {
 
             var jobshift = this.projobshift_record()
 
-            var jobpol = this.projobpol_record()
+            // var jobpol = this.projobpol_record()
+            
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
 

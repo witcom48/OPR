@@ -553,7 +553,7 @@ export class ProjectDetailService {
   }
 
   public projobmain_record(version: string, project: string, type: string, list: ProjobmainModel[]) {
-
+    console.log(list)
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
@@ -883,7 +883,7 @@ export class ProjectDetailService {
   public projobmachine_delete(model: ProjobmachineModel) {
     const data = {
       projobmachine_id: model.projobmachine_id,
-       projob_code: model.projob_code,
+      projob_code: model.projob_code,
       project_code: model.project_code,
       modified_by: this.initial_current.Username
     };
@@ -1000,7 +1000,7 @@ export class ProjectDetailService {
   }
   ///////////ทำตรงนี้
 
-  public projobemp_getbyfillter(fillter: FillterProjectModel,Radiovalue:RadiovalueModel) {
+  public projobemp_getbyfillter(fillter: FillterProjectModel, Radiovalue: RadiovalueModel) {
 
     const fillterS = {
       device_name: '',
@@ -1039,7 +1039,7 @@ export class ProjectDetailService {
   }
 
   //
-  public projobemp2_get(project: string,fromdate: Date, todate: Date,) {
+  public projobemp2_get(project: string, fromdate: Date, todate: Date,) {
     let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
     let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
     var filter = {
@@ -1068,9 +1068,9 @@ export class ProjectDetailService {
       });
   }
 
-  
+
   //
-  public projobemp3_get(project: string,fromdate: Date, todate: Date,) {
+  public projobemp3_get(project: string, fromdate: Date, todate: Date,) {
     let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
     let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
     var filter = {
@@ -1561,21 +1561,21 @@ export class ProjectDetailService {
       });
   }
 
-  public proequipmentreq_record(project: string,   list: ProequipmentreqModel[]) {
+  public proequipmentreq_record(project: string, list: ProequipmentreqModel[]) {
 
     var item_data: string = "[";
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"proequipmentreq_id\":\"" + list[i].proequipmentreq_id + "\"";
       item_data = item_data + ",\"prouniform_code\":\"" + list[i].prouniform_code + "\"";
- 
+
       item_data = item_data + ",\"proequipmentreq_date\":\"" + this.datePipe.transform(list[i].proequipmentreq_date, 'yyyy-MM-dd') + "\"";
       item_data = item_data + ",\"proequipmentreq_qty\":\"" + list[i].proequipmentreq_qty + "\"";
       item_data = item_data + ",\"proequipmentreq_note\":\"" + list[i].proequipmentreq_note + "\"";
       item_data = item_data + ",\"proequipmentreq_by\":\"" + list[i].proequipmentreq_by + "\"";
       item_data = item_data + ",\"proequipmenttype_code\":\"" + list[i].proequipmenttype_code + "\"";
       item_data = item_data + ",\"project_code\":\"" + project + "\"";
-      item_data = item_data + ",\"projob_code\":\""+ list[i].projob_code + "\"";
+      item_data = item_data + ",\"projob_code\":\"" + list[i].projob_code + "\"";
 
 
       item_data = item_data + "}" + ",";
@@ -1598,8 +1598,8 @@ export class ProjectDetailService {
       });
   }
 
- 
-  public proequipmentreq_delete(project: string , model: ProequipmentreqModel) {
+
+  public proequipmentreq_delete(project: string, model: ProequipmentreqModel) {
     const data = {
       proequipmentreq_id: model.proequipmentreq_id,
       prouniform_code: model.prouniform_code,
