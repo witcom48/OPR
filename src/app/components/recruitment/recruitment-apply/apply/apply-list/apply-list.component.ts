@@ -72,7 +72,7 @@ export class ApplyListComponent implements OnInit {
   new_applywork: boolean = false;
   ImportList: ImportList[] = [];
   checked: boolean = false;
-  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }];
+  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'รอเอกสารแนบ', name_en: 'Wait Attach', code: 'R' }, { name_th: 'ทั้งหมด', name_en: 'All', code: '' }];
   status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
   status_doc: boolean = false
 
