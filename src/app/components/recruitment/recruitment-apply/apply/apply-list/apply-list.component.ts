@@ -752,19 +752,19 @@ export class ApplyListComponent implements OnInit {
 
   selectAllChecked: boolean = false;
   showButton: boolean = false;
-  toggleSelectAll( ) {
+  toggleSelectAll() {
     this.selectAllChecked = !this.selectAllChecked;
     this.showButton = this.selectAllChecked;
     this.selection(this.selectedReqworker)
 
-    console.log(this.showButton,'ttt')
+    console.log(this.showButton, 'ttt')
     //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
   }
-  
 
 
 
-  
+
+
 
   data = {
     checked: false
@@ -773,20 +773,36 @@ export class ApplyListComponent implements OnInit {
   //   this.checked = !this.checked;
   // }
 
-  toggleSelect() {
-    // ทำงานเมื่อคลิก Checkbox ในแถวข้อมูล
-    if (!this.checked) {
-        this.checked = true;
-        // กรณีที่เลือก
-        console.log("ข้อมูลถูกเลือก: ", this.data);
-        // ทำงานเพิ่มเติมหลังจากการเลือก
-    } else {
-        this.checked = false;
-        // กรณีที่ยกเลิกเลือก
-        console.log("การเลือกถูกยกเลิก: ", this.data);
-        // ทำงานเพิ่มเติมหลังการยกเลิกเลือก
-    }
-}
+  //   toggleSelect() {
+  //      if (!this.checked) {
+  //         this.checked = true;
+  //          console.log("ข้อมูลถูกเลือก: ", this.data);
+  //      } else {
+  //         this.checked = false;
+  //          console.log("การเลือกถูกยกเลิก: ", this.data);
+  //      }
+  // }
+
+  // selectedDataArray: any[] = [];
+
+  // toggleSelect(data: { checked: boolean; }) {
+  //   if (data.checked) {
+  //     this.selectedDataArray.push(data);
+  //     this.checked = true;
+  //     console.log("ข้อมูลถูกเลือก: ", data);
+  //   } else {
+  //     const index = this.selectedDataArray.indexOf(data);
+  //     if (index > -1) {
+  //       this.selectedDataArray.splice(index, 1);
+  //       if (this.selectedDataArray.length === 0) {
+  //         this.checked = false;
+  //       }
+  //       console.log("การเลือกถูกยกเลิก: ", data);
+  //     }
+  //   }
+  // }
+
+
 
 
 
@@ -797,68 +813,81 @@ export class ApplyListComponent implements OnInit {
       this.new_applywork = false;
       this.displayManage = false;
     }
-    console.log(data,'data')
+    // console.log(data,'data')
 
   }
-  selections(data: EmployeeModel ) {
-    this.selectedReqworker 
+  selections(data: EmployeeModel) {
+    this.selectedReqworker
     this.selection(data)
-    console.log(this.selectedReqworker,'tttt')
+    console.log(this.selectedReqworker, 'tttt')
   }
 
-
-  //convertToEmptest
-  convertToEmptest(data: EmployeeModel) {
+  selectedDataArray: any[] = [];
+  toggleSelect(data: { checked: boolean; }) {
+    if (data.checked) {
+      this.selectedDataArray.push(data);
+      this.checked = true;
+      console.log("ข้อมูลถูกเลือก: ", data);
+    } else {
+      const index = this.selectedDataArray.indexOf(data);
+      if (index > -1) {
+        this.selectedDataArray.splice(index, 1);
+        if (this.selectedDataArray.length === 0) {
+          this.checked = false;
+        }
+        console.log("การเลือกถูกยกเลิก: ", data);
+      }
+    }
+  }
+  convertToEmptest(selectedDataArray: EmployeeModel[]) {
     this.confirmationService.confirm({
       message: this.title_confirm_record,
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
-
-        // if (data.worker_birthdate && this.CalculateAge(data.worker_birthdate) >= 50) {
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S");
-        }
-
-        if (data.counthistory >= 3) {
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S");
-        }
-
-        if (data.checkblacklist) {
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S");
-        }
-
-        this.doGetNewCode();
-        this.doLoadReqaddressList();
-        this.doLoadReqForeignercard();
-        this.doLoadReqeducationList();
-        this.doLoadReqtrainingList();
-        this.doLoadReqassessmentList();
-        this.doLoadReqCriminalList();
-        this.doLoadReqSuggestList();
-        this.doLoadReqPositionList();
-        this.doLoadReqSalaryList();
-        this.doLoadReqBenefitList();
-        this.buttonVisible = false;
-        this.selection
+        // เรียกเมธอดที่ทำการบันทึกข้อมูลทีละตัว
+        this.processNext(selectedDataArray);
+        // console.log(this.processNext(selectedDataArray),'เรียกเมธอดที่ทำการบันทึกข้อมูลทีละตัว')
       },
-      reject: () => {
-        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-      },
+      // ...
     });
   }
 
+  processNext(selectedDataArray: EmployeeModel[]) {
+    if (selectedDataArray.length > 0) {
+      const data = selectedDataArray[0];
 
+      // ทำการบันทึกข้อมูลที่ถูกเลือก
+      this.saveData(data);
 
+      // นำข้อมูลที่ถูกเลือกออกจาก array
+      selectedDataArray.shift();
+
+      // เรียกตัวเองเพื่อดำเนินการกับข้อมูลถัดไป
+      this.processNext(selectedDataArray);
+    }
+  }
+
+  saveData(data: EmployeeModel) {
+    // this.edit_applywork = false;
+    // this.new_applywork = false;
+    // this.displayManage = false;
+
+    this.doGetNewCode();
+    this.doLoadReqaddressList();
+    this.doLoadReqForeignercard();
+    this.doLoadReqeducationList();
+    this.doLoadReqtrainingList();
+    this.doLoadReqassessmentList();
+    this.doLoadReqCriminalList();
+    this.doLoadReqSuggestList();
+    this.doLoadReqPositionList();
+    this.doLoadReqSalaryList();
+    this.buttonVisible = false;
+    this.doLoadattdocreq();
+
+    console.log("ข้อมูลที่ถูกเลือกทำงาน: ", data);
+  }
 
 
   //
@@ -1341,11 +1370,11 @@ export class ApplyListComponent implements OnInit {
     })
   }
   reqdocatt: ApplyMTDocattModel[] = [];
-  doLoadattdocreq(){
+  doLoadattdocreq() {
     var tmp = new ApplyMTDocattModel();
     tmp.company_code = this.initial_current.CompCode
     tmp.worker_code = this.selectedReqworker.worker_code
-    this.applyworkService.getreq_filelist(tmp).then((res)=>{
+    this.applyworkService.getreq_filelist(tmp).then((res) => {
       this.reqdocatt = res;
     })
   }
