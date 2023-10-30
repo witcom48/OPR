@@ -26,7 +26,8 @@ import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.comp
 export class PayrollSummaryComponent implements OnInit {
 
   @ViewChild(SearchEmpComponent) selectEmp: any;
-
+  home: any;
+  itemslike: MenuItem[] = [];
   title_page: {[key: string]: string} = {  EN: "Summary",  TH: "ข้อมูลเวลา"}
   title_new: {[key: string]: string} = {  EN: "New",  TH: "เพิ่ม"}
   title_edit: {[key: string]: string} = {  EN: "Edit",  TH: "แก้ไข"}
@@ -38,7 +39,7 @@ export class PayrollSummaryComponent implements OnInit {
   title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
   title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
   title_search: {[key: string]: string} = {  EN: "Search",  TH: "ค้นหา"}
-  title_export: {[key: string]: string} = {  EN: "Export",  TH: "โอนออก"}
+  title_export: {[key: string]: string} = {  EN: "Export",  TH: "ส่งออกไฟล์"}
   //
   title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
   title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
@@ -86,6 +87,10 @@ export class PayrollSummaryComponent implements OnInit {
 
   title_netpay: {[key: string]: string} = {  EN: "Netpay",  TH: "เงินได้สุทธิ"}
 
+  title_summary: {[key: string]: string} = {  EN: "Summary",  TH: "สรุปรายการรวม"}  
+  title_payroll: {[key: string]: string} = {  EN: "Payroll",  TH: "ระบบบริหารเงินเดือน"}  
+
+  
 
   style_input_real:string = "[style]=\"{'width':'80px'}\\";
  
@@ -99,7 +104,7 @@ export class PayrollSummaryComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-
+   
     this.doGetInitialCurrent()
     this.doLoadMenu()
     this.doLoadLanguage()
@@ -112,7 +117,8 @@ export class PayrollSummaryComponent implements OnInit {
       this.worker_index = 0;
       this.doSetDetailWorker();   
     }, 1000);
-
+    this.itemslike = [{ label: this.title_summary[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
   public initial_current:InitialCurrent = new InitialCurrent();  

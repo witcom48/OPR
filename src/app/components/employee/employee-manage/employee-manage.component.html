@@ -14,8 +14,24 @@
 
                     <div class="empinfo">
 
-                        <p-image [src]="base64Image" id="imgWorker" name="imgWorker" alt="Image" width="175"
+                        <!-- <p-image [src]="base64Image" id="imgWorker" name="imgWorker" alt="Image" width="175"
                             height="175"></p-image>
+<<<<<<< HEAD
+                            <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*"> -->
+                        <!--  -->
+                        <p-image [src]="base64Image" id="imgReq" name="imgReq" alt="Image" width="175"
+                            height="175"></p-image>
+                        <!-- <p-button class="upload" label="Upload Images"></p-button> -->
+                        <div class="btnupload">
+                            <input class="upload" type="file" id="file" (change)="onselectFile($event)"
+                                accept="image/*">
+                            <label for="file" class="uploadlabe">{{title_choose[initial_current.Language]}}</label>
+                            <span class="chosen-text"
+                                *ngIf="!selectedimageName">{{title_nofile[this.initial_current.Language]}}</span>
+                            <span class="chosen-text" *ngIf="selectedimageName">{{selectedimageName}}</span>
+                        </div>
+                        <!--  -->
+=======
                         <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*">
                         <!-- <p-fileUpload class="upload" mode="basic" chooseLabel="Upload Images" [maxFileSize]="1000000"
                             accept="image/*" cancelIcon="true" [customUpload]="true"
@@ -24,6 +40,7 @@
                         <!-- <div>
                             <input type="URL" name="myURL" [(ngModel)]="myURL" placeholder="insert image URL here" (change)="onURLinserted() ">
                         </div> -->
+>>>>>>> 1cff849b796cb65d0527eb4fd9572ac9e627560b
                         <div style="grid-column: 1;">
                             <label for="code">{{title_code}} : <span style="color: red;"> *</span></label>
                             <input pInputText id="code" type="text" class="p-inputtext-sm"
@@ -1554,7 +1571,7 @@
                                             <ng-template pTemplate="header">
                                                 <tr>
                                                     <th>{{title_date}}</th>
-                                                    <th>{{title_amount}}</th>
+                                                    <th>{{title_amounts[initial_current.Language]}}</th>
                                                     <th>{{title_reason}}</th>
                                                     <th>{{title_modified_by}}</th>
                                                     <th>{{title_modified_date}}</th>
@@ -1604,7 +1621,7 @@
                                                     <th>{{title_incomededuct}}</th>
                                                     <th>{{title_capital[initial_current.Language]}}</th>
                                                     <th>{{title_capperiod[initial_current.Language]}}</th>
-                                                    <th>{{title_amount}}</th>
+                                                    <th>{{title_amounts[initial_current.Language]}}</th>
                                                     <th>{{title_conditionpay}}</th>
                                                     <th>{{title_reason}}</th>
                                                     <th>{{title_break}}</th>
@@ -1720,7 +1737,7 @@
                                             <ng-template pTemplate="header">
                                                 <tr>
                                                     <th>{{title_reducename}}</th>
-                                                    <th>{{title_amount}}</th>
+                                                    <th>{{title_amounts[initial_current.Language]}}</th>
                                                     <th>{{title_modified_by}}</th>
                                                     <th>{{title_modified_date}}</th>
                                                 </tr>
@@ -1754,7 +1771,7 @@
                                                     <i class="pi pi-search"></i>
                                                     <input pInputText type="text"
                                                         (input)="dt17.filterGlobal($any($event).target.value, 'contains')"
-                                                        placeholder="Search keyword" />
+                                                        placeholder={{title_search_keyword[initial_current.Language]}} />
                                                 </span>
                                             </div>
                                         </ng-template>
@@ -2668,7 +2685,7 @@
         </p-inputNumber>
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpsalary.empsalary_incpercent"> -->
 
-        <label>{{title_amount}}</label>
+        <label>{{title_amounts[initial_current.Language]}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedEmpsalary.empsalary_amount">
         </p-inputNumber>
@@ -2801,7 +2818,7 @@
             (ngModelChange)="changebenefitamount()">
         </p-inputNumber>
 
-        <label>{{title_amount}}</label>
+        <label>{{title_amounts[initial_current.Language]}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedEmpbenefit.empbenefit_amount" [readonly]="true">
         </p-inputNumber>
@@ -2899,7 +2916,7 @@
         <!-- <p-dropdown placeholder="--" optionLabel="name" [showClear]="true" [(ngModel)]="selectedEmpreduce.reduce_type"
             [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
 
-        <label>{{title_amount}}</label>
+        <label>{{title_amounts[initial_current.Language]}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="2"
             [maxFractionDigits]="2" [(ngModel)]="selectedEmpreduce.empreduce_amount">
         </p-inputNumber>
@@ -3205,6 +3222,11 @@
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
-    key="myDialog"></p-confirmDialog>
+<p-confirmDialog #cd [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog">
+    <ng-template pTemplate="footer">
+        <button type="button" pButton icon="pi pi-times" label="{{title_confirm_no}}" (click)="cd.reject()"></button>
+        <button type="button" pButton icon="pi pi-check" label="{{title_confirm_yes}}" (click)="cd.accept()"></button>
+    </ng-template>
+</p-confirmDialog>
 <!-- ----------------------END Confirm and Toast------------------------ -->

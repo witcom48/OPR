@@ -121,6 +121,7 @@ export class SelfApproveRecordtimeComponent implements OnInit {
       });
       this.trtimonsite_list = await res.data
       this.approveTotal = await res.total;
+      this.initial_current.loading = false;
     });
   }
 
@@ -132,6 +133,7 @@ export class SelfApproveRecordtimeComponent implements OnInit {
     })
   }
   async doApproveJob(data: ApproveModel) {
+    this.initial_current.loading = true;
     data.job_type = "ONS";
     data.lang = this.selectlang;
     await this.approveService.approveJob(data).then((res) => {
@@ -142,7 +144,7 @@ export class SelfApproveRecordtimeComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.closeManage()
   }

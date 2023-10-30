@@ -86,11 +86,11 @@
                     <!-- <div [hidden]="code.valid || code.pristine" style="color: red;">
                 Code is required
             </div> -->
-                    <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
+                    <label>{{langs.get('description')[selectlang]}} {{langs.get('eng')[selectlang]}}<span style="color: red;"> *</span></label>
                     <textarea [(ngModel)]="holidays.planholiday_name_en" pInputTextarea [autoResize]="true" required
                         name="descriptioneng" #descriptioneng="ngModel"></textarea>
 
-                    <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
+                    <label>{{langs.get('description')[selectlang]}} {{langs.get('thai')[selectlang]}}<span style="color: red;"> *</span></label>
                     <textarea [(ngModel)]="holidays.planholiday_name_th" pInputTextarea [autoResize]="true" required
                         name="descriptionth" #descriptionth="ngModel"></textarea>
                     <div #TABLELIST>
@@ -145,17 +145,17 @@
 </div>
 
 <form (ngSubmit)="Saveholiday()" #Form2="ngForm">
-    <p-dialog class="displayaddholiday" header="Upload" [(visible)]="displayaddholiday" (onHide)="closedispaly()">
+    <p-dialog class="displayaddholiday" header="{{langs.get('holidaylist')[selectlang]}}" [(visible)]="displayaddholiday" (onHide)="closedispaly()">
         <div class="formatt">
             <label>{{langs.get('date')[selectlang]}}<span style="color: red;"> *</span></label>
             <p-calendar appendTo="body" [(ngModel)]="holiday_listselect.holiday_date" dateFormat="dd/mm/yy"
                 name="holiday_date" #holiday_date="ngModel"><input type="text"></p-calendar>
 
-            <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
+            <label>{{langs.get('description')[selectlang]}}  {{langs.get('eng')[selectlang]}}<span style="color: red;"> *</span></label>
             <textarea [(ngModel)]="holiday_listselect.holiday_name_en" pInputTextarea [autoResize]="true"
                 name="holiday_name_en" #holiday_name_en="ngModel" required></textarea>
 
-            <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
+            <label>{{langs.get('description')[selectlang]}} {{langs.get('thai')[selectlang]}}<span style="color: red;"> *</span></label>
             <textarea [(ngModel)]="holiday_listselect.holiday_name_th" pInputTextarea [autoResize]="true"
                 name="holiday_name_th" #holiday_name_th="ngModel" required></textarea>
             <div>
@@ -176,27 +176,39 @@
         </ng-template>
     </p-dialog>
 </form>
-<!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload" (onHide)="closedupload()">
+<!-- Dialog Choose File Import #importFile-->
+<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload" (onHide)="closedupload()">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file"
+        <span class="drop-title"> {{langs.get('dropfile')[selectlang]}}</span>
+         
+         
+        <div class="attach">
+            <input id="file" type="file" #importFile
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            required (change)="handleFileInput($any($event).target.files)" #importFile>
+                required (change)="handleFileInput($any($event).target.files)" style="display: none;">
+            <label for="file" class="btnattach"> {{langs.get('choosefile')[selectlang]}} </label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{langs.get('nofilechosen')[selectlang]}}  </span>
+            <span class="chosen-attach" *ngIf="selectedFileName">  {{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
     </ng-template>
 </p-dialog>
 
-<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUploadholidaylist">
+<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUploadholidaylist">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file"
+        <span class="drop-title"> {{langs.get('dropfile')[selectlang]}}</span>
+         
+         
+        <div class="attach">
+            <input id="file" type="file" #fileUploader
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            required (change)="handleFileInputholidaylist($any($event).target.files)">
+                required (change)="handleFileInputholidaylist($any($event).target.files)" style="display: none;">
+            <label for="file" class="btnattach"> {{langs.get('choosefile')[selectlang]}} </label>
+            <span class="chosen-attach" *ngIf="!selectedFileNames">{{langs.get('nofilechosen')[selectlang]}}  </span>
+            <span class="chosen-attach" *ngIf="selectedFileNames">  {{selectedFileName}}</span>
+        </div>
     </label>
     <!-- <ng-template pTemplate="footer">
         <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>

@@ -46,13 +46,15 @@ export class TransferBankComponent implements OnInit {
   title_transfer : { [key: string]: string } = { EN: "Transfer Data", TH: "Transfer Data" };
  
   
-  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
-  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" };
+  title_process: { [key: string]: string } = { EN: "Process", TH: "กระบวนการ" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
-  title_transferbank: { [key: string]: string } = { EN: " Transfer Bank", TH: "ธนาคาร" };
+  title_transferbank: { [key: string]: string } = { EN: " Transfer Bank", TH: "โอนเงิน" };
+  
+  title_system_payroll: { [key: string]: string } = { EN: " Transfer Bank", TH: "โอนเงิน" };
+  title_transferdatal: {[key: string]: string} = {  EN: " Transfer Data",  TH: "โอนย้ายข้อมูล"}  
 
- 
   title_confirm: string = "Are you sure?";
   title_confirm_record: string = "Confirm to process";
   title_confirm_delete: string = "Confirm to delete";
@@ -108,8 +110,13 @@ export class TransferBankComponent implements OnInit {
       // this.doLoadTask()
     }, 200);
 
-    this.itemslike = [ { label: this.title_transferbank[this.initial_current.Language], styleClass: 'activelike' }];
-    this.home = { icon: 'pi pi-home', routerLink: '/' };
+    this.itemslike = [{ label: this.title_transferdatal[this.initial_current.Language], routerLink: '/payroll/transfer' },
+        { label: this.title_system_payroll[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+
+
+    // this.itemslike = [ { label: this.title_transferbank[this.initial_current.Language], styleClass: 'activelike' }];
+    // this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
 

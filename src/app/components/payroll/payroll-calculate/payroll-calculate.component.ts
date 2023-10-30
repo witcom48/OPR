@@ -32,7 +32,7 @@ export class PayrollCalculateComponent implements OnInit {
   title_confirm_yes: { [key: string]: string } = { EN: "Yes", TH: "ใช่" }
   title_confirm_no: { [key: string]: string } = { EN: "No", TH: "ยกเลิก" }
   title_confirm_cancel: { [key: string]: string } = { EN: "You have cancelled", TH: "คุณยกเลิกการทำรายการ" }
-  title_calculate: { [key: string]: string } = { EN: "  Calculate Income/Deduct", TH: "คำนวณรายได้ / หัก" }
+  title_calculate: { [key: string]: string } = { EN: "  Calculate Income/Deduct", TH: "คำนวณเงินเดือน" }
 
 
   title_submit: { [key: string]: string } = { EN: "Submit", TH: "คุณยกเลิกการทำรายการ" }
@@ -44,6 +44,9 @@ export class PayrollCalculateComponent implements OnInit {
   labOvertime: { [key: string]: string } = { EN: "Overtime", TH: "ล่วงเวลา" }
   labDiligence: { [key: string]: string } = { EN: "Diligence", TH: "เบี้ยขยัน" }
   labAllowance: { [key: string]: string } = { EN: "Allowance", TH: "เงินค่าเวลา" }
+  title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_process: { [key: string]: string } = { EN: "Process", TH: "กระบวนการ" };
+  title_logs: { [key: string]: string } = { EN: "Logs", TH: "ผลลัพธ์" };
 
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,

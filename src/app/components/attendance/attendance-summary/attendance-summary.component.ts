@@ -25,7 +25,8 @@ import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.comp
   styleUrls: ['./attendance-summary.component.scss']
 })
 export class AttendanceSummaryComponent implements OnInit {
-
+  itemslike: MenuItem[] = [];
+  home: any;
   @ViewChild(SearchEmpComponent) selectEmp: any;
 
   title_page: {[key: string]: string} = {  EN: "Summary",  TH: "ข้อมูลเวลา"}
@@ -39,7 +40,7 @@ export class AttendanceSummaryComponent implements OnInit {
   title_modified_by: {[key: string]: string} = {  EN: "Edit by",  TH: "ผู้ทำรายการ"}
   title_modified_date: {[key: string]: string} = {  EN: "Edit date",  TH: "วันที่ทำรายการ"}
   title_search: {[key: string]: string} = {  EN: "Search",  TH: "ค้นหา"}
-  title_export: {[key: string]: string} = {  EN: "Export",  TH: "โอนออก"}
+  title_export: {[key: string]: string} = {  EN: "Export",  TH: "ส่งออกไฟล์"}
   //
   title_confirm: {[key: string]: string} = {  EN: "Are you sure?",  TH: "ยืนยันการทำรายการ"}
   title_confirm_record: {[key: string]: string} = {  EN: "Confirm to record",  TH: "คุณต้องการบันทึกการทำรายการ"}
@@ -71,6 +72,13 @@ export class AttendanceSummaryComponent implements OnInit {
 
   title_byemp: {[key: string]: string} = {  EN: "By Employee",  TH: "ตามพนักงาน"}    
   title_bydate: {[key: string]: string} = {  EN: "By Date",  TH: "ตามวันที่"}    
+
+  title_summary: {[key: string]: string} = {  EN: "Summary",  TH: "ตรวจสอบการคำนวณ"}    
+  title_from: {[key: string]: string} = {  EN: "From",  TH: "จากวันที่"}    
+  title_to: {[key: string]: string} = {  EN: "To",  TH: "ถึงวันที่"}    
+
+  
+  
 
   style_input_real:string = "[style]=\"{'width':'80px'}\\";
  
@@ -111,7 +119,9 @@ export class AttendanceSummaryComponent implements OnInit {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
-    }       
+    }    
+    this.itemslike = [{ label: this.title_summary[this.initial_current.Language], styleClass: 'activelike' },];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };   
   }
 
   doLoadLanguage(){

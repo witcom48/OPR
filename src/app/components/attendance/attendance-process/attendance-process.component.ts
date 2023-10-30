@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
+import {ConfirmationService, ConfirmEventType, MenuItem, MessageService} from 'primeng/api';
 import { PrjectEmpdailyModel } from '../../../models/project/project_empdaily';
 import { Router } from '@angular/router';
 import { AppConfig } from '../../../config/config';
@@ -32,10 +32,18 @@ interface Result {
 
 export class AttendanceProcessComponent implements OnInit {
 
-
+  itemslike: MenuItem[] = [];
+  home: any;
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
 
+
+
+  title_processingtime: { [key: string]: string } = { EN: "Processing Time", TH: "ประมวณผลเวลา" };
+  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
+  title_proces: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  
   title_confirm:string = "Are you sure?";
   title_confirm_record:string = "Confirm to process";
   title_confirm_delete:string = "Confirm to delete";
@@ -80,6 +88,8 @@ export class AttendanceProcessComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }       
+    this.itemslike = [{ label: this.title_processingtime[this.initial_current.Language], styleClass: 'activelike' },];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
 

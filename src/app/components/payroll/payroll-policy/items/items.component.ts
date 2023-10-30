@@ -49,6 +49,7 @@ export class ItemsComponent implements OnInit {
     title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
     title_Fix: { [key: string]: string } = { EN: "Fix ", TH: "คงที่" }
     title_Var: { [key: string]: string } = { EN: "Var ", TH: "ไม่สม่ำเสมอ" }
+    title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
     //กำหนดค่าคงที่ เงินได้/เงินหัก
     title_setitem: { [key: string]: string } = { EN: "Set Constant  ", TH: "กำหนดค่าคงที่ เงินได้/เงินหัก" }
@@ -64,7 +65,11 @@ export class ItemsComponent implements OnInit {
     title_slf1: { [key: string]: string } = { EN: "SLF1 = กยศ.", TH: "SLF1 = กยศ." }
     title_slf2: { [key: string]: string } = { EN: "SLF2 = กรอ.", TH: "SLF2 = กรอ." }
 
-
+    title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+    title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+    title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+    title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+   
  
 
 
@@ -141,11 +146,11 @@ export class ItemsComponent implements OnInit {
             this.title_Section = 'มาตรา';
             this.title_Rate = 'อัตรา';
             this.title_Account = 'รหัสบัญชี';
-            this.title_no = 'อันดับ';
+            this.title_no = 'ลำดับ';
             this.title_edit = 'แก้ไข';
             this.title_delete = 'ลบ';
             this.title_import = 'นำเข้า';
-            this.title_export = 'โอนออก';
+            this.title_export = 'ส่งออกไฟล์';
             this.title_save = 'บันทึก';
             this.title_code = 'รหัส';
             this.title_name_th = 'ชื่อไทย';
@@ -155,7 +160,7 @@ export class ItemsComponent implements OnInit {
             this.title_modified_by = 'ผู้ทำรายการ';
             this.title_modified_date = 'วันที่ทำรายการ';
             this.title_search = 'ค้นหา';
-            this.title_upload = 'อัพโหลด';
+            this.title_upload = 'อัปโหลด';
 
             this.title_page_from = 'แสดง';
             this.title_page_to = 'ถึง';
@@ -283,9 +288,19 @@ export class ItemsComponent implements OnInit {
         });
     }
 
+    // handleFileInput(file: FileList) {
+    //     this.fileToUpload = file.item(0);
+    // }
+    selectedFileName: string = '';
     handleFileInput(file: FileList) {
-        this.fileToUpload = file.item(0);
+      this.fileToUpload = file.item(0);
+      if (this.fileToUpload) {
+        this.selectedFileName = this.fileToUpload.name;
+      } else {
+        this.selectedFileName = this.title_nofile[this.initial_current.Language];
+      }
     }
+  
     doLoadMenu() {
         this.items = [
             {
@@ -304,7 +319,7 @@ export class ItemsComponent implements OnInit {
                 },
             },
             {
-                label: "Template",
+                label: this.title_template[this.initial_current.Language],
                 icon: 'pi-download',
                 command: (event) => {
                     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll IncomeDeduct.xlsx', '_blank');

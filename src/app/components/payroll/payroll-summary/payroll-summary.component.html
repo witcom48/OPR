@@ -1,4 +1,7 @@
-<span style="font-size: 20px;">Payroll</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Summary</small>
+<!-- <span style="font-size: 20px;">Payroll</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Summary</small> -->
+
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <hr>
 <p-toast position="top-right"></p-toast> 
 
@@ -48,7 +51,11 @@
                     <th>{{title_salary[initial_current.Language]}}</th> 
                     <th>{{title_overtime[initial_current.Language]}}</th> 
                     <th>{{title_diligence[initial_current.Language]}}</th> 
-                    <th>{{title_other[initial_current.Language]}} {{title_income[initial_current.Language]}}</th> 
+
+                    
+                    <th>{{title_income[initial_current.Language]}} {{title_other[initial_current.Language]}}</th> 
+                    
+                    
                     <th>{{title_totalincome[initial_current.Language]}}</th>   
 
                     <th>{{title_absent[initial_current.Language]}}</th>

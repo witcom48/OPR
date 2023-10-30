@@ -643,7 +643,7 @@ export class RecruitmentApplyComponent implements OnInit {
 
     doLoadLanguage() {
         if (this.initial_current.Language == 'TH') {
-            this.title_page = "ประวัติผู้สัมครงาน";
+            this.title_page = "ประวัติผู้สมัครงาน";
             this.title_new = "เพิ่ม";
             this.title_edit = "แก้ไข";
             this.title_delete = "ลบ";

@@ -43,7 +43,7 @@ export class EmpsetlocationComponent implements OnInit {
   title_location: { [key: string]: string } = { EN: "Location", TH: "สถาที่ปฎิบัติงาน" };
   title_fromdate: { [key: string]: string } = { EN: "From Date", TH: "วันที่เริ่ม" };
   title_todate: { [key: string]: string } = { EN: "To Date", TH: "วันที่สิ้นสุด" };
-  title_note: { [key: string]: string } = { EN: "Description", TH: "เพิ่มเติม" };
+  title_note: { [key: string]: string } = { EN: "Description", TH: "หมายเหตุ" };
   title_code: { [key: string]: string } = { EN: "Code", TH: "รหัส" };
   title_no: { [key: string]: string } = { EN: "No", TH: "เลขที่" };
   title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };

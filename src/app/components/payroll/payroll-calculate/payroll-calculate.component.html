@@ -9,7 +9,7 @@
     <p-tabPanel  [selected]="true">
         <ng-template pTemplate = "header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
-            <span>Process</span>
+            <span>{{title_process[initial_current.Language]}}</span>
         </ng-template>
         
         <div class="formgrid grid align-items-end">
@@ -18,7 +18,7 @@
                 <app-select-emp></app-select-emp>
             </div>            
             <div class="field col-12">
-                <p-button label="Process" (click)="process()"></p-button>
+                <p-button label="{{title_btnprocess[initial_current.Language]}}" (click)="process()"></p-button>
             </div>
             
         </div>
@@ -27,7 +27,7 @@
     <p-tabPanel >
         <ng-template pTemplate = "header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
-            <span>Logs</span>
+            <span>{{title_logs[initial_current.Language]}}</span>
         </ng-template>
         
         <div class="formgrid grid align-items-end">

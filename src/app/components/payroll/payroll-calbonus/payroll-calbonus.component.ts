@@ -36,7 +36,10 @@ export class PayrollCalbonusComponent implements OnInit {
 
   title_submit: { [key: string]: string } = { EN: "Submit", TH: "คุณยกเลิกการทำรายการ" }
   title_cancel: { [key: string]: string } = { EN: "Cancel", TH: "คุณยกเลิกการทำรายการ" }
-  
+  title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_process: { [key: string]: string } = { EN: "Process", TH: "กระบวนการ" };
+  title_logs: { [key: string]: string } = { EN: "Logs", TH: "ผลลัพธ์" };
+
 
   constructor(private messageService: MessageService,
     private confirmationService: ConfirmationService,

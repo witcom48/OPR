@@ -12,19 +12,26 @@
                         <i class="pi pi-cog"></i>&nbsp;&nbsp;
                         <span>{{title_genaral}}</span>
                     </ng-template>
+                    <div class=" grid   field col-12">
+                        <div class="empinfo">
+                            <p-image [src]="base64Image" id="imgReq" name="imgReq" alt="Image" width="180"
+                                height="180"></p-image>
+                            <!-- <p-button class="upload" label="Upload Images"></p-button> -->
+                            <div class="btnupload">
+                                <input class="upload" type="file" id="file" (change)="onselectFile($event)"
+                                    accept="image/*">
+                                <label for="file" class="uploadlabe">{{title_choose[initial_current.Language]}}</label>
+                                <span class="chosen-text"
+                                    *ngIf="!selectedimageName">{{title_nofile[this.initial_current.Language]}}</span>
+                                <span class="chosen-text" *ngIf="selectedimageName">{{selectedimageName}}</span>
+                            </div>
 
-
-                    <div class="formgrid grid align-items-end">
-                        <div class="field col-12 md:col-3">
-                            <p-image [src]="base64Image" id="imgCompany" name="imgCompany" alt="Image" width="175"
-                                height="160"></p-image>
+                            <!-- <p-image [src]="base64Image" id="imgCompany" name="imgCompany" alt="Image" width="175"
+                                height="160"></p-image> -->
                         </div>
-
-                        <div class="field col-12 md:col-4">
+                        <!-- <div class="field col-12 md:col-4">
                             <input class="no-border" type="file" id="file" (change)="onselectFile($event)">
-                        </div>
-
-
+                        </div> -->
 
                         <div class="field col-12 md:col-7"></div>
 
@@ -299,17 +306,13 @@
                             <p-accordionTab header="{{title_contack}}">
                                 <p-tabView (onChange)="tabChange($event)">
                                     <div class="formgrid grid">
-
-
-
-
+                                        
                                         <div class="field col-6 height">
                                             <label for="address_amphur ">{{ title_address_tel }}</label>
                                             <input id="address_amphur" type="text"
                                                 [(ngModel)]="selectedComaddress.comaddres_tel"
                                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
                                         </div>
-
 
                                         <div class="field col-6 height">
                                             <label for="address_amphur">{{ title_address_email}}</label>
@@ -387,12 +390,13 @@
 
 
                             <div class="center field col-12 md:col-5 custom-height">
-                                <label for="sso_com_rate">{{ title_sso_company }}<span style="color: red;">*</span></label>
+                                <label for="sso_com_rate">{{ title_sso_company }}<span
+                                        style="color: red;">*</span></label>
                                 <div class="input-group">
                                     <input type="number" step="0.5" [(ngModel)]="selectedCompany.sso_com_rate"
                                         name="sso_com_rate" id="sso_com_rate"
                                         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-                                     
+
                                 </div>
                             </div>
 
@@ -672,44 +676,27 @@
                     </div>
                 </p-tabPanel>
 
-                <!-- <div class="field col-12 md:col-3">
-                    <p-image [src]="base64Image" id="imgCompany" name="imgCompany" alt="Image" width="175"
-                        height="175"></p-image>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <input class="upload" type="file" id="file" (change)="onselectFile($event)">
-                </div> -->
-                <!-- <div class="field col-12 md:col-3">
-                    <p-image [src]="base64Image" id="imgCompany" name="imgCompany" alt="Image" width="175"
-                        height="175"></p-image>
-                </div>
-                <div class="field col-12 md:col-4">
-                    <input class="upload" type="file" id="file" (change)="onselectFile($event)">
-                </div> -->
-                <p-tabPanel>
+
+                <!-- <p-tabPanel>
                     <ng-template pTemplate="header">
                         <i class="pi-map"></i>&nbsp;&nbsp;
                         <span>{{title_map}}</span>
                     </ng-template>
 
-                    <!-- <app-system-bankaccount></app-system-bankaccount> -->
-
+ 
                     <div class="formgrids grid align-items-end">
                         <div class="field col-12 md:col-12 right image-container">
                             <p-image [src]="base65Image" id="image" name="image" alt="Image" width="500"
                                 height="400"></p-image>
                         </div>
                     </div>
-
-
                     <div class="field col-12 md:col-4   bottom">
                         <input class="no-border upload" type="file" id="file" (change)="onselectFilesmaps($event)">
                     </div>
 
 
 
-                    <!-- start -->
-                </p-tabPanel>
+                 </p-tabPanel> -->
 
 
                 <!-- <p-dialog header="{{manage_title}}" [(visible)]="displayManage" [position]="position"> -->

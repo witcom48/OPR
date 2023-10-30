@@ -39,8 +39,20 @@
 <!-- Menu New Import Export Data -->
 <!-- Menu New Import Export Data -->
 <div>
-    <p-menubar [model]="items"></p-menubar>
+    <p-menubar [model]="items">
+        <td>
+
+            <p-button *ngIf="selectAllChecked || checked && buttonVisible" (click)="convertToEmp()"
+                label="{{title_convert[initial_current.Language]}}"></p-button>
+        </td>
+    </p-menubar>
 </div>
+
+
+
+
+
+
 <!-- ----------------END MENU----------------- -->
 <div class="tabledata">
     <!-- Table Show Data -->
@@ -55,6 +67,7 @@
             <ng-template pTemplate="caption">
                 <div class="searchtable1">
                     <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
+
                         <div>
                             {{title_apprstatus[initial_current.Language]}} :
                             <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
@@ -102,6 +115,14 @@
 
             <ng-template pTemplate="header">
                 <tr>
+                    <th>
+                        <!-- เลือกทั้งหมด -->
+                        <button pButton class=" gray-button " *ngIf="status_select.code === 'W'"
+                            (click)="toggleSelectAll()">{{title_chooseall[initial_current.Language]}}</button>
+                    </th>
+
+
+
                     <th>{{title_code}}</th>
                     <!-- <th>{{title_initial}}</th> -->
                     <th>{{title_name}}</th>
@@ -113,26 +134,33 @@
                     <th>{{title_modified_by}}</th>
                     <th>{{title_modified_date}}</th>
                 </tr>
-
-
             </ng-template>
+
             <ng-template pTemplate="body" let-data>
-                <tr [pSelectableRow]="data">
-                    <td>{{data.worker_code}}</td>
-                    <!-- <td>{{data.worker_initial}}</td> -->
-                    <td>{{initial_current.Language == "TH"? data.initial_name_th+" "+data.worker_fname_th+"
-                        "+data.worker_lname_th:data.initial_name_en+" "+data.worker_fname_en+" "+data.worker_lname_en}}
+
+                <tr [pSelectableRow]="data" (click)="selection(data)">
+                    <td>
+                        <!-- เลือกที่ละฟิล -->
+                        <p-checkbox *ngIf="data.status === 'W'" [(ngModel)]="data.checked" [binary]="true"
+                            inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect()"
+                            [ngModel]="selectAllChecked"></p-checkbox>
                     </td>
-                    <!-- <td>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td> -->
+
+
+                    <td>{{data.worker_code}}</td>
+                    <td>{{initial_current.Language == "TH" ? data.initial_name_th + " " +
+                        data.worker_fname_th + " " +
+                        data.worker_lname_th : data.initial_name_en + " " + data.worker_fname_en + " " +
+                        data.worker_lname_en}}</td>
                     <td>{{data.worker_hiredate | date:'dd/MM/yyyy'}}</td>
                     <td>{{getFullStatus(data.status)}}</td>
                     <td>{{data.certificate || "-"}}</td>
                     <td>{{data.blacklist_reason || "-"}}</td>
                     <td>{{data.modified_by}}</td>
                     <td>{{data.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+
                 </tr>
             </ng-template>
-
         </p-table>
     </div>
     <!-- -----------------------END Table-------------------------- -->
@@ -203,7 +231,7 @@
 <!-- Dialog Choose File Import -->
 <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
     <div>
-        <p-dropdown [options]="ImportList" optionValue="code" [showClear]="true"
+        <!-- <p-dropdown [options]="ImportList" optionValue="code" [showClear]="true"
             [(ngModel)]="selectedReqworker.selected_Import" [style]="{ width: '100%', overflow: 'visible' }"
             appendTo="body">
             <ng-template let-item pTemplate="selectedItem">
@@ -212,7 +240,7 @@
             <ng-template let-item pTemplate="item">
                 {{initial_current.Language=="TH"? item.name_th : item.name_en}}
             </ng-template>
-        </p-dropdown>
+        </p-dropdown> -->
         <br>
     </div>
     <label class="drop-container">

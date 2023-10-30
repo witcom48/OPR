@@ -177,7 +177,7 @@ export class ReasonComponent implements OnInit {
       ,
       {
 
-        label: "Template",
+        label: this.langs.get('template')[this.selectlang],  
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Reason.xlsx', '_blank');
@@ -213,8 +213,14 @@ export class ReasonComponent implements OnInit {
     this.displayUpload = true;
 
   }
+  selectedFileName: string = '';
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.langs.get('nofilechosen')[this.selectlang];
+    }
   }
 
   displayManage: boolean = false;

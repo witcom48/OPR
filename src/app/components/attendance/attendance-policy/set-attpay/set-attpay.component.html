@@ -16,7 +16,7 @@
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
-            <span>Process</span>
+            <span>{{title_process[initial_current.Language]}}</span>
         </ng-template>
 
         <div class="formgrid grid align-items-end">
@@ -56,7 +56,7 @@
             </div>
 
             <div *ngIf="!loading" class="field col-12 md:col-6">
-                <p-button label="Process" (click)="process()"></p-button>
+                <p-button label="{{title_proces[initial_current.Language]}}" (click)="process()"></p-button>
             </div>
         </div>
         <!-- <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar> -->
@@ -64,27 +64,28 @@
     <p-tabPanel>
         <ng-template pTemplate="header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
-            <span>Result</span>
+            <span>{{title_result[initial_current.Language]}}</span>
         </ng-template>
         <div>
             <p-table *ngIf="new_data==true" #dt2 [value]="result_list" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '90rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true"
                 selectionMode="single" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                [paginator]="true" currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text"
                                 (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
-                                placeholder="Search keyword" />
-                        </span>
+                                placeholder={{title_search[initial_current.Language]}} />
+                            </span>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>No.</th>
-                        <th>Worker</th>
+                        
+                        <th>{{title_no[initial_current.Language]}}</th>
+                        <th>{{title_worker[initial_current.Language]}}</th>
                         <th>{{labSalary[initial_current.Language]}}</th>
                         <th>{{labOvertime[initial_current.Language]}}</th>
                         <th>{{labDiligence[initial_current.Language]}}</th>

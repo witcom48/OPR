@@ -39,7 +39,7 @@ import { BlacklistService } from 'src/app/services/recruitment/blacklist.service
 import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import { ReasonModels } from 'src/app/models/attendance/reason';
 
-
+import { CheckboxModule } from 'primeng/checkbox';
 interface ImportList {
   name_th: string,
   name_en: string,
@@ -71,13 +71,14 @@ export class ApplyListComponent implements OnInit {
   edit_applywork: boolean = false;
   new_applywork: boolean = false;
   ImportList: ImportList[] = [];
-
-  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'รอเอกสารแนบ', name_en: 'Wait Attach', code: 'R' }, { name_th: 'ทั้งหมด', name_en: 'All', code: '' }];
+  checked: boolean = false;
+  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }];
   status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
   status_doc: boolean = false
 
   statusCer: StatusCer[] = [{ name_th: 'รอเอกสาร', name_en: 'Wait', value: 'Wait' }, { name_th: 'แนบเอกสารแล้ว', name_en: 'Attached', value: 'Attached' },]
   statusCer_select = "";
+  yourData: any;
   constructor(
     private applyworkService: ApplyworkService,
     private applydetailService: ApplyworkDetailService,
@@ -198,6 +199,7 @@ export class ApplyListComponent implements OnInit {
 
   title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
   title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  title_chooseall: { [key: string]: string } = { EN: "All", TH: "ทั้งหมด" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -261,6 +263,19 @@ export class ApplyListComponent implements OnInit {
         }
 
       },
+      {
+        label: this.title_edit,
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+
+          if (this.selectedReqworker != null) {
+            this.new_applywork = true;
+            this.edit_applywork = true
+            this.showManage()
+          }
+        }
+      }
+      ,
       {
         label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
@@ -375,6 +390,7 @@ export class ApplyListComponent implements OnInit {
     });
   }
 
+
   confirmDelete() {
     this.confirmationService.confirm({
       message: this.title_confirm_delete,
@@ -416,7 +432,6 @@ export class ApplyListComponent implements OnInit {
     this.edit_applywork = true;
     this.new_applywork = true;
     this.displayManage = true
-    console.log(this.selectedReqworker)
   }
 
   fileToUpload: File | any = null;
@@ -727,10 +742,126 @@ export class ApplyListComponent implements OnInit {
     }
     return this.age;
   }
+  reloadPage() {
+    this.doLoadapplywork()
+  }
+
+  buttonVisible: boolean = true;
+
+
+
+  selectAllChecked: boolean = false;
+  showButton: boolean = false;
+  toggleSelectAll( ) {
+    this.selectAllChecked = !this.selectAllChecked;
+    this.showButton = this.selectAllChecked;
+    this.selection(this.selectedReqworker)
+
+    console.log(this.showButton,'ttt')
+    //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
+  }
+  
+
+
+
+  
+
+  data = {
+    checked: false
+  };
+  // toggleSelect() {
+  //   this.checked = !this.checked;
+  // }
+
+  toggleSelect() {
+    // ทำงานเมื่อคลิก Checkbox ในแถวข้อมูล
+    if (!this.checked) {
+        this.checked = true;
+        // กรณีที่เลือก
+        console.log("ข้อมูลถูกเลือก: ", this.data);
+        // ทำงานเพิ่มเติมหลังจากการเลือก
+    } else {
+        this.checked = false;
+        // กรณีที่ยกเลิกเลือก
+        console.log("การเลือกถูกยกเลิก: ", this.data);
+        // ทำงานเพิ่มเติมหลังการยกเลิกเลือก
+    }
+}
+
+
+
+  selection(data: EmployeeModel) {
+    if (data) {
+      this.selectedReqworker = data;
+      this.edit_applywork = false;
+      this.new_applywork = false;
+      this.displayManage = false;
+    }
+    console.log(data,'data')
+
+  }
+  selections(data: EmployeeModel ) {
+    this.selectedReqworker 
+    this.selection(data)
+    console.log(this.selectedReqworker,'tttt')
+  }
+
+
+  //convertToEmptest
+  convertToEmptest(data: EmployeeModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_record,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
+
+        // if (data.worker_birthdate && this.CalculateAge(data.worker_birthdate) >= 50) {
+          this.edit_applywork = false;
+          this.new_applywork = false;
+          this.displayManage = false;
+          this.doUpdateStatus("S");
+        }
+
+        if (data.counthistory >= 3) {
+          this.edit_applywork = false;
+          this.new_applywork = false;
+          this.displayManage = false;
+          this.doUpdateStatus("S");
+        }
+
+        if (data.checkblacklist) {
+          this.edit_applywork = false;
+          this.new_applywork = false;
+          this.displayManage = false;
+          this.doUpdateStatus("S");
+        }
+
+        this.doGetNewCode();
+        this.doLoadReqaddressList();
+        this.doLoadReqForeignercard();
+        this.doLoadReqeducationList();
+        this.doLoadReqtrainingList();
+        this.doLoadReqassessmentList();
+        this.doLoadReqCriminalList();
+        this.doLoadReqSuggestList();
+        this.doLoadReqPositionList();
+        this.doLoadReqSalaryList();
+        this.doLoadReqBenefitList();
+        this.buttonVisible = false;
+        this.selection
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+    });
+  }
 
 
 
 
+
+  //
   convertToEmp() {
     this.confirmationService.confirm({
       message: this.title_confirm_record,
@@ -787,15 +918,21 @@ export class ApplyListComponent implements OnInit {
         this.doLoadReqSuggestList()
         this.doLoadReqPositionList()
         this.doLoadReqSalaryList()
+        this.buttonVisible = false;
+
         // this.doLoadReqBenefitList()
         //image
         // this.doLoadImageReq()
         this.doLoadattdocreq()
       },
       reject: () => {
+
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
       },
+
     });
+    // this.close()
+
   }
   doUpdateStatus(status: string) {
     var tmp = new EmployeeModel();
@@ -813,7 +950,6 @@ export class ApplyListComponent implements OnInit {
 
       if (result.success) {
         this.doRecordEmployee(result.data);
-        // console.log(result.data)
       }
     });
   }

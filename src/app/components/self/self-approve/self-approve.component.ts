@@ -149,11 +149,12 @@ export class SelfApproveComponent implements OnInit {
       accessCode: 'SELF002-007'
     },]
 
-    this.setupMenuList = [{
-      title: this.langs.get('account')[this.selectedLanguage],
-      link: 'account',
-      accessCode: 'SELF002-008'
-    },
+    this.setupMenuList = [
+    //   {
+    //   title: this.langs.get('account')[this.selectedLanguage],
+    //   link: 'account',
+    //   accessCode: 'SELF002-008'
+    // },
     {
       title: this.langs.get('workflow')[this.selectedLanguage],
       link: 'workflow',

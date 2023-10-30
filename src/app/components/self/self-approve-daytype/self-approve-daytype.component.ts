@@ -110,6 +110,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
     this.timecardService.daytype_get().then(async (res) => {
       // console.log(res)
       this.daytype_list = await res;
+      this.initial_current.loading = false;
     });
   }
   doLoadReason() {
@@ -143,6 +144,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
 
   }
   async doApproveJob(data: ApproveModel) {
+    this.initial_current.loading = true;
     data.job_type = "DAT";
     data.lang = this.selectlang;
     await this.approveService.approveJob(data).then((res) => {
@@ -153,7 +155,7 @@ export class SelfApproveDaytypeComponent implements OnInit {
       else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
       }
-
+      this.initial_current.loading = false;
     });
     this.closeManage()
   }
