@@ -40,7 +40,7 @@ import { ProjobsubModel } from '../../../models/project/project_jobsub';
 import { ProjobempModel } from '../../../models/project/project_jobemp';
 import { ProjobworkingModel } from '../../../models/project/project_jobworking';
 
-import { ProequipmentReqModel} from '../../../models/project/project_equipment';
+import { ProequipmentReqModel } from '../../../models/project/project_equipment';
 
 import { InitialModel } from '../../../models/employee/policy/initial';
 import { InitialService } from 'src/app/services/emp/policy/initial.service';
@@ -99,14 +99,14 @@ interface SummaryCost {
   label: string,
   value: number
 }
- 
+
 @Component({
   selector: 'app-project-manage',
   templateUrl: './project-manage.component.html',
   styleUrls: ['./project-manage.component.scss']
 })
 export class ProjectManageComponent implements OnInit {
-   
+
   @ViewChild(SearchEmpComponent) selectEmp: any;
   ImportList: ImportList[] = [];
   manage_title: string = ""
@@ -116,9 +116,9 @@ export class ProjectManageComponent implements OnInit {
   // days: string[] = [  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturay"];
 
   // languageText: string[]= []
-  days: string[]= []
+  days: string[] = []
 
-  costs_title: string[] = [ ];
+  costs_title: string[] = [];
 
   project_code: string = "";
   procontract_type: string = "";
@@ -223,7 +223,7 @@ export class ProjectManageComponent implements OnInit {
   title_friday: { [key: string]: string } = { EN: "Friday", TH: "วันศุกร์" }
   title_saturay: { [key: string]: string } = { EN: "Saturay", TH: "วันเสาร์" }
 
-  
+
   title_tab_genaral: { [key: string]: string } = { EN: "Genaral", TH: "ข้อมูลทั่วไป" }
   title_tab_contract: { [key: string]: string } = { EN: "Contract", TH: "รายละเอียดสัญญา" }
   title_tab_policy: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" }
@@ -431,10 +431,10 @@ export class ProjectManageComponent implements OnInit {
   title_post: { [key: string]: string } = { EN: "Post By ", TH: "โพสต์โดย" }
   title_reload: { [key: string]: string } = { EN: "Reload", TH: "โหลดใหม่" }
 
-  
+
   //#endregion "Language"
 
-  
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -514,7 +514,7 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
-  
+
 
   public initial_current: InitialCurrent = new InitialCurrent();
   initialData2: InitialCurrent = new InitialCurrent();
@@ -526,8 +526,8 @@ export class ProjectManageComponent implements OnInit {
     }
     this.accessData = this.initialData2.dotGetPolmenu('PRO');
     this.initial_current.Language == "TH"
-    this.days  = [ this.title_sunday[this.initial_current.Language]  , this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language] , this.title_wednesday[this.initial_current.Language] , this.title_thursday[this.initial_current.Language] , this.title_friday[this.initial_current.Language] , this.title_saturay[this.initial_current.Language]];
-    this.costs_title  = ["", "", "", "", "", "", "", "", "", ""];
+    this.days = [this.title_sunday[this.initial_current.Language], this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language], this.title_wednesday[this.initial_current.Language], this.title_thursday[this.initial_current.Language], this.title_friday[this.initial_current.Language], this.title_saturay[this.initial_current.Language]];
+    this.costs_title = ["", "", "", "", "", "", "", "", "", ""];
 
     // this.languageText  = [ this.title_sunday[this.initial_current.Language]];
     // this.languageText  = [ this.title_sunday[this.initial_current.Language]  , this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language] , this.title_wednesday[this.initial_current.Language] , this.title_thursday[this.initial_current.Language] , this.title_friday[this.initial_current.Language] , this.title_saturay[this.initial_current.Language]];
@@ -537,7 +537,7 @@ export class ProjectManageComponent implements OnInit {
     //   th: {sun: 'อาทิตย์',mon: 'จันทร์',tue: 'อังคาร',wed: 'พุธ',thu: 'พฤหัสบดี',fri: 'ศุกร์',sat: 'เสาร์',
     //   },
     // };
-    
+
   }
 
   tabChange(e: { index: any; }) {
@@ -1328,7 +1328,7 @@ export class ProjectManageComponent implements OnInit {
       {
         label: this.title_reload[this.initial_current.Language],
 
-         icon: 'pi pi-fw pi-refresh',
+        icon: 'pi pi-fw pi-refresh',
         command: (event) => {
           this.doLoadProjobsub()
         }
@@ -1539,9 +1539,9 @@ export class ProjectManageComponent implements OnInit {
           //   header: this.title_confirm[this.initial_current.Language],
           //   icon: 'pi pi-exclamation-triangle',
           //   accept: () => {
-              if (this.selectedProjobemp != null) {
-                this.projobemp_remove()
-              }
+          if (this.selectedProjobemp != null) {
+            this.projobemp_remove()
+          }
           //   },
           //   reject: () => {
           //     this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
@@ -1551,14 +1551,14 @@ export class ProjectManageComponent implements OnInit {
 
         }
       },
-       
+
       {
         label: this.title_reload[this.initial_current.Language],
-          icon: 'pi pi-fw pi-refresh',
-          command: (event) => {
-              this.doLoadProjobemp()                
-          }
+        icon: 'pi pi-fw pi-refresh',
+        command: (event) => {
+          this.doLoadProjobemp()
         }
+      }
     ];
 
 
@@ -1793,7 +1793,7 @@ export class ProjectManageComponent implements OnInit {
       key: "myDialog"
     });
   }
-  
+
 
   confirmRecordJobmain() {
     this.confirmationService.confirm({
@@ -1810,13 +1810,13 @@ export class ProjectManageComponent implements OnInit {
             this.projobcost_record()
             this.projobmachine_record()
             //var jobcontract = this.projobcontract_record()
-            var jobcost = this.projobcost_record()
-            var jobmachine = this.projobmachine_record()
+            // var jobcost = this.projobcost_record()
+            // var jobmachine = this.projobmachine_record()
 
             // var jobshift = this.projobshift_record()
 
             // var jobpol = this.projobpol_record()
-            
+
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
 
@@ -1903,7 +1903,7 @@ export class ProjectManageComponent implements OnInit {
     this.new_proequipmentreq = false; this.edit_proequipmentreq = false;
     this.new_projobemp = false; this.edit_projobemp = false;
 
-     
+
   }
 
   displayManage: boolean = false;
@@ -1994,9 +1994,9 @@ export class ProjectManageComponent implements OnInit {
       else if (this.new_projobemp || this.edit_projobemp) {
         this.manage_title = "พนักงานประจำหน่วยงาน"
       }
-      
 
-      
+
+
     }
 
 
@@ -3120,7 +3120,7 @@ export class ProjectManageComponent implements OnInit {
       if (this.projobshift_list.length > 0) {
         this.selectedProjobshift = this.projobshift_list[0]
       }
-      console.log(res,'kko')
+      console.log(res, 'kko')
     });
   }
   onRowSelectProjobshift(event: Event) {
@@ -3956,7 +3956,7 @@ export class ProjectManageComponent implements OnInit {
   doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     const procontractfillter: ProcontractModel = new ProcontractModel();
-    
+
     const Radiovalue: RadiovalueModel = new RadiovalueModel();
 
     workerfillter.company_code = this.initial_current.CompCode;
@@ -4000,7 +4000,7 @@ export class ProjectManageComponent implements OnInit {
 
     workerfillter.searchemp = this.selectedSearchemp;
 
-    this.projectDetailService.projobemp_getbyfillter(workerfillter,Radiovalue).then(async (res) => {
+    this.projectDetailService.projobemp_getbyfillter(workerfillter, Radiovalue).then(async (res) => {
       await res.forEach((element: ProjobempModel) => {
         element.projobemp_fromdate = new Date(element.projobemp_fromdate);
         element.projobemp_todate = new Date(element.projobemp_todate);
@@ -4056,7 +4056,7 @@ export class ProjectManageComponent implements OnInit {
 
   selectedSearchemp: string = "";
   fillterSearchemp: boolean = false;
-  doChangeSearchemp( ) {
+  doChangeSearchemp() {
     this.doLoadProjobemp()
 
     this.doGetDataFillter();
@@ -4129,7 +4129,7 @@ export class ProjectManageComponent implements OnInit {
   doLoadProequipmentreq() {
     this.projectDetailService.proequipmentreq_get(this.project_code).then((res) => {
       this.proequipmentreq_list = res;
-       if (this.proequipmentreq_list.length > 0) {
+      if (this.proequipmentreq_list.length > 0) {
         this.selectedProequipmentreq = this.proequipmentreq_list[0]
       }
     });
@@ -4172,12 +4172,12 @@ export class ProjectManageComponent implements OnInit {
     this.proequipmentreq_list = itemNew;
     this.proequipmentreq_list.sort(function (a, b) { return parseInt(a.proequipmentreq_id) - parseInt(b.proequipmentreq_id); })
 
-   }
+  }
   proequipmenttype_record() {
     if (this.proequipmentreq_list.length == 0) {
       this.proequipmentreq_delete();
     }
-    this.projectDetailService.proequipmentreq_record(this.selectedProject.project_code,  this.proequipmentreq_list).then((res) => {
+    this.projectDetailService.proequipmentreq_record(this.selectedProject.project_code, this.proequipmentreq_list).then((res) => {
       let result = JSON.parse(res);
 
       if (result.success) {
@@ -4188,13 +4188,13 @@ export class ProjectManageComponent implements OnInit {
   }
   proequipmentreq_delete() {
     var tmp: ProequipmentreqModel = new ProequipmentreqModel();
-    this.projectDetailService.proequipmentreq_delete(this.selectedProject.project_code,  tmp).then((res) => {
+    this.projectDetailService.proequipmentreq_delete(this.selectedProject.project_code, tmp).then((res) => {
       let result = JSON.parse(res);
     });
   }
 
 
- 
+
 
 }
 
