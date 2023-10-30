@@ -1813,7 +1813,7 @@ export class ProjectManageComponent implements OnInit {
             var jobcost = this.projobcost_record()
             var jobmachine = this.projobmachine_record()
 
-            var jobshift = this.projobshift_record()
+            // var jobshift = this.projobshift_record()
 
             // var jobpol = this.projobpol_record()
             

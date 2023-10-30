@@ -1371,6 +1371,7 @@ export class ProjectDetailService {
       transaction_data: item_data,
       project_code: project,
       job_code: job,
+      version: version,
       modified_by: this.initial_current.Username
     };
 
