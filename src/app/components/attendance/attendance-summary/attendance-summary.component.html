@@ -1,4 +1,6 @@
-<span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Summary</small>
+<!-- <span style="font-size: 20px;">Attendance</span>&nbsp; <i class="pi pi-angle-right"></i>&nbsp; <small>Summary</small> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <hr>
 <p-toast position="top-right"></p-toast> 
 
@@ -149,12 +151,12 @@
         </ng-template>
         <div class="grid">
             <div class="field col-12 md:col-2 ">   
-                <label for="ppos_shift_code">From</label>                
+                <label for="ppos_shift_code">{{title_from[initial_current.Language]}}</label>                
                 <p-calendar [(ngModel)]="selectedFromdate" dateFormat="dd/mm/yy"  [showTime]="false" (onSelect)="doLoadDataByDate()" inputId="selectedFromdate"  ></p-calendar>
            
             </div>
             <div class="field col-12 md:col-2 ">   
-                <label for="ppos_shift_code">To</label>                
+                <label for="ppos_shift_code">{{title_to[initial_current.Language]}}</label>                
                 <p-calendar [(ngModel)]="selectedTodate" dateFormat="dd/mm/yy"  [showTime]="false" (onSelect)="doLoadDataByDate()" inputId="selectedTodate"  ></p-calendar>
            
             </div>

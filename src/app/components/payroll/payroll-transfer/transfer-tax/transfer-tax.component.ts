@@ -3,6 +3,7 @@ import { Table } from 'primeng/table';
 import {
     ConfirmationService,
     ConfirmEventType,
+    MenuItem,
     MessageService,
 } from 'primeng/api';
 import { PrjectEmpdailyModel } from '../../../../models/project/project_empdaily';
@@ -37,7 +38,8 @@ interface Result {
   styleUrls: ['./transfer-tax.component.scss']
 })
 export class TransferTaxComponent implements OnInit {
-
+    home: any;
+    itemslike: MenuItem[] = [];
   [x: string]: any;
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
@@ -52,7 +54,12 @@ export class TransferTaxComponent implements OnInit {
 
   title_submit: string = 'Submit';
   title_cancel: string = 'Cancel';
-
+  title_transfertax: {[key: string]: string} = {  EN: " Transfer Tax",  TH: "โอนย้ายข้อมูลภาษี"}  
+  title_transferdatal: {[key: string]: string} = {  EN: " Transfer Data",  TH: "โอนย้ายข้อมูล"}  
+  title_process: { [key: string]: string } = { EN: "Process", TH: "กระบวนการ" };
+  title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+  title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  
   @Input() policy_list: Policy[] = [];
   @Input() title: string = '';
   index: number = 0;
@@ -62,9 +69,6 @@ export class TransferTaxComponent implements OnInit {
       private confirmationService: ConfirmationService,
       private taskService: TaskService,
       private router: Router,
-
-      ///Service
-      private bankService: BankService
   ) { }
 
   timesheet_list: PrjectEmpdailyModel[] = [];
@@ -76,17 +80,13 @@ export class TransferTaxComponent implements OnInit {
   @ViewChild('dt2') table: Table | undefined;
   ngOnInit(): void {
       this.doGetInitialCurrent();
-
-
- 
-
       setTimeout(() => {
-          this.selectedBank = '002';
-      }, 1000);
-
-      setTimeout(() => {
-          // this.doLoadTask()
+          this.doLoadTask()
       }, 200);
+
+      this.itemslike = [{ label: this.title_transferdatal[this.initial_current.Language], routerLink: '/payroll/transfer' },
+      { label: this.title_transfertax[this.initial_current.Language], styleClass: 'activelike' }];
+      this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
   public selectedBank: string = '';
@@ -125,14 +125,14 @@ export class TransferTaxComponent implements OnInit {
       this.task.task_status = 'W';
 
       // Step 2: Task detail
-      let process = this.selectedBank;
-      process += this.fillauto ? '|AUTO' : '|COMPARE';
+    //   let process = this.selectedBank;
+    //   process += this.fillauto ? '|AUTO' : '|COMPARE';
 
       let fromDate = this.effdate;
       let toDate = this.effdate;
 
       this.taskDetail.taskdetail_process = 'TAX';
-      this.taskDetail.taskdetail_process = process; 
+    //   this.taskDetail.taskdetail_process = process; 
       this.taskDetail.taskdetail_fromdate = this.initial_current.PR_FromDate;
       this.taskDetail.taskdetail_todate = this.initial_current.PR_ToDate;
       this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;

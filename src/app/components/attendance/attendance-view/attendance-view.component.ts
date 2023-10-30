@@ -50,7 +50,8 @@ import { TimeShiftServices } from 'src/app/services/self/timeshift.service';
   styleUrls: ['./attendance-view.component.scss']
 })
 export class AttendanceViewComponent implements OnInit {
-
+  itemslike: MenuItem[] = [];
+  home: any;
   @ViewChild(SearchEmpComponent) selectEmp: any;
 
   title_page: {[key: string]: string} = {  EN: "Time Information",  TH: "ข้อมูลเวลา"}
@@ -172,7 +173,9 @@ export class AttendanceViewComponent implements OnInit {
     this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
-    }       
+    } 
+    this.itemslike = [{ label: this.title_page[this.initial_current.Language], styleClass: 'activelike' },];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };      
   }
 
   doLoadLanguage(){

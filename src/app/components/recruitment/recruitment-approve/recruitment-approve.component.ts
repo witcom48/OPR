@@ -28,7 +28,8 @@ interface Status {
 export class RecruitmentApproveComponent implements OnInit {
 
   menu_apply: MenuItem[] = [];
-  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' }, { name_th: 'ส่งอนุมัติ', name_en: 'Send Approve', code: 'S' }];
+  status_list: Status[] = [{ name_th: 'รออนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' },  { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' } ];
+  status_select: Status = { name_th: 'รออนุมัติ', name_en: 'Send Approve', code: 'S' }
 
   total_apply: number = 0
 
@@ -49,8 +50,9 @@ export class RecruitmentApproveComponent implements OnInit {
     this.doLoadBlacklistList();
     this.doLoadReasonList();
     setTimeout(() => {
-      this.doLoadApply()
+      // this.doLoadApply()
       this.doLoadMenu()
+      this.doLoadApply()
     }, 300);
   }
   public initial_current: InitialCurrent = new InitialCurrent();
@@ -132,6 +134,9 @@ export class RecruitmentApproveComponent implements OnInit {
   title_requestmcer: { [key: string]: string } = { EN: "Medical Certificate", TH: "ใบรับรองแพทย์" };
   title_blacklist: { [key: string]: string } = { EN: "Blacklist", TH: "แบล็คลิสต์" };
 
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  title_chooseall: { [key: string]: string } = { EN: "All", TH: "ทั้งหมด" };
 
   doLoadMenu() {
 
@@ -144,6 +149,7 @@ export class RecruitmentApproveComponent implements OnInit {
           if (this.selectedApply.worker_code != "") {
             this.approveNote = ""
             this.approve_apply("S")
+            
           }
           //this.showManage()
         }
@@ -157,6 +163,7 @@ export class RecruitmentApproveComponent implements OnInit {
           if (this.selectedApply.worker_code != "") {
             this.approveNote = ""
             this.openNotapprove()
+            this.toggleSelect()
           }
 
         }
@@ -175,7 +182,9 @@ export class RecruitmentApproveComponent implements OnInit {
     var tmp = new EmployeeModel();
     tmp.company_code = this.initial_current.CompCode
     tmp.worker_code = ""
-    tmp.status = "S"
+    // tmp.status = "S"
+    tmp.status = this.status_select.code
+
     tmp.blacklist = this.fillterBlacklist
     this.applyworkService.reqworker_get(tmp).then(async (res) => {
       await res.forEach((element: EmployeeModel) => {
@@ -215,10 +224,13 @@ export class RecruitmentApproveComponent implements OnInit {
 
         this.sysApproveServices.approve_record(data).then((res) => {
           let result = JSON.parse(res);
+
           if (result.success) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
             this.doLoadApply()
-
+            this.toggleSelect()
+            this.selection
+ 
             //this.displayManage = false
           }
           else {
@@ -229,7 +241,9 @@ export class RecruitmentApproveComponent implements OnInit {
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       }
+      
     });
+
   }
 
 
@@ -283,7 +297,52 @@ export class RecruitmentApproveComponent implements OnInit {
       }
     }
   }
+// 
+checked: boolean = false;
 
+  buttonVisible: boolean = true;
+
+
+
+  selectAllChecked: boolean = false;
+  showButton: boolean = false;
+  toggleSelectAll() {
+    this.selectAllChecked = !this.selectAllChecked;
+    this.showButton = this.selectAllChecked;
+    console.log(this.selectAllChecked,'dddd')
+
+    //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
+  }
+
+  data = {
+    checked: false
+  };
+  toggleSelect() {
+    this.checked = !this.checked;
+    console.log(this.checked,'ooo')
+  }
+
+
+// }
+status_doc: boolean = false
+
+Search() {
+  if (this.status_select.code) {
+    this.status_doc = true;
+  } else {
+    this.status_doc = false;
+  }
+  this.doLoadApply();
+}
+
+selection(data: EmployeeModel) {
+  if (data) {
+    this.selectedApply = data;
+   
+   }
+   console.log(data,'ppp')
+}
+// 
   blacklistList: BlacklistModel[] = [];
   doLoadBlacklistList() {
     this.blacklistService.blacklist_get(this.initial_current.CompCode, "", "").then((res) => {

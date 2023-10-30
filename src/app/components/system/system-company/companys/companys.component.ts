@@ -156,7 +156,9 @@ export class CompanysComponent implements OnInit {
         this.accessData = this.initialData2.dotGetPolmenu('SYS');
 
     }
-
+    title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+    title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+    
     title_page_Company: string = 'Company';
     title_new: string = 'New';
     title_edit: string = 'Edit';
@@ -605,14 +607,14 @@ export class CompanysComponent implements OnInit {
     }
     selectedFileName: string | undefined;
 
-    onSelectFilesmaps(event: Event): void {
-        const inputElement = event.target as HTMLInputElement;
-        if (inputElement.files && inputElement.files.length > 0) {
-            this.selectedFileName = inputElement.files[0].name;
-        } else {
-            this.selectedFileName = undefined;
-        }
-    }
+    // onSelectFilesmaps(event: Event): void {
+    //     const inputElement = event.target as HTMLInputElement;
+    //     if (inputElement.files && inputElement.files.length > 0) {
+    //         this.selectedFileName = inputElement.files[0].name;
+    //     } else {
+    //         this.selectedFileName = undefined;
+    //     }
+    // }
 
 
 
@@ -977,18 +979,53 @@ export class CompanysComponent implements OnInit {
         this.fileToUpload = files.item(0);
     }
 
+    // onselectFile(event: any) {
+    //     const reader = new FileReader();
+    //     reader.onload = (e: any) => {
+    //         // Set image src
+    //         this.base64Image = e.target.result;
+    //     };
+
+    //     if (event.target.files && event.target.files.length > 0) {
+    //         reader.readAsDataURL(event.target.files[0]);
+    //         this.fileToUpload = event.target.files.item(0);
+    //     }
+    // }
+
+    selectedimageName: string = '';
     onselectFile(event: any) {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            this.selectedimageName = selectedFile.name;
+        } else {
+            this.selectedimageName = this.title_nofile[this.initial_current.Language];
+        }
+
         const reader = new FileReader();
         reader.onload = (e: any) => {
             // Set image src
             this.base64Image = e.target.result;
-        };
-
-        if (event.target.files && event.target.files.length > 0) {
-            reader.readAsDataURL(event.target.files[0]);
-            this.fileToUpload = event.target.files.item(0);
         }
+        reader.readAsDataURL(event.target.files[0])
+        this.fileToUpload = event.target.files.item(0);
+
     }
+
+    // onselectFile(event: any) {
+    //     const reader = new FileReader();
+    //     reader.onload = (e: any) => {
+    //         // Set image src
+    //         this.base64Image = e.target.result;
+    //     };
+
+    //     if (event.target.files && event.target.files.length > 0) {
+    //         reader.readAsDataURL(event.target.files[0]);
+    //         this.fileToUpload = event.target.files.item(0);
+    //     }
+    // }
+
+    
+
 
 
 
@@ -1016,17 +1053,36 @@ export class CompanysComponent implements OnInit {
         this.fileToUploadsmaps = files.item(0);
     }
 
+    // onselectFilesmaps(event: any) {
+    //     const reader = new FileReader();
+    //     reader.onload = (e: any) => {
+    //         // Set image src
+    //         this.base65Image = e.target.result;
+    //     };
+
+    //     if (event.target.files && event.target.files.length > 0) {
+    //         reader.readAsDataURL(event.target.files[0]);
+    //         this.fileToUploadsmaps = event.target.files.item(0);
+    //     }
+    // }
+
+    selectedfilesmaps: string = '';
     onselectFilesmaps(event: any) {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            this.selectedfilesmaps = selectedFile.name;
+        } else {
+            this.selectedfilesmaps = this.title_nofile[this.initial_current.Language];
+        }
+
         const reader = new FileReader();
         reader.onload = (e: any) => {
             // Set image src
             this.base65Image = e.target.result;
-        };
-
-        if (event.target.files && event.target.files.length > 0) {
-            reader.readAsDataURL(event.target.files[0]);
-            this.fileToUploadsmaps = event.target.files.item(0);
         }
+        reader.readAsDataURL(event.target.files[0]);
+        this.fileToUploadsmaps = event.target.files.item(0);
+
     }
 
     uploadImagesmaps() {

@@ -81,7 +81,11 @@ export class GroupComponent implements OnInit {
   title_confirm_no: string = "No";
 
   title_confirm_cancel: string = "You have cancelled";
-
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+  title_template: { [key: string]: string } = { EN: "Template", TH: "เทมเพลต" };
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ข้อมูลกลุ่ม";
@@ -134,7 +138,7 @@ export class GroupComponent implements OnInit {
         }
       },
       {
-        label: "Template",
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import emp/(OPR)Import Group.xlsx', '_blank');
@@ -247,10 +251,15 @@ export class GroupComponent implements OnInit {
   }
 
   fileToUpload: File | any = null;
+  selectedFileName: string = '';
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.title_nofile[this.initial_current.Language];
+    }
   }
-
   doUploadGroup() {
     if (this.fileToUpload) {
       this.confirmationService.confirm({

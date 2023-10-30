@@ -78,11 +78,11 @@
                         disabled="{{edit_data}}" name="code" #code="ngModel" required />
                     <p>{{leaveplans.planleave_code.length}}/10</p>
 
-                    <label>{{langs.get('description')[selectlang]}} (Eng.)<span style="color: red;"> *</span></label>
+                    <label>{{langs.get('description')[selectlang]}} {{langs.get('eng')[selectlang]}}<span style="color: red;"> *</span></label>
                     <textarea [(ngModel)]="leaveplans.planleave_name_en" pInputTextarea [autoResize]="true"
                         name="planleave_name_en" #planleave_name_en="ngModel" required></textarea>
 
-                    <label>{{langs.get('description')[selectlang]}} (Thai)<span style="color: red;"> *</span></label>
+                    <label>{{langs.get('description')[selectlang]}} {{langs.get('thai')[selectlang]}}<span style="color: red;"> *</span></label>
                     <textarea [(ngModel)]="leaveplans.planleave_name_th" pInputTextarea [autoResize]="true"
                         name="planleave_name_th" #planleave_name_th="ngModel" required></textarea>
                     <p-pickList [metaKeySelection]="false" [responsive]="true"
@@ -119,16 +119,24 @@
 </div>
 
 <!-- Dialog Choose File Import -->
-<p-dialog class="uploadfile" header="Upload" [(visible)]="displayUpload" (onHide)="closedupload()">
+<p-dialog class="uploadfile" header="{{langs.get('upload')[selectlang]}}" [(visible)]="displayUpload" (onHide)="closedupload()">
     <label class="drop-container">
-        <span class="drop-title">Drop files here</span>
-        or
-        <input type="file"
+        <span class="drop-title"> {{langs.get('dropfile')[selectlang]}}</span>
+         
+        <!-- <input type="file"
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            required (change)="handleFileInput($any($event).target.files)" #importFile>
+            required (change)="handleFileInput($any($event).target.files)"> -->
+        <div class="attach">
+            <input id="file" type="file" #importFile
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                required (change)="handleFileInput($any($event).target.files)" style="display: none;">
+            <label for="file" class="btnattach"> {{langs.get('choosefile')[selectlang]}} </label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{langs.get('nofilechosen')[selectlang]}}  </span>
+            <span class="chosen-attach" *ngIf="selectedFileName">  {{selectedFileName}}</span>
+        </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="Upload"></p-button>
+        <p-button icon="pi pi-upload" (click)="Uploadfile()" label="{{langs.get('upload')[selectlang]}}"></p-button>
     </ng-template>
 </p-dialog>
 

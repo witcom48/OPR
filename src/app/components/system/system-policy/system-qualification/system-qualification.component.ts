@@ -62,7 +62,11 @@ export class SystemQualificationComponent implements OnInit {
 
   }
   title_file: { [key: string]: string } = { EN: "File ", TH: "ไฟล์" }
-
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+  title_template: { [key: string]: string } = { EN: "Template", TH: "เทมเพลต" };
   title_system: string = "System";
   title_genaral: string = "Genaral";
   title_page: string = "Qualification";
@@ -111,13 +115,13 @@ export class SystemQualificationComponent implements OnInit {
       this.title_export = "โอนออก";
       this.title_save = "บันทึก";
       this.title_code = "รหัส";
-      this.title_name_th = "รายละเอียด(ไทย)";
-      this.title_name_en = "รายละเอียด(อังกฤษ)";
+      this.title_name_th = "รายละเอียด (ไทย)";
+      this.title_name_en = "รายละเอียด (อังกฤษ)";
       this.title_detail = "รายละเอียด";
       this.title_modified_by = "ผู้ทำรายการ";
       this.title_modified_date = "วันที่ทำรายการ";
       this.title_search = "ค้นหา";
-      this.title_upload = "อัพโหลด";
+      this.title_upload = "อัปโหลด";
 
       this.title_page_from = "แสดง";
       this.title_page_to = "ถึง";
@@ -158,7 +162,7 @@ export class SystemQualificationComponent implements OnInit {
       ,
       {
 
-        label: "Template",
+        label:this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Qualification.xlsx', '_blank');
@@ -316,10 +320,21 @@ export class SystemQualificationComponent implements OnInit {
 
   }
 
+  // fileToUpload: File | any = null;
+  // handleFileInput(file: FileList) {
+  //   this.fileToUpload = file.item(0);
+  // }
   fileToUpload: File | any = null;
+  selectedFileName: string = '';
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.title_nofile[this.initial_current.Language];
+    }
   }
+
 
   doUploadQualification() {
 

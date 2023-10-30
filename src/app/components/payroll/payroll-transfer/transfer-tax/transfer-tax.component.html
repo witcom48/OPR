@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 
 <!-- Link Page -->
-<div class="path">
+<!-- <div class="path">
     <span>Pay Roll</span>
     <div>
         <i></i>
@@ -9,7 +9,9 @@
         <i></i>
         <small>Transfer Tax</small>
     </div>
-</div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
 <!-- ---------END Link Page----------- -->
 <hr>
 
@@ -18,7 +20,7 @@
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
-            <span>Process</span>
+            <span>{{this.title_process[this.initial_current.Language]}}</span>
         </ng-template>
 
         <div class="formgrid grid align-items-end">
@@ -27,7 +29,7 @@
                 <app-select-emp></app-select-emp>
             </div>
             <div class="field col-12 md:col-6">
-                <p-button label="Process" (click)="process()"></p-button>
+                <p-button label="{{this.title_btnprocess[this.initial_current.Language]}}" (click)="process()"></p-button>
             </div>
 
         </div>
@@ -36,7 +38,7 @@
     <p-tabPanel>
         <ng-template pTemplate="header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
-            <span>Result</span>
+            <span>{{this.title_result[this.initial_current.Language]}}</span>
         </ng-template>
 
         <div class="formgrid grid align-items-end">

@@ -3,6 +3,7 @@ import { Table } from 'primeng/table';
 import {
     ConfirmationService,
     ConfirmEventType,
+    MenuItem,
     MessageService,
 } from 'primeng/api';
 import { PrjectEmpdailyModel } from '../../../../models/project/project_empdaily';
@@ -37,20 +38,23 @@ interface Result {
     styleUrls: ['./transfer-sso.component.scss'],
 })
 export class TransferSsoComponent implements OnInit {
+  home: any;
+  itemslike: MenuItem[] = [];
     [x: string]: any;
     @ViewChild(SelectEmpComponent) selectEmp: any;
     @ViewChild(TaskComponent) taskView: any;
     title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
     title_bank: { [key: string]: string } = { EN: "Bank", TH: "ธนาคาร" };
-    title_transfer : { [key: string]: string } = { EN: "Transfer Data", TH: "Transfer Data" };
-   
+    title_transfer : { [key: string]: string } = { EN: "Transfer Data", TH: "โอนย้ายข้อมูล" };
+    title_transferdatal: {[key: string]: string} = {  EN: " Transfer Data",  TH: "โอนย้ายข้อมูล"}  
+    title_transfersso: {[key: string]: string} = {  EN: " Transfer Sso",  TH: "ประกันสังคม"}  
+
     
     title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
     title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
     title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
     title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
-    title_transferbank: { [key: string]: string } = { EN: " Transfer Bank", TH: "ธนาคาร" };
-  
+   
     title_confirm: string = 'Are you sure?';
     title_confirm_record: string = 'Confirm to process';
     title_confirm_delete: string = 'Confirm to delete';
@@ -92,6 +96,10 @@ export class TransferSsoComponent implements OnInit {
         setTimeout(() => {
             this.doLoadTask()
         }, 200);
+
+        this.itemslike = [{ label: this.title_transferdatal[this.initial_current.Language], routerLink: '/payroll/transfer' },
+        { label: this.title_transfersso[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
     }
 
     public selectedBank: string = '';

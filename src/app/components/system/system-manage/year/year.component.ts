@@ -138,9 +138,21 @@ export class YearComponent implements OnInit {
       this.fileToUpload = null;
     });
   }
+  // handleFileInput(file: FileList) {
+  //   this.fileToUpload = file.item(0);
+  // }
+
+  // fileToUpload: File | any = null;
+  selectedFileName: string = '';
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
+    if (this.fileToUpload) {
+      this.selectedFileName = this.fileToUpload.name;
+    } else {
+      this.selectedFileName = this.langs.get('nofilechosen')[this.selectlang];
+    }
   }
+
   selectYeartype() {
     this.doLoadYear();
   }
@@ -166,7 +178,7 @@ export class YearComponent implements OnInit {
       ,
       {
 
-        label: "Template",
+        label: this.langs.get('template')[this.selectlang],  
         icon: 'pi-download',
         command: (event) => {
           window.open('assets/OPRFileImport/(OPR)Import System/(OPR)Import System Year.xlsx', '_blank');

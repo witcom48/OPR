@@ -86,14 +86,45 @@
 </p-dialog>
 <br>
 
-<p-menubar [model]="menu_apply"></p-menubar>
-<p-table #dt2 [value]="apply_list" styleClass="p-datatable-sm" [scrollable]="true" scrollHeight="400px"
+<p-menubar [model]="menu_apply">
+    <!-- <td>
+
+        <p-button *ngIf="selectAllChecked || checked && buttonVisible" (click)="convertToEmptest(selectedReqworker)"
+            label="{{title_convert[initial_current.Language]}}"
+             ></p-button>
+    </td> -->
+</p-menubar>
+
+<p-table #dt2 [value]="apply_list" styleClass="p-datatable-sm"   scrollHeight="400px" [scrollable]="true"  selectionMode="single" [(selection)]="selectedApply"
+             [rows]="12" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50]"[paginator]="true"
+            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+            [globalFilterFields]="['worker_code_code','worker_fname_th','worker_lname_th','worker_fname_en','worker_lname_en','project_end']"
+            responsiveLayout="stack" [breakpoint]="'744px'">
+            <ng-template pTemplate="caption">
+
+<!-- <p-table #dt2 [value]="apply_list" styleClass="p-datatable-sm" [scrollable]="true" scrollHeight="400px"
     [virtualScroll]="true" selectionMode="single" [(selection)]="selectedApply" dataKey="worker_code" [rows]="10"
     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
     currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
     [globalFilterFields]="['worker_code_code','worker_fname_th','worker_lname_th','worker_fname_en','worker_lname_en','project_end']">
-    <ng-template pTemplate="caption">
+    <ng-template pTemplate="caption"> -->
         <div class="flex">
+            <div class="col-6 md:col-3">
+                <!--  สถานะอนุมัติ (Default All)  -->
+                <div>
+                    <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                        [style]="{ width: '100vw', overflow: 'visible' }"  (onChange)="Search()">
+                        <ng-template let-item pTemplate="selectedItem">
+                            {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+            </div>
             <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
                 <input pInputText type="text" (input)="dt2.filterGlobal($any($event).target.value, 'contains')"
@@ -103,6 +134,12 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
+            <th>
+                <!-- เลือกทั้งหมด -->
+                <button pButton class=" gray-button " *ngIf="status_select.code === 'S'"
+                    (click)="toggleSelectAll()">{{title_chooseall[initial_current.Language]}}</button>
+            </th>
+
             <th style="width:9%">{{title_code[initial_current.Language]}}</th>
             <th style="width:12%">{{title_name[initial_current.Language]}}</th>
 
@@ -116,7 +153,17 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-data>
-        <tr [pSelectableRow]="data">
+        <tr [pSelectableRow]="data" (click)="selection(data)">
+
+            <td >
+                <!-- เลือกที่ละฟิล -->
+                <p-checkbox  *ngIf="data.status === 'S'" [(ngModel)]="data.checked"
+                    [binary]="true" inputId="checked" [ngModelOptions]="{standalone: true}"
+                    (click)="toggleSelect()" [ngModel]="selectAllChecked"></p-checkbox>
+            </td>
+
+
+
             <td>{{data.worker_code}}</td>
             <td class="text-left">
                 <div *ngIf="this.initial_current.Language == 'TH'">

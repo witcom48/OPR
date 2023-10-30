@@ -225,7 +225,7 @@ export class ProjectManageComponent implements OnInit {
 
   
   title_tab_genaral: { [key: string]: string } = { EN: "Genaral", TH: "ข้อมูลทั่วไป" }
-  title_tab_contract: { [key: string]: string } = { EN: "Contract", TH: "ข้อมูลสัญญา" }
+  title_tab_contract: { [key: string]: string } = { EN: "Contract", TH: "รายละเอียดสัญญา" }
   title_tab_policy: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" }
   title_tab_jobmain: { [key: string]: string } = { EN: "Job", TH: "งาน" }
   title_tab_jobclear: { [key: string]: string } = { EN: "Clear job", TH: "งานเคลียร์" }
@@ -312,8 +312,12 @@ export class ProjectManageComponent implements OnInit {
   title_contact_position: { [key: string]: string } = { EN: "Position", TH: "ตำแหน่ง" }
   title_contact_tel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรศัพท์" }
   title_contact_email: { [key: string]: string } = { EN: "Email", TH: "อีเมล์" }
+  title_contact_en: { [key: string]: string } = { EN: "(EN)", TH: "(อังกฤษ)" }
+  title_contact_th: { [key: string]: string } = { EN: "(TH)", TH: "(ไทย)" }
+
+
   //
-  title_contract: { [key: string]: string } = { EN: "Contract", TH: "ข้อมูลสัญญา" }
+  title_contract: { [key: string]: string } = { EN: "Contract", TH: "รายละเอียดสัญญา" }
   title_contract_customer: { [key: string]: string } = { EN: "Customer", TH: "ชื่อลูกค้า" }
   title_contract_date: { [key: string]: string } = { EN: "Date", TH: "วันที่ทำสัญญา" }
   title_contract_ref: { [key: string]: string } = { EN: "Ref.", TH: "เลขที่สัญญา" }
@@ -1949,10 +1953,10 @@ export class ProjectManageComponent implements OnInit {
     else {
 
       if (this.new_procontact || this.edit_procontact) {
-        this.manage_title = "ผู้ติดต่อๅ"
+        this.manage_title = "ผู้ติดต่อ"
       }
       else if (this.new_proresponsible || this.edit_proresponsible) {
-        this.manage_title = "ผู้รับผิดชอบ"
+        this.manage_title = "ข้อมูลสัญญา"
       }
       else if (this.new_projobcontract || this.edit_projobcontract) {
         this.manage_title = "สัญญา"
@@ -1977,7 +1981,7 @@ export class ProjectManageComponent implements OnInit {
         this.manage_title = "ข้อมูลสัญญา"
       }
       else if (this.new_proequipmentreq || this.edit_proequipmentreq) {
-        this.manage_title = "เบิกชุดฟอร์ม"
+        this.manage_title = "ข้อมูลสัญญา"
       }
 
       else if (this.new_projobmain || this.edit_projobmain) {

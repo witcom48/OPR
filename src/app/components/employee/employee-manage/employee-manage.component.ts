@@ -682,7 +682,7 @@ export class EmployeeManageComponent implements OnInit {
   title_kg: { [key: string]: string } = { EN: "k.g.", TH: "ก.ก." };
 
   title_familyocc: { [key: string]: string } = { EN: "Occupation", TH: "อาชีพ" };
-  title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรฯ" };
+  title_familytel: { [key: string]: string } = { EN: "Tel.", TH: "เบอร์โทรศัพท์" };
   title_familyaddress: { [key: string]: string } = { EN: "Address", TH: "ที่อยู่" };
   title_familynameth: { [key: string]: string } = { EN: "Name(Eng.)", TH: "ชื่อ(อังกฤษ)" };
   title_familynameen: { [key: string]: string } = { EN: "Name(Thai)", TH: "ชื่อ(ไทย)" };
@@ -746,6 +746,11 @@ export class EmployeeManageComponent implements OnInit {
   title_filetype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_viewfile: { [key: string]: string } = { EN: "View", TH: "ดูไฟล์" };
 
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+  title_amounts: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" };
+
+  
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ประวัติพนักงาน";
@@ -831,7 +836,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_page_record = "รายการ";
 
       this.title_confirm = "ยืนยันการทำรายการ";
-      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการ";
+      this.title_confirm_record = "คุณต้องการบันทึกการทำรายการหรือไม่?";
       this.title_confirm_delete = "คุณต้องการลบรายการ";
 
       this.title_confirm_yes = "ใช่";
@@ -841,7 +846,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_locationname = "สถานที่";
       this.title_start = "วันที่เริ่ม";
       this.title_end = "วันที่สิ้นสุด";
-      this.title_description = "เพิ่มเติม";
+      this.title_description = "หมายเหตุ";
       this.title_branchname = "สาขา";
       this.title_suggestname = "ผู้แนะนำ";
       this.title_addresstype = "ประเภทที่อยู่อาศัย";
@@ -856,7 +861,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_tel = "เบอร์โทรฯ";
       this.title_email = "อีเมล";
       this.title_line = "ไลน์";
-      this.title_facebook = "เฟสบุ๊ค";
+      this.title_facebook = "เฟซบุ๊ค";
       this.title_cardcode = "เลขที่";
       this.title_issuedate = "วันที่ออก";
       this.title_expiredate = "วันที่หมดอายุ";
@@ -895,8 +900,8 @@ export class EmployeeManageComponent implements OnInit {
       this.title_educationstart = "วันที่เริ่ม";
       this.title_educationend = "วันที่จบ";
       this.title_supplyissue = "วันที่เบิก";
-      this.title_supplyename = "อุปกรณื";
-      this.title_amount = "จำนวน";
+      this.title_supplyename = "ชื่ออุปกรณ์";
+      this.title_amount = "เงินค่าแนะนำ";
       this.title_return = "คืนอุปกรณ์";
       this.title_returndate = "วันที่คืนอุปกรณ์";
       this.title_uniformissue = "วันที่เบิก";
@@ -4901,18 +4906,39 @@ export class EmployeeManageComponent implements OnInit {
     this.fileToUpload = files.item(0);
   }
 
+  selectedimageName: string = '';
   onselectFile(event: any) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+        this.selectedimageName = selectedFile.name;
+    } else {
+        this.selectedimageName = this.title_nofile[this.initial_current.Language];
+    }
+
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      // Set image src
-      this.base64Image = e.target.result;
+        // Set image src
+        this.base64Image = e.target.result;
     }
     reader.readAsDataURL(event.target.files[0])
-    // reader.readAsDataURL(event.files[0]);
-    // // console.log(event.target.files.item(0))
     this.fileToUpload = event.target.files.item(0);
 
-  }
+}
+
+
+
+  // onselectFile(event: any) {
+  //   const reader = new FileReader();
+  //   reader.onload = (e: any) => {
+  //     // Set image src
+  //     this.base64Image = e.target.result;
+  //   }
+  //   reader.readAsDataURL(event.target.files[0])
+  //   // reader.readAsDataURL(event.files[0]);
+  //   // // console.log(event.target.files.item(0))
+  //   this.fileToUpload = event.target.files.item(0);
+
+  // }
 
 
 

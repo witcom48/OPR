@@ -113,7 +113,7 @@
                             </p-dropdown>
                         </div>
                         <div>
-                            <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
+                            <label for="lastname2">{{title_nation[initial_current.Language]}} : <span style="color: red;"> *</span></label>
                             <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code"
                                 [showClear]="true" [(ngModel)]="selectedReqworker.nationality_code"
                                 [style]="{ width: '100%', overflow: 'visible' }">
@@ -127,7 +127,7 @@
                         </div>
 
                         <div>
-                            <label for="applywork_birthdate">{{title_birthdate}}:</label>
+                            <label for="applywork_birthdate">{{title_birthdate}}: <span style="color: red;"> *</span></label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                 [(ngModel)]="selectedReqworker.worker_birthdate" inputId="applywork_birthdate"
                                 (onSelect)="CalculateAge()">
@@ -137,7 +137,7 @@
                         </div>
 
                         <div>
-                            <label for="worker_hiredate">{{title_hiredate}}:</label>
+                            <label for="worker_hiredate">{{title_hiredate}}: <span style="color: red;"> *</span></label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                 [(ngModel)]="selectedReqworker.worker_hiredate" inputId="applywork_birthdate">
                                 <input type="text">
