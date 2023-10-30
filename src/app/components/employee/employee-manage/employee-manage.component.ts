@@ -4748,11 +4748,19 @@ export class EmployeeManageComponent implements OnInit {
         //-- Notting
       }
       else {
+        this.calculateWorkExp(this.empexperienceList[i].startdate, this.empexperienceList[i].enddate)
+          .then(workAge => {
+            this.empexperienceList[i].workage = workAge;
+          })
         itemNew.push(this.empexperienceList[i]);
       }
     }
     //-- 9999 for delete
     if (model.experience_id != "9999") {
+      this.calculateWorkExp(model.startdate, model.enddate)
+        .then(workAge => {
+          model.workage = workAge;
+        })
       itemNew.push(model);
     }
     this.empexperienceList = [];

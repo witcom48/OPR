@@ -2963,11 +2963,19 @@ export class RecruitmentApplyComponent implements OnInit {
                 //-- Notting
             }
             else {
+                this.calculateWorkExp(this.reqexperienceList[i].startdate, this.reqexperienceList[i].enddate)
+                    .then(workAge => {
+                        this.reqexperienceList[i].workage = workAge;
+                    })
                 itemNew.push(this.reqexperienceList[i]);
             }
         }
         //-- 9999 for delete
         if (model.experience_id != "9999") {
+            this.calculateWorkExp(model.startdate, model.enddate)
+                .then(workAge => {
+                    model.workage = workAge;
+                })
             itemNew.push(model);
         }
         this.reqexperienceList = [];
@@ -3019,7 +3027,7 @@ export class RecruitmentApplyComponent implements OnInit {
         return new Date(year, month + 1, 0).getDate();
     }
 
-    doRecordApplywork(status:string) {
+    doRecordApplywork(status: string) {
         this.selectedReqworker.status = status;
 
         this.applyworkService
