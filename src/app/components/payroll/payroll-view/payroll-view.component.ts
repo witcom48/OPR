@@ -17,6 +17,7 @@ import { PaytranService } from 'src/app/services/payroll/paytran.service';
 import { PayReduceService } from 'src/app/services/payroll/payreduce.service'
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
+import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 
 interface Type {
   name: string;
@@ -115,6 +116,7 @@ export class PayrollViewComponent implements OnInit {
   //
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
+  title_resign: {[key: string]: string} = {  EN: "Include Resign",  TH: "รวมพนักงานลาออก"}
 
   constructor(
     private employeeService: EmployeeService,
@@ -185,14 +187,46 @@ export class PayrollViewComponent implements OnInit {
   byemp_deduct: number = 0;
   byemp_netpay: number = 0;
 
-  doLoadEmployee() {
-    this.employeeService
-      .worker_get(this.initial_current.CompCode, '')
-      .then((res) => {
-        this.worker_list = res;
-      });
-  }
+  // doLoadEmployee() {
+  //   this.employeeService
+  //     .worker_get(this.initial_current.CompCode, '')
+  //     .then((res) => {
+  //       this.worker_list = res;
+  //     });
+  // }
 
+
+
+  fillterIncludeResign: boolean = false;
+
+    doLoadEmployee() {
+        var fillter: FillterEmpModel = new FillterEmpModel;
+
+        fillter.worker_resignstatus = this.fillterIncludeResign;
+        if (this.fillterSearchemp) {
+            fillter.searchemp = this.selectedSearchemp;
+        } else {
+            fillter.searchemp = "";
+        }
+
+
+
+        this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
+            this.worker_list = res;
+        });
+    }
+    //-- Emp master
+    selectedSearchemp: string = "";
+    fillterSearchemp: boolean = false;
+    doChangeSearchemp(event: any) {
+        if (this.fillterSearchemp) {
+            this.doLoadEmployee();
+            this.doSetDetailWorker();
+        }
+    }
+
+
+    
   doNextWorker() {
     if (this.worker_index < this.worker_list.length - 1) {
       this.worker_index++;

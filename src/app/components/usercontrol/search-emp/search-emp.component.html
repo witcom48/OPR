@@ -7,7 +7,7 @@
             [globalFilterFields]="['worker_code','worker_fname_th','worker_fname_en','worker_lname_th','worker_lname_en','project_end']"
             responsiveLayout="stack" [breakpoint]="'744px'">
 
-        <!-- <p-table #dtEmpSearch [value]="worker_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '30rem'}"
+            <!-- <p-table #dtEmpSearch [value]="worker_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '30rem'}"
             [scrollable]="true" scrollHeight="200px" [virtualScroll]="true" selectionMode="single"
             [(selection)]="selectedEmployee" (onRowSelect)="onRowSelectEmployee($event)" dataKey="worker_code"
             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,20,30]" [paginator]="true"
@@ -16,6 +16,16 @@
 
             <ng-template pTemplate="caption">
                 <div class="flex">
+
+                    <!-- resign -->
+                   
+                    <div  class="checkbox-container" >
+                        <p-checkbox name="resign" [binary]="true" (onChange)="doLoadEmployee()"
+                            [(ngModel)]="fillterIncludeResign"></p-checkbox>&nbsp;
+                        <label>{{title_resign[initial_current.Language]}} </label>
+                    </div>
+           
+
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text"
