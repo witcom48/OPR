@@ -141,11 +141,14 @@
                 <tr [pSelectableRow]="data" (click)="selection(data)">
                     <td>
                         <!-- เลือกที่ละฟิล -->
+                        <!-- <p-checkbox *ngIf="data.status === 'W'" [(ngModel)]="data.checked" [binary]="true"
+                            inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect(data)"></p-checkbox> -->
+
+
                         <p-checkbox *ngIf="data.status === 'W'" [(ngModel)]="data.checked" [binary]="true"
                             inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect(data)"
                             [ngModel]="selectAllChecked"></p-checkbox>
                     </td>
-
 
                     <td>{{data.worker_code}}</td>
                     <td>{{initial_current.Language == "TH" ? data.initial_name_th + " " +

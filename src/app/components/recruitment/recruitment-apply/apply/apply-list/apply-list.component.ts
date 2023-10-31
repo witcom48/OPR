@@ -802,10 +802,6 @@ export class ApplyListComponent implements OnInit {
   //   }
   // }
 
-
-
-
-
   selection(data: EmployeeModel) {
     if (data) {
       this.selectedReqworker = data;
@@ -816,18 +812,12 @@ export class ApplyListComponent implements OnInit {
     // console.log(data,'data')
 
   }
-  selections(data: EmployeeModel) {
-    this.selectedReqworker
-    this.selection(data)
-    console.log(this.selectedReqworker, 'tttt')
-  }
-
   selectedDataArray: any[] = [];
   toggleSelect(data: { checked: boolean; }) {
     if (data.checked) {
       this.selectedDataArray.push(data);
       this.checked = true;
-      console.log("ข้อมูลถูกเลือก: ", data);
+      console.log("ข้อมูลถูกเลือกใช้งาน", data);
     } else {
       const index = this.selectedDataArray.indexOf(data);
       if (index > -1) {
@@ -835,44 +825,32 @@ export class ApplyListComponent implements OnInit {
         if (this.selectedDataArray.length === 0) {
           this.checked = false;
         }
-        console.log("การเลือกถูกยกเลิก: ", data);
+        console.log("การเลือกถูกยกเลิกไม่ใช้งาน", data);
       }
     }
   }
+
   convertToEmptest(selectedDataArray: EmployeeModel[]) {
     this.confirmationService.confirm({
       message: this.title_confirm_record,
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        // เรียกเมธอดที่ทำการบันทึกข้อมูลทีละตัว
         this.processNext(selectedDataArray);
-        // console.log(this.processNext(selectedDataArray),'เรียกเมธอดที่ทำการบันทึกข้อมูลทีละตัว')
       },
-      // ...
     });
   }
 
   processNext(selectedDataArray: EmployeeModel[]) {
     if (selectedDataArray.length > 0) {
       const data = selectedDataArray[0];
-
-      // ทำการบันทึกข้อมูลที่ถูกเลือก
       this.saveData(data);
-
-      // นำข้อมูลที่ถูกเลือกออกจาก array
       selectedDataArray.shift();
-
-      // เรียกตัวเองเพื่อดำเนินการกับข้อมูลถัดไป
       this.processNext(selectedDataArray);
     }
   }
 
   saveData(data: EmployeeModel) {
-    // this.edit_applywork = false;
-    // this.new_applywork = false;
-    // this.displayManage = false;
-
     this.doGetNewCode();
     this.doLoadReqaddressList();
     this.doLoadReqForeignercard();
@@ -885,9 +863,9 @@ export class ApplyListComponent implements OnInit {
     this.doLoadReqSalaryList();
     this.buttonVisible = false;
     this.doLoadattdocreq();
-
     console.log("ข้อมูลที่ถูกเลือกทำงาน: ", data);
   }
+
 
 
   //
