@@ -42,7 +42,7 @@
     <p-menubar [model]="items">
         <td>
 
-            <p-button *ngIf="selectAllChecked || checked && buttonVisible" (click)="convertToEmp()"
+            <p-button *ngIf="selectAllChecked || checked && buttonVisible" (click)="convertToEmptest(selectedDataArray)"
                 label="{{title_convert[initial_current.Language]}}"></p-button>
         </td>
     </p-menubar>
@@ -141,11 +141,14 @@
                 <tr [pSelectableRow]="data" (click)="selection(data)">
                     <td>
                         <!-- เลือกที่ละฟิล -->
+                        <!-- <p-checkbox *ngIf="data.status === 'W'" [(ngModel)]="data.checked" [binary]="true"
+                            inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect(data)"></p-checkbox> -->
+
+
                         <p-checkbox *ngIf="data.status === 'W'" [(ngModel)]="data.checked" [binary]="true"
-                            inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect()"
+                            inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect(data)"
                             [ngModel]="selectAllChecked"></p-checkbox>
                     </td>
-
 
                     <td>{{data.worker_code}}</td>
                     <td>{{initial_current.Language == "TH" ? data.initial_name_th + " " +
