@@ -144,17 +144,34 @@ export class TransferBankComponent implements OnInit {
 
   combankList: CombankModel[] = [];
   selectedCombank: CombankModel = new CombankModel();
+  // doLoadCombankList() {
+  //   var tmp = new CombankModel();
+  //   this.companyDetailService.getcompany_bank(this.initial_current.CompCode,'',tmp)
+  //     .then((res) => {
+  //       this.combankList = res;
+  //        if (this.combankList.length > 0) {
+  //         this.selectedCombank = this.combankList[0];
+  //       }
+  //     });
+     
+  // }
+
   doLoadCombankList() {
     var tmp = new CombankModel();
-    this.companyDetailService.getcompany_bank(this.initial_current.CompCode,'',tmp)
-      .then((res) => {
-        this.combankList = res;
-         if (this.combankList.length > 0) {
-          this.selectedCombank = this.combankList[0];
-        }
-      });
-     
-  }
+    if (!this.selectedBank) {
+
+      this.companyDetailService.getcompany_bank(this.initial_current.CompCode, '', tmp)
+        .then((res) => {
+          this.combankList = res;
+          if (this.combankList.length > 0) {
+            this.selectedCombank = this.combankList[0];
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลือกธนาคาร' });
+          }
+        });
+    }
+}
+
 
 
   public task: TaskModel = new TaskModel();

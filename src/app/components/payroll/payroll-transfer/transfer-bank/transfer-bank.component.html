@@ -45,7 +45,7 @@
                 <div>
                     <label>{{this.title_bank[this.initial_current.Language]}} :</label>
 
-                    <p-dropdown placeholder="--" [options]="combankList" optionLabel="name_detail"
+                    <p-dropdown   [options]="combankList" optionLabel="name_detail"
                         [(ngModel)]="selectedBank" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
                         (onChange)="doLoadCombankList( )"></p-dropdown>
 
@@ -73,7 +73,7 @@
         </div>
     </p-tabPanel>
 
-    <p-tabPanel>
+    <!-- <p-tabPanel>
         <ng-template pTemplate="header">
             <i class="pi pi-file-import"></i>&nbsp;&nbsp;
             <span>{{this.title_result[this.initial_current.Language]}}</span>
@@ -87,7 +87,7 @@
 
         </div>
 
-    </p-tabPanel>
+    </p-tabPanel> -->
 
 </p-tabView>
 
