@@ -1774,7 +1774,8 @@
     <div class="formatt" *ngIf="edit_reqposition==true || new_position==true">
         <label>{{title_position}}</label>
         <p-dropdown placeholder="--" [options]="position_list" optionValue="request_position" [showClear]="true"
-            [(ngModel)]="selectedReqPosition.empposition_position" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqPosition.empposition_position"
+            (onChange)="changepos($event.value)" [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th :
                 item.request_code+" - "+item.position_name_en}}

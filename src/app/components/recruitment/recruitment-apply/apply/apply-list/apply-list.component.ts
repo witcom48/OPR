@@ -40,6 +40,8 @@ import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import { ReasonModels } from 'src/app/models/attendance/reason';
 
 import { CheckboxModule } from 'primeng/checkbox';
+import { RequestService } from 'src/app/services/recruitment/request.service';
+import { RequestModel } from 'src/app/models/recruitment/request';
 interface ImportList {
   name_th: string,
   name_en: string,
@@ -86,6 +88,7 @@ export class ApplyListComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
+    private requestService: RequestService,
 
     private employeeService: EmployeeService,
     private polcodeService: PolcodeService,
@@ -752,19 +755,19 @@ export class ApplyListComponent implements OnInit {
 
   selectAllChecked: boolean = false;
   showButton: boolean = false;
-  toggleSelectAll( ) {
+  toggleSelectAll() {
     this.selectAllChecked = !this.selectAllChecked;
     this.showButton = this.selectAllChecked;
     this.selection(this.selectedReqworker)
 
-    console.log(this.showButton,'ttt')
+    console.log(this.showButton, 'ttt')
     //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
   }
-  
 
 
 
-  
+
+
 
   data = {
     checked: false
@@ -776,17 +779,17 @@ export class ApplyListComponent implements OnInit {
   toggleSelect() {
     // ทำงานเมื่อคลิก Checkbox ในแถวข้อมูล
     if (!this.checked) {
-        this.checked = true;
-        // กรณีที่เลือก
-        console.log("ข้อมูลถูกเลือก: ", this.data);
-        // ทำงานเพิ่มเติมหลังจากการเลือก
+      this.checked = true;
+      // กรณีที่เลือก
+      console.log("ข้อมูลถูกเลือก: ", this.data);
+      // ทำงานเพิ่มเติมหลังจากการเลือก
     } else {
-        this.checked = false;
-        // กรณีที่ยกเลิกเลือก
-        console.log("การเลือกถูกยกเลิก: ", this.data);
-        // ทำงานเพิ่มเติมหลังการยกเลิกเลือก
+      this.checked = false;
+      // กรณีที่ยกเลิกเลือก
+      console.log("การเลือกถูกยกเลิก: ", this.data);
+      // ทำงานเพิ่มเติมหลังการยกเลิกเลือก
     }
-}
+  }
 
 
 
@@ -797,13 +800,13 @@ export class ApplyListComponent implements OnInit {
       this.new_applywork = false;
       this.displayManage = false;
     }
-    console.log(data,'data')
+    console.log(data, 'data')
 
   }
-  selections(data: EmployeeModel ) {
-    this.selectedReqworker 
+  selections(data: EmployeeModel) {
+    this.selectedReqworker
     this.selection(data)
-    console.log(this.selectedReqworker,'tttt')
+    console.log(this.selectedReqworker, 'tttt')
   }
 
 
@@ -816,7 +819,7 @@ export class ApplyListComponent implements OnInit {
       accept: () => {
         if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
 
-        // if (data.worker_birthdate && this.CalculateAge(data.worker_birthdate) >= 50) {
+          // if (data.worker_birthdate && this.CalculateAge(data.worker_birthdate) >= 50) {
           this.edit_applywork = false;
           this.new_applywork = false;
           this.displayManage = false;
@@ -943,6 +946,16 @@ export class ApplyListComponent implements OnInit {
       this.doLoadapplywork();
     })
   }
+  doUpdateAccept() {
+    var tmp = new RequestModel()
+    tmp.company_code = this.initial_current.CompCode
+    tmp.request_code = 'D2'
+    tmp.request_accepted = '1'
+    console.log(tmp)
+    this.requestService.request_upaccept(tmp).then(async (res) => {
+      let result = await JSON.parse(res);
+    })
+  }
 
   doGetNewCode() {
     this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedReqworker.worker_type).then(async (res) => {
@@ -1011,7 +1024,7 @@ export class ApplyListComponent implements OnInit {
         this.record_empdocatt(Code)
 
         //--update status
-        this.doUpdateStatus("F")
+        // this.doUpdateStatus("F")
 
         //-- alert
         this.messageService.add({
@@ -1269,6 +1282,13 @@ export class ApplyListComponent implements OnInit {
       .then((res) => {
         let result = JSON.parse(res);
         if (result.success) {
+          var tmp = new RequestModel();
+          tmp.company_code = this.initial_current.CompCode;
+          tmp.request_code = this.reqPositionList[0].request_code
+          tmp.request_accepted = '1'
+          this.requestService.request_upaccept(tmp).then(async(res) => {
+            let result = await JSON.parse(res);
+          })
         } else {
         }
       });
@@ -1341,11 +1361,11 @@ export class ApplyListComponent implements OnInit {
     })
   }
   reqdocatt: ApplyMTDocattModel[] = [];
-  doLoadattdocreq(){
+  doLoadattdocreq() {
     var tmp = new ApplyMTDocattModel();
     tmp.company_code = this.initial_current.CompCode
     tmp.worker_code = this.selectedReqworker.worker_code
-    this.applyworkService.getreq_filelist(tmp).then((res)=>{
+    this.applyworkService.getreq_filelist(tmp).then((res) => {
       this.reqdocatt = res;
     })
   }
