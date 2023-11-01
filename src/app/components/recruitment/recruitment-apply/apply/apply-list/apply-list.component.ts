@@ -1024,7 +1024,7 @@ export class ApplyListComponent implements OnInit {
         this.record_empdocatt(Code)
 
         //--update status
-        // this.doUpdateStatus("F")
+        this.doUpdateStatus("F")
 
         //-- alert
         this.messageService.add({
