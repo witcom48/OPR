@@ -950,9 +950,9 @@ export class ApplyListComponent implements OnInit {
     // this.close()
 
   }
-  doUpdateStatus(status: string) {
+  doUpdateStatus(status: string, id: string) {
     var tmp = new EmployeeModel();
-    tmp.worker_id = this.selectedReqworker.worker_id;
+    tmp.worker_id = id;
     tmp.status = status
     this.applyworkService.requpdate_status(tmp).then(async (res) => {
       let result = await JSON.parse(res);
@@ -1038,7 +1038,7 @@ export class ApplyListComponent implements OnInit {
         await this.record_empdocatt(Code)
 
         //--update status
-        this.doUpdateStatus("F")
+        this.doUpdateStatus("F",datas.worker_id)
 
         //-- alert
         this.messageService.add({
