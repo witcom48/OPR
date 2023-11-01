@@ -58,6 +58,14 @@
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                 readonly>
                         </td>
+
+                        <!-- resign -->
+                        <td  style="width: 250px;" align="left">
+                            <p-checkbox name="resign" [binary]="true" (onChange)="doLoadEmployee()"
+                                [(ngModel)]="fillterIncludeResign"></p-checkbox>&nbsp;
+                                <label>{{title_resign[initial_current.Language]}} </label>
+
+                        </td>
                     </tr>
                 </table>
                 <p></p>
@@ -217,7 +225,8 @@
                             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                             required (change)="handleFileInput($any($event).target.files)" style="display: none;">
                         <label for="file" class="btnattach">{{title_choose[initial_current.Language]}}</label>
-                        <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+                        <span class="chosen-attach"
+                            *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
                         <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
                     </div>
                 </label>
@@ -284,6 +293,14 @@
                             <input id="lastname2" type="text" [value]="worker_name" style="width: 250px;"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                                 readonly>
+                        </td>
+
+                         <!-- resign -->
+                         <td  style="width: 250px;" align="left">
+                            <p-checkbox name="resign" [binary]="true" (onChange)="doLoadEmployee()"
+                                [(ngModel)]="fillterIncludeResign"></p-checkbox>&nbsp;
+                                <label>{{title_resign[initial_current.Language]}} </label>
+
                         </td>
                     </tr>
                 </table>
@@ -462,7 +479,8 @@
                     accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     required (change)="handleFileInput($any($event).target.files)" style="display: none;">
                 <label for="file" class="btnattach">{{title_choose[initial_current.Language]}}</label>
-                <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+                <span class="chosen-attach"
+                    *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
                 <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
             </div>
         </label>

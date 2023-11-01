@@ -19,6 +19,11 @@ import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
   styleUrls: ['./search-emp.component.scss']
 })
 export class SearchEmpComponent implements OnInit {
+
+
+  fillterIncludeResign: boolean = false;
+
+
   title_page_from: {[key: string]: string} = {  EN: "Showing",  TH: "แสดง"}
   title_page_to: {[key: string]: string} = {  EN: "to",  TH: "ถึง"}
   title_page_total: {[key: string]: string} = {  EN: "of",  TH: "จาก"}
@@ -31,6 +36,9 @@ export class SearchEmpComponent implements OnInit {
   title_lastname: {[key: string]: string} = {  EN: "Lastname",  TH: "นามสกุล"}
   title_position: {[key: string]: string} = {  EN: "Position",  TH: "ตำแหน่งงาน"}
   title_emptype: {[key: string]: string} = {  EN: "Emptype",  TH: "ประเภทพนักงาน"}
+
+  title_resign: {[key: string]: string} = {  EN: "Include Resign",  TH: "รวมพนักงานลาออก"}
+
   worker_code: string = "";
 
   constructor(private employeeService: EmployeeService,
@@ -71,9 +79,31 @@ export class SearchEmpComponent implements OnInit {
   worker_list: EmployeeModel[] = [];
   doLoadEmployee() {
     var fillter: FillterEmpModel = new FillterEmpModel;
+
+
+    fillter.worker_resignstatus = this.fillterIncludeResign;
+    if (this.fillterSearchemp) {
+      fillter.searchemp = this.selectedSearchemp;
+    } else {
+      fillter.searchemp = "";
+    }
+
+
     this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
       this.worker_list = res;
     });
+  }
+
+
+  
+
+ //-- Emp master
+  selectedSearchemp: string = "";
+  fillterSearchemp: boolean = false;
+  doChangeSearchemp(event: any) {
+    if (this.fillterSearchemp) {
+      this.doLoadEmployee();
+     }
   }
 
   onRowSelectEmployee(event: Event) {

@@ -2,7 +2,6 @@ import { ApplyMTDocattModel } from "../recruitment/applyMTDocatt";
 
 export class EmployeeModel {
   employee_code: any;
-  checked: any;
   constructor() {
 
   }

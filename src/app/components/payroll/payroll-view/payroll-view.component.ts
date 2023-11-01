@@ -17,6 +17,7 @@ import { PaytranService } from 'src/app/services/payroll/paytran.service';
 import { PayReduceService } from 'src/app/services/payroll/payreduce.service'
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
+import { FillterEmpModel } from 'src/app/models/usercontrol/filteremp';
 
 interface Type {
   name: string;
@@ -115,6 +116,7 @@ export class PayrollViewComponent implements OnInit {
   //
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
+  title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" }
 
   constructor(
     private employeeService: EmployeeService,
@@ -185,13 +187,45 @@ export class PayrollViewComponent implements OnInit {
   byemp_deduct: number = 0;
   byemp_netpay: number = 0;
 
+  // doLoadEmployee() {
+  //   this.employeeService
+  //     .worker_get(this.initial_current.CompCode, '')
+  //     .then((res) => {
+  //       this.worker_list = res;
+  //     });
+  // }
+
+
+
+  fillterIncludeResign: boolean = false;
+
   doLoadEmployee() {
-    this.employeeService
-      .worker_get(this.initial_current.CompCode, '')
-      .then((res) => {
-        this.worker_list = res;
-      });
+    var fillter: FillterEmpModel = new FillterEmpModel;
+
+    fillter.worker_resignstatus = this.fillterIncludeResign;
+    if (this.fillterSearchemp) {
+      fillter.searchemp = this.selectedSearchemp;
+    } else {
+      fillter.searchemp = "";
+    }
+
+
+
+    this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
+      this.worker_list = res;
+    });
   }
+  //-- Emp master
+  selectedSearchemp: string = "";
+  fillterSearchemp: boolean = false;
+  doChangeSearchemp(event: any) {
+    if (this.fillterSearchemp) {
+      this.doLoadEmployee();
+      this.doSetDetailWorker();
+    }
+  }
+
+
 
   doNextWorker() {
     if (this.worker_index < this.worker_list.length - 1) {
@@ -323,62 +357,62 @@ export class PayrollViewComponent implements OnInit {
     });
   }
 
-  
+
   hasAccessMenu(accessCode: string): boolean {
     return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
   }
 
   openSearchEmp(): void {
     const dialogRef = this.dialog.open(SearchEmpComponent, {
-        width: '500px',
-        height: '550px',
-        data: {
-            worker_code: ''
-        }
+      width: '500px',
+      height: '550px',
+      data: {
+        worker_code: ''
+      }
     });
     dialogRef.afterClosed().subscribe((result: { worker_code: string; }) => {
-        if (result.worker_code != "") {
+      if (result.worker_code != "") {
 
-            let select = result.worker_code;
-            this.doGetIndexWorker(select);
+        let select = result.worker_code;
+        this.doGetIndexWorker(select);
 
-        }
+      }
     });
-}
+  }
 
   position: string = "right";
-    searchEmp: boolean = false;
-    open_searchemp() {
-        console.log(this.searchEmp, 'test1')
-        this.searchEmp = true
+  searchEmp: boolean = false;
+  open_searchemp() {
+    console.log(this.searchEmp, 'test1')
+    this.searchEmp = true
+  }
+
+  close_searchemp() {
+    this.searchEmp = false
+  }
+
+  select_emp() {
+
+    let select = this.searchEmp_popup.selectedEmployee.worker_code
+    if (select != "") {
+      this.doGetIndexWorker(select)
+      this.searchEmp = false
+      console.log(this.searchEmp)
     }
 
-    close_searchemp() {
-        this.searchEmp = false
+  }
+
+  doGetIndexWorker(worker_code: string) {
+    for (let i = 0; i < this.worker_list.length; i++) {
+      if (this.worker_list[i].worker_code == worker_code) {
+        this.worker_index = i;
+        break;
+      }
     }
 
-    select_emp() {
+    this.doSetDetailWorker();
 
-        let select = this.searchEmp_popup.selectedEmployee.worker_code
-        if (select != "") {
-            this.doGetIndexWorker(select)
-            this.searchEmp = false
-            console.log( this.searchEmp)
-        }
-
-    }
-
-    doGetIndexWorker(worker_code: string) {
-        for (let i = 0; i < this.worker_list.length; i++) {
-            if (this.worker_list[i].worker_code == worker_code) {
-                this.worker_index = i;
-                break;
-            }
-        }
-
-        this.doSetDetailWorker();
-
-    }
+  }
 
 
 }

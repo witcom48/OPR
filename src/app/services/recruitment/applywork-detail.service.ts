@@ -814,6 +814,7 @@ export class ApplyworkDetailService {
     for (let i = 0; i < list.length; i++) {
       item_data = item_data + "{";
       item_data = item_data + "\"empposition_position\":\"" + list[i].empposition_position + "\"";
+      item_data = item_data + ",\"request_code\":\"" + list[i].request_code + "\"";
       
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";

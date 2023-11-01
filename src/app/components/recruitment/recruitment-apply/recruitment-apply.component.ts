@@ -1869,6 +1869,13 @@ export class RecruitmentApplyComponent implements OnInit {
             this.position_list = res;
         })
     }
+    changepos(code: string){
+        for( let i = 0; i< this.position_list.length; i++){
+            if(this.position_list[i].request_position == code){
+                this.selectedReqPosition.request_code = this.position_list[i].request_code
+            }
+        }
+    }
     //request project
     projectList: RequestModel[] = [];
     doLoadprojectList() {
@@ -2619,6 +2626,7 @@ export class RecruitmentApplyComponent implements OnInit {
     onRowSelectReqposition(event: Event) { }
     reqposition_summit() {
         this.reqposition_addItem(this.selectedReqPosition);
+        console.log(this.selectedReqPosition)
         this.new_position = false;
         this.edit_reqposition = false;
         this.displayManage = false;
@@ -2695,8 +2703,8 @@ export class RecruitmentApplyComponent implements OnInit {
     onRowSelectReqproject(event: Event) { }
     reqproject_summit() {
         this.reqproject_addItem(this.selectedReqProject);
-        this.new_position = false;
-        this.edit_reqposition = false;
+        this.new_project = false;
+        this.edit_reqproject = false;
         this.displayManage = false;
     }
     reqproject_remove() {

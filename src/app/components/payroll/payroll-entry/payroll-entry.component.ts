@@ -134,6 +134,7 @@ export class PayrollEntryComponent implements OnInit {
     title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
     title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
     title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+    title_resign: {[key: string]: string} = {  EN: "Include Resign",  TH: "รวมพนักงานลาออก"}
 
 
     title_page: string = 'Geanral';
@@ -366,12 +367,32 @@ export class PayrollEntryComponent implements OnInit {
     //     });
     // }
 
+    fillterIncludeResign: boolean = false;
 
     doLoadEmployee() {
         var fillter: FillterEmpModel = new FillterEmpModel;
+
+        fillter.worker_resignstatus = this.fillterIncludeResign;
+        if (this.fillterSearchemp) {
+            fillter.searchemp = this.selectedSearchemp;
+        } else {
+            fillter.searchemp = "";
+        }
+
+
+
         this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
             this.worker_list = res;
         });
+    }
+    //-- Emp master
+    selectedSearchemp: string = "";
+    fillterSearchemp: boolean = false;
+    doChangeSearchemp(event: any) {
+        if (this.fillterSearchemp) {
+            this.doLoadEmployee();
+            this.doSetDetailWorker();
+        }
     }
 
 
@@ -379,6 +400,7 @@ export class PayrollEntryComponent implements OnInit {
         if (this.worker_index < this.worker_list.length - 1) {
             this.worker_index++;
             this.doSetDetailWorker();
+            this.doLoadEmployee();
         }
     }
 
@@ -386,6 +408,7 @@ export class PayrollEntryComponent implements OnInit {
         if (this.worker_index > 0) {
             this.worker_index--;
             this.doSetDetailWorker();
+            this.doLoadEmployee();
         }
     }
     doSetDetailWorker() {
