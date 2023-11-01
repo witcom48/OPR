@@ -40,6 +40,8 @@ import { ReasonsService } from 'src/app/services/system/policy/reasons.service';
 import { ReasonModels } from 'src/app/models/attendance/reason';
 
 import { CheckboxModule } from 'primeng/checkbox';
+import { RequestService } from 'src/app/services/recruitment/request.service';
+import { RequestModel } from 'src/app/models/recruitment/request';
 interface ImportList {
   name_th: string,
   name_en: string,
@@ -86,6 +88,7 @@ export class ApplyListComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
+    private requestService: RequestService,
 
     private employeeService: EmployeeService,
     private polcodeService: PolcodeService,
@@ -950,6 +953,16 @@ export class ApplyListComponent implements OnInit {
       this.doLoadapplywork();
     })
   }
+  doUpdateAccept() {
+    var tmp = new RequestModel()
+    tmp.company_code = this.initial_current.CompCode
+    tmp.request_code = 'D2'
+    tmp.request_accepted = '1'
+    console.log(tmp)
+    this.requestService.request_upaccept(tmp).then(async (res) => {
+      let result = await JSON.parse(res);
+    })
+  }
 
   doGetNewCode() {
     this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedReqworker.worker_type).then(async (res) => {
@@ -1018,7 +1031,7 @@ export class ApplyListComponent implements OnInit {
         this.record_empdocatt(Code)
 
         //--update status
-        this.doUpdateStatus("F")
+        // this.doUpdateStatus("F")
 
         //-- alert
         this.messageService.add({
@@ -1276,6 +1289,13 @@ export class ApplyListComponent implements OnInit {
       .then((res) => {
         let result = JSON.parse(res);
         if (result.success) {
+          var tmp = new RequestModel();
+          tmp.company_code = this.initial_current.CompCode;
+          tmp.request_code = this.reqPositionList[0].request_code
+          tmp.request_accepted = '1'
+          this.requestService.request_upaccept(tmp).then(async(res) => {
+            let result = await JSON.parse(res);
+          })
         } else {
         }
       });

@@ -18,4 +18,5 @@ export class EmpPositionModel {
     select: boolean = false;
 
     positionlists: PositionModel[]=[];
+    request_code: string = "";
 }
