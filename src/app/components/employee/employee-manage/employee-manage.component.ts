@@ -750,7 +750,7 @@ export class EmployeeManageComponent implements OnInit {
   title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
   title_amounts: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" };
 
-  
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ประวัติพนักงาน";
@@ -4351,11 +4351,19 @@ export class EmployeeManageComponent implements OnInit {
         //-- Notting
       }
       else {
+        this.CalculatePFAge(this.empprovidentList[i].empprovident_start)
+          .then(PfAge => {
+            this.empprovidentList[i].empprovident_age = PfAge;
+          })
         itemNew.push(this.empprovidentList[i]);
       }
     }
     //-- 9999 for delete
     if (model.empprovident_id != "9999") {
+      this.CalculatePFAge(model.empprovident_start)
+          .then(PfAge => {
+            model.empprovident_age = PfAge;
+          })
       itemNew.push(model);
     }
     this.empprovidentList = [];
@@ -4753,11 +4761,19 @@ export class EmployeeManageComponent implements OnInit {
         //-- Notting
       }
       else {
+        this.calculateWorkExp(this.empexperienceList[i].startdate, this.empexperienceList[i].enddate)
+          .then(workAge => {
+            this.empexperienceList[i].workage = workAge;
+          })
         itemNew.push(this.empexperienceList[i]);
       }
     }
     //-- 9999 for delete
     if (model.experience_id != "9999") {
+      this.calculateWorkExp(model.startdate, model.enddate)
+        .then(workAge => {
+          model.workage = workAge;
+        })
       itemNew.push(model);
     }
     this.empexperienceList = [];
@@ -4910,20 +4926,20 @@ export class EmployeeManageComponent implements OnInit {
   onselectFile(event: any) {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
-        this.selectedimageName = selectedFile.name;
+      this.selectedimageName = selectedFile.name;
     } else {
-        this.selectedimageName = this.title_nofile[this.initial_current.Language];
+      this.selectedimageName = this.title_nofile[this.initial_current.Language];
     }
 
     const reader = new FileReader();
     reader.onload = (e: any) => {
-        // Set image src
-        this.base64Image = e.target.result;
+      // Set image src
+      this.base64Image = e.target.result;
     }
     reader.readAsDataURL(event.target.files[0])
     this.fileToUpload = event.target.files.item(0);
 
-}
+  }
 
 
 

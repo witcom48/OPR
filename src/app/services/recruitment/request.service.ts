@@ -187,6 +187,19 @@ export class RequestService {
         });
   }
 
+  public request_upaccept(model: RequestModel){
+    const data = {
+      company_code: this.initial_current.CompCode,
+      request_code: model.request_code,
+      request_accepted: model.request_accepted,
+      modified_by: this.initial_current.Username
+    }
+    return this.http.post<any>(this.config.ApiRecruitmentModule+ '/request_accept', data,this.options).toPromise()
+        .then((res)=>{
+            return res;
+        });
+  }
+
 
 
 
