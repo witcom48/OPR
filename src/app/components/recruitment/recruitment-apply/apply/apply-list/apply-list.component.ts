@@ -845,17 +845,157 @@ export class ApplyListComponent implements OnInit {
     });
   }
 
-  processNext(selectedDataArray: EmployeeModel[]) {
-    if (selectedDataArray.length > 0) {
-      selectedDataArray.forEach(async (data: EmployeeModel) => {
-        await this.saveData(data)
-      });
-      // const data = selectedDataArray[0];
-      // this.saveData(data);
-      // selectedDataArray.shift();
-      // this.processNext(selectedDataArray);
+  // processNext(selectedDataArray: EmployeeModel[]) {
+  //   if (selectedDataArray.length > 0) {
+  //     selectedDataArray.forEach(async (data: EmployeeModel) => {
+  //       await this.saveData(data)
+  //     });
+  //     // const data = selectedDataArray[0];
+  //     // this.saveData(data);
+  //     // selectedDataArray.shift();
+  //     // this.processNext(selectedDataArray);
+  //   }
+  // }
+
+  async processNext(selectedDataArray: EmployeeModel[]) {
+    for (const data of selectedDataArray) {
+      try {
+        const newCode = await this.getNewEmployeeCode(data.worker_type);
+        if (newCode) {
+          const newEmployee = this.createEmployeeObject(newCode, data);
+          await this.saveEmployee(newEmployee, data.worker_id);
+          this.displaySuccessMessage();
+        } else {
+          this.displayErrorMessage();
+        }
+      } catch (error) {
+        this.displayErrorMessage();
+      }
     }
   }
+
+  async getNewEmployeeCode(workerType: string): Promise<string> {
+    const response = await this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", workerType);
+    const result = JSON.parse(response);
+    if (result.success) {
+      return result.data;
+    }
+    return '';
+  }
+
+  createEmployeeObject(newCode: string, data: EmployeeModel): EmployeeModel {
+    const newEmployee: EmployeeModel = {
+      worker_id: "0",
+      worker_code: newCode,
+      worker_card: newCode,
+      worker_initial: data.worker_initial,
+      worker_fname_th: data.worker_fname_th,
+      worker_lname_th: data.worker_lname_th,
+      worker_fname_en: data.worker_fname_en,
+      worker_lname_en: data.worker_lname_en,
+      worker_type: data.worker_type,
+      worker_gender: data.worker_gender,
+      worker_birthdate: data.worker_birthdate,
+      worker_hiredate: data.worker_hiredate,
+      worker_status: data.worker_status,
+      religion_code: data.religion_code,
+      blood_code: data.blood_code,
+      worker_height: data.worker_height,
+      worker_weight: data.worker_weight,
+      worker_resignstatus: false,
+      worker_blackliststatus: false,
+      worker_probationdate: data.worker_hiredate,
+      hrs_perday: 8,
+      worker_taxmethod: "1",
+      worker_tel: data.worker_tel,
+      worker_email: data.worker_email,
+      worker_line: data.worker_line,
+      worker_facebook: data.worker_facebook,
+      worker_military: data.worker_military,
+      nationality_code: data.nationality_code,
+      worker_cardno: data.worker_cardno,
+      worker_cardnoissuedate: data.worker_cardnoissuedate,
+      worker_cardnoexpiredate: data.worker_cardnoexpiredate,
+      worker_socialno: data.worker_cardno,
+      worker_socialnoissuedate: data.worker_cardnoissuedate,
+      worker_socialnoexpiredate: data.worker_cardnoexpiredate,
+      worker_socialnotsent: false,
+      company_code: data.company_code,
+      employee_code: '',
+      worker_resigndate: new Date(),
+      worker_resignreason: '',
+      worker_blacklistreason: '',
+      worker_blacklistnote: '',
+      worker_probationenddate: new Date(),
+      worker_probationday: 0,
+      approve_by: '',
+      approve_date: '',
+      modified_by: '',
+      modified_date: '',
+      self_admin: false,
+      index: 0,
+      select: false,
+      username: '',
+      position_name_th: '',
+      position_name_en: '',
+      selected_Import: '',
+      selected_Attachfile: '',
+      location_code: false,
+      reqdocatt_data: [],
+      worker_age: 0,
+      checkblacklist: false,
+      blacklist: false,
+      checkhistory: false,
+      counthistory: 0,
+      checkcertificate: false,
+      certificate: '',
+      blacklist_reason: '',
+      status: '',
+      worker_socialsentdate: new Date()
+    };
+
+    return newEmployee;
+  }
+
+
+  async saveEmployee(newEmployee: EmployeeModel, workerId: string) {
+    const result = await this.employeeService.worker_recordall(newEmployee);
+    const parsedResult = JSON.parse(result);
+    if (parsedResult.success) {
+      await Promise.all([
+        this.recordEmpData(newEmployee.worker_code),
+        this.uploadEmployeeImage(newEmployee.worker_code),
+      ]);
+      this.doUpdateStatus("F", workerId);
+    } else {
+      throw new Error(parsedResult.message);
+    }
+  }
+
+  async recordEmpData(workerCode: string) {
+    // Implement recordEmpData logic
+  }
+
+  async uploadEmployeeImage(workerCode: string) {
+    // Implement image upload logic
+  }
+
+  displaySuccessMessage() {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Employee data saved successfully',
+    });
+  }
+
+  displayErrorMessage() {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Error while saving employee data',
+    });
+  }
+
 
   async saveData(data: EmployeeModel) {
     console.log("ข้อมูลที่ถูกเลือกทำงาน: ", data);
@@ -1038,7 +1178,7 @@ export class ApplyListComponent implements OnInit {
         await this.record_empdocatt(Code)
 
         //--update status
-        this.doUpdateStatus("F",datas.worker_id)
+        this.doUpdateStatus("F", datas.worker_id)
 
         //-- alert
         this.messageService.add({
