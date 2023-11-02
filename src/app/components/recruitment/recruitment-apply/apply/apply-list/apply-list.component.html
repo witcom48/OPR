@@ -113,14 +113,13 @@
                 </div>
             </ng-template>
 
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header"  let-data>
                 <tr>
                     <th>
                         <!-- เลือกทั้งหมด -->
                         <button pButton class=" gray-button " *ngIf="status_select.code === 'W'"
                             (click)="toggleSelectAll()">{{title_chooseall[initial_current.Language]}}</button>
                     </th>
-
 
 
                     <th>{{title_code}}</th>
@@ -137,14 +136,12 @@
             </ng-template>
 
             <ng-template pTemplate="body" let-data>
-
+               
                 <tr [pSelectableRow]="data" (click)="selection(data)">
+
+                
                     <td>
                         <!-- เลือกที่ละฟิล -->
-                        <!-- <p-checkbox *ngIf="data.status === 'W'" [(ngModel)]="data.checked" [binary]="true"
-                            inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect(data)"></p-checkbox> -->
-
-
                         <p-checkbox *ngIf="data.status === 'W'" [(ngModel)]="data.checked" [binary]="true"
                             inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect(data)"
                             [ngModel]="selectAllChecked"></p-checkbox>
