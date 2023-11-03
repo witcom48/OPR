@@ -109,8 +109,8 @@
     currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
     [globalFilterFields]="['worker_code_code','worker_fname_th','worker_lname_th','worker_fname_en','worker_lname_en','project_end']">
     <ng-template pTemplate="caption"> -->
-        <div class="flex">
-            <div class="col-6 md:col-3">
+        <div class="searchtable1">
+            <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
                 <!--  สถานะอนุมัติ (Default All)  -->
                 <div>
                     <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
@@ -154,7 +154,7 @@
         <tr>
 
             <td>
-                <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                <p-tableCheckbox *ngIf="data.status === 'S'" [value]="data"></p-tableCheckbox>
             </td>
 
 

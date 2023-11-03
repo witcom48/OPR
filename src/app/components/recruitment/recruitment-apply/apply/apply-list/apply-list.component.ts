@@ -755,36 +755,55 @@ export class ApplyListComponent implements OnInit {
 
   selectAllChecked: boolean = false;
   showButton: boolean = false;
-
-  // toggleSelectAll() {
-  //   this.selectAllChecked = !this.selectAllChecked;
-  //   this.showButton = this.selectAllChecked;
-
-  //   if (this.selectAllChecked) {
-  //     this.selectedDataArray.push(this.data);
-  //     this.checked = true;
-  //     console.log("ข้อมูลถูกเลือกใช้งาน", this.selectedDataArray);
-  //   } else {
-  //     this.selectedDataArray = [];
-  //     this.checked = false;
-  //     console.log("การเลือกถูกยกเลิกไม่ใช้งาน", this.selectedDataArray);
-  //   }
-
-  //   console.log(this.selectedDataArray, 'ttt');
-  // }
-
   toggleSelectAll() {
     this.selectAllChecked = !this.selectAllChecked;
     this.showButton = this.selectAllChecked;
-    this.toggleSelect(this.data)
+    this.selection(this.selectedReqworker)
 
-    console.log(this.toggleSelect, 'ttt')
+    console.log(this.showButton, 'ttt')
+    //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
   }
+
+
+
+
 
 
   data = {
     checked: false
   };
+  // toggleSelect() {
+  //   this.checked = !this.checked;
+  // }
+
+  //   toggleSelect() {
+  //      if (!this.checked) {
+  //         this.checked = true;
+  //          console.log("ข้อมูลถูกเลือก: ", this.data);
+  //      } else {
+  //         this.checked = false;
+  //          console.log("การเลือกถูกยกเลิก: ", this.data);
+  //      }
+  // }
+
+  // selectedDataArray: any[] = [];
+
+  // toggleSelect(data: { checked: boolean; }) {
+  //   if (data.checked) {
+  //     this.selectedDataArray.push(data);
+  //     this.checked = true;
+  //     console.log("ข้อมูลถูกเลือก: ", data);
+  //   } else {
+  //     const index = this.selectedDataArray.indexOf(data);
+  //     if (index > -1) {
+  //       this.selectedDataArray.splice(index, 1);
+  //       if (this.selectedDataArray.length === 0) {
+  //         this.checked = false;
+  //       }
+  //       console.log("การเลือกถูกยกเลิก: ", data);
+  //     }
+  //   }
+  // }
 
   selection(data: EmployeeModel) {
     if (data) {
@@ -793,6 +812,8 @@ export class ApplyListComponent implements OnInit {
       this.new_applywork = false;
       this.displayManage = false;
     }
+    // console.log(data,'data')
+
   }
   selectedDataArray: any[] = [];
   toggleSelect(data: { checked: boolean; }) {
@@ -978,6 +999,8 @@ export class ApplyListComponent implements OnInit {
 
   async saveData(data: EmployeeModel) {
     console.log("ข้อมูลที่ถูกเลือกทำงาน: ", data);
+    // this.selectedReqworker = new EmployeeModel();
+    // this.selectedReqworker = data;
     await this.doGetNewCode(data);
     await this.doLoadReqaddressList();
     await this.doLoadReqForeignercard();
@@ -1067,9 +1090,9 @@ export class ApplyListComponent implements OnInit {
     // this.close()
 
   }
-  doUpdateStatus(status: string) {
+  doUpdateStatus(status: string, id: string) {
     var tmp = new EmployeeModel();
-    tmp.worker_id = this.selectedReqworker.worker_id;
+    tmp.worker_id = id;
     tmp.status = status
     this.applyworkService.requpdate_status(tmp).then(async (res) => {
       let result = await JSON.parse(res);
