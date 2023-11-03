@@ -113,7 +113,7 @@
                 </div>
             </ng-template>
 
-            <ng-template pTemplate="header"  let-data>
+            <ng-template pTemplate="header" let-data>
                 <tr>
                     <th>
                         <!-- เลือกทั้งหมด -->
@@ -136,10 +136,10 @@
             </ng-template>
 
             <ng-template pTemplate="body" let-data>
-               
+
                 <tr [pSelectableRow]="data" (click)="selection(data)">
 
-                
+
                     <td>
                         <!-- เลือกที่ละฟิล -->
                         <p-checkbox *ngIf="data.status === 'W'" [(ngModel)]="data.checked" [binary]="true"

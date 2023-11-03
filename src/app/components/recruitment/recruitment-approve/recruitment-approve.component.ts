@@ -194,7 +194,6 @@ export class RecruitmentApproveComponent implements OnInit {
         element.certificate = this.checkMCer(element.worker_birthdate, element.checkcertificate)
       })
       this.apply_list = await res;
-      console.log(res)
       this.total_apply = this.apply_list.length;
     })
   }
@@ -222,7 +221,6 @@ export class RecruitmentApproveComponent implements OnInit {
           data.workflow_type = "REQ_APY"
           data.approve_code = datas.worker_code
           data.approve_note = this.approveNote
-          console.log(data);
           await this.sysApproveServices.approve_record(data).then((res) => {
             let result = JSON.parse(res);
 
@@ -315,9 +313,6 @@ export class RecruitmentApproveComponent implements OnInit {
   toggleSelectAll() {
     this.selectAllChecked = !this.selectAllChecked;
     this.showButton = this.selectAllChecked;
-    console.log(this.selectAllChecked, 'dddd')
-
-    //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
   }
 
   data = {
@@ -325,11 +320,8 @@ export class RecruitmentApproveComponent implements OnInit {
   };
   toggleSelect() {
     this.checked = !this.checked;
-    console.log(this.checked, 'ooo')
   }
 
-
-  // }
   status_doc: boolean = false
 
   Search() {
@@ -343,10 +335,7 @@ export class RecruitmentApproveComponent implements OnInit {
 
   selection(data: EmployeeModel) {
     if (data) {
-      // this.selectedApply = data;
-
     }
-    console.log(data, 'ppp')
   }
   // 
   blacklistList: BlacklistModel[] = [];

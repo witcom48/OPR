@@ -750,60 +750,17 @@ export class ApplyListComponent implements OnInit {
   }
 
   buttonVisible: boolean = true;
-
-
-
   selectAllChecked: boolean = false;
   showButton: boolean = false;
   toggleSelectAll() {
     this.selectAllChecked = !this.selectAllChecked;
     this.showButton = this.selectAllChecked;
     this.selection(this.selectedReqworker)
-
-    console.log(this.showButton, 'ttt')
-    //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
   }
-
-
-
-
-
 
   data = {
     checked: false
   };
-  // toggleSelect() {
-  //   this.checked = !this.checked;
-  // }
-
-  //   toggleSelect() {
-  //      if (!this.checked) {
-  //         this.checked = true;
-  //          console.log("ข้อมูลถูกเลือก: ", this.data);
-  //      } else {
-  //         this.checked = false;
-  //          console.log("การเลือกถูกยกเลิก: ", this.data);
-  //      }
-  // }
-
-  // selectedDataArray: any[] = [];
-
-  // toggleSelect(data: { checked: boolean; }) {
-  //   if (data.checked) {
-  //     this.selectedDataArray.push(data);
-  //     this.checked = true;
-  //     console.log("ข้อมูลถูกเลือก: ", data);
-  //   } else {
-  //     const index = this.selectedDataArray.indexOf(data);
-  //     if (index > -1) {
-  //       this.selectedDataArray.splice(index, 1);
-  //       if (this.selectedDataArray.length === 0) {
-  //         this.checked = false;
-  //       }
-  //       console.log("การเลือกถูกยกเลิก: ", data);
-  //     }
-  //   }
-  // }
 
   selection(data: EmployeeModel) {
     if (data) {
@@ -812,15 +769,12 @@ export class ApplyListComponent implements OnInit {
       this.new_applywork = false;
       this.displayManage = false;
     }
-    // console.log(data,'data')
-
   }
   selectedDataArray: any[] = [];
   toggleSelect(data: { checked: boolean; }) {
     if (data.checked) {
       this.selectedDataArray.push(data);
       this.checked = true;
-      console.log("ข้อมูลถูกเลือกใช้งาน", data);
     } else {
       const index = this.selectedDataArray.indexOf(data);
       if (index > -1) {
@@ -828,7 +782,6 @@ export class ApplyListComponent implements OnInit {
         if (this.selectedDataArray.length === 0) {
           this.checked = false;
         }
-        console.log("การเลือกถูกยกเลิกไม่ใช้งาน", data);
       }
     }
   }
@@ -839,23 +792,10 @@ export class ApplyListComponent implements OnInit {
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        console.log(selectedDataArray)
         this.processNext(selectedDataArray);
       },
     });
   }
-
-  // processNext(selectedDataArray: EmployeeModel[]) {
-  //   if (selectedDataArray.length > 0) {
-  //     selectedDataArray.forEach(async (data: EmployeeModel) => {
-  //       await this.saveData(data)
-  //     });
-  //     // const data = selectedDataArray[0];
-  //     // this.saveData(data);
-  //     // selectedDataArray.shift();
-  //     // this.processNext(selectedDataArray);
-  //   }
-  // }
 
   async processNext(selectedDataArray: EmployeeModel[]) {
     for (const data of selectedDataArray) {
@@ -973,11 +913,9 @@ export class ApplyListComponent implements OnInit {
   }
 
   async recordEmpData(workerCode: string) {
-    // Implement recordEmpData logic
   }
 
   async uploadEmployeeImage(workerCode: string) {
-    // Implement image upload logic
   }
 
   displaySuccessMessage() {
@@ -998,9 +936,42 @@ export class ApplyListComponent implements OnInit {
 
 
   async saveData(data: EmployeeModel) {
-    console.log("ข้อมูลที่ถูกเลือกทำงาน: ", data);
-    // this.selectedReqworker = new EmployeeModel();
-    // this.selectedReqworker = data;
+    // if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
+    //   this.messageService.add({
+    //     severity: 'error',
+    //     summary: 'Error',
+    //     detail: "อายุเกิน 50 และ ไม่มีใบรับรองแพทย์"
+    //   });
+    //   this.edit_applywork = false;
+    //   this.new_applywork = false;
+    //   this.displayManage = false
+    //   this.doUpdateStatus("S")
+    //   return
+    // }
+    // if (this.selectedReqworker.counthistory >= 3) {
+    //   this.messageService.add({
+    //     severity: 'error',
+    //     summary: 'Error',
+    //     detail: "ทำงานมาเกิน2ครั้ง"
+    //   });
+    //   this.edit_applywork = false;
+    //   this.new_applywork = false;
+    //   this.displayManage = false;
+    //   this.doUpdateStatus("S")
+    //   return
+    // }
+    // if (this.selectedReqworker.checkblacklist) {
+    //   this.messageService.add({
+    //     severity: 'error',
+    //     summary: 'Error',
+    //     detail: "มี blacklist"
+    //   },);
+    //   this.edit_applywork = false;
+    //   this.new_applywork = false;
+    //   this.displayManage = false;
+    //   this.doUpdateStatus("S")
+    //   return
+    // }
     await this.doGetNewCode(data);
     await this.doLoadReqaddressList();
     await this.doLoadReqForeignercard();
@@ -1104,7 +1075,6 @@ export class ApplyListComponent implements OnInit {
     tmp.company_code = this.initial_current.CompCode
     tmp.request_code = 'D2'
     tmp.request_accepted = '1'
-    console.log(tmp)
     this.requestService.request_upaccept(tmp).then(async (res) => {
       let result = await JSON.parse(res);
     })
@@ -1536,7 +1506,6 @@ export class ApplyListComponent implements OnInit {
       .then((res) => {
         let result = JSON.parse(res);
         if (result.success) {
-          console.log("Comp")
         } else {
         }
       });
