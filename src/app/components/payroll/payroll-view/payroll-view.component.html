@@ -20,7 +20,7 @@
 <div *ngIf="searchEmp" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
 </div>
 
-<table style="width: 600px;">
+<table style="width: 700px;">
     <tr>
         <td>
             <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
@@ -35,9 +35,17 @@
         <td style="width: 20px;">
             <i class="pi pi-search" (click)="open_searchemp()"></i>
         </td>
-        <td style="width: 300px;">
+        <td style="width: 200px;">
             <input id="lastname2" type="text" [value]="worker_name" style="width: 300px;"
                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </td>
+
+         <!-- resign -->
+         <td style="width: 200px;">
+            <p-checkbox name="resign" [binary]="true" (onChange)="doLoadEmployee()"
+                [(ngModel)]="fillterIncludeResign"></p-checkbox>&nbsp;
+                <label>{{title_resign[initial_current.Language]}} </label>
+
         </td>
     </tr>
 </table>

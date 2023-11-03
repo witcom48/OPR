@@ -344,14 +344,14 @@ export class ApplyListComponent implements OnInit {
 
   applyworkCurrent: number = 0;
   fillterBlacklist: boolean = false;
-  doLoadapplywork() {
+  async doLoadapplywork() {
     this.reqworkerList = [];
     var tmp = new EmployeeModel();
     tmp.company_code = this.selectedReqworker.company_code || this.initial_current.CompCode
     tmp.worker_code = ""
     tmp.status = this.status_select.code
     tmp.blacklist = this.fillterBlacklist
-    this.applyworkService.reqworker_get(tmp).then(async (res) => {
+    await this.applyworkService.reqworker_get(tmp).then(async (res) => {
       await res.forEach((element: EmployeeModel) => {
         element.worker_hiredate = new Date(element.worker_hiredate)
         element.worker_birthdate = new Date(element.worker_birthdate)
@@ -776,22 +776,34 @@ export class ApplyListComponent implements OnInit {
   //   this.checked = !this.checked;
   // }
 
-  toggleSelect() {
-    // ทำงานเมื่อคลิก Checkbox ในแถวข้อมูล
-    if (!this.checked) {
-      this.checked = true;
-      // กรณีที่เลือก
-      console.log("ข้อมูลถูกเลือก: ", this.data);
-      // ทำงานเพิ่มเติมหลังจากการเลือก
-    } else {
-      this.checked = false;
-      // กรณีที่ยกเลิกเลือก
-      console.log("การเลือกถูกยกเลิก: ", this.data);
-      // ทำงานเพิ่มเติมหลังการยกเลิกเลือก
-    }
-  }
+  //   toggleSelect() {
+  //      if (!this.checked) {
+  //         this.checked = true;
+  //          console.log("ข้อมูลถูกเลือก: ", this.data);
+  //      } else {
+  //         this.checked = false;
+  //          console.log("การเลือกถูกยกเลิก: ", this.data);
+  //      }
+  // }
 
+  // selectedDataArray: any[] = [];
 
+  // toggleSelect(data: { checked: boolean; }) {
+  //   if (data.checked) {
+  //     this.selectedDataArray.push(data);
+  //     this.checked = true;
+  //     console.log("ข้อมูลถูกเลือก: ", data);
+  //   } else {
+  //     const index = this.selectedDataArray.indexOf(data);
+  //     if (index > -1) {
+  //       this.selectedDataArray.splice(index, 1);
+  //       if (this.selectedDataArray.length === 0) {
+  //         this.checked = false;
+  //       }
+  //       console.log("การเลือกถูกยกเลิก: ", data);
+  //     }
+  //   }
+  // }
 
   selection(data: EmployeeModel) {
     if (data) {
@@ -800,67 +812,208 @@ export class ApplyListComponent implements OnInit {
       this.new_applywork = false;
       this.displayManage = false;
     }
-    console.log(data, 'data')
+    // console.log(data,'data')
 
   }
-  selections(data: EmployeeModel) {
-    this.selectedReqworker
-    this.selection(data)
-    console.log(this.selectedReqworker, 'tttt')
+  selectedDataArray: any[] = [];
+  toggleSelect(data: { checked: boolean; }) {
+    if (data.checked) {
+      this.selectedDataArray.push(data);
+      this.checked = true;
+      console.log("ข้อมูลถูกเลือกใช้งาน", data);
+    } else {
+      const index = this.selectedDataArray.indexOf(data);
+      if (index > -1) {
+        this.selectedDataArray.splice(index, 1);
+        if (this.selectedDataArray.length === 0) {
+          this.checked = false;
+        }
+        console.log("การเลือกถูกยกเลิกไม่ใช้งาน", data);
+      }
+    }
   }
 
-
-  //convertToEmptest
-  convertToEmptest(data: EmployeeModel) {
+  convertToEmptest(selectedDataArray: EmployeeModel[]) {
     this.confirmationService.confirm({
       message: this.title_confirm_record,
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
-
-          // if (data.worker_birthdate && this.CalculateAge(data.worker_birthdate) >= 50) {
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S");
-        }
-
-        if (data.counthistory >= 3) {
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S");
-        }
-
-        if (data.checkblacklist) {
-          this.edit_applywork = false;
-          this.new_applywork = false;
-          this.displayManage = false;
-          this.doUpdateStatus("S");
-        }
-
-        this.doGetNewCode();
-        this.doLoadReqaddressList();
-        this.doLoadReqForeignercard();
-        this.doLoadReqeducationList();
-        this.doLoadReqtrainingList();
-        this.doLoadReqassessmentList();
-        this.doLoadReqCriminalList();
-        this.doLoadReqSuggestList();
-        this.doLoadReqPositionList();
-        this.doLoadReqSalaryList();
-        this.doLoadReqBenefitList();
-        this.buttonVisible = false;
-        this.selection
-      },
-      reject: () => {
-        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+        console.log(selectedDataArray)
+        this.processNext(selectedDataArray);
       },
     });
   }
 
+  // processNext(selectedDataArray: EmployeeModel[]) {
+  //   if (selectedDataArray.length > 0) {
+  //     selectedDataArray.forEach(async (data: EmployeeModel) => {
+  //       await this.saveData(data)
+  //     });
+  //     // const data = selectedDataArray[0];
+  //     // this.saveData(data);
+  //     // selectedDataArray.shift();
+  //     // this.processNext(selectedDataArray);
+  //   }
+  // }
 
+  async processNext(selectedDataArray: EmployeeModel[]) {
+    for (const data of selectedDataArray) {
+      try {
+        const newCode = await this.getNewEmployeeCode(data.worker_type);
+        if (newCode) {
+          const newEmployee = this.createEmployeeObject(newCode, data);
+          await this.saveEmployee(newEmployee, data.worker_id);
+          this.displaySuccessMessage();
+        } else {
+          this.displayErrorMessage();
+        }
+      } catch (error) {
+        this.displayErrorMessage();
+      }
+    }
+  }
+
+  async getNewEmployeeCode(workerType: string): Promise<string> {
+    const response = await this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", workerType);
+    const result = JSON.parse(response);
+    if (result.success) {
+      return result.data;
+    }
+    return '';
+  }
+
+  createEmployeeObject(newCode: string, data: EmployeeModel): EmployeeModel {
+    const newEmployee: EmployeeModel = {
+      worker_id: "0",
+      worker_code: newCode,
+      worker_card: newCode,
+      worker_initial: data.worker_initial,
+      worker_fname_th: data.worker_fname_th,
+      worker_lname_th: data.worker_lname_th,
+      worker_fname_en: data.worker_fname_en,
+      worker_lname_en: data.worker_lname_en,
+      worker_type: data.worker_type,
+      worker_gender: data.worker_gender,
+      worker_birthdate: data.worker_birthdate,
+      worker_hiredate: data.worker_hiredate,
+      worker_status: data.worker_status,
+      religion_code: data.religion_code,
+      blood_code: data.blood_code,
+      worker_height: data.worker_height,
+      worker_weight: data.worker_weight,
+      worker_resignstatus: false,
+      worker_blackliststatus: false,
+      worker_probationdate: data.worker_hiredate,
+      hrs_perday: 8,
+      worker_taxmethod: "1",
+      worker_tel: data.worker_tel,
+      worker_email: data.worker_email,
+      worker_line: data.worker_line,
+      worker_facebook: data.worker_facebook,
+      worker_military: data.worker_military,
+      nationality_code: data.nationality_code,
+      worker_cardno: data.worker_cardno,
+      worker_cardnoissuedate: data.worker_cardnoissuedate,
+      worker_cardnoexpiredate: data.worker_cardnoexpiredate,
+      worker_socialno: data.worker_cardno,
+      worker_socialnoissuedate: data.worker_cardnoissuedate,
+      worker_socialnoexpiredate: data.worker_cardnoexpiredate,
+      worker_socialnotsent: false,
+      company_code: data.company_code,
+      employee_code: '',
+      worker_resigndate: new Date(),
+      worker_resignreason: '',
+      worker_blacklistreason: '',
+      worker_blacklistnote: '',
+      worker_probationenddate: new Date(),
+      worker_probationday: 0,
+      approve_by: '',
+      approve_date: '',
+      modified_by: '',
+      modified_date: '',
+      self_admin: false,
+      index: 0,
+      select: false,
+      username: '',
+      position_name_th: '',
+      position_name_en: '',
+      selected_Import: '',
+      selected_Attachfile: '',
+      location_code: false,
+      reqdocatt_data: [],
+      worker_age: 0,
+      checkblacklist: false,
+      blacklist: false,
+      checkhistory: false,
+      counthistory: 0,
+      checkcertificate: false,
+      certificate: '',
+      blacklist_reason: '',
+      status: '',
+      worker_socialsentdate: new Date()
+    };
+
+    return newEmployee;
+  }
+
+
+  async saveEmployee(newEmployee: EmployeeModel, workerId: string) {
+    const result = await this.employeeService.worker_recordall(newEmployee);
+    const parsedResult = JSON.parse(result);
+    if (parsedResult.success) {
+      await Promise.all([
+        this.recordEmpData(newEmployee.worker_code),
+        this.uploadEmployeeImage(newEmployee.worker_code),
+      ]);
+      this.doUpdateStatus("F", workerId);
+    } else {
+      throw new Error(parsedResult.message);
+    }
+  }
+
+  async recordEmpData(workerCode: string) {
+    // Implement recordEmpData logic
+  }
+
+  async uploadEmployeeImage(workerCode: string) {
+    // Implement image upload logic
+  }
+
+  displaySuccessMessage() {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Employee data saved successfully',
+    });
+  }
+
+  displayErrorMessage() {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Error while saving employee data',
+    });
+  }
+
+
+  async saveData(data: EmployeeModel) {
+    console.log("ข้อมูลที่ถูกเลือกทำงาน: ", data);
+    // this.selectedReqworker = new EmployeeModel();
+    // this.selectedReqworker = data;
+    await this.doGetNewCode(data);
+    await this.doLoadReqaddressList();
+    await this.doLoadReqForeignercard();
+    await this.doLoadReqeducationList();
+    await this.doLoadReqtrainingList();
+    await this.doLoadReqassessmentList();
+    await this.doLoadReqCriminalList();
+    await this.doLoadReqSuggestList();
+    await this.doLoadReqPositionList();
+    await this.doLoadReqSalaryList();
+    this.buttonVisible = false;
+    await this.doLoadattdocreq();
+  }
 
 
 
@@ -870,7 +1023,7 @@ export class ApplyListComponent implements OnInit {
       message: this.title_confirm_record,
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
-      accept: () => {
+      accept: async () => {
         // if (this.CalculateAge(this.selectedReqworker.worker_birthdate) >= 50) {
         //   this.messageService.add({
         //     severity: 'error',
@@ -910,23 +1063,23 @@ export class ApplyListComponent implements OnInit {
         this.edit_applywork = false;
         this.new_applywork = false;
         this.displayManage = false
-        this.doGetNewCode()
-        this.doLoadReqaddressList()
+        await this.doGetNewCode(this.selectedReqworker)
+        await this.doLoadReqaddressList()
         // this.doLoadReqForeigner()
-        this.doLoadReqForeignercard()
-        this.doLoadReqeducationList()
-        this.doLoadReqtrainingList()
-        this.doLoadReqassessmentList()
-        this.doLoadReqCriminalList()
-        this.doLoadReqSuggestList()
-        this.doLoadReqPositionList()
-        this.doLoadReqSalaryList()
+        await this.doLoadReqForeignercard()
+        await this.doLoadReqeducationList()
+        await this.doLoadReqtrainingList()
+        await this.doLoadReqassessmentList()
+        await this.doLoadReqCriminalList()
+        await this.doLoadReqSuggestList()
+        await this.doLoadReqPositionList()
+        await this.doLoadReqSalaryList()
         this.buttonVisible = false;
 
         // this.doLoadReqBenefitList()
         //image
         // this.doLoadImageReq()
-        this.doLoadattdocreq()
+        await this.doLoadattdocreq()
       },
       reject: () => {
 
@@ -937,9 +1090,9 @@ export class ApplyListComponent implements OnInit {
     // this.close()
 
   }
-  doUpdateStatus(status: string) {
+  doUpdateStatus(status: string, id: string) {
     var tmp = new EmployeeModel();
-    tmp.worker_id = this.selectedReqworker.worker_id;
+    tmp.worker_id = id;
     tmp.status = status
     this.applyworkService.requpdate_status(tmp).then(async (res) => {
       let result = await JSON.parse(res);
@@ -957,74 +1110,75 @@ export class ApplyListComponent implements OnInit {
     })
   }
 
-  doGetNewCode() {
-    this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", this.selectedReqworker.worker_type).then(async (res) => {
+  async doGetNewCode(datas: EmployeeModel) {
+    await this.polcodeService.getNewCode(this.initial_current.CompCode, "EMP", datas.worker_type).then(async (res) => {
       let result = await JSON.parse(res);
 
       if (result.success) {
-        this.doRecordEmployee(result.data);
+        await this.doRecordEmployee(result.data, datas);
       }
     });
   }
 
-  doRecordEmployee(Code: any) {
+  async doRecordEmployee(Code: any, datas: EmployeeModel) {
     var tmp = new EmployeeModel();
     tmp.worker_id = "0"
     tmp.worker_code = Code
     tmp.worker_card = Code
-    tmp.worker_initial = this.selectedReqworker.worker_initial
-    tmp.worker_fname_th = this.selectedReqworker.worker_fname_th
-    tmp.worker_lname_th = this.selectedReqworker.worker_lname_th
-    tmp.worker_fname_en = this.selectedReqworker.worker_fname_en
-    tmp.worker_lname_en = this.selectedReqworker.worker_lname_en
-    tmp.worker_type = this.selectedReqworker.worker_type
-    tmp.worker_gender = this.selectedReqworker.worker_gender
-    tmp.worker_birthdate = this.selectedReqworker.worker_birthdate
-    tmp.worker_hiredate = this.selectedReqworker.worker_hiredate
-    tmp.worker_status = this.selectedReqworker.worker_status
-    tmp.religion_code = this.selectedReqworker.religion_code
-    tmp.blood_code = this.selectedReqworker.blood_code
-    tmp.worker_height = this.selectedReqworker.worker_height
-    tmp.worker_weight = this.selectedReqworker.worker_weight
+    tmp.worker_initial = datas.worker_initial
+    tmp.worker_fname_th = datas.worker_fname_th
+    tmp.worker_lname_th = datas.worker_lname_th
+    tmp.worker_fname_en = datas.worker_fname_en
+    tmp.worker_lname_en = datas.worker_lname_en
+    tmp.worker_type = datas.worker_type
+    tmp.worker_gender = datas.worker_gender
+    tmp.worker_birthdate = datas.worker_birthdate
+    tmp.worker_hiredate = datas.worker_hiredate
+    tmp.worker_status = datas.worker_status
+    tmp.religion_code = datas.religion_code
+    tmp.blood_code = datas.blood_code
+    tmp.worker_height = datas.worker_height
+    tmp.worker_weight = datas.worker_weight
     tmp.worker_resignstatus = false
     tmp.worker_blackliststatus = false
-    tmp.worker_probationdate = this.selectedReqworker.worker_hiredate
+    tmp.worker_probationdate = datas.worker_hiredate
     tmp.hrs_perday = 8
     tmp.worker_taxmethod = "1"
-    tmp.worker_tel = this.selectedReqworker.worker_tel
-    tmp.worker_email = this.selectedReqworker.worker_email
-    tmp.worker_line = this.selectedReqworker.worker_line
-    tmp.worker_facebook = this.selectedReqworker.worker_facebook
-    tmp.worker_military = this.selectedReqworker.worker_military
-    tmp.nationality_code = this.selectedReqworker.nationality_code
-    tmp.worker_cardno = this.selectedReqworker.worker_cardno
-    tmp.worker_cardnoissuedate = this.selectedReqworker.worker_cardnoissuedate
-    tmp.worker_cardnoexpiredate = this.selectedReqworker.worker_cardnoexpiredate
-    tmp.worker_socialno = this.selectedReqworker.worker_cardno
-    tmp.worker_socialnoissuedate = this.selectedReqworker.worker_cardnoissuedate
-    tmp.worker_socialnoexpiredate = this.selectedReqworker.worker_cardnoexpiredate
+    tmp.worker_tel = datas.worker_tel
+    tmp.worker_email = datas.worker_email
+    tmp.worker_line = datas.worker_line
+    tmp.worker_facebook = datas.worker_facebook
+    tmp.worker_military = datas.worker_military
+    tmp.nationality_code = datas.nationality_code
+    tmp.worker_cardno = datas.worker_cardno
+    tmp.worker_cardnoissuedate = datas.worker_cardnoissuedate
+    tmp.worker_cardnoexpiredate = datas.worker_cardnoexpiredate
+    tmp.worker_socialno = datas.worker_cardno
+    tmp.worker_socialnoissuedate = datas.worker_cardnoissuedate
+    tmp.worker_socialnoexpiredate = datas.worker_cardnoexpiredate
     tmp.worker_socialnotsent = false
-    this.employeeService.worker_recordall(tmp).then((res) => {
+    tmp.company_code = datas.company_code
+    await this.employeeService.worker_recordall(tmp).then(async (res) => {
       let result = JSON.parse(res);
       if (result.success) {
         //-- transaction
-        this.record_empaddress(Code)
+        await this.record_empaddress(Code)
         // this.record_empforeigner(Code)
-        this.record_empforeignercard(Code)
-        this.record_empeducation(Code)
-        this.record_emptraining(Code)
-        this.record_empassessment(Code)
-        this.record_empcriminal(Code)
-        this.record_empsuggest(Code)
-        this.record_empposition(Code)
-        this.record_empsalary(Code)
+        await this.record_empforeignercard(Code)
+        await this.record_empeducation(Code)
+        await this.record_emptraining(Code)
+        await this.record_empassessment(Code)
+        await this.record_empcriminal(Code)
+        await this.record_empsuggest(Code)
+        await this.record_empposition(Code)
+        await this.record_empsalary(Code)
         // this.record_empbenefit(Code)
         //--image
         // this.uploadImageEmp(Code)
-        this.record_empdocatt(Code)
+        await this.record_empdocatt(Code)
 
         //--update status
-        this.doUpdateStatus("F")
+        this.doUpdateStatus("F", datas.worker_id)
 
         //-- alert
         this.messageService.add({
@@ -1036,7 +1190,7 @@ export class ApplyListComponent implements OnInit {
         this.edit_applywork = false;
         this.new_applywork = false;
         this.displayManage = false
-        this.doLoadapplywork()
+        await this.doLoadapplywork()
       } else {
         this.messageService.add({
           severity: 'error',
@@ -1052,8 +1206,8 @@ export class ApplyListComponent implements OnInit {
 
   //--address
   reqaddressList: EmpaddressModel[] = [];
-  doLoadReqaddressList() {
-    this.reqdetailService
+  async doLoadReqaddressList() {
+    await this.reqdetailService
       .getapplywork_reqaddress(
         this.initial_current.CompCode,
         this.selectedReqworker.worker_code
@@ -1066,7 +1220,7 @@ export class ApplyListComponent implements OnInit {
     if (this.reqaddressList.length == 0) {
       return
     }
-    this.empdetailService
+    await this.empdetailService
       .record_empaddress(
         code,
         this.reqaddressList
@@ -1106,8 +1260,8 @@ export class ApplyListComponent implements OnInit {
   //--Foreigner Card
   reqforeignercardList: EmpForeignercardModel[] = [];
   selectedEmpforeignercard: EmpForeignercardModel = new EmpForeignercardModel();
-  doLoadReqForeignercard() {
-    this.reqdetailService
+  async doLoadReqForeignercard() {
+    await this.reqdetailService
       .getapply_foreignercard(
         this.initial_current.CompCode,
         this.selectedReqworker.worker_code
@@ -1119,29 +1273,29 @@ export class ApplyListComponent implements OnInit {
         }
       });
   }
-  record_empforeignercard(code: any) {
+  async record_empforeignercard(code: any) {
     if (this.reqforeignercardList.length == 0) {
       return
     }
-    this.empdetailService.record_empforeignercard(
+    await this.empdetailService.record_empforeignercard(
       code,
       this.reqforeignercardList
     );
   }
   //-- education
   reqeducationList: EmpEducationModel[] = [];
-  doLoadReqeducationList() {
-    this.reqdetailService
+  async doLoadReqeducationList() {
+    await this.reqdetailService
       .getapply_education(this.initial_current.CompCode, this.selectedReqworker.worker_code)
       .then(async (res) => {
         this.reqeducationList = await res;
       });
   }
-  record_empeducation(code: any) {
+  async record_empeducation(code: any) {
     if (this.reqeducationList.length == 0) {
       return
     }
-    this.empdetailService
+    await this.empdetailService
       .record_empeducation(
         code,
         this.reqeducationList
@@ -1155,18 +1309,18 @@ export class ApplyListComponent implements OnInit {
   }
   //--training
   reqtrainingList: EmpTrainingModel[] = [];
-  doLoadReqtrainingList() {
-    this.reqdetailService
+  async doLoadReqtrainingList() {
+    await this.reqdetailService
       .getapplywork_training(this.initial_current.CompCode, this.selectedReqworker.worker_code)
       .then(async (res) => {
         this.reqtrainingList = await res;
       });
   }
-  record_emptraining(code: any) {
+  async record_emptraining(code: any) {
     if (this.reqtrainingList.length == 0) {
       return
     }
-    this.empdetailService
+    await this.empdetailService
       .record_emptraining(
         code,
         this.reqtrainingList
@@ -1181,18 +1335,18 @@ export class ApplyListComponent implements OnInit {
 
   //--appraisal
   reqassessmentList: EmpAssessmentModel[] = [];
-  doLoadReqassessmentList() {
-    this.reqdetailService
+  async doLoadReqassessmentList() {
+    await this.reqdetailService
       .getapplywork_assessment(this.initial_current.CompCode, this.selectedReqworker.worker_code)
       .then(async (res) => {
         this.reqassessmentList = await res;
       });
   }
-  record_empassessment(code: any) {
+  async record_empassessment(code: any) {
     if (this.reqassessmentList.length == 0) {
       return
     }
-    this.empdetailService
+    await this.empdetailService
       .record_empassessment(
         code,
         this.reqassessmentList
@@ -1207,18 +1361,18 @@ export class ApplyListComponent implements OnInit {
 
   //--criminal
   reqCriminalList: EmpCriminalModel[] = [];
-  doLoadReqCriminalList() {
-    this.reqdetailService
+  async doLoadReqCriminalList() {
+    await this.reqdetailService
       .getapplywork_criminal(this.initial_current.CompCode, this.selectedReqworker.worker_code)
       .then(async (res) => {
         this.reqCriminalList = await res;
       });
   }
-  record_empcriminal(code: any) {
+  async record_empcriminal(code: any) {
     if (this.reqCriminalList.length == 0) {
       return
     }
-    this.empdetailService
+    await this.empdetailService
       .record_empcriminal(
         code,
         this.reqCriminalList
@@ -1233,18 +1387,18 @@ export class ApplyListComponent implements OnInit {
 
   //--suggest
   reqsuggestList: EmpSuggestModel[] = [];
-  doLoadReqSuggestList() {
-    this.reqdetailService
+  async doLoadReqSuggestList() {
+    await this.reqdetailService
       .getapplywork_suggest(this.initial_current.CompCode, this.selectedReqworker.worker_code)
       .then(async (res) => {
         this.reqsuggestList = await res;
       });
   }
-  record_empsuggest(code: any) {
+  async record_empsuggest(code: any) {
     if (this.reqsuggestList.length == 0) {
       return
     }
-    this.empdetailService
+    await this.empdetailService
       .record_empsuggest(
         code,
         this.reqsuggestList
@@ -1259,8 +1413,8 @@ export class ApplyListComponent implements OnInit {
 
   //--Position
   reqPositionList: EmpPositionModel[] = [];
-  doLoadReqPositionList() {
-    this.reqdetailService
+  async doLoadReqPositionList() {
+    await this.reqdetailService
       .getapplywork_position(this.initial_current.CompCode, this.selectedReqworker.worker_code)
       .then(async (res) => {
         this.reqPositionList = await res;
@@ -1270,23 +1424,23 @@ export class ApplyListComponent implements OnInit {
     if (this.reqPositionList.length == 0) {
       return
     }
-    await this.reqPositionList.forEach((element: EmpPositionModel) => {
+    this.reqPositionList.forEach((element: EmpPositionModel) => {
       element.empposition_date = this.selectedReqworker.worker_hiredate
       element.empposition_reason = ""
     })
-    this.empdetailService
+    await this.empdetailService
       .record_empposition(
         code,
         this.reqPositionList
       )
-      .then((res) => {
+      .then(async (res) => {
         let result = JSON.parse(res);
         if (result.success) {
           var tmp = new RequestModel();
           tmp.company_code = this.initial_current.CompCode;
           tmp.request_code = this.reqPositionList[0].request_code
           tmp.request_accepted = '1'
-          this.requestService.request_upaccept(tmp).then(async(res) => {
+          await this.requestService.request_upaccept(tmp).then(async (res) => {
             let result = await JSON.parse(res);
           })
         } else {
@@ -1296,18 +1450,18 @@ export class ApplyListComponent implements OnInit {
 
   //--Salary
   reqSalaryList: EmpSalaryModel[] = [];
-  doLoadReqSalaryList() {
-    this.reqdetailService
+  async doLoadReqSalaryList() {
+    await this.reqdetailService
       .getapplywork_salary(this.initial_current.CompCode, this.selectedReqworker.worker_code)
       .then(async (res) => {
         this.reqSalaryList = await res;
       });
   }
-  record_empsalary(code: any) {
+  async record_empsalary(code: any) {
     if (this.reqSalaryList.length == 0) {
       return
     }
-    this.empdetailService
+    await this.empdetailService
       .record_empsalary(
         code,
         this.reqSalaryList
@@ -1361,19 +1515,19 @@ export class ApplyListComponent implements OnInit {
     })
   }
   reqdocatt: ApplyMTDocattModel[] = [];
-  doLoadattdocreq() {
+  async doLoadattdocreq() {
     var tmp = new ApplyMTDocattModel();
     tmp.company_code = this.initial_current.CompCode
     tmp.worker_code = this.selectedReqworker.worker_code
-    this.applyworkService.getreq_filelist(tmp).then((res) => {
+    await this.applyworkService.getreq_filelist(tmp).then((res) => {
       this.reqdocatt = res;
     })
   }
-  record_empdocatt(code: any) {
+  async record_empdocatt(code: any) {
     if (this.reqdocatt.length == 0) {
       return
     }
-    this.employeeService
+    await this.employeeService
       .record_empfile(
         code,
         this.reqdocatt,

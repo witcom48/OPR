@@ -28,7 +28,7 @@ interface Status {
 export class RecruitmentApproveComponent implements OnInit {
 
   menu_apply: MenuItem[] = [];
-  status_list: Status[] = [{ name_th: 'รออนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' },  { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' } ];
+  status_list: Status[] = [{ name_th: 'รออนุมัติ', name_en: 'Send Approve', code: 'S' }, { name_th: 'ปฏิเสธ', name_en: 'Reject', code: 'C' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }];
   status_select: Status = { name_th: 'รออนุมัติ', name_en: 'Send Approve', code: 'S' }
 
   total_apply: number = 0
@@ -144,12 +144,12 @@ export class RecruitmentApproveComponent implements OnInit {
       {
         label: this.title_approve[this.initial_current.Language],
         icon: 'pi pi-fw pi-check',
-        command: (event) => {
-
-          if (this.selectedApply.worker_code != "") {
+        command: async (event) => {
+          if (this.selectedApply.length > 0) {
             this.approveNote = ""
-            this.approve_apply("S")
-            
+            await this.approve_apply("S")
+
+
           }
           //this.showManage()
         }
@@ -160,7 +160,7 @@ export class RecruitmentApproveComponent implements OnInit {
         icon: 'pi pi-fw pi-times',
         command: (event) => {
 
-          if (this.selectedApply.worker_code != "") {
+          if (this.selectedApply.length > 0) {
             this.approveNote = ""
             this.openNotapprove()
             this.toggleSelect()
@@ -176,7 +176,7 @@ export class RecruitmentApproveComponent implements OnInit {
 
 
   apply_list: EmployeeModel[] = [];
-  selectedApply: EmployeeModel = new EmployeeModel;
+  selectedApply: EmployeeModel[] = [];
   fillterBlacklist: boolean = false;
   doLoadApply() {
     var tmp = new EmployeeModel();
@@ -208,40 +208,42 @@ export class RecruitmentApproveComponent implements OnInit {
   close_manage() {
     this.displayManage = false
   }
-  approve_apply(status: string) {
+  async approve_apply(status: string) {
     this.displayApproveNote = false
     this.confirmationService.confirm({
       message: this.title_confirm_record[this.initial_current.Language],
       header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        var data = new TRSysApproveModel()
-        data.company_code = this.initial_current.CompCode
-        data.approve_status = status
-        data.workflow_type = "REQ_APY"
-        data.approve_code = this.selectedApply.worker_code
-        data.approve_note = this.approveNote
+      accept: async () => {
+        this.selectedApply.forEach(async (datas: EmployeeModel) => {
+          var data = new TRSysApproveModel()
+          data.company_code = this.initial_current.CompCode
+          data.approve_status = status
+          data.workflow_type = "REQ_APY"
+          data.approve_code = datas.worker_code
+          data.approve_note = this.approveNote
+          console.log(data);
+          await this.sysApproveServices.approve_record(data).then((res) => {
+            let result = JSON.parse(res);
 
-        this.sysApproveServices.approve_record(data).then((res) => {
-          let result = JSON.parse(res);
+            if (result.success) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+              this.doLoadApply()
+              this.toggleSelect()
+              this.selection
 
-          if (result.success) {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-            this.doLoadApply()
-            this.toggleSelect()
-            this.selection
- 
-            //this.displayManage = false
-          }
-          else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-          }
-        });
+              //this.displayManage = false
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+            }
+          });
+        })
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       }
-      
+
     });
 
   }
@@ -282,7 +284,11 @@ export class RecruitmentApproveComponent implements OnInit {
   }
 
   confirm_notapprove() {
-    this.approve_apply("C")
+    if (this.selectedApply.length > 0) {
+      this.approveNote = ""
+      this.approve_apply("C")
+
+    }
   }
 
   getFullStatus(code: string): any {
@@ -297,8 +303,8 @@ export class RecruitmentApproveComponent implements OnInit {
       }
     }
   }
-// 
-checked: boolean = false;
+  // 
+  checked: boolean = false;
 
   buttonVisible: boolean = true;
 
@@ -309,7 +315,7 @@ checked: boolean = false;
   toggleSelectAll() {
     this.selectAllChecked = !this.selectAllChecked;
     this.showButton = this.selectAllChecked;
-    console.log(this.selectAllChecked,'dddd')
+    console.log(this.selectAllChecked, 'dddd')
 
     //  this.yourData.forEach((item: { checked: boolean; }) => item.checked = this.selectAllChecked);
   }
@@ -319,30 +325,30 @@ checked: boolean = false;
   };
   toggleSelect() {
     this.checked = !this.checked;
-    console.log(this.checked,'ooo')
+    console.log(this.checked, 'ooo')
   }
 
 
-// }
-status_doc: boolean = false
+  // }
+  status_doc: boolean = false
 
-Search() {
-  if (this.status_select.code) {
-    this.status_doc = true;
-  } else {
-    this.status_doc = false;
+  Search() {
+    if (this.status_select.code) {
+      this.status_doc = true;
+    } else {
+      this.status_doc = false;
+    }
+    this.doLoadApply();
   }
-  this.doLoadApply();
-}
 
-selection(data: EmployeeModel) {
-  if (data) {
-    this.selectedApply = data;
-   
-   }
-   console.log(data,'ppp')
-}
-// 
+  selection(data: EmployeeModel) {
+    if (data) {
+      // this.selectedApply = data;
+
+    }
+    console.log(data, 'ppp')
+  }
+  // 
   blacklistList: BlacklistModel[] = [];
   doLoadBlacklistList() {
     this.blacklistService.blacklist_get(this.initial_current.CompCode, "", "").then((res) => {
