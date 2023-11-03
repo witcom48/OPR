@@ -16,6 +16,10 @@ import { ProjectService } from '../../../services/project/project.service';
 import { TRSysApproveModel } from '../../../models/system/security/sys_approve';
 import { SysApproveServices } from '../../../services/system/security/sysapprove.service';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
+import { ProjobempModel } from 'src/app/models/project/project_jobemp';
+import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
+import { RadiovalueModel } from 'src/app/models/project/radio_value';
+import { ProcontractModel } from 'src/app/models/project/project_contract';
 
 @Component({
   selector: 'app-project-approve',
@@ -29,6 +33,8 @@ export class ProjectApproveComponent implements OnInit {
   home: any;
   itemslike: MenuItem[] = [];
   menu_project: MenuItem[] = [];
+
+  project_code: string = "";
 
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
@@ -108,16 +114,26 @@ export class ProjectApproveComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
-    private sysApproveServices: SysApproveServices
+    private sysApproveServices: SysApproveServices,
+    private projectDetailService: ProjectDetailService,
   ) { }
 
   ngOnInit(): void {
-    
+
     this.doGetInitialCurrent()
-this.doLoadMenu()
+    this.doLoadMenu()
+    this.doGetProjobempFillter()
     setTimeout(() => {
+
       this.doLoadProject()
+      this.doLoadProjobemp()
+
+
     }, 300);
+    setTimeout(() => {
+      // this.doLoadEmployee()
+      this.doGetDataFillter();
+    }, 500);
   }
 
   doLoadMenu() {
@@ -224,16 +240,13 @@ this.doLoadMenu()
     });
   }
 
-  doFillter() {
-    this.doGetDataFillter()
-  }
   ///
   async doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_status = this.selectedstatus;
-  
-    this.project_list = await this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, 
+
+    this.project_list = await this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter,
       workerfillter
     );
   }
@@ -241,7 +254,7 @@ this.doLoadMenu()
   doChangeSelectstatus() {
     this.doGetDataFillter();
   }
-  
+
 
   displayApprove: boolean = false;
 
@@ -280,5 +293,69 @@ this.doLoadMenu()
   confirm_notapprove() {
     this.approve_project("C")
   }
+
+
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  projobemp_list: ProjobempModel[] = [];
+  selectedProjobemp: ProjobempModel = new ProjobempModel();
+
+  selectedProjobemp_name: string = ""
+
+  // doLoadProjobemp() {
+  //   this.projectDetailService.projobemp_get("").then((res) => {
+  //     this.projobemp_list = res;
+  //     console.log(res, 'ข้อมูลพนักงาน')
+
+  //   });
+
+  // }
+
+ 
+  doLoadProjobemp() {
+    this.projectDetailService.projobemp_get(this.project_code).then((res) => {
+      this.projobemp_list = res;
+      //if(this.projobemp_list.length > 0){
+      //  this.selectedProjobemp = this.projobemp_list[0]
+      //}
+    });
+  }
+
+  doGetProjobempFillter() {
+    const workerfillter: FillterProjectModel = new FillterProjectModel();
+     const Radiovalue: RadiovalueModel = new RadiovalueModel();
+    workerfillter.company_code = this.initial_current.CompCode;
+    workerfillter.project_code = this.project_code;
+
+    // สถานะ
+    if (this.fillterEmpstatus) {
+      workerfillter.projobemp_status = this.selectedstatusProjobemp;
+    } else {
+      workerfillter.projobemp_status = '';
+    }
+
+
+    this.projectDetailService.projobemp_getbyfillter(workerfillter, Radiovalue).then(async (res) => {
+      await res.forEach((element: ProjobempModel) => { });
+
+      this.projobemp_list = await res;
+    });
+    console.log(workerfillter.projobemp_status, 'เปลี่ยนสถานะ')
+
+  }
+
+  //-- Status สถานะ
+  selectedstatusProjobemp: string = "";
+  fillterEmpstatus: boolean = false;
+  doChangeSelectstatusProjobemp() {
+
+    if (this.fillterEmpstatus) {
+      this.doGetProjobempFillter();
+    }
+    console.log(this.selectedstatusProjobemp, 'สถานะที่เลือก')
+  }
+
+
 
 }

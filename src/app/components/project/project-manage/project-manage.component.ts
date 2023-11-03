@@ -399,7 +399,7 @@ export class ProjectManageComponent implements OnInit {
   title_staff_apprdate: { [key: string]: string } = { EN: "Approve date", TH: "วันที่อนุมัติ" }
   //
   title_emp_total: { [key: string]: string } = { EN: "Total emp", TH: "จำนวนพนักงาน" }
-  title_amount_total: { [key: string]: string } = { EN: "Total amount", TH: "ราคารวม" }
+  title_amount_total: { [key: string]: string } = { EN: "Total amount", TH: "ต้นทุนรวม" }
 
   title_regular: { [key: string]: string } = { EN: "Regular", TH: "ประจำ" }
   title_temporary: { [key: string]: string } = { EN: "Temporary", TH: "ชั่วคราว" }
