@@ -128,9 +128,9 @@ export class ProjectTimesheetComponent implements OnInit {
 
     setTimeout(() => {
       this.doLoadProject()
-      // this.doLoadPolShift()
-      // this.doLoadPolDaytype()
-      // this.doLoadPolJobmain()
+      this.doLoadPolShift()
+      this.doLoadPolDaytype()
+      this.doLoadPolJobmain()
     }, 300);
 
     //let dateString = '2023-01-10T00:00:00'
@@ -319,6 +319,7 @@ export class ProjectTimesheetComponent implements OnInit {
   shift_list: ShiftModels[] = [];
   doLoadPolShift() {
     var tmp = new ShiftModels();
+    tmp.project = true
     this.shiftServices.shift_get(tmp).then(async (res) => {
       this.shift_list = await res;
     });
