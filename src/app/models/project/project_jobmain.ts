@@ -2,7 +2,8 @@ export class ProjobmainModel {
     constructor() {
      
     }
-       
+    projobemp_emp: string = "";
+
     projobmain_id: string = "1";
     projobmain_code: string = "";
     projobmain_name_th: string = "";

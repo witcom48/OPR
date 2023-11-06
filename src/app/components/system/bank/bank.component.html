@@ -130,7 +130,8 @@
                     accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     required (change)="handleFileInput($any($event).target.files)" style="display: none;">
                 <label for="file" class="btnattach">{{title_choose[initial_current.Language]}}</label>
-                <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+                <span class="chosen-attach"
+                    *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
                 <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
             </div>
         </label>

@@ -8,4 +8,6 @@ export class TRSysApproveModel {
     approve_status: string = "";
     approve_note: string = "";
     approve_date: Date = new Date();
+    project_code: string = "";
+
 }

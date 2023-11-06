@@ -68,7 +68,9 @@ export class SysApproveServices {
             workflow_type: model.workflow_type,
             approve_by: this.initial_current.Username,      
             approve_status: model.approve_status,
-            approve_note: model.approve_note,             
+            approve_note: model.approve_note,       
+            project_code: model.project_code,             
+      
           };
    
 

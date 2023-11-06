@@ -1100,6 +1100,49 @@ export class ProjectDetailService {
   }
   ///////////ทำตรงนี้>>>
 
+  public projectemp_get_withstatus(company: string, project: string, status: string) {
+
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: company,
+      language: "",
+      project_code: project,
+      project_name_th: "",
+      project_name_en: "",
+      project_name_sub: "",
+      project_codecentral: "",
+      project_protype: "",
+      project_probusiness: "",
+      status: status
+
+    // var filter = {
+    //   device_name: '',
+    //   ip: "localhost",
+    //   username: this.initial_current.Username,
+    //   company: company,
+    //   language: "",
+    //   project_code: project,
+    //   project_name_th: "",
+    //   project_name_en: "",
+    //   project_name_sub: "",
+    //   project_codecentral: "",
+    //   project_protype: "",
+    //   project_proarea: "",
+    //   project_progroup: "",
+    //   project_probusiness: "",
+    //   status: status
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/projobemp4_list', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+  
   //-- Job emp
   public projobemp_get(project: string) {
 
