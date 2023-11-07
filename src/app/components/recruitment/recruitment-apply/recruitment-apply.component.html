@@ -603,7 +603,7 @@
                             <p-accordionTab header="{{title_foreigner}}">
                                 <p-menubar [model]="menu_reqforeigner"></p-menubar>
                                 <div #tableforeigner>
-                                    <p-table #dtreqforeigner [value]="reqforeignercardList" styleClass="p-datatable-sm"
+                                    <p-table #dtreqforeigner [value]="reqforeignerList" styleClass="p-datatable-sm"
                                         [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
                                         [virtualScroll]="true" selectionMode="single"
                                         [(selection)]="selectedReqforeignercard"
@@ -613,20 +613,25 @@
                                         currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}">
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>{{title_foreignercode[initial_current.Language]}}</th>
+                                                <!-- <th>{{title_foreignercode[initial_current.Language]}}</th>
                                                 <th>{{title_foreignertype[initial_current.Language]}}</th>
                                                 <th>{{title_foreignerissue[initial_current.Language]}}</th>
-                                                <th>{{title_foreignerexpire[initial_current.Language]}}</th>
+                                                <th>{{title_foreignerexpire[initial_current.Language]}}</th> -->
+                                                <th>{{title_foreignertype[initial_current.Language]}}</th>
+                                                <th>{{title_entrydate}}</th>
+
                                                 <th>{{title_modified_by[initial_current.Language]}}</th>
                                                 <th>{{title_modified_date[initial_current.Language]}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-reqforeigner>
                                             <tr [pSelectableRow]="reqforeigner">
-                                                <td>{{doGetForeignertypeDetail(reqforeigner.foreignercard_type)}}</td>
+                                                <!-- <td>{{doGetForeignertypeDetail(reqforeigner.foreignercard_type)}}</td>
                                                 <td>{{reqforeigner.foreignercard_code}}</td>
                                                 <td>{{reqforeigner.foreignercard_issue | date:'dd/MM/yyyy'}}</td>
-                                                <td>{{reqforeigner.foreignercard_expire | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{reqforeigner.foreignercard_expire | date:'dd/MM/yyyy'}}</td> -->
+                                                <td>{{doGetforetype(reqforeigner.foreigner_type)}}</td>
+                                                <td>{{reqforeigner.entry_date | date:'dd/MM/yyyy'}}</td>
                                                 <td>{{reqforeigner.modified_by}}</td>
                                                 <td>{{reqforeigner.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -1936,7 +1941,7 @@
         <div class="formatt" *ngIf="edit_reqforeigner==true || new_foreigner==true">
             <label>{{title_foreignertype[initial_current.Language]}}<span style="color: red;">*</span></label>
             <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
-                [(ngModel)]="selectedReqforeignercard.foreignercard_type"
+                [(ngModel)]="selectedReqforeigner.foreigner_type"
                 [style]="{ width: '100%', overflow: 'visible' }" name="foreigner_type" #foreigner_type="ngModel"
                 [required]="true">
                 <ng-template let-item pTemplate="selectedItem">
@@ -1947,20 +1952,45 @@
                 </ng-template>
             </p-dropdown>
 
-            <label>{{title_foreignercode[initial_current.Language]}}<span style="color: red;">*</span></label>
-            <input pInputText type="text" id="foreignercard_no"
-                [(ngModel)]="selectedReqforeignercard.foreignercard_code" name="foreignercard_no" maxlength="20"
-                #foreignercard_no="ngModel" required>
-
-            <label>{{title_foreignerissue[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <label>{{title_entrydate}}<span style="color: red;"> *</span></label>
             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedReqforeignercard.foreignercard_issue" name="foreignercard_issue"
-                #foreignercard_issue="ngModel" [required]="true"><input type="text"></p-calendar>
+                [(ngModel)]="selectedReqforeigner.entry_date" name="entry_date" #entry_date="ngModel"
+                [required]="true"><input type="text"></p-calendar>
 
-            <label>{{title_foreignerexpire[initial_current.Language]}}<span style="color: red;">*</span></label>
-            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                [(ngModel)]="selectedReqforeignercard.foreignercard_expire" name="foreignercard_expire"
-                #foreignercard_expire="ngModel" [required]="true"><input type="text"></p-calendar>
+                <div class="checkbreak">
+                    <p-checkbox name="selectedReqforeigner.sent_sso" [(ngModel)]="selectedReqforeigner.sent_sso"
+                        [binary]="true"></p-checkbox> &nbsp;
+                    <label>{{title_foreignersso[initial_current.Language]}}</label>
+                </div>
+
+                <div #TABLEFORE>
+                    <p-accordion>
+                        <p-accordionTab header="{{title_foreignercard[initial_current.Language]}}">
+                            <p-menubar [model]="menu_reqforeignercard"></p-menubar>
+                            <p-table [value]="selectedReqforeigner.foreigner_card" styleClass="p-datatable-sm"
+                                (onRowSelect)="onRowSelectReqForeignercard($event)" [scrollable]="true" scrollHeight="220px"
+                                [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqforeignercard">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>{{title_foreignercardtype[initial_current.Language]}}</th>
+                                        <th>{{title_foreignercode[initial_current.Language]}}</th>
+                                        <th>{{title_foreignerissue[initial_current.Language]}}</th>
+                                        <th>{{title_foreignerexpire[initial_current.Language]}}</th>
+    
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-empforecard let-i="rowIndex">
+                                    <tr [pSelectableRow]="empforecard">
+                                        <td>{{doGetForeignertypeDetail(empforecard.foreignercard_type)}}</td>
+                                        <td>{{empforecard.foreignercard_code}}</td>
+                                        <td>{{empforecard.foreignercard_issue | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{empforecard.foreignercard_expire | date:'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-accordionTab>
+                    </p-accordion>
+                </div>
             <br>
             <div class="field col-12" style=" text-align: right;">
                 <p-button label="{{title_summit}}" (click)="reqforeignercard_summit()"
@@ -2136,6 +2166,56 @@
         <p-button icon="pi pi-upload" (click)="UploadfileMCerdoc()" label="{{title_upload}}"></p-button>
     </ng-template>
 </p-dialog>
+
+<form (ngSubmit)="Saveforecard()" #ForeForm2="ngForm">
+    <p-dialog header={{title_cards[initial_current.Language]}} [(visible)]="displayaddForeCard"
+        (onHide)="closeforecard()">
+        <div class="formatt" *ngIf="edit_reqforeignercard==true || new_foreignercard==true">
+            <label>{{title_foreignercardtype[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
+                [(ngModel)]="selectedReqforeignercard.foreignercard_type"
+                [style]="{ width: '100%', overflow: 'visible' }" name="foreigner_type" #foreigner_type="ngModel"
+                [required]="true">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                </ng-template>
+            </p-dropdown>
+
+            <label>{{title_foreignercode[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <input pInputText type="text" id="foreignercard_no"
+                [(ngModel)]="selectedReqforeignercard.foreignercard_code" name="foreignercard_no" maxlength="20"
+                #foreignercard_no="ngModel" required>
+
+            <label>{{title_foreignerissue[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedReqforeignercard.foreignercard_issue" name="foreignercard_issue"
+                #foreignercard_issue="ngModel" [required]="true"><input type="text"></p-calendar>
+
+            <label>{{title_foreignerexpire[initial_current.Language]}}<span style="color: red;">*</span></label>
+            <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+                [(ngModel)]="selectedReqforeignercard.foreignercard_expire" name="foreignercard_expire"
+                #foreignercard_expire="ngModel" [required]="true"><input type="text"></p-calendar>
+            <br>
+            <!-- <div class="field col-12" style=" text-align: right;">
+                <p-button label="{{title_summit}}" (click)="empforeignercard_summit()"
+                    [disabled]="!ForeForm2.form.valid"></p-button>
+                &nbsp;
+                <button pButton type="button" label="{{title_cancel}}" icon="pi pi-times" class="p-button-danger"
+                (click)="empforeignercard_cancel()"></button>
+            </div> -->
+        </div>
+        <ng-template pTemplate="footer">
+            <button *ngIf="displayeditForeCard" pButton type="button" label="{{title_delete}}" icon="pi pi-trash"
+                class="p-button-danger" (click)="DeleteForecard()"></button>
+            <button pButton type="submit" label="{{title_summit}}" icon="pi pi-check"
+                [disabled]="!ForeForm2.form.valid"></button>
+        </ng-template>
+    </p-dialog>
+</form>
+
 
 <!-- Attach other -->
 <p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="UploadfileOther" (onHide)="clearattachname()">

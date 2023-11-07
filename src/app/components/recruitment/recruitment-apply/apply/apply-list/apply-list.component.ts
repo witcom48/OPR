@@ -939,6 +939,7 @@ export class ApplyListComponent implements OnInit {
       position_name_th: '',
       position_name_en: '',
       selected_Import: '',
+      selected_Doctype:'',
       selected_Attachfile: '',
       location_code: false,
       reqdocatt_data: [],
