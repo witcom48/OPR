@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { InitialCurrent } from '../../config/initial_current';
 import { ProjectModel } from '../../models/project/project';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
+import { ProjectMTDocattModel } from 'src/app/models/project/project_docatt';
 
 @Injectable({
   providedIn: 'root'
@@ -463,6 +464,106 @@ export class ProjectService {
         return res;
       });
 
+  }
+
+
+  //attach file
+  public file_attach(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTProDocatt?' + para, formData).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message;
+      });
+  }
+
+  public get_file(file_path: string) {
+    var para = "file_path=" + file_path;
+    return this.http.post<any>(this.config.ApiProjectModule + '/doGetMTProDocatt?' + para, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+  public deletefilepath_file(file_path: string) {
+    var para = "file_path=" + file_path;
+    return this.http.post<any>(this.config.ApiProjectModule + '/doDeleteMTProDocatt?' + para, this.options).toPromise()
+      .then((res) => {
+        return JSON.parse(res);
+      });
+  }
+  public delete_file(file: ProjectMTDocattModel) {
+    let data = {
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: file.company_code || this.initial_current.CompCode,
+      jobtable_id: file.document_id,
+      job_id: file.job_id,
+      job_type: file.job_type,
+      project_code: file.project_code,
+      document_id: file.document_id,
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/prodocatt_del', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message;
+      });
+  }
+
+  public getpro_filelist(model: ProjectMTDocattModel) {
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: model.company_code,
+      language: "",
+      project_code: model.project_code,
+      job_type: model.job_type,
+    }
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/prodocatt_list', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      })
+  }
+
+  public record_profile(project_code: string, list: ProjectMTDocattModel[], type: string) {
+    var item_data: string = "[";
+    for (let i = 0; i < list.length; i++) {
+      item_data = item_data + "{";
+      item_data = item_data + "\"document_id\":\"" + list[i].document_id + "\"";
+      item_data = item_data + ",\"job_type\":\"" + list[i].job_type + "\"";
+      item_data = item_data + ",\"document_name\":\"" + list[i].document_name + "\"";
+      item_data = item_data + ",\"document_type\":\"" + list[i].document_type + "\"";
+      item_data = item_data + ",\"document_path\":\"" + list[i].document_path.replace(/\\/g, '\\\\') + "\"";
+      item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
+      item_data = item_data + ",\"project_code\":\"" + project_code + "\"";
+      item_data = item_data + "}" + ",";
+    }
+    if (item_data.length > 2) {
+      item_data = item_data.substr(0, item_data.length - 1);
+    }
+    item_data = item_data + "]";
+
+    var specificData = {
+      transaction_data: item_data,
+      project_code: project_code,
+      company_code: this.initial_current.CompCode,
+      modified_by: this.initial_current.Username,
+      job_type: type
+    };
+    console.log(item_data)
+    return this.http.post<any>(this.config.ApiProjectModule + '/prodocatt', specificData, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
   }
 
 }

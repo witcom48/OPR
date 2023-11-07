@@ -91,6 +91,7 @@ import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 import { ProequipmentreqModel } from 'src/app/models/project/project_proequipmenttype ';
 import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ProjectMTDocattModel } from 'src/app/models/project/project_docatt';
 interface ImportList {
   name_th: string,
   name_en: string,
@@ -107,6 +108,7 @@ interface SummaryCost {
   styleUrls: ['./project-manage.component.scss']
 })
 export class ProjectManageComponent implements OnInit {
+  @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
 
   @ViewChild(SearchEmpComponent) selectEmp: any;
   ImportList: ImportList[] = [];
@@ -205,6 +207,8 @@ export class ProjectManageComponent implements OnInit {
   menu_proequipmentreq: MenuItem[] = [];
   edit_proequipmentreq: boolean = false;
   new_proequipmentreq: boolean = false;
+  //
+  items_attfileApp: MenuItem[] = [];
 
 
   //#endregion "My Menu"
@@ -436,6 +440,15 @@ export class ProjectManageComponent implements OnInit {
 
   title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
   title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
+
+  title_attfile: { [key: string]: string } = { EN: "Attach File", TH: "เอกสารแนบ" };
+  title_uploadno: { [key: string]: string } = { EN: "No.", TH: "ลำดับที่" };
+  title_filename: { [key: string]: string } = { EN: "File Name", TH: "ชื่อไฟล์" };
+  title_deleteupload: { [key: string]: string } = { EN: "Delete", TH: "ลบ" };
+  title_filetype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+  //
   //#endregion "Language"
 
 
@@ -464,7 +477,7 @@ export class ProjectManageComponent implements OnInit {
     private yearServices: YearService,
     private provinceService: ProvinceService,
     private emptypeService: EmptypeService,
-   
+
 
 
   ) {
@@ -1630,7 +1643,16 @@ export class ProjectManageComponent implements OnInit {
 
 
     ];
-
+    //Attacg App
+    this.items_attfileApp = [
+      {
+        label: this.title_new[this.initial_current.Language],
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.UploadfilePro = true;
+        }
+      },
+    ];
   }
 
 
@@ -1656,7 +1678,7 @@ export class ProjectManageComponent implements OnInit {
 
           this.doLoadProjobversion()
           //this.doLoadProjobsub()
-
+          this.doGetFilePro()
           this.doLoadProjobemp()
           this.doLoadProtimepol()
 
@@ -1764,6 +1786,7 @@ export class ProjectManageComponent implements OnInit {
           if (result.success) {
 
             //-- Transaction
+            this.record_filePro();
             this.proaddress_record()
             this.procontact_record()
             this.procontract_record()
@@ -1773,6 +1796,8 @@ export class ProjectManageComponent implements OnInit {
             this.protimepol_record()
             //image
             this.uploadImages();
+
+
             //this.projobcontract_record()
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
@@ -2009,12 +2034,12 @@ export class ProjectManageComponent implements OnInit {
     }
   }
 
-  
+
   base64Image: any = '../../../../assets/images/people.png'
   transform() {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
   }
-//////
+  //////
   doLoadImage() {
     this.projectService.doGetImages(this.initial_current.CompCode, this.selectedProject.project_code).then((res) => {
       let resultJSON = JSON.parse(res);
@@ -2022,9 +2047,8 @@ export class ProjectManageComponent implements OnInit {
       if (resultJSON.result == "1") {
         this.base64Image = resultJSON.data;
       }
-      console.log(res,'รูป')
-    });
-    
+     });
+
   }
 
 
@@ -2033,7 +2057,7 @@ export class ProjectManageComponent implements OnInit {
     this.fileToUpload = file.item(0);
   }
 
-  
+
   selectedimageName: string = '';
   onselectFile(event: any) {
     const selectedFile = event.target.files[0];
@@ -2055,9 +2079,9 @@ export class ProjectManageComponent implements OnInit {
 
 
 
-   //-- 07/11/2023
+  //-- 07/11/2023
   //-- Project Logo
-  
+
 
 
 
@@ -3193,8 +3217,7 @@ export class ProjectManageComponent implements OnInit {
       if (this.projobshift_list.length > 0) {
         this.selectedProjobshift = this.projobshift_list[0]
       }
-      console.log(res, 'kko')
-    });
+     });
   }
   onRowSelectProjobshift(event: Event) {
 
@@ -4267,9 +4290,147 @@ export class ProjectManageComponent implements OnInit {
   }
 
 
+  selectedFileName: string = '';
+  //Attach File  
+  UploadfilePro: boolean = false;
+  fileDocToUploadPro: File | any = null;
+  reqdocattPro: ProjectMTDocattModel[] = [];
+  selecteddocattPro: ProjectMTDocattModel = new ProjectMTDocattModel();
+  handleFileProInputDoclist(file: FileList) {
+    this.fileDocToUploadPro = file.item(0);
+    if (this.fileDocToUploadPro) {
+      this.selectedFileName = this.fileDocToUploadPro.name;
+    } else {
+      this.selectedFileName = this.title_nofile[this.initial_current.Language];
+    }
+  }
+  doGetFilePro() {
+    var tmp = new ProjectMTDocattModel();
+    tmp.company_code = this.initial_current.CompCode
+    tmp.project_code = this.selectedProject.project_code
+    tmp.job_type = "APPT"
+    this.projectService.getpro_filelist(tmp).then((res) => {
+      this.reqdocattPro = res;
+    })
+  }
+  doUploadFilePro() {
+    const filename = "PRO_APP" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+    const filetype = this.fileDocToUploadPro.name.split(".")[1];
+    this.projectService.file_attach(this.fileDocToUploadPro, filename, filetype).then((res) => {
+      this.reqdocattPro = [];
+      if (res.success) {
+        this.reqdocattPro = this.reqdocattPro.concat({
+          company_code: this.selectedProject.company_code || this.initial_current.CompCode,
+          project_code: this.selectedProject.project_code,
+          document_id: 0,
+          job_type: "APPT",
+          job_id: this.selectedProject.project_id.toString(),
+          document_name: filename + "." + filetype,
+          document_type: this.fileDocToUploadPro.type,
+          document_path: res.message,
+          created_by: this.initial_current.Username,
+          created_date: new Date().toISOString()
+        })
+        this.UploadfilePro = false;
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileDocToUploadPro = null;
+    });
+  }
+
+  UploadfileProdoc() {
+    if (this.fileDocToUploadPro) {
+      this.confirmationService.confirm({
+        message: this.title_confirm[this.initial_current.Language] + this.fileDocToUploadPro.name,
+        header: this.title_import[this.initial_current.Language],
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.fileUploader.nativeElement.value = null;
+          this.UploadfilePro = false;
+          this.doUploadFilePro();
+        },
+        reject: () => {
+          this.UploadfilePro = false;
+        }
+      });
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+    }
+  }
+  DeleteFilePro(data: ProjectMTDocattModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete[this.initial_current.Language] + data.document_name,
+      header: this.title_delete[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (data.document_id) {
+          this.projectService.delete_file(data).then((res) => {
+            if (res.success) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+            }
+            this.reloadPage()
+          })
+        } else {
+          this.selectedProject.prodocatt_data = this.selectedProject.prodocatt_data.filter((item) => {
+            return item !== data;
+          });
+        }
+        this.projectService.deletefilepath_file(data.document_path).then((res) => {
+          if (res.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            this.selectedProject.prodocatt_data = this.selectedProject.prodocatt_data.filter((item) => {
+              return item !== data;
+            });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+          }
+        })
+      },
+      
+      reject: () => {
+
+      }
+    });
+  }
+  async doGetReqAttfilePro(file_path: string, type: string) {
+    this.projectService.get_file(file_path).then((res) => {
+      var url = window.URL.createObjectURL(new Blob([new Uint8Array(res)], { type: type }));
+      window.open(url);
+      this.selecteddocattPro = new ProjectMTDocattModel();
+    })
+  }
+  onRowSelectfilePro(event: Event) {
+  }
+  record_filePro() {
+    if (this.reqdocattPro.length == 0) {
+      return;
+    }
+    this.projectService.record_profile(this.selectedProject.project_code, this.reqdocattPro, "APPT").then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+      } else {
+      }
+    })
+  }
+
+  viewAttfile(data: ProjectMTDocattModel) {
+    this.doGetReqAttfilePro(data.document_path, data.document_type)
+  }
+  clearattachname() {
+    this.selectedFileName = ''
+  }
+  //end
 
 
- 
+  reloadPage() {
+    this.doGetFilePro();
+  }
+
 
 }
 

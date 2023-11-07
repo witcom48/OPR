@@ -1,3 +1,5 @@
+import { ProjectMTDocattModel } from "./project_docatt";
+
 export class ProjectModel {
     constructor() {
      
@@ -39,6 +41,7 @@ export class ProjectModel {
     index: number = 0;
     select: boolean = false;    
 
+    prodocatt_data: ProjectMTDocattModel[] = []
 
     project_business: string = "";
     project_type: string = "";

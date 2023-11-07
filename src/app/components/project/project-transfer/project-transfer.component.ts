@@ -338,8 +338,7 @@ export class ProjectTransferComponent implements OnInit {
 
       }, 500);
       this.projobemp_list = await res;
-      console.log(res,'pppp')
-    });
+     });
   }
 
 
@@ -427,14 +426,7 @@ export class ProjectTransferComponent implements OnInit {
   selectedProjobemp: ProjobempModel = new ProjobempModel();
 
   selectedProjobemp_name: string = ""
-
-  // doLoadProjobemp() {
-  //   this.projectDetailService.projobemp_get("").then((res) => {
-  //     this.projobemp_list = res;
-  //     console.log(res, 'ข้อมูลพนักงาน')
-  //   });
-
-  // }
+ 
   onRowSelectProjobemp(event: Event) {
     this.selectedProjobemp_name = this.selectedProjobemp.projobemp_emp + " : " + this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp)
   }
@@ -467,10 +459,8 @@ export class ProjectTransferComponent implements OnInit {
     return result
   }
   reloadPage() {
-    // this.doLoadProjobemp();
-    this.doGetProjobempFillter();
-    console.log(this.reloadPage,'ttt')
-  }
+     this.doGetProjobempFillter();
+   }
 
 
   ///////////
@@ -487,8 +477,7 @@ export class ProjectTransferComponent implements OnInit {
   selectedstatusProjobemp: string = "";
   doChangeSelectstatusProjobemp() {
     this.doGetProjobempFillter();
-    console.log(this.selectedstatusProjobemp, 'สถานะที่เลือก');
-  }
+   }
 
  
 }

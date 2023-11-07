@@ -16,6 +16,23 @@
 
 </p-dialog>
 
+<!-- Attach -->
+<p-dialog class="uploadfile" header="{{title_upload[initial_current.Language]}}" [(visible)]="UploadfilePro" (onHide)="clearattachname()">
+    <label class="drop-container">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input id="fileattach" type="file" #fileUploader accept="" required
+                (change)="handleFileProInputDoclist($any($event).target.files)" style="display: none;">
+            <label for="fileattach" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="UploadfileProdoc()" label="{{title_upload[initial_current.Language]}}"></p-button>
+    </ng-template>
+</p-dialog>
 <p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
     <div class="grid">
         <div class="col-12">
@@ -1180,6 +1197,58 @@
                                     </tr>
                                 </ng-template>
                             </p-table>
+                        </p-accordionTab>
+                    </p-accordion>
+                </div>
+
+
+                <div class="col-12">
+                    <p></p>
+                    <p-accordion>
+                        <p-accordionTab header="{{title_attfile[initial_current.Language]}}">
+                            <p-menubar [model]="items_attfileApp"></p-menubar>
+                            <p-table #dt3 [value]="reqdocattPro" selectionMode="single"
+                            [(selection)]="selecteddocattPro" (onRowSelect)="onRowSelectfilePro($event)"
+                            [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                            [globalFilterFields]="['document_name','created_by','created_date']"
+                            responsiveLayout="stack" [breakpoint]="'744px'">
+
+                            <!-- --------------END Form Search Table------------------ -->
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th>{{title_uploadno[initial_current.Language]}}</th>
+                                    <th>{{title_filename[initial_current.Language]}}</th>
+                                    <th>{{title_filetype[initial_current.Language]}}</th>
+                                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                                    <th>{{title_viewfile[initial_current.Language]}}</th>
+                                    <th>{{title_deleteupload[initial_current.Language]}}</th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                <tr [pSelectableRow]="data">
+                                    <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                    </td>
+                                    <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                    </td>
+                                    <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
+                                    </td>
+                                    <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
+                                    </td>
+                                    <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
+                                        |
+                                        date:'dd/MM/yyyy'}}</td>
+                                    <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
+                                            icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
+                                    <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                            icon="pi pi-trash" styleClass="p-button-danger"
+                                            (click)="DeleteFilePro(data)"></p-button></td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
                         </p-accordionTab>
                     </p-accordion>
                 </div>
