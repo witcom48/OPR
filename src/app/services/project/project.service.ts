@@ -87,7 +87,7 @@ export class ProjectService {
   }
   ///////////ทำตรงนี้getMTProjectFillterList
 
-  public MTProject_getbyfillter( project: string,fromdate: Date, todate: Date,fillter: FillterProjectModel) {
+  public MTProject_getbyfillter(project: string, fromdate: Date, todate: Date, fillter: FillterProjectModel) {
     // let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
     // let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
     const fillterS = {
@@ -99,7 +99,7 @@ export class ProjectService {
 
       project_code: project,
       project_name_th: fillter.project_name_th,
-     
+
       project_name_en: fillter.project_name_en,
       project_name_sub: fillter.project_name_sub,
       project_codecentral: fillter.project_codecentral,
@@ -125,7 +125,7 @@ export class ProjectService {
       });
   }
 
-  public MTProject_getbyfillter2( project: string,fromdate: Date, todate: Date,fillter: FillterProjectModel) {
+  public MTProject_getbyfillter2(project: string, fromdate: Date, todate: Date, fillter: FillterProjectModel) {
     let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
     let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
     const fillterS = {
@@ -137,7 +137,7 @@ export class ProjectService {
 
       project_code: project,
       project_name_th: fillter.project_name_th,
-     
+
       project_name_en: fillter.project_name_en,
       project_name_sub: fillter.project_name_sub,
       project_codecentral: fillter.project_codecentral,
@@ -162,7 +162,7 @@ export class ProjectService {
       });
   }
 
-  public MTProject_getbyfillter3( project: string,fromdate: Date, todate: Date,fillter: FillterProjectModel) {
+  public MTProject_getbyfillter3(project: string, fromdate: Date, todate: Date, fillter: FillterProjectModel) {
     let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
     let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
     const fillterS = {
@@ -174,7 +174,7 @@ export class ProjectService {
 
       project_code: project,
       project_name_th: fillter.project_name_th,
-     
+
       project_name_en: fillter.project_name_en,
       project_name_sub: fillter.project_name_sub,
       project_codecentral: fillter.project_codecentral,
@@ -200,7 +200,7 @@ export class ProjectService {
   }
 
 
- 
+
   ///////////ทำตรงนี้>>>
   public project_get_withstatus(company: string, project: string, status: string) {
 
@@ -435,6 +435,34 @@ export class ProjectService {
   }
   //
 
+  //image
+  public doGetImages(com_code: string, project_code: string) {
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: com_code,
+      language: "",
+      project_code: project_code
+    };
+    return this.http.post<any>(this.config.ApiProjectModule + '/doGetProImages', filter, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
 
+  uploadImages(file: File, com: string, project: string) {
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "ref_to=" + com + "." + project + "." + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadProImages?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+
+  }
 
 }

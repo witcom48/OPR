@@ -104,3 +104,201 @@ h3 {
     }
 
 }
+
+.empinfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    flex-wrap: wrap;
+
+    p-image{
+        text-align-last: center;
+    }
+
+    .upload{
+        padding: 1vw;
+        grid-column: 2/4;
+        align-self: flex-end;
+        width: 25vw !important;
+        max-width: 100%;
+        border: none;
+    }
+
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 1vw;
+        min-width: 150px;
+    }
+    .radio{
+        grid-column: 2/4;
+        flex-direction: row;
+        align-items: center;
+    }
+    .btnupload {
+        grid-column: 2/4;
+        padding: 1vw;
+        align-self: flex-end;
+        width: 100%;
+        max-width: 100%;
+        border: none;
+        flex-direction: row;
+
+        .upload {
+            display: none;
+        }
+    }
+    .uploadlabe {
+        width: 10vw;
+        max-width: 100%;
+        margin-right: 20px;
+        border: none;
+        background: #084cdf;
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        transition: background .2s ease-in-out;
+        text-align: center;
+    }
+    
+    .uploadlabe:hover {
+        background: #0d45a5;
+    }
+    .chosen-text {
+        max-width: 100%;
+        align-self: center;
+    }
+    
+}
+.empinfo2{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    flex-wrap: wrap;
+
+    .horizontal{
+        grid-column: 1/4;
+    }
+    
+
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 1vw;
+        min-width: 150px;
+
+    }
+    .checkresign{
+        flex-direction: row;
+        grid-column: 1/3;
+    }
+    .resingform{
+        flex-direction: row;
+    }
+    .checkbb{
+        flex-direction: row;
+        align-self: center;
+    }
+    
+}
+.accordion{
+    display: grid;
+    grid-template-columns: 1fr;
+    flex-wrap: wrap;
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 1vw;
+        min-width: 150px;
+    }
+    .contact{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        flex-wrap: wrap;
+    
+        div{
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 1vw;
+            min-width: 150px;
+        }
+    }
+}
+.personal{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 1vw;
+        min-width: 150px;
+    }
+}
+
+
+
+.foreigner{
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    flex-wrap: wrap;
+
+    .horizontal{
+        grid-column: 1/5;
+    }
+
+    h4{
+        grid-column: 1/5;
+    }
+
+    div{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 1vw;
+        min-width: 150px;
+    }
+    .checkresign{
+        flex-direction: row;
+        grid-column: 1/3;
+    }
+    .resingform{
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 700px) {
+    .empinfo{
+        display: flex;
+        .upload{
+            width: 100% !important;
+        }
+        div{
+            width: 100%;
+        }
+    }
+    .empinfo2{
+        display: flex;
+        div{
+            width: 100%;
+        }
+    }
+    .personal{
+        display: flex;
+        flex-wrap: wrap;
+        div{
+            width: 100%;
+        }
+    }
+    .foreigner{
+        display: flex !important;
+        flex-wrap: wrap;
+    }
+    .contact{
+        display: flex !important;
+    }
+}

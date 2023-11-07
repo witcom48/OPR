@@ -90,6 +90,7 @@ import { EmptypeService } from 'src/app/services/emp/policy/emptype.service';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 import { ProequipmentreqModel } from 'src/app/models/project/project_proequipmenttype ';
 import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
+import { DomSanitizer } from '@angular/platform-browser';
 interface ImportList {
   name_th: string,
   name_en: string,
@@ -431,12 +432,16 @@ export class ProjectManageComponent implements OnInit {
   title_post: { [key: string]: string } = { EN: "Post By ", TH: "โพสต์โดย" }
   title_reload: { [key: string]: string } = { EN: "Reload", TH: "โหลดใหม่" }
 
+  title_viewfile: { [key: string]: string } = { EN: "View", TH: "ดูไฟล์" };
 
+  title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
+  title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
   //#endregion "Language"
 
 
   constructor(
     private router: Router,
+    private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private projectDetailService: ProjectDetailService,
@@ -459,6 +464,8 @@ export class ProjectManageComponent implements OnInit {
     private yearServices: YearService,
     private provinceService: ProvinceService,
     private emptypeService: EmptypeService,
+   
+
 
   ) {
     this.ImportList = [{ name_th: 'ผู้ติดต่อ', name_en: 'Contact', code: 'PROJECT_CONTACT' },];
@@ -1638,6 +1645,9 @@ export class ProjectManageComponent implements OnInit {
         this.selectedProject = project_list[0]
 
         setTimeout(() => {
+          //
+          this.doLoadImage();
+          //
           this.doLoadProaddress()
           this.doLoadProcontact()
           this.doLoadProcontract()
@@ -1717,6 +1727,7 @@ export class ProjectManageComponent implements OnInit {
     //         this.provinceList = res;
     //     });
     // }
+    // this.doLoadImage();
 
     this.doLoadInitial()
     this.doLoadPosition()
@@ -1760,7 +1771,8 @@ export class ProjectManageComponent implements OnInit {
 
             this.proresponsible_record()
             this.protimepol_record()
-
+            //image
+            this.uploadImages();
             //this.projobcontract_record()
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
@@ -1994,18 +2006,79 @@ export class ProjectManageComponent implements OnInit {
       else if (this.new_projobemp || this.edit_projobemp) {
         this.manage_title = "พนักงานประจำหน่วยงาน"
       }
-
-
-
     }
-
-
   }
+
+  
+  base64Image: any = '../../../../assets/images/people.png'
+  transform() {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
+  }
+//////
+  doLoadImage() {
+    this.projectService.doGetImages(this.initial_current.CompCode, this.selectedProject.project_code).then((res) => {
+      let resultJSON = JSON.parse(res);
+
+      if (resultJSON.result == "1") {
+        this.base64Image = resultJSON.data;
+      }
+      console.log(res,'รูป')
+    });
+    
+  }
+
 
   fileToUpload: File | any = null;
   handleFileInput(file: FileList) {
     this.fileToUpload = file.item(0);
   }
+
+  
+  selectedimageName: string = '';
+  onselectFile(event: any) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      this.selectedimageName = selectedFile.name;
+    } else {
+      this.selectedimageName = this.title_nofile[this.initial_current.Language];
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      // Set image src
+      this.base64Image = e.target.result;
+    }
+    reader.readAsDataURL(event.target.files[0])
+    this.fileToUpload = event.target.files.item(0);
+
+  }
+
+
+
+   //-- 07/11/2023
+  //-- Project Logo
+  
+
+
+
+  uploadImages() {
+
+    const filename = "XXX";
+    const filetype = "jpg";
+
+    this.projectService.uploadImages(this.fileToUpload, this.initial_current.CompCode, this.selectedProject.project_code).then((res) => {
+      let resultJSON = JSON.parse(res);
+      if (resultJSON.result == "1") {
+
+        setTimeout(() => {
+          this.doLoadImage();
+        }, 500);
+
+      }
+    });
+
+  }
+
   // doUploadGenaral() {
   //   this.displayUpload = false;
   //   const filename = "Project_" + this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
@@ -4195,6 +4268,8 @@ export class ProjectManageComponent implements OnInit {
 
 
 
+
+ 
 
 }
 

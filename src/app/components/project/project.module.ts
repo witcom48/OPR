@@ -56,6 +56,10 @@ import { ProjectTransferComponent } from './project-transfer/project-transfer.co
 import { ProjectCompareComponent } from './project-compare/project-compare.component';
 import { ProShiftComponent } from './policy/pro-shift/pro-shift.component';
 import { AttendanceModule } from '../attendance/attendance.module';
+
+import {ImageModule} from 'primeng/image';
+
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -94,7 +98,8 @@ import { AttendanceModule } from '../attendance/attendance.module';
 		DialogModule,
 		CheckboxModule,
 		UsercontrolModule,
-		AttendanceModule
+		AttendanceModule,
+		ImageModule,
 
 
 

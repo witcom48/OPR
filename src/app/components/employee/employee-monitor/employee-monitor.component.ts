@@ -147,6 +147,8 @@ export class EmployeeMonitorComponent implements OnInit {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
       this.chart.chart.update();
     }
+    console.log(this.doughnut2,'กำลังพล')
+
   }
 
 
@@ -196,6 +198,7 @@ export class EmployeeMonitorComponent implements OnInit {
 
       this.updateChart2();
     });
+    console.log(this.doughnut2,'เข้าใหม่ ลาออก')
   }
 
   updateChart2() {
