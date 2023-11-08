@@ -288,6 +288,21 @@ export class EmployeeService {
   }
 
   //attach file
+  public file_attach(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doUploadEmpDocatt?' + para, formData).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message;
+      });
+  }
+
   public getemp_filelist(model: EmpMTDocattModel) {
     var filter = {
       device_name: '',
@@ -343,4 +358,26 @@ export class EmployeeService {
         return res;
       });
   }
+  public deletefilepath_file(file_path: string) {
+    var para = "file_path=" + file_path;
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/doDeleteEmpDocatt?' + para, this.options).toPromise()
+        .then((res) => {
+            return JSON.parse(res);
+        });
+}
+public delete_file(file: EmpMTDocattModel) {
+    let data = {
+        device_name: "phone",
+        ip: "127.0.0.1",
+        username: this.initial_current.Username,
+        company_code: file.company_code || this.initial_current.CompCode,
+        jobtable_id: file.document_id,
+        job_id: file.job_id,
+    }
+    return this.http.post<any>(this.config.ApiEmployeeModule + '/empdoc_del', data, this.options).toPromise()
+        .then((res) => {
+            let message = JSON.parse(res);
+            return message;
+        });
+}
 }

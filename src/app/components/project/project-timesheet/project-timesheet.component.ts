@@ -215,6 +215,9 @@ export class ProjectTimesheetComponent implements OnInit {
         label: this.title_edit[this.initial_current.Language],
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
+          this.doLoadPolShift()
+          this.doLoadPolDaytype()
+          this.doLoadPolJobmain()
           this.displayManage = true
         }
       },
@@ -260,6 +263,7 @@ export class ProjectTimesheetComponent implements OnInit {
   doLoadTimecard() {
     this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
       this.timecard_list = await res;
+      console.log(res)
     });
   }
 
@@ -315,6 +319,7 @@ export class ProjectTimesheetComponent implements OnInit {
   shift_list: ShiftModels[] = [];
   doLoadPolShift() {
     var tmp = new ShiftModels();
+    tmp.project = true
     this.shiftServices.shift_get(tmp).then(async (res) => {
       this.shift_list = await res;
     });
@@ -349,7 +354,7 @@ export class ProjectTimesheetComponent implements OnInit {
   selectedJobmain: RadiovalueModel = new RadiovalueModel;
   doLoadPolJobmain() {
     this.jobmain_list = []
-    this.projectDetailService.projobmain_get("", "", "").then(async (res) => {
+    this.projectDetailService.projobmain_get("", this.selectedProject_fillter.project_code, "").then(async (res) => {
       this.jobmain_list = await res;
     });
   }
@@ -412,6 +417,10 @@ export class ProjectTimesheetComponent implements OnInit {
     this.selectedTimecard.company_code = this.selectEmp.selectedEmployee.company_code
     this.selectedTimecard.worker_code = this.selectEmp.selectedEmployee.worker_code
     this.selectedTimecard.timecard_workdate = this.selectedDate_fillter
+
+    this.doLoadPolShift()
+    this.doLoadPolDaytype()
+    this.doLoadPolJobmain()
 
     if (this.initial_current.Language == "EN") {
       this.emp_name = this.selectEmp.selectedEmployee.worker_fname_en + " " + this.selectEmp.selectedEmployee.worker_lname_en

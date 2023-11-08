@@ -202,8 +202,8 @@ export class PayrollSummaryComponent implements OnInit {
   selectedPaytran: PaytranModel = new PaytranModel();
   edit_paytran: boolean = false;
   doLoadPaytran(){
-    this.paytranService.paytran_get(this.initial_current.CompCode, "", this.worker_code, this.initial_current.PR_PayDate, this.initial_current.PR_PayDate).then((res) =>{
-      this.paytran_list = res;   
+    this.paytranService.paytran_get(this.initial_current.CompCode, "","", this.initial_current.PR_PayDate, this.initial_current.PR_PayDate).then((res) =>{
+      this.paytran_list = res;
     });
   }
 
