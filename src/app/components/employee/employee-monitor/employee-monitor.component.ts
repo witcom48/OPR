@@ -79,32 +79,36 @@ export class EmployeeMonitorComponent implements OnInit {
   title_of: { [key: string]: string } = { EN: "  of ", TH: "จาก" }
   title_entries: { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
   title_search_keyword: { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
-  	
+
   title_analytics: { [key: string]: string } = { EN: "Analytics", TH: "Analytics" }
   title_workers: { [key: string]: string } = { EN: "Workers", TH: "Workers" }
 
-  
+
   selectedEmployee: EmployeeModel = new EmployeeModel();
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
-    this.itemslike = [{ label: this.title_employee[this.initial_current.Language], routerLink: '/employee/policy' },
-    { label: this.title_monitor[this.initial_current.Language], styleClass: 'activelike' }];
+    this.itemslike = [{ label: this.title_monitor[this.initial_current.Language], styleClass: 'activelike' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
 
-
     this.doLoadMenu()
-    setTimeout(() => {
-      this.doLoadChart();
-      this.doLoadChart2();
-      this.doLoadChart3();
-      this.doLoadChart4();
-      this.doLoadChart5();
-    }, 500);
+
+    this.doLoadChart();
+    this.doLoadChart2();
+    this.doLoadChart3();
+    this.doLoadChart4();
+    this.doLoadChart5();
+
 
 
   }
-
+  // reloadPage() {
+  //   this.doLoadChart();
+  //   this.doLoadChart2();
+  //   this.doLoadChart3();
+  //   this.doLoadChart4();
+  //   this.doLoadChart5();
+  //  }
 
   ////////กำลังพล ปัจจุบัน
   doughnut1: ChartData = {
@@ -135,14 +139,22 @@ export class EmployeeMonitorComponent implements OnInit {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
 
         const resignDate = new Date(this.workerList[i].worker_resigndate);
-
-        if (this.workerList[i].worker_code) {
+        if (this.workerList[i].worker_code || this.workerList[i].worker_resignstatus == true && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+          // if (this.workerList[i].worker_resignstatus === false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
           personnel++;
-
-          if (hireDate.getTime() <= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
-            currentWorkers++;
-          }
         }
+        if (this.workerList[i].worker_resignstatus == false && (hireDate.getTime() <= temp_todate.getTime())) {
+          // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
+          currentWorkers++;
+
+        }
+        // if (this.workerList[i].worker_code || this.workerList[i].worker_resignstatus == false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+        // // if (this.workerList[i].worker_code) {
+        //   personnel++;
+        //   if (resignDate.getTime() <= temp_fromdate.getTime() && resignDate.getTime() >= temp_todate.getTime()) {
+        //     currentWorkers++;
+        // }
+        // }
       }
       this.doughnut1.labels = ['กำลังพล (' + personnel + ' คน)', 'ปัจจุบัน (' + currentWorkers + ' คน)'];
       this.doughnut1.datasets[0].data = [personnel, currentWorkers];
@@ -193,6 +205,7 @@ export class EmployeeMonitorComponent implements OnInit {
         // if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
         //   newWorkers++;1
         // }
+
         if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
 
           // if (this.workerList[i].worker_resignstatus === false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
@@ -202,7 +215,6 @@ export class EmployeeMonitorComponent implements OnInit {
         if (this.workerList[i].worker_resignstatus == true && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
           // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
           resignedWorkers++;
-
         }
       }
       // if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() < temp_fromdate.getTime()) {
@@ -210,9 +222,7 @@ export class EmployeeMonitorComponent implements OnInit {
       // }
       // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime())) {
       //   resignedWorkers++;
-
       // }
-
       this.doughnut2.labels = ['เข้าใหม่ (' + newWorkers + ' คน)', 'ลาออก (' + resignedWorkers + ' คน)'];
       this.doughnut2.datasets[0].data = [newWorkers, resignedWorkers];
 
@@ -319,7 +329,7 @@ export class EmployeeMonitorComponent implements OnInit {
     const temp_todate = new Date(this.initial_current.PR_ToDate);
 
     try {
-      const res = await this.employeeService.locationlist_get(this.initial_current.CompCode,  "");
+      const res = await this.employeeService.locationlist_get(this.initial_current.CompCode, "");
       this.locationList = res;
 
       let personnelOnDuty: number = 0;
@@ -337,12 +347,12 @@ export class EmployeeMonitorComponent implements OnInit {
 
 
         if (
-          this.locationList[i].worker_code || (this.workerList[i].worker_resignstatus === false &&resignDate.getTime() >= temp_fromdate.getTime() &&resignDate.getTime() <= temp_todate.getTime())
+          this.locationList[i].worker_code || (this.workerList[i].worker_resignstatus === false && resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())
         ) {
           currentWorkers++;
           console.log(currentWorkers, 'ปัจจุบัน');
         }
-        
+
 
 
       }

@@ -92,12 +92,15 @@
                 </div>
             </p-tabPanel>
 
-            <p-tabPanel>
-                <ng-template pTemplate="header">
+            <p-tabPanel >
+                <ng-template pTemplate="header" >
                     <!-- <i class="pi pi-file-import"></i>&nbsp;&nbsp; -->
                     <span>{{title_analytics[initial_current.Language]}}</span>
                 </ng-template>
-                <div class="col-12 " style="min-width: 600px; min-height: 500px">
+                <!-- <button pButton type="button" class="p-button-secondary button-size-small btndel" (click)="reloadPage()">
+                    <i class="pi pi-refresh icon-small"></i>
+                </button> -->
+                <div class="col-12 " style="min-width: 600px; min-height: 500px" >
                     <div class="grid">
                         <!--สถานที่ทำงาน-->
                         <div class="col-12 md:col-6">
@@ -114,7 +117,7 @@
 
                         <!-- พนักงานเข้าใหม่ดและลาออก -->
                         <div class="col-12 md:col-6">
-                            <label> พนักงานเข้าใหม่ และ ลาออก </label>
+                            <label> พนักงานเข้าใหม่ และ ลาออก </label> 
 
                             <p-chart type="doughnut" [data]="doughnut2" [options]="doughnutChartOptions2"></p-chart>
                         </div>
