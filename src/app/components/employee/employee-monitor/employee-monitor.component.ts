@@ -79,7 +79,8 @@ export class EmployeeMonitorComponent implements OnInit {
   title_of: { [key: string]: string } = { EN: "  of ", TH: "จาก" }
   title_entries: { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
   title_search_keyword: { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
-
+  	
+  title_analytics: { [key: string]: string } = { EN: "Analytics", TH: "Analytics" }
 
   selectedEmployee: EmployeeModel = new EmployeeModel();
 
