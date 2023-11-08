@@ -11,7 +11,7 @@ export class EmpLocationModel {
     emplocation_startdate!: Date;
     emplocation_enddate!: Date;
     emplocation_note:string= "";
-  
+    worker_resignstatus:string= "";
     modified_by: string= "";
     modified_date: string= ""; 
   

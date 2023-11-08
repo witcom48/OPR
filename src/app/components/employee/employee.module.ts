@@ -142,6 +142,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     EmployeeGroupComponent,
     EmpsettrainingComponent,
     EmpsetassessmentComponent,
-  ]
+  ],
+  exports: [EmployeeMonitorComponent],
+
 })
 export class EmployeeModule { }

@@ -74,18 +74,21 @@ export class EmployeeMonitorComponent implements OnInit {
   title_employee: { [key: string]: string } = { EN: " Employee ", TH: "พนักงาน" }
   title_monitor: { [key: string]: string } = { EN: " Monitor ", TH: "กระดานแสดงผล" }
 
-  title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
-  title_to : { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
-  title_of : { [key: string]: string } = { EN: "  of ", TH: "จาก" }
-  title_entries : { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
+  title_showing: { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
+  title_to: { [key: string]: string } = { EN: "  to ", TH: "ถึง" }
+  title_of: { [key: string]: string } = { EN: "  of ", TH: "จาก" }
+  title_entries: { [key: string]: string } = { EN: "  entries ", TH: "รายการ" }
   title_search_keyword: { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
+
+
+  selectedEmployee: EmployeeModel = new EmployeeModel();
 
   ngOnInit(): void {
     this.doGetInitialCurrent();
     this.itemslike = [{ label: this.title_employee[this.initial_current.Language], routerLink: '/employee/policy' },
     { label: this.title_monitor[this.initial_current.Language], styleClass: 'activelike' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
-   
+
 
     this.doLoadMenu()
     setTimeout(() => {
@@ -119,7 +122,7 @@ export class EmployeeMonitorComponent implements OnInit {
   doLoadChart() {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
-    this.employeeService.worker_get(this.initial_current.CompCode, '').then(async (res) => {
+    this.employeeService.worker_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
       this.workerList = await res;
 
       let personnel: number = 0;
@@ -130,7 +133,7 @@ export class EmployeeMonitorComponent implements OnInit {
 
         const resignDate = new Date(this.workerList[i].worker_resigndate);
 
-        if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() < temp_fromdate.getTime()) {
+        if (this.workerList[i].worker_code) {
           personnel++;
 
           if (hireDate.getTime() <= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
@@ -147,8 +150,6 @@ export class EmployeeMonitorComponent implements OnInit {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
       this.chart.chart.update();
     }
-    console.log(this.doughnut2,'กำลังพล')
-
   }
 
 
@@ -174,8 +175,10 @@ export class EmployeeMonitorComponent implements OnInit {
   doLoadChart2() {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
+    var tmp = new EmployeeModel();
+    tmp.worker_code = this.selectedEmployee.worker_code
 
-    this.employeeService.worker_get(this.initial_current.CompCode, '').then(async (res) => {
+    this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
       this.workerList = await res;
       let newWorkers: number = 0;
       let resignedWorkers: number = 0;
@@ -183,22 +186,35 @@ export class EmployeeMonitorComponent implements OnInit {
       for (let i = 0; i < this.workerList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
         const resignDate = new Date(this.workerList[i].worker_resigndate);
-        if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() < temp_fromdate.getTime()) {
+
+        // if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+        //   newWorkers++;1
+        // }
+        if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+
+          // if (this.workerList[i].worker_resignstatus === false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
           newWorkers++;
         }
-        if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime())) {
+
+        if (this.workerList[i].worker_resignstatus == true && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
           // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
           resignedWorkers++;
 
         }
       }
+      // if (this.workerList[i].worker_resignstatus == false && hireDate.getTime() < temp_fromdate.getTime()) {
+      //   newWorkers++;
+      // }
+      // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime())) {
+      //   resignedWorkers++;
+
+      // }
 
       this.doughnut2.labels = ['เข้าใหม่ (' + newWorkers + ' คน)', 'ลาออก (' + resignedWorkers + ' คน)'];
       this.doughnut2.datasets[0].data = [newWorkers, resignedWorkers];
 
       this.updateChart2();
     });
-    console.log(this.doughnut2,'เข้าใหม่ ลาออก')
   }
 
   updateChart2() {
@@ -231,31 +247,32 @@ export class EmployeeMonitorComponent implements OnInit {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
 
-    this.employeeService.worker_get(this.initial_current.CompCode, '').then(async (res) => {
+    this.employeeService.worker_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
       this.workerList = await res;
 
-      let regularWorkers: number = 0; // จำนวนพนักงานประจำ
-      let temporaryWorkers: number = 0; // จำนวนพนักงานชั่วคราว
+      let regularEmp: number = 0; // จำนวนพนักงานประจำ
+      let temporaryEmp: number = 0; // จำนวนพนักงานชั่วคราว
 
       for (let i = 0; i < this.workerList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
         const resignDate = new Date(this.workerList[i].worker_resigndate);
 
-        if (this.workerList[i].worker_status === "F" && hireDate.getTime() <= temp_fromdate.getTime()) {
-          regularWorkers++;
-
-          if (this.workerList[i].worker_status === "T" && (resignDate.getTime() >= temp_fromdate.getTime())) {
-            // if (this.workerList[i].worker_resignstatus === true &&hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
-
-            temporaryWorkers++;
-
-          }
+        if (this.workerList[i].worker_status === "F" && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+          regularEmp++;
         }
+        if (this.workerList[i].worker_status === "T" && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+          // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
+          temporaryEmp++;
+
+        }
+
+
+
       }
 
-      this.doughnut3.labels = ['พนักงานประจำ (' + regularWorkers + ' คน)', 'พนักงานชั่วคราว (' + temporaryWorkers + ' คน)'
+      this.doughnut3.labels = ['พนักงานประจำ (' + regularEmp + ' คน)', 'พนักงานชั่วคราว (' + temporaryEmp + ' คน)'
       ];
-      this.doughnut3.datasets[0].data = [regularWorkers, temporaryWorkers];
+      this.doughnut3.datasets[0].data = [regularEmp, temporaryEmp];
       this.updateChart3();
     });
   }
@@ -299,30 +316,32 @@ export class EmployeeMonitorComponent implements OnInit {
     const temp_todate = new Date(this.initial_current.PR_ToDate);
 
     try {
-      const res = await this.employeeService.locationlist_get(this.initial_current.CompCode, '');
+      const res = await this.employeeService.locationlist_get(this.initial_current.CompCode,  "");
       this.locationList = res;
 
-      let personnelOnDuty = 0;
-      let currentWorkers = 0;
+      let personnelOnDuty: number = 0;
+      let currentWorkers: number = 0;
 
       for (let i = 0; i < this.locationList.length; i++) {
-        // const hireDate = new Date(this.locationList[i].emplocation_startdate);
-        // const resignDate = new Date(this.locationList[i].emplocation_enddate);
-
-        const hireDate = new Date(this.workerList[i].worker_hiredate);
-        const resignDate = new Date(this.workerList[i].worker_resigndate);
-
+        const hireDate = new Date(this.locationList[i].emplocation_startdate);
+        const resignDate = new Date(this.locationList[i].emplocation_enddate);
+        // const hireDate = new Date(this.workerList[i].worker_hiredate);
+        // const resignDate = new Date(this.workerList[i].worker_resigndate);
         if (this.locationList[i].worker_code) {
           personnelOnDuty++;
-          // console.log(personnelOnDuty, 'กำลังพล');
-
-
-          if (this.locationList[i].worker_code && resignDate.getTime() >= temp_fromdate.getTime()) {
-            currentWorkers++;
-            // console.log(currentWorkers, 'จำนวนพนักงานปัจจุบัน');
-
-          }
         }
+        // if (this.locationList[i].worker_resignstatus === "0" && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+
+
+        if (
+          this.locationList[i].worker_code || (this.workerList[i].worker_resignstatus === false &&resignDate.getTime() >= temp_fromdate.getTime() &&resignDate.getTime() <= temp_todate.getTime())
+        ) {
+          currentWorkers++;
+          console.log(currentWorkers, 'ปัจจุบัน');
+        }
+        
+
+
       }
 
       const locationLabels = this.locationList.map(location => `${location.location_name_th} (${location.worker_code} คน)`);
@@ -330,11 +349,8 @@ export class EmployeeMonitorComponent implements OnInit {
       this.barChartData4.labels = locationLabels;
       this.barChartData4.datasets[0].data = Array(locationLabels.length).fill(personnelOnDuty);
       this.barChartData4.datasets[1].data = Array(locationLabels.length).fill(currentWorkers);
-
-
       this.updateChart4();
     } catch (error) {
-      console.error(error);
     }
   }
 
@@ -366,34 +382,39 @@ export class EmployeeMonitorComponent implements OnInit {
     responsive: true,
     maintainAspectRatio: false,
   };
-  public emptypeList: EmptypeModel[] = [];
 
-  worker_type: any;
-  worker_code: any;
   doLoadChart5() {
     const temp_fromdate = new Date(this.initial_current.PR_FromDate);
     const temp_todate = new Date(this.initial_current.PR_ToDate);
 
-    this.employeeService.typelist_get(this.initial_current.CompCode, '').then(async (res) => {
-      this.emptypeList = await res;
+    this.employeeService.worker_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
+      this.workerList = await res;
+
       let regularWorkerst: number = 0; // จำนวนพนักงานรายวัน
       let temporaryWorkers: number = 0; // จำนวนพนักงานรายเดือน
 
-      for (let i = 0; i < this.emptypeList.length; i++) {
+
+
+      for (let i = 0; i < this.workerList.length; i++) {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
-        if (this.workerList[i].worker_type === 'M' || this.emptypeList[i].type_code === 'M' && hireDate.getTime() < temp_fromdate.getTime()) {
+        const resignDate = new Date(this.workerList[i].worker_resigndate);
+
+        if (this.workerList[i].worker_type === "D" && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
           regularWorkerst++;
-
         }
-
-        if (this.workerList[i].worker_type === 'D' || this.emptypeList[i].type_code === 'D') {
+        if (this.workerList[i].worker_type === "M" && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+          // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
           temporaryWorkers++;
+
         }
+
+
+
       }
 
-      this.doughnut5.labels = ['พนักงานรายวัน (' + regularWorkerst + ' คน)', 'พนักงานรายเดือน (' + temporaryWorkers + ' คน)'];
+      this.doughnut5.labels = ['พนักงานรายวัน (' + regularWorkerst + ' คน)', 'พนักงานรายเดือน (' + temporaryWorkers + ' คน)'
+      ];
       this.doughnut5.datasets[0].data = [regularWorkerst, temporaryWorkers];
-
       this.updateChart5();
     });
   }

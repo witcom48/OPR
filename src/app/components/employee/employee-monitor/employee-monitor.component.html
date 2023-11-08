@@ -6,26 +6,35 @@
     <div class="grid">
         <!--สถานที่ทำงาน-->
         <div class="col-12 md:col-6">
+            <label> สถานที่ทำงาน </label>
+
             <p-chart type="bar" [data]="barChartData4" [options]="barChartOptions4"></p-chart>
         </div>
 
         <!-- พนักงานทั้งหมด -->
         <div class="col-12 md:col-6 ">
+            <label> พนักงานทั้งหมด </label>
             <p-chart type="doughnut" [data]="doughnut1" [options]="doughnutChartOptions1"></p-chart>
         </div>
 
-        <!-- พนักงานทั้งหมดและลาออก -->
+        <!-- พนักงานเข้าใหม่ดและลาออก -->
         <div class="col-12 md:col-6">
+            <label> พนักงานเข้าใหม่ และ ลาออก </label>
+
             <p-chart type="doughnut" [data]="doughnut2" [options]="doughnutChartOptions2"></p-chart>
         </div>
 
         <!-- พนักงานประจำ และชั่วคราว-->
         <div class="col-12 md:col-6">
+            <label> พนักงานประจำ และ ชั่วคราว </label>
+
             <p-chart type="doughnut" [data]="doughnut3" [options]="doughnutChartOptions3"></p-chart>
         </div>
 
         <!-- พนักงานรายวัน เดือน-->
         <div class="col-12 md:col-6">
+            <label> พนักงานรายวัน เดือน</label>
+
             <p-chart type="doughnut" [data]="doughnut5" [options]="doughnutChartOptions5"></p-chart>
         </div>
     </div>
