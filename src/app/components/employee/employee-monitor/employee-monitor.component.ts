@@ -81,7 +81,9 @@ export class EmployeeMonitorComponent implements OnInit {
   title_search_keyword: { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
   	
   title_analytics: { [key: string]: string } = { EN: "Analytics", TH: "Analytics" }
+  title_workers: { [key: string]: string } = { EN: "Workers", TH: "Workers" }
 
+  
   selectedEmployee: EmployeeModel = new EmployeeModel();
 
   ngOnInit(): void {
