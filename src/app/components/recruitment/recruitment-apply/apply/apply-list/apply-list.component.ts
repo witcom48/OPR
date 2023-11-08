@@ -449,6 +449,7 @@ export class ApplyListComponent implements OnInit {
   }
 
   doUploadApplywork() {
+    this.selectedReqworker.selected_Import = "REQWORKER"
     if (this.fileToUpload) {
       this.confirmationService.confirm({
         message: "Confirm Upload file : " + this.fileToUpload.name,

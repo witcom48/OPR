@@ -4725,11 +4725,11 @@ export class EmployeeManageComponent implements OnInit {
     this.empbranchList = [];
     this.empbranchList = itemNew;
     this.empbranchList.sort(function (a, b) { return parseInt(a.empbranch_id) - parseInt(b.empbranch_id); })
-    if (this.empbranchList.length) {
-      this.doGetNewCode(this.selectedEmployee.worker_type, this.empbranchList.slice(-1)[0].branch_code);
-    } else {
-      this.doGetNewCode(this.selectedEmployee.worker_type, "");
-    }
+    // if (this.empbranchList.length) {
+    //   this.doGetNewCode(this.selectedEmployee.worker_type, this.empbranchList.slice(-1)[0].branch_code);
+    // } else {
+    //   this.doGetNewCode(this.selectedEmployee.worker_type, "");
+    // }
   }
   record_empbranch() {
     if (this.empbranchList.length == 0) {
