@@ -139,23 +139,33 @@ export class EmployeeMonitorComponent implements OnInit {
         const hireDate = new Date(this.workerList[i].worker_hiredate);
 
         const resignDate = new Date(this.workerList[i].worker_resigndate);
-        if (this.workerList[i].worker_code || this.workerList[i].worker_resignstatus == true && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
-          // if (this.workerList[i].worker_resignstatus === false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+
+        if (this.workerList[i].worker_code) {
           personnel++;
         }
-        if (this.workerList[i].worker_resignstatus == false && (hireDate.getTime() <= temp_todate.getTime())) {
-          // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
+        if (this.workerList[i].worker_resignstatus === false && (resignDate.getTime() <= temp_todate.getTime())) {
           currentWorkers++;
-
         }
-        // if (this.workerList[i].worker_code || this.workerList[i].worker_resignstatus == false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
-        // // if (this.workerList[i].worker_code) {
-        //   personnel++;
-        //   if (resignDate.getTime() <= temp_fromdate.getTime() && resignDate.getTime() >= temp_todate.getTime()) {
-        //     currentWorkers++;
-        // }
-        // }
       }
+      // for (let i = 0; i < this.workerList.length; i++) {
+      //   const hireDate = new Date(this.workerList[i].worker_hiredate);
+      //   const resignDate = new Date(this.workerList[i].worker_resigndate);
+      //   if (this.workerList[i].worker_code || this.workerList[i].worker_resignstatus == true && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+      //     // if (this.workerList[i].worker_resignstatus === false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+      //     personnel++;
+      //   }
+      //   if (this.workerList[i].worker_resignstatus == false && (hireDate.getTime() <= temp_todate.getTime())) {
+      //     // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
+      //     currentWorkers++;
+      //   }
+      //   // if (this.workerList[i].worker_code || this.workerList[i].worker_resignstatus == false && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+      //   // // if (this.workerList[i].worker_code) {
+      //   //   personnel++;
+      //   //   if (resignDate.getTime() <= temp_fromdate.getTime() && resignDate.getTime() >= temp_todate.getTime()) {
+      //   //     currentWorkers++;
+      //   // }
+      //   // }
+      // }
       this.doughnut1.labels = ['กำลังพล (' + personnel + ' คน)', 'ปัจจุบัน (' + currentWorkers + ' คน)'];
       this.doughnut1.datasets[0].data = [personnel, currentWorkers];
       this.updateChart();
@@ -273,9 +283,11 @@ export class EmployeeMonitorComponent implements OnInit {
         if (this.workerList[i].worker_status === "F" && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
           regularEmp++;
         }
-        if (this.workerList[i].worker_status === "T" && hireDate.getTime() >= temp_fromdate.getTime() && hireDate.getTime() <= temp_todate.getTime()) {
+        if (this.workerList[i].worker_status === "T" && hireDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime()) {
           // if (this.workerList[i].worker_resignstatus == true && (resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())) {
           temporaryEmp++;
+          // if (this.workerList[i].worker_status === "T"  && (resignDate.getTime() <= temp_todate.getTime())) {
+
 
         }
 
