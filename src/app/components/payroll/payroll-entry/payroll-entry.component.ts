@@ -215,7 +215,7 @@ export class PayrollEntryComponent implements OnInit {
             this.title_code = 'รหัส';
             this.title_details = 'รายละเอียด';
             this.title_amount = 'จำนวนเงิน';
-            this.title_quantity = 'จำนวน';
+            this.title_quantity = 'ปริมาณ';
             this.title_bank_transfer_cash = 'โอนธนาคาร/เงินสด';
             this.title_note = 'หมายเหตุ';
             this.title_no = 'ลำดับที่';

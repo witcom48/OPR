@@ -1455,7 +1455,9 @@ export class ProjectDetailService {
   }
 
   //-- Job version
-  public projobversion_get(project: string) {
+  public projobversion_get(project: string,fromdate: Date, todate: Date) {
+    let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
 
     var filter = {
       device_name: '',
@@ -1470,8 +1472,9 @@ export class ProjectDetailService {
       project_codecentral: "",
       project_protype: "",
       project_probusiness: "",
-      fromdate: "",
-      todate: ""
+      fromdate: datefrom,
+      todate: dateto,
+  
     };
 
 
@@ -1482,6 +1485,34 @@ export class ProjectDetailService {
         return message.data;
       });
   }
+
+  // public projobversion_get(project: string) {
+
+  //   var filter = {
+  //     device_name: '',
+  //     ip: "localhost",
+  //     username: this.initial_current.Username,
+  //     company: "",
+  //     language: "",
+  //     project_code: project,
+  //     project_name_th: "",
+  //     project_name_en: "",
+  //     project_name_sub: "",
+  //     project_codecentral: "",
+  //     project_protype: "",
+  //     project_probusiness: "",
+  //     fromdate: "",
+  //     todate: ""
+  //   };
+
+
+  //   return this.http.post<any>(this.config.ApiProjectModule + '/projobversion_list', filter, this.options).toPromise()
+  //     .then((res) => {
+  //       let message = JSON.parse(res);
+  //       //// console.log(res)
+  //       return message.data;
+  //     });
+  // }
 
   public projobversion_record(model: ProjobversionModel) {
     const data = {

@@ -1675,7 +1675,6 @@ export class ProjectManageComponent implements OnInit {
           this.doLoadProcontract()
           this.doLoadProresponsible()
           this.doLoadProtimepol()
-
           this.doLoadProjobversion()
           //this.doLoadProjobsub()
           this.doGetFilePro()
@@ -2047,7 +2046,7 @@ export class ProjectManageComponent implements OnInit {
       if (resultJSON.result == "1") {
         this.base64Image = resultJSON.data;
       }
-     });
+    });
 
   }
 
@@ -2571,7 +2570,8 @@ export class ProjectManageComponent implements OnInit {
       }
     });
   }
-
+  selectedDate_fillter: Date = new Date()
+  selectedToDate_fillter: Date = new Date()
   //-- Job version
 
   version_selected: string = "";
@@ -2587,10 +2587,8 @@ export class ProjectManageComponent implements OnInit {
   manageProjobversion: ProjobversionModel = new ProjobversionModel();
 
   doLoadProjobversion() {
-
     this.selectedProjobversion = new ProjobversionModel()
-
-    this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
+    this.projectDetailService.projobversion_get(this.project_code, this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
 
       this.projobversion_list = await res;
 
@@ -2598,10 +2596,7 @@ export class ProjectManageComponent implements OnInit {
         this.selectedProjobversion = this.projobversion_list[0]
         this.printVersion()
       }
-
     });
-
-
     setTimeout(() => {
       this.doLoadProjobmain()
     }, 1000);
@@ -3217,7 +3212,7 @@ export class ProjectManageComponent implements OnInit {
       if (this.projobshift_list.length > 0) {
         this.selectedProjobshift = this.projobshift_list[0]
       }
-     });
+    });
   }
   onRowSelectProjobshift(event: Event) {
 
@@ -4391,7 +4386,7 @@ export class ProjectManageComponent implements OnInit {
           }
         })
       },
-      
+
       reject: () => {
 
       }
