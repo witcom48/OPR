@@ -89,6 +89,8 @@ import { EmpForeignercardModel } from 'src/app/models/employee/manage/foreignerc
 import { BlacklistModel } from 'src/app/models/recruitment/blacklist';
 import { BlacklistService } from 'src/app/services/recruitment/blacklist.service';
 import { EmpExperienceModel } from 'src/app/models/employee/manage/experience';
+import { ForetypeModel } from 'src/app/models/employee/policy/foretype';
+import { ForetypeService } from 'src/app/services/emp/policy/foretype.service';
 
 interface Taxmethod {
     name_th: string;
@@ -183,6 +185,10 @@ export class RecruitmentApplyComponent implements OnInit {
     menu_reqforeigner: MenuItem[] = [];
     edit_reqforeigner: boolean = false;
     new_foreigner: boolean = false;
+    ////////////////////////////////////menu reqforeignercard
+    menu_reqforeignercard: MenuItem[] = [];
+    edit_reqforeignercard: boolean = false;
+    new_foreignercard: boolean = false;
     /////////////////////////////////////menu reqeducation
     menu_reqeducation: MenuItem[] = [];
     edit_reqeducation: boolean = false;
@@ -264,6 +270,8 @@ export class RecruitmentApplyComponent implements OnInit {
         private requestService: RequestService,
         private ethnicityService: EthnicityService,
         private blacklistService: BlacklistService,
+        private foretypeService: ForetypeService,
+
     ) {
         this.taxM = [
             { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -356,6 +364,7 @@ export class RecruitmentApplyComponent implements OnInit {
         this.doLoadEthnicityList();
 
         this.doLoadBlacklistList();
+        this.doLoadForetypeList();
 
         setTimeout(() => {
             this.doLoadMenu();
@@ -619,8 +628,12 @@ export class RecruitmentApplyComponent implements OnInit {
     //
     title_foreignercode: { [key: string]: string } = { EN: "Code", TH: "เลขที่" };
     title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
+    title_foreignercard: { [key: string]: string } = { EN: "Card", TH: "บัตร" };
+    title_foreignercardtype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
     title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
     title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
+    title_foreignersso: { [key: string]: string } = { EN: "Sent SSO", TH: "นำส่งประกันสังคม" };
+    title_cards: { [key: string]: string } = { EN: "  Card ", TH: "บัตร" }
     //
     title_haveblack: { [key: string]: string } = { EN: "Have Blacklist want to continue?", TH: "ผู้สมัครนี้มีประวัติ blacklist ต้องการดำเนินการต่อหรือไม่?" };
     title_50nocer: { [key: string]: string } = { EN: "This applicant is over 50 years old and must provide a medical certificate. Do you want to save now?", TH: "ผู้สมัครดังกล่าวมีอายุมากกว่า 50 ปี ต้องเพิ่มใบรับรองแพทย์ด้วย ต้องการบันทึกหรือไม่?" };
@@ -1455,12 +1468,14 @@ export class RecruitmentApplyComponent implements OnInit {
                 label: this.title_new,
                 icon: 'pi pi-fw pi-plus',
                 command: (event) => {
-                    this.clearManage()
-                    this.new_foreigner = true
-                    var ref = this.reqforeignercardList.length + 100
-                    this.selectedReqforeignercard = new EmpForeignercardModel()
-                    this.selectedReqforeignercard.foreignercard_id = ref.toString()
-                    this.showManage()
+                    if (this.reqforeignerList.length < 1) {
+                        this.clearManage()
+                        this.new_foreigner = true
+                        var ref = this.reqforeignerList.length + 100
+                        this.selectedReqforeigner = new EmpForeignerModel()
+                        this.selectedReqforeigner.foreigner_id = ref.toString()
+                        this.showManage()
+                    }
                 }
             },
             {
@@ -1468,7 +1483,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 icon: 'pi pi-fw pi-pencil',
                 command: (event) => {
                     this.clearManage()
-                    if (this.selectedReqforeignercard != null) {
+                    if (this.selectedReqforeigner != null) {
                         this.edit_reqforeigner = true
                         this.showManage()
                     }
@@ -1483,8 +1498,8 @@ export class RecruitmentApplyComponent implements OnInit {
                         header: this.title_confirm,
                         icon: 'pi pi-exclamation-triangle',
                         accept: () => {
-                            if (this.selectedReqforeignercard != null) {
-                                this.reqforeignercard_remove()
+                            if (this.selectedReqforeigner != null) {
+                                this.reqforeigner_remove()
                             }
                         },
                         reject: () => {
@@ -1504,6 +1519,21 @@ export class RecruitmentApplyComponent implements OnInit {
             //   }
             // },
         ];
+        //menu foreigner card
+        this.menu_reqforeignercard = [
+            {
+                label: this.title_new,
+                icon: 'pi-plus',
+                command: (event) => {
+                    this.new_foreignercard = true
+                    var ref = this.reqforeignercardList.length + 100
+                    this.selectedReqforeignercard.foreignercard_id = ref.toString()
+                    this.selectedReqforeignercard = new EmpForeignercardModel();
+                    this.displayaddForeCard = true;
+                    this.displayeditForeCard = false;
+                }
+            },
+        ]
 
         //menu experience
         this.menu_reqexperience = [
@@ -1715,7 +1745,7 @@ export class RecruitmentApplyComponent implements OnInit {
                         //
                         this.doLoadReqaddressList();
                         this.doLoadReqcardList();
-                        // this.doLoadReqForeigner();
+                        this.doLoadReqForeigner();
                         this.doLoadReqForeignercardList();
 
                         this.doLoadReqeducationList();
@@ -1869,9 +1899,9 @@ export class RecruitmentApplyComponent implements OnInit {
             this.position_list = res;
         })
     }
-    changepos(code: string){
-        for( let i = 0; i< this.position_list.length; i++){
-            if(this.position_list[i].request_position == code){
+    changepos(code: string) {
+        for (let i = 0; i < this.position_list.length; i++) {
+            if (this.position_list[i].request_position == code) {
                 this.selectedReqPosition.request_code = this.position_list[i].request_code
             }
         }
@@ -1921,6 +1951,13 @@ export class RecruitmentApplyComponent implements OnInit {
     doLoadBlacklistList() {
         this.blacklistService.blacklist_get(this.initial_current.CompCode, "", "").then((res) => {
             this.blacklistList = res;
+        })
+    }
+    //drop foretype
+    foretype_List: ForetypeModel[] = [];
+    doLoadForetypeList() {
+        this.foretypeService.foretype_get().then((res) => {
+            this.foretype_List = res;
         })
     }
 
@@ -2086,34 +2123,67 @@ export class RecruitmentApplyComponent implements OnInit {
     reqforeignerList: EmpForeignerModel[] = [];
     selectedReqforeigner: EmpForeignerModel = new EmpForeignerModel();
     doLoadReqForeigner() {
-        this.reqdetailService
-            .getapplywork_foreigner(
-                this.initial_current.CompCode,
-                this.req_code
-            )
-            .then(async (res) => {
-                await res.forEach((element: EmpForeignerModel) => {
-                    element.passport_issue = new Date(element.passport_issue);
-                    element.passport_expire = new Date(element.passport_expire);
-                    element.visa_issue = new Date(element.visa_issue);
-                    element.visa_expire = new Date(element.visa_expire);
-                    element.workpermit_issue = new Date(
-                        element.workpermit_issue
-                    );
-                    element.workpermit_expire = new Date(
-                        element.workpermit_expire
-                    );
-                    element.entry_date = new Date(element.entry_date);
-                    element.certificate_expire = new Date(
-                        element.certificate_expire
-                    );
-                    element.otherdoc_expire = new Date(element.otherdoc_expire);
-                });
-                this.reqforeignerList = await res;
-                if (this.reqforeignerList.length > 0) {
-                    this.selectedReqforeigner = this.reqforeignerList[0];
-                }
+        this.reqdetailService.getapplywork_foreigner(this.initial_current.CompCode, this.req_code).then(async (res) => {
+            await res.forEach((element: EmpForeignerModel) => {
+                element.entry_date = new Date(element.entry_date)
+                // element.passport_issue = new Date(element.passport_issue);
+                // element.passport_expire = new Date(element.passport_expire);
+                // element.visa_issue = new Date(element.visa_issue);
+                // element.visa_expire = new Date(element.visa_expire);
+                // element.workpermit_issue = new Date(element.workpermit_issue);
+                // element.workpermit_expire = new Date(element.workpermit_expire);
+                // element.entry_date = new Date(element.entry_date);
+                // element.certificate_expire = new Date(element.certificate_expire);
+                // element.otherdoc_expire = new Date(element.otherdoc_expire);
             });
+            this.reqforeignerList = await res;
+            if (this.reqforeignerList.length > 0) {
+                this.selectedReqforeigner = this.reqforeignerList[0];
+            }
+        });
+    }
+    onRowSelectReqForeigner(event: Event) { }
+    reqforeigner_summit() {
+        this.reqforeigner_addItem(this.selectedReqforeigner)
+        this.new_foreigner = false
+        this.edit_reqforeigner = false
+        this.displayManage = false
+    }
+    reqforeigner_remove() {
+        this.selectedReqforeigner.foreigner_id = "9999";
+        this.reqforeigner_addItem(this.selectedReqforeigner)
+        this.new_foreigner = false
+        this.edit_reqforeigner = false
+    }
+    reqforeigner_delete() {
+        var tmp: EmpForeignerModel = new EmpForeignerModel();
+        tmp.worker_code = this.selectedReqworker.worker_code
+        this.reqdetailService.delete_reqforeigner(tmp).then((res) => {
+            let result = JSON.parse(res);
+        });
+    }
+    reqforeigner_cancel() {
+        this.new_foreigner = false
+        this.edit_reqforeigner = false
+        this.displayManage = false
+    }
+    reqforeigner_addItem(model: EmpForeignerModel) {
+        const itemNew: EmpForeignerModel[] = [];
+        for (let i = 0; i < this.reqforeignerList.length; i++) {
+            if (this.reqforeignerList[i].foreigner_id == model.foreigner_id) {
+                //-- Notting
+            }
+            else {
+                itemNew.push(this.reqforeignerList[i]);
+            }
+        }
+        //-- 9999 for delete
+        if (model.foreigner_id != "9999") {
+            itemNew.push(model);
+        }
+        this.reqforeignerList = [];
+        this.reqforeignerList = itemNew;
+        this.reqforeignerList.sort(function (a, b) { return parseInt(a.foreigner_id) - parseInt(b.foreigner_id); })
     }
     record_reqforeigner() {
         this.reqdetailService.record_reqforeigner(
@@ -2122,6 +2192,8 @@ export class RecruitmentApplyComponent implements OnInit {
         );
     }
     //--foreignercard
+    displayaddForeCard: boolean = false;
+    displayeditForeCard: boolean = false;
     reqforeignercardList: EmpForeignercardModel[] = [];
     selectedReqforeignercard: EmpForeignercardModel = new EmpForeignercardModel();
     doLoadReqForeignercardList() {
@@ -2136,12 +2208,16 @@ export class RecruitmentApplyComponent implements OnInit {
             }
         })
     }
-    onRowSelectReqForeignercard(event: Event) { }
+    onRowSelectReqForeignercard(event: Event) {
+        this.displayaddForeCard = false;
+        this.displayeditForeCard = false;
+    }
     reqforeignercard_summit() {
         this.reqforeignercard_addItem(this.selectedReqforeignercard)
-        this.new_foreigner = false
-        this.edit_reqforeigner = false
-        this.displayManage = false
+        this.new_foreignercard = false
+        this.edit_reqforeignercard = false
+        this.displayaddForeCard = false
+        this.displayeditForeCard = false
     }
     reqforeignercard_remove() {
         this.selectedReqforeignercard.foreignercard_id = "9999";
@@ -2157,9 +2233,10 @@ export class RecruitmentApplyComponent implements OnInit {
         });
     }
     reqforeignercard_cancel() {
-        this.new_foreigner = false
-        this.edit_reqforeigner = false
-        this.displayManage = false
+        this.new_foreignercard = false
+        this.edit_reqforeignercard = false
+        this.displayaddForeCard = false
+        this.displayeditForeCard = false
     }
     reqforeignercard_addItem(model: EmpForeignercardModel) {
         const itemNew: EmpForeignercardModel[] = [];
@@ -2191,7 +2268,35 @@ export class RecruitmentApplyComponent implements OnInit {
                 }
             });
         }
-
+    }
+    Saveforecard() {
+        if (!this.displayeditForeCard) {
+            this.selectedReqforeigner.foreigner_card = this.selectedReqforeigner.foreigner_card.concat({
+                company_code: this.selectedReqforeigner.company_code,
+                worker_code: this.selectedReqforeigner.worker_code,
+                foreignercard_id: "0",
+                foreignercard_code: this.selectedReqforeignercard.foreignercard_code,
+                foreignercard_type: this.selectedReqforeignercard.foreignercard_type,
+                foreignercard_issue: this.selectedReqforeignercard.foreignercard_issue,
+                foreignercard_expire: this.selectedReqforeignercard.foreignercard_expire,
+                modified_by: this.initial_current.Username,
+                modified_date: ""
+            })
+            this.selectedReqforeignercard = new EmpForeignercardModel();
+            this.displayaddForeCard = false;
+            this.displayeditForeCard = false;
+        }
+    }
+    DeleteForecard() {
+        this.selectedReqforeigner.foreigner_card = this.selectedReqforeigner.foreigner_card.filter((item) => {
+            return item !== this.selectedReqforeignercard;
+        });
+        this.selectedReqforeignercard = new EmpForeignercardModel();
+        this.displayaddForeCard = false;
+        this.displayeditForeCard = false;
+    }
+    closeforecard() {
+        this.selectedReqforeignercard = new EmpForeignercardModel();
     }
 
     //education
@@ -4280,6 +4385,20 @@ export class RecruitmentApplyComponent implements OnInit {
             }
         }
     }
+    //
+    doGetforetype(Code: string): any {
+        for (let i = 0; i < this.foretype_List.length; i++) {
+            if (this.foretype_List[i].foretype_code == Code) {
+                if (this.initial_current.Language == "TH") {
+                    return this.foretype_List[i].foretype_name_th;
+                }
+                else {
+                    return this.foretype_List[i].foretype_name_en;
+                }
+            }
+        }
+    }
+
     //check blacklist
     checkBlacklist(Code: string): any {
         for (let i = 0; i < this.blacklistList.length; i++) {

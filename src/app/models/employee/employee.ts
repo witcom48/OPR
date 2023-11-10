@@ -67,6 +67,7 @@ export class EmployeeModel {
 
   selected_Import: string = "";
   selected_Attachfile:string = "";
+  selected_Doctype:string = "";
   location_code: boolean = false;
 
   // recruiment

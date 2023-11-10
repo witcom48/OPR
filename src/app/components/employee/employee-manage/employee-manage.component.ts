@@ -111,6 +111,12 @@ import { ProvidentWorkageModel } from 'src/app/models/payroll/provident_workage'
 import { ForetypeService } from 'src/app/services/emp/policy/foretype.service';
 import { ForetypeModel } from 'src/app/models/employee/policy/foretype';
 import { EmpMTDocattModel } from 'src/app/models/employee/manage/empMTDocatt';
+import { PaytranService } from 'src/app/services/payroll/paytran.service';
+import { PaytranAccModel } from 'src/app/models/payroll/paytranacc';
+import { PeriodsModels } from 'src/app/models/payroll/periods';
+import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
+import { YearService } from 'src/app/services/system/policy/year.service';
+import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 
 
 
@@ -304,7 +310,8 @@ export class EmployeeManageComponent implements OnInit {
 
   //menu bonus
   menu_bonus: string = "";
-
+  //menu file doc
+  menu_filedoc: MenuItem[] = [];
 
   displayManage: boolean = false;
 
@@ -355,7 +362,10 @@ export class EmployeeManageComponent implements OnInit {
     private blacklistService: BlacklistService,
     private setbonusService: SetbonusService,
     private foretypeService: ForetypeService,
+    private paytranService: PaytranService,
 
+    private yearService: YearService,
+    private periodsService: PeriodsServices,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -464,6 +474,7 @@ export class EmployeeManageComponent implements OnInit {
 
     this.doLoadForetypeList();
 
+    this.doLoadYear();
     setTimeout(() => {
       this.doLoadMenu();
     }, 100);
@@ -749,8 +760,33 @@ export class EmployeeManageComponent implements OnInit {
   title_choose: { [key: string]: string } = { EN: "Choose File", TH: "เลือกไฟล์" };
   title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
   title_amounts: { [key: string]: string } = { EN: "Amount", TH: "จำนวนเงิน" };
+  //accumalate
+  title_paydate: { [key: string]: string } = { EN: "Paydate", TH: "วันที่จ่าย" };
+  title_accumulatelist: { [key: string]: string } = { EN: "Accumulate", TH: "รายการสะสม" };
+  title_acclist: { [key: string]: string } = { EN: "List", TH: "รายการ" };
+  title_accsalary: { [key: string]: string } = { EN: "Salary", TH: "เงินเดือนสะสม" };
+  title_incometax: { [key: string]: string } = { EN: "Income Inc. Tax", TH: "เงินได้คำนวณภาษี" };
+  title_incomenotax: { [key: string]: string } = { EN: "Income Not Inc. Tax", TH: "เงินได้ไม่คำนวณภาษี" };
+  title_deducttax: { [key: string]: string } = { EN: "Deduct Inc. Tax", TH: "เงินหักคำนวณภาษี" };
+  title_deductnotax: { [key: string]: string } = { EN: "Deduct Not Inc. Tax", TH: "เงินหักไม่คำนวณภาษี" };
 
+  title_in401: { [key: string]: string } = { EN: "40 (1)", TH: "40 (1)" };
+  title_in4013: { [key: string]: string } = { EN: "40 (1) withholding 3%", TH: "40 (1) หัก ณ ที่จ่าย 3%" };
+  title_in402: { [key: string]: string } = { EN: "40 (2)", TH: "40 (2)" };
+  title_in4012: { [key: string]: string } = { EN: "40 (1)(2)", TH: "40 (1)(2)" };
 
+  title_tax401: { [key: string]: string } = { EN: "Tax 40 (1)", TH: "ภาษี 40 (1)" };
+  title_tax4013: { [key: string]: string } = { EN: "Tax 40 (1) withholding 3%", TH: "ภาษี 40 (1) หัก ณ ที่จ่าย 3%" };
+  title_tax402: { [key: string]: string } = { EN: "Tax 40 (2)", TH: "ภาษี 40 (2)" };
+  title_tax4012: { [key: string]: string } = { EN: "Tax 40 (1)(2)", TH: "ภาษี 40 (1)(2)" };
+
+  title_AccssoEmp: { [key: string]: string } = { EN: "Accumulate SSO(Emp.)", TH: "ประกันสังคมสะสม" };
+  title_AccssoCom: { [key: string]: string } = { EN: "Accumulate SSO(Com.)", TH: "ประกันสังคมสมทบ" };
+  title_AccpfEmp: { [key: string]: string } = { EN: "Accumulate PF(Emp.)", TH: "กองทุนฯสะสม" };
+  title_AccpfCom: { [key: string]: string } = { EN: "Accumulate PF(Com.)", TH: "กองทุนฯสมทบ" };
+
+  title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
+  title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ประวัติพนักงาน";
@@ -2282,6 +2318,17 @@ export class EmployeeManageComponent implements OnInit {
         }
       }];
 
+    //menu filedoc
+    this.menu_filedoc = [
+      {
+          label: this.title_new,
+          icon: 'pi pi-fw pi-plus',
+          command: (event) => {
+              this.Uploadfile = true;
+          }
+      },
+  ];
+
   }
 
   tabChange(e: { index: any; }) {
@@ -2614,6 +2661,8 @@ export class EmployeeManageComponent implements OnInit {
           this.doLoadEmpprovidentList();
 
           this.doGetFile();
+
+          this.doLoadPaytranAcc(this.initial_current.PR_Year, this.initial_current.PR_PayDate);
         }, 300);
 
       }
@@ -3327,7 +3376,6 @@ export class EmployeeManageComponent implements OnInit {
     } else {
     }
     this.empdetailService.record_empforeigner(this.selectedEmployee.worker_code, this.selectedEmpforeigner)
-    console.log(this.selectedEmpforeigner)
   }
   //--foreignercard
   displayaddForeCard: boolean = false;
@@ -4361,9 +4409,9 @@ export class EmployeeManageComponent implements OnInit {
     //-- 9999 for delete
     if (model.empprovident_id != "9999") {
       this.CalculatePFAge(model.empprovident_start)
-          .then(PfAge => {
-            model.empprovident_age = PfAge;
-          })
+        .then(PfAge => {
+          model.empprovident_age = PfAge;
+        })
       itemNew.push(model);
     }
     this.empprovidentList = [];
@@ -4901,6 +4949,9 @@ export class EmployeeManageComponent implements OnInit {
 
         //blacklist
         this.doRecordEmpBlacklist();
+
+        //filedoc
+        this.record_filedoc();
 
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
         this.router.navigateByUrl('employee/list');
@@ -5570,11 +5621,22 @@ export class EmployeeManageComponent implements OnInit {
     }
   }
 
+  selectedFileName: string = '';
+  displayUpload: boolean = false;
   Uploadfile: boolean = false;
   fileDocToUpload: File | any = null;
   empdocatt: EmpMTDocattModel[] = [];
   selecteddocatt: EmpMTDocattModel = new EmpMTDocattModel();
+  @ViewChild('fileUploader') fileUploader: ElementRef | any = null;
 
+  handleFileDoc(file: FileList) {
+    this.fileDocToUpload = file.item(0);
+    if (this.fileDocToUpload) {
+        this.selectedFileName = this.fileDocToUpload.name;
+    } else {
+        this.selectedFileName = this.title_nofile[this.initial_current.Language];
+    }
+}
   doGetFile() {
     var tmp = new EmpMTDocattModel();
     tmp.company_code = this.initial_current.CompCode
@@ -5608,5 +5670,152 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
+  doUploadFileAll() {
+    const filename = "EMP_DOC" + this.datePipe.transform(new Date(), 'yyyyMMddHHmmss');
+    const filetype = this.fileDocToUpload.name.split(".")[1];
+    this.employeeService.file_attach(this.fileDocToUpload, filename, filetype).then((res) => {
+      this.empdocatt = [];
+      if (res.success) {
+        this.empdocatt = this.empdocatt.concat({
+          company_code: this.selectedEmployee.company_code || this.initial_current.CompCode,
+          worker_code: this.selectedEmployee.worker_code,
+          document_id: 0,
+          job_type: this.selectedEmployee.selected_Doctype,
+          job_id: this.selectedEmployee.worker_id.toString(),
+          document_name: filename + "." + filetype,
+          document_type: this.fileDocToUpload.type,
+          document_path: res.message,
+          created_by: this.initial_current.Username,
+          created_date: new Date().toISOString()
+        })
+        this.Uploadfile = false;
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+      }
+      this.fileDocToUpload = null;
+    })
+  }
+  Uploadfiledoc() {
+    if (this.fileDocToUpload) {
+      this.confirmationService.confirm({
+        message: this.title_confirm + this.fileDocToUpload.name,
+        header: this.title_import,
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.fileUploader.nativeElement.value = null;
+          this.Uploadfile = false;
+          this.doUploadFileAll();
+        },
+        reject: () => {
+          this.Uploadfile = false;
+        }
+      });
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'File', detail: "Please choose a file." });
+    }
+  }
+  DeleteFileDoc(data: EmpMTDocattModel) {
+    this.confirmationService.confirm({
+        message: this.title_confirm_delete + data.document_name,
+        header: this.title_delete,
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            if (data.document_id) {
+                this.employeeService.delete_file(data).then((res) => {
+                    if (res.success) {
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                    } else {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                    }
+                })
+            } else {
+                this.empdocatt = this.empdocatt.filter((item) => {
+                    return item !== data;
+                });
+            }
+            this.employeeService.deletefilepath_file(data.document_path).then((res) => {
+                if (res.success) {
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                    this.empdocatt = this.empdocatt.filter((item) => {
+                        return item !== data;
+                    });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+                }
+            })
+        },
+        reject: () => {
+
+        }
+    });
+}
+record_filedoc() {
+  if (this.empdocatt.length == 0) {
+      return;
+  }
+  this.employeeService.record_empfile(this.selectedEmployee.worker_code, this.empdocatt, this.selectedEmployee.selected_Doctype).then((res) => {
+      let result = JSON.parse(res);
+      if (result.success) {
+      } else {
+      }
+  })
+}
+
+  paytranTaxTotal: number = 0;
+  paytranAccList: PaytranAccModel[] = [];
+  paytranDetailAcc: PaytranAccModel = new PaytranAccModel();
+  //Accumalate
+  doLoadPaytranAcc(year: string, paydate: Date) {
+    this.paytranTaxTotal = 0;
+    this.paytranDetailAcc = new PaytranAccModel();
+    this.paytranAccList = [];
+
+    this.paytranService.paytranacc_get(this.initial_current.CompCode, this.selectedEmployee.worker_code, year, paydate).then((res) => {
+      this.paytranAccList = res;
+    })
+  }
+  yearperiods_list: YearPeriodModels[] = [];
+  yearperiods_select: YearPeriodModels = new YearPeriodModels();
+  doLoadYear() {
+    this.yearperiods_list = [];
+    var tmp = new YearPeriodModels();
+    tmp.year_group = "TAX";
+    tmp.company_code = this.initial_current.CompCode;
+    this.yearService.year_get(tmp).then(async (res) => {
+      await res.forEach((element: YearPeriodModels) => {
+        element.year_fromdate = new Date(element.year_fromdate)
+        element.year_todate = new Date(element.year_todate)
+      });
+      this.yearperiods_list = await res;
+      this.yearperiods_select = res[0];
+      this.doPeriod();
+    })
+  }
+
+  periods_list: PeriodsModels[] = [];
+  periods_select: PeriodsModels = new PeriodsModels();
+  doPeriod() {
+    this.periods_list = [];
+    var tmp = new PeriodsModels();
+    tmp.year_code = this.yearperiods_select.year_code;
+    tmp.company_code = this.initial_current.CompCode;
+    this.periodsService.period_get(tmp).then(async (res) => {
+      res.forEach((obj: PeriodsModels) => {
+        obj.period_name_en = obj.period_no + " : " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy') + ")";
+        obj.period_name_th = obj.period_no + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy', "", 'th-TH') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy', "", 'th-TH') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy', "", 'th-TH') + ")"
+      });
+      this.periods_list = await res;
+      this.periods_select = await res[0]
+    });
+  }
+  selectyear() {
+    this.doPeriod();
+  }
+  selectperiod() {
+    this.doLoadPaytranAcc(this.yearperiods_select.year_code, this.periods_select.period_payment);
+  }
+
+
 
 }

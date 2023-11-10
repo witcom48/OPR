@@ -40,7 +40,11 @@ export class PaytranAccModel {
     select: boolean = false;
     flag: boolean = false;
 
+    paytran_income_notax:number = 0;
+    paytran_income_total:number = 0;
 
+    paytran_deduct_notax:number = 0;
+    paytran_deduct_total:number = 0;
 
 
 }

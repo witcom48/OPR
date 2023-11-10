@@ -1748,62 +1748,86 @@
                         <div class="field col-12">
                             <p-accordion>
                                 <p-accordionTab header="{{title_accumulate}}" *ngIf="hasAccessMenu('EMP002-025')">
-                                    <p-table #dt17 styleClass="p-datatable-sm" [tableStyle]="{'min-width': '150rem'}"
-                                        (onRowSelect)="onRowSelectEmpAcc($event)" [scrollable]="true"
-                                        scrollHeight="200px" [virtualScroll]="true" selectionMode="single" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
+                                    <p-table #dtacc [value]="paytranAccList" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '150rem'}" (onRowSelect)="onRowSelectEmpAcc($event)"
+                                        [scrollable]="true" scrollHeight="200px" [virtualScroll]="true"
+                                        selectionMode="single" [rows]="10" [showCurrentPageReport]="true"
+                                        [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
                                         currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="caption">
-                                            <div class="flex">
+                                            <div class="checkselect">
+                                                <div class="select">
+                                                    <label>Year:</label>
+                                                    <p-dropdown appendTo="body" class="selectyaer"
+                                                        [options]="yearperiods_list" [(ngModel)]="yearperiods_select"
+                                                        (onChange)="selectyear()" optionLabel="year_code"></p-dropdown>
+                                                </div>
+                                                &nbsp;&nbsp;
+                                                <div class="select">
+                                                    <label>Period:</label>
+                                                    <p-dropdown appendTo="body" class="selectyaer"
+                                                        [options]="periods_list" [(ngModel)]="periods_select"
+                                                        (onChange)="selectperiod()">
+                                                        <ng-template let-item pTemplate="selectedItem">
+                                                            {{initial_current.Language=="TH"? item.period_name_th :
+                                                            item.period_name_en}}
+                                                        </ng-template>
+                                                        <ng-template let-item pTemplate="item">
+                                                            {{initial_current.Language=="TH"? item.period_name_th :
+                                                            item.period_name_en}}
+                                                        </ng-template>
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
                                                     <i class="pi pi-search"></i>
                                                     <input pInputText type="text"
                                                         (input)="dt17.filterGlobal($any($event).target.value, 'contains')"
                                                         placeholder={{title_search_keyword[initial_current.Language]}} />
                                                 </span>
-                                            </div>
+                                            </div> -->
                                         </ng-template>
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th>วันที่จ่าย</th>
-                                                <th>เงินได้คำนวณภาษี</th>
-                                                <th>เงินได้ไม่คำนวณภาษี</th>
-                                                <th>เงินหักคำนวณภาษี</th>
-                                                <th>เงินหักไม่คำนวณภาษี</th>
-                                                <th>40(1)</th>
-                                                <th>40(1) ร้อยละ 3</th>
-                                                <th>40(1)(2)</th>
-                                                <th>40(2)</th>
-                                                <th>ภาษี 40(1)</th>
-                                                <th>ภาษี 40(1) ร้อยละ 3</th>
-                                                <th>ภาษี 40(1)(2)</th>
-                                                <th>ภาษี 40(2)</th>
-                                                <th>ประกันสังคมสะสม</th>
-                                                <th>ประกันสังคมสมทบ</th>
-                                                <th>กองทุนฯสะสม</th>
-                                                <th>กองทุนฯสมทบ</th>
+                                                <!-- <th>{{title_paydate[initial_current.Language]}}</th> -->
+                                                <th>{{title_incometax[initial_current.Language]}}</th>
+                                                <th>{{title_incomenotax[initial_current.Language]}}</th>
+                                                <th>{{title_deducttax[initial_current.Language]}}</th>
+                                                <th>{{title_deductnotax[initial_current.Language]}}</th>
+                                                <th>{{title_in401[initial_current.Language]}}</th>
+                                                <th>{{title_in4013[initial_current.Language]}}</th>
+                                                <th>{{title_in4012[initial_current.Language]}}</th>
+                                                <th>{{title_in402[initial_current.Language]}}</th>
+                                                <th>{{title_tax401[initial_current.Language]}}</th>
+                                                <th>{{title_tax4013[initial_current.Language]}}</th>
+                                                <th>{{title_tax4012[initial_current.Language]}}</th>
+                                                <th>{{title_tax402[initial_current.Language]}}</th>
+                                                <th>{{title_AccssoEmp[initial_current.Language]}}</th>
+                                                <th>{{title_AccssoCom[initial_current.Language]}}</th>
+                                                <th>{{title_AccpfEmp[initial_current.Language]}}</th>
+                                                <th>{{title_AccpfCom[initial_current.Language]}}</th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-data>
                                             <tr [pSelectableRow]="data">
-                                                <td>{{data.paydate}}</td>
-                                                <td>{{data.incomefix}}</td>
-                                                <td>{{data.incomevar}}</td>
-                                                <td>{{data.taxfix}}</td>
-                                                <td>{{data.taxvar}}</td>
-                                                <td>{{data.incomefortyone}}</td>
-                                                <td>{{data.incomefortyoneperthree}}</td>
-                                                <td>{{data.incomefortyonetwo}}</td>
-                                                <td>{{data.incomefortytwoin}}</td>
-                                                <td>{{data.taxfortyone}}</td>
-                                                <td>{{data.taxfortyoneperthree}}</td>
-                                                <td>{{data.taxfortyonetwo}}</td>
-                                                <td>{{data.taxfortytwoin}}</td>
-                                                <td>{{data.ssoacc_worker}}</td>
-                                                <td>{{data.ssoacc_company}}</td>
-                                                <td>{{data.pfacc_worker}}</td>
-                                                <td>{{data.pfacc_company}}</td>
+                                                <!-- <td>{{data.paydate| date:'dd/MM/yyyy'}}</td> -->
+                                                <td>{{data.paytran_income_total}}</td>
+                                                <td>{{data.paytran_income_notax}}</td>
+                                                <td>{{data.paytran_deduct_total}}</td>
+                                                <td>{{data.paytran_deduct_notax}}</td>
+                                                <td>{{data.paytran_income_401}}</td>
+                                                <td>{{data.paytran_income_4013}}</td>
+                                                <td>{{data.paytran_income_4012}}</td>
+                                                <td>{{data.paytran_income_402I+data.paytran_income_402O}}</td>
+                                                <td>{{data.paytran_tax_401}}</td>
+                                                <td>{{data.paytran_tax_4013}}</td>
+                                                <td>{{data.paytran_tax_4012}}</td>
+                                                <td>{{data.paytran_tax_402I+data.paytran_tax_402O}}</td>
+                                                <td>{{data.paytran_ssoemp}}</td>
+                                                <td>{{data.paytran_ssocom}}</td>
+                                                <td>{{data.paytran_pfemp}}</td>
+                                                <td>{{data.paytran_pfcom}}</td>
                                             </tr>
                                         </ng-template>
                                     </p-table>
@@ -1862,7 +1886,7 @@
                     </ng-template>
                     <div class="formgrid grid">
                         <div class="field col-12">
-                            <!-- <p-menubar [model]="items_attfile"></p-menubar> -->
+                            <p-menubar [model]="menu_filedoc"></p-menubar>
                             <p-table #dt3 [value]="empdocatt" selectionMode="single" [(selection)]="selecteddocatt"
                                 (onRowSelect)="onRowSelectfile($event)" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
                                 [paginator]="false"
@@ -1879,7 +1903,7 @@
                                         <th>{{title_modified_by}}</th>
                                         <th>{{title_modified_date}}</th>
                                         <th>{{title_viewfile[initial_current.Language]}}</th>
-
+                                        <th>{{title_deleteupload[initial_current.Language]}}</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
@@ -1888,7 +1912,7 @@
                                         </td>
                                         <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
                                         </td>
-                                        <td><span>{{title_filename[initial_current.Language]}}</span>{{doGetfiletype(data.job_type)}}
+                                        <td><span>{{title_filetype[initial_current.Language]}}</span>{{doGetfiletype(data.job_type)}}
                                         </td>
                                         <td><span>{{title_modified_by}}</span>{{data.created_by}}
                                         </td>
@@ -1897,6 +1921,9 @@
                                         <td><span>{{title_viewfile[initial_current.Language]}}</span>
                                             <p-button icon="pi pi-eye" (click)="viewAttfile(data)"></p-button>
                                         </td>
+                                        <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                            icon="pi pi-trash" styleClass="p-button-danger"
+                                            (click)="DeleteFileDoc(data)"></p-button></td>
                                     </tr>
                                 </ng-template>
                             </p-table>
@@ -3207,7 +3234,38 @@
     </p-dialog>
 </form>
 
-
+<!-- Dialog Choose File Import -->
+<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="Uploadfile">
+    <div>
+        <p-dropdown [options]="docType" optionValue="code" [showClear]="true"
+            [(ngModel)]="selectedEmployee.selected_Doctype" [style]="{ width: '100%', overflow: 'visible' }"
+            appendTo="body">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+            </ng-template>
+        </p-dropdown>
+        <br>
+    </div>
+    <label class="drop-container">
+        <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
+        {{title_or[initial_current.Language]}}
+        <div class="attach">
+            <input type="file" id="fileattach" #fileUploader accept="" required
+                (change)="handleFileDoc($any($event).target.files)" style="display: none;">
+            <label for="fileattach" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+            <span class="chosen-attach" *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
+            <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
+        </div>
+    </label>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-upload" (click)="Uploadfiledoc()" label="{{title_upload}}"
+            styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+<!-- -----------------End Dialog Choose File-------------------- -->
 
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>

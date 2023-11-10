@@ -163,6 +163,20 @@
         flex-direction: row;
     }
 }
+.checkselect {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: unset;
+
+    .select {
+        display: flex;
+        flex-direction: column;
+        width: 20vw;
+        align-self: unset;
+    }
+}
 
 @media (max-width: 700px) {
     .empinfo{

@@ -565,7 +565,6 @@ export class EmpDetailService {
 
       modified_by: this.initial_current.Username
     };
-    console.log(data)
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empforeigner', data, this.options).toPromise()
       .then((res) => {

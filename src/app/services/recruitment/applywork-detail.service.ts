@@ -580,26 +580,44 @@ export class ApplyworkDetailService {
       });
   }
   public record_reqforeigner(worker_code: string, model: EmpForeignerModel) {
-    const data = {
+    let forecard_list:any =[]
+    model.foreigner_card.forEach((res:EmpForeignercardModel)=>{
+      let ss = {
+        "company_code" : model.company_code || this.initial_current.CompCode,
+        "worker_code" : model.worker_code,
+        "foreignercard_id" : res.foreignercard_id,
+        "foreignercard_code" : res.foreignercard_code,
+        "foreignercard_type" : res.foreignercard_type,
+        "foreignercard_issue" : res.foreignercard_issue,
+        "foreignercard_expire" : res.foreignercard_expire,
+        "modified_by" : this.initial_current.Username
+      }
+      forecard_list.push(ss)
+    })
+    let data = {
       company_code: this.initial_current.CompCode,
       worker_code: worker_code,
       foreigner_id: model.foreigner_id,
-      passport_no: model.passport_no,
-      passport_issue: model.passport_issue,
-      passport_expire: model.passport_expire,
-      visa_no: model.visa_no,
-      visa_issue: model.visa_issue,
-      visa_expire: model.visa_expire,
-      workpermit_no: model.workpermit_no,
-      workpermit_by: model.workpermit_by,
-      workpermit_issue: model.workpermit_issue,
-      workpermit_expire: model.workpermit_expire,
+      // passport_no: model.passport_no,
+      // passport_issue: model.passport_issue,
+      // passport_expire: model.passport_expire,
+      // visa_no: model.visa_no,
+      // visa_issue: model.visa_issue,
+      // visa_expire: model.visa_expire,
+      // workpermit_no: model.workpermit_no,
+      // workpermit_by: model.workpermit_by,
+      // workpermit_issue: model.workpermit_issue,
+      // workpermit_expire: model.workpermit_expire,
+      // entry_date: model.entry_date,
+      // certificate_no: model.certificate_no,
+      // certificate_expire: model.certificate_expire,
+      // otherdoc_no: model.otherdoc_no,
+      // otherdoc_expire: model.otherdoc_expire,
+      foreigner_type:model.foreigner_type,
       entry_date: model.entry_date,
-      certificate_no: model.certificate_no,
-      certificate_expire: model.certificate_expire,
-      otherdoc_no: model.otherdoc_no,
-      otherdoc_expire: model.otherdoc_expire,
+      sent_sso: model.sent_sso,
 
+      foreigner_card: forecard_list,
       modified_by: this.initial_current.Username
     };
 
@@ -635,7 +653,7 @@ export class ApplyworkDetailService {
         return res;
       });
   }
-
+  //--req Foreigner card
   public getapply_foreignercard(company: string, code: string) {
     var filter = {
       device_name: '',
