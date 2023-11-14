@@ -161,7 +161,9 @@
                     <td>
                         <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
                             [(ngModel)]="selectedType_fillter" [showClear]="true" [disabled]="!type_fillter"
-                            [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
+                            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                            filterBy="protype_code ,protype_name_th,protype_name_en" 
+                            (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
                             </ng-template>
@@ -183,7 +185,8 @@
                     <td>
                         <p-dropdown placeholder="--" [options]="probusiness_list" optionValue="probusiness_code"
                             [(ngModel)]="selectedBusiness_fillter" [showClear]="true" [disabled]="!business_fillter"
-                            [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
+                            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                            filterBy="probusiness_code ,probusiness_name_th,probusiness_name_en"  (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
                             </ng-template>
@@ -205,7 +208,8 @@
                     <td>
                         <p-dropdown placeholder="--" [options]="proarea_list" optionValue="proarea_code"
                             [(ngModel)]="selectedProarea_fillter" [showClear]="true" [disabled]="!proarea_fillter"
-                            [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
+                            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                            filterBy="proarea_code ,proarea_name_th,proarea_name_en"  (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
                             </ng-template>
@@ -226,7 +230,8 @@
                     <td>
                         <p-dropdown placeholder="--" [options]="progroup_list" optionValue="progroup_code"
                             [(ngModel)]="selectedProgroup_fillter" [showClear]="true" [disabled]="!progroup_fillter"
-                            [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
+                            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                            filterBy="progroup_code ,progroup_name_th,progroup_name_en" (onChange)="doFillter()">
                             <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.progroup_name_th : item.progroup_name_en}}
                             </ng-template>
@@ -236,6 +241,54 @@
                         </p-dropdown>
                     </td>
                 </tr>
+
+
+                <!--  -->
+                <tr>
+                    <td>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="proresponsible_fillter" inputId="proresponsible_fillter"
+                                (onChange)="doFillter()"></p-checkbox>
+                            <label for="proresponsible_fillter">ผู้รับผิดชอบ ตำแหน่ง</label>
+                        </div>
+                    </td>
+                    <td>
+                        <p-dropdown placeholder="--" [options]="Responsiblepos_List" optionValue="responsiblepos_code"
+                            [(ngModel)]="selectedProresponsible_fillter" [showClear]="true" [disabled]="!proresponsible_fillter"
+                            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                            filterBy="responsiblepos_code ,responsiblepos_name_th,responsiblepos_name_en" (onChange)="doFillter()">
+                            <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.responsiblepos_name_th : item.responsiblepos_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.responsiblepos_name_th : item.responsiblepos_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <div class="field-checkbox">
+                            <p-checkbox [binary]="true" [(ngModel)]="responsiblearea_fillter" inputId="responsiblearea_fillter"
+                                (onChange)="doFillter()"></p-checkbox>
+                            <label for="responsiblearea_fillter">ผู้รับผิดชอบ เขต </label>
+                        </div>
+                    </td>
+                    <td>
+                        <p-dropdown placeholder="--" [options]="responsiblearea_list" optionValue="responsiblearea_code"
+                            [(ngModel)]="selectedResponsiblearea_fillter" [showClear]="true" [disabled]="!responsiblearea_fillter"
+                            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                            filterBy="responsiblearea_code ,responsiblearea_name_th,responsiblearea_name_en" (onChange)="doFillter()">
+                            <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.responsiblearea_name_th : item.responsiblearea_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.responsiblearea_name_th : item.responsiblearea_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </td>
+                <!-- </tr> -->
             </table>
         </td>
     </tr>

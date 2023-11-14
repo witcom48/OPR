@@ -23,6 +23,8 @@ import { ProjobmainModel } from '../../../models/project/project_jobmain';
 import { JobMonitorModel } from '../../../models/project/job_monitor'
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
+import { ResponsibleposModel } from 'src/app/models/project/responsiblepos';
+import { ResponsibleareaModel } from 'src/app/models/project/responsiblearea';
 
 @Component({
   selector: 'app-project-monitor',
@@ -60,6 +62,15 @@ export class ProjectMonitorComponent implements OnInit {
   proarea_fillter :boolean = false
   progroup_fillter :boolean = false
 //
+
+//
+proresponsible_fillter :boolean = false
+selectedProresponsible_fillter :string = ""
+
+responsiblearea_fillter :boolean = false
+selectedResponsiblearea_fillter :string = ""
+
+ //
 
   selectedDate_fillter :Date = new Date()
   selectedToDate_fillter :Date = new Date()
@@ -135,8 +146,9 @@ export class ProjectMonitorComponent implements OnInit {
     private projectService: ProjectService,      
     private progenaralService:ProgenaralService,
     private timecardService: TimecardService,
-    private projectDetailService:ProjectDetailService
-
+    private projectDetailService:ProjectDetailService,
+ 
+    
   ) {    
    }
 
@@ -185,7 +197,9 @@ export class ProjectMonitorComponent implements OnInit {
     this.doLoadMenu()
     this.doLoadProjectType()
     this.doLoadProjectBusiness()
-
+    //
+    this.doLoadResponsibleposList()
+    this.doLoadresponsibleareaList()
     //
     this.doLoadProareaType()
     this.doLoadProgroupType()
@@ -313,6 +327,9 @@ export class ProjectMonitorComponent implements OnInit {
     //
     var proarea = ""
     var progroup = ""
+    var proresponsible = ""
+    var responsiblearea = ""
+     
     //
     if(this.business_fillter){
       probusiness = this.selectedBusiness_fillter;
@@ -330,9 +347,20 @@ export class ProjectMonitorComponent implements OnInit {
       progroup = this.selectedProgroup_fillter;   
        
     }
+    // 
+    // ตำแหน่ง
+    if(this.proresponsible_fillter){
+      proresponsible = this.selectedProresponsible_fillter;   
+    }
+
+    // เขต
+    if(this.responsiblearea_fillter){
+      responsiblearea = this.selectedResponsiblearea_fillter;   
+    }
+    // 
     
 
-    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness,proarea,progroup).then(async (res) => {
+    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness,proarea,progroup,proresponsible,responsiblearea).then(async (res) => {
       this.project_monitor = await res;
       setTimeout(() => {
         this.calculateTotal()
@@ -352,7 +380,26 @@ export class ProjectMonitorComponent implements OnInit {
   // onRowSelectProject(event: Event) {
   //   this.edit_workflow= true;
   // }
+  //dropdown 
+///ตำแหน่ง 
+  Responsiblepos_List: ResponsibleposModel[] = [];
+  doLoadResponsibleposList() {
+    var tmp = new ResponsibleposModel();
+    this.progenaralService.MTResponsiblepos_get(tmp).then(async (res) => {
+      this.Responsiblepos_List = await res;
 
+    })
+  }
+//เขต 
+  responsiblearea_list: ResponsibleareaModel[] = [];
+  doLoadresponsibleareaList() {
+    var tmp = new ResponsibleareaModel();
+    this.progenaralService.MTResponsiblearea_get(tmp).then(async (res) => {
+      this.responsiblearea_list = await res;
+
+    })
+  }
+  // 
   probusiness_list: ProbusinessModel[] = []; 
   doLoadProjectBusiness(){       
     this.probusiness_list = []  

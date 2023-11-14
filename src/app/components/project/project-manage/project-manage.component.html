@@ -17,7 +17,8 @@
 </p-dialog>
 
 <!-- Attach -->
-<p-dialog class="uploadfile" header="{{title_upload[initial_current.Language]}}" [(visible)]="UploadfilePro" (onHide)="clearattachname()">
+<p-dialog class="uploadfile" header="{{title_upload[initial_current.Language]}}" [(visible)]="UploadfilePro"
+    (onHide)="clearattachname()">
     <label class="drop-container">
         <span class="drop-title">{{title_dropfile[initial_current.Language]}}</span>
         {{title_or[initial_current.Language]}}
@@ -30,7 +31,8 @@
         </div>
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="UploadfileProdoc()" label="{{title_upload[initial_current.Language]}}"></p-button>
+        <p-button icon="pi pi-upload" (click)="UploadfileProdoc()"
+            label="{{title_upload[initial_current.Language]}}"></p-button>
     </ng-template>
 </p-dialog>
 <p-dialog [(visible)]="searchEmp" [style]="{width: '40vw'}" [position]="position">
@@ -58,7 +60,8 @@
                 <label for="procost_type">{{title_contact_initial[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="initial_list" optionValue="initial_code"
                     [(ngModel)]="selectedProcontact.initial_code" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="initial_code,initial_name_th,initial_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.initial_name_th : item.initial_name_en}}
                     </ng-template>
@@ -96,7 +99,8 @@
                 <label for="procost_type">{{title_contact_position[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="position_list" optionValue="position_code"
                     [(ngModel)]="selectedProcontact.position_code" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="position_code,position_name_th,position_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
                     </ng-template>
@@ -155,7 +159,8 @@
                 <label for="protype_name_th">{{title_project_protype[initial_current.Language]}} :</label><br>
                 <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
                     [(ngModel)]="selectedProcontract.procontract_type" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="procontract_type,protype_name_th,protype_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
                     </ng-template>
@@ -205,7 +210,7 @@
         </div>
 
         <div class="formgrid grid" *ngIf="edit_proresponsible==true || new_proresponsible==true">
-            <h3>{{title_responsible[initial_current.Language]}}</h3>
+            <h3>{{title_responsible[initial_current.Language]}}ddd</h3>
             <div class="field col-12 ">
                 <label for="procontract_customer">{{title_responsible_code[initial_current.Language]}}</label>
                 <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_ref"
@@ -216,17 +221,53 @@
                 <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_emp"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
+            <!-- // -->
+            <div class="field col-12">
+                <label for="lastname2">{{title_responsible_position[initial_current.Language]}} </label>
+                <p-dropdown placeholder="--" [options]="Responsiblepos_List" optionValue="responsiblepos_code"
+                    [showClear]="true" [(ngModel)]="selectedProresponsible.proresponsible_position"
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="responsiblepos_code,responsiblepos_name_th,responsiblepos_name_en">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language == "TH" ? item.responsiblepos_name_th : item.responsiblepos_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language == "TH" ? item.responsiblepos_name_th : item.responsiblepos_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+
+            <div class="field col-12">
+                <label for="lastname2">{{title_responsibl_area[initial_current.Language]}} </label>
+                <p-dropdown placeholder="--" [options]="responsiblearea_list" optionValue="responsiblearea_code"
+                    [showClear]="true" [(ngModel)]="selectedProresponsible.proresponsible_area"
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="proresponsible_area,responsiblearea_name_th,responsiblearea_name_en">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.responsiblearea_name_th : item.responsiblearea_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.responsiblearea_name_th : item.responsiblearea_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+
+
+            <!-- 
             <div class="field col-12 ">
                 <label for="procontract_customer">{{title_responsible_position[initial_current.Language]}}</label>
                 <input type="text" id="procontract_customer"
                     [(ngModel)]="selectedProresponsible.proresponsible_position"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-            </div>
-            <div class="field col-12 ">
+            </div> -->
+            <!-- <div class="field col-12 ">
                 <label for="procontract_customer">{{title_responsibl_area[initial_current.Language]}}</label>
                 <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_area"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
-            </div>
+            </div> -->
+            <!-- // -->
             <div class="field col-12 ">
                 <label for="procontract_fromdate">{{title_responsible_fromdate[initial_current.Language]}}</label>
                 <br>
@@ -294,7 +335,8 @@
                 <label for="selectedProjobcost_cost">{{title_cost[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="polcost_list" optionValue="procost_code"
                     [(ngModel)]="selectedProjobcost.projobcost_code" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="procost_code ,procost_name_th,procost_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
                     </ng-template>
@@ -351,7 +393,7 @@
                     class="p-button-outlined p-button-secondary" (click)="projobmachine_cancel()"></button>
             </div>
         </div>
-
+        <!-- /// shift -->
         <div class="formgrid grid" *ngIf="edit_projobsubcontract==true || new_projobsubcontract==true">
             <h3>{{title_contract[initial_current.Language]}}</h3>
             <div class="field col-12 ">
@@ -392,7 +434,8 @@
                 <label for="selectedProjobcost_cost">{{title_cost[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="polcost_list" optionValue="procost_code"
                     [(ngModel)]="selectedProjobsubcost.projobcost_code" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="procost_code ,procost_name_th,procost_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.procost_name_th : item.procost_name_en}}
                     </ng-template>
@@ -439,7 +482,8 @@
                 <label for="selectedProjobcost_cost">{{title_staff_jobname[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="projobmain_list" optionValue="projobmain_code"
                     [(ngModel)]="selectedProjobemp.projob_code" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="projobmain_code ,projobmain_name_th,projobmain_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
                     </ng-template>
@@ -483,12 +527,13 @@
         </div>
         <!-- shift -->
         <div class="formgrid grid" *ngIf="edit_projobshift==true || new_projobshift==true">
-            <h3>{{title_shift[initial_current.Language]}}</h3>
+            <h3>{{title_shift[initial_current.Language]}}ooo</h3>
             <div class="field col-12">
                 <label for="selectedProjobshift_shift">{{title_shift[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="polshift_list" optionValue="shift_code"
                     [(ngModel)]="selectedProjobshift.shift_code" [showClear]="false"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="shift_code ,shift_name_th,shift_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.shift_name_th : item.shift_name_en}}
                     </ng-template>
@@ -533,6 +578,14 @@
                         inputId="projobmain_sat"></p-checkbox>
                     <label for="projobshift_sat">{{days[6]}}</label>
                 </div>
+
+                <!-- // -->
+                <div class="field-checkbox">
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_sat"
+                        inputId="projobmain_sat"></p-checkbox>
+                    <label for="projobshift_sat">{{days[7]}}</label>
+                </div>
+                <!-- // -->
             </div>
             <div class="field col-12">
                 <label for="minmax-buttons">{{title_shift_emp[initial_current.Language]}}</label><br>
@@ -604,7 +657,7 @@
                 <label for="projobpol_type">{{title_jobmain_type[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="projobtype_list" optionValue="value"
                     [(ngModel)]="selectedProjobpol.projobpol_type" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true" filterBy="value ,text_th,text_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.text_th : item.text_en}}
                     </ng-template>
@@ -618,12 +671,13 @@
                 <label for="projobpol_timepol">{{title_jobmain_poltime[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="poltimepol_list" optionValue="protimepol_code"
                     [(ngModel)]="selectedProjobpol.projobpol_timepol" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="protimepol_code ,proslip_name_th,proslip_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
-                        {{initial_current.Language=="TH"? item.text_th : item.protimepol_name_th}}
+                        {{initial_current.Language=="TH"? item.protimepol_name_th : item.protimepol_name_en}}
                     </ng-template>
                     <ng-template let-item pTemplate="item">
-                        {{initial_current.Language=="TH"? item.text_th : item.protimepol_name_en}}
+                        {{initial_current.Language=="TH"? item.protimepol_name_th : item.protimepol_name_en}}
                     </ng-template>
                 </p-dropdown>
             </div>
@@ -631,7 +685,8 @@
                 <label for="projobpol_slip">{{title_jobmain_polslip[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="polslip_list" optionValue="proslip_code"
                     [(ngModel)]="selectedProjobpol.projobpol_slip" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="proslip_code ,proslip_name_th,proslip_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.proslip_name_th : item.proslip_name_en}}
                     </ng-template>
@@ -644,7 +699,8 @@
                 <label for="projobpol_uniform">{{title_jobmain_poluniform[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="poluniform_list" optionValue="prouniform_code"
                     [(ngModel)]="selectedProjobpol.projobpol_uniform" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="prouniform_code ,prouniform_name_th,prouniform_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
                     </ng-template>
@@ -786,7 +842,8 @@
                 <label for="proequipmentreq_name">{{title_jobmain[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="projobmain_list" optionValue="projobmain_code"
                     [(ngModel)]="selectedProequipmentreq.projob_code" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="projobmain_code ,projobmain_name_th,projobmain_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
                     </ng-template>
@@ -810,7 +867,8 @@
 
                 <p-dropdown placeholder="--" [options]="poluniform_list" optionValue="prouniform_code"
                     [(ngModel)]="selectedProequipmentreq.prouniform_code" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="prouniform_code ,prouniform_name_th,prouniform_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
                     </ng-template>
@@ -828,7 +886,8 @@
 
                 <p-dropdown placeholder="--" [options]="Proequipmenttype_list" optionValue="proequipmenttype_code"
                     [(ngModel)]="selectedProequipmentreq.proequipmenttype_code" [showClear]="true"
-                    [style]="{ width: '100%', overflow: 'visible' }">
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="proequipmenttype_code ,proequipmenttype_name_th,proequipmenttype_name_en">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.proequipmenttype_name_th :
                         item.proequipmenttype_name_en}}
@@ -888,23 +947,22 @@
             </ng-template>
 
             <div class="formgrid grid ">
-          
+
                 <!-- ///image -->
-                <div  class="field col-12 custom-height empinfo ">
-                    
-                        <p-image [src]="base64Image" id="imgReq" name="imgReq" alt="Image" width="175"
-                            height="175"></p-image>
-                        <div class="btnupload field col-6 custom-height">
-                            <input class="upload" type="file" id="file" (change)="onselectFile($event)"
-                                accept="image/*">
-                            <label for="file" class="uploadlabe">{{title_choose[initial_current.Language]}}</label>
-                            <span class="chosen-text"
-                                *ngIf="!selectedimageName">{{title_nofile[this.initial_current.Language]}}</span>
-                            <span class="chosen-text" *ngIf="selectedimageName">{{selectedimageName}}</span>
-                        </div>
-                 </div>
+                <div class="field col-12 custom-height empinfo ">
+
+                    <p-image [src]="base64Image" id="imgReq" name="imgReq" alt="Image" width="175"
+                        height="175"></p-image>
+                    <div class="btnupload field col-6 custom-height">
+                        <input class="upload" type="file" id="file" (change)="onselectFile($event)" accept="image/*">
+                        <label for="file" class="uploadlabe">{{title_choose[initial_current.Language]}}</label>
+                        <span class="chosen-text"
+                            *ngIf="!selectedimageName">{{title_nofile[this.initial_current.Language]}}</span>
+                        <span class="chosen-text" *ngIf="selectedimageName">{{selectedimageName}}</span>
+                    </div>
+                </div>
                 <!-- ///image -->
-                <div  class="field col-12 custom-height empinfo "></div>
+                <div class="field col-12 custom-height empinfo "></div>
 
                 <div class="field col-6 custom-height">
                     <label>{{title_project_code[initial_current.Language]}}</label>
@@ -956,7 +1014,8 @@
                         :</label><br>
                     <p-dropdown placeholder="--" [options]="probusiness_list" optionValue="probusiness_code"
                         [(ngModel)]="selectedProject.project_probusiness" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                        filterBy="probusiness_code ,probusiness_name_th,probusiness_name_en">
                         <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
                         </ng-template>
@@ -984,7 +1043,8 @@
                     <label for="proarea_name_th">{{title_project_progarea[initial_current.Language]}} :</label><br>
                     <p-dropdown placeholder="--" [options]="proarea_list" optionValue="proarea_code"
                         [(ngModel)]="selectedProject.project_proarea" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                        filterBy="proarea_code ,proarea_name_th,proarea_name_en">
                         <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.proarea_name_th : item.proarea_name_en}}
                         </ng-template>
@@ -998,7 +1058,8 @@
                     <label for="progroup_name_th">{{title_project_progroup[initial_current.Language]}} :</label><br>
                     <p-dropdown placeholder="--" [options]="progroup_list" optionValue="progroup_code"
                         [(ngModel)]="selectedProject.project_progroup" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                        filterBy="progroup_code ,progroup_name_th,progroup_name_en">
                         <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.progroup_name_th : item.progroup_name_en}}
                         </ng-template>
@@ -1015,7 +1076,8 @@
                     <label for="lastname2">{{title_project_roundtime[initial_current.Language]}} :</label><br>
                     <p-dropdown placeholder="--" [options]="time_list" optionValue="round_code"
                         [(ngModel)]="selectedProject.project_roundtime" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                        filterBy="round_code ,round_name_th,round_name_en">
                         <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
                         </ng-template>
@@ -1031,7 +1093,8 @@
                     <label for="lastname2">{{title_project_roundmoney[initial_current.Language]}} :</label><br>
                     <p-dropdown placeholder="--" [options]="currency_list" optionValue="round_code"
                         [(ngModel)]="selectedProject.project_roundmoney" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                        filterBy="round_code ,round_name_th,round_name_en">
                         <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.round_name_th : item.round_name_en}}
                         </ng-template>
@@ -1045,7 +1108,8 @@
                     <label for="lastname2">{{title_project_holiday[initial_current.Language]}} :</label><br>
                     <p-dropdown placeholder="--" [options]="yeargroup_list" optionValue="year_code"
                         [(ngModel)]="selectedProject.project_proholiday" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                        filterBy="year_code ,year_name_th,year_name_en">
                         <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.year_name_th : item.year_name_en}}
                         </ng-template>
@@ -1100,14 +1164,15 @@
 
                                     <p-dropdown placeholder="--" [options]="provinceList" optionValue="province_code"
                                         [showClear]="true" [(ngModel)]="selectedProaddress.province_code"
-                                        [style]="{ width: '100%', overflow: 'visible' }">
+                                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                        filterBy="province_code ,province_name_th,province_name_en">
                                         <ng-template let-item pTemplate="selectedItem">
                                             {{ initial_current.Language == 'TH' ? item.province_name_th :
-                                            item.province_name_th }}
+                                            item.province_name_en }}
                                         </ng-template>
                                         <ng-template let-item pTemplate="item">
                                             {{ initial_current.Language == 'TH' ? item.province_name_th :
-                                            item.province_name_th }}
+                                            item.province_name_en }}
                                         </ng-template>
                                     </p-dropdown>
                                 </div>
@@ -1208,47 +1273,47 @@
                         <p-accordionTab header="{{title_attfile[initial_current.Language]}}">
                             <p-menubar [model]="items_attfileApp"></p-menubar>
                             <p-table #dt3 [value]="reqdocattPro" selectionMode="single"
-                            [(selection)]="selecteddocattPro" (onRowSelect)="onRowSelectfilePro($event)"
-                            [rows]="10" [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
-                            currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
-                            [globalFilterFields]="['document_name','created_by','created_date']"
-                            responsiveLayout="stack" [breakpoint]="'744px'">
+                                [(selection)]="selecteddocattPro" (onRowSelect)="onRowSelectfilePro($event)" [rows]="10"
+                                [rowsPerPageOptions]="[10,25,50]" [paginator]="false"
+                                currentPageReportTemplate="{{title_page_from}} {first} {{title_page_to}} {last} {{title_page_total}} {totalRecords} {{title_page_record}}"
+                                [globalFilterFields]="['document_name','created_by','created_date']"
+                                responsiveLayout="stack" [breakpoint]="'744px'">
 
-                            <!-- --------------END Form Search Table------------------ -->
-                            <ng-template pTemplate="header" let-columns>
-                                <tr>
-                                    <th>{{title_uploadno[initial_current.Language]}}</th>
-                                    <th>{{title_filename[initial_current.Language]}}</th>
-                                    <th>{{title_filetype[initial_current.Language]}}</th>
-                                    <th>{{title_modified_by[initial_current.Language]}}</th>
-                                    <th>{{title_modified_date[initial_current.Language]}}</th>
-                                    <th>{{title_viewfile[initial_current.Language]}}</th>
-                                    <th>{{title_deleteupload[initial_current.Language]}}</th>
+                                <!-- --------------END Form Search Table------------------ -->
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th>{{title_uploadno[initial_current.Language]}}</th>
+                                        <th>{{title_filename[initial_current.Language]}}</th>
+                                        <th>{{title_filetype[initial_current.Language]}}</th>
+                                        <th>{{title_modified_by[initial_current.Language]}}</th>
+                                        <th>{{title_modified_date[initial_current.Language]}}</th>
+                                        <th>{{title_viewfile[initial_current.Language]}}</th>
+                                        <th>{{title_deleteupload[initial_current.Language]}}</th>
 
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
-                                <tr [pSelectableRow]="data">
-                                    <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
-                                    </td>
-                                    <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
-                                    </td>
-                                    <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
-                                    </td>
-                                    <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
-                                    </td>
-                                    <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
-                                        |
-                                        date:'dd/MM/yyyy'}}</td>
-                                    <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
-                                            icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
-                                    <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
-                                            icon="pi pi-trash" styleClass="p-button-danger"
-                                            (click)="DeleteFilePro(data)"></p-button></td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
+                                    <tr [pSelectableRow]="data">
+                                        <td><span>{{title_uploadno[initial_current.Language]}}</span>{{i+1}}
+                                        </td>
+                                        <td><span>{{title_filename[initial_current.Language]}}</span>{{data.document_name}}
+                                        </td>
+                                        <td><span>{{title_filename[initial_current.Language]}}</span>{{data.job_type}}
+                                        </td>
+                                        <td><span>{{title_modified_by[initial_current.Language]}}</span>{{data.created_by}}
+                                        </td>
+                                        <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
+                                            |
+                                            date:'dd/MM/yyyy'}}</td>
+                                        <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
+                                                icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
+                                        <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
+                                                icon="pi pi-trash" styleClass="p-button-danger"
+                                                (click)="DeleteFilePro(data)"></p-button></td>
 
-                                </tr>
-                            </ng-template>
-                        </p-table>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </p-accordionTab>
                     </p-accordion>
                 </div>
@@ -1481,7 +1546,7 @@
                     <label>{{title_cost_version[initial_current.Language]}}ttt</label><br>
                     <p-dropdown placeholder="--" [options]="projobversion_list" optionLabel="version"
                         [(ngModel)]="selectedProjobversion" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }"
+                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true" filterBy="version "
                         (onChange)="onSelectProjobversion($event)"></p-dropdown>
                 </div>
 
@@ -2187,7 +2252,8 @@
                             <p-dropdown [options]="workerList" optionLabel="worker_code" optionValue="worker_code"
                                 [showClear]="true" [(ngModel)]="selectedSearchemp" [editable]="true"
                                 (onChange)="doGetDataFillter()" [disabled]="!fillterSearchemp"
-                                [style]="{ width: '100%', overflow: 'visible' }">
+                                [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                filterBy="worker_code,worker_fname_th,worker_lname_en,worker_lname_th,worker_fname_en">
 
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{ item.worker_code }} - {{ (initial_current.Language == 'TH') ?

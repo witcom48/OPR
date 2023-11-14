@@ -92,6 +92,8 @@ import { ProequipmentreqModel } from 'src/app/models/project/project_proequipmen
 import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProjectMTDocattModel } from 'src/app/models/project/project_docatt';
+import { ResponsibleposModel } from 'src/app/models/project/responsiblepos';
+import { ResponsibleareaModel } from 'src/app/models/project/responsiblearea';
 interface ImportList {
   name_th: string,
   name_en: string,
@@ -227,6 +229,8 @@ export class ProjectManageComponent implements OnInit {
   title_thursday: { [key: string]: string } = { EN: "Thursday", TH: "วันพฤหัสบดี" }
   title_friday: { [key: string]: string } = { EN: "Friday", TH: "วันศุกร์" }
   title_saturay: { [key: string]: string } = { EN: "Saturay", TH: "วันเสาร์" }
+  title_holiday: { [key: string]: string } = { EN: "Holiday", TH: "วันนักขัตฤกษ์" }
+
 
 
   title_tab_genaral: { [key: string]: string } = { EN: "Genaral", TH: "ข้อมูลทั่วไป" }
@@ -502,6 +506,13 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadProjobsubcostList();
     this.doLoadProcontractList();
     // this.doLoadjobpol();
+
+    // dropdown
+    this.doLoadResponsibleposList();
+    this.doLoadresponsibleareaList();
+    //
+
+
     setTimeout(() => {
       this.doLoadMenu()
     }, 100);
@@ -546,8 +557,8 @@ export class ProjectManageComponent implements OnInit {
     }
     this.accessData = this.initialData2.dotGetPolmenu('PRO');
     this.initial_current.Language == "TH"
-    this.days = [this.title_sunday[this.initial_current.Language], this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language], this.title_wednesday[this.initial_current.Language], this.title_thursday[this.initial_current.Language], this.title_friday[this.initial_current.Language], this.title_saturay[this.initial_current.Language]];
-    this.costs_title = ["", "", "", "", "", "", "", "", "", ""];
+    this.days = [this.title_sunday[this.initial_current.Language], this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language], this.title_wednesday[this.initial_current.Language], this.title_thursday[this.initial_current.Language], this.title_friday[this.initial_current.Language], this.title_saturay[this.initial_current.Language], this.title_holiday[this.initial_current.Language]];
+    this.costs_title = ["", "", "", "", "", "", "", "", "", "", ""];
 
     // this.languageText  = [ this.title_sunday[this.initial_current.Language]];
     // this.languageText  = [ this.title_sunday[this.initial_current.Language]  , this.title_monday[this.initial_current.Language], this.title_tuesday[this.initial_current.Language] , this.title_wednesday[this.initial_current.Language] , this.title_thursday[this.initial_current.Language] , this.title_friday[this.initial_current.Language] , this.title_saturay[this.initial_current.Language]];
@@ -2080,10 +2091,6 @@ export class ProjectManageComponent implements OnInit {
 
   //-- 07/11/2023
   //-- Project Logo
-
-
-
-
   uploadImages() {
 
     const filename = "XXX";
@@ -2194,7 +2201,26 @@ export class ProjectManageComponent implements OnInit {
   //   }
   // }
 
+  //dropdown 
 
+  Responsiblepos_List: ResponsibleposModel[] = [];
+  doLoadResponsibleposList() {
+    var tmp = new ResponsibleposModel();
+    this.genaralService.MTResponsiblepos_get(tmp).then(async (res) => {
+      this.Responsiblepos_List = await res;
+
+    })
+  }
+
+  responsiblearea_list: ResponsibleareaModel[] = [];
+  doLoadresponsibleareaList() {
+    var tmp = new ResponsibleareaModel();
+    this.genaralService.MTResponsiblearea_get(tmp).then(async (res) => {
+      this.responsiblearea_list = await res;
+
+    })
+  }
+  // 
 
   proaddress_list: ProaddressModel[] = [];
   selectedProaddress: ProaddressModel = new ProaddressModel();
@@ -2217,6 +2243,7 @@ export class ProjectManageComponent implements OnInit {
       }
     });
   }
+
 
   procontact_list: ProcontactModel[] = [];
   selectedProcontact: ProcontactModel = new ProcontactModel();

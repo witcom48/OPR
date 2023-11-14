@@ -332,9 +332,10 @@ export class ProjectTransferComponent implements OnInit {
     var protype = ""
     var proarea = ""
     var progroup = ""
+    var proresponsible= ""
+    var responsiblearea= ""
 
-
-    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness, proarea, progroup).then(async (res) => {
+    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness, proarea, progroup,proresponsible,responsiblearea).then(async (res) => {
       this.project_monitor = await res;
        setTimeout(() => {
         //this.calculateTotal()

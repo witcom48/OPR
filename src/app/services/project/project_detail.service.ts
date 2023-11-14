@@ -1481,7 +1481,7 @@ export class ProjectDetailService {
     return this.http.post<any>(this.config.ApiProjectModule + '/projobversion_list', filter, this.options).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
-        //// console.log(res)
+        console.log(res,'yyyyyyyyyyyyyyyyyyyyy')
         return message.data;
       });
   }

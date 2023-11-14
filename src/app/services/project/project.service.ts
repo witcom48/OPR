@@ -294,7 +294,7 @@ export class ProjectService {
       });
   }
 
-  public project_monitor(company: string, workdate: Date, protype: string, probusiness: string, proarea: string, progroup: string) {
+  public project_monitor(company: string, workdate: Date, protype: string, probusiness: string, proarea: string, progroup: string,proresponsible: string, responsiblearea: string) {
 
     var filter = {
       device_name: '',
@@ -313,7 +313,8 @@ export class ProjectService {
       project_progroup: progroup,
 
       project_probusiness: probusiness,
-
+      proresponsible: proresponsible,
+      responsiblearea: responsiblearea,
       fromdate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
       todate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
     };
