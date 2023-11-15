@@ -174,4 +174,31 @@ export class TimecardService {
       });
   }
 
+
+
+  public timesheet_delete(company: string,  project: string,  worker: string, model : TimecardsModel) {
+    //  let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    // public timesheet_delete(company: string, project: string, projob_code: string, worker: string, model : TimecardsModel) {
+
+    let data = {
+        device_name: "phone",
+        ip: "127.0.0.1",
+        username: this.initial_current.Username,
+        company_code: company,
+
+ 
+        language: this.initial_current.Language,
+        project_code: project,
+        worker_code: worker,
+    
+    }
+    return this.http.post<any>(this.config.ApiAttendanceModule + '/timecard_del', data, this.options).toPromise()
+        .then((res) => {
+            // console.log(res)
+            let message = JSON.parse(res);
+            return message;
+        });
+}
+
+
 }

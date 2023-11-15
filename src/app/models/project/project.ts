@@ -17,7 +17,7 @@ export class ProjectModel {
     project_progroup: string = "";
 
 
-
+    projob_code: string = "";
 
     project_probusiness: string = "";
     project_roundtime: string = "";

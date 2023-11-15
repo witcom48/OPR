@@ -36,6 +36,7 @@ import { PrjectJobtypeModel } from '../../../models/project/project_jobtype';
 
 import { SearchEmpComponent } from '../../../components/usercontrol/search-emp/search-emp.component';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 
 
 @Component({
@@ -125,7 +126,6 @@ export class ProjectTimesheetComponent implements OnInit {
     this.doLoadLanguage()
     this.doGetInitialCurrent()
     this.doLoadMenu()
-
     setTimeout(() => {
       this.doLoadProject()
       this.doLoadPolShift()
@@ -223,20 +223,22 @@ export class ProjectTimesheetComponent implements OnInit {
       },
       {
         label: this.title_delete[this.initial_current.Language],
-
         icon: 'pi pi-fw pi-trash',
-      }
+        command: (event) => {
+          this.confirmDelete(this.selectedDataArray)
 
-      ,
-      {
-        label: this.title_import[this.initial_current.Language],
-        icon: 'pi pi-fw pi-file-import',
+        }
       }
-      ,
-      {
-        label: this.title_export[this.initial_current.Language],
-        icon: 'pi pi-fw pi-file-export',
-      }
+      // ,
+      // {
+      //   label: this.title_import[this.initial_current.Language],
+      //   icon: 'pi pi-fw pi-file-import',
+      // }
+      // ,
+      // {
+      //   label: this.title_export[this.initial_current.Language],
+      //   icon: 'pi pi-fw pi-file-export',
+      // }
 
     ];
 
@@ -245,6 +247,8 @@ export class ProjectTimesheetComponent implements OnInit {
   project_list: ProjectModel[] = [];
   selectedProject_fillter: ProjectModel = new ProjectModel()
   selectedDate_fillter: Date = new Date()
+  selectedToDate_fillter: Date = new Date()
+
   doLoadProject() {
     this.project_list = []
     this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
@@ -261,9 +265,8 @@ export class ProjectTimesheetComponent implements OnInit {
   timeout: string = "00:00"
 
   doLoadTimecard() {
-    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
+    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedToDate_fillter).then(async (res) => {
       this.timecard_list = await res;
-      console.log(res)
     });
   }
 
@@ -356,6 +359,8 @@ export class ProjectTimesheetComponent implements OnInit {
     this.jobmain_list = []
     this.projectDetailService.projobmain_get("", this.selectedProject_fillter.project_code, "").then(async (res) => {
       this.jobmain_list = await res;
+      this.reloadPage();
+
     });
   }
   doGetPolJobmainDetail(code: string): string {
@@ -381,7 +386,7 @@ export class ProjectTimesheetComponent implements OnInit {
         this.selectedTimecard.project_code = this.selectedProject_fillter.project_code
         this.selectedTimecard.timecard_color = "1"
 
-        this.selectedTimecard.timecard_workdate = new Date(this.selectedDate_fillter)
+        this.selectedTimecard.timecard_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
         this.selectedTimecard.timecard_in = this.timein
         this.selectedTimecard.timecard_out = this.timeout
 
@@ -410,14 +415,12 @@ export class ProjectTimesheetComponent implements OnInit {
     });
   }
 
-
   select_emp() {
     // console.log(this.selectEmp.selectedEmployee.worker_code)
 
     this.selectedTimecard.company_code = this.selectEmp.selectedEmployee.company_code
     this.selectedTimecard.worker_code = this.selectEmp.selectedEmployee.worker_code
-    this.selectedTimecard.timecard_workdate = this.selectedDate_fillter
-
+    this.selectedTimecard.timecard_workdate = this.selectedDate_fillter, this.selectedToDate_fillter
     this.doLoadPolShift()
     this.doLoadPolDaytype()
     this.doLoadPolJobmain()
@@ -440,7 +443,86 @@ export class ProjectTimesheetComponent implements OnInit {
 
 
 
+  /////
+  version_selected: string = "";
 
+  reloadPage() {
+    this.doLoadTimecard()
+  }
+  checked: boolean = false;
 
+  selectedDataArray: any[] = [];
+  toggleSelect(data: { checked: boolean; }) {
+    if (data.checked) {
+      this.selectedDataArray.push(data);
+      this.checked = true;
+    } else {
+      const index = this.selectedDataArray.indexOf(data);
+      if (index > -1) {
+        this.selectedDataArray.splice(index, 1);
+        if (this.selectedDataArray.length === 0) {
+          this.checked = false;
+        }
+      }
+    }
+    console.log(this.selectedDataArray, 'รวม')
+  }
+
+  //Delete
+  confirmDelete(selectedDataArray: TimecardsModel[]) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.doDeleteTimesheet(selectedDataArray);
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cancelled',
+          detail: this.title_confirm_cancel[this.initial_current.Language],
+        });
+      },
+    });
+    console.log(this.selectedDataArray, 'ยืนยัน')
+  }
+
+  async doDeleteTimesheet(selectedDataArray: TimecardsModel[]) {
+    try {
+      for (const data of selectedDataArray) {
+        const res = await this.timecardService.timesheet_delete(
+          this.initial_current.CompCode, this.selectedProject_fillter.project_code, this.selectedTimecard.worker_code, data
+        );
+        if (res.success) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+        }
+      }
+      selectedDataArray.length = 0;
+      this.doLoadPolJobmain();
+      this.reloadPage();
+      this.displayManage = false;
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while deleting.' });
+    }
+  }
+
+  // async doDeleteTimesheet(selectedDataArray: TimecardsModel) {
+  //   for (const data of selectedDataArray) {
+  //     await this.timecardService.timesheet_delete(this.initial_current.CompCode, this.selectedProject_fillter.project_code, this.selectedTimecard.worker_code, data).then((res) => {
+  //       if (res.success) {
+  //         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+  //         this.doLoadPolJobmain()
+  //         this.reloadPage();
+  //       }
+  //       else {
+  //         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+  //       }
+  //     });
+  //     this.displayManage = false;
+  //   }
+  // }
 }
 
