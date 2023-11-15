@@ -425,7 +425,7 @@ export class ProjectTimesheetComponent implements OnInit {
         data.timecard_daytype = this.selectedTimecard.timecard_daytype;
         data.shift_code = this.selectedTimecard.shift_code;
 
-        
+
 
         data.modified_by = this.initial_current.Username;
         console.log(data, 'data')
@@ -433,7 +433,7 @@ export class ProjectTimesheetComponent implements OnInit {
         data.company_code = this.initial_current.CompCode
         // data.project_code = this.selectedProject_fillter.project_code
         data.timecard_color = "1"
-        
+
         data.timecard_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
         data.timecard_in = this.timein
         data.timecard_out = this.timeout
@@ -518,27 +518,27 @@ export class ProjectTimesheetComponent implements OnInit {
 
 
 
-  select_emp() {
-    // console.log(this.selectEmp.selectedEmployee.worker_code)
+  // select_emp() {
+  //   // console.log(this.selectEmp.selectedEmployee.worker_code)
 
-    this.selectedTimecard.company_code = this.selectEmp.selectedEmployee.company_code
-    this.selectedTimecard.worker_code = this.selectEmp.selectedEmployee.worker_code
-    this.selectedTimecard.timecard_workdate = this.selectedDate_fillter, this.selectedToDate_fillter
-    this.doLoadPolShift()
-    this.doLoadPolDaytype()
-    this.doLoadPolJobmain()
+  //   this.selectedTimecard.company_code = this.selectEmp.selectedEmployee.company_code
+  //   this.selectedTimecard.worker_code = this.selectEmp.selectedEmployee.worker_code
+  //   this.selectedTimecard.timecard_workdate = this.selectedDate_fillter, this.selectedToDate_fillter
+  //   this.doLoadPolShift()
+  //   this.doLoadPolDaytype()
+  //   this.doLoadPolJobmain()
 
-    if (this.initial_current.Language == "EN") {
-      this.emp_name = this.selectEmp.selectedEmployee.worker_fname_en + " " + this.selectEmp.selectedEmployee.worker_lname_en
-    }
-    else {
-      this.emp_name = this.selectEmp.selectedEmployee.worker_fname_th + " " + this.selectEmp.selectedEmployee.worker_lname_th
-    }
+  //   if (this.initial_current.Language == "EN") {
+  //     this.emp_name = this.selectEmp.selectedEmployee.worker_fname_en + " " + this.selectEmp.selectedEmployee.worker_lname_en
+  //   }
+  //   else {
+  //     this.emp_name = this.selectEmp.selectedEmployee.worker_fname_th + " " + this.selectEmp.selectedEmployee.worker_lname_th
+  //   }
 
-    this.searchEmp = false
-    this.displayManage = true
+  //   this.searchEmp = false
+  //   this.displayManage = true
 
-  }
+  // }
 
   close_searchemp() {
     this.searchEmp = false
@@ -595,14 +595,16 @@ export class ProjectTimesheetComponent implements OnInit {
     try {
       for (const data of selectedDataArray) {
         const res = await this.timecardService.timesheet_delete(
-          this.initial_current.CompCode, this.selectedProject_fillter.project_code, this.selectedTimecard.worker_code, data
+          this.initial_current.CompCode, data.project_code, data.worker_code, data
         );
+
         if (res.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
         } else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
         }
       }
+
       selectedDataArray.length = 0;
       this.doLoadPolJobmain();
       this.reloadPage();
@@ -611,21 +613,5 @@ export class ProjectTimesheetComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while deleting.' });
     }
   }
-
-  // async doDeleteTimesheet(selectedDataArray: TimecardsModel) {
-  //   for (const data of selectedDataArray) {
-  //     await this.timecardService.timesheet_delete(this.initial_current.CompCode, this.selectedProject_fillter.project_code, this.selectedTimecard.worker_code, data).then((res) => {
-  //       if (res.success) {
-  //         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-  //         this.doLoadPolJobmain()
-  //         this.reloadPage();
-  //       }
-  //       else {
-  //         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-  //       }
-  //     });
-  //     this.displayManage = false;
-  //   }
-  // }
 }
 
