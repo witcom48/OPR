@@ -194,7 +194,7 @@ var reason = new Map([
     ["leave", { TH: "ลา", EN: "Leave" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
-    
+
     ["reason", { TH: "เหตุผลประกอบ", EN: "Reason" }],
     ["resignreq", { TH: "เหตุผลการลาออก", EN: "Resign" }],
     ["leavereq", { TH: "ขอลางาน", EN: "Leave req." }],
@@ -205,9 +205,9 @@ var reason = new Map([
     ["salaryreq", { TH: "การปรับเงินเดือน", EN: "Salary adjust" }],
     ["blackreq", { TH: "แบล็คลิสต์", EN: "Black List" }],
     ["deppos", { TH: "การปรับสังกัด/ตำแหน่ง", EN: "Change Department/Position" }],
-     
+    ["suspend", { TH: "เหตุผลระงับการจ่าย", EN: "Pay suspend" }],
 
-     
+
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
     ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
@@ -244,8 +244,8 @@ var locationpage = new Map([
     ["payment", { TH: "วันที่จ่าย", EN: "Payment" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
-   
-    
+
+
     ["location", { TH: "สถานที่ปฎิบัติงาน", EN: "Location" }],
     ["detail", { TH: "รายละเอียด", EN: "Detail" }],
     ["lat", { TH: "ละติจูด", EN: "Latitude" }],
@@ -276,10 +276,10 @@ var planholiday = new Map([
     ["entries", { TH: "รายการ", EN: "entries" }],
     ["search", { TH: "ค้นหา", EN: "search" }],
     ["no", { TH: "ลำดับ", EN: "No." }],
-    ["code", { TH: "รหัส", EN: "Code" }], 
-  
+    ["code", { TH: "รหัส", EN: "Code" }],
+
     ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-    ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
 
 
     ["description", { TH: "รายละเอียด", EN: "Description" }],
@@ -292,7 +292,7 @@ var planholiday = new Map([
     ["leave", { TH: "ลา", EN: "Leave" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
-     
+
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
     ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
@@ -307,7 +307,7 @@ var planholiday = new Map([
     ["ratepay", { TH: "อัตราการจ่าย", EN: "Rate Payment" }],
     ["holiday", { TH: "วันหยุดประเพณี", EN: "Holiday" }],
     ["companyday", { TH: "วันหยุดบริษัท", EN: "Company day" }],
- ]);
+]);
 
 var shfit = new Map([
     ["title", { TH: "กำหนดนโยบาย", EN: "Attendance" }],
@@ -336,7 +336,7 @@ var shfit = new Map([
     ["leave", { TH: "ลา", EN: "Leave" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
-    
+
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
     ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
@@ -344,10 +344,10 @@ var shfit = new Map([
     ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
     ["template", { TH: "เทมเพลต", EN: "Template" }],
     ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-    ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
- 
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
 
-     ["shfits", { TH: "กะการทำงาน", EN: "Shift" }],
+
+    ["shfits", { TH: "กะการทำงาน", EN: "Shift" }],
     ["working", { TH: "เวลาทำงาน", EN: "Working" }],
     ["overtime", { TH: "ล่วงเวลา", EN: "Overtime" }],
     ["period", { TH: "ช่วงที่", EN: "Period" }],
@@ -393,7 +393,7 @@ var planshift = new Map([
     ["leave", { TH: "ลา", EN: "Leave" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
-     
+
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
     ["uploadinfo", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
@@ -401,7 +401,7 @@ var planshift = new Map([
     ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
     ["template", { TH: "เทมเพลต", EN: "Template" }],
     ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-    ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
 
     ["shiftplan", { TH: "แผนการทำงาน", EN: "Shift Plan" }],
     ["schedule", { TH: "แผนกะการทำงาน", EN: "Schedule" }],
@@ -453,15 +453,15 @@ var leave = new Map([
     ["leave", { TH: "ลา", EN: "Leave" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
-    
+
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
-     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
+    ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
     ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
     ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
     ["template", { TH: "เทมเพลต", EN: "Template" }],
     ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-    ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
-    
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
+
     ["leavepaln", { TH: "รูปแบบการลา", EN: "Leave" }],
     ["quotadays", { TH: "จำนวนวันลา/ปี", EN: "Quota days" }],
     ["maxdays", { TH: "จำนวนวันลาสะสม", EN: "Max days" }],
@@ -509,16 +509,16 @@ var planleave = new Map([
     ["leave", { TH: "ลา", EN: "Leave" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
-    
+
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
-   ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
-   ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
-   ["template", { TH: "เทมเพลต", EN: "Template" }],
-   ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-   ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
-   ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-   ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
+    ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
+    ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
+    ["template", { TH: "เทมเพลต", EN: "Template" }],
+    ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
+    ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
 
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
     ["planleave", { TH: "แผนการลา", EN: "Leave Plan" }],
@@ -554,13 +554,13 @@ var rateot = new Map([
 
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
-   ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
-   ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
-   ["template", { TH: "เทมเพลต", EN: "Template" }],
-   ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-   ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
-   ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-   ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
+    ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
+    ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
+    ["template", { TH: "เทมเพลต", EN: "Template" }],
+    ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
+    ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
 
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
     ["overtime", { TH: "รูปแบบการทำโอที", EN: "Rate OT." }],
@@ -631,14 +631,14 @@ var diligence = new Map([
     ["leave", { TH: "ลา", EN: "Leave" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
-    
+
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
-   ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
-   ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
-   ["template", { TH: "เทมเพลต", EN: "Template" }],
-   ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-   ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
+    ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
+    ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
+    ["template", { TH: "เทมเพลต", EN: "Template" }],
+    ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
 
     ["diligence", { TH: "นโยบายเบี้ยขยัน", EN: "Diligence" }],
     ["passpro", { TH: "พ้นทดลองงาน", EN: "Pass pro" }],
@@ -693,14 +693,14 @@ var late = new Map([
     ["leave", { TH: "ลา", EN: "Leave" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
- 
+
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
-   ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
-   ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
-   ["template", { TH: "เทมเพลต", EN: "Template" }],
-   ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-   ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
+    ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
+    ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
+    ["template", { TH: "เทมเพลต", EN: "Template" }],
+    ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
 
     ["late", { TH: "การสาย", EN: "Late" }],
     ["amount", { TH: "จำนวนเงิน", EN: "Amount" }],
@@ -737,15 +737,15 @@ var timeallowpage = new Map([
     ["leave", { TH: "ลา", EN: "Leave" }],
     ["save", { TH: "บันทึก", EN: "Save" }],
     ["delete", { TH: "ลบ", EN: "Delete" }],
-   
-    
+
+
     ["upload", { TH: "อัปโหลด", EN: "Upload" }],
     ["dropfile", { TH: "วางไฟล์ที่นี้", EN: "Drop files here" }],
-   ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
-   ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
-   ["template", { TH: "เทมเพลต", EN: "Template" }],
-   ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
-   ["thai", { TH: "(ไทย)", EN:  "(Thai)" }],
+    ["choosefile", { TH: "เลือกไฟล์", EN: "Choose File" }],
+    ["nofilechosen", { TH: "ไม่มีไฟล์ที่เลือก", EN: "No file chosen" }],
+    ["template", { TH: "เทมเพลต", EN: "Template" }],
+    ["eng", { TH: "(อังกฤษ)", EN: "(Eng.)" }],
+    ["thai", { TH: "(ไทย)", EN: "(Thai)" }],
 
     ["timeallowance", { TH: "เงินค่าเวลา", EN: "Time Allowance" }],
     ["probation", { TH: "พ้นทดลองงาน", EN: "Probation" }],
@@ -1608,9 +1608,9 @@ var menumain = new Map([
     ["policy", { TH: "กำหนด", EN: "Policy" }],
     ["employeeinfo", { TH: "ประวัติพนักงาน", EN: "Employee info" }],
     ["monitor", { TH: "กระดานแสดงผล", EN: "Monitor" }],
-    
-    
-    
+    ["paysus", { TH: "ระงับการจ่าย", EN: "Paysuspend" }],
+
+
     // sys
     ["system", { TH: "ตั้งค่าระบบ", EN: "System" }],
     ["manage", { TH: "จัดการ", EN: "Manage" }],
@@ -1632,20 +1632,20 @@ var menumain = new Map([
     ["recruitment", { TH: "รับสมัครงาน", EN: "Recruitment" }],
     ["blacklist", { TH: "แบล็คลิสต์", EN: "Black List" }],
     ["request", { TH: "ร้องขอพนักงานเพิ่ม", EN: "Request" }],
-    ["applywork", { TH: "ประวัติผู้สมัครงาน", EN: "Application"}],
-    ["reqappr", { TH: "อนุมัติผู้สมัครงาน", EN: "Approval List"}],
+    ["applywork", { TH: "ประวัติผู้สมัครงาน", EN: "Application" }],
+    ["reqappr", { TH: "อนุมัติผู้สมัครงาน", EN: "Approval List" }],
 
     //pay
     ["payroll", { TH: "ระบบบริหารเงินเดือน", EN: "Payroll" }],
     ["policy", { TH: "นโยบายเงินเดือน", EN: "Policy" }],
     ["calculate", { TH: "คำนวณเงินเดือน", EN: "Calculate" }],
-    ["calculatebonus", { TH: "คำนวณโบนัส", EN: "Calculate Bonus"}],
-    ["incomededuct", { TH: "บันทึกเงินได้/เงินหัก", EN: "Income / Deduct"}],
+    ["calculatebonus", { TH: "คำนวณโบนัส", EN: "Calculate Bonus" }],
+    ["incomededuct", { TH: "บันทึกเงินได้/เงินหัก", EN: "Income / Deduct" }],
     ["calculatetax", { TH: "คำนวณภาษี", EN: "Calculate Tax" }],
     ["viewcalculate", { TH: "ตรวจสอบการคำนวณ", EN: "View Calculate" }],
     ["summarys", { TH: "สรุปรายการรวม", EN: "Summary" }],
-    ["transfer", { TH: "โอนย้ายข้อมูล", EN: "Transfer"}],
-    
+    ["transfer", { TH: "โอนย้ายข้อมูล", EN: "Transfer" }],
+
     //att
     ["attendance", { TH: "การเข้าปฏิบัติงาน", EN: "Attendance" }],
     ["policy", { TH: "กำหนดนโยบาย", EN: "Policy" }],
@@ -1655,7 +1655,7 @@ var menumain = new Map([
     ["calculatetimeCost", { TH: "คำนวณเงินค่าเวลา", EN: "Calculate Time Cost" }],
     ["summary", { TH: "ตรวจสอบการคำนวณ", EN: "Summary" }],
 
-    
+
 
 ]);
 
@@ -1665,7 +1665,7 @@ var slefappemp = new Map([
     ["shift", { TH: "เปลี่ยนกะการทำงาน", EN: "Shift" }],
     ["ot", { TH: "การทำโอที", EN: "Overtime" }],
     ["daytype", { TH: "เปลี่ยนประเภทวัน", EN: "Daytype" }],
-    ["punchcard", { TH: "ลืมลงเวลา",EN: "Onsite / Not Terminal" }],
+    ["punchcard", { TH: "ลืมลงเวลา", EN: "Onsite / Not Terminal" }],
     ["checkin", { TH: "เช็คอิน / เช็คเอาท์", EN: "Check IN/OUT" }],
     ["reqdoc", { TH: "การขอเปลี่ยนแปลงข้อมูล", EN: "Change Record" }],
     ["consent", { TH: "ความยินยอม", EN: "Consent" }],

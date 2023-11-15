@@ -117,6 +117,8 @@ import { PeriodsModels } from 'src/app/models/payroll/periods';
 import { YearPeriodModels } from 'src/app/models/attendance/yearperiod';
 import { YearService } from 'src/app/services/system/policy/year.service';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
+import { EmployeeresignModel } from 'src/app/models/employee/employee_resign';
+import { EmpresignService } from 'src/app/services/emp/worker_resign.service';
 
 
 
@@ -132,11 +134,6 @@ interface ConPay {
   name_en: string,
   value: string
 }
-// interface Ctype {
-//   name_th: string,
-//   name_en: string,
-//   code: string
-// }
 interface Milit {
   name_th: string,
   name_en: string,
@@ -161,6 +158,10 @@ interface Doctype {
   name_th: string,
   name_en: string,
   code: string
+}
+interface Order {
+  name:string,
+  code:string
 }
 
 
@@ -192,12 +193,13 @@ export class EmployeeManageComponent implements OnInit {
 
   taxM: Taxmethod[] = [];
   conPay: ConPay[] = [];
-  // cardTypelist: Ctype[] = [];
   militarystatus: Milit[] = [];
   nationality: Nation[] = [];
   foreignerType: ForeigType[] = [];
   pfType: PFType[] = [];
   docType: Doctype[] = [];
+
+  order_list:Order[]=[{name :'1',code:'1'},{name :'2',code:'2'},{name :'3',code:'3'}];
 
   //menu emplocation
   menu_emplocation: MenuItem[] = [];
@@ -366,6 +368,8 @@ export class EmployeeManageComponent implements OnInit {
 
     private yearService: YearService,
     private periodsService: PeriodsServices,
+
+    private empresignService: EmpresignService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -474,7 +478,7 @@ export class EmployeeManageComponent implements OnInit {
 
     this.doLoadForetypeList();
 
-    this.doLoadYear();
+    this.doPeriod();
     setTimeout(() => {
       this.doLoadMenu();
     }, 100);
@@ -484,6 +488,7 @@ export class EmployeeManageComponent implements OnInit {
         this.doLoadEmployee()
       } else {
         this.doGetNewCode("", "");
+        this.selectedEmployee.nationality_code = "TH";
       }
 
     }, 400);
@@ -787,6 +792,19 @@ export class EmployeeManageComponent implements OnInit {
 
   title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
   title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
+  
+  type_D: { [key: string]: string } = { EN: "Dayly", TH: "รายวัน" };
+  type_M: { [key: string]: string } = { EN: "Monthly", TH: "รายเดือน" };
+  type_H: { [key: string]: string } = { EN: "Hourly", TH: "รายชั่วโมง" };
+  
+  title_order: { [key: string]: string } = { EN: "Order", TH: "ลำดับที่" };
+  title_hosstatus: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
+  title_activate: { [key: string]: string } = { EN: "Active", TH: "ใช้งาน" };
+
+  title_emer_tel: { [key: string]: string } = { EN: "Emergency Tel.", TH: "เบอร์โทรศัพท์ผู้ติดต่อฉุกเฉิน" };
+  title_emer_name: { [key: string]: string } = { EN: "Emergency Name", TH: "ผู้ติดต่อฉุกเฉิน" };
+  title_emer_address: { [key: string]: string } = { EN: "Emergency Address", TH: "ที่อยู่ผู้ติดต่อฉุกเฉิน" };
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ประวัติพนักงาน";
@@ -2662,7 +2680,9 @@ export class EmployeeManageComponent implements OnInit {
 
           this.doGetFile();
 
-          this.doLoadPaytranAcc(this.initial_current.PR_Year, this.initial_current.PR_PayDate);
+          this.doLoadEmpresignList();
+
+          this.doLoadPaytranAcc(this.initial_current.PR_PayDate);
         }, 300);
 
       }
@@ -4266,8 +4286,8 @@ export class EmployeeManageComponent implements OnInit {
 
   }
 
-  empresignrecord: [] = [];
-  selectedEmpresign: EmpSalaryModel = new EmpSalaryModel();
+  // empresignrecord: [] = [];
+  // selectedEmpresign: EmpSalaryModel = new EmpSalaryModel();
   onRowSelectEmpresign(event: Event) { }
 
   //salary
@@ -4949,6 +4969,8 @@ export class EmployeeManageComponent implements OnInit {
 
         //blacklist
         this.doRecordEmpBlacklist();
+        //resign
+        this.doRecordEmpResign();
 
         //filedoc
         this.record_filedoc();
@@ -5766,39 +5788,21 @@ record_filedoc() {
   paytranAccList: PaytranAccModel[] = [];
   paytranDetailAcc: PaytranAccModel = new PaytranAccModel();
   //Accumalate
-  doLoadPaytranAcc(year: string, paydate: Date) {
+  doLoadPaytranAcc(paydate: Date) {
     this.paytranTaxTotal = 0;
     this.paytranDetailAcc = new PaytranAccModel();
     this.paytranAccList = [];
 
-    this.paytranService.paytranacc_get(this.initial_current.CompCode, this.selectedEmployee.worker_code, year, paydate).then((res) => {
+    this.paytranService.paytranacc_get(this.initial_current.CompCode, this.selectedEmployee.worker_code, this.initial_current.PR_Year, paydate).then((res) => {
       this.paytranAccList = res;
     })
   }
-  yearperiods_list: YearPeriodModels[] = [];
-  yearperiods_select: YearPeriodModels = new YearPeriodModels();
-  doLoadYear() {
-    this.yearperiods_list = [];
-    var tmp = new YearPeriodModels();
-    tmp.year_group = "TAX";
-    tmp.company_code = this.initial_current.CompCode;
-    this.yearService.year_get(tmp).then(async (res) => {
-      await res.forEach((element: YearPeriodModels) => {
-        element.year_fromdate = new Date(element.year_fromdate)
-        element.year_todate = new Date(element.year_todate)
-      });
-      this.yearperiods_list = await res;
-      this.yearperiods_select = res[0];
-      this.doPeriod();
-    })
-  }
-
   periods_list: PeriodsModels[] = [];
   periods_select: PeriodsModels = new PeriodsModels();
   doPeriod() {
     this.periods_list = [];
     var tmp = new PeriodsModels();
-    tmp.year_code = this.yearperiods_select.year_code;
+    tmp.year_code = this.initial_current.PR_Year;
     tmp.company_code = this.initial_current.CompCode;
     this.periodsService.period_get(tmp).then(async (res) => {
       res.forEach((obj: PeriodsModels) => {
@@ -5809,13 +5813,50 @@ record_filedoc() {
       this.periods_select = await res[0]
     });
   }
-  selectyear() {
-    this.doPeriod();
-  }
   selectperiod() {
-    this.doLoadPaytranAcc(this.yearperiods_select.year_code, this.periods_select.period_payment);
+    this.doLoadPaytranAcc(this.periods_select.period_payment);
   }
 
+  calculateEndDate() {
+    if (this.selectedEmployee.worker_probationdate && this.selectedEmployee.worker_probationday) {
+      const start = new Date(this.selectedEmployee.worker_probationdate);
+      const end = new Date(start);
+      end.setDate(start.getDate() + this.selectedEmployee.worker_probationday);
+      this.selectedEmployee.worker_probationenddate = end;
+    }
+  }
 
+  //resign
+  empresignList: EmployeeresignModel[] = [];
+  selectedEmpresign: EmployeeresignModel = new EmployeeresignModel();
+  doLoadEmpresignList() {
+    this.empresignService.empresign_get(this.initial_current.CompCode, this.emp_code,this.selectedEmployee.worker_cardno).then(async(res) => {
+      await res.forEach((element: EmployeeresignModel) => {
+        element.empresign_date = new Date(element.empresign_date)
+      })
+      this.empaddressList = res;
+      if (this.empaddressList.length > 0) {
+        this.selectedEmpAddress = this.empaddressList[0];
+      }
+    })
+  }
+  doRecordEmpResign() {
+    if (this.selectedEmployee.worker_resignstatus) {
+      var tmp = new EmployeeresignModel();
+      tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode
+      tmp.worker_code = this.selectedEmployee.worker_code
+      tmp.card_no = this.selectedEmployee.worker_cardno
+      tmp.empresign_date = this.selectedEmployee.worker_resigndate
+      tmp.reason_code = this.selectedEmployee.worker_resignreason
+      this.empresignService.empresign_record(tmp).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      })
+    } else {
+    }
+  }
 
 }

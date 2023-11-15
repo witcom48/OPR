@@ -130,6 +130,10 @@ export class EmployeeService {
       worker_socialsentdate: model.worker_socialsentdate,
       worker_socialnotsent: model.worker_socialnotsent,
 
+      worker_emergency_tel : model.worker_emergency_tel,
+      worker_emergency_name : model.worker_emergency_name,
+      worker_emergency_address : model.worker_emergency_address,
+
       modified_by: this.initial_current.Username
     };
 

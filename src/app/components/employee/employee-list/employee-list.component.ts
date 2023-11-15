@@ -644,7 +644,6 @@ export class EmployeeListComponent implements OnInit {
         element.worker_probationenddate = new Date(element.worker_probationenddate)
       })
       this.employee_list = await res;
-      console.log(res);
       this.workerCurrent = this.employee_list.length;
     })
   }

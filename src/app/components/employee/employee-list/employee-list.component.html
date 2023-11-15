@@ -62,7 +62,8 @@
                         </div>
                         <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code" [showClear]="true"
                             [(ngModel)]="selectedEmptype" (onChange)="doChangeSelectEmptype()"
-                            [disabled]="!fillterEmptype" [style]="{ width: '100%', overflow: 'visible' }">
+                            [disabled]="!fillterEmptype" [style]="{ width: '100%', overflow: 'visible' }"
+                            [filter]="true" filterBy="type_code,type_name_th,type_name_en">
                             <ng-template let-item pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
                             </ng-template>
@@ -80,7 +81,8 @@
                         </div>
                         <p-dropdown placeholder="--" [options]="positionList" optionValue="position_code"
                             [showClear]="true" [(ngModel)]="selectedPosition" (onChange)="doChangeSelectPosition()"
-                            [disabled]="!fillterPosition" [style]="{ width: '100%', overflow: 'visible' }">
+                            [disabled]="!fillterPosition" [style]="{ width: '100%', overflow: 'visible' }"
+                            [filter]="true" filterBy="position_code,position_name_th,position_name_en">
                             <ng-template let-item pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
                             </ng-template>
@@ -128,7 +130,8 @@
                         </div>
                         <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code"
                             [showClear]="true" [(ngModel)]="selectedProject" (onChange)="doChangeSelectProject()"
-                            [disabled]="!fillterProject" [style]="{ width: '100%', overflow: 'visible' }">
+                            [disabled]="!fillterProject" [style]="{ width: '100%', overflow: 'visible' }"
+                            [filter]="true" filterBy="project_code,project_name_th,project_name_en">
                             <ng-template let-item pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
                             </ng-template>
@@ -146,7 +149,8 @@
                         </div>
                         <p-dropdown placeholder="--" [options]="statusList" optionValue="status_code" [showClear]="true"
                             [(ngModel)]="selectedEmpstatus" (onChange)="doChangeSelectEmpstatus()"
-                            [disabled]="!fillterEmpstatus" [style]="{ width: '100%', overflow: 'visible' }">
+                            [disabled]="!fillterEmpstatus" [style]="{ width: '100%', overflow: 'visible' }"
+                            [filter]="true" filterBy="status_code,status_name_th,status_name_en">
                             <ng-template let-item pTemplate="selectedItem">
                                 {{initial_current.Language=="TH"? item.status_name_th : item.status_name_en}}
                             </ng-template>

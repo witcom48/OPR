@@ -7,6 +7,10 @@ export class EmpHospitalModel {
     emphospital_code: string= "";
     emphospital_date!: Date;
 
+    emphospital_order: string= "";
+    emphospital_activate: boolean = false;
+
+
     modified_by: string= "";
     modified_date: string= "";
 

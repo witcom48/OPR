@@ -129,7 +129,20 @@
 
                         <div>
                             <label for="lastname2">{{title_type}} : <span style="color: red;"> *</span></label>
-                            <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code"
+                            <div class="radiotype">
+                                <p-radioButton name="Emptype" value="D"
+                                    [(ngModel)]="selectedEmployee.worker_type"></p-radioButton>
+                                <label>{{type_D[initial_current.Language]}}</label>
+                                &nbsp;&nbsp;
+                                <p-radioButton name="Emptype" value="M"
+                                    [(ngModel)]="selectedEmployee.worker_type"></p-radioButton>
+                                <label>{{type_M[initial_current.Language]}}</label>
+                                &nbsp;&nbsp;
+                                <p-radioButton name="Emptype" value="H"
+                                    [(ngModel)]="selectedEmployee.worker_type"></p-radioButton>
+                                <label>{{type_H[initial_current.Language]}}</label>
+                            </div>
+                            <!-- <p-dropdown placeholder="--" [options]="emptypeList" optionValue="type_code"
                                 [showClear]="true" [(ngModel)]="selectedEmployee.worker_type"
                                 [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doChangeSelectEmptype()">
                                 <ng-template let-item pTemplate="selectedItem">
@@ -138,7 +151,7 @@
                                 <ng-template let-item pTemplate="item">
                                     {{initial_current.Language=="TH"? item.type_name_th : item.type_name_en}}
                                 </ng-template>
-                            </p-dropdown>
+                            </p-dropdown> -->
                         </div>
 
                         <div>
@@ -159,7 +172,8 @@
                             <label for="lastname2">{{title_nation[initial_current.Language]}} : </label>
                             <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code"
                                 [showClear]="true" [(ngModel)]="selectedEmployee.nationality_code"
-                                [style]="{ width: '100%', overflow: 'visible' }">
+                                [style]="{ width: '100%', overflow: 'visible' }"
+                                [filter]="true" filterBy="ethnicity_code,ethnicity_name_th,ethnicity_name_en">
                                 <ng-template let-item pTemplate="selectedItem">
                                     {{initial_current.Language=="TH"? item.ethnicity_name_th : item.ethnicity_name_en}}
                                 </ng-template>
@@ -205,14 +219,16 @@
                         <div style="grid-column: 1;">
                             <label for="lastname2">{{title_probation}} <span style="color: red;"> *</span></label>
                             <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="60"
-                                [(ngModel)]="selectedEmployee.worker_probationday">
+                                [(ngModel)]="selectedEmployee.worker_probationday"
+                                (onInput)="calculateEndDate()">
                             </p-inputNumber>
                         </div>
 
                         <div>
                             <label for="lastname2">{{title_probationdate}} : <span style="color: red;"> *</span></label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
-                                [(ngModel)]="selectedEmployee.worker_probationdate">
+                                [(ngModel)]="selectedEmployee.worker_probationdate"
+                                (onSelect)="calculateEndDate()">
                                 <input type="text">
                             </p-calendar>
                             <!-- <p-dropdown placeholder="01/01/2022" optionLabel="name" [showClear]="true"
@@ -610,6 +626,28 @@
                                         <input pInputText id="facebook" type="text" class="p-inputtext-sm"
                                             [(ngModel)]="selectedEmployee.worker_facebook">
                                     </div>
+
+                                    <div style="grid-column: 1/3;">
+                                        <hr>
+                                    </div>
+
+                                    <div>
+                                        <label>{{title_emer_name[initial_current.Language]}}</label>
+                                        <input pInputText type="text" class="p-inputtext-sm"
+                                            [(ngModel)]="selectedEmployee.worker_emergency_name">
+                                    </div>
+                                    
+                                    <div>
+                                        <label>{{title_emer_tel[initial_current.Language]}}</label>
+                                        <input pInputText type="text" class="p-inputtext-sm"
+                                            [(ngModel)]="selectedEmployee.worker_emergency_tel">
+                                    </div>
+                                    
+                                    <div style="grid-column: 1/3;">
+                                        <label>{{title_emer_address[initial_current.Language]}}</label>
+                                        <input pInputText type="text" class="p-inputtext-sm"
+                                            [(ngModel)]="selectedEmployee.worker_emergency_address">
+                                    </div>
                                 </div>
 
                             </p-accordionTab>
@@ -825,6 +863,8 @@
                                             <tr>
                                                 <th>{{title_hospitalname}}</th>
                                                 <th>{{title_start}}</th>
+                                                <th>{{title_order[initial_current.Language]}}</th>
+                                                <th>{{title_hosstatus[initial_current.Language]}}</th>
                                                 <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
                                             </tr>
@@ -833,6 +873,8 @@
                                             <tr [pSelectableRow]="emphospital">
                                                 <td>{{doGetHospitalDetail(emphospital.emphospital_code)}}</td>
                                                 <td>{{emphospital.emphospital_date | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{emphospital.emphospital_order}}</td>
+                                                <td>{{emphospital.emphospital_activate}}</td>
                                                 <td>{{emphospital.modified_by}}</td>
                                                 <td>{{emphospital.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                             </tr>
@@ -1447,13 +1489,10 @@
                         <div class="field col-12">
                             <p-accordion>
                                 <p-accordionTab header="{{title_resignrecord}}" *ngIf="hasAccessMenu('EMP002-020')">
-                                    <p-table #dtresignrecord [value]="empresignrecord" styleClass="p-datatable-sm"
+                                    <p-table #dtresignrecord [value]="empresignList" styleClass="p-datatable-sm"
                                         [tableStyle]="{'min-width': '20rem'}" [scrollable]="true" scrollHeight="200px"
                                         [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpresign"
-                                        (onRowSelect)="onRowSelectEmpresign($event)" [rows]="10"
-                                        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-                                        [paginator]="true"
-                                        currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
+                                        (onRowSelect)="onRowSelectEmpresign($event)" [rows]="10">
                                         <!-- <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <span class="p-input-icon-left ml-auto">
@@ -1471,11 +1510,11 @@
                                                 <th>{{title_reason}}</th>
                                             </tr>
                                         </ng-template>
-                                        <ng-template pTemplate="body" let-empresign>
+                                        <ng-template pTemplate="body" let-i="rowIndex" let-empresign>
                                             <tr [pSelectableRow]="empresign">
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{i+1}}</td>
+                                                <td>{{empresign.empresign_date | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{doGetreasonResign(empresign.reason_code)}}</td>
                                             </tr>
                                         </ng-template>
                                     </p-table>
@@ -1756,13 +1795,6 @@
                                         currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
                                         <ng-template pTemplate="caption">
                                             <div class="checkselect">
-                                                <div class="select">
-                                                    <label>Year:</label>
-                                                    <p-dropdown appendTo="body" class="selectyaer"
-                                                        [options]="yearperiods_list" [(ngModel)]="yearperiods_select"
-                                                        (onChange)="selectyear()" optionLabel="year_code"></p-dropdown>
-                                                </div>
-                                                &nbsp;&nbsp;
                                                 <div class="select">
                                                     <label>Period:</label>
                                                     <p-dropdown appendTo="body" class="selectyaer"
@@ -2186,6 +2218,19 @@
                 [required]="true"><input type="text"></p-calendar>
             <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmphospital.emphospital_date"> -->
 
+            <label>{{title_order[initial_current.Language]}}<span style="color: red;"> *</span></label>
+            <p-dropdown appendTo="body" placeholder="--" [options]="order_list" optionValue="code" optionLabel="name"
+                [showClear]="true" [(ngModel)]="selectedEmphospital.emphospital_order"
+                [style]="{ width: '100%', overflow: 'visible' }" name="hos_order" #hos_order="ngModel" [required]="true">
+            </p-dropdown>
+
+            <div class="checkbreak">
+                <p-checkbox name="hos_active" #hos_active="ngModel"
+                    [(ngModel)]="selectedEmphospital.emphospital_activate" [binary]="true"></p-checkbox> &nbsp;
+                <label>{{title_activate[initial_current.Language]}}</label>
+            </div>
+
+            
             <br>
             <div class="field col-12" style=" text-align: right;">
                 <p-button label="{{title_summit}}" (click)="emphospital_summit()"
