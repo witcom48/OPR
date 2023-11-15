@@ -229,7 +229,7 @@ export class ProjectManageComponent implements OnInit {
   title_thursday: { [key: string]: string } = { EN: "Thursday", TH: "วันพฤหัสบดี" }
   title_friday: { [key: string]: string } = { EN: "Friday", TH: "วันศุกร์" }
   title_saturay: { [key: string]: string } = { EN: "Saturay", TH: "วันเสาร์" }
-  title_holiday: { [key: string]: string } = { EN: "Holiday", TH: "วันนักขัตฤกษ์" }
+  title_holiday: { [key: string]: string } = { EN: "Public Holiday", TH: "วันนักขัตฤกษ์" }
 
 
 
@@ -2614,21 +2614,19 @@ export class ProjectManageComponent implements OnInit {
   manageProjobversion: ProjobversionModel = new ProjobversionModel();
 
   doLoadProjobversion() {
-    this.selectedProjobversion = new ProjobversionModel()
-    this.projectDetailService.projobversion_get(this.project_code, this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
-
+    this.selectedProjobversion = new ProjobversionModel();
+    this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
       this.projobversion_list = await res;
-
       if (this.projobversion_list.length > 0) {
-        this.selectedProjobversion = this.projobversion_list[0]
-        this.printVersion()
-      }
+        this.selectedProjobversion = this.projobversion_list[0];  
+        this.printVersion();
+       }
     });
     setTimeout(() => {
-      this.doLoadProjobmain()
+      this.doLoadProjobmain();
     }, 1000);
   }
-
+  
   onSelectProjobversion(event: any) {
 
     setTimeout(() => {
@@ -4451,6 +4449,7 @@ export class ProjectManageComponent implements OnInit {
 
   reloadPage() {
     this.doGetFilePro();
+    this.doLoadProjobversion();
   }
 
 

@@ -1,3 +1,5 @@
+import { EmployeeModel } from "../employee/employee";
+
 export class TimecardsModel {
     constructor() {
     }
@@ -62,6 +64,7 @@ export class TimecardsModel {
     worker_name_th: string = "";
     worker_name_en: string = "";
     
+    emp_data: EmployeeModel [] = [];
 
     
   }

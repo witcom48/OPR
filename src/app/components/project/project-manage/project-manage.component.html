@@ -210,7 +210,7 @@
         </div>
 
         <div class="formgrid grid" *ngIf="edit_proresponsible==true || new_proresponsible==true">
-            <h3>{{title_responsible[initial_current.Language]}}ddd</h3>
+            <h3>{{title_responsible[initial_current.Language]}}</h3>
             <div class="field col-12 ">
                 <label for="procontract_customer">{{title_responsible_code[initial_current.Language]}}</label>
                 <input type="text" id="procontract_customer" [(ngModel)]="selectedProresponsible.proresponsible_ref"
@@ -581,9 +581,9 @@
 
                 <!-- // -->
                 <div class="field-checkbox">
-                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_sat"
-                        inputId="projobmain_sat"></p-checkbox>
-                    <label for="projobshift_sat">{{days[7]}}</label>
+                    <p-checkbox [binary]="true" [(ngModel)]="selectedProjobshift.projobshift_ph"
+                        inputId="projobmain_ph"></p-checkbox>
+                    <label for="projobshift_ph">{{days[7]}}</label>
                 </div>
                 <!-- // -->
             </div>
@@ -1543,8 +1543,10 @@
 
 
                 <div class="col-12 md:col-3">
-                    <label>{{title_cost_version[initial_current.Language]}}ttt</label><br>
-                    <p-dropdown placeholder="--" [options]="projobversion_list" optionLabel="version"
+                    <label>{{title_cost_version[initial_current.Language]}}</label><br>
+
+
+                    <p-dropdown  [options]="projobversion_list" optionLabel="version"
                         [(ngModel)]="selectedProjobversion" [showClear]="true"
                         [style]="{ width: '100%', overflow: 'visible' }" [filter]="true" filterBy="version "
                         (onChange)="onSelectProjobversion($event)"></p-dropdown>
@@ -1740,6 +1742,9 @@
                                             ? ' Fri |' : ' ศ. |') : '' }}
                                             {{ true == projobshift.projobshift_sat ? (initial_current.Language === 'EN'
                                             ? ' Sat |' : ' ส. |') : '' }}
+
+                                            {{ true == projobshift.projobshift_ph ? (initial_current.Language === 'EN'
+                                            ? ' PH |' : ' นข. |') : '' }}
                                         </div>
                                     </td>
 

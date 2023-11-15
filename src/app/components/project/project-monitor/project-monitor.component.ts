@@ -135,6 +135,11 @@ selectedResponsiblearea_fillter :string = ""
   title_search : { [key: string]: string } = { EN: "  Search keyword ", TH: "ค้นหา" }
   title_jobdetail: {[key: string]: string} = {  EN: "Job detail",  TH: "รายละเอียดงาน"}
 
+  title_responsiblearea: {[key: string]: string} = {  EN: "Responsible Area",  TH: "ผู้รับผิดชอบ เขต"}
+  title_proresponsible: {[key: string]: string} = {  EN: "Proresponsible",  TH: "ผู้รับผิดชอบ ตำแหน่ง"}
+
+
+  
    show_fillter: boolean = false;
 
   constructor(

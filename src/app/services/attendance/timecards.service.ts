@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 
 import { InitialCurrent } from '../../config/initial_current';
 import { TimecardsModel } from '../../models/attendance/timecards';
+import { EmployeeModel } from 'src/app/models/employee/employee';
 
 @Injectable({
   providedIn: 'root'
@@ -136,7 +137,13 @@ export class TimecardService {
   }
 
   public timesheet_record(model: TimecardsModel) {
-
+    let emplists: any = [];
+    model.emp_data.forEach((res: EmployeeModel) => {
+      let ss = {
+        worker_code: res.worker_code,
+      };
+      emplists.push(ss);
+    });
     var data = {
 
       company_code: model.company_code,
@@ -154,9 +161,14 @@ export class TimecardService {
       timecard_in: model.timecard_in,
       timecard_out: model.timecard_out,
 
-      modified_by: this.initial_current.Username
-    };
+      modified_by: model.modified_by || this.initial_current.Username,
 
+      // modified_by: this.initial_current.Username,
+
+      emp_data: emplists,
+
+    };
+console.log(data,'ข้อม๔ล')
     return this.http.post<any>(this.config.ApiAttendanceModule + '/timesheet', data, this.options).toPromise()
       .then((res) => {
         return res;
@@ -176,29 +188,29 @@ export class TimecardService {
 
 
 
-  public timesheet_delete(company: string,  project: string,  worker: string, model : TimecardsModel) {
+  public timesheet_delete(company: string, project: string, worker: string, model: TimecardsModel) {
     //  let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
     // public timesheet_delete(company: string, project: string, projob_code: string, worker: string, model : TimecardsModel) {
 
     let data = {
-        device_name: "phone",
-        ip: "127.0.0.1",
-        username: this.initial_current.Username,
-        company_code: company,
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: company,
 
- 
-        language: this.initial_current.Language,
-        project_code: project,
-        worker_code: worker,
-    
+
+      language: this.initial_current.Language,
+      project_code: project,
+      worker_code: worker,
+
     }
     return this.http.post<any>(this.config.ApiAttendanceModule + '/timecard_del', data, this.options).toPromise()
-        .then((res) => {
-            // console.log(res)
-            let message = JSON.parse(res);
-            return message;
-        });
-}
+      .then((res) => {
+        // console.log(res)
+        let message = JSON.parse(res);
+        return message;
+      });
+  }
 
 
 }

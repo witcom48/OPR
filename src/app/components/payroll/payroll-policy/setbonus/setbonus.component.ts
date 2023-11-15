@@ -181,7 +181,7 @@ export class SetbonusComponent implements OnInit {
         if (!this.initial_current) {
             this.router.navigateByUrl('login');
         }
-        
+
     }
 
     //get  data dropdown
@@ -197,7 +197,7 @@ export class SetbonusComponent implements OnInit {
     doLoadSetBonusList() {
         this.SetBonus_List = [];
         var tmp = new SetBonusModel();
-        this.setbonusService.SetBonus_get( '',tmp).then(async (res) => {
+        this.setbonusService.SetBonus_get('', tmp).then(async (res) => {
             this.SetBonus_List = await res;
         });
     }
@@ -206,11 +206,11 @@ export class SetbonusComponent implements OnInit {
     process() {
         this.result_list = [];
         if (this.selectEmp.employee_dest.length > 0) {
-          this.Setbatchbonus();
-        }else{
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
+            this.Setbatchbonus();
+        } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
         }
-      }
+    }
 
 
     async Setbatchbonus() {
@@ -223,28 +223,24 @@ export class SetbonusComponent implements OnInit {
 
         this.loading = true;
         // console.log(data);
-        await this.setbonusService
-            .SetBonus_record('', data)
-            .then((res) => {
-                // console.log(res);
-                if (res.success) {
-                    // console.log(res.message);
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: res.message,
-                    });
-                    this.doLoadSetBonusList();
-                    this.edit_data = false;
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: res.message,
-                    });
-                }
-                this.loading = false;
-            });
+        await this.setbonusService.SetBonus_record('', data).then((res) => {
+            if (res.success) {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: res.message,
+                });
+                this.doLoadSetBonusList();
+                this.edit_data = false;
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: res.message,
+                });
+            }
+            this.loading = false;
+        });
     }
     close() {
         this.selectEmp = new SetBonusModel();

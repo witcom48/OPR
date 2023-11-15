@@ -13,7 +13,7 @@ export class ProjobshiftModel {
     projobshift_thu: boolean = false;
     projobshift_fri: boolean = false;
     projobshift_sat: boolean = false;
-   
+    projobshift_ph: boolean = false;
     projobshift_emp: number = 0;
     projobshift_working: number = 0;
     projobshift_hrsperday: number = 0;

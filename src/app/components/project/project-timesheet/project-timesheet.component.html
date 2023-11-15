@@ -6,12 +6,15 @@
     key="myDialog"></p-confirmDialog>
 
 
-<p-dialog header="{{title_timesheet[initial_current.Language]}}" [(visible)]="displayManage" [style]="{width: '30vw'}"
+<p-dialog header="{{title_timesheet[initial_current.Language]}}" [(visible)]="displayManage" [style]="{width: '60vw'}"
     [position]="position">
     <p-scrollPanel [style]="{width: '100%', height: '650px'}">
         <div class="formgrid grid">
             <span class="spn_title_edit">{{title_working_timesheet[initial_current.Language]}}</span>
-            <div class="field col-12 ">
+            <br>
+
+            <app-select-emp></app-select-emp>
+            <!-- <div class="field col-12 ">
                 <label for="worker_code">{{title_empcode[initial_current.Language]}}</label>
                 <input type="text" id="worker_code" [(ngModel)]="selectedTimecard.worker_code"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
@@ -22,7 +25,7 @@
                 <input id="emp_name" type="text" [(ngModel)]="emp_name"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
 
-            </div>
+            </div> -->
 
             <div class="field col-12">
                 <label for="selectedJobmain">{{title_jobname[initial_current.Language]}}</label><br>
@@ -85,7 +88,7 @@
             </div>
 
             <div class="field col-12">
-                <p-button label="บันทึก" icon="pi pi-save" (click)="timesheet_summit()"></p-button>
+                <p-button label="บันทึก ทั้งหมด" icon="pi pi-save" (click)="process()"></p-button>
                 &nbsp;
                 <button pButton pRipple type="button" label="ปิด" class="p-button-secondary"
                     (click)="close_manage()"></button>
@@ -98,8 +101,8 @@
 <p-dialog [(visible)]="searchEmp" [style]="{width: '30vw'}" [position]="position">
     <div class="grid">
         <div class="col-12">
-            <app-search-emp></app-search-emp>
-            <!-- <app-select-emp></app-select-emp> -->
+            <!-- <app-search-emp></app-search-emp> -->
+            <app-select-emp></app-select-emp>
 
         </div>
         <div class="col-12">

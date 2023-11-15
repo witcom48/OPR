@@ -291,7 +291,7 @@ export class ProjectTransferComponent implements OnInit {
     date.fromdate = this.initial_current.PR_PayDate;
 
     let version = ""
-    this.projectDetailService.projobversion_get(this.selectedProject, this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
+    this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
       await res.forEach((element: ProjobversionModel) => {
         version = element.version
 
