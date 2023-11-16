@@ -93,6 +93,34 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
+                <!-- End Form Period -->
+
+                <div class="tabledata">
+                    <div #TABLE>
+                        <p-table #dt2 [value]="PaysuspendList" styleClass="p-datatable-sm"
+                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                            [virtualScroll]="true" selectionMode="single"
+                            (onRowSelect)="onRowSelectPaysuspend()" [rows]="10" [showCurrentPageReport]="true"
+                            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
+
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <!-- <th>{{title_expcom[initial_current.Language]}}</th>
+                                    <th>{{title_expposition[initial_current.Language]}}</th>
+                                    <th>{{title_expsalary[initial_current.Language]}}</th>
+                                    <th>{{title_expstart[initial_current.Language]}}</th>
+                                    <th>{{title_expend[initial_current.Language]}}</th>
+                                    <th>{{title_expdes[initial_current.Language]}}</th>
+                                    <th>{{title_expage[initial_current.Language]}}</th>
+                                    <th>{{title_modified_by[initial_current.Language]}}</th>
+                                    <th>{{title_modified_date[initial_current.Language]}}</th> -->
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+
             </p-tabPanel>
 
             <p-tabPanel>

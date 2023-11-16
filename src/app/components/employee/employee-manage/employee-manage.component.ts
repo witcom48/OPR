@@ -5834,9 +5834,9 @@ record_filedoc() {
       await res.forEach((element: EmployeeresignModel) => {
         element.empresign_date = new Date(element.empresign_date)
       })
-      this.empaddressList = res;
-      if (this.empaddressList.length > 0) {
-        this.selectedEmpAddress = this.empaddressList[0];
+      this.empresignList = res;
+      if (this.empresignList.length > 0) {
+        this.selectedEmpresign = this.empresignList[0];
       }
     })
   }

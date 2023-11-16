@@ -89,6 +89,8 @@ export class EmployeePaysuspendComponent implements OnInit {
   title_byemp: { [key: string]: string } = { EN: "View by employee", TH: "แสดงตามพนักงาน" };
   title_byperiod: { [key: string]: string } = { EN: "View by period", TH: "แสดงตามงวดการจ่าย" };
   title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" }
+  //
+  title_paydate: { [key: string]: string } = { EN: "Date", TH: "รวมพนักงานลาออก" }
 
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
@@ -144,7 +146,7 @@ export class EmployeePaysuspendComponent implements OnInit {
   }
 
   selectedPaysuspend: PaysuspendModel = new PaysuspendModel();
-  Paysuspend: PaysuspendModel[] = [];
+  PaysuspendList: PaysuspendModel[] = [];
 
   // process
   process() {
@@ -154,6 +156,18 @@ export class EmployeePaysuspendComponent implements OnInit {
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
     }
+  }
+
+  doGetdatafillter(code:string , date:Date){
+    this.paysuspendService.getpaysuspend(this.initial_current.CompCode,code,date).then(async(res)=>{
+      await res.forEach((element: PaysuspendModel)=>{
+        element.payitem_date = new Date(element.payitem_date)
+      })
+      this.PaysuspendList = await res;
+    })
+  }
+  onRowSelectPaysuspend(){
+
   }
 
   async Setpaysuspend() {
@@ -301,6 +315,8 @@ export class EmployeePaysuspendComponent implements OnInit {
     });
   }
   selectperiod() { }
+
+  
 
   function(e: any) {
     var page = e.index;
