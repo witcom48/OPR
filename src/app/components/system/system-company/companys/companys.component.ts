@@ -311,7 +311,7 @@ export class CompanysComponent implements OnInit {
             this.title_english_name = 'ชื่อ (อังกฤษ)';
             this.title_map = 'แผนที่';
             this.title_contack = 'ข้อมูลติดต่อ';
-            this.title_fax = 'แฟกซ์';
+            this.title_fax = 'เบอร์มือถือ';
             this.title_combank_branch = 'สาขาธนาคาร';
             this.title_taxpayer_identification_no = 'เลขประจำตัวผู้เสียภาษี'
             this.title_juristic_id = 'เลขทะเบียนนิติบุคคล'

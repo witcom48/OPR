@@ -54,6 +54,9 @@ export class EmployeePaysuspendComponent implements OnInit {
   title_worker: { [key: string]: string } = { EN: "Worker", TH: "พนักงาน" };
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" };
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" };
+  title_name: { [key: string]: string } = { EN: "Name", TH: "ชื่อ-นามสกุล" };
+  title_period: { [key: string]: string } = { EN: "Period", TH: "งวด" };
+
   //
   title_type: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_suspend: { [key: string]: string } = { EN: "Suspend", TH: "ระงับโอน" };
@@ -90,12 +93,13 @@ export class EmployeePaysuspendComponent implements OnInit {
   title_byperiod: { [key: string]: string } = { EN: "View by period", TH: "แสดงตามงวดการจ่าย" };
   title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" }
   //
-  title_paydate: { [key: string]: string } = { EN: "Date", TH: "รวมพนักงานลาออก" }
+  title_paydate: { [key: string]: string } = { EN: "Paydate", TH: "วันที่จ่าย" }
 
   @Input() policy_list: Policy[] = []
   @Input() title: string = "";
   loading: boolean = false;
   index: number = 0;
+  indexfilter : number = 0;
   result_list: Result[] = [];
   edit_data: boolean = false;
   new_data: boolean = false;
@@ -158,17 +162,16 @@ export class EmployeePaysuspendComponent implements OnInit {
     }
   }
 
-  doGetdatafillter(code:string , date:Date){
-    this.paysuspendService.getpaysuspend(this.initial_current.CompCode,code,date).then(async(res)=>{
-      await res.forEach((element: PaysuspendModel)=>{
+  doGetdatafillter(code: string, date: string | null) {
+    this.paysuspendService.getpaysuspend(this.initial_current.CompCode, code, date).then(async (res) => {
+      await res.forEach((element: PaysuspendModel) => {
         element.payitem_date = new Date(element.payitem_date)
       })
       this.PaysuspendList = await res;
     })
   }
-  onRowSelectPaysuspend(){
-
-  }
+  
+  onRowSelectPaysuspend() {}
 
   async Setpaysuspend() {
     var data = new PaysuspendModel();
@@ -268,6 +271,7 @@ export class EmployeePaysuspendComponent implements OnInit {
       this.worker_name =
         this.workerDetail.worker_fname_th + ' ' + this.workerDetail.worker_lname_th;
     }
+    this.doGetdatafillter(this.worker_code,'')
   }
   position: string = "right";
   searchEmp: boolean = false;
@@ -292,10 +296,9 @@ export class EmployeePaysuspendComponent implements OnInit {
         break;
       }
     }
-
     this.doSetDetailWorker();
-
   }
+
 
   //by period
   periods_list: PeriodsModels[] = [];
@@ -305,19 +308,24 @@ export class EmployeePaysuspendComponent implements OnInit {
     var tmp = new PeriodsModels();
     tmp.year_code = this.initial_current.PR_Year;
     tmp.company_code = this.initial_current.CompCode;
+    tmp.emptype_code = this.initial_current.EmpType;
     this.periodsService.period_get(tmp).then(async (res) => {
       res.forEach((obj: PeriodsModels) => {
         obj.period_name_en = obj.period_no + " : " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy') + ")";
         obj.period_name_th = obj.period_no + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy', "", 'th-TH') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy', "", 'th-TH') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy', "", 'th-TH') + ")"
       });
       this.periods_list = await res;
-      this.periods_select = await res[0]
+      this.periods_select = await res[0];
+
+      this.doGetdatafillter('', this.datePipe.transform(this.periods_select.period_payment,'yyyy-MM-ddTHH:mm:ss'));
     });
   }
-  selectperiod() { }
+  selectperiod() {
+    this.doGetdatafillter('', this.datePipe.transform(this.periods_select.period_payment,'yyyy-MM-ddTHH:mm:ss'));
+   }
 
-  
 
+   tabperiod : boolean = false;
   function(e: any) {
     var page = e.index;
     this.index = page;
@@ -332,4 +340,48 @@ export class EmployeePaysuspendComponent implements OnInit {
 
   }
 
+  doGetreason(reason: string): any {
+    for (let i = 0; i < this.reason_list.length; i++) {
+      if (this.reason_list[i].reason_code == reason) {
+        if (this.initial_current.Language == "TH") {
+          return this.reason_list[i].reason_name_th;
+        }
+        else {
+          return this.reason_list[i].reason_name_en;
+        }
+      }
+    }
+  }
+
+  doGettype(type: string): any {
+    if (type = 'S') {
+      if (this.initial_current.Language == "TH") { return 'ระงับโอน'; } else { return 'Suspend'; }
+    } else {
+      if (this.initial_current.Language == "TH") { return 'ไม่คิดเงินเดือน'; } else { return 'Not Calulate'; }
+    }
+  }
+
+  doGetstatus(status: string): any {
+    if (status = 'Y') {
+      if (this.initial_current.Language == "TH") { return 'จ่ายแล้ว'; } else { return 'Paid'; }
+    } else {
+      if (this.initial_current.Language == "TH") { return 'ยังไม่จ่าย'; } else { return 'Not Paid'; }
+    }
+  }
+
+
+  functionfilter(e: any) {
+    var page = e.index;
+    this.indexfilter = page;
+    if (page == 1) {
+      setTimeout(() => {
+        this.onLoadEmp();
+      }, 300);
+    } else {
+      setTimeout(() => {
+        this.doPeriod();
+      }, 300);
+    }
+
+  }
 }

@@ -113,7 +113,8 @@ export class ProjectPolicyComponent implements OnInit {
   title_general: { [key: string]: string } = { EN: "Genaral", TH: "การกำหนดรูปแบบ" };
   title_slipform: { [key: string]: string } = { EN: "Slip form", TH: "สลิป" };
 
-  
+  title_project_responsiblepos: { [key: string]: string } = { EN: "Responsiblepos ", TH: "ตำแหน่ง" }
+  title_project_responsiblearea: { [key: string]: string } = { EN: "Responsiblearea ", TH: "เขต" }
   loadInitialData(): void {
     this.initialData = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
     if (!this.initialData.Token) {
@@ -170,8 +171,22 @@ export class ProjectPolicyComponent implements OnInit {
         link: 'pro_genaral',
         accessCode: 'PRO001-008',
         queryParamsdata: "proequipmenttype"
-      },
+      }
+      ,
 
+      {
+        title: this.title_project_responsiblearea[this.initialData.Language],
+        link: 'pro_genaral',
+        accessCode: 'PRO001-007',
+        queryParamsdata: "responsiblearea" 
+        
+      },
+      {
+        title: this.title_project_responsiblepos[this.initialData.Language],
+        link: 'pro_genaral',
+        accessCode: 'PRO001-007',
+        queryParamsdata: "responsiblepos"
+      },
       // ... other approval menu items ...
     ];
 

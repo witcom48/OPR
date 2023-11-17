@@ -20,7 +20,7 @@
 <div *ngIf="searchEmp" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
 </div>
 
-<table style="width: 700px;">
+<table >
     <tr>
         <td>
             <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
@@ -123,25 +123,25 @@
                 <div class="panelform">
                     <div>
                         <label>{{title_ssoemprate[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_ssorateemp | number:'1.2-2'">
                     </div>
 
                     <div>
                         <label>{{title_ssoempamount[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_ssoemp | number:'1.2-2'">
                     </div>
 
                     <div>
                         <label>{{title_ssocomrate[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_ssoratecom | number:'1.2-2'">
                     </div>
 
                     <div>
                         <label>{{title_ssocomamount[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_ssocom | number:'1.2-2'">
                     </div>
                 </div>
@@ -151,13 +151,13 @@
                 <div class="panelform">
                     <div>
                         <label>{{title_pfemp[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_pfcom | number:'1.2-2'">
                     </div>
 
                     <div>
                         <label>{{title_pfcom[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_pfemp | number:'1.2-2'">
                     </div>
 
@@ -168,7 +168,7 @@
                 <div class="panelform">
                     <div>
                         <label>{{title_totaltax[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranTaxTotal | number:'1.2-2'">
                     </div>
 
@@ -180,13 +180,13 @@
 
                     <div>
                         <label>{{title_totalincome[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_income_total | number:'1.2-2'">
                     </div>
 
                     <div>
                         <label>{{title_totalnetpay[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text"class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_netpay | number:'1.2-2'">
                     </div>
                 </div>
@@ -196,13 +196,13 @@
                 <div class="panelform">
                     <div>
                         <label>{{title_tranferC[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_netpay_c | number:'1.2-2'">
                     </div>
 
                     <div>
                         <label>{{title_tranferB[initial_current.Language]}}</label>
-                        <input pInputText type="text" class="p-inputtext-sm"
+                        <input pInputText type="text" class="p-inputtext-sm text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             [ngModel]="paytranDetail.paytran_netpay_b | number:'1.2-2'">
                     </div>
 

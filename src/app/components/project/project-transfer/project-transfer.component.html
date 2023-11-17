@@ -1,6 +1,5 @@
-<!-- <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
-    <hr> -->
-
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+<hr>
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
     key="myDialog"></p-confirmDialog>
@@ -166,6 +165,20 @@
             <button pButton type="button" class="p-button-secondary button-size-small btndel" (click)="reloadPage()">
                 <i class="pi pi-refresh icon-small"></i>
             </button>
+            <br >
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <!--  สถานะอนุมัติ (Default All)  -->
+            <div>
+                <p-dropdown [options]="[{ label: title_wait[initial_current.Language], value: 'W' },
+                                        { label: title_approved[initial_current.Language], value: 'F' },
+                                        { label: title_notApprove[initial_current.Language], value: 'C' },
+                                        { label: title_all[initial_current.Language], value: '' }]"
+                    optionLabel="label" optionValue="value" [showClear]="false" [(ngModel)]="selectedstatusProjobemp"
+                    (onChange)="doGetProjobempFillter()"
+                    [style]="{ width: '100%', overflow: 'visible', 'max-width': '150px' }">
+                </p-dropdown>
+            </div>
+
 
 
             <div class="pt-3 col-6">
@@ -175,19 +188,27 @@
 
 
         <p></p>
-        <p-scrollPanel [style]="{width: '100%', height: '650px'}">
-            <p-table #dtJobemp [value]="projobemp_list" styleClass="p-datatable-sm"
+
+
+
+        <p-scrollPanel [style]="{width: '100%', height: '700px'}">
+            <p-table #dtJobemp [value]="projobemp_list" selectionMode="single" [(selection)]="selectedProjobemp"
+                (onRowSelect)="onRowSelectProjobemp($event)" [rows]="12" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+                responsiveLayout="stack" [breakpoint]="'744px'">
+                <!-- <p-table #dtJobemp [value]="projobemp_list" styleClass="p-datatable-sm"
                 [tableStyle]="{'min-width': '110rem'}" [scrollable]="true" scrollHeight="400px" [virtualScroll]="true"
                 selectionMode="single" [(selection)]="selectedProjobemp" (onRowSelect)="onRowSelectProjobemp($event)"
                 dataKey="projobemp_id" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
                 [paginator]="true"
-                currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}">
+                currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"> -->
                 <ng-template pTemplate="header">
                     <tr>
                         <th>{{title_project_code[initial_current.Language]}}</th>
-                        <th>{{title_project_name[initial_current.Language]}}</th>
+                        <th style="width:12%">{{title_project_name[initial_current.Language]}}</th>
                         <th>{{title_staff_jobcode[initial_current.Language]}}</th>
-                        <th>{{title_staff_jobname[initial_current.Language]}}</th>
+                        <th style="width:12%">{{title_staff_jobname[initial_current.Language]}}</th>
                         <th>{{title_staff_empcode[initial_current.Language]}}</th>
                         <th>{{title_staff_empname[initial_current.Language]}}</th>
                         <th>{{title_staff_empstatus[initial_current.Language]}}</th>
@@ -202,7 +223,7 @@
                 <ng-template pTemplate="body" let-emp>
                     <tr [pSelectableRow]="emp">
                         <td>{{emp.project_code}}</td>
-                        <td>{{doGetProjectDetail(emp.project_code)}}</td>
+                        <td >{{doGetProjectDetail(emp.project_code)}}</td>
                         <td>{{emp.projob_code}}</td>
                         <td>{{doGetProjobmainDetail(emp.projob_code)}}</td>
                         <td>{{emp.projobemp_emp}}</td>
@@ -210,7 +231,9 @@
                         <td>{{doGetJobemptypeDetail(emp.projobemp_type)}}</td>
                         <td>{{emp.projobemp_fromdate | date:'dd/MM/yyyy '}}</td>
                         <td>{{emp.projobemp_todate | date:'dd/MM/yyyy '}}</td>
-                        <td>{{emp.projobemp_status}}</td>
+                        <td>{{getFullStatus(emp.projobemp_status)}}</td>
+
+                        <!-- <td>{{emp. }}</td> -->
                         <td></td>
                         <td>{{emp.modified_by}}</td>
                         <td>{{emp.modified_date | date:'dd/MM/yyyy '}}</td>

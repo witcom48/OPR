@@ -21,6 +21,8 @@ import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
+import { ResponsibleposModel } from 'src/app/models/project/responsiblepos';
+import { ResponsibleareaModel } from 'src/app/models/project/responsiblearea';
 
 @Component({
   selector: 'app-pro-genaral',
@@ -70,7 +72,15 @@ export class ProGenaralComponent implements OnInit {
   progroup: boolean = false;
   progroup_list: ProgroupModel[] = [];
   selectedProgroup: ProgroupModel = new ProgroupModel();
+  ///
+  responsiblepos: boolean = false;
+  responsiblepos_list: ResponsibleposModel[] = [];
+  selectedResponsiblepos: ResponsibleposModel = new ResponsibleposModel();
 
+  responsiblearea: boolean = false;
+  responsiblearea_list: ResponsibleareaModel[] = [];
+  selectedResponsiblearea: ResponsibleareaModel = new ResponsibleareaModel();
+  ////
 
   procosttype_list: RadiovalueModel[] = [];
   procostitem_list: RadiovalueModel[] = [];
@@ -134,6 +144,10 @@ export class ProGenaralComponent implements OnInit {
     this.progroup = false
     this.proequipmenttype = false
 
+    this.responsiblepos = false
+    this.responsiblearea = false
+
+
 
     switch (this.page_type) {
       case "probusiness":
@@ -162,13 +176,21 @@ export class ProGenaralComponent implements OnInit {
         this.proequipmenttype = true
         break;
 
+      case "responsiblepos":
+        this.responsiblepos = true
+        break;
+
+      case "responsiblearea":
+        this.responsiblearea = true
+        break;
+
       default:
         // 
         break;
     }
 
   }
- 
+
   title_project: { [key: string]: string } = { EN: "Policy", TH: "การกำหนดรูปแบบ" };
   title_cost: { [key: string]: string } = { EN: "Cost", TH: "ต้นทุน" }
   title_project_protype: { [key: string]: string } = { EN: "Job Type ", TH: "ประเภทงาน" }
@@ -181,7 +203,8 @@ export class ProGenaralComponent implements OnInit {
   title_general: { [key: string]: string } = { EN: "Genaral", TH: "ทั่วไป" };
   title_slipform: { [key: string]: string } = { EN: "Slip form", TH: "ฟอร์มสลิป" };
   title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
-
+  title_project_responsiblepos: { [key: string]: string } = { EN: "Responsiblepos ", TH: "ตำแหน่ง" }
+  title_project_responsiblearea: { [key: string]: string } = { EN: "Responsiblearea ", TH: "เขต" }
 
   title_page: string = "Geanral";
   title_new: string = "New";
@@ -304,6 +327,19 @@ export class ProGenaralComponent implements OnInit {
         { label: this.title_project_probusiness[this.initial_current.Language], styleClass: 'activelike' }];
         this.home = { icon: 'pi pi-home', routerLink: '/' };
         break;
+
+      case "responsiblepos":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_responsiblepos[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
+      case "responsiblearea":
+        this.itemslike = [{ label: this.title_project[this.initial_current.Language], routerLink: "/project/policy" },
+        { label: this.title_project_responsiblearea[this.initial_current.Language], styleClass: 'activelike' }];
+        this.home = { icon: 'pi pi-home', routerLink: '/' };
+        break;
+
     }
 
 
@@ -347,7 +383,13 @@ export class ProGenaralComponent implements OnInit {
             this.selectedProequipmenttype.proequipmenttype_id = ref.toString()
 
             ///
+            ref = this.responsiblepos_list.length + 100
+            this.selectedResponsiblepos = new ResponsibleposModel();
+            this.selectedResponsiblepos.responsiblepos_id = ref.toString()
 
+            ref = this.responsiblearea_list.length + 100
+            this.selectedResponsiblearea = new ResponsibleareaModel();
+            this.selectedResponsiblearea.responsiblearea_id = ref.toString()
 
             this.new_data = true;
             this.edit_data = false;
@@ -359,7 +401,7 @@ export class ProGenaralComponent implements OnInit {
       }
       ,
       {
-        label:this.title_template[this.initial_current.Language],
+        label: this.title_template[this.initial_current.Language],
         icon: 'pi-download',
         command: (event) => {
           switch (this.page_type) {
@@ -421,6 +463,25 @@ export class ProGenaralComponent implements OnInit {
 
               break;
             //
+
+            case "responsiblepos":
+              this.responsiblepos = true
+              ref = this.responsiblepos_list.length + 100
+
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Responsiblepos.xlsx', '_blank');
+
+              break;
+
+            case "responsiblearea":
+              this.responsiblearea = true
+              ref = this.responsiblearea_list.length + 100
+
+              window.open('assets/OPRFileImport/(OPR)Import Project/(OPR)Import Project Responsiblearea.xlsx', '_blank');
+
+              break;
+
+
+
             default:
               // 
               break;
@@ -509,6 +570,26 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
       //
+
+      case "responsiblepos":
+        var tmp9 = new ResponsibleposModel();
+
+        this.genaralService.MTResponsiblepos_get(tmp9).then((res) => {
+          this.responsiblepos_list = res;
+
+        });
+        break;
+
+      case "responsiblearea":
+        var tmp10 = new ResponsibleareaModel();
+
+        this.genaralService.MTResponsiblearea_get(tmp10).then((res) => {
+          this.responsiblearea_list = res;
+
+        });
+        break;
+
+
       default:
         // 
         break;
@@ -655,6 +736,31 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
 
+      case "responsiblepos":
+        this.genaralService.MTResponsiblepos_record(this.selectedResponsiblepos).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doLoadGenaral()
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
+      case "responsiblearea":
+        this.genaralService.MTResponsiblearea_record(this.selectedResponsiblearea).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doLoadGenaral()
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
       default:
         // 
         break;
@@ -851,6 +957,54 @@ export class ProGenaralComponent implements OnInit {
       key: "myDialog"
     });
   }
+
+  Delete_MTResponsiblepos(data: ResponsibleposModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.MTResponsiblepos_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
+
+  Delete_MTResponsiblearea(data: ResponsibleareaModel) {
+    this.confirmationService.confirm({
+      message: this.title_confirm_delete,
+      header: this.title_confirm,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.genaralService.MTResponsiblearea_delete(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+      },
+      key: "myDialog"
+    });
+  }
   // ลบ
 
   doDeleteGenaral() {
@@ -956,6 +1110,33 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
       //
+
+      case "responsiblepos":
+        this.genaralService.MTResponsiblepos_delete(this.selectedResponsiblepos).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
+      case "responsiblearea":
+        this.genaralService.MTResponsiblearea_delete(this.selectedResponsiblearea).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
       default:
         // 
         break;
@@ -1012,6 +1193,18 @@ export class ProGenaralComponent implements OnInit {
     this.displaymanage = true;
   }
   //
+
+  onRowSelectResponsiblepos(event: Event) {
+    this.edit_data = true;
+    this.new_data = false;
+    this.displaymanage = true;
+  }
+
+  onRowSelectResponsiblearea(event: Event) {
+    this.edit_data = true;
+    this.new_data = false;
+    this.displaymanage = true;
+  }
 
   onRowSelectProcost(event: Event) {
     this.edit_data = true;
@@ -1136,6 +1329,33 @@ export class ProGenaralComponent implements OnInit {
         });
         break;
       //
+
+      case "responsiblepos":
+        this.genaralService.MTResponsiblepos_import(this.fileToUpload, filename, filetype).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
+      case "responsiblearea":
+        this.genaralService.MTResponsiblearea_import(this.fileToUpload, filename, filetype).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doReloadData();
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+        break;
+
       default:
         // 
         break;
@@ -1238,6 +1458,9 @@ export class ProGenaralComponent implements OnInit {
     this.selectedProarea = new ProareaModel()
     this.selectedProgroup = new ProgroupModel()
     this.selectedProequipmenttype = new ProequipmenttypeModel()
+    this.selectedResponsiblepos = new ResponsibleposModel()
+    this.selectedResponsiblearea = new ResponsibleareaModel()
+
 
   }
 

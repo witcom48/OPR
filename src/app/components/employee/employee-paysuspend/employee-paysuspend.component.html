@@ -73,96 +73,150 @@
             <span>{{title_view[initial_current.Language]}}</span>
         </ng-template>
 
-        <p-tabView (onChange)="onLoadEmp()">
+        <p-tabView (onChange)="functionfilter($event)" [(activeIndex)]="indexfilter">
             <p-tabPanel [selected]="true">
+
                 <ng-template pTemplate="header">
                     <i class="pi pi-calendar"></i>&nbsp;&nbsp;
                     <span>{{title_byperiod[initial_current.Language]}}</span>
                 </ng-template>
-                <div class="select">
-                    <label>Period:</label>
-                    <p-dropdown appendTo="body" class="selectyaer" [options]="periods_list" [(ngModel)]="periods_select"
-                        (onChange)="selectperiod()">
-                        <ng-template let-item pTemplate="selectedItem">
-                            {{initial_current.Language=="TH"? item.period_name_th :
-                            item.period_name_en}}
-                        </ng-template>
-                        <ng-template let-item pTemplate="item">
-                            {{initial_current.Language=="TH"? item.period_name_th :
-                            item.period_name_en}}
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-                <!-- End Form Period -->
-
-                <div class="tabledata">
-                    <div #TABLE>
-                        <p-table #dt2 [value]="PaysuspendList" styleClass="p-datatable-sm"
-                            [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
-                            [virtualScroll]="true" selectionMode="single"
-                            (onRowSelect)="onRowSelectPaysuspend()" [rows]="10" [showCurrentPageReport]="true"
-                            [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
-                            currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
-
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <!-- <th>{{title_expcom[initial_current.Language]}}</th>
-                                    <th>{{title_expposition[initial_current.Language]}}</th>
-                                    <th>{{title_expsalary[initial_current.Language]}}</th>
-                                    <th>{{title_expstart[initial_current.Language]}}</th>
-                                    <th>{{title_expend[initial_current.Language]}}</th>
-                                    <th>{{title_expdes[initial_current.Language]}}</th>
-                                    <th>{{title_expage[initial_current.Language]}}</th>
-                                    <th>{{title_modified_by[initial_current.Language]}}</th>
-                                    <th>{{title_modified_date[initial_current.Language]}}</th> -->
-                                </tr>
+                <ng-container *ngIf="indexfilter === 0">
+                    <div class="select">
+                        <label>{{title_period[initial_current.Language]}} : </label>
+                        <p-dropdown appendTo="body" class="selectyaer" [options]="periods_list"
+                            [(ngModel)]="periods_select" (onChange)="selectperiod()">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.period_name_th :
+                                item.period_name_en}}
                             </ng-template>
-                        </p-table>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.period_name_th :
+                                item.period_name_en}}
+                            </ng-template>
+                        </p-dropdown>
                     </div>
-                </div>
+                    <!-- End Form Period -->
 
+                    <div class="tabledata">
+                        <div #TABLE>
+                            <p-table #dt2 [value]="PaysuspendList" styleClass="p-datatable-sm"
+                                [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                [virtualScroll]="true" selectionMode="single" (onRowSelect)="onRowSelectPaysuspend()"
+                                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                [paginator]="true"
+                                currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
+
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>{{title_paydate[initial_current.Language]}}</th>
+                                        <th>{{title_name[initial_current.Language]}}</th>
+                                        <th>{{title_note[initial_current.Language]}}</th>
+                                        <th>{{title_reason[initial_current.Language]}}</th>
+                                        <th>{{title_type[initial_current.Language]}}</th>
+                                        <th>{{title_status[initial_current.Language]}}</th>
+                                        <th>{{title_modified_by[initial_current.Language]}}</th>
+                                        <th>{{title_modified_date[initial_current.Language]}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-data let-columns="columns">
+                                    <tr [pSelectableRow]="data">
+                                        <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{initial_current.Language == "TH"?
+                                            data.worker_detail_th:data.worker_detail_en}}</td>
+                                        <td>{{data.paysuspend_note}}</td>
+                                        <td>{{doGetreason(data.reason_code)}}</td>
+                                        <td>{{doGettype(data.paysuspend_type)}}</td>
+                                        <td>{{doGetstatus(data.paysuspend_payment)}}</td>
+                                        <td>{{data.modified_by}}</td>
+                                        <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </ng-container>
             </p-tabPanel>
 
             <p-tabPanel>
+
                 <ng-template pTemplate="header">
                     <i class="pi pi-user"></i>&nbsp;&nbsp;
                     <span>{{title_byemp[initial_current.Language]}}</span>
                 </ng-template>
+                <ng-container *ngIf="indexfilter === 1">
+                    <table style="width: 600px;">
+                        <tr>
+                            <td style="width: 20px;">
+                                <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
+                            </td>
+                            <td style="width: 150px;">
+                                <input id="lastname2" type="text" [value]="worker_code" name="worker_code"
+                                    style="text-align: center;"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                    readonly>
+                            </td>
+                            <td style="width: 20px;">
+                                <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
+                            </td>
+                            <td style="width: 20px;">
+                                <i class="pi pi-search" (click)="open_searchemp()"></i>
+                            </td>
+                            <td style="width: 250px;" align="left">
+                                <input id="lastname2" type="text" [value]="worker_name" style="width: 250px;"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                    readonly>
+                            </td>
 
-                <table style="width: 600px;">
-                    <tr>
-                        <td style="width: 20px;">
-                            <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
-                        </td>
-                        <td style="width: 150px;">
-                            <input id="lastname2" type="text" [value]="worker_code" name="worker_code"
-                                style="text-align: center;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                readonly>
-                        </td>
-                        <td style="width: 20px;">
-                            <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
-                        </td>
-                        <td style="width: 20px;">
-                            <i class="pi pi-search" (click)="open_searchemp()"></i>
-                        </td>
-                        <td style="width: 250px;" align="left">
-                            <input id="lastname2" type="text" [value]="worker_name" style="width: 250px;"
-                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                                readonly>
-                        </td>
+                            <!-- resign -->
+                            <td style="width: 250px;" align="left">
+                                <p-checkbox name="resign" [binary]="true" (onChange)="doLoadEmployee()"
+                                    [(ngModel)]="fillterIncludeResign"></p-checkbox>&nbsp;
+                                <label>{{title_resign[initial_current.Language]}} </label>
 
-                        <!-- resign -->
-                        <td style="width: 250px;" align="left">
-                            <p-checkbox name="resign" [binary]="true" (onChange)="doLoadEmployee()"
-                                [(ngModel)]="fillterIncludeResign"></p-checkbox>&nbsp;
-                            <label>{{title_resign[initial_current.Language]}} </label>
+                            </td>
+                        </tr>
+                    </table>
+                    <p></p>
+                    <!-- --------------END Form employee by deduct------------------ -->
 
-                        </td>
-                    </tr>
-                </table>
-                <p></p>
-                <!-- --------------END Form employee by deduct------------------ -->
+                    <div class="tabledata">
+                        <div #TABLE>
+                            <p-table #dt3 [value]="PaysuspendList" styleClass="p-datatable-sm"
+                                [tableStyle]="{'min-width': '60rem'}" [scrollable]="true" scrollHeight="200px"
+                                [virtualScroll]="true" selectionMode="single" (onRowSelect)="onRowSelectPaysuspend()"
+                                [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                                [paginator]="true"
+                                currentPageReportTemplate="{{title_showing[initial_current.Language]}} {first} {{title_to[initial_current.Language]}} {last} {{title_of[initial_current.Language]}} {totalRecords} {{title_entries[initial_current.Language]}} ">
+
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>{{title_paydate[initial_current.Language]}}</th>
+                                        <th>{{title_name[initial_current.Language]}}</th>
+                                        <th>{{title_note[initial_current.Language]}}</th>
+                                        <th>{{title_reason[initial_current.Language]}}</th>
+                                        <th>{{title_type[initial_current.Language]}}</th>
+                                        <th>{{title_status[initial_current.Language]}}</th>
+                                        <th>{{title_modified_by[initial_current.Language]}}</th>
+                                        <th>{{title_modified_date[initial_current.Language]}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-data let-columns="columns">
+                                    <tr [pSelectableRow]="data">
+                                        <td>{{data.payitem_date | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{initial_current.Language == "TH"?
+                                            data.worker_detail_th:data.worker_detail_en}}</td>
+                                        <td>{{data.paysuspend_note}}</td>
+                                        <td>{{doGetreason(data.reason_code)}}</td>
+                                        <td>{{doGettype(data.paysuspend_type)}}</td>
+                                        <td>{{doGetstatus(data.paysuspend_payment)}}</td>
+                                        <td>{{data.modified_by}}</td>
+                                        <td>{{data.modified_date | date:'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </ng-container>
             </p-tabPanel>
         </p-tabView>
 

@@ -1,3 +1,5 @@
+import { ProjectMTDocattModel } from "./project_docatt";
+
 export class ProjectModel {
     constructor() {
      
@@ -15,7 +17,7 @@ export class ProjectModel {
     project_progroup: string = "";
 
 
-
+    projob_code: string = "";
 
     project_probusiness: string = "";
     project_roundtime: string = "";
@@ -39,6 +41,7 @@ export class ProjectModel {
     index: number = 0;
     select: boolean = false;    
 
+    prodocatt_data: ProjectMTDocattModel[] = []
 
     project_business: string = "";
     project_type: string = "";

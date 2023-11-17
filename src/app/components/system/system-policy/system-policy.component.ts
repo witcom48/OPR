@@ -82,7 +82,7 @@ export class SystemPolicyComponent implements OnInit {
       this.title_genaral_system = 'ทั่วไป';
       this.title_links = 'ลิงค์';
       this.title_genaral = 'ทั่วไป';
-      this.title_level = 'ระดับ';
+      this.title_level = 'ระดับหน่วยงาน';
       this.title_bank = 'ธนาคาร';
       this.title_card_Type = 'ประเภทบัตร';
       this.title_family_Type = 'ประเภทครอบครัว';

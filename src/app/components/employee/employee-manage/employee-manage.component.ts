@@ -160,8 +160,8 @@ interface Doctype {
   code: string
 }
 interface Order {
-  name:string,
-  code:string
+  name: string,
+  code: string
 }
 
 
@@ -199,7 +199,7 @@ export class EmployeeManageComponent implements OnInit {
   pfType: PFType[] = [];
   docType: Doctype[] = [];
 
-  order_list:Order[]=[{name :'1',code:'1'},{name :'2',code:'2'},{name :'3',code:'3'}];
+  order_list: Order[] = [{ name: '1', code: '1' }, { name: '2', code: '2' }, { name: '3', code: '3' }];
 
   //menu emplocation
   menu_emplocation: MenuItem[] = [];
@@ -492,6 +492,11 @@ export class EmployeeManageComponent implements OnInit {
       }
 
     }, 400);
+
+    setTimeout(() => {
+      this.doLoadResignall();
+      this.doLoadEmpbankAll();
+    }, 1000);
 
   }
 
@@ -792,11 +797,11 @@ export class EmployeeManageComponent implements OnInit {
 
   title_dropfile: { [key: string]: string } = { EN: "Drop files here", TH: "วางไฟล์ที่นี่" };
   title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
-  
+
   type_D: { [key: string]: string } = { EN: "Dayly", TH: "รายวัน" };
   type_M: { [key: string]: string } = { EN: "Monthly", TH: "รายเดือน" };
   type_H: { [key: string]: string } = { EN: "Hourly", TH: "รายชั่วโมง" };
-  
+
   title_order: { [key: string]: string } = { EN: "Order", TH: "ลำดับที่" };
   title_hosstatus: { [key: string]: string } = { EN: "Status", TH: "สถานะ" };
   title_activate: { [key: string]: string } = { EN: "Active", TH: "ใช้งาน" };
@@ -804,6 +809,9 @@ export class EmployeeManageComponent implements OnInit {
   title_emer_tel: { [key: string]: string } = { EN: "Emergency Tel.", TH: "เบอร์โทรศัพท์ผู้ติดต่อฉุกเฉิน" };
   title_emer_name: { [key: string]: string } = { EN: "Emergency Name", TH: "ผู้ติดต่อฉุกเฉิน" };
   title_emer_address: { [key: string]: string } = { EN: "Emergency Address", TH: "ที่อยู่ผู้ติดต่อฉุกเฉิน" };
+
+  title_confirmresign: { [key: string]: string } = { EN: "Have resignation history want to continue?", TH: "พนักงานมีประวัติการลาออก ต้องการดำเนินการต่อหรือไม่?" };
+  title_confirmbankacc: { [key: string]: string } = { EN: "Have Bank account want to continue?", TH: "มีการบันทึกเลขบัญชีธนาคารนี้แล้ว ต้องการดำเนินการต่อหรือไม่?" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -2339,13 +2347,13 @@ export class EmployeeManageComponent implements OnInit {
     //menu filedoc
     this.menu_filedoc = [
       {
-          label: this.title_new,
-          icon: 'pi pi-fw pi-plus',
-          command: (event) => {
-              this.Uploadfile = true;
-          }
+        label: this.title_new,
+        icon: 'pi pi-fw pi-plus',
+        command: (event) => {
+          this.Uploadfile = true;
+        }
       },
-  ];
+    ];
 
   }
 
@@ -4901,18 +4909,47 @@ export class EmployeeManageComponent implements OnInit {
 
   //Confirm
   confirmRecord() {
-    this.confirmationService.confirm({
-      message: this.title_confirm_record,
-      header: this.title_confirm,
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.doRecordEmployee()
-      },
-      reject: () => {
-        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
-      },
-      key: "myDialog"
-    });
+    if (this.checkResign(this.selectedEmployee.worker_cardno) == this.selectedEmployee.worker_cardno) {
+      this.confirmationService.confirm({
+        message: this.title_confirmresign[this.initial_current.Language],
+        header: this.title_confirm,
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.doRecordEmployee()
+        },
+        reject: () => {
+          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+        },
+        key: "myDialog"
+      });
+    } else if (this.checkbankaccount(this.empbankList[0].bank_account) == this.empbankList[0].bank_account) {
+      this.confirmationService.confirm({
+        message: this.title_confirmbankacc[this.initial_current.Language],
+        header: this.title_confirm,
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.doRecordEmployee()
+        },
+        reject: () => {
+          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+        },
+        key: "myDialog"
+      });
+    } else {
+      this.confirmationService.confirm({
+        message: this.title_confirm_record,
+        header: this.title_confirm,
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.doRecordEmployee()
+        },
+        reject: () => {
+          this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel });
+        },
+        key: "myDialog"
+      });
+    }
+
   }
 
   doGetNewCode(emp_type: string, empbranch: string) {
@@ -5654,11 +5691,11 @@ export class EmployeeManageComponent implements OnInit {
   handleFileDoc(file: FileList) {
     this.fileDocToUpload = file.item(0);
     if (this.fileDocToUpload) {
-        this.selectedFileName = this.fileDocToUpload.name;
+      this.selectedFileName = this.fileDocToUpload.name;
     } else {
-        this.selectedFileName = this.title_nofile[this.initial_current.Language];
+      this.selectedFileName = this.title_nofile[this.initial_current.Language];
     }
-}
+  }
   doGetFile() {
     var tmp = new EmpMTDocattModel();
     tmp.company_code = this.initial_current.CompCode
@@ -5739,50 +5776,50 @@ export class EmployeeManageComponent implements OnInit {
   }
   DeleteFileDoc(data: EmpMTDocattModel) {
     this.confirmationService.confirm({
-        message: this.title_confirm_delete + data.document_name,
-        header: this.title_delete,
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            if (data.document_id) {
-                this.employeeService.delete_file(data).then((res) => {
-                    if (res.success) {
-                        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-                    } else {
-                        this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-                    }
-                })
+      message: this.title_confirm_delete + data.document_name,
+      header: this.title_delete,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (data.document_id) {
+          this.employeeService.delete_file(data).then((res) => {
+            if (res.success) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
             } else {
-                this.empdocatt = this.empdocatt.filter((item) => {
-                    return item !== data;
-                });
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
             }
-            this.employeeService.deletefilepath_file(data.document_path).then((res) => {
-                if (res.success) {
-                    this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-                    this.empdocatt = this.empdocatt.filter((item) => {
-                        return item !== data;
-                    });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-                }
-            })
-        },
-        reject: () => {
-
+          })
+        } else {
+          this.empdocatt = this.empdocatt.filter((item) => {
+            return item !== data;
+          });
         }
+        this.employeeService.deletefilepath_file(data.document_path).then((res) => {
+          if (res.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            this.empdocatt = this.empdocatt.filter((item) => {
+              return item !== data;
+            });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+          }
+        })
+      },
+      reject: () => {
+
+      }
     });
-}
-record_filedoc() {
-  if (this.empdocatt.length == 0) {
-      return;
   }
-  this.employeeService.record_empfile(this.selectedEmployee.worker_code, this.empdocatt, this.selectedEmployee.selected_Doctype).then((res) => {
+  record_filedoc() {
+    if (this.empdocatt.length == 0) {
+      return;
+    }
+    this.employeeService.record_empfile(this.selectedEmployee.worker_code, this.empdocatt, this.selectedEmployee.selected_Doctype).then((res) => {
       let result = JSON.parse(res);
       if (result.success) {
       } else {
       }
-  })
-}
+    })
+  }
 
   paytranTaxTotal: number = 0;
   paytranAccList: PaytranAccModel[] = [];
@@ -5830,7 +5867,7 @@ record_filedoc() {
   empresignList: EmployeeresignModel[] = [];
   selectedEmpresign: EmployeeresignModel = new EmployeeresignModel();
   doLoadEmpresignList() {
-    this.empresignService.empresign_get(this.initial_current.CompCode, this.emp_code,this.selectedEmployee.worker_cardno).then(async(res) => {
+    this.empresignService.empresign_get(this.initial_current.CompCode, this.emp_code, this.selectedEmployee.worker_cardno).then(async (res) => {
       await res.forEach((element: EmployeeresignModel) => {
         element.empresign_date = new Date(element.empresign_date)
       })
@@ -5859,4 +5896,34 @@ record_filedoc() {
     }
   }
 
+
+  //check resign
+  empResignAll: EmployeeresignModel[] = [];
+  doLoadResignall() {
+    this.empresignService.empresign_get(this.initial_current.CompCode, '', '').then((res) => {
+      this.empResignAll = res;
+    })
+  }
+  checkResign(Code: string): any {
+    for (let i = 0; i < this.empResignAll.length; i++) {
+      if (this.empResignAll[i].card_no == Code) {
+        return this.empResignAll[i].card_no;
+      }
+    }
+  }
+
+  //check bank
+  empbankAll: EmpbankModel[] = [];
+  doLoadEmpbankAll() {
+    this.empdetailService.getworker_bank(this.initial_current.CompCode, '').then((res) => {
+      this.empbankAll = res;
+    })
+  }
+  checkbankaccount(Code: string): any {
+    for (let i = 0; i < this.empbankAll.length; i++) {
+      if (this.empbankAll[i].bank_account == Code) {
+        return this.empbankAll[i].bank_account;
+      }
+    }
+  }
 }

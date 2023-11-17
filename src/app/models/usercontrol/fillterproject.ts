@@ -7,8 +7,9 @@ export class FillterProjectModel {
     projobemp_fromdate: Date = new Date();
     projobemp_todate: Date = new Date();    
     projobemp_type: string = "";
-    projobemp_status: string = "W";
-    
+    // projobemp_status: string = "W";
+    projobemp_status: string = "";
+
     projob_code: string = "";
     project_code: string = "";
     ///

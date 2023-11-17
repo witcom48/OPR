@@ -26,6 +26,7 @@ import { JobMonitorModel } from '../../../models/project/job_monitor'
 
 import { EmployeeService } from 'src/app/services/emp/worker.service';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
+import { RadiovalueModel } from 'src/app/models/project/radio_value';
 
 interface Combobox {
   name: string,
@@ -45,7 +46,11 @@ interface Manpower {
   modied_by: string,
   modied_date: string,
 }
-
+interface Status {
+  name_th: string,
+  name_en: string,
+  code: string
+}
 @Component({
   selector: 'app-project-transfer',
   templateUrl: './project-transfer.component.html',
@@ -55,6 +60,10 @@ export class ProjectTransferComponent implements OnInit {
   project_code: string = "";
   @ViewChild(SelectEmpComponent) selectEmp: any;
   @ViewChild(TaskComponent) taskView: any;
+
+  status_list: Status[] = [{ name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }, { name_th: 'เสร็จ', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }, { name_th: 'ทั้งหมด', name_en: 'All', code: '' }];
+  status_select: Status = { name_th: 'รอดำเนินการ', name_en: 'Wait', code: 'W' }
+
   home: any;
   itemslike: MenuItem[] = [];
   title_confirm: { [key: string]: string } = { EN: "Are you sure?", TH: "ยืนยันการทำรายการ" }
@@ -99,7 +108,7 @@ export class ProjectTransferComponent implements OnInit {
   title_staff_total: { [key: string]: string } = { EN: "Total", TH: "รวม" }
   title_staff_diff: { [key: string]: string } = { EN: "Diff.", TH: "ส่วนต่าง" }
   
-  title_staff_transfer: { [key: string]: string } = { EN: "Transfer", TH: "โอนย้ายแรงงาน" }
+  title_staff_transfer: { [key: string]: string } = { EN: "Transfer", TH: "บันทึกกานโอนย้าย" }
   title_history: { [key: string]: string } = { EN: "History", TH: "ประวัติการโอนย้าย" }
   title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" }
   title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
@@ -110,7 +119,14 @@ export class ProjectTransferComponent implements OnInit {
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" }
   title_job: { [key: string]: string } = { EN: "Job", TH: "งาน" }
   title_process: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" }
+  title_defaultstatus: { [key: string]: string } = { EN: "Status", TH: "สถานะอนุมัติ" }
+  title_wait: { [key: string]: string } = { EN: "Wait", TH: "รอดำเนินการ" }
+  title_approved: { [key: string]: string } = { EN: "Approved", TH: "อนุมัติแล้ว" }
+  title_notApprove: { [key: string]: string } = { EN: "Not Approve", TH: "ไม่อนุมัติ" }
+  title_all: { [key: string]: string } = { EN: "All", TH: "ทั้งหมด" }
 
+  title_project_progarea: { [key: string]: string } = { EN: "Area ", TH: "พื้นที่" }
+  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
   
   menu_Reload: MenuItem[] = [];
   doLoadMenu() {
@@ -121,7 +137,8 @@ export class ProjectTransferComponent implements OnInit {
       {
         icon: 'pi pi-fw pi-refresh',
         command: (event) => {
-          this.doLoadProjobemp()
+          // this.doLoadProjobemp()
+          this.doGetProjobempFillter();
         }
       }
     ]
@@ -141,7 +158,7 @@ export class ProjectTransferComponent implements OnInit {
 
     this.doLoadLanguage()
     this.doGetInitialCurrent()
-
+ 
     setTimeout(() => {
       this.doLoadEmployee()
       this.doLoadProject()
@@ -152,7 +169,7 @@ export class ProjectTransferComponent implements OnInit {
       this.doLoadMenu()
     }, 100);
     setTimeout(() => {
-      this.doLoadProjobemp()
+      this.doGetProjobempFillter(); 
     }, 1000);
   }
 
@@ -223,6 +240,19 @@ export class ProjectTransferComponent implements OnInit {
 
   }
 
+  
+  getFullStatus(code: string): any {
+    for (let i = 0; i < this.status_list.length; i++) {
+      if (this.status_list[i].code == code) {
+        if (this.initial_current.Language == "TH") {
+          return this.status_list[i].name_th;
+        }
+        else {
+          return this.status_list[i].name_en;
+        }
+      }
+    }
+  }
 
   selectedProject: string = ""
   selectedJob: string = ""
@@ -256,9 +286,12 @@ export class ProjectTransferComponent implements OnInit {
 
 
   async doGetLastVersion() {
+    var date = new ProjobversionModel();
+
+    date.fromdate = this.initial_current.PR_PayDate;
 
     let version = ""
-    this.projectDetailService.projobversion_get(this.selectedProject).then(async (res) => {
+    this.projectDetailService.projobversion_get(this.project_code).then(async (res) => {
       await res.forEach((element: ProjobversionModel) => {
         version = element.version
 
@@ -288,6 +321,7 @@ export class ProjectTransferComponent implements OnInit {
   }
 
   //-- Project monitor
+  
   project_monitor: PrjectMonitorModel[] = [];
   selectedProjectMonitor: PrjectMonitorModel = new PrjectMonitorModel;
   selectedDate_fillter: Date = new Date()
@@ -298,9 +332,10 @@ export class ProjectTransferComponent implements OnInit {
     var protype = ""
     var proarea = ""
     var progroup = ""
+    var proresponsible= ""
+    var responsiblearea= ""
 
-
-    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness, proarea, progroup).then(async (res) => {
+    this.projectService.project_monitor(this.initial_current.CompCode, this.selectedDate_fillter, protype, probusiness, proarea, progroup,proresponsible,responsiblearea).then(async (res) => {
       this.project_monitor = await res;
        setTimeout(() => {
         //this.calculateTotal()
@@ -308,7 +343,7 @@ export class ProjectTransferComponent implements OnInit {
 
       }, 500);
       this.projobemp_list = await res;
-    });
+     });
   }
 
 
@@ -396,12 +431,7 @@ export class ProjectTransferComponent implements OnInit {
   selectedProjobemp: ProjobempModel = new ProjobempModel();
 
   selectedProjobemp_name: string = ""
-
-  doLoadProjobemp() {
-    this.projectDetailService.projobemp_get("").then((res) => {
-      this.projobemp_list = res;
-    });
-  }
+ 
   onRowSelectProjobemp(event: Event) {
     this.selectedProjobemp_name = this.selectedProjobemp.projobemp_emp + " : " + this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp)
   }
@@ -434,7 +464,25 @@ export class ProjectTransferComponent implements OnInit {
     return result
   }
   reloadPage() {
-    this.doLoadProjobemp();
-    console.log(this.reloadPage,'ttt')
+     this.doGetProjobempFillter();
+   }
+
+
+  ///////////
+  async doGetProjobempFillter() {
+    const workerfillter: FillterProjectModel = new FillterProjectModel();
+    const Radiovalue: RadiovalueModel = new RadiovalueModel();
+    workerfillter.company_code = this.initial_current.CompCode;
+    workerfillter.projobemp_status = this.selectedstatusProjobemp;
+
+    this.projobemp_list = await this.projectDetailService.projobemp_getbyfillter(workerfillter, Radiovalue);
   }
+
+  //-- Status สถานะ
+  selectedstatusProjobemp: string = "";
+  doChangeSelectstatusProjobemp() {
+    this.doGetProjobempFillter();
+   }
+
+ 
 }

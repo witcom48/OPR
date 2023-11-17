@@ -144,6 +144,8 @@ import { EmployeePaysuspendComponent } from './employee-paysuspend/employee-pays
     EmpsettrainingComponent,
     EmpsetassessmentComponent,
     EmployeePaysuspendComponent,
-  ]
+  ],
+  exports: [EmployeeMonitorComponent],
+
 })
 export class EmployeeModule { }

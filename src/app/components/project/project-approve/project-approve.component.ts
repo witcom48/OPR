@@ -16,19 +16,39 @@ import { ProjectService } from '../../../services/project/project.service';
 import { TRSysApproveModel } from '../../../models/system/security/sys_approve';
 import { SysApproveServices } from '../../../services/system/security/sysapprove.service';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
+import { ProjobempModel } from 'src/app/models/project/project_jobemp';
+import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
+import { RadiovalueModel } from 'src/app/models/project/radio_value';
+import { ProcontractModel } from 'src/app/models/project/project_contract';
+import { EmployeeModel } from 'src/app/models/employee/employee';
+import { EmployeeService } from 'src/app/services/emp/worker.service';
 
+interface Combobox {
+  name: string,
+  code: string
+}
+interface Status {
+  name_th: string,
+  name_en: string,
+  code: string
+}
 @Component({
   selector: 'app-project-approve',
   templateUrl: './project-approve.component.html',
   styleUrls: ['./project-approve.component.scss']
 })
 export class ProjectApproveComponent implements OnInit {
+  status_list: Status[] = [{ name_th: 'รออนุมัติ', name_en: 'Wait', code: 'W' }, { name_th: 'อนุมัติแล้ว', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }, { name_th: 'ทั้งหมด', name_en: 'All', code: '' }];
+  status_select: Status = { name_th: 'รออนุมัติ', name_en: 'Wait', code: 'W' }
 
   items: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
   home: any;
   itemslike: MenuItem[] = [];
   menu_project: MenuItem[] = [];
+  menu_projobemp: MenuItem[] = [];
+
+  project_code: string = "";
 
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
@@ -98,6 +118,17 @@ export class ProjectApproveComponent implements OnInit {
 
   title_Project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" }
 
+
+  title_staff_jobcode: { [key: string]: string } = { EN: "Job code", TH: "รหัสงาน" }
+  title_project_code: { [key: string]: string } = { EN: "Code", TH: "รหัสโครงการ" }
+  title_staff_empcode: { [key: string]: string } = { EN: "Emp code", TH: "รหัสพนักงาน" }
+  title_staff_empname: { [key: string]: string } = { EN: "Emp name", TH: "ชื่อ-นามสกุล" }
+  title_staff_fromadate: { [key: string]: string } = { EN: "Fromdate", TH: "จากวันที่" }
+  title_staff_todate: { [key: string]: string } = { EN: "Todate", TH: "ถึงวันที่" }
+  title_staff_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" }
+
+
+
   total_project: number = 0
   total_transfer: number = 0
 
@@ -108,16 +139,29 @@ export class ProjectApproveComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private datePipe: DatePipe,
-    private sysApproveServices: SysApproveServices
+    private sysApproveServices: SysApproveServices,
+    private projectDetailService: ProjectDetailService,
+    private employeeService: EmployeeService,
+
+
   ) { }
 
   ngOnInit(): void {
-    
+
     this.doGetInitialCurrent()
-this.doLoadMenu()
+    this.doLoadMenu()
+    this.doGetProjobempFillter()
     setTimeout(() => {
+
       this.doLoadProject()
+      this.doLoadProjobemp()
+
+
     }, 300);
+    setTimeout(() => {
+      this.doLoadEmployee()
+      this.doGetDataFillter();
+    }, 500);
   }
 
   doLoadMenu() {
@@ -141,10 +185,37 @@ this.doLoadMenu()
         label: this.title_notapprove[this.initial_current.Language],
         icon: 'pi pi-fw pi-times',
         command: (event) => {
-
           if (this.selectedProject.project_code != "") {
             this.approveNote = ""
             this.openNotapprove()
+          }
+        }
+      }
+    ];
+
+    this.menu_projobemp = [
+      {
+        label: this.title_approve[this.initial_current.Language],
+        icon: 'pi pi-fw pi-check',
+        command: (event) => {
+
+          if (this.selectedProjobemp.projobemp_emp != "") {
+            this.approveNoteemp = ""
+            this.approve_projobemp("W")
+
+          }
+          //this.showManage()
+        }
+      }
+      ,
+      {
+        label: this.title_notapprove[this.initial_current.Language],
+        icon: 'pi pi-fw pi-times',
+        command: (event) => {
+
+          if (this.selectedProjobemp.projobemp_emp != "") {
+            this.approveNoteemp = ""
+            this.openNotapproveemp()
           }
 
         }
@@ -193,10 +264,6 @@ this.doLoadMenu()
       header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-
-        // this.selectedProject.company_code = this.initial_current.CompCode
-
-
         var data = new TRSysApproveModel()
         data.company_code = this.initial_current.CompCode
         data.approve_status = status
@@ -224,16 +291,13 @@ this.doLoadMenu()
     });
   }
 
-  doFillter() {
-    this.doGetDataFillter()
-  }
   ///
   async doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_status = this.selectedstatus;
-  
-    this.project_list = await this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, 
+
+    this.project_list = await this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter,
       workerfillter
     );
   }
@@ -241,13 +305,12 @@ this.doLoadMenu()
   doChangeSelectstatus() {
     this.doGetDataFillter();
   }
-  
+
 
   displayApprove: boolean = false;
 
   showApprove() {
     this.displayApprove = true
-
   }
 
   closeApprove() {
@@ -280,5 +343,156 @@ this.doLoadMenu()
   confirm_notapprove() {
     this.approve_project("C")
   }
+  // projobemp
+  projobemp_list: ProjobempModel[] = [];
+  selectedProjobemp: ProjobempModel = new ProjobempModel();
+  selectedProjobemp_name: string = ""
 
+  selectedstatusProjobemps: FillterProjectModel = new FillterProjectModel();
+
+
+
+
+  doLoadProjobemp() {
+    this.projectDetailService.projectemp_get_withstatus("", this.project_code, "W").then(async (res) => {
+      this.projobemp_list = await res;
+
+      this.total_project = this.projobemp_list.length;
+    });
+  }
+
+  async doGetProjobempFillter() {
+    const workerfillter: FillterProjectModel = new FillterProjectModel();
+    const Radiovalue: RadiovalueModel = new RadiovalueModel();
+    workerfillter.company_code = this.initial_current.CompCode;
+    workerfillter.projobemp_status = this.selectedstatusProjobemp;
+
+    this.projobemp_list = await this.projectDetailService.projobemp_getbyfillter(workerfillter, Radiovalue);
+  }
+
+  //-- Status สถานะ
+  selectedstatusProjobemp: string = "";
+  doChangeSelectstatusProjobemp() {
+    this.doGetProjobempFillter();
+  }
+
+  approve_projobemp(status: string) {
+    this.displayApproveNoteemp = false
+    this.confirmationService.confirm({
+      message: this.title_confirm_record[this.initial_current.Language],
+      header: this.title_confirm[this.initial_current.Language],
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        var data = new TRSysApproveModel()
+        data.company_code = this.initial_current.CompCode
+        data.approve_status = status
+        data.project_code = this.project_code
+        data.workflow_type = "PRO_EMP"
+        data.approve_code = this.selectedProjobemp.projobemp_emp
+        data.approve_note = this.approveNoteemp
+
+        this.sysApproveServices.approve_record(data).then((res) => {
+          let result = JSON.parse(res);
+          if (result.success) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+            this.doLoadProjobemp()
+
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+          }
+        });
+
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+      }
+
+    });
+  }
+
+
+  displayApproveNoteemp: boolean = false;
+  approveNoteemp: string = ""
+  openNotapproveemp() {
+    this.displayApproveNoteemp = true
+  }
+
+  confirm_notapproveemp() {
+    this.approve_projobemp("C")
+  }
+
+
+  getFullStatus(code: string): any {
+    for (let i = 0; i < this.status_list.length; i++) {
+      if (this.status_list[i].code == code) {
+        if (this.initial_current.Language == "TH") {
+          return this.status_list[i].name_th;
+        }
+        else {
+          return this.status_list[i].name_en;
+        }
+      }
+    }
+  }
+
+
+  displayApproveemp: boolean = false;
+  showApproveemp() {
+    this.displayApproveemp = true
+  }
+
+  closeApproveemp() {
+    this.displayApproveemp = false
+  }
+  doGetProjectDetail(code: string): string {
+    for (let i = 0; i < this.project_list.length; i++) {
+      if (this.project_list[i].project_name_th == code) {
+        return this.project_list[i].project_name_th;
+      }
+    }
+    return ""
+  }
+  approveemp_list: TRSysApproveModel[] = [];
+  selectedApproveemp: TRSysApproveModel = new TRSysApproveModel;
+
+
+  doLoadApproveemp(subject_code: string, workflow_type: string) {
+
+    var tmp = new TRSysApproveModel()
+    tmp.approve_code = subject_code
+    tmp.workflow_type = workflow_type
+
+    this.sysApproveServices.approve_get(tmp).then(async (res) => {
+      this.approveemp_list = await res;
+
+      this.title_popup_approve = { EN: "View approve :" + subject_code, TH: "ผู้อนุมัติ :" + subject_code }
+      this.showApproveemp()
+    });
+  }
+
+  //-- Employee
+  employee_list: EmployeeModel[] = [];
+  doLoadEmployee() {
+    this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
+      this.employee_list = await res;
+    });
+  }
+
+  doGetEmployeeDetail(code: string): string {
+    for (let i = 0; i < this.employee_list.length; i++) {
+      if (this.employee_list[i].worker_code == code) {
+        if (this.initial_current.Language == "TH") {
+          return this.employee_list[i].worker_fname_th + ' ' + this.employee_list[i].worker_lname_th;
+        }
+        else {
+          return this.employee_list[i].worker_fname_en + ' ' + this.employee_list[i].worker_lname_en;
+        }
+      }
+    }
+    return ""
+  }
+  onRowSelectProjobemp(event: Event) {
+    this.selectedProjobemp_name = this.selectedProjobemp.projobemp_emp + " : " + this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp)
+  }
 }

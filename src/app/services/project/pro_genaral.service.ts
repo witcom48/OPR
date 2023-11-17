@@ -8,6 +8,8 @@ import { ProbusinessModel, ProtypeModel, ProslipModel, ProuniformModel } from '.
 import { ProareaModel } from 'src/app/models/project/project_proarea';
 import { ProgroupModel } from 'src/app/models/project/project_group';
 import { ProequipmenttypeModel } from 'src/app/models/project/project_proequipmenttype';
+import { ResponsibleposModel } from 'src/app/models/project/responsiblepos';
+import { ResponsibleareaModel } from 'src/app/models/project/responsiblearea';
 
 
 @Injectable({
@@ -61,21 +63,21 @@ export class ProgenaralService {
     }
   }
 
-  public probusiness_get(model:ProbusinessModel) {
+  public probusiness_get(model: ProbusinessModel) {
     let data = {
-       device_name: "phone",
-       ip: "127.0.0.1",
-       username: this.initial_current.Username,
-       company_code:  this.initial_current.CompCode,
-       probusiness_id: model.probusiness_id,
-       probusiness_code: model.probusiness_code
-   }
-   return this.http.post<any>(this.config.ApiProjectModule + '/probusiness_list', data, this.options).toPromise()
-       .then((res) => {
-           let message = JSON.parse(res);
-           return message.data;
-       });
-}
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      probusiness_id: model.probusiness_id,
+      probusiness_code: model.probusiness_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/probusiness_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
   // public probusiness_get() {
   //   return this.http.post<any>(this.config.ApiProjectModule + '/probusiness_list', this.basicRequest, this.options).toPromise()
   //     .then((res) => {
@@ -133,21 +135,21 @@ export class ProgenaralService {
   }
 
   //--
-  public protype_get(model:ProtypeModel) {
+  public protype_get(model: ProtypeModel) {
     let data = {
-       device_name: "phone",
-       ip: "127.0.0.1",
-       username: this.initial_current.Username,
-       company_code:  this.initial_current.CompCode,
-       protype_id: model.protype_id,
-       protype_code: model.protype_code
-   }
-   return this.http.post<any>(this.config.ApiProjectModule + '/protype_list', data, this.options).toPromise()
-       .then((res) => {
-           let message = JSON.parse(res);
-           return message.data;
-       });
-}
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      protype_id: model.protype_id,
+      protype_code: model.protype_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/protype_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
   // public protype_get() {
   //   return this.http.post<any>(this.config.ApiProjectModule + '/protype_list', this.basicRequest, this.options).toPromise()
   //     .then((res) => {
@@ -205,21 +207,21 @@ export class ProgenaralService {
   }
 
   //--
-  public prouniform_get(model:ProuniformModel) {
+  public prouniform_get(model: ProuniformModel) {
     let data = {
-       device_name: "phone",
-       ip: "127.0.0.1",
-       username: this.initial_current.Username,
-       company_code:  this.initial_current.CompCode,
-       prouniform_id: model.prouniform_id,
-       prouniform_code: model.prouniform_code
-   }
-   return this.http.post<any>(this.config.ApiProjectModule + '/prouniform_list', data, this.options).toPromise()
-       .then((res) => {
-           let message = JSON.parse(res);
-           return message.data;
-       });
-}
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      prouniform_id: model.prouniform_id,
+      prouniform_code: model.prouniform_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/prouniform_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
 
   // public prouniform_get() {
   //   return this.http.post<any>(this.config.ApiProjectModule + '/prouniform_list', this.basicRequest, this.options).toPromise()
@@ -278,21 +280,21 @@ export class ProgenaralService {
   }
 
   //--
-  public proslip_get(model:ProslipModel) {
+  public proslip_get(model: ProslipModel) {
     let data = {
-       device_name: "phone",
-       ip: "127.0.0.1",
-       username: this.initial_current.Username,
-       company_code:  this.initial_current.CompCode,
-       proslip_id: model.proslip_id,
-       proslip_code: model.proslip_code
-   }
-   return this.http.post<any>(this.config.ApiProjectModule + '/proslip_list', data, this.options).toPromise()
-       .then((res) => {
-           let message = JSON.parse(res);
-           return message.data;
-       });
-}
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      proslip_id: model.proslip_id,
+      proslip_code: model.proslip_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/proslip_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
 
   // public proslip_get() {
   //   return this.http.post<any>(this.config.ApiProjectModule + '/proslip_list', this.basicRequest, this.options).toPromise()
@@ -351,21 +353,21 @@ export class ProgenaralService {
   }
 
   //-- proarea
-  public proarea_get(model:ProareaModel) {
+  public proarea_get(model: ProareaModel) {
     let data = {
-       device_name: "phone",
-       ip: "127.0.0.1",
-       username: this.initial_current.Username,
-       company_code:  this.initial_current.CompCode,
-       proarea_id: model.proarea_id,
-       proarea_code: model.proarea_code
-   }
-   return this.http.post<any>(this.config.ApiProjectModule + '/proarea_list', data, this.options).toPromise()
-       .then((res) => {
-           let message = JSON.parse(res);
-           return message.data;
-       });
-}
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      proarea_id: model.proarea_id,
+      proarea_code: model.proarea_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/proarea_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
 
   // public proarea_get() {
   //   return this.http.post<any>(this.config.ApiProjectModule + '/proarea_list', this.basicRequest, this.options).toPromise()
@@ -424,21 +426,21 @@ export class ProgenaralService {
   }
 
   //-- Group 
-  public progroup_get(model:ProgroupModel) {
+  public progroup_get(model: ProgroupModel) {
     let data = {
-       device_name: "phone",
-       ip: "127.0.0.1",
-       username: this.initial_current.Username,
-       company_code:  this.initial_current.CompCode,
-       progroup_id: model.progroup_id,
-       progroup_code: model.progroup_code
-   }
-   return this.http.post<any>(this.config.ApiProjectModule + '/progroup_list', data, this.options).toPromise()
-       .then((res) => {
-           let message = JSON.parse(res);
-           return message.data;
-       });
-}
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      progroup_id: model.progroup_id,
+      progroup_code: model.progroup_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/progroup_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
   // public progroup_get() {
   //   return this.http.post<any>(this.config.ApiProjectModule + '/progroup_list', this.basicRequest, this.options).toPromise()
   //     .then((res) => {
@@ -497,21 +499,21 @@ export class ProgenaralService {
 
 
   //-- proequipmenttype
-  public proequipmenttype_get(model:ProequipmenttypeModel) {
+  public proequipmenttype_get(model: ProequipmenttypeModel) {
     let data = {
-       device_name: "phone",
-       ip: "127.0.0.1",
-       username: this.initial_current.Username,
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
       //  company_code:  this.initial_current.CompCode,
-       proequipmenttype_id: model.proequipmenttype_id,
-       proequipmenttype_code: model.proequipmenttype_code
-   }
-   return this.http.post<any>(this.config.ApiProjectModule + '/proequipmenttype_list', data, this.options).toPromise()
-       .then((res) => {
-           let message = JSON.parse(res);
-           return message.data;
-       });
-}
+      proequipmenttype_id: model.proequipmenttype_id,
+      proequipmenttype_code: model.proequipmenttype_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/proequipmenttype_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
 
   // public proequipmenttype_get() {
   //   return this.http.post<any>(this.config.ApiProjectModule + '/proequipmenttype_list', this.basicRequest, this.options).toPromise()
@@ -524,7 +526,7 @@ export class ProgenaralService {
 
   public proequipmenttype_record(model: ProequipmenttypeModel) {
     const data = {
- 
+
       proequipmenttype_id: model.proequipmenttype_id,
       proequipmenttype_code: model.proequipmenttype_code,
       proequipmenttype_name_th: model.proequipmenttype_name_th,
@@ -540,7 +542,7 @@ export class ProgenaralService {
 
   public proequipmenttype_delete(model: ProequipmenttypeModel) {
     const data = {
- 
+
       proequipmenttype_id: model.proequipmenttype_id,
       proequipmenttype_code: model.proequipmenttype_code,
       modified_by: this.initial_current.Username
@@ -566,4 +568,136 @@ export class ProgenaralService {
         return res;
       });
   }
+
+
+
+  //-- MTResponsiblepos 
+  public MTResponsiblepos_get(model: ResponsibleposModel) {
+    let data = {
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      responsiblepos_id: model.responsiblepos_id,
+      responsiblepos_code: model.responsiblepos_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/MTResponsiblepos_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public MTResponsiblepos_record(model: ResponsibleposModel) {
+    const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
+      responsiblepos_id: model.responsiblepos_id,
+      responsiblepos_code: model.responsiblepos_code,
+      responsiblepos_name_th: model.responsiblepos_name_th,
+      responsiblepos_name_en: model.responsiblepos_name_en,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/MTResponsiblepos', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  public MTResponsiblepos_delete(model: ResponsibleposModel) {
+    const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
+      responsiblepos_id: model.responsiblepos_id,
+      responsiblepos_code: model.responsiblepos_code,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/MTResponsiblepos_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+
+  public MTResponsiblepos_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTResponsiblepos?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  //-- MTResponsiblearea 
+  public MTResponsiblearea_get(model: ResponsibleareaModel) {
+    let data = {
+      device_name: "phone",
+      ip: "127.0.0.1",
+      username: this.initial_current.Username,
+      company_code: this.initial_current.CompCode,
+      responsiblearea_id: model.responsiblearea_id,
+      responsiblearea_code: model.responsiblearea_code
+    }
+    return this.http.post<any>(this.config.ApiProjectModule + '/MTResponsiblearea_list', data, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+
+  public MTResponsiblearea_record(model: ResponsibleareaModel) {
+    const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
+      responsiblearea_id: model.responsiblearea_id,
+      responsiblearea_code: model.responsiblearea_code,
+      responsiblearea_name_th: model.responsiblearea_name_th,
+      responsiblearea_name_en: model.responsiblearea_name_en,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/MTResponsiblearea', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+  public MTResponsiblearea_delete(model: ResponsibleareaModel) {
+    const data = {
+      company_code: model.company_code || this.initial_current.CompCode,
+
+      responsiblearea_id: model.responsiblearea_id,
+      responsiblearea_code: model.responsiblearea_code,
+      modified_by: this.initial_current.Username
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/MTResponsiblearea_del', data, this.options).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+
+  public MTResponsiblearea_import(file: File, file_name: string, file_type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+    var para = "fileName=" + file_name + "." + file_type;
+    para += "&token=" + this.initial_current.Token;
+    para += "&by=" + this.initial_current.Username;
+    para += "&com=" + this.initial_current.CompCode;
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/doUploadMTResponsiblearea?' + para, formData).toPromise()
+      .then((res) => {
+        return res;
+      });
+  }
+
+
 }
