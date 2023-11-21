@@ -133,7 +133,8 @@
                                 <p-dropdown placeholder="--" [options]="probusiness_list" optionLabel="probusiness_code"
                                     optionValue="probusiness_code" [showClear]="true" [(ngModel)]="selectedbusiness"
                                     (onChange)="doChangeSelectbusiness()" [disabled]="!fillterbusiness"
-                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                    filterBy="probusiness_code ,probusiness_name_th,probusiness_name_en">
                                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                         {{initial_current.Language=="TH"? item.probusiness_name_th :
                                         item.probusiness_name_en}}
@@ -157,7 +158,8 @@
                                 <p-dropdown placeholder="--" [options]="proarea_list" optionValue="proarea_code"
                                     [(ngModel)]="selectedproarea" (onChange)="doChangeSelectproarea()"
                                     [showClear]="true" [disabled]="!fillterproarea"
-                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                    filterBy="proarea_code ,proarea_name_th,proarea_name_en">
                                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                                         {{initial_current.Language=="TH"? item.proarea_name_th :
                                         item.proarea_name_en}}
@@ -179,17 +181,18 @@
                                 <p-dropdown placeholder="--" [options]="projects_list" optionLabel="project_code"
                                     optionValue="project_code" [showClear]="true" [(ngModel)]="selectedprojects"
                                     [editable]="true" (onChange)="doChangeSelectprojects($event)"
-                                    [disabled]="!fillterprojects" [style]="{ width: '100%', overflow: 'visible' }">
-
+                                    [disabled]="!fillterprojects" 
+                                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                    filterBy=" project_code ,project_name_th,project_name_en,worker_lname_en">
+ 
                                     <ng-template let-item pTemplate="selectedItem">
                                         {{ item.project_code }} - {{ (initial_current.Language == 'TH') ?
-                                        item.project_name_th : item.project_name_en + ' ' +
-                                        item.worker_lname_en }}
+                                        item.project_name_th : item.project_name_en + ' ' + item.worker_lname_en }}
                                     </ng-template>
 
                                     <ng-template let-item pTemplate="item">
                                         {{ item.project_code }} - {{ (initial_current.Language == 'TH') ?
-                                        item.project_name_th : item.project_name_en }}
+                                        item.project_name_th : item.project_name_en + ' ' + item.worker_lname_en }}
                                     </ng-template>
                                 </p-dropdown>
                             </div>
@@ -207,7 +210,9 @@
                                     optionValue="responsiblepos_code" [(ngModel)]="selectedProresponsible_fillter"
                                     (onChange)="doChangeSelectProresponsible()" [showClear]="true"
                                     [disabled]="!proresponsible_fillter"
-                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                    filterBy="proresponsible_position ,responsiblepos_name_th,responsiblepos_name_en">
+
                                     <ng-template let-item pTemplate="selectedItem">
                                         {{initial_current.Language == "TH" ? item.responsiblepos_name_th :
                                         item.responsiblepos_name_en}}
@@ -223,7 +228,7 @@
                             <div class="select">
                                 <!-- ผู้รับผิดชอบเขต  -->
                                 <div>
-                                    <p-checkbox [(ngModel)]="responsiblearea_fillter" name="proresponsible_position"
+                                    <p-checkbox [(ngModel)]="responsiblearea_fillter" name="proresponsible_area"
                                         [binary]="true" (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
                                     <label for="lastname2">{{title_responsiblearea[initial_current.Language]}}</label>
                                 </div>
@@ -232,12 +237,15 @@
                                     optionValue="responsiblearea_code" [(ngModel)]="selectedResponsiblearea_fillter"
                                     (onChange)="doChangeSelectResponsiblearea()" [showClear]="true"
                                     [disabled]="!responsiblearea_fillter"
-                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                                    filterBy="proresponsible_area ,responsiblearea_name_th,responsiblearea_name_en">
                                     <ng-template let-item pTemplate="selectedItem">
-                                        {{initial_current.Language=="TH"? item.responsiblearea_name_th : item.responsiblearea_name_en}}
+                                        {{initial_current.Language=="TH"? item.responsiblearea_name_th :
+                                        item.responsiblearea_name_en}}
                                     </ng-template>
                                     <ng-template let-item pTemplate="item">
-                                        {{initial_current.Language=="TH"? item.responsiblearea_name_th : item.responsiblearea_name_en}}
+                                        {{initial_current.Language=="TH"? item.responsiblearea_name_th :
+                                        item.responsiblearea_name_en}}
                                     </ng-template>
                                 </p-dropdown>
                             </div>
@@ -348,7 +356,8 @@
 
                     <p-dropdown placeholder="--" [options]="probusiness_list" optionValue="probusiness_code"
                         [(ngModel)]="selectedProject.project_probusiness" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }">
+                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                        filterBy="probusiness_code ,probusiness_name_th,probusiness_name_en">
                         <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                             {{initial_current.Language=="TH"? item.probusiness_name_th : item.probusiness_name_en}}
                         </ng-template>

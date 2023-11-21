@@ -671,6 +671,7 @@ export class ProjectListComponent implements OnInit {
 
     if (this.fillterprojects) {
       this.doGetDataFillter();
+      console.log(this.fillterprojects,'ppp')
     }
   }
 
