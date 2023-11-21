@@ -599,18 +599,37 @@
                     inputId="minmax-buttons" [min]="0" [max]="31">
                 </p-inputNumber>
             </div>
-            <div class="field col-12">
+            <!--  -->
+            <div class=" center field col-12 md:col-5 custom-height">
+                <label for="minmax-buttons">{{title_shift_hrs[initial_current.Language]}}</label><br>
+                <input type="number" step="0.1"[min]="0" [max]="12" [(ngModel)]="selectedProjobshift.projobshift_hrsperday"
+                    name="hrs_perday" id="minmax-buttons" [min]="0" [max]="12"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+
+
+            <!--  -->
+            <!-- <div class="field col-12">
                 <label for="minmax-buttons">{{title_shift_hrs[initial_current.Language]}}</label><br>
                 <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_hrsperday" mode="decimal"
                     [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="12">
                 </p-inputNumber>
+            </div> -->
+
+
+            <div class=" center field col-12 md:col-5 custom-height">
+                <label for="minmax-buttons">{{title_shift_ot[initial_current.Language]}}</label><br>
+                <input type="number" step="0.1" [min]="0" [max]="12" [(ngModel)]="selectedProjobshift.projobshift_hrsot"
+                    name="hrs_perday" id="minmax-buttons"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
-            <div class="field col-12">
+
+            <!-- <div class="field col-12">
                 <label for="minmax-buttons">{{title_shift_ot[initial_current.Language]}}</label><br>
                 <p-inputNumber [(ngModel)]="selectedProjobshift.projobshift_hrsot" mode="decimal" [showButtons]="true"
                     inputId="minmax-buttons" [min]="0" [max]="12">
                 </p-inputNumber>
-            </div>
+            </div> -->
 
             <div class="field col-12">
                 <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
