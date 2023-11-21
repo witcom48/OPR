@@ -156,7 +156,7 @@
 
 <p></p>
 <p-accordion>
-    <p-accordionTab header="{{title_Project[initial_current.Language]}}" >
+    <p-accordionTab header="{{title_Project[initial_current.Language]}}" [selected]="true">
         <p-menubar [model]="menu_project"></p-menubar>
         <p-table #dt2 [value]="project_list" selectionMode="single" [(selection)]="selectedProjects" [rows]="12"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
@@ -263,7 +263,7 @@
 
 
 <p-accordion>
-    <p-accordionTab header="{{title_total_transfer[initial_current.Language]}} " [selected]="true">
+    <p-accordionTab header="{{title_total_transfer[initial_current.Language]}} " >
         <p-menubar [model]="menu_projobemp"></p-menubar>
 
         <p-table #dtJobemp [value]="projobemp_list" selectionMode="single" [(selection)]="selectedProjobemp" [rows]="12"
