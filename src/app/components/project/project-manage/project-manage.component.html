@@ -527,7 +527,7 @@
         </div>
         <!-- shift -->
         <div class="formgrid grid" *ngIf="edit_projobshift==true || new_projobshift==true">
-            <h3>{{title_shift[initial_current.Language]}}ooo</h3>
+            <h3>{{title_shift[initial_current.Language]}}</h3>
             <div class="field col-12">
                 <label for="selectedProjobshift_shift">{{title_shift[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="polshift_list" optionValue="shift_code"
@@ -796,6 +796,37 @@
                 <textarea [rows]="2" id="projobmain_name_en" [(ngModel)]="selectedProjobmain.projobmain_name_en"
                     [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
+            <!--  -->
+            <div class="field col-12">
+                <label for="protype_name_th">{{title_project_protype[initial_current.Language]}} :</label><br>
+                <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
+                    [(ngModel)]="selectedProjobmain.projobmain_jobtype" [showClear]="true"
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="projobmain_jobtype,protype_name_th,protype_name_en">
+                    <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.protype_name_th : item.protype_name_en}}
+                    </ng-template>
+                </p-dropdown>
+
+            </div>
+
+
+            <div class="field col-12 ">
+                <label for="projobmain_fromdate">{{title_responsible_fromdate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProjobmain.projobmain_fromdate" dateFormat="dd/mm/yy"
+                    inputId="projobmain_fromdate" [showIcon]="true"></p-calendar>
+            </div>
+            <div class="field col-12 ">
+                <label for="projobmain_todate">{{title_responsible_todate[initial_current.Language]}}</label>
+                <br>
+                <p-calendar [(ngModel)]="selectedProjobmain.projobmain_todate" dateFormat="dd/mm/yy"
+                    inputId="projobmain_todate" [showIcon]="true"></p-calendar>
+            </div>
+            <!--  -->
             <div class="field col-12">
                 <p-button label="{{title_save[initial_current.Language]}}" icon="pi pi-save"
                     (click)="projobmain_summit()"></p-button>
@@ -1546,10 +1577,9 @@
                     <label>{{title_cost_version[initial_current.Language]}}</label><br>
 
 
-                    <p-dropdown  [options]="projobversion_list" optionLabel="version"
-                        [(ngModel)]="selectedProjobversion" [showClear]="true"
-                        [style]="{ width: '100%', overflow: 'visible' }" [filter]="true" filterBy="version "
-                        (onChange)="onSelectProjobversion($event)"></p-dropdown>
+                    <p-dropdown [options]="projobversion_list" optionLabel="version" [(ngModel)]="selectedProjobversion"
+                        [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                        filterBy="version " (onChange)="onSelectProjobversion($event)"></p-dropdown>
                 </div>
 
                 <div class="col-12 md:col-9">
@@ -1611,7 +1641,14 @@
                             <th>{{title_jobmain_code[initial_current.Language]}}</th>
                             <th>{{title_jobmain_name[initial_current.Language]}}</th>
                             <!-- <th>{{title_jobmain_type[initial_current.Language]}}</th> -->
+                            <th>{{title_project_protype[initial_current.Language]}}</th>
+                            <th>{{title_responsible_fromdate[initial_current.Language]}}</th>
+                            <th>{{title_responsible_todate[initial_current.Language]}}</th>
+
                             <th>{{title_jobmain_emp_total[initial_current.Language]}}</th>
+
+
+                           
                             <!-- <th>{{title_jobmain_poltime[initial_current.Language]}}</th>
                         <th>{{title_jobmain_polslip[initial_current.Language]}}</th>
                         <th>{{title_jobmain_poluniform[initial_current.Language]}}</th> -->
@@ -1644,6 +1681,13 @@
                                     {{projobmain.projobmain_name_en}}
                                 </div>
                             </td>
+
+                            <td>{{projobmain.projobmain_jobtype}}</td>
+                            <td>{{projobmain.projobmain_fromdate | date:'dd/MM/yyyy HH:mm'}}</td>
+                            <td>{{projobmain.projobmain_todate | date:'dd/MM/yyyy HH:mm'}}</td>
+
+
+
                             <!-- <td>{{doGetPoljobtypeDetail(projobmain.projobmain_type)}}</td> -->
                             <td style="text-align: right; padding-right: 10px;">{{projobmain.emp_total |
                                 number:'1.2-2'}}</td>

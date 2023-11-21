@@ -6,13 +6,13 @@
     key="myDialog"></p-confirmDialog>
 
 
-<p-dialog header="{{title_timesheet[initial_current.Language]}}" [(visible)]="displayManage" [style]="{width: '60vw'}"
-    [position]="position">
+<p-dialog header="{{title_timesheet[initial_current.Language]}}" [(visible)]="searchEmp" [(visible)]="displayManage"
+    [style]="{width: '60vw'}" [position]="position">
     <p-scrollPanel [style]="{width: '100%', height: '650px'}">
         <div class="formgrid grid">
-            <span class="spn_title_edit">{{title_working_timesheet[initial_current.Language]}}</span>
+            <span class=" spn_title_edit field col-12">{{title_working_timesheet[initial_current.Language]}}</span>
             <br>
-
+            <div class="field col-12">
             <app-select-emp></app-select-emp>
             <!-- <div class="field col-12 ">
                 <label for="worker_code">{{title_empcode[initial_current.Language]}}</label>
@@ -27,7 +27,7 @@
 
             </div> -->
 
-            <div class="field col-12">
+            
                 <label for="selectedJobmain">{{title_jobname[initial_current.Language]}}</label><br>
                 <p-dropdown [options]="jobmain_list" optionValue="projobmain_code"
                     [(ngModel)]="selectedTimecard.projob_code" [showClear]="true"
@@ -88,32 +88,36 @@
             </div>
 
             <div class="field col-12">
-                <p-button label="บันทึก ทั้งหมด" icon="pi pi-save" (click)="process()"></p-button>
+                <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
+                    (click)="process()" ></p-button>
                 &nbsp;
-                <button pButton pRipple type="button" label="ปิด" class="p-button-secondary"
-                    (click)="close_manage()"></button>
+                <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
+                class="p-button-secondary" (click)="close_searchemp()"(click)="close_manage()"></button>
+
+                <!-- <button pButton pRipple type="button" label="ปิด" class="p-button-secondary"
+                    (click)="close_manage()"></button> -->
             </div>
         </div>
     </p-scrollPanel>
 
 </p-dialog>
 
-<p-dialog [(visible)]="searchEmp" [style]="{width: '30vw'}" [position]="position">
+<!-- <p-dialog [(visible)]="searchEmp" [style]="{width: '30vw'}" [position]="position">
     <div class="grid">
         <div class="col-12">
-            <!-- <app-search-emp></app-search-emp> -->
+            <app-search-emp></app-search-emp>
             <app-select-emp></app-select-emp>
 
         </div>
-        <!-- <div class="col-12">
+        <div class="col-12">
             <p-button label="{{title_btn_save[initial_current.Language]}}" icon="pi pi-save"
                 (click)="select_emp()"></p-button>
             &nbsp;
             <button pButton pRipple type="button" label="{{title_btn_close[initial_current.Language]}}"
                 class="p-button-secondary" (click)="close_searchemp()"></button>
-        </div> -->
+        </div>
     </div>
-</p-dialog>
+</p-dialog> -->
 
 <div class="grid">
     <div class="col-12">
@@ -122,15 +126,15 @@
             <div class="field col-12 md:col-2 ">
                 <label for="ppos_shift_code">{{title_date[initial_current.Language]}}</label>
 
-                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedDate_fillter" dateFormat="dd/mm/yy" [showTime]="false"
-                    (onSelect)="doFillter()" inputId="selectedDate_fillter"></p-calendar>
+                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedDate_fillter" dateFormat="dd/mm/yy"
+                    [showTime]="false" (onSelect)="doFillter()" inputId="selectedDate_fillter"></p-calendar>
 
             </div>
 
             <div class="field col-12 md:col-2 ">
                 <label for="ppos_shift_code">ถึงวันที่</label>
-                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate_fillter" dateFormat="dd/mm/yy" [showTime]="false"
-                    (onSelect)="doFillter()" inputId="selectedToDate_fillter"></p-calendar>
+                <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate_fillter" dateFormat="dd/mm/yy"
+                    [showTime]="false" (onSelect)="doFillter()" inputId="selectedToDate_fillter"></p-calendar>
             </div>
 
 
@@ -158,12 +162,22 @@
 
     <div class="col-12 md:col-12">
         <p-menubar [model]="menu_timecard"></p-menubar>
+
+        <p-table #dtTime [value]="timecard_list" selectionMode="single" [(selection)]="selectedTimecard"
+        (onRowSelect)="onRowSelectTimecard($event)" [rows]="12" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+        currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+        [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']"
+        responsiveLayout="stack" [breakpoint]="'744px'">
+
+<!-- 
         <p-table #dtTime [value]="timecard_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}"
             [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
             [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="worker_code"
             [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-            [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']">
+            [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']"> -->
+
             <ng-template pTemplate="header">
                 <tr>
                     <th></th>
@@ -191,7 +205,7 @@
                 <tr [pSelectableRow]="timecard">
                     <td>
                         <!-- เลือกที่ละฟิล -->
-                        
+
                         <p-checkbox [(ngModel)]="timecard.checked" [binary]="true" inputId="checked"
                             [ngModelOptions]="{standalone: true}" (click)="toggleSelect(timecard)"></p-checkbox>
                     </td>

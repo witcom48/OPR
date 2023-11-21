@@ -108,7 +108,7 @@ export class ProjectTransferComponent implements OnInit {
   title_staff_total: { [key: string]: string } = { EN: "Total", TH: "รวม" }
   title_staff_diff: { [key: string]: string } = { EN: "Diff.", TH: "ส่วนต่าง" }
   
-  title_staff_transfer: { [key: string]: string } = { EN: "Transfer", TH: "บันทึกกานโอนย้าย" }
+  title_staff_transfer: { [key: string]: string } = { EN: "Transfer", TH: "บันทึกการโอนย้าย" }
   title_history: { [key: string]: string } = { EN: "History", TH: "ประวัติการโอนย้าย" }
   title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" }
   title_showing : { [key: string]: string } = { EN: "  Showing ", TH: "แสดง" }
@@ -306,7 +306,7 @@ export class ProjectTransferComponent implements OnInit {
   job_list: any[] = [];
   doLoadJob(project: string, version: string, type: string) {
 
-    this.projectDetailService.projobmain_get(version, project, type).then(async (res) => {
+    this.projectDetailService.projobmain_get(version, project, type, this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
       await res.forEach((element: ProjobmainModel) => {
 
         this.job_list.push(
@@ -373,7 +373,7 @@ export class ProjectTransferComponent implements OnInit {
   projobmain_list: ProjobmainModel[] = [];
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
   doLoadProjobmain() {
-    this.projectDetailService.projobmain_get("", "", "").then(async (res) => {
+    this.projectDetailService.projobmain_get("", "", "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
       this.projobmain_list = await res;
     });
   }

@@ -13,7 +13,7 @@ import { ProjectModel } from '../../../models/project/project';
 import { ProjectTypeModel } from '../../../models/project/project_type';
 import { ProjectBusinessModel } from '../../../models/project/project_business';
 
-import { ProbusinessModel, ProtypeModel, ProslipModel, ProuniformModel } from '../../../models/project/policy/pro_genaral';
+import { ProbusinessModel, ProtypeModel, ProslipModel, ProuniformModel, ResponsibleareaModel } from '../../../models/project/policy/pro_genaral';
 import { ProgenaralService } from '../../../services/project/pro_genaral.service';
 
 
@@ -24,6 +24,8 @@ import { ProcontractModel } from 'src/app/models/project/project_contract';
 import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
 import { ProjobempModel } from 'src/app/models/project/project_jobemp';
 import { ProareaModel } from 'src/app/models/project/project_proarea';
+import { ProresponsibleModel } from 'src/app/models/project/project_responsible';
+import { ResponsibleposModel } from 'src/app/models/project/responsiblepos';
 
 @Component({
   selector: 'app-project-list',
@@ -34,6 +36,7 @@ export class ProjectListComponent implements OnInit {
   project_code: string = "";
   projobemp_status: string = "";
   procontract_type: string = "";
+  proresponsible_position: string = "";
   project_status: string = "";
   loading: boolean = true;
   project_list: ProjectModel[] = [];
@@ -123,6 +126,8 @@ export class ProjectListComponent implements OnInit {
 
   title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
+  title_responsiblearea: { [key: string]: string } = { EN: "Responsible Area", TH: "ผู้รับผิดชอบเขต" }
+  title_proresponsible: { [key: string]: string } = { EN: "Proresponsible", TH: "ผู้รับผิดชอบตำแหน่ง" }
 
 
   total_project: number = 0
@@ -174,7 +179,8 @@ export class ProjectListComponent implements OnInit {
     // }, 300);
     //drop down
     this.doLoadProjects()
-
+    this.doLoadResponsibleposList()
+    this.doLoadresponsibleareaList()
   }
 
   doLoadMenu() {
@@ -316,8 +322,7 @@ export class ProjectListComponent implements OnInit {
   doLoadProjects() {
     this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
       this.projects_list =  res;
-      console.log(res,'wwww')
-    });
+     });
 
   }
 
@@ -538,8 +543,22 @@ export class ProjectListComponent implements OnInit {
         return 'danger';
     }
   }
+//รับผิดชอบพื้นที่
+  Responsiblepos_List: ResponsibleposModel[] = [];
+  doLoadResponsibleposList() {
+    var tmp = new ResponsibleposModel();
+    this.genaralService.MTResponsiblepos_get(tmp).then(async (res) => {
+      this.Responsiblepos_List = await res;
+    })
+  }
 
-
+  responsiblearea_list: ResponsibleareaModel[] = [];
+  doLoadresponsibleareaList() {
+    var tmp = new ResponsibleareaModel();
+    this.genaralService.MTResponsiblearea_get(tmp).then(async (res) => {
+      this.responsiblearea_list = await res;
+    })
+  }
 
   doFillter() {
     this.doGetDataFillter()
@@ -547,12 +566,13 @@ export class ProjectListComponent implements OnInit {
   ///
   doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
+    const workerfillters: ProresponsibleModel = new ProresponsibleModel();
 
 
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.project_code = this.project_code;
-
-
+ 
+    
 
     // สถานะ
     if (this.fillterStatus) {
@@ -583,10 +603,25 @@ export class ProjectListComponent implements OnInit {
     }
 
 
+
+    //
+    if (this.proresponsible_fillter) {
+      workerfillter.proresponsible_position = this.selectedProresponsible_fillter;
+    } else {
+      workerfillter.proresponsible_position = '';
+    }
+
+
+    if (this.responsiblearea_fillter) {
+      workerfillter.proresponsible_area = this.selectedResponsiblearea_fillter;
+    } else {
+      workerfillter.proresponsible_area = '';
+    }
+    //
+
     this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter).then((res) => {
       this.project_list = res;
-      console.log(this.fillterprojects, 'kkk')
-    });
+     });
   }
   //-- Status สถานะ
   selectedstatus: string = "";
@@ -640,7 +675,26 @@ export class ProjectListComponent implements OnInit {
   }
 
 
+   //-- รับผิดชอบพื้นที่
+   selectedProresponsible_fillter: string = "";
+   proresponsible_fillter: boolean = false;
+   doChangeSelectProresponsible() {
+     if (this.proresponsible_fillter) {
+       this.doGetDataFillter();
+     }
+   }
 
+    //-- รับผิดชอบเขต  
+    selectedResponsiblearea_fillter: string = "";
+    responsiblearea_fillter: boolean = false;
+    doChangeSelectResponsiblearea() {
+      if (this.responsiblearea_fillter) {
+        this.doGetDataFillter();
+      }
+    }
+ 
+
+   
 
   //-- วันที่เริ่ม
 
@@ -681,6 +735,8 @@ export class ProjectListComponent implements OnInit {
       this.project_list = res;
     });
   }
+
+ 
 
 
 }

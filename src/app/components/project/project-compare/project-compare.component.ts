@@ -150,8 +150,6 @@ export class ProjectCompareComponent implements OnInit {
   doLoadTimesheet(project: string){
     //this.displayManage = true
 
-    //// console.log(project)
-
     this.selectedProject(project)
 
     setTimeout(() => {
@@ -208,7 +206,6 @@ export class ProjectCompareComponent implements OnInit {
           label:'Export',
           icon:'pi pi-fw pi-file-export',
           command: (event) => {
-            // console.log('Edit')
         }        
       },    
     ];
@@ -235,7 +232,6 @@ export class ProjectCompareComponent implements OnInit {
           label:'Edit',
           icon:'pi pi-fw pi-pencil',
           command: (event) => {
-            // console.log('Edit')
         }        
       },    
       {
@@ -471,7 +467,7 @@ export class ProjectCompareComponent implements OnInit {
   selectedJobmain: RadiovalueModel = new RadiovalueModel;
   doLoadPolJobmain(){      
     this.jobmain_list = []   
-    this.projectDetailService.projobmain_get("","", "").then(async (res) => {
+    this.projectDetailService.projobmain_get("","", "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
       this.jobmain_list = await res;
     });   
   }

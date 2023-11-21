@@ -193,6 +193,56 @@
                                     </ng-template>
                                 </p-dropdown>
                             </div>
+
+                            <!--  -->
+                            <div class="select">
+                                <!-- ผู้รับผิดชอบตำแหน่ง  -->
+                                <div>
+                                    <p-checkbox [(ngModel)]="proresponsible_fillter" name="proresponsible_position"
+                                        [binary]="true" (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                                    <label for="lastname2">{{title_proresponsible[initial_current.Language]}}</label>
+                                </div>
+
+                                <p-dropdown placeholder="--" [options]="Responsiblepos_List"
+                                    optionValue="responsiblepos_code" [(ngModel)]="selectedProresponsible_fillter"
+                                    (onChange)="doChangeSelectProresponsible()" [showClear]="true"
+                                    [disabled]="!proresponsible_fillter"
+                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                    <ng-template let-item pTemplate="selectedItem">
+                                        {{initial_current.Language == "TH" ? item.responsiblepos_name_th :
+                                        item.responsiblepos_name_en}}
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="item">
+                                        {{initial_current.Language == "TH" ? item.responsiblepos_name_th :
+                                        item.responsiblepos_name_en}}
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+
+
+                            <div class="select">
+                                <!-- ผู้รับผิดชอบเขต  -->
+                                <div>
+                                    <p-checkbox [(ngModel)]="responsiblearea_fillter" name="proresponsible_position"
+                                        [binary]="true" (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                                    <label for="lastname2">{{title_responsiblearea[initial_current.Language]}}</label>
+                                </div>
+
+                                <p-dropdown placeholder="--" [options]="responsiblearea_list"
+                                    optionValue="responsiblearea_code" [(ngModel)]="selectedResponsiblearea_fillter"
+                                    (onChange)="doChangeSelectResponsiblearea()" [showClear]="true"
+                                    [disabled]="!responsiblearea_fillter"
+                                    [style]="{ width: '100%', overflow: 'visible' }">
+                                    <ng-template let-item pTemplate="selectedItem">
+                                        {{initial_current.Language=="TH"? item.responsiblearea_name_th : item.responsiblearea_name_en}}
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="item">
+                                        {{initial_current.Language=="TH"? item.responsiblearea_name_th : item.responsiblearea_name_en}}
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+
+                            <!--  -->
                         </div>
                     </p-accordion>
 

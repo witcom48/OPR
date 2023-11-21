@@ -432,6 +432,64 @@ export class ProjectDetailService {
       });
   }
 
+
+  public proresponsible_Fillter( project: string, proresponsible: string, responsiblearea: string ) {
+
+    const fillterS = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      language: "",
+
+      proresponsible_id: "",
+      proresponsible_ref: "",
+      proresponsible_emp: "",
+      proresponsible_position: proresponsible,
+      proresponsible_area: responsiblearea,
+      proresponsible_fromdate: "",
+      proresponsible_todate: "",
+      project_code: project,
+
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/proresponsibleFillter', fillterS, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+
+  }
+
+
+  public proresponsibles_Fillter( project: string, fillter: ProresponsibleModel) {
+
+    const fillterS = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      language: "",
+      project_code: project,
+
+      proresponsible_id: "",
+      proresponsible_ref: "",
+      proresponsible_emp: "",
+      proresponsible_position: fillter.proresponsible_position,
+      proresponsible_area: fillter.proresponsible_area,
+      proresponsible_fromdate: "",
+      proresponsible_todate: "",
+ 
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/proresponsibleFillter', fillterS, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+
+  }
+
+
+
   //--
   public protimepol_get(project: string) {
 
@@ -524,7 +582,11 @@ export class ProjectDetailService {
   }
 
   //-- Job main
-  public projobmain_get(version: string, project: string, type: string,) {
+  public projobmain_get(version: string, project: string, type: string, fromdate: Date, todate: Date) {
+
+
+    let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
 
     var filter = {
       device_name: '',
@@ -535,6 +597,16 @@ export class ProjectDetailService {
       project_code: project,
       project_name_th: "",
       project_name_en: "",
+      projobmain_jobtype: "",
+
+      projobmain_fromdate: datefrom,
+      projobmain_todate: dateto,
+
+      // projobmain_fromdate: this.datePipe.transform(fillter.projobmain_fromdate),
+      // projobmain_todate: this.datePipe.transform(fillter.projobmain_todate),
+
+
+
       project_name_sub: "",
       project_codecentral: "",
       project_protype: "",
@@ -561,6 +633,13 @@ export class ProjectDetailService {
       item_data = item_data + ",\"projobmain_code\":\"" + list[i].projobmain_code + "\"";
       item_data = item_data + ",\"projobmain_name_th\":\"" + list[i].projobmain_name_th + "\"";
       item_data = item_data + ",\"projobmain_name_en\":\"" + list[i].projobmain_name_en + "\"";
+
+      item_data = item_data + ",\"projobmain_jobtype\":\"" + list[i].projobmain_jobtype + "\"";
+
+      item_data = item_data + ",\"projobmain_fromdate\":\"" + this.datePipe.transform(list[i].projobmain_fromdate, 'yyyy-MM-dd') + "\"";
+      item_data = item_data + ",\"projobmain_todate\":\"" + this.datePipe.transform(list[i].projobmain_todate, 'yyyy-MM-dd') + "\"";
+
+
       item_data = item_data + ",\"projobmain_type\":\"" + list[i].projobmain_type + "\"";
 
       item_data = item_data + ",\"projobmain_timepol\":\"" + list[i].projobmain_timepol + "\"";
@@ -998,7 +1077,7 @@ export class ProjectDetailService {
         return res;
       });
   }
-  ///////////ทำตรงนี้
+
 
   public projobemp_getbyfillter(fillter: FillterProjectModel, Radiovalue: RadiovalueModel) {
 
@@ -1118,22 +1197,22 @@ export class ProjectDetailService {
       project_probusiness: "",
       status: status
 
-    // var filter = {
-    //   device_name: '',
-    //   ip: "localhost",
-    //   username: this.initial_current.Username,
-    //   company: company,
-    //   language: "",
-    //   project_code: project,
-    //   project_name_th: "",
-    //   project_name_en: "",
-    //   project_name_sub: "",
-    //   project_codecentral: "",
-    //   project_protype: "",
-    //   project_proarea: "",
-    //   project_progroup: "",
-    //   project_probusiness: "",
-    //   status: status
+      // var filter = {
+      //   device_name: '',
+      //   ip: "localhost",
+      //   username: this.initial_current.Username,
+      //   company: company,
+      //   language: "",
+      //   project_code: project,
+      //   project_name_th: "",
+      //   project_name_en: "",
+      //   project_name_sub: "",
+      //   project_codecentral: "",
+      //   project_protype: "",
+      //   project_proarea: "",
+      //   project_progroup: "",
+      //   project_probusiness: "",
+      //   status: status
     };
 
     return this.http.post<any>(this.config.ApiProjectModule + '/projobemp4_list', filter, this.options).toPromise()
@@ -1142,7 +1221,7 @@ export class ProjectDetailService {
         return message.data;
       });
   }
-  
+
   //-- Job emp
   public projobemp_get(project: string) {
 
@@ -1475,7 +1554,7 @@ export class ProjectDetailService {
   //     project_probusiness: "",
   //     fromdate: datefrom,
   //     todate: dateto,
-  
+
   //   };
 
 
@@ -1707,5 +1786,6 @@ export class ProjectDetailService {
         return res;
       });
   }
+
 
 }

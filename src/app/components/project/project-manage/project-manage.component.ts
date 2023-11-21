@@ -455,7 +455,6 @@ export class ProjectManageComponent implements OnInit {
   //
   //#endregion "Language"
 
-
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
@@ -2691,11 +2690,13 @@ export class ProjectManageComponent implements OnInit {
 
 
   //-- Project jobmain
+ 
+
   projobmain_list: ProjobmainModel[] = [];
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
   doLoadProjobmain() {
 
-    this.projectDetailService.projobmain_get(this.version_selected, this.project_code, this.procontract_type).then(async (res) => {
+    this.projectDetailService.projobmain_get(this.version_selected, this.project_code, this.procontract_type, this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
       this.projobmain_list = await res;
       setTimeout(() => {
         this.projobmain_summary()

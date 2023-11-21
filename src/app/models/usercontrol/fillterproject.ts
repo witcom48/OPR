@@ -71,6 +71,12 @@ export class FillterProjectModel {
     project_cost = "";
     project_start = "";
     project_end = "";
+
+
+
+
+    proresponsible_position: string = "";
+    proresponsible_area: string = "";
    
   }
   

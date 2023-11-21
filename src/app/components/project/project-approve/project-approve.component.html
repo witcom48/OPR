@@ -127,6 +127,8 @@
                 selectionMode="single" [(selection)]="selectedApproveemp" dataKey="approve_by">
                 <ng-template pTemplate="header">
                     <tr>
+ 
+
                         <th>{{title_username[initial_current.Language]}}</th>
                         <th>{{title_status[initial_current.Language]}}</th>
                         <th>{{title_approve_date[initial_current.Language]}}</th>
@@ -134,6 +136,9 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-approve>
                     <tr [pSelectableRow]="approve">
+
+
+
                         <td>{{approve.approve_by}}</td>
                         <td>{{approve.approve_status}}</td>
                         <td>
@@ -151,9 +156,9 @@
 
 <p></p>
 <p-accordion>
-    <p-accordionTab header="{{title_Project[initial_current.Language]}}" [selected]="true">
+    <p-accordionTab header="{{title_Project[initial_current.Language]}}" >
         <p-menubar [model]="menu_project"></p-menubar>
-        <p-table #dt2 [value]="project_list" selectionMode="single" [(selection)]="selectedProject" [rows]="12"
+        <p-table #dt2 [value]="project_list" selectionMode="single" [(selection)]="selectedProjects" [rows]="12"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
             [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']"
@@ -165,9 +170,22 @@
             currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
             [globalFilterFields]="['project_code','project_name_th','project_business','project_type','project_start','project_end']"> -->
             <ng-template pTemplate="caption">
-                <div class="flex">
+                <div class="searchtable1">
+                    <div style="display:flex;flex-wrap: wrap;gap: 10px; align-items: center;">
                     <!--  สถานะอนุมัติ (Default All)  -->
-                    <div class="col-6 md:col-3">
+                    <div>
+                        <p-dropdown class="searchinput" [options]="status_list" [(ngModel)]="status_select"
+                            [style]="{ width: '100vw', overflow: 'visible' }" (onChange)="Search()">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                </div>
+                    <!-- <div class="col-6 md:col-3">
                         <p-dropdown [options]="[{ label: title_wait[initial_current.Language], value: 'W' },
                                         { label: title_approved[initial_current.Language], value: 'F' },
                                         { label: title_notApprove[initial_current.Language], value: 'C' }]"
@@ -175,7 +193,7 @@
                             (onChange)="doChangeSelectstatus()"
                             [style]="{ width: '100%', overflow: 'visible', 'max-width': '150px' }">
                         </p-dropdown>
-                    </div>
+                    </div> -->
 
                     <span class="p-input-icon-left ml-auto search-input">
                         <i class="pi pi-search"></i>
@@ -186,6 +204,7 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
+                    <th></th>
                     <th style="width:9%">{{title_projectcode[initial_current.Language]}}</th>
                     <th style="width:12%">{{title_projectname[initial_current.Language]}}</th>
                     <th>{{title_probusiness[initial_current.Language]}}</th>
@@ -201,7 +220,17 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-project>
-                <tr [pSelectableRow]="project">
+                <tr  >
+
+                    <td>
+                        <p-tableCheckbox *ngIf="project.project_status === 'W'" [value]="project"></p-tableCheckbox>
+                    </td>
+                    <!-- <td [pSelectableRow]="project">
+                         <p-checkbox *ngIf="project.project_status === 'W'" [(ngModel)]="project.checked" [binary]="true"
+                            inputId="checked" [ngModelOptions]="{standalone: true}" (click)="toggleSelect(project)"
+                            [ngModel]="selectAllChecked"></p-checkbox>
+                    </td> -->
+
                     <td>{{project.project_code}}</td>
                     <td>
                         <div *ngIf="this.initial_current.Language == 'TH'">
@@ -234,7 +263,7 @@
 
 
 <p-accordion>
-    <p-accordionTab header="{{title_total_transfer[initial_current.Language]}}">
+    <p-accordionTab header="{{title_total_transfer[initial_current.Language]}} " [selected]="true">
         <p-menubar [model]="menu_projobemp"></p-menubar>
 
         <p-table #dtJobemp [value]="projobemp_list" selectionMode="single" [(selection)]="selectedProjobemp" [rows]="12"
@@ -253,6 +282,19 @@
             <ng-template pTemplate="caption">
                 <div class="flex">
                     <!--  สถานะอนุมัติ (Default All)  -->
+                    <!-- <div>
+                        <p-dropdown class="searchinput" [options]="status2_list" [(ngModel)]="status2_select"
+                            [style]="{ width: '100vw', overflow: 'visible' }" (onChange)="Search2()">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.name_th : item.name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div> -->
+
+
                     <div class="col-6 md:col-3">
                         <p-dropdown [options]="[{ label: title_wait[initial_current.Language], value: 'W' },
                                         { label: title_approved[initial_current.Language], value: 'F' },
@@ -272,6 +314,7 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
+                    <th></th>
                     <th style="width:8%">{{title_project_code[initial_current.Language]}}</th>
 
                     <th style="width:12%">{{title_staff_jobcode[initial_current.Language]}}</th>
@@ -288,25 +331,28 @@
                 </tr>
             </ng-template>
 
-            <ng-template pTemplate="body" let-project>
-                <tr [pSelectableRow]="project">
-                    <td>{{project.project_code}}</td>
-                    <td>{{project.projob_code}}</td>
+            <ng-template pTemplate="body" let-projectdata>
+                <tr >
+                    <td>
+                        <p-tableCheckbox *ngIf="projectdata.projobemp_status === 'W'" [value]="projectdata"></p-tableCheckbox>
+                    </td>
+                    <td>{{projectdata.project_code}}</td>
+                    <td>{{projectdata.projob_code}}</td>
 
-                    <td>{{project.projobemp_emp}}</td>
+                    <td>{{projectdata.projobemp_emp}}</td>
 
-                    <td>{{doGetEmployeeDetail(project.projobemp_emp)}}</td>
+                    <td>{{doGetEmployeeDetail(projectdata.projobemp_emp)}}</td>
 
-                    <td>{{project.projobemp_fromdate | date:'dd/MM/yyyy '}}</td>
-                    <td>{{project.projobemp_todate | date:'dd/MM/yyyy '}}</td>
-                    <td>{{getFullStatus(project.projobemp_status)}}</td>
+                    <td>{{projectdata.projobemp_fromdate | date:'dd/MM/yyyy '}}</td>
+                    <td>{{projectdata.projobemp_todate | date:'dd/MM/yyyy '}}</td>
+                    <td>{{getFullStatus(projectdata.projobemp_status)}}</td>
 
                     <td>
-                        <p-button icon="pi pi-user" (click)="doLoadApproveemp(project.project_code,'PRO_NEW')" label=""
+                        <p-button icon="pi pi-user" (click)="doLoadApproveemp(projectdata.project_code,'PRO_NEW')" label=""
                             styleClass="p-button-text"></p-button>
                     </td>
-                    <td>{{project.modified_by}}</td>
-                    <td>{{project.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{projectdata.modified_by}}</td>
+                    <td>{{projectdata.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
             </ng-template>
         </p-table>
