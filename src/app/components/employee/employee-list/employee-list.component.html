@@ -111,27 +111,11 @@
                             </ng-template>
                         </p-dropdown>
                     </div>
-                    
+
                     <div class="select">
-                        <!-- project -->
-                        <div>
-                            <p-checkbox [(ngModel)]="fillterProject" name="project" [binary]="true"
-                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
-                            <label for="lastname2">{{title_project[initial_current.Language]}} :</label>
-                        </div>
-                        <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code"
-                            [showClear]="true" [(ngModel)]="selectedProject" (onChange)="doChangeSelectProject()"
-                            [disabled]="!fillterProject" [style]="{ width: '100%', overflow: 'visible' }"
-                            [filter]="true" filterBy="project_code,project_name_th,project_name_en">
-                            <ng-template let-item pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
-                            </ng-template>
-                            <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
-                            </ng-template>
-                        </p-dropdown>
+
                     </div>
-                    
+
                     <!-- dep -->
                     <div class="select">
                         <div>
@@ -150,36 +134,61 @@
                             </ng-template>
                         </p-dropdown>
                     </div>
-                    <!-- project Job -->
+                    <!-- project -->
                     <div class="select">
                         <div>
-                            <p-checkbox class="hide" [disabled]="true" ></p-checkbox> &nbsp;
-                            <label for="lastname2">{{title_projob[initial_current.Language]}} :</label>
+                            <p-checkbox [(ngModel)]="fillterProject" name="project" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{title_project[initial_current.Language]}} :</label>
                         </div>
-                        <p-dropdown placeholder="--" [options]="projobList" optionValue="projobmain_code" [showClear]="true"
-                            [(ngModel)]="selectedJob" (onChange)="doChangeSelectProjectJob()" [disabled]="!fillterProject"
-                            [style]="{ width: '100%', overflow: 'visible' }">
+                        <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code"
+                            [showClear]="true" [(ngModel)]="selectedProject" (onChange)="doChangeSelectProject()"
+                            [disabled]="!fillterProject" [style]="{ width: '100%', overflow: 'visible' }"
+                            [filter]="true" filterBy="project_code,project_name_th,project_name_en">
                             <ng-template let-item pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
                             </ng-template>
                             <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
                             </ng-template>
                         </p-dropdown>
                     </div>
+                    
 
 
                     <!-- Dep2 -->
                     <div class="select">
-                        <div></div>
+                        <div>
+                            <p-checkbox class="hide" [disabled]="true" name="dep2"></p-checkbox> &nbsp;
+                        </div>
                         <p-dropdown placeholder="--" [options]="deplevelList" optionValue="dep_code" [showClear]="true"
                             [(ngModel)]="selectedDep" (onChange)="doChangeSelectDep()" [disabled]="!fillterLevel"
                             [style]="{ width: '100%', overflow: 'visible' }">
-                            <ng-template let-item pTemplate="selectedItem">
+                            <ng-template let-item pTemplate="selectedItem"
+                            [filter]="true" filterBy="dep_code,dep_name_th,dep_name_en">
                                 {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
                             </ng-template>
                             <ng-template let-item pTemplate="item">
                                 {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+
+                    <!-- project Job -->
+                    <div class="select">
+                        <div>
+                            <p-checkbox class="hide" [disabled]="true" name="projob"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{title_projob[initial_current.Language]}} :</label>
+                        </div>
+                        <p-dropdown placeholder="--" [options]="projobList" optionValue="projobmain_code"
+                            [showClear]="true" [(ngModel)]="selectedJob" (onChange)="doChangeSelectProjectJob()"
+                            [disabled]="!fillterProject" [style]="{ width: '100%', overflow: 'visible' }"
+                            [filter]="true" filterBy="projobmain_code,projobmain_name_th,projobmain_name_en">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
                             </ng-template>
                         </p-dropdown>
                     </div>
@@ -195,14 +204,14 @@
 
                     <div class="resign">
                         <!-- resign -->
-                        <div >
+                        <div>
                             <p-checkbox name="resign" [binary]="true" [(ngModel)]="fillterIncludeResign"
                                 (onChange)="doGetDataFillter()"></p-checkbox>&nbsp;
                             <label>{{title_resign[initial_current.Language]}}</label>
                         </div>
                         &nbsp;&nbsp;
                         <!-- resign2 -->
-                        <div >
+                        <div>
                             <p-checkbox name="resign2" [binary]="true" [(ngModel)]="fillterPeriodResign"
                                 (onChange)="doGetDataFillter()"></p-checkbox>&nbsp;
                             <label>{{title_resignperiod[initial_current.Language]}}</label>
@@ -269,7 +278,8 @@
                     <td><span>{{title_Fname}}</span>{{initial_current.Language == "TH"? data.initial_name_th+"
                         "+data.worker_fname_th:data.initial_name_en+" "+data.worker_fname_en}}
                     </td>
-                    <td><span>{{title_Lname}}</span>{{initial_current.Language == "TH"? data.worker_lname_th:data.worker_lname_en}}</td>
+                    <td><span>{{title_Lname}}</span>{{initial_current.Language == "TH"?
+                        data.worker_lname_th:data.worker_lname_en}}</td>
                     <td><span>{{title_cardno[initial_current.Language]}}</span>{{data.worker_cardno}}</td>
                     <td><span>{{title_startdate}}</span>{{data.worker_hiredate | date:'dd/MM/yyyy '}}</td>
                     <td><span>{{title_position}}</span>{{initial_current.Language == "TH"? data.position_name_th :

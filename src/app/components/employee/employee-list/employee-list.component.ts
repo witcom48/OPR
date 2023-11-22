@@ -580,7 +580,7 @@ export class EmployeeListComponent implements OnInit {
   }
   projobList: ProjobmainModel[] = [];
   doLoadProjobmain() {
-    this.projobService.projobmain_get('', this.selectedProject, '').then(async (res) => {
+    this.projobService.projobmain_get('', this.selectedProject, '',this.initial_current.PR_FromDate,this.initial_current.PR_ToDate).then(async (res) => {
       this.projobList = await res
     })
   }
@@ -745,7 +745,7 @@ export class EmployeeListComponent implements OnInit {
   fillterJob: boolean = false;
   doChangeSelectProjectJob() {
 
-    if (this.fillterJob) {
+    if (this.fillterProject) {
       this.doGetDataFillter();
     }
   }
