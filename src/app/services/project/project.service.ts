@@ -8,6 +8,7 @@ import { InitialCurrent } from '../../config/initial_current';
 import { ProjectModel } from '../../models/project/project';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 import { ProjectMTDocattModel } from 'src/app/models/project/project_docatt';
+import { ProresponsibleModel } from 'src/app/models/project/project_responsible';
 
 @Injectable({
   providedIn: 'root'
@@ -86,9 +87,38 @@ export class ProjectService {
         return message.data;
       });
   }
+  //
+  public projecttest_get( project: ProjectModel) {
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company_code: project.company_code,
+      language: "",
+      project_code: project.project_code,
+      project_name_th: project.project_name_th,
+
+      project_name_en: project.project_name_en,
+      project_name_sub: project.project_name_sub,
+      project_codecentral: project.project_codecentral,
+      project_protype: project.project_protype,
+      project_proarea: project.project_proarea,
+      project_progroup: project.project_progroup,
+      project_probusiness: project.project_probusiness,
+      status: project.project_status,
+    };
+
+    return this.http.post<any>(this.config.ApiProjectModule + '/project_list', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        return message.data;
+      });
+  }
+  //
   ///////////ทำตรงนี้getMTProjectFillterList
 
-  public MTProject_getbyfillter(project: string, fromdate: Date, todate: Date, fillter: FillterProjectModel) {
+  public MTProject_getbyfillter(project: string, fromdate: Date, todate: Date, fillter: FillterProjectModel ) {
     // let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
     // let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
     const fillterS = {
@@ -116,6 +146,10 @@ export class ProjectService {
       searchemp: fillter.searchemp,
       projobemp_fromdate: this.datePipe.transform(fillter.projobemp_fromdate),
       projobemp_todate: this.datePipe.transform(fillter.projobemp_todate),
+
+      proresponsible_position: fillter.proresponsible_position,
+      proresponsible_area: fillter.proresponsible_area,
+       
 
     };
 
@@ -294,7 +328,7 @@ export class ProjectService {
       });
   }
 
-  public project_monitor(company: string, workdate: Date, protype: string, probusiness: string, proarea: string, progroup: string,proresponsible: string, responsiblearea: string) {
+  public project_monitor(company: string, workdate: Date, protype: string, probusiness: string, proarea: string, progroup: string,proresponsible_position: string, proresponsible_area: string) {
 
     var filter = {
       device_name: '',
@@ -313,8 +347,11 @@ export class ProjectService {
       project_progroup: progroup,
 
       project_probusiness: probusiness,
-      proresponsible: proresponsible,
-      responsiblearea: responsiblearea,
+      proresponsible_position: proresponsible_position,
+       
+      proresponsible_area: proresponsible_area,
+
+       
       fromdate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
       todate: this.datePipe.transform(workdate, 'yyyy-MM-dd'),
     };

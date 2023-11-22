@@ -213,11 +213,13 @@ export class ProjectTimesheetComponent implements OnInit {
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           if (this.accessData.accessdata_new) {
-            this.doLoadPolShift()
-            this.doLoadPolDaytype()
-            this.doLoadPolJobmain()
+            // this.doLoadPolShift()
+            // this.doLoadPolDaytype()
+            // this.doLoadPolJobmain()
+            // this.displayManage = true
             this.displayManage = true
-            // this.searchEmp = true
+
+            this.searchEmp = true
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
@@ -233,6 +235,8 @@ export class ProjectTimesheetComponent implements OnInit {
           this.doLoadPolDaytype()
           this.doLoadPolJobmain()
           this.displayManage = true
+          
+          // this.selectEmp= true
         }
       },
       {
@@ -371,7 +375,7 @@ export class ProjectTimesheetComponent implements OnInit {
   selectedJobmain: RadiovalueModel = new RadiovalueModel;
   doLoadPolJobmain() {
     this.jobmain_list = []
-    this.projectDetailService.projobmain_get("", this.selectedProject_fillter.project_code, "").then(async (res) => {
+    this.projectDetailService.projobmain_get("", this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
       this.jobmain_list = await res;
       this.reloadPage();
 
@@ -396,8 +400,7 @@ export class ProjectTimesheetComponent implements OnInit {
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
     }
-    console.log(this.selectEmp.employee_dest, 'ข้อมูล');
-  }
+   }
 
   //   async timesheet() {
   //     var data = new TimecardsModel();
@@ -428,8 +431,7 @@ export class ProjectTimesheetComponent implements OnInit {
 
 
         data.modified_by = this.initial_current.Username;
-        console.log(data, 'data')
-
+ 
         data.company_code = this.initial_current.CompCode
         // data.project_code = this.selectedProject_fillter.project_code
         data.timecard_color = "1"
@@ -444,7 +446,7 @@ export class ProjectTimesheetComponent implements OnInit {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
 
             this.displayManage = false
-
+            this.edit_timecard= false
             setTimeout(() => {
               this.doLoadTimecard()
             }, 300);
@@ -454,8 +456,7 @@ export class ProjectTimesheetComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
           }
         })
-        console.log(this.selectedTimecard, 'fffffff')
-      },
+       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       },
@@ -555,12 +556,12 @@ export class ProjectTimesheetComponent implements OnInit {
   checked: boolean = false;
 
   selectedDataArray: any[] = [];
-  toggleSelect(data: { checked: boolean; }) {
+  toggleSelect(data: { checked: boolean }) {
     if (data.checked) {
       this.selectedDataArray.push(data);
       this.checked = true;
     } else {
-      const index = this.selectedDataArray.indexOf(data);
+      const index = this.selectedDataArray.findIndex(item => item === data);
       if (index > -1) {
         this.selectedDataArray.splice(index, 1);
         if (this.selectedDataArray.length === 0) {
@@ -568,8 +569,8 @@ export class ProjectTimesheetComponent implements OnInit {
         }
       }
     }
-    console.log(this.selectedDataArray, 'รวม')
-  }
+   }
+  
 
   //Delete
   confirmDelete(selectedDataArray: TimecardsModel[]) {
@@ -588,8 +589,7 @@ export class ProjectTimesheetComponent implements OnInit {
         });
       },
     });
-    console.log(this.selectedDataArray, 'ยืนยัน')
-  }
+   }
 
   async doDeleteTimesheet(selectedDataArray: TimecardsModel[]) {
     try {

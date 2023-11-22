@@ -525,10 +525,12 @@ export class AttendanceViewComponent implements OnInit {
     }
   }
 
+  selectedDate_fillter :Date = new Date()
+  selectedToDate_fillter :Date = new Date()
 
   projobmain_list: ProjobmainModel[] = []; 
   doLoadProjobmain(){
-    this.projectDetailService.projobmain_get("","", "").then(async (res) => {
+    this.projectDetailService.projobmain_get("","", "",  this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
       this.projobmain_list = await res;      
     });
   }

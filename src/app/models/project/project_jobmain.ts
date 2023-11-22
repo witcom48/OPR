@@ -8,6 +8,10 @@ export class ProjobmainModel {
     projobmain_code: string = "";
     projobmain_name_th: string = "";
     projobmain_name_en: string = "";
+
+    projobmain_jobtype: string = "";
+    projobmain_fromdate: Date = new Date();
+    projobmain_todate: Date = new Date();
     projobmain_type: string = "";
     
     projobmain_timepol: string = "";

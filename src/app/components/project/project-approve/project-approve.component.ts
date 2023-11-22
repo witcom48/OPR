@@ -38,8 +38,15 @@ interface Status {
   styleUrls: ['./project-approve.component.scss']
 })
 export class ProjectApproveComponent implements OnInit {
-  status_list: Status[] = [{ name_th: 'รออนุมัติ', name_en: 'Wait', code: 'W' }, { name_th: 'อนุมัติแล้ว', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }, { name_th: 'ทั้งหมด', name_en: 'All', code: '' }];
+  status_list: Status[] = [{ name_th: 'รออนุมัติ', name_en: 'Wait', code: 'W' }, { name_th: 'อนุมัติแล้ว', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }];
   status_select: Status = { name_th: 'รออนุมัติ', name_en: 'Wait', code: 'W' }
+
+
+  status2_list: Status[] = [{ name_th: 'รออนุมัติ', name_en: 'Wait', code: 'W' }, { name_th: 'อนุมัติแล้ว', name_en: 'Finish', code: 'F' }, { name_th: 'ไม่อนุมัติ', name_en: 'Reject', code: 'C' }];
+  status2_select: Status = { name_th: 'รออนุมัติ', name_en: 'Wait', code: 'W' }
+
+
+
 
   items: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
@@ -49,7 +56,7 @@ export class ProjectApproveComponent implements OnInit {
   menu_projobemp: MenuItem[] = [];
 
   project_code: string = "";
-
+  projobemp_emp: string = "";
   title_modified_by: { [key: string]: string } = { EN: "Edit by", TH: "ผู้ทำรายการ" }
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
   title_page_from: { [key: string]: string } = { EN: "Showing", TH: "แสดง" }
@@ -134,6 +141,7 @@ export class ProjectApproveComponent implements OnInit {
 
   selectedDate_fillter: Date = new Date()
   selectedToDate_fillter: Date = new Date()
+
   constructor(private projectService: ProjectService,
     private router: Router,
     private messageService: MessageService,
@@ -151,9 +159,10 @@ export class ProjectApproveComponent implements OnInit {
     this.doGetInitialCurrent()
     this.doLoadMenu()
     this.doGetProjobempFillter()
+    this.doLoadProject()
+
     setTimeout(() => {
 
-      this.doLoadProject()
       this.doLoadProjobemp()
 
 
@@ -171,23 +180,26 @@ export class ProjectApproveComponent implements OnInit {
       {
         label: this.title_approve[this.initial_current.Language],
         icon: 'pi pi-fw pi-check',
-        command: (event) => {
 
-          if (this.selectedProject.project_code != "") {
+        command: async (event) => {
+          if (this.selectedProjects.length > 0) {
             this.approveNote = ""
-            this.approve_project("W")
+            await this.approve_project("W")
+
           }
-          //this.showManage()
         }
       }
       ,
       {
         label: this.title_notapprove[this.initial_current.Language],
         icon: 'pi pi-fw pi-times',
+
         command: (event) => {
-          if (this.selectedProject.project_code != "") {
+
+          if (this.selectedProjects.length > 0) {
             this.approveNote = ""
             this.openNotapprove()
+            this.toggleSelect()
           }
         }
       }
@@ -197,14 +209,20 @@ export class ProjectApproveComponent implements OnInit {
       {
         label: this.title_approve[this.initial_current.Language],
         icon: 'pi pi-fw pi-check',
-        command: (event) => {
-
-          if (this.selectedProjobemp.projobemp_emp != "") {
+        command: async (event) => {
+          if (this.selectedProjobemp.length > 0) {
             this.approveNoteemp = ""
-            this.approve_projobemp("W")
+            await this.approve_projobemp("W")
 
           }
-          //this.showManage()
+
+
+          // command: (event) => {
+          //   if (this.selectedProjobemp.projobemp_emp != "") {
+          //     this.approveNoteemp = ""
+          //     this.approve_projobemp("W")
+
+          //   }
         }
       }
       ,
@@ -213,12 +231,19 @@ export class ProjectApproveComponent implements OnInit {
         icon: 'pi pi-fw pi-times',
         command: (event) => {
 
-          if (this.selectedProjobemp.projobemp_emp != "") {
+          if (this.selectedProjobemp.length > 0) {
             this.approveNoteemp = ""
+            this.openNotapprove()
             this.openNotapproveemp()
           }
-
         }
+
+        // if (this.selectedProjobemp.projobemp_emp != "") {
+        //   this.approveNoteemp = ""
+        //   this.openNotapproveemp()
+        // }
+
+        // }
       }
 
 
@@ -232,17 +257,39 @@ export class ProjectApproveComponent implements OnInit {
       this.router.navigateByUrl('login');
     }
   }
+  total_apply: number = 0
 
   project_list: ProjectModel[] = [];
-  selectedProject: ProjectModel = new ProjectModel;
+  selectedProjects: ProjectModel[] = [];
+
   doLoadProject() {
+    var tmp = new ProjectModel();
+    tmp.company_code = this.initial_current.CompCode
+    tmp.project_code = ""
+    tmp.project_status = this.status_select.code
 
-    this.projectService.project_get_withstatus(this.initial_current.CompCode, "", "W").then(async (res) => {
+    this.projectService.projecttest_get(tmp).then(async (res) => {
+
       this.project_list = await res;
-
-      this.total_project = this.project_list.length;
-    });
+      // this.total_apply = this.project_list.length;
+    })
   }
+  reloadPage() {
+    this.doLoadProject();
+    this.doGetDataFillter();
+
+  }
+  // project_list: ProjectModel[] = [];
+  // selectedProject: ProjectModel = new ProjectModel;
+  // doLoadProject() {
+  //    this.projectService.project_get_withstatus(this.initial_current.CompCode, "", this.status_select.code).then(async (res) => {
+  //     this.project_list = await res;
+
+  //     this.total_project = this.project_list.length;
+  //     console.log(res, 'res');
+  //   });
+  //   console.log(this.status_select.code, 'ooooo');
+  // }
 
   displayManage: boolean = false;
   position: string = "right";
@@ -255,52 +302,137 @@ export class ProjectApproveComponent implements OnInit {
     this.displayManage = false
   }
 
-  approve_project(status: string) {
-
+  async approve_project(status: string) {
     this.displayApproveNote = false
-
     this.confirmationService.confirm({
       message: this.title_confirm_record[this.initial_current.Language],
       header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        var data = new TRSysApproveModel()
-        data.company_code = this.initial_current.CompCode
-        data.approve_status = status
-        data.workflow_type = "PRO_NEW"
-        data.approve_code = this.selectedProject.project_code
-        data.approve_note = this.approveNote
+      accept: async () => {
+        this.selectedProjects.forEach(async (datas: ProjectModel) => {
+          var data = new TRSysApproveModel()
+          data.company_code = this.initial_current.CompCode
+          data.approve_status = status
+          data.workflow_type = "PRO_NEW"
+          data.approve_code = datas.project_code
+          data.approve_note = this.approveNote
+          await this.sysApproveServices.approve_record(data).then((res) => {
+            let result = JSON.parse(res);
 
-        this.sysApproveServices.approve_record(data).then((res) => {
-          let result = JSON.parse(res);
-          if (result.success) {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-            this.doLoadProject()
+            if (result.success) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+              // this.doLoadProject()
+              this.toggleSelect()
+              this.selection
+              this.doGetDataFillter()
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+            }
+          });
 
-            //this.displayManage = false
-          }
-          else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-          }
-        });
+        })
 
       },
       reject: () => {
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
       }
+
     });
+
   }
 
+  // 
+
+  // approve_project(status: string) {
+
+  //   this.displayApproveNote = false
+
+  //   this.confirmationService.confirm({
+  //     message: this.title_confirm_record[this.initial_current.Language],
+  //     header: this.title_confirm[this.initial_current.Language],
+  //     icon: 'pi pi-exclamation-triangle',
+  //     accept: () => {
+  //       var data = new TRSysApproveModel()
+  //       data.company_code = this.initial_current.CompCode
+  //       data.approve_status = status
+  //       data.workflow_type = "PRO_NEW"
+  //       data.approve_code = this.selectedProject.project_code
+  //       data.approve_note = this.approveNote
+
+  //       this.sysApproveServices.approve_record(data).then((res) => {
+  //         let result = JSON.parse(res);
+  //         if (result.success) {
+  //           this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+  //           this.doLoadProject()
+  //           this.toggleSelect(this.selectedProject)
+  //           this.selection
+
+  //           //this.displayManage = false
+  //         }
+  //         else {
+  //           this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+  //         }
+  //         console.log(result,'pppppp')
+  //       });
+
+  //     },
+  //     reject: () => {
+  //       this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+  //     }
+  //   });
+
+  // }
+  // 
+  checked: boolean = false;
+
+  buttonVisible: boolean = true;
+
+
+  selectAllChecked: boolean = false;
+  showButton: boolean = false;
+
+  data = {
+    checked: false
+  };
+
+
+  selection(data: ProjectModel) {
+    if (data) {
+    }
+  }
+  // 
+
+  selectedDataArray: any[] = [];
+
+  toggleSelect() {
+    this.checked = !this.checked;
+  }
+
+  status_doc: boolean = false
+
+  Search() {
+    if (this.status_select.code) {
+      this.status_doc = true;
+    } else {
+      this.status_doc = false;
+    }
+    this.doLoadProject();
+    this.doGetDataFillter();
+  }
+
+  // 
   ///
+
   async doGetDataFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     workerfillter.company_code = this.initial_current.CompCode;
-    workerfillter.project_status = this.selectedstatus;
-
-    this.project_list = await this.projectService.MTProject_getbyfillter(this.selectedProject.project_code, this.selectedDate_fillter, this.selectedToDate_fillter,
-      workerfillter
-    );
+    workerfillter.project_status = this.status_select.code;
+    this.project_list = await this.projectService.MTProject_getbyfillter(this.project_code, this.selectedDate_fillter, this.selectedToDate_fillter, workerfillter);
   }
+
+
+
   selectedstatus: string = "";
   doChangeSelectstatus() {
     this.doGetDataFillter();
@@ -345,27 +477,37 @@ export class ProjectApproveComponent implements OnInit {
   }
   // projobemp
   projobemp_list: ProjobempModel[] = [];
-  selectedProjobemp: ProjobempModel = new ProjobempModel();
+  selectedProjobemp: ProjobempModel[] = [];
+
+  selectedProjobemps: ProjobempModel = new ProjobempModel();
   selectedProjobemp_name: string = ""
-
   selectedstatusProjobemps: FillterProjectModel = new FillterProjectModel();
-
-
-
-
   doLoadProjobemp() {
-    this.projectDetailService.projectemp_get_withstatus("", this.project_code, "W").then(async (res) => {
+    this.projectDetailService.projectemp_get_withstatus("", this.project_code, "").then(async (res) => {
       this.projobemp_list = await res;
-
-      this.total_project = this.projobemp_list.length;
     });
   }
+
+
+  Search2() {
+    if (this.status2_select.code) {
+      this.status_doc = true;
+    } else {
+      this.status_doc = false;
+    }
+    // this.approve_projobemp('');
+
+    this.doLoadProjobemp();
+    this.doGetProjobempFillter();
+  }
+
 
   async doGetProjobempFillter() {
     const workerfillter: FillterProjectModel = new FillterProjectModel();
     const Radiovalue: RadiovalueModel = new RadiovalueModel();
     workerfillter.company_code = this.initial_current.CompCode;
     workerfillter.projobemp_status = this.selectedstatusProjobemp;
+    // workerfillter.projobemp_status = this.status_select.code;
 
     this.projobemp_list = await this.projectDetailService.projobemp_getbyfillter(workerfillter, Radiovalue);
   }
@@ -376,6 +518,9 @@ export class ProjectApproveComponent implements OnInit {
     this.doGetProjobempFillter();
   }
 
+  //
+
+  //
   approve_projobemp(status: string) {
     this.displayApproveNoteemp = false
     this.confirmationService.confirm({
@@ -383,25 +528,28 @@ export class ProjectApproveComponent implements OnInit {
       header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        var data = new TRSysApproveModel()
-        data.company_code = this.initial_current.CompCode
-        data.approve_status = status
-        data.project_code = this.project_code
-        data.workflow_type = "PRO_EMP"
-        data.approve_code = this.selectedProjobemp.projobemp_emp
-        data.approve_note = this.approveNoteemp
+        this.selectedProjobemp.forEach(async (datas: ProjobempModel) => {
+          var data = new TRSysApproveModel()
+          data.company_code = this.initial_current.CompCode
+          data.approve_status = status
+          data.project_code = this.project_code
+          data.workflow_type = "PRO_EMP"
+          data.approve_code = datas.projobemp_emp
+          data.approve_note = this.approveNoteemp
 
-        this.sysApproveServices.approve_record(data).then((res) => {
-          let result = JSON.parse(res);
-          if (result.success) {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-            this.doLoadProjobemp()
+          await this.sysApproveServices.approve_record(data).then((res) => {
+            let result = JSON.parse(res);
+            if (result.success) {
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+              this.doLoadProjobemp()
+              this.doGetProjobempFillter()
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
+            }
+          });
 
-          }
-          else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-          }
-        });
+        })
 
       },
       reject: () => {
@@ -493,6 +641,6 @@ export class ProjectApproveComponent implements OnInit {
     return ""
   }
   onRowSelectProjobemp(event: Event) {
-    this.selectedProjobemp_name = this.selectedProjobemp.projobemp_emp + " : " + this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp)
+    this.selectedProjobemp_name = this.projobemp_emp + " : " + this.doGetEmployeeDetail(this.projobemp_emp)
   }
 }
