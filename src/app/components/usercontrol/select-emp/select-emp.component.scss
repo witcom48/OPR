@@ -23,6 +23,7 @@
         }
         .resign{
             align-self: center;
+            display: flex;
         }
     }
 }
@@ -47,4 +48,8 @@
         }
 
     }
+}
+
+.hide {
+    visibility: hidden;
 }

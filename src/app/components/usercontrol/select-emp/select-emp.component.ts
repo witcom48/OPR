@@ -19,6 +19,9 @@ import { LevelService } from 'src/app/services/system/policy/level.service';
 import { SysLocationModel } from 'src/app/models/system/policy/location';
 import { ProjectModel } from 'src/app/models/project/project';
 import { ProjectService } from 'src/app/services/project/project.service';
+import { ProjobmainModel } from 'src/app/models/project/project_jobmain';
+import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
 
@@ -32,6 +35,7 @@ export class SelectEmpComponent implements OnInit {
   employee_source: EmployeeModel[] = [];
   employee_dest: EmployeeModel[] = [];
   fillterIncludeResign: boolean = false;
+  fillterPeriodResign: boolean = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -43,6 +47,8 @@ export class SelectEmpComponent implements OnInit {
     private positionService: PositionService,
     private projectService: ProjectService,
     private locationService: LocationService,
+    private projobService: ProjectDetailService,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit(): void {
@@ -73,7 +79,9 @@ export class SelectEmpComponent implements OnInit {
   title_project: string = "Project";
   title_source_list: string = "Source List";
   title_target_list: string = "Target List";
-  
+
+  title_projob: { [key: string]: string } = { EN: "Job", TH: "งาน" };
+  title_resignperiod: { [key: string]: string } = { EN: "ลาออกระหว่างงวด", TH: "ลาออกระหว่างงวด" };
   doLoadLanguage() {
     if (this.initial_current.Language == 'TH') {
       this.title_level = "ระดับ";
@@ -150,6 +158,12 @@ export class SelectEmpComponent implements OnInit {
       this.projectList = res;
     })
   }
+  projobList: ProjobmainModel[] = [];
+  doLoadProjobmain() {
+    this.projobService.projobmain_get('', this.selectedProject, '',this.initial_current.PR_FromDate,this.initial_current.PR_ToDate).then(async (res) => {
+      this.projobList = await res
+    })
+  }
   //fillter
   doGetDataFillter() {
 
@@ -189,10 +203,23 @@ export class SelectEmpComponent implements OnInit {
     } else {
       fillter.searchemp = "";
     }
+    //fillter project & job
     if (this.fillterProject) {
       fillter.project_code = this.selectedProject;
+      fillter.project_job = this.selectedJob;
     } else {
       fillter.project_code = "";
+      fillter.project_job = "";
+    }
+    //resignPeriod
+    if (this.fillterPeriodResign) {
+      fillter.periodresign = this.fillterPeriodResign;
+      fillter.fromdate = this.datePipe.transform(this.initial_current.PR_FromDate,'yyyy-MM-ddTHH:mm:ss') ;
+      fillter.todate = this.datePipe.transform(this.initial_current.PR_ToDate,'yyyy-MM-ddTHH:mm:ss');
+    } else {
+      fillter.periodresign = this.fillterPeriodResign;
+      fillter.fromdate = '';
+      fillter.todate = '';
     }
 
     this.employeeService.worker_getbyfillter(fillter).then(async (res) => {
@@ -247,6 +274,16 @@ export class SelectEmpComponent implements OnInit {
   selectedProject: string = "";
   fillterProject: boolean = false;
   doChangeSelectProject() {
+
+    if (this.fillterProject) {
+      this.doGetDataFillter();
+      this.doLoadProjobmain();
+    }
+  }
+  //-- Job master
+  selectedJob: string = "";
+  fillterJob: boolean = false;
+  doChangeSelectProjectJob() {
 
     if (this.fillterProject) {
       this.doGetDataFillter();
