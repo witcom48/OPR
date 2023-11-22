@@ -91,55 +91,7 @@
                             </ng-template>
                         </p-dropdown>
                     </div>
-                    <!-- dep -->
-                    <!-- <div class="select">
-                        <div>
-                            <p-checkbox [(ngModel)]="fillterLevel" name="dep" [binary]="true"
-                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
-                            <label for="lastname2">{{title_level[initial_current.Language]}} :</label>
-                        </div>
-                        <p-dropdown placeholder="--" [options]="levelList" optionValue="level_code" [showClear]="true"
-                            [(ngModel)]="selectedLevel" (onChange)="doChangeSelectLevel()" [disabled]="!fillterLevel"
-                            [style]="{ width: '100%', overflow: 'visible' }">
-                            <ng-template let-item pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
-                            </ng-template>
-                            <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
-                            </ng-template>
-                        </p-dropdown>
-                        <div></div>
-        
-                        <p-dropdown placeholder="--" [options]="deplevelList" optionValue="dep_code" [showClear]="true"
-                            [(ngModel)]="selectedDep" (onChange)="doChangeSelectDep()" [disabled]="!fillterLevel"
-                            [style]="{ width: '100%', overflow: 'visible' }">
-                            <ng-template let-item pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
-                            </ng-template>
-                            <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
-                            </ng-template>
-                        </p-dropdown>
-                    </div> -->
-                    <div class="select">
-                        <!-- project -->
-                        <div>
-                            <p-checkbox [(ngModel)]="fillterProject" name="project" [binary]="true"
-                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
-                            <label for="lastname2">{{title_project[initial_current.Language]}} :</label>
-                        </div>
-                        <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code"
-                            [showClear]="true" [(ngModel)]="selectedProject" (onChange)="doChangeSelectProject()"
-                            [disabled]="!fillterProject" [style]="{ width: '100%', overflow: 'visible' }"
-                            [filter]="true" filterBy="project_code,project_name_th,project_name_en">
-                            <ng-template let-item pTemplate="selectedItem">
-                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
-                            </ng-template>
-                            <ng-template let-item pTemplate="item">
-                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
-                            </ng-template>
-                        </p-dropdown>
-                    </div>
+
                     <div class="select">
                         <!-- empstatus -->
                         <div>
@@ -159,9 +111,78 @@
                             </ng-template>
                         </p-dropdown>
                     </div>
-
                     
+                    <div class="select">
+                        <!-- project -->
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterProject" name="project" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{title_project[initial_current.Language]}} :</label>
+                        </div>
+                        <p-dropdown placeholder="--" [options]="projectList" optionValue="project_code"
+                            [showClear]="true" [(ngModel)]="selectedProject" (onChange)="doChangeSelectProject()"
+                            [disabled]="!fillterProject" [style]="{ width: '100%', overflow: 'visible' }"
+                            [filter]="true" filterBy="project_code,project_name_th,project_name_en">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    
+                    <!-- dep -->
+                    <div class="select">
+                        <div>
+                            <p-checkbox [(ngModel)]="fillterLevel" name="dep" [binary]="true"
+                                (onChange)="doGetDataFillter()"></p-checkbox> &nbsp;
+                            <label for="lastname2">{{title_level[initial_current.Language]}} :</label>
+                        </div>
+                        <p-dropdown placeholder="--" [options]="levelList" optionValue="level_code" [showClear]="true"
+                            [(ngModel)]="selectedLevel" (onChange)="doChangeSelectLevel()" [disabled]="!fillterLevel"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.level_name_th : item.level_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <!-- project Job -->
+                    <div class="select">
+                        <div>
+                            <p-checkbox class="hide" [disabled]="true" ></p-checkbox> &nbsp;
+                            <label for="lastname2">{{title_projob[initial_current.Language]}} :</label>
+                        </div>
+                        <p-dropdown placeholder="--" [options]="projobList" optionValue="projobmain_code" [showClear]="true"
+                            [(ngModel)]="selectedJob" (onChange)="doChangeSelectProjectJob()" [disabled]="!fillterProject"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
 
+
+                    <!-- Dep2 -->
+                    <div class="select">
+                        <div></div>
+                        <p-dropdown placeholder="--" [options]="deplevelList" optionValue="dep_code" [showClear]="true"
+                            [(ngModel)]="selectedDep" (onChange)="doChangeSelectDep()" [disabled]="!fillterLevel"
+                            [style]="{ width: '100%', overflow: 'visible' }">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                            </ng-template>
+                            <ng-template let-item pTemplate="item">
+                                {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
 
 
                     <div style="grid-column: 1;">
@@ -180,6 +201,12 @@
                             <label>{{title_resign[initial_current.Language]}}</label>
                         </div>
                         &nbsp;&nbsp;
+                        <!-- resign2 -->
+                        <div >
+                            <p-checkbox name="resign2" [binary]="true" [(ngModel)]="fillterPeriodResign"
+                                (onChange)="doGetDataFillter()"></p-checkbox>&nbsp;
+                            <label>{{title_resignperiod[initial_current.Language]}}</label>
+                        </div>
                         <!-- blacklist -->
                         <!-- <div>
                             <p-checkbox [(ngModel)]="fillterBlacklist" name="type" [binary]="true"
