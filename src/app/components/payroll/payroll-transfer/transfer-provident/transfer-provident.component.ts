@@ -167,20 +167,15 @@ export class TransferProvidentComponent implements OnInit {
                 detail: 'Record Success..',
               });
 
-              console.log(this.selectEmp.employee_dest, 'selectEmp');
-              //   console.log(result.result_link);
-
+ 
               let link = result.result_link;
-              console.log(result)
-
+ 
               if (link !== "") {
-                console.log(this.initial_current + '/File/' + link + "/");
-                console.log(link.split("\\").pop());
+ 
 
                 this.taskService.get_file(link).then((res) => {
                   const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
-                  console.log(res)
-                  const fileName: string = link.split("\\").pop();
+                   const fileName: string = link.split("\\").pop();
                   const objectUrl: string = URL.createObjectURL(blob);
                   const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
 

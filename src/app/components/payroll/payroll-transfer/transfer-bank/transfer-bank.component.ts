@@ -166,8 +166,7 @@ export class TransferBankComponent implements OnInit {
 
   public effdate: Date = new Date();
   updateEffdate(event: any): void {
-    console.log('Selected date:', this.effdate);
-  }
+   }
 
   process(): void {
  
@@ -188,9 +187,7 @@ export class TransferBankComponent implements OnInit {
     // Step 2: Task detail
     let process =this.selectedCombank.combank_bankcode;  
     process += this.fillauto ? '|AUTO' : '|COMPARE';
-    console.log('process:', process);
-    console.log('เช็คธนาคาร:',this.selectedBank);
-
+ 
     let fromDate = this.effdate;
     let toDate = this.effdate;
 
@@ -201,8 +198,7 @@ export class TransferBankComponent implements OnInit {
     this.taskDetail.taskdetail_fromdate = fromDate;
     this.taskDetail.taskdetail_todate = toDate;
     this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
-    console.log('เช็คธนาคารที่ส่งไป:', this.taskDetail);
-
+ 
     // Step 3: Task whose
     this.taskWhoseList = [];
 
@@ -221,15 +217,12 @@ export class TransferBankComponent implements OnInit {
                 summary: 'Success',
                 detail: 'Record Success..',
               });
-
-              console.log("test result_link");
-              console.log(result.result_link);
+ 
 
               let link = result.result_link;
 
               if (link !== "") {
-                console.log(this.initial_current + '/File/' + link + "/");
-                console.log(link.split("\\").pop());
+ 
 
                 this.taskService.get_file(link).then((res) => {
                   const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
