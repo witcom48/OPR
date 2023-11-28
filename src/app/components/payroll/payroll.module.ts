@@ -70,6 +70,7 @@ import { PlanReduceComponent } from './payroll-policy/plan-reduce/plan-reduce.co
 import { ItemsPlanComponent } from './payroll-policy/items-plan/items-plan.component';
 import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolicy.component';
 import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.component';
+import { TransferProvidentComponent } from './payroll-transfer/transfer-provident/transfer-provident.component';
 
 
 @NgModule({
@@ -101,6 +102,7 @@ import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.co
         ItemsPlanComponent,
         SetallpolicyComponent,
         PayrollCalbonusComponent,
+        TransferProvidentComponent,
         
     ],
     imports: [

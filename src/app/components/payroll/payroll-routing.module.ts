@@ -32,6 +32,7 @@ import { ItemsPlanComponent } from './payroll-policy/items-plan/items-plan.compo
 import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolicy.component';
 
 import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.component';
+import { TransferProvidentComponent } from './payroll-transfer/transfer-provident/transfer-provident.component';
 
 
 @NgModule({
@@ -54,7 +55,7 @@ import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.co
 
         { path: 'calbonus', component: PayrollCalbonusComponent },
 
-
+        { path: 'transferprovident', component: TransferProvidentComponent },
         { path: 'transferbank', component: TransferBankComponent },
         { path: 'transfertax', component: TransferTaxComponent },
         { path: 'transfersso', component: TransferSsoComponent },

@@ -79,12 +79,11 @@ export class PayrollTransferComponent implements OnInit {
         link: 'transfertax',
         accessCode: 'PAY007-002'
       },
-      // {
-      //   title: this.title_transferbonus[this.initialData.Language] ,
-      //   link: ' ',
-      //   // link: 'transferbonus',
-      //   accessCode: 'PAY007-003'
-      // },
+      {
+        title: this.title_provident_fund[this.initialData.Language] ,
+         link: 'transferprovident',
+        accessCode: 'PAY007-003'
+      },
       {
         title: this.title_transfersso[this.initialData.Language] ,
         link: 'transfersso',
@@ -100,8 +99,11 @@ export class PayrollTransferComponent implements OnInit {
   title_transferbankl: {[key: string]: string} = {  EN: " Bank",  TH: "โอนเงิน"}  
   title_transfertax: {[key: string]: string} = {  EN: " Tax",  TH: "โอนย้ายข้อมูลภาษี"}  
   title_transferbonus: {[key: string]: string} = {  EN: "Bonus",  TH: "โอนโบนัส"}  
-  title_transfersso: {[key: string]: string} = {  EN: "Sso",  TH: "ประกันสังคม"}  
+  title_transfersso: {[key: string]: string} = {  EN: "Sso",  TH: "ประกันสังคม"} 
+  
+  title_provident_fund: {[key: string]: string} = {  EN: "Provident Fund",  TH: "กองทุนสำรองเลี้ยงชีพ"}  
 
+  
   setMenus() {
     this.accessData = this.initialData2.dotGetPolmenu('PAY');
     this.transferdataMenuItems = this.transferdataMenuList.filter(item => this.hasAccessMenu(item.accessCode));

@@ -1,15 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/eqeqeq -->
-
-<!-- Link Page -->
-<!-- <div class="path">
-    <span>Pay Roll</span>
-    <div>
-        <i></i>
-        <a routerLink="/payroll/transfer">Transfer</a>
-        <i></i>
-        <small>{{this.title_transferbank[this.initial_current.Language]}}</small>
-    </div>
-</div> -->
 <!-- ---------END Link Page----------- -->
 <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
 <hr>
@@ -45,11 +33,8 @@
                 <div>
                     <label>{{this.title_bank[this.initial_current.Language]}} :</label>
 
-                    <p-dropdown   [options]="combankList" optionLabel="name_detail"
-                        [(ngModel)]="selectedBank" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"
-                        (onChange)="doLoadCombankList( )"></p-dropdown>
-
-
+                    <p-dropdown [options]="combankList" optionLabel="name_detail" [(ngModel)]="selectedCombank"
+                        [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
                 </div>
             </div>
             <div class="field col-12 md:col-6">
@@ -59,8 +44,6 @@
                     (ngModelChange)="updateEffdate($event)"></p-calendar>
             </div>
             <!-- <div class="field col-12 md:col-6">
-              
-
                 <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="effdate"
                 name="effdate" (ngModelChange)="updateEffdate($event)"><input type="text"></p-calendar>
               

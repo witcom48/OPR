@@ -1,6 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import { ConfirmationService, ConfirmEventType, MenuItem, MessageService } from 'primeng/api';
+import {
+  ConfirmationService,
+  ConfirmEventType,
+  MenuItem,
+  MessageService,
+} from 'primeng/api';
 import { PrjectEmpdailyModel } from '../../../../models/project/project_empdaily';
 import { Router } from '@angular/router';
 import { AppConfig } from '../../../../config/config';
@@ -12,169 +17,115 @@ import { TaskComponent } from '../../../../components/usercontrol/task/task.comp
 import { TaskModel } from '../../../../models/task';
 import { TaskDetailModel } from '../../../../models/task_detail';
 import { TaskWhoseModel } from '../../../../models/task_whose';
-import { TaskService } from '../../../../services/task.service'
+import { TaskService } from '../../../../services/task.service';
 import * as xlsx from 'xlsx';
 import { BankService } from 'src/app/services/system/policy/bank.service';
 import { BankModel } from 'src/app/models/system/policy/bank';
-import { CombankModel } from 'src/app/models/system/combank';
-import { CompanyDetailService } from 'src/app/services/system/company_detail.service';
 
 interface Policy {
-  name: string,
-  code: string
+  name: string;
+  code: string;
 }
 interface Result {
-  worker: string,
-  policy: string,
-  modified_by: string,
-  modified_date: string,
+  worker: string;
+  policy: string;
+  modified_by: string;
+  modified_date: string;
 }
 @Component({
-  selector: 'app-transfer-bank',
-  templateUrl: './transfer-bank.component.html',
-  styleUrls: ['./transfer-bank.component.scss']
+  selector: 'app-transfer-provident',
+  templateUrl: './transfer-provident.component.html',
+  styleUrls: ['./transfer-provident.component.scss']
 })
-export class TransferBankComponent implements OnInit {
+export class TransferProvidentComponent implements OnInit {
 
-
-  @ViewChild(SelectEmpComponent) selectEmp: any;
-  @ViewChild(TaskComponent) taskView: any;
   home: any;
   itemslike: MenuItem[] = [];
+  [x: string]: any;
+  @ViewChild(SelectEmpComponent) selectEmp: any;
+  @ViewChild(TaskComponent) taskView: any;
   title_select: { [key: string]: string } = { EN: "Please Select Employee", TH: "กรุณาเลือกพนักงาน" };
   title_bank: { [key: string]: string } = { EN: "Bank", TH: "ธนาคาร" };
-  title_transfer : { [key: string]: string } = { EN: "Transfer Data", TH: "Transfer Data" };
- 
-  
-  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" };
-  title_process: { [key: string]: string } = { EN: "Process", TH: "กระบวนการ" };
+  title_transfer: { [key: string]: string } = { EN: "Transfer Data", TH: "โอนย้ายข้อมูล" };
+  title_transferdatal: { [key: string]: string } = { EN: " Transfer Data", TH: "โอนย้ายข้อมูล" }
+  title_transfersso: { [key: string]: string } = { EN: " Transfer Sso", TH: "ประกันสังคม" }
+
+
+  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
+  title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
-  title_transferbank: { [key: string]: string } = { EN: " Transfer Bank", TH: "โอนเงิน" };
-  
-  title_system_payroll: { [key: string]: string } = { EN: " Transfer Bank", TH: "โอนเงิน" };
-  title_transferdatal: {[key: string]: string} = {  EN: " Transfer Data",  TH: "โอนย้ายข้อมูล"}  
 
-  title_confirm: string = "Are you sure?";
-  title_confirm_record: string = "Confirm to process";
-  title_confirm_delete: string = "Confirm to delete";
-  title_confirm_yes: string = "Yes";
-  title_confirm_no: string = "No";
+  title_confirm: string = 'Are you sure?';
+  title_confirm_record: string = 'Confirm to process';
+  title_confirm_delete: string = 'Confirm to delete';
+  title_confirm_yes: string = 'Yes';
+  title_confirm_no: string = 'No';
 
-  title_confirm_cancel: string = "You have cancelled";
+  title_confirm_cancel: string = 'You have cancelled';
 
-  title_submit: string = "Submit";
-  title_cancel: string = "Cancel";
-  combank_bankcode: string = "";
-  @Input() policy_list: Policy[] = []
-  @Input() title: string = "";
+  title_submit: string = 'Submit';
+  title_cancel: string = 'Cancel';
+
+  @Input() policy_list: Policy[] = [];
+  @Input() title: string = '';
   index: number = 0;
   dialog: any;
-
-  constructor(private messageService: MessageService,
+  constructor(
+    private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private taskService: TaskService,
     private router: Router,
 
     ///Service
-    private bankService: BankService,
-    private companyDetailService: CompanyDetailService
-
+    private bankService: BankService
   ) { }
-
-
 
   timesheet_list: PrjectEmpdailyModel[] = [];
   timesheet_dest: PrjectEmpdailyModel[] = [];
   result_list: Result[] = [];
-  selectedDate: PrjectEmpdailyModel = new PrjectEmpdailyModel;
+  selectedDate: PrjectEmpdailyModel = new PrjectEmpdailyModel();
   policyselect!: Policy;
   new_data: boolean = false;
   @ViewChild('dt2') table: Table | undefined;
   ngOnInit(): void {
-
     this.doGetInitialCurrent();
 
 
-    //dropdown
-    this.doLoadBank();
 
-    this.doLoadCombankList();
 
     setTimeout(() => {
-      this.selectedBank = this.selectedCombank.combank_bankcode;
-    }, 1000);
-
-    setTimeout(() => {
+      this.doLoadTask()
     }, 200);
 
     this.itemslike = [{ label: this.title_transferdatal[this.initial_current.Language], routerLink: '/payroll/transfer' },
-        { label: this.title_system_payroll[this.initial_current.Language], styleClass: 'activelike' }];
-        this.home = { icon: 'pi pi-home', routerLink: '/' };
+    { label: this.title_transfersso[this.initial_current.Language], styleClass: 'activelike' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
-
-
-  public selectedBank: string = "";
+  public selectedBank: string = '';
 
   public initial_current: InitialCurrent = new InitialCurrent();
   doGetInitialCurrent() {
-    this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
+    this.initial_current = JSON.parse(
+      localStorage.getItem(AppConfig.SESSIONInitial) || '{}'
+    );
     if (!this.initial_current) {
-      this.router.navigateByUrl('login');
+      this.router.navigateByUrl('');
     }
   }
-
-
-  //get  data dropdown bank
-  bank_list: BankModel[] = [];
-  doLoadBank() {
-
-    var tmp = new BankModel();
-    this.bankService.bank_get().then((res) => {
-      this.bank_list = res;
-    });
-  }
-
-  combankList: CombankModel[] = [];
-  selectedCombank: CombankModel = new CombankModel();
-  doLoadCombankList() {
-    var tmp = new CombankModel();
-    tmp.combank_bankcode = this.selectedCombank.combank_bankcode;
-
-      this.companyDetailService.getcompany_bank(this.initial_current.CompCode, '', tmp)
-        .then((res) => {
-          this.combankList = res;
-          if (this.combankList.length > 0) {
-            this.selectedCombank = this.combankList[0];
-
-            // this.selectedCombank.combank_bankcode;
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลือกธนาคาร' });
-          }
-        });
-    
-}
-
-
-
   public task: TaskModel = new TaskModel();
   public taskDetail: TaskDetailModel = new TaskDetailModel();
   public taskWhoseList: TaskWhoseModel[] = [];
 
   public fillauto: boolean = false;
 
-  public effdate: Date = new Date();
-  updateEffdate(event: any): void {
-    console.log('Selected date:', this.effdate);
-  }
-
   process(): void {
- 
+
     if (this.selectEmp.employee_dest.length === 0) {
 
-      if (this.selectEmp.employee_dest.length > 0 ) {
-       }else{
+      if (this.selectEmp.employee_dest.length > 0) {
+      } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: this.title_select[this.initial_current.Language] });
       }
       return;
@@ -182,26 +133,19 @@ export class TransferBankComponent implements OnInit {
 
     // Step 1: Task master
     this.task.company_code = this.initial_current.CompCode;
-    this.task.task_type = 'TRN_BANK';
+    this.task.task_type = 'TRN_PF';
     this.task.task_status = 'W';
 
     // Step 2: Task detail
-    let process =this.selectedCombank.combank_bankcode;  
-    process += this.fillauto ? '|AUTO' : '|COMPARE';
-    console.log('process:', process);
-    console.log('เช็คธนาคาร:',this.selectedBank);
 
     let fromDate = this.effdate;
     let toDate = this.effdate;
 
-    this.taskDetail.taskdetail_process = 'BANK';
-    this.taskDetail.taskdetail_process = this.selectedCombank.combank_bankcode;
-    this.taskDetail.taskdetail_process = process;
-
+    this.taskDetail.taskdetail_process = 'PF';
+    // this.taskDetail.taskdetail_process = process;
     this.taskDetail.taskdetail_fromdate = fromDate;
     this.taskDetail.taskdetail_todate = toDate;
     this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
-    console.log('เช็คธนาคารที่ส่งไป:', this.taskDetail);
 
     // Step 3: Task whose
     this.taskWhoseList = [];
@@ -211,7 +155,8 @@ export class TransferBankComponent implements OnInit {
       header: this.title_confirm,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.taskService.task_record(this.task, this.taskDetail, this.selectEmp.employee_dest).then((res) => {
+        this.taskService.task_record(this.task, this.taskDetail, this.selectEmp.employee_dest)
+          .then((res) => {
             let result = JSON.parse(res);
 
             if (result.success) {
@@ -222,10 +167,11 @@ export class TransferBankComponent implements OnInit {
                 detail: 'Record Success..',
               });
 
-              console.log("test result_link");
-              console.log(result.result_link);
+              console.log(this.selectEmp.employee_dest, 'selectEmp');
+              //   console.log(result.result_link);
 
               let link = result.result_link;
+              console.log(result)
 
               if (link !== "") {
                 console.log(this.initial_current + '/File/' + link + "/");
@@ -233,6 +179,7 @@ export class TransferBankComponent implements OnInit {
 
                 this.taskService.get_file(link).then((res) => {
                   const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
+                  console.log(res)
                   const fileName: string = link.split("\\").pop();
                   const objectUrl: string = URL.createObjectURL(blob);
                   const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
@@ -269,17 +216,16 @@ export class TransferBankComponent implements OnInit {
 
 
 
-  // updateEffdate(event: string | number | Date) {
-  //   this.effdate = new Date(event);
-  // }
 
-  doPrintMessage(message: string, status: string) {
-    const dialogRef = this.dialog.open(this.messageService, {
-      width: '500px',
-      data: {
-        message: message
-      }
-    });
+  doLoadTask() {
+    this.taskView.taskType = "TRN_PF";
+    this.taskView.doLoadTask();
+  }
+
+  public effdate: Date = new Date();
+
+  updateEffdate() {
+    this.effdate = new Date();
   }
 
   function(e: any) {
@@ -293,4 +239,14 @@ export class TransferBankComponent implements OnInit {
       this.new_data = false;
     }
   }
+
+  doPrintMessage(message: string, status: string) {
+    const dialogRef = this.dialog.open(this.messageService, {
+      width: '500px',
+      data: {
+        message: message
+      }
+    });
+  }
+
 }

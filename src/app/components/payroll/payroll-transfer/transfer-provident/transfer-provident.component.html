@@ -1,0 +1,66 @@
+
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+
+<!-- Link Page -->
+<!-- <div class="path">
+    <span>Pay Roll</span>
+    <div>
+        <i></i>
+        <a routerLink="/payroll/transfer">Transfer</a>
+        <i></i>
+        <small>Transfer Sso</small>
+    </div>
+</div> -->
+<p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
+<!-- ---------END Link Page----------- -->
+<hr>
+
+
+<p-toast position="top-right"></p-toast>
+
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+
+
+<p-tabView  [(activeIndex)]="index" (onChange)="function($event)">
+    <p-tabPanel [selected]="true">
+        <ng-template pTemplate="header">
+            <i class="pi pi-cog"></i>&nbsp;&nbsp;
+            <span>{{this.title_process[this.initial_current.Language]}}</span>
+        </ng-template>
+
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-select-emp></app-select-emp>
+            </div>
+            <div class="field col-12 md:col-6">
+                <p-button label="{{this.title_btnprocess[this.initial_current.Language]}}" (click)="process()"></p-button>
+            </div>
+
+        </div>
+    </p-tabPanel>
+
+    <!-- <p-tabPanel>
+        <ng-template pTemplate="header">
+            <i class="pi pi-file-import"></i>&nbsp;&nbsp;
+            <span>{{this.title_result[this.initial_current.Language]}}</span>
+        </ng-template>
+
+        <div class="formgrid grid align-items-end">
+
+            <div class="field col-12">
+                <app-task></app-task>
+            </div>
+
+        </div>
+
+    </p-tabPanel> -->
+
+</p-tabView>
+<!-- ConfirmDialog and toast Noti -->
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
+    key="myDialog"></p-confirmDialog>
