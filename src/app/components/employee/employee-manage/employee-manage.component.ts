@@ -119,6 +119,8 @@ import { YearService } from 'src/app/services/system/policy/year.service';
 import { PeriodsServices } from 'src/app/services/payroll/periods.service';
 import { EmployeeresignModel } from 'src/app/models/employee/employee_resign';
 import { EmpresignService } from 'src/app/services/emp/worker_resign.service';
+import { ReferralService } from 'src/app/services/payroll/referral.service';
+import { ReferralModel } from 'src/app/models/payroll/referral';
 
 
 
@@ -370,6 +372,7 @@ export class EmployeeManageComponent implements OnInit {
     private periodsService: PeriodsServices,
 
     private empresignService: EmpresignService,
+    private referralService: ReferralService,
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -477,6 +480,8 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadBonusList();
 
     this.doLoadForetypeList();
+
+    this.doLoadReferralList();
 
     this.doPeriod();
     setTimeout(() => {
@@ -812,6 +817,9 @@ export class EmployeeManageComponent implements OnInit {
 
   title_confirmresign: { [key: string]: string } = { EN: "Have resignation history want to continue?", TH: "พนักงานมีประวัติการลาออก ต้องการดำเนินการต่อหรือไม่?" };
   title_confirmbankacc: { [key: string]: string } = { EN: "Have Bank account want to continue?", TH: "มีการบันทึกเลขบัญชีธนาคารนี้แล้ว ต้องการดำเนินการต่อหรือไม่?" };
+
+  title_referpo: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" };
+  title_referdate: { [key: string]: string } = { EN: "Date", TH: "วันที่เริ่ม" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -1753,6 +1761,7 @@ export class EmployeeManageComponent implements OnInit {
           var ref = this.empsuggestList.length + 100
           this.selectedEmpSuggest = new EmpSuggestModel()
           this.selectedEmpSuggest.empsuggest_id = ref.toString()
+          this.selectedEmpSuggest.empsuggest_date = this.selectedEmployee.worker_hiredate;
           this.showManage()
         }
       },
@@ -2843,6 +2852,14 @@ export class EmployeeManageComponent implements OnInit {
     var tmp = new EmployeeModel();
     this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
       this.suggest_List = await res;
+    })
+  }
+  //referral policy
+  referral_List: ReferralModel[] = [];
+  doLoadReferralList() {
+    var tmp = new ReferralModel();
+    this.referralService.referral_get(tmp).then((res) => {
+      this.referral_List = res
     })
   }
   //Institite
@@ -4009,7 +4026,6 @@ export class EmployeeManageComponent implements OnInit {
     this.empdetailService.getworker_suggest(this.initial_current.CompCode, this.emp_code).then(async (res) => {
       await res.forEach((element: EmpSuggestModel) => {
         element.empsuggest_date = new Date(element.empsuggest_date)
-
       })
       this.empsuggestList = await res;
       if (this.empsuggestList.length > 0) {
@@ -4922,7 +4938,7 @@ export class EmployeeManageComponent implements OnInit {
         },
         key: "myDialog"
       });
-    } else if (this.checkbankaccount(this.empbankList[0].bank_account) == this.empbankList[0].bank_account) {
+    } else if (this.checkbankaccount(this.empbankList[0].bank_account|| "") == this.empbankList[0].bank_account) {
       this.confirmationService.confirm({
         message: this.title_confirmbankacc[this.initial_current.Language],
         header: this.title_confirm,
@@ -5487,153 +5503,178 @@ export class EmployeeManageComponent implements OnInit {
       }
     }
   }
-
-  clearManage() {
-    this.new_emplocation = false; this.edit_emplocation = false;
-    this.new_empbranch = false; this.edit_empbranch = false;
-    this.new_empaddress = false; this.edit_empaddress = false;
-    this.new_card = false; this.edit_empcard = false;
-    this.new_bank = false; this.edit_empbank = false;
-    this.new_family = false; this.edit_empfamily = false;
-    this.new_hospital = false; this.edit_emphospital = false;
-    this.new_foreigner = false; this.edit_empforeigner = false;
-    this.new_dep = false; this.edit_empdep = false;
-    this.new_position = false; this.edit_empposition = false;
-    this.new_group = false; this.edit_empgroup = false;
-    this.new_education = false; this.edit_empeducation = false;
-    this.new_supply = false; this.edit_empsupply = false;
-    this.new_uniform = false; this.edit_empuniform = false;
-    this.new_suggest = false; this.edit_empsuggest = false;
-    this.new_training = false; this.edit_emptraining = false;
-    this.new_assessment = false; this.edit_empassessment = false;
-    this.new_criminal = false; this.edit_empcriminal = false;
-    this.new_salary = false; this.edit_empsalary = false;
-    this.new_provident = false; this.edit_empprovident = false;
-    this.new_benefit = false; this.edit_empbenefit = false;
-    this.new_reduce = false; this.edit_empreduce = false;
-    this.new_accumalate = false; this.edit_empaccumalate = false;
-    this.new_tranfer = false; this.edit_emptranfer = false;
+  //suggest
+  doGetReferPo(Code: string): any {
+    for (let i = 0; i < this.referral_List.length; i++) {
+      if (this.referral_List[i].referral_code == Code) {
+        if (this.initial_current.Language == "TH") {
+          return this.referral_List[i].referral_name_th;
+        }
+        else {
+          return this.referral_List[i].referral_name_en;
+        }
+      }
+    }
+  }
+  doGetWorkerName(Code: string): any {
+    for (let i = 0; i < this.suggest_List.length; i++) {
+      if (this.suggest_List[i].worker_code == Code) {
+        if (this.initial_current.Language == "TH") {
+          return this.suggest_List[i].worker_fname_th + " " + this.suggest_List[i].worker_lname_th;
+        }
+        else {
+          return this.suggest_List[i].worker_fname_en + " " + this.suggest_List[i].worker_lname_en;
+        }
+      }
+    }
   }
 
-  //-- Aeb add 10/07/2023
-  benefit_list: any[] = [];
+    clearManage() {
+      this.new_emplocation = false; this.edit_emplocation = false;
+      this.new_empbranch = false; this.edit_empbranch = false;
+      this.new_empaddress = false; this.edit_empaddress = false;
+      this.new_card = false; this.edit_empcard = false;
+      this.new_bank = false; this.edit_empbank = false;
+      this.new_family = false; this.edit_empfamily = false;
+      this.new_hospital = false; this.edit_emphospital = false;
+      this.new_foreigner = false; this.edit_empforeigner = false;
+      this.new_dep = false; this.edit_empdep = false;
+      this.new_position = false; this.edit_empposition = false;
+      this.new_group = false; this.edit_empgroup = false;
+      this.new_education = false; this.edit_empeducation = false;
+      this.new_supply = false; this.edit_empsupply = false;
+      this.new_uniform = false; this.edit_empuniform = false;
+      this.new_suggest = false; this.edit_empsuggest = false;
+      this.new_training = false; this.edit_emptraining = false;
+      this.new_assessment = false; this.edit_empassessment = false;
+      this.new_criminal = false; this.edit_empcriminal = false;
+      this.new_salary = false; this.edit_empsalary = false;
+      this.new_provident = false; this.edit_empprovident = false;
+      this.new_benefit = false; this.edit_empbenefit = false;
+      this.new_reduce = false; this.edit_empreduce = false;
+      this.new_accumalate = false; this.edit_empaccumalate = false;
+      this.new_tranfer = false; this.edit_emptranfer = false;
+    }
 
-  doLoadItemsList() {
-    var tmp = new ItemsModel();
-    this.itemService.item_get(tmp).then(async (res) => {
-      await res.forEach((element: ItemsModel) => {
+    //-- Aeb add 10/07/2023
+    benefit_list: any[] = [];
 
-        this.doAddOption(this.benefit_list, element)
+    doLoadItemsList() {
+      var tmp = new ItemsModel();
+      this.itemService.item_get(tmp).then(async (res) => {
+        await res.forEach((element: ItemsModel) => {
+
+          this.doAddOption(this.benefit_list, element)
+        });
       });
-    });
 
-  }
-
-  doAddOption(list: any[], element: ItemsModel) {
-    list.push(
-      {
-        name: this.initial_current.Language == "EN" ? element.item_name_en : element.item_name_th,
-        code: element.item_code
-      }
-    )
-  }
-
-  // myURL: any
-  // onURLinserted() {
-  //   this.getImage(this.myURL).subscribe(data => {
-  //     this.createImageFromBlob(data);
-  //   }, error => {
-  //     console.log("Error occured", error);
-  //   });
-  // }
-
-  // getImage(imageUrl: string): Observable<File> {
-  //   let headers = { responseType: ResponseContentType.Blob }
-  //   return this.http
-  //     .get(imageUrl)
-  //     .pipe(map((res:any) => res.blob()))
-  //     // .map((res: Response) => res.blob());
-  // }
-
-  // createImageFromBlob(image: Blob) {
-  //   let reader = new FileReader(); //you need file reader for read blob data to base64 image data.
-  //   reader.addEventListener("load", () => {
-  //     this.base64Image = reader.result; // here is the result you got from reader
-  //   }, false);
-
-  //   if (image) {
-  //     reader.readAsDataURL(image);
-  //   }
-  // }
-
-
-  @ViewChild('tablelocation') dtemplocation: ElementRef | any = null;
-  @ViewChild('tablebranch') dtempbranch: ElementRef | any = null;
-  @ViewChild('tablesuggest') dtempsuggest: ElementRef | any = null;
-  @ViewChild('tableaddress') dtempaddress: ElementRef | any = null;
-  @ViewChild('tablecard') dtempcard: ElementRef | any = null;
-  @ViewChild('tablebank') dtempbank: ElementRef | any = null;
-  @ViewChild('tablefamily') dtempfamily: ElementRef | any = null;
-  @ViewChild('tablehospital') dtemphospital: ElementRef | any = null;
-  @ViewChild('tabledep') dtempdep: ElementRef | any = null;
-  @ViewChild('tableposition') dtempposition: ElementRef | any = null;
-  @ViewChild('tablegroup') dtempgroup: ElementRef | any = null;
-  @ViewChild('tableeducation') dtempeducation: ElementRef | any = null;
-  @ViewChild('tablesupply') dtempsupply: ElementRef | any = null;
-  @ViewChild('tableuniform') dtempuniform: ElementRef | any = null;
-  @ViewChild('tabletraining') dtemptraining: ElementRef | any = null;
-  @ViewChild('tableappraisal') dtempappraisal: ElementRef | any = null;
-  @ViewChild('tablecriminal') dtempcriminal: ElementRef | any = null;
-  @ViewChild('tablesalary') dtempsalary: ElementRef | any = null;
-  @ViewChild('tablebenefit') dtempbenefit: ElementRef | any = null;
-  @ViewChild('tableprovident') dtempprovident: ElementRef | any = null;
-  @ViewChild('tablereduce') dtempreduce: ElementRef | any = null;
-  @ViewChild('tableforeigner') dtempforeigner: ElementRef | any = null;
-  @ViewChild('tableexperience') dtempexperience: ElementRef | any = null;
-
-
-  exportAsExcel(table: ElementRef, name: string) {
-    // console.log(this.selectedEmpLocation)
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table.nativeElement);//converts a DOM TABLE element to a worksheet
-
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    XLSX.writeFile(wb, 'Export_' + name + '.xlsx');
-
-  }
-
-
-  hasAccessMenu(accessCode: string): boolean {
-    return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
-  }
-
-  age: string = "";
-  CalculateAge() {
-    if (this.selectedEmployee.worker_birthdate) {
-      let timeDiff = Math.abs(Date.now() - this.selectedEmployee.worker_birthdate.getTime());
-      let agediff = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
-      if (this.initial_current.Language == 'TH') {
-        this.age = agediff + " ปี"
-      } else {
-        this.age = agediff + " Year"
-      }
-    }
-  }
-  // CalculatePFAge(date: Date) {
-  //   return "";
-  // }
-
-  ///ทำตรงนี้ 06/10/2023
-  PFAge: string = "";
-  async CalculatePFAge(date: Date): Promise<string> {
-    const incrementDate = (inputDate: Date) => {
-      const newDate = new Date(inputDate);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate;
     }
 
-    if (this.selectedEmpprovident.empprovident_start) {
+    doAddOption(list: any[], element: ItemsModel) {
+      list.push(
+        {
+          name: this.initial_current.Language == "EN" ? element.item_name_en : element.item_name_th,
+          code: element.item_code
+        }
+      )
+    }
+
+    // myURL: any
+    // onURLinserted() {
+    //   this.getImage(this.myURL).subscribe(data => {
+    //     this.createImageFromBlob(data);
+    //   }, error => {
+    //     console.log("Error occured", error);
+    //   });
+    // }
+
+    // getImage(imageUrl: string): Observable<File> {
+    //   let headers = { responseType: ResponseContentType.Blob }
+    //   return this.http
+    //     .get(imageUrl)
+    //     .pipe(map((res:any) => res.blob()))
+    //     // .map((res: Response) => res.blob());
+    // }
+
+    // createImageFromBlob(image: Blob) {
+    //   let reader = new FileReader(); //you need file reader for read blob data to base64 image data.
+    //   reader.addEventListener("load", () => {
+    //     this.base64Image = reader.result; // here is the result you got from reader
+    //   }, false);
+
+    //   if (image) {
+    //     reader.readAsDataURL(image);
+    //   }
+    // }
+
+
+    @ViewChild('tablelocation') dtemplocation: ElementRef | any = null;
+    @ViewChild('tablebranch') dtempbranch: ElementRef | any = null;
+    @ViewChild('tablesuggest') dtempsuggest: ElementRef | any = null;
+    @ViewChild('tableaddress') dtempaddress: ElementRef | any = null;
+    @ViewChild('tablecard') dtempcard: ElementRef | any = null;
+    @ViewChild('tablebank') dtempbank: ElementRef | any = null;
+    @ViewChild('tablefamily') dtempfamily: ElementRef | any = null;
+    @ViewChild('tablehospital') dtemphospital: ElementRef | any = null;
+    @ViewChild('tabledep') dtempdep: ElementRef | any = null;
+    @ViewChild('tableposition') dtempposition: ElementRef | any = null;
+    @ViewChild('tablegroup') dtempgroup: ElementRef | any = null;
+    @ViewChild('tableeducation') dtempeducation: ElementRef | any = null;
+    @ViewChild('tablesupply') dtempsupply: ElementRef | any = null;
+    @ViewChild('tableuniform') dtempuniform: ElementRef | any = null;
+    @ViewChild('tabletraining') dtemptraining: ElementRef | any = null;
+    @ViewChild('tableappraisal') dtempappraisal: ElementRef | any = null;
+    @ViewChild('tablecriminal') dtempcriminal: ElementRef | any = null;
+    @ViewChild('tablesalary') dtempsalary: ElementRef | any = null;
+    @ViewChild('tablebenefit') dtempbenefit: ElementRef | any = null;
+    @ViewChild('tableprovident') dtempprovident: ElementRef | any = null;
+    @ViewChild('tablereduce') dtempreduce: ElementRef | any = null;
+    @ViewChild('tableforeigner') dtempforeigner: ElementRef | any = null;
+    @ViewChild('tableexperience') dtempexperience: ElementRef | any = null;
+
+
+    exportAsExcel(table: ElementRef, name: string) {
+      // console.log(this.selectedEmpLocation)
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table.nativeElement);//converts a DOM TABLE element to a worksheet
+
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      XLSX.writeFile(wb, 'Export_' + name + '.xlsx');
+
+    }
+
+
+    hasAccessMenu(accessCode: string): boolean {
+      return this.accessData.accessmenu_data.some(item => item.accessmenu_code === accessCode);
+    }
+
+    age: string = "";
+    CalculateAge() {
+      if (this.selectedEmployee.worker_birthdate) {
+        let timeDiff = Math.abs(Date.now() - this.selectedEmployee.worker_birthdate.getTime());
+        let agediff = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365)
+        if (this.initial_current.Language == 'TH') {
+          this.age = agediff + " ปี"
+        } else {
+          this.age = agediff + " Year"
+        }
+      }
+    }
+    // CalculatePFAge(date: Date) {
+    //   return "";
+    // }
+
+    ///ทำตรงนี้ 06/10/2023
+    PFAge: string = "";
+  async CalculatePFAge(date: Date): Promise < string > {
+      const incrementDate = (inputDate: Date) => {
+        const newDate = new Date(inputDate);
+        newDate.setDate(newDate.getDate() + 1);
+        return newDate;
+      }
+
+    if(this.selectedEmpprovident.empprovident_start) {
       let currentDate = new Date(this.selectedEmpprovident.empprovident_start);
       let daysCount = 0;
       while (true) {

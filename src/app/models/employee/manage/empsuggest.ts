@@ -8,7 +8,7 @@ export class EmpSuggestModel {
     empsuggest_date!: Date;
     empsuggest_note: string="";
     empsuggest_amount: number = 0;
-  
+    empsuggest_suggest:string = "";
     modified_by: string= "";
     modified_date: string= ""; 
   

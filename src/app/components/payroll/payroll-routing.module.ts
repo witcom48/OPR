@@ -32,6 +32,7 @@ import { ItemsPlanComponent } from './payroll-policy/items-plan/items-plan.compo
 import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolicy.component';
 
 import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.component';
+import { ReferralComponent } from './payroll-policy/referral/referral.component';
 
 
 @NgModule({
@@ -70,10 +71,7 @@ import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.co
         { path: 'itemsplan', component: ItemsPlanComponent },
         { path: 'setallpolicy', component: SetallpolicyComponent },
 
-        
-        
-        
-        
+        { path: 'pay-refer', component: ReferralComponent },
 
 
 

@@ -1944,12 +1944,9 @@ export class EmpDetailService {
       item_data = item_data + "{";
       item_data = item_data + "\"empsuggest_id\":\"" + list[i].empsuggest_id + "\"";
       item_data = item_data + ",\"empsuggest_code\":\"" + list[i].empsuggest_code + "\"";
-      if (this.datePipe.transform(list[i].empsuggest_date)) {
-        item_data = item_data + ",\"empsuggest_date\":\"" + this.datePipe.transform(list[i].empsuggest_date) + "\"";
-      }
-      
+      item_data = item_data + ",\"empsuggest_date\":\"" + this.datePipe.transform(list[i].empsuggest_date) + "\"";
       item_data = item_data + ",\"empsuggest_note\":\"" + list[i].empsuggest_note + "\"";
-      item_data = item_data + ",\"empsuggest_amount\":\"" + list[i].empsuggest_amount + "\"";
+      item_data = item_data + ",\"empsuggest_suggest\":\"" + list[i].empsuggest_suggest + "\"";
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";
