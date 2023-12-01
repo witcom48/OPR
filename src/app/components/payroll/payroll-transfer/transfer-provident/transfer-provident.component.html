@@ -1,4 +1,3 @@
-
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 
 <!-- Link Page -->
@@ -20,11 +19,12 @@
 <p-toast position="top-right"></p-toast>
 
 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
 
 
-<p-tabView  [(activeIndex)]="index" (onChange)="function($event)">
+<p-tabView [(activeIndex)]="index" (onChange)="function($event)">
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
@@ -36,10 +36,28 @@
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
             </div>
+
+         
+
             <div class="field col-12 md:col-6">
-                <p-button label="{{this.title_btnprocess[this.initial_current.Language]}}" (click)="process()"></p-button>
+                <label for="CompanyCode">Company Code</label>
+                <input id="CompanyCode" type="text" [(ngModel)]="CompanyCode"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
 
+            <div class="field col-12 md:col-6">
+                <label for="PFCode">Fund Code</label>
+                <input id="PFCode" type="text" [(ngModel)]="PFCode"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            
+            <div class="field col-12 md:col-6">
+                <div>
+
+                    <p-button label="{{this.title_btnprocess[this.initial_current.Language]}}"
+                        (click)="process()"></p-button>
+                </div>
+            </div>
         </div>
     </p-tabPanel>
 

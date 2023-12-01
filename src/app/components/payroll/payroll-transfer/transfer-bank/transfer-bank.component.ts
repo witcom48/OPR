@@ -187,7 +187,7 @@ export class TransferBankComponent implements OnInit {
     // Step 2: Task detail
     let process =this.selectedCombank.combank_bankcode;  
     process += this.fillauto ? '|AUTO' : '|COMPARE';
- 
+    console.log(process,'ธนาคาร')
     let fromDate = this.effdate;
     let toDate = this.effdate;
 
