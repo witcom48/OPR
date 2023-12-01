@@ -169,9 +169,7 @@ export class TransferProvidentComponent implements OnInit {
     let fromDate = this.effdate;
     let toDate = this.effdate;
     this.taskDetail.taskdetail_process = "PF" + "|" + this.CompanyCode + "|" + this.PFCode + "|" + this.PatternCode;
-    console.log(this.taskDetail.taskdetail_process = "PF" + "|" + this.CompanyCode + "|" + this.PFCode + "|" + this.PatternCode, 'ttttt')
-    // this.taskDetail.taskdetail_process = 'PF';
-    // this.taskDetail.taskdetail_process = process;
+ 
     this.taskDetail.taskdetail_fromdate = fromDate;
     this.taskDetail.taskdetail_todate = toDate;
     this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;

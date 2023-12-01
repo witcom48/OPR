@@ -46,7 +46,7 @@ export class TransferBankComponent implements OnInit {
   title_transfer : { [key: string]: string } = { EN: "Transfer Data", TH: "Transfer Data" };
  
   
-  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" };
+  title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
   title_process: { [key: string]: string } = { EN: "Process", TH: "กระบวนการ" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
@@ -187,8 +187,7 @@ export class TransferBankComponent implements OnInit {
     // Step 2: Task detail
     let process =this.selectedCombank.combank_bankcode;  
     process += this.fillauto ? '|AUTO' : '|COMPARE';
-    console.log(process,'ธนาคาร')
-    let fromDate = this.effdate;
+     let fromDate = this.effdate;
     let toDate = this.effdate;
 
     this.taskDetail.taskdetail_process = 'BANK';
