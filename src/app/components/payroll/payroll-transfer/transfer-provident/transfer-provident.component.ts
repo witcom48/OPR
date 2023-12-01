@@ -55,6 +55,10 @@ export class TransferProvidentComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
   title_btnprocess: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
+  title_fundCode: { [key: string]: string } = { EN: "FUND_CODE", TH: "รหัสกองทุน" };
+  title_company: { [key: string]: string } = { EN: "COMP_CODE", TH: "รหัสบริษัท" };
+
+
 
   title_confirm: string = 'Are you sure?';
   title_confirm_record: string = 'Confirm to process';
@@ -121,9 +125,9 @@ export class TransferProvidentComponent implements OnInit {
   public fillauto: boolean = false;
 
 
-  public PatternCode:string = "";
-  public CompanyCode:string = "";
-  public PFCode:string = "";
+  public PatternCode: string = "";
+  public CompanyCode: string = "";
+  public PFCode: string = "";
 
 
   process(): void {
@@ -137,6 +141,24 @@ export class TransferProvidentComponent implements OnInit {
       return;
     }
 
+    if (!this.CompanyCode) {
+      this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'กรุณากรอก COMP_CODE'
+      });
+      return;
+  }
+
+  if (!this.PFCode) {
+      this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'กรุณากรอก FUND_CODE'
+      });
+      return;
+  }
+
     // Step 1: Task master
     this.task.company_code = this.initial_current.CompCode;
     this.task.task_type = 'TRN_PF';
@@ -147,7 +169,7 @@ export class TransferProvidentComponent implements OnInit {
     let fromDate = this.effdate;
     let toDate = this.effdate;
     this.taskDetail.taskdetail_process = "PF" + "|" + this.CompanyCode + "|" + this.PFCode + "|" + this.PatternCode;
-console.log( this.taskDetail.taskdetail_process = "PF" + "|" + this.CompanyCode + "|" + this.PFCode + "|" + this.PatternCode,'ttttt')
+    console.log(this.taskDetail.taskdetail_process = "PF" + "|" + this.CompanyCode + "|" + this.PFCode + "|" + this.PatternCode, 'ttttt')
     // this.taskDetail.taskdetail_process = 'PF';
     // this.taskDetail.taskdetail_process = process;
     this.taskDetail.taskdetail_fromdate = fromDate;
@@ -174,15 +196,15 @@ console.log( this.taskDetail.taskdetail_process = "PF" + "|" + this.CompanyCode 
                 detail: 'Record Success..',
               });
 
- 
+
               let link = result.result_link;
- 
+
               if (link !== "") {
- 
+
 
                 this.taskService.get_file(link).then((res) => {
                   const blob: Blob = new Blob([new Uint8Array(res)], { type: 'application/vnd.ms-excel' });
-                   const fileName: string = link.split("\\").pop();
+                  const fileName: string = link.split("\\").pop();
                   const objectUrl: string = URL.createObjectURL(blob);
                   const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
 
