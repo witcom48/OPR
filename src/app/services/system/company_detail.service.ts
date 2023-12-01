@@ -249,11 +249,11 @@ export class CompanyDetailService {
       device_name: '',
       ip: "localhost",
       username: this.initial_current.Username,
-      //   company_code:company,
+ 
       company_id: "",
       company_code: company,
       language: "",
-      
+      bank_code: model.bank_code,
       name_detail: model.name_detail,
 
     };

@@ -1,46 +1,63 @@
-<!-- ---------END Link Page----------- -->
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+
+<!-- Link Page -->
+<!-- <div class="path">
+    <span>Pay Roll</span>
+    <div>
+        <i></i>
+        <a routerLink="/payroll/transfer">Transfer</a>
+        <i></i>
+        <small>Transfer Sso</small>
+    </div>
+</div> -->
 <p-breadcrumb class="max-w-full" [model]="itemslike" [home]="home"></p-breadcrumb>
+
+<!-- ---------END Link Page----------- -->
 <hr>
+
+
 <p-toast position="top-right"></p-toast>
+
+
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
     rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+
+
 <p-tabView [(activeIndex)]="index" (onChange)="function($event)">
     <p-tabPanel [selected]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-cog"></i>&nbsp;&nbsp;
             <span>{{this.title_process[this.initial_current.Language]}}</span>
         </ng-template>
+
         <div class="formgrid grid align-items-end">
 
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
             </div>
- 
 
+         
+
+            <div class="field col-12 md:col-6">
+                <label for="CompanyCode">COMP_CODE </label>
+                <input id="CompanyCode" type="text" [(ngModel)]="CompanyCode"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="PFCode">FUND_CODE</label>
+                <input id="PFCode" type="text" [(ngModel)]="PFCode"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+            </div>
+            
             <div class="field col-12 md:col-6">
                 <div>
-                    <label>{{this.title_bank[this.initial_current.Language]}} :</label>
 
-                    <p-dropdown [options]="combankList" optionLabel="name_detail" [(ngModel)]="selectedCombank"
-                        [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                    <p-button label="{{this.title_btnprocess[this.initial_current.Language]}}"
+                        (click)="process()"></p-button>
                 </div>
             </div>
-            <div class="field col-12 md:col-6">
-                <label>{{this.title_date[this.initial_current.Language]}} :</label>
-
-                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="effdate" name="effdate"
-                    (ngModelChange)="updateEffdate($event)"></p-calendar>
-            </div>
-            <!-- <div class="field col-12 md:col-6">
-                <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="effdate"
-                name="effdate" (ngModelChange)="updateEffdate($event)"><input type="text"></p-calendar>
-              
-            </div> -->
-            <div class="field col-12 md:col-6">
-                <p-button label="{{this.title_btnprocess[this.initial_current.Language]}}" (click)="process()"
-                    key="myDialog"></p-button>
-            </div>
-
         </div>
     </p-tabPanel>
 
@@ -61,9 +78,7 @@
     </p-tabPanel> -->
 
 </p-tabView>
-
 <!-- ConfirmDialog and toast Noti -->
 <p-toast position="top-right"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"
     key="myDialog"></p-confirmDialog>
-<!-- ----------------------END Confirm and Toast------------------------ -->
