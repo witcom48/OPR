@@ -22,6 +22,7 @@ import { EmployeePositionComponent } from './employee-policy/genaral/employee-po
 import { EmployeeGroupComponent } from './employee-policy/genaral/employee-group/employee-group.component';
 import { EmpsettrainingComponent } from './employee-policy/setup-batch/empsettraining/empsettraining.component';
 import { EmpsetassessmentComponent } from './employee-policy/setup-batch/empsetassessment/empsetassessment.component';
+import { EmployeePaysuspendComponent } from './employee-paysuspend/employee-paysuspend.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -29,6 +30,7 @@ import { EmpsetassessmentComponent } from './employee-policy/setup-batch/empseta
         { path: 'list', component: EmployeeListComponent },
         { path: 'policy', component: EmployeePolicyComponent },
         { path: 'monitor', component: EmployeeMonitorComponent },
+        { path: 'paysuspend', component: EmployeePaysuspendComponent },
 
         //policy/general
         { path: 'policy/location', component: EmployeeLocationComponent },

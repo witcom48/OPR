@@ -456,6 +456,9 @@ export class EmpDetailService {
       item_data = item_data + "\"emphospital_id\":\"" + list[i].emphospital_id + "\"";
       item_data = item_data + ",\"emphospital_code\":\"" + list[i].emphospital_code + "\"";
       item_data = item_data + ",\"emphospital_date\":\"" + this.datePipe.transform(list[i].emphospital_date) + "\"";
+      item_data = item_data + ",\"emphospital_order\":\"" + list[i].emphospital_order + "\"";
+      item_data = item_data + ",\"emphospital_activate\":\"" + list[i].emphospital_activate + "\"";
+
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

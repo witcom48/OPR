@@ -135,6 +135,7 @@ export class PayrollEntryComponent implements OnInit {
     title_nofile: { [key: string]: string } = { EN: "No file chosen", TH: "ไม่มีไฟล์ที่เลือก" };
     title_or: { [key: string]: string } = { EN: "or", TH: "หรือ" };
     title_resign: {[key: string]: string} = {  EN: "Include Resign",  TH: "รวมพนักงานลาออก"}
+    title_adjust: {[key: string]: string} = {  EN: "ปรับปรุงยอด",  TH: "ปรับปรุงยอด"}
 
 
     title_page: string = 'Geanral';

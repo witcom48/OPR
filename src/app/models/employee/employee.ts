@@ -50,7 +50,7 @@ export class EmployeeModel {
   worker_line: string = "";
   worker_facebook: string = "";
 
-  worker_military:string = "";
+  worker_military: string = "";
 
   modified_by: string = "";
   modified_date: string = "";
@@ -66,8 +66,8 @@ export class EmployeeModel {
   position_name_en: string = "";
 
   selected_Import: string = "";
-  selected_Attachfile:string = "";
-  selected_Doctype:string = "";
+  selected_Attachfile: string = "";
+  selected_Doctype: string = "";
   location_code: boolean = false;
 
   // recruiment
@@ -79,7 +79,7 @@ export class EmployeeModel {
   checkhistory: Boolean = false
   counthistory: number = 0;
   checkcertificate: Boolean = false
-  certificate:string = "";
+  certificate: string = "";
   blacklist_reason: string = "";
   status: string = "";
 
@@ -94,4 +94,7 @@ export class EmployeeModel {
   worker_socialsentdate!: Date;
   worker_socialnotsent: Boolean = false
 
+  worker_emergency_tel: string = "";
+  worker_emergency_name: string = "";
+  worker_emergency_address: string = "";
 }

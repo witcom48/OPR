@@ -32,6 +32,8 @@ import { PartService } from 'src/app/services/emp/policy/part.service';
 import { ProjectModel } from 'src/app/models/project/project';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
+import { ProjobmainModel } from 'src/app/models/project/project_jobmain';
+import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
 
 
 interface ImportList {
@@ -79,6 +81,7 @@ export class EmployeeListComponent implements OnInit {
     private levelService: LevelService,
     private depService: PartService,
     private projectService: ProjectService,
+    private projobService: ProjectDetailService,
   ) {
     this.ImportList = [
       { name_th: 'ข้อมูลพนักงาน', name_en: 'Employee info', code: 'EMPLOYEE' },
@@ -123,6 +126,7 @@ export class EmployeeListComponent implements OnInit {
     this.doLoadMenu();
     this.doLoadlevelList();
     this.doLoadProjectList();
+    this.doLoadProjobmain();
     setTimeout(() => {
       // this.doLoadEmployee()
       this.doGetDataFillter();
@@ -146,7 +150,7 @@ export class EmployeeListComponent implements OnInit {
   title_template: { [key: string]: string } = { EN: "Template ", TH: "เทมเพลต" }
 
 
-  
+
   title_page: string = "Employee management";
   title_num_emp: string = "Employee";
   title_new_emp: string = "New";
@@ -193,6 +197,8 @@ export class EmployeeListComponent implements OnInit {
   title_resign: { [key: string]: string } = { EN: "Include Resign", TH: "รวมพนักงานลาออก" };
   title_cardno: { [key: string]: string } = { EN: "ID Card", TH: "เลขบัตรประชาชน" };
   title_level: { [key: string]: string } = { EN: "Level", TH: "ระดับ" };
+  title_projob: { [key: string]: string } = { EN: "Job", TH: "งาน" };
+  title_resignperiod: { [key: string]: string } = { EN: "ลาออกระหว่างงวด", TH: "ลาออกระหว่างงวด" };
 
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
 
@@ -567,12 +573,17 @@ export class EmployeeListComponent implements OnInit {
     })
   }
   projectList: ProjectModel[] = [];
-  doLoadProjectList(){
-    this.projectService.project_get(this.initial_current.CompCode,"").then(async(res)=>{
-        this.projectList = await res
+  doLoadProjectList() {
+    this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
+      this.projectList = await res
     })
   }
-
+  projobList: ProjobmainModel[] = [];
+  doLoadProjobmain() {
+    this.projobService.projobmain_get('', this.selectedProject, '',this.initial_current.PR_FromDate,this.initial_current.PR_ToDate).then(async (res) => {
+      this.projobList = await res
+    })
+  }
 
 
   // selectedEmployee: EmployeeModel = new EmployeeModel;
@@ -592,6 +603,8 @@ export class EmployeeListComponent implements OnInit {
   // }
 
   fillterIncludeResign: boolean = false;
+  fillterPeriodResign: boolean = false;
+
   doGetDataFillter() {
     var fillter: FillterEmpModel = new FillterEmpModel;
 
@@ -624,14 +637,25 @@ export class EmployeeListComponent implements OnInit {
     } else {
       fillter.worker_empstatus = "";
     }
-    //fillter project
+    //fillter project & job
     if (this.fillterProject) {
       fillter.project_code = this.selectedProject;
+      fillter.project_job = this.selectedJob;
     } else {
       fillter.project_code = "";
+      fillter.project_job = "";
     }
     //fillter resign
     fillter.worker_resignstatus = this.fillterIncludeResign;
+    if (this.fillterPeriodResign) {
+      fillter.periodresign = this.fillterPeriodResign;
+      fillter.fromdate = this.datePipe.transform(this.initial_current.PR_FromDate,'yyyy-MM-ddTHH:mm:ss') ;
+      fillter.todate = this.datePipe.transform(this.initial_current.PR_ToDate,'yyyy-MM-ddTHH:mm:ss');
+    } else {
+      fillter.periodresign = this.fillterPeriodResign;
+      fillter.fromdate = '';
+      fillter.todate = '';
+    }
     //fillter employee
     fillter.searchemp = this.selectedSearchemp;
 
@@ -644,7 +668,7 @@ export class EmployeeListComponent implements OnInit {
         element.worker_probationenddate = new Date(element.worker_probationenddate)
       })
       this.employee_list = await res;
-       this.workerCurrent = this.employee_list.length;
+      this.workerCurrent = this.employee_list.length;
     })
   }
 
@@ -710,6 +734,16 @@ export class EmployeeListComponent implements OnInit {
   selectedProject: string = "";
   fillterProject: boolean = false;
   doChangeSelectProject() {
+
+    if (this.fillterProject) {
+      this.doGetDataFillter();
+      this.doLoadProjobmain();
+    }
+  }
+  //-- Job master
+  selectedJob: string = "";
+  fillterJob: boolean = false;
+  doChangeSelectProjectJob() {
 
     if (this.fillterProject) {
       this.doGetDataFillter();
@@ -1176,8 +1210,8 @@ export class EmployeeListComponent implements OnInit {
                 }
               })
               break;
-              //import Emp Experience
-              case 'EMPEXPERIENCE':
+            //import Emp Experience
+            case 'EMPEXPERIENCE':
               this.empdetailService.empexperience_import(this.fileToUpload, filename, filetype).then((res) => {
                 let result = JSON.parse(res);
 

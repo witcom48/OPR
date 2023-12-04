@@ -923,7 +923,7 @@ export class ApplyListComponent implements OnInit {
       position_name_th: '',
       position_name_en: '',
       selected_Import: '',
-      selected_Doctype:'',
+      selected_Doctype: '',
       selected_Attachfile: '',
       location_code: false,
       reqdocatt_data: [],
@@ -936,7 +936,10 @@ export class ApplyListComponent implements OnInit {
       certificate: '',
       blacklist_reason: '',
       status: '',
-      worker_socialsentdate: new Date()
+      worker_socialsentdate: new Date(),
+      worker_emergency_tel: data.worker_emergency_tel,
+      worker_emergency_name: data.worker_emergency_name,
+      worker_emergency_address: data.worker_emergency_address
     };
 
     return newEmployee;

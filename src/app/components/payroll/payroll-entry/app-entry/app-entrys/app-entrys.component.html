@@ -128,14 +128,19 @@
                             <!-- ธนาคาร -->
                             <label>{{title_bank_transfer_cash}}<span style="color: red;"> *</span></label>
                             <div>
-                                <input type="radio" name="roel" value="B" [(ngModel)]="payitems.payitem_paytype">
+                                <input type="radio" name="item" value="B" [(ngModel)]="payitems.payitem_paytype">
                                 <label>{{title_bank}}</label>
 
                             </div>
 
                             <div>
-                                <input type="radio" name="roel" value="C" [(ngModel)]="payitems.payitem_paytype">
+                                <input type="radio" name="item" value="C" [(ngModel)]="payitems.payitem_paytype">
                                 <label>{{title_cash}}</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" name="item" value="E" [(ngModel)]="payitems.payitem_paytype">
+                                <label>{{title_adjust[initial_current.Language]}}</label>
                             </div>
                         </div>
                     </div>

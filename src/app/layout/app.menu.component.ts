@@ -112,6 +112,7 @@ export class AppMenuComponent implements OnInit {
                     { label: this.langs.get('policy')[this.selectlang], routerLink: ['/employee/policy'], accessCode: 'EMP001' },
                     { label: this.langs.get('employeeinfo')[this.selectlang], routerLink: ['/employee/list'], accessCode: 'EMP002' },
                     { label: this.langs.get('monitor')[this.selectlang], routerLink: ['/employee/monitor'], accessCode: 'EMP003' },
+                    { label: this.langs.get('paysus')[this.selectlang], routerLink: ['/employee/paysuspend'], accessCode: 'EMP005' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/employee/reports'], accessCode: 'EMP004' },
                 ]
             },

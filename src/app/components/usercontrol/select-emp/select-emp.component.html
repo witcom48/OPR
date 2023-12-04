@@ -120,11 +120,44 @@
                     id="searchemp" (input)="doChangeSearchemp($event)">
             </div>
 
+            <!-- project Job -->
+            <div class="select">
+                <div>
+                    <p-checkbox class="hide" [disabled]="true" name="projob"></p-checkbox> &nbsp;
+                    <label for="lastname2">{{title_projob[initial_current.Language]}} :</label>
+                </div>
+                <p-dropdown placeholder="--" [options]="projobList" optionValue="projobmain_code" [showClear]="true"
+                    [(ngModel)]="selectedJob" (onChange)="doChangeSelectProjectJob()" [disabled]="!fillterProject"
+                    [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+                    filterBy="projobmain_code,projobmain_name_th,projobmain_name_en">
+                    <ng-template let-item pTemplate="selectedItem">
+                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div class="select">
+
+            </div>
+
             <!-- resign -->
             <div class="resign">
-                <p-checkbox name="resign" [binary]="true" (onChange)="doGetDataFillter()"
-                    [(ngModel)]="fillterIncludeResign"></p-checkbox>&nbsp;
-                <label>{{title_resign}}</label>
+                <div>
+                    <p-checkbox name="resign" [binary]="true" (onChange)="doGetDataFillter()"
+                        [(ngModel)]="fillterIncludeResign"></p-checkbox>&nbsp;
+                    <label>{{title_resign}}</label>
+                </div>
+                &nbsp;&nbsp;
+                <!-- resign2 -->
+                <div>
+                    <p-checkbox name="resign2" [binary]="true" [(ngModel)]="fillterPeriodResign"
+                        (onChange)="doGetDataFillter()"></p-checkbox>&nbsp;
+                    <label>{{title_resignperiod[initial_current.Language]}}</label>
+                </div>
+
             </div>
 
 

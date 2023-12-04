@@ -130,6 +130,10 @@ export class EmployeeService {
       worker_socialsentdate: model.worker_socialsentdate,
       worker_socialnotsent: model.worker_socialnotsent,
 
+      worker_emergency_tel : model.worker_emergency_tel,
+      worker_emergency_name : model.worker_emergency_name,
+      worker_emergency_address : model.worker_emergency_address,
+
       modified_by: this.initial_current.Username
     };
 
@@ -233,6 +237,12 @@ export class EmployeeService {
       location_code: fillter.location_code,
       date_fill: fillter.date_fill,
       project_code: fillter.project_code,
+      project_job: fillter.project_job,
+
+      periodresign : fillter.periodresign,
+      fromdate : fillter.fromdate ,
+      todate : fillter.todate,
+
     };
 
     return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_listbyfillter', fillterS, this.options).toPromise()
@@ -345,7 +355,6 @@ export class EmployeeService {
       modified_by: this.initial_current.Username,
       job_type: type
     };
-    console.log(item_data)
     return this.http.post<any>(this.config.ApiEmployeeModule + '/empdoc', specificData, this.options).toPromise()
       .then((res) => {
         return res;
