@@ -461,7 +461,8 @@
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>{{title_suggestname}}</th>
-                                                <th>{{title_amount}}</th>
+                                                <th>{{title_referpo[initial_current.Language]}}</th>
+                                                <th>{{title_referdate[initial_current.Language]}}</th>
                                                 <th>{{title_description}}</th>
                                                 <th>{{title_modified_by}}</th>
                                                 <th>{{title_modified_date}}</th>
@@ -469,8 +470,9 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-empsuggest>
                                             <tr [pSelectableRow]="empsuggest">
-                                                <td>{{empsuggest.empsuggest_code}}</td>
-                                                <td>{{empsuggest.empsuggest_amount}}</td>
+                                                <td>{{doGetWorkerName(empsuggest.empsuggest_code)}}</td>
+                                                <td>{{doGetReferPo(empsuggest.empsuggest_suggest)}}</td>
+                                                <td>{{empsuggest.empsuggest_date | date:'dd/MM/yyyy HH:mm'}}</td>
                                                 <td>{{empsuggest.empsuggest_note}}</td>
                                                 <td>{{empsuggest.modified_by}}</td>
                                                 <td>{{empsuggest.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -2518,10 +2520,22 @@
             </ng-template>
         </p-dropdown>
 
-        <label>{{title_amount}}</label>
-        <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency"
-            [(ngModel)]="selectedEmpSuggest.empsuggest_amount">
-        </p-inputNumber>
+        <label>{{title_referpo[initial_current.Language]}}</label>
+        <p-dropdown appendTo="body" placeholder="--" [options]="referral_List" optionValue="referral_code" [showClear]="true"
+            [(ngModel)]="selectedEmpSuggest.empsuggest_suggest" [style]="{ width: '100%', overflow: 'visible' }"
+            [filter]="true" filterBy="referral_code,referral_name_th,referral_name_en">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.referral_code +"-"+item.referral_name_th : item.referral_code
+                +"-"+item.referral_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.referral_code +"-"+item.referral_name_th : item.referral_code
+                +"-"+item.referral_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <label>{{title_referdate[initial_current.Language]}}</label>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="selectedEmpSuggest.empsuggest_date"><input type="text"></p-calendar>
 
         <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpSuggest.empsuggest_note" pInputTextarea [autoResize]="true"></textarea>
