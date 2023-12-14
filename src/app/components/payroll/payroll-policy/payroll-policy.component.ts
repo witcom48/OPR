@@ -68,6 +68,7 @@ export class PayrollPolicyComponent implements OnInit {
     title_Personal_Income_Tax: { [key: string]: string } = { EN: "Personal Income Tax ", TH: "กำหนดค่าภาษีเงินได้บุคคลธรรมดา" }
     title_setbatch: { [key: string]: string } = { EN: "Set Batch", TH: "กำหนดแบบกลุ่ม" }
     title_reduce: { [key: string]: string } = { EN: "Reduce ", TH: "กำหนดค่าลดหย่อน" }
+    title_refer: { [key: string]: string } = { EN: "Referral Program ", TH: "ค่าแนะนำ" }
 
     // นโยบายค่าลดหย่อน
 
@@ -131,7 +132,11 @@ export class PayrollPolicyComponent implements OnInit {
             //     accessCode: 'PAY001-007'
             // }
             // ,
-            
+            {
+                title: this.title_refer[this.initial_current.Language],
+                link: 'pay-refer',
+                accessCode: 'PAY001-009'
+            },
            
             // ... other setup menu items ...
         ];

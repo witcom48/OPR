@@ -71,6 +71,7 @@ import { ItemsPlanComponent } from './payroll-policy/items-plan/items-plan.compo
 import { SetallpolicyComponent } from './payroll-policy/setallpolicy/setallpolicy.component';
 import { PayrollCalbonusComponent } from './payroll-calbonus/payroll-calbonus.component';
 import { TransferProvidentComponent } from './payroll-transfer/transfer-provident/transfer-provident.component';
+import { ReferralComponent } from './payroll-policy/referral/referral.component';
 
 
 @NgModule({
@@ -103,6 +104,7 @@ import { TransferProvidentComponent } from './payroll-transfer/transfer-providen
         SetallpolicyComponent,
         PayrollCalbonusComponent,
         TransferProvidentComponent,
+        ReferralComponent,
         
     ],
     imports: [
