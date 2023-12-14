@@ -211,9 +211,9 @@ export class ProjectApproveComponent implements OnInit {
         icon: 'pi pi-fw pi-check',
         command: async (event) => {
           if (this.selectedProjobemp.length > 0) {
-            this.approveNoteemp = ""
+            // this.approveNoteemp = ""
             await this.approve_projobemp("W")
-
+ 
           }
 
 
@@ -265,12 +265,13 @@ export class ProjectApproveComponent implements OnInit {
   doLoadProject() {
     var tmp = new ProjectModel();
     tmp.company_code = this.initial_current.CompCode
-    tmp.project_code = ""
+    tmp.project_code = this.project_code
     tmp.project_status = this.status_select.code
 
     this.projectService.projecttest_get(tmp).then(async (res) => {
 
       this.project_list = await res;
+      this.doLoadProject1()
       // this.total_apply = this.project_list.length;
     })
   }
@@ -280,16 +281,14 @@ export class ProjectApproveComponent implements OnInit {
 
   }
   // project_list: ProjectModel[] = [];
-  // selectedProject: ProjectModel = new ProjectModel;
-  // doLoadProject() {
-  //    this.projectService.project_get_withstatus(this.initial_current.CompCode, "", this.status_select.code).then(async (res) => {
-  //     this.project_list = await res;
+  selectedProject: ProjectModel = new ProjectModel;
+  doLoadProject1() {
+     this.projectService.project_get_withstatus(this.initial_current.CompCode, "", this.status_select.code).then(async (res) => {
+      this.project_list = await res;
 
-  //     this.total_project = this.project_list.length;
-  //     console.log(res, 'res');
-  //   });
-  //   console.log(this.status_select.code, 'ooooo');
-  // }
+      this.total_project = this.project_list.length;
+    });
+  }
 
   displayManage: boolean = false;
   position: string = "right";
@@ -318,16 +317,11 @@ export class ProjectApproveComponent implements OnInit {
           data.approve_note = this.approveNote
           await this.sysApproveServices.approve_record(data).then((res) => {
             let result = JSON.parse(res);
-
             if (result.success) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-              // this.doLoadProject()
-              this.toggleSelect()
+               this.toggleSelect()
               this.selection
               this.doGetDataFillter()
-            }
-            else {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
             }
           });
 
@@ -483,11 +477,25 @@ export class ProjectApproveComponent implements OnInit {
   selectedProjobemp_name: string = ""
   selectedstatusProjobemps: FillterProjectModel = new FillterProjectModel();
   doLoadProjobemp() {
-    this.projectDetailService.projectemp_get_withstatus("", this.project_code, "").then(async (res) => {
+    // this.projectDetailService.projobemp_get(  this.project_code ).then(async (res) => {
+
+    this.projectDetailService.projectemp_get_withstatus(this.initial_current.CompCode, this.project_code, this.status_select.code).then(async (res) => {
       this.projobemp_list = await res;
+      this.doLoadProject2()
     });
   }
+  doLoadProject2() {
+    var tmp = new FillterProjectModel();
+    tmp.company_code = this.initial_current.CompCode
+    tmp.project_code = ""
+    tmp.project_status = this.status_select.code
 
+    this.projectDetailService.projectemp_get_withstatus(this.initial_current.CompCode, this.project_code, "F").then(async (res) => {
+
+      this.project_list = await res;
+      this.total_transfer = this.project_list.length;
+    })
+  }
 
   Search2() {
     if (this.status2_select.code) {
@@ -532,21 +540,19 @@ export class ProjectApproveComponent implements OnInit {
           var data = new TRSysApproveModel()
           data.company_code = this.initial_current.CompCode
           data.approve_status = status
-          data.project_code = this.project_code
+          data.project_code = datas.project_code
           data.workflow_type = "PRO_EMP"
           data.approve_code = datas.projobemp_emp
           data.approve_note = this.approveNoteemp
-
           await this.sysApproveServices.approve_record(data).then((res) => {
             let result = JSON.parse(res);
             if (result.success) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
               this.doLoadProjobemp()
               this.doGetProjobempFillter()
-            }
-            else {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: result.message });
-            }
+              
+             }
+             
           });
 
         })

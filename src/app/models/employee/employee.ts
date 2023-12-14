@@ -97,4 +97,10 @@ export class EmployeeModel {
   worker_emergency_tel: string = "";
   worker_emergency_name: string = "";
   worker_emergency_address: string = "";
+
+  age_code: string = "";
+  work_age: string = "";
+  empposition_position: string = "";
+  position_name: string = "";
+
 }

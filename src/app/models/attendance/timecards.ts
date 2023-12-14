@@ -3,7 +3,8 @@ import { EmployeeModel } from "../employee/employee";
 export class TimecardsModel {
     constructor() {
     }
-    
+    version: string = "1.0";
+
     company_code: string = "";
     worker_code: string = "";
     

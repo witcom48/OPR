@@ -44,7 +44,7 @@
 
 <!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog> -->
 
-<p-dialog class="uploadfile" header="{{title_upload}}" [(visible)]="displayUpload">
+<p-dialog class="uploadfile" header="{{title_upload[initial_current.Language]}}" [(visible)]="displayUpload">
     <label class="drop-container">
         <span class="drop-title">Drop files here</span>
         or
@@ -53,7 +53,7 @@
             required (change)="handleFileInput($any($event).target.files)">
     </label>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload}}"
+        <p-button icon="pi pi-upload" (click)="doUploadGenaral()" label="{{title_upload[initial_current.Language]}}"
             styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>

@@ -79,29 +79,28 @@ export class ComaddressService {
         const data = {
             company_code: model.company_code,
             combranch_code: model.combranch_code,
-            comaddress_type: model.comaddress_type,
+            comaddres_type: model.comaddres_type,
 
-            comaddressth_no: model.comaddressth_no,
-            comaddressth_moo: model.comaddressth_moo,
-            comaddressth_soi: model.comaddressth_soi,
-            comaddressth_road: model.comaddressth_road,
-            comaddressth_tambon: model.comaddressth_tambon,
-            comaddressth_amphur: model.comaddressth_amphur,
-            provinceth_code: model.provinceth_code,
+            comaddres_noth: model.comaddres_noth,
+            comaddres_mooth: model.comaddres_mooth,
+            comaddres_soith: model.comaddres_soith,
+            comaddres_roadth: model.comaddres_roadth,
+            comaddres_tambonth: model.comaddres_tambonth,
+            comaddres_amphurth: model.comaddres_amphurth,
+ 
+            comaddres_noen: model.comaddres_noen,
+            comaddres_mooen: model.comaddres_mooen,
+            comaddres_soien: model.comaddres_soien,
+            comaddres_roaden: model.comaddres_roaden,
+            comaddres_tambonen: model.comaddres_tambonen,
+            comaddres_amphuren: model.comaddres_amphuren,
+            comaddres_zipcode: model.comaddres_zipcode,
+            province_code: model.province_code,
 
-            comaddressen_no: model.comaddressen_no,
-            comaddressen_moo: model.comaddressen_moo,
-            comaddressen_soi: model.comaddressen_soi,
-            comaddressen_road: model.comaddressen_road,
-            comaddressen_tambon: model.comaddressen_tambon,
-            comaddressen_amphur: model.comaddressen_amphur,
-            comaddress_zipcode: model.comaddress_zipcode,
-            provinceen_code: model.provinceen_code,
-
-            comaddress_tel: model.comaddress_tel,
-            comaddress_email: model.comaddress_email,
-            comaddress_line: model.comaddress_line,
-            comaddress_facebook: model.comaddress_facebook,
+            comaddres_tel: model.comaddres_tel,
+            comaddres_email: model.comaddres_email,
+            comaddres_line: model.comaddres_line,
+            comaddres_facebook: model.comaddres_facebook,
             
 
 
@@ -126,7 +125,7 @@ export class ComaddressService {
         const data = {
             company_code:model.company_code,
             combranch_code:model.combranch_code,
-            comaddress_type:model.comaddress_type,
+            comaddres_type:model.comaddres_type,
             modified_by: this.initial_current.Username,
         };
 

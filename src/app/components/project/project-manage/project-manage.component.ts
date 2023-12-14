@@ -2321,13 +2321,22 @@ export class ProjectManageComponent implements OnInit {
   procontract_list: ProcontractModel[] = [];
   selectedProcontract: ProcontractModel = new ProcontractModel();
   doLoadProcontract() {
-    this.projectDetailService.procontract_get(this.project_code).then((res) => {
-      this.procontract_list = res;
+    this.projectDetailService.procontract_get(this.project_code).then(async (res) => {
+      await res.forEach((element: ProcontractModel) => {
+        element.procontract_fromdate = new Date(element.procontract_fromdate)
+        element.procontract_todate = new Date(element.procontract_todate)
+        element.procontract_date = new Date(element.procontract_date)
+
+        
+      })
+      this.procontract_list = await res;
       if (this.procontract_list.length > 0) {
         this.selectedProcontract = this.procontract_list[0]
       }
-    });
+    })
   }
+
+   
   onRowSelectProcontract(event: Event) {
   }
   procontract_summit() {
@@ -2393,13 +2402,27 @@ export class ProjectManageComponent implements OnInit {
   proresponsible_list: ProresponsibleModel[] = [];
   selectedProresponsible: ProresponsibleModel = new ProresponsibleModel();
   doLoadProresponsible() {
-    this.projectDetailService.proresponsible_get(this.project_code).then((res) => {
-      this.proresponsible_list = res;
+    this.projectDetailService.proresponsible_get(this.project_code).then(async (res) => {
+       await res.forEach((element: ProresponsibleModel) => {
+        element.proresponsible_fromdate = new Date(element.proresponsible_fromdate)
+        element.proresponsible_todate = new Date(element.proresponsible_todate)
+      })
+      this.proresponsible_list = await res;
       if (this.proresponsible_list.length > 0) {
-        this.selectedProresponsible = this.proresponsible_list[0]
+        this.selectedProresponsible = this.proresponsible_list[0]///
       }
-    });
+    })
   }
+
+
+  // doLoadProresponsible() {
+  //   this.projectDetailService.proresponsible_get(this.project_code).then((res) => {
+  //     this.proresponsible_list = res;
+  //     if (this.proresponsible_list.length > 0) {
+  //       this.selectedProresponsible = this.proresponsible_list[0]///
+  //     }
+  //   });
+  // }
   onRowSelectProresponsible(event: Event) {
   }
   proresponsible_summit() {
@@ -2695,15 +2718,24 @@ export class ProjectManageComponent implements OnInit {
   projobmain_list: ProjobmainModel[] = [];
   selectedProjobmain: ProjobmainModel = new ProjobmainModel();
   doLoadProjobmain() {
-
     this.projectDetailService.projobmain_get(this.version_selected, this.project_code, this.procontract_type, this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
+       await res.forEach((element: ProjobmainModel) => {
+        element.projobmain_fromdate = new Date(element.projobmain_fromdate)
+        element.projobmain_todate = new Date(element.projobmain_todate)
+      })
       this.projobmain_list = await res;
+      console.log(res,'kk')
       setTimeout(() => {
         this.projobmain_summary()
-        this.projobmain_loadtran()
+        this.projobmain_loadtran()///
+        this.doLoadProequipmentreq()///
       }, 2000);
-    });
+    })
   }
+
+
+
+  
 
   doGetProjobmainDetail(code: string): string {
     for (let i = 0; i < this.projobmain_list.length; i++) {
@@ -2808,6 +2840,7 @@ export class ProjectManageComponent implements OnInit {
     this.doLoadProjobcost()
     this.doLoadProjobmachine()
     this.doLoadProjobpol()
+    this.doLoadProequipmentreq()
 
   }
 
@@ -3496,7 +3529,7 @@ export class ProjectManageComponent implements OnInit {
           this.doLoadProjobsubcontract()
           this.doLoadProjobsubcost()
           this.doLoadProjobworking()
-          this.doLoadProequipmentreq()
+          // this.doLoadProequipmentreq()
         }, 500);
 
 
@@ -3512,7 +3545,7 @@ export class ProjectManageComponent implements OnInit {
       this.doLoadProjobsubcontract()
       this.doLoadProjobsubcost()
       this.doLoadProjobworking()
-      this.doLoadProequipmentreq()
+      // this.doLoadProequipmentreq()
 
     }
 
@@ -3750,13 +3783,19 @@ export class ProjectManageComponent implements OnInit {
   selectedProjobemp_name: string = ""
 
   doLoadProjobemp() {
-    this.projectDetailService.projobemp_get(this.project_code).then((res) => {
-      this.projobemp_list = res;
-      //if(this.projobemp_list.length > 0){
-      //  this.selectedProjobemp = this.projobemp_list[0]
-      //}
-    });
+    this.projectDetailService.projobemp_get(this.project_code).then(async (res) => {
+       await res.forEach((element: ProjobempModel) => {
+        element.projobemp_fromdate = new Date(element.projobemp_fromdate)
+        element.projobemp_todate = new Date(element.projobemp_todate)
+      })
+      this.projobemp_list = await res;
+       
+    })
   }
+
+
+
+ 
   onRowSelectProjobemp(event: Event) {
     this.selectedProjobemp_name = this.selectedProjobemp.projobemp_emp + " : " + this.doGetEmployeeDetail(this.selectedProjobemp.projobemp_emp)
   }
@@ -4244,13 +4283,19 @@ export class ProjectManageComponent implements OnInit {
   proequipmentreq_list: ProequipmentreqModel[] = [];
   selectedProequipmentreq: ProequipmentreqModel = new ProequipmentreqModel();
   doLoadProequipmentreq() {
-    this.projectDetailService.proequipmentreq_get(this.project_code).then((res) => {
-      this.proequipmentreq_list = res;
+    this.projectDetailService.proequipmentreq_get(this.project_code).then(async (res) => {
+       await res.forEach((element: ProequipmentreqModel) => {
+        element.proequipmentreq_date = new Date(element.proequipmentreq_date)
+       })
+      this.proequipmentreq_list = await res;
       if (this.proequipmentreq_list.length > 0) {
         this.selectedProequipmentreq = this.proequipmentreq_list[0]
       }
-    });
+    })
   }
+
+  
+  
   onRowSelectProequipmentreq(event: Event) {
   }
   proequipmentreq_summit() {

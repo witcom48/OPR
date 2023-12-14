@@ -593,18 +593,18 @@ export class ProjectDetailService {
       ip: "localhost",
       username: this.initial_current.Username,
       company: this.initial_current.CompCode,
-      language: "",
-      project_code: project,
+       project_code: project,
       project_name_th: "",
       project_name_en: "",
       projobmain_jobtype: "",
-
+      protype_name: "",
       projobmain_fromdate: datefrom,
       projobmain_todate: dateto,
 
       // projobmain_fromdate: this.datePipe.transform(fillter.projobmain_fromdate),
       // projobmain_todate: this.datePipe.transform(fillter.projobmain_todate),
 
+      language: this.initial_current.Language,
 
 
       project_name_sub: "",

@@ -27,7 +27,7 @@
 
             </div> -->
 
-            
+            <!-- รายละเอียด -->
                 <label for="selectedJobmain">{{title_jobname[initial_current.Language]}}</label><br>
                 <p-dropdown [options]="jobmain_list" optionValue="projobmain_code"
                     [(ngModel)]="selectedTimecard.projob_code" [showClear]="true"
@@ -137,7 +137,7 @@
                     [showTime]="false" (onSelect)="doFillter()" inputId="selectedToDate_fillter"></p-calendar>
             </div>
 
-
+<!-- โครงการ -->
             <div class="field col-12 md:col-2 ">
                 <label for="selectedProject_fillter">{{title_project[initial_current.Language]}}</label><br>
                 <p-dropdown [options]="project_list" optionValue="project_code"

@@ -939,7 +939,11 @@ export class ApplyListComponent implements OnInit {
       worker_socialsentdate: new Date(),
       worker_emergency_tel: data.worker_emergency_tel,
       worker_emergency_name: data.worker_emergency_name,
-      worker_emergency_address: data.worker_emergency_address
+      worker_emergency_address: data.worker_emergency_address,
+      age_code: '',
+      work_age: '',
+      empposition_position: '',
+      position_name: '',
     };
 
     return newEmployee;

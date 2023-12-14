@@ -213,10 +213,10 @@ export class ProjectTimesheetComponent implements OnInit {
         icon: 'pi pi-fw pi-plus',
         command: (event) => {
           if (this.accessData.accessdata_new) {
-            // this.doLoadPolShift()
-            // this.doLoadPolDaytype()
-            // this.doLoadPolJobmain()
-            // this.displayManage = true
+            this.doLoadPolShift()
+            this.doLoadPolDaytype()
+            this.doLoadPolJobmain()
+            this.displayManage = true
             this.displayManage = true
 
             this.searchEmp = true
@@ -370,14 +370,17 @@ export class ProjectTimesheetComponent implements OnInit {
     }
     return ""
   }
+  version: string = ""
 
+  // , version: string
   jobmain_list: ProjobmainModel[] = [];
   selectedJobmain: RadiovalueModel = new RadiovalueModel;
   doLoadPolJobmain() {
     this.jobmain_list = []
-    this.projectDetailService.projobmain_get("", this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
+    this.projectDetailService.projobmain_get(this.version, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
       this.jobmain_list = await res;
       this.reloadPage();
+      console.log(res,'res')
 
     });
   }
