@@ -10,7 +10,7 @@ export class TimecardsModel {
     
     project_code: string = "";
     projob_code: string = "";
-    
+    projobsub_code: string = "";
     shift_code: string = "";
     timecard_workdate: Date = new Date();
 
