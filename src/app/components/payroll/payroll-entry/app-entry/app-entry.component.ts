@@ -479,24 +479,15 @@ export class AppEntryComponent implements OnInit {
           }
         },
       },
-      {
-        label: this.title_template[this.initial_current.Language],
-        icon: 'pi-download',
-        command: (event) => {
-          window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Payitem.xlsx', '_blank');
-        }
-      },
+      // {
+      //   label: this.title_template[this.initial_current.Language],
+      //   icon: 'pi-download',
+      //   command: (event) => {
+      //     window.open('assets/OPRFileImport/(OPR)Import Payroll/(OPR)Import Payroll Payitem.xlsx', '_blank');
+      //   }
+      // },
 
-      {
-        label: this.title_reload[this.initial_current.Language],
-        icon: 'pi pi-fw pi-refresh',
-        command: (event) => {
-          this.doLoaditem();
-          this.doSetDetailItem();
-          this.showManage();
-
-        }
-      },
+      
 
 
       {
@@ -513,6 +504,21 @@ export class AppEntryComponent implements OnInit {
           }
         },
       },
+      
+      {
+        label: this.title_delete,
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          this.Delete();
+        },
+      },
+      // {
+      //   label: this.title_import,
+      //   icon: 'pi-file-import',
+      //   command: (event) => {
+      //     this.showUpload();
+      //   },
+      // },
       {
         label: this.title_addcopy[this.initial_current.Language],
         icon: 'pi pi-fw pi-copy',
@@ -524,18 +530,14 @@ export class AppEntryComponent implements OnInit {
         },
       },
       {
-        label: this.title_delete,
-        icon: 'pi pi-fw pi-trash',
+        label: this.title_reload[this.initial_current.Language],
+        icon: 'pi pi-fw pi-refresh',
         command: (event) => {
-          this.Delete();
-        },
-      },
-      {
-        label: this.title_import,
-        icon: 'pi-file-import',
-        command: (event) => {
-          this.showUpload();
-        },
+          this.doLoaditem();
+          this.doSetDetailItem();
+          this.showManage();
+
+        }
       },
       {
         label: this.title_export,

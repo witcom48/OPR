@@ -3,13 +3,14 @@ import { EmployeeModel } from "../employee/employee";
 export class TimecardsModel {
     constructor() {
     }
-    
+    version: string = "1.0";
+
     company_code: string = "";
     worker_code: string = "";
     
     project_code: string = "";
     projob_code: string = "";
-    
+    projobsub_code: string = "";
     shift_code: string = "";
     timecard_workdate: Date = new Date();
 

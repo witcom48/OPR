@@ -507,13 +507,13 @@
             <div class="field col-12 ">
                 <label for="projobemp_fromdate">{{title_staff_fromadate[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_fromdate" appendTo="body" dateFormat="dd/mm/yy"
+                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_fromdate" [showIcon]="true" appendTo="body" dateFormat="dd/mm/yy"
                     inputId="projobemp_fromdate"></p-calendar>
             </div>
             <div class="field col-12 ">
                 <label for="projobemp_todate">{{title_staff_todate[initial_current.Language]}}</label>
                 <br>
-                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_todate" dateFormat="dd/mm/yy"
+                <p-calendar [(ngModel)]="selectedProjobemp.projobemp_todate" [showIcon]="true" dateFormat="dd/mm/yy"
                     inputId="projobemp_todate" appendTo="body"></p-calendar>
             </div>
 
@@ -815,7 +815,7 @@
                 <textarea [rows]="2" id="projobmain_name_en" [(ngModel)]="selectedProjobmain.projobmain_name_en"
                     [cols]="30" pInputTextarea [autoResize]="true"></textarea>
             </div>
-            <!--  -->
+            <!--  /-->
             <div class="field col-12">
                 <label for="protype_name_th">{{title_project_protype[initial_current.Language]}} :</label><br>
                 <p-dropdown placeholder="--" [options]="protype_list" optionValue="protype_code"
@@ -831,7 +831,7 @@
                 </p-dropdown>
 
             </div>
-
+          
 
             <div class="field col-12 ">
                 <label for="projobmain_fromdate">{{title_responsible_fromdate[initial_current.Language]}}</label>
@@ -1700,8 +1700,10 @@
                                     {{projobmain.projobmain_name_en}}
                                 </div>
                             </td>
+                           
 
-                            <td>{{projobmain.projobmain_jobtype}}</td>
+                            <td>{{projobmain.protype_name}}</td>
+                            
                             <td>{{projobmain.projobmain_fromdate | date:'dd/MM/yyyy HH:mm'}}</td>
                             <td>{{projobmain.projobmain_todate | date:'dd/MM/yyyy HH:mm'}}</td>
 

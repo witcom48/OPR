@@ -21,6 +21,8 @@ import { TaskService } from '../../../../services/task.service';
 import * as xlsx from 'xlsx';
 import { BankService } from 'src/app/services/system/policy/bank.service';
 import { BankModel } from 'src/app/models/system/policy/bank';
+import { CombankModel } from 'src/app/models/system/combank';
+import { CompanyDetailService } from 'src/app/services/system/company_detail.service';
 
 interface Policy {
   name: string;
@@ -48,7 +50,7 @@ export class TransferProvidentComponent implements OnInit {
   title_bank: { [key: string]: string } = { EN: "Bank", TH: "ธนาคาร" };
   title_transfer: { [key: string]: string } = { EN: "Transfer Data", TH: "โอนย้ายข้อมูล" };
   title_transferdatal: { [key: string]: string } = { EN: " Transfer Data", TH: "โอนย้ายข้อมูล" }
-  title_transfersso: { [key: string]: string } = { EN: " Transfer Sso", TH: "ประกันสังคม" }
+  title_transfersso: { [key: string]: string } = { EN: " Transfer PF", TH: "กองทุนสำรองเลี้ยงชีพ" }
 
 
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่มีผล" };
@@ -82,6 +84,9 @@ export class TransferProvidentComponent implements OnInit {
     private router: Router,
 
     ///Service
+
+    private companyDetailService: CompanyDetailService,
+
     private bankService: BankService
   ) { }
 
@@ -96,12 +101,18 @@ export class TransferProvidentComponent implements OnInit {
     this.doGetInitialCurrent();
 
 
+    this.doLoadCombankList();
 
 
     setTimeout(() => {
       this.doLoadTask()
+
     }, 200);
 
+    setTimeout(() => {
+      this.selectedBank = this.selectedCombank.combank_bankcode;
+      // this.selectedBank = "014";
+    }, 1000);
     this.itemslike = [{ label: this.title_transferdatal[this.initial_current.Language], routerLink: '/payroll/transfer' },
     { label: this.title_transfersso[this.initial_current.Language], styleClass: 'activelike' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -130,6 +141,28 @@ export class TransferProvidentComponent implements OnInit {
   public PFCode: string = "";
 
 
+
+  combankList: CombankModel[] = [];
+  selectedCombank: CombankModel = new CombankModel();
+  doLoadCombankList() {
+    var tmp = new CombankModel();
+    tmp.combank_bankcode = this.selectedCombank.combank_bankcode;
+
+    this.companyDetailService.getcompany_bank(this.initial_current.CompCode, '', tmp)
+      .then((res) => {
+        this.combankList = res;
+        if (this.combankList.length > 0) {
+          this.selectedCombank = this.combankList[0];
+
+          // this.selectedCombank.combank_bankcode;
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'เลือกธนาคาร' });
+        }
+      });
+
+  }
+
+
   process(): void {
 
     if (this.selectEmp.employee_dest.length === 0) {
@@ -143,21 +176,21 @@ export class TransferProvidentComponent implements OnInit {
 
     if (!this.CompanyCode) {
       this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'กรุณากรอก COMP_CODE'
+        severity: 'error',
+        summary: 'Error',
+        detail: 'กรุณากรอก COMP_CODE'
       });
       return;
-  }
+    }
 
-  if (!this.PFCode) {
+    if (!this.PFCode) {
       this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'กรุณากรอก FUND_CODE'
+        severity: 'error',
+        summary: 'Error',
+        detail: 'กรุณากรอก FUND_CODE'
       });
       return;
-  }
+    }
 
     // Step 1: Task master
     this.task.company_code = this.initial_current.CompCode;
@@ -165,14 +198,33 @@ export class TransferProvidentComponent implements OnInit {
     this.task.task_status = 'W';
 
     // Step 2: Task detail
+    let process = "PF" + "|" + this.CompanyCode + "|" + this.PFCode + "|" + this.PatternCode;
+    process += this.selectedCombank.combank_bankcode;
+    process += this.fillauto ? '|AUTO' : '|COMPARE';
 
     let fromDate = this.effdate;
     let toDate = this.effdate;
-    this.taskDetail.taskdetail_process = "PF" + "|" + this.CompanyCode + "|" + this.PFCode + "|" + this.PatternCode;
- 
+
+    this.taskDetail.taskdetail_process = process;
     this.taskDetail.taskdetail_fromdate = fromDate;
     this.taskDetail.taskdetail_todate = toDate;
     this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
+console.log(process,'bank')
+
+
+    // let process = this.selectedCombank.combank_bankcode;
+    // process += this.fillauto ? '|AUTO' : '|COMPARE';
+
+    // let fromDate = this.effdate;
+    // let toDate = this.effdate;
+
+    // this.taskDetail.taskdetail_process = "PF" + "|" + this.CompanyCode + "|" + this.PFCode + "|" + this.PatternCode;
+    // this.taskDetail.taskdetail_process = this.selectedCombank.combank_bankcode;
+
+    // this.taskDetail.taskdetail_fromdate = fromDate;
+    // this.taskDetail.taskdetail_todate = toDate;
+    // this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
+    // this.taskDetail.taskdetail_process = process;
 
     // Step 3: Task whose
     this.taskWhoseList = [];

@@ -17,6 +17,7 @@ import { AppConfig } from 'src/app/config/config';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { DatePipe } from '@angular/common';
+import { PositionModel } from 'src/app/models/employee/policy/position';
 @Component({
   selector: 'app-employee-monitor',
   templateUrl: './employee-monitor.component.html',
@@ -43,6 +44,7 @@ export class EmployeeMonitorComponent implements OnInit {
   config: AppConfig | undefined;
 
   public workerList: EmployeeModel[] = [];
+  public PositionList: PositionModel[] = [];
 
   public locationList: EmpLocationModel[] = [];
   public syslocationList: SysLocationModel[] = [];
@@ -82,6 +84,16 @@ export class EmployeeMonitorComponent implements OnInit {
 
   title_analytics: { [key: string]: string } = { EN: "Analytics", TH: "Analytics" }
   title_workers: { [key: string]: string } = { EN: "Workers", TH: "Workers" }
+  title_POSITION: { [key: string]: string } = { EN: "POSITION", TH: "ตำแหน่งงาน" }
+  title_GENDER: { [key: string]: string } = { EN: "GENDER", TH: "เพศ" }
+  title_EMPLOYEE: { [key: string]: string } = { EN: "EMPLOYEE AGE", TH: "อายุพนักงาน" }
+  title_Experience: { [key: string]: string } = { EN: "Work Experience", TH: "อายุงาน" }
+
+  title_Male: { [key: string]: string } = { EN: "Male", TH: "ชาย" }
+  title_Female: { [key: string]: string } = { EN: "Female", TH: "หญิง" }
+  title_Person: { [key: string]: string } = { EN: "Person", TH: "คน" }
+  title_year: { [key: string]: string } = { EN: "year", TH: "ปี" }
+  title_morethan: { [key: string]: string } = { EN: "More than 16", TH: "มากกว่า 16" }
 
 
   selectedEmployee: EmployeeModel = new EmployeeModel();
@@ -98,17 +110,13 @@ export class EmployeeMonitorComponent implements OnInit {
     this.doLoadChart3();
     this.doLoadChart4();
     this.doLoadChart5();
-
-
+    this.doLoadChart6();
+    this.doLoadChart7();
+    this.doLoadChart8();
+    this.doLoadChart9();
 
   }
-  // reloadPage() {
-  //   this.doLoadChart();
-  //   this.doLoadChart2();
-  //   this.doLoadChart3();
-  //   this.doLoadChart4();
-  //   this.doLoadChart5();
-  //  }
+
 
   ////////กำลังพล ปัจจุบัน
   doughnut1: ChartData = {
@@ -362,7 +370,6 @@ export class EmployeeMonitorComponent implements OnInit {
           this.locationList[i].worker_code || (this.workerList[i].worker_resignstatus === false && resignDate.getTime() >= temp_fromdate.getTime() && resignDate.getTime() <= temp_todate.getTime())
         ) {
           currentWorkers++;
-          console.log(currentWorkers, 'ปัจจุบัน');
         }
 
 
@@ -440,16 +447,322 @@ export class EmployeeMonitorComponent implements OnInit {
       this.doughnut5.labels = ['พนักงานรายวัน (' + regularWorkerst + ' คน)', 'พนักงานรายเดือน (' + temporaryWorkers + ' คน)'
       ];
       this.doughnut5.datasets[0].data = [regularWorkerst, temporaryWorkers];
-      this.updateChart5();
+      // this.updateChart5();
+    });
+  }
+  //
+
+  ////
+  /// เพศ
+  doughnut6: ChartData = {
+    labels: [this.title_Male[this.initial_current.Language], this.title_Female[this.initial_current.Language]],
+    datasets: [
+      {
+        data: [0, 0],
+        label: 'เพศ',
+      }
+    ]
+  };
+
+  doughnutChartOptions6: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  doLoadChart6() {
+    const temp_fromdate = new Date(this.initial_current.PR_FromDate);
+    const temp_todate = new Date(this.initial_current.PR_ToDate);
+
+    this.employeeService.getDashGenderList_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
+      this.workerList = await res;
+
+      let regularWorkers: number = 0; // จำนวนพนักงานชาย
+      let temporaryWorkers: number = 0; // จำนวนพนักงานหญิง
+
+      for (let i = 0; i < this.workerList.length; i++) {
+        const hireDate = new Date(this.workerList[i].worker_hiredate);
+
+        if (this.workerList[i].worker_gender === "M") {
+          regularWorkers++;
+        }
+
+        if (this.workerList[i].worker_gender === "F") {
+          temporaryWorkers++;
+        }
+      }
+      const getRandomSoftColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      };
+
+      const numberOfColorsNeeded = 10;
+      const initialColors = ['#FF6384', '#36A2EB'];
+      const randomSoftColors = initialColors.concat(
+        Array.from({ length: numberOfColorsNeeded - initialColors.length }, getRandomSoftColor)
+      );
+
+      this.doughnut6.datasets[0].backgroundColor = randomSoftColors;
+
+      this.doughnut6.labels = [this.title_Male[this.initial_current.Language] + ' ' + '(' + regularWorkers + ')' + ' ' + this.title_Person[this.initial_current.Language], this.title_Female[this.initial_current.Language] + ' ' + '(' + temporaryWorkers + ')' + ' ' + this.title_Person[this.initial_current.Language]];
+      this.doughnut6.datasets[0].data = [regularWorkers, temporaryWorkers];
+      this.updateChart6();
     });
   }
 
-  updateChart5() {
+  updateChart6() {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
       this.chart.chart.update();
     }
   }
 
+  //
+  /// อายุพนักงาน
+  
+  doughnut7: ChartData = {
+    
+    labels: ['18-30', '31-40', '41-55'],
+    datasets: [
+      {
+        data: [0, 0],
+        label: 'อายุพนักงาน',
+      }
+    ]
+  };
+
+  doughnutChartOptions7: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  doLoadChart7() {
+    const temp_fromdate = new Date(this.initial_current.PR_FromDate);
+    const temp_todate = new Date(this.initial_current.PR_ToDate);
+
+    this.employeeService.getDashEmpWorkAgeList_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
+      this.workerList = await res;
+
+      let age18_30: number = 0; // อายุ 18-30
+      let age31_40: number = 0; // อายุ 31-40
+      let age41_55: number = 0; // อายุ 41-55
+
+      for (let i = 0; i < this.workerList.length; i++) {
+        const workerAgeCode = parseInt(this.workerList[i].age_code, 10);
+
+        if (!isNaN(workerAgeCode)) {
+          if (workerAgeCode >= 18 && workerAgeCode <= 30) {
+            age18_30++;
+          } else if (workerAgeCode >= 31 && workerAgeCode <= 40) {
+            age31_40++;
+          } else if (workerAgeCode >= 41 && workerAgeCode <= 55) {
+            age41_55++;
+          }
+        }
+      }
+
+      const labelsWithData = [];
+      if (age18_30 > 0) {
+        labelsWithData.push('18-30' + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age18_30 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
+      }
+      if (age31_40 > 0) {
+        labelsWithData.push('31-40 ' + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age31_40 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
+      }
+      if (age41_55 > 0) {
+        labelsWithData.push('41-55' + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age41_55 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
+      }
+      const getRandomSoftColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      };
+
+      const numberOfColorsNeeded = 10; // จำนวนสีที่ต้องการสุ่ม
+      const initialColors = ['#FF6384', '#36A2EB']; // สีเริ่มต้น
+      const randomSoftColors = initialColors.concat(
+        Array.from({ length: numberOfColorsNeeded - initialColors.length }, getRandomSoftColor)
+      );
+
+      this.doughnut7.datasets[0].backgroundColor = randomSoftColors;
+
+      this.doughnut7.labels = labelsWithData;
+      this.doughnut7.datasets[0].data = [age18_30, age31_40, age41_55];
+      this.updateChart7();
+    });
+  }
+
+  updateChart7() {
+    if (this.chart && this.chart.chart && this.chart.chart.config) {
+      this.chart.chart.update();
+    }
+  }
+  //
+
+  /// อายุงาน
+  doughnut8: ChartData = {
+    labels: ['0-2', '3-5', '6-10', '11-15', '16'],
+    datasets: [
+      {
+        data: [0, 0, 0, 0, 0, 0],
+        label: 'อายุงาน',
+      }
+    ]
+  };
+
+  doughnutChartOptions8: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  doLoadChart8() {
+    this.employeeService.getDashWorkAgeList_get(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
+      this.workerList = await res;
+
+      let age0_2: number = 0; // อายุ 0-2
+      let age3_5: number = 0; // อายุ 3-5
+      let age6_10: number = 0; // อายุ 6-10
+      let age11_15: number = 0; // อายุ 11-15
+      let age11_16: number = 0; // อายุ 16
+
+      for (let i = 0; i < this.workerList.length; i++) {
+        const workerAge = parseInt(this.workerList[i].work_age, 10);
+
+        if (!isNaN(workerAge)) {
+          if (workerAge >= 0 && workerAge <= 2) {
+            age0_2++;
+          } else if (workerAge >= 3 && workerAge <= 5) {
+            age3_5++;
+          } else if (workerAge >= 6 && workerAge <= 10) {
+            age6_10++;
+          } else if (workerAge >= 11 && workerAge <= 15) {
+            age11_15++;
+          } else if (workerAge >= 16) {
+            age11_16++;
+          }
+        }
+      }
+      
+      const labelsWithData = [];
+      if (age0_2 > 0) {
+        labelsWithData.push('0-2 ' + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age0_2 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
+      }
+      if (age3_5 > 0) {
+        labelsWithData.push('3-5 ' + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age3_5 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
+      }
+      if (age6_10 > 0) {
+        labelsWithData.push('6-10 ' + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age6_10 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
+      }
+      if (age11_15 > 0) {
+        labelsWithData.push('11-15 ' + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age11_15 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
+      }
+      if (age11_16 > 0) {
+        labelsWithData.push(this.title_morethan[this.initial_current.Language] + ' ' + this.title_year[this.initial_current.Language] + ' ' + '(' + age11_16 + ')' + ' ' + this.title_Person[this.initial_current.Language]);
+      }
+      const getRandomSoftColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      };
+
+      const numberOfColorsNeeded = 10;
+      const initialColors = ['#FF6384', '#36A2EB'];
+      const randomSoftColors = initialColors.concat(
+        Array.from({ length: numberOfColorsNeeded - initialColors.length }, getRandomSoftColor)
+      );
+
+      this.doughnut8.datasets[0].backgroundColor = randomSoftColors;
+
+      this.doughnut8.labels = labelsWithData;
+      this.doughnut8.datasets[0].data = [age0_2, age3_5, age6_10, age11_15, age11_16];
+      this.updateChart8();
+    });
+  }
+
+
+  updateChart8() {
+    if (this.chart && this.chart.chart && this.chart.chart.config) {
+      this.chart.chart.update();
+    }
+  }
+
+  //
+
+  /// ตำแหน่งงาน
+
+  doughnut9: ChartData = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        label: 'ตำแหน่งงาน',
+      }
+    ]
+  };
+
+  doughnutChartOptions9: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+
+  doLoadChart9() {
+    this.employeeService.getDashPositionList(this.initial_current.CompCode, this.selectedEmployee.worker_code).then(async (res) => {
+      this.workerList = await res;
+      console.log(res, 'res')
+      let regularWorkers: number = 0;
+
+      const positionData: { [key: string]: number } = {};
+
+      for (let i = 0; i < this.workerList.length; i++) {
+        const positionName = this.workerList[i].position_name;
+        if (!positionData[positionName]) {
+          positionData[positionName] = 1;
+        } else {
+          positionData[positionName]++;
+        }
+      }
+      const getRandomSoftColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      };
+
+      const numberOfColorsNeeded = 10; // จำนวนสีที่ต้องการสุ่ม
+      const initialColors = ['#FF6384', '#36A2EB']; // สีเริ่มต้น
+      const randomSoftColors = initialColors.concat(
+        Array.from({ length: numberOfColorsNeeded - initialColors.length }, getRandomSoftColor)
+      );
+
+      this.doughnut9.datasets[0].backgroundColor = randomSoftColors;
+
+
+      const labels = Object.keys(positionData).filter((label) => positionData[label] > 0);
+      const data = labels.map((label) => positionData[label]);
+      this.doughnut9.labels = labels.map((label) => `${label} (${positionData[label]} ` + this.title_Person[this.initial_current.Language] + ')');
+      this.doughnut9.datasets[0].data = data;
+      this.updateChart9();
+
+    });
+  }
+
+  updateChart9() {
+    if (this.chart && this.chart.chart && this.chart.chart.config) {
+      this.chart.chart.update();
+    }
+  }
+
+  //
   doLoadMenu() {
     this.toolbar_menu = [
       {

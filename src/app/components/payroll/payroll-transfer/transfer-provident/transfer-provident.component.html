@@ -37,11 +37,20 @@
                 <app-select-emp></app-select-emp>
             </div>
 
-         
+            <div class="field col-12 md:col-6">
+                <div>
+                    <label>{{this.title_bank[this.initial_current.Language]}} :</label>
+
+                    <p-dropdown [options]="combankList" optionLabel="name_detail" [(ngModel)]="selectedCombank"
+                        [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>
+                </div>
+            </div>
+            <br>
+            <div class="field col-12 md:col-6"></div>
 
             <div class="field col-12 md:col-6">
                 <label for="CompanyCode">COMP_CODE </label>
-                <input id="CompanyCode" type="text" [(ngModel)]="CompanyCode"
+                <input id="CompanyCode" type="text" [(ngModel)]="CompanyCode" 
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
             </div>
 

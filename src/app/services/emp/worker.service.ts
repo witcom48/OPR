@@ -276,7 +276,90 @@ export class EmployeeService {
         return message.data;
       });
   }
+  ///
+ // กราฟเพศพนักงาน
+ public getDashGenderList_get(company: string, code: string) {
+  // console.log(company,code,"TESTTTTT")
 
+  var filter = {
+    device_name: '',
+    ip: "localhost",
+    username: this.initial_current.Username,
+    company_code: company,
+    language: "",
+    worker_code: code
+  };
+
+  return this.http.post<any>(this.config.ApiEmployeeModule + '/dashGenderlist', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      // // console.log(res)
+      return message.data;
+    });
+}
+
+  ///
+  // กราฟอายุพนักงานgetDashEmpWorkAgeList
+ public getDashEmpWorkAgeList_get(company: string, code: string) {
+  var filter = {
+    device_name: '',
+    ip: "localhost",
+    username: this.initial_current.Username,
+    company_code: company,
+    language: "",
+    worker_code: code
+  };
+
+  return this.http.post<any>(this.config.ApiEmployeeModule + '/dashempworkagelist', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      // // console.log(res)
+      return message.data;
+    });
+}
+
+  ///
+   // กราฟอายุงาน
+ public getDashWorkAgeList_get(company: string, code: string) {
+  var filter = {
+    device_name: '',
+    ip: "localhost",
+    username: this.initial_current.Username,
+    company_code: company,
+    language: "",
+    worker_code: code
+  };
+
+  return this.http.post<any>(this.config.ApiEmployeeModule + '/dashworkagelist', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+       return message.data;
+    });
+}
+
+  ///
+// กราฟตำแหน่งงาน
+public getDashPositionList(company: string, code: string) {
+  // console.log(company,code,"TESTTTTT")
+
+  var filter = {
+    device_name: '',
+    ip: "localhost",
+    username: this.initial_current.Username,
+    company_code: company,
+    language: this.initial_current.Language,
+    worker_code: code
+  };
+
+  return this.http.post<any>(this.config.ApiEmployeeModule + '/dashpositionlist', filter, this.options).toPromise()
+    .then((res) => {
+      let message = JSON.parse(res);
+      // // console.log(res)
+      return message.data;
+    });
+}
+
+  ///
 
   ///type
   public typelist_get(company: string, code: string) {

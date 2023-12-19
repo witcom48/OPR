@@ -151,6 +151,7 @@ export class TimecardService {
 
       project_code: model.project_code,
       projob_code: model.projob_code,
+      projobsub_code: model.projobsub_code,
 
       timecard_workdate: model.timecard_workdate,
       timecard_daytype: model.timecard_daytype,
@@ -168,8 +169,7 @@ export class TimecardService {
       emp_data: emplists,
 
     };
-console.log(data,'ข้อม๔ล')
-    return this.http.post<any>(this.config.ApiAttendanceModule + '/timesheet', data, this.options).toPromise()
+     return this.http.post<any>(this.config.ApiAttendanceModule + '/timesheet', data, this.options).toPromise()
       .then((res) => {
         return res;
       });
