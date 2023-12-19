@@ -3136,8 +3136,8 @@
 
             <div #TABLELIST>
                 <p-accordion>
-                    <p-accordionTab header="{{title_foreignercard[initial_current.Language]}}">
-                        <p-menubar [model]="menu_empforeignercard"></p-menubar>
+                    <p-accordionTab header="{{title_foreignerhistory[initial_current.Language]}}">
+                        <!-- <p-menubar [model]="menu_empforeignercard"></p-menubar>
                         <p-table [value]="selectedEmpforeigner.foreigner_card" styleClass="p-datatable-sm"
                             (onRowSelect)="onRowSelectEmpForeignercard($event)" [scrollable]="true" scrollHeight="220px"
                             [virtualScroll]="true" selectionMode="single" [(selection)]="selectedEmpforeignercard">
@@ -3158,7 +3158,7 @@
                                     <td>{{empforecard.foreignercard_expire | date:'dd/MM/yyyy'}}</td>
                                 </tr>
                             </ng-template>
-                        </p-table>
+                        </p-table> -->
                     </p-accordionTab>
                 </p-accordion>
             </div>

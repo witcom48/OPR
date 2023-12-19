@@ -730,6 +730,8 @@ export class EmployeeManageComponent implements OnInit {
   title_foreignercode: { [key: string]: string } = { EN: "Code", TH: "เลขที่" };
   title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_foreignercard: { [key: string]: string } = { EN: "Card", TH: "บัตร" };
+  title_foreignerhistory: { [key: string]: string } = { EN: "History", TH: "ประวัติ" };
+
   title_foreignercardtype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
   title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
@@ -4938,7 +4940,7 @@ export class EmployeeManageComponent implements OnInit {
         },
         key: "myDialog"
       });
-    } else if (this.checkbankaccount(this.empbankList[0].bank_account|| "") == this.empbankList[0].bank_account) {
+    } else if (this.empbankList[0] && this.checkbankaccount(this.empbankList[0].bank_account|| "") == this.empbankList[0].bank_account) {
       this.confirmationService.confirm({
         message: this.title_confirmbankacc[this.initial_current.Language],
         header: this.title_confirm,
@@ -5960,7 +5962,7 @@ export class EmployeeManageComponent implements OnInit {
       this.empbankAll = res;
     })
   }
-  checkbankaccount(Code: string): any {
+  checkbankaccount(Code: string | undefined): any {
     for (let i = 0; i < this.empbankAll.length; i++) {
       if (this.empbankAll[i].bank_account == Code) {
         return this.empbankAll[i].bank_account;
