@@ -24,15 +24,16 @@
                     <div class="field col-12 md:col-9">
                         <label for="file">{{labChooseFile[initial_current.Language]}}</label>
                         &nbsp;
-                        <input type="file" id="file_import" name="file_import" #importFile
-                            (change)="handleFileImport($any($event).target.files)"style="display: none;">
+                        <input type="file" id="file" (change)="handleFileImport($any($event).target.files)" #importFile
+                            style="display: none;">
                         <label for="file" class="btnattach">{{title_choose[initial_current.Language]}}</label>
                         <span class="chosen-attach"
                             *ngIf="!selectedFileName">{{title_nofile[this.initial_current.Language]}}</span>
                         <span class="chosen-attach" *ngIf="selectedFileName">{{selectedFileName}}</span>
                     </div>
                     <div class="field col-12 md:col-3">
-                        <p-button label="{{setimport[this.initial_current.Language]}}" icon="pi pi-save" (click)="import()"></p-button>
+                        <p-button label="{{setimport[this.initial_current.Language]}}" icon="pi pi-save"
+                            (click)="import()"></p-button>
                     </div>
                     <div class="field col-12">
                         <app-task></app-task>
@@ -49,13 +50,14 @@
                 <div class="formgrid grid">
 
                     <div class="field col-12 md:col-12">
-                        <label for="file">{{labChooseFile[initial_current.Language]}}</label>
+                        <label for="file_1">{{labChooseFile[initial_current.Language]}}</label>
                         &nbsp;
-                        <input type="file" id="file" (change)="handleFileInput($any($event).target.files)"style="display: none;">
-                        <label for="file" class="btnattach">{{title_choose[initial_current.Language]}}</label>
+                        <input type="file" id="file_1" (change)="handleFileInput($any($event).target.files)"  #fileUploader
+                            style="display: none;">
+                        <label for="file_1" class="btnattach">{{title_choose[initial_current.Language]}}</label>
                         <span class="chosen-attach"
                             *ngIf="!selectedFileNames">{{title_nofile[this.initial_current.Language]}}</span>
-                        <span class="chosen-attach" *ngIf="selectedFileNames">{{selectedFileName}}</span>
+                        <span class="chosen-attach" *ngIf="selectedFileNames">{{selectedFileNames}}</span>
                     </div>
 
                     <div class="field col-12 md:col-12">
