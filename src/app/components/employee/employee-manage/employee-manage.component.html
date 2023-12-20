@@ -1224,8 +1224,8 @@
                                                 <tr>
                                                     <th>{{title_uniformissue}}</th>
                                                     <th>{{title_uniformname}}</th>
-                                                    <th>{{title_amount}}</th>
                                                     <th>{{title_uniformprice}}</th>
+                                                    <th>{{title_uniformamount[initial_current.Language]}}</th>
                                                     <th>{{title_description}}</th>
                                                     <th>{{title_modified_by}}</th>
                                                     <th>{{title_modified_date}}</th>
@@ -1936,9 +1936,10 @@
     <form #AddForm="ngForm">
         <div class="formatt" *ngIf="edit_empaddress==true || new_empaddress==true">
             <label>{{title_addresstype}}<span style="color: red;"> *</span></label>
-            <p-dropdown appendTo="body" placeholder="--" [options]="addresstypeList" optionValue="addresstype_code" [showClear]="true"
-                [(ngModel)]="selectedEmpAddress.address_type" [style]="{ width: '100%', overflow: 'visible' }"
-                name="address_type" #address_type="ngModel" [required]="true">
+            <p-dropdown appendTo="body" placeholder="--" [options]="addresstypeList" optionValue="addresstype_code"
+                [showClear]="true" [(ngModel)]="selectedEmpAddress.address_type"
+                [style]="{ width: '100%', overflow: 'visible' }" name="address_type" #address_type="ngModel"
+                [required]="true">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.addresstype_name_th : item.addresstype_name_en}}
                 </ng-template>
@@ -1972,10 +1973,10 @@
                 #address_amphur="ngModel">
 
             <label>{{title_province}}</label>
-            <p-dropdown appendTo="body" placeholder="--" [options]="provinceList" optionValue="province_code" [showClear]="true"
-                [(ngModel)]="selectedEmpAddress.province_code" [style]="{ width: '100%', overflow: 'visible' }"
-                name="address_province" #address_province="ngModel" appendTo="body" [filter]="true"
-                filterBy="province_code,province_name_th,province_name_en">
+            <p-dropdown appendTo="body" placeholder="--" [options]="provinceList" optionValue="province_code"
+                [showClear]="true" [(ngModel)]="selectedEmpAddress.province_code"
+                [style]="{ width: '100%', overflow: 'visible' }" name="address_province" #address_province="ngModel"
+                appendTo="body" [filter]="true" filterBy="province_code,province_name_th,province_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.province_name_th : item.province_name_en}}
                 </ng-template>
@@ -2017,9 +2018,9 @@
             <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpcard.card_expire"> -->
 
             <label>{{title_cardtype}}<span style="color: red;"> *</span></label>
-            <p-dropdown appendTo="body" placeholder="--" [options]="cardtypeList" optionValue="cardtype_code" [showClear]="true"
-                [(ngModel)]="selectedEmpcard.card_type" [style]="{ width: '100%', overflow: 'visible' }" name="cardtype"
-                #cardtype="ngModel" [required]="true">
+            <p-dropdown appendTo="body" placeholder="--" [options]="cardtypeList" optionValue="cardtype_code"
+                [showClear]="true" [(ngModel)]="selectedEmpcard.card_type"
+                [style]="{ width: '100%', overflow: 'visible' }" name="cardtype" #cardtype="ngModel" [required]="true">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.cardtype_name_th : item.cardtype_name_en}}
                 </ng-template>
@@ -2215,9 +2216,10 @@
             <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_date"> -->
 
             <label>{{title_lv1}}</label>
-            <p-dropdown appendTo="body" placeholder="--" [options]="deplevel1List" optionValue="dep_code" [showClear]="true"
-                [(ngModel)]="selectedEmpdep.empdep_level01" [style]="{ width: '100%', overflow: 'visible' }"
-                name="dep_lv1" #dep_lv1="ngModel" [filter]="true" filterBy="dep_code,dep_name_th,dep_name_en">
+            <p-dropdown appendTo="body" placeholder="--" [options]="deplevel1List" optionValue="dep_code"
+                [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level01"
+                [style]="{ width: '100%', overflow: 'visible' }" name="dep_lv1" #dep_lv1="ngModel" [filter]="true"
+                filterBy="dep_code,dep_name_th,dep_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
                 </ng-template>
@@ -2228,9 +2230,10 @@
             <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level01"> -->
 
             <label>{{title_lv2}}</label>
-            <p-dropdown appendTo="body" placeholder="--" [options]="deplevel2List" optionValue="dep_code" [showClear]="true"
-                [(ngModel)]="selectedEmpdep.empdep_level02" [style]="{ width: '100%', overflow: 'visible' }"
-                name="dep_lv2" #dep_lv2="ngModel" [filter]="true" filterBy="dep_code,dep_name_th,dep_name_en">
+            <p-dropdown appendTo="body" placeholder="--" [options]="deplevel2List" optionValue="dep_code"
+                [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level02"
+                [style]="{ width: '100%', overflow: 'visible' }" name="dep_lv2" #dep_lv2="ngModel" [filter]="true"
+                filterBy="dep_code,dep_name_th,dep_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
                 </ng-template>
@@ -2241,9 +2244,10 @@
             <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpdep.empdep_level02"> -->
 
             <label>{{title_lv3}}</label>
-            <p-dropdown appendTo="body" placeholder="--" [options]="deplevel2List" optionValue="dep_code" [showClear]="true"
-                [(ngModel)]="selectedEmpdep.empdep_level03" [style]="{ width: '100%', overflow: 'visible' }"
-                name="dep_lv3" #dep_lv3="ngModel" [filter]="true" filterBy="dep_code,dep_name_th,dep_name_en">
+            <p-dropdown appendTo="body" placeholder="--" [options]="deplevel2List" optionValue="dep_code"
+                [showClear]="true" [(ngModel)]="selectedEmpdep.empdep_level03"
+                [style]="{ width: '100%', overflow: 'visible' }" name="dep_lv3" #dep_lv3="ngModel" [filter]="true"
+                filterBy="dep_code,dep_name_th,dep_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.dep_name_th : item.dep_name_en}}
                 </ng-template>
@@ -2289,8 +2293,9 @@
         <!-- <input pInputText type="text" id="ppos_code" [(ngModel)]="selectedEmpPosition.empposition_date"> -->
 
         <label>{{title_positionname}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="positionList" optionValue="position_code" [showClear]="true"
-            [(ngModel)]="selectedEmpPosition.empposition_position" [style]="{ width: '100%', overflow: 'visible' }">
+        <p-dropdown appendTo="body" placeholder="--" [options]="positionList" optionValue="position_code"
+            [showClear]="true" [(ngModel)]="selectedEmpPosition.empposition_position"
+            [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem" [filter]="true"
                 filterBy="position_code,position_name_th,position_name_en">
                 {{initial_current.Language=="TH"? item.position_name_th : item.position_name_en}}
@@ -2349,9 +2354,10 @@
     <!-- Form Emp Education -->
     <div class="formatt" *ngIf="edit_empeducation==true || new_education==true">
         <label>{{title_institute}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-            [(ngModel)]="selectedEmpeducation.institute_code" [style]="{ width: '100%', overflow: 'visible' }"
-            [filter]="true" filterBy="institute_code,institute_name_th,institute_name_en">
+        <p-dropdown appendTo="body" placeholder="--" [options]="instituteList" optionValue="institute_code"
+            [showClear]="true" [(ngModel)]="selectedEmpeducation.institute_code"
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="institute_code,institute_name_th,institute_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
             </ng-template>
@@ -2362,9 +2368,10 @@
 
 
         <label>{{title_faculty}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="facultyList" optionValue="faculty_code" [showClear]="true"
-            [(ngModel)]="selectedEmpeducation.faculty_code" [style]="{ width: '100%', overflow: 'visible' }"
-            [filter]="true" filterBy="faculty_code,faculty_name_th,faculty_name_en">
+        <p-dropdown appendTo="body" placeholder="--" [options]="facultyList" optionValue="faculty_code"
+            [showClear]="true" [(ngModel)]="selectedEmpeducation.faculty_code"
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="faculty_code,faculty_name_th,faculty_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.faculty_name_th : item.faculty_name_en}}
             </ng-template>
@@ -2386,9 +2393,10 @@
         </p-dropdown>
 
         <label>{{title_qualification}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="qualificationList" optionValue="qualification_code" [showClear]="true"
-            [(ngModel)]="selectedEmpeducation.qualification_code" [style]="{ width: '100%', overflow: 'visible' }"
-            [filter]="true" filterBy="qualification_code,qualification_name_th,qualification_name_en">
+        <p-dropdown appendTo="body" placeholder="--" [options]="qualificationList" optionValue="qualification_code"
+            [showClear]="true" [(ngModel)]="selectedEmpeducation.qualification_code"
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="qualification_code,qualification_name_th,qualification_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.qualification_name_th : item.qualification_name_en}}
             </ng-template>
@@ -2471,8 +2479,9 @@
                 type="text"></p-calendar>
 
         <label>{{title_uniformname}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="uniformList" optionValue="uniform_code" [showClear]="true"
-            [(ngModel)]="selectedEmpUniform.empuniform_code" [style]="{ width: '100%', overflow: 'visible' }">
+        <p-dropdown appendTo="body" placeholder="--" [options]="uniformList" optionValue="prouniform_code"
+            [showClear]="true" [(ngModel)]="selectedEmpUniform.empuniform_code"
+            [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
             </ng-template>
@@ -2480,19 +2489,92 @@
                 {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
             </ng-template>
         </p-dropdown>
-        <!-- <p-dropdown placeholder="--" [showClear]="true" [(ngModel)]="selectedEmpUniform.empuniform_code"
-            [style]="{ width: '100%', overflow: 'visible' }">
-        </p-dropdown> -->
 
-        <label>{{title_amount}}</label>
-        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
-            [(ngModel)]="selectedEmpUniform.empuniform_qauntity" [minFractionDigits]="2" [maxFractionDigits]="2">
-        </p-inputNumber>
+        <label>{{title_uniformtype[initial_current.Language]}}</label>
+        <p-dropdown appendTo="body" placeholder="--" [options]="uniformTypeList" optionValue="proequipmenttype_code"
+            [showClear]="true" [(ngModel)]="selectedEmpUniform.proequipmenttype_code"
+            [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.proequipmenttype_code+" - "+item.proequipmenttype_name_th :
+                item.proequipmenttype_code+" - "+item.proequipmenttype_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.proequipmenttype_code+" - "+item.proequipmenttype_name_th :
+                item.proequipmenttype_code+" - "+item.proequipmenttype_name_en}}
+            </ng-template>
+        </p-dropdown>
 
         <label>{{title_uniformprice}}</label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
             [(ngModel)]="selectedEmpUniform.empuniform_amount" [minFractionDigits]="2" [maxFractionDigits]="2">
         </p-inputNumber>
+
+        <label>{{title_uniformamount[initial_current.Language]}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
+            [(ngModel)]="selectedEmpUniform.empuniform_qauntity" [minFractionDigits]="2" [maxFractionDigits]="2">
+        </p-inputNumber>
+
+        
+
+        <label>{{title_uniformproject[initial_current.Language]}}</label>
+        <p-dropdown appendTo="body" placeholder="--" [options]="uniformProList" optionValue="project_code"
+            [showClear]="true" [(ngModel)]="selectedEmpUniform.project_code"
+            [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doLoadUniformJobList()">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.project_code+" - "+item.project_name_th
+                : item.project_code+" - "+item.project_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.project_code+" - "+item.project_name_th
+                : item.project_code+" -"+item.project_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <label>{{title_uniformjob[initial_current.Language]}}</label>
+        <p-dropdown appendTo="body" placeholder="--" [options]="uniformJobList" optionValue="projobmain_code"
+            [showClear]="true" [(ngModel)]="selectedEmpUniform.projob_code"
+            [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
+            </ng-template>
+        </p-dropdown>
+
+        <label>{{title_uniformwith[initial_current.Language]}}</label>
+        <textarea [(ngModel)]="selectedEmpUniform.empuniform_by" pInputTextarea [autoResize]="true"></textarea>
+
+        <div class="unipay">
+            <div>
+                <label>{{title_uniformpayperiod[initial_current.Language]}}</label>
+                <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
+                    [(ngModel)]="selectedEmpUniform.empuniform_payperiod" [minFractionDigits]="2"
+                    [maxFractionDigits]="2">
+                </p-inputNumber>
+            </div>
+            <div>
+                <label>{{title_uniformpayamount[initial_current.Language]}}</label>
+                <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999999"
+                    [(ngModel)]="selectedEmpUniform.empuniform_payamount" [minFractionDigits]="2"
+                    [maxFractionDigits]="2">
+                </p-inputNumber>
+            </div>
+        </div>
+
+        <label>{{title_uniformstart[initial_current.Language]}}</label>
+        <p-dropdown appendTo="body" placeholder="--" [options]="periods_list" optionValue="period_payment"
+            [showClear]="true" [(ngModel)]="selectedEmpUniform.empuniform_period"
+            [style]="{ width: '100%', overflow: 'visible' }">
+            <ng-template let-item pTemplate="selectedItem">
+                {{initial_current.Language=="TH"? item.period_name_th :
+                item.period_name_en}}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                {{initial_current.Language=="TH"? item.period_name_th :
+                item.period_name_en}}
+            </ng-template>
+        </p-dropdown>
 
         <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpUniform.empuniform_note" pInputTextarea [autoResize]="true"></textarea>
@@ -2507,9 +2589,10 @@
     <!-- Form Emp Suggest -->
     <div class="formatt" *ngIf="edit_empsuggest==true || new_suggest==true">
         <label>{{title_suggestname}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="suggest_List" optionValue="worker_code" [showClear]="true"
-            [(ngModel)]="selectedEmpSuggest.empsuggest_code" [style]="{ width: '100%', overflow: 'visible' }"
-            [filter]="true" filterBy="worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
+        <p-dropdown appendTo="body" placeholder="--" [options]="suggest_List" optionValue="worker_code"
+            [showClear]="true" [(ngModel)]="selectedEmpSuggest.empsuggest_code"
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="worker_fname_th,worker_lname_th,worker_fname_en,worker_lname_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.worker_fname_th +" "+item.worker_lname_th : item.worker_fname_en
                 +" "+item.worker_lname_en}}
@@ -2521,9 +2604,10 @@
         </p-dropdown>
 
         <label>{{title_referpo[initial_current.Language]}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="referral_List" optionValue="referral_code" [showClear]="true"
-            [(ngModel)]="selectedEmpSuggest.empsuggest_suggest" [style]="{ width: '100%', overflow: 'visible' }"
-            [filter]="true" filterBy="referral_code,referral_name_th,referral_name_en">
+        <p-dropdown appendTo="body" placeholder="--" [options]="referral_List" optionValue="referral_code"
+            [showClear]="true" [(ngModel)]="selectedEmpSuggest.empsuggest_suggest"
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="referral_code,referral_name_th,referral_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.referral_code +"-"+item.referral_name_th : item.referral_code
                 +"-"+item.referral_name_en}}
@@ -2535,7 +2619,8 @@
         </p-dropdown>
 
         <label>{{title_referdate[initial_current.Language]}}</label>
-        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="selectedEmpSuggest.empsuggest_date"><input type="text"></p-calendar>
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
+            [(ngModel)]="selectedEmpSuggest.empsuggest_date"><input type="text"></p-calendar>
 
         <label>{{title_description}}</label>
         <textarea [(ngModel)]="selectedEmpSuggest.empsuggest_note" pInputTextarea [autoResize]="true"></textarea>
@@ -2562,9 +2647,10 @@
         </p-dropdown>
 
         <label>{{title_institute}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-            [(ngModel)]="selectedEmptraining.institute_code" [style]="{ width: '100%', overflow: 'visible' }"
-            [filter]="true" filterBy="institute_code,institute_name_th,institute_name_en">
+        <p-dropdown appendTo="body" placeholder="--" [options]="instituteList" optionValue="institute_code"
+            [showClear]="true" [(ngModel)]="selectedEmptraining.institute_code"
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="institute_code,institute_name_th,institute_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
             </ng-template>
@@ -2674,9 +2760,10 @@
     <!-- Form Emp Criminal -->
     <div class="formatt" *ngIf="edit_empcriminal==true || new_criminal==true">
         <label>{{title_institute}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="instituteList" optionValue="institute_code" [showClear]="true"
-            [(ngModel)]="selectedEmpcriminal.empcriminal_location" [style]="{ width: '100%', overflow: 'visible' }"
-            [filter]="true" filterBy="institute_code,institute_name_th,institute_name_en">
+        <p-dropdown appendTo="body" placeholder="--" [options]="instituteList" optionValue="institute_code"
+            [showClear]="true" [(ngModel)]="selectedEmpcriminal.empcriminal_location"
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="institute_code,institute_name_th,institute_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.institute_name_th : item.institute_name_en}}
             </ng-template>
@@ -2768,10 +2855,11 @@
     <form #PfForm="ngForm">
         <div class="formatt" *ngIf="edit_empprovident==true || new_provident==true">
             <label>{{title_pfname[initial_current.Language]}}</label>
-            <p-dropdown appendTo="body" placeholder="--" [options]="providentList" optionValue="provident_code" [showClear]="true"
-                [(ngModel)]="selectedEmpprovident.provident_code" [style]="{ width: '100%', overflow: 'visible' }"
-                (onChange)="getProvidentworkage($event.value)" name="pf_code" #pf_code="ngModel" [required]="true"
-                [filter]="true" filterBy="provident_code,provident_name_th,provident_name_en">
+            <p-dropdown appendTo="body" placeholder="--" [options]="providentList" optionValue="provident_code"
+                [showClear]="true" [(ngModel)]="selectedEmpprovident.provident_code"
+                [style]="{ width: '100%', overflow: 'visible' }" (onChange)="getProvidentworkage($event.value)"
+                name="pf_code" #pf_code="ngModel" [required]="true" [filter]="true"
+                filterBy="provident_code,provident_name_th,provident_name_en">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.provident_code+"-"+item.provident_name_th :
                     item.provident_code+"-"+item.provident_name_en}}
@@ -3048,8 +3136,9 @@
     <!-- Form Emp Location -->
     <div class="formatt" *ngIf="edit_emplocation==true || new_emplocation==true">
         <label>{{title_locationname}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="locationList" optionValue="location_code" [showClear]="true"
-            [(ngModel)]="selectedEmpLocation.location_code" [style]="{ width: '100%', overflow: 'visible' }">
+        <p-dropdown appendTo="body" placeholder="--" [options]="locationList" optionValue="location_code"
+            [showClear]="true" [(ngModel)]="selectedEmpLocation.location_code"
+            [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.location_name_th : item.location_name_en}}
             </ng-template>
@@ -3080,8 +3169,9 @@
     <!-- Form Emp branch -->
     <div class="formatt" *ngIf="edit_empbranch==true || new_empbranch==true">
         <label>{{title_branchname}}</label>
-        <p-dropdown appendTo="body" placeholder="--" [options]="combranchList" optionValue="combranch_code" [showClear]="true"
-            [(ngModel)]="selectedEmpbranch.branch_code" [style]="{ width: '100%', overflow: 'visible' }">
+        <p-dropdown appendTo="body" placeholder="--" [options]="combranchList" optionValue="combranch_code"
+            [showClear]="true" [(ngModel)]="selectedEmpbranch.branch_code"
+            [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.combranch_name_th : item.combranch_name_en}}
             </ng-template>
@@ -3112,9 +3202,10 @@
     <form #ForeForm="ngForm">
         <div class="formatt" *ngIf="edit_empforeigner==true || new_foreigner==true">
             <label>{{title_foreignertype[initial_current.Language]}}<span style="color: red;"> *</span></label>
-            <p-dropdown appendTo="body" placeholder="--" [options]="foretype_List" optionValue="foretype_code" [showClear]="true"
-                [(ngModel)]="selectedEmpforeigner.foreigner_type" [style]="{ width: '100%', overflow: 'visible' }"
-                name="foreigner_type" #foreigner_type="ngModel" [required]="true">
+            <p-dropdown appendTo="body" placeholder="--" [options]="foretype_List" optionValue="foretype_code"
+                [showClear]="true" [(ngModel)]="selectedEmpforeigner.foreigner_type"
+                [style]="{ width: '100%', overflow: 'visible' }" name="foreigner_type" #foreigner_type="ngModel"
+                [required]="true">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.foretype_name_th : item.foretype_name_en}}
                 </ng-template>
