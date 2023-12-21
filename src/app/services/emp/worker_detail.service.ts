@@ -1865,10 +1865,21 @@ export class EmpDetailService {
       item_data = item_data + "{";
       item_data = item_data + "\"empuniform_id\":\"" + list[i].empuniform_id + "\"";
       item_data = item_data + ",\"empuniform_code\":\"" + list[i].empuniform_code + "\"";
+
+      item_data = item_data + ",\"project_code\":\"" + list[i].project_code + "\"";
+      item_data = item_data + ",\"projob_code\":\"" + list[i].projob_code + "\"";
+      item_data = item_data + ",\"proequipmenttype_code\":\"" + list[i].proequipmenttype_code + "\"";
+
       item_data = item_data + ",\"empuniform_qauntity\":\"" + list[i].empuniform_qauntity + "\"";
       item_data = item_data + ",\"empuniform_amount\":\"" + list[i].empuniform_amount + "\"";
       item_data = item_data + ",\"empuniform_issuedate\":\"" + this.datePipe.transform(list[i].empuniform_issuedate) + "\"";
       item_data = item_data + ",\"empuniform_note\":\"" + list[i].empuniform_note + "\"";
+
+      item_data = item_data + ",\"empuniform_by\":\"" + list[i].empuniform_by + "\"";
+      item_data = item_data + ",\"empuniform_payperiod\":\"" + list[i].empuniform_payperiod + "\"";
+      item_data = item_data + ",\"empuniform_payamount\":\"" + list[i].empuniform_payamount + "\"";
+      item_data = item_data + ",\"empuniform_period\":\"" + this.datePipe.transform(list[i].empuniform_period) + "\"";
+
       item_data = item_data + ",\"company_code\":\"" + this.initial_current.CompCode + "\"";
       item_data = item_data + ",\"worker_code\":\"" + worker_code + "\"";
       item_data = item_data + "}" + ",";

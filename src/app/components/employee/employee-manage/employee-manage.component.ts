@@ -121,6 +121,11 @@ import { EmployeeresignModel } from 'src/app/models/employee/employee_resign';
 import { EmpresignService } from 'src/app/services/emp/worker_resign.service';
 import { ReferralService } from 'src/app/services/payroll/referral.service';
 import { ReferralModel } from 'src/app/models/payroll/referral';
+import { ProjectModel } from 'src/app/models/project/project';
+import { ProjobmainModel } from 'src/app/models/project/project_jobmain';
+import { ProjectService } from 'src/app/services/project/project.service';
+import { ProjectDetailService } from 'src/app/services/project/project_detail.service';
+import { ProequipmentTypeModel } from 'src/app/models/project/project_equipment';
 
 
 
@@ -373,6 +378,9 @@ export class EmployeeManageComponent implements OnInit {
 
     private empresignService: EmpresignService,
     private referralService: ReferralService,
+    private projectService: ProjectService,
+    private projobService: ProjectDetailService,
+    private proequimenttype: ProgenaralService
   ) {
     this.taxM = [
       { name_th: 'พนักงานจ่ายเอง', name_en: 'Employee Pay', code: '1' },
@@ -482,6 +490,9 @@ export class EmployeeManageComponent implements OnInit {
     this.doLoadForetypeList();
 
     this.doLoadReferralList();
+    this.doLoadUniformProList();
+    this.doLoadUniformJobList();
+    this.doLoadUniformTypeList();
 
     this.doPeriod();
     setTimeout(() => {
@@ -671,7 +682,7 @@ export class EmployeeManageComponent implements OnInit {
   title_returndate: string = "Return Date";
   title_uniformissue: string = "Issue Date";
   title_uniformname: string = "Uniform";
-  title_uniformprice: string = "Price";
+  title_uniformprice: string = "Amount";
   title_course: string = "Course";
   title_coursestatus: string = "Status";
   title_coursehour: string = "Hour";
@@ -730,6 +741,8 @@ export class EmployeeManageComponent implements OnInit {
   title_foreignercode: { [key: string]: string } = { EN: "Code", TH: "เลขที่" };
   title_foreignertype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_foreignercard: { [key: string]: string } = { EN: "Card", TH: "บัตร" };
+  title_foreignerhistory: { [key: string]: string } = { EN: "History", TH: "ประวัติ" };
+
   title_foreignercardtype: { [key: string]: string } = { EN: "Type", TH: "ประเภท" };
   title_foreignerissue: { [key: string]: string } = { EN: "Issue Date", TH: "วันทีออกบัตร" };
   title_foreignerexpire: { [key: string]: string } = { EN: "Expire Date", TH: "วันทีหมดอายุ" };
@@ -820,6 +833,15 @@ export class EmployeeManageComponent implements OnInit {
 
   title_referpo: { [key: string]: string } = { EN: "Policy", TH: "นโยบาย" };
   title_referdate: { [key: string]: string } = { EN: "Date", TH: "วันที่เริ่ม" };
+
+  title_uniformtype: { [key: string]: string } = { EN: "รูปแบบการเบิก", TH: "รูปแบบการเบิก" };
+  title_uniformamount: { [key: string]: string } = { EN: "Quantity", TH: "จำนวน" };
+  title_uniformproject: { [key: string]: string } = { EN: "Project", TH: "โครงการ" };
+  title_uniformjob: { [key: string]: string } = { EN: "Job", TH: "ประเภทงาน" };
+  title_uniformwith: { [key: string]: string } = { EN: "ผู้ขอเบิก", TH: "ผู้ขอเบิก" };
+  title_uniformpayperiod: { [key: string]: string } = { EN: "ผ่อนชำระ(จำนวนงวด)", TH: "ผ่อนชำระ(จำนวนงวด)" };
+  title_uniformpayamount: { [key: string]: string } = { EN: "ผ่อนชำระ(จำนวนเงิน)", TH: "ผ่อนชำระ(จำนวนเงิน)" };
+  title_uniformstart: { [key: string]: string } = { EN: "งวดที่เริ่มตัดเงิน'", TH: "งวดที่เริ่มตัดเงิน" };
 
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
@@ -976,7 +998,7 @@ export class EmployeeManageComponent implements OnInit {
       this.title_returndate = "วันที่คืนอุปกรณ์";
       this.title_uniformissue = "วันที่เบิก";
       this.title_uniformname = "เครื่องแบบ";
-      this.title_uniformprice = "ราคา";
+      this.title_uniformprice = "จำนวนเงิน";
       this.title_course = "หลักสูตร";
       this.title_coursestatus = "สถานะ";
       this.title_coursehour = "จำนวนชั่วโมง";
@@ -2935,6 +2957,26 @@ export class EmployeeManageComponent implements OnInit {
       this.uniformList = res;
     })
   }
+  uniformProList: ProjectModel[] = [];
+  uniformJobList: ProjobmainModel[] = [];
+  selectedProject: string = "";
+  doLoadUniformProList(){
+    this.projectService.project_get(this.initial_current.CompCode,'').then((res)=>{
+      this.uniformProList = res;
+    })
+  }
+  doLoadUniformJobList(){
+    this.projobService.projobmain_get('', this.selectedProject, '',this.initial_current.PR_FromDate,this.initial_current.PR_ToDate).then(async (res) => {
+      this.uniformJobList = await res
+    })
+  }
+  uniformTypeList: ProequipmentTypeModel[] = [];
+  doLoadUniformTypeList(){
+    var tmp = new ProequipmentTypeModel();
+    this.proequimenttype.proequipmenttype_get(tmp).then((res)=>{
+      this.uniformTypeList = res;
+    })
+  }
   //drop item
   ItemList: ItemsModel[] = [];
   doLoadItemList() {
@@ -3963,6 +4005,7 @@ export class EmployeeManageComponent implements OnInit {
   }
   onRowSelectEmpUniform(event: Event) { }
   empuniform_summit() {
+    // console.log(this.selectedEmpUniform)
     this.empuniform_addItem(this.selectedEmpUniform)
     this.new_uniform = false
     this.edit_empuniform = false
@@ -4938,7 +4981,7 @@ export class EmployeeManageComponent implements OnInit {
         },
         key: "myDialog"
       });
-    } else if (this.checkbankaccount(this.empbankList[0].bank_account|| "") == this.empbankList[0].bank_account) {
+    } else if (this.empbankList[0] && this.checkbankaccount(this.empbankList[0].bank_account|| "") == this.empbankList[0].bank_account) {
       this.confirmationService.confirm({
         message: this.title_confirmbankacc[this.initial_current.Language],
         header: this.title_confirm,
@@ -5882,10 +5925,12 @@ export class EmployeeManageComponent implements OnInit {
     var tmp = new PeriodsModels();
     tmp.year_code = this.initial_current.PR_Year;
     tmp.company_code = this.initial_current.CompCode;
+    tmp.emptype_code = this.initial_current.EmpType;
+    tmp.year_code = this.initial_current.PR_Year;
     this.periodsService.period_get(tmp).then(async (res) => {
       res.forEach((obj: PeriodsModels) => {
-        obj.period_name_en = obj.period_no + " : " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy') + ")";
-        obj.period_name_th = obj.period_no + " - " + this.datePipe.transform(obj.period_payment, 'dd MMM yyyy', "", 'th-TH') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy', "", 'th-TH') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy', "", 'th-TH') + ")"
+        obj.period_name_en = this.datePipe.transform(obj.period_payment, 'dd MMM yyyy') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy') + ")";
+        obj.period_name_th = this.datePipe.transform(obj.period_payment, 'dd MMM yyyy', "", 'th-TH') + "(" + this.datePipe.transform(obj.period_from, 'dd MMM yyyy', "", 'th-TH') + " - " + this.datePipe.transform(obj.period_to, 'dd MMM yyyy', "", 'th-TH') + ")"
       });
       this.periods_list = await res;
       this.periods_select = await res[0]
@@ -5960,7 +6005,7 @@ export class EmployeeManageComponent implements OnInit {
       this.empbankAll = res;
     })
   }
-  checkbankaccount(Code: string): any {
+  checkbankaccount(Code: string | undefined): any {
     for (let i = 0; i < this.empbankAll.length; i++) {
       if (this.empbankAll[i].bank_account == Code) {
         return this.empbankAll[i].bank_account;

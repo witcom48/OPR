@@ -113,7 +113,8 @@
                             </p-dropdown>
                         </div>
                         <div>
-                            <label for="lastname2">{{title_nation[initial_current.Language]}} : <span style="color: red;"> *</span></label>
+                            <label for="lastname2">{{title_nation[initial_current.Language]}} : <span
+                                    style="color: red;"> *</span></label>
                             <p-dropdown placeholder="--" [options]="ethnicityList" optionValue="ethnicity_code"
                                 [showClear]="true" [(ngModel)]="selectedReqworker.nationality_code"
                                 [style]="{ width: '100%', overflow: 'visible' }">
@@ -127,7 +128,8 @@
                         </div>
 
                         <div>
-                            <label for="applywork_birthdate">{{title_birthdate}}: <span style="color: red;"> *</span></label>
+                            <label for="applywork_birthdate">{{title_birthdate}}: <span style="color: red;">
+                                    *</span></label>
                             <p-calendar appendTo="body" dateFormat="dd/mm/yy" [showIcon]="true"
                                 [(ngModel)]="selectedReqworker.worker_birthdate" inputId="applywork_birthdate"
                                 (onSelect)="CalculateAge()">
@@ -1250,7 +1252,8 @@
                                                 <td><span>{{title_modified_date[initial_current.Language]}}</span>{{data.created_date
                                                     |
                                                     date:'dd/MM/yyyy'}}</td>
-                                                <td><span>{{title_viewfile[initial_current.Language]}}</span></td>
+                                                <td><span>{{title_viewfile[initial_current.Language]}}</span><p-button
+                                                        icon="pi pi-eye" (click)="viewAttfile(data)"></p-button></td>
                                                 <td><span>{{title_deleteupload[initial_current.Language]}}</span><p-button
                                                         icon="pi pi-trash" styleClass="p-button-danger"
                                                         (click)="DeleteFilePDPA(data)"></p-button></td>
@@ -1779,8 +1782,8 @@
     <div class="formatt" *ngIf="edit_reqposition==true || new_position==true">
         <label>{{title_position}}</label>
         <p-dropdown placeholder="--" [options]="position_list" optionValue="request_position" [showClear]="true"
-            [(ngModel)]="selectedReqPosition.empposition_position"
-            (onChange)="changepos($event.value)" [style]="{ width: '100%', overflow: 'visible' }">
+            [(ngModel)]="selectedReqPosition.empposition_position" (onChange)="changepos($event.value)"
+            [style]="{ width: '100%', overflow: 'visible' }">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.request_code+" - "+item.position_name_th :
                 item.request_code+" - "+item.position_name_en}}
@@ -1941,9 +1944,8 @@
         <div class="formatt" *ngIf="edit_reqforeigner==true || new_foreigner==true">
             <label>{{title_foreignertype[initial_current.Language]}}<span style="color: red;">*</span></label>
             <p-dropdown placeholder="--" [options]="foreignerType" optionValue="code" [showClear]="true"
-                [(ngModel)]="selectedReqforeigner.foreigner_type"
-                [style]="{ width: '100%', overflow: 'visible' }" name="foreigner_type" #foreigner_type="ngModel"
-                [required]="true">
+                [(ngModel)]="selectedReqforeigner.foreigner_type" [style]="{ width: '100%', overflow: 'visible' }"
+                name="foreigner_type" #foreigner_type="ngModel" [required]="true">
                 <ng-template let-item pTemplate="selectedItem">
                     {{initial_current.Language=="TH"? item.name_th : item.name_en}}
                 </ng-template>
@@ -1957,40 +1959,40 @@
                 [(ngModel)]="selectedReqforeigner.entry_date" name="entry_date" #entry_date="ngModel"
                 [required]="true"><input type="text"></p-calendar>
 
-                <div class="checkbreak">
-                    <p-checkbox name="selectedReqforeigner.sent_sso" [(ngModel)]="selectedReqforeigner.sent_sso"
-                        [binary]="true"></p-checkbox> &nbsp;
-                    <label>{{title_foreignersso[initial_current.Language]}}</label>
-                </div>
+            <div class="checkbreak">
+                <p-checkbox name="selectedReqforeigner.sent_sso" [(ngModel)]="selectedReqforeigner.sent_sso"
+                    [binary]="true"></p-checkbox> &nbsp;
+                <label>{{title_foreignersso[initial_current.Language]}}</label>
+            </div>
 
-                <div #TABLEFORE>
-                    <p-accordion>
-                        <p-accordionTab header="{{title_foreignercard[initial_current.Language]}}">
-                            <p-menubar [model]="menu_reqforeignercard"></p-menubar>
-                            <p-table [value]="selectedReqforeigner.foreigner_card" styleClass="p-datatable-sm"
-                                (onRowSelect)="onRowSelectReqForeignercard($event)" [scrollable]="true" scrollHeight="220px"
-                                [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqforeignercard">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th>{{title_foreignercardtype[initial_current.Language]}}</th>
-                                        <th>{{title_foreignercode[initial_current.Language]}}</th>
-                                        <th>{{title_foreignerissue[initial_current.Language]}}</th>
-                                        <th>{{title_foreignerexpire[initial_current.Language]}}</th>
-    
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-empforecard let-i="rowIndex">
-                                    <tr [pSelectableRow]="empforecard">
-                                        <td>{{doGetForeignertypeDetail(empforecard.foreignercard_type)}}</td>
-                                        <td>{{empforecard.foreignercard_code}}</td>
-                                        <td>{{empforecard.foreignercard_issue | date:'dd/MM/yyyy'}}</td>
-                                        <td>{{empforecard.foreignercard_expire | date:'dd/MM/yyyy'}}</td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                        </p-accordionTab>
-                    </p-accordion>
-                </div>
+            <div #TABLEFORE>
+                <p-accordion>
+                    <p-accordionTab header="{{title_foreignercard[initial_current.Language]}}">
+                        <p-menubar [model]="menu_reqforeignercard"></p-menubar>
+                        <p-table [value]="selectedReqforeigner.foreigner_card" styleClass="p-datatable-sm"
+                            (onRowSelect)="onRowSelectReqForeignercard($event)" [scrollable]="true" scrollHeight="220px"
+                            [virtualScroll]="true" selectionMode="single" [(selection)]="selectedReqforeignercard">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{title_foreignercardtype[initial_current.Language]}}</th>
+                                    <th>{{title_foreignercode[initial_current.Language]}}</th>
+                                    <th>{{title_foreignerissue[initial_current.Language]}}</th>
+                                    <th>{{title_foreignerexpire[initial_current.Language]}}</th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-empforecard let-i="rowIndex">
+                                <tr [pSelectableRow]="empforecard">
+                                    <td>{{doGetForeignertypeDetail(empforecard.foreignercard_type)}}</td>
+                                    <td>{{empforecard.foreignercard_code}}</td>
+                                    <td>{{empforecard.foreignercard_issue | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{empforecard.foreignercard_expire | date:'dd/MM/yyyy'}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
             <br>
             <div class="field col-12" style=" text-align: right;">
                 <p-button label="{{title_summit}}" (click)="reqforeignercard_summit()"

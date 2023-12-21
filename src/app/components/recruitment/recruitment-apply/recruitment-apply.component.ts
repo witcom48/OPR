@@ -3534,6 +3534,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 if (data.document_id) {
                     this.applyworkService.delete_file(data).then((res) => {
                         if (res.success) {
+                            console.log(this.reqdocattID)
                             this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
                         } else {
                             this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -3570,9 +3571,18 @@ export class RecruitmentApplyComponent implements OnInit {
     onRowSelectfileID(event: Event) {
         // this.doGetReqAttfileID(this.selecteddocattID.document_path, this.selecteddocattID.document_type)
     }
+    delete_fileID(){
+        var tmp : ApplyMTDocattModel = new ApplyMTDocattModel();
+        tmp.company_code = this.initial_current.CompCode;
+        tmp.worker_code = this.selectedReqworker.worker_code;
+        tmp.job_type = "IDCARD";
+        this.applyworkService.delete_file(tmp).then((res)=>{
+            let result = JSON.parse(res);
+        })
+    }
     record_fileID() {
         if (this.reqdocattID.length == 0) {
-            return;
+            return ;
         }
         this.applyworkService.record_reqfile(this.selectedReqworker.worker_code, this.reqdocattID, "IDCARD").then((res) => {
             let result = JSON.parse(res);
@@ -3661,6 +3671,7 @@ export class RecruitmentApplyComponent implements OnInit {
                 if (data.document_id) {
                     this.applyworkService.delete_file(data).then((res) => {
                         if (res.success) {
+                            console.log(this.reqdocattHos)
                             this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
                         } else {
                             this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
@@ -3761,9 +3772,10 @@ export class RecruitmentApplyComponent implements OnInit {
     }
 
     UploadfilePhodoc() {
+        console.log(this.fileDocToUploadPho)
         if (this.fileDocToUploadPho) {
             this.confirmationService.confirm({
-                message: this.title_confirm + this.fileDocToUploadApp.name,
+                message: this.title_confirm + this.fileDocToUploadPho.name,
                 header: this.title_import,
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
