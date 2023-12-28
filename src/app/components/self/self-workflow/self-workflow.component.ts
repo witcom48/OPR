@@ -35,6 +35,7 @@ export class SelfWorkflowComponent implements OnInit {
   homeIcon: any = { icon: 'pi pi-home', routerLink: '/' };
   TypeList: Type[] = [];
   selectedtype: any;
+  selectedtypetable: any = { code: 'LEA', name: this.langs.get('leavereq')[this.selectlang] }
   items_menu: MenuItem[] = [];
   new_data: boolean = false
   edit_data: boolean = false
@@ -70,6 +71,7 @@ export class SelfWorkflowComponent implements OnInit {
   doLoadWorkflow() {
     this.workflow_list = [];
     var tmp = new WorkflowModel();
+    tmp.workflow_type = this.selectedtypetable.code;
     this.workflowService.workflow_get(tmp).then(async (res) => {
       this.workflow_list = await res;
     });
@@ -194,6 +196,9 @@ export class SelfWorkflowComponent implements OnInit {
         }
       }
     ];
+  }
+  selectTypetable() {
+    this.doLoadWorkflow();
   }
   selectType() {
     // console.log(this.selectedtype)
