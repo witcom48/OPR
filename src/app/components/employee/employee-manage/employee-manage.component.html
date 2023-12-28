@@ -1180,7 +1180,7 @@
                                                 <tr>
                                                     <th>{{title_supplyissue}}</th>
                                                     <th>{{title_supplyename}}</th>
-                                                    <th>{{title_amount}}</th>
+                                                    <th>{{title_supplyqty[initial_current.Language]}}</th>
                                                     <th>{{title_returndate}}</th>
                                                     <th>{{title_coursestatus}}</th>
                                                     <th>{{title_description}}</th>
@@ -1235,8 +1235,8 @@
                                                 <tr [pSelectableRow]="empuniform">
                                                     <td>{{empuniform.empuniform_issuedate | date:'dd/MM/yyyy'}}</td>
                                                     <td>{{doGetUniformDetail(empuniform.empuniform_code)}}</td>
-                                                    <td>{{empuniform.empuniform_qauntity}}</td>
                                                     <td>{{empuniform.empuniform_amount}}</td>
+                                                    <td>{{empuniform.empuniform_qauntity}}</td>
                                                     <td>{{empuniform.empuniform_note}}</td>
                                                     <td>{{empuniform.modified_by}}</td>
                                                     <td>{{empuniform.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
@@ -2448,8 +2448,8 @@
             [style]="{ width: '100%', overflow: 'visible' }">
         </p-dropdown> -->
 
-        <label>{{title_amount}}</label>
-        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="999"
+        <label>{{title_supplyqty[initial_current.Language]}}</label>
+        <p-inputNumber mode="decimal" [showButtons]="false" inputId="minmax-buttons" [max]="99"
             [(ngModel)]="selectedEmpSupply.empsupply_qauntity" [minFractionDigits]="2" [maxFractionDigits]="2">
         </p-inputNumber>
 
@@ -2481,19 +2481,23 @@
         <label>{{title_uniformname}}</label>
         <p-dropdown appendTo="body" placeholder="--" [options]="uniformList" optionValue="prouniform_code"
             [showClear]="true" [(ngModel)]="selectedEmpUniform.empuniform_code"
-            [style]="{ width: '100%', overflow: 'visible' }">
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="prouniform_code,prouniform_name_th,prouniform_name_en">
             <ng-template let-item pTemplate="selectedItem">
-                {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
+                {{initial_current.Language=="TH"? item.prouniform_code+" - "+item.prouniform_name_th 
+                : item.prouniform_code+" - "+item.prouniform_name_en}}
             </ng-template>
             <ng-template let-item pTemplate="item">
-                {{initial_current.Language=="TH"? item.prouniform_name_th : item.prouniform_name_en}}
+                {{initial_current.Language=="TH"? item.prouniform_code+" - "+item.prouniform_name_th 
+                : item.prouniform_code+" - "+item.prouniform_name_en}}
             </ng-template>
         </p-dropdown>
 
         <label>{{title_uniformtype[initial_current.Language]}}</label>
         <p-dropdown appendTo="body" placeholder="--" [options]="uniformTypeList" optionValue="proequipmenttype_code"
             [showClear]="true" [(ngModel)]="selectedEmpUniform.proequipmenttype_code"
-            [style]="{ width: '100%', overflow: 'visible' }">
+            [style]="{ width: '100%', overflow: 'visible' }" [filter]="true"
+            filterBy="proequipmenttype_code,proequipmenttype_name_th,proequipmenttype_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.proequipmenttype_code+" - "+item.proequipmenttype_name_th :
                 item.proequipmenttype_code+" - "+item.proequipmenttype_name_en}}
@@ -2519,7 +2523,8 @@
         <label>{{title_uniformproject[initial_current.Language]}}</label>
         <p-dropdown appendTo="body" placeholder="--" [options]="uniformProList" optionValue="project_code"
             [showClear]="true" [(ngModel)]="selectedEmpUniform.project_code"
-            [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doLoadUniformJobList()">
+            [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doLoadUniformJobList()" 
+            [filter]="true" filterBy="project_code,project_name_th,project_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.project_code+" - "+item.project_name_th
                 : item.project_code+" - "+item.project_name_en}}
@@ -2533,7 +2538,8 @@
         <label>{{title_uniformjob[initial_current.Language]}}</label>
         <p-dropdown appendTo="body" placeholder="--" [options]="uniformJobList" optionValue="projobmain_code"
             [showClear]="true" [(ngModel)]="selectedEmpUniform.projob_code"
-            [style]="{ width: '100%', overflow: 'visible' }">
+            [style]="{ width: '100%', overflow: 'visible' }"
+            [filter]="true" filterBy="projobmain_code,projobmain_name_th,projobmain_name_en">
             <ng-template let-item pTemplate="selectedItem">
                 {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en}}
             </ng-template>

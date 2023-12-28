@@ -317,6 +317,7 @@ export class RecruitmentRequestComponent implements OnInit {
     this.doLoadRequest();
   }
 
+  requestCurrent: number = 0;
   doLoadRequest() {
     var tmp = new RequestModel();
     tmp.request_status = this.status_select.code
@@ -327,6 +328,7 @@ export class RecruitmentRequestComponent implements OnInit {
         element.request_enddate = new Date(element.request_enddate)
       })
       this.request_list = res;
+      this.requestCurrent = this.request_list.length;
     });
   }
 
