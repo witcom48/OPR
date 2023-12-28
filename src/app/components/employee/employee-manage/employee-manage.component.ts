@@ -843,6 +843,8 @@ export class EmployeeManageComponent implements OnInit {
   title_uniformpayamount: { [key: string]: string } = { EN: "ผ่อนชำระ(จำนวนเงิน)", TH: "ผ่อนชำระ(จำนวนเงิน)" };
   title_uniformstart: { [key: string]: string } = { EN: "งวดที่เริ่มตัดเงิน'", TH: "งวดที่เริ่มตัดเงิน" };
 
+  title_supplyqty: { [key: string]: string } = { EN: "Quantity'", TH: "จำนวน" };
+
   doLoadLanguage() {
     if (this.initial_current.Language == "TH") {
       this.title_page = "ประวัติพนักงาน";
