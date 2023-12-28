@@ -174,7 +174,7 @@ export class SelfWorkflowComponent implements OnInit {
           this.selectedWorkflow = new WorkflowModel();
           this.new_data = true;
           this.edit_data = false;
-          this.selectedtype = this.TypeList[0]
+          this.selectedtype = this.selectedtypetable;
           this.position_level_source = this.position_level_list;
           this.position_level_target = [];
         }
