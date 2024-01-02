@@ -7,6 +7,7 @@ export class ProjectModel {
     
     project_id: string = "0";
     project_code: string = "";
+    projobsub_code: string = "";
     project_name_th: string = "";
     project_name_en: string = "";
     project_name_sub: string = "";

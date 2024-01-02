@@ -1,66 +1,28 @@
-.spn_title_edit{
-    margin: 10px 0px 10px 15px;    
-    font-weight: bold;
-    font-size: 15px;    
-}
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-small{
-    font-size: 15px;
-}
+import { AttendanceLostwagesComponent } from './attendance-lostwages.component';
 
-.table_summary_{
-    border-collapse: collapse;
-}
+describe('AttendanceLostwagesComponent', () => {
+  let component: AttendanceLostwagesComponent;
+  let fixture: ComponentFixture<AttendanceLostwagesComponent>;
 
-.table_summary_ td{
-    padding: 5px;
-    border: 0px solid #ccc;
-}
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ AttendanceLostwagesComponent ]
+    })
+    .compileComponents();
 
+    fixture = TestBed.createComponent(AttendanceLostwagesComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-.main_div {
-    text-align:left;
-    position: relative;
-    padding: 5px;
-    height: 100px;
-    width: 100px;
-    background-color: #152047;
-}
-.sub_div {
-    position: absolute;
-    bottom: 5px;
-}
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
 
-.spn_value{
-    color: #FFFFFF;
-    font-size: 16px;
-}
-
-.spn_title{
-    color: #FFFFFF;
-    font-size: 12px;    
-}
-
-small{
-    font-size: 15px;
-}
-
-.search-input {
-    display: flex;
-    align-items: center;
- 
-    border-radius: 14px;
-    padding: 14px;
- 
-}
-
-.search-input i {
-    margin-right: 8px;
-    color: #ccc;
-}
-
-
-
+//
 // import { Component, OnInit, ViewChild } from '@angular/core';
 // import { MegaMenuItem, MenuItem } from 'primeng/api';
 // import { ActivatedRoute, NavigationExtras } from '@angular/router';
@@ -86,8 +48,6 @@ small{
 
 
 
-// import { TimecardsModel } from '../../../models/attendance/timecards';
-// import { TimecardService } from 'src/app/services/attendance/timecards.service';
 
 // import { ShiftModels } from 'src/app/models/attendance/shift';
 // import { ShiftServices } from 'src/app/services/attendance/shift.service';
@@ -97,12 +57,18 @@ small{
 // import { PrjectEmpdailyModel } from '../../../models/project/project_empdaily';
 // import { PrjectJobtypeModel } from '../../../models/project/project_jobtype';
 
-// import { SearchEmpComponent } from '../../../components/usercontrol/search-emp/search-emp.component';
+// import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 // import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 // import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 // import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
 // import { TaskComponent } from '../../usercontrol/task/task.component';
 // import { ProjobsubModel } from 'src/app/models/project/project_jobsub';
+// import { EmployeeModel } from 'src/app/models/employee/employee';
+// import { EmployeeService } from 'src/app/services/emp/worker.service';
+// import { LostwagesService } from 'src/app/services/attendance/lostwages.service';
+// import { LostwagesModel } from 'src/app/models/attendance/Lostwages';
+// import { EmployeeresignModel } from 'src/app/models/employee/employee_resign';
+// import { EmpresignService } from 'src/app/services/emp/worker_resign.service';
 
 // interface Result {
 //   worker: string;
@@ -111,20 +77,17 @@ small{
 //   modified_date: string;
 // }
 // @Component({
-//   selector: 'app-project-timesheet',
-//   templateUrl: './project-timesheet.component.html',
-//   styleUrls: ['./project-timesheet.component.scss']
+//   selector: 'app-attendance-lostwages',
+//   templateUrl: './attendance-lostwages.component.html',
+//   styleUrls: ['./attendance-lostwages.component.scss']
 // })
-// export class ProjectTimesheetComponent implements OnInit {
+// export class AttendanceLostwagesComponent implements OnInit {
 
-//   // @ViewChild(SearchEmpComponent) selectEmp: any;
-
-//   @ViewChild(SelectEmpComponent) selectEmp: any;
-//   @ViewChild(TaskComponent) taskView: any;
+//   @ViewChild(SearchEmpComponent) selectEmp: any;
 
 //   home: any;
 //   itemslike: MenuItem[] = [];
-//   menu_timecard: MenuItem[] = [];
+//   menu_lostwages: MenuItem[] = [];
 //   toolbar_menu: MenuItem[] = [];
 
 //   timesheet_list: PrjectEmpdailyModel[] = [];
@@ -177,16 +140,13 @@ small{
 //   title_working_late: { [key: string]: string } = { EN: "Late", TH: "สาย" }
 //   title_working_leave: { [key: string]: string } = { EN: "Leave", TH: "ลางาน" }
 //   title_timesheet: { [key: string]: string } = { EN: "Time Sheet", TH: "ตารางเวลาทำงาน" }
-//   title_working_timesheet: { [key: string]: string } = { EN: "  Time information", TH: "ข้อมูลเวลาทำงาน" }
+//   title_lostwages: { [key: string]: string } = { EN: "Lost Wages", TH: " บันทึกค่าแรงขาด" }
 //   title_export: { [key: string]: string } = { EN: "Export", TH: "ส่งออกไฟล์" }
 
-//   title_import: { [key: string]: string } = { EN: "Import", TH: "นำเข้า" }
-//   title_tab_jobclear: { [key: string]: string } = { EN: "Clear job", TH: "งานเคลียร์" }
-
-//   title_tab_normal: { [key: string]: string } = { EN: "Normal", TH: "งาน" }
-//    title_clearjob: { [key: string]: string } = { EN: "Description", TH: "รายละเอียดงานเคลียร์" }
-
-  
+//    title_import: { [key: string]: string } = { EN: "Import", TH: "นำเข้า" }
+//   title_gender: { [key: string]: string } = { EN: "Gender", TH: "เพศ" }
+//   male_gender: { [key: string]: string } = { EN: "Male", TH: "ชาย" }
+//   female_gender: { [key: string]: string } = { EN: "Female", TH: "หญิง" }
 //   constructor(
 //     private router: Router,
 //     private route: ActivatedRoute,
@@ -195,8 +155,11 @@ small{
 //     private datePipe: DatePipe,
 //     private shiftServices: ShiftServices,
 //     private projectService: ProjectService,
-//     private timecardService: TimecardService,
-//     private projectDetailService: ProjectDetailService
+//     private lostwagesService: LostwagesService,
+//     private projectDetailService: ProjectDetailService,
+//     private empresignService: EmpresignService
+
+    
 //   ) {
 //   }
 
@@ -206,25 +169,22 @@ small{
 //     this.doGetInitialCurrent()
 //     this.doLoadMenu()
 //     setTimeout(() => {
-//       this.doLoadPolJobmain()
-
-//        this.doLoadProjobsub();
 //       this.doLoadProject()
-//       this.doLoadPolShift();
-//       this.doLoadPolDaytype();
-
+//       this.doLoadPolShift()
+//       this.doLoadPolDaytype()
+//       this.doLoadPolJobmain()
 //     }, 300);
-//     this.selectJobmainType()
-//    this.selectJobType()
+
 //     //let dateString = '2023-01-10T00:00:00'
 //     //this.selectedDate_fillter = new Date(dateString);
-//      this.doGetPolJobmainDetail
+
 //     setTimeout(() => {
 
 //       if (this.project_list.length > 0) {
 //         this.selectedProject_fillter = this.project_list[0]
 
-//         this.doLoadTimecard()
+//         this.doLoadLostwages()
+
 //       }
 
 //     }, 800);
@@ -244,7 +204,7 @@ small{
 //     if (!this.initial_current) {
 //       this.router.navigateByUrl('login');
 //     }
-//     this.accessData = this.initialData2.dotGetPolmenu('PRO');
+//     this.accessData = this.initialData2.dotGetPolmenu('ATT');
 
 //   }
 
@@ -259,7 +219,7 @@ small{
 
 //   doLoadMenu() {
 
-//     this.itemslike = [{ label: this.title_working_timesheet[this.initial_current.Language], styleClass: 'activelike' }];
+//     this.itemslike = [{ label: this.title_lostwages[this.initial_current.Language], styleClass: 'activelike' }];
 //     this.home = { icon: 'pi pi-home', routerLink: '/' };
 
 
@@ -279,26 +239,16 @@ small{
 //     ];
 
 
-//     this.menu_timecard = [
+//     this.menu_lostwages = [
 
 //       {
 //         label: this.title_new[this.initial_current.Language],
 //         icon: 'pi pi-fw pi-plus',
 //         command: (event) => {
 //           if (this.accessData.accessdata_new) {
- 
-//           this.displayManage = true
-//           this.searchEmp = true
+//             this.displayManage = true
 
-//             this.doLoadPolJobmain()
-//             this.doLoadProjobsub();
-//             this.doLoadPolShift()
-//             this.doLoadPolDaytype()
-//             this.selectJobmaintype()
-//             this.selectJobtype()
-//             this.doLoadTimecard()
- 
-//            } else {
+//           } else {
 //             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
 //           }
 
@@ -309,10 +259,9 @@ small{
 //         label: this.title_edit[this.initial_current.Language],
 //         icon: 'pi pi-fw pi-pencil',
 //         command: (event) => {
-//           // this.doLoadPolDaytype()
-
-//           // this.doLoadPolShift()
-//           //  this.doLoadPolJobmain()
+//           this.doLoadPolShift()
+//           this.doLoadPolDaytype()
+//           this.doLoadPolJobmain()
 //           this.displayManage = true
 //         }
 //       },
@@ -346,55 +295,58 @@ small{
 
 //   doLoadProject() {
 //     this.project_list = []
-//     this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
+//     this.projectService.project_get(this.initial_current.CompCode, this.selectedProject_fillter.project_code).then(async (res) => {
 //       this.project_list = await res;
+//       console.log(res, 'resresres')
+
 //     });
 //   }
 
 
-//   timecard_list: TimecardsModel[] = [];
-//   selectedTimecard: TimecardsModel = new TimecardsModel();
-//   edit_timecard: boolean = false;
+//   lostwages_list: LostwagesModel[] = [];
+//   selectedlostwages: LostwagesModel = new LostwagesModel();
+//   edit_lostwages: boolean = false;
 
 //   timein: string = "00:00"
 //   timeout: string = "00:00"
 
-//   doLoadTimecard() {
-//     this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedToDate_fillter).then(async (res) => {
-//       await res.forEach((element: TimecardsModel) => {
-//         element.timecard_before_min_app = Number(element.timecard_before_min_app);
-//         element.timecard_work1_min_app = Number(element.timecard_work1_min_app);
-//         element.timecard_after_min_app = Number(element.timecard_after_min_app);
-//         element.timecard_late_min_app = Number(element.timecard_late_min_app);
-//         // element.projob_code = String(element.projob_code);
-//         // element.projobsub_code = String(element.projobsub_code);
+//   doLoadLostwages() {
+//     this.lostwagesService.lostwages_get(this.initial_current.CompCode, "", "", this.selectedDate_fillter, this.selectedToDate_fillter).then(async (res) => {
+//       await res.forEach((element: LostwagesModel) => {
+//         element.lostwages_before_min_app = Number(element.lostwages_before_min_app);
+//         element.lostwages_work1_min_app = Number(element.lostwages_work1_min_app);
+//         element.lostwages_after_min_app = Number(element.lostwages_after_min_app);
+//         element.lostwages_late_min_app = Number(element.lostwages_late_min_app);
 
- 
-//     });
-    
-    
-//       this.timecard_list = await res;
-//       if (this.timecard_list.length > 0) {
-//         this.selectedTimecard = this.timecard_list[0]///
+//       });
+
+//       this.lostwages_list = await res;
+//       console.log(res, 'ggggg')
+
+//       if (this.lostwages_list.length > 0) {
+//         this.selectedlostwages = this.lostwages_list[0]///
 //       }
 //     });
+//     this.doLoadPolJobmain()
+
 //   }
 
+  
 //   emp_name: string = ""
-//   onRowSelectTimecard(event: Event) {
+//   onRowSelectLostwages(event: Event) {
 //     if (this.initial_current.Language == "EN") {
-//       this.emp_name = this.selectedTimecard.worker_name_en
+//       this.emp_name = this.selectedlostwages.worker_name_en
 //     }
 //     else {
-//       this.emp_name = this.selectedTimecard.worker_name_th
+//       this.emp_name = this.selectedlostwages.worker_name_th
 //     }
 
 //     var a = "qq"
-//     var timecard_in = this.selectedTimecard.timecard_in.split(" ")
-//     var timecard_out = this.selectedTimecard.timecard_out.split(" ")
+//     var lostwages_in = this.selectedlostwages.lostwages_in.split(" ")
+//     var lostwages_out = this.selectedlostwages.lostwages_out.split(" ")
 
-//     this.timein = timecard_in[1]
-//     this.timeout = timecard_out[1]
+//     this.timein = lostwages_in[1]
+//     this.timeout = lostwages_out[1]
 
 //   }
 
@@ -421,7 +373,8 @@ small{
 //   }
 
 //   doFillter() {
-//     this.doLoadTimecard()
+//     this.doLoadLostwages()
+
 //   }
 
 //   close_manage() {
@@ -429,7 +382,6 @@ small{
 //   }
 
 
-  
 //   shift_list: ShiftModels[] = [];
 //   doLoadPolShift() {
 //     var tmp = new ShiftModels();
@@ -450,9 +402,8 @@ small{
 
 //   daytype_list: DaytypeModels[] = [];
 //   doLoadPolDaytype() {
-    
 //     this.daytype_list = []
-//     this.timecardService.daytype_get().then(async (res) => {
+//     this.lostwagesService.daytype_get().then(async (res) => {
 //       this.daytype_list = await res;
 //     });
 //   }
@@ -464,7 +415,6 @@ small{
 //     }
 //     return ""
 //   }
-//   //ProjectModel
 //   version: string = "";
 //   jobmain_list: ProjobmainModel[] = [];
 
@@ -477,45 +427,31 @@ small{
 //   job_type: string = "Normal";
 //   jobsub_type: string = "jobmain";
 
-//   // async doLoadPolJobmain() {
-//   //   try {
-//   //     this.jobmain_list = [];
+//   async doLoadPolJobmain() {
+//     // projobversiondate_get
+//     try {
+//       this.jobmain_list = [];
+//       this.selectedDate_fillter, this.selectedToDate_fillter
       
-//   //     // ดึงข้อมูล Projobmain ทั้งหมด
-//   //     const allProjobmain = await this.projectDetailService.projobversiondate_get(this.selectedProject_fillter.project_code,this.selectedDate_fillter,this.selectedToDate_fillter);
-  
-//   //     // หา Projobmain ที่มี version ล่าสุด
-//   //     if (allProjobmain && allProjobmain.length > 0) {const latestProjobmain = allProjobmain.reduce((acc: { version: number; }, current: { version: number; }) => {
-//   //         return acc.version > current.version ? acc : current;
-//   //       });
-  
-//   //       // ดึงข้อมูล Projobmain ตาม version ล่าสุดที่พบ
-//   //       const res = await this.projectDetailService.projobmain_get(latestProjobmain.version,this.selectedProject_fillter.project_code,"",this.selectedDate_fillter,this.selectedDate_fillter);
-//   //       this.jobmain_list = res as ProjobmainModel[];
-//   //      }
-//   //   } catch (error) {
-//   //     console.error(error);
-//   //   }
-//   // }
-  
-//   jobmain_list2: ProjobmainModel[] = [];
+//       const allProjobmain = await this.projectDetailService.projobversiondate_get( this.selectedProject_fillter.project_code,this.selectedDate_fillter, this.selectedToDate_fillter); // เรียกดึงข้อมูล Projobmain ทั้งหมด
+//       // this.doLoadProjobsub(this.version);
 
-//   doLoadPolJobmain() {
-//     this.jobmain_list = []
-//     this.projectDetailService.projobmain_get("", this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
-//       this.jobmain_list = await res;
- 
-//     });
-//   }
-//   doGetPolJobmainDetail2(code: string): string {
-//     for (let i = 0; i < this.jobmain_list2.length; i++) {
-//       if (this.jobmain_list2[i].projobmain_code === code) {
-//         return this.initial_current.Language === 'TH' ? this.jobmain_list2[i].projobmain_name_th : this.jobmain_list2[i].projobmain_name_en;
-//       }
+//       if (allProjobmain && allProjobmain.length > 0) {
+//         // เลือกเฉพาะข้อมูลที่มี version เป็นตัวล่าสุด
+//         const latestProjobmain = allProjobmain.reduce((acc: ProjobmainModel, current: ProjobmainModel) => {
+//           return acc.version > current.version ? acc : current;
+          
+//         });
+
+//         const res = await this.projectDetailService.projobmain_get( latestProjobmain.version, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter);
+//         this.jobmain_list = res as ProjobmainModel[];
+//           console.log(res,'ttt')
+//        }
+//     } catch (error) {
+//       console.error(error);
 //     }
-//     return '';
 //   }
-
+  
 //   doGetPolJobmainDetail(code: string): string {
 //     for (let i = 0; i < this.jobmain_list.length; i++) {
 //       if (this.jobmain_list[i].projobmain_code === code) {
@@ -525,139 +461,92 @@ small{
 //     return '';
 //   }
   
-  
-//   async doLoadProjobsub() {
-//     try {
-//       this.jobmain_list = [];
-//       this.selectedDate_fillter, this.selectedToDate_fillter
-      
-//       const allProjobmain = await this.projectDetailService.projobversiondate_get( this.selectedProject_fillter.project_code,this.selectedDate_fillter, this.selectedToDate_fillter); // เรียกดึงข้อมูล Projobmain ทั้งหมด
+//   jobmain_list2: ProjobmainModel[] = [];
+
+//   doLoadPolJobmain2() {
+//     this.jobmain_list2 = []
+//     this.projectDetailService.projobmain_get("", this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter).then(async (res) => {
+//       this.jobmain_list2 = await res;
  
-//       if (allProjobmain && allProjobmain.length > 0) {
-//         const latestProjobmain = allProjobmain.reduce((acc: ProjobsubModel, current: ProjobsubModel) => {
-//           return acc.version > current.version ? acc : current;
-          
-//         });
- 
-//         const res = await this.projectDetailService.projobsub_get( latestProjobmain.version, this.selectedProject_fillter.project_code);
-//         this.projobsub_list = res as ProjobsubModel[];
-//         }
-//     } catch (error) {
-//       console.error(error);
-//     }
+//     });
 //   }
 
-
-//   doGetDetail(code: string): string {
-//     for (let i = 0; i < this.projobsub_list.length; i++) {
-//       if (this.projobsub_list[i].projobsub_code == code) {
-//         return this.initial_current.Language == "TH" ? this.projobsub_list[i].projobsub_name_th : this.projobsub_list[i].projobsub_name_th;
+//   doGetPolJobmainDetail2(code: string): string {
+//     for (let i = 0; i < this.jobmain_list2.length; i++) {
+//       if (this.jobmain_list2[i].projobmain_code === code) {
+//         return this.initial_current.Language === 'TH' ? this.jobmain_list2[i].projobmain_name_th : this.jobmain_list2[i].projobmain_name_en;
 //       }
 //     }
-//     return "";
+//     return '';
 //   }
 
-//   selectJobmaintype() {
-//     this.doLoadPolJobmain();
-    
-//   }
-
-//   selectJobtype() {
-//     this.doLoadProjobsub();
-//   }
-
-// // ตัวแปรในคลาส
-// jobListLoaded: boolean = false;
-// jobSubListLoaded: boolean = false;
- 
 
 
-// selectJobmainType() {
-//   if (this.job_type === 'Normal') {
-//     this.jobListLoaded = true; // เปลี่ยนสถานะของ jobListLoaded เมื่อเลือก 'งาน'
-//     this.jobSubListLoaded = false; // ปิดสถานะของ jobSubListLoaded เมื่อเลือก 'งาน'
-//     this.selectJobmainType()
-//     this.doLoadPolJobmain()
- 
-    
-//   } else {
-//     // อื่น ๆ
-//     this.jobListLoaded = false;
-//     this.jobSubListLoaded = false;
-//   }
-// }
+//   // jobmain_list: ProjobmainModel[] = [];
+//   // selectedJobmain: RadiovalueModel = new RadiovalueModel;
 
-// selectJobType() {
-//   if (this.jobsub_type === 'jobmain') {
-//     this.jobSubListLoaded = true; // เปลี่ยนสถานะของ jobSubListLoaded เมื่อเลือก 'งานเคลีย'
-//     this.jobListLoaded = false; // ปิดสถานะของ jobListLoaded เมื่อเลือก 'งานเคลีย'
-//     this.selectJobtype()
-//     this.doLoadProjobsub();
- 
-//   } else {
-//     this.jobSubListLoaded = false;
-//     this.jobListLoaded = false;
-//   }
-// }
+//   // doGetPolJobmainDetail(code: string): string {
+//   //   for (let i = 0; i < this.jobmain_list.length; i++) {
+//   //     if (this.jobmain_list[i].projobmain_code == code) {
+//   //       return this.initial_current.Language == "TH" ? this.jobmain_list[i].projobmain_name_th : this.jobmain_list[i].projobmain_name_en
+//   //     }
+//   //   }
+//   //   return ""
+//   // }
 
+//   // searchemp
 
-//   //
 //   process() {
 //     this.result_list = [];
-//     if (this.selectEmp.employee_dest) {
-//       this.timesheet();
-//     } else {
+    
+//     if (this.selectEmp.selectedEmployee.worker_code) {
+//       this.timesheet_summit()
+//      } else {
 //       this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
 //     }
+//     console.log(this.selectEmp.selectedEmployee,'uuuy')
 //   }
 
-//   timesheet() {
+ 
+//   timesheet_summit() {
 //     this.confirmationService.confirm({
 //       message: this.title_confirm_record[this.initial_current.Language],
 //       header: this.title_confirm[this.initial_current.Language],
 //       icon: 'pi pi-exclamation-triangle',
 //       accept: () => {
 
-//         var data = new TimecardsModel();
+//         var data = new LostwagesModel();
 //         data.company_code = this.initial_current.CompCode;
-//         data.emp_data = this.selectEmp.employee_dest;
+
+//          data.emp_data =this.selectEmp.selectedEmployee.worker_code;
+ 
 //         data.project_code = this.selectedProject_fillter.project_code;
-//         data.projob_code = this.selectedProjobmain.projob_code;
+//         data.projob_code = this.selectedlostwages.projob_code;
 
-//         data.timecard_daytype = this.selectedTimecard.timecard_daytype;
-//         data.shift_code = this.selectedTimecard.shift_code;
-//          //
-//         data.projobsub_code = this.selectedProjobsub.projobsub_code;
-
-//         //
+//         data.lostwages_daytype = this.selectedlostwages.lostwages_daytype;
+//         data.shift_code = this.selectedlostwages.shift_code;
+  
 
 //         data.modified_by = this.initial_current.Username;
 
-//         data.company_code = this.initial_current.CompCode
-//         // data.project_code = this.selectedProject_fillter.project_code
-//         data.timecard_color = "1"
+//          data.lostwages_color = "1"
 
-//         data.timecard_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
-//         data.timecard_in = this.timein
-//         data.timecard_out = this.timeout
+//         data.lostwages_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
+//         data.lostwages_in = this.timein
+//         data.lostwages_out = this.timeout
+//         console.log(data,'datadata')
 
-//         this.timecardService.timesheet_record(data).then((res) => {
-//           let result = JSON.parse(res);
+//         this.lostwagesService.lostwagestimesheet_record(data).then((res) => {
+//            let result = JSON.parse(res);
+//           console.log(res,'resresresres')
+
 //           if (result.success) {
 //             this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
+//              this.displayManage = false
+//              setTimeout(() => {
+//               this.doLoadLostwages()
 
-//             this.displayManage = true
-//             this.edit_timecard = false
-//             setTimeout(() => {
-//               this.doLoadTimecard()
-//               this.doLoadPolJobmain()
-//               this.doLoadProjobsub();
-//               this.selectJobmainType()
-//               this.selectJobType()
-//               this.doLoadPolShift()
-//               this.doLoadPolDaytype()
 
- 
 //             }, 300);
 
 //           }
@@ -675,6 +564,85 @@ small{
 //   }
 
 
+
+
+//   // timesheet_summit() {
+//   //   this.confirmationService.confirm({
+//   //     message: this.title_confirm_record[this.initial_current.Language],
+//   //     header: this.title_confirm[this.initial_current.Language],
+//   //     icon: 'pi pi-exclamation-triangle',
+//   //     accept: () => {
+//   //       // this.selectedlostwages.emp_data = this.selectEmp;
+//   //       this.selectedlostwages.emp_data = this.selectEmp.selectedEmployee.worker_code;
+//   //       // this.selectedlostwages.emp_data = this.selectEmp.selectedlostwages.worker_code
+//   //       // console.log(this.selectedlostwages.emp_data ,'selectedlostwages')
+
+//   //       this.selectedlostwages.projob_code = this.selectedlostwages.projob_code;
+
+//   //       this.selectedlostwages.shift_code = this.selectedlostwages.shift_code;
+//   //       this.selectedlostwages.company_code = this.initial_current.CompCode
+//   //       this.selectedlostwages.project_code = this.selectedProject_fillter.project_code
+//   //       this.selectedlostwages.lostwages_color = "1"
+
+//   //       this.selectedlostwages.lostwages_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
+//   //       this.selectedlostwages.lostwages_in = this.timein
+//   //       this.selectedlostwages.lostwages_out = this.timeout
+//   //       console.log(this.selectedlostwages ,'selectedlostwages')
+
+//         // this.lostwagesService.lostwagestimesheet_record(this.selectedlostwages).then((res) => {
+//         //   let result = JSON.parse(res);
+//   //         console.log(res, 'hhhhhh')
+
+//   //         if (result.success) {
+//   //           this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
+
+//   //           this.displayManage = false
+
+//   //           setTimeout(() => {
+//   //             this.doLoadLostwages()
+              
+//   //           }, 300);
+
+//   //         }
+//   //         else {
+//   //           this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
+//   //         }
+//   //       })
+//   //     },
+//   //     reject: () => {
+//   //       this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: this.title_confirm_cancel[this.initial_current.Language] });
+//   //     },
+//   //     key: "myDialog"
+
+//   //   });
+//   // }
+
+//   select_emp() {
+
+ 
+//     // console.log(this.selectEmp.selectedEmployee.worker_code)
+
+//     this.selectedlostwages.company_code = this.selectEmp.selectedEmployee.company_code
+//     this.selectedlostwages.worker_code = this.selectEmp.selectedEmployee.worker_code
+//     this.selectedlostwages.worker_cardno = this.selectEmp.selectedEmployee.worker_cardno
+// console.log(this.selectedlostwages.worker_code,'tttteeee')
+//     this.selectedlostwages.lostwages_workdate = this.selectedDate_fillter, this.selectedToDate_fillter
+//     this.doLoadPolShift()
+//     this.doLoadPolDaytype()
+//     // this.doLoadPolJobmain()
+
+//     if (this.initial_current.Language == "EN") {
+//       this.emp_name = this.selectEmp.selectedEmployee.worker_fname_en + " " + this.selectEmp.selectedEmployee.worker_lname_en
+//     }
+//     else {
+//       this.emp_name = this.selectEmp.selectedEmployee.worker_fname_th + " " + this.selectEmp.selectedEmployee.worker_lname_th
+//     }
+
+//     this.searchEmp = false
+//     this.displayManage = true
+
+//   }
+
 //   close_searchemp() {
 //     this.searchEmp = false
 //   }
@@ -685,18 +653,20 @@ small{
 //   version_selected: string = "";
 
 //   reloadPage() {
-//     this.doLoadTimecard()
+//     this.doLoadLostwages()
 //   }
-  
+//   reloadPages() {
+//     this.doLoadPolJobmain()
+//   }
 //   checked: boolean = false;
 
 //   selectedDataArray: any[] = [];
-//   toggleSelect(data: { checked: boolean }) {
+//   toggleSelect(data: { checked: boolean; }) {
 //     if (data.checked) {
 //       this.selectedDataArray.push(data);
 //       this.checked = true;
 //     } else {
-//       const index = this.selectedDataArray.findIndex(item => item === data);
+//       const index = this.selectedDataArray.indexOf(data);
 //       if (index > -1) {
 //         this.selectedDataArray.splice(index, 1);
 //         if (this.selectedDataArray.length === 0) {
@@ -704,11 +674,11 @@ small{
 //         }
 //       }
 //     }
+//     console.log(this.selectedDataArray, 'รวม')
 //   }
 
-
 //   //Delete
-//   confirmDelete(selectedDataArray: TimecardsModel[]) {
+//   confirmDelete(selectedDataArray: LostwagesModel[]) {
 //     this.confirmationService.confirm({
 //       message: this.title_confirm_record[this.initial_current.Language],
 //       header: this.title_confirm[this.initial_current.Language],
@@ -724,22 +694,21 @@ small{
 //         });
 //       },
 //     });
+//     console.log(this.selectedDataArray, 'ยืนยัน')
 //   }
 
-//   async doDeleteTimesheet(selectedDataArray: TimecardsModel[]) {
+//   async doDeleteTimesheet(selectedDataArray: LostwagesModel[]) {
 //     try {
 //       for (const data of selectedDataArray) {
-//         const res = await this.timecardService.timesheet_delete(
-//           this.initial_current.CompCode, data.project_code, data.worker_code, data
+//         const res = await this.lostwagesService.timesheet_delete(
+//           this.initial_current.CompCode, this.selectedProject_fillter.project_code, this.selectedlostwages.worker_code, data
 //         );
-
 //         if (res.success) {
 //           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
 //         } else {
 //           this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
 //         }
 //       }
-
 //       selectedDataArray.length = 0;
 //       this.doLoadPolJobmain();
 //       this.reloadPage();
@@ -748,5 +717,106 @@ small{
 //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while deleting.' });
 //     }
 //   }
+   
+
+//   // ตัวแปรในคลาส
+//   jobListLoaded: boolean = false;
+//   jobSubListLoaded: boolean = false;
+
+//   open_searchemp() {
+//   this.searchEmp = true
+//   }
+
+//   selectJobmainType() {
+//     if (this.job_type === 'Normal') {
+//       this.jobListLoaded = true; // เปลี่ยนสถานะของ jobListLoaded เมื่อเลือก 'งาน'
+//       this.jobSubListLoaded = false; // ปิดสถานะของ jobSubListLoaded เมื่อเลือก 'งาน'
+ 
+
+//     } else {
+//       // อื่น ๆ
+//       this.jobListLoaded = false;
+//       this.jobSubListLoaded = false;
+//     }
+//   }
+
+//   selectJobType() {
+//     if (this.jobsub_type === 'jobmain') {
+//       this.jobSubListLoaded = true; // เปลี่ยนสถานะของ jobSubListLoaded เมื่อเลือก 'งานเคลีย'
+//       this.jobListLoaded = false; // ปิดสถานะของ jobListLoaded เมื่อเลือก 'งานเคลีย'
+ 
+//     } else {
+//       this.jobSubListLoaded = false;
+//       this.jobListLoaded = false;
+//     }
+//   }
+
+// ///
+// employee_list: EmployeeModel[] = [];
+// selectedEmployee: EmployeeModel = new EmployeeModel();
+// calculateEndDate() {
+//   if (this.selectedEmployee.worker_probationdate && this.selectedEmployee.worker_probationday) {
+//     const start = new Date(this.selectedEmployee.worker_probationdate);
+//     const end = new Date(start);
+//     end.setDate(start.getDate() + this.selectedEmployee.worker_probationday);
+//     this.selectedEmployee.worker_probationenddate = end;
+//   }
+// }
+// emp_code: string = "";
+// emplists: string = "";
+
+// //resign
+// empresignList: EmployeeresignModel[] = [];
+// selectedEmpresign: EmployeeresignModel = new EmployeeresignModel();
+// doLoadEmpresignList() {
+//   this.empresignService.empresign_get(this.initial_current.CompCode, this.emp_code, this.selectedEmployee.worker_cardno).then(async (res) => {
+//     await res.forEach((element: EmployeeresignModel) => {
+//       element.empresign_date = new Date(element.empresign_date)
+//     })
+//     this.empresignList = res;
+//     if (this.empresignList.length > 0) {
+//       this.selectedEmpresign = this.empresignList[0];
+//     }
+//   })
+// }
+// doRecordEmpResign() {
+//   if (this.selectedEmployee.worker_resignstatus) {
+//     var tmp = new EmployeeresignModel();
+//     tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode
+//     tmp.worker_code = this.selectedEmployee.worker_code
+//     tmp.card_no = this.selectedEmployee.worker_cardno
+//     tmp.empresign_date = this.selectedEmployee.worker_resigndate
+//     tmp.reason_code = this.selectedEmployee.worker_resignreason
+//     this.empresignService.empresign_record(tmp).then((res) => {
+//       let result = JSON.parse(res);
+//       if (result.success) {
+//       }
+//       else {
+//       }
+//     })
+//   } else {
+//   }
 // }
 
+
+// doRecordEmpResign2() {
+//   if (this.selectedEmployee.worker_resignreason) {
+//     var tmp = new EmployeeresignModel();
+//     tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode
+//     tmp.worker_code = this.selectedEmployee.worker_code
+//     tmp.card_no = this.selectedEmployee.worker_cardno
+//     tmp.empresign_date = this.selectedEmployee.worker_resigndate
+//     tmp.reason_code = this.selectedEmployee.worker_resignreason
+//     this.empresignService.empresign_record(tmp).then((res) => {
+//       let result = JSON.parse(res);
+//       if (result.success) {
+//       }
+//       else {
+//       }
+//     })
+//   } else {
+//   }
+// }
+
+
+// }

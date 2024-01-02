@@ -23,8 +23,6 @@ import { ProjobmainModel } from '../../../models/project/project_jobmain';
 
 
 
-import { TimecardsModel } from '../../../models/attendance/timecards';
-import { TimecardService } from 'src/app/services/attendance/timecards.service';
 
 import { ShiftModels } from 'src/app/models/attendance/shift';
 import { ShiftServices } from 'src/app/services/attendance/shift.service';
@@ -34,12 +32,18 @@ import { DaytypeModels } from 'src/app/models/attendance/daytype';
 import { PrjectEmpdailyModel } from '../../../models/project/project_empdaily';
 import { PrjectJobtypeModel } from '../../../models/project/project_jobtype';
 
-import { SearchEmpComponent } from '../../../components/usercontrol/search-emp/search-emp.component';
+import { SearchEmpComponent } from '../../usercontrol/search-emp/search-emp.component';
 import { AccessdataModel } from 'src/app/models/system/security/accessdata';
 import { FillterProjectModel } from 'src/app/models/usercontrol/fillterproject';
 import { SelectEmpComponent } from '../../usercontrol/select-emp/select-emp.component';
 import { TaskComponent } from '../../usercontrol/task/task.component';
 import { ProjobsubModel } from 'src/app/models/project/project_jobsub';
+import { EmployeeModel } from 'src/app/models/employee/employee';
+import { EmployeeService } from 'src/app/services/emp/worker.service';
+import { LostwagesService } from 'src/app/services/attendance/lostwages.service';
+import { LostwagesModel } from 'src/app/models/attendance/Lostwages';
+import { EmployeeresignModel } from 'src/app/models/employee/employee_resign';
+import { EmpresignService } from 'src/app/services/emp/worker_resign.service';
 
 interface Result {
   worker: string;
@@ -48,21 +52,18 @@ interface Result {
   modified_date: string;
 }
 @Component({
-  selector: 'app-project-timesheet',
-  templateUrl: './project-timesheet.component.html',
-  styleUrls: ['./project-timesheet.component.scss']
+  selector: 'app-attendance-lostwages',
+  templateUrl: './attendance-lostwages.component.html',
+  styleUrls: ['./attendance-lostwages.component.scss']
 })
-export class ProjectTimesheetComponent implements OnInit {
+export class AttendanceLostwagesComponent implements OnInit {
 
-  // @ViewChild(SearchEmpComponent) selectEmp: any;
-
-  @ViewChild(SelectEmpComponent) selectEmp: any;
-  @ViewChild(TaskComponent) taskView: any;
+  @ViewChild(SearchEmpComponent) selectEmp: any;
   edit_data: boolean = false;
   new_data: boolean = false;
-  home: any;
+   home: any;
   itemslike: MenuItem[] = [];
-  menu_timecard: MenuItem[] = [];
+  menu_lostwages: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
 
   timesheet_list: PrjectEmpdailyModel[] = [];
@@ -102,7 +103,7 @@ export class ProjectTimesheetComponent implements OnInit {
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" }
 
   title_jobcode: { [key: string]: string } = { EN: "Job", TH: "งาน" }
-  title_jobname: { [key: string]: string } = { EN: "Description", TH: "รายละเอียดงาน" }
+  title_jobname: { [key: string]: string } = { EN: "Description", TH: "รายละเอียด" }
   title_empcode: { [key: string]: string } = { EN: "Emp. code", TH: "รหัสพนักงาน" }
   title_empname: { [key: string]: string } = { EN: "Emp. name", TH: "ชื่อ-นามสกุล" }
   title_shift: { [key: string]: string } = { EN: "Shift", TH: "กะการทำงาน" }
@@ -115,16 +116,13 @@ export class ProjectTimesheetComponent implements OnInit {
   title_working_late: { [key: string]: string } = { EN: "Late", TH: "สาย" }
   title_working_leave: { [key: string]: string } = { EN: "Leave", TH: "ลางาน" }
   title_timesheet: { [key: string]: string } = { EN: "Time Sheet", TH: "ตารางเวลาทำงาน" }
-  title_working_timesheet: { [key: string]: string } = { EN: "  Time information", TH: "ข้อมูลเวลาทำงาน" }
+  title_lostwages: { [key: string]: string } = { EN: "Lost Wages", TH: " บันทึกค่าแรงขาด" }
   title_export: { [key: string]: string } = { EN: "Export", TH: "ส่งออกไฟล์" }
 
   title_import: { [key: string]: string } = { EN: "Import", TH: "นำเข้า" }
-  title_tab_jobclear: { [key: string]: string } = { EN: "Clear job", TH: "งานเคลียร์" }
-
-  title_tab_normal: { [key: string]: string } = { EN: "Normal", TH: "งาน" }
-  title_clearjob: { [key: string]: string } = { EN: "Description", TH: "รายละเอียดงานเคลียร์" }
-
-
+  title_gender: { [key: string]: string } = { EN: "Gender", TH: "เพศ" }
+  male_gender: { [key: string]: string } = { EN: "Male", TH: "ชาย" }
+  female_gender: { [key: string]: string } = { EN: "Female", TH: "หญิง" }
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -133,8 +131,13 @@ export class ProjectTimesheetComponent implements OnInit {
     private datePipe: DatePipe,
     private shiftServices: ShiftServices,
     private projectService: ProjectService,
-    private timecardService: TimecardService,
-    private projectDetailService: ProjectDetailService
+    private lostwagesService: LostwagesService,
+    private projectDetailService: ProjectDetailService,
+    private empresignService: EmpresignService,
+    private employeeService: EmployeeService,
+
+
+
   ) {
   }
 
@@ -143,18 +146,16 @@ export class ProjectTimesheetComponent implements OnInit {
     this.doLoadLanguage()
     this.doGetInitialCurrent()
     this.doLoadMenu()
-    this.doLoadPolJobmain()
-    this.doLoadProjobsub()
-    this.doLoadPolJobmain2()
-    this.doLoadProjobsub2()
-    this.selectJobmainType();
-    this.selectJobType();
+    // this.doLoadLostwages()
     setTimeout(() => {
       this.doLoadProject()
       this.doLoadPolShift()
       this.doLoadPolDaytype()
-
+      this.doLoadPolJobmain()
     }, 300);
+
+    this.doLoadEmployee()
+    this.doLoadPolJobmain2()
     //let dateString = '2023-01-10T00:00:00'
     //this.selectedDate_fillter = new Date(dateString);
 
@@ -163,7 +164,8 @@ export class ProjectTimesheetComponent implements OnInit {
       if (this.project_list.length > 0) {
         this.selectedProject_fillter = this.project_list[0]
 
-        this.doLoadTimecard()
+        this.doLoadLostwages()
+
       }
 
     }, 800);
@@ -183,7 +185,7 @@ export class ProjectTimesheetComponent implements OnInit {
     if (!this.initial_current) {
       this.router.navigateByUrl('login');
     }
-    this.accessData = this.initialData2.dotGetPolmenu('PRO');
+    this.accessData = this.initialData2.dotGetPolmenu('ATT');
 
   }
 
@@ -198,7 +200,7 @@ export class ProjectTimesheetComponent implements OnInit {
 
   doLoadMenu() {
 
-    this.itemslike = [{ label: this.title_working_timesheet[this.initial_current.Language], styleClass: 'activelike' }];
+    this.itemslike = [{ label: this.title_lostwages[this.initial_current.Language], styleClass: 'activelike' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
 
 
@@ -218,7 +220,7 @@ export class ProjectTimesheetComponent implements OnInit {
     ];
 
 
-    this.menu_timecard = [
+    this.menu_lostwages = [
 
       {
         label: this.title_new[this.initial_current.Language],
@@ -226,25 +228,14 @@ export class ProjectTimesheetComponent implements OnInit {
         command: (event) => {
           if (this.accessData.accessdata_new) {
             this.clearManage();
-            this.new_timecard = true;
-            this.selectedTimecard = new TimecardsModel();
+            this.new_lostwages = true;
+            this.selectedlostwages = new LostwagesModel();
             this.selectedProjobmain = new ProjectModel();
             this.selectedJobmain = new RadiovalueModel();
             this.selectedProjobsub = new ProjobsubModel();
             this.timein = "00:00"
             this.timeout = "00:00"
-            this.showManage();
- 
-            // this.doLoadPolJobmain()
-            // this.doLoadProjobsub();
-            // this.doLoadPolShift()
-            // this.doLoadPolDaytype()
-            // // this.selectJobmaintype()
-            // // this.selectJobtype()
-            // this.doLoadTimecard()
-            // this.new_timecard = true;
-
-            // this.displayManage = true;
+             this.showManage();
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
@@ -256,19 +247,10 @@ export class ProjectTimesheetComponent implements OnInit {
         label: this.title_edit[this.initial_current.Language],
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          if (this.selectedTimecard != null) {
-            this.edit_timecard = true;
-            this.showManage();
-          }
+          this.showManage();
+          this.edit_lostwages = true;
 
-          // this.selectJobmainType();
-          // this.selectJobType();
-          // this.edit_data = true;
-          // this.edit_timecard = true
 
-          // this.displayManage = true
-          // this.selectEmp.employee_dest
-          // this.selectEmp = true
         }
       },
       {
@@ -293,6 +275,12 @@ export class ProjectTimesheetComponent implements OnInit {
     ];
 
   }
+  employee_list: EmployeeModel[] = [];
+  doLoadEmployee() {
+    this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) => {
+      this.employee_list = await res;
+    });
+  }
 
   project_list: ProjectModel[] = [];
   selectedProject_fillter: ProjectModel = new ProjectModel()
@@ -301,52 +289,59 @@ export class ProjectTimesheetComponent implements OnInit {
 
   doLoadProject() {
     this.project_list = []
-    this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
+    this.projectService.project_get(this.initial_current.CompCode,  "").then(async (res) => {
       this.project_list = await res;
+      console.log(res, 'resresres')
+
     });
   }
 
 
-  timecard_list: TimecardsModel[] = [];
-  selectedTimecard: TimecardsModel = new TimecardsModel();
-  edit_timecard: boolean = false;
-  new_timecard: boolean = false;
+  lostwages_list: LostwagesModel[] = [];
+  selectedlostwages: LostwagesModel = new LostwagesModel();
+  edit_lostwages: boolean = false;
+  new_lostwages: boolean = false;
   timein: string = "00:00"
   timeout: string = "00:00"
 
-  doLoadTimecard() {
-    this.timecardService.timecard_get(this.initial_current.CompCode, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedToDate_fillter).then(async (res) => {
-      await res.forEach((element: TimecardsModel) => {
-        element.timecard_before_min_app = Number(element.timecard_before_min_app);
-        element.timecard_work1_min_app = Number(element.timecard_work1_min_app);
-        element.timecard_after_min_app = Number(element.timecard_after_min_app);
-        element.timecard_late_min_app = Number(element.timecard_late_min_app);
+  doLoadLostwages() {
+    this.lostwagesService.lostwages_get(this.initial_current.CompCode, "", "", "", this.selectedDate_fillter, this.selectedToDate_fillter).then(async (res) => {
+      await res.forEach((element: LostwagesModel) => {
+        element.lostwages_before_min_app = Number(element.lostwages_before_min_app);
+        element.lostwages_work1_min_app = Number(element.lostwages_work1_min_app);
+        element.lostwages_after_min_app = Number(element.lostwages_after_min_app);
+        element.lostwages_late_min_app = Number(element.lostwages_late_min_app);
+
       });
-      console.log(res, 'tttter')
-      this.timecard_list = await res;
-      if (this.timecard_list.length > 0) {
-        this.selectedTimecard = this.timecard_list[0]///
+
+      this.lostwages_list = await res;
+ 
+      if (this.lostwages_list.length > 0) {
+        this.selectedlostwages = this.lostwages_list[0]///
       }
     });
+    // this.doLoadPolJobmain()
 
   }
 
+
   emp_name: string = ""
-  onRowSelectTimecard(event: Event) {
+  onRowSelectLostwages(event: Event) {
     if (this.initial_current.Language == "EN") {
-      this.emp_name = this.selectedTimecard.worker_name_en
+      this.emp_name = this.selectedlostwages.worker_name_en
     }
     else {
-      this.emp_name = this.selectedTimecard.worker_name_th
+      this.emp_name = this.selectedlostwages.worker_name_th
     }
 
     var a = "qq"
-    var timecard_in = this.selectedTimecard.timecard_in.split(" ")
-    var timecard_out = this.selectedTimecard.timecard_out.split(" ")
+    var lostwages_in = this.selectedlostwages.lostwages_in.split(" ")
+    var lostwages_out = this.selectedlostwages.lostwages_out.split(" ")
 
-    this.timein = timecard_in[1]
-    this.timeout = timecard_out[1]
-   }
+    this.timein = lostwages_in[1]
+    this.timeout = lostwages_out[1]
+
+  }
 
   pad(num: number, size: number): string {
     let s = num + "";
@@ -358,7 +353,6 @@ export class ProjectTimesheetComponent implements OnInit {
     var hrs = Math.floor(time_min / 60);
     var min = time_min - (hrs * 60);
     return this.pad(hrs, 2) + ":" + this.pad(min, 2);
-    
   }
 
   doGetMinute(HHmm: string): number {
@@ -372,7 +366,8 @@ export class ProjectTimesheetComponent implements OnInit {
   }
 
   doFillter() {
-    this.doLoadTimecard()
+    this.doLoadLostwages()
+
   }
 
   close_manage() {
@@ -401,7 +396,7 @@ export class ProjectTimesheetComponent implements OnInit {
   daytype_list: DaytypeModels[] = [];
   doLoadPolDaytype() {
     this.daytype_list = []
-    this.timecardService.daytype_get().then(async (res) => {
+    this.lostwagesService.daytype_get().then(async (res) => {
       this.daytype_list = await res;
     });
   }
@@ -413,7 +408,6 @@ export class ProjectTimesheetComponent implements OnInit {
     }
     return ""
   }
-  //ProjectModel
   version: string = "";
   jobmain_list: ProjobmainModel[] = [];
 
@@ -423,8 +417,8 @@ export class ProjectTimesheetComponent implements OnInit {
   projobsub_list: ProjobsubModel[] = [];
   selectedProjobsub: ProjobsubModel = new ProjobsubModel();
   result_list: Result[] = [];
-  job_type: string = "Normal";
-  jobsub_type: string = "jobmain";
+  internal_staff: string = "0";
+  external_employees: string = "1";
 
   async doLoadPolJobmain() {
     try {
@@ -467,140 +461,82 @@ export class ProjectTimesheetComponent implements OnInit {
     return '';
   }
 
-  async doLoadProjobsub() {
-    try {
-      this.projobsub_list = [];
-      const allProjobmain = await this.projectDetailService.projobversiondate_get(this.selectedProject_fillter.project_code, this.selectedDate_fillter, this.selectedToDate_fillter);
-      if (allProjobmain && allProjobmain.length > 0) {
-        const latestProjobmain = allProjobmain.reduce((acc: ProjobsubModel, current: ProjobsubModel) => acc.version > current.version ? acc : current);
-        const res = await this.projectDetailService.projobsub_get(latestProjobmain.version, this.selectedProject_fillter.project_code);
-        this.projobsub_list = res as ProjobsubModel[];
-      }
-    } catch { }
-  }
-  doGetDetail(code: string): string {
-    for (let i = 0; i < this.projobsub_list.length; i++) {
-      if (this.projobsub_list[i].projobsub_code == code) {
-        return this.initial_current.Language == "TH" ? this.projobsub_list[i].projobsub_name_th : this.projobsub_list[i].projobsub_name_th;
-      }
-    }
-    return "";
-  }
 
-  projobsub_list2: ProjobsubModel[] = [];
 
-  doLoadProjobsub2() {
-    this.projobsub_list2 = []
-    this.projectDetailService.projobsub_get("", this.selectedProject_fillter.project_code).then(async (res) => {
-      this.projobsub_list2 = await res;
 
-    });
+  // jobmain_list: ProjobmainModel[] = [];
+  // selectedJobmain: RadiovalueModel = new RadiovalueModel;
 
-  }
-
-  doGetDetail2(code: string): string {
-    for (let i = 0; i < this.projobsub_list2.length; i++) {
-      if (this.projobsub_list2[i].projobsub_code == code) {
-        return this.initial_current.Language == "TH" ? this.projobsub_list2[i].projobsub_name_th : this.projobsub_list2[i].projobsub_name_th;
-      }
-
-    }
-    return "";
-  }
-
-  // selectJobmaintype() {
-  //   this.doLoadPolJobmain();
-
+  // doGetPolJobmainDetail(code: string): string {
+  //   for (let i = 0; i < this.jobmain_list.length; i++) {
+  //     if (this.jobmain_list[i].projobmain_code == code) {
+  //       return this.initial_current.Language == "TH" ? this.jobmain_list[i].projobmain_name_th : this.jobmain_list[i].projobmain_name_en
+  //     }
+  //   }
+  //   return ""
   // }
 
-  // selectJobtype() {
-  //   this.doLoadProjobsub();
+  // searchemp
 
-  // }
-
-  // ตัวแปรในคลาส
-  jobListLoaded: boolean = false;
-  jobSubListLoaded: boolean = false;
-
-
-
-  selectJobmainType() {
-    if (this.job_type === 'Normal') {
-      this.jobListLoaded = true; // เปลี่ยนสถานะของ jobListLoaded เมื่อเลือก 'งาน'
-      this.jobSubListLoaded = false; // ปิดสถานะของ jobSubListLoaded เมื่อเลือก 'งาน'
-      this.doLoadPolJobmain()
-
-
-    } else {
-      // อื่น ๆ
-      this.jobListLoaded = false;
-      this.jobSubListLoaded = false;
-    }
-  }
-
-  selectJobType() {
-    if (this.jobsub_type === 'jobmain') {
-      this.jobSubListLoaded = true; // เปลี่ยนสถานะของ jobSubListLoaded เมื่อเลือก 'งานเคลีย'
-      this.jobListLoaded = false; // ปิดสถานะของ jobListLoaded เมื่อเลือก 'งานเคลีย'
-      this.doLoadProjobsub();
-
-    } else {
-      this.jobSubListLoaded = false;
-      this.jobListLoaded = false;
-    }
-  }
-
-
-  //
   process() {
     this.result_list = [];
-    if (this.selectEmp.employee_dest) {
-      this.timesheet();
+
+    if (this.selectEmp.selectedEmployee.worker_code) {
+      this.Lostwages_summit()
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
     }
+    console.log(this.selectEmp.selectedEmployee, 'uuuy')
   }
 
-  timesheet() {
+
+  Lostwages_summit() {
     this.confirmationService.confirm({
       message: this.title_confirm_record[this.initial_current.Language],
       header: this.title_confirm[this.initial_current.Language],
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        //  this.selectedlostwages.emp_data = this.selectEmp.selectedEmployee.worker_code;
+        this.selectedlostwages.emp_data = [this.selectEmp.selectedEmployee];
 
-        var data = new TimecardsModel();
-        data.company_code = this.initial_current.CompCode;
-        data.emp_data = this.selectEmp.employee_dest;
-        data.project_code = this.selectedProject_fillter.project_code;
-        data.projob_code = this.selectedTimecard.projob_code;
+        this.selectedlostwages.lostwages_status = this.selectedlostwages.lostwages_status;
+        console.log(this.selectedlostwages.lostwages_status, 'lostwages_status')
 
-        data.timecard_daytype = this.selectedTimecard.timecard_daytype;
-        data.shift_code = this.selectedTimecard.shift_code;
-        //
-        data.projobsub_code = this.selectedTimecard.projobsub_code;
 
-        //
+        this.selectedlostwages.projob_code = this.selectedlostwages.projob_code;
 
-        data.modified_by = this.initial_current.Username;
 
-        data.company_code = this.initial_current.CompCode
-        // data.project_code = this.selectedProject_fillter.project_code
-        data.timecard_color = "1"
+        this.selectedlostwages.lostwages_initial = this.selectedlostwages.lostwages_initial;
+        console.log(this.selectedlostwages.lostwages_initial = this.selectedlostwages.lostwages_initial, 'rrrt')
+        this.selectedlostwages.lostwages_cardno = this.selectedlostwages.lostwages_cardno;
+        this.selectedlostwages.lostwages_gender = this.selectedlostwages.lostwages_gender;
+        this.selectedlostwages.lostwages_fname_th = this.selectedlostwages.lostwages_fname_th;
+        this.selectedlostwages.lostwages_laname_th = this.selectedlostwages.lostwages_laname_th;
 
-        data.timecard_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
-        data.timecard_in = this.timein
-        data.timecard_out = this.timeout
+        this.selectedlostwages.shift_code = this.selectedlostwages.shift_code;
+        this.selectedlostwages.company_code = this.initial_current.CompCode
+        this.selectedlostwages.project_code = this.selectedProject_fillter.project_code
+        this.selectedlostwages.lostwages_color = "1"
 
-        this.timecardService.timesheet_record(data).then((res) => {
+        this.selectedlostwages.lostwages_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
+        this.selectedlostwages.lostwages_in = this.timein
+        this.selectedlostwages.lostwages_out = this.timeout
+        console.log(this.selectedlostwages, 'selectedlostwages')
+
+        this.lostwagesService.lostwagestimesheet_record(this.selectedlostwages).then((res) => {
           let result = JSON.parse(res);
+          console.log(res, 'hhhhhh')
+
           if (result.success) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
+
             this.edit_data = true;
             this.displayManage = false
-            this.edit_timecard = false
-            setTimeout(() => {
-              this.doLoadTimecard()
+            this.edit_lostwages= false
+            this.displayManage = false
 
+            setTimeout(() => {
+              this.doLoadLostwages()
 
             }, 300);
 
@@ -618,6 +554,31 @@ export class ProjectTimesheetComponent implements OnInit {
     });
   }
 
+  select_emp() {
+
+
+    // console.log(this.selectEmp.selectedEmployee.worker_code)
+
+    this.selectedlostwages.company_code = this.selectEmp.selectedEmployee.company_code
+    this.selectedlostwages.worker_code = this.selectEmp.selectedEmployee.worker_code
+    this.selectedlostwages.worker_cardno = this.selectEmp.selectedEmployee.worker_cardno
+    console.log(this.selectedlostwages.worker_code, 'tttteeee')
+    this.selectedlostwages.lostwages_workdate = this.selectedDate_fillter, this.selectedToDate_fillter
+    this.doLoadPolShift()
+    this.doLoadPolDaytype()
+    // this.doLoadPolJobmain()
+
+    if (this.initial_current.Language == "EN") {
+      this.emp_name = this.selectEmp.selectedEmployee.worker_fname_en + " " + this.selectEmp.selectedEmployee.worker_lname_en
+    }
+    else {
+      this.emp_name = this.selectEmp.selectedEmployee.worker_fname_th + " " + this.selectEmp.selectedEmployee.worker_lname_th
+    }
+
+    this.searchEmp = false
+    this.displayManage = true
+
+  }
 
   close_searchemp() {
     this.searchEmp = false
@@ -629,18 +590,20 @@ export class ProjectTimesheetComponent implements OnInit {
   version_selected: string = "";
 
   reloadPage() {
-    this.doLoadTimecard()
+    this.doLoadLostwages()
   }
-
+  reloadPages() {
+    this.doLoadPolJobmain()
+  }
   checked: boolean = false;
 
   selectedDataArray: any[] = [];
-  toggleSelect(data: { checked: boolean }) {
+  toggleSelect(data: { checked: boolean; }) {
     if (data.checked) {
       this.selectedDataArray.push(data);
       this.checked = true;
     } else {
-      const index = this.selectedDataArray.findIndex(item => item === data);
+      const index = this.selectedDataArray.indexOf(data);
       if (index > -1) {
         this.selectedDataArray.splice(index, 1);
         if (this.selectedDataArray.length === 0) {
@@ -648,11 +611,11 @@ export class ProjectTimesheetComponent implements OnInit {
         }
       }
     }
+    console.log(this.selectedDataArray, 'รวม')
   }
 
-
   //Delete
-  confirmDelete(selectedDataArray: TimecardsModel[]) {
+  confirmDelete(selectedDataArray: LostwagesModel[]) {
     this.confirmationService.confirm({
       message: this.title_confirm_record[this.initial_current.Language],
       header: this.title_confirm[this.initial_current.Language],
@@ -670,12 +633,10 @@ export class ProjectTimesheetComponent implements OnInit {
     });
   }
 
-  async doDeleteTimesheet(selectedDataArray: TimecardsModel[]) {
+  async doDeleteTimesheet(selectedDataArray: LostwagesModel[]) {
     try {
       for (const data of selectedDataArray) {
-        const res = await this.timecardService.timesheet_delete(
-          this.initial_current.CompCode, data.project_code, data.worker_code, data
-        );
+        const res = await this.lostwagesService.lostwages_delete(this.initial_current.CompCode, data.project_code, data.worker_code, data.lostwages_cardno, data);
 
         if (res.success) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
@@ -693,33 +654,167 @@ export class ProjectTimesheetComponent implements OnInit {
     }
   }
 
+  //Delete
+  // confirmDelete(selectedDataArray: LostwagesModel[]) {
+  //   this.confirmationService.confirm({
+  //     message: this.title_confirm_record[this.initial_current.Language],
+  //     header: this.title_confirm[this.initial_current.Language],
+  //     icon: 'pi pi-exclamation-triangle',
+  //     accept: () => {
+  //       this.doDeleteTimesheet(selectedDataArray);
+  //     },
+  //     reject: () => {
+  //       this.messageService.add({
+  //         severity: 'warn',
+  //         summary: 'Cancelled',
+  //         detail: this.title_confirm_cancel[this.initial_current.Language],
+  //       });
+  //     },
+  //   });
+  //   console.log(this.selectedDataArray, 'ยืนยัน')
+  // }
+
+  // async doDeleteTimesheet(selectedDataArray: LostwagesModel[]) {
+  //   try {
+  //     for (const data of selectedDataArray) {
+  //       const res = await this.lostwagesService.lostwages_delete(
+  //         this.initial_current.CompCode, this.selectedProject_fillter.project_code, this.selectedlostwages.worker_code, data
+  //       );
+  //       if (res.success) {
+  //         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+  //       } else {
+  //         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
+  //       }
+  //     }
+  //     selectedDataArray.length = 0;
+  //     this.doLoadPolJobmain();
+  //     this.reloadPage();
+  //     this.displayManage = false;
+  //   } catch (error) {
+  //     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while deleting.' });
+  //   }
+  // }
+
+
+  // ตัวแปรในคลาส
+  jobListLoaded: boolean = false;
+  jobSubListLoaded: boolean = false;
+
+  open_searchemp() {
+    this.searchEmp = true
+  }
+
+  selectJobmainType() {
+    if (this.internal_staff === '0') {
+      this.jobListLoaded = true; // เปลี่ยนสถานะของ jobListLoaded เมื่อเลือก 'งาน'
+      this.jobSubListLoaded = false; // ปิดสถานะของ jobSubListLoaded เมื่อเลือก 'งาน'
+
+
+    } else {
+      // อื่น ๆ
+      this.jobListLoaded = false;
+      this.jobSubListLoaded = false;
+    }
+  }
+
+  selectJobType() {
+    if (this.external_employees === '1') {
+      this.jobSubListLoaded = true; // เปลี่ยนสถานะของ jobSubListLoaded เมื่อเลือก 'งานเคลีย'
+      this.jobListLoaded = false; // ปิดสถานะของ jobListLoaded เมื่อเลือก 'งานเคลีย'
+
+    } else {
+      this.jobSubListLoaded = false;
+      this.jobListLoaded = false;
+    }
+  }
+
+  ///
+  // employee_list: EmployeeModel[] = [];
+  selectedEmployee: EmployeeModel = new EmployeeModel();
+  calculateEndDate() {
+    if (this.selectedEmployee.worker_probationdate && this.selectedEmployee.worker_probationday) {
+      const start = new Date(this.selectedEmployee.worker_probationdate);
+      const end = new Date(start);
+      end.setDate(start.getDate() + this.selectedEmployee.worker_probationday);
+      this.selectedEmployee.worker_probationenddate = end;
+    }
+  }
+  emp_code: string = "";
+  emplists: string = "";
+
+  //resign
+  empresignList: EmployeeresignModel[] = [];
+  selectedEmpresign: EmployeeresignModel = new EmployeeresignModel();
+  doLoadEmpresignList() {
+    this.empresignService.empresign_get(this.initial_current.CompCode, this.emp_code, this.selectedEmployee.worker_cardno).then(async (res) => {
+      await res.forEach((element: EmployeeresignModel) => {
+        element.empresign_date = new Date(element.empresign_date)
+      })
+      this.empresignList = res;
+      if (this.empresignList.length > 0) {
+        this.selectedEmpresign = this.empresignList[0];
+      }
+    })
+  }
+  doRecordEmpResign() {
+    if (this.selectedEmployee.worker_resignstatus) {
+      var tmp = new EmployeeresignModel();
+      tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode
+      tmp.worker_code = this.selectedEmployee.worker_code
+      tmp.card_no = this.selectedEmployee.worker_cardno
+      tmp.empresign_date = this.selectedEmployee.worker_resigndate
+      tmp.reason_code = this.selectedEmployee.worker_resignreason
+      this.empresignService.empresign_record(tmp).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      })
+    } else {
+    }
+  }
+
+
+  doRecordEmpResign2() {
+    if (this.selectedEmployee.worker_resignreason) {
+      var tmp = new EmployeeresignModel();
+      tmp.company_code = this.selectedEmployee.company_code || this.initial_current.CompCode
+      tmp.worker_code = this.selectedEmployee.worker_code
+      tmp.card_no = this.selectedEmployee.worker_cardno
+      tmp.empresign_date = this.selectedEmployee.worker_resigndate
+      tmp.reason_code = this.selectedEmployee.worker_resignreason
+      this.empresignService.empresign_record(tmp).then((res) => {
+        let result = JSON.parse(res);
+        if (result.success) {
+        }
+        else {
+        }
+      })
+    } else {
+    }
+  }
+
+  clearManage() {
+    this.new_lostwages = false; this.edit_lostwages = false;
+  }
 
   showManage() {
     this.displayManage = true;
 
     if (this.initial_current.Language == 'EN') {
-      if (this.new_timecard||this.edit_timecard) {
+      if (this.new_lostwages || this.edit_lostwages) {
       } else {
-        if (this.new_timecard||this.edit_timecard) {
-
+        if (this.new_lostwages || this.edit_lostwages) {
         }
       }
-
     }
-
   }
   tabChange(e: { index: any }) {
     var index = e.index;
     //
-    this.edit_timecard = false;
-    this.new_timecard = false;
+    this.edit_lostwages = false;
+    this.new_lostwages = false;
 
   }
-
-  clearManage() {
-    this.new_timecard = false; this.edit_timecard = false;
-
-
-  }
-
 }

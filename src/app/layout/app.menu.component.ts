@@ -138,9 +138,13 @@ export class AppMenuComponent implements OnInit {
                     { label: this.langs.get('importtime')[this.selectlang], routerLink: ['/attendance/import'], accessCode: 'ATT002' },
                     { label: this.langs.get('processingtime')[this.selectlang], routerLink: ['/attendance/process'], accessCode: 'ATT003' },
                     { label: this.langs.get('viewtime')[this.selectlang], routerLink: ['/attendance/view'], accessCode: 'ATT004' },
+
+                    { label: this.langs.get('lostwages')[this.selectlang], routerLink: ['/attendance/lostwages'], accessCode: 'ATT00' },
+
                     { label: this.langs.get('calculatetimeCost')[this.selectlang], routerLink: ['/attendance/calculate'], accessCode: 'ATT005' },
                     { label: this.langs.get('summary')[this.selectlang], routerLink: ['/attendance/summary'], accessCode: 'ATT006' },
                     { label: this.langs.get('report')[this.selectlang], routerLink: ['/attendance/reports'], accessCode: 'ATT007' },
+
                 ]
             },
 

@@ -1,6 +1,7 @@
 import { EmployeeModel } from "../employee/employee";
 
 export class TimecardsModel {
+    checked: any;
     constructor() {
     }
     version: string = "1.0";

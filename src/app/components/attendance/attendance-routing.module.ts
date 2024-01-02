@@ -34,6 +34,7 @@ import { SetAttpayComponent } from './attendance-policy/set-attpay/set-attpay.co
 import { AttendanceSummaryComponent } from './attendance-summary/attendance-summary.component';
 import { SetuppolicyComponent } from './attendance-policy/setuppolicy/setuppolicy.component';
 import { AttendanceShiftComponent } from './attendance-policy/attendance-shift/attendance-shift.component';
+ import { AttendanceLostwagesComponent } from './attendance-lostwages/attendance-lostwages.component';
 
 
 @NgModule({
@@ -73,6 +74,9 @@ import { AttendanceShiftComponent } from './attendance-policy/attendance-shift/a
 
         { path: 'summary', component: AttendanceSummaryComponent },
 
+        { path: 'lostwages', component: AttendanceLostwagesComponent },
+
+        
         //{ path: 'setup', data: { breadcrumb: 'Form Layout' }, loadChildren: () => import('./project-setup/project-setup.module').then(m => m.ProjectSetupModule) },
 
         { path: '**', redirectTo: '/notfound' }
