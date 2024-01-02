@@ -29,7 +29,8 @@
             <ng-template pTemplate="caption">
                 <div class="searchtable">
                     <div>
-
+                        <p-dropdown class="selectyaer" [options]="TypeList" [(ngModel)]="selectedtypetable"
+                            (onChange)="selectTypetable()" optionLabel="name"></p-dropdown>
                     </div>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
@@ -141,6 +142,6 @@
         </div>
     </p-dialog>
     <div *ngIf="new_data" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter"
-    (click)="close()"></div>
+        (click)="close()"></div>
     <!-- --------------End form Input Data ------------------ -->
 </div>

@@ -15,4 +15,12 @@ export class EmpUniformModel {
   
     index: number = 0;
     select: boolean = false;
+
+    project_code:string = "";
+    projob_code:string = "";
+    proequipmenttype_code:string = "";
+    empuniform_by:string="";
+    empuniform_payperiod:string = "";
+    empuniform_payamount:string = "";
+    empuniform_period!: Date;
   }

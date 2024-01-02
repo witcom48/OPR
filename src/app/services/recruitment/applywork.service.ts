@@ -342,8 +342,9 @@ export class ApplyworkService {
             ip: "127.0.0.1",
             username: this.initial_current.Username,
             company_code: file.company_code || this.initial_current.CompCode,
-            jobtable_id: file.document_id,
-            job_id: file.job_id,
+            document_id: file.document_id,
+            job_type: file.job_type,
+            worker_code: file.worker_code
         }
         return this.http.post<any>(this.config.ApiRecruitmentModule + '/docatt_del', data, this.options).toPromise()
             .then((res) => {

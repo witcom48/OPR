@@ -152,13 +152,13 @@ export class AttendanceImportComponent implements OnInit {
   selectedFileNames: string = '';
 
   handleFileInput(file: FileList) {
+    console.log("fileToUpload");
+    this.fileToUpload = file.item(0);
     if (this.fileToUpload) {
       this.selectedFileNames = this.fileToUpload.name;
     } else {
       this.selectedFileNames = this.title_nofile[this.initial_current.Language];
     }
-
-    this.fileToUpload = file.item(0);
 
     let filename = this.datePipe.transform(new Date(), 'yyyyMMddHHmm');
     let filetype = "txt";
@@ -289,6 +289,7 @@ export class AttendanceImportComponent implements OnInit {
   fileToImport: File | any = null;
   selectedFileName: string = '';
   handleFileImport(file: FileList) {
+    console.log("fileToUploadImport");
     this.fileToImport = file.item(0);
     if (this.fileToImport) {
       this.selectedFileName = this.fileToImport.name;

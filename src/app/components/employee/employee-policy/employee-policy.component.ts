@@ -109,11 +109,11 @@ export class EmployeePolicyComponent implements OnInit {
         link: 'initial',
         accessCode: 'EMP001-005'
       },
-      {
-        title: this.title_emptype[this.initialData.Language],
-        link: 'emptype',
-        accessCode: 'EMP001-006'
-      },
+      // {
+      //   title: this.title_emptype[this.initialData.Language],
+      //   link: 'emptype',
+      //   accessCode: 'EMP001-006'
+      // },
       {
         title: this.title_empstatus[this.initialData.Language],
         link: 'empstatus',

@@ -142,7 +142,7 @@ export class ApplyListComponent implements OnInit {
   }
 
   title_page: string = "APPLICATION";
-  title_num_emp: string = "Applywork";
+  title_num_emp: string = "Application";
   title_new_emp: string = "New";
   title_resign_emp: string = "Resign";
   title_new: string = "New";
