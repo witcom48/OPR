@@ -27,36 +27,36 @@ export class SelfEmployeeComponent implements OnInit {
       link: 'req_leave',
       accessCode: 'SELF001-001'
     },
-    {
-      title: 'Shift',
-      link: 'req_shift',
-      accessCode: 'SELF001-002'
-    },
+    // {
+    //   title: 'Shift',
+    //   link: 'req_shift',
+    //   accessCode: 'SELF001-002'
+    // },
     {
       title: 'Overtime',
       link: 'req_overtime',
       accessCode: 'SELF001-003'
     },
-    {
-      title: 'Daytype',
-      link: 'req_daytype',
-      accessCode: 'SELF001-004'
-    },
+    // {
+    //   title: 'Daytype',
+    //   link: 'req_daytype',
+    //   accessCode: 'SELF001-004'
+    // },
     {
       title: 'Punchcard',
       link: 'req_record',
       accessCode: 'SELF001-005'
     },
-    {
-      title: 'Check IN/OUT',
-      link: 'req_checkin',
-      accessCode: 'SELF001-006'
-    },
-    {
-      title: 'Req doc',
-      link: 'req_reqdoc',
-      accessCode: 'SELF001-007'
-    },
+    // {
+    //   title: 'Check IN/OUT',
+    //   link: 'req_checkin',
+    //   accessCode: 'SELF001-006'
+    // },
+    // {
+    //   title: 'Req doc',
+    //   link: 'req_reqdoc',
+    //   accessCode: 'SELF001-007'
+    // },
     // ... other approval menu items ...
   ];
 
@@ -101,36 +101,37 @@ export class SelfEmployeeComponent implements OnInit {
       link: 'req_leave',
       accessCode: 'SELF001-001'
     },
-    {
-      title: this.langs.get('shift')[this.selectedLanguage],
-      link: 'req_shift',
-      accessCode: 'SELF001-002'
-    },
+    // {
+    //   title: this.langs.get('shift')[this.selectedLanguage],
+    //   link: 'req_shift',
+    //   accessCode: 'SELF001-002'
+    // },
     {
       title: this.langs.get('ot')[this.selectedLanguage],
       link: 'req_overtime',
       accessCode: 'SELF001-003'
     },
-    {
-      title: this.langs.get('daytype')[this.selectedLanguage],
-      link: 'req_daytype',
-      accessCode: 'SELF001-004'
-    },
+    // {
+    //   title: this.langs.get('daytype')[this.selectedLanguage],
+    //   link: 'req_daytype',
+    //   accessCode: 'SELF001-004'
+    // },
     {
       title: this.langs.get('punchcard')[this.selectedLanguage],
       link: 'req_record',
       accessCode: 'SELF001-005'
     },
-    {
-      title: this.langs.get('checkin')[this.selectedLanguage],
-      link: 'req_checkin',
-      accessCode: 'SELF001-006'
-    },
-    {
-      title: this.langs.get('reqdoc')[this.selectedLanguage],
-      link: 'req_reqdoc',
-      accessCode: 'SELF001-007'
-    },]
+      // {
+      //   title: this.langs.get('checkin')[this.selectedLanguage],
+      //   link: 'req_checkin',
+      //   accessCode: 'SELF001-006'
+      // },
+      // {
+      //   title: this.langs.get('reqdoc')[this.selectedLanguage],
+      //   link: 'req_reqdoc',
+      //   accessCode: 'SELF001-007'
+      // },
+    ]
     this.setMenus();
   }
 

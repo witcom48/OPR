@@ -58,7 +58,7 @@ export class AuthenService {
       pwd: pass,
     };
 
-    return this.http.post<any>(this.config.ApiMainModule + '/doAuthen', data, this.options).toPromise()
+    return this.http.post<any>(this.config.ApiMainModule + '/doAuthen2', data, this.options).toPromise()
       // .then((res) => <PrjectModel[]>res.data)
       .then((res) => {
         let message = JSON.parse(res);

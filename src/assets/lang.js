@@ -929,7 +929,6 @@ var account = new Map([
     ["approve", { TH: "ผู้อนุมัติ", EN: "Approve" }],
     ["group", { TH: "กลุ่มพนักงาน", EN: "Group Employee" }],
     ["admin", { TH: "ผู้ดูแลระบบ", EN: "Admin" }],
-    ["employee", { TH: "พนักงาน", EN: "Employee List" }],
     ["employee_select", { TH: "พนักงาน (ที่เลือก)", EN: "Employee (Selected)" }],
 ]);
 

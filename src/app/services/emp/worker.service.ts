@@ -71,7 +71,7 @@ export class EmployeeService {
       worker_code: code
     };
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/worker_list', filter, this.options).toPromise()
+    return this.http.get<any>(this.config.ApiEmployeeModule + '/getMTWorkerList?com='+company+'&id=&code=&fname=&lname=&level=&depcod=').toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         return message.data;

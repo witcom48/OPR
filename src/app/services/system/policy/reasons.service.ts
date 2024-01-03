@@ -9,7 +9,7 @@ import { ReasonsModel } from 'src/app/models/system/policy/reasons';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ReasonsService {
 
@@ -55,9 +55,8 @@ export class ReasonsService {
             "reason_id": model.reason_id,
             "reason_code": model.reason_code,
             "reason_group": model.reason_group
-
         }
-        return this.http.post<any>(this.config.ApiSystemModule + '/reason_list', data, this.options).toPromise()
+        return this.http.get<any>(this.config.ApiSystemModule + '/getMTReasonList?group=' + model.reason_group).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;

@@ -142,10 +142,10 @@ export class SelfWorkflowComponent implements OnInit {
     var data = event.items;
     event.items = []
     var arr = this.position_level_source.filter((obj: PositionModel) => {
-      if (obj.position_level === data.slice(-1)[0].position_level) {
+      if (obj.position_level === data.slice(-1)[0].position_code) {
         this.position_level_target.push(obj)
       }
-      return obj.position_level !== data.slice(-1)[0].position_level
+      return obj.position_level !== data.slice(-1)[0].position_code
     })
 
     this.position_level_source = arr;
@@ -155,10 +155,10 @@ export class SelfWorkflowComponent implements OnInit {
     event.items = []
     // console.log(event)
     var arr = this.position_level_target.filter((obj: PositionModel) => {
-      if (obj.position_level === data.slice(-1)[0].position_level) {
+      if (obj.position_level === data.slice(-1)[0].position_code) {
         this.position_level_source.push(obj)
       }
-      return obj.position_level !== data.slice(-1)[0].position_level
+      return obj.position_level !== data.slice(-1)[0].position_code
     })
 
     this.position_level_target = arr;
@@ -212,7 +212,7 @@ export class SelfWorkflowComponent implements OnInit {
     this.selectedtype = this.TypeList.find(({ code }) => code === this.selectedWorkflow.workflow_type);
     this.selectedWorkflow.lineapprove_data.filter((obj: LineapproveModel) => {
       this.position_level_list.filter((elm: PositionModel) => {
-        if (+obj.position_level === elm.position_level) {
+        if (obj.position_level === elm.position_code) {
           this.position_level_target.push(elm)
         }
       })
@@ -236,7 +236,7 @@ export class SelfWorkflowComponent implements OnInit {
   }
   Save() {
     this.selectedWorkflow.lineapprove_data = []
-    const unique = [...new Set(this.position_level_target.map(item => item.position_level))];
+    const unique = [...new Set(this.position_level_target.map(item => item.position_code))];
     unique.forEach((obj) => {
       this.selectedWorkflow.lineapprove_data.push({
         company_code: this.initial_current.CompCode,
@@ -246,6 +246,7 @@ export class SelfWorkflowComponent implements OnInit {
         flag: false
       })
     })
+    // console.log(this.selectedWorkflow);
     this.doRecordWorkflow(this.selectedWorkflow)
   }
 

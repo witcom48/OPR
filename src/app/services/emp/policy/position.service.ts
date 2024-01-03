@@ -65,7 +65,7 @@ export class PositionService {
       language:"",
     }
 
-    return this.http.post<any>(this.config.ApiEmployeeModule + '/position_list', filter, this.options).toPromise()
+    return this.http.get<any>(this.config.ApiEmployeeModule + '/getMTPositionList?com='+this.initial_current.CompCode).toPromise()
       .then((res) => {
         let message = JSON.parse(res);
         // console.log(res)

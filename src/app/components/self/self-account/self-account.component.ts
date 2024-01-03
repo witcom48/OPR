@@ -87,7 +87,7 @@ export class SelfAccountComponent implements OnInit {
     this.loadDepartments();
     this.loadAccountTypes();
     this.loadEmployees();
-    this.loadPolmenus();
+    // this.loadPolmenus();
   }
 
   // Loads the initial current settings, checks for token presence, and sets the selected language
@@ -116,7 +116,7 @@ export class SelfAccountComponent implements OnInit {
       { name: this.accountLanguages.get('employee')[this.selectedLanguage], code: 'Emp' },
       { name: this.accountLanguages.get('approve')[this.selectedLanguage], code: 'APR' },
       { name: this.accountLanguages.get('group')[this.selectedLanguage], code: 'GRP' },
-      { name: this.accountLanguages.get('admin')[this.selectedLanguage], code: 'ADM' }
+      // { name: this.accountLanguages.get('admin')[this.selectedLanguage], code: 'ADM' }
     ];
   }
 
@@ -127,23 +127,19 @@ export class SelfAccountComponent implements OnInit {
         label: this.accountLanguages.get('new')[this.selectedLanguage],
         icon: 'pi pi-fw pi-plus',
         command: () => {
-          if (this.initialData.accessdata_new) {
-            this.isDisplayingManagement = true;
-            this.isEditing = false;
-            this.selectedAccountType = this.accountTypes[0];
-            this.selectedPolmenu = this.polmenuList[0];
-            this.selectedPositions = [];
-            this.selectedDepartments = [];
-            this.selectedEmployees = [];
-            this.selectedModules = [];
-            this.availablePositions = [...this.positionList];
-            this.availableDepartments = [...this.departmentList];
-            this.availableEmployees = [...this.employeeList];
-            this.availableModules = [...this.modulesList];
-            this.selectedAccount = new AccountModel();
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
-          }
+          this.isDisplayingManagement = true;
+          this.isEditing = false;
+          this.selectedAccountType = this.accountTypes[0];
+          this.selectedPolmenu = this.polmenuList[0];
+          this.selectedPositions = [];
+          this.selectedDepartments = [];
+          this.selectedEmployees = [];
+          this.selectedModules = [];
+          this.availablePositions = [...this.positionList];
+          this.availableDepartments = [...this.departmentList];
+          this.availableEmployees = [...this.employeeList];
+          this.availableModules = [...this.modulesList];
+          this.selectedAccount = new AccountModel();
         }
       },
       {
@@ -299,7 +295,7 @@ export class SelfAccountComponent implements OnInit {
     this.availableModules = [];
 
     this.selectedAccountType = this.accountTypes.find(({ code }) => code === this.selectedAccount.account_type);
-    this.selectedPolmenu = this.polmenuList.find(({ code }) => code === this.selectedAccount.polmenu_code);
+    // this.selectedPolmenu = this.polmenuList.find(({ code }) => code === this.selectedAccount.polmenu_code);
 
     this.selectedAccount.position_data.forEach((obj: AccountPosModel) => {
       const position = this.positionList.find((elm: PositionModel) => obj.position_code === elm.position_code);
@@ -342,18 +338,18 @@ export class SelfAccountComponent implements OnInit {
       }
     });
 
-    this.selectedAccount.module_data.forEach((obj: AccountModuleModel) => {
-      const module = this.modulesList.find((elm: Modules) => obj.module_code === elm.code);
-      if (module) {
-        this.selectedModules.push(module);
-      }
-    });
+    // this.selectedAccount.module_data.forEach((obj: AccountModuleModel) => {
+    //   const module = this.modulesList.find((elm: Modules) => obj.module_code === elm.code);
+    //   if (module) {
+    //     this.selectedModules.push(module);
+    //   }
+    // });
 
-    this.modulesList.forEach((elm: Modules) => {
-      if (!this.selectedModules.includes(elm)) {
-        this.availableModules.push(elm);
-      }
-    });
+    // this.modulesList.forEach((elm: Modules) => {
+    //   if (!this.selectedModules.includes(elm)) {
+    //     this.availableModules.push(elm);
+    //   }
+    // });
     console.log(this.selectedAccount)
     this.isDisplayingManagement = true;
     this.isEditing = true;
@@ -361,6 +357,7 @@ export class SelfAccountComponent implements OnInit {
 
   // Saves the account changes
   saveAccount(): void {
+    this.selectedAccount.account_type = this.selectedAccountType.code;
     this.selectedAccount.position_data = this.selectedPositions.map((obj: PositionModel) => ({
       company_code: this.initialCurrent.CompCode,
       account_user: this.selectedAccount.account_user,
@@ -393,6 +390,7 @@ export class SelfAccountComponent implements OnInit {
     }));
 
     this.recordAccount(this.selectedAccount);
+    console.log(this.selectedAccount)
   }
 
   // Deletes the account

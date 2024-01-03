@@ -10,14 +10,14 @@ export class AppConfig {
   // UrlApi: string = "https://hrfocusess.com:8806"
 
 
-  ApiMainModule: string = this.UrlApi + "/BpcOpr.svc/BpcOpr";
-  ApiSystemModule: string = this.UrlApi + "/Module_System/ModuleSystem.svc/System";
-  ApiAttendanceModule: string = this.UrlApi + "/Module_Attendance/ModuleAttendance.svc/Attendance";
-  ApiRecruitmentModule: string = this.UrlApi + "/Module_Recruitment/ModuleRecruitment.svc/Recruitment";
-  ApiEmployeeModule: string = this.UrlApi + "/Module_Employee/ModuleEmployee.svc/Employee";
-  ApiProjectModule: string = this.UrlApi + "/Module_Project/ModuleProject.svc/Project";
-  ApiSelfServicesModule: string = this.UrlApi + "/Module_SelfServices/ModuleSelfServices.svc/SelfServices";
-  ApiPayrollModule: string = this.UrlApi + "/Module_Payroll/ModulePayroll.svc/Payroll";
+  ApiMainModule: string = this.UrlApi + "/ServiceSys.svc/ServiceSys";
+  ApiSystemModule: string = this.UrlApi + "/ServiceSys.svc/ServiceSys";
+  ApiAttendanceModule: string = this.UrlApi + "/ServiceSys.svc/ServiceSys";
+  ApiRecruitmentModule: string = this.UrlApi + "/ServiceSys.svc/ServiceSys";
+  ApiEmployeeModule: string = this.UrlApi + "/ServiceSys.svc/ServiceSys";
+  ApiProjectModule: string = this.UrlApi + "/ServiceSys.svc/ServiceSys";
+  ApiSelfServicesModule: string = this.UrlApi + "/ServiceSys.svc/ServiceSys";
+  ApiPayrollModule: string = this.UrlApi + "/ServiceSys.svc/ServiceSys";
 
 
   static SESSIONInitial: string = "SESSIONInitial";

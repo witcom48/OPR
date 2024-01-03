@@ -59,20 +59,19 @@ export class CompanyService {
     public company_get(code: string) {
         // console.log('CPN001..');
 
-        var filter = {
-            device_name: '',
-            ip: 'localhost',
-            username: this.initial_current.Username,
-            company_code: code,
-            company_id: '',
-            language: '',
-            //   company_code:code
-        };
+        // var filter = {
+        //     device_name: '',
+        //     ip: 'localhost',
+        //     username: this.initial_current.Username,
+        //     company_code: code,
+        //     company_id: '',
+        //     language: '',
+        //     //   company_code:code
+        // };
 
         return this.http
-            .post<any>(
-                this.config.ApiSystemModule + '/company_list',
-                filter,
+            .get<any>(
+                this.config.ApiSystemModule + '/getMTCompanyList',
                 // this.options
             )
             .toPromise()

@@ -51,7 +51,7 @@ export class AppTopBarComponent implements OnInit {
     ngOnInit() {
         // Fetch initial data and check token validity on component initialization
         this.fetchInitialData();
-        this.checkTokenValidity();
+        // this.checkTokenValidity();
     }
 
     // Fetches initial data and handles the language selection
@@ -121,12 +121,15 @@ export class AppTopBarComponent implements OnInit {
         // localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
         var temp = new PolmenuModel();
         temp.polmenu_code = this.initialData.PolMenu_Code;
-        this.polmenuServices.polmenu_get(temp)
-            .then((res) => {
-                this.initialData.PolMenu = res;
-                this.initialData.Language = langCode;
-                localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
-                window.location.reload();
-            });
+        this.initialData.Language = langCode;
+        localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
+        window.location.reload();
+        // this.polmenuServices.polmenu_get(temp)
+        //     .then((res) => {
+        //         this.initialData.PolMenu = res;
+        //         this.initialData.Language = langCode;
+        //         localStorage.setItem(AppConfig.SESSIONInitial, JSON.stringify(this.initialData));
+        //         window.location.reload();
+        //     });
     }
 }
