@@ -84,5 +84,22 @@ export class AuthenService {
       });
   }
 
+  public doVerify(usr: string, token: string) {
+    // console.log('ATH002..');
+
+    var data = {
+      usname: this.initial_current.Username
+    };
+
+    return this.http.get<any>(this.config.ApiMainModule + '/doVerify?usr=' + usr + '&token=' + token).toPromise()
+      // .then((res) => <PrjectModel[]>res.data)
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        //// console.log(message.message)
+        return message;
+      });
+  }
+
 
 }

@@ -39,7 +39,9 @@ export class VerifyComponent implements OnInit {
 
   displayManage: boolean = true;
   displaygroupManage: boolean = false;
+  display: boolean = false;
   loading: boolean = true;
+  twofactor: any;
   token: string = "";
   user: string = "";
   pass: string = "";
@@ -56,6 +58,15 @@ export class VerifyComponent implements OnInit {
   account_list: AccountModel = new AccountModel();
   selectaccount: TRAccountModel = new TRAccountModel();
   initail_current: InitialCurrent = new InitialCurrent();
+  submitForm() {
+    console.log(this.twofactor)
+    this.authenService.doVerify(this.initail_current.Username, this.twofactor).then((res) => {
+      console.log(res);
+      if (res.result == "1") {
+        window.location.href = "";
+      }
+    })
+  }
   ngOnInit(): void {
     this.initail_current.loading = true;
     this.doLoadLocation();
@@ -130,7 +141,9 @@ export class VerifyComponent implements OnInit {
             this.initail_current.Usertype = obj.account_type;
             localStorage.setItem(AppConfig.SESSIONInitial, this.initail_current.doGetJSONInitialCurrent());
             if (this.initail_current.Token) {
-              window.location.href = "";
+              this.displayManage = false;
+              this.display = true;
+              // window.location.href = "";
               // this.router.navigateByUrl('');
             }
           }

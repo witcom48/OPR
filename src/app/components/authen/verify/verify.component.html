@@ -41,4 +41,19 @@
     </div>
 </p-dialog>
 
+<p-dialog [(visible)]="display" [style]="{ 'width': '400px' }" [draggable]="false" [closable]="false">
+    <div style="
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-direction: column;
+    ">
+        <h2>Two-Factor Authentication</h2>
+        <p-inputNumber mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [maxlength]="6"
+            [(ngModel)]="twofactor" class="text2fa"> </p-inputNumber>
+        <button style="padding-top: 10px;" type="button" pButton label="Submit" class="p-button-primary"
+            (click)="submitForm()"></button>
+    </div>
+</p-dialog>
+
 <app-spinner [loadding]="initail_current.loading"></app-spinner>

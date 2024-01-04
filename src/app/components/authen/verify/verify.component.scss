@@ -9,7 +9,8 @@
         justify-content: center;
         gap: 5px;
         cursor: pointer;
-        .color{
+
+        .color {
             color: #0549f4;
         }
     }
@@ -22,5 +23,13 @@
 
     .p-password {
         width: 100%;
+    }
+
+    .text2fa {
+        span {
+            input {
+                text-align: center;
+            }
+        }
     }
 }
