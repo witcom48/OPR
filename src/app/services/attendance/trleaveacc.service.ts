@@ -52,7 +52,7 @@ export class TRLeaveaccServices {
             worker_code: Leave.worker_code,
             year_code: Leave.year_code || this.initial_current.PR_Year,
         }
-        return this.http.post<any>(this.config.ApiAttendanceModule + '/leaveacc_list', data, this.options).toPromise()
+        return this.http.get<any>(this.config.ApiAttendanceModule + '/getTREmpleaveaccList?language=' + this.initial_current.Language + '&com=' + this.initial_current.CompCode + '&emp=' + Leave.worker_code + '&year=' + this.initial_current.PR_Year).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;

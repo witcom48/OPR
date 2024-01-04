@@ -126,6 +126,7 @@ export class TimeleaveServices {
     }
     public timeleaveactualday_get(timeleave: cls_TRTimeleaveModel) {
         // console.log('ATT001..');
+
         let data = {
             device_name: "phone",
             ip: "127.0.0.1",
@@ -136,7 +137,7 @@ export class TimeleaveServices {
             timeleave_fromdate: timeleave.timeleave_fromdate,
             timeleave_todate: timeleave.timeleave_todate
         }
-        return this.http.post<any>(this.config.ApiSelfServicesModule + '/timeleave_actualday', data, this.options).toPromise()
+        return this.http.get<any>(this.config.ApiSelfServicesModule + '/doGetLeaveActualDay?com=' + this.initial_current.CompCode + '&emp=' + this.initial_current.Username + '&fromdate=' + this.datePipe.transform(timeleave.timeleave_fromdate, 'yyy-MM-dd') + '&todate=' + this.datePipe.transform(timeleave.timeleave_todate, 'yyy-MM-dd')).toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;
@@ -172,7 +173,7 @@ export class TimeleaveServices {
         var para = "file_path=" + file_path;
         return this.http.post<any>(this.config.ApiSelfServicesModule + '/doDeleteMTReqdoc?' + para, this.options).toPromise()
             .then((res) => {
-                return  JSON.parse(res);
+                return JSON.parse(res);
             });
     }
     public delete_file(file: cls_MTReqdocumentModel) {

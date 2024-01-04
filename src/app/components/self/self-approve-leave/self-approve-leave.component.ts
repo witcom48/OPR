@@ -118,9 +118,9 @@ export class SelfApproveLeaveComponent implements OnInit {
     var tmp = new cls_TRleave();
     tmp.worker_code = userid;
     this.trleaveaccService.leaveacc_get(tmp).then(async (res) => {
-      this.leaveacc_list = await res
       res.forEach((obj: cls_TRleave) => {
         if (obj.leave_code == this.selectedtrtimeleave.leave_code) {
+          this.leaveacc_list.push(obj);
           this.selectedleave_type = obj;
           this.selectLeaveType()
         }

@@ -68,7 +68,7 @@
         <div class="field col-12 md:col-6">
             <label for="ppos_shift_code">{{langs.get('leavetype')[selectlang]}}</label>
             <p-dropdown class="selectyaer" [options]="leaveacc_list" [(ngModel)]="selectedleave_type"
-                (onChange)="selectLeaveType()" optionLabel={{leavetypedis}} [disabled]="edit_data"></p-dropdown>
+                (onChange)="selectLeaveType()" optionLabel='leave_detail' [disabled]="edit_data"></p-dropdown>
             <!-- <p-dropdown placeholder="LS001 : ลาป่วย" optionLabel="name" [showClear]="true"
                 [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown> -->
         </div>
@@ -282,7 +282,7 @@
             <ng-template pTemplate="body" let-data let-i="rowIndex" let-columns="columns">
                 <tr class="tablenotselect">
                     <td><span>{{langs.get('no')[selectlang]}}</span>{{i+1}}</td>
-                    <td><span>{{langs.get('leavetype')[selectlang]}}</span>{{selectlang=="EN"?data.leave_name_en:data.leave_name_th}}
+                    <td><span>{{langs.get('leavetype')[selectlang]}}</span>{{selectlang=="EN"?data.leave_detail:data.leave_detail}}
                     </td>
                     <td><span>{{langs.get('leave_annual')[selectlang]}}</span>{{getDay(data.empleaveacc_annual)}}</td>
                     <td><span>{{langs.get('leave_used')[selectlang]}}</span>{{getDay(data.empleaveacc_used)}}</td>
