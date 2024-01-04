@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
@@ -24,6 +24,7 @@ declare var login: any;
   styleUrls: ['./verify.component.scss']
 })
 export class VerifyComponent implements OnInit {
+  @ViewChild("input") elm: any;
   langs: any = login;
   selectlang: string = "EN";
   constructor(
@@ -143,6 +144,10 @@ export class VerifyComponent implements OnInit {
             if (this.initail_current.Token) {
               this.displayManage = false;
               this.display = true;
+              setTimeout(() => {
+                this.elm.input.nativeElement.focus();
+              }, 100);
+
               // window.location.href = "";
               // this.router.navigateByUrl('');
             }

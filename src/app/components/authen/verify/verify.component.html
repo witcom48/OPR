@@ -5,7 +5,7 @@
         <p-dropdown class="selectyaer" [options]="company_list" [(ngModel)]="comselected" (onChange)="selectcom()"
             optionLabel={{comdis}} (keyup.enter)="doLogin()"></p-dropdown>
         <label>{{langs.get('username')[selectlang]}}</label>
-        <input type="text" pInputText [(ngModel)]="user" />
+        <input type="text" pInputText [(ngModel)]="user" [autofocus]="true" />
         <label>{{langs.get('password')[selectlang]}}</label>
         <p-password [(ngModel)]="pass" [feedback]="false" [toggleMask]="true" (keyup.enter)="doLogin()"></p-password>
         <button pButton type="button" label="{{langs.get('login')[selectlang]}}" icon="pi pi-lock"
@@ -50,7 +50,7 @@
     ">
         <h2>Two-Factor Authentication</h2>
         <p-inputNumber mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [maxlength]="6"
-            [(ngModel)]="twofactor" class="text2fa"> </p-inputNumber>
+            [(ngModel)]="twofactor" class="text2fa" pAutoFocus #input (keyup.enter)="submitForm()"> </p-inputNumber>
         <button style="padding-top: 10px;" type="button" pButton label="Submit" class="p-button-primary"
             (click)="submitForm()"></button>
     </div>
