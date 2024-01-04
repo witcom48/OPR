@@ -51,7 +51,7 @@ export class LocationService {
             location_id: Location.location_id,
             location_code: Location.location_code
         }
-        return this.http.post<any>(this.config.ApiSystemModule + '/location_list', data, this.options).toPromise()
+        return this.http.get<any>(this.config.ApiSystemModule + '/getMTLocationList').toPromise()
             .then((res) => {
                 let message = JSON.parse(res);
                 return message.data;
