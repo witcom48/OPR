@@ -142,20 +142,20 @@ export class SelfAccountComponent implements OnInit {
           this.selectedAccount = new AccountModel();
         }
       },
-      {
-        label: this.accountLanguages.get('import')[this.selectedLanguage],
-        icon: 'pi pi-fw pi-file-import',
-        command: () => {
-          // Handle import command
-        }
-      },
-      {
-        label: this.accountLanguages.get('export')[this.selectedLanguage],
-        icon: 'pi pi-fw pi-file-export',
-        command: () => {
-          // Handle export command
-        }
-      }
+      // {
+      //   label: this.accountLanguages.get('import')[this.selectedLanguage],
+      //   icon: 'pi pi-fw pi-file-import',
+      //   command: () => {
+      //     // Handle import command
+      //   }
+      // },
+      // {
+      //   label: this.accountLanguages.get('export')[this.selectedLanguage],
+      //   icon: 'pi pi-fw pi-file-export',
+      //   command: () => {
+      //     // Handle export command
+      //   }
+      // }
     ];
   }
 
