@@ -1609,6 +1609,7 @@ var menumain = new Map([
     ["employeeinfo", { TH: "ประวัติพนักงาน", EN: "Employee info" }],
     ["monitor", { TH: "กระดานแสดงผล", EN: "Monitor" }],
     ["paysus", { TH: "ระงับการจ่าย", EN: "Paysuspend" }],
+    ["lostwages", { TH: "บันทึกค่าแรงขาด", EN: "Lost Wages" }],
 
 
     // sys

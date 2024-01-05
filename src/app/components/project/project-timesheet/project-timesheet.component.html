@@ -33,9 +33,9 @@
 
             <!--  -->
             <div class="field col-12" *ngIf="job_type === 'Normal' && jobListLoaded ">
-                <label for="selectedJobmain">{{title_jobname[initial_current.Language]}}</label><br>
+                <label  >{{title_jobname[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="projobmain_code"
-                    [(ngModel)]="selectedProjobmain.projob_code" [showClear]="true"
+                    [(ngModel)]="selectedTimecard.projob_code" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{initial_current.Language=="TH"? item.projobmain_name_th : item.projobmain_name_en }}
@@ -47,8 +47,8 @@
             </div>
 
             <div class="field col-12" *ngIf="jobsub_type === 'jobmain' && jobSubListLoaded ">
-                <label for="selectedJobmain">{{ title_jobname[initial_current.Language] }}</label><br>
-                <p-dropdown placeholder="--" [options]="projobsub_list" [(ngModel)]="selectedProjobsub.projobsub_code"
+                <label  >{{ title_jobname[initial_current.Language] }}</label><br>
+                <p-dropdown placeholder="--" [options]="projobsub_list" [(ngModel)]="selectedTimecard.projobsub_code"
                     optionValue="projobsub_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
                         {{ initial_current.Language === 'TH' ? item.projobsub_name_th : item.projobsub_name_en }}
@@ -202,11 +202,13 @@
                     <th></th>
                     <th>{{title_date[initial_current.Language]}}</th>
                     <th>{{title_jobcode[initial_current.Language]}}</th>
-                    <th>งานเคลีย</th>
 
-                    <th>{{title_jobname[initial_current.Language]}}งาน</th>
-                    <th>ราลละเอียดงานเคลีย</th>
+                    <th>{{title_jobname[initial_current.Language]}}</th>
+                    <th>{{title_tab_jobclear[initial_current.Language]}}</th>
 
+                    <th>{{title_clearjob[initial_current.Language]}}</th>
+
+                     
                     <th>{{title_empcode[initial_current.Language]}}</th>
                     <th>{{title_empname[initial_current.Language]}}</th>
                     <th>{{title_shift[initial_current.Language]}}</th>
@@ -230,15 +232,15 @@
                         <!-- เลือกที่ละฟิล -->
 
                         <p-checkbox [(ngModel)]="timecard.checked" [binary]="true" inputId="checked"
-                            [ngModelOptions]="{standalone: true}" (click)="toggleSelect(timecard)"></p-checkbox>
+                            [ngModelOptions]="{standalone: true}" [value]="timecard" (click)="toggleSelect(timecard)"></p-checkbox>
                     </td>
                     <td>{{timecard.timecard_workdate | date:'dd/MM/yyyy'}} </td>
                     <td>{{timecard.projob_code}}</td>
+                    <td>{{doGetPolJobmainDetail2(timecard.projob_code)}}</td>
 
                     <td>{{timecard.projobsub_code}}</td>
 
-                    <td>{{doGetPolJobmainDetail(timecard.projob_code)}}</td>
-                    <td>{{doGetDetail(timecard.projobsub_code)}}</td>
+                    <td>{{doGetDetail2(timecard.projobsub_code)}}</td>
 
                     <td>{{timecard.worker_code}}</td>
                     <td>{{initial_current.Language=="TH"? timecard.worker_name_th : timecard.worker_name_en }}</td>

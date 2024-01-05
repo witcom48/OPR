@@ -77,7 +77,7 @@ export class ReduceService {
         reduce_code:model.reduce_code,
         reduce_name_th:model.reduce_name_th,
         reduce_name_en:model.reduce_name_en,
-
+        reduce_amount_max:model.reduce_amount_max,
         reduce_amount:model.reduce_amount,
         reduce_percent:model.reduce_percent,
         reduce_percent_max:model.reduce_percent_max,
