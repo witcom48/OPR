@@ -61,7 +61,7 @@ export class AttendanceLostwagesComponent implements OnInit {
   @ViewChild(SearchEmpComponent) selectEmp: any;
   edit_data: boolean = false;
   new_data: boolean = false;
-   home: any;
+  home: any;
   itemslike: MenuItem[] = [];
   menu_lostwages: MenuItem[] = [];
   toolbar_menu: MenuItem[] = [];
@@ -123,6 +123,23 @@ export class AttendanceLostwagesComponent implements OnInit {
   title_gender: { [key: string]: string } = { EN: "Gender", TH: "เพศ" }
   male_gender: { [key: string]: string } = { EN: "Male", TH: "ชาย" }
   female_gender: { [key: string]: string } = { EN: "Female", TH: "หญิง" }
+
+  internal_person: { [key: string]: string } = { EN: "Internal Person", TH: "บุคคลภายใน" }
+  external_person: { [key: string]: string } = { EN: "External Person", TH: "บุคคลภายนอก" }
+  title_cardno: { [key: string]: string } = { EN: "ID Card", TH: "เลขบัตรประชาชน" };
+  title_initial: { [key: string]: string } = { EN: "Initial", TH: "คำนำหน้า" };
+  title_name_th: { [key: string]: string } = { EN: "First Nam", TH: "ชื่อจริง" };
+  title_lname_en: { [key: string]: string } = { EN: "Last Name", TH: "นามสกุล" };
+  title_wage: { [key: string]: string } = { EN: "Wage", TH: "ค่าแรง" };
+  title_OT: { [key: string]: string } = { EN: "OT", TH: "ค่าล่วงเวลา" };
+  title_travel_expenses: { [key: string]: string } = { EN: "Travel Expenses", TH: "ค่าเดินทาง" };
+  title_others: { [key: string]: string } = { EN: "Others", TH: "อื่นๆ" };
+
+
+
+
+
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -146,16 +163,17 @@ export class AttendanceLostwagesComponent implements OnInit {
     this.doLoadLanguage()
     this.doGetInitialCurrent()
     this.doLoadMenu()
-    // this.doLoadLostwages()
+    this.doLoadPolJobmain()
+    this.doLoadEmployee()
+    this.doLoadPolJobmain2()
+    this.doLoadLostwages()
     setTimeout(() => {
       this.doLoadProject()
       this.doLoadPolShift()
       this.doLoadPolDaytype()
-      this.doLoadPolJobmain()
     }, 300);
 
-    this.doLoadEmployee()
-    this.doLoadPolJobmain2()
+
     //let dateString = '2023-01-10T00:00:00'
     //this.selectedDate_fillter = new Date(dateString);
 
@@ -235,7 +253,7 @@ export class AttendanceLostwagesComponent implements OnInit {
             this.selectedProjobsub = new ProjobsubModel();
             this.timein = "00:00"
             this.timeout = "00:00"
-             this.showManage();
+            this.showManage();
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
@@ -289,9 +307,8 @@ export class AttendanceLostwagesComponent implements OnInit {
 
   doLoadProject() {
     this.project_list = []
-    this.projectService.project_get(this.initial_current.CompCode,  "").then(async (res) => {
+    this.projectService.project_get(this.initial_current.CompCode, "").then(async (res) => {
       this.project_list = await res;
-      console.log(res, 'resresres')
 
     });
   }
@@ -315,12 +332,12 @@ export class AttendanceLostwagesComponent implements OnInit {
       });
 
       this.lostwages_list = await res;
- 
+
       if (this.lostwages_list.length > 0) {
         this.selectedlostwages = this.lostwages_list[0]///
       }
     });
-    // this.doLoadPolJobmain()
+    this.doLoadPolJobmain()
 
   }
 
@@ -428,7 +445,7 @@ export class AttendanceLostwagesComponent implements OnInit {
         const latestProjobmain = allProjobmain.reduce((acc: ProjobmainModel, current: ProjobmainModel) => acc.version > current.version ? acc : current);
         const res = await this.projectDetailService.projobmain_get(latestProjobmain.version, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter);
         this.jobmain_list = res as ProjobmainModel[];
-        console.log(res, 'ttt');
+
       }
     } catch (error) { }
   }
@@ -486,7 +503,6 @@ export class AttendanceLostwagesComponent implements OnInit {
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: "Record Not Success.." });
     }
-    console.log(this.selectEmp.selectedEmployee, 'uuuy')
   }
 
 
@@ -507,7 +523,6 @@ export class AttendanceLostwagesComponent implements OnInit {
 
 
         this.selectedlostwages.lostwages_initial = this.selectedlostwages.lostwages_initial;
-        console.log(this.selectedlostwages.lostwages_initial = this.selectedlostwages.lostwages_initial, 'rrrt')
         this.selectedlostwages.lostwages_cardno = this.selectedlostwages.lostwages_cardno;
         this.selectedlostwages.lostwages_gender = this.selectedlostwages.lostwages_gender;
         this.selectedlostwages.lostwages_fname_th = this.selectedlostwages.lostwages_fname_th;
@@ -521,18 +536,16 @@ export class AttendanceLostwagesComponent implements OnInit {
         this.selectedlostwages.lostwages_workdate = new Date(this.selectedDate_fillter), new Date(this.selectedToDate_fillter)
         this.selectedlostwages.lostwages_in = this.timein
         this.selectedlostwages.lostwages_out = this.timeout
-        console.log(this.selectedlostwages, 'selectedlostwages')
 
         this.lostwagesService.lostwagestimesheet_record(this.selectedlostwages).then((res) => {
           let result = JSON.parse(res);
-          console.log(res, 'hhhhhh')
 
           if (result.success) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: "Record Success.." });
 
             this.edit_data = true;
             this.displayManage = false
-            this.edit_lostwages= false
+            this.edit_lostwages = false
             this.displayManage = false
 
             setTimeout(() => {
@@ -557,12 +570,10 @@ export class AttendanceLostwagesComponent implements OnInit {
   select_emp() {
 
 
-    // console.log(this.selectEmp.selectedEmployee.worker_code)
 
     this.selectedlostwages.company_code = this.selectEmp.selectedEmployee.company_code
     this.selectedlostwages.worker_code = this.selectEmp.selectedEmployee.worker_code
     this.selectedlostwages.worker_cardno = this.selectEmp.selectedEmployee.worker_cardno
-    console.log(this.selectedlostwages.worker_code, 'tttteeee')
     this.selectedlostwages.lostwages_workdate = this.selectedDate_fillter, this.selectedToDate_fillter
     this.doLoadPolShift()
     this.doLoadPolDaytype()
@@ -611,7 +622,6 @@ export class AttendanceLostwagesComponent implements OnInit {
         }
       }
     }
-    console.log(this.selectedDataArray, 'รวม')
   }
 
   //Delete
@@ -706,10 +716,15 @@ export class AttendanceLostwagesComponent implements OnInit {
 
   selectJobmainType() {
     if (this.internal_staff === '0') {
-      this.jobListLoaded = true; // เปลี่ยนสถานะของ jobListLoaded เมื่อเลือก 'งาน'
-      this.jobSubListLoaded = false; // ปิดสถานะของ jobSubListLoaded เมื่อเลือก 'งาน'
-
-
+      this.jobListLoaded = true;
+      this.jobSubListLoaded = false;
+      this.clearManage();
+      this.new_lostwages = true;
+      this.selectedProjobsub = new ProjobsubModel();
+      this.timein = "00:00"
+      this.timeout = "00:00"
+      this.showManage();
+      console.log(this.internal_staff, 'hhhd')
     } else {
       // อื่น ๆ
       this.jobListLoaded = false;
@@ -719,14 +734,34 @@ export class AttendanceLostwagesComponent implements OnInit {
 
   selectJobType() {
     if (this.external_employees === '1') {
-      this.jobSubListLoaded = true; // เปลี่ยนสถานะของ jobSubListLoaded เมื่อเลือก 'งานเคลีย'
-      this.jobListLoaded = false; // ปิดสถานะของ jobListLoaded เมื่อเลือก 'งานเคลีย'
+      this.jobSubListLoaded = true;
+      this.jobListLoaded = false;
+      this.clearManage();
+      this.new_lostwages = true;
+      this.selectedProjobsub = new ProjobsubModel();
+      this.timein = "00:00"
+      this.timeout = "00:00"
+      this.showManage();
+      console.log(this.external_employees, 'ddd')
 
     } else {
       this.jobSubListLoaded = false;
       this.jobListLoaded = false;
     }
   }
+  // เรียงลำดับข้อมูล
+  sortedLostWages(data: LostwagesModel[]): LostwagesModel[] {
+    return data.sort((a, b) => {
+      if (a.worker_code && !b.worker_code) {
+        return -1; // ถ้ามี worker_code และไม่มี worker_code ใน b
+      } else if (!a.worker_code && b.worker_code && a.lostwages_cardno && !b.lostwages_cardno) {
+        return 1; // ถ้าไม่มี worker_code และมี worker_code ใน b และมี lostwages_cardno และไม่มี lostwages_cardno ใน a
+      } else {
+        return 0; // สำหรับกรณีอื่น ๆ ที่ไม่ตรงเงื่อนไขข้างบน
+      }
+    });
+  }
+
 
   ///
   // employee_list: EmployeeModel[] = [];
