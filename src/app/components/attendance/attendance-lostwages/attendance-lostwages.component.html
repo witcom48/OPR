@@ -124,12 +124,14 @@
                 <div class="center field col-3 md:col-3 custom-height">
                     <label for="worker_code">{{title_empcode[initial_current.Language]}}</label>
                     <input type="text" id="worker_code" [(ngModel)]="selectedlostwages.worker_code"
-                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        readonly>
                 </div>
                 <div class="center field col-3 md:col-6 custom-height">
                     <label for="emp_name">{{title_empname[initial_current.Language]}}</label>
                     <input id="emp_name" type="text" [(ngModel)]="emp_name"
-                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        readonly>
                 </div>
             </div>
 
@@ -292,7 +294,7 @@
                     <th>{{title_working[initial_current.Language]}}</th>
                     <th>{{title_working_after[initial_current.Language]}}</th>
                     <th>{{title_working_late[initial_current.Language]}}</th>
-                    <th>{{title_working_leave[initial_current.Language]}}</th>
+                    <!-- <th>{{title_working_leave[initial_current.Language]}}</th> -->
                     <!-- <th>{{title_modified_by[initial_current.Language]}}</th> -->
                     <th>{{title_modified_date[initial_current.Language]}}</th>
 
@@ -309,8 +311,8 @@
                     <td>{{lostwages.projob_code}}</td>
                     <td>{{doGetPolJobmainDetail2(lostwages.projob_code)}}</td>
                     <!--  -->
-                    <td>{{lostwages.worker_code}}</td><!--รหัสพนักงาน  -->
-                    <td>{{lostwages.lostwages_cardno}}</td><!--รหัสบัตรประชาชน  -->
+                    <td>{{ lostwages.worker_code || '-' }}</td><!--รหัสพนักงาน  -->
+                    <td>{{ lostwages.lostwages_cardno || '-' }}</td><!--รหัสพนักงาน  -->
                     <!--  -->
                     <td>
                         {{ initial_current.Language == "TH" ? (lostwages.lostwages_fname_th + ' ' +
@@ -326,7 +328,7 @@
                     <td>{{doConvertHHMM(lostwages.lostwages_work1_min_app)}}</td>
                     <td>{{doConvertHHMM(lostwages.lostwages_after_min_app)}}</td>
                     <td>{{doConvertHHMM(lostwages.lostwages_late_min_app)}}</td>
-                    <td></td>
+                    <!-- <td></td> -->
                     <!-- <td>{{lostwages.modified_by}}</td> -->
                     <td>{{lostwages.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
