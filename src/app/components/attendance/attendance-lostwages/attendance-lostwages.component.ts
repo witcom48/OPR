@@ -135,11 +135,6 @@ export class AttendanceLostwagesComponent implements OnInit {
   title_travel_expenses: { [key: string]: string } = { EN: "Travel Expenses", TH: "ค่าเดินทาง" };
   title_others: { [key: string]: string } = { EN: "Others", TH: "อื่นๆ" };
 
-
-
-
-
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -152,12 +147,8 @@ export class AttendanceLostwagesComponent implements OnInit {
     private projectDetailService: ProjectDetailService,
     private empresignService: EmpresignService,
     private employeeService: EmployeeService,
-
-
-
   ) {
   }
-
 
   ngOnInit(): void {
     this.doLoadLanguage()
@@ -172,20 +163,13 @@ export class AttendanceLostwagesComponent implements OnInit {
       this.doLoadPolShift()
       this.doLoadPolDaytype()
     }, 300);
-
-
-    //let dateString = '2023-01-10T00:00:00'
-    //this.selectedDate_fillter = new Date(dateString);
-
     setTimeout(() => {
 
       if (this.project_list.length > 0) {
         this.selectedProject_fillter = this.project_list[0]
 
-        this.doLoadLostwages()
-
+        // this.doLoadLostwages()
       }
-
     }, 800);
 
   }
@@ -206,15 +190,6 @@ export class AttendanceLostwagesComponent implements OnInit {
     this.accessData = this.initialData2.dotGetPolmenu('ATT');
 
   }
-
-
-  // public initial_current: InitialCurrent = new InitialCurrent();
-  // doGetInitialCurrent() {
-  //   this.initial_current = JSON.parse(localStorage.getItem(AppConfig.SESSIONInitial) || '{}');
-  //   if (!this.initial_current) {
-  //     this.router.navigateByUrl('login');
-  //   }
-  // }
 
   doLoadMenu() {
 
@@ -246,6 +221,7 @@ export class AttendanceLostwagesComponent implements OnInit {
         command: (event) => {
           if (this.accessData.accessdata_new) {
             this.clearManage();
+            
             this.new_lostwages = true;
             this.selectedlostwages = new LostwagesModel();
             this.selectedProjobmain = new ProjectModel();
@@ -279,17 +255,7 @@ export class AttendanceLostwagesComponent implements OnInit {
 
         }
       }
-      // ,
-      // {
-      //   label: this.title_import[this.initial_current.Language],
-      //   icon: 'pi pi-fw pi-file-import',
-      // }
-      // ,
-      // {
-      //   label: this.title_export[this.initial_current.Language],
-      //   icon: 'pi pi-fw pi-file-export',
-      // }
-
+ 
     ];
 
   }
@@ -330,12 +296,10 @@ export class AttendanceLostwagesComponent implements OnInit {
         element.lostwages_late_min_app = Number(element.lostwages_late_min_app);
 
       });
-
       this.lostwages_list = await res;
-
-      if (this.lostwages_list.length > 0) {
-        this.selectedlostwages = this.lostwages_list[0]///
-      }
+      // if (this.lostwages_list.length > 0) {
+      //   this.selectedlostwages = this.lostwages_list[0]///
+      // }
     });
     this.doLoadPolJobmain()
 
@@ -478,22 +442,7 @@ export class AttendanceLostwagesComponent implements OnInit {
     return '';
   }
 
-
-
-
-  // jobmain_list: ProjobmainModel[] = [];
-  // selectedJobmain: RadiovalueModel = new RadiovalueModel;
-
-  // doGetPolJobmainDetail(code: string): string {
-  //   for (let i = 0; i < this.jobmain_list.length; i++) {
-  //     if (this.jobmain_list[i].projobmain_code == code) {
-  //       return this.initial_current.Language == "TH" ? this.jobmain_list[i].projobmain_name_th : this.jobmain_list[i].projobmain_name_en
-  //     }
-  //   }
-  //   return ""
-  // }
-
-  // searchemp
+ 
 
   process() {
     this.result_list = [];
@@ -601,7 +550,11 @@ export class AttendanceLostwagesComponent implements OnInit {
   version_selected: string = "";
 
   reloadPage() {
+    this.doLoadPolJobmain()
+    this.doLoadEmployee()
+    this.doLoadPolJobmain2()
     this.doLoadLostwages()
+    this.doLoadProject()
   }
   reloadPages() {
     this.doLoadPolJobmain()
@@ -664,48 +617,6 @@ export class AttendanceLostwagesComponent implements OnInit {
     }
   }
 
-  //Delete
-  // confirmDelete(selectedDataArray: LostwagesModel[]) {
-  //   this.confirmationService.confirm({
-  //     message: this.title_confirm_record[this.initial_current.Language],
-  //     header: this.title_confirm[this.initial_current.Language],
-  //     icon: 'pi pi-exclamation-triangle',
-  //     accept: () => {
-  //       this.doDeleteTimesheet(selectedDataArray);
-  //     },
-  //     reject: () => {
-  //       this.messageService.add({
-  //         severity: 'warn',
-  //         summary: 'Cancelled',
-  //         detail: this.title_confirm_cancel[this.initial_current.Language],
-  //       });
-  //     },
-  //   });
-  //   console.log(this.selectedDataArray, 'ยืนยัน')
-  // }
-
-  // async doDeleteTimesheet(selectedDataArray: LostwagesModel[]) {
-  //   try {
-  //     for (const data of selectedDataArray) {
-  //       const res = await this.lostwagesService.lostwages_delete(
-  //         this.initial_current.CompCode, this.selectedProject_fillter.project_code, this.selectedlostwages.worker_code, data
-  //       );
-  //       if (res.success) {
-  //         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-  //       } else {
-  //         this.messageService.add({ severity: 'error', summary: 'Error', detail: res.message });
-  //       }
-  //     }
-  //     selectedDataArray.length = 0;
-  //     this.doLoadPolJobmain();
-  //     this.reloadPage();
-  //     this.displayManage = false;
-  //   } catch (error) {
-  //     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while deleting.' });
-  //   }
-  // }
-
-
   // ตัวแปรในคลาส
   jobListLoaded: boolean = false;
   jobSubListLoaded: boolean = false;
@@ -726,7 +637,7 @@ export class AttendanceLostwagesComponent implements OnInit {
       this.showManage();
       console.log(this.internal_staff, 'hhhd')
     } else {
-      // อื่น ๆ
+  
       this.jobListLoaded = false;
       this.jobSubListLoaded = false;
     }
@@ -749,21 +660,7 @@ export class AttendanceLostwagesComponent implements OnInit {
       this.jobListLoaded = false;
     }
   }
-  // เรียงลำดับข้อมูล
-  sortedLostWages(data: LostwagesModel[]): LostwagesModel[] {
-    return data.sort((a, b) => {
-      if (a.worker_code && !b.worker_code) {
-        return -1; // ถ้ามี worker_code และไม่มี worker_code ใน b
-      } else if (!a.worker_code && b.worker_code && a.lostwages_cardno && !b.lostwages_cardno) {
-        return 1; // ถ้าไม่มี worker_code และมี worker_code ใน b และมี lostwages_cardno และไม่มี lostwages_cardno ใน a
-      } else {
-        return 0; // สำหรับกรณีอื่น ๆ ที่ไม่ตรงเงื่อนไขข้างบน
-      }
-    });
-  }
 
-
-  ///
   // employee_list: EmployeeModel[] = [];
   selectedEmployee: EmployeeModel = new EmployeeModel();
   calculateEndDate() {
