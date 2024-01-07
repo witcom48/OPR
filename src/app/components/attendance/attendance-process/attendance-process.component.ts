@@ -43,6 +43,9 @@ export class AttendanceProcessComponent implements OnInit {
   title_process: { [key: string]: string } = { EN: "Process", TH: "การทำงาน" };
   title_proces: { [key: string]: string } = { EN: "Process", TH: "ดำเนินการ" };
   title_result: { [key: string]: string } = { EN: "Result", TH: "ผลลัพธ์" };
+
+  title_fromdate: { [key: string]: string } = { EN: "From", TH: "จากวันที่" };
+  title_todate: { [key: string]: string } = { EN: "To", TH: "ถึงวันที่" };
   
   title_confirm:string = "Are you sure?";
   title_confirm_record:string = "Confirm to process";
@@ -76,6 +79,9 @@ export class AttendanceProcessComponent implements OnInit {
   ngOnInit(): void {
 
     this.doGetInitialCurrent()
+
+    this.selectedFromDate = new Date(this.initial_current.TA_FromDate)
+    this.selectedToDate = new Date(this.initial_current.TA_ToDate)
     
     setTimeout(() => {      
       this.doLoadTask()
@@ -98,6 +104,9 @@ export class AttendanceProcessComponent implements OnInit {
   public taskWhoseList:TaskWhoseModel[]=[];
 
   public fillauto:boolean = false;
+
+  selectedFromDate: Date = new Date()
+  selectedToDate: Date = new Date()
 
   process() {
 
@@ -127,8 +136,8 @@ export class AttendanceProcessComponent implements OnInit {
     
     
     this.taskDetail.taskdetail_process = process;
-    this.taskDetail.taskdetail_fromdate  = this.initial_current.TA_FromDate;
-    this.taskDetail.taskdetail_todate = this.initial_current.TA_ToDate;
+    this.taskDetail.taskdetail_fromdate  = this.selectedFromDate;
+    this.taskDetail.taskdetail_todate = this.selectedToDate;
     this.taskDetail.taskdetail_paydate = this.initial_current.PR_PayDate;
 
     //-- Step 3 Task whose
@@ -181,6 +190,12 @@ export class AttendanceProcessComponent implements OnInit {
       }, 300);
     } else {
       this.new_data = false;
+    }
+  }
+
+  doChaneDate(){
+    if(this.selectedFromDate > this.selectedToDate){
+      this.selectedToDate = new Date(this.selectedFromDate)
     }
   }
 }
