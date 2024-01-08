@@ -15,10 +15,21 @@
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
 
+                <!-- [(ngModel)]="job_type"
+                [(ngModel)]="jobsub_type" -->
 
+                <div class="field col-12">
+                    <div class="input_radio">
+                        <input type="radio" name="fav_job" value="0" (change)="selectJobmainType()">
+                        <label>{{ title_tab_normal[initial_current.Language] }}</label>
+                        &nbsp;
 
+                        <input type="radio" name="fav_job" value="1" (change)="selectJobType()">
+                        <label>{{ title_tab_jobclear[initial_current.Language] }}<span style="color: red;">*</span></label>
+                    </div>
+                </div>
 
-                <div class="input_radio">
+                <!-- <div class="input_radio">
                     <input type="radio" name="fav_job" value="Normal" [(ngModel)]="job_type"
                         (change)="selectJobmainType()">
                     <label>{{title_tab_normal[initial_current.Language]}}</label>
@@ -28,12 +39,12 @@
                         (change)="selectJobType()">
                     <label>{{title_tab_jobclear[initial_current.Language]}}</label>
                     <div></div>
-                </div>
+                </div> -->
             </div>
 
             <!--  -->
-            <div class="field col-12" *ngIf="job_type === 'Normal' && jobListLoaded ">
-                <label  >{{title_jobname[initial_current.Language]}}</label><br>
+            <div class="field col-12" *ngIf="job_type === '0' && jobListLoaded ">
+                <label>{{title_jobname[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="jobmain_list" optionValue="projobmain_code"
                     [(ngModel)]="selectedTimecard.projob_code" [showClear]="true"
                     [style]="{ width: '100%', overflow: 'visible' }">
@@ -46,8 +57,8 @@
                 </p-dropdown>
             </div>
 
-            <div class="field col-12" *ngIf="jobsub_type === 'jobmain' && jobSubListLoaded ">
-                <label  >{{ title_jobname[initial_current.Language] }}</label><br>
+            <div class="field col-12" *ngIf="jobsub_type === '1' && jobSubListLoaded ">
+                <label>{{ title_jobname[initial_current.Language] }}</label><br>
                 <p-dropdown placeholder="--" [options]="projobsub_list" [(ngModel)]="selectedTimecard.projobsub_code"
                     optionValue="projobsub_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }">
                     <ng-template let-item pTemplate="item" pTemplate="selectedItem">
@@ -120,7 +131,8 @@
     </p-scrollPanel>
 
 </p-dialog>
-
+<div *ngIf="displayManage" style="z-index: 1084;" class="p-component-overlay p-sidebar-mask p-component-overlay-enter">
+</div>
 <!-- <p-dialog [(visible)]="searchEmp" [style]="{width: '30vw'}" [position]="position">
     <div class="grid">
         <div class="col-12">
@@ -208,7 +220,7 @@
 
                     <th>{{title_clearjob[initial_current.Language]}}</th>
 
-                     
+
                     <th>{{title_empcode[initial_current.Language]}}</th>
                     <th>{{title_empname[initial_current.Language]}}</th>
                     <th>{{title_shift[initial_current.Language]}}</th>
@@ -232,7 +244,8 @@
                         <!-- เลือกที่ละฟิล -->
 
                         <p-checkbox [(ngModel)]="timecard.checked" [binary]="true" inputId="checked"
-                            [ngModelOptions]="{standalone: true}" [value]="timecard" (click)="toggleSelect(timecard)"></p-checkbox>
+                            [ngModelOptions]="{standalone: true}" [value]="timecard"
+                            (click)="toggleSelect(timecard)"></p-checkbox>
                     </td>
                     <td>{{timecard.timecard_workdate | date:'dd/MM/yyyy'}} </td>
                     <td>{{timecard.projob_code}}</td>

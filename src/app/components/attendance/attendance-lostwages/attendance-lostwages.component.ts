@@ -495,8 +495,7 @@ export class AttendanceLostwagesComponent implements OnInit {
             this.edit_data = true;
             this.displayManage = false
             this.edit_lostwages = false
-            this.displayManage = false
-
+ 
             setTimeout(() => {
               this.doLoadLostwages()
 
@@ -635,8 +634,7 @@ export class AttendanceLostwagesComponent implements OnInit {
       this.timein = "00:00"
       this.timeout = "00:00"
       this.showManage();
-      console.log(this.internal_staff, 'hhhd')
-    } else {
+     } else {
   
       this.jobListLoaded = false;
       this.jobSubListLoaded = false;
@@ -653,8 +651,7 @@ export class AttendanceLostwagesComponent implements OnInit {
       this.timein = "00:00"
       this.timeout = "00:00"
       this.showManage();
-      console.log(this.external_employees, 'ddd')
-
+ 
     } else {
       this.jobSubListLoaded = false;
       this.jobListLoaded = false;

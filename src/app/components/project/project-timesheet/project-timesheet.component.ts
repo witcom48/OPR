@@ -147,8 +147,9 @@ export class ProjectTimesheetComponent implements OnInit {
     this.doLoadProjobsub()
     this.doLoadPolJobmain2()
     this.doLoadProjobsub2()
-    this.selectJobmainType();
-    this.selectJobType();
+    this.doLoadTimecard()
+    // this.selectJobmainType();
+    // this.selectJobType();
     setTimeout(() => {
       this.doLoadProject()
       this.doLoadPolShift()
@@ -163,7 +164,7 @@ export class ProjectTimesheetComponent implements OnInit {
       if (this.project_list.length > 0) {
         this.selectedProject_fillter = this.project_list[0]
 
-        this.doLoadTimecard()
+        // this.doLoadTimecard()
       }
 
     }, 800);
@@ -226,6 +227,7 @@ export class ProjectTimesheetComponent implements OnInit {
         command: (event) => {
           if (this.accessData.accessdata_new) {
             this.clearManage();
+   
             this.new_timecard = true;
             this.selectedTimecard = new TimecardsModel();
             this.selectedProjobmain = new ProjectModel();
@@ -234,17 +236,6 @@ export class ProjectTimesheetComponent implements OnInit {
             this.timein = "00:00"
             this.timeout = "00:00"
             this.showManage();
- 
-            // this.doLoadPolJobmain()
-            // this.doLoadProjobsub();
-            // this.doLoadPolShift()
-            // this.doLoadPolDaytype()
-            // // this.selectJobmaintype()
-            // // this.selectJobtype()
-            // this.doLoadTimecard()
-            // this.new_timecard = true;
-
-            // this.displayManage = true;
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Permistion' });
           }
@@ -256,19 +247,8 @@ export class ProjectTimesheetComponent implements OnInit {
         label: this.title_edit[this.initial_current.Language],
         icon: 'pi pi-fw pi-pencil',
         command: (event) => {
-          if (this.selectedTimecard != null) {
-            this.edit_timecard = true;
-            this.showManage();
-          }
-
-          // this.selectJobmainType();
-          // this.selectJobType();
-          // this.edit_data = true;
-          // this.edit_timecard = true
-
-          // this.displayManage = true
-          // this.selectEmp.employee_dest
-          // this.selectEmp = true
+          this.showManage();
+          this.edit_timecard = true;
         }
       },
       {
@@ -279,17 +259,7 @@ export class ProjectTimesheetComponent implements OnInit {
 
         }
       }
-      // ,
-      // {
-      //   label: this.title_import[this.initial_current.Language],
-      //   icon: 'pi pi-fw pi-file-import',
-      // }
-      // ,
-      // {
-      //   label: this.title_export[this.initial_current.Language],
-      //   icon: 'pi pi-fw pi-file-export',
-      // }
-
+     
     ];
 
   }
@@ -322,12 +292,13 @@ export class ProjectTimesheetComponent implements OnInit {
         element.timecard_after_min_app = Number(element.timecard_after_min_app);
         element.timecard_late_min_app = Number(element.timecard_late_min_app);
       });
-      console.log(res, 'tttter')
-      this.timecard_list = await res;
-      if (this.timecard_list.length > 0) {
-        this.selectedTimecard = this.timecard_list[0]///
-      }
+       this.timecard_list = await res;
+      // if (this.timecard_list.length > 0) {
+      //   this.selectedTimecard = this.timecard_list[0]///
+      // }
     });
+    this.doLoadPolJobmain()
+
 
   }
 
@@ -423,8 +394,8 @@ export class ProjectTimesheetComponent implements OnInit {
   projobsub_list: ProjobsubModel[] = [];
   selectedProjobsub: ProjobsubModel = new ProjobsubModel();
   result_list: Result[] = [];
-  job_type: string = "Normal";
-  jobsub_type: string = "jobmain";
+  job_type: string = "0";
+  jobsub_type: string = "1";
 
   async doLoadPolJobmain() {
     try {
@@ -434,7 +405,6 @@ export class ProjectTimesheetComponent implements OnInit {
         const latestProjobmain = allProjobmain.reduce((acc: ProjobmainModel, current: ProjobmainModel) => acc.version > current.version ? acc : current);
         const res = await this.projectDetailService.projobmain_get(latestProjobmain.version, this.selectedProject_fillter.project_code, "", this.selectedDate_fillter, this.selectedDate_fillter);
         this.jobmain_list = res as ProjobmainModel[];
-        console.log(res, 'ttt');
       }
     } catch (error) { }
   }
@@ -523,32 +493,38 @@ export class ProjectTimesheetComponent implements OnInit {
   jobSubListLoaded: boolean = false;
 
 
-
   selectJobmainType() {
-    if (this.job_type === 'Normal') {
-      this.jobListLoaded = true; // เปลี่ยนสถานะของ jobListLoaded เมื่อเลือก 'งาน'
-      this.jobSubListLoaded = false; // ปิดสถานะของ jobSubListLoaded เมื่อเลือก 'งาน'
-      this.doLoadPolJobmain()
-
-
+    if (this.job_type === '0') {
+      this.new_timecard = true;
+      this.jobListLoaded = true;  
+      this.jobSubListLoaded = false; 
+      this.clearManage();
+       this.selectedProjobsub = new ProjobsubModel();
+      this.timein = "00:00";
+      this.timeout = "00:00";
+      this.showManage();
     } else {
-      // อื่น ๆ
       this.jobListLoaded = false;
       this.jobSubListLoaded = false;
     }
   }
-
+  
   selectJobType() {
-    if (this.jobsub_type === 'jobmain') {
-      this.jobSubListLoaded = true; // เปลี่ยนสถานะของ jobSubListLoaded เมื่อเลือก 'งานเคลีย'
-      this.jobListLoaded = false; // ปิดสถานะของ jobListLoaded เมื่อเลือก 'งานเคลีย'
-      this.doLoadProjobsub();
-
+    if (this.jobsub_type === '1') {
+      this.jobSubListLoaded = true;  
+      this.jobListLoaded = false;  
+      this.clearManage();
+      this.new_timecard = true;
+      this.selectedProjobsub = new ProjobsubModel();
+      this.timein = "00:00";
+      this.timeout = "00:00";
+       this.showManage();
     } else {
       this.jobSubListLoaded = false;
       this.jobListLoaded = false;
     }
   }
+  
 
 
   //
@@ -718,7 +694,7 @@ export class ProjectTimesheetComponent implements OnInit {
 
   clearManage() {
     this.new_timecard = false; this.edit_timecard = false;
-
+ 
 
   }
 
