@@ -247,7 +247,7 @@ export class EmpIDComponent implements OnInit {
           this.examplecode += item.polcode_text;
         }
         if(item.codestructure_code == '2COM'){
-          this.examplecode += this.initial_current.CompCode;
+          this.examplecode += this.initial_current.CompCode.substring(0,item.polcode_lenght);
         }
         if(item.codestructure_code == '3BRA'){
           this.examplecode += this.initial_current.CompCode;
