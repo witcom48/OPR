@@ -33,6 +33,25 @@
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
             </div>
+
+            <div class="field col-12">
+                <div class="formgrid grid align-items-end">
+                    <div class="field col-12 md:col-2 ">
+                        <label for="ppos_shift_code">{{title_fromdate[initial_current.Language]}}</label>
+        
+                        <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedFromDate" dateFormat="dd/mm/yy"
+                            [showTime]="false" (onSelect)="doChaneDate()" inputId="selectedFromDate"></p-calendar>
+        
+                    </div>
+        
+                    <div class="field col-12 md:col-2 ">
+                        <label for="ppos_shift_code">{{title_todate[initial_current.Language]}}</label>
+                        <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate" dateFormat="dd/mm/yy"
+                            [showTime]="false"  inputId="selectedToDate"></p-calendar>
+                    </div>
+                </div>
+            </div>
+
             <div class="field col-12 md:col-6">
                 <p-button label="{{title_proces[initial_current.Language]}}" (click)="process()"></p-button>
             </div>

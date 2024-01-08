@@ -43,6 +43,11 @@ export class TimecardsModel {
     timecard_after_min_app: number =0;
     timecard_late_min_app: number =0;
 
+    //-- F add 06/01/2024
+    timecard_leavepay_min: number =0;
+    timecard_leavededuct_min: number =0;
+    //--
+
     timecard_lock: boolean = false;
     timecard_deduct: boolean = false;
 

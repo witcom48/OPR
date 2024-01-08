@@ -33,6 +33,10 @@
             <label>{{doGetProjobDetail(selectedTimecard.projob_code)}}</label><br>          
         </div>
 
+        <div class="field col-12">
+            <span class="timeinput">{{timescan}}</span>
+        </div>
+
         <div class="field col-12 md:col-6">
             <label for="selectedShift">{{title_shift[initial_current.Language]}}</label><br>            
             <p-dropdown [options]="shift_list" optionValue="code" optionLabel="name" [(ngModel)]="this.selectedTimecard.shift_code" [showClear]="true" [style]="{ width: '100%', overflow: 'visible' }"></p-dropdown>       
@@ -168,10 +172,10 @@
                 <div class="col-3">
                     <p-inputMask mask="99:99" [(ngModel)]="late_app" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'#FFFFFF','color':'green'}"></p-inputMask>
                 </div>
-                <div class="col-3 ">
+                <!-- <div class="col-3 ">
                     <p-inputMask mask="99:99" [(ngModel)]="leave" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'black','color':'#FFFFFF'}" ></p-inputMask>
-                </div>
-                <div class="col-3">
+                </div> -->
+                <div class="col-6">
                     <p-inputMask mask="99:99" [(ngModel)]="leave_app" placeholder="HH:mm" [style]="{'width':'80px','text-align':'center','background-color':'#FFFFFF','color':'green'}"></p-inputMask>
                 </div>
             </div>  
@@ -297,13 +301,13 @@
     </div> -->
 
     <div class="col-6">
-        <table style="width: 100%">
-            <tr>
+        <table style="width: 100%; ">
+            <tr>               
                 <td style="width: 20px;">
                     <i class="pi pi-angle-left" style="font-size: 2rem" (click)="doBackWorker()"></i>
                 </td>
                 <td style="width: 150px;">
-                    <input id="lastname2" type="text" value="{{worker_code}}" style="text-align: center;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                    <input id="worker_code" type="text" value="{{worker_code}}" style="text-align: center; " class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
                 </td>
                 <td style="width: 20px;">
                     <i class="pi pi-angle-right" style="font-size: 2rem" (click)="doNextWorker()"></i>
@@ -312,7 +316,7 @@
                     <i class="pi pi-search" (click)="open_searchemp()"></i>
                 </td>
                 <td style="width: 250px;" align="left">
-                    <input id="lastname2" type="text" value="{{worker_name}}" style="width: 250px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
+                    <input id="worker_name" type="text" value="{{worker_name}}" style="width: 250px;" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" readonly>
                 </td>
             </tr>
         </table>
@@ -320,11 +324,11 @@
     <div class="col-6">
         &nbsp;
     </div>
-
+    
     <div class="col-12">
         <p-menubar [model]="menu_timecard"></p-menubar>        
-        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '190rem'}" [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="index"
-        [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" 
+        <p-table #dtTime [value]="timecard_list"  styleClass="p-datatable-sm" [tableStyle]="{'min-width': '190rem'}" [scrollable]="true" scrollHeight="700px" [virtualScroll]="true" selectionMode="single" [(selection)]="selectedTimecard" (onRowSelect)="onRowSelectTimecard($event)" dataKey="index"
+        [rows]="50" [showCurrentPageReport]="true" [rowsPerPageOptions]="[50,100,150]" 
         [paginator]="true"  currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}} "
         [globalFilterFields]="['shift_code','timecard_daytype', 'modified_by']"
         >
@@ -346,7 +350,7 @@
                     <th>{{title_late[initial_current.Language]}}</th>   
                     <th>{{title_late[initial_current.Language]}} ({{title_approve[initial_current.Language]}})</th>
                     <th>{{title_leave[initial_current.Language]}}</th>   
-                    <th>{{title_leave[initial_current.Language]}} ({{title_approve[initial_current.Language]}})</th>
+                    <!-- <th>{{title_leave[initial_current.Language]}} ({{title_approve[initial_current.Language]}})</th> -->
                     <th style="width: 200px;">{{title_modified_by[initial_current.Language]}}</th>
                     <th>{{title_modified_date[initial_current.Language]}}</th>                                                                 
                 </tr>
@@ -355,31 +359,51 @@
 
             <ng-template pTemplate="body" let-timecard>
                 <tr [pSelectableRow]="timecard" >        
-                    <td>{{timecard.timecard_workdate | date:'dd/MM/yyyy'}}</td>                                
-                    <td>{{timecard.project_code}}</td>   
-                    <td>{{timecard.projob_code}}</td>   
-                    <td>{{timecard.shift_code}}</td>   
-                    <td>{{timecard.timecard_daytype}}</td>       
-                    <td>{{timecard.timecard_ch3 | date:'dd/MM/yyyy HH:mm'}}</td>       
-                    <td>{{timecard.timecard_ch4 | date:'dd/MM/yyyy HH:mm'}}</td>       
-                    <td>{{doConvertHHMM(timecard.timecard_before_min)}}</td>       
-                    <td>{{doConvertHHMM(timecard.timecard_before_min_app)}}</td>       
-                    <td>{{doConvertHHMM(timecard.timecard_work1_min)}}</td>       
-                    <td>{{doConvertHHMM(timecard.timecard_work1_min_app)}}</td>       
-                    <td>{{doConvertHHMM(timecard.timecard_after_min)}}</td>    
-                    <td>{{doConvertHHMM(timecard.timecard_after_min_app)}}</td>   
-                    <td>{{doConvertHHMM(timecard.timecard_late_min)}}</td>   
-                    <td>{{doConvertHHMM(timecard.timecard_late_min_app)}}</td> 
-                    <td></td> 
-                    <td></td>                                     
-                    <td>{{timecard.modified_by}}</td>      
-                    <td>{{timecard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{timecard.timecard_workdate | date:'dd/MM/yyyy'}}</td>                                
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{timecard.project_code}}</td>   
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{timecard.projob_code}}</td>   
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{timecard.shift_code}}</td>   
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{timecard.timecard_daytype}}</td>       
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{timecard.timecard_ch3 | date:'dd/MM/yyyy HH:mm'}}</td>       
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{timecard.timecard_ch4 | date:'dd/MM/yyyy HH:mm'}}</td>       
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{doConvertHHMM(timecard.timecard_before_min)}}</td>       
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{doConvertHHMM(timecard.timecard_before_min_app)}}</td>       
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{doConvertHHMM(timecard.timecard_work1_min)}}</td>       
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{doConvertHHMM(timecard.timecard_work1_min_app)}}</td>       
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{doConvertHHMM(timecard.timecard_after_min)}}</td>    
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{doConvertHHMM(timecard.timecard_after_min_app)}}</td>   
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{doConvertHHMM(timecard.timecard_late_min)}}</td>   
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{doConvertHHMM(timecard.timecard_late_min_app)}}</td> 
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{doConvertHHMM((timecard.timecard_leavepay_min + timecard.timecard_leavededuct_min))}}</td> 
+                    <!-- <td></td>                                      -->
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{timecard.modified_by}}</td>      
+                    <td [ngClass]="getClass(timecard.timecard_color, timecard.timecard_daytype)">{{timecard.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
                 </tr>
             </ng-template>    
         </p-table>
     </div>
     
-
+    <div class="col-12">
+        <table>
+            <tr>
+                <td class="daytype_A" style="width: 30px;">&nbsp;</td>
+                <td>Absent</td>
+                <td class="daytype_C" style="width: 30px;">&nbsp;</td>
+                <td>Comanyday</td>
+                <td class="daytype_H" style="width: 30px;">&nbsp;</td>
+                <td>Holiday</td>
+                <td class="daytype_L" style="width: 30px;">&nbsp;</td>
+                <td>Leaveday</td>
+                <td class="normal" style="width: 30px;">&nbsp;</td>
+                <td>Normalday</td>
+                <td class="daytype_O" style="width: 30px;">&nbsp;</td>
+                <td>Offday</td>
+                <td class="timecard_edit_" style="width: 30px;">&nbsp;</td>
+                <td>EditTime</td>
+            </tr>
+        </table>
+        
+    </div>
 
 
 </div>

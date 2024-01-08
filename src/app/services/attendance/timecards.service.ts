@@ -212,5 +212,33 @@ export class TimecardService {
       });
   }
 
+  //-- F add 06/01/2024
+  public timeinput_get(company: string, project: string, worker: string, fromdate: Date, todate: Date) {
+
+    let datefrom = this.datePipe.transform(fromdate, 'yyyy-MM-dd');
+    let dateto = this.datePipe.transform(todate, 'yyyy-MM-dd');
+
+    var filter = {
+      device_name: '',
+      ip: "localhost",
+      username: this.initial_current.Username,
+      company: company,
+      language: this.initial_current.Language,
+      project_code: project,
+      worker_code: worker,
+      fromdate: datefrom,
+      todate: dateto,
+    };
+
+
+    return this.http.post<any>(this.config.ApiAttendanceModule + '/timeinput_list', filter, this.options).toPromise()
+      .then((res) => {
+        let message = JSON.parse(res);
+        //// console.log(res)
+        return message.data;
+      });
+  }
+  //--
+
 
 }

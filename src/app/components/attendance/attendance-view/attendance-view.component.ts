@@ -29,20 +29,17 @@ import { ProjobmainModel } from '../../../models/project/project_jobmain';
 import { ProjectDetailService } from '../../../services/project/project_detail.service';
 
 import { cls_TRTimeleaveModel } from 'src/app/models/self/cls_TRTimeleave';
-import { TimeleaveServices } from 'src/app/services/self/timeleave.service';
 
 import { cls_TRTimeotModel } from 'src/app/models/self/cls_TRTimeot';
-import { TimeotServices } from 'src/app/services/self/timeot.service';
 
 import { cls_TRTimeonsiteModel } from 'src/app/models/self/cls_TRTimeonsite';
-import { TimeonsiteServices } from 'src/app/services/self/timeonsite';
 
 import { cls_TRTimedaytypeModel } from 'src/app/models/self/cls_TRTimedaytype';
-import { TimeDaytypeServices } from 'src/app/services/self/timedaytype.service';
 
 import { cls_TRTimeshiftModel } from 'src/app/models/self/cls_TRTimeshift';
-import { TimeShiftServices } from 'src/app/services/self/timeshift.service';
 
+import { DocApproveServices } from 'src/app/services/attendance/docapprove.service';
+import { TimeinputModel } from 'src/app/models/attendance/timeinput';
 
 @Component({
   selector: 'app-attendance-view',
@@ -136,11 +133,8 @@ export class AttendanceViewComponent implements OnInit {
     private shiftServices: ShiftServices,
     private projectService: ProjectService,
     private projectDetailService:ProjectDetailService,
-    private timeleaveServices: TimeleaveServices,
-    private timeotServices:TimeotServices,
-    private timeonsiteServices:TimeonsiteServices,
-    private timeDaytypeServices:TimeDaytypeServices,
-    private timeShiftServices:TimeShiftServices
+  
+    private docApproveServices:DocApproveServices
 
     ) { }
 
@@ -157,14 +151,9 @@ export class AttendanceViewComponent implements OnInit {
       this.doLoadEmployee()
       this.doLoadPolDaytype()
       this.doLoadPolShift()
-    }, 500);
+    }, 300);
 
-    setTimeout(() => {
-      
-      this.worker_index = 0;
-      this.doSetDetailWorker();
-
-    }, 1500);
+    
 
   }
 
@@ -189,7 +178,7 @@ export class AttendanceViewComponent implements OnInit {
     this.menu_timecard = [   
       {
           label:this.title_edit[this.initial_current.Language],
-          icon:'pi pi-fw pi-pencil',
+          icon:'pi pi-fw pi-file-edit',
           command: (event) => {           
             this.showManage()       
         }        
@@ -218,8 +207,16 @@ export class AttendanceViewComponent implements OnInit {
   worker_code:string = "";
   worker_name:string = "";
   doLoadEmployee(){
-    this.employeeService.worker_get(this.initial_current.CompCode, "").then((res) =>{
-      this.worker_list = res;   
+    this.employeeService.worker_get(this.initial_current.CompCode, "").then(async (res) =>{
+      this.worker_list = await res;   
+
+      setTimeout(() => {
+      
+        this.worker_index = 0;
+        this.doSetDetailWorker();
+  
+      }, 500);
+
     });
   }
 
@@ -257,13 +254,7 @@ export class AttendanceViewComponent implements OnInit {
   edit_timecard: boolean = false;
   doLoadTimecard(){
 
-    let dateString = '2023-06-01T00:00:00'
-    // var FromDate = new Date(dateString);
-
-    dateString = '2023-06-30T00:00:00'
-    // var ToDate = new Date(dateString);
-
-    this.timecardService.timecard_get(this.initial_current.CompCode, "", this.worker_code, this.initial_current.PR_FromDate, this.initial_current.PR_ToDate).then((res) =>{
+    this.timecardService.timecard_get(this.initial_current.CompCode, "", this.worker_code, this.initial_current.TA_FromDate, this.initial_current.TA_ToDate).then((res) =>{
       this.timecard_list = res;   
     });
   }
@@ -338,8 +329,20 @@ export class AttendanceViewComponent implements OnInit {
     this.after = this.doConvertHHMM(this.selectedTimecard.timecard_after_min)
     this.after_app = this.doConvertHHMM(this.selectedTimecard.timecard_after_min_app)
 
+    //-- F add 06/01/2024
+
+    this.late = this.doConvertHHMM(this.selectedTimecard.timecard_late_min)
+    this.late_app = this.doConvertHHMM(this.selectedTimecard.timecard_late_min_app)
+
+    this.leave_app = this.doConvertHHMM( (this.selectedTimecard.timecard_leavepay_min + this.selectedTimecard.timecard_leavededuct_min) )
+
+    //--
+
 
     this.doLoadDocReq()
+
+    this.doLoadTimeinput()
+
   }
 
   onChangeWork1(){
@@ -400,6 +403,8 @@ export class AttendanceViewComponent implements OnInit {
         this.selectedTimecard.timecard_break_min_app = this.doGetMinute(this.break_app)
         this.selectedTimecard.timecard_after_min = this.doGetMinute(this.after)
         this.selectedTimecard.timecard_after_min_app = this.doGetMinute(this.after_app)
+
+        this.selectedTimecard.timecard_color = "1"
 
         this.timecardService.timecard_record(this.selectedTimecard).then((res) => {       
           let result = JSON.parse(res);  
@@ -579,7 +584,7 @@ export class AttendanceViewComponent implements OnInit {
     tmp.company_code = this.initial_current.CompCode;
     tmp.worker_code = this.selectedTimecard.worker_code;
     tmp.status = 3;
-    this.timeleaveServices.timeleave_get(tmp).then(async (res) => {
+    this.docApproveServices.timeleave_get(tmp).then(async (res) => {
 
       await res.forEach((element: cls_TRTimeleaveModel) => {
         this.reqdoc_list.push(
@@ -606,7 +611,7 @@ export class AttendanceViewComponent implements OnInit {
     tmp.timeot_todate = this.selectedTimecard.timecard_workdate;
     tmp.status = 3;
     tmp.worker_code = this.selectedTimecard.worker_code;
-    this.timeotServices.timeot_get(tmp).then(async (res) => {
+    this.docApproveServices.timeot_get(tmp).then(async (res) => {
       await res.forEach((element: cls_TRTimeotModel) => {
         this.reqdoc_list.push(
           {
@@ -629,7 +634,7 @@ export class AttendanceViewComponent implements OnInit {
     tmp.status = 3;
     tmp.worker_code = this.selectedTimecard.worker_code;
 
-    this.timeonsiteServices.timeonsite_get(tmp).then(async (res) => {
+    this.docApproveServices.timeonsite_get(tmp).then(async (res) => {
       await res.forEach((element: cls_TRTimeonsiteModel) => {
         this.reqdoc_list.push(
           {
@@ -653,7 +658,7 @@ export class AttendanceViewComponent implements OnInit {
     tmp.status = 3;
     tmp.worker_code = this.selectedTimecard.worker_code;
 
-    this.timeDaytypeServices.timedaytype_get(tmp).then(async (res) => {
+    this.docApproveServices.timedaytype_get(tmp).then(async (res) => {
       await res.forEach((element: cls_TRTimedaytypeModel) => {
         this.reqdoc_list.push(
           {
@@ -676,7 +681,7 @@ export class AttendanceViewComponent implements OnInit {
     tmp.timeshift_todate = this.selectedTimecard.timecard_workdate;
     tmp.status = 3;
     tmp.worker_code = this.selectedTimecard.worker_code;
-    this.timeShiftServices.timeshift_get(tmp).then(async (res) => {
+    this.docApproveServices.timeshift_get(tmp).then(async (res) => {
       await res.forEach((element: cls_TRTimeshiftModel) => {
         this.reqdoc_list.push(
           {
@@ -692,6 +697,44 @@ export class AttendanceViewComponent implements OnInit {
 
   }
 
+
+  timescan : string = "-";
+  doLoadTimeinput() {
+    
+    this.timecardService.timeinput_get(this.selectedTimecard.company_code, "", this.selectedTimecard.worker_code, this.selectedTimecard.timecard_workdate, this.selectedTimecard.timecard_workdate).then(async (res) => {
+      
+      this.timescan = ""
+      
+      await res.forEach((element: TimeinputModel) => {
+
+        this.timescan += element.timeinput_hhmm + " | "
+
+      });
+    });
+
+  }
+
+  currentStyles: Record<string, string> = {};
+
+  // setCurrentStyles() {
+  //   // CSS styles: set per current state of component properties
+  //   this.currentStyles = {
+  //     'font-style': this.canSave ? 'italic' : 'normal',
+  //     'font-weight': !this.isUnchanged ? 'bold' : 'normal',
+  //     'font-size': this.isSpecial ? '24px' : '12px',
+  //   };
+  // }
+
+  getClass(color:string, daytype:string){
+    if(color == "1") return 'timecard_edit'
+    else if(daytype == "O") return 'daytype_O'
+    else if(daytype == "C") return 'daytype_C'
+    else if(daytype == "H") return 'daytype_H'
+    else if(daytype == "A") return 'daytype_A'
+    else if(daytype == "L") return 'daytype_L'
+    else  return 'normal'
+  
+  }
 
 }
 
