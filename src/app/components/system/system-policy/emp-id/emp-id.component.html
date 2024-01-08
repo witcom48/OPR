@@ -101,7 +101,7 @@
           {{initial_current.Language === 'TH' ? item.codestructure_name_th : item.codestructure_name_en}}
         </ng-template>
       </p-dropdown>
-      <div *ngIf="selectedTRPolcode.codestructure_code == '1CHA' || selectedTRPolcode.codestructure_code == 'MAUT'">
+      <div *ngIf="selectedTRPolcode.codestructure_code == '1CHA' || selectedTRPolcode.codestructure_code == 'MAUT' || selectedTRPolcode.codestructure_code == '2COM'">
         <label>{{title_lenght}} </label>
         <p-inputNumber mode="decimal" [showButtons]="false" inputId="currency" [minFractionDigits]="0"
           [maxFractionDigits]="0" [(ngModel)]="selectedTRPolcode.polcode_lenght" name="polcode_lenght">
