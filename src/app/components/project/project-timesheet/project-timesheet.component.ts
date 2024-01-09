@@ -97,6 +97,7 @@ export class ProjectTimesheetComponent implements OnInit {
   title_modified_date: { [key: string]: string } = { EN: "Edit date", TH: "วันที่ทำรายการ" }
   title_search: { [key: string]: string } = { EN: "Search", TH: "ค้นหา" }
   title_upload: { [key: string]: string } = { EN: "Upload", TH: "อัพโหลด" }
+  title_todate: { [key: string]: string } = { EN: "To Date", TH: "ถึงวันที่" }
 
   title_date: { [key: string]: string } = { EN: "Date", TH: "วันที่" }
   title_project: { [key: string]: string } = { EN: "Project", TH: "โครงการ" }

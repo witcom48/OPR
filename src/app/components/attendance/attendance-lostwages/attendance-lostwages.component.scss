@@ -116,3 +116,64 @@
     }
 
 }
+
+
+
+// <ng-template pTemplate="body" let-lostwages let-i="rowIndex">
+// <tr [pSelectableRow]="lostwages">
+//     <td>
+//         <p-checkbox [(ngModel)]="lostwages.checked" [binary]="true" inputId="checked"
+//             [ngModelOptions]="{standalone: true}" (click)="toggleSelect(lostwages)"></p-checkbox>
+//     </td>
+//     <td>{{lostwages.lostwages_workdate | date:'dd/MM/yyyy'}} </td>
+
+
+//     <td class="card flex justify-content-center gap-2">
+//         <p-tag [value]="doGetStatusDetail(lostwages?.lostwages_status)"
+//             [rounded]="getSeverity(lostwages?.lostwages_status)">
+//         </p-tag>
+//     </td>
+
+
+//     <!-- <div class="card flex justify-content-center gap-2">
+//         <p-tag value="Primary" [rounded]="true"></p-tag>
+//         <p-tag severity="success" value="Success" [rounded]="true"></p-tag>
+//         <p-tag severity="info" value="Info" [rounded]="true"></p-tag>
+//         <p-tag severity="warning" value="Warning" [rounded]="true"></p-tag>
+//         <p-tag severity="danger" value="Danger" [rounded]="true"></p-tag>
+//     </div>
+//     <td>
+//         <p>{{ doGetStatusDetail(lostwages?.lostwages_status) }}</p>
+
+//         <p-tag [value]="doGetStatusDetail(lostwages?.lostwages_status)"
+//             [severity]="getSeverity(lostwages?.lostwages_status)">
+//         </p-tag>
+//     </td> -->
+
+//     <!-- <td>{{lostwages.lostwages_status}}</td> -->
+
+//     <td>{{lostwages.projob_code}}</td>
+//     <td>{{doGetPolJobmainDetail2(lostwages.projob_code)}}</td>
+//     <!--  -->
+//     <td>{{ lostwages.worker_code || '-' }}</td><!--รหัสพนักงาน  -->
+//     <td>{{ lostwages.lostwages_cardno || '-' }}</td><!--รหัสพนักงาน  -->
+//     <!--  -->
+//     <td>
+//         {{ initial_current.Language == "TH" ? (lostwages.lostwages_fname_th + ' ' +
+//         lostwages.lostwages_laname_th) : lostwages.lostwages_laname_th }}
+//         {{ initial_current.Language == "TH" ? lostwages.worker_name_th : lostwages.worker_name_en }}
+//     </td>
+
+//     <td>{{lostwages.shift_code}}</td>
+//     <td>{{lostwages.lostwages_daytype}}</td>
+//     <td>{{lostwages.lostwages_in}}</td>
+//     <td>{{lostwages.lostwages_out}}</td>
+//     <td>{{doConvertHHMM(lostwages.lostwages_before_min_app)}}</td>
+//     <td>{{doConvertHHMM(lostwages.lostwages_work1_min_app)}}</td>
+//     <td>{{doConvertHHMM(lostwages.lostwages_after_min_app)}}</td>
+//     <td>{{doConvertHHMM(lostwages.lostwages_late_min_app)}}</td>
+//     <!-- <td></td> -->
+//     <!-- <td>{{lostwages.modified_by}}</td> -->
+//     <td>{{lostwages.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+// </tr>
+// </ng-template>

@@ -10,7 +10,6 @@
     [position]="position">
     <p-scrollPanel [style]="{width: '100%', height: '750px'}">
         <div class="formgrid grid">
-
             <div class="field col-12 ">
                 <label for="selectedProject_fillter">{{title_project[initial_current.Language]}}</label><br>
                 <p-dropdown placeholder="--" [options]="project_list" optionValue="project_code"
@@ -248,7 +247,7 @@
             </div>
 
             <div class="field col-12 md:col-2 ">
-                <label for="ppos_shift_code">ถึงวันที่</label>
+                <label for="ppos_shift_code">{{title_todate[initial_current.Language]}}</label>
                 <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate_fillter" dateFormat="dd/mm/yy"
                     [showTime]="false" (onSelect)="doFillter()" inputId="selectedToDate_fillter"></p-calendar>
             </div>
@@ -262,95 +261,96 @@
     </div>
     <div class="col-12 md:col-12">
         <p-menubar [model]="menu_lostwages"></p-menubar>
+        <div #TABLE>
 
-        <p-table #dtTime [value]="lostwages_list" selectionMode="single" [(selection)]="selectedlostwages"
-            (onRowSelect)="onRowSelectLostwages($event)" [rows]="12" [showCurrentPageReport]="true"
-            [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
-            currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
-            [globalFilterFields]="['shift_code','lostwages_daytype', 'modified_by']" responsiveLayout="stack"
-            [breakpoint]="'744px'">
-            <!-- <p-table #dtTime [value]="lostwages_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}"
+            <p-table #dt2 [value]="lostwages_list" selectionMode="single" [(selection)]="selectedlostwages"
+                (onRowSelect)="onRowSelectLostwages($event)" [rows]="12" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[12,25,50]" [paginator]="true"
+                currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
+                [globalFilterFields]="['shift_code','lostwages_daytype', 'modified_by']" responsiveLayout="stack"
+                [breakpoint]="'744px'">
+                <!-- <p-table #dtTime [value]="lostwages_list" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '90rem'}"
             [scrollable]="true" scrollHeight="500px" [virtualScroll]="true" selectionMode="single"
             [(selection)]="selectedlostwages" (onRowSelect)="onRowSelectLostwages($event)" dataKey="worker_code"
             [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
             currentPageReportTemplate="{{title_page_from[initial_current.Language]}} {first} {{title_page_to[initial_current.Language]}} {last} {{title_page_total[initial_current.Language]}} {totalRecords} {{title_page_record[initial_current.Language]}}"
             [globalFilterFields]="['shift_code','lostwages_daytype', 'modified_by']"> -->
-            <ng-template pTemplate="header">
-                <tr>
-                    <th></th>
-                    <th>{{title_date[initial_current.Language]}}</th>
-                    <th>{{title_status[initial_current.Language]}}</th>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th></th>
+                        <th>{{title_date[initial_current.Language]}}</th>
+                        <th>{{title_status[initial_current.Language]}}</th>
 
-                    <th>{{title_jobcode[initial_current.Language]}}</th>
-                    <th>{{title_jobname[initial_current.Language]}}</th>
+                        <th>{{title_jobcode[initial_current.Language]}}</th>
+                        <th>{{title_jobname[initial_current.Language]}}</th>
 
-                    <th>{{internal_person[initial_current.Language]}}</th>
-                    <th>{{external_person[initial_current.Language]}}</th>
-                    <!-- <th>{{title_empcode[initial_current.Language]}}</th> -->
-                    <th>{{title_empname[initial_current.Language]}}</th>
-                    <!--  -->
-                    <!--  -->
-                    <th>{{title_shift[initial_current.Language]}}</th>
-                    <th>{{title_daytype[initial_current.Language]}}</th>
-                    <th>{{title_timein[initial_current.Language]}}</th>
-                    <th>{{title_timeout[initial_current.Language]}}</th>
-                    <th>{{title_working_before[initial_current.Language]}}</th>
-                    <th>{{title_working[initial_current.Language]}}</th>
-                    <th>{{title_working_after[initial_current.Language]}}</th>
-                    <th>{{title_working_late[initial_current.Language]}}</th>
-                    <!-- <th>{{title_working_leave[initial_current.Language]}}</th> -->
-                    <!-- <th>{{title_modified_by[initial_current.Language]}}</th> -->
-                    <th>{{title_modified_date[initial_current.Language]}}</th>
+                        <th>{{internal_person[initial_current.Language]}}</th>
+                        <th>{{external_person[initial_current.Language]}}</th>
+                        <!-- <th>{{title_empcode[initial_current.Language]}}</th> -->
+                        <th>{{title_empname[initial_current.Language]}}</th>
+                        <!--  -->
+                        <!--  -->
+                        <th>{{title_shift[initial_current.Language]}}</th>
+                        <th>{{title_daytype[initial_current.Language]}}</th>
+                        <th>{{title_timein[initial_current.Language]}}</th>
+                        <th>{{title_timeout[initial_current.Language]}}</th>
+                        <th>{{title_working_before[initial_current.Language]}}</th>
+                        <th>{{title_working[initial_current.Language]}}</th>
+                        <th>{{title_working_after[initial_current.Language]}}</th>
+                        <th>{{title_working_late[initial_current.Language]}}</th>
+                        <!-- <th>{{title_working_leave[initial_current.Language]}}</th> -->
+                        <!-- <th>{{title_modified_by[initial_current.Language]}}</th> -->
+                        <th>{{title_modified_date[initial_current.Language]}}</th>
 
-                </tr>
-            </ng-template>
+                    </tr>
+                </ng-template>
 
-            <ng-template pTemplate="body" let-lostwages let-i="rowIndex">
-                <tr [pSelectableRow]="lostwages">
-                    <td>
-                        <p-checkbox [(ngModel)]="lostwages.checked" [binary]="true" inputId="checked"
-                            [ngModelOptions]="{standalone: true}" (click)="toggleSelect(lostwages)"></p-checkbox>
-                    </td>
-                    <td>{{lostwages.lostwages_workdate | date:'dd/MM/yyyy'}} </td>
+                <ng-template pTemplate="body" let-lostwages let-i="rowIndex">
+                    <tr>
 
 
-                    <td>
-                        <p>{{ doGetStatusDetail(lostwages?.lostwages_status) }}</p>
+                        <td [pSelectableRow]="lostwages">
+                            <p-checkbox [(ngModel)]="lostwages.checked" [binary]="true" inputId="checked"
+                                [ngModelOptions]="{standalone: true}" (click)="toggleSelect(lostwages)"></p-checkbox>
+                        </td>
+                        <td>{{lostwages.lostwages_workdate | date:'dd/MM/yyyy'}} </td>
 
-                        <p-tag [value]="doGetStatusDetail(lostwages?.lostwages_status)"
-                            [severity]="getSeverity(lostwages?.lostwages_status)">
-                        </p-tag>
-                    </td>
+                        <td><p-tag [value]="doGetStatusDetail(lostwages.lostwages_status)"
+                                [severity]="getSeverity(lostwages.lostwages_status)"></p-tag></td>
 
-                    <!-- <td>{{lostwages.lostwages_status}}</td> -->
 
-                    <td>{{lostwages.projob_code}}</td>
-                    <td>{{doGetPolJobmainDetail2(lostwages.projob_code)}}</td>
-                    <!--  -->
-                    <td>{{ lostwages.worker_code || '-' }}</td><!--รหัสพนักงาน  -->
-                    <td>{{ lostwages.lostwages_cardno || '-' }}</td><!--รหัสพนักงาน  -->
-                    <!--  -->
-                    <td>
-                        {{ initial_current.Language == "TH" ? (lostwages.lostwages_fname_th + ' ' +
-                        lostwages.lostwages_laname_th) : lostwages.lostwages_laname_th }}
-                        {{ initial_current.Language == "TH" ? lostwages.worker_name_th : lostwages.worker_name_en }}
-                    </td>
+                        <td>{{lostwages.projob_code}}</td>
+                        <td>{{doGetPolJobmainDetail2(lostwages.projob_code)}}</td>
+                        <!--  -->
+                        <td>{{ lostwages.worker_code || '-' }}</td><!--รหัสพนักงาน  -->
+                        <td>{{ lostwages.lostwages_cardno || '-' }}</td><!--รหัสพนักงาน  -->
+                        <!--  -->
+                        <td>
+                            {{ initial_current.Language == "TH" ? (lostwages.lostwages_fname_th + ' ' +
+                            lostwages.lostwages_laname_th) : lostwages.lostwages_laname_th }}
+                            {{ initial_current.Language == "TH" ? lostwages.worker_name_th : lostwages.worker_name_en }}
+                        </td>
 
-                    <td>{{lostwages.shift_code}}</td>
-                    <td>{{lostwages.lostwages_daytype}}</td>
-                    <td>{{lostwages.lostwages_in}}</td>
-                    <td>{{lostwages.lostwages_out}}</td>
-                    <td>{{doConvertHHMM(lostwages.lostwages_before_min_app)}}</td>
-                    <td>{{doConvertHHMM(lostwages.lostwages_work1_min_app)}}</td>
-                    <td>{{doConvertHHMM(lostwages.lostwages_after_min_app)}}</td>
-                    <td>{{doConvertHHMM(lostwages.lostwages_late_min_app)}}</td>
-                    <!-- <td></td> -->
-                    <!-- <td>{{lostwages.modified_by}}</td> -->
-                    <td>{{lostwages.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
-                </tr>
-            </ng-template>
-        </p-table>
+                        <td>{{lostwages.shift_code}}</td>
+                        <td>{{lostwages.lostwages_daytype}}</td>
+                        <td>{{lostwages.lostwages_in}}</td>
+                        <td>{{lostwages.lostwages_out}}</td>
+                        <td>{{doConvertHHMM(lostwages.lostwages_before_min_app)}}</td>
+                        <td>{{doConvertHHMM(lostwages.lostwages_work1_min_app)}}</td>
+                        <td>{{doConvertHHMM(lostwages.lostwages_after_min_app)}}</td>
+                        <td>{{doConvertHHMM(lostwages.lostwages_late_min_app)}}</td>
+                        <!-- <td></td> -->
+                        <!-- <td>{{lostwages.modified_by}}</td> -->
+                        <td>{{lostwages.modified_date | date:'dd/MM/yyyy HH:mm'}}</td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
     </div>
+
+
+
 
 
 

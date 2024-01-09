@@ -8,6 +8,13 @@ import * as XLSX from 'xlsx';
 import { DatePipe } from '@angular/common';
 
 
+import { Table } from 'primeng/table';
+
+import { TagModule } from 'primeng/tag';
+
+ 
+
+
 import { AppConfig } from '../../../config/config';
 import { InitialCurrent } from '../../../config/initial_current';
 import { RadiovalueModel } from '../../../models/project/radio_value';
@@ -135,6 +142,7 @@ export class AttendanceLostwagesComponent implements OnInit {
   title_travel_expenses: { [key: string]: string } = { EN: "Travel Expenses", TH: "ค่าเดินทาง" };
   title_others: { [key: string]: string } = { EN: "Others", TH: "อื่นๆ" };
   title_status: { [key: string]: string } = { EN: "Status", TH: "สถานะ" }
+  title_todate: { [key: string]: string } = { EN: "To Date", TH: "ถึงวันที่" }
 
   constructor(
     private router: Router,
@@ -762,6 +770,20 @@ export class AttendanceLostwagesComponent implements OnInit {
     //
     this.edit_lostwages = false;
     this.new_lostwages = false;
+
+  }
+
+  clear(table: Table) {
+    table.clear();
+  }
+  @ViewChild('TABLE') table: ElementRef | any = null;
+
+  exportAsExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);//converts a DOM TABLE element to a worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, 'Export_genaral.xlsx');
 
   }
 }

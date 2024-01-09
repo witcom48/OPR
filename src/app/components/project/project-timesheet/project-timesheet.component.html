@@ -15,9 +15,38 @@
             <div class="field col-12">
                 <app-select-emp></app-select-emp>
 
-                <!-- [(ngModel)]="job_type"
-                [(ngModel)]="jobsub_type" -->
+                <div class="col-12">
+                    <div class="formgrid grid align-items-end">
+                        <div class="field col-12 md:col-2 ">
+                            <label for="ppos_shift_code">{{title_date[initial_current.Language]}}</label>
+                            <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedDate_fillter"
+                                dateFormat="dd/mm/yy" [showTime]="false" (onSelect)="doFillter()"
+                                inputId="selectedDate_fillter"></p-calendar>
+                        </div>
+                        <!-- <div class="field col-12 md:col-2 ">
+                            <label for="ppos_shift_code">{{title_todate[initial_current.Language]}}</label>
+                            <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate_fillter"
+                                dateFormat="dd/mm/yy" [showTime]="false" (onSelect)="doFillter()"
+                                inputId="selectedToDate_fillter"></p-calendar>
+                        </div> -->
+                        <!-- โครงการ -->
+                        <div class="field col-12 md:col-2 ">
+                            <label for="selectedProject_fillter">{{title_project[initial_current.Language]}}</label><br>
+                            <p-dropdown placeholder="--" [options]="project_list" optionValue="project_code"
+                                [(ngModel)]="selectedProject_fillter.project_code" [showClear]="true"
+                                [style]="{ width: '100%', overflow: 'visible' }" (onChange)="doFillter()">
+                                <ng-template let-item pTemplate="item" pTemplate="selectedItem">
+                                    {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
+                                </ng-template>
+                                <ng-template let-item pTemplate="item">
+                                    {{initial_current.Language=="TH"? item.project_name_th : item.project_name_en }}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
 
+                <div><br></div>
                 <div class="field col-12">
                     <div class="input_radio">
                         <input type="radio" name="fav_job" value="0" (change)="selectJobmainType()">
@@ -25,7 +54,8 @@
                         &nbsp;
 
                         <input type="radio" name="fav_job" value="1" (change)="selectJobType()">
-                        <label>{{ title_tab_jobclear[initial_current.Language] }}<span style="color: red;">*</span></label>
+                        <label>{{ title_tab_jobclear[initial_current.Language] }}<span
+                                style="color: red;">*</span></label>
                     </div>
                 </div>
 
@@ -163,7 +193,7 @@
             </div>
 
             <div class="field col-12 md:col-2 ">
-                <label for="ppos_shift_code">ถึงวันที่</label>
+                <label for="ppos_shift_code">{{title_todate[initial_current.Language]}}</label>
                 <p-calendar appendTo="body" [showIcon]="true" [(ngModel)]="selectedToDate_fillter" dateFormat="dd/mm/yy"
                     [showTime]="false" (onSelect)="doFillter()" inputId="selectedToDate_fillter"></p-calendar>
             </div>
